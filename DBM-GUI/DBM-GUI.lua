@@ -239,9 +239,9 @@ local function MixinSharedMedia3(mediatype, mediatable)
 	if not soundsRegistered then
 		local LSM = LibStub("LibSharedMedia-3.0")
 		soundsRegistered = true
-		LSM:Register("sound", "Alarak: Krisol thok aran", [[Interface\AddOns\DBM-Core\sounds\Victory\Alarak_battle_start2.ogg]])
-		LSM:Register("sound", "Artanis: En Taro Zeratul", [[Interface\AddOns\DBM-Core\sounds\Victory\Artanis_En_Taro_Zeratul.ogg]])
-		LSM:Register("sound", "Gachi: Battle start", [[Interface\AddOns\DBM-Core\sounds\Victory\Gachi_start.ogg]])
+		LSM:Register("sound", "Alarak: Krisol thok aran", [[Interface\AddOns\DBM-Core\sounds\Custom\Alarak_battle_start2.ogg]])
+		LSM:Register("sound", "Artanis: En Taro Zeratul", [[Interface\AddOns\DBM-Core\sounds\Custom\Artanis_En_Taro_Zeratul.ogg]])
+		LSM:Register("sound", "Gachi: Battle start", [[Interface\AddOns\DBM-Core\sounds\Custom\Gachi_Start.ogg]])
 		LSM:Register("sound", "Headless Horseman: Laugh", [[Sound\Creature\HeadlessHorseman\Horseman_Laugh_01.ogg]])
 		LSM:Register("sound", "Yogg Saron: Laugh", [[Sound\Creature\YoggSaron\UR_YoggSaron_Slay01.ogg]])
 		LSM:Register("sound", "Loatheb: I see you", [[Sound\Creature\Loathstare\Loa_Naxx_Aggro02.ogg]])
@@ -416,14 +416,14 @@ do
 	
 	--TODO, this should be localized
 	local tcolors = {
-		{ text = "Generic", value = 0 },
-		{ text = "Add", value = 1 },
-		{ text = "AOE", value = 2 },
-		{ text = "Targeted", value = 3 },
-		{ text = "Interrupt", value = 4 },
-		{ text = "Role", value = 5 },
-		{ text = "Phase", value = 6 },
-		{ text = "Important (User)", value = 7 },
+		{ text = L.CBTGeneric, value = 0 },
+		{ text = L.CBTAdd, value = 1 },
+		{ text = L.CBTAOE, value = 2 },
+		{ text = L.CBTTargeted, value = 3 },
+		{ text = L.CBTInterrupt, value = 4 },
+		{ text = L.CBTRole, value = 5 },
+		{ text = L.CBTPhase, value = 6 },
+		{ text = L.CBTImportant, value = 7 },
 	}
 
 	function PanelPrototype:CreateCheckButton(name, autoplace, textleft, dbmvar, dbtvar, mod, modvar, globalvar, isTimer)

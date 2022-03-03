@@ -138,8 +138,8 @@ local timerWilloftheDemonWithin		= mod:NewCastTimer(43, 211439, nil, nil, nil, 2
 local timerParasiticWoundCD			= mod:NewCDTimer(36, 206847, nil, nil, nil, 3)
 local timerWounded					= mod:NewBuffActiveTimer(36, 227009, nil, nil, nil, 6)
 local timerSoulSeverCD				= mod:NewCDCountTimer(36, 220957, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON)
-local timerVisionsofDarkTitan		= mod:NewCastTimer(9, 227008, nil, nil, nil, 2)
-local timerVisionsofDarkTitanCD		= mod:NewCDCountTimer(9, 227008, nil, nil, nil, 2)
+local timerVisionsofDarkTitan		= mod:NewCastTimer(9, 227008, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON)
+local timerVisionsofDarkTitanCD		= mod:NewCDCountTimer(9, 227008, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON)
 local timerFlameCrashCD				= mod:NewCDCountTimer(20, 227071, nil, nil, nil, 3)
 local timerSummonNightorbCD			= mod:NewCDCountTimer(10.9, 227283, nil, nil, nil, 1, 225133)
 --Shard

@@ -4,13 +4,13 @@ local L = DBM_GUI_Translations
 
 L.MainFrame = "Deadly Boss Mods"
 
-L.TranslationByPrefix		= "Translated by "
-L.TranslationBy 			= nil -- your name here, localizers!
-L.Website					= "Visit us on discord at |cFF73C2FBhttps://discord.gg/deadlybossmods|r. Follow on twitter @deadlybossmods or @MysticalOS"
-L.WebsiteButton				= "Website"
+L.TranslationByPrefix		= "Adaptation for Uwow - "
+L.TranslationBy 			= "Aleksart163. Original - Swix, TOM_RUS"
+L.Website					= "Discord for communication on issues: Aleksart163#1671 and site for updating: |cFF73C2FBhttps://github.com/Aleksart163/DBM-for-Legion|r"
+L.WebsiteButton				= "Update"
 
 L.OTabBosses	= "Bosses"
-L.OTabOptions	= GAMEOPTIONS_MENU
+L.OTabOptions	= "Настройки"
 
 L.TabCategory_Options	 	= "General Options"
 L.TabCategory_BFA	 		= EXPANSION_NAME7 or "Battle for Azeroth"
@@ -155,6 +155,19 @@ L.Bar7Header				= "User Bar Options"
 L.Bar7ForceLarge			= "Always use large bar"
 L.Bar7CustomInline			= "Use custom '!' inline icon"
 L.Bar7Footer				= "(Dummy Bar won't live update)"
+
+--Dropdown Options
+L.CBTGeneric				= "Generic"
+L.CBTAdd					= "Add"
+L.CBTAOE					= "AOE"
+L.CBTTargeted				= "Targeted"
+L.CBTInterrupt				= "Interrupt"
+L.CBTRole					= "Role"
+L.CBTPhase					= "Phase"
+L.CBTImportant				= "Important"
+L.CVoiceOne					= "Count Voice 1"
+L.CVoiceTwo					= "Count Voice 2"
+L.CVoiceThree				= "Count Voice 3"
 
 -- Tab: Timers
 L.AreaTitle_BarColors		= "Bar Colors by timer type"
@@ -319,6 +332,10 @@ L.TimerGeneral 				= "Timer Options"
 L.SKT_Enabled				= "Show record victory timer for current fight if available"
 L.ShowRespawn				= "Show boss respawn timer after a wipe"
 L.ShowQueuePop				= "Show time remaining to accept a queue pop (LFG,BG,etc)"
+L.ChallengeTimerOptions		= "Display the best pass timer for Challenge mode"
+L.ChallengeTimerPersonal	= "Personally"
+L.ChallengeTimerGuild		= "Guild"
+L.ChallengeTimerRealm		= "Server"
 --
 L.Area_AutoLogging			= "Auto Logging Options"
 L.AutologBosses				= "Automatically record boss encounters using blizzard combat log (Use /dbm pull before bosses to start logging early for pre pots and other events.)"
@@ -359,3 +376,4 @@ L.SelectModProfileDelete	= "Delete mod settings for"
 
 -- Misc
 L.FontHeight	= 16
+--Волосали

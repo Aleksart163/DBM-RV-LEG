@@ -62,10 +62,10 @@ local specWarnFireDetonate			= mod:NewSpecialWarningMoveAway(213275, nil, nil, n
 local yellFireDetonate				= mod:NewYell(213275, 29870)--29870 "Detonate" short name
 local specWarnArcaneDetonate		= mod:NewSpecialWarningDodge(213390, nil, nil, nil, 3, 2)
 --GTFOs
-local specWarnPoolOfFrost			= mod:NewSpecialWarningMove(212736, nil, nil, nil, 1, 2)
-local specWarnBurningGround			= mod:NewSpecialWarningMove(213278, nil, nil, nil, 1, 2)
-local specWarnArcaneFog				= mod:NewSpecialWarningMove(213504, nil, nil, nil, 1, 2)--Fog and orbs combined for simplicity
-local specWarnFelStomp				= mod:NewSpecialWarningMove(230414, nil, nil, nil, 1, 2)--Mythic
+local specWarnPoolOfFrost			= mod:NewSpecialWarningYouMove(212736, nil, nil, nil, 1, 2)
+local specWarnBurningGround			= mod:NewSpecialWarningYouMove(213278, nil, nil, nil, 1, 2)
+local specWarnArcaneFog				= mod:NewSpecialWarningYouMove(213504, nil, nil, nil, 1, 2)--Fog and orbs combined for simplicity
+local specWarnFelStomp				= mod:NewSpecialWarningYouMove(230414, nil, nil, nil, 1, 2)--Mythic
 --Animates
 local specWarnAnimateFrost			= mod:NewSpecialWarningSwitch(213853, "-Healer", nil, nil, 1, 2)--Currently spell ID does not contain "animate" in name, which makes warning confusing. Hopefully blizzard fixes
 local specWarnAnimateFire			= mod:NewSpecialWarningSwitch(213567, "-Healer", nil, nil, 1, 2)

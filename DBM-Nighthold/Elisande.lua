@@ -59,7 +59,7 @@ local specWarnArcaneticRing			= mod:NewSpecialWarningDodge(208807, nil, nil, nil
 local specWarnAblation				= mod:NewSpecialWarningTaunt(209615, nil, nil, nil, 1, 2)
 local specWarnSpanningSingularityPre= mod:NewSpecialWarningMoveTo(209168, "RangedDps", nil, 2, 1, 7)
 local specWarnSpanningSingularity	= mod:NewSpecialWarningDodge(209168, nil, nil, nil, 2, 2)
-local specWarnSingularityGTFO		= mod:NewSpecialWarningMove(209168, "-Tank", nil, 2, 1, 2)
+local specWarnSingularityGTFO		= mod:NewSpecialWarningYouMove(209168, "-Tank", nil, 2, 1, 2)
 --Time Layer 2
 local specWarnDelphuricBeam			= mod:NewSpecialWarningYou(214278, nil, nil, nil, 1, 2)
 local yellDelphuricBeam				= mod:NewYell(214278, nil, false)--off by default, because yells last longer than 3-4 seconds so yells from PERVIOUS beam are not yet gone when new beam is cast.

@@ -60,7 +60,7 @@ local specWarnFelEjection			= mod:NewSpecialWarningMoveAway(205649, nil, nil, ni
 local yellFelEjection				= mod:NewYell(205649)
 local yellFelEjectionFade			= mod:NewFadesYell(205649)
 local specWarnFelNova				= mod:NewSpecialWarningRun(206517, nil, nil, nil, 4, 2)
-local specWarnFelFlame				= mod:NewSpecialWarningMove(206398, nil, nil, nil, 1, 2)
+local specWarnFelFlame				= mod:NewSpecialWarningYouMove(206398, nil, nil, nil, 1, 2)
 --Stage Four: Inevitable Fate
 local specWarnThing					= mod:NewSpecialWarningSwitch("ej13057", "Tank", nil, 2, 1, 2)
 local specWarnWitnessVoid			= mod:NewSpecialWarningLookAway(207720, nil, nil, nil, 1, 2)

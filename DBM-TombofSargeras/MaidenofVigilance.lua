@@ -45,7 +45,8 @@ local specWarnUnstableSoul			= mod:NewSpecialWarningMoveTo(235117, nil, nil, nil
 local yellUnstableSoul				= mod:NewShortFadesYell(235117)--While learning the fight this will be spammy, but also nessesary
 local specWarnLightHammer			= mod:NewSpecialWarningCount(241635, nil, nil, nil, 2, 2)
 local specWarnFelhammer				= mod:NewSpecialWarningCount(241636, nil, nil, nil, 2, 2)
-local specWarnGTFO					= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 2)
+local specWarnGTFO					= mod:NewSpecialWarningYouMove(238028, nil, nil, nil, 1, 2)
+local specWarnGTFO2					= mod:NewSpecialWarningYouMove(238408, nil, nil, nil, 1, 2)
 --Stage Two
 local specWarnWrathofCreators		= mod:NewSpecialWarningInterrupt(234891, "HasInterrupt", nil, nil, 1, 2)
 --
@@ -283,9 +284,12 @@ function mod:SPELL_AURA_REMOVED(args)
 end
 
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
-	if (spellId == 238408 or spellId == 238028) and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
+	if spellId == 238408 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
 		specWarnGTFO:Show()
 		specWarnGTFO:Play("runaway")
+	elseif spellId == 238028 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
+		specWarnGTFO2:Show()
+		specWarnGTFO2:Play("runaway")
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE

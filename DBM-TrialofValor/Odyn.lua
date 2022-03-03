@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1819, "DBM-TrialofValor", nil, 861)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17603 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 mod:SetCreatureID(114263, 114361, 114360)--114263 Odyn, 114361 Hymdall, 114360 Hyrja 
 mod:SetEncounterID(1958)
 mod:SetZone()
@@ -11,7 +11,7 @@ mod:SetUsedIcons(1)
 mod:SetHotfixNoticeRev(15581)
 mod.respawnTime = 29
 
-mod:RegisterCombat("combat")
+mod:RegisterCombat("combat", 114263)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 228003 228012 228171 231013",

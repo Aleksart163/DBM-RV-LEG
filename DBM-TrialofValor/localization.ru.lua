@@ -1,19 +1,18 @@
 if GetLocale() ~= "ruRU" then return end
-
 local L
 
----------------
--- Odyn --
----------------
+--------
+--Один--
+--------
 L= DBM:GetModLocalization(1819)
----------------------------
--- Guarm --
----------------------------
+--------
+--Гарм--
+--------
 L= DBM:GetModLocalization(1830)
 
----------------------------
--- Helya --
----------------------------
+---------
+--Хелия--
+---------
 L= DBM:GetModLocalization(1829)
 
 L:SetTimerLocalization({
@@ -21,17 +20,17 @@ L:SetTimerLocalization({
 })
 
 L:SetMiscLocalization({
-	phaseThree =	"Your efforts are for naught, mortals! Odyn will NEVER be free!",
-	near =			"Возле",
-	far =			"Вдалеке",
-	multiple =		"множественный"
+	phaseThree = "Даже не надейтесь, смертные! Один НИКОГДА не обретет свободу!",
+	near = "Возле",
+	far = "Вдалеке",
+	multiple = "множественный"
 })
 
 -------------
---  Trash  --
+--Треш-мобы--
 -------------
 L = DBM:GetModLocalization("TrialofValorTrash")
 
 L:SetGeneralLocalization({
-	name =	"Trial of Valor Trash"
+	name =	"Трэш Испытания Доблести"
 })

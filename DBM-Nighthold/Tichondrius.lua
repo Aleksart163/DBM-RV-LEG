@@ -46,7 +46,7 @@ local specWarnCarrionNightmare 		= mod:NewSpecialWarningDodge(215988, nil, nil, 
 local specWarnAdds					= mod:NewSpecialWarningAdds(216726, "-Healer", nil, nil, 1, 2)
 --Nightborne
 local specWarnBlastNova				= mod:NewSpecialWarningInterrupt(216034, "HasInterrupt", nil, nil, 2, 2)
-local specWarnNetherZoneGTFO		= mod:NewSpecialWarningMove(216027, nil, nil, nil, 2, 2)
+local specWarnNetherZoneGTFO		= mod:NewSpecialWarningYouMove(216027, nil, nil, nil, 2, 2) --Область Пустоты
 --The Legion
 local specWarnBurningSoul			= mod:NewSpecialWarningMoveAway(216040, nil, nil, nil, 1, 2)
 local yellBurningSoul				= mod:NewYell(216040)

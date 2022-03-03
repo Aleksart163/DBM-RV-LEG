@@ -27,7 +27,7 @@ mod:RegisterEventsInCombat(
 local warnNormal					= mod:NewCountAnnounce(207012, 2)
 local warnFast						= mod:NewCountAnnounce(207013, 2)
 local warnSlow						= mod:NewCountAnnounce(207011, 2)
-local warnTimeBomb					= mod:NewTargetAnnounce(206617, 3)
+local warnTimeBomb					= mod:NewTargetAnnounce(206617, 3) --Часовая бомба
 local warnChronometricPart			= mod:NewStackAnnounce(206607, 3, nil, "Tank")
 local warnPowerOverwhelmingStack	= mod:NewStackAnnounce(219823, 2)
 local warnTemporalCharge			= mod:NewTargetAnnounce(212099, 1)
