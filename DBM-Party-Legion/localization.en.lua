@@ -519,7 +519,7 @@ L= DBM:GetModLocalization(1838)
 L = DBM:GetModLocalization("Nightbane")
 
 L:SetGeneralLocalization({
-	name =	"Nightbane"
+	name = "Nightbane"
 })
 
 -----------------------
@@ -528,11 +528,11 @@ L:SetGeneralLocalization({
 L = DBM:GetModLocalization("RTKTrash")
 
 L:SetGeneralLocalization({
-	name =	"Return To Karazhan Trash"
+	name = "Return To Karazhan Trash"
 })
 
 L:SetMiscLocalization({
-	speedRun		=	"The strange chill of a dark presence winds through the air..."
+	speedRun = "The strange chill of a dark presence winds through the air..."
 })
 
 -----------------------
@@ -549,9 +549,12 @@ L= DBM:GetModLocalization(1905)
 L= DBM:GetModLocalization(1906)
 
 L:SetMiscLocalization({
-	bookCase	=	"Behind bookcase"
+	bookCase = "Run behind the bookcase"
 })
 
+L:SetOptionLocalization({
+	bookCase = "Show special warning \"Run behind the bookcase\" when you target $spell:237726"
+})
 -----------------------
 -- Domatrax --
 -----------------------

@@ -17,17 +17,18 @@ mod:RegisterEvents(
 local warnFelStrike				= mod:NewTargetAnnounce(236737, 3)
 
 local specWarnFelStrike			= mod:NewSpecialWarningDodge(236737, nil, nil, nil, 1, 2)
-local yellFelStrike				= mod:NewYell(236737)
 local specWarnAlluringAroma		= mod:NewSpecialWarningInterrupt(237391, "HasInterrupt", nil, nil, 1, 2)
 local specWarnDemonicMending	= mod:NewSpecialWarningInterrupt(238543, "HasInterrupt", nil, nil, 1, 2)
 local specWarnDreadScream		= mod:NewSpecialWarningInterrupt(242724, "HasInterrupt", nil, nil, 1, 2)
-local specWarnBlindingGlare		= mod:NewSpecialWarningSpell(239232, nil, nil, nil, 1, 2)
+local specWarnBlindingGlare		= mod:NewSpecialWarningLookAway(239232, nil, nil, nil, 3, 5) --Ослепляющий взгляд
 local specWarnLumberingCrash	= mod:NewSpecialWarningRun(242760, "Melee", nil, nil, 4, 2)
 local specWarnShadowWave		= mod:NewSpecialWarningDodge(238653, nil, nil, nil, 2, 2)
 local specWarnChokingVines		= mod:NewSpecialWarningRun(238688, nil, nil, nil, 4, 2)
 local specWarnTomeSilence		= mod:NewSpecialWarningSwitch(239161, "-Healer", nil, nil, 1, 2)
 local specWarnFelblazeOrb		= mod:NewSpecialWarningDodge(239320, nil, nil, nil, 1, 2)
 local specWarnVenomStorm		= mod:NewSpecialWarningDodge(239266, nil, nil, nil, 1, 2)
+
+local yellFelStrike				= mod:NewYell(236737, nil, nil, nil, "YELL")
 
 function mod:FelStrikeTarget(targetname, uId)
 	if not targetname then

@@ -17,11 +17,12 @@ mod:RegisterEventsInCombat(
 
 --http://legion.wowhead.com/icons/name:boss_odunrunes_
 --["198263-Radiant Tempest"] = "pull:8.0, 72.0, 40.0", huh?
-local warnSpear						= mod:NewSpellAnnounce(198072, 2)--Target not available so no target warning.
+local warnSpear						= mod:NewSpellAnnounce(198072, 2) --Копье света
 
-local specWarnTempest				= mod:NewSpecialWarningRun(198263, nil, nil, nil, 4, 2)
+local specWarnTempest				= mod:NewSpecialWarningRun(198263, nil, nil, nil, 3, 5)
 local specWarnShatterSpears			= mod:NewSpecialWarningDodge(198077, nil, nil, nil, 2, 2)
-local specWarnRunicBrand			= mod:NewSpecialWarningMoveTo(197961, nil, nil, nil, 2, 6)
+local specWarnSpear					= mod:NewSpecialWarningDodge(198072, nil, nil, nil, 2, 2) --Копье света
+local specWarnRunicBrand			= mod:NewSpecialWarningMoveTo(197961, nil, nil, nil, 3, 6)
 local specWarnAdd					= mod:NewSpecialWarningSwitch(201221, "-Healer", nil, nil, 1, 2)
 local specWarnSurge					= mod:NewSpecialWarningInterrupt(198750, "HasInterrupt", nil, nil, 1, 2)
 
@@ -90,6 +91,7 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 198072 then
 		warnSpear:Show()
+		specWarnSpear:Show()
 	elseif spellId == 198263 then
 		self.vb.tempestCount = self.vb.tempestCount + 1
 		specWarnTempest:Show(self.vb.tempestCount)
