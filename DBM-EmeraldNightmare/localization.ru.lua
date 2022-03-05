@@ -1,6 +1,6 @@
 if GetLocale() ~= "ruRU" then return end
 local L
-
+--$spell:137162
 ------------
 --Низендра--
 ------------
@@ -24,7 +24,7 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(1738)
 
 L:SetOptionLocalization({
-	SetIconOnlyOnce2	= "Устанавливать метку только один раз за сканирование ила а затем отключать, пока хотя бы один не взорвется (экспериментально)",
+	SetIconOnlyOnce2	= "Устанавливать метку только один раз за сканирование гноя а затем отключать, пока хотя бы один не взорвется (экспериментально)",
 	InfoFrameBehavior	= "Информация, отображаемая в информационном окне во время боя",
 	Fixates				= "Показывать игроков с Сосредоточением внимания",
 	Adds				= "Показывать количество для всех типов аддов"
@@ -45,8 +45,15 @@ L:SetWarningLocalization({
 ---------
 L= DBM:GetModLocalization(1667)
 
+L:SetWarningLocalization({
+	Phase1 = "Скоро фаза 2",
+	Phase2 = "Фаза 2"
+})
+
 L:SetOptionLocalization({
-	NoAutoSoaking2		= "Disable all auto soaking related warnings/arrows/HUDs for Focused Gaze"
+	Phase1 = "Предупреждать заранее о фазе 2 (на ~33%)",
+	Phase2 = "Объявлять фазу 2",
+	NoAutoSoaking2		= "Отключить все предупреждения/стрелки для $spell:198006"
 })
 
 L:SetMiscLocalization({

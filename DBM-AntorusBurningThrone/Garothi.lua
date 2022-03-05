@@ -17,12 +17,13 @@ mod:RegisterCombat("yell", L.YellPullGarothi)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 244969 240277",
-	"SPELL_CAST_SUCCESS 246220 244399 245294 246919 244294",
+	"SPELL_CAST_SUCCESS 246220 244399 245294 246919 244294 246655",
 	"SPELL_AURA_APPLIED 246220 244410 246919 246965",--246897
 	"SPELL_AURA_REMOVED 246220 244410 246919",
 --	"SPELL_PERIODIC_DAMAGE",
 --	"SPELL_PERIODIC_MISSED",
-	"UNIT_SPELLCAST_SUCCEEDED boss1 boss2 boss3"--Assuming cannons are unique boss unitID
+	"UNIT_SPELLCAST_SUCCEEDED boss1 boss2 boss3",--Assuming cannons are unique boss unitID
+	"UNIT_HEALTH boss1"
 )
 
 local annihilator = DBM:EJ_GetSectionInfo(15917)
@@ -33,37 +34,43 @@ local Decimator = DBM:EJ_GetSectionInfo(15915)
  or (ability.id = 244399 or ability.id = 245294 or ability.id = 246919 or ability.id = 244294) and type = "cast"
  or (ability.id = 246220) and type = "applydebuff"
 --]]
-local warnFelBombardment				= mod:NewTargetAnnounce(246220, 2)
-local warnDecimation					= mod:NewTargetAnnounce(244410, 4)
+local warnFelBombardment				= mod:NewTargetAnnounce(246220, 2) --Обстрел скверны
+local warnDecimation					= mod:NewTargetAnnounce(244410, 4) --Децимация
 
-local specWarnFelBombardment			= mod:NewSpecialWarningMoveAway(246220, nil, nil, nil, 1, 2)
-local yellFelBombardment				= mod:NewFadesYell(246220)
-local specWarnFelBombardmentTaunt		= mod:NewSpecialWarningTaunt(246220, nil, nil, nil, 1, 2)
-local specWarnApocDrive					= mod:NewSpecialWarningSwitch(244152, nil, nil, nil, 1, 2)
-local specWarnEradication				= mod:NewSpecialWarningRun(244969, nil, nil, nil, 4, 2)
+local specWarnApocDrive2				= mod:NewSpecialWarning("Reaktor", nil, nil, nil, 1, 2) --Реактор апокалипсиса
+
+local specWarnFelBombardment			= mod:NewSpecialWarningMoveAway(246220, nil, nil, nil, 1, 2) --Обстрел скверны
+local specWarnFelBombardmentTaunt		= mod:NewSpecialWarningTaunt(246220, nil, nil, nil, 1, 2) --Обстрел скверны
+local specWarnApocDrive					= mod:NewSpecialWarningSwitch(244152, nil, nil, nil, 1, 2) --Реактор апокалипсиса
+local specWarnEradication				= mod:NewSpecialWarningRun(244969, nil, nil, nil, 4, 5) --Искоренение
 --local specWarnGTFO					= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 2)
 --Decimator
-local specWarnDecimation				= mod:NewSpecialWarningMoveAway(244410, nil, nil, nil, 1, 2)
-local yellDecimation					= mod:NewShortYell(244410)
-local yellDecimationFades				= mod:NewShortFadesYell(244410)
+local specWarnDecimation				= mod:NewSpecialWarningMoveAway(244410, nil, nil, nil, 4, 5) --Децимация
+local specWarnDecimation2				= mod:NewSpecialWarningDodge(244410, "-Tank", nil, nil, 2, 2) --Децимация
+local specWarnSurgingFel				= mod:NewSpecialWarningDodge(246655, nil, nil, nil, 2, 2) --Всплеск скверны
 --Annihilator
-local specWarnAnnihilation				= mod:NewSpecialWarningSpell(244761, nil, nil, nil, 1, 2)
+local specWarnAnnihilation				= mod:NewSpecialWarningSoak(244761, nil, nil, nil, 2, 5) --Аннигиляция
 
-local timerFelBombardmentCD				= mod:NewNextTimer(20.7, 246220, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
-local timerApocDriveCast				= mod:NewCastTimer(30, 244152, nil, nil, nil, 6)
+local timerFelBombardmentCD				= mod:NewNextTimer(20.7, 246220, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Обстрел скверны
+local timerApocDriveCast				= mod:NewCastTimer(30, 244152, nil, nil, nil, 6, nil, DBM_CORE_DEADLY_ICON) --Реактор апокалипсиса
+local timerSurgingFelCast				= mod:NewCastTimer(4, 246655, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Всплеск скверны
 local timerSpecialCD					= mod:NewNextSpecialTimer(20)--When cannon unknown
 mod:AddTimerLine(Decimator)
-local timerDecimationCD					= mod:NewNextTimer(31.6, 244410, nil, nil, nil, 3)
+local timerDecimationCD					= mod:NewNextTimer(31.6, 244410, nil, nil, nil, 3) --Децимация
 mod:AddTimerLine(annihilator)
-local timerAnnihilationCD				= mod:NewNextTimer(31.6, 244761, nil, nil, nil, 3)
+local timerAnnihilationCD				= mod:NewNextTimer(31.6, 244761, nil, nil, nil, 3) --Аннигиляция
 
---local berserkTimer					= mod:NewBerserkTimer(600)
+local yellFelBombardment				= mod:NewFadesYell(246220, nil, nil, nil, "YELL") --Обстрел скверны
+local yellDecimation					= mod:NewShortYell(244410, nil, nil, nil, "YELL") --Децимация
+local yellDecimationFades				= mod:NewShortFadesYell(244410, nil, nil, nil, "YELL") --Децимация
+
+local berserkTimer						= mod:NewBerserkTimer(600)
 
 local countdownChooseCannon				= mod:NewCountdown(15, 245124)
-local countdownFelBombardment			= mod:NewCountdown("Alt20", 246220, "Tank")
+local countdownFelBombardment			= mod:NewCountdown("Alt20", 246220, "Tank") --Обстрел скверны
 
-mod:AddSetIconOption("SetIconOnDecimation", 244410, true)
-mod:AddSetIconOption("SetIconOnBombardment", 246220, true)
+mod:AddSetIconOption("SetIconOnDecimation", 244410, true) --Децимация
+mod:AddSetIconOption("SetIconOnBombardment", 246220, true) --Обстрел скверны
 mod:AddRangeFrameOption("7/17")
 
 mod.vb.deciminationActive = 0
@@ -74,6 +81,9 @@ mod.vb.annihilatorHaywire = false
 
 local debuffFilter
 local updateRangeFrame
+local warned_preP1 = false
+local warned_preP2 = false
+
 do
 	debuffFilter = function(uId)
 		if DBM:UnitDebuff(uId, 244410, 246919, 246220) then
@@ -101,11 +111,14 @@ do
 end
 
 function mod:OnCombatStart(delay)
+	warned_preP1 = false
+	warned_preP2 = false
 	self.vb.deciminationActive = 0
 	self.vb.FelBombardmentActive = 0
 	self.vb.lastCannon = 1--Anniilator 1 decimator 2
 	self.vb.annihilatorHaywire = false
 	self.vb.phase = 1
+	berserkTimer:Start(-delay)
 	timerSpecialCD:Start(8.5-delay)--First one random.
 	countdownChooseCannon:Start(8.5-delay)
 	timerFelBombardmentCD:Start(9.7-delay)
@@ -162,6 +175,9 @@ function mod:SPELL_CAST_SUCCESS(args)
 				timerAnnihilationCD:Start(15.8)
 			end
 		end
+	elseif spellId == 246655 then --Всплеск скверны
+		specWarnSurgingFel:Show()
+		timerSurgingFelCast:Start()
 	end
 end
 
@@ -184,7 +200,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self.Options.SetIconOnBombardment then
 			self:SetIcon(args.destName, 7, 13)
 		end
-	elseif spellId == 244410 or spellId == 246919 then
+	elseif spellId == 244410 or spellId == 246919 then --Децимация
 		self.vb.deciminationActive = self.vb.deciminationActive + 1
 		warnDecimation:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
@@ -194,6 +210,8 @@ function mod:SPELL_AURA_APPLIED(args)
 				yellDecimationFades:Countdown(5, 3)
 			end
 			specWarnDecimation:Play("runout")
+		else
+			specWarnDecimation2:Schedule(6)
 		end
 		if self.Options.SetIconOnDecimation then
 			self:SetIcon(args.destName, self.vb.deciminationActive)
@@ -281,6 +299,26 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 				timerAnnihilationCD:Start(15.8)
 				countdownChooseCannon:Start(15.8)
 			end
+		end
+	end
+end
+
+function mod:UNIT_HEALTH(uId)
+	if self:IsHeroic() or self:IsMythic() then
+		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 122450 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.69 then --Скоро Реактор апокалипсиса 1
+			warned_preP1 = true
+			specWarnApocDrive2:Show()
+		elseif self.vb.phase == 2 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 122450 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.38 then --Скоро Реактор апокалипсиса 2
+			warned_preP2 = true
+			specWarnApocDrive2:Show()
+		end
+	elseif self:IsNormal() or self:IsLFR() then
+		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 122450 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.63 then --Скоро Реактор апокалипсиса 1
+			warned_preP1 = true
+			specWarnApocDrive2:Show()
+		elseif self.vb.phase == 2 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 122450 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.23 then --Скоро Реактор апокалипсиса 2
+			warned_preP2 = true
+			specWarnApocDrive2:Show()
 		end
 	end
 end

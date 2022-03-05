@@ -24,7 +24,9 @@ mod:RegisterEventsInCombat(
 	"SPELL_PERIODIC_DAMAGE 248167",
 	"SPELL_PERIODIC_MISSED 248167",
 	"CHAT_MSG_RAID_BOSS_EMOTE",
-	"UNIT_SPELLCAST_SUCCEEDED boss1 boss2 boss3 boss4 boss5"
+	"UNIT_SPELLCAST_SUCCEEDED boss1 boss2 boss3 boss4 boss5",
+	"UNIT_DIED",
+	"UNIT_HEALTH boss1"
 )
 
 --TODO, custom warning to combine soulburst and bomb into single message instead of two messages, while still separating targets
@@ -39,13 +41,13 @@ local warnPhase						= mod:NewPhaseChangeAnnounce()
 local warnTorturedRage				= mod:NewCountAnnounce(257296, 2)
 local warnSweepingScythe			= mod:NewStackAnnounce(248499, 2, nil, "Tank")
 local warnBlightOrb					= mod:NewCountAnnounce(248317, 2)
-local warnSoulblight				= mod:NewTargetAnnounce(248396, 2, nil, false, 2)
+local warnSoulblight				= mod:NewTargetAnnounce(248396, 2, nil, false, 2) --Изнуряющая чума
 local warnSkyandSea					= mod:NewTargetAnnounce(255594, 1)
 --Stage one Mythic
-local warnSargRage					= mod:NewTargetAnnounce(257869, 3)
+local warnSargRage					= mod:NewTargetAnnounce(257869, 3) --Ярость Саргераса
 local warnSargFear					= mod:NewTargetAnnounce(257931, 3)
 --Stage Two: The Protector Redeemed
-local warnSoulburst					= mod:NewTargetAnnounce(250669, 2)
+local warnSoulburst					= mod:NewTargetAnnounce(250669, 2) --Взрывная душа
 local warnSoulbomb					= mod:NewTargetNoFilterAnnounce(251570, 3)
 local warnAvatarofAggra				= mod:NewTargetNoFilterAnnounce(255199, 1)
 --Stage Three: The Arcane Masters
@@ -61,31 +63,35 @@ local warnSoulRendingScythe			= mod:NewStackAnnounce(258838, 2, nil, "Tank")
 local warnGiftOfLifebinder			= mod:NewCastAnnounce(257619, 1)
 local warnDeadlyScythe				= mod:NewStackAnnounce(258039, 2, nil, "Tank")
 
+local specWarnPhase1				= mod:NewSpecialWarning("Phase1", nil, nil, nil, 1, 2) --Скоро фаза 2
+local specWarnPhase2				= mod:NewSpecialWarning("Phase2", nil, nil, nil, 1, 2) --Фаза 2
+local specWarnPhase3				= mod:NewSpecialWarning("Phase3", nil, nil, nil, 1, 2) --Скоро фаза 3
+local specWarnPhase4				= mod:NewSpecialWarning("Phase4", nil, nil, nil, 1, 2) --Фаза 3
+local specWarnPhase5				= mod:NewSpecialWarning("Phase5", nil, nil, nil, 1, 2) --Скоро фаза 4
+local specWarnPhase6				= mod:NewSpecialWarning("Phase6", nil, nil, nil, 1, 2) --Фаза 4
+
 --Stage One: Storm and Sky
 local specWarnSweepingScythe		= mod:NewSpecialWarningStack(248499, nil, 3, nil, nil, 1, 6)
 local specWarnSweepingScytheTaunt	= mod:NewSpecialWarningTaunt(248499, nil, nil, nil, 1, 2)
 local specWarnConeofDeath			= mod:NewSpecialWarningDodge(248165, nil, nil, nil, 1, 2)
-local specWarnSoulblight			= mod:NewSpecialWarningMoveAway(248396, nil, nil, nil, 1, 2)
+local specWarnSoulblight			= mod:NewSpecialWarningYouMoveAway(248396, nil, nil, nil, 1, 2) --Изнуряющая чума
 local specWarnGiftofSea				= mod:NewSpecialWarningYou(258647, nil, nil, nil, 1, 2)
 local specWarnGiftofSky				= mod:NewSpecialWarningYou(258646, nil, nil, nil, 1, 2)
 --Mythic P1
 local specWarnSargGaze				= mod:NewSpecialWarningPreWarn(258068, nil, 5, nil, nil, 1, 2)
-local specWarnSargRage				= mod:NewSpecialWarningMoveAway(257869, nil, nil, nil, 3, 2)
+local specWarnSargRage				= mod:NewSpecialWarningYouMoveAway(257869, nil, nil, nil, 3, 2) --Ярость Саргераса
 local specWarnSargFear				= mod:NewSpecialWarningMoveTo(257931, nil, nil, nil, 3, 2)
 local specWarnGTFO					= mod:NewSpecialWarningYouMove(248167, nil, nil, nil, 1, 2)
 --Stage Two: The Protector Redeemed
-local specWarnSoulburst				= mod:NewSpecialWarningYou(250669, nil, nil, nil, 1, 2)
+local specWarnSoulburst				= mod:NewSpecialWarningYouMoveAway(250669, nil, nil, nil, 1, 2) --Взрывная душа
 local specWarnSoulbomb				= mod:NewSpecialWarningYou(251570, nil, nil, nil, 1, 2)
 local specWarnSoulbombMoveTo		= mod:NewSpecialWarningMoveTo(251570, nil, nil, nil, 1, 2)
 local specWarnEdgeofObliteration	= mod:NewSpecialWarningSpell(255826, nil, nil, nil, 2, 2)
 local specWarnAvatarofAggra			= mod:NewSpecialWarningYou(255199, nil, nil, nil, 1, 2)
 --Stage Three: The Arcane Masters
 local specWarnCosmicRay				= mod:NewSpecialWarningYou(252729, nil, nil, nil, 1, 2)
-local yellCosmicRay					= mod:NewYell(252729)
 --Stage Three Mythic
 local specWarnSargSentence			= mod:NewSpecialWarningYou(257966, nil, nil, nil, 1, 2)
-local yellSargSentence				= mod:NewShortYell(257966, L.Sentence)
-local yellSargSentenceFades			= mod:NewShortFadesYell(257966)
 local specWarnApocModule			= mod:NewSpecialWarningSwitchCount(258029, "Dps", nil, nil, 3, 2)--EVERYONE
 local specWarnEdgeofAnni			= mod:NewSpecialWarningDodge(258834, nil, nil, nil, 2, 2)
 local specWarnSoulrendingScythe		= mod:NewSpecialWarningStack(258838, nil, 2, nil, nil, 1, 2)
@@ -109,7 +115,7 @@ local timerSargGazeCD				= mod:NewCDCountTimer(35.2, 258068, nil, nil, nil, 3, n
 --Stage Two: The Protector Redeemed
 mod:AddTimerLine(SCENARIO_STAGE:format(2))
 local timerSoulBombCD				= mod:NewNextTimer(42, 251570, nil, nil, nil, 3, nil, DBM_CORE_TANK_ICON)
-local timerSoulBurstCD				= mod:NewNextCountTimer("d42", 250669, nil, nil, nil, 3)
+local timerSoulBurstCD				= mod:NewNextCountTimer("d42", 250669, nil, nil, nil, 3) --Взрывная душа
 local timerEdgeofObliterationCD		= mod:NewCDCountTimer(34, 255826, nil, nil, nil, 2)
 local timerAvatarofAggraCD			= mod:NewCDTimer(59.9, 255199, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON)
 --Stage Three: The Arcane Masters
@@ -128,15 +134,18 @@ local timerReorgModuleCD			= mod:NewCDCountTimer(48.1, 256389, nil, nil, nil, 1)
 
 local yellGiftofSky					= mod:NewPosYell(258646, L.SkyText, nil, nil, "YELL")
 local yellGiftofSea					= mod:NewPosYell(258647, L.SeaText, nil, nil, "YELL")
-local yellSoulblightFades			= mod:NewShortFadesYell(248396, nil, nil, nil, "YELL")
-local yellSoulblight				= mod:NewShortYell(248396, L.Blight, nil, nil, "YELL")
-local yellSargRage					= mod:NewShortYell(257869, 6612)
+local yellSoulblightFades			= mod:NewShortFadesYell(248396, nil, nil, nil, "YELL") --Изнуряющая чума
+local yellSoulblight				= mod:NewShortYell(248396, L.Blight, nil, nil, "YELL") --Изнуряющая чума
+local yellSargRage					= mod:NewShortYell(257869, 6612) --Ярость Саргераса
 local yellSargFear					= mod:NewShortYell(257931, 5782)
 local yellSargFearCombo				= mod:NewComboYell(257931, 5782)
 local yellSoulbomb					= mod:NewPosYell(251570, DBM_CORE_AUTO_YELL_CUSTOM_POSITION)
 local yellSoulbombFades				= mod:NewIconFadesYell(251570, 155188)
-local yellSoulburst					= mod:NewPosYell(250669, DBM_CORE_AUTO_YELL_CUSTOM_POSITION)
-local yellSoulburstFades			= mod:NewIconFadesYell(250669, nil, nil, nil, "YELL")
+local yellSoulburst					= mod:NewPosYell(250669, DBM_CORE_AUTO_YELL_CUSTOM_POSITION) --Взрывная душа
+local yellSoulburstFades			= mod:NewIconFadesYell(250669, nil, nil, nil, "YELL") --Взрывная душа
+local yellSargSentence				= mod:NewShortYell(257966, L.Sentence, nil, nil, "YELL")
+local yellSargSentenceFades			= mod:NewShortFadesYell(257966, nil, nil, nil, "YELL")
+local yellCosmicRay					= mod:NewYell(252729, nil, nil, nil, "YELL")
 
 local berserkTimer					= mod:NewBerserkTimer(600)
 
@@ -154,10 +163,10 @@ local countdownReorgModule			= mod:NewCountdown("Alt48", 256389, "-Tank")
 mod:AddSetIconOption("SetIconGift", 255594, true)--5 and 6
 mod:AddSetIconOption("SetIconOnAvatar", 255199, true)--4
 mod:AddSetIconOption("SetIconOnSoulBomb", 251570, true)--3 and 7
-mod:AddSetIconOption("SetIconOnSoulBurst", 250669, true)--2
+mod:AddSetIconOption("SetIconOnSoulBurst", 250669, true)--2 --Взрывная душа
 mod:AddSetIconOption("SetIconOnVulnerability", 255418, true, true)--1-7
 mod:AddInfoFrameOption(nil, true)--Change to EJ entry since spell not localized
-mod:AddRangeFrameOption(5, 257869)
+mod:AddRangeFrameOption(5, 257869) --Ярость Саргераса
 mod:AddNamePlateOption("NPAuraOnInevitability", 253021)
 mod:AddNamePlateOption("NPAuraOnCosmosSword", 255496)
 mod:AddNamePlateOption("NPAuraOnEternalBlades", 255478)
@@ -165,6 +174,7 @@ mod:AddNamePlateOption("NPAuraOnVulnerability", 255418)
 
 local playerAvatar = false
 mod.vb.phase = 1
+mod.vb.kurators = 7
 mod.vb.coneCount = 0
 mod.vb.SkyandSeaCount = 0
 mod.vb.blightOrbCount = 0
@@ -177,6 +187,12 @@ mod.vb.gazeCount = 0
 mod.vb.scytheCastCount = 0
 mod.vb.firstscytheSwap = false
 mod.vb.rangeCheckNoTouchy = false
+local warned_preP1 = false
+local warned_preP2 = false
+local warned_preP3 = false
+local warned_preP4 = false
+local warned_preP5 = false
+local warned_preP6 = false
 --P3 Mythic Timers
 local torturedRage = {40, 40, 50, 30, 35, 10, 8, 35, 10, 8, 35}--3 timers from method video not logs, verify by logs to improve accuracy
 local sargSentenceTimers = {53, 56.9, 60, 53, 53}--1 timer from method video not logs, verify by logs to improve accuracy
@@ -304,6 +320,7 @@ function mod:OnCombatStart(delay)
 	playerAvatar = false
 	table.wipe(tankStacks)
 	self.vb.phase = 1
+	self.vb.kurators = 7
 	self.vb.coneCount = 0
 	self.vb.SkyandSeaCount = 0
 	self.vb.blightOrbCount = 0
@@ -316,6 +333,12 @@ function mod:OnCombatStart(delay)
 	self.vb.scytheCastCount = 0
 	self.vb.firstscytheSwap = false
 	self.vb.rangeCheckNoTouchy = false
+	warned_preP1 = false
+	warned_preP2 = false
+	warned_preP3 = false
+	warned_preP4 = false
+	warned_preP5 = false
+	warned_preP6 = false
 	timerSweepingScytheCD:Start(5.5-delay, 1)
 	countdownSweapingScythe:Start(5.5)
 	timerSkyandSeaCD:Start(10.1-delay, 1)
@@ -382,7 +405,9 @@ function mod:SPELL_CAST_START(args)
 		self.vb.phase = 2
 		self.vb.scytheCastCount = 0
 		self.vb.firstscytheSwap = false
+		warned_preP2 = true
 		warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(2))
+		specWarnPhase2:Show()
 		timerConeofDeathCD:Stop()
 		timerBlightOrbCD:Stop()
 		timerTorturedRageCD:Stop()
@@ -411,7 +436,9 @@ function mod:SPELL_CAST_START(args)
 		if self.vb.phase < 3 then
 			self:Unschedule(ToggleRangeFinder)
 			self.vb.phase = 3
+			warned_preP4 = true
 			warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(3))
+			specWarnPhase4:Show() --фаза 3
 			timerSweepingScytheCD:Stop()
 			countdownSweapingScythe:Cancel()
 			timerTorturedRageCD:Stop()
@@ -423,6 +450,7 @@ function mod:SPELL_CAST_START(args)
 			timerSargGazeCD:Stop()
 			countdownSargGaze:Cancel()
 			if not self:IsMythic() then
+				self.vb.kurators = 7
 				timerCosmicRayCD:Start(30)
 				timerCosmicBeaconCD:Start(40)
 				if self.Options.InfoFrame then
@@ -433,7 +461,9 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 256542 then--Reap Soul
 		if not self:IsMythic() then
 			self.vb.phase = 4
+			warned_preP6 = true
 			warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(4))
+			specWarnPhase6:Show() --фаза 4
 			if self.Options.InfoFrame then
 				DBM.InfoFrame:Show(6, "function", updateInfoFrame, false, false)
 			end
@@ -924,5 +954,26 @@ function mod:OnSync(msg, sender)
 	if not self:IsInCombat() then return end
 	if msg == "Release" and DBM:GetRaidRank(sender) == 2 then
 		RepopMe()
+	end
+end
+
+function mod:UNIT_HEALTH(uId)
+	if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 124828 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.74 then --скоро фаза 2
+		warned_preP1 = true
+		specWarnPhase1:Show()
+	elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 124828 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.44 then --скоро фаза 3
+		warned_preP3 = true
+		specWarnPhase3:Show()
+	end
+end
+
+function mod:UNIT_DIED(args)
+	local cid = self:GetCIDFromGUID(args.destGUID)
+	if cid == 127192 then
+		self.vb.kurators = self.vb.kurators - 1
+		if self.vb.kurators == 1 then
+			warned_preP5 = true
+			specWarnPhase5:Show()
+		end
 	end
 end

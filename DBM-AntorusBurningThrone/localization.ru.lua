@@ -6,10 +6,15 @@ local L
 --------------------------------
 L= DBM:GetModLocalization(1992)
 
+L:SetWarningLocalization({
+	Reaktor = "Скоро Реактор апокалипсиса"
+})
+
 L:SetTimerLocalization({
 })
 
 L:SetOptionLocalization({
+	Reaktor = "Предупреждать заранее о $spell:244152 (за ~3% до каста)",
 })
 
 L:SetMiscLocalization({
@@ -164,7 +169,18 @@ L:SetMiscLocalization({
 ------------
 L= DBM:GetModLocalization(1984)
 
+L:SetWarningLocalization({
+	Phase1 = "Скоро фаза 2",
+	Phase2 = "Фаза 2",
+	Phase3 = "Скоро фаза 3",
+	Phase4 = "Фаза 3"
+})
+
 L:SetOptionLocalization({
+	Phase1 = "Предупреждать заранее о фазе 2 (на ~83%)",
+	Phase2 = "Объявлять фазу 2",
+	Phase3 = "Предупреждать заранее о фазе 3 (на ~43%)",
+	Phase4 = "Объявлять фазу 3",
 	ignoreThreeTank	= "Фильтр специальных предупреждений (Пламя/Сокрушитель) при использовании 3 и более танков (так как DBM не может определить точное чередование танков при таком раскладе). Если танки погибают и количество танков уменьшается до 2, фильтр автоматически отключается."
 })
 
@@ -181,11 +197,26 @@ L:SetMiscLocalization({
 ----------------------
 L= DBM:GetModLocalization(2031)
 
+L:SetWarningLocalization({
+	Phase1 = "Скоро фаза 2",
+	Phase2 = "Фаза 2",
+	Phase3 = "Скоро фаза 3",
+	Phase4 = "Фаза 3",
+	Phase5 = "Скоро фаза 4",
+	Phase6 = "Фаза 4"
+})
+
 L:SetTimerLocalization({
 	timerSargSentenceCD	= "Восс. Приговор (%s)"
 })
 
 L:SetOptionLocalization({
+	Phase1 = "Предупреждать заранее о фазе 2 (на ~74%)",
+	Phase2 = "Объявлять фазу 2",
+	Phase3 = "Предупреждать заранее о фазе 3 (на ~44%)",
+	Phase4 = "Объявлять фазу 3",
+	Phase5 = "Предупреждать заранее о фазе 4 (на 1 Констеллар-кураторе)",
+	Phase6 = "Объявлять фазу 4",
 	timerSargSentenceCD = DBM_CORE_AUTO_TIMER_OPTIONS["cdcount"]:format(257966)
 })
 

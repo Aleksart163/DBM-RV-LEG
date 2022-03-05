@@ -30,56 +30,57 @@ local Shatug = DBM:EJ_GetSectionInfo(15836)
  or (ability.id = 244072 or ability.id = 251445 or ability.id = 245098 or ability.id = 251356 or ability.id = 254429) and type = "cast"
 --]]
 --F'harg
-local warnBurningMaw					= mod:NewTargetAnnounce(251448, 2, nil, false, 2)
-local warnDesolateGaze					= mod:NewTargetAnnounce(244768, 3)
-local warnEnflamedCorruption			= mod:NewSpellAnnounce(244057, 3)
-local warnEnflamed						= mod:NewTargetAnnounce(248815, 3, nil, false, 2)
+local warnBurningMaw					= mod:NewTargetAnnounce(251448, 2, nil, false, 2) --Пылающая пасть
+local warnDesolateGaze					= mod:NewTargetAnnounce(244768, 3) --Опустошающий взгляд
+local warnEnflamedCorruption			= mod:NewSpellAnnounce(244057, 3) --Возгорание порчи
+local warnEnflamed						= mod:NewTargetAnnounce(248815, 3) --Возгорание
 --Shatug
-local warnCorruptingMaw					= mod:NewTargetAnnounce(251447, 2, nil, false, 2)
+local warnCorruptingMaw					= mod:NewTargetAnnounce(251447, 2, nil, false, 2) --Заразная пасть
 local warnWeightofDarkness				= mod:NewTargetAnnounce(254429, 3) --Бремя тьмы
 local warnSiphonCorruption				= mod:NewSpellAnnounce(244056, 3) --Вытягивание порчи
 local warnSiphoned						= mod:NewTargetAnnounce(248819, 3, nil, false, 2) --Вытягивание
 --General/Mythic
-local warnFocusingPower					= mod:NewSpellAnnounce(251356, 2)
+local warnFocusingPower					= mod:NewSpellAnnounce(251356, 2) --Фокусирование силы
 
 --F'harg
-local specWarnMoltenTouch				= mod:NewSpecialWarningDodge(244072, nil, nil, nil, 2, 2)
-local specWarnDesolateGaze				= mod:NewSpecialWarningYou(244768, nil, nil, nil, 1, 2)
-local specWarnEnflamed					= mod:NewSpecialWarningYou(248815, nil, nil, nil, 1, 2)
+local specWarnMoltenTouch				= mod:NewSpecialWarningDodge(244072, nil, nil, nil, 2, 2) --Касание магмы
+local specWarnDesolateGaze				= mod:NewSpecialWarningYouMoveAway(244768, nil, nil, nil, 1, 5) --Опустошающий взгляд
+local specWarnEnflamed					= mod:NewSpecialWarningYouMoveAway(248815, nil, nil, nil, 1, 5) --Возгорание
 --local specWarnGTFO					= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 2)
 --Shatug
-local specWarnComsumingSphere			= mod:NewSpecialWarningDodge(244131, nil, nil, nil, 2, 2)
+local specWarnComsumingSphere			= mod:NewSpecialWarningDodge(244131, nil, nil, nil, 2, 2) --Поглощаяющая сфера
 local specWarnWeightOfDarkness			= mod:NewSpecialWarningYouShare(254429, nil, nil, nil, 3, 5) --Бремя тьмы
 local specWarnSiphoned					= mod:NewSpecialWarningYouShare(248819, nil, nil, nil, 3, 5) --Вытягивание
 --Mythic
-local specWarnFlameTouched				= mod:NewSpecialWarningYouPos(244054, nil, nil, nil, 3, 8)
-local specWarnShadowtouched				= mod:NewSpecialWarningYouPos(244055, nil, nil, nil, 3, 8)
+local specWarnFlameTouched				= mod:NewSpecialWarningYouPos(244054, nil, nil, nil, 3, 8) --Касание пламени
+local specWarnShadowtouched				= mod:NewSpecialWarningYouPos(244055, nil, nil, nil, 3, 8) --Касание тьмы
 
 --General/Mythic
-local timerFocusingPower				= mod:NewCastTimer(15, 251356, nil, nil, nil, 6)
+local timerFocusingPower				= mod:NewCastTimer(15, 251356, nil, nil, nil, 6) --Фокусирование силы
 mod:AddTimerLine(Fharg)
-local timerBurningMawCD					= mod:NewCDTimer(10.1, 251448, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)--usually 11 but some pulls it's 10
-local timerMoltenTouchCD				= mod:NewCDTimer(95.9, 244072, nil, nil, nil, 3)
-local timerEnflamedCorruptionCD			= mod:NewCDTimer(95.9, 244057, nil, nil, nil, 3)
-local timerDesolateGazeCD				= mod:NewCDTimer(95.9, 244768, nil, nil, nil, 3)
+local timerBurningMawCD					= mod:NewCDTimer(10.1, 251448, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Пылающая пасть
+local timerMoltenTouchCD				= mod:NewCDTimer(95.9, 244072, nil, nil, nil, 3) --Касание магмы
+local timerEnflamedCorruptionCD			= mod:NewCDTimer(95.9, 244057, nil, nil, nil, 3) --Возгорание порчи
+local timerDesolateGazeCD				= mod:NewCDTimer(95.9, 244768, nil, nil, nil, 3) --Опустошающий взгляд
 mod:AddTimerLine(Shatug)
-local timerCorruptingMawCD				= mod:NewCDTimer(10.1, 251447, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)--usually 11 but some pulls it's 10
-local timerComsumingSphereCD			= mod:NewCDTimer(77, 244131, nil, nil, nil, 3)--Verify in transcritor
+local timerCorruptingMawCD				= mod:NewCDTimer(10.1, 251447, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Заразная пасть
+local timerComsumingSphereCD			= mod:NewCDTimer(77, 244131, nil, nil, nil, 2) --Поглощаяющая сфера
 local timerWeightOfDarknessCD			= mod:NewCDTimer(77, 254429, nil, nil, nil, 3) --Бремя тьмы
-local timerSiphonCorruptionCD			= mod:NewCDTimer(77, 244056, nil, nil, nil, 3)
+local timerSiphonCorruptionCD			= mod:NewCDTimer(77, 244056, nil, nil, nil, 3) --Вытягивание порчи
 
-local yellTouched						= mod:NewPosYell(244054, DBM_CORE_AUTO_YELL_CUSTOM_POSITION)
+local yellTouched						= mod:NewPosYell(244054, DBM_CORE_AUTO_YELL_CUSTOM_POSITION) --Касание пламени и тьмы
 local yellWeightOfDarkness				= mod:NewYell(254429, nil, nil, nil, "YELL") --Бремя тьмы
 local yellWeightOfDarknessFades			= mod:NewShortFadesYell(254429, nil, nil, nil, "YELL") --Бремя тьмы
-local yellEnflamed						= mod:NewShortFadesYell(248815, nil, nil, nil, "YELL")
-local yellDesolateGaze					= mod:NewYell(244768, nil, nil, nil, "YELL")
+local yellEnflamed						= mod:NewShortFadesYell(248815, nil, nil, nil, "YELL") --Возгорание
+local yellDesolateGaze					= mod:NewYell(244768, nil, nil, nil, "YELL") --Опустошающий взгляд
 local yellSiphoned						= mod:NewShortFadesYell(248819, nil, nil, nil, "YELL") --Вытягивание
---local berserkTimer					= mod:NewBerserkTimer(600)
+
+local berserkTimer						= mod:NewBerserkTimer(600)
 
 --F'harg
-local countdownBurningMaw				= mod:NewCountdown("Alt10", 251448, "Tank", nil, 3)
+local countdownBurningMaw				= mod:NewCountdown("Alt10", 251448, "Tank", nil, 3) --Пылающая пасть
 --Shatug
-local countdownCorruptingMaw			= mod:NewCountdown("Alt10", 251447, "Tank", nil, 3)
+local countdownCorruptingMaw			= mod:NewCountdown("Alt10", 251447, "Tank", nil, 3) --Заразная пасть
 
 mod:AddSetIconOption("SetIconOnWeightofDarkness2", 254429, false) --Бремя тьмы
 --mod:AddInfoFrameOption(239154, true)
@@ -111,6 +112,7 @@ function mod:OnCombatStart(delay)
 	end
 	self.vb.WeightDarkIcon = 1
 	--Fire doggo
+	berserkTimer:Start(-delay)
 	timerBurningMawCD:Start(8.2-delay)--was same on heroic/mythic, or now
 	--countdownBurningMaw:Start(8.2-delay)
 	timerCorruptingMawCD:Start(8.9-delay)--was same on heroic/normal, for now

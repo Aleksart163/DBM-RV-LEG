@@ -111,7 +111,7 @@ local timerFuryofGolgannethCD			= mod:NewCastTimer(85, 249793, nil, nil, nil, 6)
 ----Actual phase stuff
 local timerMachinationsofAman			= mod:NewCastTimer(20, 250095, nil, nil, nil, 5, nil, DBM_CORE_DAMAGE_ICON)
 
---local berserkTimer					= mod:NewBerserkTimer(600)
+local berserkTimer						= mod:NewBerserkTimer(600)
 
 --Noura, Mother of Flames
 local countdownTitans					= mod:NewCountdown(85, "ej16138")
@@ -160,6 +160,7 @@ function mod:OnCombatStart(delay)
 		self:SetCreatureID(122468, 122467, 122469)
 	end
 	--Diima, Mother of Gloom is first one to go inactive
+	berserkTimer:Start(-delay)
 	timerWhirlingSaberCD:Start(8-delay)
 	timerFieryStrikeCD:Start(11-delay)
 	timerShadowBladesCD:Start(10.9-delay)

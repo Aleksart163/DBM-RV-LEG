@@ -57,7 +57,7 @@ local specWarnRuiner					= mod:NewSpecialWarningDodge(246840, nil, nil, nil, 3, 
 local specWarnInitializing				= mod:NewSpecialWarningSwitch(246504, nil, nil, nil, 1, 2)
 --Reavers (or empowered boss from reaver deaths)
 local specWarnDecimation				= mod:NewSpecialWarningMoveAway(246687, nil, nil, nil, 1, 2)
-local specWarnAnnihilation				= mod:NewSpecialWarningSpell(245807, nil, nil, nil, 2, 2)
+local specWarnAnnihilation				= mod:NewSpecialWarningSoak(245807, nil, nil, nil, 2, 2)
 local specWarnDemolish					= mod:NewSpecialWarningYou(246692, nil, nil, nil, 1, 2)
 local specWarnDemolishOther				= mod:NewSpecialWarningMoveTo(246692, nil, nil, nil, 1, 2)
 
@@ -80,7 +80,8 @@ local yellReverberatingStrike			= mod:NewYell(254926, nil, nil, nil, "YELL")
 local yellDecimation					= mod:NewShortFadesYell(246687, nil, nil, nil, "YELL")
 local yellDemolish						= mod:NewPosYell(246692, nil, nil, nil, "YELL")
 local yellDemolishFades					= mod:NewIconFadesYell(246692, nil, nil, nil, "YELL")
---local berserkTimer					= mod:NewBerserkTimer(600)
+
+local berserkTimer						= mod:NewBerserkTimer(600)
 
 --Stage: Deployment
 local countdownApocProtocol				= mod:NewCountdown(77, 246516)
@@ -184,6 +185,7 @@ function mod:OnCombatStart(delay)
 	self.vb.forgingTimeLeft = 0
 	self.vb.bombTimeLeft = 0
 	table.wipe(DemolishTargets)
+	berserkTimer:Start(-delay)
 	timerForgingStrikeCD:Start(6-delay, 1)--6-7
 	countdownForgingStrike:Start(6-delay)
 	timerDiabolicBombCD:Start(11-delay)

@@ -164,7 +164,18 @@ L:SetMiscLocalization({
 ---------------------------
 L= DBM:GetModLocalization(1984)
 
+L:SetWarningLocalization({
+	Phase1 = "Phase 2 soon",
+	Phase2 = "Фаза 2",
+	Phase3 = "Phase 3 soon",
+	Phase4 = "Фаза 3"
+})
+
 L:SetOptionLocalization({
+	Phase1 = "Warn in advance about phase 2 (on ~83%)",
+	Phase2 = "Объявлять фазу 2",
+	Phase3 = "Warn in advance about phase 3 (on ~43%)",
+	Phase4 = "Объявлять фазу 3",
 	ignoreThreeTank	= "Filter Rend/Foe Taunt special warnings when using 3 or more tanks (since DBM can't determine exact tanking rotation in this setup). If any tanks die and it drops to 2, filter auto disables"
 })
 
@@ -181,11 +192,26 @@ L:SetMiscLocalization({
 ---------------------------
 L= DBM:GetModLocalization(2031)
 
+L:SetWarningLocalization({
+	Phase1 = "Phase 2 soon",
+	Phase2 = "Phase 2",
+	Phase3 = "Phase 3 soon",
+	Phase4 = "Phase 3",
+	Phase5 = "Phase 4 soon",
+	Phase6 = "Phase 4"
+})
+
 L:SetTimerLocalization({
 	timerSargSentenceCD	= "Sentence CD (%s)"
 })
 
 L:SetOptionLocalization({
+	Phase1 = "Warn in advance about phase 2 (on ~74%)",
+	Phase2 = "Announce Phase 2",
+	Phase3 = "Warn in advance about phase 3 (on ~44%)",
+	Phase4 = "Announce Phase 3",
+	Phase5 = "Warn in advance about phase 4 (on 1 Constellar Designate)",
+	Phase6 = "Announce Phase 4",
 	timerSargSentenceCD = DBM_CORE_AUTO_TIMER_OPTIONS["cdcount"]:format(257966)
 })
 

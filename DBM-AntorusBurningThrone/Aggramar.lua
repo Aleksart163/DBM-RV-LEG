@@ -19,7 +19,8 @@ mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED_DOSE 245990",
 	"SPELL_AURA_REMOVED 244894 244903 247091 254452",
 	"UNIT_DIED",
-	"UNIT_SPELLCAST_SUCCEEDED boss1"
+	"UNIT_SPELLCAST_SUCCEEDED boss1",
+	"UNIT_HEALTH boss1"
 )
 
 --[[
@@ -35,6 +36,10 @@ local warnRavenousBlaze					= mod:NewTargetAnnounce(254452, 2)
 local warnRavenousBlazeCount			= mod:NewCountAnnounce(254452, 4)
 local warnTaeshalachTech				= mod:NewCountAnnounce(244688, 3)
 
+local specWarnPhase1					= mod:NewSpecialWarning("Phase1", nil, nil, nil, 1, 2) --скоро фаза 2
+local specWarnPhase2					= mod:NewSpecialWarning("Phase2", nil, nil, nil, 1, 2) --Фаза 2
+local specWarnPhase3					= mod:NewSpecialWarning("Phase3", nil, nil, nil, 1, 2) --скоро фаза 3
+local specWarnPhase4					= mod:NewSpecialWarning("Phase4", nil, nil, nil, 1, 2) --Фаза 3
 --Stage One: Wrath of Aggramar
 local specWarnTaeshalachReach			= mod:NewSpecialWarningStack(245990, nil, 8, nil, nil, 1, 6)
 local specWarnTaeshalachReachOther		= mod:NewSpecialWarningTaunt(245990, nil, nil, nil, 1, 2)
@@ -88,6 +93,10 @@ mod.vb.firstCombo = nil
 mod.vb.secondCombo = nil
 mod.vb.comboCount = 0
 --mod.vb.incompleteCombo = false
+local warned_preP1 = false
+local warned_preP2 = false
+local warned_preP3 = false
+local warned_preP4 = false
 local comboDebug = {}
 local comboDebugCounter = 0
 local unitTracked = {}
@@ -280,6 +289,10 @@ function mod:OnCombatStart(delay)
 	self.vb.rendCount = 0
 	self.vb.wakeOfFlameCount = 0
 	self.vb.blazeIcon = 1
+	warned_preP1 = false
+	warned_preP2 = false
+	warned_preP3 = false
+	warned_preP4 = false
 	self.vb.techActive = false
 	--self.vb.incompleteCombo = false
 	table.wipe(unitTracked)
@@ -580,12 +593,16 @@ function mod:SPELL_AURA_REMOVED(args)
 		warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase))
 		if self.vb.phase == 2 then
 			warnPhase:Play("ptwo")
+			specWarnPhase2:Show()
+			warned_preP2 = true
 			timerFlareCD:Start(self:IsMythic() and 8 or 10)
 			if self:IsMythic() then
 				countdownFlare:Start(8)
 			end
 		elseif self.vb.phase == 3 then
 			warnPhase:Play("pthree")
+			specWarnPhase4:Show()
+			warned_preP4 = true
 			timerFlareCD:Start(self:IsMythic() and 8 or 10)
 			if self:IsMythic() then
 				countdownFlare:Start(8)
@@ -699,5 +716,15 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 			timerFlareCD:Start()
 			--No countdown on non mythic on purpose
 		end
+	end
+end
+
+function mod:UNIT_HEALTH(uId)
+	if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 121975 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.83 then
+		warned_preP1 = true
+		specWarnPhase1:Show()
+	elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 121975 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.43 then
+		warned_preP3 = true
+		specWarnPhase3:Show()
 	end
 end

@@ -48,7 +48,14 @@ L:SetWarningLocalization({
 ---------------------------
 L= DBM:GetModLocalization(1667)
 
+L:SetWarningLocalization({
+	Phase1 = "Phase 2 soon",
+	Phase2 = "Phase 2"
+})
+
 L:SetOptionLocalization({
+	Phase1 = "Warn in advance about phase 2 (on ~33%)",
+	Phase2 = "Announce Phase 2",
 	NoAutoSoaking2		= "Disable all auto soaking related warnings/arrows/HUDs for Focused Gaze"
 })
 

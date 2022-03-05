@@ -34,72 +34,73 @@ local Erodus = DBM:EJ_GetSectionInfo(16130)
  or ability.id = 253015
 --]]
 --General
-local warnOutofPod						= mod:NewTargetNoFilterAnnounce("ej16098", 2, 244141)
-local warnExploitWeakness				= mod:NewStackAnnounce(244892, 2, nil, "Tank")
-local warnPsychicAssault				= mod:NewStackAnnounce(244172, 3, nil, "-Tank", 2)
+local warnOutofPod						= mod:NewTargetNoFilterAnnounce("ej16098", 2, 244141) --Вне капсулы
+local warnExploitWeakness				= mod:NewStackAnnounce(244892, 2, nil, "Tank") --Обнаружить слабое место
+local warnPsychicAssault				= mod:NewStackAnnounce(244172, 3, nil, "-Tank", 2) --Псионная атака
 --In Pod
 ----Chief Engineer Ishkar
-local warnEntropicMine					= mod:NewSpellAnnounce(245161, 2)
+local warnEntropicMine					= mod:NewSpellAnnounce(245161, 2) --Энтропическая мина
 ----General Erodus
 --local warnSummonReinforcements			= mod:NewSpellAnnounce(245546, 2, nil, false, 2)
-local warnDemonicCharge					= mod:NewTargetAnnounce(253040, 2, nil, false, 2)
+local warnDemonicCharge					= mod:NewTargetAnnounce(253040, 2, nil, "Ranged", 2) --Демонический рывок
 --Out of Pod
 ----Admiral Svirax
-local warnShockGrenade					= mod:NewTargetAnnounce(244737, 3, nil, false, 2)
+local warnShockGrenade					= mod:NewTargetAnnounce(244737, 4, nil, true, 2) --Шоковая граната
 ----Chief Engineer Ishkar
 
 --General
 --local specWarnGTFO					= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 2)
-local specWarnExploitWeakness			= mod:NewSpecialWarningTaunt(244892, nil, nil, nil, 1, 2)
-local specWarnPsychicAssaultStack		= mod:NewSpecialWarningStack(244172, nil, 10, nil, nil, 1, 6)
-local specWarnPsychicAssault			= mod:NewSpecialWarningMove(244172, nil, nil, nil, 3, 2)--Two diff warnings cause we want to upgrade to high priority at 19+ stacks
-local specWarnAssumeCommand				= mod:NewSpecialWarningSwitch(253040, "Tank", nil, nil, 1, 2)
+local specWarnExploitWeakness			= mod:NewSpecialWarningStack(244892, nil, 2, nil, nil, 3, 5) --Обнаружить слабое место
+local specWarnExploitWeaknesslf			= mod:NewSpecialWarningTaunt(244892, "Tank", nil, nil, 3, 5) --Обнаружить слабое место
+local specWarnPsychicAssaultStack		= mod:NewSpecialWarningStack(244172, nil, 10, nil, nil, 1, 6) --Псионная атака
+local specWarnPsychicAssault			= mod:NewSpecialWarningMove(244172, nil, nil, nil, 3, 2) --Псионная атака Two diff warnings cause we want to upgrade to high priority at 19+ stacks
+local specWarnAssumeCommand				= mod:NewSpecialWarningSwitch(253040, "Tank", nil, nil, 1, 2) --Демонический рывок
 --In Pod
 ----Admiral Svirax
-local specWarnFusillade					= mod:NewSpecialWarningMoveTo(244625, nil, nil, nil, 1, 5)
+local specWarnFusillade					= mod:NewSpecialWarningMoveTo(244625, nil, nil, nil, 1, 5) --Шквальный огонь
 ----Chief Engineer Ishkar
 --local specWarnEntropicMine				= mod:NewSpecialWarningDodge(245161, nil, nil, nil, 1, 2)
 ----General Erodus
-local specWarnSummonReinforcements		= mod:NewSpecialWarningSwitch(245546, nil, nil, nil, 1, 2)
+local specWarnSummonReinforcements		= mod:NewSpecialWarningSwitch(245546, nil, nil, nil, 1, 2) --Вызов подкрепления
 -------Adds
 local specWarnPyroblast					= mod:NewSpecialWarningInterrupt(246505, "HasInterrupt", nil, nil, 1, 2)
-local specWarnDemonicChargeYou			= mod:NewSpecialWarningYou(253040, nil, nil, nil, 1, 2)
-local specWarnDemonicCharge				= mod:NewSpecialWarningClose(253040, nil, nil, nil, 1, 2)
-local yellDemonicCharge					= mod:NewYell(253040)
+local specWarnDemonicChargeYou			= mod:NewSpecialWarningYou(253040, nil, nil, nil, 1, 2) --Демонический рывок
+local specWarnDemonicCharge				= mod:NewSpecialWarningClose(253040, nil, nil, nil, 1, 2) --Демонический рывок
 --Out of Pod
 ----Admiral Svirax
-local specWarnShockGrenade				= mod:NewSpecialWarningMoveAway(244737, nil, nil, nil, 1, 2)
-local yellShockGrenade					= mod:NewShortYell(244737)
-local yellShockGrenadeFades				= mod:NewShortFadesYell(244737)
-
+local specWarnShockGrenade				= mod:NewSpecialWarningYouMoveAway(244737, nil, nil, nil, 3, 5) --Шоковая граната
 --General
 mod:AddTimerLine(GENERAL)
-local timerExploitWeaknessCD			= mod:NewCDTimer(8.5, 244892, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
+local timerExploitWeaknessCD			= mod:NewCDTimer(8.5, 244892, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Обнаружить слабое место
 local timerShockGrenadeCD				= mod:NewCDTimer(14.7, 244722, nil, nil, nil, 3, nil, DBM_CORE_HEROIC_ICON)
 local timerAssumeCommandCD				= mod:NewNextTimer(90, 245227, nil, nil, nil, 6)
 --In Pod
 ----Admiral Svirax
 mod:AddTimerLine(Svirax)
-local timerFusilladeCD					= mod:NewNextCountTimer(29.3, 244625, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON)
+local timerFusilladeCD					= mod:NewNextCountTimer(29.3, 244625, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Шквальный огонь
 ----Chief Engineer Ishkar
 mod:AddTimerLine(Ishkar)
-local timerEntropicMineCD				= mod:NewCDTimer(10, 245161, nil, nil, nil, 3)
+local timerEntropicMineCD				= mod:NewCDTimer(10, 245161, nil, nil, nil, 3) --Энтропическая мина
 ----General Erodus
 mod:AddTimerLine(Erodus)
-local timerSummonReinforcementsCD		= mod:NewNextTimer(8.4, 245546, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON)
+local timerSummonReinforcementsCD		= mod:NewNextTimer(8.4, 245546, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON) --Вызов подкрепления
 
---local berserkTimer					= mod:NewBerserkTimer(600)
+local yellDemonicCharge					= mod:NewYell(253040, nil, nil, nil, "YELL") --Демонический рывок
+local yellShockGrenade					= mod:NewShortYell(244737, nil, nil, nil, "YELL") --Шоковая граната
+local yellShockGrenadeFades				= mod:NewShortFadesYell(244737, nil, nil, nil, "YELL") --Шоковая граната
+
+local berserkTimer						= mod:NewBerserkTimer(600)
 
 --General
 local countdownAssumeCommand			= mod:NewCountdown("Alt50", 245227)
-local countdownExploitWeakness			= mod:NewCountdown("Alt8", 244892, "Tank", nil, 3)
+local countdownExploitWeakness			= mod:NewCountdown("Alt8", 244892, "Tank", nil, 3) --Обнаружить слабое место
 --In Pod
 ----Admiral Svirax
-local countdownFusillade				= mod:NewCountdown("AltTwo30", 244625)
+local countdownFusillade				= mod:NewCountdown("AltTwo30", 244625) --Шквальный огонь
 ----General Erodus
-local countdownReinforcements			= mod:NewCountdown(25, 245546)
+local countdownReinforcements			= mod:NewCountdown(25, 245546) --Вызов подкрепления
 
-mod:AddSetIconOption("SetIconOnAdds", 245546, true, true)
+mod:AddSetIconOption("SetIconOnAdds", 245546, true, true) --Вызов подкрепления
 mod:AddRangeFrameOption("8")
 
 local felShield = DBM:GetSpellInfo(244910)
@@ -126,6 +127,7 @@ function mod:OnCombatStart(delay)
 	self.vb.FusilladeCount = 0
 	self.vb.lastIcon = 8
 	--In pod
+	berserkTimer:Start(-delay)
 	timerEntropicMineCD:Start(5.1-delay)
 	--Out of Pod
 	timerSummonReinforcementsCD:Start(8-delay)
@@ -233,24 +235,29 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif spellId == 244892 then
 		local uId = DBM:GetRaidUnitId(args.destName)
-		if self:IsTanking(uId) then
-			local amount = args.amount or 1
-			if amount >= 2 then
+	--	if self:IsTanking(uId) then
+		local amount = args.amount or 1
+		if amount >= 2 then
+			if args:IsPlayer() and self:IsTanking(uId) then
+				specWarnExploitWeakness:Show(amount)
+				specWarnExploitWeakness:Play("stackhigh")
+			else
 				local _, _, _, _, _, _, expireTime = DBM:UnitDebuff("player", spellId)
 				local remaining
 				if expireTime then
 					remaining = expireTime-GetTime()
 				end
 				if not UnitIsDeadOrGhost("player") and (not remaining or remaining and remaining < 8) then
-					specWarnExploitWeakness:Show(args.destName)
-					specWarnExploitWeakness:Play("tauntboss")
+					specWarnExploitWeaknesslf:Show(args.destName)
+					specWarnExploitWeaknesslf:Play("tauntboss")
 				else
 					warnExploitWeakness:Show(args.destName, amount)
 				end
-			else
-				warnExploitWeakness:Show(args.destName, amount)
 			end
+		else
+			warnExploitWeakness:Show(args.destName, amount)
 		end
+	--	end
 	elseif spellId == 244172 then
 		local amount = args.amount or 1
 		if args:IsPlayer() then

@@ -17,26 +17,27 @@ mod:RegisterEvents(
 --TODO, these
 				--"Annihilation-252740-npc:127230 = pull:9.5", -- [1]
 				--"Decimation-252793-npc:127231 = pull:10.9, 0.0", -- [2]
-local warnDemolish						= mod:NewTargetAnnounce(252760, 4)
-local warnCloudofConfuse				= mod:NewTargetAnnounce(254122, 4)
-local warnFlamesofReorig				= mod:NewTargetAnnounce(249297, 4, nil, false, 2)--Can be spammy if handled poorly
-local warnSoulburn						= mod:NewTargetAnnounce(253600, 3)
+local warnDecimation2					= mod:NewTargetAnnounce(246687, 4) --Децимация (доделать)
+local warnDemolish						= mod:NewTargetAnnounce(252760, 4) --Разрушение
+local warnCloudofConfuse				= mod:NewTargetAnnounce(254122, 4) --Облако растерянности
+local warnFlamesofReorig				= mod:NewTargetAnnounce(249297, 4, nil, false, 2) --Пламя пересоздания Can be spammy if handled poorly
+local warnSoulburn						= mod:NewTargetAnnounce(253600, 3) --Горящая душа
 
-local specWarnDemolish					= mod:NewSpecialWarningYou(252760, nil, nil, nil, 1, 2)
-local yellDemolish						= mod:NewYell(252760)
-local yellDemolishFades					= mod:NewShortFadesYell(252760)
-local specWarnCloudofConfuse			= mod:NewSpecialWarningYou(254122, nil, nil, nil, 1, 2)
-local yellCloudofConfuse				= mod:NewYell(254122)
-local yellCloudofConfuseFades			= mod:NewShortFadesYell(254122)
-local specWarnFlamesofReorig			= mod:NewSpecialWarningYou(249297, nil, nil, nil, 3, 2)
-local yellFlamesofReorig				= mod:NewYell(249297)
-local specWarnSoulburn					= mod:NewSpecialWarningMoveAway(253600, nil, nil, nil, 1, 2)
-local yellSoulburn						= mod:NewYell(253600)
-local specWarnPunishingFlame			= mod:NewSpecialWarningRun(246209, "Melee", nil, nil, 4, 2)
-local specWarnAnnihilation				= mod:NewSpecialWarningSpell(245807, nil, nil, nil, 2, 2)
+local specWarnDemolish					= mod:NewSpecialWarningYouShare(252760, nil, nil, nil, 3, 2) --Разрушение
+local specWarnCloudofConfuse			= mod:NewSpecialWarningYouMoveAway(254122, nil, nil, nil, 1, 2) --Облако растерянности
+local specWarnFlamesofReorig			= mod:NewSpecialWarningYouMoveAway(249297, nil, nil, nil, 3, 5) --Пламя пересоздания
+local specWarnSoulburn					= mod:NewSpecialWarningMoveAway(253600, nil, nil, nil, 3, 5) --Горящая душа
+local specWarnPunishingFlame			= mod:NewSpecialWarningRun(246209, "Melee", nil, nil, 4, 2) --Наказующее пламя
+local specWarnAnnihilation				= mod:NewSpecialWarningSoak(245807, nil, nil, nil, 2, 2) --Аннигиляция
 --local specWarnShadowBoltVolley		= mod:NewSpecialWarningInterrupt(243171, "HasInterrupt", nil, nil, 1, 2)
+local yellDemolish						= mod:NewYell(252760, nil, nil, nil, "YELL") --Разрушение
+local yellDemolishFades					= mod:NewShortFadesYell(252760, nil, nil, nil, "YELL") --Разрушение
+local yellCloudofConfuse				= mod:NewYell(254122, nil, nil, nil, "YELL") --Облако растерянности
+local yellCloudofConfuseFades			= mod:NewShortFadesYell(254122, nil, nil, nil, "YELL") --Облако растерянности
+local yellFlamesofReorig				= mod:NewYell(249297, nil, nil, nil, "YELL") --Пламя пересоздания
+local yellSoulburn						= mod:NewYell(253600, nil, nil, nil, "YELL") --Горящая душа
 
-mod:AddRangeFrameOption(10, 249297)
+mod:AddRangeFrameOption(10, 249297) --Пламя пересоздания
 
 function mod:SPELL_CAST_START(args)
 	if not self.Options.Enabled then return end

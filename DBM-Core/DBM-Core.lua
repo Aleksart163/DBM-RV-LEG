@@ -243,11 +243,12 @@ DBM.DefaultOptions = {
 	LatencyThreshold = 250,
 	BigBrotherAnnounceToRaid = false,
 	SettingsMessageShown = false,
-	ForumsMessageShown = false,
+	ForumsMessageShown = false, --ссылка на форум
 	AlwaysShowSpeedKillTimer2 = false,
 	ShowRespawn = true,
 	ShowQueuePop = true,
 	HelpMessageVersion = 3,
+	HelpMessageShown = false, --помощь в локализации
 	MoviesSeen = {},
 	MovieFilter = "AfterFirst",
 	LastRevision = 0,
@@ -6595,8 +6596,9 @@ end
 do
 	function DBM:PLAYER_ENTERING_WORLD()
 		if not self.Options.DontShowReminders then
+			C_TimerAfter(30, function() if not self.Options.SettingsMessageShown then self.Options.SettingsMessageShown = true self:AddMsg(DBM_HOW_TO_USE_MOD) end end) --приветствие
+			C_TimerAfter(60, function() if self.Options.HelpMessageShown then self.Options.HelpMessageShown = true self:AddMsg(DBM_CORE_NEED_SUPPORT) end end) --помощь в локализации
 			C_TimerAfter(25, function() if self.Options.SilentMode then self:AddMsg(DBM_SILENT_REMINDER) end end)
-			C_TimerAfter(30, function() if not self.Options.SettingsMessageShown then self.Options.SettingsMessageShown = true self:AddMsg(DBM_HOW_TO_USE_MOD) end end)
 		end
 		if type(RegisterAddonMessagePrefix) == "function" then
 			if not RegisterAddonMessagePrefix("D4") then -- main prefix for DBM4
@@ -9938,6 +9940,14 @@ do
 	
 	function bossModPrototype:NewSpecialWarningYouShare(text, optionDefault, ...)
 		return newSpecialWarning(self, "youshare", text, nil, optionDefault, ...)
+	end
+	
+	function bossModPrototype:NewSpecialWarningShare(text, optionDefault, ...)
+		return newSpecialWarning(self, "share", text, nil, optionDefault, ...)
+	end
+	
+	function bossModPrototype:NewSpecialWarningShareCount(text, optionDefault, ...)
+		return newSpecialWarning(self, "sharecount", text, nil, optionDefault, ...)
 	end
 	
 	function bossModPrototype:NewSpecialWarningJump(text, optionDefault, ...)
