@@ -52,10 +52,10 @@ local warnFlashFreeze					= mod:NewStackAnnounce(245518, 2, nil, "Tank")
 --Thu'raya, Mother of the Cosmos (Mythic)
 local warnCosmicGlare					= mod:NewTargetAnnounce(250757, 3)
 --Мучения
-local specWarnAmantul					= mod:NewSpecialWarning("Amantul", nil, nil, nil, 3, 5) --Мучения Амантула
-local specWarnNorgannon					= mod:NewSpecialWarning("Norgannon", nil, nil, nil, 3, 5) --Мучения Норганнона
-local specWarnGolgannet					= mod:NewSpecialWarning("Golgannet", nil, nil, nil, 3, 5) --Мучения Голганнета
-local specWarnKazgagot					= mod:NewSpecialWarning("Kazgagot", nil, nil, nil, 3, 5) --Мучения Казгарота
+local specWarnAmantul					= mod:NewSpecialWarningPreWarn(252479, nil, 5, nil, nil, 3, 5) --Мучения Амантула
+local specWarnNorgannon					= mod:NewSpecialWarningPreWarn(244740, nil, 5, nil, nil, 3, 5) --Мучения Норганнона
+local specWarnGolgannet					= mod:NewSpecialWarningPreWarn(244756, nil, 5, nil, nil, 3, 5) --Мучения Голганнета
+local specWarnKazgagot					= mod:NewSpecialWarningPreWarn(244733, nil, 5, nil, nil, 3, 5) --Мучения Казгарота
 --General
 local specWarnGTFO						= mod:NewSpecialWarningYouMove(245634, nil, nil, nil, 1, 2) --Вращающийся меч
 local specWarnGTFO2						= mod:NewSpecialWarningYouMove(253020, nil, nil, nil, 1, 2) --Буря тьмы
@@ -104,17 +104,17 @@ local timerCosmicGlareCD				= mod:NewCDTimer(15.8, 250757, nil, nil, nil, 3, nil
 --Torment of the Titans
 mod:AddTimerLine(torment)
 ----Activations timers
-local timerMachinationsofAmanThulCD		= mod:NewCastTimer(85, 250335, nil, nil, nil, 6)
-local timerFlamesofKhazgorothCD			= mod:NewCastTimer(85, 250333, nil, nil, nil, 6)
-local timerSpectralArmyofNorgannonCD	= mod:NewCastTimer(85, 250334, nil, nil, nil, 6)
-local timerFuryofGolgannethCD			= mod:NewCastTimer(85, 249793, nil, nil, nil, 6)
+local timerMachinationsofAmanThulCD		= mod:NewCastTimer(90, 250335, nil, nil, nil, 6, DBM_CORE_DEADLY_ICON)
+local timerFlamesofKhazgorothCD			= mod:NewCastTimer(90, 250333, nil, nil, nil, 6, DBM_CORE_DEADLY_ICON)
+local timerSpectralArmyofNorgannonCD	= mod:NewCastTimer(90, 250334, nil, nil, nil, 6, DBM_CORE_DEADLY_ICON)
+local timerFuryofGolgannethCD			= mod:NewCastTimer(90, 249793, nil, nil, nil, 6, DBM_CORE_DEADLY_ICON)
 ----Actual phase stuff
-local timerMachinationsofAman			= mod:NewCastTimer(20, 250095, nil, nil, nil, 5, nil, DBM_CORE_DAMAGE_ICON)
+local timerMachinationsofAman			= mod:NewCastTimer(25, 250095, nil, nil, nil, 5, nil, DBM_CORE_DAMAGE_ICON)
 
 local berserkTimer						= mod:NewBerserkTimer(600)
 
 --Noura, Mother of Flames
-local countdownTitans					= mod:NewCountdown(85, "ej16138")
+local countdownTitans					= mod:NewCountdown(90, "ej16138")
 local countdownFulminatingPulse			= mod:NewCountdown("Alt40", 253520, "Healer")
 --Asara, Mother of Night
 local countdownStormofDarkness			= mod:NewCountdown("AltTwo57", 252861) --Буря тьмы

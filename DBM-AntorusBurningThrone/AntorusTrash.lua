@@ -9,7 +9,7 @@ mod.isTrashMod = true
 mod:RegisterEvents(
 	"SPELL_CAST_START 246209 245807",
 --	"SPELL_CAST_SUCCESS",
-	"SPELL_AURA_APPLIED 252760 253600 254122 249297",
+	"SPELL_AURA_APPLIED 252760 253600 254122 249297 246199",
 --	"SPELL_AURA_APPLIED_DOSE"
 	"SPELL_AURA_REMOVED 252760 254122 249297"
 )
@@ -23,6 +23,7 @@ local warnCloudofConfuse				= mod:NewTargetAnnounce(254122, 4) --Облако р
 local warnFlamesofReorig				= mod:NewTargetAnnounce(249297, 4, nil, false, 2) --Пламя пересоздания Can be spammy if handled poorly
 local warnSoulburn						= mod:NewTargetAnnounce(253600, 3) --Горящая душа
 
+local specWarnBurningWinds				= mod:NewSpecialWarningYouMove(246199, nil, nil, nil, 1, 2) --Горящие ветра
 local specWarnDemolish					= mod:NewSpecialWarningYouShare(252760, nil, nil, nil, 3, 2) --Разрушение
 local specWarnCloudofConfuse			= mod:NewSpecialWarningYouMoveAway(254122, nil, nil, nil, 1, 2) --Облако растерянности
 local specWarnFlamesofReorig			= mod:NewSpecialWarningYouMoveAway(249297, nil, nil, nil, 3, 5) --Пламя пересоздания
@@ -100,6 +101,10 @@ function mod:SPELL_AURA_APPLIED(args)
 			if self.Options.RangeFrame then
 				DBM.RangeCheck:Show(10)
 			end
+		end
+	elseif spellId == 246199 then --Горящие ветра
+		if args:IsPlayer() then
+			specWarnBurningWinds:Show()
 		end
 	end
 end

@@ -75,3 +75,21 @@ L= DBM:GetModLocalization(1756)
 -- Withered J'im --
 -----------------------
 L= DBM:GetModLocalization(1796)
+
+------------------
+--Капитаны башен--
+------------------
+L = DBM:GetModLocalization("Captainstower")
+
+L:SetGeneralLocalization({
+	name ="Warden Tower Assault"
+})
+
+----------------
+--Редкие враги--
+----------------
+L = DBM:GetModLocalization("RareEnemies")
+
+L:SetGeneralLocalization({
+	name ="Rare enemies"
+})

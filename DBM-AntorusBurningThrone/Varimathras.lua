@@ -163,26 +163,45 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self.Options.SetIconEmbrace then
 			self:SetIcon(args.destName, self.vb.totalEmbrace+2)--Should be BW compatible, for most part.
 		end
-		if args:IsPlayer() then
-			if not playerAffected then
-				playerAffected = true
-				local icon = self.vb.totalEmbrace+2
-				specWarnNecroticEmbrace:Show(self:IconNumToTexture(icon))
-				if self:IsMythic() and not self:IsTank() then
-					specWarnNecroticEmbrace:Play("mm"..icon)
-				else
-					specWarnNecroticEmbrace:Play("targetyou")
-				end
-				yellNecroticEmbrace:Yell(self.vb.totalEmbrace, icon, icon)
-				yellNecroticEmbraceFades:Countdown(6, 3, icon)
-				if self.Options.RangeFrame then
-					DBM.RangeCheck:Show(10)
+		warnNecroticEmbrace:CombinedShow(0.7, args.destName)--Combined message because even if it starts on 1, people are gonna fuck it up
+		if self:IsMythic() then
+			if args:IsPlayer() then
+				if not playerAffected then
+					playerAffected = true
+					local icon = self.vb.totalEmbrace+2
+					specWarnNecroticEmbrace:Show(self:IconNumToTexture(icon))
+					if not self:IsTank() then
+						specWarnNecroticEmbrace:Play("mm"..icon)
+					else
+						specWarnNecroticEmbrace:Play("targetyou")
+					end
+					yellNecroticEmbrace:Yell(self.vb.totalEmbrace, icon, icon)
+					yellNecroticEmbraceFades:Countdown(6, 3, icon)
+					if self.Options.RangeFrame then
+						DBM.RangeCheck:Show(10)
+					end
 				end
 			end
-		elseif self:CheckNearby(10, args.destName) then
-			specWarnNecroticEmbrace2:Show(args.destName)
 		else
-			warnNecroticEmbrace:CombinedShow(0.5, args.destName)--Combined message because even if it starts on 1, people are gonna fuck it up
+			if args:IsPlayer() then
+				if not playerAffected then
+					playerAffected = true
+					local icon = self.vb.totalEmbrace+2
+					specWarnNecroticEmbrace:Show(self:IconNumToTexture(icon))
+					if not self:IsTank() then
+						specWarnNecroticEmbrace:Play("mm"..icon)
+					else
+						specWarnNecroticEmbrace:Play("targetyou")
+					end
+					yellNecroticEmbrace:Yell(self.vb.totalEmbrace, icon, icon)
+					yellNecroticEmbraceFades:Countdown(6, 3, icon)
+					if self.Options.RangeFrame then
+						DBM.RangeCheck:Show(10)
+					end
+				end
+			elseif self:CheckNearby(10, args.destName) then
+				specWarnNecroticEmbrace2:Show(args.destName)
+			end
 		end
 	elseif spellId == 248732 then
 		warnEchoesofDoom:CombinedShow(0.5, args.destName)--In case multiple shadows up

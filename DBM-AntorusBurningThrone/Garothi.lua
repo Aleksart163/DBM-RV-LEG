@@ -39,15 +39,15 @@ local warnDecimation					= mod:NewTargetAnnounce(244410, 4) --Децимация
 
 local specWarnApocDrive2				= mod:NewSpecialWarning("Reaktor", nil, nil, nil, 1, 2) --Реактор апокалипсиса
 
-local specWarnFelBombardment			= mod:NewSpecialWarningMoveAway(246220, nil, nil, nil, 1, 2) --Обстрел скверны
-local specWarnFelBombardmentTaunt		= mod:NewSpecialWarningTaunt(246220, nil, nil, nil, 1, 2) --Обстрел скверны
+local specWarnFelBombardment			= mod:NewSpecialWarningMoveAway(246220, nil, nil, nil, 3, 5) --Обстрел скверны
+local specWarnFelBombardmentTaunt		= mod:NewSpecialWarningTaunt(246220, nil, nil, nil, 3, 5) --Обстрел скверны
 local specWarnApocDrive					= mod:NewSpecialWarningSwitch(244152, nil, nil, nil, 1, 2) --Реактор апокалипсиса
 local specWarnEradication				= mod:NewSpecialWarningRun(244969, nil, nil, nil, 4, 5) --Искоренение
 --local specWarnGTFO					= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 2)
 --Decimator
 local specWarnDecimation				= mod:NewSpecialWarningMoveAway(244410, nil, nil, nil, 4, 5) --Децимация
 local specWarnDecimation2				= mod:NewSpecialWarningDodge(244410, "-Tank", nil, nil, 2, 2) --Децимация
-local specWarnSurgingFel				= mod:NewSpecialWarningDodge(246655, nil, nil, nil, 2, 2) --Всплеск скверны
+local specWarnSurgingFel				= mod:NewSpecialWarningDodge(246655, nil, nil, nil, 2, 2) --Всплеск скверны 246663
 --Annihilator
 local specWarnAnnihilation				= mod:NewSpecialWarningSoak(244761, nil, nil, nil, 2, 5) --Аннигиляция
 
@@ -58,7 +58,7 @@ local timerSpecialCD					= mod:NewNextSpecialTimer(20)--When cannon unknown
 mod:AddTimerLine(Decimator)
 local timerDecimationCD					= mod:NewNextTimer(31.6, 244410, nil, nil, nil, 3) --Децимация
 mod:AddTimerLine(annihilator)
-local timerAnnihilationCD				= mod:NewNextTimer(31.6, 244761, nil, nil, nil, 3) --Аннигиляция
+local timerAnnihilationCD				= mod:NewNextTimer(31.6, 244761, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Аннигиляция
 
 local yellFelBombardment				= mod:NewFadesYell(246220, nil, nil, nil, "YELL") --Обстрел скверны
 local yellDecimation					= mod:NewShortYell(244410, nil, nil, nil, "YELL") --Децимация
@@ -155,6 +155,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
 	if spellId == 244399 or spellId == 245294 or spellId == 246919 then--Decimation
 		self.vb.lastCannon = 2--Anniilator 1 decimator 2
+	--	specWarnDecimation2:Schedule(5)
 		countdownChooseCannon:Start(15.8)
 		if self.vb.phase == 1 or self:IsMythic() then
 			timerAnnihilationCD:Start(15.8)
@@ -205,13 +206,13 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnDecimation:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
 			specWarnDecimation:Show()
+			specWarnDecimation:Play("runout")
 			yellDecimation:Yell()
 			if spellId ~= 246919 then
 				yellDecimationFades:Countdown(5, 3)
 			end
-			specWarnDecimation:Play("runout")
-		else
-			specWarnDecimation2:Schedule(6)
+		elseif self:AntiSpam(5, 1) then
+			specWarnDecimation2:Schedule(5)
 		end
 		if self.Options.SetIconOnDecimation then
 			self:SetIcon(args.destName, self.vb.deciminationActive)

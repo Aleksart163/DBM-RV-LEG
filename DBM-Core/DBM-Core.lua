@@ -41,9 +41,9 @@
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 17650 $"):sub(12, -3)),
+	Revision = tonumber(("$Revision: 17651 $"):sub(12, -3)),
 	DisplayVersion = "7.3.33 Right Version",
-	ReleaseRevision = 17622
+	ReleaseRevision = 17650
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -6597,7 +6597,7 @@ do
 	function DBM:PLAYER_ENTERING_WORLD()
 		if not self.Options.DontShowReminders then
 			C_TimerAfter(30, function() if not self.Options.SettingsMessageShown then self.Options.SettingsMessageShown = true self:AddMsg(DBM_HOW_TO_USE_MOD) end end) --приветствие
-			C_TimerAfter(60, function() if self.Options.HelpMessageShown then self.Options.HelpMessageShown = true self:AddMsg(DBM_CORE_NEED_SUPPORT) end end) --помощь в локализации
+			C_TimerAfter(60, function() if not self.Options.HelpMessageShown then self.Options.HelpMessageShown = true self:AddMsg(DBM_CORE_NEED_SUPPORT) end end) --помощь в локализации
 			C_TimerAfter(25, function() if self.Options.SilentMode then self:AddMsg(DBM_SILENT_REMINDER) end end)
 		end
 		if type(RegisterAddonMessagePrefix) == "function" then
@@ -7769,6 +7769,7 @@ do
 			["MagicDispeller"] = true,
 			["HasInterrupt"] = true,
 			["HasImmunity"] = true,
+			["HasInterrupt2"] = true,
 		},
 		[65] = {	--Holy Paladin
 			["Healer"] = true,
@@ -7779,6 +7780,7 @@ do
 			["RemovePoison"] = true,
 			["RemoveDisease"] = true,
 			["HasImmunity"] = true,
+			["HasInterrupt2"] = true,
 		},
 		[66] = {	--Protection Paladin
 			["Tank"] = true,
@@ -7789,6 +7791,7 @@ do
 			["RemoveDisease"] = true,
 			["HasInterrupt"] = true,
 			["HasImmunity"] = true,
+			["HasInterrupt2"] = true,
 		},
 		[70] = {	--Retribution Paladin
 			["Dps"] = true,
@@ -7799,7 +7802,7 @@ do
 			["RemovePoison"] = true,
 			["RemoveDisease"] = true,
 			["HasInterrupt"] = true,
-			["HasImmunity"] = true,
+			["HasInterrupt2"] = true,
 		},
 		[71] = {	--Arms Warrior
 			["Dps"] = true,
@@ -7888,6 +7891,7 @@ do
 			["RaidCooldown"] = true,--Power Word: Barrier(Discipline) / Divine Hymn (Holy)
 			["RemoveDisease"] = true,
 			["MagicDispeller"] = true,
+			["HasInterrupt2"] = true,
 		},
 		[258] = {	--Shadow Priest
 			["Dps"] = true,
@@ -7897,6 +7901,8 @@ do
 			["SpellCaster"] = true,
 			["CasterDps"] = true,
 			["MagicDispeller"] = true,
+			["HasInterrupt"] = true,
+			["HasInterrupt2"] = true,
 		},
 		[259] = {	--Assassination Rogue
 			["Dps"] = true,
@@ -7905,6 +7911,7 @@ do
 			["Physical"] = true,
 			["HasInterrupt"] = true,
 			["HasImmunity"] = true,
+			["HasInterrupt2"] = true,
 		},
 		[262] = {	--Elemental Shaman
 			["Dps"] = true,
@@ -7953,6 +7960,7 @@ do
 			["RemovePoison"] = true,
 			["RemoveDisease"] = true,
 			["HasInterrupt"] = true,
+			["HasInterrupt2"] = true,
 		},
 		[269] = {	--Windwalker Monk
 			["Dps"] = true,
@@ -7962,6 +7970,7 @@ do
 			["RemovePoison"] = true,
 			["RemoveDisease"] = true,
 			["HasInterrupt"] = true,
+			["HasInterrupt2"] = true,
 		},
 		[270] = {	--Mistweaver Monk
 			["Healer"] = true,
@@ -7972,6 +7981,7 @@ do
 			["RaidCooldown"] = true,--Revival
 			["RemovePoison"] = true,
 			["RemoveDisease"] = true,
+			["HasInterrupt2"] = true,
 		},
 		[577] = {	--Havok Demon Hunter
 			["Dps"] = true,
@@ -7979,6 +7989,7 @@ do
 			["MeleeDps"] = true,
 			["Physical"] = true,
 			["HasInterrupt"] = true,
+			["HasInterrupt2"] = true,
 		},
 		[581] = {	--Vengeance Demon Hunter
 			["Tank"] = true,
@@ -9808,7 +9819,7 @@ do
 			elseif announceType == "you" or announceType == "closemoveaway" or announceType == "youclose" or announceType == "youshare" or announceType == "youdefensive" or announceType == "youmoveaway" or announceType == "youmove" or announceType == "youcount" or announceType == "youpos" or announceType == "move" or announceType == "dodge" or announceType == "moveaway" or announceType == "run" or announceType == "stack" or announceType == "moveto" or announceType == "soakpos" then
 				catType = "announcepersonal"
 			--Things you have to do to fulfil your role
-			elseif announceType == "taunt" or announceType == "defensive" or announceType == "dispel" or announceType == "interrupt" or announceType == "interruptcount" or announceType == "switch" or announceType == "switchcount" then
+			elseif announceType == "taunt" or announceType == "interrupt2" or announceType == "defensive" or announceType == "dispel" or announceType == "interrupt" or announceType == "interruptcount" or announceType == "switch" or announceType == "switchcount" then
 				catType = "announcerole"
 			end
 			self:AddSpecialWarningOption(obj.option, optionDefault, runSound, catType)
@@ -9840,6 +9851,10 @@ do
 
 	function bossModPrototype:NewSpecialWarningInterrupt(text, optionDefault, ...)
 		return newSpecialWarning(self, "interrupt", text, nil, optionDefault, ...)
+	end
+	
+	function bossModPrototype:NewSpecialWarningInterrupt2(text, optionDefault, ...)
+		return newSpecialWarning(self, "interrupt2", text, nil, optionDefault, ...)
 	end
 	
 	function bossModPrototype:NewSpecialWarningInterruptCount(text, optionDefault, ...)

@@ -14,7 +14,7 @@ L:SetTimerLocalization({
 })
 
 L:SetOptionLocalization({
-	Reaktor = "Предупреждать заранее о $spell:244152 (за ~3% до каста)",
+	Reaktor = "Предупреждать заранее о $spell:244152 (за ~3% до каста)"
 })
 
 L:SetMiscLocalization({
@@ -91,7 +91,7 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(2009)
 
 L:SetMiscLocalization({
-	DispelMe =		"Диспел мне!"
+	DispelMe = "Диспел мне!"
 })
 
 L:SetMiscLocalization({
@@ -144,7 +144,7 @@ L:SetTimerLocalization({
 
 L:SetOptionLocalization({
 	Amantul = "Спец-предупреждение за 5 сек до появления $spell:252479",
-	Norgannon = "Спец-предупреждение за 5 сек до появления $spell:244733",
+	Norgannon = "Спец-предупреждение за 5 сек до появления $spell:244740",
 	Golgannet = "Спец-предупреждение за 5 сек до появления $spell:244756",
 	Kazgagot = "Спец-предупреждение за 5 сек до появления $spell:244733",
 	timerBossIncoming	= "Показать таймер для следующей смены босса",

@@ -6,10 +6,15 @@ local L
 ---------------------------
 L= DBM:GetModLocalization(1992)
 
+L:SetWarningLocalization({
+	Reaktor = "Apocalypse Drive soon"
+})
+
 L:SetTimerLocalization({
 })
 
 L:SetOptionLocalization({
+	Reaktor = "Warn in advance about $spell:244152 (~3% before cast)"
 })
 
 L:SetMiscLocalization({
@@ -219,10 +224,10 @@ L:SetMiscLocalization({
 	YellPullArgus = "Death! Death and pain!",
 	SeaText		=	"{rt6} Haste/Vers",
 	SkyText		=	"{rt5} Crit/Mast",
-	Blight		=	"Blight",
-	Burst		=	"Burst",
-	Sentence	=	"Sentence",
-	Bomb		=	"Bomb"
+	Blight		=	"Blight on me",
+	Burst		=	"Burst on me",
+	Sentence	=	"Sentence on me",
+	Bomb		=	"Bomb on me"
 })
 
 -------------
