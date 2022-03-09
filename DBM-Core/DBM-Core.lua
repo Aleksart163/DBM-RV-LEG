@@ -6596,9 +6596,9 @@ end
 do
 	function DBM:PLAYER_ENTERING_WORLD()
 		if not self.Options.DontShowReminders then
-			C_TimerAfter(30, function() if not self.Options.SettingsMessageShown then self.Options.SettingsMessageShown = true self:AddMsg(DBM_HOW_TO_USE_MOD) end end) --приветствие
-			C_TimerAfter(60, function() if not self.Options.HelpMessageShown then self.Options.HelpMessageShown = true self:AddMsg(DBM_CORE_NEED_SUPPORT) end end) --помощь в локализации
 			C_TimerAfter(25, function() if self.Options.SilentMode then self:AddMsg(DBM_SILENT_REMINDER) end end)
+			C_TimerAfter(30, function() if not self.Options.SettingsMessageShown then self.Options.SettingsMessageShown = true self:AddMsg(DBM_HOW_TO_USE_MOD) end end) --приветствие
+			C_TimerAfter(40, function() if not self.Options.HelpMessageShown then self.Options.HelpMessageShown = true self:AddMsg(DBM_CORE_NEED_SUPPORT) end end) --помощь в локализации
 		end
 		if type(RegisterAddonMessagePrefix) == "function" then
 			if not RegisterAddonMessagePrefix("D4") then -- main prefix for DBM4
