@@ -90,11 +90,22 @@ L:SetMiscLocalization({
 ---------------------------
 L= DBM:GetModLocalization(2009)
 
-L:SetMiscLocalization({
-	DispelMe = "Dispel Me!"
+L:SetWarningLocalization({
+	Phase2 = "Phase 2 soon",
+	Phase3 = "Phase 3 soon",
+	Phase4 = "Phase 4 soon",
+	Phase5 = "Phase 5 soon"
+})
+
+L:SetOptionLocalization({
+	Phase2 = "Warn in advance about phase 2 (on ~70%, on ~84% in mythic)",
+	Phase3 = "Warn in advance about phase 3 (on ~37%, on ~64% in mythic)",
+	Phase4 = "Warn in advance about phase 4 (on ~44% in mythic)",
+	Phase5 = "Warn in advance about phase 5 (on ~24% in mythic)"
 })
 
 L:SetMiscLocalization({
+	DispelMe = "Dispel Me!",
 	YellPullImonar = "Your bones will be my biggest payday.",
 	YellPullImonar2 = "Think I'll keep a few of your parts as a trophy.",
 	YellPullImonar3 = "Your heads will adorn my trophy room."
@@ -139,7 +150,7 @@ L:SetWarningLocalization({
 })
 
 L:SetTimerLocalization({
-	timerBossIncoming		= DBM_INCOMING
+	timerBossIncoming = DBM_INCOMING
 })
 
 L:SetOptionLocalization({
@@ -177,19 +188,19 @@ L:SetWarningLocalization({
 })
 
 L:SetOptionLocalization({
-	Phase1 = "Warn in advance about phase 2 (on ~83%)",
-	Phase2 = "Объявлять фазу 2",
-	Phase3 = "Warn in advance about phase 3 (on ~43%)",
-	Phase4 = "Объявлять фазу 3",
+	Phase1 = "Warn in advance about phase 2 (on ~84%)",
+	Phase2 = "Announce Phase 2",
+	Phase3 = "Warn in advance about phase 3 (on ~44%)",
+	Phase4 = "Announce Phase 3",
 	ignoreThreeTank	= "Filter Rend/Foe Taunt special warnings when using 3 or more tanks (since DBM can't determine exact tanking rotation in this setup). If any tanks die and it drops to 2, filter auto disables"
 })
 
 L:SetMiscLocalization({
 	YellPullAggramar = "You will burn!",
-	Foe			=	"Foe",
-	Rend		=	"Rend",
-	Tempest 	=	"Tempest",
-	Current		=	"Current:"
+	Foe			= "Foe",
+	Rend		= "Rend",
+	Tempest 	= "Tempest",
+	Current		= "Current:"
 })
 
 ---------------------------
@@ -222,12 +233,12 @@ L:SetOptionLocalization({
 
 L:SetMiscLocalization({
 	YellPullArgus = "Death! Death and pain!",
-	SeaText		=	"{rt6} Haste/Vers",
-	SkyText		=	"{rt5} Crit/Mast",
-	Blight		=	"Blight on me",
-	Burst		=	"Burst on me",
-	Sentence	=	"Sentence on me",
-	Bomb		=	"Bomb on me"
+	SeaText		= "{rt6} Haste/Vers",
+	SkyText		= "{rt5} Crit/Mast",
+	Blight		= "Blight on me",
+	Burst		= "Burst on me",
+	Sentence	= "Sentence on me",
+	Bomb		= "Bomb on me"
 })
 
 -------------

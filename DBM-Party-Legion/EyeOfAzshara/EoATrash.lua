@@ -9,7 +9,8 @@ mod.isTrashMod = true
 
 mod:RegisterEvents(
 	"SPELL_CAST_START 196870 195046 195284 197105",
-	"SPELL_AURA_APPLIED 196127 192706 197105"
+	"SPELL_AURA_APPLIED 196127 192706 197105",
+	"SPELL_AURA_REMOVED 197105"
 )
 
 --TODO, still missing some GTFOs for this. Possibly other important spells.
@@ -71,5 +72,12 @@ function mod:SPELL_AURA_APPLIED(args)
 		else
 			specWarnPolymorph2:Show(args.destName)
 		end
+	end
+end
+
+function mod:SPELL_AURA_REMOVED(args)
+	local spellId = args.spellId
+	if spellId == 197105 then --Превращение
+		timerPolymorph:Cancel(args.destName)
 	end
 end

@@ -12,7 +12,7 @@ mod:SetMinSyncRevision(16895)
 mod.respawnTime = 29
 
 --mod:RegisterCombat("combat", 124828)
-mod:RegisterCombat("yell", L.YellPullArgus)
+mod:RegisterCombat("combat_yell", L.YellPullArgus)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 248165 248317 257296 255594 257645 252516 256542 255648 257619",
@@ -316,48 +316,50 @@ do
 	end
 end
 
-function mod:OnCombatStart(delay)
-	playerAvatar = false
-	table.wipe(tankStacks)
-	self.vb.phase = 1
-	self.vb.kurators = 7
-	self.vb.coneCount = 0
-	self.vb.SkyandSeaCount = 0
-	self.vb.blightOrbCount = 0
-	self.vb.TorturedRage = 0
-	self.vb.soulBurstIcon = 3
-	self.vb.EdgeofObliteration = 0
-	self.vb.moduleCount = 0
-	self.vb.sentenceCount = 0
-	self.vb.gazeCount = 0
-	self.vb.scytheCastCount = 0
-	self.vb.firstscytheSwap = false
-	self.vb.rangeCheckNoTouchy = false
-	warned_preP1 = false
-	warned_preP2 = false
-	warned_preP3 = false
-	warned_preP4 = false
-	warned_preP5 = false
-	warned_preP6 = false
-	timerSweepingScytheCD:Start(5.5-delay, 1)
-	countdownSweapingScythe:Start(5.5)
-	timerSkyandSeaCD:Start(10.1-delay, 1)
-	timerTorturedRageCD:Start(12-delay, 1)
-	timerConeofDeathCD:Start(30.3-delay, 1)
-	timerBlightOrbCD:Start(35.2-delay, 1)
-	if self:IsMythic() then
-		timerSargGazeCD:Start(8.2-delay, 1)
-		countdownSargGaze:Start(8.2)
-		self:Schedule(6.2, ToggleRangeFinder, self)--Call Show 5 seconds Before NEXT rages get applied (2 seconds before cast + 3 sec cast time)
-		berserkTimer:Start(660-delay)
-	else
-		berserkTimer:Start(720-delay)
-	end
-	if self.Options.InfoFrame then
-		DBM.InfoFrame:Show(6, "function", updateInfoFrame, false, false)
-	end
-	if self.Options.NPAuraOnInevitability or self.Options.NPAuraOnCosmosSword or self.Options.NPAuraOnEternalBlades or self.Options.NPAuraOnVulnerability then
-		DBM:FireEvent("BossMod_EnableHostileNameplates")
+function mod:OnCombatStart(delay, yellTriggered)
+	if yellTriggered then
+		playerAvatar = false
+		table.wipe(tankStacks)
+		self.vb.phase = 1
+		self.vb.kurators = 7
+		self.vb.coneCount = 0
+		self.vb.SkyandSeaCount = 0
+		self.vb.blightOrbCount = 0
+		self.vb.TorturedRage = 0
+		self.vb.soulBurstIcon = 3
+		self.vb.EdgeofObliteration = 0
+		self.vb.moduleCount = 0
+		self.vb.sentenceCount = 0
+		self.vb.gazeCount = 0
+		self.vb.scytheCastCount = 0
+		self.vb.firstscytheSwap = false
+		self.vb.rangeCheckNoTouchy = false
+		warned_preP1 = false
+		warned_preP2 = false
+		warned_preP3 = false
+		warned_preP4 = false
+		warned_preP5 = false
+		warned_preP6 = false
+		timerSweepingScytheCD:Start(5.5-delay, 1)
+		countdownSweapingScythe:Start(5.5)
+		timerSkyandSeaCD:Start(10.1-delay, 1)
+		timerTorturedRageCD:Start(12-delay, 1)
+		timerConeofDeathCD:Start(30.3-delay, 1)
+		timerBlightOrbCD:Start(35.2-delay, 1)
+		if self:IsMythic() then
+			timerSargGazeCD:Start(8.2-delay, 1)
+			countdownSargGaze:Start(8.2)
+			self:Schedule(6.2, ToggleRangeFinder, self)--Call Show 5 seconds Before NEXT rages get applied (2 seconds before cast + 3 sec cast time)
+			berserkTimer:Start(660-delay)
+		else
+			berserkTimer:Start(720-delay)
+		end
+		if self.Options.InfoFrame then
+			DBM.InfoFrame:Show(6, "function", updateInfoFrame, false, false)
+		end
+		if self.Options.NPAuraOnInevitability or self.Options.NPAuraOnCosmosSword or self.Options.NPAuraOnEternalBlades or self.Options.NPAuraOnVulnerability then
+			DBM:FireEvent("BossMod_EnableHostileNameplates")
+		end
 	end
 end
 

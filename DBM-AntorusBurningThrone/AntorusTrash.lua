@@ -11,7 +11,9 @@ mod:RegisterEvents(
 --	"SPELL_CAST_SUCCESS",
 	"SPELL_AURA_APPLIED 252760 253600 254122 249297 246199",
 --	"SPELL_AURA_APPLIED_DOSE"
-	"SPELL_AURA_REMOVED 252760 254122 249297"
+	"SPELL_AURA_REMOVED 252760 254122 249297",
+	"SPELL_PERIODIC_DAMAGE 246199",
+	"SPELL_PERIODIC_MISSED 246199"
 )
 
 --TODO, these
@@ -102,10 +104,6 @@ function mod:SPELL_AURA_APPLIED(args)
 				DBM.RangeCheck:Show(10)
 			end
 		end
-	elseif spellId == 246199 then --Горящие ветра
-		if args:IsPlayer() then
-			specWarnBurningWinds:Show()
-		end
 	end
 end
 --mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
@@ -127,3 +125,11 @@ function mod:SPELL_AURA_REMOVED(args)
 		end
 	end
 end
+
+function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
+	if spellId == 246199 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
+		specWarnBurningWinds:Show()
+		specWarnBurningWinds:Play("runaway")
+	end
+end
+mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE

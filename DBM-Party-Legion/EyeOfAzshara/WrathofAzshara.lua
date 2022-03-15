@@ -21,12 +21,13 @@ local warnArcaneBomb				= mod:NewTargetAnnounce(192706, 4)
 
 local specWarnMassiveDeluge			= mod:NewSpecialWarningDodge(192617, "Tank", nil, nil, 3, 2)
 local specWarnArcaneBomb			= mod:NewSpecialWarningMoveAway(192706, nil, nil, nil, 3, 2)
-local yellArcaneBomb				= mod:NewYell(192706)
 
 local timerMythicTornadoCD			= mod:NewCDTimer(25, 192680, nil, nil, nil, 3)
 local timerMassiveDelugeCD			= mod:NewCDTimer(50, 192617, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
-local timerArcaneBomb				= mod:NewTargetTimer(15, 192706, nil, "Healer", nil, 5, nil, DBM_CORE_HEALER_ICON)--Magic dispel for healer to dispel at correct time
-local timerArcaneBombCD				= mod:NewCDTimer(23, 192706, nil, nil, nil, 3)--23-37
+local timerArcaneBomb				= mod:NewTargetTimer(15, 192706, nil, nil, nil, 5, nil, DBM_CORE_MAGIC_ICON)--Magic dispel for healer to dispel at correct time
+local timerArcaneBombCD				= mod:NewCDTimer(23, 192706, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON)--23-37
+
+local yellArcaneBomb				= mod:NewYell(192706, nil, nil, nil, "YELL")
 
 mod:AddRangeFrameOption(10, 192706)
 
@@ -54,7 +55,7 @@ end
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 192706 then
-		timerArcaneBombCD:Start(args.destName)
+		timerArcaneBomb:Start(args.destName)
 		if args:IsPlayer() and self.Options.RangeFrame then
 			DBM.RangeCheck:Show(10)
 		end
@@ -64,7 +65,7 @@ end
 function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
 	if spellId == 192706 then
-		timerArcaneBombCD:Cancel(args.destName)
+		timerArcaneBomb:Cancel(args.destName)
 		if args:IsPlayer() and self.Options.RangeFrame then
 			DBM.RangeCheck:Hide()
 		end

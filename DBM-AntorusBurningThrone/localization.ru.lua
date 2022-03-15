@@ -27,7 +27,7 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(1987)
 
 L:SetOptionLocalization({
-	SequenceTimers =	"Уменьшить кд в таймерах на героической/мифической сложности за счет незначительной точности таймеров (на 1-2 секунды раньше)"
+	SequenceTimers = "Уменьшить кд в таймерах на героической/мифической сложности за счет незначительной точности таймеров (на 1-2 секунды раньше)"
 })
 
 --------------------------
@@ -45,7 +45,7 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(1985)
 
 L:SetOptionLocalization({
-	ShowAllPlatforms =	"Показать все анонсы независимо от местоположения платформы игрока"
+	ShowAllPlatforms = "Показать все анонсы независимо от местоположения платформы игрока"
 })
 
 L:SetMiscLocalization({
@@ -61,28 +61,28 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(2025)
 
 L:SetTimerLocalization({
-	timerObfuscator		=	"След. Маскировщик (%s)",
-	timerDestructor 	=	"След. Разрушитель (%s)",
-	timerPurifier 		=	"След. Очиститель (%s)",
-	timerBats	 		=	"След. Летучие мыши (%s)"
+	timerObfuscator		= "След. Маскировщик (%s)",
+	timerDestructor 	= "След. Разрушитель (%s)",
+	timerPurifier 		= "След. Очиститель (%s)",
+	timerBats	 		= "След. Летучие мыши (%s)"
 })
 
 L:SetOptionLocalization({
-	timerObfuscator		=	DBM_CORE_AUTO_TIMER_OPTIONS["cdcount"]:format("ej16501"),
-	timerDestructor 	=	DBM_CORE_AUTO_TIMER_OPTIONS["cdcount"]:format("ej16502"),
-	timerPurifier 		=	DBM_CORE_AUTO_TIMER_OPTIONS["cdcount"]:format("ej16500"),
-	timerBats	 		=	DBM_CORE_AUTO_TIMER_OPTIONS["cdcount"]:format("ej17039")
+	timerObfuscator		= DBM_CORE_AUTO_TIMER_OPTIONS["cdcount"]:format("ej16501"),
+	timerDestructor 	= DBM_CORE_AUTO_TIMER_OPTIONS["cdcount"]:format("ej16502"),
+	timerPurifier 		= DBM_CORE_AUTO_TIMER_OPTIONS["cdcount"]:format("ej16500"),
+	timerBats	 		= DBM_CORE_AUTO_TIMER_OPTIONS["cdcount"]:format("ej17039")
 })
 
 L:SetMiscLocalization({
 	YellPullEonar = "Герои! Демоны пытаются захватить мою сущность для своего повелителя.",
-	Obfuscators =	"Маскировщик",
-	Destructors =	"Разрушитель",
-	Purifiers 	=	"Очиститель",
-	Bats 		=	"Летучие мыши",
-	EonarHealth	= 	"Здоровье Эонар",
-	EonarPower	= 	"Сила Эонар",
-	NextLoc		=	"След:"
+	Obfuscators = "Маскировщик",
+	Destructors = "Разрушитель",
+	Purifiers 	= "Очиститель",
+	Bats 		= "Летучие мыши",
+	EonarHealth	= "Здоровье Эонар",
+	EonarPower	= "Сила Эонар",
+	NextLoc		= "След:"
 })
 
 --------------------
@@ -90,11 +90,22 @@ L:SetMiscLocalization({
 --------------------
 L= DBM:GetModLocalization(2009)
 
-L:SetMiscLocalization({
-	DispelMe = "Диспел мне!"
+L:SetWarningLocalization({
+	Phase2 = "Скоро фаза 2",
+	Phase3 = "Скоро фаза 3",
+	Phase4 = "Скоро фаза 4",
+	Phase5 = "Скоро фаза 5"
+})
+
+L:SetOptionLocalization({
+	Phase2 = "Предупреждать заранее о фазе 2 (на ~70%, на ~84% в мифике)",
+	Phase3 = "Предупреждать заранее о фазе 3 (на ~37%, на ~64% в мифике)",
+	Phase4 = "Предупреждать заранее о фазе 4 (на ~44% в мифике)",
+	Phase5 = "Предупреждать заранее о фазе 5 (на ~24% в мифике)"
 })
 
 L:SetMiscLocalization({
+	DispelMe = "Диспел мне!",
 	YellPullImonar = "Ваши кости будут щедро оплачены.",
 	YellPullImonar2 = "Я оставлю от вас пару кусочков на память.",
 	YellPullImonar3 = "Ваши головы украсят мою коллекцию."
@@ -139,7 +150,7 @@ L:SetWarningLocalization({
 })
 
 L:SetTimerLocalization({
-	timerBossIncoming		= DBM_INCOMING
+	timerBossIncoming = DBM_INCOMING
 })
 
 L:SetOptionLocalization({
@@ -177,19 +188,19 @@ L:SetWarningLocalization({
 })
 
 L:SetOptionLocalization({
-	Phase1 = "Предупреждать заранее о фазе 2 (на ~83%)",
+	Phase1 = "Предупреждать заранее о фазе 2 (на ~84%)",
 	Phase2 = "Объявлять фазу 2",
-	Phase3 = "Предупреждать заранее о фазе 3 (на ~43%)",
+	Phase3 = "Предупреждать заранее о фазе 3 (на ~44%)",
 	Phase4 = "Объявлять фазу 3",
 	ignoreThreeTank	= "Фильтр специальных предупреждений (Пламя/Сокрушитель) при использовании 3 и более танков (так как DBM не может определить точное чередование танков при таком раскладе). Если танки погибают и количество танков уменьшается до 2, фильтр автоматически отключается."
 })
 
 L:SetMiscLocalization({
 	YellPullAggramar = "Вы сгорите!",
-	Foe			=	"Сокрушитель",
-	Rend		=	"Пламя",
-	Tempest 	=	"Буря",
-	Current		=	"Текущий:"
+	Foe			= "Сокрушитель",
+	Rend		= "Пламя",
+	Tempest 	= "Буря",
+	Current		= "Текущий:"
 })
 
 ----------------------
@@ -222,12 +233,12 @@ L:SetOptionLocalization({
 
 L:SetMiscLocalization({
 	YellPullArgus = "Смерть! Смерть и боль!",
-	SeaText		=	"{rt6} Хаста/Верса на мне!",
-	SkyText		=	"{rt5} Крит/Маст на мне!",
-	Blight		=	"Чумная сфера на мне!",
-	Burst		=	"Взрыв на мне!",
-	Sentence	=	"Приговор на мне!",
-	Bomb		=	"Бомба на мне!"
+	SeaText		= "{rt6} Хаста/Верса на мне!",
+	SkyText		= "{rt5} Крит/Маст на мне!",
+	Blight		= "Чумная сфера на мне!",
+	Burst		= "Взрыв на мне!",
+	Sentence	= "Приговор на мне!",
+	Bomb		= "Бомба на мне!"
 })
 
 -------------

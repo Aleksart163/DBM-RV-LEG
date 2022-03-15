@@ -11,7 +11,7 @@ mod:SetHotfixNoticeRev(17238)
 mod.respawnTime = 29
 
 --mod:RegisterCombat("combat", 122366)
-mod:RegisterCombat("yell", L.YellPullVarimathras, L.YellPullVarimathras2)
+mod:RegisterCombat("combat_yell", L.YellPullVarimathras, L.YellPullVarimathras2)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_SUCCESS 243960 244093 243999 257644",
@@ -84,23 +84,25 @@ mod.vb.currentTorment = 0--Can't antispam, cause it'll just break if someone die
 mod.vb.totalEmbrace = 0
 local playerAffected = false
 
-function mod:OnCombatStart(delay)
-	self.vb.currentTorment = 0
-	self.vb.totalEmbrace = 0
-	playerAffected = false
-	timerTormentofFlamesCD:Start(5-delay)
-	timerShadowStrikeCD:Start(9.3-delay)
-	countdownShadowStrike:Start(9.3-delay)
-	timerDarkFissureCD:Start(17.4-delay)--success
-	timerMarkedPreyCD:Start(25.2-delay)
-	countdownMarkedPrey:Start(25.2-delay)
-	if not self:IsEasy() then
-		timerNecroticEmbraceCD:Start(35-delay)
-		countdownNecroticEmbrace:Start(35-delay)
-	end
-	berserkTimer:Start(310-delay)--Confirmed normal/heroic/mythic
-	if self.Options.RangeFrame then
-		DBM.RangeCheck:Show(8)
+function mod:OnCombatStart(delay, yellTriggered)
+	if yellTriggered then
+		self.vb.currentTorment = 0
+		self.vb.totalEmbrace = 0
+		playerAffected = false
+		timerTormentofFlamesCD:Start(5-delay)
+		timerShadowStrikeCD:Start(9.3-delay)
+		countdownShadowStrike:Start(9.3-delay)
+		timerDarkFissureCD:Start(17.4-delay)--success
+		timerMarkedPreyCD:Start(25.2-delay)
+		countdownMarkedPrey:Start(25.2-delay)
+		if not self:IsEasy() then
+			timerNecroticEmbraceCD:Start(35-delay)
+			countdownNecroticEmbrace:Start(35-delay)
+		end
+		berserkTimer:Start(310-delay)--Confirmed normal/heroic/mythic
+		if self.Options.RangeFrame then
+			DBM.RangeCheck:Show(8)
+		end
 	end
 end
 

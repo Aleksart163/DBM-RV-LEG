@@ -43,7 +43,7 @@
 --
 
 
-local revision =("$Revision: 17608 $"):sub(12, -3)
+local revision =("$Revision: 17651 $"):sub(12, -3)
 local FrameTitle = "DBM_GUI_Option_"	-- all GUI frames get automatically a name FrameTitle..ID
 
 local PanelPrototype = {}
@@ -403,6 +403,7 @@ do
 		{ sound=true, text = "SW 2", value = 2 },
 		{ sound=true, text = "SW 3", value = 3 },
 		{ sound=true, text = "SW 4", value = 4 },
+		{ sound=true, text = "SW 5", value = 5 },
 	})
 	
 	--TODO, this should be localized
@@ -3315,7 +3316,7 @@ local function CreateOptionsMenu()
 	DBM_GUI_OptionsFrameWebsite:SetText(L.Website)
 	local frame = CreateFrame("Frame", nil, DBM_GUI_OptionsFrame)
 	frame:SetAllPoints(DBM_GUI_OptionsFrameWebsite)
-	frame:SetScript("OnMouseUp", function(...) DBM:ShowUpdateReminder(nil, nil, DBM_COPY_URL_DIALOG, "https://discord.gg/deadlybossmods") end)
+	frame:SetScript("OnMouseUp", function(...) DBM:ShowUpdateReminder(nil, nil, DBM_COPY_URL_DIALOG, "https://github.com/Aleksart163/DBM-for-Legion") end)
 end
 DBM:RegisterOnGuiLoadCallback(CreateOptionsMenu, 1)
 

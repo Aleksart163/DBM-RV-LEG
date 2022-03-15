@@ -13,7 +13,7 @@ mod:SetMinSyncRevision(16950)
 mod.respawnTime = 35
 
 --mod:RegisterCombat("combat", 122104)
-mod:RegisterCombat("yell", L.YellPullHasabel, L.YellPullHasabel2, YellPullHasabel3, YellPullHasabel4)
+mod:RegisterCombat("combat_yell", L.YellPullHasabel, L.YellPullHasabel2, YellPullHasabel3, YellPullHasabel4)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 243983 244709 245504 244607 244915 246805 244689 244000",
@@ -171,19 +171,21 @@ local function updateAllTimers(self, ICD)
 	end
 end
 
-function mod:OnCombatStart(delay)
-	self.vb.shieldsActive = false
-	self.vb.firstPortal = false
-	self.vb.felBarrageCast = 0
-	self.vb.worldCount = 0
-	playerPlatform = 1--Nexus
-	berserkTimer:Start(-delay)
-	timerRealityTearCD:Start(6.2-delay)
-	countdownRealityTear:Start(6.2-delay)
-	timerCollapsingWorldCD:Start(10.5-delay)--Still variable, 10.5-18
-	countdownCollapsingWorld:Start(10.5-delay)
-	timerFelstormBarrageCD:Start(25.2-delay)
-	countdownFelstormBarrage:Start(25.2-delay)
+function mod:OnCombatStart(delay, yellTriggered)
+	if yellTriggered then
+		self.vb.shieldsActive = false
+		self.vb.firstPortal = false
+		self.vb.felBarrageCast = 0
+		self.vb.worldCount = 0
+		playerPlatform = 1--Nexus
+		berserkTimer:Start(-delay)
+		timerRealityTearCD:Start(6.2-delay)
+		countdownRealityTear:Start(6.2-delay)
+		timerCollapsingWorldCD:Start(10.5-delay)--Still variable, 10.5-18
+		countdownCollapsingWorld:Start(10.5-delay)
+		timerFelstormBarrageCD:Start(25.2-delay)
+		countdownFelstormBarrage:Start(25.2-delay)
+	end
 end
 
 function mod:OnCombatEnd()

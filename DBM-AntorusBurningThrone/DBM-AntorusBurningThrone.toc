@@ -27,8 +27,8 @@ localization.ru.lua
 Garothi.lua
 HoundsofSargeras.lua
 AntorusWarCouncil.lua
-Eonar.lua
 Hasabel.lua
+Eonar.lua
 Imonar.lua
 Kingaroth.lua
 Varimathras.lua

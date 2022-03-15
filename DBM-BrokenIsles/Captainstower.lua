@@ -3,7 +3,6 @@ local L		= mod:GetLocalizedStrings()
 
 mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 --mod:SetCreatureID(104290, 104289, 103757, 104294, 103653, 104292) 
---104290 Гримшмекс, 104289 Алина, 103757 Костехлада, 104294 Брикстон, 103653 Блэкмоу, 104292 Острый коготь
 mod:SetZone()
 --mod:SetMinSyncRevision(17622)
 mod.isTrashMod = true
@@ -22,10 +21,10 @@ mod:RegisterEvents(
 --local warnYaksam				= mod:NewCastAnnounce(223373, 3) --Отрыжка
 --local warnJetsam				= mod:NewTargetAnnounce(220295, 2) --Мусор
 
-local specWarnSmokeBomb			= mod:NewSpecialWarningInterrupt(203342, nil, nil, nil, 1, 5) --Дымовая шашка
-local specWarnBlizzard			= mod:NewSpecialWarningInterrupt(204739, nil, nil, nil, 3, 5) --Снежная буря
+local specWarnSmokeBomb			= mod:NewSpecialWarningInterrupt(203342, "-Healer", nil, nil, 1, 5) --Дымовая шашка
+local specWarnBlizzard			= mod:NewSpecialWarningInterrupt(204739, "-Healer", nil, nil, 3, 5) --Снежная буря
 local specWarnWailingArrow		= mod:NewSpecialWarningInterrupt(205425, "SpellCaster", nil, nil, 3, 5) --Стенающая стрела
-local specWarnHealingTouch		= mod:NewSpecialWarningInterrupt(203884, nil, nil, nil, 1, 5) --Целительное прикосновение
+local specWarnHealingTouch		= mod:NewSpecialWarningInterrupt(203884, nil, nil, nil, 3, 5) --Целительное прикосновение
 local specWarnArcaneOrb			= mod:NewSpecialWarningDodge(204238, nil, nil, nil, 2, 5) --Чародейская сфера
 --local specWarnPowerWordBarrier	= mod:NewSpecialWarningMove(204760, nil, nil, nil, 1, 2) --Барьер
 
@@ -33,8 +32,8 @@ local specWarnArcaneOrb			= mod:NewSpecialWarningDodge(204238, nil, nil, nil, 2,
 --local specWarnBreakSam			= mod:NewSpecialWarningSpell(223317, "Melee", nil, nil, 1, 2) --Мусоробой
 
 --local timerSmokeBombCD		= mod:NewCDTimer(21, 203342, nil, nil, nil, 5, nil, DBM_CORE_DEADLY_ICON) --Дымовая шашка
-local timerBlizzardCD			= mod:NewCDTimer(20, 204739, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON) --Снежная буря
-local timerWailingArrowCD		= mod:NewCDTimer(21, 205425, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON) --Стенающая стрела
+local timerBlizzardCD			= mod:NewCDTimer(20, 204739, nil, "-Healer", nil, 4, nil, DBM_CORE_INTERRUPT_ICON) --Снежная буря
+local timerWailingArrowCD		= mod:NewCDTimer(21, 205425, nil, "SpellCaster", nil, 4, nil, DBM_CORE_INTERRUPT_ICON) --Стенающая стрела
 --local timerPowerWordBarrierCD	= mod:NewCDTimer(50, 204760, nil, nil, nil, 1, nil, DBM_CORE_TANK_ICON) --Барьер
 --local timerHealingTouchCD		= mod:NewCDTimer(50, 203884, nil, nil, nil, 1, nil, DBM_CORE_TANK_ICON) --Целительное прикосновение
 --local timerArcaneOrbCD		= mod:NewCDTimer(50, 204238, nil, nil, nil, 1, nil, DBM_CORE_TANK_ICON) --Чародейская сфера
@@ -60,26 +59,12 @@ function mod:SPELL_CAST_START(args)
 	end
 end
 
---[[function mod:SPELL_CAST_SUCCESS(args)
-	local spellId = args.spellId
-	if spellId == 204760 then --Барьер
-		specWarnPowerWordBarrier:Show()
-	end
-end]]
-
---[[local function checkforWin(firstCheck)
-	if not InCombatLockdown() then
-		DBM:EndCombat(mod)
-		if firstCheck then
-			mod:Schedule(3, checkforWin)
-		end
-	end
-end
-
 function mod:UNIT_DIED(args)
 	local cid = self:GetCIDFromGUID(args.destGUID)
-	if (cid == 104290 or cid == 104289 or cid == 103757 or cid == 104294 or cid == 103653 or cid == 104292) then
-		self:Unschedule(checkforWin)
-		self:Schedule(3, checkforWin, true)
+	if cid == 104289 then --Алина
+		timerWailingArrowCD:Cancel()
+	elseif cid == 103757 then --Костехлада
+		timerBlizzardCD:Cancel()
 	end
-end]]
+end
+--104290 Гримшмекс, 104289 Алина, 103757 Костехлада, 104294 Брикстон, 103653 Блэкмоу, 104292 Острый коготь

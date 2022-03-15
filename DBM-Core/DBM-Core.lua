@@ -41,9 +41,9 @@
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 17651 $"):sub(12, -3)),
+	Revision = tonumber(("$Revision: 17652 $"):sub(12, -3)),
 	DisplayVersion = "7.3.33 Right Version",
-	ReleaseRevision = 17650
+	ReleaseRevision = 17651
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -105,7 +105,7 @@ DBM.DefaultOptions = {
 	EventSoundWipe = "Bwonsamdi: Impressive death",
 	EventSoundEngage = "Alarak: Krisol thok aran",
 	EventSoundMusic = "FNaF Security breach",
-	EventSoundDungeonBGM = "Nightsong",
+	EventSoundDungeonBGM = "Nightsong Extended",
 	EventSoundMusicCombined = false,
 	EventDungMusicMythicFilter = true,
 	EventMusicMythicFilter = true,
@@ -292,6 +292,7 @@ DBM.Victory = {
 	{text = "Kerrigan Victory", value = "Interface\\AddOns\\DBM-Core\\sounds\\Victory\\Kerrigan_Win.ogg", length=5},
 	{text = "Tychus Victory", value = "Interface\\AddOns\\DBM-Core\\sounds\\Victory\\Tychus_Win.ogg", length=5},
 	{text = "Vorazun Victory", value = "Interface\\AddOns\\DBM-Core\\sounds\\Victory\\Vorazun_Win.ogg", length=5},
+	{text = "Gachi Victory", value = "Interface\\AddOns\\DBM-Core\\sounds\\Victory\\Gachi_Win.ogg", length=5},
 	{text = "Blakbyrd: FF Fanfare", value = "Interface\\AddOns\\DBM-Core\\sounds\\Victory\\bbvictory.ogg", length=4},
 	{text = "SMG: FF Fanfare", value = "Interface\\AddOns\\DBM-Core\\sounds\\Victory\\SmoothMcGroove_Fanfare.ogg", length=4},
 	{text = "Random", value = "Random"},
@@ -311,7 +312,7 @@ DBM.Music = {--Contains all music media, period
 	{text = "FNaF Security breach", value = "Interface\\AddOns\\DBM-Core\\sounds\\Custom\\MUS_70_Security.mp3", length=197},
 	{text = "Anduin Part 1 B", value = "sound\\music\\Legion\\MUS_70_AnduinPt1_B.mp3", length=140},
 	{text = "Anduin Part 2 B", value = "sound\\music\\Legion\\MUS_70_AnduinPt2_B.mp3", length=111},
-	{text = "Nightsong", value = "Sound\\Music\\cataclysm\\MUS_NightElves_GU01.mp3", length=160},
+	{text = "Nightsong Extended", value = "Interface\\AddOns\\DBM-Core\\sounds\\Custom\\MUS_70_Nightsong.mp3", length=217},
 	{text = "Invincible", value = "Sound\\Music\\Draenor\\MUS_Invincible.mp3", length=197},
 	{text = "Bronze Jam", value = "Sound\\Music\\ZoneMusic\\IcecrownRaid\\IR_BronzeJam.mp3", length=116},
 	{text = "Ulduar: Titan Orchestra", value = "Sound\\Music\\ZoneMusic\\UlduarRaidInt\\UR_TitanOrchestraIntro.mp3", length=102},
@@ -322,7 +323,7 @@ DBM.DungeonMusic = {--Filtered list of media assigned to dungeon/raid background
 	{text = "FNaF Security breach", value = "Interface\\AddOns\\DBM-Core\\sounds\\Custom\\MUS_70_Security.mp3", length=197},
 	{text = "Anduin Part 1 B", value = "sound\\music\\Legion\\MUS_70_AnduinPt1_B.mp3", length=140},
 	{text = "Anduin Part 2 B", value = "sound\\music\\Legion\\MUS_70_AnduinPt2_B.mp3", length=111},
-	{text = "Nightsong", value = "Sound\\Music\\cataclysm\\MUS_NightElves_GU01.mp3", length=160},
+	{text = "Nightsong Extended", value = "Interface\\AddOns\\DBM-Core\\sounds\\Custom\\MUS_70_Nightsong.mp3", length=217},
 	{text = "Invincible", value = "Sound\\Music\\Draenor\\MUS_Invincible.mp3", length=197},
 	{text = "Ulduar: Titan Orchestra", value = "Sound\\Music\\ZoneMusic\\UlduarRaidInt\\UR_TitanOrchestraIntro.mp3", length=102},
 	{text = "Random", value = "Random"},
@@ -332,10 +333,10 @@ DBM.BattleMusic = {--Filtered list of media assigned to boss/encounter backgroun
 	{text = "FNaF Security breach", value = "Interface\\AddOns\\DBM-Core\\sounds\\Custom\\MUS_70_Security.mp3", length=197},
 	{text = "Anduin Part 1 B", value = "sound\\music\\Legion\\MUS_70_AnduinPt1_B.mp3", length=140},
 	{text = "Anduin Part 2 B", value = "sound\\music\\Legion\\MUS_70_AnduinPt2_B.mp3", length=111},
-	{text = "Nightsong", value = "Sound\\Music\\cataclysm\\MUS_NightElves_GU01.mp3", length=160},
+	{text = "Nightsong Extended", value = "Interface\\AddOns\\DBM-Core\\sounds\\Custom\\MUS_70_Nightsong.mp3", length=217},
 	{text = "Invincible", value = "Sound\\Music\\Draenor\\MUS_Invincible.mp3", length=197},
 	{text = "Bronze Jam", value = "Sound\\Music\\ZoneMusic\\IcecrownRaid\\IR_BronzeJam.mp3", length=116},
-	{text = "Random",value = "Random"},
+	{text = "Random", value = "Random"},
 	{text = "None", value = "None"},
 }
 
@@ -4307,20 +4308,20 @@ do
 					AddMsg(DBM, DBM_CORE_UPDATEREMINDER_HEADER:match("([^\n]*)"))
 					AddMsg(DBM, DBM_CORE_UPDATEREMINDER_HEADER:match("\n(.*)"):format(displayVersion, version))
 					showConstantReminder = 1
-				elseif not noRaid and #newerVersionPerson == 3 and updateNotificationDisplayed < 3 then--The following code requires at least THREE people to send that higher revision. That should be more than adaquate
+				elseif not noRaid and #newerVersionPerson == 3 and updateNotificationDisplayed < 7 then--The following code requires at least THREE people to send that higher revision. That should be more than adaquate
 					--Disable if revision grossly out of date even if not major patch.
 					if raid[newerVersionPerson[1]] and raid[newerVersionPerson[2]] and raid[newerVersionPerson[3]] then
 						local revDifference = mmin((raid[newerVersionPerson[1]].revision - DBM.Revision), (raid[newerVersionPerson[2]].revision - DBM.Revision), (raid[newerVersionPerson[3]].revision - DBM.Revision))
-						if revDifference > 100 then
-							if updateNotificationDisplayed < 3 then
-								updateNotificationDisplayed = 3
+						if revDifference > 500 then --Отключение аддона WTF? Sorry but your DBM is being turned off until you update. Grossly out of date mods cause fps loss, freezes, lua error spam, or just very bad information, if mod is not up to date with latest changes. All around undesirable experience to put yourself or other raid mates through
+							if updateNotificationDisplayed < 7 then
+								updateNotificationDisplayed = 7
 								AddMsg(DBM, DBM_CORE_UPDATEREMINDER_DISABLE)
 								DBM:Disable(true)
 							end
 						end
 					--Disable if out of date and it's a major patch.
 					elseif not testBuild and dbmToc < wowTOC then
-						updateNotificationDisplayed = 3
+						updateNotificationDisplayed = 7
 						AddMsg(DBM, DBM_CORE_UPDATEREMINDER_MAJORPATCH)
 						DBM:Disable(true)
 					end
@@ -4335,7 +4336,7 @@ do
 			if #newerRevisionPerson == 2 and raid[newerRevisionPerson[1]] and raid[newerRevisionPerson[2]] then
 				local revDifference = mmin((raid[newerRevisionPerson[1]].revision - DBM.Revision), (raid[newerRevisionPerson[2]].revision - DBM.Revision))
 				if testBuild and revDifference > 5 then
-					updateNotificationDisplayed = 3
+					updateNotificationDisplayed = 7
 					AddMsg(DBM, DBM_CORE_UPDATEREMINDER_DISABLE)
 					DBM:Disable(true)
 				else

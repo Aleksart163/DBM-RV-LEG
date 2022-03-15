@@ -11,7 +11,7 @@ mod:SetHotfixNoticeRev(16963)
 mod.respawnTime = 25
 
 --mod:RegisterCombat("combat", 122468, 122467, 122469)
-mod:RegisterCombat("yell", L.YellPullCoven)
+mod:RegisterCombat("combat_yell", L.YellPullCoven)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 245627 252861 253650 250648 250095",
@@ -52,10 +52,10 @@ local warnFlashFreeze					= mod:NewStackAnnounce(245518, 2, nil, "Tank")
 --Thu'raya, Mother of the Cosmos (Mythic)
 local warnCosmicGlare					= mod:NewTargetAnnounce(250757, 3)
 --Мучения
-local specWarnAmantul					= mod:NewSpecialWarningPreWarn(252479, nil, 5, nil, nil, 3, 5) --Мучения Амантула
-local specWarnNorgannon					= mod:NewSpecialWarningPreWarn(244740, nil, 5, nil, nil, 3, 5) --Мучения Норганнона
-local specWarnGolgannet					= mod:NewSpecialWarningPreWarn(244756, nil, 5, nil, nil, 3, 5) --Мучения Голганнета
-local specWarnKazgagot					= mod:NewSpecialWarningPreWarn(244733, nil, 5, nil, nil, 3, 5) --Мучения Казгарота
+local specWarnAmantul					= mod:NewSpecialWarning("Amantul", nil, nil, nil, 3, 5) --Мучения Амантула
+local specWarnNorgannon					= mod:NewSpecialWarning("Norgannon", nil, nil, nil, 3, 5) --Мучения Норганнона
+local specWarnGolgannet					= mod:NewSpecialWarning("Golgannet", nil, nil, nil, 3, 5) --Мучения Голганнета
+local specWarnKazgagot					= mod:NewSpecialWarning("Kazgagot", nil, nil, nil, 3, 5) --Мучения Казгарота
 --General
 local specWarnGTFO						= mod:NewSpecialWarningYouMove(245634, nil, nil, nil, 1, 2) --Вращающийся меч
 local specWarnGTFO2						= mod:NewSpecialWarningYouMove(253020, nil, nil, nil, 1, 2) --Буря тьмы
@@ -64,21 +64,17 @@ local specWarnActivated					= mod:NewSpecialWarningSwitchCount(118212, "Tank", n
 local specWarnFieryStrike				= mod:NewSpecialWarningStack(244899, nil, 2, nil, nil, 1, 6)
 local specWarnFieryStrikeOther			= mod:NewSpecialWarningTaunt(244899, nil, nil, nil, 1, 2)
 local specWarnFulminatingPulse			= mod:NewSpecialWarningMoveAway(253520, nil, nil, nil, 1, 2)
-local yellFulminatingPulse				= mod:NewFadesYell(253520)
 --Asara, Mother of Night
 local specWarnShadowBlades				= mod:NewSpecialWarningDodge(246329, nil, nil, nil, 2, 2)
 local specWarnStormofDarkness			= mod:NewSpecialWarningIcePud(252861, nil, nil, nil, 2, 3) --Буря тьмы
 --Diima, Mother of Gloom
 local specWarnFlashfreeze				= mod:NewSpecialWarningStack(245518, nil, 2, nil, nil, 1, 6)
 local specWarnFlashfreezeOther			= mod:NewSpecialWarningTaunt(245518, nil, nil, nil, 1, 2)
-local yellFlashfreeze					= mod:NewYell(245518, nil, false)
 local specWarnChilledBlood				= mod:NewSpecialWarningTarget(245586, "Healer", nil, nil, 1, 2)
 local specWarnOrbofFrost				= mod:NewSpecialWarningDodge(253650, nil, nil, nil, 1, 2)
 --Thu'raya, Mother of the Cosmos (Mythic)
 local specWarnTouchoftheCosmos			= mod:NewSpecialWarningInterruptCount(250648, "HasInterrupt", nil, nil, 1, 2)
 local specWarnCosmicGlare				= mod:NewSpecialWarningYou(250757, nil, nil, nil, 1, 2)
-local yellCosmicGlare					= mod:NewYell(250757)
-local yellCosmicGlareFades				= mod:NewShortFadesYell(250757)
 --Torment of the Titans
 local specWarnTormentofTitans			= mod:NewSpecialWarningSpell("ej16138", nil, nil, nil, 1, 7)
 
@@ -104,12 +100,17 @@ local timerCosmicGlareCD				= mod:NewCDTimer(15.8, 250757, nil, nil, nil, 3, nil
 --Torment of the Titans
 mod:AddTimerLine(torment)
 ----Activations timers
-local timerMachinationsofAmanThulCD		= mod:NewCastTimer(90, 250335, nil, nil, nil, 6, DBM_CORE_DEADLY_ICON)
-local timerFlamesofKhazgorothCD			= mod:NewCastTimer(90, 250333, nil, nil, nil, 6, DBM_CORE_DEADLY_ICON)
-local timerSpectralArmyofNorgannonCD	= mod:NewCastTimer(90, 250334, nil, nil, nil, 6, DBM_CORE_DEADLY_ICON)
-local timerFuryofGolgannethCD			= mod:NewCastTimer(90, 249793, nil, nil, nil, 6, DBM_CORE_DEADLY_ICON)
+local timerMachinationsofAmanThulCD		= mod:NewCastTimer(90, 250335, nil, nil, nil, 6, nil, DBM_CORE_DEADLY_ICON)
+local timerFlamesofKhazgorothCD			= mod:NewCastTimer(90, 250333, nil, nil, nil, 6, nil, DBM_CORE_DEADLY_ICON)
+local timerSpectralArmyofNorgannonCD	= mod:NewCastTimer(90, 250334, nil, nil, nil, 6, nil, DBM_CORE_DEADLY_ICON)
+local timerFuryofGolgannethCD			= mod:NewCastTimer(90, 249793, nil, nil, nil, 6, nil, DBM_CORE_DEADLY_ICON)
 ----Actual phase stuff
 local timerMachinationsofAman			= mod:NewCastTimer(25, 250095, nil, nil, nil, 5, nil, DBM_CORE_DAMAGE_ICON)
+
+local yellFulminatingPulse				= mod:NewFadesYell(253520, nil, nil, nil, "YELL")
+local yellFlashfreeze					= mod:NewYell(245518, nil, false, nil, "YELL")
+local yellCosmicGlare					= mod:NewYell(250757, nil, nil, nil, "YELL")
+local yellCosmicGlareFades				= mod:NewShortFadesYell(250757, nil, nil, nil, "YELL")
 
 local berserkTimer						= mod:NewBerserkTimer(600)
 
@@ -143,48 +144,50 @@ mod.vb.ignoreFirstInterrupt = false
 mod.vb.firstCastHappend = false
 local CVAR1, CVAR2 = nil, nil
 
-function mod:OnCombatStart(delay)
-	self.vb.stormCount = 0
-	self.vb.chilledCount = 0
-	self.vb.MachinationsLeft = 0
-	self.vb.fpIcon = 4
-	self.vb.chilledIcon = 1
-	self.vb.glareIcon = 4
-	self.vb.touchCosmosCast = 0
-	self.vb.interruptBehavior = "Three"
-	self.vb.ignoreFirstInterrupt = false
-	self.vb.firstCastHappend = false
-	if self:IsMythic() then
-		self:SetCreatureID(122468, 122467, 122469, 125436)
-	else
-		self:SetCreatureID(122468, 122467, 122469)
-	end
-	--Diima, Mother of Gloom is first one to go inactive
-	berserkTimer:Start(-delay)
-	timerWhirlingSaberCD:Start(8-delay)
-	timerFieryStrikeCD:Start(11-delay)
-	timerShadowBladesCD:Start(10.9-delay)
-	if not self:IsEasy() then
-		timerFulminatingPulseCD:Start(20.3-delay)
-		countdownFulminatingPulse:Start(20.3-delay)
-		timerStormofDarknessCD:Start(26-delay, 1)
-		countdownStormofDarkness:Start(26-delay)
-	end
-	if self.Options.NPAuraOnVisageofTitan then
-		DBM:FireEvent("BossMod_EnableHostileNameplates")
-	end
-	if self.Options.SetLighting and not IsMacClient() then--Mac client doesn't support low (1) setting for lighting (and not InCombatLockdown() needed?)
-		CVAR1, CVAR2 = GetCVar("graphicsLightingQuality") or 3, GetCVar("raidGraphicsLightingQuality") or 2--Non raid cvar is nil if 3 (default) and raid one is nil if 2 (default)
-		SetCVar("graphicsLightingQuality", 1)
-		SetCVar("raidGraphicsLightingQuality", 1)
-	end
-	if UnitIsGroupLeader("player") and not self:IsLFR() then
-		if self.Options.InterruptBehavior == "Three" then
-			self:SendSync("Three", self.Options.IgnoreFirstKick)
-		elseif self.Options.InterruptBehavior == "Four" then
-			self:SendSync("Four", self.Options.IgnoreFirstKick)
-		elseif self.Options.InterruptBehavior == "Five" then
-			self:SendSync("Five", self.Options.IgnoreFirstKick)
+function mod:OnCombatStart(delay, yellTriggered)
+	if yellTriggered then
+		self.vb.stormCount = 0
+		self.vb.chilledCount = 0
+		self.vb.MachinationsLeft = 0
+		self.vb.fpIcon = 4
+		self.vb.chilledIcon = 1
+		self.vb.glareIcon = 4
+		self.vb.touchCosmosCast = 0
+		self.vb.interruptBehavior = "Three"
+		self.vb.ignoreFirstInterrupt = false
+		self.vb.firstCastHappend = false
+		if self:IsMythic() then
+			self:SetCreatureID(122468, 122467, 122469, 125436)
+		else
+			self:SetCreatureID(122468, 122467, 122469)
+		end
+		--Diima, Mother of Gloom is first one to go inactive
+		berserkTimer:Start(-delay)
+		timerWhirlingSaberCD:Start(8-delay)
+		timerFieryStrikeCD:Start(11-delay)
+		timerShadowBladesCD:Start(10.9-delay)
+		if not self:IsEasy() then
+			timerFulminatingPulseCD:Start(20.3-delay)
+			countdownFulminatingPulse:Start(20.3-delay)
+			timerStormofDarknessCD:Start(26-delay, 1)
+			countdownStormofDarkness:Start(26-delay)
+		end
+		if self.Options.NPAuraOnVisageofTitan then
+			DBM:FireEvent("BossMod_EnableHostileNameplates")
+		end
+		if self.Options.SetLighting and not IsMacClient() then--Mac client doesn't support low (1) setting for lighting (and not InCombatLockdown() needed?)
+			CVAR1, CVAR2 = GetCVar("graphicsLightingQuality") or 3, GetCVar("raidGraphicsLightingQuality") or 2--Non raid cvar is nil if 3 (default) and raid one is nil if 2 (default)
+			SetCVar("graphicsLightingQuality", 1)
+			SetCVar("raidGraphicsLightingQuality", 1)
+		end
+		if UnitIsGroupLeader("player") and not self:IsLFR() then
+			if self.Options.InterruptBehavior == "Three" then
+				self:SendSync("Three", self.Options.IgnoreFirstKick)
+			elseif self.Options.InterruptBehavior == "Four" then
+				self:SendSync("Four", self.Options.IgnoreFirstKick)
+			elseif self.Options.InterruptBehavior == "Five" then
+				self:SendSync("Five", self.Options.IgnoreFirstKick)
+			end
 		end
 	end
 end

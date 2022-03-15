@@ -141,7 +141,7 @@ L= DBM:GetModLocalization(1488)
 L= DBM:GetModLocalization(1489)
 
 L:SetMiscLocalization({
-	tempestModeMessage = "Not tempest sequence: %s. Rechecking in 8 seconds."
+	tempestModeMessage = "Не порядок бури: %s. Повторная проверка через 8 секунд."
 })
 
 -------------
@@ -534,7 +534,7 @@ L:SetGeneralLocalization({
 L = DBM:GetModLocalization("RTKTrash")
 
 L:SetGeneralLocalization({
-	name = "Трэш Возвращение в каражан"
+	name = "Трэш Возвращения в каражан"
 })
 
 L:SetMiscLocalization({
