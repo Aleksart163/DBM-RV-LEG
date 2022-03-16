@@ -44,11 +44,8 @@ local specWarnPhase4					= mod:NewSpecialWarning("Phase4", nil, nil, nil, 1, 2) 
 local specWarnTaeshalachReach			= mod:NewSpecialWarningStack(245990, nil, 8, nil, nil, 1, 6)
 local specWarnTaeshalachReachOther		= mod:NewSpecialWarningTaunt(245990, nil, nil, nil, 1, 2)
 local specWarnScorchingBlaze			= mod:NewSpecialWarningMoveAway(245994, nil, nil, nil, 1, 2)
-local yellScorchingBlaze				= mod:NewYell(245994)
 local specWarnRavenousBlaze				= mod:NewSpecialWarningMoveAway(254452, nil, nil, nil, 1, 2)
-local yellRavenousBlaze					= mod:NewPosYell(254452, DBM_CORE_AUTO_YELL_CUSTOM_POSITION)
 local specWarnWakeofFlame				= mod:NewSpecialWarningDodge(244693, nil, nil, nil, 2, 2)
-local yellWakeofFlame					= mod:NewYell(244693)
 local specWarnFoeBreakerTaunt			= mod:NewSpecialWarningTaunt(245458, nil, nil, nil, 3, 2)
 local specWarnFoeBreakerDefensive		= mod:NewSpecialWarningDefensive(245458, nil, nil, nil, 3, 2)
 local specWarnFlameRend					= mod:NewSpecialWarningCount(245463, nil, nil, nil, 1, 2)
@@ -67,6 +64,10 @@ local timerRavenousBlazeCD				= mod:NewCDTimer(22.2, 254452, nil, nil, nil, 3, n
 local timerWakeofFlameCD				= mod:NewCDTimer(24.3, 244693, nil, nil, nil, 3)
 --Stage Two: Champion of Sargeras
 local timerFlareCD						= mod:NewCDTimer(15, 245983, nil, "-Melee", 2, 3)
+
+local yellScorchingBlaze				= mod:NewYell(245994, nil, nil, nil, "YELL")
+local yellRavenousBlaze					= mod:NewPosYell(254452, DBM_CORE_AUTO_YELL_CUSTOM_POSITION)
+local yellWakeofFlame					= mod:NewYell(244693, nil, nil, nil, "YELL")
 
 local berserkTimer						= mod:NewBerserkTimer(600)
 

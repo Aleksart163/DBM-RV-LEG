@@ -25,7 +25,8 @@ mod:RegisterEventsInCombat(
 --	"SPELL_PERIODIC_DAMAGE",
 --	"SPELL_PERIODIC_MISSED",
 	"UNIT_DIED",
-	"UNIT_SPELLCAST_SUCCEEDED boss1 player"
+	"UNIT_SPELLCAST_SUCCEEDED boss1 player",
+	"UNIT_HEALTH boss1"
 )
 
 local Nexus = DBM:EJ_GetSectionInfo(15799)
@@ -60,7 +61,7 @@ local warnHungeringGloom				= mod:NewTargetAnnounce(245075, 2, nil, false)
 
 --Platform: Nexus
 local specWarnRealityTear				= mod:NewSpecialWarningStack(244016, nil, 2, nil, nil, 1, 6)
-local specWarnRealityTearOther			= mod:NewSpecialWarningTaunt(244016, nil, nil, nil, 1, 2)
+local specWarnRealityTearOther			= mod:NewSpecialWarningTaunt(244016, nil, nil, nil, 3, 5)
 local specWarnTransportPortal			= mod:NewSpecialWarningSwitch(244677, "-Healer", nil, 2, 1, 2)
 local specWarnCollapsingWorld			= mod:NewSpecialWarningCount(243983, nil, nil, nil, 2, 2)
 local specWarnFelstormBarrage			= mod:NewSpecialWarningDodge(244000, nil, nil, nil, 2, 2)
@@ -71,20 +72,16 @@ local specWarnHowlingShadows			= mod:NewSpecialWarningInterrupt(245504, "HasInte
 local specWarnFlamesofXoroth			= mod:NewSpecialWarningInterrupt(244607, "HasInterrupt", nil, nil, 1, 2)
 local specWarnSupernova					= mod:NewSpecialWarningDodge(244598, nil, nil, nil, 2, 2)
 local specWarnEverburningFlames			= mod:NewSpecialWarningMoveTo(244613, nil, nil, nil, 1)--No voice yet
-local yellEverburningFlames				= mod:NewFadesYell(244613)
 --Platform: Rancora
 local specWarnFelSilkWrap				= mod:NewSpecialWarningYou(244949, nil, nil, nil, 1, 2)
-local yellFelSilkWrap					= mod:NewYell(244949)
 local specWarnFelSilkWrapOther			= mod:NewSpecialWarningSwitch(244949, "Dps", nil, nil, 1, 2)
 local specWarnLeechEssence				= mod:NewSpecialWarningSpell(244915, nil, nil, nil, 1, 2)--Don't know what to do for voice yet til strat divised
 local specWarnCausticSlime				= mod:NewSpecialWarningMoveTo(244849, nil, nil, nil, 1)--No voice yet
 local specWarnCausticSlimeLFR			= mod:NewSpecialWarningMoveAway(244849, nil, nil, nil, 1)--No voice yet
-local yellCausticSlime					= mod:NewFadesYell(244849)
 --Platform: Nathreza
 local specWarnDelusions					= mod:NewSpecialWarningYou(245050, nil, nil, nil, 1, 2)
 --local specWarnCorrupt					= mod:NewSpecialWarningInterrupt(245040, "HasInterrupt", nil, nil, 1, 2)
 local specWarnCloyingShadows			= mod:NewSpecialWarningYou(245118, nil, nil, nil, 1)--No voice yet (you warning for now, since it's secondary debuff you move to fel miasma)
-local yellCloyingShadows				= mod:NewFadesYell(245118)
 local specWarnHungeringGloom			= mod:NewSpecialWarningMoveTo(245075, nil, nil, nil, 1)--No voice yet
 
 --Platform: Nexus
@@ -105,6 +102,11 @@ local timerLeechEssenceCD				= mod:NewCDTimer(9.4, 244915, nil, nil, nil, 2, nil
 --Platform: Nathreza
 mod:AddTimerLine(Nathreza)
 local timerDelusionsCD					= mod:NewCDTimer(14.6, 245050, nil, nil, nil, 3, nil, DBM_CORE_HEALER_ICON..DBM_CORE_MAGIC_ICON)
+
+local yellEverburningFlames				= mod:NewFadesYell(244613, nil, nil, nil, "YELL")
+local yellFelSilkWrap					= mod:NewYell(244949, nil, nil, nil, "YELL")
+local yellCausticSlime					= mod:NewFadesYell(244849, nil, nil, nil, "YELL")
+local yellCloyingShadows				= mod:NewFadesYell(245118, nil, nil, nil, "YELL")
 
 local berserkTimer						= mod:NewBerserkTimer(600)
 
@@ -434,3 +436,13 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 		playerPlatform = 1
 	end
 end
+
+--[[function mod:UNIT_HEALTH(uId) --доделать
+	if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 124828 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.74 then --скоро фаза 2
+		warned_preP1 = true
+		specWarnPhase1:Show()
+	elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 124828 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.44 then --скоро фаза 3
+		warned_preP3 = true
+		specWarnPhase3:Show()
+	end
+end]]

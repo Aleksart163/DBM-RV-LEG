@@ -28,19 +28,21 @@ local warnHowlingGale			= mod:NewSpellAnnounce(217966, 2)
 local warnIcyComet				= mod:NewSpellAnnounce(217925, 2)
 local warnAncientRageArcane		= mod:NewSpellAnnounce(217834, 2)
 
-local specBurningBomb			= mod:NewSpecialWarningYou(217877, nil, nil, nil, 1, 2)--You warning because you don't have to run out unless healer is afk. However still warn in case they are
-local yellBurningBomb			= mod:NewFadesYell(217877)
+local specBurningBomb			= mod:NewSpecialWarningYouMoveAway(217877, nil, nil, nil, 3, 5) --Пылающая бомба You warning because you don't have to run out unless healer is afk. However still warn in case they are
+local specBurningBomb2			= mod:NewSpecialWarningCloseMoveAway(217877, nil, nil, nil, 2, 5) --Пылающая бомба
 local specWrathfulFlames		= mod:NewSpecialWarningDodge(217893, nil, nil, nil, 1, 2)
 local specWrathfulFlamesGTFO	= mod:NewSpecialWarningMove(217907, nil, nil, nil, 1, 2)
 local specArcaneDesolation		= mod:NewSpecialWarningSpell(217986, nil, nil, nil, 2, 2)
 
-local timerBurningBombCD		= mod:NewCDTimer(13.4, 217877, nil, nil, nil, 3)
+local timerBurningBombCD		= mod:NewCDTimer(13.4, 217877, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Пылающая бомба
 local timerWrathfulFlamesCD		= mod:NewCDTimer(13.4, 217907, nil, nil, nil, 2)
 local timerHowlingGaleCD		= mod:NewCDTimer(13.8, 217966, nil, nil, nil, 2)
 local timerArcaneDesolationCD	= mod:NewCDTimer(12.2, 217986, nil, nil, nil, 2)
 
+local yellBurningBomb			= mod:NewFadesYell(217877, nil, nil, nil, "YELL") --Пылающая бомба
+
 mod:AddReadyCheckOption(43193, false)
-mod:AddRangeFrameOption(10, 217877)
+mod:AddRangeFrameOption(10, 217877) --Пылающая бомба
 
 mod.vb.specialCast = 0
 
@@ -101,6 +103,8 @@ function mod:SPELL_AURA_APPLIED(args)
 			if self.Options.RangeFrame then
 				DBM.RangeCheck:Show(10)
 			end
+		elseif self:CheckNearby(10, args.destName) then
+			specBurningBomb2:Show(args.destName)
 		end
 	end
 end
