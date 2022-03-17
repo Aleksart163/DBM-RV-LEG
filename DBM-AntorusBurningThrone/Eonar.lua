@@ -11,7 +11,7 @@ mod:SetHotfixNoticeRev(16960)
 --mod.respawnTime = 29
 
 --mod:RegisterCombat("combat", 124445)
-mod:RegisterCombat("combat_yell", L.YellPullEonar)
+mod:RegisterCombat("yell", L.YellPullEonar)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 249121 250701",
@@ -225,62 +225,60 @@ local function startBatsStuff(self)
 	end
 end
 
-function mod:OnCombatStart(delay, yellTriggered)
-	if yellTriggered then
-		self.vb.rainOfFelCount = 0
-		self.vb.destructors = 0
-		self.vb.obfuscators = 0
-		self.vb.purifiers = 0
-		self.vb.destructorCast = 0
-		self.vb.obfuscatorCast = 0
-		self.vb.purifierCast = 0
-		self.vb.batCast = 0
-		self.vb.lifeForceCast = 0
-		self.vb.spearCast = 0
-		self.vb.finalDoomCast = 0
-		self.vb.targetedIcon = 1
-		berserkTimer:Start(-delay)
-		if not self:IsLFR() then
-			self.vb.lifeRequired = 4
-			if self:IsMythic() then
-				timerRainofFelCD:Start(6-delay, 1)
-				--countdownRainofFel:Start(6-delay)
-				--timerSpearofDoomCD:Start(35-delay, 1)
-				timerDestructorCD:Start(17, DBM_CORE_MIDDLE)
-				self:Schedule(30, checkForDeadDestructor, self, 5)
-				timerObfuscatorCD:Start(46, DBM_CORE_BOTTOM)
-				timerPurifierCD:Start(65.7, DBM_CORE_MIDDLE)
-				timerFinalDoomCD:Start(59.3-delay, 1)
-				countdownFinalDoom:Start(59.3-delay)
-				timerBatsCD:Start(195, 1)
-				self:Schedule(195, startBatsStuff, self)
-			elseif self:IsHeroic() then
-				timerRainofFelCD:Start(9.3-delay, 1)
-				--countdownRainofFel:Start(9.3-delay)
-				timerDestructorCD:Start(7, DBM_CORE_MIDDLE)
-				self:Schedule(27, checkForDeadDestructor, self)
-				timerSpearofDoomCD:Start(34-delay, 1)
-				timerObfuscatorCD:Start(80.6, DBM_CORE_TOP)
-				timerPurifierCD:Start(125, DBM_CORE_MIDDLE)
-				timerBatsCD:Start(170, 1)
-				self:Schedule(170, startBatsStuff, self)
-			else--Normal
-				timerDestructorCD:Start(7, DBM_CORE_MIDDLE)
-				self:Schedule(27, checkForDeadDestructor, self)
-				timerObfuscatorCD:Start(174, 1)
-				--timerRainofFelCD:Start(30-delay, 1)
-				--countdownRainofFel:Start(30-delay)
-			end
-		else
-			self.vb.lifeRequired = 3
-			timerDestructorCD:Start(12, DBM_CORE_MIDDLE)
+function mod:OnCombatStart(delay)
+	self.vb.rainOfFelCount = 0
+	self.vb.destructors = 0
+	self.vb.obfuscators = 0
+	self.vb.purifiers = 0
+	self.vb.destructorCast = 0
+	self.vb.obfuscatorCast = 0
+	self.vb.purifierCast = 0
+	self.vb.batCast = 0
+	self.vb.lifeForceCast = 0
+	self.vb.spearCast = 0
+	self.vb.finalDoomCast = 0
+	self.vb.targetedIcon = 1
+	berserkTimer:Start(-delay)
+	if not self:IsLFR() then
+		self.vb.lifeRequired = 4
+		if self:IsMythic() then
+			timerRainofFelCD:Start(6-delay, 1)
+			--countdownRainofFel:Start(6-delay)
+			--timerSpearofDoomCD:Start(35-delay, 1)
+			timerDestructorCD:Start(17, DBM_CORE_MIDDLE)
+			self:Schedule(30, checkForDeadDestructor, self, 5)
+			timerObfuscatorCD:Start(46, DBM_CORE_BOTTOM)
+			timerPurifierCD:Start(65.7, DBM_CORE_MIDDLE)
+			timerFinalDoomCD:Start(59.3-delay, 1)
+			countdownFinalDoom:Start(59.3-delay)
+			timerBatsCD:Start(195, 1)
+			self:Schedule(195, startBatsStuff, self)
+		elseif self:IsHeroic() then
+			timerRainofFelCD:Start(9.3-delay, 1)
+			--countdownRainofFel:Start(9.3-delay)
+			timerDestructorCD:Start(7, DBM_CORE_MIDDLE)
+			self:Schedule(27, checkForDeadDestructor, self)
+			timerSpearofDoomCD:Start(34-delay, 1)
+			timerObfuscatorCD:Start(80.6, DBM_CORE_TOP)
+			timerPurifierCD:Start(125, DBM_CORE_MIDDLE)
+			timerBatsCD:Start(170, 1)
+			self:Schedule(170, startBatsStuff, self)
+		else--Normal
+			timerDestructorCD:Start(7, DBM_CORE_MIDDLE)
+			self:Schedule(27, checkForDeadDestructor, self)
+			timerObfuscatorCD:Start(174, 1)
+			--timerRainofFelCD:Start(30-delay, 1)
+			--countdownRainofFel:Start(30-delay)
 		end
-		if self.Options.InfoFrame then
-			DBM.InfoFrame:Show(7, "function", updateInfoFrame, false, false)
-		end
-		if self.Options.NPAuraOnPurification or self.Options.NPAuraOnFelShielding then
-			DBM:FireEvent("BossMod_EnableHostileNameplates")
-		end
+	else
+		self.vb.lifeRequired = 3
+		timerDestructorCD:Start(12, DBM_CORE_MIDDLE)
+	end
+	if self.Options.InfoFrame then
+		DBM.InfoFrame:Show(7, "function", updateInfoFrame, false, false)
+	end
+	if self.Options.NPAuraOnPurification or self.Options.NPAuraOnFelShielding then
+		DBM:FireEvent("BossMod_EnableHostileNameplates")
 	end
 end
 

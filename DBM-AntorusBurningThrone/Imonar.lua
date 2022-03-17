@@ -11,7 +11,7 @@ mod:SetHotfixNoticeRev(16961)
 mod.respawnTime = 30
 
 --mod:RegisterCombat("combat", 124158)
-mod:RegisterCombat("combat_yell", L.YellPullImonar, L.YellPullImonar2, L.YellPullImonar3)
+mod:RegisterCombat("yell", L.YellPullImonar or L.YellPullImonar2 or L.YellPullImonar3)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 247376 247923 248068 248070 248254",
@@ -105,6 +105,7 @@ local warned_preP4 = false
 local warned_preP5 = false
 local warned_preP6 = false
 local warned_preP7 = false
+local warned_preP8 = false
 
 local debuffFilter
 local playerSleepDebuff = false
@@ -152,32 +153,31 @@ do
 	end
 end
 
-function mod:OnCombatStart(delay, yellTriggered)
-	if yellTriggered then
-		warned_preP1 = false
-		warned_preP2 = false
-		warned_preP3 = false
-		warned_preP4 = false
-		warned_preP5 = false
-		warned_preP6 = false
-		warned_preP7 = false
-		table.wipe(empoweredPulseTargets)
-		self.vb.phase = 1
-		self.vb.shrapnalCast = 0
-		self.vb.empoweredPulseActive = 0
-		self.vb.sleepCanisterIcon = 1
-		timerShocklanceCD:Start(4.2-delay)
-		timerSleepCanisterCD:Start(7-delay)
-		if not self:IsLFR() then--Don't seem to be in LFR
-			if self:IsMythic() then
-				timerPulseGrenadeCD:Start(12.5-delay)--14.2
-				countdownPulseGrenade:Start(12.5-delay)
-				berserkTimer:Start(480-delay)--8min
-			else
-				berserkTimer:Start(-delay)
-				timerPulseGrenadeCD:Start(14.2-delay)--14.2
-				countdownPulseGrenade:Start(14.2-delay)
-			end
+function mod:OnCombatStart(delay)
+	warned_preP1 = false
+	warned_preP2 = false
+	warned_preP3 = false
+	warned_preP4 = false
+	warned_preP5 = false
+	warned_preP6 = false
+	warned_preP7 = false
+	warned_preP8 = false
+	table.wipe(empoweredPulseTargets)
+	self.vb.phase = 1
+	self.vb.shrapnalCast = 0
+	self.vb.empoweredPulseActive = 0
+	self.vb.sleepCanisterIcon = 1
+	timerShocklanceCD:Start(4.2-delay)
+	timerSleepCanisterCD:Start(7-delay)
+	if not self:IsLFR() then--Don't seem to be in LFR
+		if self:IsMythic() then
+			timerPulseGrenadeCD:Start(12.5-delay)--14.2
+			countdownPulseGrenade:Start(12.5-delay)
+			berserkTimer:Start(480-delay)--8min
+		else
+			berserkTimer:Start(-delay)
+			timerPulseGrenadeCD:Start(14.2-delay)--14.2
+			countdownPulseGrenade:Start(14.2-delay)
 		end
 	end
 end
@@ -386,6 +386,7 @@ function mod:SPELL_AURA_REMOVED(args)
 			timerShrapnalBlastCD:Start(12.7, 1)--Empowered
 		elseif self.vb.phase == 5 then--Mythic Only (Identical to non mythic 3?)
 			warnPhase:Play("pfive")
+			warned_preP8 = true
 			timerShocklanceCD:Start(5)--Empowered
 			timerPulseGrenadeCD:Start(7)--Empowered
 			countdownPulseGrenade:Start(7)
@@ -495,7 +496,7 @@ function mod:UNIT_HEALTH(uId)
 		elseif self.vb.phase == 3 and warned_preP4 and not warned_preP5 and self:GetUnitCreatureId(uId) == 124158 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.44 then --Скоро фаза 4 +
 			warned_preP5 = true
 			specWarnPhase4:Show()
-		elseif self.vb.phase == 4 and warned_preP6 and not warned_preP7 and self:GetUnitCreatureId(uId) == 124158 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.24 then --Скоро фаза 5
+		elseif self.vb.phase == 4 and warned_preP6 and not warned_preP7 and self:GetUnitCreatureId(uId) == 124158 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.24 then --Скоро фаза 5 +
 			warned_preP7 = true
 			specWarnPhase5:Show()
 		end
