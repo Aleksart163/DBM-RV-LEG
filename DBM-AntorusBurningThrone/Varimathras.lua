@@ -11,7 +11,7 @@ mod:SetHotfixNoticeRev(17238)
 mod.respawnTime = 29
 
 --mod:RegisterCombat("combat", 122366)
-mod:RegisterCombat("combat_yell", L.YellPullVarimathras, L.YellPullVarimathras2)
+mod:RegisterCombat("yell", L.YellPullVarimathras or L.YellPullVarimathras2)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_SUCCESS 243960 244093 243999 257644",
@@ -33,10 +33,10 @@ local warnTormentofFrost				= mod:NewSpellAnnounce(243976, 2, nil, nil, nil, nil
 local warnTormentofFel					= mod:NewSpellAnnounce(243979, 2, nil, nil, nil, nil, nil, 2) --Пытка скверной
 local warnTormentofShadows				= mod:NewSpellAnnounce(243974, 2, nil, nil, nil, nil, nil, 2) --Пытка тьмой
 --The Fallen Nathrezim
-local warnShadowStrike					= mod:NewSpellAnnounce(243960, 2, nil, "Tank", 2)--Doesn't need special warning because misery should trigger special warning at same time
+local warnShadowStrike					= mod:NewSpellAnnounce(243960, 2, nil, "Tank", 2) --Теневой удар Doesn't need special warning because misery should trigger special warning at same time
 local warnMarkedPrey					= mod:NewTargetAnnounce(244042, 3) --Метка жертвы
 local warnNecroticEmbrace				= mod:NewTargetAnnounce(244094, 4) --Некротические объятия
-local warnEchoesofDoom					= mod:NewTargetAnnounce(248732, 3)
+local warnEchoesofDoom					= mod:NewTargetAnnounce(248732, 3) --Отголоски гибели
 
 --Torments of the Shivarra
 local specWarnGTFO						= mod:NewSpecialWarningYouMove(244005, nil, nil, nil, 1, 2)
@@ -48,7 +48,7 @@ local specWarnDarkFissure				= mod:NewSpecialWarningDodge(243999, nil, nil, nil,
 local specWarnMarkedPrey				= mod:NewSpecialWarningYou(244042, nil, nil, 2, 1, 2) --Метка жертвы
 local specWarnNecroticEmbrace			= mod:NewSpecialWarningYouMoveAway(244094, nil, nil, 3, 3, 5) --Некротические объятия
 local specWarnNecroticEmbrace2			= mod:NewSpecialWarningCloseMoveAway(244094, nil, nil, nil, 2, 5) --Некротические объятия
-local specWarnEchoesOfDoom				= mod:NewSpecialWarningYou(248732, nil, nil, nil, 1, 2)
+local specWarnEchoesOfDoom				= mod:NewSpecialWarningYou(248732, nil, nil, nil, 1, 2) --Отголоски гибели
 --Torments of the Shivarra
 mod:AddTimerLine(GENERAL)
 local timerTormentofFlamesCD			= mod:NewNextTimer(5, 243967, nil, nil, nil, 6) --Пытка огнем
@@ -57,7 +57,7 @@ local timerTormentofFelCD				= mod:NewNextTimer(61, 243979, nil, nil, nil, 6) --
 local timerTormentofShadowsCD			= mod:NewNextTimer(61, 243974, nil, nil, nil, 6) --Пытка тьмой
 --The Fallen Nathrezim
 mod:AddTimerLine(BOSS)
-local timerShadowStrikeCD				= mod:NewCDTimer(8.5, 243960, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)--8.5-14 (most of time it's 9.7 or more, But lowest has to be used
+local timerShadowStrikeCD				= mod:NewCDTimer(8.5, 243960, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Теневой удар 8.5-14 (most of time it's 9.7 or more, But lowest has to be used
 local timerDarkFissureCD				= mod:NewCDTimer(32, 243999, nil, nil, nil, 2)--32-33
 local timerMarkedPreyCD					= mod:NewNextTimer(30.3, 244042, nil, nil, nil, 3) --Метка жертвы
 local timerNecroticEmbraceCD			= mod:NewNextTimer(30, 244093, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Некротические объятия
@@ -66,12 +66,12 @@ local yellMarkedPrey					= mod:NewYell(244042, nil, nil, nil, "YELL") --Метк
 local yellMarkedPreyFades				= mod:NewShortFadesYell(244042, nil, nil, nil, "YELL") --Метка жертвы
 local yellNecroticEmbrace				= mod:NewYell(244094, nil, nil, nil, "YELL") --Некротические объятия
 local yellNecroticEmbraceFades			= mod:NewIconFadesYell(244094, nil, nil, nil, "YELL") --Некротические объятия
-local yellEchoesOfDoom					= mod:NewYell(248732, nil, nil, nil, "YELL")
+local yellEchoesOfDoom					= mod:NewYell(248732, nil, nil, nil, "YELL") --Отголоски гибели
 
 local berserkTimer						= mod:NewBerserkTimer(390)
 
 --The Fallen Nathrezim
-local countdownShadowStrike				= mod:NewCountdown("Alt9", 243960, "Tank", nil, 3)
+local countdownShadowStrike				= mod:NewCountdown("Alt9", 243960, "Tank", nil, 3) --Теневой удар
 local countdownMarkedPrey				= mod:NewCountdown(30, 244042) --Метка жертвы
 local countdownNecroticEmbrace			= mod:NewCountdown("AltTwo30", 244093) --Некротические объятия
 
@@ -84,25 +84,27 @@ mod.vb.currentTorment = 0--Can't antispam, cause it'll just break if someone die
 mod.vb.totalEmbrace = 0
 local playerAffected = false
 
-function mod:OnCombatStart(delay, yellTriggered)
-	if yellTriggered then
-		self.vb.currentTorment = 0
-		self.vb.totalEmbrace = 0
-		playerAffected = false
-		timerTormentofFlamesCD:Start(5-delay)
-		timerShadowStrikeCD:Start(9.3-delay)
-		countdownShadowStrike:Start(9.3-delay)
-		timerDarkFissureCD:Start(17.4-delay)--success
-		timerMarkedPreyCD:Start(25.2-delay)
-		countdownMarkedPrey:Start(25.2-delay)
-		if not self:IsEasy() then
-			timerNecroticEmbraceCD:Start(35-delay)
-			countdownNecroticEmbrace:Start(35-delay)
-		end
+function mod:OnCombatStart(delay)
+	self.vb.currentTorment = 0
+	self.vb.totalEmbrace = 0
+	playerAffected = false
+	timerTormentofFlamesCD:Start(5-delay)
+	timerShadowStrikeCD:Start(9.3-delay)
+	countdownShadowStrike:Start(9.3-delay)
+	timerDarkFissureCD:Start(17.4-delay)--success
+	timerMarkedPreyCD:Start(25.2-delay)
+	countdownMarkedPrey:Start(25.2-delay)
+	if not self:IsEasy() then
+		timerNecroticEmbraceCD:Start(35-delay)
+		countdownNecroticEmbrace:Start(35-delay)
+	end
+	if not self:IsLFR() then
 		berserkTimer:Start(310-delay)--Confirmed normal/heroic/mythic
-		if self.Options.RangeFrame then
-			DBM.RangeCheck:Show(8)
-		end
+	else
+		berserkTimer:Start(-delay)
+	end
+	if self.Options.RangeFrame then
+		DBM.RangeCheck:Show(8)
 	end
 end
 

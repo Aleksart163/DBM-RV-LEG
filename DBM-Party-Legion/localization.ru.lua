@@ -465,6 +465,17 @@ L:SetGeneralLocalization({
 	name = "Трэш Каземат Стражей"
 })
 
+L:SetTimerLocalization({
+	timerRoleplay = GUILD_INTEREST_RP
+})
+
+L:SetOptionLocalization({
+	timerRoleplay = "Отсчет времени до начала боя с Корданой"
+})
+
+L:SetMiscLocalization({
+	RoleRP = "Как предсказуемо! Я знала, что вы придете."
+})
 -------------------------------
 --<<<Возвращение в Каражан>>>--
 -------------------------------

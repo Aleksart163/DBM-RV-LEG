@@ -12,7 +12,7 @@ mod:SetMinSyncRevision(16975)
 mod.respawnTime = 29
 
 --mod:RegisterCombat("combat", 122578)
-mod:RegisterCombat("combat_yell", L.YellPullKingaroth, L.YellPullKingaroth2, L.YellPullKingaroth3)
+mod:RegisterCombat("yell", L.YellPullKingaroth or L.YellPullKingaroth2 or L.YellPullKingaroth3)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 244312 254926 245807 252758 246692 246833 246516 257978 254919",
@@ -175,30 +175,28 @@ function mod:TestFunction(time)
 	timerReverberatingStrikeCD:AddTime(time, 1)
 end
 
-function mod:OnCombatStart(delay, yellTriggered)
-	if yellTriggered then
-		self.vb.ruinerCast = 0
-		self.vb.forgingStrikeCast = 0
-		self.vb.reverbStrikeCast = 0
-		self.vb.apocProtoCount = 0
-		self.vb.ruinerTimeLeft = 0
-		self.vb.reverbTimeLeft = 0
-		self.vb.forgingTimeLeft = 0
-		self.vb.bombTimeLeft = 0
-		table.wipe(DemolishTargets)
-		berserkTimer:Start(-delay)
-		timerForgingStrikeCD:Start(6-delay, 1)--6-7
-		countdownForgingStrike:Start(6-delay)
-		timerDiabolicBombCD:Start(11-delay)
-		timerReverberatingStrikeCD:Start(14.2-delay, 1)--14-15
-		timerRuinerCD:Start(21.1-delay, 1)--21-25
-		countdownRuiner:Start(21.1-delay)
-		--timerShatteringStrikeCD:Start(1-delay)--Not cast on pull
-		timerApocProtocolCD:Start(31.8-delay, 1)--31.8-36.5
-		countdownApocProtocol:Start(31.8)
-		if self.Options.RangeFrame then
-			DBM.RangeCheck:Show(5)
-		end
+function mod:OnCombatStart(delay)
+	self.vb.ruinerCast = 0
+	self.vb.forgingStrikeCast = 0
+	self.vb.reverbStrikeCast = 0
+	self.vb.apocProtoCount = 0
+	self.vb.ruinerTimeLeft = 0
+	self.vb.reverbTimeLeft = 0
+	self.vb.forgingTimeLeft = 0
+	self.vb.bombTimeLeft = 0
+	table.wipe(DemolishTargets)
+	berserkTimer:Start(-delay)
+	timerForgingStrikeCD:Start(6-delay, 1)--6-7
+	countdownForgingStrike:Start(6-delay)
+	timerDiabolicBombCD:Start(11-delay)
+	timerReverberatingStrikeCD:Start(14.2-delay, 1)--14-15
+	timerRuinerCD:Start(21.1-delay, 1)--21-25
+	countdownRuiner:Start(21.1-delay)
+	--timerShatteringStrikeCD:Start(1-delay)--Not cast on pull
+	timerApocProtocolCD:Start(31.8-delay, 1)--31.8-36.5
+	countdownApocProtocol:Start(31.8)
+	if self.Options.RangeFrame then
+		DBM.RangeCheck:Show(5)
 	end
 end
 

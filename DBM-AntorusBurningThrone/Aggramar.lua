@@ -10,7 +10,7 @@ mod:SetHotfixNoticeRev(16964)
 mod.respawnTime = 25
 
 --mod:RegisterCombat("combat", 121975)
-mod:RegisterCombat("combat_yell", L.YellPullAggramar)
+mod:RegisterCombat("yell", L.YellPullAggramar)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 244693 245458 245463 245301 255058 255061 255059",
@@ -37,9 +37,10 @@ local warnRavenousBlazeCount			= mod:NewCountAnnounce(254452, 4)
 local warnTaeshalachTech				= mod:NewCountAnnounce(244688, 3)
 
 local specWarnPhase1					= mod:NewSpecialWarning("Phase1", nil, nil, nil, 1, 2) --скоро фаза 2
-local specWarnPhase2					= mod:NewSpecialWarning("Phase2", nil, nil, nil, 1, 2) --Фаза 2
+--local specWarnPhase2					= mod:NewSpecialWarning("Phase2", nil, nil, nil, 1, 2) --Фаза 2
 local specWarnPhase3					= mod:NewSpecialWarning("Phase3", nil, nil, nil, 1, 2) --скоро фаза 3
-local specWarnPhase4					= mod:NewSpecialWarning("Phase4", nil, nil, nil, 1, 2) --Фаза 3
+--local specWarnPhase4					= mod:NewSpecialWarning("Phase4", nil, nil, nil, 1, 2) --Фаза 3
+
 --Stage One: Wrath of Aggramar
 local specWarnTaeshalachReach			= mod:NewSpecialWarningStack(245990, nil, 8, nil, nil, 1, 6)
 local specWarnTaeshalachReachOther		= mod:NewSpecialWarningTaunt(245990, nil, nil, nil, 1, 2)
@@ -283,84 +284,82 @@ function mod:WakeTarget(targetname, uId)
 	end
 end
 
-function mod:OnCombatStart(delay, yellTriggered)
-	if yellTriggered then
-		self.vb.phase = 1
-		self.vb.techCount = 0
-		self.vb.foeCount = 0
-		self.vb.rendCount = 0
-		self.vb.wakeOfFlameCount = 0
-		self.vb.blazeIcon = 1
-		warned_preP1 = false
-		warned_preP2 = false
-		warned_preP3 = false
-		warned_preP4 = false
-		self.vb.techActive = false
-		--self.vb.incompleteCombo = false
-		table.wipe(unitTracked)
-		if self:IsMythic() then
-			comboUsed[1] = false
-			comboUsed[2] = false
-			comboUsed[3] = false
-			comboUsed[4] = false
-			timerRavenousBlazeCD:Start(4-delay)
-			timerWakeofFlameCD:Start(10.7-delay)--Health based?
-			countdownWakeofFlame:Start(10.7-delay)
-			timerTaeshalachTechCD:Start(14.3-delay, 1)--Health based?
-			countdownTaeshalachTech:Start(14.3-delay)
-			berserkTimer:Start(540-delay)
-			table.wipe(comboDebug)
-			comboDebugCounter = 0
-		else
-			berserkTimer:Start(-delay)
-			timerScorchingBlazeCD:Start(4.8-delay)
-			timerWakeofFlameCD:Start(5.1-delay)
-			countdownWakeofFlame:Start(5.1-delay)
-			timerTaeshalachTechCD:Start(35-delay, 1)
-			countdownTaeshalachTech:Start(35-delay)
-		end
-		--Everyone should lose spread except tanks which should stay stacked. Maybe melee are safe too?
-		if self.Options.RangeFrame and not self:IsTank() then
-			DBM.RangeCheck:Show(6)
-		end
-		if self.Options.NPAuraOnPresence then
-			DBM:FireEvent("BossMod_EnableHostileNameplates")
-			self:RegisterOnUpdateHandler(function(self)
-				for i = 1, 40 do
-					local UnitID = "nameplate"..i
-					local GUID = UnitGUID(UnitID)
-					local cid = self:GetCIDFromGUID(GUID)
-					if cid == 122532 then
-						local unitPower = UnitPower(UnitID)
-						if not unitTracked[GUID] then unitTracked[GUID] = "None" end
-						if (unitPower < 35) then
-							if unitTracked[GUID] ~= "Green" then
-								unitTracked[GUID] = "Green"
-								DBM.Nameplate:Show(true, GUID, 244912, 463281)
-							end
-						elseif (unitPower < 70) then
-							if unitTracked[GUID] ~= "Yellow" then
-								unitTracked[GUID] = "Yellow"
-								DBM.Nameplate:Hide(true, GUID, 244912, 463281)
-								DBM.Nameplate:Show(true, GUID, 244912, 460954)
-							end
-						elseif (unitPower < 90) then
-							if unitTracked[GUID] ~= "Red" then
-								unitTracked[GUID] = "Red"
-								DBM.Nameplate:Hide(true, GUID, 244912, 460954)
-								DBM.Nameplate:Show(true, GUID, 244912, 463282)
-							end
-						elseif (unitPower < 100) then
-							if unitTracked[GUID] ~= "Critical" then
-								unitTracked[GUID] = "Critical"
-								DBM.Nameplate:Hide(true, GUID, 244912, 463282)
-								DBM.Nameplate:Show(true, GUID, 244912, 1029718)
-							end
+function mod:OnCombatStart(delay)
+	self.vb.phase = 1
+	self.vb.techCount = 0
+	self.vb.foeCount = 0
+	self.vb.rendCount = 0
+	self.vb.wakeOfFlameCount = 0
+	self.vb.blazeIcon = 1
+	warned_preP1 = false
+	warned_preP2 = false
+	warned_preP3 = false
+	warned_preP4 = false
+	self.vb.techActive = false
+	--self.vb.incompleteCombo = false
+	table.wipe(unitTracked)
+	if self:IsMythic() then
+		comboUsed[1] = false
+		comboUsed[2] = false
+		comboUsed[3] = false
+		comboUsed[4] = false
+		timerRavenousBlazeCD:Start(4-delay)
+		timerWakeofFlameCD:Start(10.7-delay)--Health based?
+		countdownWakeofFlame:Start(10.7-delay)
+		timerTaeshalachTechCD:Start(14.3-delay, 1)--Health based?
+		countdownTaeshalachTech:Start(14.3-delay)
+		berserkTimer:Start(540-delay)
+		table.wipe(comboDebug)
+		comboDebugCounter = 0
+	else
+		berserkTimer:Start(-delay)
+		timerScorchingBlazeCD:Start(4.8-delay)
+		timerWakeofFlameCD:Start(5.1-delay)
+		countdownWakeofFlame:Start(5.1-delay)
+		timerTaeshalachTechCD:Start(35-delay, 1)
+		countdownTaeshalachTech:Start(35-delay)
+	end
+	--Everyone should lose spread except tanks which should stay stacked. Maybe melee are safe too?
+	if self.Options.RangeFrame and not self:IsTank() then
+		DBM.RangeCheck:Show(6)
+	end
+	if self.Options.NPAuraOnPresence then
+		DBM:FireEvent("BossMod_EnableHostileNameplates")
+		self:RegisterOnUpdateHandler(function(self)
+			for i = 1, 40 do
+				local UnitID = "nameplate"..i
+				local GUID = UnitGUID(UnitID)
+				local cid = self:GetCIDFromGUID(GUID)
+				if cid == 122532 then
+					local unitPower = UnitPower(UnitID)
+					if not unitTracked[GUID] then unitTracked[GUID] = "None" end
+					if (unitPower < 35) then
+						if unitTracked[GUID] ~= "Green" then
+							unitTracked[GUID] = "Green"
+							DBM.Nameplate:Show(true, GUID, 244912, 463281)
+						end
+					elseif (unitPower < 70) then
+						if unitTracked[GUID] ~= "Yellow" then
+							unitTracked[GUID] = "Yellow"
+							DBM.Nameplate:Hide(true, GUID, 244912, 463281)
+							DBM.Nameplate:Show(true, GUID, 244912, 460954)
+						end
+					elseif (unitPower < 90) then
+						if unitTracked[GUID] ~= "Red" then
+							unitTracked[GUID] = "Red"
+							DBM.Nameplate:Hide(true, GUID, 244912, 460954)
+							DBM.Nameplate:Show(true, GUID, 244912, 463282)
+						end
+					elseif (unitPower < 100) then
+						if unitTracked[GUID] ~= "Critical" then
+							unitTracked[GUID] = "Critical"
+							DBM.Nameplate:Hide(true, GUID, 244912, 463282)
+							DBM.Nameplate:Show(true, GUID, 244912, 1029718)
 						end
 					end
 				end
-			end, 1)
-		end
+			end
+		end, 1)
 	end
 end
 
@@ -597,7 +596,6 @@ function mod:SPELL_AURA_REMOVED(args)
 		warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase))
 		if self.vb.phase == 2 then
 			warnPhase:Play("ptwo")
-			specWarnPhase2:Show()
 			warned_preP2 = true
 			timerFlareCD:Start(self:IsMythic() and 8 or 10)
 			if self:IsMythic() then
@@ -605,7 +603,6 @@ function mod:SPELL_AURA_REMOVED(args)
 			end
 		elseif self.vb.phase == 3 then
 			warnPhase:Play("pthree")
-			specWarnPhase4:Show()
 			warned_preP4 = true
 			timerFlareCD:Start(self:IsMythic() and 8 or 10)
 			if self:IsMythic() then

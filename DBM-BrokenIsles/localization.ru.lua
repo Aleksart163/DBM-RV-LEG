@@ -93,3 +93,15 @@ L = DBM:GetModLocalization("RareEnemies")
 L:SetGeneralLocalization({
 	name ="Редкие враги"
 })
+
+L:SetTimerLocalization({
+	timerRoleplay = GUILD_INTEREST_RP
+})
+
+L:SetOptionLocalization({
+	timerRoleplay = "Отсчет времени до начала боя с Скал'вракс"
+})
+
+L:SetMiscLocalization({
+	PullSkulvrax = "Я... еще жива..."
+})

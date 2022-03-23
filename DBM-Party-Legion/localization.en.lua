@@ -460,6 +460,18 @@ L:SetGeneralLocalization({
 	name =	"Vault of Wardens Trash"
 })
 
+L:SetTimerLocalization({
+	timerRoleplay = GUILD_INTEREST_RP
+})
+
+L:SetOptionLocalization({
+	timerRoleplay = "Countdown to the start of the fight with Kordana"
+})
+
+L:SetMiscLocalization({
+	RoleRP = "How utterly predictable! I knew that you would come."
+})
+
 -----------------------
 -- <<<Return To Karazhan>>> --
 -----------------------

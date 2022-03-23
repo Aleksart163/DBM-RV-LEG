@@ -13,7 +13,7 @@ mod.respawnTime = 29
 mod:DisableRegenDetection()--Prevent false combat when fighting trash
 
 --mod:RegisterCombat("combat", 122450)
-mod:RegisterCombat("combat_yell", L.YellPullGarothi)
+mod:RegisterCombat("yell", L.YellPullGarothi)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 244969 240277",
@@ -117,22 +117,20 @@ do
 	end
 end
 
-function mod:OnCombatStart(delay, yellTriggered)
-	if yellTriggered then
-		warned_preP1 = false
-		warned_preP2 = false
-		table.wipe(decimationTargets)
-		self.vb.deciminationActive = 0
-		self.vb.FelBombardmentActive = 0
-		self.vb.lastCannon = 1--Anniilator 1 decimator 2
-		self.vb.annihilatorHaywire = false
-		self.vb.phase = 1
-		berserkTimer:Start(-delay)
-		timerSpecialCD:Start(8.5-delay)--First one random.
-		countdownChooseCannon:Start(8.5-delay)
-		timerFelBombardmentCD:Start(9.7-delay)
-		countdownFelBombardment:Start(9.7-delay)
-	end
+function mod:OnCombatStart(delay)
+	warned_preP1 = false
+	warned_preP2 = false
+	table.wipe(decimationTargets)
+	self.vb.deciminationActive = 0
+	self.vb.FelBombardmentActive = 0
+	self.vb.lastCannon = 1--Anniilator 1 decimator 2
+	self.vb.annihilatorHaywire = false
+	self.vb.phase = 1
+	berserkTimer:Start(-delay)
+	timerSpecialCD:Start(8.5-delay)--First one random.
+	countdownChooseCannon:Start(8.5-delay)
+	timerFelBombardmentCD:Start(9.7-delay)
+	countdownFelBombardment:Start(9.7-delay)
 end
 
 function mod:OnCombatEnd()

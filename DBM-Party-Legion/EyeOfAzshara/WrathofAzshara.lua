@@ -15,19 +15,20 @@ mod:RegisterEventsInCombat(
 	"CHAT_MSG_RAID_BOSS_EMOTE",
 	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
-
+local warnArcaneBomb				= mod:NewTargetAnnounce(192706, 4) --Чародейская бомба
 local warnMythicTornado				= mod:NewSpellAnnounce(192680, 3)--target scanning not available
-local warnArcaneBomb				= mod:NewTargetAnnounce(192706, 4)
 
+local specWarnArcaneBomb			= mod:NewSpecialWarningYouMoveAway(192706, nil, nil, nil, 3, 2) --Чародейская бомба
+local specWarnArcaneBomb2			= mod:NewSpecialWarningDispel(192706, "Healer", nil, nil, 3, 5) --Чародейская бомба
 local specWarnMassiveDeluge			= mod:NewSpecialWarningDodge(192617, "Tank", nil, nil, 3, 2)
-local specWarnArcaneBomb			= mod:NewSpecialWarningMoveAway(192706, nil, nil, nil, 3, 2)
 
 local timerMythicTornadoCD			= mod:NewCDTimer(25, 192680, nil, nil, nil, 3)
 local timerMassiveDelugeCD			= mod:NewCDTimer(50, 192617, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
 local timerArcaneBomb				= mod:NewTargetTimer(15, 192706, nil, nil, nil, 5, nil, DBM_CORE_MAGIC_ICON)--Magic dispel for healer to dispel at correct time
 local timerArcaneBombCD				= mod:NewCDTimer(23, 192706, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON)--23-37
 
-local yellArcaneBomb				= mod:NewYell(192706, nil, nil, nil, "YELL")
+local yellArcaneBomb				= mod:NewYell(192706, nil, nil, nil, "YELL") --Чародейская бомба
+local yellArcaneBombFades			= mod:NewFadesYell(192706, nil, nil, nil, "YELL") --Чародейская бомба
 
 mod:AddRangeFrameOption(10, 192706)
 
@@ -56,7 +57,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 192706 then
 		timerArcaneBomb:Start(args.destName)
-		if args:IsPlayer() and self.Options.RangeFrame then
+		if self.Options.RangeFrame then
 			DBM.RangeCheck:Show(10)
 		end
 	end
@@ -66,7 +67,7 @@ function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
 	if spellId == 192706 then
 		timerArcaneBomb:Cancel(args.destName)
-		if args:IsPlayer() and self.Options.RangeFrame then
+		if self.Options.RangeFrame then
 			DBM.RangeCheck:Hide()
 		end
 	end
@@ -97,9 +98,11 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, _, _, _, targetname)
 			specWarnArcaneBomb:Show()
 			specWarnArcaneBomb:Play("runout")
 			yellArcaneBomb:Yell()
+			yellArcaneBombFades:Countdown(15)
 		else
-			warnArcaneBomb:Show(targetname)
+			specWarnArcaneBomb2:Show(args.destName)
 		end
+		warnArcaneBomb:Show(targetname)
 	end
 end
 

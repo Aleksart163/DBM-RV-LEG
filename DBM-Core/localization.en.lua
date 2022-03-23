@@ -35,7 +35,7 @@ DBM_CORE_LOOT_SPEC_REMINDER			= "Your current spec is %s. Your current loot choi
 
 DBM_CORE_BIGWIGS_ICON_CONFLICT		= "DBM has detected that you have raid icons turned on in both BigWigs and DBM. Please disable icons in one of them to avoid conflicts"
 
-DBM_CORE_MOD_AVAILABLE				= "%s is available for this zone/boss. You can find download on Curse/WoWI or deadlybossmods.com."
+DBM_CORE_MOD_AVAILABLE				= "%s is available for this zone/boss. You can find download on |HDBM:forums|h|cff3588ffhttps://github.com/Aleksart163/DBM-for-Legion|r."
 
 DBM_CORE_COMBAT_STARTED				= "%s engaged. Good luck and have fun! :)"
 DBM_CORE_COMBAT_STARTED_IN_PROGRESS	= "Engaged an in progress fight against %s. Good luck and have fun! :)"
@@ -168,8 +168,8 @@ DBM_CORE_UPDATEREMINDER_FOOTER_GENERIC	= "Press " .. (IsMacClient() and "Cmd-C" 
 DBM_CORE_UPDATEREMINDER_DISABLE			= "WARNING: Do to your Deadly Boss Mods being too out of date, it has been force disabled and cannot used until updated. This is to ensure old and incompatible code doesn't cause poor play experience for yourself or fellow raid members."
 DBM_CORE_UPDATEREMINDER_HOTFIX			= "DBM version you are on has known issues during this boss encounter that are corrected if you update to latest release"
 DBM_CORE_UPDATEREMINDER_HOTFIX_ALPHA	= "DBM version you are on has known issues during this boss encounter that are corrected in an upcoming release (or latest alpha version)"
-DBM_CORE_UPDATEREMINDER_MAJORPATCH		= "WARNING: Do to your Deadly Boss Mods being out of date, DBM has been disabled until updated, since this is a major game patch. This is to ensure old and incompatible code doesn't cause poor play experience for yourself or fellow group members. Make sure you download a newer version from deadlybossmods.com or curse as soon as possible."
-DBM_CORE_UPDATEREMINDER_TESTVERSION		= "WARNING: You are using a version of Deadly Boss Mods not intended to be used with this game version. Please make sure you download the appropriate version for your game client from deadlybossmods.com or curse."
+DBM_CORE_UPDATEREMINDER_MAJORPATCH		= "WARNING: Do to your Deadly Boss Mods being out of date, DBM has been disabled until updated, since this is a major game patch. This is to ensure old and incompatible code doesn't cause poor play experience for yourself or fellow group members. Make sure you download a newer version from " .. DBM_CORE_UPDATEREMINDER_URL .. " as soon as possible."
+DBM_CORE_UPDATEREMINDER_TESTVERSION		= "WARNING: You are using a version of Deadly Boss Mods not intended to be used with this game version. Please make sure you download the appropriate version for your game client from " .. DBM_CORE_UPDATEREMINDER_URL .. "."
 DBM_CORE_VEM							= "WARNING: You are running both Deadly Boss Mods and Voice Encounter Mods. DBM will not run in this configuration and therefore will not be loaded."
 DBM_CORE_3RDPROFILES					= "WARNING: DBM-Profiles not compatible with this version of DBM. It must be removed before DBM can proceed, to avoid conflict."
 DBM_CORE_DPMCORE						= "WARNING: Deadly PvP mods is discontinued and not compatible with this version of DBM. It must be removed before DBM can proceed, to avoid conflict."

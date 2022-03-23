@@ -1,25 +1,34 @@
 local mod	= DBM:NewMod("VoWTrash", "DBM-Party-Legion", 10)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17522 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 --mod:SetModelID(47785)
 mod:SetZone()
 
 mod.isTrashMod = true
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 196799 193069 196799 196249",
-	"SPELL_AURA_APPLIED 202615 193069"
+	"SPELL_CAST_START 196799 193069 196799 196249 193502",
+	"SPELL_AURA_APPLIED 202615 193069 193607",
+	"CHAT_MSG_MONSTER_SAY"
 )
 
-local warnTorment				= mod:NewTargetAnnounce(202615, 3)
-local warnNightmares			= mod:NewTargetAnnounce(202615, 4)
+local warnTorment				= mod:NewTargetAnnounce(202615, 3) --Мучение
+local warnNightmares			= mod:NewTargetAnnounce(193069, 4) --Кошмары
+local warnDoubleStrike			= mod:NewTargetAnnounce(193607, 2) --Двойной удар
+local warnMetamorphosis			= mod:NewSpellAnnounce(193502, 4) --Метаморфоза
 
-local specWarnUnleashedFury		= mod:NewSpecialWarningSpell(196799, nil, nil, nil, 2, 2)
-local specWarnNightmares		= mod:NewSpecialWarningInterrupt(193069, "HasInterrupt", nil, nil, 1, 2)
-local yellNightmares			= mod:NewYell(193069)
-local yellTorment				= mod:NewYell(202615)
-local specWarnMeteor			= mod:NewSpecialWarningSpell(196249, nil, nil, nil, 1, 2)
+local specWarnDoubleStrike		= mod:NewSpecialWarningDefensive(193607, nil, nil, nil, 2, 2) --Двойной удар
+local specWarnUnleashedFury		= mod:NewSpecialWarningInterrupt(196799, "-Healer", nil, nil, 2, 2) --Высвобождение ярости
+local specWarnNightmares		= mod:NewSpecialWarningInterrupt(193069, "HasInterrupt", nil, nil, 3, 2) --Кошмары
+local specWarnMeteor			= mod:NewSpecialWarningDodge(196249, nil, nil, nil, 1, 2) --Метеор
+
+local timerDoubleStrikeCD		= mod:NewCDTimer(13, 193607, nil, "Tank", nil, 3, nil, DBM_CORE_TANK_ICON) --Двойной удар
+local timerDoubleStrike			= mod:NewTargetTimer(6, 193607, nil, "Healer", nil, 3, nil) --Двойной удар
+local timerRoleplay				= mod:NewTimer(23, "timerRoleplay", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7) --Ролевая игра
+
+local yellNightmares			= mod:NewYell(193069, nil, nil, nil, "YELL") --Кошмары
+local yellTorment				= mod:NewYell(202615, nil, nil, nil, "YELL") --Мучение
 
 function mod:SPELL_CAST_START(args)
 	if not self.Options.Enabled then return end
@@ -33,6 +42,8 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 196249 then
 		specWarnMeteor:Show()
 		specWarnMeteor:Play("gathershare")
+	elseif spellId == 193502 then --Метаморфоза
+		warnMetamorphosis:Show()
 	end
 end
 
@@ -49,5 +60,24 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			yellNightmares:Yell()
 		end
+	elseif spellId == 193607 then --Двойной удар
+		warnDoubleStrike:Show(args.destName)
+		timerDoubleStrike:Start(args.destName)
+		timerDoubleStrikeCD:Start()
+		if args:IsPlayer() then
+			specWarnDoubleStrike:Show()
+		end
+	end
+end
+
+function mod:CHAT_MSG_MONSTER_SAY(msg)
+	if msg == L.RoleRP or msg:find(L.RoleRP) then
+		self:SendSync("Roleplay")
+	end
+end
+
+function mod:OnSync(msg, GUID)
+	if msg == "Roleplay" then
+		timerRoleplay:Start()
 	end
 end

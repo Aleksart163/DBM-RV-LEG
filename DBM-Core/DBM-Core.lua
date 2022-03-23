@@ -41,9 +41,9 @@
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 17652 $"):sub(12, -3)),
+	Revision = tonumber(("$Revision: 17653 $"):sub(12, -3)),
 	DisplayVersion = "7.3.33 Right Version",
-	ReleaseRevision = 17651
+	ReleaseRevision = 17652
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -4308,20 +4308,20 @@ do
 					AddMsg(DBM, DBM_CORE_UPDATEREMINDER_HEADER:match("([^\n]*)"))
 					AddMsg(DBM, DBM_CORE_UPDATEREMINDER_HEADER:match("\n(.*)"):format(displayVersion, version))
 					showConstantReminder = 1
-				elseif not noRaid and #newerVersionPerson == 3 and updateNotificationDisplayed < 7 then--The following code requires at least THREE people to send that higher revision. That should be more than adaquate
+				elseif not noRaid and #newerVersionPerson == 3 and updateNotificationDisplayed < 10 then--The following code requires at least THREE people to send that higher revision. That should be more than adaquate
 					--Disable if revision grossly out of date even if not major patch.
 					if raid[newerVersionPerson[1]] and raid[newerVersionPerson[2]] and raid[newerVersionPerson[3]] then
 						local revDifference = mmin((raid[newerVersionPerson[1]].revision - DBM.Revision), (raid[newerVersionPerson[2]].revision - DBM.Revision), (raid[newerVersionPerson[3]].revision - DBM.Revision))
 						if revDifference > 500 then --Отключение аддона WTF? Sorry but your DBM is being turned off until you update. Grossly out of date mods cause fps loss, freezes, lua error spam, or just very bad information, if mod is not up to date with latest changes. All around undesirable experience to put yourself or other raid mates through
-							if updateNotificationDisplayed < 7 then
-								updateNotificationDisplayed = 7
+							if updateNotificationDisplayed < 10 then
+								updateNotificationDisplayed = 10
 								AddMsg(DBM, DBM_CORE_UPDATEREMINDER_DISABLE)
 								DBM:Disable(true)
 							end
 						end
 					--Disable if out of date and it's a major patch.
 					elseif not testBuild and dbmToc < wowTOC then
-						updateNotificationDisplayed = 7
+						updateNotificationDisplayed = 10
 						AddMsg(DBM, DBM_CORE_UPDATEREMINDER_MAJORPATCH)
 						DBM:Disable(true)
 					end

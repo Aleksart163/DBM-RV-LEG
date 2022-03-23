@@ -11,7 +11,7 @@ mod:SetHotfixNoticeRev(16963)
 mod.respawnTime = 25
 
 --mod:RegisterCombat("combat", 122468, 122467, 122469)
-mod:RegisterCombat("combat_yell", L.YellPullCoven)
+mod:RegisterCombat("yell", L.YellPullCoven)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 245627 252861 253650 250648 250095",
@@ -144,50 +144,48 @@ mod.vb.ignoreFirstInterrupt = false
 mod.vb.firstCastHappend = false
 local CVAR1, CVAR2 = nil, nil
 
-function mod:OnCombatStart(delay, yellTriggered)
-	if yellTriggered then
-		self.vb.stormCount = 0
-		self.vb.chilledCount = 0
-		self.vb.MachinationsLeft = 0
-		self.vb.fpIcon = 4
-		self.vb.chilledIcon = 1
-		self.vb.glareIcon = 4
-		self.vb.touchCosmosCast = 0
-		self.vb.interruptBehavior = "Three"
-		self.vb.ignoreFirstInterrupt = false
-		self.vb.firstCastHappend = false
-		if self:IsMythic() then
-			self:SetCreatureID(122468, 122467, 122469, 125436)
-		else
-			self:SetCreatureID(122468, 122467, 122469)
-		end
-		--Diima, Mother of Gloom is first one to go inactive
-		berserkTimer:Start(-delay)
-		timerWhirlingSaberCD:Start(8-delay)
-		timerFieryStrikeCD:Start(11-delay)
-		timerShadowBladesCD:Start(10.9-delay)
-		if not self:IsEasy() then
-			timerFulminatingPulseCD:Start(20.3-delay)
-			countdownFulminatingPulse:Start(20.3-delay)
-			timerStormofDarknessCD:Start(26-delay, 1)
-			countdownStormofDarkness:Start(26-delay)
-		end
-		if self.Options.NPAuraOnVisageofTitan then
-			DBM:FireEvent("BossMod_EnableHostileNameplates")
-		end
-		if self.Options.SetLighting and not IsMacClient() then--Mac client doesn't support low (1) setting for lighting (and not InCombatLockdown() needed?)
-			CVAR1, CVAR2 = GetCVar("graphicsLightingQuality") or 3, GetCVar("raidGraphicsLightingQuality") or 2--Non raid cvar is nil if 3 (default) and raid one is nil if 2 (default)
-			SetCVar("graphicsLightingQuality", 1)
-			SetCVar("raidGraphicsLightingQuality", 1)
-		end
-		if UnitIsGroupLeader("player") and not self:IsLFR() then
-			if self.Options.InterruptBehavior == "Three" then
-				self:SendSync("Three", self.Options.IgnoreFirstKick)
-			elseif self.Options.InterruptBehavior == "Four" then
-				self:SendSync("Four", self.Options.IgnoreFirstKick)
-			elseif self.Options.InterruptBehavior == "Five" then
-				self:SendSync("Five", self.Options.IgnoreFirstKick)
-			end
+function mod:OnCombatStart(delay)
+	self.vb.stormCount = 0
+	self.vb.chilledCount = 0
+	self.vb.MachinationsLeft = 0
+	self.vb.fpIcon = 4
+	self.vb.chilledIcon = 1
+	self.vb.glareIcon = 4
+	self.vb.touchCosmosCast = 0
+	self.vb.interruptBehavior = "Three"
+	self.vb.ignoreFirstInterrupt = false
+	self.vb.firstCastHappend = false
+	if self:IsMythic() then
+		self:SetCreatureID(122468, 122467, 122469, 125436)
+	else
+		self:SetCreatureID(122468, 122467, 122469)
+	end
+	--Diima, Mother of Gloom is first one to go inactive
+	berserkTimer:Start(-delay)
+	timerWhirlingSaberCD:Start(8-delay)
+	timerFieryStrikeCD:Start(11-delay)
+	timerShadowBladesCD:Start(10.9-delay)
+	if not self:IsEasy() then
+		timerFulminatingPulseCD:Start(20.3-delay)
+		countdownFulminatingPulse:Start(20.3-delay)
+		timerStormofDarknessCD:Start(26-delay, 1)
+		countdownStormofDarkness:Start(26-delay)
+	end
+	if self.Options.NPAuraOnVisageofTitan then
+		DBM:FireEvent("BossMod_EnableHostileNameplates")
+	end
+	if self.Options.SetLighting and not IsMacClient() then--Mac client doesn't support low (1) setting for lighting (and not InCombatLockdown() needed?)
+		CVAR1, CVAR2 = GetCVar("graphicsLightingQuality") or 3, GetCVar("raidGraphicsLightingQuality") or 2--Non raid cvar is nil if 3 (default) and raid one is nil if 2 (default)
+		SetCVar("graphicsLightingQuality", 1)
+		SetCVar("raidGraphicsLightingQuality", 1)
+	end
+	if UnitIsGroupLeader("player") and not self:IsLFR() then
+		if self.Options.InterruptBehavior == "Three" then
+			self:SendSync("Three", self.Options.IgnoreFirstKick)
+		elseif self.Options.InterruptBehavior == "Four" then
+			self:SendSync("Four", self.Options.IgnoreFirstKick)
+		elseif self.Options.InterruptBehavior == "Five" then
+			self:SendSync("Five", self.Options.IgnoreFirstKick)
 		end
 	end
 end

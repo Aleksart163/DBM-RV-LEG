@@ -11,11 +11,12 @@ mod:SetMinSyncRevision(17622)
 --mod:RegisterCombat("combat")
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 221424 222676 189157 214095 218245 218250 217527 213585 206794 223101 223104 220197 219060 206762 203671 219024",
+	"SPELL_CAST_START 221424 222676 189157 214095 218245 218250 217527 213585 206794 223101 223104 220197 219060 206762 203671 219024 222596",
 	"SPELL_CAST_SUCCESS 221422 214183 223094",
 	"SPELL_AURA_APPLIED 221422 221425 222676 218250 223094 219102 219087 206795 219060 219024",
 	"SPELL_AURA_APPLIED_DOSE 221425",
 	"SPELL_AURA_REMOVED 221422 221425",
+	"CHAT_MSG_MONSTER_SAY",
 	"UNIT_SPELLCAST_SUCCEEDED",
 	"UNIT_DIED"
 )
@@ -45,7 +46,7 @@ local specWarnFertilize			= mod:NewSpecialWarningInterrupt(223104, "HasInterrupt
 local specWarnEnchantedVenom	= mod:NewSpecialWarningInterrupt(223101, "-Healer", nil, nil, 1, 2) --Зачарованный яд
 local specWarnNova				= mod:NewSpecialWarningRun(206794, "Melee", nil, nil, 4, 5) --Новая
 local specWarnNova2				= mod:NewSpecialWarningDodge(206794, "Ranged", nil, nil, 2, 3) --Новая
-local specWarnCorruptionBarrage = mod:NewSpecialWarningDodge(213585, nil, nil, nil, 2, 3) --Обстрел порчей
+local specWarnCorruptionBarrage = mod:NewSpecialWarningDodge(213585, nil, nil, nil, 1, 3) --Обстрел порчей
 local specWarnOverflowingTaint 	= mod:NewSpecialWarningDodge(217527, nil, nil, nil, 2, 3) --Переполняющая порча
 local specWarnVortex			= mod:NewSpecialWarningInterrupt(214183, "-Healer", nil, nil, 3, 5) --Воронка
 local specWarnDeathWail			= mod:NewSpecialWarningRun(189157, "Melee", nil, nil, 4, 5) --Вой смерти
@@ -71,17 +72,23 @@ local timerArcticSlamCD			= mod:NewCDTimer(20, 220197, nil, nil, nil, 2, nil, DB
 local timerWebWrapCD			= mod:NewCDTimer(22, 223094, nil, nil, nil, 3, nil, DBM_CORE_DAMAGE_ICON) --Кокон
 local timerFertilizeCD			= mod:NewCDTimer(22, 223104, nil, nil, nil, 3, nil, DBM_CORE_DAMAGE_ICON) --Удобрение
 local timerOverflowingTaintCD	= mod:NewCDTimer(15, 217527, nil, nil, nil, 3, nil) --Переполняющая порча
+--Яростная китовая акула
 local timerViciousBite			= mod:NewTargetTimer(15, 221422, nil, nil, nil, 5, nil) --Яростный укус
 local timerViciousBiteCD		= mod:NewCDTimer(30, 221422, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON) --Яростный укус
 local timerCrushArmor			= mod:NewTargetTimer(20, 221425, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON) --Сокрушение доспеха
-local timerBladeBarrageCD		= mod:NewCDTimer(30, 222596, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Залп клинков
-local timerImpaleCD				= mod:NewCDTimer(20, 222676, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON) --Прокалывание
-local timerArcticTorrentCD		= mod:NewCDTimer(35, 218245, nil, nil, nil, 3, nil) --Арктический поток
-local timerFlrglDrglDrglGrglCD	= mod:NewCDTimer(18, 218250, nil, nil, nil, 2, nil) --Флргл Дргл Дргл Гргл
+--Джейд темная гавань
+local timerBladeBarrageCD		= mod:NewCDTimer(13, 222596, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Залп клинков
+local timerImpaleCD				= mod:NewCDTimer(10.5, 222676, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON) --Прокалывание
+--Гргл бргл
+local timerArcticTorrentCD		= mod:NewCDTimer(35, 218245, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Арктический поток
+local timerFlrglDrglDrglGrglCD	= mod:NewCDTimer(19, 218250, nil, nil, nil, 2, nil, DBM_CORE_INTERRUPT_ICON) --Флргл Дргл Дргл Гргл
+
+local timerRoleplay				= mod:NewTimer(30, "timerRoleplay", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7) --Ролевая игра
 
 local yellClubSlam				= mod:NewYell(203671, nil, nil, nil, "YELL") --Мощный удар дубиной
 local yellWebWrap				= mod:NewYell(223094, nil, nil, nil, "YELL") --Кокон
 local yellImpale				= mod:NewYell(222676, nil, nil, nil, "YELL") --Прокалывание
+local yellImpaleFades			= mod:NewFadesYell(222676, nil, nil, nil, "YELL") --Прокалывание
 local yellArcticTorrent			= mod:NewYell(218245, nil, nil, nil, "YELL") --Арктический поток
 
 function mod:SPELL_CAST_START(args)
@@ -102,7 +109,7 @@ function mod:SPELL_CAST_START(args)
 		warnArcticTorrent:Show(targetname)
 		specWarnArcticTorrent:Show()
 		if targetname == UnitName("player") then
-			yellImpale:Yell()
+			yellArcticTorrent:Yell()
 		end
 		timerArcticTorrentCD:Start()
 		timerFlrglDrglDrglGrglCD:Start()
@@ -156,7 +163,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
 	if spellId == 221422 then --Яростный укус
 		timerViciousBiteCD:Start()
-	elseif spellId == 218250 then --Прокалывание
+	elseif spellId == 218250 then --Флргл Дргл Дргл Гргл
 		specWarnFlrglDrglDrglGrgl2:Show()
 	elseif spellId == 214183 then --Воронка
 		specWarnVortex:Show()
@@ -186,6 +193,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnImpale:Show(args.destName)
 		if args:IsPlayer() then
 			yellImpale:Yell()
+			yellImpaleFades:Countdown(3)
 		end
 	elseif spellId == 223094 then --Кокон
 		warnWebWrap:CombinedShow(0.5, args.destName)
@@ -223,6 +231,19 @@ function mod:SPELL_AURA_REMOVED(args)
 		timerCrushArmor:Cancel(args.destName)
 	end
 end
+
+function mod:CHAT_MSG_MONSTER_SAY(msg)
+	if msg == L.PullSkulvrax or msg:find(L.PullSkulvrax) then
+		timerRoleplay:Start(31)
+	--	self:SendSync("RPSkulvrax")
+	end
+end
+
+--[[function mod:OnSync(msg, GUID)
+	if msg == "RPSkulvrax" then
+		timerRoleplay:Start(31)
+	end
+end]]
 
 function mod:UNIT_DIED(args)
 	local cid = self:GetCIDFromGUID(args.destGUID)

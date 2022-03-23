@@ -12,7 +12,7 @@ mod:SetMinSyncRevision(16895)
 mod.respawnTime = 29
 
 --mod:RegisterCombat("combat", 124828)
-mod:RegisterCombat("combat_yell", L.YellPullArgus)
+mod:RegisterCombat("yell", L.YellPullArgus)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 248165 248317 257296 255594 257645 252516 256542 255648 257619",
@@ -64,11 +64,11 @@ local warnGiftOfLifebinder			= mod:NewCastAnnounce(257619, 1)
 local warnDeadlyScythe				= mod:NewStackAnnounce(258039, 2, nil, "Tank")
 
 local specWarnPhase1				= mod:NewSpecialWarning("Phase1", nil, nil, nil, 1, 2) --Скоро фаза 2
-local specWarnPhase2				= mod:NewSpecialWarning("Phase2", nil, nil, nil, 1, 2) --Фаза 2
+--local specWarnPhase2				= mod:NewSpecialWarning("Phase2", nil, nil, nil, 1, 2) --Фаза 2
 local specWarnPhase3				= mod:NewSpecialWarning("Phase3", nil, nil, nil, 1, 2) --Скоро фаза 3
-local specWarnPhase4				= mod:NewSpecialWarning("Phase4", nil, nil, nil, 1, 2) --Фаза 3
+--local specWarnPhase4				= mod:NewSpecialWarning("Phase4", nil, nil, nil, 1, 2) --Фаза 3
 local specWarnPhase5				= mod:NewSpecialWarning("Phase5", nil, nil, nil, 1, 2) --Скоро фаза 4
-local specWarnPhase6				= mod:NewSpecialWarning("Phase6", nil, nil, nil, 1, 2) --Фаза 4
+--local specWarnPhase6				= mod:NewSpecialWarning("Phase6", nil, nil, nil, 1, 2) --Фаза 4
 
 --Stage One: Storm and Sky
 local specWarnSweepingScythe		= mod:NewSpecialWarningStack(248499, nil, 3, nil, nil, 3, 6) --Сметающая коса
@@ -316,50 +316,48 @@ do
 	end
 end
 
-function mod:OnCombatStart(delay, yellTriggered)
-	if yellTriggered then
-		playerAvatar = false
-		table.wipe(tankStacks)
-		self.vb.phase = 1
-		self.vb.kurators = 7
-		self.vb.coneCount = 0
-		self.vb.SkyandSeaCount = 0
-		self.vb.blightOrbCount = 0
-		self.vb.TorturedRage = 0
-		self.vb.soulBurstIcon = 3
-		self.vb.EdgeofObliteration = 0
-		self.vb.moduleCount = 0
-		self.vb.sentenceCount = 0
-		self.vb.gazeCount = 0
-		self.vb.scytheCastCount = 0
-		self.vb.firstscytheSwap = false
-		self.vb.rangeCheckNoTouchy = false
-		warned_preP1 = false
-		warned_preP2 = false
-		warned_preP3 = false
-		warned_preP4 = false
-		warned_preP5 = false
-		warned_preP6 = false
-		timerSweepingScytheCD:Start(5.5-delay, 1)
-		countdownSweapingScythe:Start(5.5)
-		timerSkyandSeaCD:Start(10.1-delay, 1)
-		timerTorturedRageCD:Start(12-delay, 1)
-		timerConeofDeathCD:Start(30.3-delay, 1)
-		timerBlightOrbCD:Start(35.2-delay, 1)
-		if self:IsMythic() then
-			timerSargGazeCD:Start(8.2-delay, 1)
-			countdownSargGaze:Start(8.2)
-			self:Schedule(6.2, ToggleRangeFinder, self)--Call Show 5 seconds Before NEXT rages get applied (2 seconds before cast + 3 sec cast time)
-			berserkTimer:Start(660-delay)
-		else
-			berserkTimer:Start(720-delay)
-		end
-		if self.Options.InfoFrame then
-			DBM.InfoFrame:Show(6, "function", updateInfoFrame, false, false)
-		end
-		if self.Options.NPAuraOnInevitability or self.Options.NPAuraOnCosmosSword or self.Options.NPAuraOnEternalBlades or self.Options.NPAuraOnVulnerability then
-			DBM:FireEvent("BossMod_EnableHostileNameplates")
-		end
+function mod:OnCombatStart(delay)
+	playerAvatar = false
+	table.wipe(tankStacks)
+	self.vb.phase = 1
+	self.vb.kurators = 7
+	self.vb.coneCount = 0
+	self.vb.SkyandSeaCount = 0
+	self.vb.blightOrbCount = 0
+	self.vb.TorturedRage = 0
+	self.vb.soulBurstIcon = 3
+	self.vb.EdgeofObliteration = 0
+	self.vb.moduleCount = 0
+	self.vb.sentenceCount = 0
+	self.vb.gazeCount = 0
+	self.vb.scytheCastCount = 0
+	self.vb.firstscytheSwap = false
+	self.vb.rangeCheckNoTouchy = false
+	warned_preP1 = false
+	warned_preP2 = false
+	warned_preP3 = false
+	warned_preP4 = false
+	warned_preP5 = false
+	warned_preP6 = false
+	timerSweepingScytheCD:Start(5.5-delay, 1)
+	countdownSweapingScythe:Start(5.5)
+	timerSkyandSeaCD:Start(10.1-delay, 1)
+	timerTorturedRageCD:Start(12-delay, 1)
+	timerConeofDeathCD:Start(30.3-delay, 1)
+	timerBlightOrbCD:Start(35.2-delay, 1)
+	if self:IsMythic() then
+		timerSargGazeCD:Start(8.2-delay, 1)
+		countdownSargGaze:Start(8.2)
+		self:Schedule(6.2, ToggleRangeFinder, self)--Call Show 5 seconds Before NEXT rages get applied (2 seconds before cast + 3 sec cast time)
+		berserkTimer:Start(660-delay)
+	else
+		berserkTimer:Start(720-delay)
+	end
+	if self.Options.InfoFrame then
+		DBM.InfoFrame:Show(6, "function", updateInfoFrame, false, false)
+	end
+	if self.Options.NPAuraOnInevitability or self.Options.NPAuraOnCosmosSword or self.Options.NPAuraOnEternalBlades or self.Options.NPAuraOnVulnerability then
+		DBM:FireEvent("BossMod_EnableHostileNameplates")
 	end
 end
 
@@ -409,7 +407,6 @@ function mod:SPELL_CAST_START(args)
 		self.vb.firstscytheSwap = false
 		warned_preP2 = true
 		warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(2))
-		specWarnPhase2:Show()
 		timerConeofDeathCD:Stop()
 		timerBlightOrbCD:Stop()
 		timerTorturedRageCD:Stop()
@@ -440,7 +437,6 @@ function mod:SPELL_CAST_START(args)
 			self.vb.phase = 3
 			warned_preP4 = true
 			warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(3))
-			specWarnPhase4:Show() --фаза 3
 			timerSweepingScytheCD:Stop()
 			countdownSweapingScythe:Cancel()
 			timerTorturedRageCD:Stop()
@@ -465,7 +461,6 @@ function mod:SPELL_CAST_START(args)
 			self.vb.phase = 4
 			warned_preP6 = true
 			warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(4))
-			specWarnPhase6:Show() --фаза 4
 			if self.Options.InfoFrame then
 				DBM.InfoFrame:Show(6, "function", updateInfoFrame, false, false)
 			end
