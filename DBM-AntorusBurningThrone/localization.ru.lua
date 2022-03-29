@@ -36,7 +36,7 @@ L:SetOptionLocalization({
 L= DBM:GetModLocalization(1997)
 
 L:SetMiscLocalization({
-	YellPullCouncil = "От меня ещё никто не уходил живым."
+	YellPullCouncil	= "От меня ещё никто не уходил живым."
 })
 
 ----------------------------------
@@ -172,7 +172,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	YellPullCoven = "Сейчас ваша плоть зашипит на огне."
+	YellPullCoven		= "Сейчас ваша плоть зашипит на огне."
 })
 
 ------------

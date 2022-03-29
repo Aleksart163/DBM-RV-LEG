@@ -8,10 +8,10 @@ mod.isTrashMod = true
 
 mod:RegisterEvents(
 	"SPELL_CAST_START 246209 245807",
---	"SPELL_CAST_SUCCESS",
-	"SPELL_AURA_APPLIED 252760 253600 254122 249297 246199",
---	"SPELL_AURA_APPLIED_DOSE"
-	"SPELL_AURA_REMOVED 252760 254122 249297",
+	"SPELL_CAST_SUCCESS",
+	"SPELL_AURA_APPLIED 252760 253600 254122 249297 246199 246687",
+	"SPELL_AURA_APPLIED_DOSE",
+	"SPELL_AURA_REMOVED 252760 254122 249297 246687",
 	"SPELL_PERIODIC_DAMAGE 246199",
 	"SPELL_PERIODIC_MISSED 246199"
 )
@@ -30,9 +30,11 @@ local specWarnDemolish					= mod:NewSpecialWarningYouShare(252760, nil, nil, nil
 local specWarnCloudofConfuse			= mod:NewSpecialWarningYouMoveAway(254122, nil, nil, nil, 1, 2) --Облако растерянности
 local specWarnFlamesofReorig			= mod:NewSpecialWarningYouMoveAway(249297, nil, nil, nil, 3, 5) --Пламя пересоздания
 local specWarnSoulburn					= mod:NewSpecialWarningMoveAway(253600, nil, nil, nil, 3, 5) --Горящая душа
-local specWarnPunishingFlame			= mod:NewSpecialWarningRun(246209, "Melee", nil, nil, 4, 2) --Наказующее пламя
+local specWarnPunishingFlame			= mod:NewSpecialWarningRun(246209, "Melee", nil, nil, 4, 3) --Наказующее пламя
+local specWarnPunishingFlame2			= mod:NewSpecialWarningDodge(246209, "Ranged", nil, nil, 2, 3) --Наказующее пламя
 local specWarnAnnihilation				= mod:NewSpecialWarningSoak(245807, nil, nil, nil, 2, 2) --Аннигиляция
 --local specWarnShadowBoltVolley		= mod:NewSpecialWarningInterrupt(243171, "HasInterrupt", nil, nil, 1, 2)
+
 local yellDemolish						= mod:NewYell(252760, nil, nil, nil, "YELL") --Разрушение
 local yellDemolishFades					= mod:NewShortFadesYell(252760, nil, nil, nil, "YELL") --Разрушение
 local yellCloudofConfuse				= mod:NewYell(254122, nil, nil, nil, "YELL") --Облако растерянности
@@ -48,6 +50,8 @@ function mod:SPELL_CAST_START(args)
 	if spellId == 246209 then
 		specWarnPunishingFlame:Show()
 		specWarnPunishingFlame:Play("justrun")
+		specWarnPunishingFlame2:Show()
+		specWarnPunishingFlame2:Play("justrun")
 	elseif spellId == 245807 and self:AntiSpam(5, 1) then
 		specWarnAnnihilation:Show()
 		specWarnAnnihilation:Play("helpsoak")

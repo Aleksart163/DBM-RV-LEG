@@ -14,7 +14,7 @@ mod:SetHotfixNoticeRev(16960)
 mod:RegisterCombat("yell", L.YellPullEonar)
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_START 249121 250701",
+	"SPELL_CAST_START 249121 250701 246305",
 	"SPELL_CAST_SUCCESS 246753 254769 250048",
 	"SPELL_AURA_APPLIED 250074 250555 249016 248332 250073 250693 250691 250140",
 	"SPELL_AURA_APPLIED_DOSE 250140",
@@ -28,68 +28,53 @@ mod:RegisterEventsInCombat(
 	"UNIT_SPELLCAST_STOP boss1 boss2 boss3 boss4 boss5"
 )
 
---TODO, verify Meteor Storm in LFR
---[[
-(ability.id = 249121 or ability.id = 250048) and type = "begincast"
- or (ability.id = 246753 or ability.id = 254769 or ability.id = 250048) and type = "cast"
- or (ability.id = 248332) and type = "applydebuff"
- or (ability.id = 250073) and type = "applybuff"
- or target.name = "Volant Kerapteron"
- or target.id = 124445 and ability.id = 250030
- 
-4 Life Force LFR Logs, and slower add spawn rates:
-https://www.warcraftlogs.com/reports/bWwmdJ8gCkcP1BYF#fight=1&type=summary&view=events&pins=2%24Off%24%23244F4B%24expression%24(ability.id%20%3D%20249121%20or%20ability.id%20%3D%20250048)%20and%20type%20%3D%20%22begincast%22%20%20or%20(ability.id%20%3D%20246753%20or%20ability.id%20%3D%20254769)%20and%20type%20%3D%20%22cast%22%20%20or%20(ability.id%20%3D%20248332)%20and%20type%20%3D%20%22applydebuff%22%20%20or%20(ability.id%20%3D%20250073)%20and%20type%20%3D%20%22applybuff%22%20%20or%20target.name%20%3D%20%22Volant%20Kerapteron%22
-https://www.warcraftlogs.com/reports/RcjbYJQHWNCt41Fm#fight=24&type=summary&pins=2%24Off%24%23244F4B%24expression%24(ability.id%20%3D%20249121%20or%20ability.id%20%3D%20250048)%20and%20type%20%3D%20%22begincast%22%20%20or%20(ability.id%20%3D%20246753%20or%20ability.id%20%3D%20254769)%20and%20type%20%3D%20%22cast%22%20%20or%20(ability.id%20%3D%20248332)%20and%20type%20%3D%20%22applydebuff%22%20%20or%20(ability.id%20%3D%20250073)%20and%20type%20%3D%20%22applybuff%22%20%20or%20target.name%20%3D%20%22Volant%20Kerapteron%22&view=events
-3 Life Force LFR Logs, with faster add spawn rates:
-https://www.warcraftlogs.com/reports/9xkDgRXYLtzb1Bnq#fight=2&type=summary&view=events&pins=2%24Off%24%23244F4B%24expression%24(ability.id%20%3D%20249121%20or%20ability.id%20%3D%20250048)%20and%20type%20%3D%20%22begincast%22%20%20or%20(ability.id%20%3D%20246753%20or%20ability.id%20%3D%20254769)%20and%20type%20%3D%20%22cast%22%20%20or%20(ability.id%20%3D%20248332)%20and%20type%20%3D%20%22applydebuff%22%20%20or%20(ability.id%20%3D%20250073)%20and%20type%20%3D%20%22applybuff%22%20%20or%20target.name%20%3D%20%22Volant%20Kerapteron%22
-https://www.warcraftlogs.com/reports/V1dPgAZtFLwq2HDz#fight=8&type=summary&view=events&pins=2%24Off%24%23244F4B%24expression%24(ability.id%20%3D%20249121%20or%20ability.id%20%3D%20250048)%20and%20type%20%3D%20%22begincast%22%20%20or%20(ability.id%20%3D%20246753%20or%20ability.id%20%3D%20254769)%20and%20type%20%3D%20%22cast%22%20%20or%20(ability.id%20%3D%20248332)%20and%20type%20%3D%20%22applydebuff%22%20%20or%20(ability.id%20%3D%20250073)%20and%20type%20%3D%20%22applybuff%22%20%20or%20target.name%20%3D%20%22Volant%20Kerapteron%22
---]]
 --The Paraxis
-local warnRainofFel						= mod:NewTargetCountAnnounce(248332, 2)
-local warnWarpIn						= mod:NewTargetAnnounce(246888, 3, nil, nil, nil, nil, nil, 2, true)
-local warnLifeForce						= mod:NewCountAnnounce(250048, 1)
+local warnRainofFel						= mod:NewTargetCountAnnounce(248332, 1) --Дождь Скверны
+local warnWarpIn						= mod:NewTargetAnnounce(246888, 3, nil, nil, nil, nil, nil, 2, true) --Прибытие
+local warnLifeForce						= mod:NewCountAnnounce(250048, 1) --Жизненная сила
 
 --The Paraxis
-local specWarnSpearofDoom				= mod:NewSpecialWarningDodge(248789, nil, nil, nil, 2, 2)
---local yellSpearofDoom					= mod:NewYell(248789)
-local specWarnRainofFel					= mod:NewSpecialWarningMoveAway(248332, nil, nil, 2, 1, 2)
-local yellRainofFel						= mod:NewYell(248332)
-local yellRainofFelFades				= mod:NewShortFadesYell(248332)
+local specWarnSpearofDoom				= mod:NewSpecialWarningDodge(248789, nil, nil, nil, 2, 3) --Копье Рока
+--local yellSpearofDoom					= mod:NewYell(248789) --Копье Рока
+local specWarnRainofFel					= mod:NewSpecialWarningYouMoveAway(248332, nil, nil, 2, 1, 2) --Дождь Скверны
 --Adds
-local specWarnSwing						= mod:NewSpecialWarningDodge(250701, "MeleeDps", nil, nil, 1, 2)
+local specWarnSwing						= mod:NewSpecialWarningDodge(250701, "MeleeDps", nil, nil, 1, 2) --Размах Скверны
+local specWarnArtilleryStrike			= mod:NewSpecialWarningInterrupt(246305, "HasInterrupt", nil, nil, 3, 3) --Артиллерийский удар
 --local yellBurstingDreadflame			= mod:NewPosYell(238430, DBM_CORE_AUTO_YELL_CUSTOM_POSITION)
 --local specWarnMalignantAnguish		= mod:NewSpecialWarningInterrupt(236597, "HasInterrupt")
 --local specWarnGTFO					= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 2)
 --Mythic
-local specWarnFinalDoom					= mod:NewSpecialWarningCount(249121, "-Tank", nil, nil, 1, 2)
-local specWarnArcaneBuildup				= mod:NewSpecialWarningMoveAway(250693, nil, nil, nil, 1, 2)
-local yellArcaneBuildup					= mod:NewYell(250693)
-local yellArcaneBuildupFades			= mod:NewShortFadesYell(250693)
-local specWarnBurningEmbers				= mod:NewSpecialWarningMoveAway(250691, nil, nil, nil, 1, 2)
-local yellBurningEmbers					= mod:NewYell(250691)
-local yellBurningEmbersFades			= mod:NewShortFadesYell(250691)
-local specWarnFoulSteps					= mod:NewSpecialWarningStack(250140, nil, 12, nil, nil, 1, 6)--Fine tune
+local specWarnFinalDoom					= mod:NewSpecialWarningInterruptCount2(249121, "-Tank", nil, nil, 1, 2) --Всеобщая погибель
+local specWarnArcaneBuildup				= mod:NewSpecialWarningYouMoveAway(250693, nil, nil, nil, 1, 2) --Волшебный вихрь
+local specWarnBurningEmbers				= mod:NewSpecialWarningYouMoveAway(250691, nil, nil, nil, 1, 2) --Раскаленные угли
+local specWarnFoulSteps					= mod:NewSpecialWarningStack(250140, nil, 12, nil, nil, 1, 6) --Гнусные приемы Fine tune
 
 --The Paraxis
 mod:AddTimerLine(GENERAL)
-local timerSpearofDoomCD				= mod:NewCDCountTimer(55, 248789, nil, nil, nil, 3)--55-69
-local timerRainofFelCD					= mod:NewCDCountTimer(61, 248332, nil, nil, nil, 3)
+local timerSpearofDoomCD				= mod:NewCDCountTimer(55, 248789, nil, nil, nil, 3) --Копье Рока 55-69
+local timerRainofFelCD					= mod:NewCDCountTimer(61, 248332, nil, nil, nil, 3) --Дождь Скверны
 mod:AddTimerLine(DBM_ADDS)
-local timerDestructorCD					= mod:NewTimer(90, "timerDestructor", 254769, nil, nil, 1, DBM_CORE_TANK_ICON)
-local timerObfuscatorCD					= mod:NewTimer(90, "timerObfuscator", 246753, nil, nil, 1, DBM_CORE_DAMAGE_ICON)
-local timerPurifierCD					= mod:NewTimer(90, "timerPurifier", 250074, nil, nil, 1, DBM_CORE_TANK_ICON)
-local timerBatsCD						= mod:NewTimer(90, "timerBats", 242080, nil, nil, 1, DBM_CORE_DAMAGE_ICON)
+local timerDestructorCD					= mod:NewTimer(90, "timerDestructor", 254769, nil, nil, 1, DBM_CORE_TANK_ICON) --Разрушитель
+local timerObfuscatorCD					= mod:NewTimer(90, "timerObfuscator", 246753, nil, nil, 1, DBM_CORE_DAMAGE_ICON) --Маскировщик
+local timerPurifierCD					= mod:NewTimer(90, "timerPurifier", 250074, nil, nil, 1, DBM_CORE_TANK_ICON) --Очиститель
+local timerBatsCD						= mod:NewTimer(90, "timerBats", 242080, nil, nil, 1, DBM_CORE_DAMAGE_ICON) --Мыши
 --Mythic 
 mod:AddTimerLine(ENCOUNTER_JOURNAL_SECTION_FLAG12)
-local timerFinalDoom					= mod:NewCastTimer(50, 249121, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON)
-local timerFinalDoomCD					= mod:NewCDCountTimer(90, 249121, nil, nil, nil, 4, nil, DBM_CORE_HEROIC_ICON)
+local timerFinalDoom					= mod:NewCastTimer(50, 249121, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Всеобщая погибель
+local timerFinalDoomCD					= mod:NewCDCountTimer(90, 249121, nil, nil, nil, 4, nil, DBM_CORE_MYTHIC_ICON) --Всеобщая погибель
 
 local berserkTimer						= mod:NewBerserkTimer(600)
 
+local yellRainofFel						= mod:NewYell(248332, nil, nil, nil, "YELL") --Дождь Скверны
+local yellRainofFelFades				= mod:NewShortFadesYell(248332, nil, nil, nil, "YELL") --Дождь Скверны
+local yellArcaneBuildup					= mod:NewYell(250693, nil, nil, nil, "YELL") --Волшебный вихрь
+local yellArcaneBuildupFades			= mod:NewShortFadesYell(250693, nil, nil, nil, "YELL") --Волшебный вихрь
+local yellBurningEmbers					= mod:NewYell(250691, nil, nil, nil, "YELL") --Раскаленные угли
+local yellBurningEmbersFades			= mod:NewShortFadesYell(250691, nil, nil, nil, "YELL") --Раскаленные угли
 --The Paraxis
---local countdownRainofFel				= mod:NewCountdown("Alt60", 248332)--Not accurate enough yet. not until timer correction is added to handle speed of raids dps affecting sequence
+--local countdownRainofFel				= mod:NewCountdown("Alt60", 248332) --Дождь Скверны Not accurate enough yet. not until timer correction is added to handle speed of raids dps affecting sequence
 --Mythic
-local countdownFinalDoom				= mod:NewCountdown("AltTwo90", 249121)
+local countdownFinalDoom				= mod:NewCountdown("AltTwo90", 249121) --Всеобщая погибель
 
 mod:AddSetIconOption("SetIconOnFeedbackTargeted2", 249016, false)
 mod:AddInfoFrameOption(250030, true)
@@ -310,6 +295,8 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 250701 and self:CheckInterruptFilter(args.sourceGUID, true) then
 		specWarnSwing:Show()
 		specWarnSwing:Play("watchstep")
+	elseif spellId == 246305 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Артиллерийский удар
+		specWarnArtilleryStrike:Show()
 	end
 end
 
@@ -511,3 +498,20 @@ function mod:UNIT_SPELLCAST_CHANNEL_STOP(uId, _, bfaSpellId, _, legacySpellId)
 	end
 end
 mod.UNIT_SPELLCAST_STOP = mod.UNIT_SPELLCAST_CHANNEL_STOP
+
+--TODO, verify Meteor Storm in LFR
+--[[
+(ability.id = 249121 or ability.id = 250048) and type = "begincast"
+ or (ability.id = 246753 or ability.id = 254769 or ability.id = 250048) and type = "cast"
+ or (ability.id = 248332) and type = "applydebuff"
+ or (ability.id = 250073) and type = "applybuff"
+ or target.name = "Volant Kerapteron"
+ or target.id = 124445 and ability.id = 250030
+ 
+4 Life Force LFR Logs, and slower add spawn rates:
+https://www.warcraftlogs.com/reports/bWwmdJ8gCkcP1BYF#fight=1&type=summary&view=events&pins=2%24Off%24%23244F4B%24expression%24(ability.id%20%3D%20249121%20or%20ability.id%20%3D%20250048)%20and%20type%20%3D%20%22begincast%22%20%20or%20(ability.id%20%3D%20246753%20or%20ability.id%20%3D%20254769)%20and%20type%20%3D%20%22cast%22%20%20or%20(ability.id%20%3D%20248332)%20and%20type%20%3D%20%22applydebuff%22%20%20or%20(ability.id%20%3D%20250073)%20and%20type%20%3D%20%22applybuff%22%20%20or%20target.name%20%3D%20%22Volant%20Kerapteron%22
+https://www.warcraftlogs.com/reports/RcjbYJQHWNCt41Fm#fight=24&type=summary&pins=2%24Off%24%23244F4B%24expression%24(ability.id%20%3D%20249121%20or%20ability.id%20%3D%20250048)%20and%20type%20%3D%20%22begincast%22%20%20or%20(ability.id%20%3D%20246753%20or%20ability.id%20%3D%20254769)%20and%20type%20%3D%20%22cast%22%20%20or%20(ability.id%20%3D%20248332)%20and%20type%20%3D%20%22applydebuff%22%20%20or%20(ability.id%20%3D%20250073)%20and%20type%20%3D%20%22applybuff%22%20%20or%20target.name%20%3D%20%22Volant%20Kerapteron%22&view=events
+3 Life Force LFR Logs, with faster add spawn rates:
+https://www.warcraftlogs.com/reports/9xkDgRXYLtzb1Bnq#fight=2&type=summary&view=events&pins=2%24Off%24%23244F4B%24expression%24(ability.id%20%3D%20249121%20or%20ability.id%20%3D%20250048)%20and%20type%20%3D%20%22begincast%22%20%20or%20(ability.id%20%3D%20246753%20or%20ability.id%20%3D%20254769)%20and%20type%20%3D%20%22cast%22%20%20or%20(ability.id%20%3D%20248332)%20and%20type%20%3D%20%22applydebuff%22%20%20or%20(ability.id%20%3D%20250073)%20and%20type%20%3D%20%22applybuff%22%20%20or%20target.name%20%3D%20%22Volant%20Kerapteron%22
+https://www.warcraftlogs.com/reports/V1dPgAZtFLwq2HDz#fight=8&type=summary&view=events&pins=2%24Off%24%23244F4B%24expression%24(ability.id%20%3D%20249121%20or%20ability.id%20%3D%20250048)%20and%20type%20%3D%20%22begincast%22%20%20or%20(ability.id%20%3D%20246753%20or%20ability.id%20%3D%20254769)%20and%20type%20%3D%20%22cast%22%20%20or%20(ability.id%20%3D%20248332)%20and%20type%20%3D%20%22applydebuff%22%20%20or%20(ability.id%20%3D%20250073)%20and%20type%20%3D%20%22applybuff%22%20%20or%20target.name%20%3D%20%22Volant%20Kerapteron%22
+--]]

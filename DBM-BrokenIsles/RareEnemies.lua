@@ -81,7 +81,7 @@ local timerBladeBarrageCD		= mod:NewCDTimer(13, 222596, nil, nil, nil, 2, nil, D
 local timerImpaleCD				= mod:NewCDTimer(10.5, 222676, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON) --Прокалывание
 --Гргл бргл
 local timerArcticTorrentCD		= mod:NewCDTimer(35, 218245, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Арктический поток
-local timerFlrglDrglDrglGrglCD	= mod:NewCDTimer(19, 218250, nil, nil, nil, 2, nil, DBM_CORE_INTERRUPT_ICON) --Флргл Дргл Дргл Гргл
+local timerFlrglDrglDrglGrglCD	= mod:NewCDTimer(20, 218250, nil, nil, nil, 2, nil, DBM_CORE_INTERRUPT_ICON) --Флргл Дргл Дргл Гргл
 
 local timerRoleplay				= mod:NewTimer(30, "timerRoleplay", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7) --Ролевая игра
 

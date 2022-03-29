@@ -41,9 +41,9 @@
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 17653 $"):sub(12, -3)),
-	DisplayVersion = "7.3.33 Right Version",
-	ReleaseRevision = 17652
+	Revision = tonumber(("$Revision: 17654 $"):sub(12, -3)),
+	DisplayVersion = "7.3.34 Right Version",
+	ReleaseRevision = 17653
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -311,6 +311,7 @@ DBM.Defeat = {
 DBM.Music = {--Contains all music media, period
 	{text = "FNaF Security breach", value = "Interface\\AddOns\\DBM-Core\\sounds\\Custom\\MUS_70_Security.mp3", length=197},
 	{text = "Anduin Part 1 B", value = "sound\\music\\Legion\\MUS_70_AnduinPt1_B.mp3", length=140},
+	{text = "A World Divided", value = "sound\\music\\Legion\\MUS_70_AnduinPt1_C.mp3", length=134}, --1C
 	{text = "Anduin Part 2 B", value = "sound\\music\\Legion\\MUS_70_AnduinPt2_B.mp3", length=111},
 	{text = "Nightsong Extended", value = "Interface\\AddOns\\DBM-Core\\sounds\\Custom\\MUS_70_Nightsong.mp3", length=217},
 	{text = "Invincible", value = "Sound\\Music\\Draenor\\MUS_Invincible.mp3", length=197},
@@ -322,7 +323,11 @@ DBM.Music = {--Contains all music media, period
 DBM.DungeonMusic = {--Filtered list of media assigned to dungeon/raid background music catagory
 	{text = "FNaF Security breach", value = "Interface\\AddOns\\DBM-Core\\sounds\\Custom\\MUS_70_Security.mp3", length=197},
 	{text = "Anduin Part 1 B", value = "sound\\music\\Legion\\MUS_70_AnduinPt1_B.mp3", length=140},
+	{text = "A World Divided", value = "sound\\music\\Legion\\MUS_70_AnduinPt1_C.mp3", length=134}, --1C
+--	{text = "Anduin Part 1 D", value = "sound\\music\\Legion\\MUS_70_AnduinPt1_D.mp3", length=88},
+--	{text = "Anduin Part 1 E", value = "sound\\music\\Legion\\MUS_70_AnduinPt1_E.mp3", length=68},
 	{text = "Anduin Part 2 B", value = "sound\\music\\Legion\\MUS_70_AnduinPt2_B.mp3", length=111},
+--	{text = "Anduin Part 2 C", value = "sound\\music\\Legion\\MUS_70_AnduinPt2_C.mp3", length=52},
 	{text = "Nightsong Extended", value = "Interface\\AddOns\\DBM-Core\\sounds\\Custom\\MUS_70_Nightsong.mp3", length=217},
 	{text = "Invincible", value = "Sound\\Music\\Draenor\\MUS_Invincible.mp3", length=197},
 	{text = "Ulduar: Titan Orchestra", value = "Sound\\Music\\ZoneMusic\\UlduarRaidInt\\UR_TitanOrchestraIntro.mp3", length=102},
@@ -332,6 +337,7 @@ DBM.DungeonMusic = {--Filtered list of media assigned to dungeon/raid background
 DBM.BattleMusic = {--Filtered list of media assigned to boss/encounter background music catagory
 	{text = "FNaF Security breach", value = "Interface\\AddOns\\DBM-Core\\sounds\\Custom\\MUS_70_Security.mp3", length=197},
 	{text = "Anduin Part 1 B", value = "sound\\music\\Legion\\MUS_70_AnduinPt1_B.mp3", length=140},
+	{text = "A World Divided", value = "sound\\music\\Legion\\MUS_70_AnduinPt1_C.mp3", length=134}, --1C
 	{text = "Anduin Part 2 B", value = "sound\\music\\Legion\\MUS_70_AnduinPt2_B.mp3", length=111},
 	{text = "Nightsong Extended", value = "Interface\\AddOns\\DBM-Core\\sounds\\Custom\\MUS_70_Nightsong.mp3", length=217},
 	{text = "Invincible", value = "Sound\\Music\\Draenor\\MUS_Invincible.mp3", length=197},
@@ -3533,8 +3539,8 @@ end
 
 function DBM:LFG_PROPOSAL_SHOW()
 	if self.Options.ShowQueuePop and not self.Options.DontShowBossTimers then
-		self.Bars:CreateBar(40, DBM_LFG_INVITE, "Interface\\Icons\\Spell_Holy_BorrowedTime")
-		fireEvent("DBM_TimerStart", "DBMLFGTimer", DBM_LFG_INVITE, 40, "Interface\\Icons\\Spell_Holy_BorrowedTime", "extratimer", nil, 0)
+		self.Bars:CreateBar(46, DBM_LFG_INVITE, "Interface\\Icons\\Spell_Holy_BorrowedTime")
+		fireEvent("DBM_TimerStart", "DBMLFGTimer", DBM_LFG_INVITE, 46, "Interface\\Icons\\Spell_Holy_BorrowedTime", "extratimer", nil, 0)
 	end
 	if self.Options.LFDEnhance then
 		self:FlashClientIcon()
@@ -9861,6 +9867,10 @@ do
 	function bossModPrototype:NewSpecialWarningInterruptCount(text, optionDefault, ...)
 		return newSpecialWarning(self, "interruptcount", text, nil, optionDefault, ...)
 	end
+	
+	function bossModPrototype:NewSpecialWarningInterruptCount2(text, optionDefault, ...)
+		return newSpecialWarning(self, "interruptcount2", text, nil, optionDefault, ...)
+	end
 
 	function bossModPrototype:NewSpecialWarningYou(text, optionDefault, ...)
 		return newSpecialWarning(self, "you", text, nil, optionDefault, ...)
@@ -9938,6 +9948,10 @@ do
 		return newSpecialWarning(self, "dodge", text, nil, optionDefault, ...)
 	end
 	
+	function bossModPrototype:NewSpecialWarningDodgeCount(text, optionDefault, ...)
+		return newSpecialWarning(self, "dodgecount", text, nil, optionDefault, ...)
+	end
+	
 	function bossModPrototype:NewSpecialWarningDodgeLoc(text, optionDefault, ...)
 		return newSpecialWarning(self, "dodgeloc", text, nil, optionDefault, ...)
 	end
@@ -9972,6 +9986,14 @@ do
 
 	function bossModPrototype:NewSpecialWarningRun(text, optionDefault, ...)
 		return newSpecialWarning(self, "run", text, nil, optionDefault, ...)
+	end
+	
+	function bossModPrototype:NewSpecialWarningRunning(text, optionDefault, ...)
+		return newSpecialWarning(self, "running", text, nil, optionDefault, ...)
+	end
+	
+	function bossModPrototype:NewSpecialWarningRunningCount(text, optionDefault, ...)
+		return newSpecialWarning(self, "runningcount", text, nil, optionDefault, ...)
 	end
 
 	function bossModPrototype:NewSpecialWarningCast(text, optionDefault, ...)
