@@ -384,6 +384,8 @@ DBM_CORE_AUTO_SPEC_WARN_TEXTS.gtfo				= "%%s под тобой - отойди"
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.Adds				= "Прибытие треша - переключитесь"
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.Addscustom		= "Прибытие треша - %%s"
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.icepud 			= "%s! (%%s) - беги в ледяную лужу"
+DBM_CORE_AUTO_SPEC_WARN_TEXTS.baitcondi			= "забайтить кондибобра прошляпить очко на %s (%%s)"
+DBM_CORE_AUTO_SPEC_WARN_TEXTS.baitpel			= "забайтить пелию прошляпить очко на %s (%%s)"
 
 -- Auto-generated Special Warning Localizations
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.spell 			= "Спец-предупреждение для $spell:%s"
@@ -437,6 +439,8 @@ DBM_CORE_AUTO_SPEC_WARN_OPTIONS.gtfo			= "Спец-предупреждение 
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.Adds			= "Спец-предупреждение о смене цели во время прибытия треша"
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.Addscustom		= "Спец-предупреждение во время прибывания треша"
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.icepud			= "Спец-предупреждение (со счетчиком) \"бегите в ледяную лужу\" во время действия $spell:%s"
+DBM_CORE_AUTO_SPEC_WARN_OPTIONS.baitcondi		= "Спец-предупреждение (со счетчиком) \"прошляпай очко!\" для байта бобра во время действия $spell:%s"
+DBM_CORE_AUTO_SPEC_WARN_OPTIONS.baitpel			= "Спец-предупреждение (со счетчиком) \"прошляпай очко!\" для байта пелии во время действия $spell:%s"
 
 -- Auto-generated Timer Localizations
 DBM_CORE_AUTO_TIMER_TEXTS.target 		= "%s: >%%s<"
