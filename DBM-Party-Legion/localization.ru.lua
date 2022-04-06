@@ -219,6 +219,16 @@ L= DBM:GetModLocalization(1500)
 --------------------
 L= DBM:GetModLocalization(1501)
 
+L:SetWarningLocalization({
+	Phase1 = "Скоро фаза 2",
+	Phase2 = "Фаза 2"
+})
+
+L:SetOptionLocalization({
+	Phase1 = "Предупреждать заранее о фазе 2 (на ~54%, только Мифик+)",
+	Phase2 = "Объявлять фазу 2"
+})
+
 -------------
 --Трэш-мобы--
 -------------

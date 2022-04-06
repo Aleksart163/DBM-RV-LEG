@@ -1,9 +1,5 @@
--- Mini Dragon(projecteurs@gmail.com)
--- 夏一可
--- Blizzard Entertainment
--- Last update: 2018/02/14
-
 if GetLocale() ~= "zhCN" then return end
+
 local L
 
 ---------------------------

@@ -82,7 +82,8 @@ L:SetMiscLocalization({
 	YellPullHasabel = "Is this the best you could muster? Hah. Pathetic.",
 	YellPullHasabel2 = "Your war ends here.",
 	YellPullHasabel3 = "The Legion devastates all who oppose us!",
-	YellPullHasabel4 = "Every world in our path has fallen. Yours is next."
+	YellPullHasabel4 = "Every world in our path has fallen. Yours is next.",
+	YellPullHasabel5 = "Your resistance is at an end!"
 })
 
 ---------------------------
@@ -106,7 +107,7 @@ L:SetOptionLocalization({
 
 L:SetMiscLocalization({
 	DispelMe = "Dispel Me!",
-	YellPullImonar = "Your bones will be my biggest payday.",
+	YellPullImonar = "Your bones will be my biggest payday.", --пеля прошляпнул очко
 	YellPullImonar2 = "Think I'll keep a few of your parts as a trophy.",
 	YellPullImonar3 = "Your heads will adorn my trophy room."
 })
@@ -182,15 +183,15 @@ L= DBM:GetModLocalization(1984)
 
 L:SetWarningLocalization({
 	Phase1 = "Phase 2 soon",
-	Phase2 = "Фаза 2",
+	Phase2 = "Phase 2",
 	Phase3 = "Phase 3 soon",
-	Phase4 = "Фаза 3"
+	Phase4 = "Phase 3"
 })
 
 L:SetOptionLocalization({
 	Phase1 = "Warn in advance about phase 2 (on ~84%)",
 	Phase2 = "Announce Phase 2",
-	Phase3 = "Warn in advance about phase 3 (on ~44%)",
+	Phase3 = "Warn in advance about phase 3 (on ~44%, on ~39% in mythic)",
 	Phase4 = "Announce Phase 3",
 	ignoreThreeTank	= "Filter Rend/Foe Taunt special warnings when using 3 or more tanks (since DBM can't determine exact tanking rotation in this setup). If any tanks die and it drops to 2, filter auto disables"
 })

@@ -90,7 +90,7 @@ L = DBM:GetModLocalization(553)
 L = DBM:GetModLocalization(554)
 
 L:SetMiscLocalization({
-    AeonusFrenzy	= "% приходит в бешенство!"
+    AeonusFrenzy	= "%s приходит в бешенство!"
 })
 
 --------------------

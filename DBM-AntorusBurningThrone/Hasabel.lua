@@ -13,7 +13,7 @@ mod:SetMinSyncRevision(16950)
 mod.respawnTime = 30
 
 --mod:RegisterCombat("combat", 122104)
-mod:RegisterCombat("yell", L.YellPullHasabel or L.YellPullHasabel2 or YellPullHasabel3 or YellPullHasabel4)
+mod:RegisterCombat("yell", L.YellPullHasabel or L.YellPullHasabel2 or YellPullHasabel3 or YellPullHasabel4 or YellPullHasabel5)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 243983 244709 245504 244607 244915 246805 244689 244000",

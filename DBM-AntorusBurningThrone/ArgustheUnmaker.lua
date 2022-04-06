@@ -132,16 +132,16 @@ mod:AddTimerLine(SCENARIO_STAGE:format(4))
 local timerDeadlyScytheCD			= mod:NewCDTimer(5.5, 258039, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Смертоносная коса
 local timerReorgModuleCD			= mod:NewCDCountTimer(48.1, 256389, nil, nil, nil, 1)
 
-local yellGiftofSky					= mod:NewPosYell(258646, L.SkyText, nil, nil, "YELL")
-local yellGiftofSea					= mod:NewPosYell(258647, L.SeaText, nil, nil, "YELL")
+local yellGiftofSky					= mod:NewShortYell(258646, L.SkyText, nil, nil, "YELL") --Дар небес
+local yellGiftofSea					= mod:NewShortYell(258647, L.SeaText, nil, nil, "YELL") --Дар моря
 local yellSoulblightFades			= mod:NewShortFadesYell(248396, nil, nil, nil, "YELL") --Изнуряющая чума
 local yellSoulblight				= mod:NewShortYell(248396, L.Blight, nil, nil, "YELL") --Изнуряющая чума
 local yellSargRage					= mod:NewShortYell(257869, 6612) --Ярость Саргераса
 local yellSargFear					= mod:NewShortYell(257931, 5782) --Страх перед Саргерасом
 local yellSargFearCombo				= mod:NewComboYell(257931, 5782) --Страх перед Саргерасом
-local yellSoulbomb					= mod:NewPosYell(251570, DBM_CORE_AUTO_YELL_CUSTOM_POSITION) --Бомба души
+local yellSoulbomb					= mod:NewPosYell(251570, DBM_CORE_AUTO_YELL_CUSTOM_POSITION, nil, nil, "YELL") --Бомба души (если крик не сработает, потом удалить)
 local yellSoulbombFades				= mod:NewIconFadesYell(251570, 155188) --Бомба души
-local yellSoulburst					= mod:NewPosYell(250669, DBM_CORE_AUTO_YELL_CUSTOM_POSITION) --Взрывная душа
+local yellSoulburst					= mod:NewPosYell(250669, DBM_CORE_AUTO_YELL_CUSTOM_POSITION, nil, nil, "YELL") --Взрывная душа (если крик не сработает, потом удалить)
 local yellSoulburstFades			= mod:NewIconFadesYell(250669, nil, nil, nil, "YELL") --Взрывная душа
 local yellSargSentence				= mod:NewShortYell(257966, L.Sentence, nil, nil, "YELL") --Приговор Саргераса
 local yellSargSentenceFades			= mod:NewShortFadesYell(257966, nil, nil, nil, "YELL") --Приговор Саргераса

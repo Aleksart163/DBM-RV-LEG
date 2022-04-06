@@ -13,6 +13,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
+	YellPullGarothi = "Enemigos detectados. Nivel de amenaza: mínimo."
 })
 
 ---------------------------------
@@ -28,6 +29,10 @@ L:SetOptionLocalization({
 -- Alto Mando antoran --
 ------------------------
 L= DBM:GetModLocalization(1997)
+
+L:SetMiscLocalization({
+	YellPullCouncil	= "Que os quede claro: no saldréis con vida de esta batalla."
+})
 
 ----------------------------------
 -- Eonar, la Patrona de la Vida --
@@ -49,6 +54,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
+	YellPullEonar = "¡Campeones! ¡Las fuerzas de la Legión buscan capturar mi esencia para su maestro infernal!",
 	Obfuscators =	"Ofuscador",
 	Destructors =	"Destructor",
 	Purifiers 	=	"Purificador",
@@ -67,9 +73,12 @@ L:SetOptionLocalization({
 	ShowAllPlatforms =	"Mostrar todos los avisos independientemente de tu plataforma actual"
 })
 
---Xoroth = "¡Admirad Xoroth, un mundo de calor infernal y huesos calcinados!",
---Rancora = "¡Contemplad Rancora, un horizonte de pozas infectas y muerte por doquier!",
---Nathreza = "Nathreza... Antaño un mundo de magia y conocimiento, ahora un escabroso lugar del que nadie puede escapar."
+--[[L:SetMiscLocalization({
+	YellPullHasabel = "Ха! Так это и есть лучшие из защитников Азерота?",
+	YellPullHasabel2 = "Ваш поход закончится здесь.",
+	YellPullHasabel3 = "Легион сокрушает всех своих врагов!",
+	YellPullHasabel4 = "Нам покорились все миры. Ваш – следующий."
+})]]
 
 --------------------------------
 -- Imonar el Cazador de Almas --
@@ -118,6 +127,10 @@ L:SetOptionLocalization({
 	IgnoreFirstKick		= "Excluir la primera interrupción de la rotación (requiere ser líder de banda)"
 })
 
+L:SetMiscLocalization({
+	YellPullCoven		= "Сейчас ваша плоть зашипит на огне." --¡Quiero veros arder!
+})
+--Nadie huye de las sombras.
 --------------
 -- Aggramar --
 --------------
@@ -128,6 +141,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
+	YellPullAggramar = "¡Arderéis!",
 	Foe			=	"Doma",
 	Rend		=	"Desgarro",
 	Tempest 	=	"Tempestad",
@@ -148,6 +162,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
+	YellPullArgus = "¡Muerte! ¡Muerte y dolor!",
 	SeaText		=	"{rt6} Celeridad/Versatilidad",
 	SkyText		=	"{rt5} Crítico/Maestría",
 	Blight		=	"Añublo",

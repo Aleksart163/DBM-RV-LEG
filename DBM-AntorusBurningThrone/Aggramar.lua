@@ -7,7 +7,7 @@ mod:SetEncounterID(2063)
 mod:SetZone()
 mod:SetUsedIcons(1, 2, 3, 4, 5)
 mod:SetHotfixNoticeRev(16964)
-mod.respawnTime = 25
+mod.respawnTime = 29
 
 --mod:RegisterCombat("combat", 121975)
 mod:RegisterCombat("yell", L.YellPullAggramar)
@@ -721,11 +721,26 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 end
 
 function mod:UNIT_HEALTH(uId)
-	if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 121975 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.84 then
-		warned_preP1 = true
-		specWarnPhase1:Show()
-	elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 121975 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.44 then
-		warned_preP3 = true
-		specWarnPhase3:Show()
+	if self:IsLFR() then
+		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 121975 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.64 then
+			warned_preP1 = true
+			specWarnPhase1:Show()
+		end
+	elseif self:IsMythic() then
+		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 121975 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.84 then
+			warned_preP1 = true
+			specWarnPhase1:Show()
+		elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 121975 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.39 then
+			warned_preP3 = true
+			specWarnPhase3:Show()
+		end
+	else
+		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 121975 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.84 then
+			warned_preP1 = true
+			specWarnPhase1:Show()
+		elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 121975 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.44 then
+			warned_preP3 = true
+			specWarnPhase3:Show()
+		end
 	end
 end

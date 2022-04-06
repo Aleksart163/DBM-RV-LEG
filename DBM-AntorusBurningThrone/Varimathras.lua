@@ -203,7 +203,7 @@ function mod:SPELL_AURA_APPLIED(args)
 						DBM.RangeCheck:Show(10)
 					end
 				end
-			elseif self:CheckNearby(10, args.destName) then
+			elseif self:CheckNearby(15, args.destName) then
 				specWarnNecroticEmbrace2:Show(args.destName)
 			end
 		end

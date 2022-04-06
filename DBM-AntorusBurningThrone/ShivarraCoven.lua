@@ -8,7 +8,7 @@ mod:SetZone()
 mod:SetBossHPInfoToHighest()
 mod:SetUsedIcons(1, 2, 5, 6, 7, 8)
 mod:SetHotfixNoticeRev(16963)
-mod.respawnTime = 28
+mod.respawnTime = 29
 
 --mod:RegisterCombat("combat", 122468, 122467, 122469)
 mod:RegisterCombat("yell", L.YellPullCoven)
@@ -44,7 +44,7 @@ local warnActivated						= mod:NewTargetAnnounce(118212, 3, 78740, nil, nil, nil
 --Noura, Mother of Flames
 local warnFieryStrike					= mod:NewStackAnnounce(244899, 2, nil, "Tank")
 local warnWhirlingSaber					= mod:NewSpellAnnounce(245627, 2)
-local warnFulminatingPulse				= mod:NewTargetAnnounce(253520, 3)
+local warnFulminatingPulse				= mod:NewTargetAnnounce(253520, 3) --Гремучий импульс
 --Asara, Mother of Night
 --Diima, Mother of Gloom
 local warnChilledBlood					= mod:NewTargetAnnounce(245586, 2)
@@ -63,7 +63,7 @@ local specWarnActivated					= mod:NewSpecialWarningSwitchCount(118212, "Tank", n
 --Noura, Mother of Flames
 local specWarnFieryStrike				= mod:NewSpecialWarningStack(244899, nil, 2, nil, nil, 1, 6)
 local specWarnFieryStrikeOther			= mod:NewSpecialWarningTaunt(244899, nil, nil, nil, 1, 2)
-local specWarnFulminatingPulse			= mod:NewSpecialWarningMoveAway(253520, nil, nil, nil, 1, 2)
+local specWarnFulminatingPulse			= mod:NewSpecialWarningYouMoveAway(253520, nil, nil, nil, 1, 3) --Гремучий импульс
 --Asara, Mother of Night
 local specWarnShadowBlades				= mod:NewSpecialWarningDodge(246329, nil, nil, nil, 2, 2)
 local specWarnStormofDarkness			= mod:NewSpecialWarningIcePud(252861, nil, nil, nil, 2, 3) --Буря тьмы
@@ -84,7 +84,7 @@ local timerBossIncoming					= mod:NewTimer(61, "timerBossIncoming", nil, nil, ni
 mod:AddTimerLine(Noura)
 local timerFieryStrikeCD				= mod:NewCDTimer(10.5, 244899, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
 local timerWhirlingSaberCD				= mod:NewNextTimer(35.1, 245627, nil, nil, nil, 3)--35-45
-local timerFulminatingPulseCD			= mod:NewNextTimer(40.1, 253520, nil, nil, nil, 3)
+local timerFulminatingPulseCD			= mod:NewNextTimer(40.1, 253520, nil, nil, nil, 3) --Гремучий импульс
 --Asara, Mother of Night
 mod:AddTimerLine(Asara)
 local timerShadowBladesCD				= mod:NewCDTimer(27.6, 246329, nil, nil, nil, 3)
@@ -107,7 +107,8 @@ local timerFuryofGolgannethCD			= mod:NewCastTimer(90, 249793, nil, nil, nil, 6,
 ----Actual phase stuff
 local timerMachinationsofAman			= mod:NewCastTimer(25, 250095, nil, nil, nil, 5, nil, DBM_CORE_DAMAGE_ICON)
 
-local yellFulminatingPulse				= mod:NewFadesYell(253520, nil, nil, nil, "YELL")
+local yellFulminatingPulse2				= mod:NewYell(253520, nil, nil, nil, "YELL") --Гремучий импульс
+local yellFulminatingPulse				= mod:NewFadesYell(253520, nil, nil, nil, "YELL") --Гремучий импульс
 local yellFlashfreeze					= mod:NewYell(245518, nil, false, nil, "YELL")
 local yellCosmicGlare					= mod:NewYell(250757, nil, nil, nil, "YELL")
 local yellCosmicGlareFades				= mod:NewShortFadesYell(250757, nil, nil, nil, "YELL")
@@ -328,6 +329,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnFulminatingPulse:Show()
 			specWarnFulminatingPulse:Play("runout")
+			yellFulminatingPulse2:Yell()
 			yellFulminatingPulse:Countdown(10)
 		end
 		if self.Options.SetIconOnFulminatingPulse2 then

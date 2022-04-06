@@ -1,4 +1,5 @@
 if GetLocale() ~= "deDE" then return end
+
 local L
 
 -----------------------
@@ -82,7 +83,7 @@ L= DBM:GetModLocalization(1796)
 L = DBM:GetModLocalization("Captainstower")
 
 L:SetGeneralLocalization({
-	name ="Warden Tower Assault"
+	name ="Angriff auf den Turm der Wächterinnen"
 })
 
 ----------------
@@ -91,5 +92,17 @@ L:SetGeneralLocalization({
 L = DBM:GetModLocalization("RareEnemies")
 
 L:SetGeneralLocalization({
-	name ="Rare enemies"
+	name ="Seltene Feinde"
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = GUILD_INTEREST_RP
+})
+
+L:SetOptionLocalization({
+	timerRoleplay = "Countdown bis zum Beginn der Schlacht mit Skul'vrax"
+})
+
+L:SetMiscLocalization({
+	PullSkulvrax = "Ich... habe den Fall überlebt." --специально от Няша для прошляпанного очка пелии и бобра
 })

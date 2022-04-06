@@ -7930,6 +7930,7 @@ do
 			["RemoveCurse"] = true,
 			["MagicDispeller"] = true,
 			["HasInterrupt"] = true,
+			["HasInterrupt2"] = true,
 		},
 		[263] = {	--Enhancement Shaman
 			["Dps"] = true,
@@ -7941,6 +7942,7 @@ do
 			["RemoveCurse"] = true,
 			["MagicDispeller"] = true,
 			["HasInterrupt"] = true,
+			["HasInterrupt2"] = true,
 		},
 		[264] = {	--Restoration Shaman
 			["Healer"] = true,
@@ -7951,6 +7953,7 @@ do
 			["RemoveCurse"] = true,
 			["MagicDispeller"] = true,
 			["HasInterrupt"] = true,
+			["HasInterrupt2"] = true,
 		},
 		[265] = {	--Affliction Warlock
 			["Dps"] = true,
@@ -10002,6 +10005,10 @@ do
 	
 	function bossModPrototype:NewSpecialWarningLookAway(text, optionDefault, ...)
 		return newSpecialWarning(self, "lookaway", text, nil, optionDefault, ...)
+	end
+	
+	function bossModPrototype:NewSpecialWarningYouLook(text, optionDefault, ...)
+		return newSpecialWarning(self, "youlook", text, nil, optionDefault, ...)
 	end
 
 	function bossModPrototype:NewSpecialWarningReflect(text, optionDefault, ...)

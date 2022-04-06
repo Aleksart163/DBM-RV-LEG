@@ -21,10 +21,10 @@ local warnTeleport				= mod:NewSpellAnnounce(200898, 2)
 local specWarnSapSoul			= mod:NewSpecialWarningInterrupt(200905, "HasInterrupt", nil, nil, 1, 2)
 local specWarnSapSoulHard		= mod:NewSpecialWarningCast(200905, nil, nil, nil, 1, 2)
 local specWarnFear				= mod:NewSpecialWarningSpell(201488, nil, nil, nil, 2, 2)
-local specWarnStare				= mod:NewSpecialWarningYou(212564, nil, nil, nil, 1, 2)--Disable by default if spammy
+local specWarnStare				= mod:NewSpecialWarningYouLook(212564, nil, nil, nil, 3, 5) --Пытливый взгляд Disable by default if spammy
 
 local timerSapSoulCD			= mod:NewCDTimer(21.5, 200905, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON)
-local timerTormOrbCD			= mod:NewNextTimer(15, 212567, nil, nil, nil, 1)
+local timerTormOrbCD			= mod:NewNextTimer(15, 212567, nil, nil, nil, 7)
 
 local countSapSoul				= mod:NewCountdown(21.5, 200905, true, 2)
 
@@ -67,7 +67,7 @@ end
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 212564 and args:IsPlayer() and self:AntiSpam(4, 1) then
-		specWarnStare:Show()
+		specWarnStare:Show(DBM_CORE_SPHERE)
 		specWarnStare:Play("targetyou")
 	end	
 end

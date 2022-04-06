@@ -216,6 +216,16 @@ L= DBM:GetModLocalization(1500)
 -----------------------
 L= DBM:GetModLocalization(1501)
 
+L:SetWarningLocalization({
+	Phase1 = "Phase 2 soon",
+	Phase2 = "Phase 2"
+})
+
+L:SetOptionLocalization({
+	Phase1 = "Warn in advance about phase 2 (on ~54%, Mythic+ only)",
+	Phase2 = "Announce Phase 2"
+})
+
 -----------------------
 --The Arcway Trash
 -----------------------

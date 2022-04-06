@@ -1,4 +1,5 @@
 if GetLocale() ~= "zhTW" then return end
+
 local L
 
 -----------------------
@@ -79,7 +80,7 @@ L= DBM:GetModLocalization(1796)
 ------------------
 --Капитаны башен--
 ------------------
-L = DBM:GetModLocalization("Captainstower")
+--[[L = DBM:GetModLocalization("Captainstower")
 
 L:SetGeneralLocalization({
 	name ="Warden Tower Assault"
@@ -93,3 +94,7 @@ L = DBM:GetModLocalization("RareEnemies")
 L:SetGeneralLocalization({
 	name ="Rare enemies"
 })
+
+L:SetTimerLocalization({
+	timerRoleplay = GUILD_INTEREST_RP
+})]]

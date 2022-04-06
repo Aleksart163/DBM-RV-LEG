@@ -1,7 +1,8 @@
 if GetLocale() ~= "ruRU" then return end
+
 local L
---$spell:137162
------------
+
+-----------$spell:137162
 --Ана-Муз--
 -----------
 L= DBM:GetModLocalization(1790)

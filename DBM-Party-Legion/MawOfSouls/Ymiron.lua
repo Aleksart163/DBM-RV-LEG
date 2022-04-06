@@ -12,18 +12,19 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 193211 193364 193977 193460 193566"
 )
 
-local warnBane						= mod:NewSpellAnnounce(193460, 3)
+local warnBane						= mod:NewSpellAnnounce(193460, 3) --Погибель
 
-local specWarnDarkSlash				= mod:NewSpecialWarningDefensive(193211, "Tank", nil, nil, 3, 2)
-local specWarnScreams				= mod:NewSpecialWarningRun(193364, "Melee", nil, nil, 4, 2)
-local specWarnWinds					= mod:NewSpecialWarningSpell(193977, nil, nil, nil, 2, 2)
+local specWarnBane					= mod:NewSpecialWarningDodge(193460, nil, nil, nil, 2, 2) --Погибель
+local specWarnDarkSlash				= mod:NewSpecialWarningDefensive(193211, "Tank", nil, nil, 3, 3)
+local specWarnScreams				= mod:NewSpecialWarningRun(193364, "Melee", nil, nil, 4, 3)
+local specWarnWinds					= mod:NewSpecialWarningDefensive(193977, nil, nil, nil, 2, 3) --Ветра Нордскола
 local specAriseFallen				= mod:NewSpecialWarningSwitch(193566, "-Healer", nil, nil, 1, 2)
 
 local timerDarkSlashCD				= mod:NewCDTimer(14.6, 193211, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
 local timerScreamsCD				= mod:NewCDTimer(23, 193364, nil, "Melee", nil, 2)
 local timerWindsCD					= mod:NewCDTimer(24, 193977, nil, nil, nil, 2)
-local timerBaneCD					= mod:NewCDTimer(49.5, 193460, nil, nil, nil, 2)
-local timerAriseFallenCD			= mod:NewCDTimer(18, 193566, nil, nil, nil, 1, nil, DBM_CORE_HEROIC_ICON)
+local timerBaneCD					= mod:NewCDTimer(49.5, 193460, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON)
+local timerAriseFallenCD			= mod:NewCDTimer(18, 193566, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON)
 
 function mod:OnCombatStart(delay)
 	timerDarkSlashCD:Start(3.5-delay)
@@ -48,6 +49,7 @@ function mod:SPELL_CAST_START(args)
 		timerWindsCD:Start()
 	elseif spellId == 193460 then
 		warnBane:Show()
+		specWarnBane:Show()
 		timerBaneCD:Start()
 		if not self:IsNormal() then
 			timerAriseFallenCD:Start()

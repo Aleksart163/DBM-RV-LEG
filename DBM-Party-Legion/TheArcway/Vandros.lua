@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1501, "DBM-Party-Legion", 6, 726)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17603 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 mod:SetCreatureID(98208)
 mod:SetEncounterID(1829)
 mod:SetZone()
@@ -16,30 +16,40 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 202974 203882 203176",
 	"SPELL_DAMAGE 203833",
 	"SPELL_MISSED 203833",
-	"UNIT_SPELLCAST_SUCCEEDED boss1"
+	"UNIT_SPELLCAST_SUCCEEDED boss1",
+	"UNIT_HEALTH boss1"
 )
 
 --TODO, it might be time to build an interrupt table ("hasInterrupt") for better option defaults for spammy interrupt warnings.
 --Force bomb might be more consistent now, need more logs, last log was 35
-local warnTimeLock					= mod:NewTargetAnnounce(203957, 4)
-local warnUnstableMana				= mod:NewTargetAnnounce(203176, 2)
+local warnTimeLock					= mod:NewTargetAnnounce(203957, 4) --Временное ограничение
+local warnUnstableMana				= mod:NewTargetAnnounce(203176, 2) --Ускоряющий взрыв
+
+local specWarnPhase1				= mod:NewSpecialWarning("Phase1", nil, nil, nil, 1, 2) --скоро фаза 2
+local specWarnPhase2				= mod:NewSpecialWarning("Phase2", nil, nil, nil, 1, 2) --фаза 2
 
 local specWarnTimeSplit				= mod:NewSpecialWarningMove(203833, nil, nil, nil, 1, 2)
-local specWarnForceBomb				= mod:NewSpecialWarningSpell(202974, nil, nil, nil, 2, 2)
-local specWarnBlast					= mod:NewSpecialWarningInterruptCount(203176, "HasInterrupt", nil, 2, 1, 2)
-local specWarnBlastStacks			= mod:NewSpecialWarningDispel(203176, "MagicDispeller")
-local specWarnTimeLock				= mod:NewSpecialWarningInterrupt(203957, "HasInterrupt", nil, 2, 1, 2)
-local specWarnUnstableMana			= mod:NewSpecialWarningMove(203176, nil, nil, nil, 1, 2)
+local specWarnForceBomb				= mod:NewSpecialWarningDodge(202974, nil, nil, nil, 2, 5) --Силовая бомба
+local specWarnBlast					= mod:NewSpecialWarningInterrupt(203176, "HasInterrupt", nil, 2, 1, 2) --Ускоряющий взрыв
+local specWarnBlastStacks			= mod:NewSpecialWarningDispel(203176, "MagicDispeller") --Ускоряющий взрыв
+local specWarnTimeLock				= mod:NewSpecialWarningInterrupt(203957, "HasInterrupt", nil, 2, 1, 2) --Временное ограничение
+local specWarnUnstableMana			= mod:NewSpecialWarningMove(203176, nil, nil, nil, 1, 2) --Ускоряющий взрыв
 
-local timerForceBombD				= mod:NewCDTimer(31.8, 202974, nil, nil, nil, 2)
-local timerEvent					= mod:NewBuffFadesTimer(124, 203914, nil, nil, nil, 6)
+local timerForceBombD				= mod:NewCDTimer(31.8, 202974, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Силовая бомба
+local timerEvent					= mod:NewBuffFadesTimer(124, 203914, nil, nil, nil, 6, nil, DBM_CORE_MYTHIC_ICON) --Изгнание во времени
 
-local countdownEvent				= mod:NewCountdownFades(124, 203914, nil, nil, 10)
+local countdownEvent				= mod:NewCountdownFades(124, 203914, nil, nil, 10) --Изгнание во времени
 
+mod.vb.phase = 1
 mod.vb.interruptCount = 0
+local warned_preP1 = false
+local warned_preP2 = false
 
 function mod:OnCombatStart(delay)
 	self.vb.interruptCount = 0
+	self.vb.phase = 1
+	warned_preP1 = false
+	warned_preP2 = false
 	timerForceBombD:Start(16.7-delay)
 end
 
@@ -88,7 +98,7 @@ function mod:SPELL_CAST_START(args)
 		if self.vb.interruptCount == 3 then self.vb.interruptCount = 0 end
 		self.vb.interruptCount = self.vb.interruptCount + 1
 		local kickCount = self.vb.interruptCount
-		specWarnBlast:Show(args.sourceName, kickCount)
+		specWarnBlast:Show()
 		--Takes 3 to block all casts, it only takes 2 in a row to break his stacks though.
 		--3 count still makes sense for 2 though because you know which cast to skip to maintain order. Kick 1-2, skip 3, easy
 		--A group with only one interruptor won't be able to prevent his stacks and need to use dispels on boss instead
@@ -117,5 +127,24 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 		timerEvent:Cancel()
 		countdownEvent:Cancel()
 		timerForceBombD:Start(20)--20-23
+	end
+end
+
+function mod:UNIT_HEALTH(uId)
+	if self:IsHard() then --миф и миф+
+		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 98208 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.54 then
+			warned_preP1 = true
+			specWarnPhase1:Show()
+		elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 98208 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.51 then
+			self.vb.phase = 2
+			warned_preP2 = true
+			specWarnPhase2:Show()
+		end
+	else
+		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 98208 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.51 then
+			self.vb.phase = 2
+			warned_preP1 = true
+			specWarnPhase2:Show()
+		end
 	end
 end
