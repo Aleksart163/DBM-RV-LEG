@@ -3,17 +3,13 @@ local L		= mod:GetLocalizedStrings()
 
 mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 --mod:SetCreatureID(103975, 99899, 102303)
---mod:SetEncounterID(1951)
---mod:SetReCombatTime(20)
 mod:SetZone()
 mod:SetMinSyncRevision(17650)
 
---mod:RegisterCombat("combat")
-
 mod:RegisterEvents(
-	"SPELL_CAST_START 221424 222676 189157 214095 218245 218250 217527 213585 206794 223101 223104 220197 219060 206762 203671 219024 222596 216808 216837 218885 223659 223630 207002 206995 206972",
+	"SPELL_CAST_START 221424 222676 189157 214095 218245 218250 217527 213585 206794 223101 223104 220197 219060 206762 203671 222596 216808 216837 218885 223659 223630 207002 206995 206972 216981 216970",
 	"SPELL_CAST_SUCCESS 221422 214183 223094 216881 218969",
-	"SPELL_AURA_APPLIED 221422 221425 222676 218250 223094 219102 219087 206795 219060 219024 223630 206972",
+	"SPELL_AURA_APPLIED 221422 221425 222676 218250 223094 219102 219087 206795 219060 223630 206972",
 	"SPELL_AURA_APPLIED_DOSE 221425",
 	"SPELL_AURA_REMOVED 221422 221425",
 	"SPELL_PERIODIC_DAMAGE 218960",
@@ -37,6 +33,8 @@ local warnRemnantofLight		= mod:NewTargetAnnounce(216837, 3) --Частица С
 local warnFelFissure			= mod:NewTargetAnnounce(218885, 3) --Разлом скверны
 local warnDepthCharge			= mod:NewTargetAnnounce(207002, 3) --Глубинная бомба
 
+local specWarnElemRes			= mod:NewSpecialWarningDodge(216970, nil, nil, nil, 2, 3) --Стихийный резонанс
+local specWarnCrysShards		= mod:NewSpecialWarningDodge(216981, nil, nil, nil, 2, 3) --Осколки кристалла
 local specWarnDepthCharge		= mod:NewSpecialWarningYouMove(207002, nil, nil, nil, 3, 3) --Глубинная бомба
 local specWarnTidalEruption		= mod:NewSpecialWarningDodge(206995, nil, nil, nil, 2, 2) --Приливное извержение
 local specWarnHullBreach		= mod:NewSpecialWarningYouDefensive(206972, nil, nil, nil, 1, 3) --Пробой корпуса
@@ -48,8 +46,6 @@ local specWarnFelFissure2		= mod:NewSpecialWarningYouMove(218960, nil, nil, nil,
 local specWarnWickedLeap		= mod:NewSpecialWarningDodge(216808, nil, nil, nil, 2, 5) --Жестокий прыжок
 local specWarnHorrificVisage	= mod:NewSpecialWarningLookAway(216881, nil, nil, nil, 3, 5) --Ужасающий лик
 local specWarnRemnantofLight	= mod:NewSpecialWarningInterrupt2(216837, "HasInterrupt2", nil, nil, 2, 5) --Частица Света
-local specWarnResoluteArmor		= mod:NewSpecialWarningInterrupt(219024, "-Healer", nil, nil, 1, 2) --Непоколебимая броня
-local specWarnResoluteArmor2	= mod:NewSpecialWarningDispel(219024, "MagicDispeller", nil, nil, 3, 2) --Непоколебимая броня
 local specWarnClubSlam			= mod:NewSpecialWarningYouDefensive(203671, nil, nil, nil, 3, 5) --Мощный удар дубиной
 local specWarnClubSlam2			= mod:NewSpecialWarningDodge(203671, nil, nil, nil, 2, 5) --Мощный удар дубиной
 local specWarnCrushingBite		= mod:NewSpecialWarningYouDefensive(206795, nil, nil, nil, 2, 5) --Дробящий укус
@@ -80,7 +76,6 @@ local specWarnImpale			= mod:NewSpecialWarningInterrupt(222676, "-Healer", nil, 
 local specWarnViciousBite		= mod:NewSpecialWarningYouDefensive(221422, nil, nil, nil, 2, 5) --Яростный укус
 local specWarnCrushArmor		= mod:NewSpecialWarningStack(221425, nil, 3, nil, nil, 3, 5) --Сокрушение доспеха
 
-local timerResoluteArmorCD		= mod:NewCDTimer(29, 219024, nil, nil, nil, 3, nil, DBM_CORE_INTERRUPT_ICON) --Непоколебимая броня
 local timerClubSlamCD			= mod:NewCDTimer(20, 203671, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Мощный удар дубиной
 local timerFearsomeShriekCD		= mod:NewCDTimer(23, 206762, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Пугающий визг
 local timerOverdriveCD			= mod:NewCDTimer(30, 219087, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Форсаж
@@ -90,6 +85,9 @@ local timerArcticSlamCD			= mod:NewCDTimer(20, 220197, nil, nil, nil, 2, nil, DB
 local timerWebWrapCD			= mod:NewCDTimer(22, 223094, nil, nil, nil, 3, nil, DBM_CORE_DAMAGE_ICON) --Кокон
 local timerFertilizeCD			= mod:NewCDTimer(22, 223104, nil, nil, nil, 3, nil, DBM_CORE_DAMAGE_ICON) --Удобрение
 local timerOverflowingTaintCD	= mod:NewCDTimer(15, 217527, nil, nil, nil, 3, nil) --Переполняющая порча
+--Камнепад оползающий
+local timerElemResCD			= mod:NewCDTimer(35, 216970, nil, nil, nil, 2, nil) --Стихийный резонанс
+local timerCrysShardsCD			= mod:NewCDTimer(35, 216981, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Осколки кристалла
 --Олокк Кораблекрушитель
 local timerDepthChargeCD		= mod:NewCDTimer(25, 207002, nil, nil, nil, 3, nil) --Глубинная бомба
 local timerHullBreachCD			= mod:NewCDTimer(12, 206972, nil, nil, nil, 3, nil, DBM_CORE_TANK_ICON) --Пробой корпуса
@@ -186,9 +184,6 @@ function mod:SPELL_CAST_START(args)
 			specWarnClubSlam2:Show()
 		end
 		timerClubSlamCD:Start()
-	elseif spellId == 219024 then --Непоколебимая броня
-		specWarnResoluteArmor:Show()
-		timerResoluteArmorCD:Start()
 	elseif spellId == 216808 then --Жестокий прыжок
 		local targetname = self:GetBossTarget(109015)
 		if not targetname then return end
@@ -237,6 +232,9 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 206995 then --Приливное извержение
 		specWarnTidalEruption:Show()
 		timerTidalEruptionCD:Start()
+	elseif spellId == 216981 then --Осколки кристалла
+		timerCrysShardsCD:Start()
+		specWarnCrysShards:Show()
 	end
 end
 
@@ -303,8 +301,6 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif spellId == 219060 then --Защитная раковина
 		specWarnProtectiveShellDis:Show(args.destName)
-	elseif spellId == 219024 then --Непоколебимая броня
-		specWarnResoluteArmor2:Show(args.destName)
 	elseif spellId == 223630 then --Раскалывание душ
 		specWarnSoulCleave2:Show()
 	elseif spellId == 206972 then --Пробой корпуса
@@ -363,8 +359,6 @@ function mod:UNIT_DIED(args)
 		timerViciousBiteCD:Cancel()
 	elseif cid == 105899 then --Оглок неистовый https://ru.wowhead.com/npc=105899/оглок-неистовый
 		timerClubSlamCD:Cancel()
-	elseif cid == 93401 or cid == 92763 or cid == 98299 or cid == 107926 or cid == 103223 or cid == 91529 or cid == 96590 or cid == 94413 or cid == 91892 or cid == 93166 or cid == 98188 then --Ургев кровавый топор https://ru.wowhead.com/npc=93401/ургев-кровавый-топор
-		timerResoluteArmorCD:Cancel()
 	elseif cid == 109015 then --Лагерта https://ru.wowhead.com/npc=109015/лагерта
 		specWarnHorrificVisage:Cancel()
 		timerWickedLeapCD:Cancel()
@@ -373,13 +367,15 @@ function mod:UNIT_DIED(args)
 	elseif cid == 109630 then --Воспламеан https://ru.wowhead.com/npc=109630/воспламеан
 		timerFelFissureCD:Cancel()
 		timerFelMeteorCD:Cancel()
-	elseif cid == 104484 then --Олокк Кораблекрушитель https://ru.wowhead.com/npc=104484/олокк-кораблекрушитель#abilities
+	elseif cid == 104484 then --Олокк Кораблекрушитель https://ru.wowhead.com/npc=104484/олокк-кораблекрушитель
 		timerDepthChargeCD:Cancel()
 		timerHullBreachCD:Cancel()
 		timerTidalEruptionCD:Cancel()
+	elseif cid == 109113 then --Камнепад оползающий https://ru.wowhead.com/npc=109113/камнепад-оползающий
+		timerCrystalShardsCD:Cancel()
+		timerElementalResonanceCD:Cancel()
 	end
 end
 --
--- https://ru.wowhead.com/npc=102303/лейтенант-стратмар
--- https://ru.wowhead.com/npc=109318/руновидец-сигвид#abilities
+-- https://ru.wowhead.com/npc=109318/руновидец-сигвид
 -- 

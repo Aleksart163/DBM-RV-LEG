@@ -7,7 +7,7 @@ mod:SetEncounterID(2063)
 mod:SetZone()
 mod:SetUsedIcons(1, 2, 3, 4, 5)
 mod:SetHotfixNoticeRev(16964)
-mod.respawnTime = 29
+mod.respawnTime = 25
 
 --mod:RegisterCombat("combat", 121975)
 mod:RegisterCombat("yell", L.YellPullAggramar)
@@ -15,9 +15,9 @@ mod:RegisterCombat("yell", L.YellPullAggramar)
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 244693 245458 245463 245301 255058 255061 255059",
 	"SPELL_CAST_SUCCESS 247079 244033",
-	"SPELL_AURA_APPLIED 245990 245994 244894 244903 247091 254452",
+	"SPELL_AURA_APPLIED 245990 245994 244894 244903 247091 254452 247079",
 	"SPELL_AURA_APPLIED_DOSE 245990",
-	"SPELL_AURA_REMOVED 244894 244903 247091 254452",
+	"SPELL_AURA_REMOVED 244894 244903 247091 254452 247079",
 	"UNIT_DIED",
 	"UNIT_SPELLCAST_SUCCEEDED boss1",
 	"UNIT_HEALTH boss1"
@@ -44,8 +44,8 @@ local specWarnPhase3					= mod:NewSpecialWarning("Phase3", nil, nil, nil, 1, 2) 
 --Stage One: Wrath of Aggramar
 local specWarnTaeshalachReach			= mod:NewSpecialWarningStack(245990, nil, 8, nil, nil, 3, 5) --Гигантский клинок
 local specWarnTaeshalachReachOther		= mod:NewSpecialWarningTaunt(245990, nil, nil, nil, 1, 2) --Гигантский клинок
-local specWarnScorchingBlaze			= mod:NewSpecialWarningYouMoveAway(245994, nil, nil, nil, 1, 2) --Обжигающее пламя
-local specWarnRavenousBlaze				= mod:NewSpecialWarningYouMoveAway(254452, nil, nil, nil, 1, 2) --Хищное пламя
+local specWarnScorchingBlaze			= mod:NewSpecialWarningYouMoveAway(245994, nil, nil, nil, 1, 5) --Обжигающее пламя
+local specWarnRavenousBlaze				= mod:NewSpecialWarningYouMoveAway(254452, nil, nil, nil, 3, 5) --Хищное пламя
 local specWarnWakeofFlame				= mod:NewSpecialWarningDodge(244693, nil, nil, nil, 2, 2) --Огненная волна
 local specWarnFoeBreakerTaunt			= mod:NewSpecialWarningTaunt(245458, nil, nil, nil, 3, 2) --Сокрушитель
 local specWarnFoeBreakerDefensive		= mod:NewSpecialWarningDefensive(245458, nil, nil, nil, 3, 2) --Сокрушитель
@@ -61,7 +61,7 @@ local timerFoeBreakerCD					= mod:NewNextCountTimer(6.1, 245458, nil, nil, nil, 
 local timerFlameRendCD					= mod:NewNextCountTimer(6.1, 245463, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON) --Разрывающее пламя
 local timerTempestCD					= mod:NewNextTimer(6.1, 245301, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Опаляющая буря
 local timerScorchingBlazeCD				= mod:NewCDTimer(6.5, 245994, nil, nil, nil, 3) --Обжигающее пламя 6.5-8
-local timerRavenousBlazeCD				= mod:NewCDTimer(22.2, 254452, nil, nil, nil, 3, nil, DBM_CORE_HEROIC_ICON) --Хищное пламя
+local timerRavenousBlazeCD				= mod:NewCDTimer(22.2, 254452, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Хищное пламя
 local timerWakeofFlameCD				= mod:NewCDTimer(24.3, 244693, nil, nil, nil, 3) --Огненная волна
 --Stage Two: Champion of Sargeras
 local timerFlareCD						= mod:NewCDTimer(15, 245983, nil, nil, 2, 3) --Вспышка
@@ -75,7 +75,7 @@ local berserkTimer						= mod:NewBerserkTimer(600)
 --Stages One: Wrath of Aggramar
 local countdownTaeshalachTech			= mod:NewCountdown(61, 244688) --Искусный прием
 local countdownFlare					= mod:NewCountdown("Alt15", 245983, "-Tank") --Вспышка
-local countdownWakeofFlame				= mod:NewCountdown("AltTwo24", 244693, "-Tank") --Огненная волна
+--local countdownWakeofFlame				= mod:NewCountdown("AltTwo24", 244693, "-Tank") --Огненная волна
 
 mod:AddSetIconOption("SetIconOnBlaze2", 254452, true) --Хищное пламя Both off by default, both conflit with one another
 mod:AddSetIconOption("SetIconOnAdds", 244903, false, true) --Катализирующее присутствие Both off by default, both conflit with one another
@@ -99,6 +99,7 @@ local warned_preP1 = false
 local warned_preP2 = false
 local warned_preP3 = false
 local warned_preP4 = false
+local FlameRend = false
 local comboDebug = {}
 local comboDebugCounter = 0
 local unitTracked = {}
@@ -295,6 +296,7 @@ function mod:OnCombatStart(delay)
 	warned_preP2 = false
 	warned_preP3 = false
 	warned_preP4 = false
+	FlameRend = false
 	self.vb.techActive = false
 	--self.vb.incompleteCombo = false
 	table.wipe(unitTracked)
@@ -305,7 +307,7 @@ function mod:OnCombatStart(delay)
 		comboUsed[4] = false
 		timerRavenousBlazeCD:Start(4-delay)
 		timerWakeofFlameCD:Start(10.7-delay)--Health based?
-		countdownWakeofFlame:Start(10.7-delay)
+	--	countdownWakeofFlame:Start(10.7-delay)
 		timerTaeshalachTechCD:Start(14.3-delay, 1)--Health based?
 		countdownTaeshalachTech:Start(14.3-delay)
 		berserkTimer:Start(540-delay)
@@ -315,7 +317,7 @@ function mod:OnCombatStart(delay)
 		berserkTimer:Start(-delay)
 		timerScorchingBlazeCD:Start(4.8-delay)
 		timerWakeofFlameCD:Start(5.1-delay)
-		countdownWakeofFlame:Start(5.1-delay)
+	--	countdownWakeofFlame:Start(5.1-delay)
 		timerTaeshalachTechCD:Start(35-delay, 1)
 		countdownTaeshalachTech:Start(35-delay)
 	end
@@ -389,7 +391,7 @@ function mod:SPELL_CAST_START(args)
 		local techTimer = timerTaeshalachTechCD:GetRemaining(self.vb.techCount+1)
 		if techTimer == 0 or techTimer > 24 then
 			timerWakeofFlameCD:Start()
-			countdownWakeofFlame:Start(24.3)
+		--	countdownWakeofFlame:Start(24.3)
 		end
 		self:BossTargetScanner(args.sourceGUID, "WakeTarget", 0.1, 12, true, nil, nil, nil, true)
 	elseif spellId == 245458 or spellId == 255059 then
@@ -434,7 +436,9 @@ function mod:SPELL_CAST_START(args)
 			end
 		end
 		self.vb.rendCount = self.vb.rendCount + 1
-		specWarnFlameRend:Show(self.vb.rendCount)
+		if not FlameRend then
+			specWarnFlameRend:Show(self.vb.rendCount)
+		end
 		if spellId == 255058 then--Empowered/Mythic Version
 			if self.vb.rendCount == 1 then
 				specWarnFlameRend:Play("shareone")
@@ -550,7 +554,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerWakeofFlameCD:Stop()
 		timerFlareCD:Stop()
 		countdownFlare:Cancel()
-		countdownWakeofFlame:Cancel()
+	--	countdownWakeofFlame:Cancel()
 		timerTaeshalachTechCD:Stop()
 		countdownTaeshalachTech:Cancel()
 		timerFoeBreakerCD:Stop()
@@ -568,6 +572,10 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 244903 or spellId == 247091 then--Purification/Catalyzed
 		if self.Options.NPAuraOnPresence then
 			DBM.Nameplate:Show(true, args.destGUID, spellId)
+		end
+	elseif spellId == 247079 then --Усиленное разрывающее пламя (от делёжки)
+		if args:IsPlayer() then
+			FlameRend = true
 		end
 	end
 end
@@ -623,6 +631,10 @@ function mod:SPELL_AURA_REMOVED(args)
 		if self.Options.SetIconOnBlaze2 then
 			self:SetIcon(args.destName, 0)
 		end
+	elseif spellId == 247079 then --Усиленное разрывающее пламя (от делёжки)
+		if args:IsPlayer() then
+			FlameRend = false
+		end
 	end
 end
 
@@ -653,7 +665,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 		timerWakeofFlameCD:Stop()
 		timerFlareCD:Stop()
 		countdownFlare:Cancel()
-		countdownWakeofFlame:Cancel()
+	--	countdownWakeofFlame:Cancel()
 		if self:IsMythic() then
 			--Reset combo and tech count if needed
 			if self.vb.techCount == 5 then
@@ -691,10 +703,10 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 		if self.vb.phase == 1 then
 			if self:IsMythic() then
 				timerWakeofFlameCD:Start(10.3)
-				countdownWakeofFlame:Start(10.3)
+			--	countdownWakeofFlame:Start(10.3)
 			else
 				timerWakeofFlameCD:Start(7)
-				countdownWakeofFlame:Start(7)
+			--	countdownWakeofFlame:Start(7)
 			end
 		elseif self.vb.phase == 2 then
 			timerFlareCD:Start(self:IsMythic() and 6.6 or 8.6)

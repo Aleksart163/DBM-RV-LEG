@@ -41,9 +41,9 @@
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 17655 $"):sub(12, -3)),
+	Revision = tonumber(("$Revision: 17656 $"):sub(12, -3)),
 	DisplayVersion = "7.3.34 Right Version",
-	ReleaseRevision = 17654
+	ReleaseRevision = 17655
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -9826,7 +9826,7 @@ do
 			if announceType == "target" or announceType == "targetcount" or announceType == "close" or announceType == "reflect" then
 				catType = "announceother"
 			--Directly affects you 
-			elseif announceType == "you" or announceType == "closemoveaway" or announceType == "youclose" or announceType == "youshare" or announceType == "youdefensive" or announceType == "youmoveaway" or announceType == "youmove" or announceType == "youcount" or announceType == "youpos" or announceType == "move" or announceType == "dodge" or announceType == "moveaway" or announceType == "run" or announceType == "stack" or announceType == "moveto" or announceType == "soakpos" then
+			elseif announceType == "you" or announceType == "yourunning" or announceType == "closemoveaway" or announceType == "youfind" or announceType == "youclose" or announceType == "youshare" or announceType == "youdefensive" or announceType == "youmoveaway" or announceType == "youmove" or announceType == "youcount" or announceType == "youpos" or announceType == "move" or announceType == "dodge" or announceType == "moveaway" or announceType == "run" or announceType == "stack" or announceType == "moveto" or announceType == "soakpos" then
 				catType = "announcepersonal"
 			--Things you have to do to fulfil your role
 			elseif announceType == "taunt" or announceType == "interrupt2" or announceType == "defensive" or announceType == "dispel" or announceType == "interrupt" or announceType == "interruptcount" or announceType == "switch" or announceType == "switchcount" then
@@ -9995,6 +9995,10 @@ do
 		return newSpecialWarning(self, "running", text, nil, optionDefault, ...)
 	end
 	
+	function bossModPrototype:NewSpecialWarningYouRunning(text, optionDefault, ...)
+		return newSpecialWarning(self, "yourunning", text, nil, optionDefault, ...)
+	end
+	
 	function bossModPrototype:NewSpecialWarningRunningCount(text, optionDefault, ...)
 		return newSpecialWarning(self, "runningcount", text, nil, optionDefault, ...)
 	end
@@ -10009,6 +10013,10 @@ do
 	
 	function bossModPrototype:NewSpecialWarningYouLook(text, optionDefault, ...)
 		return newSpecialWarning(self, "youlook", text, nil, optionDefault, ...)
+	end
+	
+	function bossModPrototype:NewSpecialWarningYouFind(text, optionDefault, ...)
+		return newSpecialWarning(self, "youfind", text, nil, optionDefault, ...)
 	end
 
 	function bossModPrototype:NewSpecialWarningReflect(text, optionDefault, ...)

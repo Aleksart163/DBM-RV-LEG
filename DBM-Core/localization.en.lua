@@ -277,7 +277,6 @@ DBM_CORE_FAR_AWAY					= "Far Away"
 DBM_CORE_BREAK_LOS					= "Break LOS"
 DBM_CORE_SAFE						= "Safe"
 DBM_CORE_SHIELD						= "Shield"
-DBM_CORE_SPHERE						= "Sphere"
 DBM_INCOMING						= "%s Incoming"
 --Common Locals end
 
@@ -378,10 +377,12 @@ DBM_CORE_AUTO_SPEC_WARN_TEXTS = {
 	jump			= "%s - jump",
 	run				= "%s - run away",
 	running			= "%s! - run together",
+	yourunning		= "%s on you! - run together",
 	runningcount	= "%s! (%%s) - run together",
 	cast			= "%s - stop casting",
 	lookaway		= "%s! - look away",
-	youlook			= "%s on you! - look at ",
+	youlook			= "%s on you! - look at >%%s<",
+	youfind			= "%s on you! - return your soul",
 	reflect			= "%s on >%%s< - stop attacking",
 	count			= "%s! (%%s)",
 	stack			= "%%d stacks of %s on you",
@@ -434,10 +435,12 @@ DBM_CORE_AUTO_SPEC_WARN_OPTIONS = {
 	jump			= "Show special warning to move to jump for $spell:%s",
 	run 			= "Show special warning to run away from $spell:%s",
 	running			= "Show special warning \"run together\" for $spell:%s",
+	yourunning		= "Show special warning \"run together\" when you target $spell:%s",
 	runningcount	= "Show special warning (with count) \"run together\" for $spell:%s",
 	cast 			= "Show special warning to stop casting for $spell:%s",--Spell Interrupt
 	lookaway		= "Show special warning to look away for $spell:%s",
-	youlook			= "Show special warning \"look at...\" when you are affected by $spell:%s",
+	youlook			= "Show special warning \"look at...\" when you target $spell:%s",
+	youfind			= "Show special warning \"return your soul\" when you target $spell:%s",
 	reflect 		= "Show special warning to stop attacking $spell:%s",--Spell Reflect
 	count 			= "Show special warning (with count) for $spell:%s",
 	stack 			= "Show special warning when you are affected by >=%d stacks of $spell:%s",

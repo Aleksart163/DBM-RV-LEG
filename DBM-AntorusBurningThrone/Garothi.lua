@@ -47,7 +47,8 @@ local specWarnEradication				= mod:NewSpecialWarningRun(244969, nil, nil, nil, 4
 --Decimator
 local specWarnDecimation				= mod:NewSpecialWarningMoveAway(244410, nil, nil, nil, 4, 5) --Децимация
 local specWarnDecimation2				= mod:NewSpecialWarningDodge(244410, "-Tank", nil, nil, 2, 2) --Децимация
-local specWarnSurgingFel				= mod:NewSpecialWarningDodge(246663, nil, nil, nil, 2, 2) --Всплеск скверны 246663
+
+local specWarnSurgingFel				= mod:NewSpecialWarningDodge(246663, nil, nil, nil, 2, 2) --Всплеск скверны
 --Annihilator
 local specWarnAnnihilation				= mod:NewSpecialWarningSoak(244761, nil, nil, nil, 2, 5) --Аннигиляция
 
@@ -140,7 +141,7 @@ function mod:SPELL_CAST_START(args)
 		if self:IsMythic() then
 			specWarnEradication:ScheduleVoice(1.5, "keepmove")
 		end
-	elseif spellId == 240277 then
+	elseif spellId == 240277 then --Реактор апокалипсиса
 		timerDecimationCD:Stop()
 		timerFelBombardmentCD:Stop()
 		countdownFelBombardment:Cancel()
@@ -149,8 +150,8 @@ function mod:SPELL_CAST_START(args)
 		specWarnApocDrive:Show()
 		specWarnApocDrive:Play("targetchange")
 		timerApocDriveCast:Start()
-	elseif spellId == 246663 then --Всплеск скверны
-		specWarnSurgingFel:Show()
+		timerSurgingFelCast:Schedule(10.5) --в других сложностях возможны другие цифры
+		specWarnSurgingFel:Schedule(10.5)
 	end
 end
 
@@ -261,6 +262,8 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	if spellId == 245515 or spellId == 245527 then--decimator-cannon-eject/annihilator-cannon-eject
 		self.vb.phase = self.vb.phase + 1
 		timerApocDriveCast:Stop()
+		timerSurgingFelCast:Cancel()
+		specWarnSurgingFel:Cancel()
 		if self.vb.phase == 2 and not self:IsMythic() then
 			if spellId == 245515 then--decimator-cannon-eject
 				timerAnnihilationCD:Start(22)

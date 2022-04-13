@@ -8,10 +8,10 @@ mod.isTrashMod = true
 
 mod:RegisterEvents(
 	"SPELL_CAST_START 246209 245807",
-	"SPELL_CAST_SUCCESS",
-	"SPELL_AURA_APPLIED 252760 253600 254122 249297 246199 246687",
+	"SPELL_CAST_SUCCESS 246664",
+	"SPELL_AURA_APPLIED 252760 246692 253600 254122 249297 246199 246687",
 	"SPELL_AURA_APPLIED_DOSE",
-	"SPELL_AURA_REMOVED 252760 254122 249297 246687",
+	"SPELL_AURA_REMOVED 252760 246692 254122 249297 246687",
 	"SPELL_PERIODIC_DAMAGE 246199",
 	"SPELL_PERIODIC_MISSED 246199"
 )
@@ -24,10 +24,13 @@ local warnDemolish						= mod:NewTargetAnnounce(252760, 4) --Разрушени�
 local warnCloudofConfuse				= mod:NewTargetAnnounce(254122, 4) --Облако растерянности
 local warnFlamesofReorig				= mod:NewTargetAnnounce(249297, 4, nil, false, 2) --Пламя пересоздания Can be spammy if handled poorly
 local warnSoulburn						= mod:NewTargetAnnounce(253600, 3) --Горящая душа
+--Крушитель Кин'гарота
+local specWarnDecimation				= mod:NewSpecialWarningYouMoveAway(246687, nil, nil, nil, 4, 3) --Децимация
+local specWarnDecimation2				= mod:NewSpecialWarningDodge(246687, "-Tank", nil, nil, 2, 2) --Децимация
 
 local specWarnBurningWinds				= mod:NewSpecialWarningYouMove(246199, nil, nil, nil, 1, 2) --Горящие ветра
-local specWarnDemolish					= mod:NewSpecialWarningYouShare(252760, nil, nil, nil, 3, 2) --Разрушение
-local specWarnCloudofConfuse			= mod:NewSpecialWarningYouMoveAway(254122, nil, nil, nil, 1, 2) --Облако растерянности
+local specWarnDemolish					= mod:NewSpecialWarningYouShare(252760, nil, nil, nil, 3, 5) --Разрушение
+local specWarnCloudofConfuse			= mod:NewSpecialWarningYouMoveAway(254122, nil, nil, nil, 3, 3) --Облако растерянности
 local specWarnFlamesofReorig			= mod:NewSpecialWarningYouMoveAway(249297, nil, nil, nil, 3, 5) --Пламя пересоздания
 local specWarnSoulburn					= mod:NewSpecialWarningMoveAway(253600, nil, nil, nil, 3, 5) --Горящая душа
 local specWarnPunishingFlame			= mod:NewSpecialWarningRun(246209, "Melee", nil, nil, 4, 3) --Наказующее пламя
@@ -35,6 +38,8 @@ local specWarnPunishingFlame2			= mod:NewSpecialWarningDodge(246209, "Ranged", n
 local specWarnAnnihilation				= mod:NewSpecialWarningSoak(245807, nil, nil, nil, 2, 2) --Аннигиляция
 --local specWarnShadowBoltVolley		= mod:NewSpecialWarningInterrupt(243171, "HasInterrupt", nil, nil, 1, 2)
 
+local yellDecimation					= mod:NewYell(246687, nil, nil, nil, "YELL") --Децимация
+local yellDecimationFades				= mod:NewShortFadesYell(246687, nil, nil, nil, "YELL") --Децимация
 local yellDemolish						= mod:NewYell(252760, nil, nil, nil, "YELL") --Разрушение
 local yellDemolishFades					= mod:NewShortFadesYell(252760, nil, nil, nil, "YELL") --Разрушение
 local yellCloudofConfuse				= mod:NewYell(254122, nil, nil, nil, "YELL") --Облако растерянности
@@ -58,20 +63,19 @@ function mod:SPELL_CAST_START(args)
 	end
 end
 
---[[
 function mod:SPELL_CAST_SUCCESS(args)
 	if not self.Options.Enabled then return end
 	local spellId = args.spellId
-	if spellId == 241360 then
-
+	if spellId == 246664 and self:AntiSpam(5, 1) then
+		specWarnAnnihilation:Show()
+		specWarnAnnihilation:Play("helpsoak")
 	end
 end
---]]
 
 function mod:SPELL_AURA_APPLIED(args)
 	if not self.Options.Enabled then return end
 	local spellId = args.spellId
-	if spellId == 252760 then
+	if spellId == 252760 or spellId == 246692 then
 		warnDemolish:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
 			specWarnDemolish:Show()
@@ -108,6 +112,16 @@ function mod:SPELL_AURA_APPLIED(args)
 				DBM.RangeCheck:Show(10)
 			end
 		end
+	elseif spellId == 246687 then --Децимация
+		warnDecimation2:CombinedShow(0.3, args.destName)
+		if args:IsPlayer() then
+			specWarnDecimation:Show()
+			specWarnDecimation:Play("runout")
+			yellDecimation:Yell()
+			yellDecimationFades:Countdown(5, 3)
+		elseif self:AntiSpam(5, 1) then
+			specWarnDecimation2:Schedule(5)
+		end
 	end
 end
 --mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
@@ -115,7 +129,7 @@ end
 function mod:SPELL_AURA_REMOVED(args)
 	if not self.Options.Enabled then return end
 	local spellId = args.spellId
-	if spellId == 252760 then
+	if spellId == 252760 or spellId == 246692 then
 		if args:IsPlayer() then
 			yellDemolishFades:Cancel()
 		end
