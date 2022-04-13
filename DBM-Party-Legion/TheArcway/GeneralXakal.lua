@@ -15,16 +15,16 @@ mod:RegisterEventsInCombat(
 )
 
 --TODO, evalulate normal mode tmers more for slash and fissure, seem longer cded there.
-local specWarnBat					= mod:NewSpecialWarningSwitch("ej12489", "Tank", nil, nil, 1, 2)
-local specWarnFissure				= mod:NewSpecialWarningDodge(197776, nil, nil, nil, 2, 2)
-local specWarnSlash					= mod:NewSpecialWarningSpell(212030, nil, nil, nil, 2, 2)
-local specWarnSlam					= mod:NewSpecialWarningSpell(197810, nil, nil, nil, 3, 2)
+local specWarnBat					= mod:NewSpecialWarningSwitch("ej12489", "-Healer", nil, nil, 1, 2)
+local specWarnFissure				= mod:NewSpecialWarningDodge(197776, nil, nil, nil, 2, 2) --Разлом Скверны
+local specWarnSlash					= mod:NewSpecialWarningDodge(212030, nil, nil, nil, 2, 2) --Темное рассечение
+local specWarnSlam					= mod:NewSpecialWarningSpell(197810, nil, nil, nil, 3, 2) --Злодейский мощный удар
 
 local timerBatCD					= mod:NewNextTimer(31, "ej12489", nil, nil, nil, 1, 183219)--31.1 i saw for lowest time but might be some variation
 --Both 13 unless delayed by other interactions. Seems similar to archimondes timer code with a hard ICD mechanic.
-local timerFissureCD				= mod:NewCDTimer(23, 197776, nil, nil, nil, 3)--Maybe 23 now?
-local timerSlashCD					= mod:NewCDTimer(25, 212030, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON)--25-30
-local timerSlamCD					= mod:NewCDTimer(47, 197810, nil, nil, nil, 2)--Possibly 40 but delayed by ICD triggering
+local timerFissureCD				= mod:NewCDTimer(23, 197776, nil, nil, nil, 3) --Разлом Скверны Maybe 23 now?
+local timerSlashCD					= mod:NewCDTimer(25, 212030, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Темное рассечение 25-30
+local timerSlamCD					= mod:NewCDTimer(47, 197810, nil, nil, nil, 2) --Злодейский мощный удар Possibly 40 but delayed by ICD triggering
 
 --Boss seems to have intenal 6 second ICD and cannot cast any two spells within 6 seconds of another (minus summon bats)
 --[[
@@ -63,11 +63,11 @@ local function blizzardHatesBossMods(self)
 end
 
 function mod:OnCombatStart(delay)
-	timerFissureCD:Start(5-delay)
-	timerSlashCD:Start(13-delay)
-	timerBatCD:Start(20-delay)
+	timerFissureCD:Start(6.5-delay)
+	timerSlashCD:Start(13.5-delay)
+	timerBatCD:Start(21-delay)
 	self:Schedule(20, blizzardHatesBossMods, self)
-	timerSlamCD:Start(35.8-delay)
+	timerSlamCD:Start(36.8-delay)
 end
 
 function mod:SPELL_CAST_START(args)

@@ -8,17 +8,24 @@ mod:SetZone()
 mod.isTrashMod = true
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 196799 193069 196799 196249 193502",
-	"SPELL_AURA_APPLIED 202615 193069 193607 202608",
+	"SPELL_CAST_START 196799 193069 196799 196249 193502 193936 161056 202728 196242 191527",
+	"SPELL_AURA_APPLIED 202615 193069 193607 202608 161044",
 	"SPELL_CAST_SUCCESS 202606",
-	"CHAT_MSG_MONSTER_SAY"
+	"CHAT_MSG_MONSTER_SAY",
+	"UNIT_DIED"
 )
 
 local warnTorment				= mod:NewTargetAnnounce(202615, 3) --Мучение
 local warnNightmares			= mod:NewTargetAnnounce(193069, 4) --Кошмары
+local warnNightmares2			= mod:NewSpellAnnounce(193069, 3) --Кошмары
 local warnDoubleStrike			= mod:NewTargetAnnounce(193607, 2) --Двойной удар
 local warnMetamorphosis			= mod:NewSpellAnnounce(193502, 4) --Метаморфоза
 
+local specWarnDeafeningShout	= mod:NewSpecialWarningCast(191527, "SpellCaster", nil, nil, 3, 2) --Оглушающий крик
+local specWarnSummonGrimguard	= mod:NewSpecialWarningSwitch(202728, "Tank", nil, nil, 1, 2) --Призыв мрачного стража
+local specWarnTemporalAnomaly	= mod:NewSpecialWarningYouMove(161044, nil, nil, nil, 1, 2) --Временная аномалия
+local specWarnArcaneSentries	= mod:NewSpecialWarningDodge(193936, nil, nil, nil, 2, 2) --Волшебные часовые
+local specWarnTemporalAnomaly2	= mod:NewSpecialWarningDodge(161056, nil, nil, nil, 2, 2) --Временная аномалия (каст)
 local specWarnNightmares2		= mod:NewSpecialWarningDispel(193069, "MagicDispeller", nil, nil, 1, 2) --Кошмары
 local specWarnAnguishedSouls	= mod:NewSpecialWarningYouMove(202608, nil, nil, nil, 1, 2) --Страдающие души
 local specWarnAnguishedSouls2	= mod:NewSpecialWarningDodge(202606, nil, nil, nil, 2, 2) --Страдающие души
@@ -27,9 +34,18 @@ local specWarnTorment2			= mod:NewSpecialWarningYouDefensive(202615, nil, nil, n
 local specWarnDoubleStrike		= mod:NewSpecialWarningDefensive(193607, nil, nil, nil, 2, 2) --Двойной удар
 local specWarnUnleashedFury		= mod:NewSpecialWarningInterrupt(196799, "-Healer", nil, nil, 2, 2) --Высвобождение ярости
 local specWarnNightmares		= mod:NewSpecialWarningInterrupt(193069, "HasInterrupt", nil, nil, 3, 2) --Кошмары
-local specWarnMeteor			= mod:NewSpecialWarningDodge(196249, nil, nil, nil, 1, 2) --Метеор
-
+local specWarnMeteor			= mod:NewSpecialWarningShare(196249, nil, nil, nil, 1, 2) --Метеор
+--Разъяренный анимус
+local timerTemporalAnomalyCD	= mod:NewCDTimer(35, 161056, nil, nil, nil, 3, nil) --Временная аномалия (каст)
+local timerArcaneSentriesCD		= mod:NewCDTimer(35, 193936, nil, nil, nil, 1, nil) --Волшебные часовые
+--Повелитель ужаса Мендаций
+local timerMeteorCD				= mod:NewCDTimer(17, 196249, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Метеор
+local timerThunderclapCD		= mod:NewCDTimer(15, 196242, nil, nil, nil, 2, nil) --Удар грома
+--Иллиана Танцующая с Клинками
+local timerDeafeningShoutCD		= mod:NewCDTimer(18.5, 191527, nil, "SpellCaster", nil, 4, nil, DBM_CORE_INTERRUPT_ICON) --Оглушающий крик
+--злобнорог поработитель 
 local timerTormentCD			= mod:NewCDTimer(17, 202615, nil, nil, nil, 7, nil) --Мучение
+--
 local timerDoubleStrikeCD		= mod:NewCDTimer(13, 193607, nil, "Tank", nil, 3, nil, DBM_CORE_TANK_ICON) --Двойной удар
 local timerDoubleStrike			= mod:NewTargetTimer(6, 193607, nil, "Healer", nil, 3, nil) --Двойной удар
 local timerRoleplay				= mod:NewTimer(23, "timerRoleplay", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7) --Ролевая игра
@@ -43,14 +59,32 @@ function mod:SPELL_CAST_START(args)
 	if spellId == 196799 and self:AntiSpam(4, 1) then
 		specWarnUnleashedFury:Show()
 		specWarnUnleashedFury:Play("aesoon")
-	elseif spellId == 193069 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
-		specWarnNightmares:Show(args.sourceName)
-		specWarnNightmares:Play("kickcast")
+	elseif spellId == 193069 then
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnNightmares:Show(args.sourceName)
+			specWarnNightmares:Play("kickcast")
+		else
+			warnNightmares2:Show()
+		end
 	elseif spellId == 196249 then
 		specWarnMeteor:Show()
 		specWarnMeteor:Play("gathershare")
+		timerMeteorCD:Start()
 	elseif spellId == 193502 then --Метаморфоза
 		warnMetamorphosis:Show()
+	elseif spellId == 193936 then --Волшебные часовые
+		specWarnArcaneSentries:Show()
+		timerArcaneSentriesCD:Start()
+	elseif spellId == 161056 then --Временная аномалия
+		specWarnTemporalAnomaly2:Show()
+		timerTemporalAnomalyCD:Start()
+	elseif spellId == 202728 then --Временная аномалия
+		specWarnSummonGrimguard:Show()
+	elseif spellId == 196242 then --Временная аномалия
+		timerThunderclapCD:Start()
+	elseif spellId == 191527 then --Оглушающий крик
+		specWarnDeafeningShout:Show()
+		timerDeafeningShoutCD:Start()
 	end
 end
 
@@ -92,6 +126,10 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnAnguishedSouls:Show()
 		end
+	elseif spellId == 161044 then --Временная аномалия
+		if args:IsPlayer() then
+			specWarnTemporalAnomaly:Show()
+		end
 	end
 end
 
@@ -104,5 +142,20 @@ end
 function mod:OnSync(msg, GUID)
 	if msg == "Roleplay" then
 		timerRoleplay:Start()
+	end
+end
+
+function mod:UNIT_DIED(args)
+	local cid = self:GetCIDFromGUID(args.destGUID)
+	if cid == 102566 then --https://ru.wowhead.com/npc=102566/злобнорог-поработитель 
+		timerTormentCD:Cancel()
+	elseif cid == 96579 then --https://ru.wowhead.com/npc=96579/разъяренный-анимус
+		timerTemporalAnomalyCD:Cancel()
+		timerArcaneSentriesCD:Cancel()
+	elseif cid == 99649 then --https://ru.wowhead.com/npc=99649/повелитель-ужаса-мендаций
+		timerMeteorCD:Cancel()
+		timerThunderclapCD:Cancel()
+	elseif cid == 96657 then --https://ru.wowhead.com/npc=96657/иллиана-танцующая-с-клинками
+		timerDeafeningShoutCD:Cancel()
 	end
 end

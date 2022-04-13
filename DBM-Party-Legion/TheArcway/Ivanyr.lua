@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1497, "DBM-Party-Legion", 6, 726)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17526 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 mod:SetCreatureID(98203)
 mod:SetEncounterID(1827)
 mod:SetZone()
@@ -20,26 +20,28 @@ mod:RegisterEventsInCombat(
 
 --TODO, verify some of this is actually timer based and not just mana depletion related.
 --TODO, verify first special timers some more
-local warnVolatileMagic				= mod:NewTargetAnnounce(196562, 3)
-local warnNetherLink				= mod:NewTargetAnnounce(196805, 4)
+local warnVolatileMagic				= mod:NewTargetAnnounce(196562, 3) --Нестабильная магия
+local warnNetherLink				= mod:NewTargetAnnounce(196805, 4) --Оковы Пустоты
 
-local specWarnVolatileMagic			= mod:NewSpecialWarningMoveAway(196562, nil, nil, nil, 1, 2)
-local yellVolatileMagic				= mod:NewYell(196562)
-local specWarnNetherLink			= mod:NewSpecialWarningYou(196805, nil, nil, nil, 1, 2)
-local specWarnNetherLinkGTFO		= mod:NewSpecialWarningMove(196805, nil, nil, nil, 1, 2)
-local specWarnOverchargeMana		= mod:NewSpecialWarningInterrupt(196392, "HasInterrupt", nil, nil, 1, 2)
+local specWarnVolatileMagic			= mod:NewSpecialWarningMoveAway(196562, nil, nil, nil, 3, 5) --Нестабильная магия
 
-local timerVolatileMagicCD			= mod:NewCDTimer(32, 196562, nil, nil, nil, 3)--Review, Might be health based? or just really variable
-local timerNetherLinkCD				= mod:NewCDTimer(30, 196804, nil, nil, nil, 3)
-local timerOverchargeManaCD			= mod:NewCDTimer(40, 196392, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON)
+local specWarnNetherLink			= mod:NewSpecialWarningYouRunning(196805, nil, nil, nil, 3, 3) --Оковы Пустоты дебаф
+local specWarnNetherLinkGTFO		= mod:NewSpecialWarningMove(196805, nil, nil, nil, 1, 2) --Оковы Пустоты лужа
+local specWarnOverchargeMana		= mod:NewSpecialWarningInterrupt(196392, "HasInterrupt", nil, nil, 1, 2) --Перезарядка маны
 
-mod:AddRangeFrameOption(8, 196562)
+local timerVolatileMagicCD			= mod:NewCDTimer(36, 196562, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Нестабильная магия Review, Might be health based? or just really variable
+local timerNetherLinkCD				= mod:NewCDTimer(38, 196804, nil, nil, nil, 3) --Оковы Пустоты
+local timerOverchargeManaCD			= mod:NewCDTimer(43, 196392, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON) --Перезарядка маны
+
+local yellVolatileMagic				= mod:NewYell(196562, nil, nil, nil, "YELL") --Нестабильная магия
+
+mod:AddRangeFrameOption(8, 196562) --Нестабильная магия
 
 function mod:OnCombatStart(delay)
 	--Watch closely, review. He may be able to swap nether link and volatile magic?
-	timerVolatileMagicCD:Start(7.7-delay)--APPLIED
+	timerVolatileMagicCD:Start(9-delay)--APPLIED
 	timerNetherLinkCD:Start(17.5-delay)--APPLIED
-	timerOverchargeManaCD:Start(30-delay)
+	timerOverchargeManaCD:Start(32-delay)
 end
 
 function mod:OnCombatEnd()

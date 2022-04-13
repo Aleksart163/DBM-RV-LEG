@@ -22,7 +22,7 @@ local warnHeaveCrud					= mod:NewSpellAnnounce(243124, 2)
 local specWarnPulvCrudgel			= mod:NewSpecialWarningRun(237276, "Melee", nil, nil, 4, 2) --Сокрушающая дубина
 local specWarnPulvCrudgel2			= mod:NewSpecialWarningDodge(237276, "Ranged", nil, nil, 2, 2) --Сокрушающая дубина
 local specWarnMindControl			= mod:NewSpecialWarningSwitchCount(238484, nil, DBM_CORE_AUTO_SPEC_WARN_OPTIONS.switch:format(238484), nil, 1, 2)
-local specWarnScornfulGaze			= mod:NewSpecialWarning("bookCase", nil, nil, nil, 3, 5) --Глумливый взгляд
+local specWarnScornfulGaze			= mod:NewSpecialWarningMoveTo(237726, nil, nil, nil, 3, 5) --Глумливый взгляд
 
 local timerPulvCrudgelCD			= mod:NewCDTimer(34.2, 237276, nil, nil, nil, 2, nil, DBM_CORE_TANK_ICON)--Might be shorter if not stunned by gaze/books
 local timerScornfulGazeCD			= mod:NewCDTimer(36.5, 237726, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON)
@@ -55,7 +55,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 237726 then
 		timerScornfulGazeCD:Start()
 		if args:IsPlayer() then
-			specWarnScornfulGaze:Show()
+			specWarnScornfulGaze:Show(L.bookCase)
 			yellScornfulGaze:Yell()
 		else
 			warnScornfulGaze:Show(args.destName)

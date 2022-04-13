@@ -226,6 +226,10 @@ L:SetOptionLocalization({
 	Phase2 = "Announce Phase 2"
 })
 
+L:SetMiscLocalization({
+	Phase2Van = "Enough! You little beasts are getting out of hand!" --прошляпанное очко пелии
+})
+
 -----------------------
 --The Arcway Trash
 -----------------------
@@ -262,11 +266,22 @@ L:SetGeneralLocalization({
 	name =	"Court of Stars Trash"
 })
 
+L:SetWarningLocalization({
+	warnSpy = "Spy detected"
+})
+
 L:SetOptionLocalization({
-	SpyHelper	= "Help identify the spy"
+	warnSpy = "Special warning when a spy is detected",
+	SpyHelper = "Help identify the spy",
+	timerRoleplay = "Countdown to the start of the battle with Advisor Melandrus"
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = GUILD_INTEREST_RP
 })
 
 L:SetMiscLocalization({
+	RolePlayMelan 	= "Must you leave so soon, Grand Magistrix?",
 	Gloves1		= "There's a rumor that the spy always wears gloves.",
 	Gloves2		= "I heard the spy carefully hides their hands.",
 	Gloves3		= "I heard the spy always dons gloves.",
@@ -446,6 +461,14 @@ L= DBM:GetModLocalization(1467)
 -----------------------
 L= DBM:GetModLocalization(1695)
 
+L:SetOptionLocalization({
+	lookSphere = "Show special warning \"look at the Sphere\" when you target $spell:212564"
+})
+
+L:SetMiscLocalization({
+	lookSphere = "the Sphere"
+})
+
 -----------------------
 -- Ash'golm --
 -----------------------
@@ -461,6 +484,16 @@ L= DBM:GetModLocalization(1469)
 -----------------------
 L= DBM:GetModLocalization(1470)
 
+L:SetWarningLocalization({
+	Phase1 = "Phase 2 soon",
+	Phase2 = "Phase 2"
+})
+
+L:SetOptionLocalization({
+	Phase1 = "Warn in advance about phase 2 (on ~44%, Mythic+ only)",
+	Phase2 = "Announce Phase 2"
+})
+
 -----------------------
 --Vault of Wardens Trash
 -----------------------
@@ -475,10 +508,12 @@ L:SetTimerLocalization({
 })
 
 L:SetOptionLocalization({
+	lookSphere = "Show special warning \"look at the Sphere\" when you target $spell:212564",
 	timerRoleplay = "Countdown to the start of the fight with Kordana"
 })
 
 L:SetMiscLocalization({
+	lookSphere = "look at the Sphere",
 	RoleRP = "How utterly predictable! I knew that you would come."
 })
 
@@ -553,7 +588,18 @@ L:SetGeneralLocalization({
 	name = "Return To Karazhan Trash"
 })
 
+L:SetOptionLocalization({
+	timerRoleplay = "Countdown to the start of the battle in the Opera Hall"
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = GUILD_INTEREST_RP
+})
+
 L:SetMiscLocalization({
+	Beauty = "Good evening, ladies and gentlemen. We proudly welcome you to this evening's feature presentation!",
+	Westfall = "Ladies and gentlemen, welcome to this evening's feature presentation!",
+	Wikket = "Welcome, ladies and gentlemen, to our--OOF!",
 	speedRun = "The strange chill of a dark presence winds through the air..."
 })
 

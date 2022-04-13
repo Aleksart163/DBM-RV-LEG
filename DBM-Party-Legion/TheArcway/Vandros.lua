@@ -17,6 +17,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_DAMAGE 203833",
 	"SPELL_MISSED 203833",
 	"UNIT_SPELLCAST_SUCCEEDED boss1",
+	"CHAT_MSG_MONSTER_YELL",
 	"UNIT_HEALTH boss1"
 )
 
@@ -36,7 +37,7 @@ local specWarnTimeLock				= mod:NewSpecialWarningInterrupt(203957, "HasInterrupt
 local specWarnUnstableMana			= mod:NewSpecialWarningMove(203176, nil, nil, nil, 1, 2) --Ускоряющий взрыв
 
 local timerForceBombD				= mod:NewCDTimer(31.8, 202974, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Силовая бомба
-local timerEvent					= mod:NewBuffFadesTimer(124, 203914, nil, nil, nil, 6, nil, DBM_CORE_MYTHIC_ICON) --Изгнание во времени
+local timerEvent					= mod:NewBuffFadesTimer(124, 203914, nil, nil, nil, 6, nil, DBM_CORE_DEADLY_ICON) --Изгнание во времени
 
 local countdownEvent				= mod:NewCountdownFades(124, 203914, nil, nil, 10) --Изгнание во времени
 
@@ -50,7 +51,7 @@ function mod:OnCombatStart(delay)
 	self.vb.phase = 1
 	warned_preP1 = false
 	warned_preP2 = false
-	timerForceBombD:Start(16.7-delay)
+	timerForceBombD:Start(23-delay)
 end
 
 function mod:SPELL_AURA_APPLIED(args)
@@ -138,13 +139,35 @@ function mod:UNIT_HEALTH(uId)
 		elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 98208 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.51 then
 			self.vb.phase = 2
 			warned_preP2 = true
-			specWarnPhase2:Show()
 		end
 	else
 		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 98208 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.51 then
 			self.vb.phase = 2
 			warned_preP1 = true
-			specWarnPhase2:Show()
+		end
+	end
+end
+
+function mod:CHAT_MSG_MONSTER_YELL(msg)
+	if msg == L.Phase2Van or msg:find(L.Phase2Van) then
+		self:SendSync("RPPhase2")
+	end
+end
+
+function mod:OnSync(msg)
+	if msg == "RPPhase2" then
+		if self:IsHard() then
+			if self.vb.phase == 2 and warned_preP2 then
+				timerEvent:Cancel()
+				timerForceBombD:Start(27)
+				specWarnPhase2:Show()
+			end
+		else
+			if self.vb.phase == 2 and warned_preP1 then
+				timerEvent:Cancel()
+				timerForceBombD:Start(27)
+				specWarnPhase2:Show()
+			end
 		end
 	end
 end

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("CoSTrash", "DBM-Party-Legion", 7)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17522 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 --mod:SetModelID(47785)
 mod:SetZone()
 mod:SetOOCBWComms()
@@ -9,15 +9,20 @@ mod:SetOOCBWComms()
 mod.isTrashMod = true
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 209027 212031 209485 209410 209413 211470 211464 209404 209495 225100 211299 209378",
-	"SPELL_AURA_APPLIED 209033 209512",
+	"SPELL_CAST_START 209027 212031 209485 209410 209413 211470 211464 209404 209495 225100 211299 209378 207980 207979",
+	"SPELL_AURA_APPLIED 209033 209512 207981",
 	"CHAT_MSG_MONSTER_SAY",
-	"GOSSIP_SHOW"
+	"GOSSIP_SHOW",
+	"UNIT_DIED"
 )
 
---TODO, at least 1-2 more GTFOs I forgot names of
+--Квартал звезд
+local warnPhase2					= mod:NewAnnounce("warnSpy", 1, 248732) --Шпион обнаружен , nil, nil, true
+
 local specWarnFelDetonation			= mod:NewSpecialWarningDodge(211464, nil, nil, nil, 2, 3) --Взрыв Скверны
-local specWarnFortification			= mod:NewSpecialWarningDispel(209033, "MagicDispeller", nil, nil, 1, 2)
+local specWarnDisintegrationBeam	= mod:NewSpecialWarningYouDefensive(207981, nil, nil, nil, 3, 6) --Луч дезинтеграции
+local specWarnShockwave				= mod:NewSpecialWarningDodge(207979, "Melee", nil, nil, 2, 3) --Ударная волна
+local specWarnFortification			= mod:NewSpecialWarningDispel(209033, "MagicDispeller", nil, nil, 1, 2) --Укрепление
 local specWarnQuellingStrike		= mod:NewSpecialWarningDodge(209027, "Tank", nil, nil, 1, 2)
 local specWarnChargedBlast			= mod:NewSpecialWarningDodge(212031, "Tank", nil, nil, 1, 2)
 local specWarnChargedSmash			= mod:NewSpecialWarningDodge(209495, "Tank", nil, nil, 1, 2)
@@ -30,7 +35,16 @@ local specWarnSearingGlare			= mod:NewSpecialWarningInterrupt(211299, "HasInterr
 --local specWarnFelDetonation			= mod:NewSpecialWarningSpell(211464, false, nil, 2, 2, 2)
 local specWarnSealMagic				= mod:NewSpecialWarningRun(209404, false, nil, 2, 4, 2)
 local specWarnDisruptingEnergy		= mod:NewSpecialWarningMove(209512, nil, nil, nil, 1, 2)
-local specWarnWhirlingBlades		= mod:NewSpecialWarningRun(209378, "Melee", nil, nil, 4, 2)
+local specWarnWhirlingBlades		= mod:NewSpecialWarningRun(209378, "Melee", nil, nil, 4, 3) --Крутящиеся клинки
+
+local timerDisintegrationBeamCD		= mod:NewCDTimer(14, 207980, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Луч дезинтеграции
+local timerFelDetonationCD			= mod:NewCDTimer(12, 211464, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Взрыв Скверны
+local timerWhirlingBladesCD			= mod:NewCDTimer(18, 209378, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Крутящиеся клинки
+local timerShockwaveCD				= mod:NewCDTimer(8.5, 207979, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Ударная волна
+
+local timerRoleplay					= mod:NewTimer(29, "timerRoleplay", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7) --Ролевая игра
+
+local yellDisintegrationBeam		= mod:NewYell(207981, nil, nil, nil, "YELL") --Луч дезинтеграции
 
 mod:AddBoolOption("SpyHelper", true)
 
@@ -64,6 +78,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 211464 then
 		specWarnFelDetonation:Show()
 		specWarnFelDetonation:Play("aesoon")
+		timerFelDetonationCD:Start()
 	elseif spellId == 209404 then
 		specWarnSealMagic:Show()
 		specWarnSealMagic:Play("runout")
@@ -74,6 +89,12 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 209378 then
 		specWarnWhirlingBlades:Show()
 		specWarnWhirlingBlades:Play("runout")
+		timerWhirlingBladesCD:Start()
+	elseif spellId == 207980 then
+		timerDisintegrationBeamCD:Start()
+	elseif spellId == 207979 then --Ударная волна
+		specWarnShockwave:Show()
+		timerShockwaveCD:Start()
 	end
 end
 
@@ -86,6 +107,11 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 209512 and args:IsPlayer() then
 		specWarnDisruptingEnergy:Show()
 		specWarnDisruptingEnergy:Play("runaway")
+	elseif spellId == 207981 then
+		if args:IsPlayer() then
+			specWarnDisintegrationBeam:Show()
+			yellDisintegrationBeam:Yell()
+		end
 	end
 end
 
@@ -203,8 +229,10 @@ do
 	end
 	
 	function mod:CHAT_MSG_MONSTER_SAY(msg)
-		if msg:find(L.Found) then
+		if msg == L.Found or msg:find(L.Found) then
 			self:SendSync("Finished")
+		elseif msg == L.RolePlayMelan or msg:find(L.RolePlayMelan) then
+			self:SendSync("RolePlayMel")
 		end
 	end
 
@@ -249,7 +277,10 @@ do
 			hints[clue] = true
 			DBM.InfoFrame:Show(5, "function", updateInfoFrame)
 		elseif msg == "Finished" then
+			warnPhase2:Show()
 			self:ResetGossipState()
+		elseif msg == "RolePlayMel" then
+			timerRoleplay:Start()
 		end
 	end
 	function mod:OnBWSync(msg, extra)
@@ -261,5 +292,18 @@ do
 			hints[bwClue] = true
 			DBM.InfoFrame:Show(5, "function", updateInfoFrame)
 		end
+	end
+end
+
+function mod:UNIT_DIED(args)
+	local cid = self:GetCIDFromGUID(args.destGUID)
+	if cid == 104278 then --Порабощенная Скверной карательница
+		timerFelDetonationCD:Cancel()
+	elseif cid == 104275 then --Имаку'туя
+		timerWhirlingBladesCD:Cancel()
+	elseif cid == 104274 then --Баалгар Бдительный
+		timerDisintegrationBeamCD:Cancel()
+	elseif cid == 104273 then --Джазшариу
+		timerShockwaveCD:Cancel()
 	end
 end
