@@ -63,14 +63,14 @@ function mod:SPELL_CAST_START(args)
 	end
 end
 
-function mod:SPELL_CAST_SUCCESS(args)
+--[[function mod:SPELL_CAST_SUCCESS(args)
 	if not self.Options.Enabled then return end
 	local spellId = args.spellId
 	if spellId == 246664 and self:AntiSpam(5, 1) then
 		specWarnAnnihilation:Show()
 		specWarnAnnihilation:Play("helpsoak")
 	end
-end
+end]]
 
 function mod:SPELL_AURA_APPLIED(args)
 	if not self.Options.Enabled then return end
