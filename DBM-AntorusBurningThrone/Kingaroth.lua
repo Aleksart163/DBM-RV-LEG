@@ -12,7 +12,9 @@ mod:SetMinSyncRevision(16975)
 mod.respawnTime = 29
 
 --mod:RegisterCombat("combat", 122578)
-mod:RegisterCombat("yell", L.YellPullKingaroth or L.YellPullKingaroth2 or L.YellPullKingaroth3)
+mod:RegisterCombat("yell", L.YellPullKingaroth)
+mod:RegisterCombat("yell", L.YellPullKingaroth2)
+mod:RegisterCombat("yell", L.YellPullKingaroth3)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 244312 254926 245807 252758 246692 246833 246516 257978 254919",

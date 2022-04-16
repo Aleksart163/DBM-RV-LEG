@@ -13,9 +13,10 @@ mod:RegisterEvents(
 	"SPELL_AURA_APPLIED_DOSE",
 	"SPELL_AURA_REMOVED 252760 246692 254122 249297 246687",
 	"SPELL_PERIODIC_DAMAGE 246199",
-	"SPELL_PERIODIC_MISSED 246199"
+	"SPELL_PERIODIC_MISSED 246199",
+	"UNIT_DIED"
 )
-
+--244399 децимация с 1-го моба
 --TODO, these
 				--"Annihilation-252740-npc:127230 = pull:9.5", -- [1]
 				--"Decimation-252793-npc:127231 = pull:10.9, 0.0", -- [2]
@@ -41,7 +42,7 @@ local specWarnAnnihilation				= mod:NewSpecialWarningSoak(245807, nil, nil, nil,
 local yellDecimation					= mod:NewYell(246687, nil, nil, nil, "YELL") --Децимация
 local yellDecimationFades				= mod:NewShortFadesYell(246687, nil, nil, nil, "YELL") --Децимация
 local yellDemolish						= mod:NewYell(252760, nil, nil, nil, "YELL") --Разрушение
-local yellDemolishFades					= mod:NewShortFadesYell(252760, nil, nil, nil, "YELL") --Разрушение
+local yellDemolishFades					= mod:NewFadesYell(252760, nil, nil, nil, "YELL") --Разрушение
 local yellCloudofConfuse				= mod:NewYell(254122, nil, nil, nil, "YELL") --Облако растерянности
 local yellCloudofConfuseFades			= mod:NewShortFadesYell(254122, nil, nil, nil, "YELL") --Облако растерянности
 local yellFlamesofReorig				= mod:NewYell(249297, nil, nil, nil, "YELL") --Пламя пересоздания
@@ -83,7 +84,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			yellDemolish:Yell()
 			local _, _, _, _, _, _, expires = DBM:UnitDebuff("player", spellId)
 			local remaining = expires-GetTime()
-			yellDemolishFades:Countdown(remaining)
+			yellDemolishFades:Countdown(6)
 		end
 	elseif spellId == 254122 then
 		warnCloudofConfuse:CombinedShow(0.3, args.destName)
@@ -112,7 +113,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				DBM.RangeCheck:Show(10)
 			end
 		end
-	elseif spellId == 246687 then --Децимация
+	elseif spellId == 246687 or spellId == 244399 then --Децимация
 		warnDecimation2:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
 			specWarnDecimation:Show()
@@ -151,3 +152,10 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spell
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
+
+function mod:UNIT_DIED(args)
+	local cid = self:GetCIDFromGUID(args.destGUID)
+	if cid == 123921 then --Крушитель Кин'гарота
+		specWarnDecimation2:Cancel(args.sourceGUID)
+	end
+end

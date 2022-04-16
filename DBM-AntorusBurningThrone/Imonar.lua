@@ -11,7 +11,9 @@ mod:SetHotfixNoticeRev(16961)
 mod.respawnTime = 30
 
 --mod:RegisterCombat("combat", 124158)
-mod:RegisterCombat("yell", L.YellPullImonar or L.YellPullImonar2 or L.YellPullImonar3)
+mod:RegisterCombat("yell", L.YellPullImonar)
+mod:RegisterCombat("yell", L.YellPullImonar2)
+mod:RegisterCombat("yell", L.YellPullImonar3)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 247376 247923 248068 248070 248254",

@@ -61,7 +61,7 @@ local specWarnFusillade					= mod:NewSpecialWarningMoveTo(244625, nil, nil, nil,
 ----Chief Engineer Ishkar
 --local specWarnEntropicMine				= mod:NewSpecialWarningDodge(245161, nil, nil, nil, 1, 2)
 ----General Erodus
-local specWarnSummonReinforcements		= mod:NewSpecialWarningSwitch(245546, nil, nil, nil, 1, 2) --Вызов подкрепления
+local specWarnSummonReinforcements		= mod:NewSpecialWarningSwitch(245546, "-Healer", nil, nil, 1, 2) --Вызов подкрепления
 -------Adds
 local specWarnPyroblast					= mod:NewSpecialWarningInterrupt(246505, "HasInterrupt", nil, nil, 1, 2)
 local specWarnDemonicChargeYou			= mod:NewSpecialWarningYou(253040, nil, nil, nil, 1, 2) --Демонический рывок
@@ -98,7 +98,7 @@ local countdownExploitWeakness			= mod:NewCountdown("Alt8", 244892, "Tank", nil,
 ----Admiral Svirax
 local countdownFusillade				= mod:NewCountdown("AltTwo30", 244625) --Шквальный огонь
 ----General Erodus
-local countdownReinforcements			= mod:NewCountdown(25, 245546) --Вызов подкрепления
+--local countdownReinforcements			= mod:NewCountdown(25, 245546) --Вызов подкрепления
 
 mod:AddSetIconOption("SetIconOnAdds", 245546, true, true) --Вызов подкрепления
 mod:AddRangeFrameOption("8")
@@ -115,7 +115,7 @@ function mod:DemonicChargeTarget(targetname, uId)
 			specWarnDemonicChargeYou:Play("runaway")
 			yellDemonicCharge:Yell()
 		end
-	elseif self:AntiSpam(3.5, 2) and self:CheckNearby(10, targetname) then
+	elseif self:AntiSpam(3.5, 2) and self:CheckNearby(7, targetname) then
 		specWarnDemonicCharge:Show(targetname)
 		specWarnDemonicCharge:Play("watchstep")
 	else
@@ -131,9 +131,9 @@ function mod:OnCombatStart(delay)
 	timerEntropicMineCD:Start(5.1-delay)
 	--Out of Pod
 	timerSummonReinforcementsCD:Start(8-delay)
-	countdownReinforcements:Start(8-delay)
+--	countdownReinforcements:Start(8-delay)
 	timerAssumeCommandCD:Start(90-delay)
-	countdownAssumeCommand:Start(90-delay)
+--	countdownAssumeCommand:Start(90-delay)
 	if self:IsMythic() then
 		timerShockGrenadeCD:Start(15)
 	end
@@ -180,15 +180,15 @@ function mod:SPELL_CAST_START(args)
 			--TODO, reinforcements fix
 		elseif cid == 122333 then--General Erodus
 			timerSummonReinforcementsCD:Start(11)--Starts elite ones
-			countdownReinforcements:Start(11)
+		--	countdownReinforcements:Start(11)
 		elseif cid == 122367 then--Admiral Svirax
 			self.vb.FusilladeCount = 0
 			timerFusilladeCD:Start(15, 1)
 			countdownFusillade:Start(15)
 			timerSummonReinforcementsCD:Stop()--Seems this timer resets too
-			countdownReinforcements:Cancel()
+		--	countdownReinforcements:Cancel()
 			timerSummonReinforcementsCD:Start(16)--Start updated reinforcements timer
-			countdownReinforcements:Start(16)
+		--	countdownReinforcements:Start(16)
 		end
 		if self:IsMythic() then
 			timerShockGrenadeCD:Start(9.7)
@@ -317,7 +317,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 			timerEntropicMineCD:Stop()
 		elseif cid == 122333 then--General Erodus
 			timerSummonReinforcementsCD:Stop()--Elite ones
-			countdownReinforcements:Cancel()
+		--	countdownReinforcements:Cancel()
 		elseif cid == 122367 then--Admiral Svirax
 			timerFusilladeCD:Stop()
 			countdownFusillade:Cancel()
@@ -326,7 +326,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 		specWarnSummonReinforcements:Show()
 		specWarnSummonReinforcements:Play("killmob")
 		timerSummonReinforcementsCD:Start(35)
-		countdownReinforcements:Start(35)
+	--	countdownReinforcements:Start(35)
 		if self.Options.SetIconOnAdds then
 			self:ScanForMobs(122890, 0, self.vb.lastIcon, 1, 0.1, 12, "SetIconOnAdds")
 		end

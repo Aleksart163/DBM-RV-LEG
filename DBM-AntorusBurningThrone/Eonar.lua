@@ -15,8 +15,8 @@ mod:RegisterCombat("yell", L.YellPullEonar)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 249121 250701 246305",
-	"SPELL_CAST_SUCCESS 246753 254769 250048",
-	"SPELL_AURA_APPLIED 250074 250555 249016 248332 250073 250693 250691 250140",
+	"SPELL_CAST_SUCCESS 254769 250048", --246753
+	"SPELL_AURA_APPLIED 250074 250555 249016 248332 250073 250693 250691 250140 246753 249017 249015",
 	"SPELL_AURA_APPLIED_DOSE 250140",
 	"SPELL_AURA_REMOVED 250074 250555 249016 248332 250693 250691",
 --	"SPELL_DAMAGE 248329",
@@ -63,6 +63,9 @@ mod:AddTimerLine(ENCOUNTER_JOURNAL_SECTION_FLAG12)
 local timerFinalDoom					= mod:NewCastTimer(50, 249121, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Всеобщая погибель
 local timerFinalDoomCD					= mod:NewCDCountTimer(90, 249121, nil, nil, nil, 4, nil, DBM_CORE_MYTHIC_ICON) --Всеобщая погибель
 
+local timerArcaneSingularity			= mod:NewNextTimer(25, 249017, nil, nil, nil, 7) --Магическая сингулярность
+local timerBurningEmbers				= mod:NewNextTimer(30, 249015, nil, nil, nil, 7) --Раскаленные угли
+
 local berserkTimer						= mod:NewBerserkTimer(600)
 
 local yellRainofFel						= mod:NewYell(248332, nil, nil, nil, "YELL") --Дождь Скверны
@@ -97,22 +100,22 @@ mod.vb.purifierCast = 0
 mod.vb.batCast = 0
 mod.vb.targetedIcon = 1
 local normalRainOfFelTimers = {}--PTR, recheck
-local heroicRainOfFelTimers = {9.3, 43, 10, 43, 20, 19, 20, 29.2, 45, 25, 99}--Live, Dec 26
-local mythicRainOfFelTimers = {6, 23.1, 24.1, 46, 25, 49.3, 15, 45, 24, 49.2, 24.1, 49.2, 50}--Live, Dec 14
 --local mythicSpearofDoomTimers = {}
 local heroicSpearofDoomTimers = {35, 59.2, 64.3, 40, 84.7, 34.1, 65.2}--Live, Nov 29
 local finalDoomTimers = {59.3, 120, 94, 104.6, 99.6}--Live, Dec 5
 local lfrDestructors = {21.5, 51.9, 50.3, 64.3, 107.2, 58.2, 44.1, 46.2, 44.2}--4 Life Force LFR Version
 local lfrDestructors2 = {21.2, 43.8, 39.0, 51.1, 37.0, 53.0, 43.6, 45.2, 43.2}--3 Life force LFR version
 local normalDestructors = {17, 46.2, 32, 52.4, 93.7, 40.9, 50.2, 55.4, 49.2}--Live, Dec 01. Old 17, 39.4, 28, 44.2, 92.4, 41.3, 50, 53.4, 48.1
-local heroicDestructors = {15.7, 35.3, 40.6, 104.6, 134.7, 99.6}
-local mythicDestructors = {27, 18, 87.4, 288.4, 20, 79}--Changed Dec 12th
 local normalObfuscators = {193}--Live, Dec 01
-local heroicObfuscators = {80.6, 148.5, 94.7, 99.9}
-local mythicObfuscators = {46, 243, 43.8, 90.8}
-local heroicPurifiers = {125, 66.1, 30.6}
+local heroicRainOfFelTimers = {9.3, 43, 10, 43, 20, 19, 20, 29.2, 45, 25, 99}--Live, Dec 26
+local heroicDestructors = {15.7, 35.3, 37.6, 102.6, 134.7, 99.6} --у 3 -3сек, у 4 -2сек
+local heroicObfuscators = {77.6, 148.5, 94.7, 99.9} --у 1 -3сек, другие не включаются, проверить ещё раз в гере и мифике
+local heroicPurifiers = {116.5, 67.6, 29.6} --у 1 -8.5сек, у 2 +1.5 сек, у 3 -1сек
+local heroicBats = {160, 110, 105, 105} --у 1 -10сек, у 2 -15сек, 170, 295, 405, 510 (probably way off for 3rd and 4th because the heroic logs with long pulls are shit showa of terrible and unware dps that don't hit bats until they are in middle of path)
+local mythicRainOfFelTimers = {6, 23.1, 24.1, 46, 25, 49.3, 15, 45, 24, 49.2, 24.1, 49.2, 50}--Live, Dec 14
+local mythicDestructors = {27, 18, 90.4, 288.4, 20, 79} --у 3 +3 сек
+local mythicObfuscators = {43, 243, 43.8, 90.8} --у 1 -3сек
 local mythicPurifiers = {65.7, 82.6, 66.9, 145.7}
-local heroicBats = {170, 125, 105, 105}--170, 295, 405, 510 (probably way off for 3rd and 4th because the heroic logs with long pulls are shit showa of terrible and unware dps that don't hit bats until they are in middle of path)
 local mythicBats = {195, 79.9, 100, 95}--195, 275, 375, 470
 local warnedAdds = {}
 local addCountToLocationMythic = {
@@ -232,22 +235,24 @@ function mod:OnCombatStart(delay)
 			--timerSpearofDoomCD:Start(35-delay, 1)
 			timerDestructorCD:Start(17, DBM_CORE_MIDDLE)
 			self:Schedule(30, checkForDeadDestructor, self, 5)
-			timerObfuscatorCD:Start(46, DBM_CORE_BOTTOM)
+			timerObfuscatorCD:Start(43, DBM_CORE_BOTTOM) --маскировщик, подправил
 			timerPurifierCD:Start(65.7, DBM_CORE_MIDDLE)
 			timerFinalDoomCD:Start(59.3-delay, 1)
 			countdownFinalDoom:Start(59.3-delay)
 			timerBatsCD:Start(195, 1)
 			self:Schedule(195, startBatsStuff, self)
+			self:Schedule(25, "ArcaneSingularity")
+			self:Schedule(30, "BurningEmbers")
 		elseif self:IsHeroic() then
 			timerRainofFelCD:Start(9.3-delay, 1)
 			--countdownRainofFel:Start(9.3-delay)
-			timerDestructorCD:Start(7, DBM_CORE_MIDDLE)
+			timerDestructorCD:Start(13, DBM_CORE_MIDDLE) --подправил
 			self:Schedule(27, checkForDeadDestructor, self)
 			timerSpearofDoomCD:Start(34-delay, 1)
-			timerObfuscatorCD:Start(80.6, DBM_CORE_TOP)
-			timerPurifierCD:Start(125, DBM_CORE_MIDDLE)
-			timerBatsCD:Start(170, 1)
-			self:Schedule(170, startBatsStuff, self)
+			timerObfuscatorCD:Start(77.6, DBM_CORE_TOP) --маскировщик, подправил
+			timerPurifierCD:Start(116.5, DBM_CORE_MIDDLE) --очиститель, подправил
+			timerBatsCD:Start(160, 1) --мыши, подправил
+			self:Schedule(160, startBatsStuff, self) --мыши, подправил
 		else--Normal
 			timerDestructorCD:Start(7, DBM_CORE_MIDDLE)
 			self:Schedule(27, checkForDeadDestructor, self)
@@ -278,6 +283,8 @@ function mod:OnCombatEnd()
 	if self.Options.NPAuraOnPurification or self.Options.NPAuraOnFelShielding then
 		DBM.Nameplate:Hide(true, nil, nil, nil, true, true)
 	end
+	self:Unschedule("ArcaneSingularity")
+	self:Unschedule("BurningEmbers")
 end
 
 function mod:SPELL_CAST_START(args)
@@ -302,7 +309,7 @@ end
 
 function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
-	if spellId == 246753 and not warnedAdds[args.sourceGUID] then--Cloak
+--[[	if spellId == 246753 and not warnedAdds[args.sourceGUID] then--Cloak
 		warnedAdds[args.sourceGUID] = true
 		self.vb.obfuscators = self.vb.obfuscators + 1
 		if self:AntiSpam(5, args.sourceName) then
@@ -314,8 +321,8 @@ function mod:SPELL_CAST_SUCCESS(args)
 				local text = self:IsHeroic() and addCountToLocationHeroic["Obfu"][self.vb.obfuscatorCast+1] or self:IsNormal() and addCountToLocationNormal["Obfu"][self.vb.obfuscatorCast+1] or self:IsMythic() and addCountToLocationMythic["Obfu"][self.vb.obfuscatorCast+1] or self.vb.obfuscatorCast+1
 				timerObfuscatorCD:Start(timer, text)
 			end
-		end
-	elseif spellId == 254769 and args:GetSrcCreatureID() == 123760 and not warnedAdds[args.sourceGUID] then--High Alert
+		end]]
+	if spellId == 254769 and args:GetSrcCreatureID() == 123760 and not warnedAdds[args.sourceGUID] then--High Alert
 		warnedAdds[args.sourceGUID] = true
 		self:Unschedule(checkForDeadDestructor)
 		self.vb.destructors = self.vb.destructors + 1
@@ -355,6 +362,19 @@ function mod:SPELL_AURA_APPLIED(args)
 				timerPurifierCD:Start(timer, text)
 			end
 		end
+	elseif spellId == 246753 and not warnedAdds[args.sourceGUID] then--Cloak
+		warnedAdds[args.sourceGUID] = true
+		self.vb.obfuscators = self.vb.obfuscators + 1
+		if self:AntiSpam(5, 2) then
+			warnWarpIn:Show(L.Obfuscators)
+			warnWarpIn:Play("bigmob")
+			self.vb.obfuscatorCast = self.vb.obfuscatorCast + 1
+			local timer = self:IsMythic() and mythicObfuscators[self.vb.obfuscatorCast+1] or self:IsHeroic() and heroicObfuscators[self.vb.obfuscatorCast+1] or self:IsNormal() and normalObfuscators[self.vb.obfuscatorCast+1]
+			if timer then
+				local text = self:IsHeroic() and addCountToLocationHeroic["Obfu"][self.vb.obfuscatorCast+1] or self:IsNormal() and addCountToLocationNormal["Obfu"][self.vb.obfuscatorCast+1] or self:IsMythic() and addCountToLocationMythic["Obfu"][self.vb.obfuscatorCast+1] or self.vb.obfuscatorCast+1
+				timerObfuscatorCD:Start(timer, text)
+			end
+		end
 	elseif spellId == 250074 then--Purification (buff on enemies near purifier)
 		if self.Options.NPAuraOnPurification then
 			DBM.Nameplate:Show(true, args.destGUID, spellId)
@@ -387,22 +407,26 @@ function mod:SPELL_AURA_APPLIED(args)
 				DBM.RangeCheck:Show(8)
 			end
 		end
-	elseif spellId == 250693 then--Arcane Buildup
+	elseif spellId == 250693 or spellId == 249017 then --Магическая сингулярность Arcane Buildup
 		if args:IsPlayer() then
 			specWarnArcaneBuildup:Show()
 			specWarnArcaneBuildup:Play("runout")
 			yellArcaneBuildup:Yell()
 			yellArcaneBuildupFades:Countdown(5, 4)
+			timerArcaneSingularity:Start()
+			self:Schedule("ArcaneSingularity")
 			if self.Options.RangeFrame then
 				DBM.RangeCheck:Show(10)
 			end
 		end
-	elseif spellId == 250691 then --Burning Embers
+	elseif spellId == 250691 or spellId == 249015 then --Раскаленные угли Burning Embers
 		if args:IsPlayer() then
 			specWarnBurningEmbers:Show()
 			specWarnBurningEmbers:Play("runout")
 			yellBurningEmbers:Yell()
 			yellBurningEmbersFades:Countdown(5, 4)
+			timerBurningEmbers:Start()
+			self:Schedule("BurningEmbers")
 			if self.Options.RangeFrame then
 				DBM.RangeCheck:Show(8)
 			end
@@ -440,16 +464,20 @@ function mod:SPELL_AURA_REMOVED(args)
 				DBM.RangeCheck:Hide()
 			end
 		end
-	elseif spellId == 250693 then--Arcane Buildup
+	elseif spellId == 250693 or spellId == 249017 then--Arcane Buildup
 		if args:IsPlayer() then
 			yellArcaneBuildupFades:Cancel()
+			timerArcaneSingularity:Cancel()
+			self:Unschedule("ArcaneSingularity")
 			if self.Options.RangeFrame then
 				DBM.RangeCheck:Hide()
 			end
 		end
-	elseif spellId == 250691 then --Burning Embers
+	elseif spellId == 250691 or spellId == 249015 then --Burning Embers
 		if args:IsPlayer() then
 			yellBurningEmbersFades:Cancel()
+			timerBurningEmbers:Cancel()
+			self:Unschedule("BurningEmbers")
 			if self.Options.RangeFrame then
 				DBM.RangeCheck:Hide()
 			end
@@ -515,3 +543,13 @@ https://www.warcraftlogs.com/reports/RcjbYJQHWNCt41Fm#fight=24&type=summary&pins
 https://www.warcraftlogs.com/reports/9xkDgRXYLtzb1Bnq#fight=2&type=summary&view=events&pins=2%24Off%24%23244F4B%24expression%24(ability.id%20%3D%20249121%20or%20ability.id%20%3D%20250048)%20and%20type%20%3D%20%22begincast%22%20%20or%20(ability.id%20%3D%20246753%20or%20ability.id%20%3D%20254769)%20and%20type%20%3D%20%22cast%22%20%20or%20(ability.id%20%3D%20248332)%20and%20type%20%3D%20%22applydebuff%22%20%20or%20(ability.id%20%3D%20250073)%20and%20type%20%3D%20%22applybuff%22%20%20or%20target.name%20%3D%20%22Volant%20Kerapteron%22
 https://www.warcraftlogs.com/reports/V1dPgAZtFLwq2HDz#fight=8&type=summary&view=events&pins=2%24Off%24%23244F4B%24expression%24(ability.id%20%3D%20249121%20or%20ability.id%20%3D%20250048)%20and%20type%20%3D%20%22begincast%22%20%20or%20(ability.id%20%3D%20246753%20or%20ability.id%20%3D%20254769)%20and%20type%20%3D%20%22cast%22%20%20or%20(ability.id%20%3D%20248332)%20and%20type%20%3D%20%22applydebuff%22%20%20or%20(ability.id%20%3D%20250073)%20and%20type%20%3D%20%22applybuff%22%20%20or%20target.name%20%3D%20%22Volant%20Kerapteron%22
 --]]
+
+function mod:ArcaneSingularity()
+	timerArcaneSingularity:Start()
+	self:Schedule(25, "ArcaneSingularity")
+end
+
+function mod:BurningEmbers()
+	timerBurningEmbers:Start()
+	self:Schedule(30, "BurningEmbers")
+end

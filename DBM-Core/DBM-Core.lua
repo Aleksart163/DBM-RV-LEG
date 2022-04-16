@@ -7761,6 +7761,7 @@ do
 		["RemoveEnrage"] = true,--Unused, no one can remove enrage anymore, returning in classic/8.x!
 		["RemoveCurse"] = true,--from ally
 		["MagicDispeller"] = true--from ENEMY, not debuffs on players. use "Healer" for ally magic dispels. ALL healers can do that.
+		["MagicDispeller2"] = true--диспел с союзников от дебаффов. Хилеры и другие спеки
 		["HasInterrupt"] = true,--Has an interrupt that is 24 seconds or less CD that is BASELINE (not a talent)
 		["HasImmunity"] = true,--Has an immunity that can prevent or remove a spell effect (not just one that reduces damage like turtle or dispursion)
 	}]]
@@ -7788,6 +7789,7 @@ do
 			["RemoveDisease"] = true,
 			["HasImmunity"] = true,
 			["HasInterrupt2"] = true,
+			["MagicDispeller2"] = true,
 		},
 		[66] = {	--Protection Paladin
 			["Tank"] = true,
@@ -7861,6 +7863,7 @@ do
 			["RaidCooldown"] = true,--Tranquility
 			["RemoveCurse"] = true,
 			["RemovePoison"] = true,
+			["MagicDispeller2"] = true,
 		},
 		[250] = {	--Blood DK
 			["Tank"] = true,
@@ -7899,6 +7902,7 @@ do
 			["RemoveDisease"] = true,
 			["MagicDispeller"] = true,
 			["HasInterrupt2"] = true,
+			["MagicDispeller2"] = true,
 		},
 		[258] = {	--Shadow Priest
 			["Dps"] = true,
@@ -7910,6 +7914,7 @@ do
 			["MagicDispeller"] = true,
 			["HasInterrupt"] = true,
 			["HasInterrupt2"] = true,
+			["MagicDispeller2"] = true,
 		},
 		[259] = {	--Assassination Rogue
 			["Dps"] = true,
@@ -7954,6 +7959,7 @@ do
 			["MagicDispeller"] = true,
 			["HasInterrupt"] = true,
 			["HasInterrupt2"] = true,
+			["MagicDispeller2"] = true,
 		},
 		[265] = {	--Affliction Warlock
 			["Dps"] = true,
@@ -7962,6 +7968,7 @@ do
 			["ManaUser"] = true,
 			["SpellCaster"] = true,
 			["CasterDps"] = true,
+			["MagicDispeller2"] = true,
 		},
 		[268] = {	--Brewmaster Monk
 			["Tank"] = true,
@@ -7992,6 +7999,7 @@ do
 			["RemovePoison"] = true,
 			["RemoveDisease"] = true,
 			["HasInterrupt2"] = true,
+			["MagicDispeller2"] = true,
 		},
 		[577] = {	--Havok Demon Hunter
 			["Dps"] = true,
