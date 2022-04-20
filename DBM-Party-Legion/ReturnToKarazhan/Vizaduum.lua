@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1838, "DBM-Party-Legion", 11, 860)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17603 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 mod:SetCreatureID(114790)
 mod:SetEncounterID(2017)
 mod:SetZone()
@@ -14,51 +14,60 @@ mod.noNormal = true
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_START 229151 229083",
+	"SPELL_CAST_START 229151 229083 230084",
 	"SPELL_CAST_SUCCESS 229610",
 	"SPELL_AURA_APPLIED 229159 229241",
 	"SPELL_AURA_REMOVED 229159",
 --	"SPELL_PERIODIC_DAMAGE",
 --	"SPELL_PERIODIC_MISSED",
+	"UNIT_HEALTH boss1",
 	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
 
 --TODO: Burning Blast INterrupt helper. Figure out CD, then what to do with it
 --TODO: figure out what to do with Felguard Sentry (115730)
 --ALL
-local warnChaoticShadows			= mod:NewTargetAnnounce(229159, 3)
-local warnFelBeam					= mod:NewTargetAnnounce(229242, 4)
-local warnDisintegrate				= mod:NewSpellAnnounce(229151, 4)--Switch to special warning if target scanning works
-local warnPhase2					= mod:NewPhaseAnnounce(2, 2)
-local warnPhase3					= mod:NewPhaseAnnounce(3, 2)
+local warnChaoticShadows			= mod:NewTargetAnnounce(229159, 3) --Тени Хаоса
+local warnFelBeam					= mod:NewTargetAnnounce(229242, 4) --Приказ: луч Скверны
+local warnDisintegrate				= mod:NewSpellAnnounce(229151, 4) --Расщепление	Switch to special warning if target scanning works
+local warnPhase						= mod:NewAnnounce("Phase1", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 2
+local warnPhase2					= mod:NewAnnounce("Phase2", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 3
+local warnPhase22					= mod:NewPhaseAnnounce(2, 2)
+local warnPhase33					= mod:NewPhaseAnnounce(3, 2)
 
 --ALL
-local specWarnChaoticShadows		= mod:NewSpecialWarningYou(229159, nil, nil, nil, 1, 2)
-local yellChaoticShadows			= mod:NewPosYell(229159, DBM_CORE_AUTO_YELL_CUSTOM_POSITION)
-local specWarnBurningBlast			= mod:NewSpecialWarningInterruptCount(229083, "HasInterrupt", nil, nil, 1, 2)
+local specWarnChaoticShadows		= mod:NewSpecialWarningYou(229159, nil, nil, nil, 1, 2) --Тени Хаоса
+local specWarnBurningBlast			= mod:NewSpecialWarningInterruptCount(229083, "HasInterrupt", nil, nil, 1, 2) --Выброс пламени
 --Phase 1
-local specWarnFelBeam				= mod:NewSpecialWarningRun(229242, nil, nil, nil, 1, 2)
-local yellFelBeam					= mod:NewYell(229242)
-
+local specWarnFelBeam				= mod:NewSpecialWarningRun(229242, nil, nil, nil, 1, 2) --Приказ: луч Скверны
 --ALL
-local timerChaoticShadowsCD			= mod:NewCDTimer(30, 229159, nil, nil, nil, 3)
-local timerDisintegrateCD			= mod:NewCDTimer(10.8, 229151, nil, nil, nil, 3)
+local timerChaoticShadowsCD			= mod:NewCDTimer(30, 229159, nil, nil, nil, 3) --Тени Хаоса
+local timerDisintegrateCD			= mod:NewCDTimer(10.8, 229151, nil, nil, nil, 3) --Расщепление
 --Phase 1
-local timerFelBeamCD				= mod:NewCDTimer(40, 229242, 219084, nil, nil, 3)
-local timerBombardmentCD			= mod:NewCDTimer(25, 229284, 229287, nil, nil, 3)
+local timerFelBeamCD				= mod:NewCDTimer(40, 229242, 219084, nil, nil, 3) --Приказ: луч Скверны
+local timerBombardmentCD			= mod:NewCDTimer(25, 229284, 229287, nil, nil, 3) --Приказ: бомбардировка
+local timerStabilizeRiftCD			= mod:NewCDTimer(25, 230084, nil, nil, nil, 1) --Стабилизация разлома
+local timerStabilizeRift			= mod:NewCastTimer(30, 230084, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON) --Стабилизация разлома
+
+local yellFelBeam					= mod:NewYell(229242, nil, nil, nil, "YELL") --Приказ: луч Скверны
+local yellChaoticShadows			= mod:NewPosYell(229159, DBM_CORE_AUTO_YELL_CUSTOM_POSITION, nil, nil, "YELL") --Тени Хаоса
 
 --local berserkTimer					= mod:NewBerserkTimer(300)
 
 --local countdownFocusedGazeCD		= mod:NewCountdown(40, 198006)
 
-mod:AddSetIconOption("SetIconOnShadows", 229159, true)
-mod:AddRangeFrameOption(6, 230066)
+mod:AddSetIconOption("SetIconOnShadows", 229159, true) --Тени Хаоса
+mod:AddRangeFrameOption(6, 230066) --Флегма тьмы
 --mod:AddInfoFrameOption(198108, false)
 
 mod.vb.phase = 1
 mod.vb.kickCount = 0
 local chaoticShadowsTargets = {}
 local laserWarned = false
+local warned_preP1 = false
+local warned_preP2 = false
+local warned_preP3 = false
+local warned_preP4 = false
 
 local function breakShadows(self)
 	warnChaoticShadows:Show(table.concat(chaoticShadowsTargets, "<, >"))
@@ -69,6 +78,10 @@ function mod:OnCombatStart(delay)
 	self.vb.phase = 1
 	self.vb.kickCount = 0
 	laserWarned = false
+	warned_preP1 = false
+	warned_preP2 = false
+	warned_preP3 = false
+	warned_preP4 = false
 	table.wipe(chaoticShadowsTargets)
 	--These timers seem to vary about 1-2 sec
 	timerFelBeamCD:Start(5.2-delay)
@@ -98,6 +111,8 @@ function mod:SPELL_CAST_START(args)
 		elseif kickCount == 2 then
 			specWarnBurningBlast:Play("kick2r")
 		end
+	elseif spellId == 230084 then ----Стабилизация разлома
+		timerStabilizeRift:Start()
 	end
 end
 
@@ -111,16 +126,20 @@ function mod:SPELL_CAST_SUCCESS(args)
 		timerChaoticShadowsCD:Stop()
 		timerBombardmentCD:Stop()
 		if self.vb.phase == 2 then
-			warnPhase2:Show()
+			warnPhase22:Show()
+			warned_preP2 = true
 			timerFelBeamCD:Stop()
 			--Variable based on how long it takesto engage boss
 			--timerDisintegrateCD:Start(15)--Cast when boss engaged
-			timerBombardmentCD:Start(41)
-			timerChaoticShadowsCD:Start(45)
+			timerDisintegrateCD:Start(15)
+		--	timerBombardmentCD:Start(41)
+		--	timerChaoticShadowsCD:Start(45)
 		elseif self.vb.phase == 3 then
-			warnPhase3:Show()
+			warnPhase33:Show()
+			warned_preP4 = true
 			--Variable based on how long it takesto engage boss
-			timerChaoticShadowsCD:Start(41)
+		--	timerChaoticShadowsCD:Start(41)
+			timerStabilizeRiftCD:Start(20.5)
 			if self.Options.RangeFrame then
 				DBM.RangeCheck:Show(6)
 			end
@@ -159,6 +178,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnFelBeam:Show()
 			specWarnFelBeam:Play("justrun")
 			specWarnFelBeam:ScheduleVoice(1, "keepmove")
+			yellFelBeam:Yell()
 		else
 			warnFelBeam:Show(args.destName)
 		end
@@ -181,3 +201,14 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	end
 end
 
+function mod:UNIT_HEALTH(uId)
+	if self:IsHard() then --миф и миф+
+		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 114790 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.68 then
+			warned_preP1 = true
+			warnPhase:Show()
+		elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 114790 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.35 then
+			warned_preP3 = true
+			warnPhase2:Show()
+		end
+	end
+end

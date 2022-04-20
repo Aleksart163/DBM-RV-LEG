@@ -8,19 +8,20 @@ mod:SetZone()
 mod.isTrashMod = true
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 228255 228239 227917 227925 228625 228606 229714 227966 228254",
-	"SPELL_AURA_APPLIED 228331 229706 229716 228610 229074 230083 230050",
+	"SPELL_CAST_START 228255 228239 227917 227925 228625 228606 229714 227966 228254 228280 230094",
+	"SPELL_AURA_APPLIED 228331 229706 229716 228610 229074 230083 230050 228280",
 	"SPELL_AURA_APPLIED_DOSE 229074",
 	"SPELL_AURA_REFRESH 229074",
-	"SPELL_AURA_REMOVED 229489 230083",
+	"SPELL_AURA_REMOVED 229489 230083 228280",
 --	"SPELL_DAMAGE 204762",
 --	"SPELL_MISSED 204762",
---	"UNIT_DIED"
+	"UNIT_DIED",
 	"CHAT_MSG_MONSTER_YELL",
 	"CHAT_MSG_MONSTER_EMOTE"
 )
 --Каражан треш
 local warnVolatileCharge			= mod:NewSpellAnnounce(227925, 2)
+local warnOathofFealty				= mod:NewSpellAnnounce(228280, 3)
 local warnNullification				= mod:NewTargetAnnounce(230083, 1) --Полная нейтрализация
 
 local specWarnForceBlade			= mod:NewSpecialWarningYouDefensive(230050, nil, nil, nil, 3, 5) --Силовой клинок
@@ -34,16 +35,23 @@ local specWarnHealingTouch			= mod:NewSpecialWarningInterrupt(228606, "HasInterr
 local specWarnConsumeMagic			= mod:NewSpecialWarningInterrupt(229714, "HasInterrupt", nil, nil, 1, 2)
 local specWarnFinalCurtain			= mod:NewSpecialWarningDodge(227925, "Melee", nil, nil, 1, 2)
 local specWarnVolatileCharge		= mod:NewSpecialWarningMoveAway(228331, nil, nil, nil, 3, 3)
+local specWarnOathofFealty			= mod:NewSpecialWarningInterrupt(228280, "HasInterrupt", nil, nil, 3, 3) --Клятва верности
+local specWarnOathofFealty2			= mod:NewSpecialWarningDispel(228280, "MagicDispeller2", nil, nil, 1, 2) --Клятва верности
 
-local specWarnBurningBrand			= mod:NewSpecialWarningMoveAway(228610, nil, nil, nil, 3, 3)
+local specWarnBurningBrand			= mod:NewSpecialWarningMoveAway(228610, nil, nil, nil, 3, 3) --Горящее клеймо
 local specWarnLeechLife				= mod:NewSpecialWarningDispel(228606, "Healer", nil, nil, 1, 2)
 local specWarnCurseofDoom			= mod:NewSpecialWarningDispel(229716, "Healer", nil, nil, 1, 2)
-local specWarnRoyalty				= mod:NewSpecialWarningSwitch(229489, nil, nil, nil, 1, 2)
-local specWarnFlashlight			= mod:NewSpecialWarningLookAway(227966, nil, nil, nil, 1, 2)
+local specWarnRoyalty				= mod:NewSpecialWarningSwitch(229489, "-Healer", nil, nil, 1, 2) --Царственность
+local specWarnFlashlight			= mod:NewSpecialWarningLookAway(227966, nil, nil, nil, 3, 3) --Фонарь
+
+local timerNullificationCD			= mod:NewCDTimer(14, 230094, nil, nil, nil, 3, nil) --Полная нейтрализация
+local timerOathofFealty				= mod:NewTargetTimer(15, 228280, nil, nil, nil, 3, nil) --Клятва верности
+local timerRoyalty					= mod:NewTargetTimer(20, 229489, nil, nil, nil, 3, nil) --Царственность
 
 local yellNullification				= mod:NewYell(230083, nil, nil, nil, "YELL") --Полная нейтрализация
 local yellVolatileCharge			= mod:NewYell(228331, nil, nil, nil, "YELL")
-local yellBurningBrand				= mod:NewYell(228610, nil, nil, nil, "YELL")
+local yellBurningBrand				= mod:NewYell(228610, nil, nil, nil, "YELL") --Горящее клеймо
+local yellBurningBrand2				= mod:NewFadesYell(228610, nil, nil, nil, "YELL") --Горящее клеймо
 
 local timerAchieve					= mod:NewBuffActiveTimer(480, 229074)
 
@@ -79,6 +87,15 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 228254 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
 		specWarnSoulLeech2:Show(args.sourceName)
 		specWarnSoulLeech2:Play("kickcast")
+	elseif spellId == 228280 then --Клятва верности
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnOathofFealty:Show()
+			specWarnOathofFealty:Play("kickcast")
+		else
+			warnOathofFealty:Show()
+		end
+	elseif spellId == 230094 then --Полная нейтрализация
+		timerNullificationCD:Start()
 	end
 end
 
@@ -97,6 +114,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnBurningBrand:Show()
 			specWarnBurningBrand:Play("runout")
 			yellBurningBrand:Yell()
+			yellBurningBrand2:Countdown(6)
 		end
 	elseif spellId == 229706 then
 		specWarnLeechLife:Show(args.destName)
@@ -122,6 +140,8 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnForceBlade:Show()
 		end
+	elseif spellId == 228280 then --Клятва верности
+		timerOathofFealty:Start(args.destName)
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
@@ -132,6 +152,9 @@ function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
 	if spellId == 229489 then
 		specWarnRoyalty:Show(args.destName)
+		timerRoyalty:Start(args.destName)
+	elseif spellId == 228280 then --Клятва верности
+		timerOathofFealty:Cancel(args.destName)
 	end
 end
 
@@ -148,7 +171,7 @@ function mod:OnSync(msg)
 	elseif msg == "RPBeauty" then
 		timerRoleplay:Start(55)
 	elseif msg == "RPWestfall" then
-		timerRoleplay:Start(51)
+		timerRoleplay:Start(47)
 	elseif msg == "RPWikket" then
 		timerRoleplay:Start(70)
 	end
@@ -161,5 +184,14 @@ function mod:CHAT_MSG_MONSTER_YELL(msg) --CHAT_MSG_MONSTER_SAY
 		self:SendSync("RPWestfall")
 	elseif msg == L.Wikket or msg:find(L.Wikket) then
 		self:SendSync("RPWikket")
+	end
+end
+
+function mod:UNIT_DIED(args)
+	local cid = self:GetCIDFromGUID(args.destGUID)
+	if cid == 115765 then --Абстрактный нейтрализатор
+		timerNullificationCD:Cancel()
+	elseif cid == 115388 then --Король
+		timerRoyalty:Cancel()
 	end
 end

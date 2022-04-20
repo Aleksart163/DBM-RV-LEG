@@ -16,17 +16,18 @@ mod:RegisterEventsInCombat(
 	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
 
-local warnLeap					= mod:NewTargetAnnounce(196346, 2)--0.5 seconds may still be too hard to dodge even if target scanning works.
-local warnNightFall				= mod:NewSpellAnnounce(198401, 2)
+local warnLeap					= mod:NewTargetAnnounce(196346, 2) --Мучительный прыжок 0.5 seconds may still be too hard to dodge even if target scanning works.
+local warnNightFall				= mod:NewSpellAnnounce(198401, 2) --Сумерки
 
-local specWarnNightfall			= mod:NewSpecialWarningMove(198408, nil, nil, nil, 1, 2)
---local specWarnLeap			= mod:NewSpecialWarningDodge(196346, nil, nil, nil, 1)
-local yellLeap					= mod:NewYell(196346)
-local specWarnRampage			= mod:NewSpecialWarningDefensive(198379, "Tank", nil, nil, 1, 2)
+local specWarnNightfall			= mod:NewSpecialWarningYouMove(198408, nil, nil, nil, 1, 2) --Сумерки
+--local specWarnLeap			= mod:NewSpecialWarningDodge(196346, nil, nil, nil, 1) --Мучительный прыжок
+local specWarnRampage			= mod:NewSpecialWarningDefensive(198379, "Tank", nil, nil, 1, 2) --Первобытная ярость
 
-local timerLeapCD				= mod:NewCDTimer(14, 196346, nil, nil, nil, 3)
-local timerRampageCD			= mod:NewCDTimer(15.8, 198379, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
-local timerNightfallCD			= mod:NewCDTimer(14.5, 198401, nil, nil, nil, 3)
+local timerLeapCD				= mod:NewCDTimer(14, 196346, nil, nil, nil, 3) --Мучительный прыжок
+local timerRampageCD			= mod:NewCDTimer(15.8, 198379, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Первобытная ярость
+local timerNightfallCD			= mod:NewCDTimer(14.5, 198401, nil, nil, nil, 3) --Сумерки
+
+local yellLeap					= mod:NewYell(196346, nil, nil, nil, "YELL") --Мучительный прыжок
 
 function mod:LeapTarget(targetname, uId)
 	if not targetname then

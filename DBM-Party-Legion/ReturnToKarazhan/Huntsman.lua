@@ -1,11 +1,11 @@
 local mod	= DBM:NewMod(1835, "DBM-Party-Legion", 11, 860)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17603 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 mod:SetCreatureID(114262, 114264)--114264 midnight
 mod:SetEncounterID(1960)--Verify
 mod:SetZone()
-mod:SetUsedIcons(1)
+mod:SetUsedIcons(8)
 --mod:SetHotfixNoticeRev(14922)
 --mod.respawnTime = 30
 
@@ -20,21 +20,24 @@ mod:RegisterEventsInCombat(
 
 --TODO: Intangible Presence doesn't seem possible to support. How to tell right from wrong dispel is obfuscated
 --Most of midnights timers are too short to really be worth including. he either spams charge or spams spectral chargers.
-local specWarnMightyStomp			= mod:NewSpecialWarningCast(227363, "SpellCaster", nil, nil, 1, 2)
-local specWarnSpectralCharge		= mod:NewSpecialWarningDodge(227365, nil, nil, nil, 2, 2)
+local specWarnMightyStomp			= mod:NewSpecialWarningCast(227363, "SpellCaster", nil, nil, 1, 2) --Могучий топот
+local specWarnSpectralCharge		= mod:NewSpecialWarningDodge(227365, nil, nil, nil, 2, 2) --Призрачный рывок
 --On Foot
-local specWarnMezair				= mod:NewSpecialWarningDodge(227339, nil, nil, nil, 1, 2)
-local specWarnMortalStrike			= mod:NewSpecialWarningDefensive(227493, "Tank", nil, nil, 2, 2)
-local specWarnSharedSuffering		= mod:NewSpecialWarningMoveTo(228852, nil, nil, nil, 3, 2)
-local yellSharedSuffering			= mod:NewYell(228852)
+local specWarnMezair				= mod:NewSpecialWarningDodge(227339, nil, nil, nil, 2, 3) --Мезэр
+local specWarnMortalStrike			= mod:NewSpecialWarningDefensive(227493, "Tank", nil, nil, 2, 2) --Смертельный удар
+local specWarnSharedSuffering		= mod:NewSpecialWarningMoveTo(228852, nil, nil, nil, 3, 5) --Разделенные муки
+local specWarnSharedSuffering2		= mod:NewSpecialWarningYouDefensive(228852, nil, nil, nil, 3, 5) --Разделенные муки
+local specWarnSharedSuffering3		= mod:NewSpecialWarningRun(228852, "Melee", nil, nil, 3, 5) --Разделенные муки
 
-local timerPresenceCD				= mod:NewAITimer(11, 227404, nil, "Healer", nil, 5, nil, DBM_CORE_HEALER_ICON)--FIXME, one day
-local timerMortalStrikeCD			= mod:NewNextTimer(11, 227493, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
-local timerSharedSufferingCD		= mod:NewNextTimer(19, 228852, nil, nil, nil, 3)
+local timerPresenceCD				= mod:NewAITimer(11, 227404, nil, "Healer", nil, 5, nil, DBM_CORE_HEALER_ICON) --Незримое присутствие
+local timerMortalStrikeCD			= mod:NewNextTimer(11, 227493, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Смертельный удар
+local timerSharedSufferingCD		= mod:NewNextTimer(19, 228852, nil, nil, nil, 3) --Разделенные муки
 
-local countdownSharedSuffering		= mod:NewCountdown(19, 228852)
+local yellSharedSuffering			= mod:NewYell(228852, nil, nil, nil, "YELL") --Разделенные муки
 
-mod:AddSetIconOption("SetIconOnSharedSuffering", 228852, true)
+local countdownSharedSuffering		= mod:NewCountdown(19, 228852) --Разделенные муки
+
+mod:AddSetIconOption("SetIconOnSharedSuffering", 228852, true) --Разделенные муки
 
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
@@ -60,16 +63,25 @@ function mod:SPELL_CAST_START(args)
 					unitIsPlayer = true
 				end
 				if self.Options.SetIconOnSharedSuffering then
-					self:SetIcon(args.destName, 1, 4)
+					self:SetIcon(args.destName, 8, 4)
 				end
 				break
 			end
 		end
 		if unitIsPlayer then
 			yellSharedSuffering:Yell()
+			if self:IsNormal() or self:IsHeroic() then
+				specWarnSharedSuffering2:Show()
+			elseif self:IsHard() then
+				specWarnSharedSuffering3:Show()
+			end
 		else
-			specWarnSharedSuffering:Show(targetName)
-			specWarnSharedSuffering:Play("gathershare")
+			if self:IsNormal() or self:IsHeroic() then
+				specWarnSharedSuffering:Show(targetName)
+				specWarnSharedSuffering:Play("gathershare")
+			elseif self:IsHard() then
+				specWarnSharedSuffering3:Show()
+			end
 		end
 	end
 end
@@ -90,4 +102,3 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 		timerPresenceCD:Start()
 	end
 end
-

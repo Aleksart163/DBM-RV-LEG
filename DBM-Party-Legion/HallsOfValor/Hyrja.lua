@@ -20,24 +20,26 @@ mod:RegisterEventsInCombat(
 --TODO: maybe figure out how dragging boss around affects timers. Might be worth the work for a 5 man boss though.
 --["192044-Expel Light"] = "pull:79.7, 26.6, 30.3, 24.3, 30.3",
 --Maybe add a searing light interrupt helper if it matters enough on mythic+
-local warnExpelLight				= mod:NewTargetAnnounce(192048, 3)
+local warnExpelLight				= mod:NewTargetAnnounce(192048, 3) --Световое излучение
 local warnPhase2					= mod:NewPhaseAnnounce(2, 2, nil, nil, nil, nil, nil, 2)
 
-local specWarnShieldOfLight			= mod:NewSpecialWarningDefensive(192018, "Tank", nil, nil, 3, 2)--Journal lies, this is NOT dodgable
-local specWarnSanctify				= mod:NewSpecialWarningDodge(192158, nil, nil, nil, 2, 5)
-local specWarnEyeofStorm			= mod:NewSpecialWarningMoveTo(200901, nil, nil, nil, 2, 2)
-local specWarnExpelLight			= mod:NewSpecialWarningMoveAway(192048, nil, nil, nil, 2, 2)
-local yellExpelLight				= mod:NewYell(192048)
-local specWarnSearingLight			= mod:NewSpecialWarningInterrupt(192288, "HasInterrupt", nil, nil, 1, 2)
+local specWarnShieldOfLight			= mod:NewSpecialWarningDefensive(192018, "Tank", nil, nil, 3, 2) --Щит Света Journal lies, this is NOT dodgable
+local specWarnSanctify				= mod:NewSpecialWarningDodge(192158, "Ranged", nil, nil, 2, 5) --Освящение
+local specWarnSanctify2				= mod:NewSpecialWarningRun(192158, "Melee", nil, nil, 3, 5) --Освящение
+local specWarnEyeofStorm			= mod:NewSpecialWarningMoveTo(200901, nil, nil, nil, 3, 2) --Око шторма
+local specWarnExpelLight			= mod:NewSpecialWarningMoveAway(192048, nil, nil, nil, 2, 2) --Световое излучение
+local specWarnSearingLight			= mod:NewSpecialWarningInterrupt(192288, "HasInterrupt", nil, nil, 1, 2) --Опаляющий свет
 
-local timerShieldOfLightCD			= mod:NewCDTimer(28, 192018, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)--28-34
-local timerSpecialCD				= mod:NewNextTimer(30, 200736, nil, nil, nil, 2, 200901, DBM_CORE_DEADLY_ICON)--Shared timer by eye of storm and Sanctify
---local timerExpelLightCD			= mod:NewCDTimer(24, 192048, nil, nil, nil, 3)--More review 24-30
+local timerShieldOfLightCD			= mod:NewCDTimer(28, 192018, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Щит Света 28-34
+local timerSpecialCD				= mod:NewNextTimer(30, 200736, nil, nil, nil, 2, 200901, DBM_CORE_DEADLY_ICON) --Око шторма Shared timer by eye of storm and Sanctify
+--local timerExpelLightCD			= mod:NewCDTimer(24, 192048, nil, nil, nil, 3)--More review 24-30 --Световое излучение
+
+local yellExpelLight				= mod:NewYell(192048, nil, nil, nil, "YELL") --Световое излучение
 
 local countdownSpecial				= mod:NewCountdown(30, 200736)
-local countdownShieldOfLight		= mod:NewCountdown("Alt28", 192018, "Tank")
+local countdownShieldOfLight		= mod:NewCountdown("Alt28", 192018, "Tank") --Щит Света
 
-mod:AddRangeFrameOption(8, 192048)
+mod:AddRangeFrameOption(8, 192048) --Световое излучение
 
 local eyeShortName = DBM:GetSpellInfo(91320)--Inner Eye
 mod.vb.phase = 1
@@ -80,6 +82,8 @@ function mod:SPELL_CAST_START(args)
 	if spellId == 192158 or spellId == 192307 then
 		specWarnSanctify:Show()
 		specWarnSanctify:Play("watchorb")
+		specWarnSanctify2:Show()
+		specWarnSanctify2:Play("watchorb")
 		if spellId == 192307 then
 			timerSpecialCD:Start()
 			countdownSpecial:Cancel()

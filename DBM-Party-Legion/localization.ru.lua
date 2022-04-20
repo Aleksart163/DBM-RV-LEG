@@ -1,4 +1,5 @@
 if GetLocale() ~= "ruRU" then return end
+
 local L
 
 -------------------------------
@@ -370,6 +371,16 @@ L= DBM:GetModLocalization(1512)
 ---------
 L= DBM:GetModLocalization(1663)
 
+L:SetWarningLocalization({
+	Phase1 = "Скоро фаза 2",
+	Phase2 = "Фаза 2"
+})
+
+L:SetOptionLocalization({
+	Phase1 = "Предупреждать заранее о фазе 2 (на ~83%)",
+	Phase2 = "Объявлять фазу 2"
+})
+
 -------------
 --Трэш-мобы--
 -------------
@@ -576,6 +587,16 @@ L= DBM:GetModLocalization(1818)
 --Виз'адуум Всевидящий--
 ------------------------
 L= DBM:GetModLocalization(1838)
+
+L:SetWarningLocalization({
+	Phase1 = "Скоро фаза 2",
+	Phase2 = "Скоро фаза 3"
+})
+
+L:SetOptionLocalization({
+	Phase1 = "Предупреждать заранее о фазе 2 (на ~68%, только Мифик+)",
+	Phase2 = "Предупреждать заранее о фазе 2 (на ~35%, только Мифик+)"
+})
 
 -------------------
 --Ночная погибель--

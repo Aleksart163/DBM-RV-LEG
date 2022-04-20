@@ -10,6 +10,7 @@ mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 227233 202088 198495",
+	"SPELL_CAST_SUCCESS 197262",
 	"SPELL_AURA_APPLIED 196947 197262",
 	"SPELL_AURA_REMOVED 196947",
 	"CHAT_MSG_RAID_BOSS_EMOTE",
@@ -17,34 +18,41 @@ mod:RegisterEventsInCombat(
 	"UNIT_HEALTH boss1"
 )
 
+local warnPhase							= mod:NewAnnounce("Phase1", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 2
+local warnPhase2						= mod:NewAnnounce("Phase2", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Фаза 2
 local warnTaintofSea					= mod:NewTargetAnnounce(197262, 2, nil, false) --Морская порча
 local warnSubmerged						= mod:NewSpellAnnounce(196947, 2) --Погружение
 local warnSubmerged2					= mod:NewPreWarnAnnounce(196947, 5, 1) --Погружение
 
 local specWarnDestructorTentacle		= mod:NewSpecialWarningSwitch("ej12364", "Tank") --Щупальце разрушения
-local specWarnBrackwaterBarrage			= mod:NewSpecialWarningDodge(202088, "-Tank", nil, nil, 3, 3) --Обстрел солоноватой водой Tank stays with destructor tentacle no matter what
+local specWarnBrackwaterBarrage			= mod:NewSpecialWarningDodge(202088, nil, nil, nil, 3, 5) --Обстрел солоноватой водой Tank stays with destructor tentacle no matter what
 local specWarnSubmergedOver				= mod:NewSpecialWarningEnd(196947) --Погружение
 local specWarnBreath					= mod:NewSpecialWarningDodge(227233, nil, nil, nil, 3, 5) --Оскверняющий рев
 local specWarnTorrent					= mod:NewSpecialWarningInterrupt(198495, "HasInterrupt", nil, nil, 1, 2) --Стремительный поток
 
 local timerBrackwaterBarrageCD			= mod:NewCDTimer(15, 202088, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Обстрел солоноватой водой
-local timerTaintofSeaCD					= mod:NewCDTimer(12, 197262, nil, false, nil, 3) --Морская порча
+local timerTaintofSeaCD					= mod:NewCDTimer(12, 197262, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON) --Морская порча
 local timerPiercingTentacleCD			= mod:NewNextTimer(9, 197596, nil, nil, nil, 3) --Пронзающее щупальце
 --local timerDestructorTentacleCD		= mod:NewCDTimer(26, "ej12364", nil, nil, nil, 1)--More data
 local timerSubmerged					= mod:NewBuffFadesTimer(15, 196947, nil, nil, nil, 6) --Погружение
 local timerSubmerged2					= mod:NewCDTimer(75, 196947, nil, nil, nil, 6) --Погружение
-local timerBreathCD						= mod:NewNextTimer(22, 227233, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Оскверняющий рев
+local timerBreathCD						= mod:NewNextTimer(21, 227233, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Оскверняющий рев
 local timerTorrentCD					= mod:NewCDTimer(9.7, 198495, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON) --Стремительный поток often delayed and after breath so often will see 12-14
 
 local countdownBreath					= mod:NewCountdown(22, 227233) --Оскверняющий рев
 local countdownSubmerged				= mod:NewCountdown(75, 196947) --Погружение
 
 mod.vb.phase = 1
+local warned_preP1 = false
+local warned_preP2 = false
 
 function mod:OnCombatStart(delay)
 	self.vb.phase = 1
+	warned_preP1 = false
+	warned_preP2 = false
 	timerPiercingTentacleCD:Start(8.5)
 	timerBrackwaterBarrageCD:Start()
+	timerTaintofSeaCD:Start(12.5)
 end
 
 function mod:SPELL_CAST_START(args)
@@ -69,9 +77,21 @@ function mod:SPELL_CAST_START(args)
 	end
 end
 
+function mod:SPELL_CAST_SUCCESS(args)
+	local spellId = args.spellId
+	if spellId == 197262 then --Морская порча
+		if self.vb.phase == 1 then
+			timerTaintofSeaCD:Start()
+		else
+			timerTaintofSeaCD:Start(20)
+		end
+	end
+end
+
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 196947 then --Погружение
+		timerBrackwaterBarrageCD:Stop()
 		timerPiercingTentacleCD:Stop()
 		timerTaintofSeaCD:Stop()
 		timerBreathCD:Stop()
@@ -81,6 +101,8 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerSubmerged:Start()
 		if self.vb.phase == 1 then
 			self.vb.phase = 2
+			warned_preP2 = true
+			warnPhase2:Schedule(15)
 		end
 	elseif spellId == 197262 then
 		warnTaintofSea:Show(args.destName)
@@ -97,6 +119,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		specWarnSubmergedOver:Show()
 		timerBreathCD:Start(19)
 		countdownBreath:Start(19)
+		timerTaintofSeaCD:Start(10)
 	end
 end
 
@@ -114,6 +137,20 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 			timerPiercingTentacleCD:Start()
 		else
 			timerPiercingTentacleCD:Start(6)
+		end
+	end
+end
+
+function mod:UNIT_HEALTH(uId)
+	if self:IsHard() then --миф и миф+
+		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 96759 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.83 then
+			warned_preP1 = true
+			warnPhase:Show()
+		end
+	else
+		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 96759 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.83 then
+			warned_preP1 = true
+			warnPhase:Show()
 		end
 	end
 end

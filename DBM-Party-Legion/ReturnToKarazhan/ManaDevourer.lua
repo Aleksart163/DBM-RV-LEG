@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1818, "DBM-Party-Legion", 11, 860)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17440 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 mod:SetCreatureID(114252)
 mod:SetEncounterID(1959)
 mod:SetZone()
@@ -16,19 +16,23 @@ mod:RegisterCombat("combat")
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 227507",
 	"SPELL_CAST_SUCCESS 227618 227523",
-	"SPELL_AURA_APPLIED 227297"
+	"SPELL_AURA_APPLIED 227297 227524",
+	"SPELL_PERIODIC_DAMAGE 227524",
+	"SPELL_PERIODIC_MISSED 227524"
 )
 
-local warnEnergyVoid				= mod:NewSpellAnnounce(227523, 1)
-local warnArcaneBomb				= mod:NewSpellAnnounce(227618, 3)
+local warnEnergyVoid				= mod:NewSpellAnnounce(227523, 1) --Энергетическая пустота
+local warnArcaneBomb				= mod:NewSpellAnnounce(227618, 3) --Чародейская бомба
 
-local specWarnDecimatingEssence		= mod:NewSpecialWarningSpell(227507, nil, nil, nil, 3, 2)
-local specWarnCoalescePower			= mod:NewSpecialWarningMoveTo(227297, nil, nil, nil, 1, 2)
+local specWarnEnergyVoid			= mod:NewSpecialWarningYouMove(227524, nil, nil, nil, 1, 2) --Энергетическая пустота
+local specWarnDecimatingEssence		= mod:NewSpecialWarningDefensive(227507, nil, nil, nil, 3, 5) --Истребляющая сущность
+local specWarnCoalescePower			= mod:NewSpecialWarningMoveTo(227297, nil, nil, nil, 1, 2) --Слияние энергии
+local specWarnEnergyVoid2			= mod:NewSpecialWarningDodge(227523, "SpellCaster", nil, nil, 2, 3) --Энергетическая пустота
 
-local timerEnergyVoidCD				= mod:NewCDTimer(21.7, 227523, nil, nil, nil, 3)
-local timerCoalescePowerCD			= mod:NewNextTimer(30, 227297, nil, nil, nil, 1)
+local timerEnergyVoidCD				= mod:NewCDTimer(21.7, 227523, nil, nil, nil, 3) --Энергетическая пустота
+local timerCoalescePowerCD			= mod:NewNextTimer(30, 227297, nil, nil, nil, 1) --Слияние энергии
 
-local countdownCoalescePower		= mod:NewCountdown(30, 227297)
+local countdownCoalescePower		= mod:NewCountdown(30, 227297) --Слияние энергии
 
 mod:AddInfoFrameOption(227502, true)
 
@@ -64,6 +68,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		warnArcaneBomb:Show()
 	elseif spellId == 227523 then
 		warnEnergyVoid:Show()
+		specWarnEnergyVoid2:Show()
 		timerEnergyVoidCD:Start()
 	end
 end
@@ -77,3 +82,11 @@ function mod:SPELL_AURA_APPLIED(args)
 		countdownCoalescePower:Start()
 	end
 end
+
+function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
+	if spellId == 227524 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
+		specWarnEnergyVoid:Show()
+		specWarnEnergyVoid:Play("runaway")
+	end
+end
+mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE

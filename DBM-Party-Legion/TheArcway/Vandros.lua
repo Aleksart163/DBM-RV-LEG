@@ -25,9 +25,8 @@ mod:RegisterEventsInCombat(
 --Force bomb might be more consistent now, need more logs, last log was 35
 local warnTimeLock					= mod:NewTargetAnnounce(203957, 4) --Временное ограничение
 local warnUnstableMana				= mod:NewTargetAnnounce(203176, 2) --Ускоряющий взрыв
-
-local specWarnPhase1				= mod:NewSpecialWarning("Phase1", nil, nil, nil, 1, 2) --скоро фаза 2
-local specWarnPhase2				= mod:NewSpecialWarning("Phase2", nil, nil, nil, 1, 2) --фаза 2
+local warnPhase						= mod:NewAnnounce("Phase1", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 2
+local warnPhase2					= mod:NewAnnounce("Phase2", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 2
 
 local specWarnTimeSplit				= mod:NewSpecialWarningMove(203833, nil, nil, nil, 1, 2)
 local specWarnForceBomb				= mod:NewSpecialWarningDodge(202974, nil, nil, nil, 2, 5) --Силовая бомба
@@ -135,7 +134,7 @@ function mod:UNIT_HEALTH(uId)
 	if self:IsHard() then --миф и миф+
 		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 98208 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.54 then
 			warned_preP1 = true
-			specWarnPhase1:Show()
+			warnPhase:Show()
 		elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 98208 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.51 then
 			self.vb.phase = 2
 			warned_preP2 = true
@@ -160,13 +159,13 @@ function mod:OnSync(msg)
 			if self.vb.phase == 2 and warned_preP2 then
 				timerEvent:Cancel()
 				timerForceBombD:Start(27)
-				specWarnPhase2:Show()
+				warnPhase2:Show()
 			end
 		else
 			if self.vb.phase == 2 and warned_preP1 then
 				timerEvent:Cancel()
 				timerForceBombD:Start(27)
-				specWarnPhase2:Show()
+				warnPhase2:Show()
 			end
 		end
 	end

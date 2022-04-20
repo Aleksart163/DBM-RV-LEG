@@ -16,12 +16,12 @@ mod:RegisterEventsInCombat(
 	"UNIT_HEALTH boss1"
 )
 
+local warnPhase						= mod:NewAnnounce("Phase1", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 2
+local warnPhase2					= mod:NewAnnounce("Phase2", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Фаза 2
 local warnDeepeningShadows			= mod:NewSpellAnnounce(213583, 4) --Сгущающиеся тени
 local warnVengeance					= mod:NewSpellAnnounce(205004, 4) --Отмщение
 local warnCreepingDoom				= mod:NewSpellAnnounce(197422, 4) --Ползучая гибель
-
-local specWarnPhase1				= mod:NewSpecialWarning("Phase1", nil, nil, nil, 1, 2) --скоро фаза 2
-local specWarnPhase2				= mod:NewSpecialWarning("Phase2", nil, nil, nil, 1, 2) --фаза 2
+local warnCreepingDoom2				= mod:NewPreWarnAnnounce(197422, 10, 1) --Ползучая гибель
 
 local specWarnDetonation			= mod:NewSpecialWarningYouDefensive(197541, nil, nil, nil, 2, 5) --Мгновенный взрыв
 local specWarnKick					= mod:NewSpecialWarningSpell(197251, "Tank", nil, nil, 3, 2) --Сбивающий с ног удар
@@ -76,6 +76,7 @@ function mod:SPELL_CAST_START(args)
 		timerCreepingDoom:Start()
 		timerCreepingDoomCD:Start()
 		countdownCreepingDoom:Start()
+		warnCreepingDoom2:Schedule(64.5)
 	elseif spellId == 213685 then --вторая Ползучая гибель
 		warnCreepingDoom:Show()
 		specWarnCreepingDoom:Show()
@@ -84,6 +85,7 @@ function mod:SPELL_CAST_START(args)
 		timerCreepingDoom:Start(20)
 		timerCreepingDoomCD:Start(64.5)
 		countdownCreepingDoom:Start(64.5)
+		warnCreepingDoom2:Schedule(54.5)
 	end
 end
 
@@ -115,8 +117,6 @@ function mod:SPELL_AURA_REMOVED(args)
 		timerKickCD:Start(15.5)--15-20
 		timerDeepeningShadowsCD:Start(20)--20-25
 	elseif spellId == 197422 then --Первая ползучая гибель
-		specWarnPhase2:Show()
-		specWarnPhase2:Play("phasechange")
 		timerVengeanceCD:Start(14)
 		timerDeepeningShadowsCD:Start(12)
 		timerKickCD:Start(20)--Small sample
@@ -136,15 +136,19 @@ function mod:UNIT_HEALTH(uId)
 	if self:IsHard() then --миф и миф+
 		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 95888 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.44 then
 			warned_preP1 = true
-			specWarnPhase1:Show()
+			warnPhase:Show()
 		elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 95888 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.41 then
 			self.vb.phase = 2
 			warned_preP2 = true
+			warnPhase2:Show()
+			warnPhase2:Play("phasechange")
 		end
 	else
 		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 95888 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.41 then
 			self.vb.phase = 2
 			warned_preP1 = true
+			warnPhase2:Show()
+			warnPhase2:Play("phasechange")
 		end
 	end
 end

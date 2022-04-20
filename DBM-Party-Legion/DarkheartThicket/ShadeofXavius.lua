@@ -21,26 +21,25 @@ mod:RegisterEventsInCombat(
 --TOOD, maybe play gathershare for ALL (except tank) for nightmare target.
 --TODO, maybe add an arrow group up hud for nightmare target depending on number of players it takes to clear it.
 --TODO, feed on the weak have any significance?
+local warnApocNightmare2			= mod:NewSoonAnnounce(200050, 1) --Апокалиптический Кошмар
 local warnNightmare					= mod:NewTargetAnnounce(200243, 3) --Кошмар наяву
 local warnParanoia					= mod:NewTargetAnnounce(200289, 3) --Усугубляющаяся паранойя
 local warnApocNightmare				= mod:NewSpellAnnounce(200050, 3) --Апокалиптический Кошмар
 local warnFeedontheWeak				= mod:NewTargetAnnounce(200238, 4) --Пожирание слабых
 
-local specWarnApocNightmare			= mod:NewSpecialWarningSoon(200050, nil, nil, nil, 1, 2) --Апокалиптический Кошмар
 local specWarnApocNightmare2		= mod:NewSpecialWarningDefensive(200050, nil, nil, nil, 3, 5) --Апокалиптический Кошмар
 local specWarnFeedontheWeak			= mod:NewSpecialWarningYouDefensive(200238, nil, nil, nil, 3, 5) --Пожирание слабых
 local specWarnFesteringRip			= mod:NewSpecialWarningDispel(200182, "MagicDispeller2", nil, nil, 1, 2) --Гноящаяся рана
-local specWarnNightmare				= mod:NewSpecialWarningYouShare(200243, nil, nil, nil, 2, 3) --Кошмар наяву
+local specWarnNightmare				= mod:NewSpecialWarningYouShare(200243, nil, nil, nil, 1, 3) --Кошмар наяву
 local specWarnParanoia				= mod:NewSpecialWarningMoveAway(200289, nil, nil, nil, 3, 5) --Усугубляющаяся паранойя
-local specWarnParanoia2				= mod:NewSpecialWarningCloseMoveAway(200289, nil, nil, nil, 2, 3) --Усугубляющаяся паранойя
+local specWarnParanoia2				= mod:NewSpecialWarningCloseMoveAway(200289, nil, nil, nil, 1, 3) --Усугубляющаяся паранойя
 
 local timerFeedontheWeakCD			= mod:NewCDTimer(20, 200238, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Пожирание слабых
 local timerFesteringRipCD			= mod:NewCDTimer(17, 200182, nil, "Tank|MagicDispeller2", nil, 5, nil, DBM_CORE_MAGIC_ICON) --Гноящаяся рана 17-21
 local timerNightmareCD				= mod:NewCDTimer(17, 200243, nil, nil, nil, 3) --Кошмар наяву 17-25
-local timerNightmare				= mod:NewTargetTimer(20, 200243, nil, nil, nil, 3) --Кошмар наяву
+local timerNightmare				= mod:NewTargetTimer(20, 200243, nil, nil, nil, 7) --Кошмар наяву
 local timerParanoiaCD				= mod:NewCDTimer(18, 200359, nil, nil, nil, 3) --Искусственная паранойя 18-28
-local timerParanoia					= mod:NewTargetTimer(20, 200359, nil, nil, nil, 3, nil) --Искусственная паранойя
---local timerApocNightmareCD			= mod:NewCDTimer(18, 200050, nil, nil, nil, 2)
+local timerParanoia					= mod:NewTargetTimer(20, 200359, nil, nil, nil, 7) --Искусственная паранойя
 
 local yellFeedontheWeak				= mod:NewYell(200238, nil, nil, nil, "YELL") --Пожирание слабых
 local yellNightmare					= mod:NewYell(200243, nil, nil, nil, "YELL") --Кошмар наяву
@@ -148,18 +147,21 @@ end
 
 function mod:UNIT_HEALTH(uId)
 	if self:IsHard() then --миф и миф+
-		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 99192 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.54 then
+		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 99192 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.55 then
 			warned_preP1 = true
-			specWarnApocNightmare:Show()
+			warnApocNightmare2:Show()
 		elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 99192 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.51 then
 			self.vb.phase = 2
 			warned_preP2 = true
 			specWarnApocNightmare2:Show()
 		end
 	else
-		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 99192 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.51 then
-			self.vb.phase = 2
+		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 99192 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.55 then
 			warned_preP1 = true
+			warnApocNightmare2:Show()
+		elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 99192 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.51 then
+			self.vb.phase = 2
+			warned_preP2 = true
 		end
 	end
 end

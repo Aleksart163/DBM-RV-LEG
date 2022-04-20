@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1836, "DBM-Party-Legion", 11, 860)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17603 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 mod:SetCreatureID(114462)
 mod:SetEncounterID(1964)
 mod:SetZone()
@@ -22,26 +22,29 @@ mod:RegisterEventsInCombat(
 	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
 
-local warnAdds						= mod:NewSpellAnnounce(227267, 2)--if not cast too often make special warning?
-local warnEvo						= mod:NewSpellAnnounce(227254, 1)
-local warnEvoOver					= mod:NewEndAnnounce(227254, 2)
+local warnAdds						= mod:NewSpellAnnounce(227267, 2) --Призыв нестабильной энергии if not cast too often make special warning?
+local warnEvo						= mod:NewSpellAnnounce(227254, 1) --Прилив сил
+local warnEvo2						= mod:NewPreWarnAnnounce(227254, 3, 4) --Прилив сил
+local warnEvoOver					= mod:NewEndAnnounce(227254, 2) --Прилив сил
 
-local specWarnPowerDischarge		= mod:NewSpecialWarningMove(227465, nil, nil, nil, 1, 2)
+local specWarnPowerDischarge		= mod:NewSpecialWarningMove(227465, nil, nil, nil, 1, 2) --Разряд энергии
+local specWarnEvo					= mod:NewSpecialWarningMoreDamage(227254, "-Healer", nil, nil, 3, 2) --Прилив сил
+local specWarnEvo2					= mod:NewSpecialWarningDefensive(227254, nil, nil, nil, 3, 2) --Прилив сил
 
-local timerSummonAddCD				= mod:NewNextTimer(9.7, 227267, nil, nil, nil, 1)
-local timerPowerDischargeCD			= mod:NewCDTimer(12.2, 227279, nil, nil, nil, 3)
-local timerEvoCD					= mod:NewNextTimer(70, 227254, nil, nil, nil, 6)
-local timerEvo						= mod:NewBuffActiveTimer(20, 227254, nil, nil, nil, 6)
+local timerSummonAddCD				= mod:NewNextTimer(9.7, 227267, nil, nil, nil, 1) --Призыв нестабильной энергии
+local timerPowerDischargeCD			= mod:NewCDTimer(12.2, 227279, nil, nil, nil, 3) --Разряд энергии
+local timerEvoCD					= mod:NewNextTimer(70, 227254, nil, nil, nil, 6) --Прилив сил
+local timerEvo						= mod:NewBuffActiveTimer(20, 227254, nil, nil, nil, 6) --Прилив сил
 
 --local berserkTimer					= mod:NewBerserkTimer(300)
 
-local countdownEvo					= mod:NewCountdown(70, 227254)
+local countdownEvo					= mod:NewCountdown(70, 227254) --Прилив сил
 
 function mod:OnCombatStart(delay)
 	timerSummonAddCD:Start(6-delay)
-	timerPowerDischargeCD:Start(13.5)
-	timerEvoCD:Start(68-delay)
-	countdownEvo:Start(68)
+	timerPowerDischargeCD:Start(13-delay)
+	timerEvoCD:Start(53-delay) --для миф0 норм
+	countdownEvo:Start(53) --для миф0 норм
 end
 
 function mod:OnCombatEnd()
@@ -62,6 +65,9 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerSummonAddCD:Stop()
 		timerPowerDischargeCD:Stop()
 		warnEvo:Show()
+		specWarnEvo:Show(args.destName)
+		warnEvo2:Schedule(17)
+		specWarnEvo2:Schedule(17)
 		timerEvo:Start()
 		countdownEvo:Start(20)
 	end
@@ -71,8 +77,10 @@ function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
 	if spellId == 227254 then
 		warnEvoOver:Show()
-		timerEvoCD:Start()
-		countdownEvo:Start()
+		timerSummonAddCD:Start(6)
+		timerPowerDischargeCD:Start(13)
+		timerEvoCD:Start(53.5) --для миф0 норм
+		countdownEvo:Start(53.5) --для миф0 норм
 	end
 end
 
@@ -90,4 +98,3 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 		timerPowerDischargeCD:Start()
 	end
 end
-

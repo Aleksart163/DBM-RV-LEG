@@ -19,7 +19,7 @@ local warnArcaneBomb				= mod:NewTargetAnnounce(192706, 4) --Чародейск�
 local warnMythicTornado				= mod:NewSpellAnnounce(192680, 3)--target scanning not available
 
 local specWarnArcaneBomb			= mod:NewSpecialWarningYouMoveAway(192706, nil, nil, nil, 3, 2) --Чародейская бомба
-local specWarnArcaneBomb2			= mod:NewSpecialWarningDispel(192706, "Healer", nil, nil, 3, 5) --Чародейская бомба
+local specWarnArcaneBomb2			= mod:NewSpecialWarningDispel(192706, "MagicDispeller2", nil, nil, 3, 5) --Чародейская бомба
 local specWarnMassiveDeluge			= mod:NewSpecialWarningDodge(192617, "Tank", nil, nil, 3, 2)
 
 local timerMythicTornadoCD			= mod:NewCDTimer(25, 192680, nil, nil, nil, 3)

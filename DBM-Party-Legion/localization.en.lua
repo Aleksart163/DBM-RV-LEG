@@ -366,6 +366,16 @@ L= DBM:GetModLocalization(1512)
 -----------------------
 L= DBM:GetModLocalization(1663)
 
+L:SetWarningLocalization({
+	Phase1 = "Phase 2 soon",
+	Phase2 = "Phase 2"
+})
+
+L:SetOptionLocalization({
+	Phase1 = "Warn in advance about phase 2 (on ~83%)",
+	Phase2 = "Announce Phase 2"
+})
+
 -----------------------
 --Maw of Souls Trash
 -----------------------
@@ -569,6 +579,16 @@ L= DBM:GetModLocalization(1818)
 -- Viz'aduum the Watcher --
 -----------------------
 L= DBM:GetModLocalization(1838)
+
+L:SetWarningLocalization({
+	Phase1 = "Phase 2 soon",
+	Phase2 = "Phase 3 soon"
+})
+
+L:SetOptionLocalization({
+	Phase1 = "Warn in advance about phase 2 (on ~68%, Mythic+ only)",
+	Phase2 = "Warn in advance about phase 2 (on ~35%, Mythic+ only)"
+})
 
 -----------------------
 --Nightbane
