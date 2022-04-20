@@ -73,7 +73,7 @@ local specWarnShockGrenade				= mod:NewSpecialWarningYouMoveAway(244737, nil, ni
 mod:AddTimerLine(GENERAL)
 local timerExploitWeaknessCD			= mod:NewCDTimer(8.5, 244892, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Обнаружить слабое место
 local timerShockGrenadeCD				= mod:NewCDTimer(14.7, 244722, nil, nil, nil, 3, nil, DBM_CORE_HEROIC_ICON)
-local timerAssumeCommandCD				= mod:NewNextTimer(90, 245227, nil, nil, nil, 6)
+local timerAssumeCommandCD				= mod:NewNextTimer(90, 245227, nil, nil, nil, 6) --Принять командование
 --In Pod
 ----Admiral Svirax
 mod:AddTimerLine(Svirax)
@@ -92,7 +92,7 @@ local yellShockGrenadeFades				= mod:NewShortFadesYell(244737, nil, nil, nil, "Y
 local berserkTimer						= mod:NewBerserkTimer(600)
 
 --General
-local countdownAssumeCommand			= mod:NewCountdown("Alt50", 245227)
+local countdownAssumeCommand			= mod:NewCountdown("Alt50", 245227) --Принять командование
 local countdownExploitWeakness			= mod:NewCountdown("Alt8", 244892, "Tank", nil, 3) --Обнаружить слабое место
 --In Pod
 ----Admiral Svirax

@@ -36,6 +36,10 @@ mod:RegisterEventsInCombat(
  or (ability.id = 248233 or ability.id = 250135) and (type = "applybuff" or type = "removebuff")
 --]]
 local warnPhase							= mod:NewPhaseChangeAnnounce(2, nil, nil, nil, nil, nil, 2) --фаза
+local warnPhase2						= mod:NewAnnounce("Phase2", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 2
+local warnPhase3						= mod:NewAnnounce("Phase3", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 3
+local warnPhase4						= mod:NewAnnounce("Phase4", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 4
+local warnPhase5						= mod:NewAnnounce("Phase5", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 5
 --Stage One: Attack Force
 local warnShocklance					= mod:NewStackAnnounce(247367, 2, nil, "Tank") --Копье-шокер
 local warnSleepCanister					= mod:NewTargetAnnounce(247552, 4) --Склянка с усыпляющим газом
@@ -44,11 +48,6 @@ local warnSlumberGas					= mod:NewTargetAnnounce(247565, 3) --Усыпляющи
 local warnSever							= mod:NewStackAnnounce(247687, 2, nil, "Tank") --Рассечение
 --Stage Three/Five: The Perfect Weapon
 local warnEmpoweredPulseGrenade			= mod:NewTargetAnnounce(250006, 3) --Усиленная импульсная граната
-
-local specWarnPhase2					= mod:NewSpecialWarning("Phase2", nil, nil, nil, 1, 2) --Фаза 2
-local specWarnPhase3					= mod:NewSpecialWarning("Phase3", nil, nil, nil, 1, 2) --Фаза 3
-local specWarnPhase4					= mod:NewSpecialWarning("Phase4", nil, nil, nil, 1, 2) --Фаза 4
-local specWarnPhase5					= mod:NewSpecialWarning("Phase5", nil, nil, nil, 1, 2) --Фаза 5
 
 --General
 --local specWarnGTFO					= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 2)
@@ -485,24 +484,24 @@ function mod:UNIT_HEALTH(uId)
 	if self:IsHeroic() or self:IsNormal() or self:IsLFR() then
 		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 124158 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.70 then --Скоро фаза 2
 			warned_preP1 = true
-			specWarnPhase2:Show()
+			warnPhase2:Show()
 		elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 124158 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.37 then --Скоро фаза 3
 			warned_preP3 = true
-			specWarnPhase3:Show()
+			warnPhase3:Show()
 		end
 	elseif self:IsMythic() then
 		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 124158 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.84 then --Скоро фаза 2 +
 			warned_preP1 = true
-			specWarnPhase2:Show()
+			warnPhase2:Show()
 		elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 124158 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.64 then --Скоро фаза 3 +
 			warned_preP3 = true
-			specWarnPhase3:Show()
+			warnPhase3:Show()
 		elseif self.vb.phase == 3 and warned_preP4 and not warned_preP5 and self:GetUnitCreatureId(uId) == 124158 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.44 then --Скоро фаза 4 +
 			warned_preP5 = true
-			specWarnPhase4:Show()
+			warnPhase4:Show()
 		elseif self.vb.phase == 4 and warned_preP6 and not warned_preP7 and self:GetUnitCreatureId(uId) == 124158 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.24 then --Скоро фаза 5 +
 			warned_preP7 = true
-			specWarnPhase5:Show()
+			warnPhase5:Show()
 		end
 	end
 end

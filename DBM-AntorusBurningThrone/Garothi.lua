@@ -36,8 +36,9 @@ local Decimator = DBM:EJ_GetSectionInfo(15915)
 --]]
 local warnFelBombardment				= mod:NewTargetAnnounce(246220, 2) --Обстрел скверны
 local warnDecimation					= mod:NewTargetAnnounce(244410, 4) --Децимация
+local warnWarnApocDrive					= mod:NewAnnounce("Reaktor", 1, 244152) --Реактор апокалипсиса
 
-local specWarnApocDrive2				= mod:NewSpecialWarning("Reaktor", nil, nil, nil, 1, 2) --Реактор апокалипсиса
+--local specWarnApocDrive2				= mod:NewSpecialWarning("Reaktor", nil, nil, nil, 1, 2) --Реактор апокалипсиса
 
 local specWarnFelBombardment			= mod:NewSpecialWarningMoveAway(246220, nil, nil, nil, 3, 5) --Обстрел скверны
 local specWarnFelBombardmentTaunt		= mod:NewSpecialWarningTaunt(246220, nil, nil, nil, 3, 5) --Обстрел скверны
@@ -56,14 +57,14 @@ local timerFelBombardmentCD				= mod:NewNextTimer(20.7, 246220, nil, "Tank", nil
 local timerApocDriveCast				= mod:NewCastTimer(30, 244152, nil, nil, nil, 6, nil, DBM_CORE_DEADLY_ICON) --Реактор апокалипсиса
 local timerSurgingFelCD					= mod:NewCDTimer(7, 246663, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Всплеск скверны
 local timerSurgingFelCast				= mod:NewCastTimer(4, 246663, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Всплеск скверны
-local timerSpecialCD					= mod:NewNextSpecialTimer(20)--When cannon unknown
+local timerSpecialCD					= mod:NewNextSpecialTimer(20) --Когда оружие неизвестно
 mod:AddTimerLine(Decimator)
 local timerDecimationCD					= mod:NewNextTimer(31.6, 244410, nil, nil, nil, 3) --Децимация
 mod:AddTimerLine(annihilator)
 local timerAnnihilationCD				= mod:NewNextTimer(31.6, 244761, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Аннигиляция
 
 local yellFelBombardment				= mod:NewFadesYell(246220, nil, nil, nil, "YELL") --Обстрел скверны
-local yellDecimation					= mod:NewShortYell(244410, nil, nil, nil, "YELL") --Децимация
+local yellDecimation					= mod:NewYell(244410, nil, nil, nil, "YELL") --Децимация
 local yellDecimationFades				= mod:NewShortFadesYell(244410, nil, nil, nil, "YELL") --Децимация
 
 local berserkTimer						= mod:NewBerserkTimer(600)
@@ -310,18 +311,18 @@ function mod:UNIT_HEALTH(uId)
 	if self:IsHeroic() or self:IsMythic() then
 		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 122450 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.69 then --Скоро Реактор апокалипсиса 1
 			warned_preP1 = true
-			specWarnApocDrive2:Show()
+			warnWarnApocDrive:Show()
 		elseif self.vb.phase == 2 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 122450 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.38 then --Скоро Реактор апокалипсиса 2
 			warned_preP2 = true
-			specWarnApocDrive2:Show()
+			warnWarnApocDrive:Show()
 		end
 	elseif self:IsNormal() or self:IsLFR() then
 		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 122450 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.63 then --Скоро Реактор апокалипсиса 1
 			warned_preP1 = true
-			specWarnApocDrive2:Show()
+			warnWarnApocDrive:Show()
 		elseif self.vb.phase == 2 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 122450 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.23 then --Скоро Реактор апокалипсиса 2
 			warned_preP2 = true
-			specWarnApocDrive2:Show()
+			warnWarnApocDrive:Show()
 		end
 	end
 end

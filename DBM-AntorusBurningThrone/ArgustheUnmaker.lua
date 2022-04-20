@@ -37,6 +37,9 @@ mod:RegisterEventsInCombat(
  or (ability.id = 250669 or ability.id = 251570 or ability.id = 255199 or ability.id = 257931 or ability.id = 257869 or ability.id = 257966) and type = "applydebuff" or type = "interrupt" and target.id = 124828
 --]]
 local warnPhase						= mod:NewPhaseChangeAnnounce() --Фаза
+local warnPhase1					= mod:NewAnnounce("Phase1", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 2
+local warnPhase2					= mod:NewAnnounce("Phase3", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 3
+local warnPhase3					= mod:NewAnnounce("Phase5", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 4
 --Stage One: Storm and Sky
 local warnTorturedRage				= mod:NewCountAnnounce(257296, 2) --Ярость порабощенного
 local warnSweepingScythe			= mod:NewStackAnnounce(248499, 2, nil, "Tank") --Сметающая коса
@@ -62,13 +65,6 @@ local warnSoulRendingScythe			= mod:NewStackAnnounce(258838, 2, nil, "Tank") --�
 --Stage Four: The Gift of Life, The Forge of Loss (Non Mythic)
 local warnGiftOfLifebinder			= mod:NewCastAnnounce(257619, 1) --Дар Хранительницы жизни
 local warnDeadlyScythe				= mod:NewStackAnnounce(258039, 2, nil, "Tank") --Смертоносная коса
-
-local specWarnPhase1				= mod:NewSpecialWarning("Phase1", nil, nil, nil, 1, 2) --Скоро фаза 2
---local specWarnPhase2				= mod:NewSpecialWarning("Phase2", nil, nil, nil, 1, 2) --Фаза 2
-local specWarnPhase3				= mod:NewSpecialWarning("Phase3", nil, nil, nil, 1, 2) --Скоро фаза 3
---local specWarnPhase4				= mod:NewSpecialWarning("Phase4", nil, nil, nil, 1, 2) --Фаза 3
-local specWarnPhase5				= mod:NewSpecialWarning("Phase5", nil, nil, nil, 1, 2) --Скоро фаза 4
---local specWarnPhase6				= mod:NewSpecialWarning("Phase6", nil, nil, nil, 1, 2) --Фаза 4
 
 --Stage One: Storm and Sky
 local specWarnSweepingScythe		= mod:NewSpecialWarningStack(248499, nil, 3, nil, nil, 3, 6) --Сметающая коса
@@ -957,10 +953,10 @@ end
 function mod:UNIT_HEALTH(uId)
 	if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 124828 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.74 then --скоро фаза 2
 		warned_preP1 = true
-		specWarnPhase1:Show()
+		warnPhase1:Show()
 	elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 124828 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.44 then --скоро фаза 3
 		warned_preP3 = true
-		specWarnPhase3:Show()
+		warnPhase2:Show()
 	end
 end
 
@@ -970,7 +966,7 @@ function mod:UNIT_DIED(args)
 		self.vb.kurators = self.vb.kurators - 1
 		if self.vb.kurators == 1 then
 			warned_preP5 = true
-			specWarnPhase5:Show()
+			warnPhase3:Show()
 		end
 	end
 end

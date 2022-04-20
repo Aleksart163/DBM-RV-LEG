@@ -102,7 +102,7 @@ mod.vb.targetedIcon = 1
 local normalRainOfFelTimers = {}--PTR, recheck
 --local mythicSpearofDoomTimers = {}
 local heroicSpearofDoomTimers = {35, 59.2, 64.3, 40, 84.7, 34.1, 65.2}--Live, Nov 29
-local finalDoomTimers = {59.3, 120, 94, 104.6, 99.6}--Live, Dec 5
+local finalDoomTimers = {58.8, 126, 98.5, 106.1, 99.6} --у 1 -0.5 сек, у 2 +6 сек, у 3 +4.5 секLive, у 4 +1.5 сек
 local lfrDestructors = {21.5, 51.9, 50.3, 64.3, 107.2, 58.2, 44.1, 46.2, 44.2}--4 Life Force LFR Version
 local lfrDestructors2 = {21.2, 43.8, 39.0, 51.1, 37.0, 53.0, 43.6, 45.2, 43.2}--3 Life force LFR version
 local normalDestructors = {17, 46.2, 32, 52.4, 93.7, 40.9, 50.2, 55.4, 49.2}--Live, Dec 01. Old 17, 39.4, 28, 44.2, 92.4, 41.3, 50, 53.4, 48.1
@@ -237,12 +237,12 @@ function mod:OnCombatStart(delay)
 			self:Schedule(30, checkForDeadDestructor, self, 5)
 			timerObfuscatorCD:Start(43, DBM_CORE_BOTTOM) --маскировщик, подправил
 			timerPurifierCD:Start(65.7, DBM_CORE_MIDDLE)
-			timerFinalDoomCD:Start(59.3-delay, 1)
-			countdownFinalDoom:Start(59.3-delay)
+			timerFinalDoomCD:Start(58.8-delay, 1)
+			countdownFinalDoom:Start(58.8-delay)
 			timerBatsCD:Start(195, 1)
 			self:Schedule(195, startBatsStuff, self)
-			self:Schedule(25, "ArcaneSingularity")
-			self:Schedule(30, "BurningEmbers")
+			self:ScheduleMethod(25, "ArcaneSingularity")
+			self:ScheduleMethod(30, "BurningEmbers")
 		elseif self:IsHeroic() then
 			timerRainofFelCD:Start(9.3-delay, 1)
 			--countdownRainofFel:Start(9.3-delay)
@@ -283,8 +283,8 @@ function mod:OnCombatEnd()
 	if self.Options.NPAuraOnPurification or self.Options.NPAuraOnFelShielding then
 		DBM.Nameplate:Hide(true, nil, nil, nil, true, true)
 	end
-	self:Unschedule("ArcaneSingularity")
-	self:Unschedule("BurningEmbers")
+	self:UnscheduleMethod("ArcaneSingularity")
+	self:UnscheduleMethod("BurningEmbers")
 end
 
 function mod:SPELL_CAST_START(args)
@@ -414,10 +414,10 @@ function mod:SPELL_AURA_APPLIED(args)
 			yellArcaneBuildup:Yell()
 			yellArcaneBuildupFades:Countdown(5, 4)
 			timerArcaneSingularity:Start()
-			self:Schedule("ArcaneSingularity")
 			if self.Options.RangeFrame then
 				DBM.RangeCheck:Show(10)
 			end
+			self:ScheduleMethod("ArcaneSingularity")
 		end
 	elseif spellId == 250691 or spellId == 249015 then --Раскаленные угли Burning Embers
 		if args:IsPlayer() then
@@ -426,10 +426,10 @@ function mod:SPELL_AURA_APPLIED(args)
 			yellBurningEmbers:Yell()
 			yellBurningEmbersFades:Countdown(5, 4)
 			timerBurningEmbers:Start()
-			self:Schedule("BurningEmbers")
 			if self.Options.RangeFrame then
 				DBM.RangeCheck:Show(8)
 			end
+			self:ScheduleMethod("BurningEmbers")
 		end
 	elseif spellId == 250140 then--Foul Steps
 		if args:IsPlayer() then
@@ -468,19 +468,19 @@ function mod:SPELL_AURA_REMOVED(args)
 		if args:IsPlayer() then
 			yellArcaneBuildupFades:Cancel()
 			timerArcaneSingularity:Cancel()
-			self:Unschedule("ArcaneSingularity")
 			if self.Options.RangeFrame then
 				DBM.RangeCheck:Hide()
 			end
+			self:UnscheduleMethod("ArcaneSingularity")
 		end
 	elseif spellId == 250691 or spellId == 249015 then --Burning Embers
 		if args:IsPlayer() then
 			yellBurningEmbersFades:Cancel()
 			timerBurningEmbers:Cancel()
-			self:Unschedule("BurningEmbers")
 			if self.Options.RangeFrame then
 				DBM.RangeCheck:Hide()
 			end
+			self:UnscheduleMethod("BurningEmbers")
 		end
 	end
 end
@@ -546,10 +546,10 @@ https://www.warcraftlogs.com/reports/V1dPgAZtFLwq2HDz#fight=8&type=summary&view=
 
 function mod:ArcaneSingularity()
 	timerArcaneSingularity:Start()
-	self:Schedule(25, "ArcaneSingularity")
+	self:ScheduleMethod(25, "ArcaneSingularity")
 end
 
 function mod:BurningEmbers()
 	timerBurningEmbers:Start()
-	self:Schedule(30, "BurningEmbers")
+	self:ScheduleMethod(30, "BurningEmbers")
 end

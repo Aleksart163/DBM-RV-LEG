@@ -215,7 +215,7 @@ DBM_CORE_INFOFRAME_ALT				= "Альтер.:" --Alternate Power
 DBM_LFG_INVITE						= "Приглашение в подземелье"
 
 DBM_CORE_SLASHCMD_HELP				= {
-	"Available slash commands:",
+	"Доступные слэш команды:",
 	"-----------------",
 	"/dbm unlock: Отображает перемещаемый индикатор таймера (псевдоним: move).",
 	"/range <число> or /distance <число>: Показать окно проверки дистанции. /rrange или /rdistance для обратных цветов.",
@@ -226,7 +226,7 @@ DBM_CORE_SLASHCMD_HELP				= {
 	"/dbm help2: Показывает команды управления рейдом"
 }
 DBM_CORE_SLASHCMD_HELP2				= {
-	"Available slash commands:",
+	"Доступные слэш команды:",
 	"-----------------",
 	"/dbm pull <сек>: Транслирует отсчет времени до атаки всем членам рейда (требуются права лидера или помощника).",
 	"/dbm break <мин>: Транслирует отсчет времени отдыха всем членам рейда (требуются права лидера или помощника).",
@@ -237,7 +237,7 @@ DBM_CORE_SLASHCMD_HELP2				= {
 	"/dbm durability: Выполняет проверку прочности вещей всего рейда."
 }
 DBM_CORE_TIMER_USAGE	= {
-	"DBM timer commands:",
+	"Команды таймеров DBM:",
 	"-----------------",
 	"/dbm timer <сек> <текст>: Запускает таймер с указанным текстом.",
 	"/dbm ctimer <сек> <текст>: Запускает таймер с текстом обратного отсчета.",
@@ -361,6 +361,10 @@ DBM_CORE_AUTO_SPEC_WARN_TEXTS.close 			= "%s на |3-5(>%%s<) около вас"
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.closemoveaway		= "%s на >%%s< - отбегите"
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.move 				= "%s - отбегите"
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.youmove 			= "%s под вами - отбегите"
+DBM_CORE_AUTO_SPEC_WARN_TEXTS.dontmove 			= "%s! - не двигайтесь"
+DBM_CORE_AUTO_SPEC_WARN_TEXTS.youdontmove 		= "%s под вами! - не двигайтесь"
+DBM_CORE_AUTO_SPEC_WARN_TEXTS.dontstand 		= "%s! - не стойте на месте"
+DBM_CORE_AUTO_SPEC_WARN_TEXTS.youdontstand 		= "%s на вас! - не стойте на месте"
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.dodge				= "%s! - избегайте"
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.dodgecount		= "%s! (%%s) - избегайте"
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.dodgeloc			= "%s - уклоняйтесь от %%s"
@@ -387,9 +391,10 @@ DBM_CORE_AUTO_SPEC_WARN_TEXTS.switchcount 		= "%s - переключитесь (
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.gtfo				= "%%s под тобой - отойди"
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.Adds				= "Прибытие треша - переключитесь"
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.Addscustom		= "Прибытие треша - %%s"
-DBM_CORE_AUTO_SPEC_WARN_TEXTS.icepud 			= "%s! (%%s) - беги в ледяную лужу"
+DBM_CORE_AUTO_SPEC_WARN_TEXTS.icepud 			= "%s! (%%s) - беги в лужу льда"
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.baitcondi			= "забайтить кондибобра прошляпить очко на %s (%%s)"
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.baitpel			= "забайтить пелию прошляпить очко на %s (%%s)"
+DBM_CORE_AUTO_SPEC_WARN_TEXTS.moredamage		= "%s на >%%s< - больше урону"
 
 -- Auto-generated Special Warning Localizations
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.spell 			= "Спец-предупреждение для $spell:%s"
@@ -419,6 +424,10 @@ DBM_CORE_AUTO_SPEC_WARN_OPTIONS.close 			= "Спец-предупреждени�
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.closemoveaway	= "Спец-предупреждение \"отбегите от союзника\", когда на ком-то рядом с вами $spell:%s"
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.move 			= "Спец-предупреждение \"отбегите\" для $spell:%s"
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.youmove			= "Спец-предупреждение \"отбегите\" когда под вами $spell:%s"
+DBM_CORE_AUTO_SPEC_WARN_OPTIONS.dontmove 		= "Спец-предупреждение \"не двигайтесь\" для $spell:%s"
+DBM_CORE_AUTO_SPEC_WARN_OPTIONS.youdontmove 	= "Спец-предупреждение \"не двигайтесь\" когда под вами $spell:%s"
+DBM_CORE_AUTO_SPEC_WARN_OPTIONS.dontstand		= "Спец-предупреждение \"не стойте на месте\" для $spell:%s"
+DBM_CORE_AUTO_SPEC_WARN_OPTIONS.youdontstand 	= "Спец-предупреждение \"не стойте на месте\" когда вы цель $spell:%s"
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.dodge 			= "Спец-предупреждение \"избегайте\" для $spell:%s"
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.dodgecount		= "Спец-предупреждение (со счетчиком) \"избегайте\" для $spell:%s"
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.dodgeloc 		= "Спец-предупреждение (с местоположением) \"избегайте\" для уклонения от $spell:%s"
@@ -445,9 +454,10 @@ DBM_CORE_AUTO_SPEC_WARN_OPTIONS.switchcount 	= "Спец-предупрежде�
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.gtfo			= "Спец-предупреждение когда под вами всякие неприятные лужи"
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.Adds			= "Спец-предупреждение о смене цели во время прибытия треша"
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.Addscustom		= "Спец-предупреждение во время прибывания треша"
-DBM_CORE_AUTO_SPEC_WARN_OPTIONS.icepud			= "Спец-предупреждение (со счетчиком) \"бегите в ледяную лужу\" во время действия $spell:%s"
+DBM_CORE_AUTO_SPEC_WARN_OPTIONS.icepud			= "Спец-предупреждение (со счетчиком) \"бегите в лужу льда\" во время действия $spell:%s"
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.baitcondi		= "Спец-предупреждение (со счетчиком) \"прошляпай очко!\" для байта бобра во время действия $spell:%s"
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.baitpel			= "Спец-предупреждение (со счетчиком) \"прошляпай очко!\" для байта пелии во время действия $spell:%s"
+DBM_CORE_AUTO_SPEC_WARN_OPTIONS.moredamage		= "Спец-предупреждение \"больше урона\" когда на цели $spell:%s"
 
 -- Auto-generated Timer Localizations
 DBM_CORE_AUTO_TIMER_TEXTS.target 		= "%s: >%%s<"
@@ -508,7 +518,7 @@ DBM_CORE_AUTO_YELL_OPTION_TEXT.yell		= "Кричать (с именем игро
 DBM_CORE_AUTO_YELL_OPTION_TEXT.count	= "Кричать (со счетчиком), когда на вас $spell:%s"
 DBM_CORE_AUTO_YELL_OPTION_TEXT.fade		= "Кричать (с обратный отсчетом и названием дебафа), когда $spell:%s с вас спадает"
 DBM_CORE_AUTO_YELL_OPTION_TEXT.shortfade = "Кричать (с обратным отсчетом) когда $spell:%s с вас спадает"
-DBM_CORE_AUTO_YELL_OPTION_TEXT.iconfade = "Кричать (с обратным отсчетом и иконкой) когда $spell:%s с вас спадает"
+DBM_CORE_AUTO_YELL_OPTION_TEXT.iconfade = "Кричать (с обратным отсчетом и меткой) когда $spell:%s с вас спадает"
 DBM_CORE_AUTO_YELL_OPTION_TEXT.position	= "Кричать (с позицией), когда на вас $spell:%s"
 DBM_CORE_AUTO_YELL_OPTION_TEXT.combo	= "Кричать (с индивидуальным текстом) когда на вас одновременно воздействует $spell:%s и другие заклинания"
 
@@ -526,7 +536,7 @@ DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT.combo = "%s и %%s"--Spell name (from option, p
 DBM_CORE_AUTO_YELL_CUSTOM_FADE			= "%s исчезает"
 DBM_CORE_AUTO_HUD_OPTION_TEXT			= "Показывать HudMap для $spell:%s"
 DBM_CORE_AUTO_HUD_OPTION_TEXT_MULTI		= "Показывать HudMap для различных механик"
-DBM_CORE_AUTO_NAMEPLATE_OPTION_TEXT		= "Показывать таблички с именами аур для $spell:%s"
+DBM_CORE_AUTO_NAMEPLATE_OPTION_TEXT		= "Показывать таблички с иконками аур для $spell:%s"
 DBM_CORE_AUTO_RANGE_OPTION_TEXT			= "Показывать окно проверки дистанции (%s м) для $spell:%s"--string used for range so we can use things like "5/2" as a value for that field
 DBM_CORE_AUTO_RANGE_OPTION_TEXT_SHORT	= "Показывать окно проверки дистанции (%s м)"--For when a range frame is just used for more than one thing
 DBM_CORE_AUTO_RRANGE_OPTION_TEXT		= "Показывать обратное окно проверки дистанции (%s) для $spell:%s"--Reverse range frame (green when players in range, red when not)

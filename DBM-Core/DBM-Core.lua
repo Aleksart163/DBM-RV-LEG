@@ -41,9 +41,9 @@
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 17656 $"):sub(12, -3)),
+	Revision = tonumber(("$Revision: 17657 $"):sub(12, -3)),
 	DisplayVersion = "7.3.34 Right Version",
-	ReleaseRevision = 17655
+	ReleaseRevision = 17656
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -9834,10 +9834,10 @@ do
 			if announceType == "target" or announceType == "targetcount" or announceType == "close" or announceType == "reflect" then
 				catType = "announceother"
 			--Directly affects you 
-			elseif announceType == "you" or announceType == "yourunning" or announceType == "closemoveaway" or announceType == "youfind" or announceType == "youclose" or announceType == "youshare" or announceType == "youdefensive" or announceType == "youmoveaway" or announceType == "youmove" or announceType == "youcount" or announceType == "youpos" or announceType == "move" or announceType == "dodge" or announceType == "moveaway" or announceType == "run" or announceType == "stack" or announceType == "moveto" or announceType == "soakpos" then
+			elseif announceType == "you" or announceType == "defensive" or announceType == "yourunning" or announceType == "closemoveaway" or announceType == "youfind" or announceType == "youclose" or announceType == "youshare" or announceType == "youdefensive" or announceType == "youmoveaway" or announceType == "youmove" or announceType == "youcount" or announceType == "youpos" or announceType == "move" or announceType == "dodge" or announceType == "moveaway" or announceType == "run" or announceType == "stack" or announceType == "moveto" or announceType == "soakpos" then
 				catType = "announcepersonal"
 			--Things you have to do to fulfil your role
-			elseif announceType == "taunt" or announceType == "interrupt2" or announceType == "defensive" or announceType == "dispel" or announceType == "interrupt" or announceType == "interruptcount" or announceType == "switch" or announceType == "switchcount" then
+			elseif announceType == "taunt" or announceType == "moredamage" or announceType == "interrupt2" or announceType == "dispel" or announceType == "interrupt" or announceType == "interruptcount" or announceType == "switch" or announceType == "switchcount" then
 				catType = "announcerole"
 			end
 			self:AddSpecialWarningOption(obj.option, optionDefault, runSound, catType)
@@ -9949,7 +9949,23 @@ do
 	
 	function bossModPrototype:NewSpecialWarningYouMove(text, optionDefault, ...)
 		return newSpecialWarning(self, "youmove", text, nil, optionDefault, ...)
-	end	
+	end
+	
+	function bossModPrototype:NewSpecialWarningDontMove(text, optionDefault, ...)
+		return newSpecialWarning(self, "dontmove", text, nil, optionDefault, ...)
+	end
+	
+	function bossModPrototype:NewSpecialWarningYouDontMove(text, optionDefault, ...)
+		return newSpecialWarning(self, "youdontmove", text, nil, optionDefault, ...)
+	end
+	
+	function bossModPrototype:NewSpecialWarningDontStand(text, optionDefault, ...)
+		return newSpecialWarning(self, "dontstand", text, nil, optionDefault, ...)
+	end
+	
+	function bossModPrototype:NewSpecialWarningYouDontStand(text, optionDefault, ...)
+		return newSpecialWarning(self, "youdontstand", text, nil, optionDefault, ...)
+	end
 	
 	function bossModPrototype:NewSpecialWarningGTFO(text, optionDefault, ...)
 		return newSpecialWarning(self, "gtfo", text, nil, optionDefault, ...)
@@ -10060,6 +10076,10 @@ do
 
 	function bossModPrototype:NewSpecialWarningIcePud(text, optionDefault, ...)
 		return newSpecialWarning(self, "icepud", text, nil, optionDefault, ...)
+	end
+	
+	function bossModPrototype:NewSpecialWarningMoreDamage(text, optionDefault, ...)
+		return newSpecialWarning(self, "moredamage", text, nil, optionDefault, ...)
 	end
 
 	function bossModPrototype:NewSpecialWarningPreWarn(text, optionDefault, time, ...)

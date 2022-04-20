@@ -1,4 +1,3 @@
-if GetLocale() ~= "ruRU" and GetLocale() ~= "ruRU" then return end
 local L
 
 ---------------------------
@@ -82,8 +81,8 @@ L:SetMiscLocalization({
 	YellPullHasabel = "Is this the best you could muster? Hah. Pathetic.",
 	YellPullHasabel2 = "Your war ends here.",
 	YellPullHasabel3 = "The Legion devastates all who oppose us!",
-	YellPullHasabel4 = "Every world in our path has fallen. Yours is next.",
-	YellPullHasabel5 = "Your resistance is at an end!"
+--	YellPullHasabel4 = "Every world in our path has fallen. Yours is next.",
+--	YellPullHasabel5 = "Your resistance is at an end!"
 })
 
 ---------------------------
@@ -183,16 +182,18 @@ L= DBM:GetModLocalization(1984)
 
 L:SetWarningLocalization({
 	Phase1 = "Phase 2 soon",
-	Phase2 = "Phase 2",
 	Phase3 = "Phase 3 soon",
-	Phase4 = "Phase 3"
+	FlameRend1 = "Damage is shared by the 1st group",
+	FlameRend2 = "Damage is shared by the 2nd group",
+	FlameRend3 = "Another group's turn"
 })
 
 L:SetOptionLocalization({
 	Phase1 = "Warn in advance about phase 2 (on ~84%)",
-	Phase2 = "Announce Phase 2",
 	Phase3 = "Warn in advance about phase 3 (on ~44%, on ~39% in mythic)",
-	Phase4 = "Announce Phase 3",
+	FlameRend1 = "Show special warning during $spell:245463 for the first group (only in mythic)",
+	FlameRend2 = "Show special warning during $spell:245463 for the second group (only in mythic)",
+	FlameRend3 = "Show special warning during $spell:245463 when it's not your turn (only in mythic)",
 	ignoreThreeTank	= "Filter Rend/Foe Taunt special warnings when using 3 or more tanks (since DBM can't determine exact tanking rotation in this setup). If any tanks die and it drops to 2, filter auto disables"
 })
 
@@ -234,12 +235,12 @@ L:SetOptionLocalization({
 
 L:SetMiscLocalization({
 	YellPullArgus = "Death! Death and pain!",
-	SeaText		= "{rt6} Haste/Vers",
-	SkyText		= "{rt5} Crit/Mast",
-	Blight		= "Blight on me",
-	Burst		= "Burst on me",
-	Sentence	= "Sentence on me",
-	Bomb		= "Bomb on me"
+	SeaText		= "{rt6} Haste/Vers on me!",
+	SkyText		= "{rt5} Crit/Mast on me!",
+	Blight		= "Blight on me!",
+	Burst		= "Burst on me!",
+	Sentence	= "Sentence on me!",
+	Bomb		= "Bomb on me!"
 })
 
 -------------

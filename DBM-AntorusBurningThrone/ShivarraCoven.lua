@@ -40,7 +40,11 @@ local torment = DBM:EJ_GetSectionInfo(16138)
  or ability.id = 250757 and type = "applydebuff"
 --]]
 --All
-local warnActivated						= mod:NewTargetAnnounce(118212, 3, 78740, nil, nil, nil, nil, nil, true) --Активация
+local warnActivated						= mod:NewTargetAnnounce(118212, 4, 78740, nil, nil, nil, nil, nil, true) --Активация
+local warnAmantul						= mod:NewPreWarnAnnounce(250335, 10, 1) --Мучения Амантула
+local warnNorgannon						= mod:NewPreWarnAnnounce(250334, 10, 1) --Мучения Норганнона
+local warnGolgannet						= mod:NewPreWarnAnnounce(249793, 10, 1) --Мучения Голганнета
+local warnKazgagot						= mod:NewPreWarnAnnounce(250333, 10, 1) --Мучения Казгарота
 --Noura, Mother of Flames
 local warnFieryStrike					= mod:NewStackAnnounce(244899, 2, nil, "Tank") --Пламенный удар
 local warnWhirlingSaber					= mod:NewSpellAnnounce(245627, 2) --Вращающийся меч
@@ -275,15 +279,19 @@ function mod:SPELL_CAST_SUCCESS(args)
 		countdownTitans:Start()
 		if spellId == 250335 then--Machinations of Aman'Thul
 			timerMachinationsofAmanThulCD:Start()
+			warnAmantul:Schedule(80)
 			specWarnAmantul:Schedule(85)
 		elseif spellId == 250333 then--Flames of Khaz'goroth
 			timerFlamesofKhazgorothCD:Start()
+			warnKazgagot:Schedule(80)
 			specWarnKazgagot:Schedule(85)
 		elseif spellId == 250334 then--Spectral Army of Norgannon
 			timerSpectralArmyofNorgannonCD:Start()
+			warnNorgannon:Schedule(80)
 			specWarnNorgannon:Schedule(85)
 		elseif spellId == 249793 then--Fury of Golganneth
 			timerFuryofGolgannethCD:Start()
+			warnGolgannet:Schedule(80)
 			specWarnGolgannet:Schedule(85)
 		end
 	elseif spellId == 246329 then--Shadow Blades

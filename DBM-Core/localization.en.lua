@@ -365,6 +365,10 @@ DBM_CORE_AUTO_SPEC_WARN_TEXTS = {
 	closemoveaway	= "%s on >%%s< - run away",
 	move			= "%s - move away",
 	youmove 		= "%s under you - move away",
+	dontmove 		= "%s! - dont move",
+	youdontmove 	= "%s under you! - dont move",
+	dontstand 		= "%s! - don't stand still",
+	youdontstand 	= "%s on you! - don't stand still",
 	dodge			= "%s! - dodge attack",
 	dodgecount		= "%s! (%%s) - dodge attack",
 	dodgeloc		= "%s - dodge from %%s",
@@ -391,7 +395,8 @@ DBM_CORE_AUTO_SPEC_WARN_TEXTS = {
 	gtfo			= "%%s under you - move away",
 	Adds			= "Incoming Adds - switch targets",
 	Addscustom		= "Incoming Adds - %%s",
-	icepud 			= "%s! (%%s) - run into the ice"
+	icepud 			= "%s! (%%s) - run into the ice",
+	moredamage		= "%s on >%%s< - more damage"
 }
 
 -- Auto-generated Special Warning Localizations
@@ -423,6 +428,10 @@ DBM_CORE_AUTO_SPEC_WARN_OPTIONS = {
 	closemoveaway	= "Show special warning \"run away from your ally\" when someone close to you is affected by $spell:%s",
 	move 			= "Show special warning to move out from $spell:%s",
 	youmove 		= "Show special warning \"move away\" when under you $spell:%s",
+	dontmove 		= "Show special warning \"dont move\" for $spell:%s",
+	youdontmove 	= "Show special warning \"dont move\" when under you $spell:%s",
+	dontstand		= "Show special warning \"don't stand still\" for $spell:%s",
+	youdontstand 	= "Show special warning \"don't stand still\" when you target $spell:%s",
 	dodge 			= "Show special warning to dodge $spell:%s",
 	dodgecount 		= "Show special warning (with count) to dodge $spell:%s",
 	dodgeloc		= "Show special warning (with location) to dodge $spell:%s",
@@ -449,7 +458,8 @@ DBM_CORE_AUTO_SPEC_WARN_OPTIONS = {
 	gtfo 			= "Show special warning to move out bad stuff on ground",
 	Adds			= "Show special warning to switch targets for incoming adds",
 	Addscustom		= "Show special warning for incoming adds",
-	icepud			= "Show special warning (with count) \"run into the ice\" during the action $spell:%s"
+	icepud			= "Show special warning (with count) \"run into the ice\" during the action $spell:%s",
+	moredamage		= "Show special warning \"more damage\" when on target $spell:%s"
 }
 
 -- Auto-generated Timer Localizations

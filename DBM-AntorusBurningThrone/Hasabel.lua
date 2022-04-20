@@ -16,8 +16,8 @@ mod.respawnTime = 30
 mod:RegisterCombat("yell", L.YellPullHasabel)
 mod:RegisterCombat("yell", L.YellPullHasabel2)
 mod:RegisterCombat("yell", L.YellPullHasabel3)
-mod:RegisterCombat("yell", L.YellPullHasabel4)
-mod:RegisterCombat("yell", L.YellPullHasabel5)
+--mod:RegisterCombat("yell", L.YellPullHasabel4)
+--mod:RegisterCombat("yell", L.YellPullHasabel5)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 243983 244709 245504 244607 244915 246805 244689 244000",
