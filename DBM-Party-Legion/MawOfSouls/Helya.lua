@@ -114,7 +114,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnTaintofSea:Show(args.destName)
 		if args:IsPlayer() then
 			yellTaintofSea:Yell()
-			yellTaintofSea2:Countdown(20, 3)
+			yellTaintofSea2:Countdown(21, 3)
 		end
 		if self.vb.phase == 1 then
 			timerTaintofSeaCD:Start()
