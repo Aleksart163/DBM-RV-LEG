@@ -30,7 +30,7 @@ local warnFeedontheWeak				= mod:NewTargetAnnounce(200238, 4) --Пожирани
 local specWarnApocNightmare2		= mod:NewSpecialWarningDefensive(200050, nil, nil, nil, 3, 5) --Апокалиптический Кошмар
 local specWarnFeedontheWeak			= mod:NewSpecialWarningYouDefensive(200238, nil, nil, nil, 3, 5) --Пожирание слабых
 local specWarnFesteringRip			= mod:NewSpecialWarningDispel(200182, "MagicDispeller2", nil, nil, 1, 2) --Гноящаяся рана
-local specWarnNightmare				= mod:NewSpecialWarningYouShare(200243, nil, nil, nil, 1, 3) --Кошмар наяву
+local specWarnNightmare				= mod:NewSpecialWarningYouShare(200243, nil, nil, nil, 3, 3) --Кошмар наяву
 local specWarnParanoia				= mod:NewSpecialWarningMoveAway(200289, nil, nil, nil, 3, 5) --Усугубляющаяся паранойя
 local specWarnParanoia2				= mod:NewSpecialWarningCloseMoveAway(200289, nil, nil, nil, 1, 3) --Усугубляющаяся паранойя
 

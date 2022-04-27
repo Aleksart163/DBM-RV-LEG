@@ -16,8 +16,8 @@ mod:RegisterEventsInCombat(
 	"UNIT_HEALTH boss1"
 )
 
-local warnPhase						= mod:NewAnnounce("Phase1", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 2
-local warnPhase2					= mod:NewAnnounce("Phase2", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Фаза 2
+local warnPhase						= mod:NewAnnounce("Phase1", 1, 197422) --Скоро фаза 2
+local warnPhase2					= mod:NewAnnounce("Phase2", 1, 197422) --Фаза 2
 local warnDeepeningShadows			= mod:NewSpellAnnounce(213583, 4) --Сгущающиеся тени
 local warnVengeance					= mod:NewSpellAnnounce(205004, 4) --Отмщение
 local warnCreepingDoom				= mod:NewSpellAnnounce(197422, 4) --Ползучая гибель

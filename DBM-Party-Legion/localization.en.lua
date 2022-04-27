@@ -125,14 +125,24 @@ L= DBM:GetModLocalization(1486)
 -----------------------
 L= DBM:GetModLocalization(1487)
 
+L:SetWarningLocalization({
+	Phase1 = "Phase 2 soon",
+	Phase2 = "Phase 2"
+})
+
+L:SetOptionLocalization({
+	Phase1 = "Warn in advance about phase 2 (on ~65%)",
+	Phase2 = "Announce Phase 2"
+})
+
 -----------------------
 -- God-King Skovald --
 -----------------------
 L= DBM:GetModLocalization(1488)
 
-L:SetMiscLocalization({
+--[[L:SetMiscLocalization({
 	SkovaldRP		= "No! I, too, have proved my worth, Odyn. I am God-King Skovald! These mortals dare not challenge my claim to the aegis!"
-})
+})]]
 
 -----------------------
 -- Odyn --
@@ -150,6 +160,21 @@ L = DBM:GetModLocalization("HoVTrash")
 
 L:SetGeneralLocalization({
 	name =	"Halls of Valor Trash"
+})
+
+L:SetOptionLocalization({
+	timerRoleplay = "Countdown to the start of the battle with God-King Skovald and Odyn"
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = GUILD_INTEREST_RP
+})
+
+L:SetMiscLocalization({
+	RPSkovald = "No! I, too, have proved my worth, Odyn. I am God-King Skovald! These mortals dare not challenge my claim to the aegis!",
+	RPOdyn = "Most impressive! I never thought I would meet anyone who could match the Valarjar's strength... and yet here you stand.",
+	RPSolsten = "Hyrja... the fury of the storm is yours to command!",
+	RPOlmyr = "The Light shines eternal in you, Hyrja!" --The Light embraces you, Hyrja! если прошлое не робит
 })
 
 -----------------------
@@ -383,6 +408,18 @@ L = DBM:GetModLocalization("MawTrash")
 
 L:SetGeneralLocalization({
 	name =	"Maw of Souls Trash"
+})
+
+L:SetOptionLocalization({
+	timerRoleplay = "Countdown to the start of the fight with Helya"
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = GUILD_INTEREST_RP
+})
+
+L:SetMiscLocalization({
+	Helya = "You ALL will regret trespassing in my realm."
 })
 
 -----------------------

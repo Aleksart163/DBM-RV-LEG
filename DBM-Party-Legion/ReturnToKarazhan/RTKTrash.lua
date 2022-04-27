@@ -93,6 +93,7 @@ function mod:SPELL_CAST_START(args)
 			specWarnOathofFealty:Play("kickcast")
 		else
 			warnOathofFealty:Show()
+			warnOathofFealty:Play("kickcast")
 		end
 	elseif spellId == 230094 then --Полная нейтрализация
 		timerNullificationCD:Start()
@@ -114,7 +115,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnBurningBrand:Show()
 			specWarnBurningBrand:Play("runout")
 			yellBurningBrand:Yell()
-			yellBurningBrand2:Countdown(6)
+			yellBurningBrand2:Countdown(6, 3)
 		end
 	elseif spellId == 229706 then
 		specWarnLeechLife:Show(args.destName)

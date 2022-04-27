@@ -1,12 +1,13 @@
 local mod	= DBM:NewMod(1492, "DBM-Party-Legion", 3, 716)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17603 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 mod:SetCreatureID(96028)
 mod:SetEncounterID(1814)
 mod:SetZone()
 
 mod:RegisterCombat("combat")
+mod:SetUsedIcons(8)
 
 mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED 192706",
@@ -16,21 +17,22 @@ mod:RegisterEventsInCombat(
 	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
 local warnArcaneBomb				= mod:NewTargetAnnounce(192706, 4) --Чародейская бомба
-local warnMythicTornado				= mod:NewSpellAnnounce(192680, 3)--target scanning not available
+local warnMythicTornado				= mod:NewSpellAnnounce(192680, 3) --Волшебный торнадо target scanning not available
 
 local specWarnArcaneBomb			= mod:NewSpecialWarningYouMoveAway(192706, nil, nil, nil, 3, 2) --Чародейская бомба
 local specWarnArcaneBomb2			= mod:NewSpecialWarningDispel(192706, "MagicDispeller2", nil, nil, 3, 5) --Чародейская бомба
-local specWarnMassiveDeluge			= mod:NewSpecialWarningDodge(192617, "Tank", nil, nil, 3, 2)
+local specWarnMassiveDeluge			= mod:NewSpecialWarningDodge(192617, "Tank", nil, nil, 3, 2) --Потоп
 
-local timerMythicTornadoCD			= mod:NewCDTimer(25, 192680, nil, nil, nil, 3)
-local timerMassiveDelugeCD			= mod:NewCDTimer(50, 192617, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
-local timerArcaneBomb				= mod:NewTargetTimer(15, 192706, nil, nil, nil, 5, nil, DBM_CORE_MAGIC_ICON)--Magic dispel for healer to dispel at correct time
-local timerArcaneBombCD				= mod:NewCDTimer(23, 192706, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON)--23-37
+local timerMythicTornadoCD			= mod:NewCDTimer(25, 192680, nil, nil, nil, 3) --Волшебный торнадо
+local timerMassiveDelugeCD			= mod:NewCDTimer(50, 192617, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Потоп
+local timerArcaneBomb				= mod:NewTargetTimer(15, 192706, nil, nil, nil, 5, nil, DBM_CORE_MAGIC_ICON) --Чародейская бомба
+local timerArcaneBombCD				= mod:NewCDTimer(23, 192706, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Чародейская бомба 23-37
 
 local yellArcaneBomb				= mod:NewYell(192706, nil, nil, nil, "YELL") --Чародейская бомба
 local yellArcaneBombFades			= mod:NewFadesYell(192706, nil, nil, nil, "YELL") --Чародейская бомба
 
-mod:AddRangeFrameOption(10, 192706)
+mod:AddRangeFrameOption(10, 192706) --Чародейская бомба
+mod:AddSetIconOption("SetIconOnArcaneBomb", 192706, true, false, {8}) --Чародейская бомба
 
 mod.vb.phase = 1
 local serpMod = DBM:GetModByName(1479)
@@ -60,6 +62,9 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self.Options.RangeFrame then
 			DBM.RangeCheck:Show(10)
 		end
+		if self.Options.SetIconOnArcaneBomb then
+			self:SetIcon(args.destName, 8, 15)
+		end
 	end
 end
 
@@ -69,6 +74,9 @@ function mod:SPELL_AURA_REMOVED(args)
 		timerArcaneBomb:Cancel(args.destName)
 		if self.Options.RangeFrame then
 			DBM.RangeCheck:Hide()
+		end
+		if self.Options.SetIconOnArcaneBomb then
+			self:SetIcon(args.destName, 0)
 		end
 	end
 end
@@ -98,7 +106,7 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, _, _, _, targetname)
 			specWarnArcaneBomb:Show()
 			specWarnArcaneBomb:Play("runout")
 			yellArcaneBomb:Yell()
-			yellArcaneBombFades:Countdown(15)
+			yellArcaneBombFades:Countdown(15, 3)
 		else
 			specWarnArcaneBomb2:Show(args.destName)
 		end

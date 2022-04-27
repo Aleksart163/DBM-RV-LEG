@@ -6,6 +6,7 @@ mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 mod:SetZone()
 
 mod.isTrashMod = true
+mod:SetUsedIcons(8)
 
 mod:RegisterEvents(
 	"SPELL_CAST_START 196870 195046 195284 197105",
@@ -34,7 +35,8 @@ local yellArcaneBombFades		= mod:NewFadesYell(192706, nil, nil, nil, "YELL") --�
 local yellPolymorph				= mod:NewYell(197105, nil, nil, nil, "YELL") --Превращение в рыбу
 local yellPolymorphFades		= mod:NewFadesYell(197105, nil, nil, nil, "YELL") --Превращение в рыбу
 
-mod:AddRangeFrameOption(10, 192706)
+mod:AddRangeFrameOption(10, 192706) --Чародейская бомба
+mod:AddSetIconOption("SetIconOnArcaneBomb", 192706, true, false, {8}) --Чародейская бомба
 
 function mod:SPELL_CAST_START(args)
 	if not self.Options.Enabled then return end
@@ -67,12 +69,15 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnArcaneBomb:Show()
 			specWarnArcaneBomb:Play("runout")
 			yellArcaneBomb:Yell()
-			yellArcaneBombFades:Countdown(15)
+			yellArcaneBombFades:Countdown(15, 3)
 		else
 			specWarnArcaneBomb2:Show(args.destName)
 		end
 		if self.Options.RangeFrame then
 			DBM.RangeCheck:Show(10)
+		end
+		if self.Options.SetIconOnArcaneBomb then
+			self:SetIcon(args.destName, 8, 15)
 		end
 	elseif spellId == 197105 then --Превращение
 		warnPolymorph:Show(args.destName)
@@ -100,6 +105,9 @@ function mod:SPELL_AURA_REMOVED(args)
 		end
 		if self.Options.RangeFrame then
 			DBM.RangeCheck:Hide()
+		end
+		if self.Options.SetIconOnArcaneBomb then
+			self:SetIcon(args.destName, 0)
 		end
 	end
 end

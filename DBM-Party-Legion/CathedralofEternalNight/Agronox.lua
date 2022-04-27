@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1905, "DBM-Party-Legion", 12, 900)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17603 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 mod:SetCreatureID(117193)
 mod:SetEncounterID(2055)
 mod:SetZone()
@@ -17,25 +17,25 @@ mod:RegisterEventsInCombat(
 	"RAID_BOSS_WHISPER",
 	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
+--Тут ещё ничего не проверено
+local warnSpores					= mod:NewSpellAnnounce(236524, 2) --Ядовитые споры
 
---TODO, Fulminating and succulant lashers after first. Mythic pull logs I have too short
-local warnSpores					= mod:NewSpellAnnounce(236524, 2)
+local specWarnTimberSmash			= mod:NewSpecialWarningDefensive(235751, "Tank", nil, nil, 1, 2) --Удар бревном
+local specWarnChokingVine			= mod:NewSpecialWarningRun(238598, nil, nil, nil, 4, 2) --Удушающие лозы
+local specWarnSucculentSecretion	= mod:NewSpecialWarningMove(240065, nil, nil, nil, 1, 2) --Выброс сока
+local specWarnFulminatingLashers	= mod:NewSpecialWarningSwitch(236527, "-Healer", nil, nil, 1, 2) --Гремучие плеточники
+local specWarnSucculentLashers		= mod:NewSpecialWarningSwitch(236639, "-Healer", nil, nil, 1, 2) --Сочные плеточники
+local specWarnFixate				= mod:NewSpecialWarningRun(238674, nil, nil, nil, 4, 2) --Сосредоточение внимания
 
-local specWarnTimberSmash			= mod:NewSpecialWarningDefensive(235751, "Tank", nil, nil, 1, 2)
-local specWarnChokingVine			= mod:NewSpecialWarningRun(238598, nil, nil, nil, 4, 2)
-local specWarnSucculentSecretion	= mod:NewSpecialWarningMove(240065, nil, nil, nil, 1, 2)
-local specWarnFulminatingLashers	= mod:NewSpecialWarningSwitch(236527, "-Healer", nil, nil, 1, 2)
-local specWarnSucculentLashers		= mod:NewSpecialWarningSwitch(236639, "-Healer", nil, nil, 1, 2)
-local specWarnFixate				= mod:NewSpecialWarningRun(238674, nil, nil, nil, 4, 2)
-local yellFixate					= mod:NewYell(238674)
+local timerTimberSmashCD			= mod:NewCDTimer(21.7, 235751, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Удар бревном
+local timerChokingVinesCD			= mod:NewCDTimer(30, 238598, nil, nil, nil, 3) --Удушающие лозы
+local timerFulminatingLashersCD		= mod:NewCDTimer(30, 236527, nil, nil, nil, 1) --Гремучие плеточники
+local timerSucculentLashersCD		= mod:NewCDTimer(16.5, 236639, nil, nil, nil, 1) --Сочные плеточники
+local timerSporesCD					= mod:NewCDTimer(20.5, 236524, nil, nil, nil, 2) --Ядовитые споры
 
-local timerTimberSmashCD			= mod:NewCDTimer(21.7, 235751, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
-local timerChokingVinesCD			= mod:NewCDTimer(30, 238598, nil, nil, nil, 3)
-local timerFulminatingLashersCD		= mod:NewCDTimer(30, 236527, nil, nil, nil, 1)
-local timerSucculentLashersCD		= mod:NewCDTimer(16.5, 236639, nil, nil, nil, 1)
-local timerSporesCD					= mod:NewCDTimer(20.5, 236524, nil, nil, nil, 2)
+local yellFixate					= mod:NewYell(238674, nil, nil, nil, "YELL") --Сосредоточение внимания
 
-local countdownTimberSmash			= mod:NewCountdown("Alt21", 235751, "Tank")
+local countdownTimberSmash			= mod:NewCountdown("Alt21", 235751, "Tank") --Удар бревном
 
 function mod:OnCombatStart(delay)
 	timerTimberSmashCD:Start(6-delay)

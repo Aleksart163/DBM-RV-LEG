@@ -131,6 +131,16 @@ L= DBM:GetModLocalization(1486)
 ----------
 L= DBM:GetModLocalization(1487)
 
+L:SetWarningLocalization({
+	Phase1 = "Скоро фаза 2",
+	Phase2 = "Фаза 2"
+})
+
+L:SetOptionLocalization({
+	Phase1 = "Предупреждать заранее о фазе 2 (на ~65%)",
+	Phase2 = "Объявлять фазу 2"
+})
+
 -----------------------
 --Король-бог Сковальд--
 -----------------------
@@ -152,6 +162,21 @@ L = DBM:GetModLocalization("HoVTrash")
 
 L:SetGeneralLocalization({
 	name = "Трэш Чертогов Доблести"
+})
+
+L:SetOptionLocalization({
+	timerRoleplay = "Отсчет времени до начала боя с Король-бог Сковальд и Один" --"Interface\\Icons\\ability_warrior_offensivestance"
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = "Начало боя"
+})
+
+L:SetMiscLocalization({
+	RPSkovald = "Нет! Я, Король-бог Сковальд, тоже доказал, что достоин. Эти смертные не посмеют оспорить мое право владеть Эгидой!",
+	RPOdyn = "Удивительно! Я не верил, что кто-то может сравниться с валарьярами... Но вы доказали, что это возможно.",
+	RPSolsten = "Хирья... Теперь ты можешь повелевать яростью бури!",
+	RPOlmyr = "Да озарит тебя вечный Свет, Хирья!"
 })
 
 ---------------------------
@@ -282,7 +307,7 @@ L:SetOptionLocalization({
 })
 
 L:SetTimerLocalization({
-	timerRoleplay = GUILD_INTEREST_RP
+	timerRoleplay = "Начало боя"
 })
 
 L:SetMiscLocalization({
@@ -388,6 +413,18 @@ L = DBM:GetModLocalization("MawTrash")
 
 L:SetGeneralLocalization({
 	name = "Трэш Утробы Душ"
+})
+
+L:SetOptionLocalization({
+	timerRoleplay = "Отсчет времени до начала боя с Хелией"
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = "Начало боя"
+})
+
+L:SetMiscLocalization({
+	Helya = "Вы пожалеете о том, что пришли в мой мир."
 })
 
 ------------------------------------
@@ -521,7 +558,7 @@ L:SetGeneralLocalization({
 })
 
 L:SetTimerLocalization({
-	timerRoleplay = GUILD_INTEREST_RP
+	timerRoleplay = "Начало боя"
 })
 
 L:SetOptionLocalization({
@@ -621,7 +658,7 @@ L:SetOptionLocalization({
 })
 
 L:SetTimerLocalization({
-	timerRoleplay = GUILD_INTEREST_RP
+	timerRoleplay = "Начало боя"
 })
 
 L:SetMiscLocalization({
@@ -646,7 +683,7 @@ L= DBM:GetModLocalization(1905)
 L= DBM:GetModLocalization(1906)
 
 L:SetMiscLocalization({
-	bookCase = "Бегите за книжный шкаф!"
+	bookCase = "книжному шкафу!"
 })
 
 L:SetOptionLocalization({

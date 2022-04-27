@@ -1,31 +1,37 @@
 local mod	= DBM:NewMod("MawTrash", "DBM-Party-Legion", 8)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17522 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 --mod:SetEncounterID(1823)
 mod:SetZone()
 
 mod.isTrashMod = true
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 198405 195031 195293 196885",
+	"SPELL_CAST_START 198405 195031 195293 196885 194099",
 	"SPELL_CAST_SUCCESS 195279",
 	"SPELL_AURA_APPLIED 195279",
-	"SPELL_AURA_REMOVED 195279"
+	"SPELL_AURA_REMOVED 195279",
+	"SPELL_PERIODIC_DAMAGE 194102",
+	"SPELL_PERIODIC_MISSED 194102",
+	"CHAT_MSG_MONSTER_YELL"
 )
 
 local warnScream				= mod:NewSpellAnnounce(198405, 4) --Леденящий душу вопль
 
+local specWarnPoisonousSludge	= mod:NewSpecialWarningYouMove(194102, nil, nil, nil, 1, 2) --Ядовитая жижа
 local specWarnBind				= mod:NewSpecialWarningYouDefensive(195279, nil, nil, nil, 2, 5) --Связывание
 local specWarnScream			= mod:NewSpecialWarningInterrupt(198405, "HasInterrupt", nil, nil, 1, 2) --Леденящий душу вопль
 local specWarnDebilitatingShout	= mod:NewSpecialWarningInterrupt(195293, "HasInterrupt", nil, nil, 1, 2) --Истощающий крик
 local specWarnGiveNoQuarter		= mod:NewSpecialWarningDodge(196885, nil, nil, nil, 2, 3) --Не щадить никого
-
-local specWarnDefiantStrike		= mod:NewSpecialWarningDodge(195031, nil, nil, nil, 1, 2)
+local specWarnBileBreath		= mod:NewSpecialWarningDodge(194099, nil, nil, nil, 2, 3) --Гнусное дыхание
+local specWarnDefiantStrike		= mod:NewSpecialWarningDodge(195031, nil, nil, nil, 1, 2) --Дерзкий удар
 
 local timerBindCD				= mod:NewCDTimer(15, 195279, nil, "Tank", nil, 3, nil, DBM_CORE_TANK_ICON) --Связывание
 local timerDebilitatingShoutCD	= mod:NewCDTimer(13.5, 195293, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON) --Истощающий крик
 local timerGiveNoQuarterCD		= mod:NewCDTimer(10, 196885, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Не щадить никого
+
+local timerRoleplay				= mod:NewTimer(29, "timerRoleplay", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7) --Ролевая игра
 
 function mod:SPELL_CAST_START(args)
 	if not self.Options.Enabled then return end
@@ -36,6 +42,7 @@ function mod:SPELL_CAST_START(args)
 			specWarnScream:Play("kickcast")
 		else
 			warnScream:Show()
+			warnScream:Play("kickcast")
 		end
 	elseif spellId == 195031 and self:AntiSpam(3, 1) then
 		specWarnDefiantStrike:Show()
@@ -48,6 +55,9 @@ function mod:SPELL_CAST_START(args)
 		specWarnGiveNoQuarter:Show()
 		specWarnGiveNoQuarter:Play("stilldanger")
 		timerGiveNoQuarterCD:Start()
+	elseif spellId == 196885 then --Гнусное дыхание
+		specWarnBileBreath:Show()
+		specWarnBileBreath:Play("stilldanger")
 	end
 end
 
@@ -72,3 +82,23 @@ end
 	if spellId == 195279 then
 
 end]]
+
+function mod:OnSync(msg)
+	if msg == "RPHelya" then
+		timerRoleplay:Start(13)
+	end
+end
+
+function mod:CHAT_MSG_MONSTER_YELL(msg)
+	if msg == L.Helya or msg:find(L.Helya) then
+		self:SendSync("RPHelya")
+	end
+end
+
+function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
+	if spellId == 194102 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
+		specWarnPoisonousSludge:Show()
+		specWarnPoisonousSludge:Play("runaway")
+	end
+end
+mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
