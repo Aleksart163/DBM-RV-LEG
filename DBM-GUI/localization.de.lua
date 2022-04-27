@@ -4,10 +4,10 @@ local L = DBM_GUI_Translations
 
 L.MainFrame = "Deadly Boss Mods"
 
-L.TranslationByPrefix		= "Übersetzt von "
-L.TranslationBy 			= "Ebmor@EU-Malorne"
-L.Website					= "Besuche uns auf Discord: |cFF73C2FBhttps://discord.gg/deadlybossmods|r. Folge auf Twitter: @deadlybossmods oder @MysticalOS"
-L.WebsiteButton				= "Webseite"
+L.TranslationByPrefix		= "Adaptation for uwow.biz - "
+L.TranslationBy 			= "Aleksart163 (Tielle)"
+L.Website					= "Discord for communication on issues: Aleksart163#1671 and site for updating: |cFF73C2FBhttps://github.com/Aleksart163/DBM-for-Legion|r"
+L.WebsiteButton				= "Update"
 
 L.OTabBosses	= "Bosse"
 L.OTabOptions	= GAMEOPTIONS_MENU

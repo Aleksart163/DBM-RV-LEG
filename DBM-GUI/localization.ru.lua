@@ -5,8 +5,8 @@ local L = DBM_GUI_Translations
 
 L.MainFrame = "Deadly Boss Mods"
 
-L.TranslationByPrefix		= "Адаптация под Uwow - "
-L.TranslationBy 			= "Aleksart163. Оригинал - Swix, TOM_RUS"
+L.TranslationByPrefix		= "Адаптация под uwow.biz - "
+L.TranslationBy 			= "Aleksart163 (Tielle)"
 L.Website					= "Дискорд для связи по вопросам: Aleksart163#1671 и сайт для обновления: |cFF73C2FBhttps://github.com/Aleksart163/DBM-for-Legion|r"
 L.WebsiteButton				= "Обновление"
 
@@ -23,7 +23,7 @@ L.TabCategory_WOTLK 		= "Wrath of the Lich King"
 L.TabCategory_BC 			= "The Burning Crusade"
 L.TabCategory_CLASSIC		= "Classic"
 L.TabCategory_PVP 			= "PvP"
-L.TabCategory_OTHER 		= "Другие боссы"
+L.TabCategory_OTHER 		= "Другое"
 
 L.BossModLoaded 			= "%s - статистика"
 L.BossModLoad_now 			= [[Модуль для этих боссов не загружен. 
