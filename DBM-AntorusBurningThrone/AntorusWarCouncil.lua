@@ -6,7 +6,7 @@ mod:SetCreatureID(122367, 122369, 122333)--Chief Engineer Ishkar, General Erodus
 mod:SetEncounterID(2070)
 mod:SetZone()
 mod:SetBossHPInfoToHighest()
-mod:SetUsedIcons(7, 8)
+mod:SetUsedIcons(8, 7, 3, 2, 1)
 mod:SetHotfixNoticeRev(16939)
 mod.respawnTime = 29
 
@@ -100,12 +100,14 @@ local countdownFusillade				= mod:NewCountdown("AltTwo30", 244625) --Шквал�
 ----General Erodus
 --local countdownReinforcements			= mod:NewCountdown(25, 245546) --Вызов подкрепления
 
-mod:AddSetIconOption("SetIconOnAdds", 245546, true, true) --Вызов подкрепления
+mod:AddSetIconOption("SetIconOnAdds", 245546, true, true, {8, 7}) --Вызов подкрепления
+mod:AddSetIconOption("SetIconOnShockGrenade", 244737, true, false, {3, 2, 1}) --Шоковая граната
 mod:AddRangeFrameOption("8")
 
 local felShield = DBM:GetSpellInfo(244910)
 mod.vb.FusilladeCount = 0
 mod.vb.lastIcon = 8
+mod.vb.ShockGrenadeIcon = 1
 
 function mod:DemonicChargeTarget(targetname, uId)
 	if not targetname then return end
@@ -126,6 +128,7 @@ end
 function mod:OnCombatStart(delay)
 	self.vb.FusilladeCount = 0
 	self.vb.lastIcon = 8
+	self.vb.ShockGrenadeIcon = 1
 	--In pod
 	berserkTimer:Start(-delay)
 	timerEntropicMineCD:Start(5.1-delay)
@@ -233,6 +236,10 @@ function mod:SPELL_AURA_APPLIED(args)
 				DBM.RangeCheck:Show(8)
 			end
 		end
+		if self.Options.SetIconOnShockGrenade then
+			self:SetIcon(args.destName, self.vb.ShockGrenadeIcon)
+		end
+		self.vb.ShockGrenadeIcon = self.vb.ShockGrenadeIcon + 1
 	elseif spellId == 244892 then
 		local uId = DBM:GetRaidUnitId(args.destName)
 	--	if self:IsTanking(uId) then
@@ -287,6 +294,9 @@ function mod:SPELL_AURA_REMOVED(args)
 			if self.Options.RangeFrame then
 				DBM.RangeCheck:Hide()
 			end
+		end
+		if self.Options.SetIconOnShockGrenade then
+			self:SetIcon(args.destName, 0)
 		end
 	end
 end

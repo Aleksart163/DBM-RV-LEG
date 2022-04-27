@@ -72,7 +72,7 @@ local countdownFelHammer			= mod:NewCountdown("Alt18", 241636)
 
 local voicePhaseChange				= mod:NewVoice(nil, nil, DBM_CORE_AUTO_VOICE2_OPTION_TEXT)
 
-mod:AddSetIconOption("SetIconOnInfusion", 235271, true)
+mod:AddSetIconOption("SetIconOnInfusion", 235271, true, false, {4, 1})
 mod:AddInfoFrameOption(235117, true)
 
 mod.vb.unstableSoulCount = 0

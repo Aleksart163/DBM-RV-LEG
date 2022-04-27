@@ -6,7 +6,7 @@ mod:SetCreatureID(118460, 118462, 119072)--118460 Engine of Souls, 118462 Soul Q
 mod:SetEncounterID(2054)
 mod:SetZone()
 mod:SetBossHPInfoToHighest()
-mod:SetUsedIcons(3, 4)
+mod:SetUsedIcons(7, 8)
 mod:SetHotfixNoticeRev(16286)
 mod:SetMinSyncRevision(16483)
 mod.respawnTime = 40
@@ -89,7 +89,7 @@ local berserkTimer					= mod:NewBerserkTimer(480)
 local countdownSunderingDoom		= mod:NewCountdown(24.4, 236542)
 local countdownDoomedSundering		= mod:NewCountdown(24.4, 236544)
 
-mod:AddSetIconOption("SoulIcon", 236459, true)
+mod:AddSetIconOption("SoulIcon", 236459, true, false, {8, 7})
 mod:AddInfoFrameOption(235621, true)
 mod:AddRangeFrameOption(10, 236459)
 mod:AddNamePlateOption("NPAuraOnBonecageArmor", 236513)
@@ -101,7 +101,7 @@ mod.vb.wailingSoulsCast = 0
 mod.vb.tormentedCriesCast = 0
 mod.vb.boneArmorCount = 0
 mod.vb.phase = 1
-mod.vb.soulIcon = 3
+mod.vb.soulIcon = 7
 mod.vb.tankCount = 2
 local spiritRealm, boneArmor = DBM:GetSpellInfo(235621), DBM:GetSpellInfo(236513)
 local doBones = true
@@ -153,7 +153,7 @@ function mod:OnCombatStart(delay)
 	self.vb.tormentedCriesCast = 0
 	self.vb.boneArmorCount = 0
 	self.vb.phase = 1
-	self.vb.soulIcon = 3
+	self.vb.soulIcon = 7
 	self.vb.tankCount = self:GetNumAliveTanks() or 2
 	--timerCollapsingFissureCD:Start(9.7-delay)
 	timerSoulbindCD:Start(14.2-delay, 1)
@@ -293,8 +293,8 @@ function mod:SPELL_AURA_APPLIED(args)
 			self:SetIcon(args.destName, self.vb.soulIcon)
 		end
 		self.vb.soulIcon = self.vb.soulIcon + 1
-		if self.vb.soulIcon > 4 then
-			self.vb.soulIcon = 3
+		if self.vb.soulIcon > 8 then
+			self.vb.soulIcon = 7
 		end
 	elseif spellId == 235924 then
 		self.vb.spearCast = self.vb.spearCast + 1

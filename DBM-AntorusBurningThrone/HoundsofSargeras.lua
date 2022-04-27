@@ -6,7 +6,7 @@ mod:SetCreatureID(122477, 122135)--122477 F'harg, 122135 Shatug
 mod:SetEncounterID(2074)
 mod:SetZone()
 mod:SetBossHPInfoToHighest()
-mod:SetUsedIcons(1, 2, 3, 4, 5, 6)
+mod:SetUsedIcons(6, 5, 4, 3, 2, 1)
 mod:SetHotfixNoticeRev(16949)
 mod.respawnTime = 29--Guessed, it's not 4 anymore
 
@@ -82,7 +82,7 @@ local countdownBurningMaw				= mod:NewCountdown("Alt10", 251448, "Tank", nil, 3)
 --Shatug
 local countdownCorruptingMaw			= mod:NewCountdown("Alt10", 251447, "Tank", nil, 3) --Заразная пасть
 
-mod:AddSetIconOption("SetIconOnWeightofDarkness2", 254429, false) --Бремя тьмы
+mod:AddSetIconOption("SetIconOnWeightofDarkness2", 254429, true, false, {6, 5, 4, 3, 2, 1}) --Бремя тьмы
 --mod:AddInfoFrameOption(239154, true)
 mod:AddRangeFrameOption("5/8")
 mod:AddBoolOption("SequenceTimers", false)

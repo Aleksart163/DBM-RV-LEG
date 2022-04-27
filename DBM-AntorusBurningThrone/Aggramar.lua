@@ -79,8 +79,8 @@ local countdownTaeshalachTech			= mod:NewCountdown(61, 244688) --Искусны�
 local countdownFlare					= mod:NewCountdown("Alt15", 245983, "-Tank") --Вспышка
 --local countdownWakeofFlame				= mod:NewCountdown("AltTwo24", 244693, "-Tank") --Огненная волна
 
-mod:AddSetIconOption("SetIconOnBlaze2", 254452, true) --Хищное пламя Both off by default, both conflit with one another
-mod:AddSetIconOption("SetIconOnAdds", 244903, false, true) --Катализирующее присутствие Both off by default, both conflit with one another
+mod:AddSetIconOption("SetIconOnBlaze2", 254452, true, false, {5, 4, 3, 2, 1}) --Хищное пламя Both off by default, both conflit with one another
+--mod:AddSetIconOption("SetIconOnAdds", 244903, false, true) --Катализирующее присутствие Both off by default, both conflit with one another
 mod:AddInfoFrameOption(244688, true) --Искусный прием
 mod:AddRangeFrameOption("6", nil, "Ranged")
 mod:AddNamePlateOption("NPAuraOnPresence", 244903) --Катализирующее присутствие
@@ -566,9 +566,9 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerFoeBreakerCD:Stop()
 		timerFlameRendCD:Stop()
 		timerTempestCD:Stop()
-		if self.Options.SetIconOnAdds then
+	--[[	if self.Options.SetIconOnAdds then
 			self:ScheduleMethod(2, "ScanForMobs", 122532, 1, 1, 5, 0.1, 12, "SetIconOnAdds", nil, nil, true)
-		end
+		end]]
 		if self.Options.RangeFrame and not self:IsTank() then
 			DBM.RangeCheck:Hide()
 		end

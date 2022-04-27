@@ -6,7 +6,7 @@ mod:SetCreatureID(122450)
 mod:SetEncounterID(2076)
 mod:SetZone()
 --mod:SetBossHPInfoToHighest()
-mod:SetUsedIcons(1, 2, 3, 4, 5, 6, 7)
+mod:SetUsedIcons(8, 6, 5, 4, 3, 2, 1)
 mod:SetHotfixNoticeRev(16962)
 mod:SetMinSyncRevision(16962)
 mod.respawnTime = 29
@@ -44,6 +44,7 @@ local specWarnFelBombardment			= mod:NewSpecialWarningMoveAway(246220, nil, nil,
 local specWarnFelBombardmentTaunt		= mod:NewSpecialWarningTaunt(246220, nil, nil, nil, 3, 5) --Обстрел скверны
 local specWarnApocDrive					= mod:NewSpecialWarningSwitch(244152, nil, nil, nil, 1, 2) --Реактор апокалипсиса
 local specWarnEradication				= mod:NewSpecialWarningRun(244969, nil, nil, nil, 4, 5) --Искоренение
+local specWarnEradication2				= mod:NewSpecialWarningDefensive(244969, nil, nil, nil, 3, 5) --Искоренение
 --local specWarnGTFO					= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 2)
 --Decimator
 local specWarnDecimation				= mod:NewSpecialWarningMoveAway(244410, nil, nil, nil, 4, 5) --Децимация
@@ -57,12 +58,14 @@ local timerFelBombardmentCD				= mod:NewNextTimer(20.7, 246220, nil, "Tank", nil
 local timerApocDriveCast				= mod:NewCastTimer(30, 244152, nil, nil, nil, 6, nil, DBM_CORE_DEADLY_ICON) --Реактор апокалипсиса
 local timerSurgingFelCD					= mod:NewCDTimer(7, 246663, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Всплеск скверны
 local timerSurgingFelCast				= mod:NewCastTimer(4, 246663, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Всплеск скверны
+local timerEradicationCast				= mod:NewCastTimer(6, 244969, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Искоренение
 local timerSpecialCD					= mod:NewNextSpecialTimer(20) --Когда оружие неизвестно
 mod:AddTimerLine(Decimator)
 local timerDecimationCD					= mod:NewNextTimer(31.6, 244410, nil, nil, nil, 3) --Децимация
 mod:AddTimerLine(annihilator)
 local timerAnnihilationCD				= mod:NewNextTimer(31.6, 244761, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Аннигиляция
 
+local yellFelBombardment2				= mod:NewYell(246220, nil, nil, nil, "YELL") --Обстрел скверны
 local yellFelBombardment				= mod:NewFadesYell(246220, nil, nil, nil, "YELL") --Обстрел скверны
 local yellDecimation					= mod:NewYell(244410, nil, nil, nil, "YELL") --Децимация
 local yellDecimationFades				= mod:NewShortFadesYell(244410, nil, nil, nil, "YELL") --Децимация
@@ -72,8 +75,8 @@ local berserkTimer						= mod:NewBerserkTimer(600)
 local countdownChooseCannon				= mod:NewCountdown(15, 245124)
 local countdownFelBombardment			= mod:NewCountdown("Alt20", 246220, "Tank") --Обстрел скверны
 
-mod:AddSetIconOption("SetIconOnDecimation", 244410, true) --Децимация
-mod:AddSetIconOption("SetIconOnBombardment", 246220, true) --Обстрел скверны
+mod:AddSetIconOption("SetIconOnDecimation", 244410, true, false, {6, 5, 4, 3, 2, 1}) --Децимация
+mod:AddSetIconOption("SetIconOnBombardment", 246220, true, false, {8}) --Обстрел скверны
 mod:AddRangeFrameOption("7/17")
 
 mod.vb.deciminationActive = 0
@@ -136,12 +139,22 @@ end
 
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
-	if spellId == 244969 and self:AntiSpam(5, 1) then
+	if spellId == 244969 and self:AntiSpam(5, 1) then --Искоренение
 		specWarnEradication:Show()
 		specWarnEradication:Play("justrun")
 		if self:IsMythic() then
 			specWarnEradication:ScheduleVoice(1.5, "keepmove")
+			specWarnEradication2:Schedule(2.5)
+			timerEradicationCast:Start(5.5)
+			countdownChooseCannon:Start(5.5)
+		else
+			specWarnEradication2:Schedule(2.5)
+			timerEradicationCast:Start(5.5)
+			countdownChooseCannon:Start(5.5)
 		end
+		timerSurgingFelCD:Cancel()
+		timerSurgingFelCast:Cancel()
+		specWarnSurgingFel:Cancel()
 	elseif spellId == 240277 then --Реактор апокалипсиса
 		timerDecimationCD:Stop()
 		timerFelBombardmentCD:Stop()
@@ -151,8 +164,15 @@ function mod:SPELL_CAST_START(args)
 		specWarnApocDrive:Show()
 		specWarnApocDrive:Play("targetchange")
 		timerApocDriveCast:Start()
-		timerSurgingFelCast:Schedule(10.5) --в других сложностях возможны другие цифры
-		specWarnSurgingFel:Schedule(10.5)
+		if self:IsHeroic() then
+			timerSurgingFelCD:Start(10.5)
+			timerSurgingFelCast:Schedule(10.5) --в других сложностях возможны другие цифры
+			specWarnSurgingFel:Schedule(10.5)
+		elseif self:IsMythic() then
+			timerSurgingFelCD:Start(5.5)
+			timerSurgingFelCast:Schedule(5.5)
+			specWarnSurgingFel:Schedule(5.5)
+		end
 	end
 end
 
@@ -181,9 +201,15 @@ function mod:SPELL_CAST_SUCCESS(args)
 			end
 		end
 	elseif spellId == 246663 then --Всплеск скверны
-		timerSurgingFelCD:Start()
-		timerSurgingFelCast:Schedule(7)
-		specWarnSurgingFel:Schedule(7)
+		if self:IsHeroic() then
+			timerSurgingFelCD:Start()
+			specWarnSurgingFel:Schedule(7)
+			timerSurgingFelCast:Schedule(7)
+		elseif self:IsMythic() then
+			timerSurgingFelCD:Start(1)
+			specWarnSurgingFel:Schedule(1)
+			timerSurgingFelCast:Schedule(1)
+		end
 	elseif spellId == 244969 then --Искоренение
 		if self.vb.phase == 2 then
 			timerSurgingFelCD:Cancel()
@@ -206,14 +232,15 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnFelBombardment:Show()
 			specWarnFelBombardment:Play("runout")
 			specWarnFelBombardment:ScheduleVoice(7, "keepmove")
-			yellFelBombardment:Countdown(7)
+			yellFelBombardment2:Yell()
+			yellFelBombardment:Countdown(7, 5)
 		elseif self:IsTank() then
 			specWarnFelBombardmentTaunt:Show(args.destName)
 			specWarnFelBombardmentTaunt:Play("tauntboss")
 		end
 		updateRangeFrame(self)
 		if self.Options.SetIconOnBombardment then
-			self:SetIcon(args.destName, 7, 13)
+			self:SetIcon(args.destName, 8, 13)
 		end
 	elseif spellId == 244410 or spellId == 246919 then --Децимация
 		self.vb.deciminationActive = self.vb.deciminationActive + 1

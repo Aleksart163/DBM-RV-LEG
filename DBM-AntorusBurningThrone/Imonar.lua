@@ -6,7 +6,7 @@ mod:SetCreatureID(124158)--or 124158 or 125692
 mod:SetEncounterID(2082)
 mod:SetZone()
 --mod:SetBossHPInfoToHighest()
-mod:SetUsedIcons(1, 2, 3, 4, 5, 6, 7, 8)
+mod:SetUsedIcons(8, 7, 6, 5, 4, 3, 2, 1)
 mod:SetHotfixNoticeRev(16961)
 mod.respawnTime = 30
 
@@ -87,8 +87,8 @@ local countdownPulseGrenade				= mod:NewCountdown(17, 247376) --Импульсн
 --Stage Two: Contract to Kill
 local countdownChargedBlasts			= mod:NewCountdown("AltTwo18", 247716) --Направленные взрывы
 
-mod:AddSetIconOption("SetIconOnSleepCanister", 247552, true) --Склянка с усыпляющим газом
-mod:AddSetIconOption("SetIconOnEmpPulse2", 250006, true) --Усиленная импульсная граната
+mod:AddSetIconOption("SetIconOnSleepCanister", 247552, true, false, {3, 2, 1}) --Склянка с усыпляющим газом
+mod:AddSetIconOption("SetIconOnEmpPulse2", 250006, true, false, {8, 7, 6, 5, 4}) --Усиленная импульсная граната
 mod:AddInfoFrameOption(250006, true) --Усиленная импульсная граната
 mod:AddRangeFrameOption("5/10")
 

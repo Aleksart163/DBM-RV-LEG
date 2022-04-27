@@ -6,7 +6,7 @@ mod:SetCreatureID(122366)
 mod:SetEncounterID(2069)
 mod:SetZone()
 --mod:SetBossHPInfoToHighest()
-mod:SetUsedIcons(1, 3, 4)
+mod:SetUsedIcons(8, 4, 3)
 mod:SetHotfixNoticeRev(17238)
 mod.respawnTime = 29
 
@@ -15,7 +15,7 @@ mod:RegisterCombat("yell", L.YellPullVarimathras)
 mod:RegisterCombat("yell", L.YellPullVarimathras2)
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_SUCCESS 243960 244093 243999 257644",
+	"SPELL_CAST_SUCCESS 243960 244093 243999 257644 122366",
 	"SPELL_AURA_APPLIED 243961 244042 244094 248732 243968 243977 243980 243973",
 	"SPELL_AURA_REMOVED 244042 244094",
 	"SPELL_PERIODIC_DAMAGE 244005 248740",
@@ -40,12 +40,12 @@ local warnNecroticEmbrace				= mod:NewTargetAnnounce(244094, 4) --Некроти
 local warnEchoesofDoom					= mod:NewTargetAnnounce(248732, 3) --Отголоски гибели
 
 --Torments of the Shivarra
-local specWarnGTFO						= mod:NewSpecialWarningYouMove(244005, nil, nil, nil, 1, 2)
-local specWarnGTFO2						= mod:NewSpecialWarningYouMove(248740, nil, nil, nil, 1, 2)
+local specWarnGTFO						= mod:NewSpecialWarningYouMove(244005, nil, nil, nil, 1, 2) --Темный разлом
+local specWarnGTFO2						= mod:NewSpecialWarningYouMove(248740, nil, nil, nil, 1, 2) --Отголоски гибели
 --The Fallen Nathrezim
-local specWarnMisery					= mod:NewSpecialWarningYou(243961, nil, nil, nil, 1, 2)
-local specWarnMiseryTaunt				= mod:NewSpecialWarningTaunt(243961, nil, nil, nil, 1, 2)
-local specWarnDarkFissure				= mod:NewSpecialWarningDodge(243999, nil, nil, nil, 2, 2)
+local specWarnMisery					= mod:NewSpecialWarningYou(243961, nil, nil, nil, 1, 2) --Страдания
+local specWarnMiseryTaunt				= mod:NewSpecialWarningTaunt(243961, nil, nil, nil, 1, 2) --Страдания
+local specWarnDarkFissure				= mod:NewSpecialWarningDodge(243999, nil, nil, nil, 2, 2) --Темный разлом
 local specWarnMarkedPrey				= mod:NewSpecialWarningYou(244042, nil, nil, 2, 1, 2) --Метка жертвы
 local specWarnNecroticEmbrace			= mod:NewSpecialWarningYouMoveAway(244094, nil, nil, 3, 3, 5) --Некротические объятия
 local specWarnNecroticEmbrace2			= mod:NewSpecialWarningCloseMoveAway(244094, nil, nil, nil, 2, 5) --Некротические объятия
@@ -59,13 +59,15 @@ local timerTormentofShadowsCD			= mod:NewNextTimer(61, 243974, nil, nil, nil, 6)
 --The Fallen Nathrezim
 mod:AddTimerLine(BOSS)
 local timerShadowStrikeCD				= mod:NewCDTimer(8.5, 243960, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Теневой удар 8.5-14 (most of time it's 9.7 or more, But lowest has to be used
-local timerDarkFissureCD				= mod:NewCDTimer(32, 243999, nil, nil, nil, 2)--32-33
-local timerMarkedPreyCD					= mod:NewNextTimer(30.3, 244042, nil, nil, nil, 3) --Метка жертвы
+local timerDarkFissureCD				= mod:NewCDTimer(32, 243999, nil, nil, nil, 2) --Темный разлом 32-33
+local timerMarkedPreyCD					= mod:NewNextTimer(30.5, 244042, nil, nil, nil, 3) --Метка жертвы
 local timerNecroticEmbraceCD			= mod:NewNextTimer(30, 244093, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Некротические объятия
 
 local yellMarkedPrey					= mod:NewYell(244042, nil, nil, nil, "YELL") --Метка жертвы
 local yellMarkedPreyFades				= mod:NewShortFadesYell(244042, nil, nil, nil, "YELL") --Метка жертвы
-local yellNecroticEmbrace				= mod:NewYell(244094, nil, nil, nil, "YELL") --Некротические объятия
+local yellNecroticEmbrace2				= mod:NewYell(244094, nil, nil, nil, "YELL") --Некротические объятия
+local yellNecroticEmbrace				= mod:NewPosYell(244094, nil, nil, nil, "YELL") --Некротические объятия
+local yellNecroticEmbrace3				= mod:NewFadesYell(244094, nil, nil, nil, "YELL") --Некротические объятия
 local yellNecroticEmbraceFades			= mod:NewIconFadesYell(244094, nil, nil, nil, "YELL") --Некротические объятия
 local yellEchoesOfDoom					= mod:NewYell(248732, nil, nil, nil, "YELL") --Отголоски гибели
 
@@ -76,8 +78,8 @@ local countdownShadowStrike				= mod:NewCountdown("Alt9", 243960, "Tank", nil, 3
 local countdownMarkedPrey				= mod:NewCountdown(30, 244042) --Метка жертвы
 local countdownNecroticEmbrace			= mod:NewCountdown("AltTwo30", 244093) --Некротические объятия
 
-mod:AddSetIconOption("SetIconOnMarkedPrey", 244042, true) --Метка жертвы
-mod:AddSetIconOption("SetIconEmbrace", 244094, true) --Некротические объятия
+mod:AddSetIconOption("SetIconOnMarkedPrey", 244042, true, false, {8}) --Метка жертвы
+mod:AddSetIconOption("SetIconEmbrace", 244094, true, false, {4, 3}) --Некротические объятия
 --mod:AddInfoFrameOption(239154, true)
 mod:AddRangeFrameOption("8/10")
 
@@ -92,9 +94,9 @@ function mod:OnCombatStart(delay)
 	timerTormentofFlamesCD:Start(5-delay)
 	timerShadowStrikeCD:Start(9.3-delay)
 	countdownShadowStrike:Start(9.3-delay)
-	timerDarkFissureCD:Start(17.4-delay)--success
 	timerMarkedPreyCD:Start(25.2-delay)
 	countdownMarkedPrey:Start(25.2-delay)
+	timerDarkFissureCD:Start(15.4-delay)
 	if not self:IsEasy() then
 		timerNecroticEmbraceCD:Start(35-delay)
 		countdownNecroticEmbrace:Start(35-delay)
@@ -125,15 +127,26 @@ function mod:SPELL_CAST_SUCCESS(args)
 		timerShadowStrikeCD:Show()
 		countdownShadowStrike:Start(9)
 	elseif spellId == 244093 then--Necrotic Embrace Cast
-		timerNecroticEmbraceCD:Start()
-		countdownNecroticEmbrace:Start(30.3)
-	elseif spellId == 243999 then
+		if self:IsHeroic() then
+			timerNecroticEmbraceCD:Start()
+			countdownNecroticEmbrace:Start(30.3)
+		else
+			timerNecroticEmbraceCD:Start()
+			countdownNecroticEmbrace:Start(30.3)
+		end
+	elseif spellId == 243999 then --Темный разлом
 		specWarnDarkFissure:Show()
 		specWarnDarkFissure:Play("watchstep")
-		timerDarkFissureCD:Start()
-	elseif spellId == 122366 then
-		timerMarkedPreyCD:Start()
-		countdownMarkedPrey:Start(30.3)
+		if self:IsHeroic() then
+			timerDarkFissureCD:Start(30.8)
+		elseif self:IsMythic() then
+			timerDarkFissureCD:Start(30.7)
+		else
+			timerDarkFissureCD:Start(32)
+		end
+	elseif spellId == 122366 then --Метка жертвы
+		timerMarkedPreyCD:Start(30.5)
+		countdownMarkedPrey:Start(30.5)
 	end
 end
 
@@ -162,7 +175,10 @@ function mod:SPELL_AURA_APPLIED(args)
 		else
 			warnMarkedPrey:Show(args.destName)
 		end
-	elseif spellId == 244094 then
+		if self.Options.SetIconOnMarkedPrey then
+			self:SetIcon(args.destName, 8, 7)
+		end
+	elseif spellId == 244094 then --Некротические объятия
 		self.vb.totalEmbrace = self.vb.totalEmbrace + 1
 		if self.vb.totalEmbrace >= 3 then return end--Once it's beyond 2 players, consider it a wipe and throttle messages
 		if self.Options.SetIconEmbrace then
@@ -181,7 +197,7 @@ function mod:SPELL_AURA_APPLIED(args)
 						specWarnNecroticEmbrace:Play("targetyou")
 					end
 					yellNecroticEmbrace:Yell(self.vb.totalEmbrace, icon, icon)
-					yellNecroticEmbraceFades:Countdown(6, 3, icon)
+					yellNecroticEmbraceFades:Countdown(6, 4, icon)
 					if self.Options.RangeFrame then
 						DBM.RangeCheck:Show(10)
 					end
@@ -198,8 +214,8 @@ function mod:SPELL_AURA_APPLIED(args)
 					else
 						specWarnNecroticEmbrace:Play("targetyou")
 					end
-					yellNecroticEmbrace:Yell(self.vb.totalEmbrace, icon, icon)
-					yellNecroticEmbraceFades:Countdown(6, 3, icon)
+					yellNecroticEmbrace2:Yell()
+					yellNecroticEmbrace3:Countdown(6, 3)
 					if self.Options.RangeFrame then
 						DBM.RangeCheck:Show(10)
 					end

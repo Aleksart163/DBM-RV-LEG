@@ -6,7 +6,7 @@ mod:SetCreatureID(124828)
 mod:SetEncounterID(2092)
 mod:SetZone()
 mod:SetBossHPInfoToHighest()--Because of heal on mythic
-mod:SetUsedIcons(1, 2, 3, 4, 5, 6, 7)
+mod:SetUsedIcons(1, 2, 3, 4, 5, 6, 7, 8)
 mod:SetHotfixNoticeRev(16993)
 mod:SetMinSyncRevision(16895)
 mod.respawnTime = 29
@@ -156,11 +156,11 @@ local countdownSoulScythe			= mod:NewCountdown("Alt5", 258838, "Tank", nil, 3) -
 local countdownDeadlyScythe			= mod:NewCountdown("Alt5", 258039, false, nil, 3) --Смертоносная коса Off by default since it'd be almost non stop, so users can elect into this one
 local countdownReorgModule			= mod:NewCountdown("Alt48", 256389, "-Tank")
 
-mod:AddSetIconOption("SetIconGift", 255594, true) --Небо и море 5 and 6
-mod:AddSetIconOption("SetIconOnAvatar", 255199, true) --Аватара Агграмара 4
-mod:AddSetIconOption("SetIconOnSoulBomb", 251570, true) --Бомба души 3 and 7
-mod:AddSetIconOption("SetIconOnSoulBurst", 250669, true)--2 --Взрывная душа
-mod:AddSetIconOption("SetIconOnVulnerability", 255418, true, true)--1-7
+mod:AddSetIconOption("SetIconGift", 255594, true, false, {6, 5}) --Небо и море 5 and 6
+mod:AddSetIconOption("SetIconOnAvatar", 255199, true, false, {4}) --Аватара Агграмара 4
+mod:AddSetIconOption("SetIconOnSoulBomb", 251570, true, false, {8}) --Бомба души
+mod:AddSetIconOption("SetIconOnSoulBurst", 250669, true, false, {7, 3}) --Взрывная душа
+mod:AddSetIconOption("SetIconOnVulnerability", 255418, true, true, {7, 6, 5, 4, 3, 2, 1}) --дебаффы кураторов 1-7
 mod:AddInfoFrameOption(nil, true)--Change to EJ entry since spell not localized
 mod:AddRangeFrameOption(5, 257869) --Ярость Саргераса
 mod:AddNamePlateOption("NPAuraOnInevitability", 253021)
@@ -337,7 +337,6 @@ function mod:OnCombatStart(delay)
 	warned_preP6 = false
 	timerSweepingScytheCD:Start(5.5-delay, 1)
 	countdownSweapingScythe:Start(5.5)
-	timerSkyandSeaCD:Start(10.1-delay, 1)
 	timerTorturedRageCD:Start(12-delay, 1)
 	timerConeofDeathCD:Start(30.3-delay, 1)
 	timerBlightOrbCD:Start(35.2-delay, 1)
@@ -346,8 +345,16 @@ function mod:OnCombatStart(delay)
 		countdownSargGaze:Start(8.2)
 		self:Schedule(6.2, ToggleRangeFinder, self)--Call Show 5 seconds Before NEXT rages get applied (2 seconds before cast + 3 sec cast time)
 		berserkTimer:Start(660-delay)
+		timerSkyandSeaCD:Start(10.1-delay, 1)
+		timerConeofDeathCD:Start(30.3-delay, 1)
+	elseif self:IsHeroic() then
+		berserkTimer:Start(720-delay)
+		timerSkyandSeaCD:Start(11.5-delay, 1)
+		timerConeofDeathCD:Start(31-delay, 1)
 	else
 		berserkTimer:Start(720-delay)
+		timerSkyandSeaCD:Start(10.1-delay, 1)
+		timerConeofDeathCD:Start(30.3-delay, 1)
 	end
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:Show(6, "function", updateInfoFrame, false, false)
@@ -393,7 +400,11 @@ function mod:SPELL_CAST_START(args)
 		end
 	elseif spellId == 255594 then
 		self.vb.SkyandSeaCount = self.vb.SkyandSeaCount + 1
-		timerSkyandSeaCD:Start(nil, self.vb.SkyandSeaCount+1)
+		if self:IsHeroic() then
+			timerSkyandSeaCD:Start(26, self.vb.SkyandSeaCount+1)
+		else
+			timerSkyandSeaCD:Start(nil, self.vb.SkyandSeaCount+1)
+		end
 	elseif spellId == 252516 then
 		warnDiscsofNorg:Show()
 		timerDiscsofNorg:Start()
@@ -622,7 +633,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			warnSoulbomb:Show(args.destName)
 		end
 		if self.Options.SetIconOnSoulBomb then
-			self:SetIcon(args.destName, 2)
+			self:SetIcon(args.destName, 8)
 		end
 		if self.vb.phase == 4 then
 			timerSoulBurstCD:Start(40, 2)

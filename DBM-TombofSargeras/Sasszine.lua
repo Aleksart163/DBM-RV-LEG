@@ -87,7 +87,7 @@ local countdownBurdenofPain			= mod:NewCountdown("Alt28", 230201, "Tank")
 --Stage One: Ten Thousand Fangs
 local countdownSlicingTorando		= mod:NewCountdown("AltTwo43", 232722)
 
-mod:AddSetIconOption("SetIconOnHydraShot", 230139, true)
+mod:AddSetIconOption("SetIconOnHydraShot", 230139, true, false, {4, 3, 2, 1})
 mod:AddBoolOption("TauntOnPainSuccess", false)
 --mod:AddInfoFrameOption(227503, true)
 --mod:AddRangeFrameOption("5/8/15")
