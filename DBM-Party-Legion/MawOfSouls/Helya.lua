@@ -40,6 +40,9 @@ local timerSubmerged2					= mod:NewCDTimer(74.5, 196947, nil, nil, nil, 6) --П�
 local timerBreathCD						= mod:NewNextTimer(21, 227233, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Оскверняющий рев
 local timerTorrentCD					= mod:NewCDTimer(9.7, 198495, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON) --Стремительный поток often delayed and after breath so often will see 12-14
 
+local yellTaintofSea					= mod:NewYell(197262, nil, nil, nil, "YELL") --Морская порча
+local yellTaintofSea2					= mod:NewFadesYell(197262, nil, nil, nil, "YELL") --Морская порча
+
 local countdownBreath					= mod:NewCountdown(21, 227233) --Оскверняющий рев
 local countdownSubmerged				= mod:NewCountdown(74.5, 196947) --Погружение
 
@@ -107,8 +110,12 @@ function mod:SPELL_AURA_APPLIED(args)
 			warnPhase2:Schedule(15)
 			warnPhase2:Play("phasechange")
 		end
-	elseif spellId == 197262 then
+	elseif spellId == 197262 then --Морская порча
 		warnTaintofSea:Show(args.destName)
+		if args:IsPlayer() then
+			yellTaintofSea:Yell()
+			yellTaintofSea2:Countdown(20, 3)
+		end
 		if self.vb.phase == 1 then
 			timerTaintofSeaCD:Start()
 		else
