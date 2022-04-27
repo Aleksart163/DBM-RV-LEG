@@ -136,6 +136,10 @@ function mod:SPELL_AURA_REMOVED(args)
 		timerBreathCD:Start(19)
 		countdownBreath:Start(19)
 		timerTaintofSeaCD:Start(10)
+	elseif spellId == 197262 then --Морская порча
+		if args:IsPlayer() then
+			yellTaintofSea2:Cancel()
+		end
 	end
 end
 
