@@ -5,6 +5,7 @@ mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 mod:SetCreatureID(96759)
 mod:SetEncounterID(1824)
 mod:SetZone()
+mod:SetUsedIcons(8, 7)
 
 mod:RegisterCombat("combat")
 
@@ -13,18 +14,19 @@ mod:RegisterEventsInCombat(
 --	"SPELL_CAST_SUCCESS 197262",
 	"SPELL_ABSORBED 197262",
 	"SPELL_AURA_APPLIED 196947 197262",
-	"SPELL_AURA_REMOVED 196947",
+	"SPELL_AURA_REMOVED 196947 197262",
 	"CHAT_MSG_RAID_BOSS_EMOTE",
 	"UNIT_SPELLCAST_SUCCEEDED boss1",
 	"UNIT_HEALTH boss1"
 )
 
-local warnPhase							= mod:NewAnnounce("Phase1", 1, 196947) --Скоро фаза 2
-local warnPhase2						= mod:NewAnnounce("Phase2", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Фаза 2
-local warnTaintofSea					= mod:NewTargetAnnounce(197262, 2, nil, false) --Морская порча
+local warnPhase							= mod:NewAnnounce("Phase1", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 2
+local warnPhase2						= mod:NewAnnounce("Phase2", 1, 196947) --Фаза 2 
+local warnTaintofSea					= mod:NewTargetAnnounce(197262, 2) --Морская порча
 local warnSubmerged						= mod:NewSpellAnnounce(196947, 2) --Погружение
 local warnSubmerged2					= mod:NewPreWarnAnnounce(196947, 5, 1) --Погружение
 
+--local specWarnTaintofSea				= mod:NewSpecialWarningYouMoveAway(197262, nil, nil, nil, 3, 5) --Морская порча
 local specWarnDestructorTentacle		= mod:NewSpecialWarningSwitch("ej12364", "Tank") --Щупальце разрушения
 local specWarnBrackwaterBarrage			= mod:NewSpecialWarningDodge(202088, nil, nil, nil, 3, 5) --Обстрел солоноватой водой Tank stays with destructor tentacle no matter what
 local specWarnSubmergedOver				= mod:NewSpecialWarningEnd(196947, nil, nil, nil, 1, 2) --Погружение
@@ -46,12 +48,16 @@ local yellTaintofSea2					= mod:NewFadesYell(197262, nil, nil, nil, "YELL") --М
 local countdownBreath					= mod:NewCountdown(21, 227233) --Оскверняющий рев
 local countdownSubmerged				= mod:NewCountdown(74.5, 196947) --Погружение
 
+mod:AddSetIconOption("SetIconOnTaintofSea", 197262, true, false, {8, 7}) --Морская порча
+
 mod.vb.phase = 1
+mod.vb.taintofseaIcon = 7
 local warned_preP1 = false
 local warned_preP2 = false
 
 function mod:OnCombatStart(delay)
 	self.vb.phase = 1
+	self.vb.taintofseaIcon = 7
 	warned_preP1 = false
 	warned_preP2 = false
 	timerPiercingTentacleCD:Start(8.5)
@@ -111,19 +117,29 @@ function mod:SPELL_AURA_APPLIED(args)
 			warnPhase2:Play("phasechange")
 		end
 	elseif spellId == 197262 then --Морская порча
+		self.vb.taintofseaIcon = self.vb.taintofseaIcon + 1
 		warnTaintofSea:Show(args.destName)
 		if args:IsPlayer() then
+		--	specWarnTaintofSea:Schedule(18)
 			yellTaintofSea:Yell()
-			yellTaintofSea2:Countdown(21, 3)
+		--	yellTaintofSea2:Countdown(21, 3)
 		end
 		if self.vb.phase == 1 then
 			timerTaintofSeaCD:Start()
 		else
 			timerTaintofSeaCD:Start(20)
 		end
+		if self.Options.SetIconOnTaintofSea then
+			self:SetIcon(args.destName, self.vb.taintofseaIcon)
+		end
+		if self.vb.taintofseaIcon == 7 then
+			self.vb.taintofseaIcon = 8
+		else
+			self.vb.taintofseaIcon = 7
+		end
 	end
 end
-mod.SPELL_AURA_APPLIED = mod.SPELL_ABSORBED
+--mod.SPELL_AURA_APPLIED = mod.SPELL_ABSORBED
 
 function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
@@ -137,8 +153,13 @@ function mod:SPELL_AURA_REMOVED(args)
 		countdownBreath:Start(19)
 		timerTaintofSeaCD:Start(10)
 	elseif spellId == 197262 then --Морская порча
+	--	self.vb.taintofseaIcon = self.vb.taintofseaIcon - 1
 		if args:IsPlayer() then
+			specWarnTaintofSea:Cancel()
 			yellTaintofSea2:Cancel()
+		end
+		if self.Options.SetIconOnTaintofSea then
+			self:SetIcon(args.destName, 0)
 		end
 	end
 end

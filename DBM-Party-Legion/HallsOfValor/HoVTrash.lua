@@ -18,7 +18,7 @@ mod:RegisterEvents(
 	"SPELL_PERIODIC_MISSED 198959",
 	"UNIT_DIED"
 )
-
+--Чертоги доблести
 local warnCrackle					= mod:NewTargetAnnounce(199805, 2) --Разряд
 
 local specWarnEtch					= mod:NewSpecialWarningYouMove(198959, nil, nil, nil, 1, 2) --Гравировка

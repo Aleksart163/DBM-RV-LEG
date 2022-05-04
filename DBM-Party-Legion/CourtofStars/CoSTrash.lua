@@ -18,6 +18,7 @@ mod:RegisterEvents(
 
 --Квартал звезд
 local warnPhase2					= mod:NewAnnounce("warnSpy", 1, 248732) --Шпион обнаружен , nil, nil, true
+local warnDrainMagic				= mod:NewCastAnnounce(209485, 4) --Похищение магии
 
 local specWarnFelDetonation			= mod:NewSpecialWarningDodge(211464, nil, nil, nil, 2, 3) --Взрыв Скверны
 local specWarnDisintegrationBeam	= mod:NewSpecialWarningYouDefensive(207981, nil, nil, nil, 3, 6) --Луч дезинтеграции
@@ -26,7 +27,7 @@ local specWarnFortification			= mod:NewSpecialWarningDispel(209033, "MagicDispel
 local specWarnQuellingStrike		= mod:NewSpecialWarningDodge(209027, "Tank", nil, nil, 1, 2)
 local specWarnChargedBlast			= mod:NewSpecialWarningDodge(212031, "Tank", nil, nil, 1, 2)
 local specWarnChargedSmash			= mod:NewSpecialWarningDodge(209495, "Tank", nil, nil, 1, 2)
-local specWarnDrainMagic			= mod:NewSpecialWarningInterrupt(209485, "HasInterrupt", nil, nil, 1, 2)
+local specWarnDrainMagic			= mod:NewSpecialWarningInterrupt(209485, "HasInterrupt", nil, nil, 3, 5) --Похищение магии
 local specWarnNightfallOrb			= mod:NewSpecialWarningInterrupt(209410, "HasInterrupt", nil, nil, 1, 2)
 local specWarnSuppress				= mod:NewSpecialWarningInterrupt(209413, "HasInterrupt", nil, nil, 1, 2)
 local specWarnBewitch				= mod:NewSpecialWarningInterrupt(211470, "HasInterrupt", nil, nil, 1, 2)
@@ -57,9 +58,14 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 212031 and self:AntiSpam(2, 2) then
 		specWarnChargedBlast:Show()
 		specWarnChargedBlast:Play("shockwave")
-	elseif spellId == 209485 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
-		specWarnDrainMagic:Show(args.sourceName)
-		specWarnDrainMagic:Play("kickcast")
+	elseif spellId == 209485 then --Похищение магии
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnDrainMagic:Show(args.sourceName)
+			specWarnDrainMagic:Play("kickcast")
+		else
+			warnDrainMagic:Show()
+			warnDrainMagic:Play("kickcast")
+		end
 	elseif spellId == 209410 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
 		specWarnNightfallOrb:Show(args.sourceName)
 		specWarnNightfallOrb:Play("kickcast")
@@ -228,8 +234,12 @@ do
 		DBM.InfoFrame:Hide()
 	end
 	
+	function mod:Finish()
+		warnPhase2:Show()
+	end
+	
 	function mod:CHAT_MSG_MONSTER_SAY(msg)
-		if msg == L.Found or msg:find(L.Found) then
+		if msg:find(L.Found) then
 			self:SendSync("Finished")
 		elseif msg == L.RolePlayMelan or msg:find(L.RolePlayMelan) then
 			self:SendSync("RolePlayMel")
@@ -258,7 +268,7 @@ do
 				local clue = clues[GetGossipText()]
 				if clue and not hints[clue] then
 					CloseGossip()
-					if IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then --если что отключить, при ошибках
+					if IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
 						SendChatMessage(hintTranslations[clue], "INSTANCE_CHAT")
 					elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
 						SendChatMessage(hintTranslations[clue], "PARTY")
@@ -277,8 +287,8 @@ do
 			hints[clue] = true
 			DBM.InfoFrame:Show(5, "function", updateInfoFrame)
 		elseif msg == "Finished" then
-			warnPhase2:Show()
 			self:ResetGossipState()
+			self:Finish()
 		elseif msg == "RolePlayMel" then
 			timerRoleplay:Start()
 		end

@@ -14,7 +14,8 @@ mod:RegisterEvents(
 	"SPELL_AURA_REMOVED 195279",
 	"SPELL_PERIODIC_DAMAGE 194102",
 	"SPELL_PERIODIC_MISSED 194102",
-	"CHAT_MSG_MONSTER_YELL"
+	"CHAT_MSG_MONSTER_YELL",
+	"UNIT_DIED"
 )
 
 local warnScream				= mod:NewSpellAnnounce(198405, 4) --Леденящий душу вопль
@@ -55,7 +56,7 @@ function mod:SPELL_CAST_START(args)
 		specWarnGiveNoQuarter:Show()
 		specWarnGiveNoQuarter:Play("stilldanger")
 		timerGiveNoQuarterCD:Start()
-	elseif spellId == 196885 then --Гнусное дыхание
+	elseif spellId == 194099 then --Гнусное дыхание
 		specWarnBileBreath:Show()
 		specWarnBileBreath:Play("stilldanger")
 	end
@@ -102,3 +103,12 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spell
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
+
+function mod:UNIT_DIED(args)
+	local cid = self:GetCIDFromGUID(args.destGUID)
+	if cid == 99307 then --Скьял
+		timerGiveNoQuarterCD:Cancel()
+		timerDebilitatingShoutCD:Cancel()
+		timerBindCD:Cancel()
+	end
+end

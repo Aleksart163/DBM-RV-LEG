@@ -5,9 +5,9 @@ mod:SetRevision(("$Revision: 17440 $"):sub(12, -3))
 mod:SetCreatureID(91007)
 mod:SetEncounterID(1793)
 mod:SetZone()
+mod:SetUsedIcons(7)
 
 mod:RegisterCombat("combat")
-mod:SetUsedIcons(7)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 200732 200551 200637 200700 200404",

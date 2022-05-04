@@ -16,7 +16,7 @@ mod:RegisterEventsInCombat(
 	"CHAT_MSG_RAID_BOSS_EMOTE",
 	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
-local warnArcaneBomb				= mod:NewTargetAnnounce(192706, 4) --Чародейская бомба
+local warnArcaneBomb				= mod:NewTargetNoFilterAnnounce(192706, 4) --Чародейская бомба
 local warnMythicTornado				= mod:NewSpellAnnounce(192680, 3) --Волшебный торнадо target scanning not available
 
 local specWarnArcaneBomb			= mod:NewSpecialWarningYouMoveAway(192706, nil, nil, nil, 3, 2) --Чародейская бомба
@@ -57,7 +57,7 @@ end
 
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
-	if spellId == 192706 then
+	if spellId == 192706 then --Чародейская бомба
 		timerArcaneBomb:Start(args.destName)
 		if self.Options.RangeFrame then
 			DBM.RangeCheck:Show(10)
@@ -70,8 +70,11 @@ end
 
 function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
-	if spellId == 192706 then
+	if spellId == 192706 then --Чародейская бомба
 		timerArcaneBomb:Cancel(args.destName)
+		if args:IsPlayer() then
+			yellArcaneBombFades:Cancel()
+		end
 		if self.Options.RangeFrame then
 			DBM.RangeCheck:Hide()
 		end
@@ -108,7 +111,7 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, _, _, _, targetname)
 			yellArcaneBomb:Yell()
 			yellArcaneBombFades:Countdown(15, 3)
 		else
-			specWarnArcaneBomb2:Show(args.destName)
+			specWarnArcaneBomb2:Show(targetname)
 		end
 		warnArcaneBomb:Show(targetname)
 	end

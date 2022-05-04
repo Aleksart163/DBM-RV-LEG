@@ -21,8 +21,8 @@ mod:RegisterEvents(
 )
 --Каражан треш
 local warnVolatileCharge			= mod:NewSpellAnnounce(227925, 2)
-local warnOathofFealty				= mod:NewSpellAnnounce(228280, 3)
-local warnNullification				= mod:NewTargetAnnounce(230083, 1) --Полная нейтрализация
+local warnOathofFealty				= mod:NewCastAnnounce(228280, 3) --Клятва верности
+local warnNullification				= mod:NewTargetNoFilterAnnounce(230083, 1) --Полная нейтрализация
 
 local specWarnForceBlade			= mod:NewSpecialWarningYouDefensive(230050, nil, nil, nil, 3, 5) --Силовой клинок
 local specWarnNullification			= mod:NewSpecialWarningYouFind(230083, nil, nil, nil, 3, 5) --Полная нейтрализация
@@ -46,7 +46,7 @@ local specWarnFlashlight			= mod:NewSpecialWarningLookAway(227966, nil, nil, nil
 
 local timerNullificationCD			= mod:NewCDTimer(14, 230094, nil, nil, nil, 3, nil) --Полная нейтрализация
 local timerOathofFealty				= mod:NewTargetTimer(15, 228280, nil, nil, nil, 3, nil) --Клятва верности
-local timerRoyalty					= mod:NewTargetTimer(20, 229489, nil, nil, nil, 3, nil) --Царственность
+local timerRoyalty					= mod:NewCDTimer(20, 229489, nil, nil, nil, 3, nil, DBM_CORE_DAMAGE_ICON) --Царственность
 
 local yellNullification				= mod:NewYell(230083, nil, nil, nil, "YELL") --Полная нейтрализация
 local yellVolatileCharge			= mod:NewYell(228331, nil, nil, nil, "YELL")
@@ -153,7 +153,6 @@ function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
 	if spellId == 229489 then
 		specWarnRoyalty:Show(args.destName)
-		timerRoyalty:Start(args.destName)
 	elseif spellId == 228280 then --Клятва верности
 		timerOathofFealty:Cancel(args.destName)
 	end
@@ -194,5 +193,13 @@ function mod:UNIT_DIED(args)
 		timerNullificationCD:Cancel()
 	elseif cid == 115388 then --Король
 		timerRoyalty:Cancel()
+	elseif cid == 115395 then --Ферзь
+		timerRoyalty:Start()
+	elseif cid == 115406 then --Конь
+		timerRoyalty:Start()
+	elseif cid == 115401 then --Слон
+		timerRoyalty:Start()
+	elseif cid == 115407 then --Ладья
+		timerRoyalty:Start()
 	end
 end

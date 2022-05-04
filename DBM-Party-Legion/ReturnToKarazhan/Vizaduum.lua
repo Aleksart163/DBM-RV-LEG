@@ -28,7 +28,7 @@ mod:RegisterEventsInCombat(
 --TODO: figure out what to do with Felguard Sentry (115730)
 --ALL
 local warnChaoticShadows			= mod:NewTargetAnnounce(229159, 3) --Тени Хаоса
-local warnFelBeam					= mod:NewTargetAnnounce(229242, 4) --Приказ: луч Скверны
+local warnFelBeam					= mod:NewTargetNoFilterAnnounce(229242, 4) --Приказ: луч Скверны
 local warnDisintegrate				= mod:NewSpellAnnounce(229151, 4) --Расщепление	Switch to special warning if target scanning works
 local warnPhase						= mod:NewAnnounce("Phase1", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 2
 local warnPhase2					= mod:NewAnnounce("Phase2", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 3
@@ -37,9 +37,10 @@ local warnPhase33					= mod:NewPhaseAnnounce(3, 2)
 
 --ALL
 local specWarnChaoticShadows		= mod:NewSpecialWarningYou(229159, nil, nil, nil, 1, 2) --Тени Хаоса
+local specWarnChaoticShadows2		= mod:NewSpecialWarningYouMoveAway(229159, nil, nil, nil, 3, 5) --Тени Хаоса
 local specWarnBurningBlast			= mod:NewSpecialWarningInterruptCount(229083, "HasInterrupt", nil, nil, 1, 2) --Выброс пламени
 --Phase 1
-local specWarnFelBeam				= mod:NewSpecialWarningRun(229242, nil, nil, nil, 1, 2) --Приказ: луч Скверны
+local specWarnFelBeam				= mod:NewSpecialWarningYouMoveAway(229242, nil, nil, nil, 4, 5) --Приказ: луч Скверны
 --ALL
 local timerChaoticShadowsCD			= mod:NewCDTimer(30, 229159, nil, nil, nil, 3) --Тени Хаоса
 local timerDisintegrateCD			= mod:NewCDTimer(10.8, 229151, nil, nil, nil, 3) --Расщепление
@@ -51,12 +52,13 @@ local timerStabilizeRift			= mod:NewCastTimer(30, 230084, nil, nil, nil, 1, nil,
 
 local yellFelBeam					= mod:NewYell(229242, nil, nil, nil, "YELL") --Приказ: луч Скверны
 local yellChaoticShadows			= mod:NewPosYell(229159, DBM_CORE_AUTO_YELL_CUSTOM_POSITION, nil, nil, "YELL") --Тени Хаоса
+local yellChaoticShadows2			= mod:NewFadesYell(229159, nil, nil, nil, "YELL") --Тени Хаоса
 
 --local berserkTimer					= mod:NewBerserkTimer(300)
 
 --local countdownFocusedGazeCD		= mod:NewCountdown(40, 198006)
 
-mod:AddSetIconOption("SetIconOnShadows", 229159, true) --Тени Хаоса
+mod:AddSetIconOption("SetIconOnShadows", 229159, true, false, {3, 2, 1}) --Тени Хаоса
 mod:AddRangeFrameOption(6, 230066) --Флегма тьмы
 --mod:AddInfoFrameOption(198108, false)
 
@@ -167,7 +169,9 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnChaoticShadows:Show()
 			specWarnChaoticShadows:Play("runout")
+			specWarnChaoticShadows2:Schedule(5)
 			yellChaoticShadows:Yell(count, args.spellName, count)
+			yellChaoticShadows2:Countdown(10, 3)
 		end
 		if self.Options.SetIconOnShadows then
 			self:SetIcon(name, count)
@@ -188,6 +192,10 @@ end
 function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
 	if spellId == 229159 then
+		if args:IsPlayer() then
+			specWarnChaoticShadows2:Cancel()
+			yellChaoticShadows2:Cancel()
+		end
 		if self.Options.SetIconOnShadows then
 			self:SetIcon(args.destName, 0)
 		end

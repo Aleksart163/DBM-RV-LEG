@@ -5,6 +5,7 @@ mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 mod:SetCreatureID(98203)
 mod:SetEncounterID(1827)
 mod:SetZone()
+mod:SetUsedIcons(8, 7)
 
 mod.noNormal = true
 
@@ -25,23 +26,28 @@ local warnNetherLink				= mod:NewTargetAnnounce(196805, 4) --Оковы Пуст
 
 local specWarnVolatileMagic			= mod:NewSpecialWarningMoveAway(196562, nil, nil, nil, 3, 5) --Нестабильная магия
 
-local specWarnNetherLink			= mod:NewSpecialWarningYouRunning(196805, nil, nil, nil, 3, 3) --Оковы Пустоты дебаф
-local specWarnNetherLinkGTFO		= mod:NewSpecialWarningMove(196805, nil, nil, nil, 1, 2) --Оковы Пустоты лужа
+local specWarnNetherLink			= mod:NewSpecialWarningYouRunning(196805, nil, nil, nil, 1, 2) --Оковы Пустоты дебаф
+local specWarnNetherLinkGTFO		= mod:NewSpecialWarningYouMove(196805, nil, nil, nil, 1, 2) --Оковы Пустоты лужа
 local specWarnOverchargeMana		= mod:NewSpecialWarningInterrupt(196392, "HasInterrupt", nil, nil, 1, 2) --Перезарядка маны
 
-local timerVolatileMagicCD			= mod:NewCDTimer(36, 196562, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Нестабильная магия Review, Might be health based? or just really variable
+local timerVolatileMagicCD			= mod:NewCDTimer(35.5, 196562, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Нестабильная магия Review, Might be health based? or just really variable
 local timerNetherLinkCD				= mod:NewCDTimer(38, 196804, nil, nil, nil, 3) --Оковы Пустоты
-local timerOverchargeManaCD			= mod:NewCDTimer(43, 196392, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON) --Перезарядка маны
+local timerOverchargeManaCD			= mod:NewCDTimer(41.5, 196392, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON) --Перезарядка маны
 
 local yellVolatileMagic				= mod:NewYell(196562, nil, nil, nil, "YELL") --Нестабильная магия
+local yellVolatileMagic2			= mod:NewFadesYell(196562, nil, nil, nil, "YELL") --Нестабильная магия
+local yellNetherLink				= mod:NewYell(196805, nil, nil, nil, "YELL") --Оковы Пустоты
 
+mod:AddSetIconOption("SetIconOnVolatileMagic", 196562, true, false, {8, 7}) --Нестабильная магия
 mod:AddRangeFrameOption(8, 196562) --Нестабильная магия
 
-function mod:OnCombatStart(delay)
-	--Watch closely, review. He may be able to swap nether link and volatile magic?
-	timerVolatileMagicCD:Start(9-delay)--APPLIED
-	timerNetherLinkCD:Start(17.5-delay)--APPLIED
-	timerOverchargeManaCD:Start(32-delay)
+mod.vb.volatilemagicIcon = 7
+
+function mod:OnCombatStart(delay)--Watch closely, review. He may be able to swap nether link and volatile magic?
+	self.vb.volatilemagicIcon = 7
+	timerVolatileMagicCD:Start(9.5-delay)--APPLIED
+	timerNetherLinkCD:Start(19.5-delay) --Оковы Пустоты +2 сек
+	timerOverchargeManaCD:Start(30.5-delay) --Перезарядка маны -1.5сек
 end
 
 function mod:OnCombatEnd()
@@ -52,29 +58,45 @@ end
 
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
-	if spellId == 196562 then
+	if spellId == 196562 then --Нестабильная магия
+		self.vb.volatilemagicIcon = self.vb.volatilemagicIcon + 1
 		warnVolatileMagic:CombinedShow(0.5, args.destName)
 		if args:IsPlayer() then
 			specWarnVolatileMagic:Show()
 			specWarnVolatileMagic:Play("runout")
 			yellVolatileMagic:Yell()
-			if self.Options.RangeFrame then
-				DBM.RangeCheck:Show(8)
-			end
+			yellVolatileMagic2:Countdown(4)
+		end
+		if self.Options.RangeFrame then
+			DBM.RangeCheck:Show(8)
+		end
+		if self.Options.SetIconOnVolatileMagic then
+			self:SetIcon(args.destName, self.vb.volatilemagicIcon)
+		end
+		if self.vb.volatilemagicIcon == 7 then
+			self.vb.volatilemagicIcon = 8
+		else
+			self.vb.volatilemagicIcon = 7
 		end
 	elseif spellId == 196805 then
 		warnNetherLink:CombinedShow(0.5, args.destName)
 		if args:IsPlayer() then
 			specWarnNetherLink:Show()
 			specWarnNetherLink:Play("targetyou")
+			yellNetherLink:Yell()
 		end
 	end
 end
 
 function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
-	if spellId == 196562 and args:IsPlayer() and self.Options.RangeFrame then
-		DBM.RangeCheck:Hide()
+	if spellId == 196562 then --Нестабильная магия
+		if self.Options.RangeFrame then
+			DBM.RangeCheck:Hide()
+		end
+		if self.Options.SetIconOnVolatileMagic then
+			self:SetIcon(args.destName, 0)
+		end
 	end
 end
 

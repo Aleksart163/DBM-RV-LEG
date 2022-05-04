@@ -23,6 +23,18 @@ L= DBM:GetModLocalization(1664)
 -----------------------
 L= DBM:GetModLocalization(1672)
 
+L:SetWarningLocalization({
+	Phase2 = "Phase 2"
+})
+
+L:SetOptionLocalization({
+	Phase2 = "Announce Phase 2"
+})
+
+L:SetMiscLocalization({
+	Latosius = "Enough! I tire of this."
+})
+
 -----------------------
 --Black Rook Hold Trash
 -----------------------
@@ -163,7 +175,7 @@ L:SetGeneralLocalization({
 })
 
 L:SetOptionLocalization({
-	timerRoleplay = "Countdown to the start of the battle with God-King Skovald and Odyn"
+	timerRoleplay = "Show timer to the start of the battle with God-King Skovald and Odyn"
 })
 
 L:SetTimerLocalization({
@@ -298,7 +310,7 @@ L:SetWarningLocalization({
 L:SetOptionLocalization({
 	warnSpy = "Special warning when a spy is detected",
 	SpyHelper = "Help identify the spy",
-	timerRoleplay = "Countdown to the start of the battle with Advisor Melandrus"
+	timerRoleplay = "Show timer to the start of the battle with Advisor Melandrus"
 })
 
 L:SetTimerLocalization({
@@ -411,7 +423,7 @@ L:SetGeneralLocalization({
 })
 
 L:SetOptionLocalization({
-	timerRoleplay = "Countdown to the start of the fight with Helya"
+	timerRoleplay = "Show timer to the start of the fight with Helya"
 })
 
 L:SetTimerLocalization({
@@ -537,7 +549,7 @@ L:SetWarningLocalization({
 })
 
 L:SetOptionLocalization({
-	Phase1 = "Warn in advance about phase 2 (on ~44%, Mythic+ only)",
+	Phase1 = "Warn in advance about phase 2 (on ~46%, Mythic+ only)",
 	Phase2 = "Announce Phase 2"
 })
 
@@ -556,7 +568,7 @@ L:SetTimerLocalization({
 
 L:SetOptionLocalization({
 	lookSphere = "Show special warning \"look at the Sphere\" when you target $spell:212564",
-	timerRoleplay = "Countdown to the start of the fight with Kordana"
+	timerRoleplay = "Show timer to the start of the fight with Kordana"
 })
 
 L:SetMiscLocalization({
@@ -646,7 +658,7 @@ L:SetGeneralLocalization({
 })
 
 L:SetOptionLocalization({
-	timerRoleplay = "Countdown to the start of the battle in the Opera Hall"
+	timerRoleplay = "Show timer to the start of the battle in the Opera Hall"
 })
 
 L:SetTimerLocalization({
@@ -731,3 +743,18 @@ L:SetGeneralLocalization({
 	name =	"Seat of Triumvirate Trash"
 })
 
+L:SetOptionLocalization({
+	timerRoleplay = "Show timer for roleplay duration",
+	timerRoleplay2 = "Show timer to the start of the boss fight"
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = GUILD_INTEREST_RP,
+	timerRoleplay2 = "The start of the battle"
+})
+
+L:SetMiscLocalization({
+	RP1 = "Champions! Over Here!",
+	RP2 = "I sense great despair emanating from within. L'ura...",
+	RP3 = "Such chaos... such anguish. I have never sensed anything like it before."
+})

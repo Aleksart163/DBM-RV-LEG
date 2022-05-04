@@ -26,6 +26,18 @@ L= DBM:GetModLocalization(1664)
 ---------------------------------
 L= DBM:GetModLocalization(1672)
 
+L:SetWarningLocalization({
+	Phase2 = "Фаза 2"
+})
+
+L:SetOptionLocalization({
+	Phase2 = "Объявлять фазу 2"
+})
+
+L:SetMiscLocalization({
+	Latosius = "Все, мне это надоело!"
+})
+
 -------------
 --Трэш-мобы--
 -------------
@@ -232,7 +244,7 @@ L= DBM:GetModLocalization(1498)
 L= DBM:GetModLocalization(1499)
 
 L:SetMiscLocalization({
-	batSpawn = "Подкрепления ко мне! СЕЙЧАС!"-- needs checking
+	batSpawn = "Подкрепление мне! ЖИВО!" -- needs checking
 })
 
 ------------
@@ -256,7 +268,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	Phase2Van = "Довольно! Вы что-то совсем распоясались!"
+	RPVandros = "Довольно! Вы что-то совсем распоясались!"
 })
 
 -------------
@@ -359,22 +371,22 @@ L:SetMiscLocalization({
 	Pouch2			= "Я слышал, поясной кошель шпиона украшен причудливой вышивкой.",
 	Pouch3			= "Мой друг говорил, что шпион просто обожает золото, и поэтому шпионский поясной кошель туго набит золотыми монетами.",
 	Pouch4			= "Я слышал, поясной кошель шпиона расшит золотом, чтобы подчеркнуть утонченность.",
---	Found			= "Ну-ну, зачем же так спешить?",
+	Found			= "Давай-ка лучше пройдемся до более уединенного места и там спокойно потолкуем...",
 	--
-	Gloves		= "Носит перчатки",
-	NoGloves	= "Без перчаток",
-	Cape		= "Носит плащ",
-	Nocape		= "Без плаща",
-	LightVest	= "Светлый жилет",
-	DarkVest	= "Темный жилет",
-	Female		= "Женщина",
-	Male		= "Мужчина",
-	ShortSleeve = "Короткие рукава",
-	LongSleeve	= "Длинные рукава",
-	Potions		= "Зелья",
-	NoPotions	= "Нет зелий",
-	Book		= "Книга",
-	Pouch		= "Кошель"
+	Gloves		= "Носит перчатки / Wears gloves",
+	NoGloves	= "Без перчаток / No gloves",
+	Cape		= "Носит плащ / Wearing a cape",
+	Nocape		= "Без плаща / No cape",
+	LightVest	= "Светлый жилет / Light vest",
+	DarkVest	= "Темный жилет / Dark vest",
+	Female		= "Женщина / Female",
+	Male		= "Мужчина / Male",
+	ShortSleeve = "Короткие рукава / Short sleeves",
+	LongSleeve	= "Длинные рукава / Long sleeves",
+	Potions		= "Зелья / Potions",
+	NoPotions	= "Нет зелий / No potions",
+	Book		= "Книга / Book",
+	Pouch		= "Кошель / Pouch"
 })
 
 --------------------
@@ -544,7 +556,7 @@ L:SetWarningLocalization({
 })
 
 L:SetOptionLocalization({
-	Phase1 = "Предупреждать заранее о фазе 2 (на ~44%, только Мифик+)",
+	Phase1 = "Предупреждать заранее о фазе 2 (на ~46%, только Мифик+)",
 	Phase2 = "Объявлять фазу 2"
 })
 
@@ -740,4 +752,20 @@ L = DBM:GetModLocalization("SoTTrash")
 
 L:SetGeneralLocalization({
 	name = "Трэш Престола Триумвирата"
+})
+
+L:SetOptionLocalization({
+	timerRoleplay = "Отсчет времени ролевых игр",
+	timerRoleplay2 = "Отсчет времени до начала боя с боссом"
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = GUILD_INTEREST_RP,
+	timerRoleplay2 = "Начало боя"
+})
+
+L:SetMiscLocalization({
+	RP1 = "Сюда, герои!",
+	RP2 = "Из храма исходит великое отчаяние. Л'ура...",
+	RP3 = "Такой хаос... такая боль. Я еще не чувствовала ничего подобного."
 })

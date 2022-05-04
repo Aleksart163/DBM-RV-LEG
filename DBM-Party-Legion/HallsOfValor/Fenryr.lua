@@ -19,8 +19,8 @@ mod:RegisterEventsInCombat(
 	"UNIT_DIED"
 )
 
-local warnPhase							= mod:NewAnnounce("Phase1", 1, 196838) --Скоро фаза 2
-local warnPhase2						= mod:NewAnnounce("Phase2", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Фаза 2
+local warnPhase							= mod:NewAnnounce("Phase1", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 2
+local warnPhase2						= mod:NewAnnounce("Phase2", 1, 196838) --Фаза 2
 
 local warnLeap							= mod:NewTargetAnnounce(197556, 2) --Хищный прыжок
 --local warnPhase2						= mod:NewPhaseAnnounce(2, 2, nil, nil, nil, nil, nil, 2)

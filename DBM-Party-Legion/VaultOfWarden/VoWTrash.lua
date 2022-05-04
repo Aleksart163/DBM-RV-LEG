@@ -9,7 +9,7 @@ mod.isTrashMod = true
 
 mod:RegisterEvents(
 	"SPELL_CAST_START 196799 193069 196799 196249 193502 193936 161056 202728 196242 191527",
-	"SPELL_AURA_APPLIED 202615 193069 193607 202608 161044",
+	"SPELL_AURA_APPLIED 202615 193069 193607 202608 161044 193164",
 	"SPELL_CAST_SUCCESS 202606",
 	"CHAT_MSG_MONSTER_SAY",
 	"UNIT_DIED"
@@ -27,6 +27,8 @@ local specWarnTemporalAnomaly	= mod:NewSpecialWarningYouMove(161044, nil, nil, n
 local specWarnArcaneSentries	= mod:NewSpecialWarningDodge(193936, nil, nil, nil, 2, 2) --Волшебные часовые
 local specWarnTemporalAnomaly2	= mod:NewSpecialWarningDodge(161056, nil, nil, nil, 2, 2) --Временная аномалия (каст)
 local specWarnNightmares2		= mod:NewSpecialWarningDispel(193069, "MagicDispeller", nil, nil, 1, 2) --Кошмары
+local specWarnGiftoftheDoomsayer = mod:NewSpecialWarningDispel(193164, "MagicDispeller2", nil, nil, 1, 2) --Дар вестника рока
+local specWarnGiftoftheDoomsayer2 = mod:NewSpecialWarningYou(193164, nil, nil, nil, 1, 2) --Дар вестника рока
 local specWarnAnguishedSouls	= mod:NewSpecialWarningYouMove(202608, nil, nil, nil, 1, 2) --Страдающие души
 local specWarnAnguishedSouls2	= mod:NewSpecialWarningDodge(202606, nil, nil, nil, 2, 2) --Страдающие души
 local specWarnTorment			= mod:NewSpecialWarningYouClose(202615, nil, nil, nil, 3, 2) --Мучение
@@ -129,6 +131,12 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 161044 then --Временная аномалия
 		if args:IsPlayer() then
 			specWarnTemporalAnomaly:Show()
+		end
+	elseif spellId == 193164 then --Дар вестника рока
+		if args:IsPlayer() then
+			specWarnGiftoftheDoomsayer2:Show()
+		else
+			specWarnGiftoftheDoomsayer:Show(args.destName)
 		end
 	end
 end

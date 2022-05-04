@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1512, "DBM-Party-Legion", 8, 727)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17522 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 mod:SetCreatureID(96754)
 mod:SetEncounterID(1823)
 mod:SetZone()
@@ -17,7 +17,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_PERIODIC_MISSED 194235"
 )
 
-local warnFragment				= mod:NewTargetAnnounce(194327, 3) --Разделение
+local warnFragment				= mod:NewTargetNoFilterAnnounce(194327, 3) --Разделение
 local warnVoidSnap				= mod:NewSpellAnnounce(194266, 4) --Хватка Бездны
 
 local specWarnNetherRip			= mod:NewSpecialWarningYouMove(194235, nil, nil, nil, 1, 2) --Разрыв пустоты

@@ -45,7 +45,7 @@ local yellFeedontheWeak				= mod:NewYell(200238, nil, nil, nil, "YELL") --Пож
 local yellNightmare					= mod:NewYell(200243, nil, nil, nil, "YELL") --Кошмар наяву
 local yellParanoia					= mod:NewYell(200289, nil, nil, nil, "YELL") --Усугубляющаяся паранойя
 
-mod:AddSetIconOption("SetIconOnNightmare", 200243)
+mod:AddSetIconOption("SetIconOnNightmare", 200243, true, false, {2, 1})
 
 mod.vb.nightmareIcon = 1
 
@@ -82,6 +82,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	if spellId == 200182 then
 		specWarnFesteringRip:Show(args.destName)
 	elseif spellId == 200243 then
+		self.vb.nightmareIcon = self.vb.nightmareIcon + 1
 		timerNightmare:Start(args.destName)
 		if args:IsPlayer() then
 			specWarnNightmare:Show()
@@ -126,13 +127,13 @@ mod.SPELL_AURA_REFRESH = mod.SPELL_AURA_APPLIED
 function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
 	if spellId == 200243 then
+		self.vb.nightmareIcon = self.vb.nightmareIcon - 1
 		if self.Options.SetIconOnNightmare then
 			self:SetIcon(args.destName, 0)
 		end
+		timerNightmare:Cancel(args.destName)
 	elseif spellId == 200289 then
 		timerParanoia:Cancel(args.destName)
-	elseif spellId == 200243 then
-		timerNightmare:Cancel(args.destName)
 	end
 end
 
