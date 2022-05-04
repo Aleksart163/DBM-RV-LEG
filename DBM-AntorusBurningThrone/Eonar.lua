@@ -54,7 +54,7 @@ local specWarnFoulSteps					= mod:NewSpecialWarningStack(250140, nil, 12, nil, n
 
 --The Paraxis
 mod:AddTimerLine(GENERAL)
-local timerSpearofDoomCD				= mod:NewCDCountTimer(55, 248789, nil, nil, nil, 3) --Копье Рока 55-69
+local timerSpearofDoomCD				= mod:NewCDCountTimer(55, 248789, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Копье Рока 55-69
 local timerRainofFelCD					= mod:NewCDCountTimer(61, 248332, nil, nil, nil, 3) --Дождь Скверны
 mod:AddTimerLine(DBM_ADDS)
 local timerDestructorCD					= mod:NewTimer(90, "timerDestructor", 254769, nil, nil, 1, DBM_CORE_TANK_ICON) --Разрушитель

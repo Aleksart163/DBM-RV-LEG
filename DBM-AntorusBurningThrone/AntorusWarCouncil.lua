@@ -117,7 +117,7 @@ function mod:DemonicChargeTarget(targetname, uId)
 			specWarnDemonicChargeYou:Play("runaway")
 			yellDemonicCharge:Yell()
 		end
-	elseif self:AntiSpam(3.5, 2) and self:CheckNearby(7, targetname) then
+	elseif self:AntiSpam(3.5, 1) and self:CheckNearby(7, targetname) then --AntiSpam(3.5, 2)
 		specWarnDemonicCharge:Show(targetname)
 		specWarnDemonicCharge:Play("watchstep")
 	else
@@ -131,14 +131,16 @@ function mod:OnCombatStart(delay)
 	self.vb.ShockGrenadeIcon = 1
 	--In pod
 	berserkTimer:Start(-delay)
-	timerEntropicMineCD:Start(5.1-delay)
 	--Out of Pod
 	timerSummonReinforcementsCD:Start(8-delay)
 --	countdownReinforcements:Start(8-delay)
 	timerAssumeCommandCD:Start(90-delay)
 --	countdownAssumeCommand:Start(90-delay)
 	if self:IsMythic() then
-		timerShockGrenadeCD:Start(15)
+		timerShockGrenadeCD:Start(14-delay) -- -1сек
+		timerEntropicMineCD:Start(15-delay)
+	else
+		timerEntropicMineCD:Start(5.1-delay)
 	end
 end
 
@@ -173,28 +175,33 @@ function mod:SPELL_CAST_START(args)
 		countdownExploitWeakness:Cancel()
 		timerExploitWeaknessCD:Start(8)--8-14 (basically depends how fast you get there) If you heroic leap and are super fast. it's cast pretty much instantly on mob activation
 		countdownExploitWeakness:Start(8)
-		local cid = self:GetCIDFromGUID(args.sourceGUID)
-		if cid == 122369 then--Chief Engineer Ishkar
-			timerEntropicMineCD:Start(8)
-			timerFusilladeCD:Stop()--Seems this timer resets too
-			countdownFusillade:Cancel()
-			timerFusilladeCD:Start(15.9, 1)--Start Updated Fusillade
-			countdownFusillade:Start(15.9)
-			--TODO, reinforcements fix
+		local cid = self:GetCIDFromGUID(args.sourceGUID) --тот, кто кастует
+		if cid == 122369 then--Chief Engineer Ishkar Фаза 3
+			timerSummonReinforcementsCD:Stop() --Вызов подкрепления
+			timerEntropicMineCD:Stop() --Энтропическая мина
+			timerEntropicMineCD:Start(10) --Энтропическая мина
+			timerFusilladeCD:Stop() --Шквальный огонь
+			countdownFusillade:Cancel() --Шквальный огонь
+			timerFusilladeCD:Start(19, 1) --Шквальный огонь
+			countdownFusillade:Start(19) --Шквальный огонь
+			if self:IsMythic() then
+				timerShockGrenadeCD:Stop() --Шоковая граната
+				timerShockGrenadeCD:Start(9) --Шоковая граната
+			end
 		elseif cid == 122333 then--General Erodus
 			timerSummonReinforcementsCD:Start(11)--Starts elite ones
 		--	countdownReinforcements:Start(11)
-		elseif cid == 122367 then--Admiral Svirax
+		elseif cid == 122367 then--Admiral Svirax Фаза 2
 			self.vb.FusilladeCount = 0
-			timerFusilladeCD:Start(15, 1)
-			countdownFusillade:Start(15)
-			timerSummonReinforcementsCD:Stop()--Seems this timer resets too
-		--	countdownReinforcements:Cancel()
-			timerSummonReinforcementsCD:Start(16)--Start updated reinforcements timer
-		--	countdownReinforcements:Start(16)
-		end
-		if self:IsMythic() then
-			timerShockGrenadeCD:Start(9.7)
+			timerFusilladeCD:Start(20, 1) --Шквальный огонь
+			countdownFusillade:Start(20) --Шквальный огонь
+			timerSummonReinforcementsCD:Stop() --Вызов подкрепления
+			timerEntropicMineCD:Stop() --Энтропическая мина
+			timerSummonReinforcementsCD:Start(20) --Вызов подкрепления
+			if self:IsMythic() then
+				timerShockGrenadeCD:Stop() --Шоковая граната
+				timerShockGrenadeCD:Start(18) --Шоковая граната
+			end
 		end
 	end
 end
