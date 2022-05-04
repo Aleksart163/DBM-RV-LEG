@@ -4,7 +4,10 @@ local L = DBM_GUI_Translations
 
 L.MainFrame = "Deadly Boss Mods"
 
-L.TranslationBy 			= "Psyco/Sasmira/Pettigrow/Edoz@EU-Ysondre/Leybola@EU-Sargeras/Noleen@EU-Hyjal"
+L.TranslationByPrefix		= "Adaptation for uwow.biz - "
+L.TranslationBy 			= "Aleksart163 (Tielle)"
+L.Website					= "Discord for communication on issues: Aleksart163#1671 and site for updating: |cFF73C2FBhttps://github.com/Aleksart163/DBM-for-Legion|r"
+L.WebsiteButton				= "Update"
 
 L.OTabBosses	= "Boss"
 L.OTabOptions	= "Options"

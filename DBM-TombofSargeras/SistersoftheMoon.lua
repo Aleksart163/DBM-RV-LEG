@@ -6,7 +6,7 @@ mod:SetCreatureID(118523, 118374, 118518)--118523 Huntress kasparian, 118374 Cap
 mod:SetEncounterID(2050)
 mod:SetZone()
 --mod:SetBossHPInfoToHighest()
---mod:SetUsedIcons(1)
+mod:SetUsedIcons(1)
 mod:SetHotfixNoticeRev(16282)
 mod.respawnTime = 14
 
@@ -93,7 +93,7 @@ local berserkTimer					= mod:NewBerserkTimer(660)
 --ALL
 local countdownSpecials				= mod:NewCountdown(54, 233264)
 
-mod:AddSetIconOption("SetIconOnIncorpShot", 236305, true)
+mod:AddSetIconOption("SetIconOnIncorpShot", 236305, true, false, {1}) --Эфирный выстрел
 mod:AddInfoFrameOption(233263, true)
 --mod:AddRangeFrameOption("5/8/15")
 
@@ -377,7 +377,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		end
 	elseif spellId == 236305 then
 		if self.Options.SetIconOnIncorpShot then
-			self:SetIcon(args.destName, 1)
+			self:SetIcon(args.destName, 0)
 		end
 	end
 end

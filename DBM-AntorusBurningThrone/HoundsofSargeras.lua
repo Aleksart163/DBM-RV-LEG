@@ -15,7 +15,7 @@ mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 244057 244056",
-	"SPELL_CAST_SUCCESS 244072 251445 245098",
+	"SPELL_CAST_SUCCESS 244072 251445 245098 244086",
 	"SPELL_AURA_APPLIED 244768 248815 254429 248819 244054 244055 251356",
 	"SPELL_AURA_REMOVED 244768 248815 254429 248819 251356",
 --	"SPELL_PERIODIC_DAMAGE",
@@ -34,6 +34,7 @@ local warnBurningMaw					= mod:NewTargetAnnounce(251448, 2, nil, false, 2) --П�
 local warnDesolateGaze					= mod:NewTargetAnnounce(244768, 3) --Опустошающий взгляд
 local warnEnflamedCorruption			= mod:NewSpellAnnounce(244057, 3) --Возгорание порчи
 local warnEnflamed						= mod:NewTargetAnnounce(248815, 3) --Возгорание
+local warnMoltenTouch					= mod:NewSpellAnnounce(244072, 2) --Касание магмы
 --Shatug
 local warnCorruptingMaw					= mod:NewTargetAnnounce(251447, 2, nil, false, 2) --Заразная пасть
 local warnWeightofDarkness				= mod:NewTargetAnnounce(254429, 3) --Бремя тьмы
@@ -121,7 +122,7 @@ function mod:OnCombatStart(delay)
 	if self:IsMythic() then
 		self.vb.longTimer = 88.3--88.3-89
 		self.vb.mediumTimer = 71.4--71.4-73
-		timerMoltenTouchCD:Start(18-delay)--was same on heroic/mythic, or now
+		timerMoltenTouchCD:Start(21-delay) --Касание магмы +3 сек
 		timerSiphonCorruptionCD:Start(25.5-delay)
 	elseif self:IsHeroic() then
 		self.vb.longTimer = 95.9
@@ -139,10 +140,10 @@ function mod:OnCombatStart(delay)
 	if not self.Options.SequenceTimers then
 		if self:IsMythic() then
 			--Fire doggo
-			timerEnflamedCorruptionCD:Start(48.3-delay)
+			timerEnflamedCorruptionCD:Start(49.5-delay) --Возгорание порчи +1.2 сек
 			timerDesolateGazeCD:Start(78-delay)
 			--Shadow doggo
-			timerComsumingSphereCD:Start(48.3-delay)
+			timerComsumingSphereCD:Start(49.5-delay) --Поглощаяющая сфера +1.2 сек
 			timerWeightOfDarknessCD:Start(73.1-delay)
 		elseif self:IsHeroic() then
 			--Fire doggo
@@ -205,9 +206,11 @@ end
 
 function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
-	if spellId == 244072 then
-		specWarnMoltenTouch:Show()
-		specWarnMoltenTouch:Play("watchstep")
+	if spellId == 244086 and self:AntiSpam(3, 1) then -- 244072 (изначальный)
+		warnMoltenTouch:Show()
+		warnMoltenTouch:Play("watchstep")
+	--	specWarnMoltenTouch:Show()
+	--	specWarnMoltenTouch:Play("watchstep")
 		if not self.Options.SequenceTimers or self:IsEasy() then
 			timerMoltenTouchCD:Start(self.vb.longTimer)
 		else

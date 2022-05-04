@@ -252,3 +252,15 @@ L = DBM:GetModLocalization("AntorusTrash")
 L:SetGeneralLocalization({
 	name =	"Трэш АПТ"
 })
+
+L:SetOptionLocalization({
+	timerRoleplay = "Отсчет времени до начала боя с боссами"
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = "Начало боя"
+})
+
+L:SetMiscLocalization({
+	RPImonar = "Стоять!"
+})

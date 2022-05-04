@@ -72,7 +72,7 @@ local specWarnShockGrenade				= mod:NewSpecialWarningYouMoveAway(244737, nil, ni
 --General
 mod:AddTimerLine(GENERAL)
 local timerExploitWeaknessCD			= mod:NewCDTimer(8.5, 244892, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Обнаружить слабое место
-local timerShockGrenadeCD				= mod:NewCDTimer(14.7, 244722, nil, nil, nil, 3, nil, DBM_CORE_HEROIC_ICON)
+local timerShockGrenadeCD				= mod:NewCDTimer(14.7, 244722, nil, nil, nil, 3, nil, DBM_CORE_MYTHIC_ICON..DBM_CORE_DEADLY_ICON) --Шоковая граната
 local timerAssumeCommandCD				= mod:NewNextTimer(90, 245227, nil, nil, nil, 6) --Принять командование
 --In Pod
 ----Admiral Svirax
@@ -86,7 +86,7 @@ mod:AddTimerLine(Erodus)
 local timerSummonReinforcementsCD		= mod:NewNextTimer(8.4, 245546, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON) --Вызов подкрепления
 
 local yellDemonicCharge					= mod:NewYell(253040, nil, nil, nil, "YELL") --Демонический рывок
-local yellShockGrenade					= mod:NewShortYell(244737, nil, nil, nil, "YELL") --Шоковая граната
+local yellShockGrenade					= mod:NewYell(244737, nil, nil, nil, "YELL") --Шоковая граната
 local yellShockGrenadeFades				= mod:NewShortFadesYell(244737, nil, nil, nil, "YELL") --Шоковая граната
 
 local berserkTimer						= mod:NewBerserkTimer(600)

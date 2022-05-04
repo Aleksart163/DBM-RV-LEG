@@ -13,7 +13,7 @@ mod:SetHotfixNoticeRev(16960)
 mod:RegisterCombat("yell", L.YellPullEonar)
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_START 249121 250701 246305 256848",
+	"SPELL_CAST_START 249121 250701 246305",
 	"SPELL_CAST_SUCCESS 254769 250048", --246753
 	"SPELL_AURA_APPLIED 250074 250555 249016 248332 250073 250693 250691 250140 246753 249017 249015",
 	"SPELL_AURA_APPLIED_DOSE 250140",
@@ -33,6 +33,7 @@ mod:RegisterEventsInCombat(
 local warnRainofFel						= mod:NewTargetCountAnnounce(248332, 1) --Дождь Скверны
 local warnWarpIn						= mod:NewTargetAnnounce(246888, 3, nil, nil, nil, nil, nil, 2, true) --Прибытие
 local warnLifeForce						= mod:NewCountAnnounce(250048, 1) --Жизненная сила
+local warnPurge							= mod:NewCountAnnounce(249934, 4) --Судный миг
 
 local specWarnFelWake					= mod:NewSpecialWarningYouMove(248795, nil, nil, nil, 1, 2) --Отголосок скверны
 --The Paraxis
@@ -46,7 +47,7 @@ local specWarnArtilleryStrike			= mod:NewSpecialWarningInterrupt(246305, "HasInt
 --local specWarnMalignantAnguish		= mod:NewSpecialWarningInterrupt(236597, "HasInterrupt")
 --local specWarnGTFO					= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 2)
 --Mythic
-local specWarnFinalDoom					= mod:NewSpecialWarningInterruptCount2(249121, "-Tank", nil, nil, 1, 2) --Всеобщая погибель
+local specWarnFinalDoom					= mod:NewSpecialWarningParaxisCount(249121, nil, nil, nil, 1, 2) --Всеобщая погибель
 local specWarnArcaneBuildup				= mod:NewSpecialWarningYouMoveAway(250693, nil, nil, nil, 1, 2) --Волшебный вихрь
 local specWarnBurningEmbers				= mod:NewSpecialWarningYouMoveAway(250691, nil, nil, nil, 1, 2) --Раскаленные угли
 local specWarnFoulSteps					= mod:NewSpecialWarningStack(250140, nil, 12, nil, nil, 1, 6) --Гнусные приемы Fine tune
@@ -62,9 +63,9 @@ local timerPurifierCD					= mod:NewTimer(90, "timerPurifier", 250074, nil, nil, 
 local timerBatsCD						= mod:NewTimer(90, "timerBats", 242080, nil, nil, 1, DBM_CORE_DAMAGE_ICON) --Мыши
 --Mythic 
 mod:AddTimerLine(ENCOUNTER_JOURNAL_SECTION_FLAG12)
-local timerPurge						= mod:NewCastTimer(30, 256848, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Судный миг
-local timerFinalDoom					= mod:NewCastTimer(50, 249121, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Всеобщая погибель
-local timerFinalDoomCD					= mod:NewCDCountTimer(90, 249121, nil, nil, nil, 6, nil, DBM_CORE_DEADLY_ICON) --Всеобщая погибель
+local timerPurge						= mod:NewCastTimer(30, 249934, nil, nil, nil, 2, nil, DBM_CORE_MYTHIC_ICON..DBM_CORE_DEADLY_ICON) --Судный миг
+local timerFinalDoom					= mod:NewCastTimer(50, 249121, nil, nil, nil, 2, nil, DBM_CORE_MYTHIC_ICON..DBM_CORE_DEADLY_ICON) --Всеобщая погибель
+local timerFinalDoomCD					= mod:NewCDCountTimer(90, 249121, nil, nil, nil, 6, nil, DBM_CORE_MYTHIC_ICON) --Всеобщая погибель
 
 local timerArcaneSingularity			= mod:NewNextTimer(25, 249017, nil, nil, nil, 7) --Магическая сингулярность
 local timerBurningEmbers				= mod:NewNextTimer(30, 249015, nil, nil, nil, 7) --Раскаленные угли
@@ -81,6 +82,7 @@ local yellBurningEmbers					= mod:NewYell(250691, nil, nil, nil, "YELL") --Ра�
 --local countdownRainofFel				= mod:NewCountdown("Alt60", 248332) --Дождь Скверны Not accurate enough yet. not until timer correction is added to handle speed of raids dps affecting sequence
 --Mythic
 local countdownFinalDoom				= mod:NewCountdown("AltTwo90", 249121) --Всеобщая погибель
+local countdownFinalDoom2				= mod:NewCountdownFades(50, 249121) --Всеобщая погибель
 
 --mod:AddSetIconOption("SetIconOnFeedbackTargeted2", 249016, false, false, {6, 5, 4, 3, 2, 1})
 mod:AddSetIconOption("SetIconOnBurningEmbers", 249015, true, false, {5, 4, 3, 2, 1})
@@ -91,6 +93,7 @@ mod:AddRangeFrameOption("8/10")
 
 mod.vb.rainOfFelCount = 0
 mod.vb.lifeForceCast = 0
+mod.vb.purgeCast = 0
 mod.vb.lifeRequired = 5
 mod.vb.spearCast = 0
 mod.vb.finalDoomCast = 0
@@ -105,9 +108,10 @@ mod.vb.batCast = 0
 mod.vb.targetedIcon = 1
 mod.vb.burningembersIcon = 1
 local normalRainOfFelTimers = {}--PTR, recheck
+--local burningembersTargets = {}
 --local mythicSpearofDoomTimers = {}
-local heroicSpearofDoomTimers = {35, 59.2, 64.3, 40, 84.7, 34.1, 65.2}--Live, Nov 29
-local finalDoomTimers = {58.8, 126, 98.5, 106.1, 99.6} --у 1 -0.5 сек, у 2 +6 сек, у 3 +4.5 секLive, у 4 +1.5 сек
+local heroicSpearofDoomTimers = {34, 59.2, 64.3, 40, 84.7, 34.1, 65.2} --у 1 -1сек,
+local finalDoomTimers = {58.8, 126, 98, 106.1, 100} --у 1 -0.5 сек, у 2 +6 сек, у 3 +4 секLive, у 4 +1.5 сек, у 5 +0.4 ВСЕ сделано
 local lfrDestructors = {21.5, 51.9, 50.3, 64.3, 107.2, 58.2, 44.1, 46.2, 44.2}--4 Life Force LFR Version
 local lfrDestructors2 = {21.2, 43.8, 39.0, 51.1, 37.0, 53.0, 43.6, 45.2, 43.2}--3 Life force LFR version
 local normalDestructors = {17, 46.2, 32, 52.4, 93.7, 40.9, 50.2, 55.4, 49.2}--Live, Dec 01. Old 17, 39.4, 28, 44.2, 92.4, 41.3, 50, 53.4, 48.1
@@ -116,12 +120,13 @@ local heroicRainOfFelTimers = {9.3, 43, 10, 43, 20, 19, 20, 29.2, 45, 25, 99}--L
 local heroicDestructors = {15.7, 35.3, 37.6, 102.6, 134.7, 99.6} --у 3 -3сек, у 4 -2сек
 local heroicObfuscators = {77.6, 148.5, 94.7, 99.9} --у 1 -3сек, другие не включаются, проверить ещё раз в гере и мифике
 local heroicPurifiers = {116.5, 67.6, 29.6} --у 1 -8.5сек, у 2 +1.5 сек, у 3 -1сек
-local heroicBats = {160, 110, 105, 105} --у 1 -10сек, у 2 -15сек, 170, 295, 405, 510 (probably way off for 3rd and 4th because the heroic logs with long pulls are shit showa of terrible and unware dps that don't hit bats until they are in middle of path)
+local heroicBats = {160, 120, 105, 105} --у 1 -10сек, у 2 -5сек, 170, 295, 405, 510 (probably way off for 3rd and 4th because the heroic logs with long pulls are shit showa of terrible and unware dps that don't hit bats until they are in middle of path)
 local mythicRainOfFelTimers = {6, 23.1, 24.1, 46, 25, 49.3, 15, 45, 24, 49.2, 24.1, 49.2, 50}--Live, Dec 14
 local mythicDestructors = {27, 18, 90.4, 288.4, 20, 79} --у 3 +3 сек
 local mythicObfuscators = {43, 243, 43.8, 90.8} --у 1 -3сек
 local mythicPurifiers = {65.7, 82.6, 66.9, 145.7}
-local mythicBats = {185, 74.9, 90, 95}--195, 275, 375, 470 у 1 -10сек, у 2 -5сек, у 3 -10 сек
+local mythicBats = {180, 70.5, 93.6, 121}--195, 275, 375, 470 у 1 -15сек, у 2 -9.4сек, у 3 -6.4 сек, у 4 +26 сек
+local mythicSpearofDoomTimers = {34, 96.5, 135.5, 74.5, 116, 34.1, 65.2} --у 1 -1сек, у 2 +37.3 сек, у 3 +71.2 сек, у 4 +34.5 сек, у 5 +31.3 сек - далее хз
 local warnedAdds = {}
 local addCountToLocationMythic = {
 	["Dest"] = {DBM_CORE_MIDDLE, DBM_CORE_TOP, DBM_CORE_BOTTOM, DBM_CORE_MIDDLE, DBM_CORE_TOP, DBM_CORE_MIDDLE},
@@ -228,24 +233,26 @@ function mod:OnCombatStart(delay)
 	self.vb.purifierCast = 0
 	self.vb.batCast = 0
 	self.vb.lifeForceCast = 0
+	self.vb.purgeCast = 0
 	self.vb.spearCast = 0
 	self.vb.finalDoomCast = 0
 	self.vb.targetedIcon = 1
 	self.vb.burningembersIcon = 1
+--	table.wipe(burningembersTargets)
 	berserkTimer:Start(-delay)
 	if not self:IsLFR() then
 		self.vb.lifeRequired = 4
 		if self:IsMythic() then
 			timerRainofFelCD:Start(6-delay, 1)
 			--countdownRainofFel:Start(6-delay)
-			--timerSpearofDoomCD:Start(35-delay, 1)
+			timerSpearofDoomCD:Start(34-delay, 1)
 			timerDestructorCD:Start(17, DBM_CORE_MIDDLE)
 			self:Schedule(30, checkForDeadDestructor, self, 5)
 			timerObfuscatorCD:Start(43, DBM_CORE_BOTTOM) --маскировщик, подправил
 			timerPurifierCD:Start(65.7, DBM_CORE_MIDDLE)
 			timerFinalDoomCD:Start(58.8-delay, 1)
 			countdownFinalDoom:Start(58.8-delay)
-			timerBatsCD:Start(185, 1) --мыши, подправил
+			timerBatsCD:Start(180, 1) --мыши, подправил
 			self:Schedule(195, startBatsStuff, self)
 		elseif self:IsHeroic() then
 			timerRainofFelCD:Start(9.3-delay, 1)
@@ -278,6 +285,7 @@ end
 
 function mod:OnCombatEnd()
 	table.wipe(warnedAdds)
+--	table.wipe(burningembersTargets)
 	if self.Options.RangeFrame then
 		DBM.RangeCheck:Hide()
 	end
@@ -298,6 +306,7 @@ function mod:SPELL_CAST_START(args)
 		specWarnFinalDoom:Show(self.vb.finalDoomCast)
 		specWarnFinalDoom:Play("specialsoon")
 		timerFinalDoom:Start()
+		countdownFinalDoom2:Start()
 		local timer = finalDoomTimers[self.vb.finalDoomCast+1]
 		if timer then
 			timerFinalDoomCD:Start(timer, self.vb.finalDoomCast+1)
@@ -308,8 +317,6 @@ function mod:SPELL_CAST_START(args)
 		specWarnSwing:Play("watchstep")
 	elseif spellId == 246305 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Артиллерийский удар
 		specWarnArtilleryStrike:Show()
-	elseif spellId == 256848 then --Судный миг
-		timerPurge:Start()
 	end
 end
 
@@ -413,41 +420,47 @@ function mod:SPELL_AURA_APPLIED(args)
 				DBM.RangeCheck:Show(8)
 			end
 		end
-	elseif spellId == 250693 or spellId == 249017 then --Магическая сингулярность Arcane Buildup
+	elseif spellId == 249017 then --Магическая сингулярность 250693 or spellId == 
 		if args:IsPlayer() then
 			specWarnArcaneBuildup:Show()
 			specWarnArcaneBuildup:Play("runout")
-			timerArcaneSingularity:Start()
+		--	timerArcaneSingularity:Start()
+			self:ScheduleMethod("ArcaneSingularity")
 			if self.Options.RangeFrame then
 				DBM.RangeCheck:Show(10)
 			end
-			self:ScheduleMethod("ArcaneSingularity")
 		end
-	elseif spellId == 250691 or spellId == 249015 then --Раскаленные угли Burning Embers
-		self.vb.burningembersIcon = self.vb.burningembersIcon + 1
+	elseif spellId == 249015 then --Раскаленные угли 250691 or spellId == 
 		if args:IsPlayer() then
 			specWarnBurningEmbers:Show()
 			specWarnBurningEmbers:Play("runout")
-			timerBurningEmbers:Start()
+		--	timerBurningEmbers:Start()
+			self:ScheduleMethod("BurningEmbers")
 			if self.Options.RangeFrame then
 				DBM.RangeCheck:Show(8)
 			end
-			self:ScheduleMethod("BurningEmbers")
 		end
 		if self.Options.SetIconOnBurningEmbers then
 			self:SetIcon(args.destName, self.vb.burningembersIcon)
 		end
-		if self.vb.burningembersIcon == 1 then
-			self.vb.burningembersIcon = 2
-		elseif self.vb.burningembersIcon == 2 then
-			self.vb.burningembersIcon = 3
-		elseif self.vb.burningembersIcon == 3 then
-			self.vb.burningembersIcon = 4
-		elseif self.vb.burningembersIcon == 4 then
-			self.vb.burningembersIcon = 5
-		elseif self.vb.burningembersIcon == 5 then
+--[[		if self.Options.SetIconOnBurningEmbers and #burningembersTargets < 6 then
+			self:SetIcon(args.destName, #burningembersTargets+1)
+		end]]
+		self.vb.burningembersIcon = self.vb.burningembersIcon + 1
+		if self.vb.burningembersIcon == 6 then
 			self.vb.burningembersIcon = 1
 		end
+--[[		if self.vb.burningembersIcon == 2 then --1
+			self.vb.burningembersIcon = 3 --2
+		elseif self.vb.burningembersIcon == 3 then --2
+			self.vb.burningembersIcon = 4 --3
+		elseif self.vb.burningembersIcon == 4 then --3
+			self.vb.burningembersIcon = 5 --4
+		elseif self.vb.burningembersIcon == 6 then --4
+			self.vb.burningembersIcon = 1 --5
+		elseif self.vb.burningembersIcon == 5 then --5
+			self.vb.burningembersIcon = 1 --1
+		end]]
 	elseif spellId == 250140 then--Foul Steps
 		if args:IsPlayer() then
 			local amount = args.amount or 1
@@ -481,28 +494,28 @@ function mod:SPELL_AURA_REMOVED(args)
 				DBM.RangeCheck:Hide()
 			end
 		end
-	elseif spellId == 250693 or spellId == 249017 then --Магическая сингулярность Arcane Buildup
+--[[	elseif spellId == 250693 or spellId == 249017 then --Магическая сингулярность Arcane Buildup
 		if args:IsPlayer() then
 			yellArcaneBuildupFades:Cancel()
 			timerArcaneSingularity:Cancel()
+			self:UnscheduleMethod("ArcaneSingularity")
 			if self.Options.RangeFrame then
 				DBM.RangeCheck:Hide()
 			end
-			self:UnscheduleMethod("ArcaneSingularity")
 		end
-	elseif spellId == 250691 or spellId == 249015 then --Раскаленные угли Burning Embers
-		self.vb.burningembersIcon = self.vb.burningembersIcon - 1
+	elseif spellId == 249015 then --Раскаленные угли 250691 or spellId == 
+--		self.vb.burningembersIcon = self.vb.burningembersIcon - 1
 		if args:IsPlayer() then
 			yellBurningEmbersFades:Cancel()
 			timerBurningEmbers:Cancel()
+			self:UnscheduleMethod("BurningEmbers")
 			if self.Options.RangeFrame then
 				DBM.RangeCheck:Hide()
 			end
-			self:UnscheduleMethod("BurningEmbers")
 		end
 		if self.Options.SetIconOnBurningEmbers then
 			self:SetIcon(args.destName, 0)
-		end
+		end]]
 	end
 end
 
@@ -533,10 +546,13 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, npc, _, _, target)
 		self.vb.spearCast = self.vb.spearCast + 1
 		specWarnSpearofDoom:Show()
 		specWarnSpearofDoom:Play("watchstep")
-		local timer = self:IsHeroic() and heroicSpearofDoomTimers[self.vb.spearCast+1]
+		local timer = self:IsHeroic() and heroicSpearofDoomTimers[self.vb.spearCast+1] or self:IsMythic() and mythicSpearofDoomTimers[self.vb.spearCast+1]
 		if timer then
 			timerSpearofDoomCD:Start(timer, self.vb.spearCast+1)
 		end
+	elseif msg:find("spell:249934") then --Судный миг
+		self.vb.purgeCast = self.vb.purgeCast + 1
+		warnPurge:Show(self.vb.purgeCast)
 	end
 end
 
@@ -544,6 +560,8 @@ function mod:UNIT_SPELLCAST_CHANNEL_STOP(uId, _, bfaSpellId, _, legacySpellId)
 	local spellId = legacySpellId or bfaSpellId
 	if spellId == 249121 then
 		timerFinalDoom:Stop()
+		countdownFinalDoom2:Cancel()
+		timerPurge:Start()
 	end
 end
 mod.UNIT_SPELLCAST_STOP = mod.UNIT_SPELLCAST_CHANNEL_STOP

@@ -550,4 +550,3 @@ DBM_CORE_DUR_CHECKING				= "Prüfe Schlachtzughaltbarkeit..."
 DBM_CORE_DUR_HEADER					= "Deadly Boss Mods - Haltbarkeitergebnisse"
 DBM_CORE_DUR_ENTRY					= "%s: Haltbarkeit [%d Prozent] / Ausrüstung defekt [%s]"
 DBM_CORE_LAG_FOOTER					= "Keine Antwort: %s"
-

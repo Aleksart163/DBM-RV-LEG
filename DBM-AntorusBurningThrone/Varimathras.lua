@@ -15,7 +15,7 @@ mod:RegisterCombat("yell", L.YellPullVarimathras)
 mod:RegisterCombat("yell", L.YellPullVarimathras2)
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_SUCCESS 243960 244093 243999 257644 122366",
+	"SPELL_CAST_SUCCESS 243960 244093 243999 257644 244042",
 	"SPELL_AURA_APPLIED 243961 244042 244094 248732 243968 243977 243980 243973",
 	"SPELL_AURA_REMOVED 244042 244094",
 	"SPELL_PERIODIC_DAMAGE 244005 248740",
@@ -35,8 +35,8 @@ local warnTormentofFel					= mod:NewSpellAnnounce(243979, 2, nil, nil, nil, nil,
 local warnTormentofShadows				= mod:NewSpellAnnounce(243974, 2, nil, nil, nil, nil, nil, 2) --Пытка тьмой
 --The Fallen Nathrezim
 local warnShadowStrike					= mod:NewSpellAnnounce(243960, 2, nil, "Tank", 2) --Теневой удар Doesn't need special warning because misery should trigger special warning at same time
-local warnMarkedPrey					= mod:NewTargetAnnounce(244042, 3) --Метка жертвы
-local warnNecroticEmbrace				= mod:NewTargetAnnounce(244094, 4) --Некротические объятия
+local warnMarkedPrey					= mod:NewTargetNoFilterAnnounce(244042, 3) --Метка жертвы
+local warnNecroticEmbrace				= mod:NewTargetNoFilterAnnounce(244094, 4) --Некротические объятия
 local warnEchoesofDoom					= mod:NewTargetAnnounce(248732, 3) --Отголоски гибели
 
 --Torments of the Shivarra
@@ -48,6 +48,7 @@ local specWarnMiseryTaunt				= mod:NewSpecialWarningTaunt(243961, nil, nil, nil,
 local specWarnDarkFissure				= mod:NewSpecialWarningDodge(243999, nil, nil, nil, 2, 2) --Темный разлом
 local specWarnMarkedPrey				= mod:NewSpecialWarningYou(244042, nil, nil, 2, 1, 2) --Метка жертвы
 local specWarnNecroticEmbrace			= mod:NewSpecialWarningYouMoveAway(244094, nil, nil, 3, 3, 5) --Некротические объятия
+local specWarnNecroticEmbrace3			= mod:NewSpecialWarningYouMoveAwayPos(244094, nil, nil, 3, 3, 5) --Некротические объятия
 local specWarnNecroticEmbrace2			= mod:NewSpecialWarningCloseMoveAway(244094, nil, nil, nil, 2, 5) --Некротические объятия
 local specWarnEchoesOfDoom				= mod:NewSpecialWarningYou(248732, nil, nil, nil, 1, 2) --Отголоски гибели
 --Torments of the Shivarra
@@ -60,8 +61,8 @@ local timerTormentofShadowsCD			= mod:NewNextTimer(61, 243974, nil, nil, nil, 6)
 mod:AddTimerLine(BOSS)
 local timerShadowStrikeCD				= mod:NewCDTimer(8.5, 243960, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Теневой удар 8.5-14 (most of time it's 9.7 or more, But lowest has to be used
 local timerDarkFissureCD				= mod:NewCDTimer(32, 243999, nil, nil, nil, 2) --Темный разлом 32-33
-local timerMarkedPreyCD					= mod:NewNextTimer(30.5, 244042, nil, nil, nil, 3) --Метка жертвы
-local timerNecroticEmbraceCD			= mod:NewNextTimer(30, 244093, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Некротические объятия
+local timerMarkedPreyCD					= mod:NewNextTimer(30.5, 244042, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Метка жертвы
+local timerNecroticEmbraceCD			= mod:NewNextTimer(30, 244093, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON..DBM_CORE_MYTHIC_ICON) --Некротические объятия
 
 local yellMarkedPrey					= mod:NewYell(244042, nil, nil, nil, "YELL") --Метка жертвы
 local yellMarkedPreyFades				= mod:NewShortFadesYell(244042, nil, nil, nil, "YELL") --Метка жертвы
@@ -96,7 +97,7 @@ function mod:OnCombatStart(delay)
 	countdownShadowStrike:Start(9.3-delay)
 	timerMarkedPreyCD:Start(25.2-delay)
 	countdownMarkedPrey:Start(25.2-delay)
-	timerDarkFissureCD:Start(15.4-delay)
+	timerDarkFissureCD:Start(15.3-delay)
 	if not self:IsEasy() then
 		timerNecroticEmbraceCD:Start(35-delay)
 		countdownNecroticEmbrace:Start(35-delay)
@@ -138,13 +139,13 @@ function mod:SPELL_CAST_SUCCESS(args)
 		specWarnDarkFissure:Show()
 		specWarnDarkFissure:Play("watchstep")
 		if self:IsHeroic() then
-			timerDarkFissureCD:Start(30.8)
+			timerDarkFissureCD:Start(30.7)
 		elseif self:IsMythic() then
 			timerDarkFissureCD:Start(30.7)
 		else
 			timerDarkFissureCD:Start(32)
 		end
-	elseif spellId == 122366 then --Метка жертвы
+	elseif spellId == 244042 then --Метка жертвы
 		timerMarkedPreyCD:Start(30.5)
 		countdownMarkedPrey:Start(30.5)
 	end
@@ -166,12 +167,12 @@ function mod:SPELL_AURA_APPLIED(args)
 				specWarnMiseryTaunt:Play("tauntboss")
 			end
 		end
-	elseif spellId == 244042 then
+	elseif spellId == 244042 then --Метка жертвы
 		if args:IsPlayer() then
 			specWarnMarkedPrey:Show()
 			specWarnMarkedPrey:Play("targetyou")
 			yellMarkedPrey:Yell()
-			yellMarkedPreyFades:Countdown(5)
+			yellMarkedPreyFades:Countdown(5, 3)
 		else
 			warnMarkedPrey:Show(args.destName)
 		end
@@ -184,17 +185,17 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self.Options.SetIconEmbrace then
 			self:SetIcon(args.destName, self.vb.totalEmbrace+2)--Should be BW compatible, for most part.
 		end
-		warnNecroticEmbrace:CombinedShow(0.7, args.destName)--Combined message because even if it starts on 1, people are gonna fuck it up
+	--	warnNecroticEmbrace:CombinedShow(0.7, args.destName)--Combined message because even if it starts on 1, people are gonna fuck it up
 		if self:IsMythic() then
 			if args:IsPlayer() then
 				if not playerAffected then
 					playerAffected = true
 					local icon = self.vb.totalEmbrace+2
-					specWarnNecroticEmbrace:Show(self:IconNumToTexture(icon))
+					specWarnNecroticEmbrace3:Show(self:IconNumToTexture(icon))
 					if not self:IsTank() then
-						specWarnNecroticEmbrace:Play("mm"..icon)
+						specWarnNecroticEmbrace3:Play("mm"..icon)
 					else
-						specWarnNecroticEmbrace:Play("targetyou")
+						specWarnNecroticEmbrace3:Play("targetyou")
 					end
 					yellNecroticEmbrace:Yell(self.vb.totalEmbrace, icon, icon)
 					yellNecroticEmbraceFades:Countdown(6, 4, icon)
@@ -204,6 +205,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				end
 			end
 		else
+			warnNecroticEmbrace:Show(args.destName)--Combined message because even if it starts on 1, people are gonna fuck it up
 			if args:IsPlayer() then
 				if not playerAffected then
 					playerAffected = true

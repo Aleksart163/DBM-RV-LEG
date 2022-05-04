@@ -251,3 +251,15 @@ L = DBM:GetModLocalization("AntorusTrash")
 L:SetGeneralLocalization({
 	name =	"Antorus Trash"
 })
+
+L:SetOptionLocalization({
+	timerRoleplay = "Countdown to the start of the boss fight"
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = "The start of the battle"
+})
+
+L:SetMiscLocalization({
+	RPImonar = "Halt!"
+})

@@ -41,9 +41,9 @@
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 17658 $"):sub(12, -3)),
+	Revision = tonumber(("$Revision: 17659 $"):sub(12, -3)),
 	DisplayVersion = "7.3.35 Right Version",
-	ReleaseRevision = 17657
+	ReleaseRevision = 17658
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -284,7 +284,6 @@ DBM.Counts = {
 	{text = "Pewsey", value = "Pewsey", path = "Interface\\AddOns\\DBM-Core\\Sounds\\Pewsey\\", max = 10},
 	{text = "Bear", value = "Bear", path = "Interface\\AddOns\\DBM-Core\\Sounds\\Bear\\", max = 10},
 	{text = "Anshlun", value = "Anshlun", path = "Interface\\AddOns\\DBM-Core\\Sounds\\Anshlun\\", max = 10},
-	{text = "Neryssa", value = "Neryssa", path = "Interface\\AddOns\\DBM-Core\\Sounds\\Neryssa\\", max = 10},
 }
 DBM.Victory = {
 	{text = "Alarak Victory", value = "Interface\\AddOns\\DBM-Core\\sounds\\Victory\\Alarak_Win.ogg", length=5},
@@ -6867,12 +6866,12 @@ do
 			testWarning2 = testMod:NewAnnounce("%s", 2, "Interface\\Icons\\Spell_Shadow_ShadesOfDarkness")
 			testWarning3 = testMod:NewAnnounce("%s", 3, "Interface\\Icons\\Spell_Fire_SelfDestruct")
 			testTimer1 = testMod:NewTimer(20, "%s", "Interface\\Icons\\Spell_Nature_WispSplode", nil, nil)
-			testTimer2 = testMod:NewTimer(20, "%s ", "Interface\\ICONS\\INV_Misc_Head_Orc_01.blp", nil, nil, 1)
+			testTimer2 = testMod:NewTimer(20, "%s ", "Interface\\ICONS\\INV_Misc_Head_Orc_01.blp", nil, nil, 1, DBM_CORE_DAMAGE_ICON)
 			testTimer3 = testMod:NewTimer(20, "%s  ", "Interface\\Icons\\Spell_Shadow_ShadesOfDarkness", nil, nil, 3, DBM_CORE_MAGIC_ICON)
 			testTimer4 = testMod:NewTimer(20, "%s   ", "Interface\\Icons\\Spell_Nature_WispSplode", nil, nil, 4, DBM_CORE_INTERRUPT_ICON)
 			testTimer5 = testMod:NewTimer(20, "%s    ", "Interface\\Icons\\Spell_Fire_SelfDestruct", nil, nil, 2, DBM_CORE_HEALER_ICON)
 			testTimer6 = testMod:NewTimer(20, "%s     ", "Interface\\Icons\\Spell_Nature_WispSplode", nil, nil, 5, DBM_CORE_TANK_ICON)
-			testTimer7 = testMod:NewTimer(20, "%s      ", "Interface\\Icons\\Spell_Nature_WispSplode", nil, nil, 6)
+			testTimer7 = testMod:NewTimer(20, "%s      ", "Interface\\Icons\\Spell_Nature_WispSplode", nil, nil, 6, DBM_CORE_MYTHIC_ICON)
 			testTimer8 = testMod:NewTimer(20, "%s       ", "Interface\\Icons\\Spell_Nature_WispSplode", nil, nil, 7)
 			testCount1 = testMod:NewCountdown(0, 0, nil, nil, nil, true)
 			testCount2 = testMod:NewCountdown(0, 0, nil, nil, nil, true, true)
@@ -8984,6 +8983,10 @@ do
 		end
 		return newAnnounce(self, "prewarn", spellId, color or 1, icon, optionDefault, optionName, nil, time, noSound)
 	end
+	
+--[[	function bossModPrototype:NewPreWarnAnnounce(spellId, time, color, icon, optionDefault, optionName, noArg, noSound) -- с БФА
+		return newAnnounce(self, "prewarn", spellId, color or 1, icon, optionDefault, optionName, nil, time, noSound)
+	end]]
 
 	function bossModPrototype:NewPhaseAnnounce(stage, color, icon, ...)
 		return newAnnounce(self, "stage", stage, color or 1, icon or "Interface\\Icons\\Spell_Nature_WispSplode", ...)
@@ -9338,6 +9341,10 @@ do
 
 	function bossModPrototype:NewYell(...)
 		return newYell(self, "yell", ...)
+	end
+	
+	function bossModPrototype:NewYellHelp(...)
+		return newYell(self, "yellhelp", ...)
 	end
 	
 	function bossModPrototype:NewShortYell(...)
@@ -9835,7 +9842,7 @@ do
 			if announceType == "target" or announceType == "targetcount" or announceType == "close" or announceType == "reflect" then
 				catType = "announceother"
 			--Directly affects you 
-			elseif announceType == "you" or announceType == "yourun" or announceType == "yourunning" or announceType == "closemoveaway" or announceType == "youfind" or announceType == "youclose" or announceType == "youshare" or announceType == "youdefensive" or announceType == "youmoveaway" or announceType == "youmove" or announceType == "youcount" or announceType == "youpos" or announceType == "move" or announceType == "dodge" or announceType == "moveaway" or announceType == "run" or announceType == "stack" or announceType == "moveto" or announceType == "soakpos" then
+			elseif announceType == "you" or announceType == "yourun" or announceType == "yourunning" or announceType == "closemoveaway" or announceType == "youfind" or announceType == "youclose" or announceType == "youshare" or announceType == "youdefensive" or announceType == "youmoveaway" or announceType == "youmove" or announceType == "youcount" or announceType == "youpos" or announceType == "move" or announceType == "dodge" or announceType == "moveaway" or announceType == "run" or announceType == "stack" or announceType == "moveto" or announceType == "soakpos" or announceType == "youmoveawaypos" or announceType == "youfades" then
 				catType = "announcepersonal"
 			--Things you have to do to fulfil your role
 			elseif announceType == "taunt" or announceType == "moredamage" or announceType == "defensive" or announceType == "interrupt2" or announceType == "dispel" or announceType == "interrupt" or announceType == "interruptcount" or announceType == "switch" or announceType == "switchcount" then
@@ -9858,6 +9865,10 @@ do
 
 	function bossModPrototype:NewSpecialWarningFades(text, optionDefault, ...)
 		return newSpecialWarning(self, "fades", text, nil, optionDefault, ...)
+	end
+	
+	function bossModPrototype:NewSpecialWarningYouFades(text, optionDefault, ...)
+		return newSpecialWarning(self, "youfades", text, nil, optionDefault, ...)
 	end
 
 	function bossModPrototype:NewSpecialWarningSoon(text, optionDefault, ...)
@@ -9910,6 +9921,10 @@ do
 
 	function bossModPrototype:NewSpecialWarningTarget(text, optionDefault, ...)
 		return newSpecialWarning(self, "target", text, nil, optionDefault, ...)
+	end
+	
+	function bossModPrototype:NewSpecialWarningTargetHelp(text, optionDefault, ...)
+		return newSpecialWarning(self, "targethelp", text, nil, optionDefault, ...)
 	end
 	
 	function bossModPrototype:NewSpecialWarningTargetCount(text, optionDefault, ...)
@@ -9986,6 +10001,10 @@ do
 	
 	function bossModPrototype:NewSpecialWarningYouMoveAway(text, optionDefault, ...)
 		return newSpecialWarning(self, "youmoveaway", text, nil, optionDefault, ...)
+	end
+
+	function bossModPrototype:NewSpecialWarningYouMoveAwayPos(text, optionDefault, ...)
+		return newSpecialWarning(self, "youmoveawaypos", text, nil, optionDefault, ...)
 	end
 	
 	function bossModPrototype:NewSpecialWarningMoveAway(text, optionDefault, ...)
@@ -10085,6 +10104,10 @@ do
 	
 	function bossModPrototype:NewSpecialWarningMoreDamage(text, optionDefault, ...)
 		return newSpecialWarning(self, "moredamage", text, nil, optionDefault, ...)
+	end
+	
+	function bossModPrototype:NewSpecialWarningParaxisCount(text, optionDefault, ...)
+		return newSpecialWarning(self, "paraxiscount", text, nil, optionDefault, ...)
 	end
 
 	function bossModPrototype:NewSpecialWarningPreWarn(text, optionDefault, time, ...)
