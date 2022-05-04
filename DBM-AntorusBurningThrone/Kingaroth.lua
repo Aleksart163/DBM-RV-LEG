@@ -1,17 +1,20 @@
 local mod	= DBM:NewMod(2004, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17603 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 mod:SetCreatureID(122578)
 mod:SetEncounterID(2088)
 mod:SetZone()
 --mod:SetBossHPInfoToHighest()
-mod:SetUsedIcons(1, 2, 3)
+mod:SetUsedIcons(3, 2, 1)
 mod:SetHotfixNoticeRev(16945)
 mod:SetMinSyncRevision(16975)
 mod.respawnTime = 29
 
-mod:RegisterCombat("combat")
+--mod:RegisterCombat("combat", 122578)
+mod:RegisterCombat("yell", L.YellPullKingaroth)
+mod:RegisterCombat("yell", L.YellPullKingaroth2)
+mod:RegisterCombat("yell", L.YellPullKingaroth3)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 244312 254926 245807 252758 246692 246833 246516 257978 254919",
@@ -38,58 +41,62 @@ mod:RegisterEventsInCombat(
  or (ability.id = 246516 or ability.id = 246698 or ability.id = 252760) and (type = "removebuff" or type = "removedebuff")
 --]]
 --Stage: Deployment
-local warnShatteringStrike				= mod:NewSpellAnnounce(248375, 2)
-local warnDiabolicBomb					= mod:NewSpellAnnounce(246779, 3, nil, nil, nil, nil, nil, 2)
-local warnReverberatingStrike			= mod:NewTargetAnnounce(254926, 3)
+local warnShatteringStrike				= mod:NewSpellAnnounce(248375, 2) --Разбивающий удар
+local warnDiabolicBomb					= mod:NewSpellAnnounce(246779, 3, nil, nil, nil, nil, nil, 2) --Демоническая бомба
+local warnReverberatingStrike			= mod:NewTargetAnnounce(254926, 3) --Гулкий удар
+local warnWarnInitializing				= mod:NewSpellAnnounce(246504, 3) --Инициализация
 --Reavers (or empowered boss from reaver deaths)
-local warnDecimation					= mod:NewTargetAnnounce(246687, 4)
-local warnDemolish						= mod:NewTargetAnnounce(246692, 4)
+local warnDecimation					= mod:NewTargetAnnounce(246687, 4) --Децимация
+local warnDemolish						= mod:NewTargetAnnounce(246692, 4) --Разрушение
 
 --Stage: Deployment
 --local specWarnGTFO					= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 2)
-local specWarnForgingStrike				= mod:NewSpecialWarningDefensive(244312, nil, nil, nil, 1, 2)
-local specWarnForgingStrikeOther		= mod:NewSpecialWarningTaunt(244312, nil, nil, nil, 1, 2)
-local specWarnReverberatingStrike		= mod:NewSpecialWarningYou(254926, nil, nil, nil, 1, 2)
-local yellReverberatingStrike			= mod:NewYell(254926)
-local specWarnReverberatingStrikeNear	= mod:NewSpecialWarningClose(254926, nil, nil, nil, 1, 2)
-local specWarnRuiner					= mod:NewSpecialWarningDodge(246840, nil, nil, nil, 3, 2)
+local specWarnForgingStrike				= mod:NewSpecialWarningDefensive(244312, nil, nil, nil, 1, 2) --Прессование
+local specWarnForgingStrikeOther		= mod:NewSpecialWarningTaunt(244312, nil, nil, nil, 1, 2) --Прессование
+local specWarnReverberatingStrike		= mod:NewSpecialWarningYou(254926, nil, nil, nil, 1, 2) --Гулкий удар
+local specWarnReverberatingStrikeNear	= mod:NewSpecialWarningClose(254926, nil, nil, nil, 1, 2) --Гулкий удар
+local specWarnRuiner					= mod:NewSpecialWarningDodge(246840, nil, nil, nil, 3, 5) --Разрушитель
 --Stage: Construction
-local specWarnInitializing				= mod:NewSpecialWarningSwitch(246504, nil, nil, nil, 1, 2)
+local specWarnInitializing				= mod:NewSpecialWarningSwitch(246504, "-Healer", nil, nil, 1, 2) --Инициализация
 --Reavers (or empowered boss from reaver deaths)
-local specWarnDecimation				= mod:NewSpecialWarningMoveAway(246687, nil, nil, nil, 1, 2)
-local yellDecimation					= mod:NewShortFadesYell(246687)
-local specWarnAnnihilation				= mod:NewSpecialWarningSpell(245807, nil, nil, nil, 2, 2)
-local specWarnDemolish					= mod:NewSpecialWarningYou(246692, nil, nil, nil, 1, 2)
-local specWarnDemolishOther				= mod:NewSpecialWarningMoveTo(246692, nil, nil, nil, 1, 2)
-local yellDemolish						= mod:NewPosYell(246692)
-local yellDemolishFades					= mod:NewIconFadesYell(246692)
+local specWarnDecimation				= mod:NewSpecialWarningYouMoveAway(246687, nil, nil, nil, 4, 5) --Децимация
+local specWarnAnnihilation				= mod:NewSpecialWarningSoak(245807, nil, nil, nil, 2, 2) --Аннигиляция
+local specWarnDemolish					= mod:NewSpecialWarningYouShare(246692, nil, nil, nil, 3, 5) --Разрушение
+local specWarnDemolishOther				= mod:NewSpecialWarningMoveTo(246692, nil, nil, nil, 1, 2) --Разрушение
 
 --Stage: Deployment
 mod:AddTimerLine(BOSS)
-local timerForgingStrikeCD				= mod:NewCDTimer(14.3, 244312, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
-local timerReverberatingStrikeCD		= mod:NewCDCountTimer(28, 254926, nil, nil, nil, 3)
-local timerDiabolicBombCD				= mod:NewCDTimer(20, 246779, nil, nil, nil, 3)
-local timerRuinerCD						= mod:NewCDCountTimer(28.8, 246840, nil, nil, nil, 3)
---local timerShatteringStrikeCD			= mod:NewCDTimer(30, 248375, nil, nil, nil, 2)
-local timerApocProtocolCD				= mod:NewCDCountTimer(77, 246516, nil, nil, nil, 6)
+local timerForgingStrikeCD				= mod:NewCDTimer(14.3, 244312, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Прессование+
+local timerReverberatingStrikeCD		= mod:NewCDCountTimer(30, 254926, nil, nil, nil, 3) --Гулкий удар+
+local timerDiabolicBombCD				= mod:NewCDTimer(20, 246779, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON..DBM_CORE_HEALER_ICON) --Демоническая бомба+
+local timerRuiner						= mod:NewCastTimer(9, 246840, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Разрушитель+
+local timerRuinerCD						= mod:NewCDCountTimer(30, 246840, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Разрушитель+
+--local timerShatteringStrikeCD			= mod:NewCDTimer(30, 248375, nil, nil, nil, 2) --Разбивающий удар
+local timerApocProtocolCD				= mod:NewCDCountTimer(77.5, 246516, nil, nil, nil, 6, nil, DBM_CORE_HEALER_ICON) --Протокол Апокалипсис+
+local timerApocProtocol					= mod:NewCastTimer(42.3, 246516, nil, nil, nil, 6, nil, DBM_CORE_HEALER_ICON) --Протокол Апокалипсис
 --Stage: Construction
 mod:AddTimerLine(DBM_ADDS)
-local timerInitializing					= mod:NewCastTimer(30, 246504, nil, nil, nil, 6)
-local timerDecimationCD					= mod:NewCDTimer(10.9, 246687, nil, nil, nil, 3)
-local timerAnnihilationCD				= mod:NewCDTimer(15.4, 245807, nil, nil, nil, 3)
-local timerDemolishCD					= mod:NewCDTimer(15.8, 246692, nil, nil, nil, 3)
+local timerInitializing					= mod:NewCastTimer(30, 246504, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON) --Инициализация
+local timerDecimationCD					= mod:NewCDTimer(10.9, 246687, nil, nil, nil, 3) --Децимация
+local timerAnnihilationCD				= mod:NewCDTimer(15.4, 245807, nil, nil, nil, 3) --Аннигиляция
+local timerDemolishCD					= mod:NewCDTimer(15.8, 246692, nil, nil, nil, 3) --Разрушение
 
---local berserkTimer					= mod:NewBerserkTimer(600)
+local yellReverberatingStrike			= mod:NewYell(254926, nil, nil, nil, "YELL") --Гулкий удар
+local yellDecimation					= mod:NewShortFadesYell(246687, nil, nil, nil, "YELL") --Децимация
+local yellDemolish						= mod:NewPosYell(246692, nil, nil, nil, "YELL") --Разрушение
+local yellDemolishFades					= mod:NewIconFadesYell(246692, nil, nil, nil, "YELL") --Разрушение
+
+local berserkTimer						= mod:NewBerserkTimer(600)
 
 --Stage: Deployment
-local countdownApocProtocol				= mod:NewCountdown(77, 246516)
-local countdownForgingStrike			= mod:NewCountdown("Alt14", 244312, "Tank", nil, 3)
-local countdownRuiner					= mod:NewCountdown("AltTwo29", 246840)
+local countdownApocProtocol				= mod:NewCountdown(77.5, 246516) --Протокол Апокалипсис
+local countdownForgingStrike			= mod:NewCountdown("Alt14", 244312, "Tank", nil, 3) --Прессование
+local countdownRuiner					= mod:NewCountdown("AltTwo29", 246840) --Разрушитель
 
-mod:AddSetIconOption("SetIconOnDemolish", 246692, true)
+mod:AddSetIconOption("SetIconOnDemolish", 246692, true, false, {3, 2, 1}) --Разрушение
 mod:AddBoolOption("InfoFrame", true)
 mod:AddBoolOption("UseAddTime", true)
-mod:AddRangeFrameOption(5, 254926)--?
+mod:AddRangeFrameOption(5, 254926) --Гулкий удар
 
 mod.vb.ruinerCast = 0
 mod.vb.forgingStrikeCast = 0
@@ -183,15 +190,31 @@ function mod:OnCombatStart(delay)
 	self.vb.forgingTimeLeft = 0
 	self.vb.bombTimeLeft = 0
 	table.wipe(DemolishTargets)
-	timerForgingStrikeCD:Start(6-delay, 1)--6-7
-	countdownForgingStrike:Start(6-delay)
-	timerDiabolicBombCD:Start(11-delay)
-	timerReverberatingStrikeCD:Start(14.2-delay, 1)--14-15
-	timerRuinerCD:Start(21.1-delay, 1)--21-25
-	countdownRuiner:Start(21.1-delay)
+	berserkTimer:Start(-delay)
+	if self:IsHeroic() then
+		timerDiabolicBombCD:Start(15.5-delay) --Демоническая бомба было 11
+		timerForgingStrikeCD:Start(7-delay, 1) --Прессование было 6
+		countdownForgingStrike:Start(7-delay) --Прессование было 6
+		timerApocProtocolCD:Start(35-delay, 1) --Протокол Апокалипсис было 31.8
+		countdownApocProtocol:Start(35) --Протокол Апокалипсис было 31.8
+		timerReverberatingStrikeCD:Start(14-delay, 1)--14-15
+	elseif self:IsMythic() then
+		timerDiabolicBombCD:Start(14.5-delay) --Демоническая бомба было 11
+		timerForgingStrikeCD:Start(7-delay, 1) --Прессование было 6
+		countdownForgingStrike:Start(7-delay) --Прессование было 6
+		timerApocProtocolCD:Start(35-delay, 1) --Протокол Апокалипсис было 31.8
+		countdownApocProtocol:Start(35) --Протокол Апокалипсис было 31.8
+	else --оригинальные, ничего не менял
+		timerDiabolicBombCD:Start(11-delay) --Демоническая бомба
+		timerForgingStrikeCD:Start(6-delay, 1) --Прессование
+		countdownForgingStrike:Start(6-delay) --Прессование
+		timerApocProtocolCD:Start(31.8-delay, 1) --Протокол Апокалипсис
+		countdownApocProtocol:Start(31.8) --Протокол Апокалипсис
+	end
+--	timerReverberatingStrikeCD:Start(14.2-delay, 1)--14-15
+	timerRuinerCD:Start(26.1-delay, 1) --было 21.1
+	countdownRuiner:Start(26.1-delay) --было 21.1
 	--timerShatteringStrikeCD:Start(1-delay)--Not cast on pull
-	timerApocProtocolCD:Start(31.8-delay, 1)--31.8-36.5
-	countdownApocProtocol:Start(31.8)
 	if self.Options.RangeFrame then
 		DBM.RangeCheck:Show(5)
 	end
@@ -215,7 +238,11 @@ function mod:SPELL_CAST_START(args)
 			specWarnForgingStrike:Play("defensive")
 		end
 		--1.5, 27.6, 30.1
-		timerForgingStrikeCD:Start(14.6, self.vb.forgingStrikeCast+1)
+		if self:IsHeroic() then
+			timerForgingStrikeCD:Start(14.4, self.vb.forgingStrikeCast+1)
+		else
+			timerForgingStrikeCD:Start(14.6, self.vb.forgingStrikeCast+1)
+		end
 		countdownForgingStrike:Start(14.6)
 	elseif spellId == 254926 or spellId == 257997 then
 		self:BossTargetScanner(args.sourceGUID, "ReverberatingTarget", 0.1, 9)
@@ -235,11 +262,12 @@ function mod:SPELL_CAST_START(args)
 		specWarnRuiner:Show()
 		specWarnRuiner:Play("farfromline")
 		specWarnRuiner:ScheduleVoice(1.5, "keepmove")
+		timerRuiner:Start()
 		timerRuinerCD:Start(nil, self.vb.ruinerCast+1)--28-30 depending on difficulty
-		countdownRuiner:Start(29.1)
+		countdownRuiner:Start(30)
 		timerForgingStrikeCD:Start(10, self.vb.forgingStrikeCast+1)
 		countdownForgingStrike:Start()
-	elseif spellId == 246516 and self:IsInCombat() then--Apocolypse Protocol
+	elseif spellId == 246516 and self:IsInCombat() then --Протокол Апокалипсис
 		self.vb.ruinerTimeLeft = timerRuinerCD:GetRemaining(self.vb.ruinerCast+1)
 		self.vb.reverbTimeLeft = timerReverberatingStrikeCD:GetRemaining(self.vb.reverbStrikeCast+1)
 		self.vb.forgingTimeLeft = timerForgingStrikeCD:GetRemaining(self.vb.forgingStrikeCast+1)
@@ -247,12 +275,12 @@ function mod:SPELL_CAST_START(args)
 		countdownForgingStrike:Cancel()
 		countdownRuiner:Cancel()
 		if self.Options.UseAddTime then
-			timerDiabolicBombCD:AddTime(42.3)
-			timerRuinerCD:AddTime(42.3, self.vb.ruinerCast+1)
-			countdownRuiner:Start(self.vb.ruinerTimeLeft+42.3)
-			timerReverberatingStrikeCD:AddTime(42.3, self.vb.reverbStrikeCast+1)
-			timerForgingStrikeCD:AddTime(42.3, self.vb.forgingStrikeCast+1)
-			countdownForgingStrike:Start(self.vb.forgingTimeLeft+42.3)
+			timerDiabolicBombCD:AddTime(42.3) --Демоническая бомба
+			timerRuinerCD:AddTime(43.5, self.vb.ruinerCast+1) --Разрушитель
+			countdownRuiner:Start(self.vb.ruinerTimeLeft+43.5) --Разрушитель
+			timerReverberatingStrikeCD:AddTime(51.3, self.vb.reverbStrikeCast+1) --гулкий удар
+			timerForgingStrikeCD:AddTime(42.3, self.vb.forgingStrikeCast+1) --Прессование
+			countdownForgingStrike:Start(self.vb.forgingTimeLeft+42.3) --Прессование
 		else--times are stored in variables so can stop timers now
 			timerForgingStrikeCD:Stop()
 			timerReverberatingStrikeCD:Stop()
@@ -261,12 +289,19 @@ function mod:SPELL_CAST_START(args)
 		end
 		--timerDiabolicBombCD:Stop()
 		--timerShatteringStrikeCD:Stop()
+		warnWarnInitializing:Show()
 		specWarnInitializing:Show()
 		specWarnInitializing:Play("killmob")
 		if self:IsLFR() then
 			timerInitializing:Start(42.3)
-		else
+		elseif self:IsMythic() then
+			timerApocProtocol:Start()
 			timerInitializing:Start(32.3)
+			countdownApocProtocol:Start(42.3)
+		else
+			timerApocProtocol:Start()
+			timerInitializing:Start(32.3)
+			countdownApocProtocol:Start(42.3)
 		end
 	end
 end
@@ -340,7 +375,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		if args:IsPlayer() then
 			yellDecimation:Cancel()
 		end
-	elseif spellId == 246516 and self:IsInCombat() then--Apocolypse Protocol
+	elseif spellId == 246516 and self:IsInCombat() then --Протокол Апокалипсис
 		self.vb.apocProtoCount = self.vb.apocProtoCount + 1
 		if self.vb.apocProtoCount % 2 == 1 then
 			DBM:Debug("Reverb first", 2)
@@ -366,8 +401,8 @@ function mod:SPELL_AURA_REMOVED(args)
 		end
 		--timerDiabolicBombCD:Start(2)
 		--timerShatteringStrikeCD:Start(42)
-		timerApocProtocolCD:Start(77, self.vb.apocProtoCount+1)--77
-		countdownApocProtocol:Start(77)
+		timerApocProtocolCD:Start(77.5, self.vb.apocProtoCount+1)--77
+		countdownApocProtocol:Start(77.5)
 	elseif spellId == 246698 or spellId == 252760 then
 		tDeleteItem(DemolishTargets, args.destName)
 		if args:IsPlayer() then
