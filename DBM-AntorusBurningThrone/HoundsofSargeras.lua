@@ -1,21 +1,20 @@
 local mod	= DBM:NewMod(1987, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17603 $"):sub(12, -3))
 mod:SetCreatureID(122477, 122135)--122477 F'harg, 122135 Shatug
 mod:SetEncounterID(2074)
 mod:SetZone()
 mod:SetBossHPInfoToHighest()
-mod:SetUsedIcons(6, 5, 4, 3, 2, 1)
+mod:SetUsedIcons(1, 2, 3, 4, 5, 6)
 mod:SetHotfixNoticeRev(16949)
 mod.respawnTime = 29--Guessed, it's not 4 anymore
 
 mod:RegisterCombat("combat")
---mod:RegisterCombat("yell", L.YellPullHounds)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 244057 244056",
-	"SPELL_CAST_SUCCESS 244072 251445 245098 244086",
+	"SPELL_CAST_SUCCESS 244072 251445 245098",
 	"SPELL_AURA_APPLIED 244768 248815 254429 248819 244054 244055 251356",
 	"SPELL_AURA_REMOVED 244768 248815 254429 248819 251356",
 --	"SPELL_PERIODIC_DAMAGE",
@@ -30,60 +29,58 @@ local Shatug = DBM:EJ_GetSectionInfo(15836)
  or (ability.id = 244072 or ability.id = 251445 or ability.id = 245098 or ability.id = 251356 or ability.id = 254429) and type = "cast"
 --]]
 --F'harg
-local warnBurningMaw					= mod:NewTargetAnnounce(251448, 2, nil, false, 2) --Пылающая пасть
-local warnDesolateGaze					= mod:NewTargetAnnounce(244768, 3) --Опустошающий взгляд
-local warnEnflamedCorruption			= mod:NewSpellAnnounce(244057, 3) --Возгорание порчи
-local warnEnflamed						= mod:NewTargetAnnounce(248815, 3) --Возгорание
-local warnMoltenTouch					= mod:NewSpellAnnounce(244072, 2) --Касание магмы
+local warnBurningMaw					= mod:NewTargetAnnounce(251448, 2, nil, false, 2)
+local warnDesolateGaze					= mod:NewTargetAnnounce(244768, 3)
+local warnEnflamedCorruption			= mod:NewSpellAnnounce(244057, 3)
+local warnEnflamed						= mod:NewTargetAnnounce(248815, 3, nil, false, 2)
 --Shatug
-local warnCorruptingMaw					= mod:NewTargetAnnounce(251447, 2, nil, false, 2) --Заразная пасть
-local warnWeightofDarkness				= mod:NewTargetAnnounce(254429, 3) --Бремя тьмы
-local warnSiphonCorruption				= mod:NewSpellAnnounce(244056, 3) --Вытягивание порчи
-local warnSiphoned						= mod:NewTargetAnnounce(248819, 3, nil, false, 2) --Вытягивание
+local warnCorruptingMaw					= mod:NewTargetAnnounce(251447, 2, nil, false, 2)
+local warnWeightofDarkness				= mod:NewTargetAnnounce(254429, 3)
+local warnSiphonCorruption				= mod:NewSpellAnnounce(244056, 3)
+local warnSiphoned						= mod:NewTargetAnnounce(248819, 3, nil, false, 2)
 --General/Mythic
-local warnFocusingPower					= mod:NewSpellAnnounce(251356, 2) --Фокусирование силы
+local warnFocusingPower					= mod:NewSpellAnnounce(251356, 2)
 
 --F'harg
-local specWarnMoltenTouch				= mod:NewSpecialWarningDodge(244072, nil, nil, nil, 2, 2) --Касание магмы
-local specWarnDesolateGaze				= mod:NewSpecialWarningYouMoveAway(244768, nil, nil, nil, 1, 5) --Опустошающий взгляд
-local specWarnEnflamed					= mod:NewSpecialWarningYouMoveAway(248815, nil, nil, nil, 1, 5) --Возгорание
+local specWarnMoltenTouch				= mod:NewSpecialWarningDodge(244072, nil, nil, nil, 2, 2)
+local specWarnDesolateGaze				= mod:NewSpecialWarningYou(244768, nil, nil, nil, 1, 2)
+local yellDesolateGaze					= mod:NewYell(244768)
+local specWarnEnflamed					= mod:NewSpecialWarningYou(248815, nil, nil, nil, 1, 2)
+local yellEnflamed						= mod:NewShortFadesYell(248815)
 --local specWarnGTFO					= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 2)
 --Shatug
-local specWarnComsumingSphere			= mod:NewSpecialWarningDodge(244131, nil, nil, nil, 2, 2) --Поглощаяющая сфера
-local specWarnWeightOfDarkness			= mod:NewSpecialWarningYouShare(254429, nil, nil, nil, 3, 5) --Бремя тьмы
-local specWarnSiphoned					= mod:NewSpecialWarningYouShare(248819, nil, nil, nil, 3, 5) --Вытягивание
+local specWarnComsumingSphere			= mod:NewSpecialWarningDodge(244131, nil, nil, nil, 2, 2)
+local specWarnWeightOfDarkness			= mod:NewSpecialWarningMoveTo(254429, nil, nil, nil, 1, 2)
+local yellWeightOfDarkness				= mod:NewYell(254429)
+local yellWeightOfDarknessFades			= mod:NewShortFadesYell(254429)
+local specWarnSiphoned					= mod:NewSpecialWarningMoveTo(248819, nil, nil, nil, 1, 2)
+local yellSiphoned						= mod:NewShortFadesYell(248819)
 --Mythic
-local specWarnFlameTouched				= mod:NewSpecialWarningYouPos(244054, nil, nil, nil, 3, 8) --Касание пламени
-local specWarnShadowtouched				= mod:NewSpecialWarningYouPos(244055, nil, nil, nil, 3, 8) --Касание тьмы
+local specWarnFlameTouched				= mod:NewSpecialWarningYouPos(244054, nil, nil, nil, 3, 8)
+local specWarnShadowtouched				= mod:NewSpecialWarningYouPos(244055, nil, nil, nil, 3, 8)
+local yellTouched						= mod:NewPosYell(244054, DBM_CORE_AUTO_YELL_CUSTOM_POSITION)
 
 --General/Mythic
-local timerFocusingPower				= mod:NewCastTimer(15, 251356, nil, nil, nil, 6) --Фокусирование силы
+local timerFocusingPower				= mod:NewCastTimer(15, 251356, nil, nil, nil, 6)
 mod:AddTimerLine(Fharg)
-local timerBurningMawCD					= mod:NewCDTimer(10.1, 251448, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Пылающая пасть
-local timerMoltenTouchCD				= mod:NewCDTimer(95.9, 244072, nil, nil, nil, 3) --Касание магмы
-local timerEnflamedCorruptionCD			= mod:NewCDTimer(95.9, 244057, nil, nil, nil, 3) --Возгорание порчи
-local timerDesolateGazeCD				= mod:NewCDTimer(95.9, 244768, nil, nil, nil, 3) --Опустошающий взгляд
+local timerBurningMawCD					= mod:NewCDTimer(10.1, 251448, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)--usually 11 but some pulls it's 10
+local timerMoltenTouchCD				= mod:NewCDTimer(95.9, 244072, nil, nil, nil, 3)
+local timerEnflamedCorruptionCD			= mod:NewCDTimer(95.9, 244057, nil, nil, nil, 3)
+local timerDesolateGazeCD				= mod:NewCDTimer(95.9, 244768, nil, nil, nil, 3)
 mod:AddTimerLine(Shatug)
-local timerCorruptingMawCD				= mod:NewCDTimer(10.1, 251447, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Заразная пасть
-local timerComsumingSphereCD			= mod:NewCDTimer(77, 244131, nil, nil, nil, 2) --Поглощаяющая сфера
-local timerWeightOfDarknessCD			= mod:NewCDTimer(77, 254429, nil, nil, nil, 3) --Бремя тьмы
-local timerSiphonCorruptionCD			= mod:NewCDTimer(77, 244056, nil, nil, nil, 3) --Вытягивание порчи
+local timerCorruptingMawCD				= mod:NewCDTimer(10.1, 251447, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)--usually 11 but some pulls it's 10
+local timerComsumingSphereCD			= mod:NewCDTimer(77, 244131, nil, nil, nil, 3)--Verify in transcritor
+local timerWeightOfDarknessCD			= mod:NewCDTimer(77, 254429, nil, nil, nil, 3)
+local timerSiphonCorruptionCD			= mod:NewCDTimer(77, 244056, nil, nil, nil, 3)
 
-local yellTouched						= mod:NewPosYell(244054, DBM_CORE_AUTO_YELL_CUSTOM_POSITION) --Касание пламени и тьмы
-local yellWeightOfDarkness				= mod:NewYell(254429, nil, nil, nil, "YELL") --Бремя тьмы
-local yellWeightOfDarknessFades			= mod:NewShortFadesYell(254429, nil, nil, nil, "YELL") --Бремя тьмы
-local yellEnflamed						= mod:NewShortFadesYell(248815, nil, nil, nil, "YELL") --Возгорание
-local yellDesolateGaze					= mod:NewYell(244768, nil, nil, nil, "YELL") --Опустошающий взгляд
-local yellSiphoned						= mod:NewShortFadesYell(248819, nil, nil, nil, "YELL") --Вытягивание
-
-local berserkTimer						= mod:NewBerserkTimer(600)
+--local berserkTimer					= mod:NewBerserkTimer(600)
 
 --F'harg
-local countdownBurningMaw				= mod:NewCountdown("Alt10", 251448, "Tank", nil, 3) --Пылающая пасть
+local countdownBurningMaw				= mod:NewCountdown("Alt10", 251448, "Tank", nil, 3)
 --Shatug
-local countdownCorruptingMaw			= mod:NewCountdown("Alt10", 251447, "Tank", nil, 3) --Заразная пасть
+local countdownCorruptingMaw			= mod:NewCountdown("Alt10", 251447, "Tank", nil, 3)
 
-mod:AddSetIconOption("SetIconOnWeightofDarkness2", 254429, true, false, {6, 5, 4, 3, 2, 1}) --Бремя тьмы
+mod:AddSetIconOption("SetIconOnWeightofDarkness2", 254429, false)
 --mod:AddInfoFrameOption(239154, true)
 mod:AddRangeFrameOption("5/8")
 mod:AddBoolOption("SequenceTimers", false)
@@ -113,7 +110,6 @@ function mod:OnCombatStart(delay)
 	end
 	self.vb.WeightDarkIcon = 1
 	--Fire doggo
-	berserkTimer:Start(-delay)
 	timerBurningMawCD:Start(8.2-delay)--was same on heroic/mythic, or now
 	--countdownBurningMaw:Start(8.2-delay)
 	timerCorruptingMawCD:Start(8.9-delay)--was same on heroic/normal, for now
@@ -122,7 +118,7 @@ function mod:OnCombatStart(delay)
 	if self:IsMythic() then
 		self.vb.longTimer = 88.3--88.3-89
 		self.vb.mediumTimer = 71.4--71.4-73
-		timerMoltenTouchCD:Start(21-delay) --Касание магмы +3 сек
+		timerMoltenTouchCD:Start(18-delay)--was same on heroic/mythic, or now
 		timerSiphonCorruptionCD:Start(25.5-delay)
 	elseif self:IsHeroic() then
 		self.vb.longTimer = 95.9
@@ -140,10 +136,10 @@ function mod:OnCombatStart(delay)
 	if not self.Options.SequenceTimers then
 		if self:IsMythic() then
 			--Fire doggo
-			timerEnflamedCorruptionCD:Start(49.5-delay) --Возгорание порчи +1.2 сек
+			timerEnflamedCorruptionCD:Start(48.3-delay)
 			timerDesolateGazeCD:Start(78-delay)
 			--Shadow doggo
-			timerComsumingSphereCD:Start(49.5-delay) --Поглощаяющая сфера +1.2 сек
+			timerComsumingSphereCD:Start(48.3-delay)
 			timerWeightOfDarknessCD:Start(73.1-delay)
 		elseif self:IsHeroic() then
 			--Fire doggo
@@ -206,11 +202,9 @@ end
 
 function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
-	if spellId == 244086 and self:AntiSpam(3, 1) then -- 244072 (изначальный)
-		warnMoltenTouch:Show()
-		warnMoltenTouch:Play("watchstep")
-	--	specWarnMoltenTouch:Show()
-	--	specWarnMoltenTouch:Play("watchstep")
+	if spellId == 244072 then
+		specWarnMoltenTouch:Show()
+		specWarnMoltenTouch:Play("watchstep")
 		if not self.Options.SequenceTimers or self:IsEasy() then
 			timerMoltenTouchCD:Start(self.vb.longTimer)
 		else
@@ -268,8 +262,8 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 248819 then--Siphoned
 		warnSiphoned:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
-			specWarnSiphoned:Show()
-		--	specWarnSiphoned:Play("gathershare")
+			specWarnSiphoned:Show(DBM_ALLY)
+			specWarnSiphoned:Play("gathershare")
 			yellSiphoned:Countdown(4)
 			if self.Options.RangeFrame then
 				DBM.RangeCheck:Show(8)
@@ -278,8 +272,8 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 254429 then
 		warnWeightofDarkness:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
-			specWarnWeightOfDarkness:Show()
-		--	specWarnWeightOfDarkness:Play("gathershare")
+			specWarnWeightOfDarkness:Show(DBM_ALLY)
+			specWarnWeightOfDarkness:Play("gathershare")
 			yellWeightOfDarkness:Yell()
 			yellWeightOfDarknessFades:Countdown(5)
 		end

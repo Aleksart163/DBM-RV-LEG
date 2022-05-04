@@ -1,19 +1,16 @@
 local mod	= DBM:NewMod(2009, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17603 $"):sub(12, -3))
 mod:SetCreatureID(124158)--or 124158 or 125692
 mod:SetEncounterID(2082)
 mod:SetZone()
 --mod:SetBossHPInfoToHighest()
-mod:SetUsedIcons(8, 7, 6, 5, 4, 3, 2, 1)
+mod:SetUsedIcons(1, 2, 3, 4, 5, 6, 7, 8)
 mod:SetHotfixNoticeRev(16961)
-mod.respawnTime = 30
+mod.respawnTime = 34.5
 
---mod:RegisterCombat("combat", 124158)
-mod:RegisterCombat("yell", L.YellPullImonar)
-mod:RegisterCombat("yell", L.YellPullImonar2)
-mod:RegisterCombat("yell", L.YellPullImonar3)
+mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 247376 247923 248068 248070 248254",
@@ -25,8 +22,7 @@ mod:RegisterEventsInCombat(
 --	"SPELL_PERIODIC_MISSED",
 	"RAID_BOSS_WHISPER",
 	"RAID_TARGET_UPDATE",
-	"UNIT_SPELLCAST_SUCCEEDED boss1",
-	"UNIT_HEALTH boss1"
+	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
 
 --TODO, Announce stacks of Gathering Power if relevant
@@ -35,61 +31,57 @@ mod:RegisterEventsInCombat(
  or (ability.id = 247367 or ability.id = 250255 or ability.id = 247552 or ability.id = 247687 or ability.id = 254244) and type = "cast"
  or (ability.id = 248233 or ability.id = 250135) and (type = "applybuff" or type = "removebuff")
 --]]
-local warnPhase							= mod:NewPhaseChangeAnnounce(2, nil, nil, nil, nil, nil, 2) --фаза
-local warnPhase2						= mod:NewAnnounce("Phase2", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 2
-local warnPhase3						= mod:NewAnnounce("Phase3", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 3
-local warnPhase4						= mod:NewAnnounce("Phase4", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 4
-local warnPhase5						= mod:NewAnnounce("Phase5", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 5
+local warnPhase							= mod:NewPhaseChangeAnnounce(2, nil, nil, nil, nil, nil, 2)
 --Stage One: Attack Force
-local warnShocklance					= mod:NewStackAnnounce(247367, 2, nil, "Tank") --Копье-шокер
-local warnSleepCanister					= mod:NewTargetAnnounce(247552, 4) --Склянка с усыпляющим газом
-local warnSlumberGas					= mod:NewTargetAnnounce(247565, 3) --Усыпляющий газ
+local warnShocklance					= mod:NewStackAnnounce(247367, 2, nil, "Tank")
+local warnSleepCanister					= mod:NewTargetAnnounce(247552, 2)
+local warnSlumberGas					= mod:NewTargetAnnounce(247565, 3)
 --Stage Two: Contract to Kill
-local warnSever							= mod:NewStackAnnounce(247687, 2, nil, "Tank") --Рассечение
+local warnSever							= mod:NewStackAnnounce(247687, 2, nil, "Tank")
 --Stage Three/Five: The Perfect Weapon
-local warnEmpoweredPulseGrenade			= mod:NewTargetAnnounce(250006, 3) --Усиленная импульсная граната
+local warnEmpoweredPulseGrenade			= mod:NewTargetAnnounce(250006, 3)
 
 --General
 --local specWarnGTFO					= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 2)
 --Stage One: Attack Force
-local specWarnShocklance				= mod:NewSpecialWarningTaunt(247367, nil, nil, nil, 3, 5) --Копье-шокер
-local specWarnSleepCanister				= mod:NewSpecialWarningYouMoveAway(247552, nil, nil, nil, 3, 5) --Склянка с усыпляющим газом
-local specWarnSleepCanisterNear			= mod:NewSpecialWarningCloseMoveAway(247552, nil, nil, nil, 1, 2) --Склянка с усыпляющим газом
-local specWarnPulseGrenade				= mod:NewSpecialWarningDodge(247376, nil, nil, nil, 1, 2) --Импульсная граната
+local specWarnShocklance				= mod:NewSpecialWarningTaunt(247367, nil, nil, nil, 1, 2)
+local specWarnSleepCanister				= mod:NewSpecialWarningYou(247552, nil, nil, nil, 1, 2)
+local yellSleepCanister					= mod:NewPosYell(247552, DBM_CORE_AUTO_YELL_CUSTOM_POSITION)
+local yellSleepCanisterStun				= mod:NewYell(255029, L.DispelMe)--Auto yell when safe to dispel (no players within 10 yards)
+local specWarnSleepCanisterNear			= mod:NewSpecialWarningClose(247552, nil, nil, nil, 1, 2)
+local specWarnPulseGrenade				= mod:NewSpecialWarningDodge(247376, nil, nil, nil, 1, 2)
+local yellStasisTrap					= mod:NewYell(247641, L.DispelMe)
 --Stage Two: Contract to Kill
-local specWarnSever						= mod:NewSpecialWarningTaunt(247687, nil, nil, nil, 3, 5) --Рассечение
-local specWarnChargedBlastsUnknown		= mod:NewSpecialWarningDodge(247716, nil, nil, nil, 2, 2) --Направленные взрывы
-local specWarnShrapnalBlast				= mod:NewSpecialWarningDodge(247923, nil, nil, nil, 1, 2) --Заряд шрапнели
+local specWarnSever						= mod:NewSpecialWarningTaunt(247687, nil, nil, nil, 1, 2)
+local specWarnChargedBlastsUnknown		= mod:NewSpecialWarningSpell(247716, nil, nil, nil, 2, 2)
+local specWarnShrapnalBlast				= mod:NewSpecialWarningDodge(247923, nil, nil, nil, 1, 2)
 --Stage Three/Five: The Perfect Weapon
-local specWarnEmpPulseGrenade			= mod:NewSpecialWarningYouMoveAway(250006, nil, nil, nil, 3, 5) --Усиленная импульсная граната
+local specWarnEmpPulseGrenade			= mod:NewSpecialWarningMoveAway(250006, nil, nil, nil, 1, 2)
+local yellEmpPulseGrenade				= mod:NewYell(250006)
 --Intermission: On Deadly Ground
 
 --Stage One: Attack Force
-local timerShocklanceCD					= mod:NewCDTimer(4, 247367, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Копье-шокер 4-5.1
-local timerSleepCanisterCD				= mod:NewCDTimer(11.3, 247552, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON) --Склянка с усыпляющим газом 11.3-13.4
-local timerPulseGrenadeCD				= mod:NewCDTimer(17, 247376, nil, nil, nil, 3) --Импульсная граната 17?
+local timerShocklanceCD					= mod:NewCDTimer(4, 247367, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)--4-5.1
+local timerSleepCanisterCD				= mod:NewCDTimer(11.3, 247552, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON)--11.3-13.4
+local timerPulseGrenadeCD				= mod:NewCDTimer(17, 247376, nil, nil, nil, 3)--17?
 --Stage Two: Contract to Kill
-local timerSeverCD						= mod:NewCDTimer(7.2, 247687, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Рассечение
-local timerChargedBlastsCD				= mod:NewCDTimer(18.2, 247716, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Направленные взрывы
-local timerShrapnalBlastCD				= mod:NewCDCountTimer(13.3, 247923, nil, nil, nil, 3, nil, DBM_CORE_TANK_ICON) --Заряд шрапнели
+local timerSeverCD						= mod:NewCDTimer(7.2, 247687, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
+local timerChargedBlastsCD				= mod:NewCDTimer(18.2, 247716, nil, nil, nil, 3)
+local timerShrapnalBlastCD				= mod:NewCDCountTimer(13.3, 247923, nil, nil, nil, 3)
 --Stage Three/Five: The Perfect Weapon
 
 --Intermission: On Deadly Ground
-local yellSleepCanisterStun				= mod:NewYell(255029, L.DispelMe, nil, nil, "YELL") --Склянка с усыпляющим газом Auto yell when safe to dispel (no players within 10 yards)
-local yellStasisTrap					= mod:NewYell(247641, L.DispelMe, nil, nil, "YELL") --Стазисная ловушка
-local yellEmpPulseGrenade				= mod:NewYell(250006, nil, nil, nil, "YELL") --Усиленная импульсная граната
-local yellSleepCanister					= mod:NewPosYell(247552, DBM_CORE_AUTO_YELL_CUSTOM_POSITION) --Склянка с усыпляющим газом
 
 local berserkTimer						= mod:NewBerserkTimer(420)
 
 --Stage One: Attack Force
-local countdownPulseGrenade				= mod:NewCountdown(17, 247376) --Импульсная граната
+local countdownPulseGrenade				= mod:NewCountdown(17, 247376)
 --Stage Two: Contract to Kill
-local countdownChargedBlasts			= mod:NewCountdown("AltTwo18", 247716) --Направленные взрывы
+local countdownChargedBlasts			= mod:NewCountdown("AltTwo18", 247716)
 
-mod:AddSetIconOption("SetIconOnSleepCanister", 247552, true, false, {3, 2, 1}) --Склянка с усыпляющим газом
-mod:AddSetIconOption("SetIconOnEmpPulse2", 250006, true, false, {8, 7, 6, 5, 4}) --Усиленная импульсная граната
-mod:AddInfoFrameOption(250006, true) --Усиленная импульсная граната
+mod:AddSetIconOption("SetIconOnSleepCanister", 247552, true)
+mod:AddSetIconOption("SetIconOnEmpPulse2", 250006, false)
+mod:AddInfoFrameOption(250006, true)
 mod:AddRangeFrameOption("5/10")
 
 mod.vb.phase = 1
@@ -98,15 +90,6 @@ mod.vb.empoweredPulseActive = 0
 mod.vb.sleepCanisterIcon = 1
 local mythicP5ShrapnalTimers = {15, 15.8, 14.5, 12, 10}--Doesn't seem right, seems health based?
 local empoweredPulseTargets = {}
-
-local warned_preP1 = false
-local warned_preP2 = false
-local warned_preP3 = false
-local warned_preP4 = false
-local warned_preP5 = false
-local warned_preP6 = false
-local warned_preP7 = false
-local warned_preP8 = false
 
 local debuffFilter
 local playerSleepDebuff = false
@@ -155,14 +138,6 @@ do
 end
 
 function mod:OnCombatStart(delay)
-	warned_preP1 = false
-	warned_preP2 = false
-	warned_preP3 = false
-	warned_preP4 = false
-	warned_preP5 = false
-	warned_preP6 = false
-	warned_preP7 = false
-	warned_preP8 = false
 	table.wipe(empoweredPulseTargets)
 	self.vb.phase = 1
 	self.vb.shrapnalCast = 0
@@ -176,7 +151,6 @@ function mod:OnCombatStart(delay)
 			countdownPulseGrenade:Start(12.5-delay)
 			berserkTimer:Start(480-delay)--8min
 		else
-			berserkTimer:Start(-delay)
 			timerPulseGrenadeCD:Start(14.2-delay)--14.2
 			countdownPulseGrenade:Start(14.2-delay)
 		end
@@ -344,10 +318,8 @@ function mod:SPELL_AURA_APPLIED(args)
 				DBM.InfoFrame:Update()
 			end
 		end
-	elseif spellId == 247641 then
-		if args:IsPlayer() then
-			yellStasisTrap:Yell()
-		end
+	elseif spellId == 247641 and args:IsPlayer() and (self:IsTank() or self:UnitClass() == "ROGUE") then
+		yellStasisTrap:Yell()
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
@@ -360,14 +332,12 @@ function mod:SPELL_AURA_REMOVED(args)
 		warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase))
 		if self.vb.phase == 2 then
 			warnPhase:Play("ptwo")
-			warned_preP2 = true
 			timerSeverCD:Start(6.6)--6.6-8.2
 			timerChargedBlastsCD:Start(8.4)
 			countdownChargedBlasts:Start(8.4)
 			timerShrapnalBlastCD:Start(12, 1)
 		elseif self.vb.phase == 3 then
 			warnPhase:Play("pthree")
-			warned_preP4 = true
 			if self:IsMythic() then
 				timerShocklanceCD:Start(4)--NOT empowered
 				timerSleepCanisterCD:Start(7.9)
@@ -382,14 +352,12 @@ function mod:SPELL_AURA_REMOVED(args)
 			end
 		elseif self.vb.phase == 4 then--Mythic Only
 			warnPhase:Play("pfour")
-			warned_preP6 = true
 			timerSeverCD:Start(7.5)
 			timerChargedBlastsCD:Start(9)
 			timerSleepCanisterCD:Start(12.5)
 			timerShrapnalBlastCD:Start(12.7, 1)--Empowered
 		elseif self.vb.phase == 5 then--Mythic Only (Identical to non mythic 3?)
 			warnPhase:Play("pfive")
-			warned_preP8 = true
 			timerShocklanceCD:Start(5)--Empowered
 			timerPulseGrenadeCD:Start(7)--Empowered
 			countdownPulseGrenade:Start(7)
@@ -477,31 +445,5 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 		timerSleepCanisterCD:Stop()
 		timerShocklanceCD:Stop()
 		warnPhase:Play("phasechange")
-	end
-end
-
-function mod:UNIT_HEALTH(uId)
-	if self:IsHeroic() or self:IsNormal() or self:IsLFR() then
-		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 124158 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.70 then --Скоро фаза 2
-			warned_preP1 = true
-			warnPhase2:Show()
-		elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 124158 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.37 then --Скоро фаза 3
-			warned_preP3 = true
-			warnPhase3:Show()
-		end
-	elseif self:IsMythic() then
-		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 124158 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.84 then --Скоро фаза 2 +
-			warned_preP1 = true
-			warnPhase2:Show()
-		elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 124158 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.64 then --Скоро фаза 3 +
-			warned_preP3 = true
-			warnPhase3:Show()
-		elseif self.vb.phase == 3 and warned_preP4 and not warned_preP5 and self:GetUnitCreatureId(uId) == 124158 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.44 then --Скоро фаза 4 +
-			warned_preP5 = true
-			warnPhase4:Show()
-		elseif self.vb.phase == 4 and warned_preP6 and not warned_preP7 and self:GetUnitCreatureId(uId) == 124158 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.24 then --Скоро фаза 5 +
-			warned_preP7 = true
-			warnPhase5:Show()
-		end
 	end
 end

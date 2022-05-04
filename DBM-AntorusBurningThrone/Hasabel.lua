@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1985, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17603 $"):sub(12, -3))
 mod:SetCreatureID(122104)
 mod:SetEncounterID(2064)
 mod:DisableESCombatDetection()--Remove if blizz fixes clicking portals causing this event to fire (even though boss isn't engaged)
@@ -10,14 +10,9 @@ mod:SetZone()
 --mod:SetUsedIcons(1, 2, 3, 4, 5, 6)
 mod:SetHotfixNoticeRev(16950)
 mod:SetMinSyncRevision(16950)
-mod.respawnTime = 30
+mod.respawnTime = 35
 
---mod:RegisterCombat("combat", 122104)
-mod:RegisterCombat("yell", L.YellPullHasabel)
-mod:RegisterCombat("yell", L.YellPullHasabel2)
-mod:RegisterCombat("yell", L.YellPullHasabel3)
---mod:RegisterCombat("yell", L.YellPullHasabel4)
---mod:RegisterCombat("yell", L.YellPullHasabel5)
+mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 243983 244709 245504 244607 244915 246805 244689 244000",
@@ -29,8 +24,7 @@ mod:RegisterEventsInCombat(
 --	"SPELL_PERIODIC_DAMAGE",
 --	"SPELL_PERIODIC_MISSED",
 	"UNIT_DIED",
-	"UNIT_SPELLCAST_SUCCEEDED boss1 player",
-	"UNIT_HEALTH boss1"
+	"UNIT_SPELLCAST_SUCCEEDED boss1 player"
 )
 
 local Nexus = DBM:EJ_GetSectionInfo(15799)
@@ -38,90 +32,89 @@ local Xoroth = DBM:EJ_GetSectionInfo(15800)
 local Rancora = DBM:EJ_GetSectionInfo(15801)
 local Nathreza = DBM:EJ_GetSectionInfo(15802)
 
-local warnXorothPortal2					= mod:NewSoonAnnounce(244318, 1) --Усиленный портал Зорот
-local warnRancoraPortal2				= mod:NewSoonAnnounce(246082, 1) --Усиленный портал Ранкора
-local warnNathrezaPortal2				= mod:NewSoonAnnounce(246157, 1) --Усиленный портал Натреза
+--TODO, interrupt rotation helper for Flames of Xoroth?
+--TODO, find a workable cast ID for corrupt and enable interrupt warning
+--TODO, an overview info frame showing the needs of portal worlds (how many shields up, how much fel miasma, how many fires in dark realm if possible)
+--[[
+(ability.id = 243983 or ability.id = 244689 or ability.id = 244000) and type = "begincast"
+ or ability.id = 244016 and type = "cast"
+ or (ability.id = 245504 or ability.id = 244607 or ability.id = 246316 or ability.id = 244915  or ability.id = 246805) and type = "begincast"
+ or (ability.id = 245050 or ability.id = 244598) and type = "cast"
+ --]]
 --Platform: Nexus
-local warnRealityTear					= mod:NewStackAnnounce(244016, 1, nil, "Tank") --Разрыв реальности
+local warnRealityTear					= mod:NewStackAnnounce(244016, 2, nil, "Tank")
 --Platform: Xoroth
-local warnXorothPortal					= mod:NewSpellAnnounce(244318, 2, nil, nil, nil, nil, nil, 7) --Усиленный портал Зорот
-local warnAegisofFlames					= mod:NewTargetAnnounce(244383, 3, nil, nil, nil, nil, nil, nil, true) --Пламенная эгида
-local warnAegisofFlamesEnded			= mod:NewEndAnnounce(244383, 1) --Пламенная эгида
-local warnEverburningFlames				= mod:NewTargetAnnounce(244613, 2, nil, false) --Неугасающее пламя
+local warnXorothPortal					= mod:NewSpellAnnounce(244318, 2, nil, nil, nil, nil, nil, 7)
+local warnAegisofFlames					= mod:NewTargetAnnounce(244383, 3, nil, nil, nil, nil, nil, nil, true)
+local warnAegisofFlamesEnded			= mod:NewEndAnnounce(244383, 1)
+local warnEverburningFlames				= mod:NewTargetAnnounce(244613, 2, nil, false)
 --Platform: Rancora
-local warnRancoraPortal					= mod:NewSpellAnnounce(246082, 2, nil, nil, nil, nil, nil, 7) --Усиленный портал Ранкора
-local warnCausticSlime					= mod:NewTargetAnnounce(244849, 2, nil, false) --Едкая слизь
+local warnRancoraPortal					= mod:NewSpellAnnounce(246082, 2, nil, nil, nil, nil, nil, 7)
+local warnCausticSlime					= mod:NewTargetAnnounce(244849, 2, nil, false)
 --Platform: Nathreza
-local warnNathrezaPortal				= mod:NewSpellAnnounce(246157, 2, nil, nil, nil, nil, nil, 7) --Усиленный портал Натреза
-local warnDelusions						= mod:NewTargetAnnounce(245050, 2, nil, "Healer") --Заблуждения
-local warnCloyingShadows				= mod:NewTargetAnnounce(245118, 2, nil, false) --Надоедливые тени
-local warnHungeringGloom				= mod:NewTargetAnnounce(245075, 2, nil, false) --Алчущий сумрак
+local warnNathrezaPortal				= mod:NewSpellAnnounce(246157, 2, nil, nil, nil, nil, nil, 7)
+local warnDelusions						= mod:NewTargetAnnounce(245050, 2, nil, "Healer")
+local warnCloyingShadows				= mod:NewTargetAnnounce(245118, 2, nil, false)
+local warnHungeringGloom				= mod:NewTargetAnnounce(245075, 2, nil, false)
 
 --Platform: Nexus
-local specWarnRealityTear				= mod:NewSpecialWarningStack(244016, nil, 2, nil, nil, 3, 5) --Разрыв реальности
-local specWarnRealityTearOther			= mod:NewSpecialWarningTaunt(244016, nil, nil, nil, 3, 5) --Разрыв реальности
-local specWarnTransportPortal			= mod:NewSpecialWarningSwitch(244677, "-Healer", nil, 2, 1, 2) --Транспортный портал
-local specWarnCollapsingWorld			= mod:NewSpecialWarningDodgeCount(243983, nil, nil, nil, 2, 3) --Гибнущий мир
-local specWarnFelstormBarrage			= mod:NewSpecialWarningDodge(244000, nil, nil, nil, 2, 3) --Шквальный обстрел Скверны
-local specWarnFieryDetonation			= mod:NewSpecialWarningInterrupt(244709, "HasInterrupt", nil, 2, 1, 2) --Огненный подрыв
-local specWarnHowlingShadows			= mod:NewSpecialWarningInterrupt(245504, "HasInterrupt", nil, nil, 1, 2) --Воющие тени
+local specWarnRealityTear				= mod:NewSpecialWarningStack(244016, nil, 2, nil, nil, 1, 6)
+local specWarnRealityTearOther			= mod:NewSpecialWarningTaunt(244016, nil, nil, nil, 1, 2)
+local specWarnTransportPortal			= mod:NewSpecialWarningSwitch(244677, "-Healer", nil, 2, 1, 2)
+local specWarnCollapsingWorld			= mod:NewSpecialWarningCount(243983, nil, nil, nil, 2, 2)
+local specWarnFelstormBarrage			= mod:NewSpecialWarningDodge(244000, nil, nil, nil, 2, 2)
+local specWarnFieryDetonation			= mod:NewSpecialWarningInterrupt(244709, "HasInterrupt", nil, 2, 1, 2)
+local specWarnHowlingShadows			= mod:NewSpecialWarningInterrupt(245504, "HasInterrupt", nil, nil, 1, 2)
 --local specWarnGTFO					= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 2)
 --Platform: Xoroth
-local specWarnFlamesofXoroth			= mod:NewSpecialWarningInterrupt(244607, "HasInterrupt", nil, nil, 1, 2) --Пламя Зорота
-local specWarnSupernova					= mod:NewSpecialWarningDodge(244598, nil, nil, nil, 2, 2) --Сверхновая
-local specWarnEverburningFlames			= mod:NewSpecialWarningMoveTo(244613, nil, nil, nil, 1) --Неугасающее пламя No voice yet
+local specWarnFlamesofXoroth			= mod:NewSpecialWarningInterrupt(244607, "HasInterrupt", nil, nil, 1, 2)
+local specWarnSupernova					= mod:NewSpecialWarningDodge(244598, nil, nil, nil, 2, 2)
+local specWarnEverburningFlames			= mod:NewSpecialWarningMoveTo(244613, nil, nil, nil, 1)--No voice yet
+local yellEverburningFlames				= mod:NewFadesYell(244613)
 --Platform: Rancora
-local specWarnFelSilkWrap				= mod:NewSpecialWarningYou(244949, nil, nil, nil, 1, 2) --Кокон из скверношелка
-local specWarnFelSilkWrapOther			= mod:NewSpecialWarningSwitch(244949, "Dps", nil, nil, 1, 2) --Кокон из скверношелка
-local specWarnLeechEssence				= mod:NewSpecialWarningSpell(244915, nil, nil, nil, 1, 2) --Поглощение сущности Don't know what to do for voice yet til strat divised
-local specWarnCausticSlime				= mod:NewSpecialWarningMoveTo(244849, nil, nil, nil, 1) --Едкая слизь No voice yet
-local specWarnCausticSlimeLFR			= mod:NewSpecialWarningMoveAway(244849, nil, nil, nil, 1) --Едкая слизь No voice yet
+local specWarnFelSilkWrap				= mod:NewSpecialWarningYou(244949, nil, nil, nil, 1, 2)
+local yellFelSilkWrap					= mod:NewYell(244949)
+local specWarnFelSilkWrapOther			= mod:NewSpecialWarningSwitch(244949, "Dps", nil, nil, 1, 2)
+local specWarnLeechEssence				= mod:NewSpecialWarningSpell(244915, nil, nil, nil, 1, 2)--Don't know what to do for voice yet til strat divised
+local specWarnCausticSlime				= mod:NewSpecialWarningMoveTo(244849, nil, nil, nil, 1)--No voice yet
+local specWarnCausticSlimeLFR			= mod:NewSpecialWarningMoveAway(244849, nil, nil, nil, 1)--No voice yet
+local yellCausticSlime					= mod:NewFadesYell(244849)
 --Platform: Nathreza
-local specWarnDelusions					= mod:NewSpecialWarningYou(245050, nil, nil, nil, 1, 2) --Заблуждения
+local specWarnDelusions					= mod:NewSpecialWarningYou(245050, nil, nil, nil, 1, 2)
 --local specWarnCorrupt					= mod:NewSpecialWarningInterrupt(245040, "HasInterrupt", nil, nil, 1, 2)
-local specWarnCloyingShadows			= mod:NewSpecialWarningYou(245118, nil, nil, nil, 1) --Надоедливые тени No voice yet (you warning for now, since it's secondary debuff you move to fel miasma)
-local specWarnHungeringGloom			= mod:NewSpecialWarningMoveTo(245075, nil, nil, nil, 1) --Алчущий сумрак No voice yet
+local specWarnCloyingShadows			= mod:NewSpecialWarningYou(245118, nil, nil, nil, 1)--No voice yet (you warning for now, since it's secondary debuff you move to fel miasma)
+local yellCloyingShadows				= mod:NewFadesYell(245118)
+local specWarnHungeringGloom			= mod:NewSpecialWarningMoveTo(245075, nil, nil, nil, 1)--No voice yet
 
 --Platform: Nexus
 mod:AddTimerLine(Nexus)
-local timerRealityTearCD				= mod:NewCDTimer(12.1, 244016, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Разрыв реальности
-local timerCollapsingWorldCD			= mod:NewCDTimer(32.9, 243983, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Гибнущий мир 32.9-41
-local timerFelstormBarrageCD			= mod:NewCDTimer(32.2, 244000, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Шквальный обстрел Скверны 32.9-41
-local timerTransportPortalCD			= mod:NewCDTimer(41.2, 244677, nil, nil, nil, 1) --Транспортный портал 41.2-60. most of time 42 on nose.
+local timerRealityTearCD				= mod:NewCDTimer(12.1, 244016, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
+local timerCollapsingWorldCD			= mod:NewCDTimer(32.9, 243983, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON)--32.9-41
+local timerFelstormBarrageCD			= mod:NewCDTimer(32.2, 244000, nil, nil, nil, 3)--32.9-41
+local timerTransportPortalCD			= mod:NewCDTimer(41.2, 244677, nil, nil, nil, 1)--41.2-60. most of time 42 on nose.
 --Platform: Xoroth
 mod:AddTimerLine(Xoroth)
 --local timerSupernovaCD					= mod:NewCDTimer(6.1, 244598, nil, nil, nil, 3)
-local timerFlamesofXorothCD				= mod:NewCDTimer(6.9, 244607, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON) --Пламя Зорота
+local timerFlamesofXorothCD				= mod:NewCDTimer(6.9, 244607, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON)
 --Platform: Rancora
 mod:AddTimerLine(Rancora)
-local timerFelSilkWrapCD				= mod:NewCDTimer(16.6, 244949, nil, nil, nil, 3, nil, DBM_CORE_DAMAGE_ICON) --Кокон из скверношелка
+local timerFelSilkWrapCD				= mod:NewCDTimer(16.6, 244949, nil, nil, nil, 3)
 local timerPoisonEssenceCD				= mod:NewCDTimer(9.4, 246316, nil, nil, nil, 2, nil, DBM_CORE_HEALER_ICON)
-local timerLeechEssenceCD				= mod:NewCDTimer(9.4, 244915, nil, nil, nil, 2, nil, DBM_CORE_HEALER_ICON) --Поглощение сущности
+local timerLeechEssenceCD				= mod:NewCDTimer(9.4, 244915, nil, nil, nil, 2, nil, DBM_CORE_HEALER_ICON)
 --Platform: Nathreza
 mod:AddTimerLine(Nathreza)
-local timerDelusionsCD					= mod:NewCDTimer(14.6, 245050, nil, nil, nil, 3, nil, DBM_CORE_HEALER_ICON..DBM_CORE_MAGIC_ICON) --Заблуждения
+local timerDelusionsCD					= mod:NewCDTimer(14.6, 245050, nil, nil, nil, 3, nil, DBM_CORE_HEALER_ICON..DBM_CORE_MAGIC_ICON)
 
-local yellEverburningFlames				= mod:NewFadesYell(244613, nil, nil, nil, "YELL") --Неугасающее пламя
-local yellFelSilkWrap					= mod:NewYell(244949, nil, nil, nil, "YELL") --Кокон из скверношелка
-local yellCausticSlime					= mod:NewFadesYell(244849, nil, nil, nil, "YELL") --Едкая слизь
-local yellCloyingShadows				= mod:NewFadesYell(245118, nil, nil, nil, "YELL") --Надоедливые тени
-
-local berserkTimer						= mod:NewBerserkTimer(600)
+--local berserkTimer					= mod:NewBerserkTimer(600)
 
 --Platform: Nexus
-local countdownCollapsingWorld			= mod:NewCountdown(50, 243983, true, 3, 3) --Гибнущий мир
-local countdownRealityTear				= mod:NewCountdown("Alt12", 244016, false, 2, 3) --Разрыв реальности
-local countdownFelstormBarrage			= mod:NewCountdown("AltTwo32", 244000, nil, nil, 3) ----Шквальный обстрел Скверны
+local countdownCollapsingWorld			= mod:NewCountdown(50, 243983, true, 3, 3)
+local countdownRealityTear				= mod:NewCountdown("Alt12", 244016, false, 2, 3)
+local countdownFelstormBarrage			= mod:NewCountdown("AltTwo32", 244000, nil, nil, 3)
 
 mod:AddRangeFrameOption("8/10")
 mod:AddBoolOption("ShowAllPlatforms", false)
 
-local warned_preP1 = false
-local warned_preP2 = false
-local warned_preP3 = false
-local warned_preP4 = false
-
-mod.vb.phase = 1
 mod.vb.shieldsActive = false
 mod.vb.felBarrageCast = 0
 mod.vb.worldCount = 0
@@ -178,17 +171,11 @@ local function updateAllTimers(self, ICD)
 end
 
 function mod:OnCombatStart(delay)
-	self.vb.phase = 1
-	warned_preP1 = false
-	warned_preP2 = false
-	warned_preP3 = false
-	warned_preP4 = false
 	self.vb.shieldsActive = false
 	self.vb.firstPortal = false
 	self.vb.felBarrageCast = 0
 	self.vb.worldCount = 0
 	playerPlatform = 1--Nexus
-	berserkTimer:Start(-delay)
 	timerRealityTearCD:Start(6.2-delay)
 	countdownRealityTear:Start(6.2-delay)
 	timerCollapsingWorldCD:Start(10.5-delay)--Still variable, 10.5-18
@@ -443,30 +430,3 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 		playerPlatform = 1
 	end
 end
-
-function mod:UNIT_HEALTH(uId) --доделать
-	if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 122104 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.94 then --скоро фаза 2
-		warned_preP1 = true
-		warnXorothPortal2:Show()
-		self.vb.phase = 2
-	elseif self.vb.phase == 2 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 122104 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.64 then --скоро фаза 3
-		warned_preP2 = true
-		warnRancoraPortal2:Show()
-		self.vb.phase = 3
-	elseif self.vb.phase == 3 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 122104 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.34 then --скоро фаза 3
-		warned_preP3 = true
-		warnNathrezaPortal2:Show()
-		self.vb.phase = 4
-	end
-end
-
---TODO, interrupt rotation helper for Flames of Xoroth?
---TODO, find a workable cast ID for corrupt and enable interrupt warning
---TODO, an overview info frame showing the needs of portal worlds (how many shields up, how much fel miasma, how many fires in dark realm if possible)
---[[
-(ability.id = 243983 or ability.id = 244689 or ability.id = 244000) and type = "begincast"
- or ability.id = 244016 and type = "cast"
- or (ability.id = 245504 or ability.id = 244607 or ability.id = 246316 or ability.id = 244915  or ability.id = 246805) and type = "begincast"
- or (ability.id = 245050 or ability.id = 244598) and type = "cast"
- --]]
- 

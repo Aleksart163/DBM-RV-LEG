@@ -1,17 +1,16 @@
 local mod	= DBM:NewMod(1986, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17603 $"):sub(12, -3))
 mod:SetCreatureID(122468, 122467, 122469)--122468 Noura, 122467 Asara, 122469 Diima, 125436 Thu'raya (mythic only)
 mod:SetEncounterID(2073)
 mod:SetZone()
 mod:SetBossHPInfoToHighest()
-mod:SetUsedIcons(1, 2, 3, 4, 5, 6, 7, 8)
+mod:SetUsedIcons(1, 2, 5, 6, 7, 8)
 mod:SetHotfixNoticeRev(16963)
-mod.respawnTime = 28
+mod.respawnTime = 25
 
---mod:RegisterCombat("combat", 122468, 122467, 122469)
-mod:RegisterCombat("yell", L.YellPullCoven)
+mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 245627 252861 253650 250648 250095",
@@ -40,45 +39,40 @@ local torment = DBM:EJ_GetSectionInfo(16138)
  or ability.id = 250757 and type = "applydebuff"
 --]]
 --All
-local warnActivated						= mod:NewTargetAnnounce(118212, 4, 78740, nil, nil, nil, nil, nil, true) --Активация
-local warnAmantul						= mod:NewSoonAnnounce(250335, 1) --Мучения Амантула
-local warnNorgannon						= mod:NewSoonAnnounce(250334, 1) --Мучения Норганнона
-local warnGolgannet						= mod:NewSoonAnnounce(249793, 1) --Мучения Голганнета
-local warnKazgagot						= mod:NewSoonAnnounce(250333, 1) --Мучения Казгарота
+local warnActivated						= mod:NewTargetAnnounce(118212, 3, 78740, nil, nil, nil, nil, nil, true)
 --Noura, Mother of Flames
-local warnFieryStrike					= mod:NewStackAnnounce(244899, 2, nil, "Tank") --Пламенный удар
-local warnWhirlingSaber					= mod:NewSpellAnnounce(245627, 2) --Вращающийся меч
-local warnFulminatingPulse				= mod:NewTargetAnnounce(253520, 3) --Гремучий импульс
+local warnFieryStrike					= mod:NewStackAnnounce(244899, 2, nil, "Tank")
+local warnWhirlingSaber					= mod:NewSpellAnnounce(245627, 2)
+local warnFulminatingPulse				= mod:NewTargetAnnounce(253520, 3)
 --Asara, Mother of Night
 --Diima, Mother of Gloom
-local warnChilledBlood					= mod:NewTargetAnnounce(245586, 2) --Студеная кровь
-local warnFlashFreeze					= mod:NewStackAnnounce(245518, 2, nil, "Tank") --Морозная вспышка
+local warnChilledBlood					= mod:NewTargetAnnounce(245586, 2)
+local warnFlashFreeze					= mod:NewStackAnnounce(245518, 2, nil, "Tank")
 --Thu'raya, Mother of the Cosmos (Mythic)
-local warnCosmicGlare					= mod:NewTargetAnnounce(250757, 3) --Космический отблеск
---Мучения
-local specWarnAmantul					= mod:NewSpecialWarning("Amantul", nil, nil, nil, 3, 5) --Мучения Амантула
-local specWarnNorgannon					= mod:NewSpecialWarning("Norgannon", nil, nil, nil, 3, 5) --Мучения Норганнона
-local specWarnGolgannet					= mod:NewSpecialWarning("Golgannet", nil, nil, nil, 3, 5) --Мучения Голганнета
-local specWarnKazgagot					= mod:NewSpecialWarning("Kazgagot", nil, nil, nil, 3, 5) --Мучения Казгарота
+local warnCosmicGlare					= mod:NewTargetAnnounce(250757, 3)
+
 --General
-local specWarnGTFO						= mod:NewSpecialWarningYouMove(245634, nil, nil, nil, 1, 2) --Вращающийся меч
-local specWarnGTFO2						= mod:NewSpecialWarningYouMove(253020, nil, nil, nil, 1, 2) --Буря тьмы
+local specWarnGTFO						= mod:NewSpecialWarningGTFO(245634, nil, nil, nil, 1, 2)
 local specWarnActivated					= mod:NewSpecialWarningSwitchCount(118212, "Tank", nil, 2, 3, 2)
 --Noura, Mother of Flames
-local specWarnFieryStrike				= mod:NewSpecialWarningStack(244899, nil, 2, nil, nil, 1, 6) --Пламенный удар
-local specWarnFieryStrikeOther			= mod:NewSpecialWarningTaunt(244899, nil, nil, nil, 1, 2) --Пламенный удар
-local specWarnFulminatingPulse			= mod:NewSpecialWarningYouMoveAway(253520, nil, nil, nil, 1, 3) --Гремучий импульс
+local specWarnFieryStrike				= mod:NewSpecialWarningStack(244899, nil, 2, nil, nil, 1, 6)
+local specWarnFieryStrikeOther			= mod:NewSpecialWarningTaunt(244899, nil, nil, nil, 1, 2)
+local specWarnFulminatingPulse			= mod:NewSpecialWarningMoveAway(253520, nil, nil, nil, 1, 2)
+local yellFulminatingPulse				= mod:NewFadesYell(253520)
 --Asara, Mother of Night
 local specWarnShadowBlades				= mod:NewSpecialWarningDodge(246329, nil, nil, nil, 2, 2)
-local specWarnStormofDarkness			= mod:NewSpecialWarningIcePud(252861, nil, nil, nil, 2, 3) --Буря тьмы
+local specWarnStormofDarkness			= mod:NewSpecialWarningCount(252861, nil, nil, nil, 2, 2)
 --Diima, Mother of Gloom
-local specWarnFlashfreeze				= mod:NewSpecialWarningStack(245518, nil, 2, nil, nil, 1, 6) --Морозная вспышка
-local specWarnFlashfreezeOther			= mod:NewSpecialWarningTaunt(245518, nil, nil, nil, 1, 2) --Морозная вспышка
-local specWarnChilledBlood				= mod:NewSpecialWarningTarget(245586, "Healer", nil, nil, 1, 2) --Студеная кровь
+local specWarnFlashfreeze				= mod:NewSpecialWarningStack(245518, nil, 2, nil, nil, 1, 6)
+local specWarnFlashfreezeOther			= mod:NewSpecialWarningTaunt(245518, nil, nil, nil, 1, 2)
+local yellFlashfreeze					= mod:NewYell(245518, nil, false)
+local specWarnChilledBlood				= mod:NewSpecialWarningTarget(245586, "Healer", nil, nil, 1, 2)
 local specWarnOrbofFrost				= mod:NewSpecialWarningDodge(253650, nil, nil, nil, 1, 2)
 --Thu'raya, Mother of the Cosmos (Mythic)
 local specWarnTouchoftheCosmos			= mod:NewSpecialWarningInterruptCount(250648, "HasInterrupt", nil, nil, 1, 2)
-local specWarnCosmicGlare				= mod:NewSpecialWarningYou(250757, nil, nil, nil, 1, 2) --Космический отблеск
+local specWarnCosmicGlare				= mod:NewSpecialWarningYou(250757, nil, nil, nil, 1, 2)
+local yellCosmicGlare					= mod:NewYell(250757)
+local yellCosmicGlareFades				= mod:NewShortFadesYell(250757)
 --Torment of the Titans
 local specWarnTormentofTitans			= mod:NewSpecialWarningSpell("ej16138", nil, nil, nil, 1, 7)
 
@@ -86,49 +80,43 @@ local specWarnTormentofTitans			= mod:NewSpecialWarningSpell("ej16138", nil, nil
 local timerBossIncoming					= mod:NewTimer(61, "timerBossIncoming", nil, nil, nil, 1)
 --Noura, Mother of Flames
 mod:AddTimerLine(Noura)
-local timerFieryStrikeCD				= mod:NewCDTimer(10.5, 244899, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Пламенный удар
-local timerWhirlingSaberCD				= mod:NewNextTimer(35.1, 245627, nil, nil, nil, 3) --Вращающийся меч 35-45
-local timerFulminatingPulseCD			= mod:NewNextTimer(40.1, 253520, nil, nil, nil, 3) --Гремучий импульс
+local timerFieryStrikeCD				= mod:NewCDTimer(10.5, 244899, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
+local timerWhirlingSaberCD				= mod:NewNextTimer(35.1, 245627, nil, nil, nil, 3)--35-45
+local timerFulminatingPulseCD			= mod:NewNextTimer(40.1, 253520, nil, nil, nil, 3)
 --Asara, Mother of Night
 mod:AddTimerLine(Asara)
 local timerShadowBladesCD				= mod:NewCDTimer(27.6, 246329, nil, nil, nil, 3)
-local timerStormofDarknessCD			= mod:NewNextCountTimer(56.8, 252861, nil, nil, nil, 2, nil, DBM_CORE_HEALER_ICON) --Буря тьмы
+local timerStormofDarknessCD			= mod:NewNextCountTimer(56.8, 252861, nil, nil, nil, 2, nil, DBM_CORE_HEALER_ICON)--57+
 --Diima, Mother of Gloom
 mod:AddTimerLine(Diima)
-local timerFlashFreezeCD				= mod:NewCDTimer(10.1, 245518, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Морозная вспышка
-local timerChilledBloodCD				= mod:NewNextTimer(25.4, 245586, nil, nil, nil, 5, nil, DBM_CORE_HEALER_ICON) --Студеная кровь
+local timerFlashFreezeCD				= mod:NewCDTimer(10.1, 245518, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
+local timerChilledBloodCD				= mod:NewNextTimer(25.4, 245586, nil, nil, nil, 5, nil, DBM_CORE_HEALER_ICON)
 local timerOrbofFrostCD					= mod:NewNextTimer(30, 253650, nil, nil, nil, 3)
 --Thu'raya, Mother of the Cosmos (Mythic)
 mod:AddTimerLine(Thuraya)
-local timerCosmicGlareCD				= mod:NewCDTimer(15.8, 250757, nil, nil, nil, 3, nil, DBM_CORE_HEROIC_ICON) --Космический отблеск
+local timerCosmicGlareCD				= mod:NewCDTimer(15.8, 250757, nil, nil, nil, 3, nil, DBM_CORE_HEROIC_ICON)
 --Torment of the Titans
 mod:AddTimerLine(torment)
 ----Activations timers
-local timerMachinationsofAmanThulCD		= mod:NewCastTimer(90, 250335, nil, nil, nil, 6, nil, DBM_CORE_DEADLY_ICON) --Махинации Амантула
-local timerFlamesofKhazgorothCD			= mod:NewCastTimer(90, 250333, nil, nil, nil, 6, nil, DBM_CORE_DEADLY_ICON) --Пламя Казгарота
-local timerSpectralArmyofNorgannonCD	= mod:NewCastTimer(90, 250334, nil, nil, nil, 6, nil, DBM_CORE_DEADLY_ICON) --Армия Норганнона
-local timerFuryofGolgannethCD			= mod:NewCastTimer(90, 249793, nil, nil, nil, 6, nil, DBM_CORE_DEADLY_ICON) --Мучения Голганнета
+local timerMachinationsofAmanThulCD		= mod:NewCastTimer(85, 250335, nil, nil, nil, 6)
+local timerFlamesofKhazgorothCD			= mod:NewCastTimer(85, 250333, nil, nil, nil, 6)
+local timerSpectralArmyofNorgannonCD	= mod:NewCastTimer(85, 250334, nil, nil, nil, 6)
+local timerFuryofGolgannethCD			= mod:NewCastTimer(85, 249793, nil, nil, nil, 6)
 ----Actual phase stuff
-local timerMachinationsofAman			= mod:NewCastTimer(25, 250095, nil, nil, nil, 5, nil, DBM_CORE_DAMAGE_ICON) --Махинации Амантула
+local timerMachinationsofAman			= mod:NewCastTimer(20, 250095, nil, nil, nil, 5, nil, DBM_CORE_DAMAGE_ICON)
 
-local yellFulminatingPulse2				= mod:NewYell(253520, nil, nil, nil, "YELL") --Гремучий импульс
-local yellFulminatingPulse				= mod:NewFadesYell(253520, nil, nil, nil, "YELL") --Гремучий импульс
-local yellFlashfreeze					= mod:NewYell(245518, nil, false, nil, "YELL") --Морозная вспышка
-local yellCosmicGlare					= mod:NewYell(250757, nil, nil, nil, "YELL") --Космический отблеск
-local yellCosmicGlareFades				= mod:NewShortFadesYell(250757, nil, nil, nil, "YELL") --Космический отблеск
-
-local berserkTimer						= mod:NewBerserkTimer(600)
+--local berserkTimer					= mod:NewBerserkTimer(600)
 
 --Noura, Mother of Flames
-local countdownTitans					= mod:NewCountdown(90, "ej16138")
+local countdownTitans					= mod:NewCountdown(85, "ej16138")
 local countdownFulminatingPulse			= mod:NewCountdown("Alt40", 253520, "Healer")
 --Asara, Mother of Night
-local countdownStormofDarkness			= mod:NewCountdown("AltTwo57", 252861) --Буря тьмы
+local countdownStormofDarkness			= mod:NewCountdown("AltTwo57", 252861)
 
-mod:AddSetIconOption("SetIconOnFulminatingPulse2", 253520, true, false, {6, 5, 4}) --Гремучий импульс на 3 цели
-mod:AddSetIconOption("SetIconOnChilledBlood2", 245586, true, false, {3, 2, 1}) --Студеная кровь на 3 цели
-mod:AddSetIconOption("SetIconOnCosmicGlare", 250757, true, false, {8, 7}) --Космический отблеск на 2
-mod:AddInfoFrameOption(245586, true) --Студеная кровь
+mod:AddSetIconOption("SetIconOnFulminatingPulse2", 253520, false)
+mod:AddSetIconOption("SetIconOnChilledBlood2", 245586, false)
+mod:AddSetIconOption("SetIconOnCosmicGlare", 250757, true)
+mod:AddInfoFrameOption(245586, true)
 mod:AddNamePlateOption("NPAuraOnVisageofTitan", 249863)
 mod:AddBoolOption("SetLighting", true)
 mod:AddBoolOption("IgnoreFirstKick", false)
@@ -140,9 +128,9 @@ local titanCount = {}
 mod.vb.stormCount = 0
 mod.vb.chilledCount = 0
 mod.vb.MachinationsLeft = 0
-mod.vb.fpIcon = 4
+mod.vb.fpIcon = 6
 mod.vb.chilledIcon = 1
-mod.vb.glareIcon = 7
+mod.vb.glareIcon = 4
 mod.vb.touchCosmosCast = 0
 mod.vb.interruptBehavior = "Three"
 mod.vb.ignoreFirstInterrupt = false
@@ -155,7 +143,7 @@ function mod:OnCombatStart(delay)
 	self.vb.MachinationsLeft = 0
 	self.vb.fpIcon = 4
 	self.vb.chilledIcon = 1
-	self.vb.glareIcon = 7
+	self.vb.glareIcon = 4
 	self.vb.touchCosmosCast = 0
 	self.vb.interruptBehavior = "Three"
 	self.vb.ignoreFirstInterrupt = false
@@ -166,7 +154,6 @@ function mod:OnCombatStart(delay)
 		self:SetCreatureID(122468, 122467, 122469)
 	end
 	--Diima, Mother of Gloom is first one to go inactive
-	berserkTimer:Start(-delay)
 	timerWhirlingSaberCD:Start(8-delay)
 	timerFieryStrikeCD:Start(11-delay)
 	timerShadowBladesCD:Start(10.9-delay)
@@ -279,20 +266,12 @@ function mod:SPELL_CAST_SUCCESS(args)
 		countdownTitans:Start()
 		if spellId == 250335 then--Machinations of Aman'Thul
 			timerMachinationsofAmanThulCD:Start()
-			warnAmantul:Schedule(80)
-			specWarnAmantul:Schedule(85)
 		elseif spellId == 250333 then--Flames of Khaz'goroth
 			timerFlamesofKhazgorothCD:Start()
-			warnKazgagot:Schedule(80)
-			specWarnKazgagot:Schedule(85)
 		elseif spellId == 250334 then--Spectral Army of Norgannon
 			timerSpectralArmyofNorgannonCD:Start()
-			warnNorgannon:Schedule(80)
-			specWarnNorgannon:Schedule(85)
 		elseif spellId == 249793 then--Fury of Golganneth
 			timerFuryofGolgannethCD:Start()
-			warnGolgannet:Schedule(80)
-			specWarnGolgannet:Schedule(85)
 		end
 	elseif spellId == 246329 then--Shadow Blades
 		specWarnShadowBlades:Show()
@@ -337,13 +316,15 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnFulminatingPulse:Show()
 			specWarnFulminatingPulse:Play("runout")
-			yellFulminatingPulse2:Yell()
-			yellFulminatingPulse:Countdown(10, 5)
+			yellFulminatingPulse:Countdown(10)
 		end
 		if self.Options.SetIconOnFulminatingPulse2 then
 			self:SetIcon(args.destName, self.vb.fpIcon)
 		end
 		self.vb.fpIcon = self.vb.fpIcon + 1
+		if self.vb.fpIcon == 9 then
+			self.vb.fpIcon = 6
+		end
 	elseif spellId == 245518 then
 		local uId = DBM:GetRaidUnitId(args.destName)
 		if self:IsTanking(uId) then
@@ -388,6 +369,11 @@ function mod:SPELL_AURA_APPLIED(args)
 			self:SetIcon(args.destName, self.vb.chilledIcon)
 		end
 		self.vb.chilledIcon = self.vb.chilledIcon + 1
+		if self.vb.chilledIcon == 3 then
+			self.vb.chilledIcon = 5
+		elseif self.vb.chilledIcon == 6 then
+			self.vb.chilledIcon = 1
+		end
 	elseif spellId == 250757 then
 		warnCosmicGlare:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
@@ -400,6 +386,9 @@ function mod:SPELL_AURA_APPLIED(args)
 			self:SetIcon(args.destName, self.vb.glareIcon)
 		end
 		self.vb.glareIcon = self.vb.glareIcon + 1
+		if self.vb.glareIcon == 6 then
+			self.vb.glareIcon = 4
+		end
 	elseif spellId == 249863 then
 		if self.Options.NPAuraOnVisageofTitan then
 			DBM.Nameplate:Show(true, args.destGUID, spellId, nil, 30)
@@ -411,7 +400,6 @@ mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
 	if spellId == 253520 then
-		self.vb.fpIcon = self.vb.fpIcon - 1
 		if args:IsPlayer() then
 			yellFulminatingPulse:Cancel()
 		end
@@ -426,13 +414,11 @@ function mod:SPELL_AURA_REMOVED(args)
 		if self.Options.SetIconOnChilledBlood2 then
 			self:SetIcon(args.destName, 0)
 		end
-		self.vb.chilledIcon = self.vb.chilledIcon - 1
 	elseif spellId == 249863 then--Bonecage Armor
 		if self.Options.NPAuraOnVisageofTitan then
 			DBM.Nameplate:Hide(true, args.destGUID, spellId)
 		end
 	elseif spellId == 250757 then
-		self.vb.glareIcon = self.vb.glareIcon - 1
 		if args:IsPlayer() then
 			yellCosmicGlareFades:Cancel()
 		end
@@ -443,12 +429,9 @@ function mod:SPELL_AURA_REMOVED(args)
 end
 
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
-	if spellId == 245634 and destGUID == UnitGUID("player") and self:AntiSpam(2, 4) then
-		specWarnGTFO:Show()
+	if (spellId == 245634 or spellId == 253020) and destGUID == UnitGUID("player") and self:AntiSpam(2, 4) then
+		specWarnGTFO:Show(spellName)
 		specWarnGTFO:Play("runaway")
-	elseif spellId == 253020 and destGUID == UnitGUID("player") and self:AntiSpam(2, 4) then
-		specWarnGTFO2:Show()
-		specWarnGTFO2:Play("runaway")
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
