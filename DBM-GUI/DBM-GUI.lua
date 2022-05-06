@@ -272,7 +272,10 @@ local function MixinSharedMedia3(mediatype, mediatable)
 		end
 		if DBM.Options.CustomSounds >= 9 then
 			LSM:Register("sound", "DBM: Custom 9", [[Interface\AddOns\DBM-CustomSounds\Custom9.ogg]])
-			if DBM.Options.CustomSounds > 9 then DBM.Options.CustomSounds = 9 end
+		end
+		if DBM.Options.CustomSounds >= 10 then
+			LSM:Register("sound", "DBM: Custom 10", [[Interface\AddOns\DBM-CustomSounds\Custom10.ogg]])
+			if DBM.Options.CustomSounds > 10 then DBM.Options.CustomSounds = 10 end
 		end
 	end
 	-- sort LibSharedMedia keys alphabetically (case-insensitive)
@@ -403,7 +406,7 @@ do
 		{ sound=true, text = "SW 2", value = 2 },
 		{ sound=true, text = "SW 3", value = 3 },
 		{ sound=true, text = "SW 4", value = 4 },
-		{ sound=true, text = "SW 5", value = 5 },
+	--	{ sound=true, text = "SW 5", value = 5 },
 	})
 	
 	--TODO, this should be localized
@@ -2662,8 +2665,8 @@ local function CreateOptionsMenu()
 			{	text	= "Destruction",		value 	= "Sound\\Creature\\KilJaeden\\KILJAEDEN02.ogg", 		sound=true },
 			{	text	= "NotPrepared",		value 	= "Sound\\Creature\\Illidan\\BLACK_Illidan_04.ogg", 		sound=true },
 			{	text	= "NotPrepared2",		value 	= "Sound\\Creature\\Illidan_Stormrage\\VO_703_Illidan_Stormrage_03.ogg", 		sound=true },
-			{	text	= "RunAwayBitch",		value 	= "Interface\\AddOns\\DBM-Core\\Sounds\\Custom\\RunAwayBitch.ogg", 		sound=true },
 			{	text	= "RunAwayLittleGirl",	value 	= "Sound\\Creature\\HoodWolf\\HoodWolfTransformPlayer01.ogg", 		sound=true },
+			{	text	= "RunAwayBitch",		value 	= "Interface\\AddOns\\DBM-Core\\Sounds\\Custom\\RunAwayBitch.ogg", 		sound=true },
 			{	text	= "NightElfBell",		value 	= "Sound\\Doodad\\BellTollNightElf.ogg", 	sound=true }
 		})
 
