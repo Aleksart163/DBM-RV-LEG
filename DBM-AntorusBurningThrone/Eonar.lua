@@ -6,7 +6,7 @@ mod:SetCreatureID(124445)
 mod:SetEncounterID(2075)
 mod:SetZone()
 --mod:SetBossHPInfoToHighest()
-mod:SetUsedIcons(1, 2, 3, 4, 5)
+mod:SetUsedIcons(5, 4, 3, 2, 1)
 mod:SetHotfixNoticeRev(16960)
 --mod.respawnTime = 29
 
@@ -41,7 +41,7 @@ local specWarnSpearofDoom				= mod:NewSpecialWarningDodge(248789, nil, nil, nil,
 --local yellSpearofDoom					= mod:NewYell(248789) --Копье Рока
 local specWarnRainofFel					= mod:NewSpecialWarningYouMoveAway(248332, nil, nil, 2, 1, 2) --Дождь Скверны
 --Adds
-local specWarnSwing						= mod:NewSpecialWarningDodge(250701, "MeleeDps", nil, nil, 1, 2) --Размах Скверны
+local specWarnSwing						= mod:NewSpecialWarningDodge(250701, "Melee", nil, nil, 1, 2) --Размах Скверны
 local specWarnArtilleryStrike			= mod:NewSpecialWarningInterrupt(246305, "HasInterrupt", nil, nil, 3, 3) --Артиллерийский удар
 --local yellBurstingDreadflame			= mod:NewPosYell(238430, DBM_CORE_AUTO_YELL_CUSTOM_POSITION)
 --local specWarnMalignantAnguish		= mod:NewSpecialWarningInterrupt(236597, "HasInterrupt")
@@ -110,23 +110,62 @@ mod.vb.burningembersIcon = 1
 local normalRainOfFelTimers = {}--PTR, recheck
 --local burningembersTargets = {}
 --local mythicSpearofDoomTimers = {}
-local heroicSpearofDoomTimers = {34, 59.2, 64.3, 40, 84.7, 34.1, 65.2} --у 1 -1сек,
-local finalDoomTimers = {58.8, 126, 98, 106.1, 100} --у 1 -0.5 сек, у 2 +6 сек, у 3 +4 секLive, у 4 +1.5 сек, у 5 +0.4 ВСЕ сделано
+--Копье Рока героик----------------------------------------------------------------------------------------------------------------
+--local heroicSpearofDoomTimers = {35, 59.2, 64.3, 40, 84.7, 34.1, 65.2}--Live, Nov 29
+local heroicSpearofDoomTimers = {34, 60, 60, 60, 60, 60, 60} -- ВСЕ ГОТОВО у 1 -1сек, у 2 +0.8 сек, у 3 -4.3сек, у 4 +20сек, у 5 -25сек, у 6+ 26сек, у 7 хз, НО СКОРЕЕ ВСЕГО -5сек
+--Всеобщая погибель----------------------------------------------------------------------------------------------------------------
+--local finalDoomTimers = {59.3, 120, 94, 104.6, 99.6}--Live, Dec 5
+local finalDoomTimers = {58.8, 126, 98, 106.1, 100} -- ВСЕ ГОТОВО у 1 -0.5 сек, у 2 +6 сек, у 3 +4 секLive, у 4 +1.5 сек, у 5 +0.4
+-----------------------------------------------------------------------------------------------------------------------------------
+--ЛФР треш
 local lfrDestructors = {21.5, 51.9, 50.3, 64.3, 107.2, 58.2, 44.1, 46.2, 44.2}--4 Life Force LFR Version
 local lfrDestructors2 = {21.2, 43.8, 39.0, 51.1, 37.0, 53.0, 43.6, 45.2, 43.2}--3 Life force LFR version
+--Нормал треш
 local normalDestructors = {17, 46.2, 32, 52.4, 93.7, 40.9, 50.2, 55.4, 49.2}--Live, Dec 01. Old 17, 39.4, 28, 44.2, 92.4, 41.3, 50, 53.4, 48.1
 local normalObfuscators = {193}--Live, Dec 01
-local heroicRainOfFelTimers = {9.3, 43, 10, 43, 20, 19, 20, 29.2, 45, 25, 99}--Live, Dec 26
-local heroicDestructors = {15.7, 35.3, 37.6, 102.6, 134.7, 99.6} --у 3 -3сек, у 4 -2сек
-local heroicObfuscators = {77.6, 148.5, 94.7, 99.9} --у 1 -3сек, другие не включаются, проверить ещё раз в гере и мифике
-local heroicPurifiers = {116.5, 67.6, 29.6} --у 1 -8.5сек, у 2 +1.5 сек, у 3 -1сек
-local heroicBats = {160, 120, 105, 105} --у 1 -10сек, у 2 -5сек, 170, 295, 405, 510 (probably way off for 3rd and 4th because the heroic logs with long pulls are shit showa of terrible and unware dps that don't hit bats until they are in middle of path)
-local mythicRainOfFelTimers = {6, 23.1, 24.1, 46, 25, 49.3, 15, 45, 24, 49.2, 24.1, 49.2, 50}--Live, Dec 14
+--Дождь Скверны героик-------------------------------------------------------------------------------------------------------------
+--local heroicRainOfFelTimers = {9.3, 43, 10, 43, 20, 19, 20, 29.2, 45, 25, 99}--Live, Dec 26
+local heroicRainOfFelTimers = {14, 37.5, 21.5, 28, 29, 43.5, 32, 31.5, 25, 34, 45} --у 1 +4.7сек, у 2 -5.5сек, у 3 +11.5 сек, у 4 -15сек, у 5 +9сек, у 6 +24.5сек, у 7 +12сек, у 8 +2.3сек, у 9 -20сек, у 10 +9сек, у 11 -54сек
+-----------------------------------------------------------------------------------------------------------------------------------
+--Разрушитель героик---------------------------------------------------------------------------------------------------------------
+--local heroicDestructors = {15.7, 35.3, 40.6, 104.6, 134.7, 99.6}
+local heroicDestructors = {15.7, 35.3, 39.6, 104.6, 139, 99.6} -- ВСЕ ГОТОВО у 1 и 2 норм, у 3 -3сек, у 4 норм, у 5 +4.3 сек, у 6 хз
+-----------------------------------------------------------------------------------------------------------------------------------
+--Маскировщик героик---------------------------------------------------------------------------------------------------------------
+--local heroicObfuscators = {80.6, 148.5, 94.7, 99.9}
+local heroicObfuscators = {77.6, 146, 94.7, 99.9} --у 1 -3сек, у 2 -2.5сек, у 3 хз
+-----------------------------------------------------------------------------------------------------------------------------------
+--Очиститель героик----------------------------------------------------------------------------------------------------------------
+--local heroicPurifiers = {125, 66.1, 30.6}
+local heroicPurifiers = {116.5, 67.3, 29.6} --у 1 -8.5сек, у 2 +1.2 сек, у 3 -1сек
+-----------------------------------------------------------------------------------------------------------------------------------
+--Мыши героик----------------------------------------------------------------------------------------------------------------------
+--local heroicBats = {170, 125, 105, 105}
+local heroicBats = {160, 122, 105, 105} --у 1 -10сек, у 2 -3сек, у 3 хз,
+-----------------------------------------------------------------------------------------------------------------------------------
+--Дождь Скверны мифик--------------------------------------------------------------------------------------------------------------
+--local mythicRainOfFelTimers = {6, 23.1, 24.1, 46, 25, 49.3, 15, 45, 24, 49.2, 24.1, 49.2, 50}--Live, Dec 14
+local mythicRainOfFelTimers = {14, 39.5, 68.8, 28, 32.5, 38.3, 21, 29.5, 26, 21.2, 33.5, 41.2, 58.5} -- ВСЕ ГОТОВО у 1 +8сек, у 2 +16.4сек, у 3 +38.7сек, у 4 -18сек, у 5 +7.5 сек, у 6 -11сек, у 7 +6сек, у 8 -15.5, у 9 +2сек, у 10 -28сек, у 11 +9.4, у 12 -8сек, у 13 +8.5сек
+-----------------------------------------------------------------------------------------------------------------------------------
+--Разрушитель мифик----------------------------------------------------------------------------------------------------------------
+--local mythicDestructors = {27, 18, 87.4, 288.4, 20, 79}--Changed Dec 12th
 local mythicDestructors = {27, 18, 90.4, 288.4, 20, 79} --у 3 +3 сек
-local mythicObfuscators = {43, 243, 43.8, 90.8} --у 1 -3сек
-local mythicPurifiers = {65.7, 82.6, 66.9, 145.7}
-local mythicBats = {180, 70.5, 93.6, 121}--195, 275, 375, 470 у 1 -15сек, у 2 -9.4сек, у 3 -6.4 сек, у 4 +26 сек
+-----------------------------------------------------------------------------------------------------------------------------------
+--Маскировщик мифик----------------------------------------------------------------------------------------------------------------
+--local mythicObfuscators = {46, 243, 43.8, 90.8}
+local mythicObfuscators = {43, 247.5, 43.8, 87.5} --у 1 -3сек, у 2 +4.5сек, у 4 -3.3сек
+-----------------------------------------------------------------------------------------------------------------------------------
+--Очиститель мифик-----------------------------------------------------------------------------------------------------------------
+--local mythicPurifiers = {65.7, 82.6, 66.9, 145.7}
+local mythicPurifiers = {65.7, 82.6, 60, 145.7} --у 3 -6.9сек
+-----------------------------------------------------------------------------------------------------------------------------------
+--Мыши мифик-----------------------------------------------------------------------------------------------------------------------
+--local mythicBats = {195, 79.9, 100, 95}
+local mythicBats = {180, 70.5, 93.6, 121} --у 1 -15сек, у 2 -9.4сек, у 3 -6.4 сек, у 4 +26 сек
+-----------------------------------------------------------------------------------------------------------------------------------
+--Копье Рока мифик--
 local mythicSpearofDoomTimers = {34, 96.5, 135.5, 74.5, 116, 34.1, 65.2} --у 1 -1сек, у 2 +37.3 сек, у 3 +71.2 сек, у 4 +34.5 сек, у 5 +31.3 сек - далее хз
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
 local warnedAdds = {}
 local addCountToLocationMythic = {
 	["Dest"] = {DBM_CORE_MIDDLE, DBM_CORE_TOP, DBM_CORE_BOTTOM, DBM_CORE_MIDDLE, DBM_CORE_TOP, DBM_CORE_MIDDLE},
@@ -243,23 +282,21 @@ function mod:OnCombatStart(delay)
 	if not self:IsLFR() then
 		self.vb.lifeRequired = 4
 		if self:IsMythic() then
-			timerRainofFelCD:Start(6-delay, 1)
-			--countdownRainofFel:Start(6-delay)
-			timerSpearofDoomCD:Start(34-delay, 1)
-			timerDestructorCD:Start(17, DBM_CORE_MIDDLE)
+			timerRainofFelCD:Start(14-delay, 1) --Дождь Скверны
+			timerSpearofDoomCD:Start(34-delay, 1) --Копье Рока
+			timerDestructorCD:Start(17, DBM_CORE_MIDDLE) --Разрушитель
 			self:Schedule(30, checkForDeadDestructor, self, 5)
 			timerObfuscatorCD:Start(43, DBM_CORE_BOTTOM) --маскировщик, подправил
-			timerPurifierCD:Start(65.7, DBM_CORE_MIDDLE)
-			timerFinalDoomCD:Start(58.8-delay, 1)
-			countdownFinalDoom:Start(58.8-delay)
+			timerPurifierCD:Start(65.7, DBM_CORE_MIDDLE) --Очиститель
+			timerFinalDoomCD:Start(58.8-delay, 1) --Всеобщая погибель
+			countdownFinalDoom:Start(58.8-delay) --Всеобщая погибель
 			timerBatsCD:Start(180, 1) --мыши, подправил
 			self:Schedule(195, startBatsStuff, self)
 		elseif self:IsHeroic() then
-			timerRainofFelCD:Start(9.3-delay, 1)
-			--countdownRainofFel:Start(9.3-delay)
+			timerRainofFelCD:Start(14 -delay, 1) --Дождь Скверны, подправил
 			timerDestructorCD:Start(13, DBM_CORE_MIDDLE) --подправил
 			self:Schedule(27, checkForDeadDestructor, self)
-			timerSpearofDoomCD:Start(34-delay, 1)
+			timerSpearofDoomCD:Start(34-delay, 1) --Копье Рока
 			timerObfuscatorCD:Start(77.6, DBM_CORE_TOP) --маскировщик, подправил
 			timerPurifierCD:Start(116.5, DBM_CORE_MIDDLE) --очиститель, подправил
 			timerBatsCD:Start(160, 1) --мыши, подправил
@@ -269,7 +306,6 @@ function mod:OnCombatStart(delay)
 			self:Schedule(27, checkForDeadDestructor, self)
 			timerObfuscatorCD:Start(174, 1)
 			--timerRainofFelCD:Start(30-delay, 1)
-			--countdownRainofFel:Start(30-delay)
 		end
 	else
 		self.vb.lifeRequired = 3

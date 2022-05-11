@@ -30,13 +30,13 @@ local Shatug = DBM:EJ_GetSectionInfo(15836)
  or (ability.id = 244072 or ability.id = 251445 or ability.id = 245098 or ability.id = 251356 or ability.id = 254429) and type = "cast"
 --]]
 --F'harg
-local warnBurningMaw					= mod:NewTargetAnnounce(251448, 2, nil, false, 2) --Пылающая пасть
+local warnBurningMaw					= mod:NewTargetNoFilterAnnounce(251448, 2, nil, false, 2) --Пылающая пасть
 local warnDesolateGaze					= mod:NewTargetAnnounce(244768, 3) --Опустошающий взгляд
 local warnEnflamedCorruption			= mod:NewSpellAnnounce(244057, 3) --Возгорание порчи
 local warnEnflamed						= mod:NewTargetAnnounce(248815, 3) --Возгорание
 local warnMoltenTouch					= mod:NewSpellAnnounce(244072, 2) --Касание магмы
 --Shatug
-local warnCorruptingMaw					= mod:NewTargetAnnounce(251447, 2, nil, false, 2) --Заразная пасть
+local warnCorruptingMaw					= mod:NewTargetNoFilterAnnounce(251447, 2, nil, false, 2) --Заразная пасть
 local warnWeightofDarkness				= mod:NewTargetAnnounce(254429, 3) --Бремя тьмы
 local warnSiphonCorruption				= mod:NewSpellAnnounce(244056, 3) --Вытягивание порчи
 local warnSiphoned						= mod:NewTargetAnnounce(248819, 3, nil, false, 2) --Вытягивание

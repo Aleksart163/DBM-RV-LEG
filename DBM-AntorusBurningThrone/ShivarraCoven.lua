@@ -6,7 +6,7 @@ mod:SetCreatureID(122468, 122467, 122469)--122468 Noura, 122467 Asara, 122469 Di
 mod:SetEncounterID(2073)
 mod:SetZone()
 mod:SetBossHPInfoToHighest()
-mod:SetUsedIcons(1, 2, 3, 4, 5, 6, 7, 8)
+mod:SetUsedIcons(8, 7, 6, 5, 4, 3, 2, 1)
 mod:SetHotfixNoticeRev(16963)
 mod.respawnTime = 28
 
@@ -338,7 +338,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnFulminatingPulse:Show()
 			specWarnFulminatingPulse:Play("runout")
 			yellFulminatingPulse2:Yell()
-			yellFulminatingPulse:Countdown(10, 5)
+			yellFulminatingPulse:Countdown(10, 3)
 		end
 		if self.Options.SetIconOnFulminatingPulse2 then
 			self:SetIcon(args.destName, self.vb.fpIcon)

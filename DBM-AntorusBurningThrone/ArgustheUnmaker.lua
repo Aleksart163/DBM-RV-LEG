@@ -71,8 +71,8 @@ local specWarnSweepingScythe		= mod:NewSpecialWarningStack(248499, nil, 3, nil, 
 local specWarnSweepingScytheTaunt	= mod:NewSpecialWarningTaunt(248499, "Tank", nil, nil, 3, 2) --Сметающая коса
 local specWarnConeofDeath			= mod:NewSpecialWarningDodge(248165, nil, nil, nil, 1, 2) --Конус смерти
 local specWarnSoulblight			= mod:NewSpecialWarningYouMoveAway(248396, nil, nil, nil, 1, 2) --Изнуряющая чума
-local specWarnGiftofSea				= mod:NewSpecialWarningYouMoveAway(258647, nil, nil, nil, 1, 5) --Дар моря
-local specWarnGiftofSky				= mod:NewSpecialWarningYouMoveAway(258646, nil, nil, nil, 1, 5) --Дар небес
+local specWarnGiftofSea				= mod:NewSpecialWarningYouMoveAway(258647, nil, nil, nil, 3, 5) --Дар моря
+local specWarnGiftofSky				= mod:NewSpecialWarningYouMoveAway(258646, nil, nil, nil, 3, 5) --Дар небес
 --Mythic P1
 local specWarnSargGaze				= mod:NewSpecialWarningPreWarn(258068, nil, 5, nil, nil, 1, 2)
 local specWarnSargRage				= mod:NewSpecialWarningYouMoveAway(257869, nil, nil, nil, 3, 2) --Ярость Саргераса
@@ -128,10 +128,12 @@ mod:AddTimerLine(SCENARIO_STAGE:format(4))
 local timerDeadlyScytheCD			= mod:NewCDTimer(5.5, 258039, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Смертоносная коса
 local timerReorgModuleCD			= mod:NewCDCountTimer(48.1, 256389, nil, nil, nil, 1)
 
-local yellGiftofSky					= mod:NewShortYell(258646, L.SkyText, nil, nil, "YELL") --Дар небес
-local yellGiftofSea					= mod:NewShortYell(258647, L.SeaText, nil, nil, "YELL") --Дар моря
+local yellGiftofSky					= mod:NewYell(258646, L.SkyText, nil, nil, "YELL") --Дар небес
+local yellGiftofSky2				= mod:NewFadesYell(258646, nil, nil, nil, "YELL") --Дар небес
+local yellGiftofSea					= mod:NewYell(258647, L.SeaText, nil, nil, "YELL") --Дар моря
+local yellGiftofSea2				= mod:NewFadesYell(258647, nil, nil, nil, "YELL") --Дар моря
 local yellSoulblightFades			= mod:NewShortFadesYell(248396, nil, nil, nil, "YELL") --Изнуряющая чума
-local yellSoulblight				= mod:NewShortYell(248396, L.Blight, nil, nil, "YELL") --Изнуряющая чума
+local yellSoulblight				= mod:NewYell(248396, L.Blight, nil, nil, "YELL") --Изнуряющая чума
 local yellSargRage					= mod:NewShortYell(257869, 6612) --Ярость Саргераса
 local yellSargFear					= mod:NewShortYell(257931, 5782) --Страх перед Саргерасом
 local yellSargFearCombo				= mod:NewComboYell(257931, 5782) --Страх перед Саргерасом
@@ -139,7 +141,7 @@ local yellSoulbomb					= mod:NewPosYell(251570, DBM_CORE_AUTO_YELL_CUSTOM_POSITI
 local yellSoulbombFades				= mod:NewIconFadesYell(251570, 155188) --Бомба души
 local yellSoulburst					= mod:NewPosYell(250669, DBM_CORE_AUTO_YELL_CUSTOM_POSITION, nil, nil, "YELL") --Взрывная душа (если крик не сработает, потом удалить)
 local yellSoulburstFades			= mod:NewIconFadesYell(250669, nil, nil, nil, "YELL") --Взрывная душа
-local yellSargSentence				= mod:NewShortYell(257966, L.Sentence, nil, nil, "YELL") --Приговор Саргераса
+local yellSargSentence				= mod:NewYell(257966, L.Sentence, nil, nil, "YELL") --Приговор Саргераса
 local yellSargSentenceFades			= mod:NewShortFadesYell(257966, nil, nil, nil, "YELL") --Приговор Саргераса
 local yellCosmicRay					= mod:NewYell(252729, nil, nil, nil, "YELL") --Космический луч
 
@@ -189,6 +191,7 @@ local warned_preP3 = false
 local warned_preP4 = false
 local warned_preP5 = false
 local warned_preP6 = false
+local playerName = UnitName("player")
 --P3 Mythic Timers
 local torturedRage = {40, 40, 50, 30, 35, 10, 8, 35, 10, 8, 35}--3 timers from method video not logs, verify by logs to improve accuracy
 local sargSentenceTimers = {53, 56.9, 60, 53, 53}--1 timer from method video not logs, verify by logs to improve accuracy
@@ -596,8 +599,8 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnSoulblight:Show()
 			specWarnSoulblight:Play("runout")
-			yellSoulblight:Yell()
-			yellSoulblightFades:Countdown(8, 4)
+			yellSoulblight:Yell(playerName)
+			yellSoulblightFades:Countdown(8, 3)
 			fearCheck(self)
 		end
 	elseif spellId == 250669 then
@@ -687,7 +690,8 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnGiftofSea:Show()
 			specWarnGiftofSea:Play("targetyou")
-			yellGiftofSea:Yell()
+			yellGiftofSea:Yell(playerName)
+			yellGiftofSea2:Countdown(5, 3)
 		end
 		if self.Options.SetIconGift then
 			self:SetIcon(args.destName, 6)
@@ -697,7 +701,8 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnGiftofSky:Show()
 			specWarnGiftofSky:Play("targetyou")
-			yellGiftofSky:Yell()
+			yellGiftofSky:Yell(playerName)
+			yellGiftofSky2:Countdown(5, 3)
 		end
 		if self.Options.SetIconGift then
 			self:SetIcon(args.destName, 5)
@@ -752,8 +757,8 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnSargSentence:Show()
 			specWarnSargSentence:Play("targetyou")
-			yellSargSentence:Yell()
-			yellSargSentenceFades:Countdown(30)
+			yellSargSentence:Yell(playerName)
+			yellSargSentenceFades:Countdown(30, 3)
 			fearCheck(self)
 		end
 	end
@@ -786,10 +791,16 @@ function mod:SPELL_AURA_REMOVED(args)
 			self:SetIcon(args.destName, 0)
 		end
 	elseif spellId == 258647 then--Gift of Sea
+		if args:IsPlayer() then
+			yellGiftofSea2:Cancel()
+		end
 		if self.Options.SetIconGift then
 			self:SetIcon(args.destName, 0)
 		end
 	elseif spellId == 258646 then--Gift of Sky
+		if args:IsPlayer() then
+			yellGiftofSky2:Cancel()
+		end
 		if self.Options.SetIconGift then
 			self:SetIcon(args.destName, 0)
 		end

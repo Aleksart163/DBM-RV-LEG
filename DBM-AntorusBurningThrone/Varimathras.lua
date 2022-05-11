@@ -53,10 +53,10 @@ local specWarnNecroticEmbrace2			= mod:NewSpecialWarningCloseMoveAway(244094, ni
 local specWarnEchoesOfDoom				= mod:NewSpecialWarningYou(248732, nil, nil, nil, 1, 2) --Отголоски гибели
 --Torments of the Shivarra
 mod:AddTimerLine(GENERAL)
-local timerTormentofFlamesCD			= mod:NewNextTimer(5, 243967, nil, nil, nil, 6) --Пытка огнем
-local timerTormentofFrostCD				= mod:NewNextTimer(61, 243976, nil, nil, nil, 6) --Пытка холодом
-local timerTormentofFelCD				= mod:NewNextTimer(61, 243979, nil, nil, nil, 6) --Пытка скверной
-local timerTormentofShadowsCD			= mod:NewNextTimer(61, 243974, nil, nil, nil, 6) --Пытка тьмой
+local timerTormentofFlamesCD			= mod:NewNextTimer(5, 243967, nil, nil, nil, 6, nil, DBM_CORE_HEALER_ICON) --Пытка огнем
+local timerTormentofFrostCD				= mod:NewNextTimer(61, 243976, nil, nil, nil, 6, nil, DBM_CORE_HEALER_ICON) --Пытка холодом
+local timerTormentofFelCD				= mod:NewNextTimer(61, 243979, nil, nil, nil, 6, nil, DBM_CORE_HEALER_ICON) --Пытка скверной
+local timerTormentofShadowsCD			= mod:NewNextTimer(61, 243974, nil, nil, nil, 6, nil, DBM_CORE_HEALER_ICON) --Пытка тьмой
 --The Fallen Nathrezim
 mod:AddTimerLine(BOSS)
 local timerShadowStrikeCD				= mod:NewCDTimer(8.5, 243960, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Теневой удар 8.5-14 (most of time it's 9.7 or more, But lowest has to be used

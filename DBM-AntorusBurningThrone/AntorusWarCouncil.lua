@@ -42,7 +42,7 @@ local warnPsychicAssault				= mod:NewStackAnnounce(244172, 3, nil, "-Tank", 2) -
 local warnEntropicMine					= mod:NewSpellAnnounce(245161, 2) --Энтропическая мина
 ----General Erodus
 --local warnSummonReinforcements			= mod:NewSpellAnnounce(245546, 2, nil, false, 2)
-local warnDemonicCharge					= mod:NewTargetAnnounce(253040, 2, nil, "Ranged", 2) --Демонический рывок
+local warnDemonicCharge					= mod:NewTargetNoFilterAnnounce(253040, 2, nil, "Ranged", 2) --Демонический рывок
 --Out of Pod
 ----Admiral Svirax
 local warnShockGrenade					= mod:NewTargetAnnounce(244737, 4, nil, true, 2) --Шоковая граната
@@ -54,14 +54,14 @@ local specWarnExploitWeakness			= mod:NewSpecialWarningStack(244892, nil, 2, nil
 local specWarnExploitWeaknesslf			= mod:NewSpecialWarningTaunt(244892, "Tank", nil, nil, 3, 5) --Обнаружить слабое место
 local specWarnPsychicAssaultStack		= mod:NewSpecialWarningStack(244172, nil, 10, nil, nil, 1, 6) --Псионная атака
 local specWarnPsychicAssault			= mod:NewSpecialWarningMove(244172, nil, nil, nil, 3, 2) --Псионная атака Two diff warnings cause we want to upgrade to high priority at 19+ stacks
-local specWarnAssumeCommand				= mod:NewSpecialWarningSwitch(253040, "Tank", nil, nil, 1, 2) --Демонический рывок
+local specWarnAssumeCommand				= mod:NewSpecialWarningSwitch(253040, "Dps|Tank", nil, nil, 1, 2) --Принять командование
 --In Pod
 ----Admiral Svirax
 local specWarnFusillade					= mod:NewSpecialWarningMoveTo(244625, nil, nil, nil, 1, 5) --Шквальный огонь
 ----Chief Engineer Ishkar
 --local specWarnEntropicMine				= mod:NewSpecialWarningDodge(245161, nil, nil, nil, 1, 2)
 ----General Erodus
-local specWarnSummonReinforcements		= mod:NewSpecialWarningSwitch(245546, "-Healer", nil, nil, 1, 2) --Вызов подкрепления
+local specWarnSummonReinforcements		= mod:NewSpecialWarningSwitch(245546, "Dps|Tank", nil, nil, 1, 2) --Вызов подкрепления
 -------Adds
 local specWarnPyroblast					= mod:NewSpecialWarningInterrupt(246505, "HasInterrupt", nil, nil, 1, 2)
 local specWarnDemonicChargeYou			= mod:NewSpecialWarningYou(253040, nil, nil, nil, 1, 2) --Демонический рывок
@@ -117,7 +117,7 @@ function mod:DemonicChargeTarget(targetname, uId)
 			specWarnDemonicChargeYou:Play("runaway")
 			yellDemonicCharge:Yell()
 		end
-	elseif self:AntiSpam(3.5, 1) and self:CheckNearby(7, targetname) then --AntiSpam(3.5, 2)
+	elseif self:AntiSpam(5, 1) and self:CheckNearby(7, targetname) then --AntiSpam(3.5, 2)
 		specWarnDemonicCharge:Show(targetname)
 		specWarnDemonicCharge:Play("watchstep")
 	else

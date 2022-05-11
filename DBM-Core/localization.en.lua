@@ -377,6 +377,7 @@ DBM_CORE_AUTO_SPEC_WARN_TEXTS = {
 	youmoveaway		= "%s on you! - move away from others",
 	youmoveawaypos	= "%s (%%s) on you! - move away from others",
 	moveaway		= "%s - move away from others",
+	moveboss		= "%s - run to the boss",
 	moveto			= "%s - move to >%%s<",
 	youshare		= "%s on you! - share the damage",
 	share			= "%s! - share the damage",
@@ -400,7 +401,8 @@ DBM_CORE_AUTO_SPEC_WARN_TEXTS = {
 	Adds			= "Incoming Adds - switch targets",
 	Addscustom		= "Incoming Adds - %%s",
 	icepud 			= "%s! (%%s) - run into the ice",
-	moredamage		= "%s on >%%s< - more damage",
+	moredamage		= "%s! - more damage on the boss",
+	youmoredamage	= "%s on you! - give more damage",
 	paraxiscount	= "%s! - turn of the (%%s) group"
 }
 
@@ -445,6 +447,7 @@ DBM_CORE_AUTO_SPEC_WARN_OPTIONS = {
 	youmoveaway		= "Show special warning \"move away from others\" when you are affected by $spell:%s",
 	youmoveawaypos	= "Show special warning \"move away from others\" (with position) when you are affected by $spell:%s",
 	moveaway		= "Show special warning to move away from others for $spell:%s",
+	moveboss		= "Show special warning \"run to the boss\" for $spell:%s",
 	moveto			= "Show special warning to move to someone or some place for $spell:%s",
 	youshare		= "Show special warning \"share the damage with your allies\" when you are affected by $spell:%s",
 	share			= "Show special warning \"share the damage with your allies\" for $spell:%s",
@@ -468,7 +471,8 @@ DBM_CORE_AUTO_SPEC_WARN_OPTIONS = {
 	Adds			= "Show special warning to switch targets for incoming adds",
 	Addscustom		= "Show special warning for incoming adds",
 	icepud			= "Show special warning (with count) \"run into the ice\" during the action $spell:%s",
-	moredamage		= "Show special warning \"more damage\" when on target $spell:%s",
+	moredamage		= "Show special warning \"more damage on the boss\" when on target $spell:%s",
+	youmoredamage	= "Show special warning \"give more damage\" when on you $spell:%s",
 	paraxiscount	= "Show special warning (with count) \"turn of the ... group\" for $spell:%s"
 }
 
@@ -544,7 +548,7 @@ DBM_CORE_AUTO_YELL_OPTION_TEXT = {
 DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT = {
 	shortyell		= "%s",
 	yell			= "%s on " .. UnitName("player"),
-	yellhelp		= "%s on " .. UnitName("player") .. "! Help me!",
+	yellhelp		= "%s on " .. UnitName("player") .. "! Help!",
 	count			= "%s on " .. UnitName("player") .. " (%%d)",
 	fade			= "%s fading in %%d",
 	shortfade		= "%%d",

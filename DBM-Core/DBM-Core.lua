@@ -40,19 +40,68 @@
 -------------------------------
 --  Globals/Default Options  --
 -------------------------------
+----------------------------------------------------------------
+--[[
+local function releaseDate(year, month, day, hour, minute, second) --Волосали1
+	hour = hour or 0
+	minute = minute or 0
+	second = second or 0
+	return second + minute * 10^2 + hour * 10^4 + day * 10^6 + month * 10^8 + year * 10^10
+end
+
+local function parseCurseDate(date)
+	date = tostring(date)
+	if #date == 13 then
+		-- support for broken curse timestamps: leading 0 in hours is missing...
+		date = date:sub(1, 8) .. "0" .. date:sub(9, #date)
+	end
+	local year, month, day, hour, minute, second = tonumber(date:sub(1, 4)), tonumber(date:sub(5, 6)), tonumber(date:sub(7, 8)), tonumber(date:sub(9, 10)), tonumber(date:sub(11, 12)), tonumber(date:sub(13, 14))
+	if year and month and day and hour and minute and second then
+		return releaseDate(year, month, day, hour, minute, second)
+	end
+end
+
+local function showRealDate(curseDate)
+	curseDate = tostring(curseDate)
+	local year, month, day, hour, minute, second = curseDate:sub(1, 4), curseDate:sub(5, 6), curseDate:sub(7, 8), curseDate:sub(9, 10), curseDate:sub(11, 12), curseDate:sub(13, 14)
+	if year and month and day and hour and minute and second then
+		return year.."/"..month.."/"..day.." "..hour..":"..minute..":"..second
+	end
+end
+
 DBM = {
-	Revision = tonumber(("$Revision: 17659 $"):sub(12, -3)),
-	DisplayVersion = "7.3.35 Right Version",
-	ReleaseRevision = 17658
+	Revision = parseCurseDate("20220509001800"),
+	DisplayVersion = "7.3.35 Right Version", -- the string that is shown as version
+	ReleaseRevision = releaseDate(2022, 05, 08) -- the date of the latest stable version that is available, optionally pass hours, minutes, and seconds for multiple releases in one day
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
--- support for git svn which doesn't support svn keyword expansion
--- just use the latest release revision
 if not DBM.Revision then
 	DBM.Revision = DBM.ReleaseRevision
 end
 
+function DBM:ShowRealDate(curseDate)
+	return showRealDate(curseDate)
+end
+
+function DBM:ReleaseDate(year, month, day, hour, minute, second)
+	return releaseDate(year, month, day, hour, minute, second)
+end
+--]]
+----------------------------------------------------------------
+--
+DBM = {
+	Revision = tonumber(("$Revision: 17660 $"):sub(12, -3)),
+	DisplayVersion = "7.3.35 Right Version",
+	ReleaseRevision = 17659
+}
+DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
+
+if not DBM.Revision then
+	DBM.Revision = DBM.ReleaseRevision
+end
+--
+----------------------------------------------------------------
 local wowVersionString, wowBuild, _, wowTOC = GetBuildInfo()
 local testBuild = false
 if IsTestBuild() then
@@ -2306,12 +2355,14 @@ do
 			if v.displayVersion and not v.bwversion then--DBM, no BigWigs
 				if self.Options.ShowAllVersions then
 					self:AddMsg(DBM_CORE_VERSIONCHECK_ENTRY:format(name, "DBM "..v.displayVersion, "r"..v.revision, v.VPVersion or ""), false)--Only display VP version if not running two mods
+				--	self:AddMsg(DBM_CORE_VERSIONCHECK_ENTRY:format(name, "DBM "..v.displayVersion, showRealDate(v.revision), v.VPVersion or ""), false) --Волосали3
 				end
 				if notify and v.revision < self.ReleaseRevision then
 					SendChatMessage(chatPrefixShort..DBM_CORE_YOUR_VERSION_OUTDATED, "WHISPER", nil, v.name)
 				end
 			elseif self.Options.ShowAllVersions and v.displayVersion and v.bwversion then--DBM & BigWigs
 				self:AddMsg(DBM_CORE_VERSIONCHECK_ENTRY_TWO:format(name, "DBM "..v.displayVersion, "r"..v.revision, DBM_BIG_WIGS, versionResponseString:format(v.bwversion, v.bwhash)), false)
+			--	self:AddMsg(DBM_CORE_VERSIONCHECK_ENTRY_TWO:format(name, "DBM "..v.displayVersion, showRealDate(v.revision), DBM_BIG_WIGS, versionResponseString:format(v.bwversion, v.bwhash)), false) Волосали4	
 			elseif self.Options.ShowAllVersions and not v.displayVersion and v.bwversion then--BigWigs, No DBM
 				self:AddMsg(DBM_CORE_VERSIONCHECK_ENTRY:format(name, DBM_BIG_WIGS, versionResponseString:format(v.bwversion, v.bwhash), ""), false)
 			else
@@ -2345,7 +2396,7 @@ do
 		end
 		local TotalDBM = TotalUsers - NoDBM
 		local TotalBW = TotalUsers - NoBigwigs
-		self:AddMsg("---", false)
+		self:AddMsg("----------------------------------------", false)
 		self:AddMsg(DBM_CORE_VERSIONCHECK_FOOTER:format(TotalDBM, TotalBW), false)
 		self:AddMsg(DBM_CORE_VERSIONCHECK_OUTDATED:format(OldMod, #OutdatedUsers > 0 and tconcat(OutdatedUsers, ", ") or NONE), false)
 		twipe(OutdatedUsers)
@@ -2556,6 +2607,9 @@ do
 			DBM:AddMsg(DBM_CORE_UPDATEREMINDER_DISABLE)
 			return
 		end
+--[[		if self.NewerVersion and showConstantReminder >= 1 then --Волосали5
+			AddMsg(self, DBM_CORE_UPDATEREMINDER_HEADER:format(self.NewerVersion, showRealDate(self.HighestRelease)))
+		end]]
 		if not IsAddOnLoaded("DBM-GUI") then
 			local enabled = GetAddOnEnableState(playerName, "DBM-GUI")
 			if enabled == 0 then
@@ -2642,6 +2696,7 @@ do
 		GameTooltip_SetDefaultAnchor(GameTooltip, self)
 		GameTooltip:SetText(DBM_CORE_MINIMAP_TOOLTIP_HEADER, 1, 1, 1)
 		GameTooltip:AddLine(ver, NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, 1)
+	--	GameTooltip:AddLine(("%s (%s)"):format(DBM.DisplayVersion, showRealDate(DBM.Revision)), NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, 1) --Волосали6
 		GameTooltip:AddLine(" ")
 		GameTooltip:AddLine(DBM_CORE_MINIMAP_TOOLTIP_FOOTER, RAID_CLASS_COLORS.MAGE.r, RAID_CLASS_COLORS.MAGE.g, RAID_CLASS_COLORS.MAGE.b, 1)
 		GameTooltip:Show()
@@ -3874,6 +3929,9 @@ function DBM:LoadMod(mod, force)
 	else
 		self:Debug("LoadAddOn should have succeeded for "..mod.name, 2)
 		self:AddMsg(DBM_CORE_LOAD_MOD_SUCCESS:format(tostring(mod.name)))
+--[[		if self.NewerVersion and showConstantReminder >= 1 then --Волосали7
+			AddMsg(self, DBM_CORE_UPDATEREMINDER_HEADER:format(self.NewerVersion, showRealDate(self.HighestRelease))) 
+		end]]
 		self:LoadModOptions(mod.modId, InCombatLockdown(), true)
 		if DBM_GUI then
 			DBM_GUI:UpdateModList()
@@ -4313,6 +4371,7 @@ do
 					updateNotificationDisplayed = 2
 					AddMsg(DBM, DBM_CORE_UPDATEREMINDER_HEADER:match("([^\n]*)"))
 					AddMsg(DBM, DBM_CORE_UPDATEREMINDER_HEADER:match("\n(.*)"):format(displayVersion, version))
+				--	AddMsg(DBM, DBM_CORE_UPDATEREMINDER_HEADER:match("\n(.*)"):format(displayVersion, showRealDate(version))) --Волосали8
 					showConstantReminder = 1
 				elseif not noRaid and #newerVersionPerson == 3 and updateNotificationDisplayed < 10 then--The following code requires at least THREE people to send that higher revision. That should be more than adaquate
 					--Disable if revision grossly out of date even if not major patch.
@@ -7763,6 +7822,7 @@ do
 		["MagicDispeller"] = true--from ENEMY, not debuffs on players. use "Healer" for ally magic dispels. ALL healers can do that.
 		["MagicDispeller2"] = true--диспел с союзников от дебаффов. Хилеры и другие спеки
 		["HasInterrupt"] = true,--Has an interrupt that is 24 seconds or less CD that is BASELINE (not a talent)
+		["HasInterrupt2"] = true, --пока хз, не помню зачем сделал
 		["HasImmunity"] = true,--Has an immunity that can prevent or remove a spell effect (not just one that reduces damage like turtle or dispursion)
 	}]]
 
@@ -7912,7 +7972,6 @@ do
 			["SpellCaster"] = true,
 			["CasterDps"] = true,
 			["MagicDispeller"] = true,
-			["HasInterrupt"] = true,
 			["HasInterrupt2"] = true,
 			["MagicDispeller2"] = true,
 		},
@@ -9845,7 +9904,7 @@ do
 			elseif announceType == "you" or announceType == "yourun" or announceType == "yourunning" or announceType == "closemoveaway" or announceType == "youfind" or announceType == "youclose" or announceType == "youshare" or announceType == "youdefensive" or announceType == "youmoveaway" or announceType == "youmove" or announceType == "youcount" or announceType == "youpos" or announceType == "move" or announceType == "dodge" or announceType == "moveaway" or announceType == "run" or announceType == "stack" or announceType == "moveto" or announceType == "soakpos" or announceType == "youmoveawaypos" or announceType == "youfades" then
 				catType = "announcepersonal"
 			--Things you have to do to fulfil your role
-			elseif announceType == "taunt" or announceType == "moredamage" or announceType == "defensive" or announceType == "interrupt2" or announceType == "dispel" or announceType == "interrupt" or announceType == "interruptcount" or announceType == "switch" or announceType == "switchcount" then
+			elseif announceType == "taunt" or announceType == "moredamage" or announceType == "defensive" or announceType == "interrupt2" or announceType == "dispel" or announceType == "interrupt" or announceType == "interruptcount" or announceType == "switch" or announceType == "switchcount" or announceType == "youmoredamage" then
 				catType = "announcerole"
 			end
 			self:AddSpecialWarningOption(obj.option, optionDefault, runSound, catType)
@@ -10011,6 +10070,10 @@ do
 		return newSpecialWarning(self, "moveaway", text, nil, optionDefault, ...)
 	end
 	
+	function bossModPrototype:NewSpecialWarningMoveBoss(text, optionDefault, ...)
+		return newSpecialWarning(self, "moveboss", text, nil, optionDefault, ...)
+	end
+	
 	function bossModPrototype:NewSpecialWarningMoveTo(text, optionDefault, ...)
 		return newSpecialWarning(self, "moveto", text, nil, optionDefault, ...)
 	end
@@ -10104,6 +10167,10 @@ do
 	
 	function bossModPrototype:NewSpecialWarningMoreDamage(text, optionDefault, ...)
 		return newSpecialWarning(self, "moredamage", text, nil, optionDefault, ...)
+	end
+	
+	function bossModPrototype:NewSpecialWarningYouMoreDamage(text, optionDefault, ...)
+		return newSpecialWarning(self, "youmoredamage", text, nil, optionDefault, ...)
 	end
 	
 	function bossModPrototype:NewSpecialWarningParaxisCount(text, optionDefault, ...)
@@ -11255,7 +11322,28 @@ function bossModPrototype:ReceiveSync(event, sender, revision, ...)
 		end
 	end
 end
+------------------------------------------------------------
+--[[
+function bossModPrototype:SetRevision(revision) --Волосали2
+	revision = parseCurseDate(revision or "")
+	if not revision or revision == "20220509001800" then
+		-- bad revision: either forgot the svn keyword or using github
+		revision = DBM.Revision
+	end
+	self.revision = revision
+end
 
+--Either treat it as a valid number, or a curse string that needs to be made into a valid number
+function bossModPrototype:SetMinSyncRevision(revision)
+	self.minSyncRevision = (type(revision or "") == "number") and revision or parseCurseDate(revision)
+end
+
+function bossModPrototype:SetHotfixNoticeRev(revision)
+	self.hotfixNoticeRev = (type(revision or "") == "number") and revision or parseCurseDate(revision)
+end
+--]]
+------------------------------------------------------------
+--
 function bossModPrototype:SetRevision(revision)
 	revision = tonumber(revision or "")
 	if not revision then
@@ -11272,6 +11360,8 @@ end
 function bossModPrototype:SetHotfixNoticeRev(revision)
 	self.hotfixNoticeRev = revision
 end
+--
+------------------------------------------------------------
 
 -----------------
 --  Scheduler  --

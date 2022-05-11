@@ -42,7 +42,7 @@ local warnXorothPortal2					= mod:NewSoonAnnounce(244318, 1) --Усиленны�
 local warnRancoraPortal2				= mod:NewSoonAnnounce(246082, 1) --Усиленный портал Ранкора
 local warnNathrezaPortal2				= mod:NewSoonAnnounce(246157, 1) --Усиленный портал Натреза
 --Platform: Nexus
-local warnRealityTear					= mod:NewStackAnnounce(244016, 1, nil, "Tank") --Разрыв реальности
+local warnRealityTear					= mod:NewStackAnnounce(244016, 1, nil, "Tank|Healer") --Разрыв реальности
 --Platform: Xoroth
 local warnXorothPortal					= mod:NewSpellAnnounce(244318, 2, nil, nil, nil, nil, nil, 7) --Усиленный портал Зорот
 local warnAegisofFlames					= mod:NewTargetAnnounce(244383, 3, nil, nil, nil, nil, nil, nil, true) --Пламенная эгида
@@ -87,7 +87,7 @@ mod:AddTimerLine(Nexus)
 local timerRealityTearCD				= mod:NewCDTimer(12.1, 244016, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Разрыв реальности
 local timerCollapsingWorldCD			= mod:NewCDTimer(32.9, 243983, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Гибнущий мир 32.9-41
 local timerFelstormBarrageCD			= mod:NewCDTimer(32.2, 244000, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Шквальный обстрел Скверны 32.9-41
-local timerTransportPortalCD			= mod:NewCDTimer(41.2, 244677, nil, nil, nil, 1) --Транспортный портал 41.2-60. most of time 42 on nose.
+local timerTransportPortalCD			= mod:NewCDTimer(41.2, 244677, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON) --Транспортный портал 41.2-60. most of time 42 on nose.
 --Platform: Xoroth
 mod:AddTimerLine(Xoroth)
 --local timerSupernovaCD					= mod:NewCDTimer(6.1, 244598, nil, nil, nil, 3)
@@ -109,9 +109,9 @@ local yellCloyingShadows				= mod:NewFadesYell(245118, nil, nil, nil, "YELL") --
 local berserkTimer						= mod:NewBerserkTimer(600)
 
 --Platform: Nexus
-local countdownCollapsingWorld			= mod:NewCountdown(50, 243983, true, 3, 3) --Гибнущий мир
-local countdownRealityTear				= mod:NewCountdown("Alt12", 244016, false, 2, 3) --Разрыв реальности
-local countdownFelstormBarrage			= mod:NewCountdown("AltTwo32", 244000, nil, nil, 3) ----Шквальный обстрел Скверны
+local countdownCollapsingWorld			= mod:NewCountdown(50, 243983, true, 3, 5) --Гибнущий мир
+local countdownRealityTear				= mod:NewCountdown("Alt12", 244016, false, 2, 4) --Разрыв реальности
+local countdownFelstormBarrage			= mod:NewCountdown("AltTwo32", 244000, nil, nil, 5) --Шквальный обстрел Скверны
 
 mod:AddRangeFrameOption("8/10")
 mod:AddBoolOption("ShowAllPlatforms", false)
@@ -191,10 +191,17 @@ function mod:OnCombatStart(delay)
 	berserkTimer:Start(-delay)
 	timerRealityTearCD:Start(6.2-delay)
 	countdownRealityTear:Start(6.2-delay)
-	timerCollapsingWorldCD:Start(10.5-delay)--Still variable, 10.5-18
-	countdownCollapsingWorld:Start(10.5-delay)
-	timerFelstormBarrageCD:Start(25.2-delay)
-	countdownFelstormBarrage:Start(25.2-delay)
+	if self:IsMythic() then
+		timerCollapsingWorldCD:Start(11-delay) --Гибнущий мир
+		countdownCollapsingWorld:Start(11-delay) --Гибнущий мир
+		timerFelstormBarrageCD:Start(27-delay) --Шквальный обстрел Скверны
+		countdownFelstormBarrage:Start(27-delay) --Шквальный обстрел Скверны
+	else
+		timerCollapsingWorldCD:Start(10.5-delay) --Гибнущий мир
+		countdownCollapsingWorld:Start(10.5-delay) --Гибнущий мир
+		timerFelstormBarrageCD:Start(25.2-delay) --Шквальный обстрел Скверны
+		countdownFelstormBarrage:Start(25.2-delay) --Шквальный обстрел Скверны
+	end
 end
 
 function mod:OnCombatEnd()
@@ -205,14 +212,14 @@ end
 
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
-	if spellId == 243983 then
+	if spellId == 243983 then --Гибнущий мир
 		self.vb.worldCount = self.vb.worldCount + 1
 		if self:IsEasy() then
 			timerCollapsingWorldCD:Start(37.7)--37, but offen delayed by ICD
 			countdownCollapsingWorld:Start(37.8)
 		elseif self:IsMythic() then
-			timerCollapsingWorldCD:Start(27.1)
-			countdownCollapsingWorld:Start(27.1)
+			timerCollapsingWorldCD:Start(28)
+			countdownCollapsingWorld:Start(28)
 		else
 			timerCollapsingWorldCD:Start()
 			countdownCollapsingWorld:Start(31.9)
@@ -231,17 +238,25 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 244607 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
 		specWarnFlamesofXoroth:Show(args.sourceName)
 		specWarnFlamesofXoroth:Play("kickcast")
-		timerFlamesofXorothCD:Start()
+		if self:IsMythic() then
+			timerFlamesofXorothCD:Start(7.5)
+		else
+			timerFlamesofXorothCD:Start()
+		end
 	elseif spellId == 246316 then--Rancora platform
 		timerPoisonEssenceCD:Start()
 	elseif spellId == 244915 or spellId == 246805 then
 		if self.Options.ShowAllPlatforms or playerPlatform == 3 then--Actually on Rancora platform
-			timerLeechEssenceCD:Start()
 			specWarnLeechEssence:Show()
+			if self:IsMythic() then
+				timerLeechEssenceCD:Start(10)
+			else
+				timerLeechEssenceCD:Start()
+			end
 		end
-	elseif spellId == 244689 then
+	elseif spellId == 244689 then --Транспортный портал
 		if self:IsMythic() then
-			timerTransportPortalCD:Start(36.5)
+			timerTransportPortalCD:Start(40)
 		else
 			timerTransportPortalCD:Start()
 		end
@@ -250,14 +265,14 @@ function mod:SPELL_CAST_START(args)
 			specWarnTransportPortal:Play("killmob")
 		end
 		updateAllTimers(self, 8.5)
-	elseif spellId == 244000 then--Felstorm Barrage
+	elseif spellId == 244000 then --Шквальный обстрел Скверны
 		self.vb.felBarrageCast = self.vb.felBarrageCast + 1
 		if self:IsEasy() then
 			timerFelstormBarrageCD:Start(37.8)--37.8-43.8
 			countdownFelstormBarrage:Start(37.8)
 		elseif self:IsMythic() then
-			timerFelstormBarrageCD:Start(27.1)
-			countdownFelstormBarrage:Start(27.1)
+			timerFelstormBarrageCD:Start(28.6)
+			countdownFelstormBarrage:Start(28.6)
 		else
 			timerFelstormBarrageCD:Start()--32.9-41
 			countdownFelstormBarrage:Start(32.2)
@@ -353,10 +368,14 @@ function mod:SPELL_AURA_APPLIED(args)
 			yellFelSilkWrap:Yell()
 		else
 			if self.Options.ShowAllPlatforms or playerPlatform == 3 then--Actually on Rancora platform
-				timerFelSilkWrapCD:Start()
 				specWarnFelSilkWrapOther:Show()
 				if self.Options.SpecWarn244949switch then
 					specWarnFelSilkWrapOther:Play("changetarget")
+				end
+				if self:IsMythic() then
+					timerFelSilkWrapCD:Start(16)
+				else
+					timerFelSilkWrapCD:Start()
 				end
 			end
 		end

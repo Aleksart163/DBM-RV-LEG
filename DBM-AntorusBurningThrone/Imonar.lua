@@ -168,18 +168,18 @@ function mod:OnCombatStart(delay)
 	self.vb.shrapnalCast = 0
 	self.vb.empoweredPulseActive = 0
 	self.vb.sleepCanisterIcon = 1
-	timerShocklanceCD:Start(4.2-delay)
-	timerSleepCanisterCD:Start(7-delay)
-	if not self:IsLFR() then--Don't seem to be in LFR
-		if self:IsMythic() then
-			timerPulseGrenadeCD:Start(12.5-delay)--14.2
-			countdownPulseGrenade:Start(12.5-delay)
-			berserkTimer:Start(480-delay)--8min
-		else
-			berserkTimer:Start(-delay)
-			timerPulseGrenadeCD:Start(14.2-delay)--14.2
-			countdownPulseGrenade:Start(14.2-delay)
-		end
+	if self:IsMythic() then --проверено 1 раз, все ок
+		timerShocklanceCD:Start(5-delay)
+		timerSleepCanisterCD:Start(6-delay)
+		timerPulseGrenadeCD:Start(14.5-delay)--14.2
+		countdownPulseGrenade:Start(14.5-delay)
+		berserkTimer:Start(480-delay)--8min
+	else
+		timerShocklanceCD:Start(4.2-delay)
+		timerSleepCanisterCD:Start(7-delay)
+		timerPulseGrenadeCD:Start(14.2-delay)--14.2
+		countdownPulseGrenade:Start(14.2-delay)
+		berserkTimer:Start(-delay)
 	end
 end
 

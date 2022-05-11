@@ -373,6 +373,7 @@ DBM_CORE_AUTO_SPEC_WARN_TEXTS.dodgeloc			= "%s - уклоняйтесь от %%s
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.youmoveaway 		= "%s на вас! - отбегите от остальных"
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.youmoveawaypos	= "%s (%%s) на вас! - отбегите от остальных"
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.moveaway			= "%s - отбегите от остальных"
+DBM_CORE_AUTO_SPEC_WARN_TEXTS.moveboss			= "%s - бегите к боссу"
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.moveto			= "%s - бегите к >%%s<"
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.youshare			= "%s на вас! - поделите урон с другими"
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.share				= "%s! - разделите урон"
@@ -398,7 +399,8 @@ DBM_CORE_AUTO_SPEC_WARN_TEXTS.Addscustom		= "Прибытие треша - %%s"
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.icepud 			= "%s! (%%s) - беги в лужу льда"
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.baitcondi			= "забайтить кондибобра прошляпить очко на %s (%%s)"
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.baitpel			= "забайтить пелию прошляпить очко на %s (%%s)"
-DBM_CORE_AUTO_SPEC_WARN_TEXTS.moredamage		= "%s на >%%s< - больше урону"
+DBM_CORE_AUTO_SPEC_WARN_TEXTS.moredamage		= "%s! - больше урону по боссу"
+DBM_CORE_AUTO_SPEC_WARN_TEXTS.youmoredamage		= "%s на вас! - дайте больше урона"
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.paraxiscount		= "%s! - очередь (%%s) группы"
 
 -- Auto-generated Special Warning Localizations
@@ -441,6 +443,7 @@ DBM_CORE_AUTO_SPEC_WARN_OPTIONS.dodgeloc 		= "Спец-предупрежден�
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.youmoveaway		= "Спец-предупреждение \"отбегите от остальных\", когда на вас $spell:%s"
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.youmoveawaypos	= "Спец-предупреждение \"отбегите от остальных\" (с позицией), когда на вас $spell:%s"
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.moveaway		= "Спец-предупреждение \"отбегите от остальных\" для $spell:%s"
+DBM_CORE_AUTO_SPEC_WARN_OPTIONS.moveboss		= "Спец-предупреждение \"бегите к боссу\" для $spell:%s"
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.moveto			= "Спец-предупреждение \"бегите к кому-то\", на ком $spell:%s"
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.youshare		= "Спец-предупреждение \"поделите урон между собой\", когда на вас $spell:%s"
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.share			= "Спец-предупреждение \"поделите урон между собой\" для $spell:%s"
@@ -466,7 +469,8 @@ DBM_CORE_AUTO_SPEC_WARN_OPTIONS.Addscustom		= "Спец-предупрежден
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.icepud			= "Спец-предупреждение (со счетчиком) \"бегите в лужу льда\" во время действия $spell:%s"
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.baitcondi		= "Спец-предупреждение (со счетчиком) \"прошляпай очко!\" для байта бобра во время действия $spell:%s"
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.baitpel			= "Спец-предупреждение (со счетчиком) \"прошляпай очко!\" для байта пелии во время действия $spell:%s"
-DBM_CORE_AUTO_SPEC_WARN_OPTIONS.moredamage		= "Спец-предупреждение \"больше урона\" когда на цели $spell:%s"
+DBM_CORE_AUTO_SPEC_WARN_OPTIONS.moredamage		= "Спец-предупреждение \"больше урона по боссу\" когда на цели $spell:%s"
+DBM_CORE_AUTO_SPEC_WARN_OPTIONS.youmoredamage	= "Спец-предупреждение \"дайте больше урона\" когда на вас $spell:%s"
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.paraxiscount	= "Спец-предупреждение (со счетчиком) \"очередь ... группы\" для заклинания $spell:%s"
 
 -- Auto-generated Timer Localizations
@@ -535,7 +539,7 @@ DBM_CORE_AUTO_YELL_OPTION_TEXT.combo	= "Кричать (с индивидуал�
 
 DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT.shortyell = "%s"
 DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT.yell	= "%s на " .. UnitName("player") .. "!"
-DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT.yellhelp = "%s на " .. UnitName("player") .. "! Помогите мне!"
+DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT.yellhelp = "%s на " .. UnitName("player") .. "! Помогите!"
 DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT.count	= "%s на " .. UnitName("player") .. "! (%%d)"
 DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT.fade	= "%s спадает через %%d"
 DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT.shortfade = "%%d"
