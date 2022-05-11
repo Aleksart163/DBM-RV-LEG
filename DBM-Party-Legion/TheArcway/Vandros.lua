@@ -5,7 +5,7 @@ mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 mod:SetCreatureID(98208)
 mod:SetEncounterID(1829)
 mod:SetZone()
-
+mod:SetUsedIcons(8)
 mod.noNormal = true
 
 mod:RegisterCombat("combat")
@@ -13,6 +13,7 @@ mod:RegisterCombat("combat")
 mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED 203957 220871",
 	"SPELL_AURA_APPLIED_DOSE 203176",
+	"SPELL_AURA_REMOVED 220871",
 	"SPELL_CAST_START 202974 203882 203176",
 	"SPELL_DAMAGE 203833",
 	"SPELL_MISSED 203833",
@@ -23,22 +24,29 @@ mod:RegisterEventsInCombat(
 
 --TODO, it might be time to build an interrupt table ("hasInterrupt") for better option defaults for spammy interrupt warnings.
 --Force bomb might be more consistent now, need more logs, last log was 35
-local warnTimeLock					= mod:NewTargetAnnounce(203957, 4) --Временное ограничение
-local warnUnstableMana				= mod:NewTargetAnnounce(203176, 2) --Ускоряющий взрыв
+local warnTimeLock					= mod:NewTargetNoFilterAnnounce(203957, 4) --Временное ограничение
+local warnUnstableMana				= mod:NewTargetNoFilterAnnounce(220871, 4) --Нестабильная мана
 local warnPhase						= mod:NewAnnounce("Phase1", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 2
-local warnPhase2					= mod:NewAnnounce("Phase2", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 2
+local warnPhase2					= mod:NewAnnounce("Phase2", 1, 220871) --Фаза 2
 
-local specWarnTimeSplit				= mod:NewSpecialWarningMove(203833, nil, nil, nil, 1, 2)
+local specWarnTimeSplit				= mod:NewSpecialWarningMove(203833, nil, nil, nil, 1, 2) --Расщепление времени
 local specWarnForceBomb				= mod:NewSpecialWarningDodge(202974, nil, nil, nil, 2, 5) --Силовая бомба
 local specWarnBlast					= mod:NewSpecialWarningInterrupt(203176, "HasInterrupt", nil, 2, 1, 2) --Ускоряющий взрыв
-local specWarnBlastStacks			= mod:NewSpecialWarningDispel(203176, "MagicDispeller") --Ускоряющий взрыв
-local specWarnTimeLock				= mod:NewSpecialWarningInterrupt(203957, "HasInterrupt", nil, 2, 1, 2) --Временное ограничение
-local specWarnUnstableMana			= mod:NewSpecialWarningMove(203176, nil, nil, nil, 1, 2) --Ускоряющий взрыв
+local specWarnBlastStacks			= mod:NewSpecialWarningDispel(203176, "MagicDispeller", nil, nil, 1, 2) --Ускоряющий взрыв
+local specWarnTimeLock				= mod:NewSpecialWarningInterrupt(203957, "HasInterrupt", nil, nil, 1, 2) --Временное ограничение
+local specWarnUnstableMana			= mod:NewSpecialWarningYouMoveAway(220871, nil, nil, nil, 4, 5) --Нестабильная мана
 
+local timerUnstableMana				= mod:NewTargetTimer(8, 220871, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Нестабильная мана
+local timerUnstableManaCD			= mod:NewCDTimer(35.5, 220871, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON..DBM_CORE_MYTHIC_ICON) --Нестабильная мана
 local timerForceBombD				= mod:NewCDTimer(31.8, 202974, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Силовая бомба
 local timerEvent					= mod:NewCastTimer(124, 203914, nil, nil, nil, 6, nil, DBM_CORE_DEADLY_ICON) --Изгнание во времени
 
+local yellUnstableMana				= mod:NewYell(220871, nil, nil, nil, "YELL") --Нестабильная мана
+local yellUnstableMana2				= mod:NewFadesYell(220871, nil, nil, nil, "YELL") --Нестабильная мана
+
 local countdownEvent				= mod:NewCountdownFades(124, 203914, nil, nil, 10) --Изгнание во времени
+
+mod:AddSetIconOption("SetIconOnUnstableMana", 220871, true, false, {8}) --Нестабильная мана
 
 mod.vb.phase = 1
 mod.vb.interruptCount = 0
@@ -50,7 +58,11 @@ function mod:OnCombatStart(delay)
 	self.vb.phase = 1
 	warned_preP1 = false
 	warned_preP2 = false
-	timerForceBombD:Start(23-delay)
+	if self:IsHard() then
+		timerForceBombD:Start(28-delay) --Силовая бомба +++
+	else
+		timerForceBombD:Start(23-delay) --Силовая бомба
+	end
 end
 
 function mod:SPELL_AURA_APPLIED(args)
@@ -58,19 +70,26 @@ function mod:SPELL_AURA_APPLIED(args)
 	if spellId == 203957 then
 		--if people run different directions 2-3 of these can activate at once.
 		--So combined show and anti spam measures used.
-		warnTimeLock:CombinedShow(0.5, args.destName)
+		warnTimeLock:Show(args.destName)
 		if self:AntiSpam(3, 2) then
 			specWarnTimeLock:Show(args.sourceName)
 			specWarnTimeLock:Play("kickcast")
 		end
 	elseif spellId == 220871 then
+		timerUnstableMana:Start(args.destName)
 		if args:IsPlayer() then
 			specWarnUnstableMana:Show()
 			specWarnUnstableMana:Play("runout")
 			specWarnUnstableMana:ScheduleVoice(1, "keepmove")
+			yellUnstableMana:Yell()
+			yellUnstableMana2:Countdown(8, 3)
 		else
 			warnUnstableMana:Show(args.destName)
 		end
+		if self.Options.SetIconOnUnstableMana then
+			self:SetIcon(args.destName, 8, 8)
+		end
+		timerUnstableManaCD:Start()
 	end
 end
 
@@ -89,7 +108,15 @@ function mod:SPELL_CAST_START(args)
 	if spellId == 202974 then
 		specWarnForceBomb:Show()
 		specWarnForceBomb:Play("157349")
-		timerForceBombD:Start()
+		if self:IsHard() then
+			if self.vb.phase == 1 then
+				timerForceBombD:Start(45)
+			else
+				timerForceBombD:Start(42.5)
+			end
+		else
+			timerForceBombD:Start()
+		end
 	elseif spellId == 203882 then
 		timerForceBombD:Cancel()
 		timerEvent:Start()
@@ -183,6 +210,7 @@ function mod:OnSync(msg, GUID)
 			countdownEvent:Cancel()
 			timerForceBombD:Start(27)
 			warnPhase2:Show()
+			timerUnstableManaCD:Start(5.5)
 		else
 			timerEvent:Cancel()
 			countdownEvent:Cancel()

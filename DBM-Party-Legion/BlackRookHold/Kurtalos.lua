@@ -39,7 +39,7 @@ local timerCloudCD					= mod:NewCDTimer(35, 199143, nil, nil, nil, 3) --Гипн
 local timerSwarmCD					= mod:NewCDTimer(19.8, 201733, nil, nil, nil, 3) --Жалящий рой
 local timerShadowBoltVolleyCD		= mod:NewCDTimer(8, 202019, nil, nil, nil, 2) --Залп стрел Тьмы
 
-local yellSwarm						= mod:NewYell(201733, nil, nil, nil, "YELL") --Жалящий рой
+local yellSwarm						= mod:NewYellHelp(201733, nil, nil, nil, "YELL") --Жалящий рой
 
 local countdownDarkblast			= mod:NewCountdown(18, 198820) --Темный взрыв
 local countdownShear				= mod:NewCountdown(12, 198635, "Tank") --Неумолимый удар

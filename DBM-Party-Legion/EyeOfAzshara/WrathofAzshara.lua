@@ -25,8 +25,8 @@ local specWarnMassiveDeluge			= mod:NewSpecialWarningDodge(192617, "Tank", nil, 
 
 local timerMythicTornadoCD			= mod:NewCDTimer(25, 192680, nil, nil, nil, 3) --Волшебный торнадо
 local timerMassiveDelugeCD			= mod:NewCDTimer(50, 192617, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Потоп
-local timerArcaneBomb				= mod:NewTargetTimer(15, 192706, nil, nil, nil, 5, nil, DBM_CORE_MAGIC_ICON) --Чародейская бомба
-local timerArcaneBombCD				= mod:NewCDTimer(23, 192706, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Чародейская бомба 23-37
+local timerArcaneBomb				= mod:NewTargetTimer(15, 192706, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON) --Чародейская бомба
+local timerArcaneBombCD				= mod:NewCDTimer(23, 192706, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON..DBM_CORE_MAGIC_ICON) --Чародейская бомба 23-37
 
 local yellArcaneBomb				= mod:NewYell(192706, nil, nil, nil, "YELL") --Чародейская бомба
 local yellArcaneBombFades			= mod:NewFadesYell(192706, nil, nil, nil, "YELL") --Чародейская бомба

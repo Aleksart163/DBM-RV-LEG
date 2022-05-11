@@ -29,7 +29,7 @@ local warnEvoOver					= mod:NewEndAnnounce(227254, 2) --Прилив сил
 
 local specWarnPowerDischarge		= mod:NewSpecialWarningMove(227465, nil, nil, nil, 1, 2) --Разряд энергии
 local specWarnEvo					= mod:NewSpecialWarningMoreDamage(227254, "-Healer", nil, nil, 3, 2) --Прилив сил
-local specWarnEvo2					= mod:NewSpecialWarningDefensive(227254, nil, nil, nil, 3, 2) --Прилив сил
+local specWarnEvo2					= mod:NewSpecialWarningDefensive(227254, nil, nil, nil, 3, 3) --Прилив сил
 
 local timerSummonAddCD				= mod:NewNextTimer(9.7, 227267, nil, nil, nil, 1) --Призыв нестабильной энергии
 local timerPowerDischargeCD			= mod:NewCDTimer(12.2, 227279, nil, nil, nil, 3) --Разряд энергии
@@ -65,7 +65,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerSummonAddCD:Stop()
 		timerPowerDischargeCD:Stop()
 		warnEvo:Show()
-		specWarnEvo:Show(args.destName)
+		specWarnEvo:Show()
 		warnEvo2:Schedule(17)
 		specWarnEvo2:Schedule(17)
 		timerEvo:Start()

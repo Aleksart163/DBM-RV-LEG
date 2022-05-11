@@ -23,12 +23,12 @@ local specWarnPolymorph2		= mod:NewSpecialWarningDispel(197105, "Healer", nil, n
 local specWarnStorm				= mod:NewSpecialWarningInterrupt(196870, "HasInterrupt", nil, nil, 1, 2) --Буря
 local specWarnRejuvWaters		= mod:NewSpecialWarningInterrupt(195046, "HasInterrupt", nil, nil, 1, 2) --Живительная вода
 local specWarnUndertow			= mod:NewSpecialWarningInterrupt(195284, "HasInterrupt", nil, nil, 1, 2) --Водоворот Might only be interruptable by stuns, if so change option default?
-local specWarnSpraySand			= mod:NewSpecialWarningDodge(196127, "Tank", nil, nil, 1, 2) --Струя песка
+local specWarnSpraySand			= mod:NewSpecialWarningDodge(196127, "Melee", nil, nil, 1, 2) --Струя песка
 local specWarnArcaneBomb		= mod:NewSpecialWarningYouMoveAway(192706, nil, nil, nil, 3, 2) --Чародейская бомба
 local specWarnArcaneBomb2		= mod:NewSpecialWarningDispel(192706, "MagicDispeller2", nil, nil, 3, 5) --Чародейская бомба
 
-local timerArcaneBomb			= mod:NewTargetTimer(15, 192706, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON) --Чародейская бомба
-local timerPolymorph			= mod:NewTargetTimer(8, 197105, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON) --Превращение в рыбу
+local timerArcaneBomb			= mod:NewTargetTimer(15, 192706, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON..DBM_CORE_DEADLY_ICON) --Чародейская бомба
+local timerPolymorph			= mod:NewTargetTimer(8, 197105, nil, nil, nil, 3, nil, DBM_CORE_INTERRUPT_ICON..DBM_CORE_MAGIC_ICON) --Превращение в рыбу
 
 local yellArcaneBomb			= mod:NewYell(192706, nil, nil, nil, "YELL") --Чародейская бомба
 local yellArcaneBombFades		= mod:NewFadesYell(192706, nil, nil, nil, "YELL") --Чародейская бомба
@@ -84,7 +84,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerPolymorph:Start(args.destName)
 		if args:IsPlayer() then
 			yellPolymorph:Yell()
-			yellPolymorphFades:Countdown(10)
+			yellPolymorphFades:Countdown(8, 3)
 		else
 			specWarnPolymorph2:Show(args.destName)
 		end

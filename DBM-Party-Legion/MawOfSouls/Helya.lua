@@ -5,7 +5,7 @@ mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 mod:SetCreatureID(96759)
 mod:SetEncounterID(1824)
 mod:SetZone()
-mod:SetUsedIcons(8, 7)
+mod:SetUsedIcons(8, 7, 6)
 
 mod:RegisterCombat("combat")
 
@@ -21,7 +21,7 @@ mod:RegisterEventsInCombat(
 )
 
 local warnPhase							= mod:NewAnnounce("Phase1", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 2
-local warnPhase2						= mod:NewAnnounce("Phase2", 1, 196947) --Фаза 2 
+local warnPhase2						= mod:NewAnnounce("Phase2", 1, 196947) --Фаза 2
 local warnTaintofSea					= mod:NewTargetAnnounce(197262, 2) --Морская порча
 local warnSubmerged						= mod:NewSpellAnnounce(196947, 2) --Погружение
 local warnSubmerged2					= mod:NewPreWarnAnnounce(196947, 5, 1) --Погружение
@@ -48,16 +48,16 @@ local yellTaintofSea2					= mod:NewFadesYell(197262, nil, nil, nil, "YELL") --М
 local countdownBreath					= mod:NewCountdown(21, 227233) --Оскверняющий рев
 local countdownSubmerged				= mod:NewCountdown(74.5, 196947) --Погружение
 
-mod:AddSetIconOption("SetIconOnTaintofSea", 197262, true, false, {8, 7}) --Морская порча
+mod:AddSetIconOption("SetIconOnTaintofSea", 197262, true, false, {8, 7, 6}) --Морская порча
 
 mod.vb.phase = 1
-mod.vb.taintofseaIcon = 7
+mod.vb.taintofseaIcon = 8
 local warned_preP1 = false
 local warned_preP2 = false
 
 function mod:OnCombatStart(delay)
 	self.vb.phase = 1
-	self.vb.taintofseaIcon = 7
+	self.vb.taintofseaIcon = 8
 	warned_preP1 = false
 	warned_preP2 = false
 	timerPiercingTentacleCD:Start(8.5)
@@ -117,7 +117,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			warnPhase2:Play("phasechange")
 		end
 	elseif spellId == 197262 then --Морская порча
-		self.vb.taintofseaIcon = self.vb.taintofseaIcon + 1
+		self.vb.taintofseaIcon = self.vb.taintofseaIcon - 1
 		warnTaintofSea:Show(args.destName)
 		if args:IsPlayer() then
 		--	specWarnTaintofSea:Schedule(18)
@@ -132,10 +132,8 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self.Options.SetIconOnTaintofSea then
 			self:SetIcon(args.destName, self.vb.taintofseaIcon)
 		end
-		if self.vb.taintofseaIcon == 7 then
+		if self.vb.taintofseaIcon == 6 then
 			self.vb.taintofseaIcon = 8
-		else
-			self.vb.taintofseaIcon = 7
 		end
 	end
 end
@@ -153,7 +151,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		countdownBreath:Start(19)
 		timerTaintofSeaCD:Start(10)
 	elseif spellId == 197262 then --Морская порча
-	--	self.vb.taintofseaIcon = self.vb.taintofseaIcon - 1
+	--	self.vb.taintofseaIcon = self.vb.taintofseaIcon + 1
 		if args:IsPlayer() then
 			specWarnTaintofSea:Cancel()
 			yellTaintofSea2:Cancel()

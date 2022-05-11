@@ -5,7 +5,7 @@ mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 mod:SetCreatureID(98203)
 mod:SetEncounterID(1827)
 mod:SetZone()
-mod:SetUsedIcons(8, 7)
+mod:SetUsedIcons(8, 7, 6)
 
 mod.noNormal = true
 
@@ -38,13 +38,13 @@ local yellVolatileMagic				= mod:NewYell(196562, nil, nil, nil, "YELL") --Нес
 local yellVolatileMagic2			= mod:NewFadesYell(196562, nil, nil, nil, "YELL") --Нестабильная магия
 local yellNetherLink				= mod:NewYell(196805, nil, nil, nil, "YELL") --Оковы Пустоты
 
-mod:AddSetIconOption("SetIconOnVolatileMagic", 196562, true, false, {8, 7}) --Нестабильная магия
+mod:AddSetIconOption("SetIconOnVolatileMagic", 196562, true, false, {8, 7, 6}) --Нестабильная магия
 mod:AddRangeFrameOption(8, 196562) --Нестабильная магия
 
-mod.vb.volatilemagicIcon = 7
+mod.vb.volatilemagicIcon = 6
 
 function mod:OnCombatStart(delay)--Watch closely, review. He may be able to swap nether link and volatile magic?
-	self.vb.volatilemagicIcon = 7
+	self.vb.volatilemagicIcon = 6
 	timerVolatileMagicCD:Start(9.5-delay)--APPLIED
 	timerNetherLinkCD:Start(19.5-delay) --Оковы Пустоты +2 сек
 	timerOverchargeManaCD:Start(30.5-delay) --Перезарядка маны -1.5сек
@@ -73,10 +73,8 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self.Options.SetIconOnVolatileMagic then
 			self:SetIcon(args.destName, self.vb.volatilemagicIcon)
 		end
-		if self.vb.volatilemagicIcon == 7 then
-			self.vb.volatilemagicIcon = 8
-		else
-			self.vb.volatilemagicIcon = 7
+		if self.vb.volatilemagicIcon == 8 then
+			self.vb.volatilemagicIcon = 6
 		end
 	elseif spellId == 196805 then
 		warnNetherLink:CombinedShow(0.5, args.destName)

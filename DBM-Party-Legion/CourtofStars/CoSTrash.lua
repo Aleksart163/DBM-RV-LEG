@@ -24,9 +24,9 @@ local specWarnFelDetonation			= mod:NewSpecialWarningDodge(211464, nil, nil, nil
 local specWarnDisintegrationBeam	= mod:NewSpecialWarningYouDefensive(207981, nil, nil, nil, 3, 6) --Луч дезинтеграции
 local specWarnShockwave				= mod:NewSpecialWarningDodge(207979, "Melee", nil, nil, 2, 3) --Ударная волна
 local specWarnFortification			= mod:NewSpecialWarningDispel(209033, "MagicDispeller", nil, nil, 1, 2) --Укрепление
-local specWarnQuellingStrike		= mod:NewSpecialWarningDodge(209027, "Tank", nil, nil, 1, 2)
-local specWarnChargedBlast			= mod:NewSpecialWarningDodge(212031, "Tank", nil, nil, 1, 2)
-local specWarnChargedSmash			= mod:NewSpecialWarningDodge(209495, "Tank", nil, nil, 1, 2)
+local specWarnQuellingStrike		= mod:NewSpecialWarningDodge(209027, "Melee", nil, nil, 2, 2) --Подавляющий удар
+local specWarnChargedBlast			= mod:NewSpecialWarningDodge(212031, "Melee", nil, nil, 2, 2) --Заряженный взрыв
+local specWarnChargedSmash			= mod:NewSpecialWarningDodge(209495, "Melee", nil, nil, 2, 2) --Удар с размаху
 local specWarnDrainMagic			= mod:NewSpecialWarningInterrupt(209485, "HasInterrupt", nil, nil, 3, 5) --Похищение магии
 local specWarnNightfallOrb			= mod:NewSpecialWarningInterrupt(209410, "HasInterrupt", nil, nil, 1, 2)
 local specWarnSuppress				= mod:NewSpecialWarningInterrupt(209413, "HasInterrupt", nil, nil, 1, 2)
@@ -234,9 +234,9 @@ do
 		DBM.InfoFrame:Hide()
 	end
 	
-	function mod:Finish()
+--[[	function mod:Finish()
 		warnPhase2:Show()
-	end
+	end]]
 	
 	function mod:CHAT_MSG_MONSTER_SAY(msg)
 		if msg:find(L.Found) then
@@ -287,8 +287,9 @@ do
 			hints[clue] = true
 			DBM.InfoFrame:Show(5, "function", updateInfoFrame)
 		elseif msg == "Finished" then
+			warnPhase2:Show()
 			self:ResetGossipState()
-			self:Finish()
+		--	self:Finish()
 		elseif msg == "RolePlayMel" then
 			timerRoleplay:Start()
 		end

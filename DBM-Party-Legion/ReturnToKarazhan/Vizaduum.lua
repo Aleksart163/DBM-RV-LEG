@@ -42,7 +42,8 @@ local specWarnBurningBlast			= mod:NewSpecialWarningInterruptCount(229083, "HasI
 --Phase 1
 local specWarnFelBeam				= mod:NewSpecialWarningYouMoveAway(229242, nil, nil, nil, 4, 5) --Приказ: луч Скверны
 --ALL
-local timerChaoticShadowsCD			= mod:NewCDTimer(30, 229159, nil, nil, nil, 3) --Тени Хаоса
+local timerChaoticShadowsCD			= mod:NewCDTimer(30, 229159, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Тени Хаоса
+local timerChaoticShadows			= mod:NewBuffActiveTimer(10, 229159, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Тени Хаоса
 local timerDisintegrateCD			= mod:NewCDTimer(10.8, 229151, nil, nil, nil, 3) --Расщепление
 --Phase 1
 local timerFelBeamCD				= mod:NewCDTimer(40, 229242, 219084, nil, nil, 3) --Приказ: луч Скверны
@@ -153,7 +154,7 @@ end
 
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
-	if spellId == 229159 then
+	if spellId == 229159 then --Тени Хаоса
 		local name = args.destName
 		if not tContains(chaoticShadowsTargets, name) then
 			chaoticShadowsTargets[#chaoticShadowsTargets+1] = name
@@ -176,6 +177,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self.Options.SetIconOnShadows then
 			self:SetIcon(name, count)
 		end
+		timerChaoticShadows:Start()
 	elseif spellId == 229241 then
 		timerFelBeamCD:Start()
 		if args:IsPlayer() then

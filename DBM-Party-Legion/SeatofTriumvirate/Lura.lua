@@ -1,8 +1,8 @@
 local mod	= DBM:NewMod(1982, "DBM-Party-Legion", 13, 945)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17603 $"):sub(12, -3))
-mod:SetCreatureID(124870)--124745 Greater Rift Warden
+mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
+mod:SetCreatureID(124870) -- или 124729 --124745 Greater Rift Warden
 mod:SetEncounterID(2068)
 mod:SetZone()
 
@@ -14,41 +14,51 @@ mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED 247816 248535",
 	"SPELL_AURA_REMOVED 247816",
 --	"CHAT_MSG_RAID_BOSS_EMOTE",
+	"CHAT_MSG_MONSTER_YELL",
+	"SPELL_PERIODIC_DAMAGE 245242",
+	"SPELL_PERIODIC_MISSED 245242",
+	"UNIT_DIED",
 	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
-
+--https://ru.wowhead.com/npc=124745/страж-огромного-портала-бездны/эпохальный-журнал-сражений
 --TODO, more timer work, with good english mythic or mythic+ transcriptor logs with start/stop properly used
 --TODO, start grand shift timer on phase 2 trigger on mythic/mythic+ only
 --TODO, RP timer
-local warnBacklash						= mod:NewTargetAnnounce(247816, 1)
-local warnNaarusLamen					= mod:NewTargetAnnounce(248535, 2)
+local warnBacklash						= mod:NewTargetNoFilterAnnounce(247816, 1) --Отдача
+local warnNaarusLamen					= mod:NewTargetNoFilterAnnounce(248535, 2) --Стенания наару
 
-local specWarnCalltoVoid				= mod:NewSpecialWarningSwitch(247795, nil, nil, nil, 1, 2)
-local specWarnFragmentOfDespair			= mod:NewSpecialWarningSpell(245164, nil, nil, nil, 1, 2)
-local specWarnGrandShift				= mod:NewSpecialWarningDodge(249009, nil, nil, nil, 2, 2)
+local specWarnRemnantofAnguish			= mod:NewSpecialWarningYouMove(245242, nil, nil, nil, 1, 2) --Отголосок страдания
+local specWarnBacklash					= mod:NewSpecialWarningMoreDamage(247816, "-Healer", nil, nil, 3, 2) --Отдача
+local specWarnCalltoVoid				= mod:NewSpecialWarningSwitch(247795, "-Healer", nil, nil, 1, 2) --Воззвание к Бездне
+local specWarnFragmentOfDespair			= mod:NewSpecialWarningSoak(245164, nil, nil, nil, 2, 3) --Частица отчаяния
+local specWarnGrandShift				= mod:NewSpecialWarningDodge(249009, nil, nil, nil, 2, 3) --Масштабный рывок
 
 --local timerCalltoVoidCD					= mod:NewAITimer(12, 247795, nil, nil, nil, 1)
-local timerGrandShiftCD					= mod:NewCDTimer(14.6, 249009, nil, nil, nil, 3, nil, DBM_CORE_HEROIC_ICON)
-local timerUmbralCadenceCD				= mod:NewCDTimer(10.9, 247930, nil, nil, nil, 2, nil, DBM_CORE_HEALER_ICON)
-local timerBacklash						= mod:NewBuffActiveTimer(12.5, 247816, nil, nil, nil, 6)
+local timerGrandShiftCD					= mod:NewCDTimer(14.5, 249009, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON..DBM_CORE_MYTHIC_ICON) --Масштабный рывок +++
+local timerUmbralCadenceCD				= mod:NewCDTimer(10.8, 247930, nil, nil, nil, 2, nil, DBM_CORE_HEALER_ICON) --Каденция Бездны +++
+local timerBacklash						= mod:NewBuffActiveTimer(12, 247816, nil, nil, nil, 6, nil, DBM_CORE_DAMAGE_ICON) --Отдача
+local timerBacklashCD					= mod:NewCDTimer(14, 247816, nil, nil, nil, 7, nil, DBM_CORE_DAMAGE_ICON) --Отдача
 
 --local countdownBreath					= mod:NewCountdown(22, 227233)
+local countdownBacklash					= mod:NewCountdown(14, 247816) --Отдача
 
 mod.vb.phase = 1
+mod.vb.wardens = 0
 
 function mod:OnCombatStart(delay)
 	self.vb.phase = 1
+	self.vb.wardens = 0
 	--timerCalltoVoidCD:Start(1-delay)--Done instantly
 end
 
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 247795 then
-		specWarnCalltoVoid:Show()
+		specWarnCalltoVoid:Schedule(1.5)
 		specWarnCalltoVoid:Play("killmob")
 		--timerCalltoVoidCD:Start()
 	elseif spellId == 245164 and self:AntiSpam(3, 1) then
-		specWarnFragmentOfDespair:Show()
+		specWarnFragmentOfDespair:Schedule(1.5)
 		specWarnFragmentOfDespair:Play("helpsoak")
 	elseif spellId == 249009 then
 		specWarnGrandShift:Show()
@@ -66,8 +76,9 @@ end
 
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
-	if spellId == 247816 then--Backlash
+	if spellId == 247816 then --Отдача
 		warnBacklash:Show(args.destName)
+		specWarnBacklash:Show()
 		timerBacklash:Start()
 		--Pause Timers?
 	elseif spellId == 248535 then
@@ -77,11 +88,52 @@ end
 
 function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
-	if spellId == 247816 then--Backlash
+	if spellId == 247816 then --Отдача
 		timerBacklash:Stop()
 		--Resume timers?
 	end
 end
+
+function mod:UNIT_DIED(args)
+	local cid = self:GetCIDFromGUID(args.destGUID)
+	if cid == 124745 then
+		self.vb.wardens = self.vb.wardens + 1
+		if self.vb.wardens == 1 then
+			timerBacklashCD:Start()
+			countdownBacklash:Start()
+		elseif self.vb.wardens == 3 then
+			timerBacklashCD:Start()
+			countdownBacklash:Start()
+			timerUmbralCadenceCD:Start(37.4)
+			if self:IsHard() then
+				timerGrandShiftCD:Start(35.7)
+			end
+		end
+	end
+end
+
+function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
+	if spellId == 245242 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
+		specWarnRemnantofAnguish:Show()
+		specWarnRemnantofAnguish:Play("runaway")
+	end
+end
+mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
+
+--[[
+function mod:OnSync(msg)
+	if msg == "RPLura" then
+		timerBacklashCD:Start()
+		countdownBacklash:Start()
+	end
+end
+
+function mod:CHAT_MSG_MONSTER_YELL(msg) --CHAT_MSG_MONSTER_SAY
+	if msg == L.RPLura or msg:find(L.RPLura) then
+		self:SendSync("RPLura")
+	end
+end
+--]]
 
 --[[
 function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)

@@ -27,7 +27,7 @@ mod:RegisterEventsInCombat(
 local warnBlink					= mod:NewTargetNoFilterAnnounce(199811, 4) --Молниеносные удары
 local warnWeb					= mod:NewTargetAnnounce(200284, 3) --Липкие путы
 
-local specWarnWeb				= mod:NewSpecialWarningYouMoveAway(200284, nil, nil, nil, 4, 2) --Липкие путы
+local specWarnWeb				= mod:NewSpecialWarningYouMoveAway(200284, nil, nil, nil, 4, 3) --Липкие путы
 local specWarnWeb2				= mod:NewSpecialWarningYouFades(200284, nil, nil, nil, 1, 2) --Липкие путы
 local specWarnBlink				= mod:NewSpecialWarningRun(199811, nil, nil, nil, 4, 2) --Молниеносные удары
 local specWarnBlinkNear			= mod:NewSpecialWarningClose(199811, nil, nil, nil, 1, 2) --Молниеносные удары
@@ -48,7 +48,7 @@ mod.vb.webIcon = 1
 function mod:OnCombatStart(delay) --все проверил
 	self.vb.blinkCount = 0
 	self.vb.webIcon = 1
-	timerBlinkCD:Start(16-delay) --Молниеносные удары +1сек
+	timerBlinkCD:Start(15.6-delay) --Молниеносные удары +1сек
 	timerVenomCD:Start(25-delay) --Яд Пустоты
 	timerWebCD:Start(35-delay) --Липкие путы
 end
@@ -127,7 +127,7 @@ function mod:UNIT_SPELLCAST_CHANNEL_START(uId, _, bfaSpellId, _, legacySpellId)
 			warnBlink:Show(targetname)
 		end
 		if self.vb.blinkCount == 2 then
-			timerBlinkCD:Start(25)
+			timerBlinkCD:Start(24.5)
 			self.vb.blinkCount = 0
 		end
 	end

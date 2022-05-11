@@ -57,6 +57,10 @@ L= DBM:GetModLocalization(1654)
 -----------------------
 L= DBM:GetModLocalization(1655)
 
+L:SetMiscLocalization({
+	ThrowYell = "Throw on %s"
+})
+
 -----------------------
 -- Dresaron --
 -----------------------
@@ -604,6 +608,18 @@ L= DBM:GetModLocalization(1827)
 -----------------------
 L= DBM:GetModLocalization(1835)
 
+L:SetWarningLocalization({
+	Phase1 = "Phase 2 soon",
+	Phase2 = "Phase 2",
+	Phase3 = "Phase 3"
+})
+
+L:SetOptionLocalization({
+	Phase1 = "Warn in advance about phase 2 (on ~56%, Mythic+ only)",
+	Phase2 = "Announce Phase 2",
+	Phase3 = "Announce Phase 3"
+})
+
 -----------------------
 -- Moroes --
 -----------------------
@@ -669,6 +685,7 @@ L:SetMiscLocalization({
 	Beauty = "Good evening, ladies and gentlemen. We proudly welcome you to this evening's feature presentation!",
 	Westfall = "Ladies and gentlemen, welcome to this evening's feature presentation!",
 	Wikket = "Welcome, ladies and gentlemen, to our--OOF!",
+	ReinvigoratedYell = "Reinvigorated on %s!",
 	speedRun = "The strange chill of a dark presence winds through the air..."
 })
 
@@ -685,13 +702,14 @@ L= DBM:GetModLocalization(1905)
 -----------------------
 L= DBM:GetModLocalization(1906)
 
-L:SetMiscLocalization({
-	bookCase = "Run behind the bookcase"
-})
-
 L:SetOptionLocalization({
 	bookCase = "Show special warning \"Run behind the bookcase\" when you target $spell:237726"
 })
+
+L:SetMiscLocalization({
+	bookCase = "the bookcase!"
+})
+
 -----------------------
 -- Domatrax --
 -----------------------
@@ -718,6 +736,16 @@ L:SetGeneralLocalization({
 -- Zuraal --
 -----------------------
 L= DBM:GetModLocalization(1979)
+
+L:SetWarningLocalization({
+	Phase2 = "Void Tear ready!", --Void Tear
+	UmbraShift = "Umbra Shift on you - destroy the enemies"
+})
+
+L:SetOptionLocalization({
+	Phase2 = "Show special warning when $spell:244621 ready to use",
+	UmbraShift = "Show special warning \"destroy the enemies\" when you target $spell:244433"
+})
 
 -----------------------
 -- Saprish  --

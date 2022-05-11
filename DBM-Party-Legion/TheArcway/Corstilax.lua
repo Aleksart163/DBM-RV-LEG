@@ -85,7 +85,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			self:SetIcon(args.destName, 8, 7)
 		end
 	elseif spellId == 195804 then --Карантин
-		warnQuarantine:Show(args.destName)
+	--	warnQuarantine:Show(args.destName)
 		if args:IsPlayer() then
 			yellQuarantine:Yell()
 		else

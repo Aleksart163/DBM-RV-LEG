@@ -9,10 +9,10 @@ mod.isTrashMod = true
 
 mod:RegisterEvents(
 	"SPELL_CAST_START 228255 228239 227917 227925 228625 228606 229714 227966 228254 228280 230094",
-	"SPELL_AURA_APPLIED 228331 229706 229716 228610 229074 230083 230050 228280",
+	"SPELL_AURA_APPLIED 228331 229706 229716 228610 229074 230083 230050 228280 230087",
 	"SPELL_AURA_APPLIED_DOSE 229074",
 	"SPELL_AURA_REFRESH 229074",
-	"SPELL_AURA_REMOVED 229489 230083 228280",
+	"SPELL_AURA_REMOVED 229489 230083 228280 230087",
 --	"SPELL_DAMAGE 204762",
 --	"SPELL_MISSED 204762",
 	"UNIT_DIED",
@@ -22,8 +22,10 @@ mod:RegisterEvents(
 --Каражан треш
 local warnVolatileCharge			= mod:NewSpellAnnounce(227925, 2)
 local warnOathofFealty				= mod:NewCastAnnounce(228280, 3) --Клятва верности
-local warnNullification				= mod:NewTargetNoFilterAnnounce(230083, 1) --Полная нейтрализация
+local warnNullification				= mod:NewTargetNoFilterAnnounce(230083, 2) --Полная нейтрализация
+local warnReinvigorated				= mod:NewTargetNoFilterAnnounce(230087, 1) --Восполнение сил
 
+local specWarnReinvigorated			= mod:NewSpecialWarningYouMoreDamage(230087, nil, nil, nil, 1, 2) --Восполнение сил
 local specWarnForceBlade			= mod:NewSpecialWarningYouDefensive(230050, nil, nil, nil, 3, 5) --Силовой клинок
 local specWarnNullification			= mod:NewSpecialWarningYouFind(230083, nil, nil, nil, 3, 5) --Полная нейтрализация
 local specWarnSoulLeech2			= mod:NewSpecialWarningInterrupt(228254, "HasInterrupt", nil, nil, 1, 2) --Поглощение души
@@ -45,6 +47,7 @@ local specWarnRoyalty				= mod:NewSpecialWarningSwitch(229489, "-Healer", nil, n
 local specWarnFlashlight			= mod:NewSpecialWarningLookAway(227966, nil, nil, nil, 3, 3) --Фонарь
 
 local timerNullificationCD			= mod:NewCDTimer(14, 230094, nil, nil, nil, 3, nil) --Полная нейтрализация
+local timerReinvigorated			= mod:NewTargetTimer(20, 230087, nil, nil, nil, 3, nil, DBM_CORE_DAMAGE_ICON) --Восполнение сил
 local timerOathofFealty				= mod:NewTargetTimer(15, 228280, nil, nil, nil, 3, nil) --Клятва верности
 local timerRoyalty					= mod:NewCDTimer(20, 229489, nil, nil, nil, 3, nil, DBM_CORE_DAMAGE_ICON) --Царственность
 
@@ -52,10 +55,14 @@ local yellNullification				= mod:NewYell(230083, nil, nil, nil, "YELL") --Пол
 local yellVolatileCharge			= mod:NewYell(228331, nil, nil, nil, "YELL")
 local yellBurningBrand				= mod:NewYell(228610, nil, nil, nil, "YELL") --Горящее клеймо
 local yellBurningBrand2				= mod:NewFadesYell(228610, nil, nil, nil, "YELL") --Горящее клеймо
+local yellReinvigorated				= mod:NewYell(230087, L.ReinvigoratedYell, nil, nil, "YELL") --Восполнение сил
+local yellReinvigorated2			= mod:NewFadesYell(230087, nil, nil, nil, "YELL") --Восполнение сил
 
 local timerAchieve					= mod:NewBuffActiveTimer(480, 229074)
 
 local timerRoleplay					= mod:NewTimer(29, "timerRoleplay", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7) --Ролевая игра
+
+local playerName = UnitName("player")
 
 function mod:SPELL_CAST_START(args)
 	if not self.Options.Enabled then return end
@@ -143,6 +150,14 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif spellId == 228280 then --Клятва верности
 		timerOathofFealty:Start(args.destName)
+	elseif spellId == 230087 then --Восполнение сил
+		warnReinvigorated:Show(args.destName)
+		timerReinvigorated:Start(args.destName)
+		if args:IsPlayer() then
+			specWarnReinvigorated:Show()
+			yellReinvigorated:Yell(playerName)
+			yellReinvigorated2:Countdown(20, 3)
+		end
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
@@ -155,6 +170,11 @@ function mod:SPELL_AURA_REMOVED(args)
 		specWarnRoyalty:Show(args.destName)
 	elseif spellId == 228280 then --Клятва верности
 		timerOathofFealty:Cancel(args.destName)
+	elseif spellId == 230087 then --Восполнение сил
+		timerReinvigorated:Cancel(args.destName)
+		if args:IsPlayer() then
+			yellReinvigorated2:Cancel()
+		end
 	end
 end
 
@@ -171,7 +191,7 @@ function mod:OnSync(msg)
 	elseif msg == "RPBeauty" then
 		timerRoleplay:Start(55)
 	elseif msg == "RPWestfall" then
-		timerRoleplay:Start(47)
+		timerRoleplay:Start(46.5)
 	elseif msg == "RPWikket" then
 		timerRoleplay:Start(70)
 	end

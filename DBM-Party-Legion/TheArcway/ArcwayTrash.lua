@@ -56,7 +56,7 @@ function mod:SPELL_CAST_START(args)
 			warnPhaseBreach:Play("kickcast")
 		end
 	elseif spellId == 211771 then --Предсказания рока
-		warnPropheciesofDoom:Show()
+	--	warnPropheciesofDoom:Show()
 		specWarnPropheciesofDoom:Show()
 	elseif spellId == 193938 and self:AntiSpam(5, 1) then --Взрыв слизнюка
 		warnOozeExplosion:Show()
