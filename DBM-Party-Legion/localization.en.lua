@@ -94,11 +94,6 @@ L= DBM:GetModLocalization(1480)
 -----------------------
 L= DBM:GetModLocalization(1490)
 
-L:SetWarningLocalization({
-	specWarnStaticNova			= "Static Nova - move to land",
-	specWarnFocusedLightning	= "Focused Lightning - move to water"
-})
-
 -----------------------
 -- King Deepbeard --
 -----------------------
@@ -120,7 +115,7 @@ L= DBM:GetModLocalization(1492)
 L = DBM:GetModLocalization("EoATrash")
 
 L:SetGeneralLocalization({
-	name =	"Eye of Azshara Trash"
+	name = "Eye of Azshara Trash"
 })
 
 -----------------------
@@ -166,7 +161,7 @@ L= DBM:GetModLocalization(1488)
 L= DBM:GetModLocalization(1489)
 
 L:SetMiscLocalization({
-	tempestModeMessage		=	"Not tempest sequence: %s. Rechecking in 8 seconds."
+	tempestModeMessage = "Not tempest sequence: %s. Rechecking in 8 seconds."
 })
 
 -----------------------
@@ -225,6 +220,18 @@ L:SetGeneralLocalization({
 	name =	"Neltharion's Lair Trash"
 })
 
+L:SetOptionLocalization({
+	timerRoleplay = "Show timer to the start of the battle with Rokmora" --"Interface\\Icons\\ability_warrior_offensivestance"
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = GUILD_INTEREST_RP
+})
+
+L:SetMiscLocalization({
+	RoleP1 = "Navarrogg?! Betrayer! You would lead these intruders against us?!"
+})
+
 -----------------------
 -- <<<The Arcway>>> --
 -----------------------
@@ -244,7 +251,7 @@ L= DBM:GetModLocalization(1498)
 L= DBM:GetModLocalization(1499)
 
 L:SetMiscLocalization({
-	batSpawn		=	"Reinforcements to me! NOW!"
+	batSpawn = "Reinforcements to me! NOW!"
 })
 
 -----------------------

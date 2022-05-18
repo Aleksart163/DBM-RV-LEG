@@ -99,11 +99,6 @@ L= DBM:GetModLocalization(1480)
 -------------------------
 L= DBM:GetModLocalization(1490)
 
-L:SetWarningLocalization({
-	specWarnStaticNova			= "Кольцо молний - встаньте на песок",
-	specWarnFocusedLightning	= "Средоточие молний - встаньте в воду"
-})
-
 ---------------------
 --Король Волнобород--
 ---------------------
@@ -226,6 +221,18 @@ L = DBM:GetModLocalization("NLTrash")
 
 L:SetGeneralLocalization({
 	name = "Трэш Логова Нелтариона"
+})
+
+L:SetOptionLocalization({
+	timerRoleplay = "Отсчет времени до начала боя с Рокмора" --"Interface\\Icons\\ability_warrior_offensivestance"
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = "Начало боя"
+})
+
+L:SetMiscLocalization({
+	RoleP1 = "Наваррогг?! Предатель, ты привел к нам чужаков?!"
 })
 
 ----------------------------

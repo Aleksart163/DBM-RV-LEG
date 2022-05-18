@@ -5,7 +5,7 @@ mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 mod:SetCreatureID(114350)
 mod:SetEncounterID(1965)
 mod:SetZone()
-mod:SetUsedIcons(1, 2)
+mod:SetUsedIcons(2, 1)
 --mod:SetHotfixNoticeRev(14922)
 --mod.respawnTime = 30
 
@@ -45,7 +45,7 @@ local yellFlameWreath2				= mod:NewFadesYell(228261, nil, nil, nil, "YELL") --В
 
 local countdownSpecial				= mod:NewCountdown(30, 228582)
 
-mod:AddSetIconOption("SetIconOnWreath", 228261, true) --Венец пламени
+mod:AddSetIconOption("SetIconOnWreath", 228261, true, false, {2, 1}) --Венец пламени
 --mod:AddInfoFrameOption(198108, false)
 
 mod.vb.playersFrozen = 0
@@ -95,7 +95,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnFlameWreath:Show()
 			specWarnFlameWreath:Play("stopmove")
 			yellFlameWreath:Yell()
-			yellFlameWreath2:Countdown(20, 5)
+			yellFlameWreath2:Countdown(20, 3)
 		end
 		if self.Options.SetIconOnWreath then
 			self:SetAlphaIcon(0.5, args.destName, 2)
@@ -119,7 +119,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		local amount = args.amount or 1
 		warnArcaneMissiles:Show(args.destName, amount)
 		timerArcaneMissiles:Start(args.destName)
-		if self:IsNormal() or self:IsHeroic() then
+		if self:IsNormal() or self:IsHeroic() then --обычка и героик
 			if amount >= 3 then
 				if args:IsPlayer() then
 					specWarnArcaneMissiles2:Show(args.amount)

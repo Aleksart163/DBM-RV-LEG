@@ -9,19 +9,23 @@ mod.isTrashMod = true
 
 mod:RegisterEvents(
 	"SPELL_CAST_START 200261 221634 221688 225573 214003 221132 220918 200248 221363 221380",
-	"SPELL_AURA_APPLIED 194966 221132 221363",
-	"SPELL_AURA_REMOVED 194966 221132 221363",
+	"SPELL_AURA_APPLIED 194966 221132 221363 240447",
+	"SPELL_AURA_REMOVED 194966 221132 221363 240447",
 	"SPELL_CAST_SUCCESS 200343 200345 220918",
 	"UNIT_DIED"
 )
 
 --TODO, add Etch? http://www.wowhead.com/spell=198959/etch
 --TODO, add Brutal Assault
-local warnSoulEchoes				= mod:NewTargetAnnounce(194966, 3) --Эхо души
-local warnArcaneOvercharge			= mod:NewTargetAnnounce(221132, 4) --Чародейская перезарядка
+--Крепость Черной Ладьи треш
+local warnSoulEchoes				= mod:NewTargetNoFilterAnnounce(194966, 3) --Эхо души
+local warnArcaneOvercharge			= mod:NewTargetNoFilterAnnounce(221132, 4) --Чародейская перезарядка
 local warnOverwhelmingRelease		= mod:NewSpellAnnounce(220918, 4) --Высвобождение мощи
-local warnRupturingPoison			= mod:NewTargetAnnounce(221363, 4) --Раздирающий яд
-local warnMandibleStrike			= mod:NewTargetAnnounce(221380, 4) --Удар жвалами
+local warnRupturingPoison			= mod:NewTargetNoFilterAnnounce(221363, 4) --Раздирающий яд
+local warnMandibleStrike			= mod:NewTargetNoFilterAnnounce(221380, 4) --Удар жвалами
+
+local specWarnQuake					= mod:NewSpecialWarningCast(240447, "SpelCaster", nil, nil, 1, 2) --Землетрясение
+local specWarnQuake2				= mod:NewSpecialWarningYouMoveAway(240447, "-SpelCaster", nil, nil, 1, 2) --Землетрясение
 
 local specWarnMandibleStrike		= mod:NewSpecialWarningYouDefensive(221380, nil, nil, nil, 2, 2) --Удар жвалами
 local specWarnRupturingPoison		= mod:NewSpecialWarningYouMoveAway(221363, nil, nil, nil, 3, 2) --Раздирающий яд
@@ -48,6 +52,8 @@ local timerArcaneBlitzCD			= mod:NewCDTimer(30, 200248, nil, nil, nil, 3, nil, D
 local timerOverwhelmingReleaseCD	= mod:NewCDTimer(25, 221132, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Высвобождение мощи
 local timerArcaneOverchargeCD		= mod:NewCDTimer(20, 221132, nil, nil, nil, 3, nil) --Чародейская перезарядка
 local timerArcaneOvercharge			= mod:NewTargetTimer(6, 221132, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Чародейская перезарядка
+
+local timerQuake					= mod:NewCastTimer(2.5, 240447, nil, nil, nil, 3, nil, DBM_CORE_INTERRUPT_ICON..DBM_CORE_DEADLY_ICON) --Землетрясение
 
 local yellRupturingPoison			= mod:NewYell(221363, nil, nil, nil, "YELL") --Раздирающий яд
 local yellRupturingPoisonFades		= mod:NewFadesYell(221363, nil, nil, nil, "YELL") --Раздирающий яд
@@ -118,7 +124,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnArcaneOvercharge:Show()
 			specWarnArcaneOvercharge:Play("runaway")
 			yellArcaneOvercharge:Yell()
-			yellArcaneOverchargeFades:Countdown(6)
+			yellArcaneOverchargeFades:Countdown(6, 3)
 		elseif self:CheckNearby(6, args.destName) then
 			specWarnArcaneOvercharge2:Show(args.destName)
 		end
@@ -132,12 +138,19 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnRupturingPoison:Show()
 			specWarnRupturingPoison:Play("runaway")
 			yellRupturingPoison:Yell()
-			yellRupturingPoisonFades:Countdown(6)
+			yellRupturingPoisonFades:Countdown(6, 3)
 		elseif self:CheckNearby(6, args.destName) then
 			specWarnRupturingPoison2:Show(args.destName)
 		end
 		if self.Options.RangeFrame then
 			DBM.RangeCheck:Show(6)
+		end
+	elseif spellId == 240447 then --Землетрясение
+		if args:IsPlayer() then
+			specWarnQuake:Show()
+			specWarnQuake:Play("runaway")
+			specWarnQuake2:Show()
+			timerQuake:Start()
 		end
 	end
 end
@@ -160,6 +173,8 @@ function mod:SPELL_AURA_REMOVED(args)
 		if self.Options.RangeFrame then
 			DBM.RangeCheck:Hide()
 		end
+	elseif spellId == 240447 then --Землетрясение
+		timerQuake:Stop()
 	end
 end
 

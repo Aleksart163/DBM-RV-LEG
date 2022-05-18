@@ -8,9 +8,12 @@ mod:SetZone()
 mod.isTrashMod = true
 
 mod:RegisterEvents(
+--	"SPELL_AURA_APPLIED 240447",
+--	"SPELL_AURA_REMOVED 240447",
 	"SPELL_CAST_START 198379 201226"
 )
 --Треш Чащи Темного Сердца
+
 local specWarnPrimalRampage				= mod:NewSpecialWarningDodge(198379, "Melee", nil, nil, 1, 2)
 local specWarnBloodAssault				= mod:NewSpecialWarningDodge(201226, nil, nil, nil, 2, 2) --Кровавая атака
 

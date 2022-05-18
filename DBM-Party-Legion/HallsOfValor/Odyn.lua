@@ -5,7 +5,7 @@ mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 mod:SetCreatureID(95676)
 mod:SetEncounterID(1809)
 mod:SetZone()
-
+mod:SetUsedIcons(6, 4, 3, 2, 1)
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
@@ -19,20 +19,27 @@ mod:RegisterEventsInCombat(
 --http://legion.wowhead.com/icons/name:boss_odunrunes_
 --["198263-Radiant Tempest"] = "pull:8.0, 72.0, 40.0", huh?
 local warnSpear						= mod:NewSpellAnnounce(198072, 2) --Копье света
+local warnSurge						= mod:NewCastAnnounce(198750, 4) --Импульс
 
 local specWarnTempest				= mod:NewSpecialWarningRun(198263, nil, nil, nil, 3, 5) --Светозарная буря
 local specWarnShatterSpears			= mod:NewSpecialWarningDodge(198077, nil, nil, nil, 2, 2) --Расколотые копья
 local specWarnSpear					= mod:NewSpecialWarningDodge(198072, nil, nil, nil, 2, 2) --Копье света
-local specWarnRunicBrand			= mod:NewSpecialWarningMoveTo(197961, nil, nil, nil, 3, 6) --Руническое клеймо
+local specWarnRunicBrand			= mod:NewSpecialWarningYouMoveToPos(197963, nil, nil, nil, 4, 5) --Руническое клеймо фиолетовая
+local specWarnRunicBrand2			= mod:NewSpecialWarningYouMoveToPos(197964, nil, nil, nil, 4, 5) --Руническое клеймо оранжевая
+local specWarnRunicBrand3			= mod:NewSpecialWarningYouMoveToPos(197965, nil, nil, nil, 4, 5) --Руническое клеймо желтая
+local specWarnRunicBrand4			= mod:NewSpecialWarningYouMoveToPos(197966, nil, nil, nil, 4, 5) --Руническое клеймо синяя
+local specWarnRunicBrand5			= mod:NewSpecialWarningYouMoveToPos(197967, nil, nil, nil, 4, 5) --Руническое клеймо зеленая
 local specWarnAdd					= mod:NewSpecialWarningSwitch(201221, "-Healer", nil, nil, 1, 2) --Призыв закаленного бурей воина
 local specWarnSurge					= mod:NewSpecialWarningInterrupt(198750, "HasInterrupt", nil, nil, 1, 2) --Импульс
 
 --local timerSpearCD					= mod:NewCDTimer(8, 198077, nil, nil, nil, 3)--More data needed
 local timerTempestCD				= mod:NewCDCountTimer(56, 198263, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Светозарная буря
 local timerShatterSpearsCD			= mod:NewCDTimer(56, 198077, nil, nil, nil, 2) --Расколотые копья
-local timerRunicBrandCD				= mod:NewCDCountTimer(56, 197961, nil, nil, nil, 3) --Руническое клеймо
+local timerRunicBrandCD				= mod:NewCDCountTimer(56, 197961, nil, nil, nil, 7) --Руническое клеймо
 local timerRunicBrand				= mod:NewTargetTimer(12, 197961, nil, nil, nil, 7) --Руническое клеймо
 local timerAddCD					= mod:NewCDTimer(54, 201221, nil, nil, nil, 1, 201215) --Призыв закаленного бурей воина 54-58
+
+mod:AddSetIconOption("SetIconOnRunicBrand", 197961, true, false, {6, 4, 3, 2, 1}) --Руническое клеймо
 
 --Boss has (at least) three timer modes, cannot determine which one on pull so on fly figuring out is used
 local tempestTimers = {
@@ -62,35 +69,62 @@ function mod:OnCombatStart(delay)
 	self.vb.temptestMode = 1
 	self.vb.tempestCount = 0
 	self.vb.brandCount = 0
---	timerSpearCD:Start(-delay)
-	timerTempestCD:Start(8-delay, 1)
-	self:Schedule(10, tempestDelayed, self, 1)
-	timerShatterSpearsCD:Start(40-delay)
-	timerRunicBrandCD:Start(44.5-delay, 1)
+	if self:IsHard() then
+		timerTempestCD:Start(24-delay, 1) --Светозарная буря
+		timerShatterSpearsCD:Start(40-delay) --Расколотые копья
+		timerRunicBrandCD:Start(44.5-delay, 1) --Руническое клеймо
+		timerAddCD:Start(18-delay) --Призыв закаленного бурей воина
+	else
+		timerTempestCD:Start(8-delay, 1) --Светозарная буря
+		self:Schedule(10, tempestDelayed, self, 1)
+		timerShatterSpearsCD:Start(40-delay) --Расколотые копья
+		timerRunicBrandCD:Start(44.5-delay, 1) --Руническое клеймо
+		timerAddCD:Start(18-delay) --Призыв закаленного бурей воина
+	end
 end
 
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 197963 and args:IsPlayer() then--Purple K (NE)
-		specWarnRunicBrand:Show("|TInterface\\Icons\\Boss_OdunRunes_Purple.blp:12:12|tNE|TInterface\\Icons\\Boss_OdunRunes_Purple.blp:12:12|t")
+	--	specWarnRunicBrand:Show("|TInterface\\Icons\\Boss_OdunRunes_Purple.blp:12:12|tNE|TInterface\\Icons\\Boss_OdunRunes_Purple.blp:12:12|t")
+		specWarnRunicBrand:Show(self:IconNumToTexture(3))
 		specWarnRunicBrand:Play("frontright")
 		timerRunicBrand:Start(args.destName)
+		if self.Options.SetIconOnRunicBrand then
+			self:SetIcon(args.destName, 3, 12)
+		end
 	elseif spellId == 197964 and args:IsPlayer() then--Orange N (SE)
-		specWarnRunicBrand:Show("|TInterface\\Icons\\Boss_OdunRunes_Orange.blp:12:12|tSE|TInterface\\Icons\\Boss_OdunRunes_Orange.blp:12:12|t")
+	--	specWarnRunicBrand:Show("|TInterface\\Icons\\Boss_OdunRunes_Orange.blp:12:12|tSE|TInterface\\Icons\\Boss_OdunRunes_Orange.blp:12:12|t")
+		specWarnRunicBrand2:Show(self:IconNumToTexture(2))
 		specWarnRunicBrand:Play("backright")
 		timerRunicBrand:Start(args.destName)
+		if self.Options.SetIconOnRunicBrand then
+			self:SetIcon(args.destName, 2, 12)
+		end
 	elseif spellId == 197965 and args:IsPlayer() then--Yellow H (SW)
-		specWarnRunicBrand:Show("|TInterface\\Icons\\Boss_OdunRunes_Yellow.blp:12:12|tSW|TInterface\\Icons\\Boss_OdunRunes_Yellow.blp:12:12|t")
+	--	specWarnRunicBrand:Show("|TInterface\\Icons\\Boss_OdunRunes_Yellow.blp:12:12|tSW|TInterface\\Icons\\Boss_OdunRunes_Yellow.blp:12:12|t")
+		specWarnRunicBrand3:Show(self:IconNumToTexture(1))
 		specWarnRunicBrand:Play("backleft")
 		timerRunicBrand:Start(args.destName)
+		if self.Options.SetIconOnRunicBrand then
+			self:SetIcon(args.destName, 1, 12)
+		end
 	elseif spellId == 197966 and args:IsPlayer() then--Blue fishies (NW)
-		specWarnRunicBrand:Show("|TInterface\\Icons\\Boss_OdunRunes_Blue.blp:12:12|tNW|TInterface\\Icons\\Boss_OdunRunes_Blue.blp:12:12|t")
+	--	specWarnRunicBrand:Show("|TInterface\\Icons\\Boss_OdunRunes_Blue.blp:12:12|tNW|TInterface\\Icons\\Boss_OdunRunes_Blue.blp:12:12|t")
+		specWarnRunicBrand4:Show(self:IconNumToTexture(6))
 		specWarnRunicBrand:Play("frontleft")
 		timerRunicBrand:Start(args.destName)
+		if self.Options.SetIconOnRunicBrand then
+			self:SetIcon(args.destName, 6, 12)
+		end
 	elseif spellId == 197967 and args:IsPlayer() then--Green box (N)
-		specWarnRunicBrand:Show("|TInterface\\Icons\\Boss_OdunRunes_Green.blp:12:12|tN|TInterface\\Icons\\Boss_OdunRunes_Green.blp:12:12|t")
+	--	specWarnRunicBrand:Show("|TInterface\\Icons\\Boss_OdunRunes_Green.blp:12:12|tN|TInterface\\Icons\\Boss_OdunRunes_Green.blp:12:12|t")
+		specWarnRunicBrand5:Show(self:IconNumToTexture(4))
 		specWarnRunicBrand:Play("frontcenter")--Does not exist yet
 		timerRunicBrand:Start(args.destName)
+		if self.Options.SetIconOnRunicBrand then
+			self:SetIcon(args.destName, 4, 12)
+		end
 	end
 end
 
@@ -98,14 +132,29 @@ function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
 	if spellId == 197963 and args:IsPlayer() then--Purple K (NE)
 		timerRunicBrand:Cancel(args.destName)
+		if self.Options.SetIconOnRunicBrand then
+			self:SetIcon(args.destName, 0)
+		end
 	elseif spellId == 197964 and args:IsPlayer() then--Orange N (SE)
 		timerCrushArmor:Cancel(args.destName)
+		if self.Options.SetIconOnRunicBrand then
+			self:SetIcon(args.destName, 0)
+		end
 	elseif spellId == 197965 and args:IsPlayer() then--Yellow H (SW)
 		timerRunicBrand:Cancel(args.destName)
+		if self.Options.SetIconOnRunicBrand then
+			self:SetIcon(args.destName, 0)
+		end
 	elseif spellId == 197966 and args:IsPlayer() then--Blue fishies (NW)
 		timerRunicBrand:Cancel(args.destName)
+		if self.Options.SetIconOnRunicBrand then
+			self:SetIcon(args.destName, 0)
+		end
 	elseif spellId == 197967 and args:IsPlayer() then--Green box (N)
 		timerRunicBrand:Cancel(args.destName)
+		if self.Options.SetIconOnRunicBrand then
+			self:SetIcon(args.destName, 0)
+		end
 	end
 end
 
@@ -130,9 +179,14 @@ function mod:SPELL_CAST_START(args)
 		specWarnShatterSpears:Show()
 		specWarnShatterSpears:Play("watchorb")
 		timerShatterSpearsCD:Start()
-	elseif spellId == 198750 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
-		specWarnSurge:Show(args.sourceName)
-		specWarnSurge:Play("kickcast")
+	elseif spellId == 198750 then --Импульс
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnSurge:Show()
+			specWarnSurge:Play("kickcast")
+		else
+			warnSurge:Show()
+			warnSurge:Play("kickcast")
+		end
 	end
 end
 

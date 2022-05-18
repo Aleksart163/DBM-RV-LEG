@@ -9,8 +9,10 @@ mod:SetOOCBWComms()
 mod.isTrashMod = true
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 209027 212031 209485 209410 209413 211470 211464 209404 209495 225100 211299 209378 207980 207979",
-	"SPELL_AURA_APPLIED 209033 209512 207981",
+	"SPELL_CAST_START 209027 212031 209485 209410 209413 211470 211464 209404 209495 225100 211299 209378 207980 207979 214692 214688 214690",
+	"SPELL_CAST_SUCCESS 214688",
+	"SPELL_AURA_APPLIED 209033 209512 207981 214690",
+	"SPELL_AURA_REMOVED 214690",
 	"CHAT_MSG_MONSTER_SAY",
 	"GOSSIP_SHOW",
 	"UNIT_DIED"
@@ -19,7 +21,14 @@ mod:RegisterEvents(
 --Квартал звезд
 local warnPhase2					= mod:NewAnnounce("warnSpy", 1, 248732) --Шпион обнаружен , nil, nil, true
 local warnDrainMagic				= mod:NewCastAnnounce(209485, 4) --Похищение магии
+local warnCripple					= mod:NewTargetNoFilterAnnounce(214690, 3) --Увечье
+local warnCarrionSwarm				= mod:NewTargetNoFilterAnnounce(214688, 4) --Темная стая
+local warnShadowBoltVolley			= mod:NewCastAnnounce(214692, 4) --Залп стрел Тьмы
 
+local specWarnShadowBoltVolley		= mod:NewSpecialWarningDodge(214692, "-Tank", nil, nil, 2, 3) --Залп стрел Тьмы
+local specWarnCarrionSwarm			= mod:NewSpecialWarningDodge(214688, nil, nil, nil, 2, 2) --Темная стая
+local specWarnCripple				= mod:NewSpecialWarningDispel(214690, "MagicDispeller2", nil, nil, 1, 2) --Увечье
+local specWarnCripple2				= mod:NewSpecialWarningYou(214690, nil, nil, nil, 1, 2) --Увечье
 local specWarnFelDetonation			= mod:NewSpecialWarningDodge(211464, nil, nil, nil, 2, 3) --Взрыв Скверны
 local specWarnDisintegrationBeam	= mod:NewSpecialWarningYouDefensive(207981, nil, nil, nil, 3, 6) --Луч дезинтеграции
 local specWarnShockwave				= mod:NewSpecialWarningDodge(207979, "Melee", nil, nil, 2, 3) --Ударная волна
@@ -37,17 +46,38 @@ local specWarnSearingGlare			= mod:NewSpecialWarningInterrupt(211299, "HasInterr
 local specWarnSealMagic				= mod:NewSpecialWarningRun(209404, false, nil, 2, 4, 2)
 local specWarnDisruptingEnergy		= mod:NewSpecialWarningMove(209512, nil, nil, nil, 1, 2)
 local specWarnWhirlingBlades		= mod:NewSpecialWarningRun(209378, "Melee", nil, nil, 4, 3) --Крутящиеся клинки
-
+--Герент Зловещий
+local timerCripple					= mod:NewTargetTimer(8, 214690, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON) --Увечье
+local timerCrippleCD				= mod:NewCDTimer(20.5, 214690, nil, "MagicDispeller2", nil, 3, nil, DBM_CORE_HEALER_ICON..DBM_CORE_MAGIC_ICON) --Увечье
+local timerShadowBoltVolleyCD		= mod:NewCDTimer(20.5, 214692, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Залп стрел Тьмы
+local timerCarrionSwarmCD			= mod:NewCDTimer(18, 214688, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Темная стая
+--
 local timerDisintegrationBeamCD		= mod:NewCDTimer(14, 207980, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Луч дезинтеграции
 local timerFelDetonationCD			= mod:NewCDTimer(12, 211464, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Взрыв Скверны
 local timerWhirlingBladesCD			= mod:NewCDTimer(18, 209378, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Крутящиеся клинки
-local timerShockwaveCD				= mod:NewCDTimer(8.5, 207979, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Ударная волна
+local timerShockwaveCD				= mod:NewCDTimer(8.5, 207979, nil, nil, nil, 3, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Ударная волна
 
 local timerRoleplay					= mod:NewTimer(29, "timerRoleplay", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7) --Ролевая игра
 
 local yellDisintegrationBeam		= mod:NewYell(207981, nil, nil, nil, "YELL") --Луч дезинтеграции
+local yellCripple					= mod:NewYell(214690, nil, nil, nil, "YELL") --Увечье
+local yellCarrionSwarm				= mod:NewYell(214688, nil, nil, nil, "YELL") --Темная стая
 
 mod:AddBoolOption("SpyHelper", true)
+
+function mod:CarrionSwarmTarget(targetname, uId)
+	if not targetname then
+		warnCarrionSwarm:Show(DBM_CORE_UNKNOWN)
+		return
+	end
+	if targetname == UnitName("player") then
+		specWarnCarrionSwarm:Show()
+		specWarnCarrionSwarm:Play("watchstep")
+		yellCarrionSwarm:Yell()
+	else
+		warnCarrionSwarm:Show(targetname)
+	end
+end
 
 function mod:SPELL_CAST_START(args)
 	if not self.Options.Enabled then return end
@@ -101,6 +131,24 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 207979 then --Ударная волна
 		specWarnShockwave:Show()
 		timerShockwaveCD:Start()
+	elseif spellId == 214692 then --Залп стрел Тьмы
+		warnShadowBoltVolley:Show()
+		timerShadowBoltVolleyCD:Start()
+		if self:IsHard() then
+			specWarnShadowBoltVolley:Show()
+			specWarnShadowBoltVolley:Play("watchstep")
+		end
+	elseif spellId == 214688 then --Темная стая
+		self:BossTargetScanner(args.sourceGUID, "CarrionSwarmTarget", 0.1, 9)
+	elseif spellId == 214690 then --Увечье
+		timerCrippleCD:Start()
+	end
+end
+
+function mod:SPELL_CAST_SUCCESS(args)
+	local spellId = args.spellId
+	if spellId == 214688 then --Темная стая
+		timerCarrionSwarmCD:Start()
 	end
 end
 
@@ -118,6 +166,30 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnDisintegrationBeam:Show()
 			yellDisintegrationBeam:Yell()
 		end
+	elseif spellId == 214690 then --Увечье
+		warnCripple:Show(args.destName)
+		timerCripple:Start(args.destName)
+		if self:IsHard() then
+			if args:IsPlayer() then
+				specWarnCripple2:Show()
+				yellCripple:Yell()
+			else
+				specWarnCripple:Show(args.destName)
+				specWarnFortification:Play("dispelnow")
+			end
+		else
+			if args:IsPlayer() then
+				specWarnCripple2:Show()
+				yellCripple:Yell()
+			end
+		end
+	end
+end
+
+function mod:SPELL_AURA_REMOVED(args)
+	local spellId = args.spellId
+	if spellId == 214690 then --Увечье
+		timerCripple:Cancel(args.destName)
 	end
 end
 
@@ -234,12 +306,8 @@ do
 		DBM.InfoFrame:Hide()
 	end
 	
---[[	function mod:Finish()
-		warnPhase2:Show()
-	end]]
-	
 	function mod:CHAT_MSG_MONSTER_SAY(msg)
-		if msg:find(L.Found) then
+		if msg:find(L.Found) or msg:find(L.Found) then
 			self:SendSync("Finished")
 		elseif msg == L.RolePlayMelan or msg:find(L.RolePlayMelan) then
 			self:SendSync("RolePlayMel")
@@ -316,5 +384,9 @@ function mod:UNIT_DIED(args)
 		timerDisintegrationBeamCD:Cancel()
 	elseif cid == 104273 then --Джазшариу
 		timerShockwaveCD:Cancel()
+	elseif cid == 104273 then --Герент Зловещий
+		timerCrippleCD:Cancel()
+		timerShadowBoltVolleyCD:Cancel()
+		timerCarrionSwarmCD:Cancel()
 	end
 end

@@ -34,9 +34,9 @@ local countdownDownDraft			= mod:NewCountdown(31.5, 199345) --Нисходящи
 function mod:OnCombatStart(delay)
 	timerBreathCD:Start(13-delay) --Дыхание порчи +++
 	timerEarthShakerCD:Start(20-delay) --Сотрясающий землю рык +++
-	timerDownDraftCD:Start(23.5-delay) --Нисходящий поток +++
-	warnDownDraft:Schedule(18.5-delay) --Нисходящий поток +++
-	countdownDownDraft:Start(23.5-delay) --Нисходящий поток +++
+	timerDownDraftCD:Start(20-delay) --Нисходящий поток +++
+	warnDownDraft:Schedule(15-delay) --Нисходящий поток +++
+	countdownDownDraft:Start(20-delay) --Нисходящий поток +++
 end
 
 function mod:SPELL_CAST_START(args)

@@ -4,9 +4,9 @@ local L		= mod:GetLocalizedStrings()
 mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 --mod:SetModelID(47785)
 mod:SetZone()
-
+--mod:SetUsedIcons(2, 1)
 mod.isTrashMod = true
-mod:SetUsedIcons(2, 1)
+
 
 mod:RegisterEvents(
 	"SPELL_CAST_START 199805 192563 199726 199382 200901 192158 192288 210875 199652 200969",
@@ -19,7 +19,7 @@ mod:RegisterEvents(
 	"UNIT_DIED"
 )
 --Чертоги доблести
-local warnCrackle					= mod:NewTargetAnnounce(199805, 2) --Разряд
+local warnCrackle					= mod:NewTargetNoFilterAnnounce(199805, 3) --Разряд
 
 local specWarnEtch					= mod:NewSpecialWarningYouMove(198959, nil, nil, nil, 1, 2) --Гравировка
 local specWarnCallAncestor			= mod:NewSpecialWarningSwitch(200969, "Dps", nil, nil, 1, 2) --Зов предков
@@ -28,8 +28,8 @@ local specWarnThunderstrike			= mod:NewSpecialWarningYouMoveAway(215430, nil, ni
 local specWarnThunderstrike2		= mod:NewSpecialWarningCloseMoveAway(215430, nil, nil, nil, 2, 2) --Громовой удар
 local specWarnEyeofStorm			= mod:NewSpecialWarningMoveTo(200901, nil, nil, nil, 3, 2) --Око шторма
 local specWarnSanctify				= mod:NewSpecialWarningDodge(192158, "Ranged", nil, nil, 2, 5) --Освящение
-local specWarnSanctify2				= mod:NewSpecialWarningRun(192158, "Melee", nil, nil, 3, 5) --Освящение
-local specWarnChargedPulse			= mod:NewSpecialWarningRun(210875, "Melee", nil, nil, 3, 5) --Пульсирующий заряд
+local specWarnSanctify2				= mod:NewSpecialWarningRun(192158, "Melee", nil, nil, 4, 5) --Освящение
+local specWarnChargedPulse			= mod:NewSpecialWarningRun(210875, "Melee", nil, nil, 4, 5) --Пульсирующий заряд
 local specWarnChargedPulse2			= mod:NewSpecialWarningDodge(210875, "Ranged", nil, nil, 2, 5) --Пульсирующий заряд
 
 local specWarnEnragingRoar			= mod:NewSpecialWarningDefensive(199382, "Tank", nil, nil, 3, 2) --Яростный рев
@@ -53,8 +53,8 @@ local yellThunderstrike2			= mod:NewShortFadesYell(215430, nil, nil, nil, "YELL"
 local eyeShortName = DBM:GetSpellInfo(91320)--Inner Eye
 
 mod:AddRangeFrameOption(8, 215430) --Громовой удар
-mod:AddSetIconOption("SetIconOnThunderStrike", 215430, true, false, {2, 1}) --Громовой удар
---mod:AddSetIconOption("SetIconOnGravityBombTarget", 192563, true, false, {8}) --бомба
+--mod:AddSetIconOption("SetIconOnThunderStrike", 215430, true, false, {2, 1}) --Громовой удар
+
 mod.vb.ThunderstrikeIcon = 1
 
 function mod:CrackleTarget(targetname, uId)
@@ -97,7 +97,7 @@ function mod:SPELL_CAST_START(args)
 		specWarnSanctify2:Show()
 		specWarnSanctify2:Play("watchorb")
 		timerSanctifyCD:Start()
-	elseif spellId == 210875 then --Пульсирующий заряд
+	elseif spellId == 210875 and self:AntiSpam(2, 1) then --Пульсирующий заряд
 		specWarnChargedPulse:Show()
 		specWarnChargedPulse2:Show()
 	elseif spellId == 199652 then --Рассечение
@@ -130,10 +130,6 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self.Options.RangeFrame then
 			DBM.RangeCheck:Show(8)
 		end
-		if self.Options.SetIconOnThunderStrike then
-			self:SetIcon(args.destName, self.vb.ThunderstrikeIcon)
-		end
-		self.vb.ThunderstrikeIcon = self.vb.ThunderstrikeIcon + 1
 	elseif spellId == 199652 then --Рассечение
 		timerSever:Start(args.destName)
 	end
@@ -149,10 +145,6 @@ function mod:SPELL_AURA_REMOVED(args)
 		if self.Options.RangeFrame then
 			DBM.RangeCheck:Hide()
 		end
-		if self.Options.SetIconOnThunderStrike then
-			self:SetIcon(args.destName, 0)
-		end
-		self.vb.ThunderstrikeIcon = self.vb.ThunderstrikeIcon - 1
 	elseif spellId == 199652 then --Рассечение
 		timerSever:Cancel(args.destName)
 	end

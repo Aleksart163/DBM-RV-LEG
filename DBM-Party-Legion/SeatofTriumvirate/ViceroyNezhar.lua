@@ -22,13 +22,14 @@ mod:RegisterEventsInCombat(
 --TODO, More work on guard timers, with an english log that's actually captured properly (stared and stopped between pulls)
 local warnEternalTwilight				= mod:NewCastAnnounce(248736, 4) --Вечные сумерки (после треша)
 local warnHowlingDark					= mod:NewCastAnnounce(244751, 4) --Пронизывающая тьма (фир)
-local warnAddsLeft						= mod:NewAddsLeftAnnounce("ej16424", 3) --Призыв призрачных стражей (треш)
-local warnTentacles						= mod:NewSpellAnnounce(244769, 2) --Теневые щупальца
+local warnTentacles						= mod:NewSpellAnnounce(244769, 3) --Теневые щупальца
+local warnDarkBulwark					= mod:NewFadesAnnounce(248804, 2) --Темная защита спадает
 
 local specWarnHowlingDark				= mod:NewSpecialWarningInterrupt(244751, "HasInterrupt", nil, nil, 1, 2) --Пронизывающая тьма (фир)
 local specWarnEntropicForce				= mod:NewSpecialWarningMoveBoss(246324, nil, nil, nil, 4, 3) --Энтропическая сила
 local specWarnAdds						= mod:NewSpecialWarningSwitch(249336, "-Healer", nil, nil, 3, 2) --Призыв призрачных стражей (треш)
 local specWarnTentacles					= mod:NewSpecialWarningSwitch(244769, "Dps", nil, nil, 2, 2) --Теневые щупальца
+local specWarnEternalTwilight			= mod:NewSpecialWarningInterrupt(248736, "HasInterrupt", nil, nil, 3, 2) --Вечные сумерки (после треша)
 
 local timerUmbralTentaclesCD			= mod:NewCDTimer(31.5, 244769, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON) --Теневые щупальца +++
 local timerHowlingDarkCD				= mod:NewCDTimer(28.0, 244751, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON..DBM_CORE_DEADLY_ICON) --Пронизывающая тьма (фир) +++
@@ -37,7 +38,7 @@ local timerEntropicForce				= mod:NewCastTimer(5, 246324, nil, nil, nil, 2, nil,
 local timerEternalTwilight				= mod:NewCastTimer(10, 248736, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Вечные сумерки (после треша) +++
 local timerAddsCD						= mod:NewCDTimer(61.9, 248736, nil, "-Healer", nil, 2, nil, DBM_CORE_DAMAGE_ICON..DBM_CORE_MYTHIC_ICON) --Призыв призрачных стражей (все норм с момента кика)
 
-local countdownEternalTwilight			= mod:NewCountdown("AltTwo10", 248736) --Вечные сумерки (после треша)
+local countdownEternalTwilight			= mod:NewCountdown(10, 248736) --Вечные сумерки (после треша)
 
 mod.vb.guardsActive = 0
 
@@ -60,7 +61,7 @@ function mod:SPELL_CAST_START(args)
 	if spellId == 244751 then --Пронизывающая тьма (фир)
 		timerHowlingDarkCD:Start()
 		warnHowlingDark:Show()
-		specWarnHowlingDark:Show(args.sourceName)
+		specWarnHowlingDark:Show()
 		specWarnHowlingDark:Play("kickcast")
 	elseif spellId == 248736 and self:AntiSpam(3, 1) then --Вечные сумерки начало каста
 		warnEternalTwilight:Show()
@@ -70,8 +71,8 @@ function mod:SPELL_CAST_START(args)
 		timerEntropicForceCD:Stop()
 		timerHowlingDarkCD:Stop()
 	elseif spellId == 246324 then
-		specWarnEntropicForce:Show()
-		specWarnEntropicForce:Play("keepmove")
+		specWarnEntropicForce:Schedule(1)
+		specWarnEntropicForce:ScheduleVoice(1, "keepmove")
 	end
 end
 
@@ -94,10 +95,9 @@ function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
 	if spellId == 248804 then
 		self.vb.guardsActive = self.vb.guardsActive - 1
-		if self.vb.guardsActive >= 1 then
-			warnAddsLeft:Show(self.vb.guardsActive)
-		--else
-			--Start timer for next guard here if more accurate
+		if self.vb.guardsActive == 0 then
+			warnDarkBulwark:Show()
+			specWarnEternalTwilight:Show()
 		end
 	end
 end
@@ -111,6 +111,8 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	elseif spellId == 249336 then--or 249335
 		specWarnAdds:Show()
 		specWarnAdds:Play("killmob")
+		timerAddsCD:Start(50.5) --57.5
+		countdownEternalTwilight:Start(50.5) --57.5
 	end
 end
 
@@ -121,7 +123,5 @@ function mod:SPELL_INTERRUPT(args)
 		timerUmbralTentaclesCD:Start(12)
 		timerEntropicForceCD:Start(35)
 		timerHowlingDarkCD:Start(15)
-		timerAddsCD:Start(57.5)
-		countdownEternalTwilight:Start(57.5)
 	end
 end

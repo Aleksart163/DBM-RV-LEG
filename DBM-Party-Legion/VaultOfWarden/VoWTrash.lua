@@ -10,12 +10,13 @@ mod.isTrashMod = true
 mod:RegisterEvents(
 	"SPELL_CAST_START 196799 193069 196799 196249 193502 193936 161056 202728 196242 191527",
 	"SPELL_AURA_APPLIED 202615 193069 193607 202608 161044 193164",
+--	"SPELL_AURA_REMOVED",
 	"SPELL_CAST_SUCCESS 202606",
 	"CHAT_MSG_MONSTER_SAY",
 	"UNIT_DIED"
 )
-
-local warnTorment				= mod:NewTargetAnnounce(202615, 3) --Мучение
+--Казематы стражей треш
+local warnTorment				= mod:NewTargetNoFilterAnnounce(202615, 3) --Мучение
 local warnNightmares			= mod:NewTargetAnnounce(193069, 4) --Кошмары
 local warnNightmares2			= mod:NewSpellAnnounce(193069, 3) --Кошмары
 local warnDoubleStrike			= mod:NewTargetAnnounce(193607, 2) --Двойной удар
@@ -50,6 +51,7 @@ local timerTormentCD			= mod:NewCDTimer(17, 202615, nil, nil, nil, 7, nil) --М�
 --
 local timerDoubleStrikeCD		= mod:NewCDTimer(13, 193607, nil, "Tank", nil, 3, nil, DBM_CORE_TANK_ICON) --Двойной удар
 local timerDoubleStrike			= mod:NewTargetTimer(6, 193607, nil, "Healer", nil, 3, nil) --Двойной удар
+
 local timerRoleplay				= mod:NewTimer(23, "timerRoleplay", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7) --Ролевая игра
 
 local yellNightmares			= mod:NewYell(193069, nil, nil, nil, "YELL") --Кошмары
@@ -108,7 +110,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnTorment2:Show()
 			yellTorment:Yell()
 		else
-			specWarnTorment:Show()
+			specWarnTorment:Show(args.destName)
 		end
 	elseif spellId == 193069 then
 		warnNightmares:CombinedShow(0.3, args.destName)

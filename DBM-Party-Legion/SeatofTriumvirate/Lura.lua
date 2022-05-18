@@ -11,7 +11,8 @@ mod:RegisterCombat("combat")
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 247795 245164 249009",
 	"SPELL_CAST_SUCCESS 247930",
-	"SPELL_AURA_APPLIED 247816 248535",
+	"SPELL_AURA_APPLIED 247816 248535 247915 245242",
+	"SPELL_AURA_APPLIED_DOSE 247915",
 	"SPELL_AURA_REMOVED 247816",
 --	"CHAT_MSG_RAID_BOSS_EMOTE",
 	"CHAT_MSG_MONSTER_YELL",
@@ -26,6 +27,7 @@ mod:RegisterEventsInCombat(
 --TODO, RP timer
 local warnBacklash						= mod:NewTargetNoFilterAnnounce(247816, 1) --Отдача
 local warnNaarusLamen					= mod:NewTargetNoFilterAnnounce(248535, 2) --Стенания наару
+local warnGrowingDarkness				= mod:NewStackAnnounce(247915, 4, nil, nil, 2) --Разрастающийся мрак
 
 local specWarnRemnantofAnguish			= mod:NewSpecialWarningYouMove(245242, nil, nil, nil, 1, 2) --Отголосок страдания
 local specWarnBacklash					= mod:NewSpecialWarningMoreDamage(247816, "-Healer", nil, nil, 3, 2) --Отдача
@@ -34,13 +36,15 @@ local specWarnFragmentOfDespair			= mod:NewSpecialWarningSoak(245164, nil, nil, 
 local specWarnGrandShift				= mod:NewSpecialWarningDodge(249009, nil, nil, nil, 2, 3) --Масштабный рывок
 
 --local timerCalltoVoidCD					= mod:NewAITimer(12, 247795, nil, nil, nil, 1)
+local timerCalltoVoidCD					= mod:NewCDTimer(14.5, 247795, nil, nil, nil, 1, nil, DBM_CORE_TANK_ICON..DBM_CORE_DAMAGE_ICON) --Воззвание к Бездне
 local timerGrandShiftCD					= mod:NewCDTimer(14.5, 249009, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON..DBM_CORE_MYTHIC_ICON) --Масштабный рывок +++
 local timerUmbralCadenceCD				= mod:NewCDTimer(10.8, 247930, nil, nil, nil, 2, nil, DBM_CORE_HEALER_ICON) --Каденция Бездны +++
-local timerBacklash						= mod:NewBuffActiveTimer(12, 247816, nil, nil, nil, 6, nil, DBM_CORE_DAMAGE_ICON) --Отдача
-local timerBacklashCD					= mod:NewCDTimer(14, 247816, nil, nil, nil, 7, nil, DBM_CORE_DAMAGE_ICON) --Отдача
+local timerBacklash						= mod:NewBuffActiveTimer(12, 247816, nil, nil, nil, 6, nil, DBM_CORE_DAMAGE_ICON) --Отдача +++
+local timerBacklashCD					= mod:NewCDTimer(14, 247816, nil, nil, nil, 3, nil, DBM_CORE_DAMAGE_ICON) --Отдача +++
 
 --local countdownBreath					= mod:NewCountdown(22, 227233)
 local countdownBacklash					= mod:NewCountdown(14, 247816) --Отдача
+local countdownGrandShift				= mod:NewCountdown(14.5, 249009) --Масштабный рывок
 
 mod.vb.phase = 1
 mod.vb.wardens = 0
@@ -64,6 +68,7 @@ function mod:SPELL_CAST_START(args)
 		specWarnGrandShift:Show()
 		specWarnGrandShift:Play("watchstep")
 		timerGrandShiftCD:Start()
+		countdownGrandShift:Start()
 	end
 end
 
@@ -83,8 +88,19 @@ function mod:SPELL_AURA_APPLIED(args)
 		--Pause Timers?
 	elseif spellId == 248535 then
 		warnNaarusLamen:Show(args.destName)
+	elseif spellId == 247915 then --Разрастающийся мрак
+		local amount = args.amount or 1
+		if amount >= 10 and amount % 5 == 0 then
+			warnGrowingDarkness:Show(args.destName, amount)
+		end
+	elseif spellId == 245242 then --Отголосок страдания
+		if args:IsPlayer() then
+			specWarnRemnantofAnguish:Show()
+			specWarnRemnantofAnguish:Play("runaway")
+		end
 	end
 end
+mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 
 function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
@@ -101,12 +117,14 @@ function mod:UNIT_DIED(args)
 		if self.vb.wardens == 1 then
 			timerBacklashCD:Start()
 			countdownBacklash:Start()
+			timerCalltoVoidCD:Start(27)
 		elseif self.vb.wardens == 3 then
-			timerBacklashCD:Start()
-			countdownBacklash:Start()
-			timerUmbralCadenceCD:Start(37.4)
+			timerBacklashCD:Start(19)
+			countdownBacklash:Start(19)
+			timerUmbralCadenceCD:Start(42.5)
 			if self:IsHard() then
-				timerGrandShiftCD:Start(35.7)
+				timerGrandShiftCD:Start(40)
+				countdownGrandShift:Start(40)
 			end
 		end
 	end

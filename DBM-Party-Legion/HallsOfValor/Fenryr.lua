@@ -59,12 +59,12 @@ function mod:FixateTarget(targetname, uId)
 			specWarnFixate:Play("runaway")
 			specWarnFixate:ScheduleVoice(1, "keepmove")
 			yellFixate:Yell()
-			yellFixate2:Countdown(6, 3)
+			yellFixate2:Countdown(9, 3)
 		else
 			warnFixate:Show(targetname)
 		end
 		if self.Options.SetIconOnFixate then
-			self:SetIcon(targetname, 8, 6)
+			self:SetIcon(targetname, 8, 10)
 		end
 	end
 end

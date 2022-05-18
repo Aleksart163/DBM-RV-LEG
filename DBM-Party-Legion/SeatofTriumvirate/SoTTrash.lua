@@ -10,6 +10,7 @@ mod.isTrashMod = true
 mod:RegisterEvents(
 	"SPELL_CAST_START 248304 245585 245727 248133 248184 248227",
 	"SPELL_AURA_APPLIED 249077 249081",
+	"SPELL_AURA_REMOVED 249081",
 	"CHAT_MSG_MONSTER_YELL",
 	"CHAT_MSG_MONSTER_SAY"
 )
@@ -75,7 +76,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		else
 			warnCorruptingVoid:Show(args.destName)
 		end
-	elseif spellId == 249081 and self:AntiSpam(3, args.destName) then
+	elseif spellId == 249081 and self:AntiSpam(3, args.destName) then --Подавляющее поле
 		if args:IsPlayer() then
 			specWarnSupField:Show()
 			specWarnSupField:Play("stopmove")
@@ -83,6 +84,15 @@ function mod:SPELL_AURA_APPLIED(args)
 			yellSupField2:Countdown(10, 3)
 		else
 			warnSupField:Show(args.destName)
+		end
+	end
+end
+
+function mod:SPELL_AURA_REMOVED(args)
+	local spellId = args.spellId
+	if spellId == 249081 then --Подавляющее поле
+		if args:IsPlayer() then
+			yellSupField2:Cancel()
 		end
 	end
 end
@@ -107,6 +117,6 @@ function mod:OnSync(msg, GUID)
 	elseif msg == "RP2" then
 		timerRoleplay:Start(33)
 	elseif msg == "RP3" then
-		timerRoleplay2:Start(32)
+		timerRoleplay2:Start(31.7)
 	end
 end

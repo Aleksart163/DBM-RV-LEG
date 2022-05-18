@@ -21,7 +21,7 @@ mod:RegisterEventsInCombat(
 --TODO, other warnings? portal spawns/phases?
 --TODO, announce portal guardians, they fire UNIT_TARGETABLE_CHANGED (maybe other things?)
 local warnApproachingDoom			= mod:NewCastAnnounce(241622, 2) --Приближение погибели
-local warnFrenzy					= mod:NewSpellAnnounce(243157, 4) --Бешенство
+local warnFrenzy					= mod:NewTargetNoFilterAnnounce(243157, 4) --Бешенство
 local warnApproachingDoom2			= mod:NewSoonAnnounce(241622, 1) --Приближение погибели
 
 local specWarnFelsoulCleave			= mod:NewSpecialWarningDodge(236543, "Tank", nil, nil, 1, 2) --Удар оскверненной души
@@ -96,7 +96,7 @@ end
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 243157 then --Бешенство
-		warnFrenzy:Show()
+		warnFrenzy:Show(args.destName)
 	end
 end
 

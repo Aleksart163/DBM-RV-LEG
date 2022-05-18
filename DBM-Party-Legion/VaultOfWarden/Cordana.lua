@@ -32,7 +32,7 @@ local specWarnHiddenStarted			= mod:NewSpecialWarningSpell(192750, nil, nil, nil
 local specWarnHiddenOver			= mod:NewSpecialWarningEnd(192750, nil, nil, nil, 1, 2) --Пелена тьмы
 local specWarnCreepingDoom			= mod:NewSpecialWarningDodge(197422, nil, nil, nil, 2, 5) --Ползучая гибель
 local specWarnVengeance				= mod:NewSpecialWarningMoveTo(205004, nil, nil, nil, 3, 6) --Отмщение
-local specWarnVengeance2			= mod:NewSpecialWarningSwitch(205004, "-Healer", nil, nil, 3, 6) --Отмщение
+local specWarnVengeance2			= mod:NewSpecialWarningSwitch(205004, "-Healer", nil, nil, 3, 5) --Отмщение
 
 --local timerDetonation				= mod:NewTargetTimer(10, 197541, nil, nil, nil, 3, nil, DBM_CORE_HEALER_ICON) --Мгновенный взрыв
 local timerKickCD					= mod:NewCDTimer(16, 197251, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON) --Сбивающий с ног удар 16-42
@@ -77,7 +77,7 @@ function mod:SPELL_CAST_START(args)
 		timerDeepeningShadowsCD:Stop()
 		timerCreepingDoom:Start()
 		countdownCreepingDoom:Start()
-		warnCreepingDoom2:Schedule(64.5)
+		warnCreepingDoom2:Schedule(69.5)
 	elseif spellId == 213685 then --вторая Ползучая гибель
 		warnCreepingDoom:Show()
 		specWarnCreepingDoom:Show()
@@ -86,18 +86,17 @@ function mod:SPELL_CAST_START(args)
 		timerCreepingDoom:Start(20)
 		timerCreepingDoomCD:Start(64.5)
 		countdownCreepingDoom:Start(64.5)
-		warnCreepingDoom2:Schedule(54.5)
+		warnCreepingDoom2:Schedule(59.5)
 	end
 end
 
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
-	if args.spellId == 205004 then
+	if args.spellId == 205004 then --Отмщение
 		if ExtraActionBarFrame:IsShown() then--Has light
 			specWarnVengeance:Show(args.spellName)
 			specWarnVengeance:Play(205004)
 		else
-			warnVengeance:Show()
 			specWarnVengeance2:Show()
 		end
 		timerVengeanceCD:Start()
@@ -156,14 +155,14 @@ function mod:UNIT_HEALTH(uId)
 		elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 95888 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.41 then
 			self.vb.phase = 2
 			warned_preP2 = true
-			warnPhase2:Schedule(5)
+			warnPhase2:Schedule(7)
 			warnPhase2:Play("phasechange")
 		end
 	else
 		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 95888 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.41 then
 			self.vb.phase = 2
 			warned_preP1 = true
-			warnPhase2:Schedule(5)
+			warnPhase2:Schedule(7)
 			warnPhase2:Play("phasechange")
 		end
 	end

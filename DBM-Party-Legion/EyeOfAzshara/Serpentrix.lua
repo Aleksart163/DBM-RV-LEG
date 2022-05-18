@@ -5,11 +5,12 @@ mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 mod:SetCreatureID(91808)
 mod:SetEncounterID(1813)
 mod:SetZone(1456)
-
+mod:SetUsedIcons(8)
 mod:RegisterCombat("combat")
 
 mod:RegisterEvents(
-	"SPELL_AURA_APPLIED 191855 191797"
+	"SPELL_AURA_APPLIED 191855 191797",
+	"SPELL_AURA_REMOVED 191855"
 )
 
 mod:RegisterEventsInCombat(
@@ -34,6 +35,8 @@ local specWarnToxicPool				= mod:NewSpecialWarningMove(191858, nil, nil, nil, 1,
 local specWarnBlazingNova			= mod:NewSpecialWarningInterrupt(192003, false, nil, nil, 1, 2) --Вспышка пламени
 local specWarnArcaneBlast			= mod:NewSpecialWarningInterrupt(192005, false, nil, nil, 1, 2) --Чародейская вспышка
 local specWarnRampage				= mod:NewSpecialWarningInterrupt(191848, "HasInterrupt", nil, nil, 3, 5) --Буйство
+
+mod:AddSetIconOption("SetIconOnToxicWound", 191855, true, false, {8}) --Отравленная рана
 
 --Next timers always, unless rampage is not interrupted (Boss will not cast anything else during rampages)
 local timerToxicWoundCD				= mod:NewCDTimer(16, 191855, nil, nil, nil, 3) --Отравленная рана
@@ -60,12 +63,15 @@ end
 
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
-	if spellId == 191855 then
+	if spellId == 191855 then --Отравленная рана
 		warnToxicWound:Show(args.destName)
 		if args:IsPlayer() then
 			specWarnToxicWound:Show()
 			specWarnToxicWound:Play("justrun")
 			specWarnToxicWound:ScheduleVoice(1.5, "keepmove")
+		end
+		if self.Options.SetIconOnToxicWound then
+			self:SetIcon(args.destName, 8)
 		end
 	elseif spellId == 191797 and self:AntiSpam(3, 2) then--Violent Winds
 		if not wrathMod then wrathMod = DBM:GetModByName("1492") end
@@ -75,6 +81,15 @@ function mod:SPELL_AURA_APPLIED(args)
 			timerWindsCD:Start()
 		else--Zone wide, it's every 90 seconds
 			timerWindsCD:Start(90)
+		end
+	end
+end
+
+function mod:SPELL_AURA_REMOVED(args)
+	local spellId = args.spellId
+	if spellId == 191855 then --Отравленная рана
+		if self.Options.SetIconOnToxicWound then
+			self:SetIcon(args.destName, 0)
 		end
 	end
 end

@@ -26,8 +26,9 @@ local warnNullification				= mod:NewTargetNoFilterAnnounce(230083, 2) --Полн
 local warnReinvigorated				= mod:NewTargetNoFilterAnnounce(230087, 1) --Восполнение сил
 
 local specWarnReinvigorated			= mod:NewSpecialWarningYouMoreDamage(230087, nil, nil, nil, 1, 2) --Восполнение сил
+local specWarnReinvigorated2		= mod:NewSpecialWarningEnd(230087, nil, nil, nil, 1, 2) --Восполнение сил
 local specWarnForceBlade			= mod:NewSpecialWarningYouDefensive(230050, nil, nil, nil, 3, 5) --Силовой клинок
-local specWarnNullification			= mod:NewSpecialWarningYouFind(230083, nil, nil, nil, 3, 5) --Полная нейтрализация
+local specWarnNullification			= mod:NewSpecialWarningYouFind(230083, nil, nil, nil, 1, 2) --Полная нейтрализация
 local specWarnSoulLeech2			= mod:NewSpecialWarningInterrupt(228254, "HasInterrupt", nil, nil, 1, 2) --Поглощение души
 local specWarnSoulLeech				= mod:NewSpecialWarningInterrupt(228255, "HasInterrupt", nil, nil, 1, 2)
 local specWarnTerrifyingWail		= mod:NewSpecialWarningInterrupt(228239, "HasInterrupt", nil, nil, 1, 2)
@@ -46,7 +47,7 @@ local specWarnCurseofDoom			= mod:NewSpecialWarningDispel(229716, "Healer", nil,
 local specWarnRoyalty				= mod:NewSpecialWarningSwitch(229489, "-Healer", nil, nil, 1, 2) --Царственность
 local specWarnFlashlight			= mod:NewSpecialWarningLookAway(227966, nil, nil, nil, 3, 3) --Фонарь
 
-local timerNullificationCD			= mod:NewCDTimer(14, 230094, nil, nil, nil, 3, nil) --Полная нейтрализация
+local timerNullificationCD			= mod:NewCDTimer(14, 230094, nil, nil, nil, 7, nil) --Полная нейтрализация
 local timerReinvigorated			= mod:NewTargetTimer(20, 230087, nil, nil, nil, 3, nil, DBM_CORE_DAMAGE_ICON) --Восполнение сил
 local timerOathofFealty				= mod:NewTargetTimer(15, 228280, nil, nil, nil, 3, nil) --Клятва верности
 local timerRoyalty					= mod:NewCDTimer(20, 229489, nil, nil, nil, 3, nil, DBM_CORE_DAMAGE_ICON) --Царственность
@@ -173,6 +174,7 @@ function mod:SPELL_AURA_REMOVED(args)
 	elseif spellId == 230087 then --Восполнение сил
 		timerReinvigorated:Cancel(args.destName)
 		if args:IsPlayer() then
+			specWarnReinvigorated2:Show()
 			yellReinvigorated2:Cancel()
 		end
 	end
@@ -189,7 +191,7 @@ function mod:OnSync(msg)
 	if msg == "KaraSpeed" then
 		timerAchieve:Start()
 	elseif msg == "RPBeauty" then
-		timerRoleplay:Start(55)
+		timerRoleplay:Start(52.5) --(уже подправил до момента просмотра видео с каражана)
 	elseif msg == "RPWestfall" then
 		timerRoleplay:Start(46.5)
 	elseif msg == "RPWikket" then
@@ -213,13 +215,7 @@ function mod:UNIT_DIED(args)
 		timerNullificationCD:Cancel()
 	elseif cid == 115388 then --Король
 		timerRoyalty:Cancel()
-	elseif cid == 115395 then --Ферзь
-		timerRoyalty:Start()
-	elseif cid == 115406 then --Конь
-		timerRoyalty:Start()
-	elseif cid == 115401 then --Слон
-		timerRoyalty:Start()
-	elseif cid == 115407 then --Ладья
+	elseif cid == 115395 or cid == 115406 or cid == 115401 or cid == 115407 then --Ферзь, конь, слон и ладья
 		timerRoyalty:Start()
 	end
 end

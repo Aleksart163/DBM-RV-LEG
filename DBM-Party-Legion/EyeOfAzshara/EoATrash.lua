@@ -4,9 +4,8 @@ local L		= mod:GetLocalizedStrings()
 mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 --mod:SetModelID(47785)
 mod:SetZone()
-
+mod:SetUsedIcons(8, 7)
 mod.isTrashMod = true
-mod:SetUsedIcons(8)
 
 mod:RegisterEvents(
 	"SPELL_CAST_START 196870 195046 195284 197105",
@@ -19,13 +18,13 @@ local warnArcaneBomb			= mod:NewTargetNoFilterAnnounce(192706, 4) --Чароде
 local warnPolymorph				= mod:NewTargetNoFilterAnnounce(197105, 1) --Превращение в рыбу
 
 local specWarnPolymorph			= mod:NewSpecialWarningInterrupt(197105, "HasInterrupt", nil, nil, 3, 5) --Превращение в рыбу
-local specWarnPolymorph2		= mod:NewSpecialWarningDispel(197105, "Healer", nil, nil, 3, 5) --Превращение в рыбу
+local specWarnPolymorph2		= mod:NewSpecialWarningDispel(197105, "Healer", nil, nil, 1, 2) --Превращение в рыбу
 local specWarnStorm				= mod:NewSpecialWarningInterrupt(196870, "HasInterrupt", nil, nil, 1, 2) --Буря
 local specWarnRejuvWaters		= mod:NewSpecialWarningInterrupt(195046, "HasInterrupt", nil, nil, 1, 2) --Живительная вода
 local specWarnUndertow			= mod:NewSpecialWarningInterrupt(195284, "HasInterrupt", nil, nil, 1, 2) --Водоворот Might only be interruptable by stuns, if so change option default?
 local specWarnSpraySand			= mod:NewSpecialWarningDodge(196127, "Melee", nil, nil, 1, 2) --Струя песка
 local specWarnArcaneBomb		= mod:NewSpecialWarningYouMoveAway(192706, nil, nil, nil, 3, 2) --Чародейская бомба
-local specWarnArcaneBomb2		= mod:NewSpecialWarningDispel(192706, "MagicDispeller2", nil, nil, 3, 5) --Чародейская бомба
+local specWarnArcaneBomb2		= mod:NewSpecialWarningDispel(192706, "MagicDispeller2", nil, nil, 1, 2) --Чародейская бомба
 
 local timerArcaneBomb			= mod:NewTargetTimer(15, 192706, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON..DBM_CORE_DEADLY_ICON) --Чародейская бомба
 local timerPolymorph			= mod:NewTargetTimer(8, 197105, nil, nil, nil, 3, nil, DBM_CORE_INTERRUPT_ICON..DBM_CORE_MAGIC_ICON) --Превращение в рыбу
@@ -35,8 +34,9 @@ local yellArcaneBombFades		= mod:NewFadesYell(192706, nil, nil, nil, "YELL") --�
 local yellPolymorph				= mod:NewYell(197105, nil, nil, nil, "YELL") --Превращение в рыбу
 local yellPolymorphFades		= mod:NewFadesYell(197105, nil, nil, nil, "YELL") --Превращение в рыбу
 
-mod:AddRangeFrameOption(10, 192706) --Чародейская бомба
 mod:AddSetIconOption("SetIconOnArcaneBomb", 192706, true, false, {8}) --Чародейская бомба
+mod:AddSetIconOption("SetIconOnPolymorph", 197105, true, false, {7}) --Превращение в рыбу
+mod:AddRangeFrameOption(10, 192706) --Чародейская бомба
 
 function mod:SPELL_CAST_START(args)
 	if not self.Options.Enabled then return end
@@ -63,7 +63,6 @@ function mod:SPELL_AURA_APPLIED(args)
 		specWarnSpraySand:Show()
 		specWarnSpraySand:Play("shockwave")
 	elseif spellId == 192706 then --Чародейская бомба
-		warnArcaneBomb:Show(args.destName)
 		timerArcaneBomb:Start(args.destName)
 		if args:IsPlayer() then
 			specWarnArcaneBomb:Show()
@@ -71,6 +70,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			yellArcaneBomb:Yell()
 			yellArcaneBombFades:Countdown(15, 3)
 		else
+			warnArcaneBomb:Show(args.destName)
 			specWarnArcaneBomb2:Show(args.destName)
 		end
 		if self.Options.RangeFrame then
@@ -80,13 +80,16 @@ function mod:SPELL_AURA_APPLIED(args)
 			self:SetIcon(args.destName, 8, 15)
 		end
 	elseif spellId == 197105 then --Превращение
-		warnPolymorph:Show(args.destName)
 		timerPolymorph:Start(args.destName)
 		if args:IsPlayer() then
 			yellPolymorph:Yell()
 			yellPolymorphFades:Countdown(8, 3)
 		else
+			warnPolymorph:Show(args.destName)
 			specWarnPolymorph2:Show(args.destName)
+		end
+		if self.Options.SetIconOnPolymorph then
+			self:SetIcon(args.destName, 7, 8)
 		end
 	end
 end
@@ -97,6 +100,9 @@ function mod:SPELL_AURA_REMOVED(args)
 		timerPolymorph:Cancel(args.destName)
 		if args:IsPlayer() then
 			yellPolymorphFades:Cancel()
+		end
+		if self.Options.SetIconOnPolymorph then
+			self:SetIcon(args.destName, 0)
 		end
 	elseif spellId == 192706 then --Чародейская бомба
 		timerArcaneBomb:Cancel(args.destName)
