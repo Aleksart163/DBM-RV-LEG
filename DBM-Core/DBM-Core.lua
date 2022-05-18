@@ -9157,15 +9157,15 @@ do
 			if self.alternateVoice == 2 then
 				voice = voice2 or DBM.DefaultOptions.CountdownVoice2
 				maxCount = voice2max or 10
-				path = path2 or "Interface\\AddOns\\DBM-Core\\Sounds\\Kolt\\"
+				path = path2 or "Interface\\AddOns\\DBM-Core\\Sounds\\Artanis\\" --"Interface\\AddOns\\DBM-Core\\Sounds\\Kolt\\"
 			elseif self.alternateVoice == 3 then
 				voice = voice3 or DBM.DefaultOptions.CountdownVoice3v2
 				maxCount = voice3max or 5
-				path = path3 or "Interface\\AddOns\\DBM-Core\\Sounds\\Heroes\\Necromancer\\"
+				path = path3 or "Interface\\AddOns\\DBM-Core\\Sounds\\Kerrigan\\" --"Interface\\AddOns\\DBM-Core\\Sounds\\Heroes\\Necromancer\\"
 			else
 				voice = voice1 or DBM.DefaultOptions.CountdownVoice
 				maxCount = voice1max or 10
-				path = path1 or "Interface\\AddOns\\DBM-Core\\Sounds\\Corsica\\"
+				path = path1 or "Interface\\AddOns\\DBM-Core\\Sounds\\Alarak\\" --"Interface\\AddOns\\DBM-Core\\Sounds\\Corsica\\" 
 			end
 			if not path then--Should not happen but apparently it does somehow
 				DBM:Debug("Voice path failed in countdownProtoType:Start.")
