@@ -69,7 +69,7 @@ local timerWakeofFlameCD				= mod:NewCDTimer(24.3, 244693, nil, nil, nil, 3) --�
 local timerFlareCD						= mod:NewCDTimer(15, 245983, nil, nil, 2, 3) --Вспышка
 
 local yellScorchingBlaze				= mod:NewYell(245994, nil, nil, nil, "YELL") --Обжигающее пламя
-local yellRavenousBlaze					= mod:NewPosYell(254452, DBM_CORE_AUTO_YELL_CUSTOM_POSITION) --Хищное пламя
+local yellRavenousBlaze					= mod:NewPosYell(254452, nil, nil, nil, "YELL") --Хищное пламя
 local yellWakeofFlame					= mod:NewYell(244693, nil, nil, nil, "YELL") --Огненная волна
 
 local berserkTimer						= mod:NewBerserkTimer(600)
@@ -531,12 +531,13 @@ function mod:SPELL_AURA_APPLIED(args)
 			yellScorchingBlaze:Yell()
 		end
 	elseif spellId == 254452 then
+		self.vb.blazeIcon = self.vb.blazeIcon + 1
 		warnRavenousBlaze:CombinedShow(0.3, args.destName)
 		local icon = self.vb.blazeIcon
 		if args:IsPlayer() then
 			specWarnRavenousBlaze:Show(self:IconNumToTexture(icon))
 			specWarnRavenousBlaze:Play("scatter")
-			yellRavenousBlaze:Yell(icon, args.spellName, icon)
+			yellRavenousBlaze:Yell(self.vb.blazeIcon, icon, icon)
 			warnRavenousBlazeCount:Schedule(2, 5)
 			warnRavenousBlazeCount:Schedule(4, 10)
 			warnRavenousBlazeCount:Schedule(6, 15)
@@ -545,7 +546,6 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self.Options.SetIconOnBlaze2 then
 			self:SetIcon(args.destName, icon)
 		end
-		self.vb.blazeIcon = self.vb.blazeIcon + 1
 	elseif spellId == 244894 then--Corrupt Aegis
 		if self.vb.comboCount > 0 and self.vb.comboCount < 5 then
 			--self.vb.incompleteCombo = true

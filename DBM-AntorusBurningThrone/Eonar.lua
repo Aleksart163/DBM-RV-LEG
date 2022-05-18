@@ -48,8 +48,8 @@ local specWarnArtilleryStrike			= mod:NewSpecialWarningInterrupt(246305, "HasInt
 --local specWarnGTFO					= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 2)
 --Mythic
 local specWarnFinalDoom					= mod:NewSpecialWarningParaxisCount(249121, nil, nil, nil, 1, 2) --Всеобщая погибель
-local specWarnArcaneBuildup				= mod:NewSpecialWarningYouMoveAway(250693, nil, nil, nil, 1, 2) --Волшебный вихрь
-local specWarnBurningEmbers				= mod:NewSpecialWarningYouMoveAway(250691, nil, nil, nil, 1, 2) --Раскаленные угли
+local specWarnArcaneBuildup				= mod:NewSpecialWarningYouMoveAway(250693, nil, nil, nil, 4, 2) --Волшебный вихрь
+local specWarnBurningEmbers				= mod:NewSpecialWarningYouMoveAway(250691, nil, nil, nil, 4, 2) --Раскаленные угли
 local specWarnFoulSteps					= mod:NewSpecialWarningStack(250140, nil, 12, nil, nil, 1, 6) --Гнусные приемы Fine tune
 
 --The Paraxis
@@ -81,7 +81,7 @@ local yellBurningEmbers					= mod:NewYell(250691, nil, nil, nil, "YELL") --Ра�
 --The Paraxis
 --local countdownRainofFel				= mod:NewCountdown("Alt60", 248332) --Дождь Скверны Not accurate enough yet. not until timer correction is added to handle speed of raids dps affecting sequence
 --Mythic
-local countdownFinalDoom				= mod:NewCountdown("AltTwo90", 249121) --Всеобщая погибель
+local countdownFinalDoom				= mod:NewCountdown(90, 249121) --Всеобщая погибель
 local countdownFinalDoom2				= mod:NewCountdownFades(50, 249121) --Всеобщая погибель
 
 --mod:AddSetIconOption("SetIconOnFeedbackTargeted2", 249016, false, false, {6, 5, 4, 3, 2, 1})
@@ -321,7 +321,6 @@ end
 
 function mod:OnCombatEnd()
 	table.wipe(warnedAdds)
---	table.wipe(burningembersTargets)
 	if self.Options.RangeFrame then
 		DBM.RangeCheck:Hide()
 	end
@@ -331,8 +330,6 @@ function mod:OnCombatEnd()
 	if self.Options.NPAuraOnPurification or self.Options.NPAuraOnFelShielding then
 		DBM.Nameplate:Hide(true, nil, nil, nil, true, true)
 	end
-	self:UnscheduleMethod("ArcaneSingularity")
-	self:UnscheduleMethod("BurningEmbers")
 end
 
 function mod:SPELL_CAST_START(args)
@@ -461,17 +458,125 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnArcaneBuildup:Show()
 			specWarnArcaneBuildup:Play("runout")
 		--	timerArcaneSingularity:Start()
-			self:ScheduleMethod("ArcaneSingularity")
+			if self.vb.finalDoomCast == 1 and not UnitIsDeadOrGhost("player") then
+				specWarnArcaneBuildup:Schedule(22)
+				specWarnArcaneBuildup:Schedule(47)
+				specWarnArcaneBuildup:Schedule(72)
+				specWarnArcaneBuildup:Schedule(97)
+				specWarnArcaneBuildup:Schedule(122)
+				specWarnArcaneBuildup:Schedule(147)
+				specWarnArcaneBuildup:Schedule(172)
+				specWarnArcaneBuildup:Schedule(197)
+				specWarnArcaneBuildup:Schedule(222)
+				specWarnArcaneBuildup:Schedule(247)
+				specWarnArcaneBuildup:Schedule(272)
+				specWarnArcaneBuildup:Schedule(297)
+				specWarnArcaneBuildup:Schedule(322)
+				specWarnArcaneBuildup:Schedule(347)
+				specWarnArcaneBuildup:Schedule(372)
+				specWarnArcaneBuildup:Schedule(397)
+				specWarnArcaneBuildup:Schedule(422)
+				specWarnArcaneBuildup:Schedule(447)
+				specWarnArcaneBuildup:Schedule(472)
+			elseif self.vb.finalDoomCast == 2 and not UnitIsDeadOrGhost("player") then
+				specWarnArcaneBuildup:Schedule(22)
+				specWarnArcaneBuildup:Schedule(47)
+				specWarnArcaneBuildup:Schedule(72)
+				specWarnArcaneBuildup:Schedule(97)
+				specWarnArcaneBuildup:Schedule(122)
+				specWarnArcaneBuildup:Schedule(147)
+				specWarnArcaneBuildup:Schedule(172)
+				specWarnArcaneBuildup:Schedule(197)
+				specWarnArcaneBuildup:Schedule(222)
+				specWarnArcaneBuildup:Schedule(247)
+				specWarnArcaneBuildup:Schedule(272)
+				specWarnArcaneBuildup:Schedule(297)
+				specWarnArcaneBuildup:Schedule(322)
+				specWarnArcaneBuildup:Schedule(347)
+			elseif self.vb.finalDoomCast == 3 and not UnitIsDeadOrGhost("player") then
+				specWarnArcaneBuildup:Schedule(22)
+				specWarnArcaneBuildup:Schedule(47)
+				specWarnArcaneBuildup:Schedule(72)
+				specWarnArcaneBuildup:Schedule(97)
+				specWarnArcaneBuildup:Schedule(122)
+				specWarnArcaneBuildup:Schedule(147)
+				specWarnArcaneBuildup:Schedule(172)
+				specWarnArcaneBuildup:Schedule(197)
+				specWarnArcaneBuildup:Schedule(222)
+				specWarnArcaneBuildup:Schedule(247)
+			elseif self.vb.finalDoomCast == 4 and not UnitIsDeadOrGhost("player") then
+				specWarnArcaneBuildup:Schedule(22)
+				specWarnArcaneBuildup:Schedule(47)
+				specWarnArcaneBuildup:Schedule(72)
+				specWarnArcaneBuildup:Schedule(97)
+				specWarnArcaneBuildup:Schedule(122)
+				specWarnArcaneBuildup:Schedule(147)
+			elseif self.vb.finalDoomCast == 5 and not UnitIsDeadOrGhost("player") then
+				specWarnArcaneBuildup:Schedule(22)
+				specWarnArcaneBuildup:Schedule(47)
+				specWarnArcaneBuildup:Schedule(72)
+			end
 			if self.Options.RangeFrame then
 				DBM.RangeCheck:Show(10)
 			end
 		end
 	elseif spellId == 249015 then --Раскаленные угли 250691 or spellId == 
-		if args:IsPlayer() then
+		self.vb.burningembersIcon = self.vb.burningembersIcon + 1
+		if args:IsPlayer() then 
 			specWarnBurningEmbers:Show()
 			specWarnBurningEmbers:Play("runout")
 		--	timerBurningEmbers:Start()
-			self:ScheduleMethod("BurningEmbers")
+			if self.vb.finalDoomCast == 1 and not UnitIsDeadOrGhost("player") then
+				specWarnBurningEmbers:Schedule(27)
+				specWarnBurningEmbers:Schedule(57)
+				specWarnBurningEmbers:Schedule(87)
+				specWarnBurningEmbers:Schedule(117)
+				specWarnBurningEmbers:Schedule(147)
+				specWarnBurningEmbers:Schedule(177)
+				specWarnBurningEmbers:Schedule(207)
+				specWarnBurningEmbers:Schedule(237)
+				specWarnBurningEmbers:Schedule(267)
+				specWarnBurningEmbers:Schedule(297)
+				specWarnBurningEmbers:Schedule(327)
+				specWarnBurningEmbers:Schedule(357)
+				specWarnBurningEmbers:Schedule(387)
+				specWarnBurningEmbers:Schedule(417)
+				specWarnBurningEmbers:Schedule(447)
+				specWarnBurningEmbers:Schedule(477)
+				specWarnBurningEmbers:Schedule(507)
+			elseif self.vb.finalDoomCast == 2 and not UnitIsDeadOrGhost("player") then
+				specWarnBurningEmbers:Schedule(27)
+				specWarnBurningEmbers:Schedule(57)
+				specWarnBurningEmbers:Schedule(87)
+				specWarnBurningEmbers:Schedule(117)
+				specWarnBurningEmbers:Schedule(147)
+				specWarnBurningEmbers:Schedule(177)
+				specWarnBurningEmbers:Schedule(207)
+				specWarnBurningEmbers:Schedule(237)
+				specWarnBurningEmbers:Schedule(267)
+				specWarnBurningEmbers:Schedule(297)
+				specWarnBurningEmbers:Schedule(327)
+				specWarnBurningEmbers:Schedule(357)
+			elseif self.vb.finalDoomCast == 3 and not UnitIsDeadOrGhost("player") then
+				specWarnBurningEmbers:Schedule(27)
+				specWarnBurningEmbers:Schedule(57)
+				specWarnBurningEmbers:Schedule(87)
+				specWarnBurningEmbers:Schedule(117)
+				specWarnBurningEmbers:Schedule(147)
+				specWarnBurningEmbers:Schedule(177)
+				specWarnBurningEmbers:Schedule(207)
+				specWarnBurningEmbers:Schedule(237)
+			elseif self.vb.finalDoomCast == 4 and not UnitIsDeadOrGhost("player") then
+				specWarnBurningEmbers:Schedule(27)
+				specWarnBurningEmbers:Schedule(57)
+				specWarnBurningEmbers:Schedule(87)
+				specWarnBurningEmbers:Schedule(117)
+				specWarnBurningEmbers:Schedule(147)
+			elseif self.vb.finalDoomCast == 5 and not UnitIsDeadOrGhost("player") then
+				specWarnBurningEmbers:Schedule(27)
+				specWarnBurningEmbers:Schedule(57)
+				specWarnBurningEmbers:Schedule(87)
+			end
 			if self.Options.RangeFrame then
 				DBM.RangeCheck:Show(8)
 			end
@@ -479,24 +584,9 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self.Options.SetIconOnBurningEmbers then
 			self:SetIcon(args.destName, self.vb.burningembersIcon)
 		end
---[[		if self.Options.SetIconOnBurningEmbers and #burningembersTargets < 6 then
-			self:SetIcon(args.destName, #burningembersTargets+1)
-		end]]
-		self.vb.burningembersIcon = self.vb.burningembersIcon + 1
 		if self.vb.burningembersIcon == 6 then
 			self.vb.burningembersIcon = 1
 		end
---[[		if self.vb.burningembersIcon == 2 then --1
-			self.vb.burningembersIcon = 3 --2
-		elseif self.vb.burningembersIcon == 3 then --2
-			self.vb.burningembersIcon = 4 --3
-		elseif self.vb.burningembersIcon == 4 then --3
-			self.vb.burningembersIcon = 5 --4
-		elseif self.vb.burningembersIcon == 6 then --4
-			self.vb.burningembersIcon = 1 --5
-		elseif self.vb.burningembersIcon == 5 then --5
-			self.vb.burningembersIcon = 1 --1
-		end]]
 	elseif spellId == 250140 then--Foul Steps
 		if args:IsPlayer() then
 			local amount = args.amount or 1
@@ -530,28 +620,6 @@ function mod:SPELL_AURA_REMOVED(args)
 				DBM.RangeCheck:Hide()
 			end
 		end
---[[	elseif spellId == 250693 or spellId == 249017 then --Магическая сингулярность Arcane Buildup
-		if args:IsPlayer() then
-			yellArcaneBuildupFades:Cancel()
-			timerArcaneSingularity:Cancel()
-			self:UnscheduleMethod("ArcaneSingularity")
-			if self.Options.RangeFrame then
-				DBM.RangeCheck:Hide()
-			end
-		end
-	elseif spellId == 249015 then --Раскаленные угли 250691 or spellId == 
---		self.vb.burningembersIcon = self.vb.burningembersIcon - 1
-		if args:IsPlayer() then
-			yellBurningEmbersFades:Cancel()
-			timerBurningEmbers:Cancel()
-			self:UnscheduleMethod("BurningEmbers")
-			if self.Options.RangeFrame then
-				DBM.RangeCheck:Hide()
-			end
-		end
-		if self.Options.SetIconOnBurningEmbers then
-			self:SetIcon(args.destName, 0)
-		end]]
 	end
 end
 
@@ -609,13 +677,3 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spell
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
-
-function mod:ArcaneSingularity()
-	timerArcaneSingularity:Start()
-	self:ScheduleMethod(25, "ArcaneSingularity")
-end
-
-function mod:BurningEmbers()
-	timerBurningEmbers:Start()
-	self:ScheduleMethod(30, "BurningEmbers")
-end

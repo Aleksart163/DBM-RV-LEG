@@ -30,19 +30,21 @@ local warnSoulburn						= mod:NewTargetAnnounce(253600, 3) --Горящая ду
 --Крушитель Кин'гарота
 local specWarnDecimation				= mod:NewSpecialWarningYouMoveAway(246687, nil, nil, nil, 4, 3) --Децимация
 local specWarnDecimation2				= mod:NewSpecialWarningDodge(246687, "-Tank", nil, nil, 2, 2) --Децимация
+--Темный хранитель Эйдис
 local specWarnSearingSlash				= mod:NewSpecialWarningDodge(246444, "Melee", nil, nil, 2, 2) --Обжигающий удар
-
+local specWarnPunishingFlame			= mod:NewSpecialWarningRun(246209, "Melee", nil, nil, 4, 3) --Наказующее пламя
+local specWarnPunishingFlame2			= mod:NewSpecialWarningDodge(246209, "Ranged", nil, nil, 2, 3) --Наказующее пламя
+--
 local specWarnBurningWinds				= mod:NewSpecialWarningYouMove(246199, nil, nil, nil, 1, 2) --Горящие ветра
 local specWarnDemolish					= mod:NewSpecialWarningYouShare(252760, nil, nil, nil, 3, 5) --Разрушение
 local specWarnCloudofConfuse			= mod:NewSpecialWarningYouMoveAway(254122, nil, nil, nil, 3, 3) --Облако растерянности
 local specWarnFlamesofReorig			= mod:NewSpecialWarningYouMoveAway(249297, nil, nil, nil, 3, 5) --Пламя пересоздания
 local specWarnSoulburn					= mod:NewSpecialWarningMoveAway(253600, nil, nil, nil, 3, 5) --Горящая душа
 local specWarnSoulburn2					= mod:NewSpecialWarningDispel(253600, "MagicDispeller2", nil, nil, 1, 3) --Горящая душа
-local specWarnPunishingFlame			= mod:NewSpecialWarningRun(246209, "Melee", nil, nil, 4, 3) --Наказующее пламя
-local specWarnPunishingFlame2			= mod:NewSpecialWarningDodge(246209, "Ranged", nil, nil, 2, 3) --Наказующее пламя
 local specWarnAnnihilation				= mod:NewSpecialWarningSoak(245807, nil, nil, nil, 2, 2) --Аннигиляция
 --local specWarnShadowBoltVolley		= mod:NewSpecialWarningInterrupt(243171, "HasInterrupt", nil, nil, 1, 2)
 local timerSearingSlashCD				= mod:NewCDTimer(32, 246444, nil, nil, nil, 3, nil, DBM_CORE_TANK_ICON) --Обжигающий удар
+local timerPunishingFlameCD				= mod:NewCDTimer(20, 246209, nil, "Melee", nil, 2, nil, DBM_CORE_DEADLY_ICON) --Наказующее пламя
 
 local timerRoleplay						= mod:NewTimer(30, "timerRoleplay", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7) --Ролевая игра
 
@@ -57,8 +59,8 @@ local yellFlamesofReorig2				= mod:NewFadesYell(249297, nil, nil, nil, "YELL") -
 local yellSoulburn						= mod:NewYell(253600, nil, nil, nil, "YELL") --Горящая душа
 local yellSoulburn2						= mod:NewFadesYell(253600, nil, nil, nil, "YELL") --Горящая душа
 
-mod:AddSetIconOption("SetIconOnFlamesofReorig", 249297, true, false, {8}) --Метка жертвы
-mod:AddSetIconOption("SetIconOnSoulburn", 253600, true, false, {7}) --Метка жертвы
+mod:AddSetIconOption("SetIconOnFlamesofReorig", 249297, true, false, {8}) --Пламя пересоздания
+mod:AddSetIconOption("SetIconOnSoulburn", 253600, true, false, {7}) --Горящая душа
 mod:AddRangeFrameOption(10, 249297) --Пламя пересоздания
 
 function mod:SPELL_CAST_START(args)
@@ -69,12 +71,21 @@ function mod:SPELL_CAST_START(args)
 		specWarnPunishingFlame:Play("justrun")
 		specWarnPunishingFlame2:Show()
 		specWarnPunishingFlame2:Play("justrun")
+		if self:IsHeroic() then
+			timerPunishingFlameCD:Start()
+		else
+			timerPunishingFlameCD:Start()
+		end
 	elseif spellId == 245807 and self:AntiSpam(5, 1) then
 		specWarnAnnihilation:Show()
 		specWarnAnnihilation:Play("helpsoak")
 	elseif spellId == 246444 then --Обжигающий удар
 		specWarnSearingSlash:Show()
-		timerSearingSlashCD:Start()
+		if self:IsHeroic() then
+			timerSearingSlashCD:Start(33.5)
+		else
+			timerSearingSlashCD:Start()
+		end
 	end
 end
 
@@ -196,13 +207,6 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spell
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
 
-function mod:UNIT_DIED(args)
-	local cid = self:GetCIDFromGUID(args.destGUID)
-	if cid == 123921 then --Крушитель Кин'гарота
-		specWarnDecimation2:Cancel(args.sourceGUID)
-	end
-end
-
 function mod:OnSync(msg)
 	if msg == "RPImonar" then
 		timerRoleplay:Start(24.5)
@@ -212,5 +216,15 @@ end
 function mod:CHAT_MSG_MONSTER_YELL(msg)
 	if msg == L.RPImonar or msg:find(L.RPImonar) then
 		self:SendSync("RPImonar")
+	end
+end
+
+function mod:UNIT_DIED(args)
+	local cid = self:GetCIDFromGUID(args.destGUID)
+	if cid == 123921 then --Крушитель Кин'гарота
+		specWarnDecimation2:Cancel(args.sourceGUID)
+	elseif cid == 123680 then --Темный хранитель Эйдис
+		timerSearingSlashCD:Cancel()
+		timerPunishingFlameCD:Cancel()
 	end
 end

@@ -379,6 +379,7 @@ DBM_CORE_AUTO_SPEC_WARN_TEXTS = {
 	moveaway		= "%s - move away from others",
 	moveboss		= "%s - run to the boss",
 	moveto			= "%s - move to >%%s<",
+	youmovetopos	= "%s (%%s) on you! - move to icon",
 	youshare		= "%s on you! - share the damage",
 	share			= "%s! - share the damage",
 	sharecount		= "%s! (%%s) - share the damage",
@@ -403,7 +404,9 @@ DBM_CORE_AUTO_SPEC_WARN_TEXTS = {
 	icepud 			= "%s! (%%s) - run into the ice",
 	moredamage		= "%s! - more damage on the boss",
 	youmoredamage	= "%s on you! - give more damage",
-	paraxiscount	= "%s! - turn of the (%%s) group"
+	paraxiscount	= "%s! - turn of the (%%s) group",
+	standsand		= "%s! - move to land",
+	standwater		= "%s! - move to water"
 }
 
 -- Auto-generated Special Warning Localizations
@@ -449,6 +452,7 @@ DBM_CORE_AUTO_SPEC_WARN_OPTIONS = {
 	moveaway		= "Show special warning to move away from others for $spell:%s",
 	moveboss		= "Show special warning \"run to the boss\" for $spell:%s",
 	moveto			= "Show special warning to move to someone or some place for $spell:%s",
+	youmovetopos	= "Show special warning \"move to your icon\" (with position) when you are affected by $spell:%s",
 	youshare		= "Show special warning \"share the damage with your allies\" when you are affected by $spell:%s",
 	share			= "Show special warning \"share the damage with your allies\" for $spell:%s",
 	sharecount		= "Show special warning (with count) \"share the damage with your allies\" for $spell:%s",
@@ -473,7 +477,9 @@ DBM_CORE_AUTO_SPEC_WARN_OPTIONS = {
 	icepud			= "Show special warning (with count) \"run into the ice\" during the action $spell:%s",
 	moredamage		= "Show special warning \"more damage on the boss\" when on target $spell:%s",
 	youmoredamage	= "Show special warning \"give more damage\" when on you $spell:%s",
-	paraxiscount	= "Show special warning (with count) \"turn of the ... group\" for $spell:%s"
+	paraxiscount	= "Show special warning (with count) \"turn of the ... group\" for $spell:%s",
+	standsand		= "Show special warning \"move to land\" for $spell:%s",
+	standwater		= "Show special warning \"move to water\" for $spell:%s"
 }
 
 -- Auto-generated Timer Localizations
