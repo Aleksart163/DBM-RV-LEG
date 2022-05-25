@@ -15,8 +15,8 @@ mod:RegisterCombat("yell", L.YellPullAggramar)
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 244693 245458 245463 245301 255058 255061 255059",
 	"SPELL_CAST_SUCCESS 247079 244033",
-	"SPELL_AURA_APPLIED 245990 245994 244894 244903 247091 254452 247079",
-	"SPELL_AURA_APPLIED_DOSE 245990",
+	"SPELL_AURA_APPLIED 245990 245994 244894 244903 247091 254452 247079 244912",
+	"SPELL_AURA_APPLIED_DOSE 245990 244912",
 	"SPELL_AURA_REMOVED 244894 244903 247091 254452 247079",
 	"UNIT_DIED",
 	"UNIT_SPELLCAST_SUCCEEDED boss1",
@@ -43,6 +43,7 @@ local warnTaeshalachTech				= mod:NewCountAnnounce(244688, 3) --Искусный
 
 local specWarnFlameRend2				= mod:NewSpecialWarning("FlameRend3", nil, nil, nil, 1, 2) --другая пати
 
+local specWarnBlazingEruption			= mod:NewSpecialWarningStack(244912, "-Tank", 3, nil, nil, 3, 5) --Извержение пламени
 --Stage One: Wrath of Aggramar
 local specWarnTaeshalachReach			= mod:NewSpecialWarningStack(245990, nil, 8, nil, nil, 3, 3) --Гигантский клинок
 local specWarnTaeshalachReachOther		= mod:NewSpecialWarningTaunt(245990, nil, nil, nil, 1, 2) --Гигантский клинок
@@ -582,6 +583,14 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 247079 then --Усиленное разрывающее пламя (от делёжки)
 		if args:IsPlayer() then
 			FlameRend = true
+		end
+	elseif spellId == 244912 then --Извержение пламени
+		local amount = args.amount or 1
+		if amount >= 3 and self:AntiSpam(2, 1) then
+			if args:IsPlayer() then
+				specWarnBlazingEruption:Show(args.amount)
+				specWarnBlazingEruption:Play("stackhigh")
+			end
 		end
 	end
 end
