@@ -16,7 +16,7 @@ mod:RegisterEvents(
 	"UNIT_DIED"
 )
 --Казематы стражей треш
-local warnTorment				= mod:NewTargetNoFilterAnnounce(202615, 3) --Мучение
+local warnTorment				= mod:NewTargetAnnounce(202615, 3) --Мучение
 local warnNightmares			= mod:NewTargetAnnounce(193069, 4) --Кошмары
 local warnNightmares2			= mod:NewSpellAnnounce(193069, 3) --Кошмары
 local warnDoubleStrike			= mod:NewTargetAnnounce(193607, 2) --Двойной удар

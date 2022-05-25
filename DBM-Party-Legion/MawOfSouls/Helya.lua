@@ -43,10 +43,10 @@ local timerBreathCD						= mod:NewNextTimer(21, 227233, nil, nil, nil, 2, nil, D
 local timerTorrentCD					= mod:NewCDTimer(9.7, 198495, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON) --Стремительный поток often delayed and after breath so often will see 12-14
 
 local yellTaintofSea					= mod:NewYell(197262, nil, nil, nil, "YELL") --Морская порча
-local yellTaintofSea2					= mod:NewFadesYell(197262, nil, nil, nil, "YELL") --Морская порча
+local yellTaintofSea2					= mod:NewYell(197264, L.TaintofSeaYell, nil, nil, "YELL") --Морская порча
 
 local countdownBreath					= mod:NewCountdown(21, 227233) --Оскверняющий рев
-local countdownSubmerged				= mod:NewCountdown(74.5, 196947) --Погружение
+local countdownSubmerged				= mod:NewCountdown("AltTwo74.5", 196947) --Погружение
 
 mod:AddSetIconOption("SetIconOnTaintofSea", 197262, true, false, {8, 7, 6}) --Морская порча
 
@@ -54,6 +54,7 @@ mod.vb.phase = 1
 mod.vb.taintofseaIcon = 8
 local warned_preP1 = false
 local warned_preP2 = false
+local playerName = UnitName("player")
 
 function mod:OnCombatStart(delay)
 	self.vb.phase = 1
@@ -118,11 +119,9 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif spellId == 197262 then --Морская порча
 		self.vb.taintofseaIcon = self.vb.taintofseaIcon - 1
-		warnTaintofSea:Show(args.destName)
+		warnTaintofSea:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
-		--	specWarnTaintofSea:Schedule(18)
 			yellTaintofSea:Yell()
-		--	yellTaintofSea2:Countdown(21, 3)
 		end
 		if self.vb.phase == 1 then
 			timerTaintofSeaCD:Start()
@@ -153,8 +152,7 @@ function mod:SPELL_AURA_REMOVED(args)
 	elseif spellId == 197262 then --Морская порча
 	--	self.vb.taintofseaIcon = self.vb.taintofseaIcon + 1
 		if args:IsPlayer() then
-			specWarnTaintofSea:Cancel()
-			yellTaintofSea2:Cancel()
+			yellTaintofSea2:Yell(playerName)
 		end
 		if self.Options.SetIconOnTaintofSea then
 			self:SetIcon(args.destName, 0)

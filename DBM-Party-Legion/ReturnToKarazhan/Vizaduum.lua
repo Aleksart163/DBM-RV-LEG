@@ -28,7 +28,7 @@ mod:RegisterEventsInCombat(
 --TODO: figure out what to do with Felguard Sentry (115730)
 --ALL
 local warnChaoticShadows			= mod:NewTargetAnnounce(229159, 3) --Тени Хаоса
-local warnFelBeam					= mod:NewTargetNoFilterAnnounce(229242, 4) --Приказ: луч Скверны
+local warnFelBeam					= mod:NewTargetAnnounce(229242, 4) --Приказ: луч Скверны
 local warnDisintegrate				= mod:NewSpellAnnounce(229151, 4) --Расщепление	Switch to special warning if target scanning works
 local warnPhase						= mod:NewAnnounce("Phase1", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 2
 local warnPhase2					= mod:NewAnnounce("Phase2", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 3

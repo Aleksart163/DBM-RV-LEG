@@ -10,6 +10,7 @@ mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 213576 213583 197251 213685 197422",
+	"SPELL_CAST_SUCCESS 197333",
 	"SPELL_AURA_APPLIED 205004 197541 216870",
 	"SPELL_AURA_REMOVED 206567 197422",
 	"SPELL_PERIODIC_DAMAGE 216870",
@@ -24,6 +25,7 @@ local warnDeepeningShadows			= mod:NewSpellAnnounce(213583, 4) --Сгущающ�
 local warnCreepingDoom				= mod:NewSpellAnnounce(197422, 4) --Ползучая гибель
 local warnCreepingDoom2				= mod:NewSoonAnnounce(197422, 1) --Ползучая гибель
 
+local specWarnFelGlaive				= mod:NewSpecialWarningDodge(197333, nil, nil, nil, 1, 2) --Глефа
 local specWarnDeepeningShadows2		= mod:NewSpecialWarningYouMove(213583, "-Tank", nil, nil, 1, 3) --Сгущающиеся тени
 local specWarnDetonation			= mod:NewSpecialWarningYouDefensive(197541, nil, nil, nil, 2, 5) --Мгновенный взрыв
 local specWarnKick					= mod:NewSpecialWarningSpell(197251, "Tank", nil, nil, 3, 2) --Сбивающий с ног удар
@@ -87,6 +89,13 @@ function mod:SPELL_CAST_START(args)
 		timerCreepingDoomCD:Start(64.5)
 		countdownCreepingDoom:Start(64.5)
 		warnCreepingDoom2:Schedule(59.5)
+	end
+end
+
+function mod:SPELL_CAST_SUCCESS(args)
+	local spellId = args.spellId
+	if spellId == 197333 then --Глефа
+		specWarnFelGlaive:Show()
 	end
 end
 
@@ -159,9 +168,11 @@ function mod:UNIT_HEALTH(uId)
 			warnPhase2:Play("phasechange")
 		end
 	else
-		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 95888 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.41 then
-			self.vb.phase = 2
+		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 95888 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.46 then
 			warned_preP1 = true
+		elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 95888 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.41 then
+			self.vb.phase = 2
+			warned_preP2 = true
 			warnPhase2:Schedule(7)
 			warnPhase2:Play("phasechange")
 		end

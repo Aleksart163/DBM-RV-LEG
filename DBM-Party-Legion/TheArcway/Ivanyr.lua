@@ -35,7 +35,7 @@ local timerNetherLinkCD				= mod:NewCDTimer(38, 196804, nil, nil, nil, 3) --Ок
 local timerOverchargeManaCD			= mod:NewCDTimer(41.5, 196392, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON) --Перезарядка маны
 
 local yellVolatileMagic				= mod:NewYell(196562, nil, nil, nil, "YELL") --Нестабильная магия
-local yellVolatileMagic2			= mod:NewFadesYell(196562, nil, nil, nil, "YELL") --Нестабильная магия
+local yellVolatileMagic2			= mod:NewShortFadesYell(196562, nil, nil, nil, "YELL") --Нестабильная магия
 local yellNetherLink				= mod:NewYell(196805, nil, nil, nil, "YELL") --Оковы Пустоты
 
 mod:AddSetIconOption("SetIconOnVolatileMagic", 196562, true, false, {8, 7, 6}) --Нестабильная магия
@@ -60,7 +60,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 196562 then --Нестабильная магия
 		self.vb.volatilemagicIcon = self.vb.volatilemagicIcon + 1
-		warnVolatileMagic:CombinedShow(0.5, args.destName)
+		warnVolatileMagic:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
 			specWarnVolatileMagic:Show()
 			specWarnVolatileMagic:Play("runout")
@@ -77,7 +77,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			self.vb.volatilemagicIcon = 6
 		end
 	elseif spellId == 196805 then
-		warnNetherLink:CombinedShow(0.5, args.destName)
+		warnNetherLink:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
 			specWarnNetherLink:Show()
 			specWarnNetherLink:Play("targetyou")

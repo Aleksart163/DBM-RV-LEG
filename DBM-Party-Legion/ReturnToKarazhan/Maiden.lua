@@ -23,7 +23,7 @@ mod:RegisterEventsInCombat(
 )
 
 --Fix timers for repent and abilites after repent
-local warnSacredGround				= mod:NewTargetNoFilterAnnounce(227789, 4) --Священная земля
+local warnSacredGround				= mod:NewTargetAnnounce(227789, 4) --Священная земля
 local warnHolyWrath					= mod:NewCastAnnounce(227823, 4) --Гнев небес
 
 local specWarnHolyBolt				= mod:NewSpecialWarningMoveAway(227809, nil, nil, nil, 2, 3) --Священная молния

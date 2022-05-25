@@ -21,8 +21,8 @@ mod:RegisterEventsInCombat(
 )
 
 --TODO, maye GTFO for fire on ground (and timers and other stuff for it too maybe, seems all over place though).
-local warnHatefulGaze				= mod:NewTargetNoFilterAnnounce(198079, 4) --Ненавидящий взгляд
-local warnFelVomit					= mod:NewTargetNoFilterAnnounce(198446, 3) --Сквернорвота
+local warnHatefulGaze				= mod:NewTargetAnnounce(198079, 4) --Ненавидящий взгляд
+local warnFelVomit					= mod:NewTargetAnnounce(198446, 3) --Сквернорвота
 local warnHatefulCharge				= mod:NewStackAnnounce(224188, 4) --Рывок ненависти
 
 local specWarnHatefulCharge			= mod:NewSpecialWarningStack(224188, nil, 1, nil, nil, 2, 5) --Рывок ненависти

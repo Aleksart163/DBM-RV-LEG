@@ -11,12 +11,11 @@ mod:RegisterEvents(
 	"SPELL_CAST_START 248304 245585 245727 248133 248184 248227",
 	"SPELL_AURA_APPLIED 249077 249081",
 	"SPELL_AURA_REMOVED 249081",
-	"CHAT_MSG_MONSTER_YELL",
 	"CHAT_MSG_MONSTER_SAY"
 )
 --Престол триумвирата
-local warnCorruptingVoid			= mod:NewTargetNoFilterAnnounce(245510, 3) --Оскверняющая Бездна
-local warnSupField					= mod:NewTargetNoFilterAnnounce(249081, 3) --Подавляющее поле
+local warnCorruptingVoid			= mod:NewTargetAnnounce(245510, 3) --Оскверняющая Бездна
+local warnSupField					= mod:NewTargetAnnounce(249081, 3) --Подавляющее поле
 local warnWildSummon				= mod:NewCastAnnounce(248304, 3) --Случайный призыв
 local warnStygianBlast				= mod:NewSpellAnnounce(248133, 3) --Стигийский заряд
 
@@ -74,7 +73,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			yellCorruptingVoid:Yell()
 			yellCorruptingVoid2:Countdown(8, 3)
 		else
-			warnCorruptingVoid:Show(args.destName)
+			warnCorruptingVoid:CombinedShow(0.5, args.destName)
 		end
 	elseif spellId == 249081 and self:AntiSpam(3, args.destName) then --Подавляющее поле
 		if args:IsPlayer() then
@@ -83,7 +82,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			yellSupField:Yell()
 			yellSupField2:Countdown(10, 3)
 		else
-			warnSupField:Show(args.destName)
+			warnSupField:CombinedShow(0.5, args.destName)
 		end
 	end
 end
@@ -97,14 +96,10 @@ function mod:SPELL_AURA_REMOVED(args)
 	end
 end
 
-function mod:CHAT_MSG_MONSTER_YELL(msg)
+function mod:CHAT_MSG_MONSTER_SAY(msg)
 	if msg == L.RP1 or msg:find(L.RP1) then
 		self:SendSync("RP1")
-	end
-end
-
-function mod:CHAT_MSG_MONSTER_SAY(msg)
-	if msg == L.RP2 or msg:find(L.RP2) then
+	elseif msg == L.RP2 or msg:find(L.RP2) then
 		self:SendSync("RP2")
 	elseif msg == L.RP3 or msg:find(L.RP3) then
 		self:SendSync("RP3")
@@ -113,7 +108,7 @@ end
 
 function mod:OnSync(msg, GUID)
 	if msg == "RP1" then
-		timerRoleplay:Start(45)
+		timerRoleplay:Start(22.5)
 	elseif msg == "RP2" then
 		timerRoleplay:Start(33)
 	elseif msg == "RP3" then

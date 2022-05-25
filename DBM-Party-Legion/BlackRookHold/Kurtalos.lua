@@ -22,7 +22,7 @@ mod:RegisterEventsInCombat(
 --TODO, figure out swarm warnings, how many need to switch and kill?
 local warnPhase2					= mod:NewAnnounce("Phase2", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Фаза 2
 local warnCloud						= mod:NewSpellAnnounce(199143, 2) --Гипнотическое облако
-local warnSwarm						= mod:NewTargetNoFilterAnnounce(201733, 2) --Жалящий рой
+local warnSwarm						= mod:NewTargetAnnounce(201733, 2) --Жалящий рой
 
 local specWarnDarkblast				= mod:NewSpecialWarningDodge(198820, nil, nil, nil, 3, 5) --Темный взрыв
 local specWarnGuile					= mod:NewSpecialWarningDodge(199193, nil, nil, nil, 3, 5) --Хитроумие повелителя ужаса

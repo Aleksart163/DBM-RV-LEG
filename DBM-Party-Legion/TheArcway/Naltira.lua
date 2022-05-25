@@ -24,7 +24,7 @@ mod:RegisterEventsInCombat(
 --TODO timers are iffy.
 --TODO, blink scanning should work but may not if logic errors. May be spammy in certain situations such as pets/etc taunting boss
 --["200227-Tangled Web"] = "pull:35.2, 26.6, 21.8",
-local warnBlink					= mod:NewTargetNoFilterAnnounce(199811, 4) --Молниеносные удары
+local warnBlink					= mod:NewTargetAnnounce(199811, 4) --Молниеносные удары
 local warnWeb					= mod:NewTargetAnnounce(200284, 3) --Липкие путы
 
 local specWarnWeb				= mod:NewSpecialWarningYouMoveAway(200284, nil, nil, nil, 4, 3) --Липкие путы

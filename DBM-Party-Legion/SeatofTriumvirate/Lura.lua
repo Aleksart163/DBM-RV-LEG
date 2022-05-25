@@ -25,8 +25,8 @@ mod:RegisterEventsInCombat(
 --TODO, more timer work, with good english mythic or mythic+ transcriptor logs with start/stop properly used
 --TODO, start grand shift timer on phase 2 trigger on mythic/mythic+ only
 --TODO, RP timer
-local warnBacklash						= mod:NewTargetNoFilterAnnounce(247816, 1) --Отдача
-local warnNaarusLamen					= mod:NewTargetNoFilterAnnounce(248535, 2) --Стенания наару
+local warnBacklash						= mod:NewTargetAnnounce(247816, 1, nil, "Healer") --Отдача
+local warnNaarusLamen					= mod:NewTargetAnnounce(248535, 2) --Стенания наару
 local warnGrowingDarkness				= mod:NewStackAnnounce(247915, 4, nil, nil, 2) --Разрастающийся мрак
 
 local specWarnRemnantofAnguish			= mod:NewSpecialWarningYouMove(245242, nil, nil, nil, 1, 2) --Отголосок страдания
@@ -40,10 +40,10 @@ local timerCalltoVoidCD					= mod:NewCDTimer(14.5, 247795, nil, nil, nil, 1, nil
 local timerGrandShiftCD					= mod:NewCDTimer(14.5, 249009, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON..DBM_CORE_MYTHIC_ICON) --Масштабный рывок +++
 local timerUmbralCadenceCD				= mod:NewCDTimer(10.8, 247930, nil, nil, nil, 2, nil, DBM_CORE_HEALER_ICON) --Каденция Бездны +++
 local timerBacklash						= mod:NewBuffActiveTimer(12, 247816, nil, nil, nil, 6, nil, DBM_CORE_DAMAGE_ICON) --Отдача +++
-local timerBacklashCD					= mod:NewCDTimer(14, 247816, nil, nil, nil, 3, nil, DBM_CORE_DAMAGE_ICON) --Отдача +++
+local timerBacklashCD					= mod:NewCDTimer(13.5, 247816, nil, nil, nil, 3, nil, DBM_CORE_DAMAGE_ICON) --Отдача +++
 
 --local countdownBreath					= mod:NewCountdown(22, 227233)
-local countdownBacklash					= mod:NewCountdown(14, 247816) --Отдача
+local countdownBacklash					= mod:NewCountdown(13.5, 247816) --Отдача
 local countdownGrandShift				= mod:NewCountdown(14.5, 249009) --Масштабный рывок
 
 mod.vb.phase = 1

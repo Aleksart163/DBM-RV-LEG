@@ -14,7 +14,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 209602 209676 209628"
 )
 
-local warnSurge						= mod:NewTargetNoFilterAnnounce(209602, 4) --Буйство клинков
+local warnSurge						= mod:NewTargetAnnounce(209602, 4) --Буйство клинков
 
 local specWarnSurge					= mod:NewSpecialWarningDodge(209602, nil, nil, nil, 1, 2) --Буйство клинков
 local specWarnSlicingMaelstrom		= mod:NewSpecialWarningSpell(209676, nil, nil, nil, 2, 2) --Кромсающий вихрь

@@ -5,9 +5,8 @@ mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 mod:SetCreatureID(96028)
 mod:SetEncounterID(1814)
 mod:SetZone()
-
-mod:RegisterCombat("combat")
 mod:SetUsedIcons(8, 7)
+mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 192617 192985 192696 197365",
@@ -18,15 +17,15 @@ mod:RegisterEventsInCombat(
 	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
 
-local warnArcaneBomb				= mod:NewTargetNoFilterAnnounce(192706, 4) --Чародейская бомба
+local warnArcaneBomb				= mod:NewTargetAnnounce(192706, 4) --Чародейская бомба
 local warnMythicTornado				= mod:NewSpellAnnounce(192680, 3) --Волшебный торнадо
 local warnRagingStorms				= mod:NewCastAnnounce(192696, 4) --Бушующий шторм
-local warnCrushingDepths			= mod:NewTargetNoFilterAnnounce(197365, 4) --Морская пучина
+local warnCrushingDepths			= mod:NewTargetAnnounce(197365, 4) --Морская пучина
 
 local specWarnCrushingDepths		= mod:NewSpecialWarningYouClose(197365, nil, nil, nil, 2, 2) --Морская пучина
 local specWarnCrushingDepths2		= mod:NewSpecialWarningYouDefensive(197365, nil, nil, nil, 3, 2) --Морская пучина
 local specWarnArcaneBomb			= mod:NewSpecialWarningYouMoveAway(192706, nil, nil, nil, 3, 2) --Чародейская бомба
-local specWarnArcaneBomb2			= mod:NewSpecialWarningDispel(192706, "MagicDispeller2", nil, nil, 1, 5) --Чародейская бомба
+local specWarnArcaneBomb2			= mod:NewSpecialWarningDispel(192706, "MagicDispeller2", nil, nil, 1, 3) --Чародейская бомба
 local specWarnMassiveDeluge			= mod:NewSpecialWarningDodge(192617, nil, nil, nil, 2, 2) --Потоп
 
 local timerCrushingDepthsCD			= mod:NewCDTimer(34, 197365, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Морская пучина
@@ -136,15 +135,16 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 192696 then --Бушующий шторм
 		warnRagingStorms:Show()
 	elseif spellId == 197365 then --Морская пучина
+		timerCrushingDepthsCD:Start(40)
 		self:BossTargetScanner(args.sourceGUID, "CrushingDepthsTarget", 0.1, 9)
 	end
 end
-
+--[[
 function mod:SPELL_CAST_SUCCESS(args)
 	if args.spellId == 197365 then --Морская пучина
 		timerCrushingDepthsCD:Start()
 	end
-end
+end]]
 
 --2 seconds faster than combat log
 function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, _, _, _, targetname)

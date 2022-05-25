@@ -19,7 +19,7 @@ mod:RegisterEventsInCombat(
 	"UNIT_HEALTH boss1"
 )
 local warnHinder					= mod:NewCastAnnounce(215204, 3) --Помеха
-local warnHinder2					= mod:NewTargetNoFilterAnnounce(215204, 4) --Помеха
+local warnHinder2					= mod:NewTargetAnnounce(215204, 4) --Помеха
 local warnFlask						= mod:NewSpellAnnounce(207815, 3) --Настой священной ночи
 local warnFlask2					= mod:NewSoonAnnounce(207815, 1) --Настой священной ночи
 local warnSignalBeacon				= mod:NewSoonAnnounce(207806, 1) --Сигнальный маяк
@@ -114,7 +114,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 215204 then --Помеха
 		self.vb.hinderIcon = self.vb.hinderIcon - 1
-		warnHinder2:Show(args.destName)
+		warnHinder2:CombinedShow(0.3, args.destName)
 		specWarnHinder2:Show(args.destName)
 		if self.Options.SetIconOnHinder then
 			self:SetIcon(args.destName, self.vb.hinderIcon)

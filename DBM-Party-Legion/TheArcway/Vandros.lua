@@ -24,8 +24,8 @@ mod:RegisterEventsInCombat(
 
 --TODO, it might be time to build an interrupt table ("hasInterrupt") for better option defaults for spammy interrupt warnings.
 --Force bomb might be more consistent now, need more logs, last log was 35
-local warnTimeLock					= mod:NewTargetNoFilterAnnounce(203957, 4) --Временное ограничение
-local warnUnstableMana				= mod:NewTargetNoFilterAnnounce(220871, 4) --Нестабильная мана
+local warnTimeLock					= mod:NewTargetAnnounce(203957, 4) --Временное ограничение
+local warnUnstableMana				= mod:NewTargetAnnounce(220871, 4) --Нестабильная мана
 local warnPhase						= mod:NewAnnounce("Phase1", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 2
 local warnPhase2					= mod:NewAnnounce("Phase2", 1, 220871) --Фаза 2
 

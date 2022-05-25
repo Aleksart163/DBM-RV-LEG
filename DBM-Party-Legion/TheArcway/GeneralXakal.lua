@@ -17,7 +17,7 @@ mod:RegisterEventsInCombat(
 )
 
 --TODO, evalulate normal mode tmers more for slash and fissure, seem longer cded there.
-local warnSlam						= mod:NewPreWarnAnnounce(197810, 5, 1) --Нисходящий поток
+local warnSlam						= mod:NewPreWarnAnnounce(197810, 5, 1) --Злодейский мощный удар
 
 local specWarnWakeofShadows			= mod:NewSpecialWarningYouMove(220443, nil, nil, nil, 1, 2) --Темный след
 local specWarnBat					= mod:NewSpecialWarningSwitch("ej12489", "-Healer", nil, nil, 1, 2) --Треш
@@ -30,6 +30,8 @@ local timerBatCD					= mod:NewNextTimer(31, "ej12489", nil, nil, nil, 1, 183219,
 local timerFissureCD				= mod:NewCDTimer(23, 197776, nil, nil, nil, 3) --Разлом Скверны +++
 local timerSlashCD					= mod:NewCDTimer(25, 212030, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON..DBM_CORE_MYTHIC_ICON) --Темное рассечение 25-30 +++
 local timerSlamCD					= mod:NewCDTimer(47, 197810, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Злодейский мощный удар Possibly 40 but delayed by ICD triggering
+
+local countdownSlam					= mod:NewCountdown(47, 197810) --Злодейский мощный удар
 
 --Boss seems to have intenal 6 second ICD and cannot cast any two spells within 6 seconds of another (minus summon bats)
 --[[
@@ -77,7 +79,8 @@ function mod:OnCombatStart(delay)
 	timerSlashCD:Start(13.5-delay) --Темное рассечение +++
 	timerBatCD:Start(15.5-delay) --Треш +++
 	self:Schedule(14.5, blizzardHatesBossMods, self)
-	timerSlamCD:Start(36.8-delay) --Злодейский мощный удар
+	timerSlamCD:Start(36.8-delay) --Злодейский мощный удар +++
+	countdownSlam:Start(36.8-delay) --Злодейский мощный удар +++
 	warnSlam:Schedule(31.8-delay) --Злодейский мощный удар
 end
 
@@ -97,6 +100,7 @@ function mod:SPELL_CAST_START(args)
 		specWarnSlam:Show()
 		specWarnSlam:Play("carefly")
 		timerSlamCD:Start()
+		countdownSlam:Start()
 		warnDownDraft:Schedule(42)
 		--updateAlltimers(7)--Verify is actually 7 and not 6 like others
 	end

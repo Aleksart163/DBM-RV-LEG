@@ -14,7 +14,7 @@ mod:RegisterEventsInCombat(
 )
 --https://ru.wowhead.com/npc=103344/дубосерд/эпохальный-журнал-сражений
 local warnShatteredEarth			= mod:NewSpellAnnounce(204666, 3) --Расколовшаяся земля
-local warnThrowTarget				= mod:NewTargetNoFilterAnnounce(204658, 2) --Сокрушительная хватка
+local warnThrowTarget				= mod:NewTargetAnnounce(204658, 2) --Сокрушительная хватка
 
 local specWarnUproot				= mod:NewSpecialWarningSwitch(212786, "-Healer", nil, nil, 1, 2) --Пересадка
 local specWarnThrow2				= mod:NewSpecialWarningYouDefensive(204611, "Tank", nil, nil, 3, 5) --Сокрушительная хватка

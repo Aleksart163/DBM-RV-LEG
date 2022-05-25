@@ -9,7 +9,7 @@ mod:SetOOCBWComms()
 mod.isTrashMod = true
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 209027 212031 209485 209410 209413 211470 211464 209404 209495 225100 211299 209378 207980 207979 214692 214688 214690",
+	"SPELL_CAST_START 209027 212031 209485 209410 209413 211470 211464 209404 209495 225100 211299 209378 207980 207979 214692 214688 214690 208334",
 	"SPELL_CAST_SUCCESS 214688",
 	"SPELL_AURA_APPLIED 209033 209512 207981 214690",
 	"SPELL_AURA_REMOVED 214690",
@@ -17,13 +17,15 @@ mod:RegisterEvents(
 	"GOSSIP_SHOW",
 	"UNIT_DIED"
 )
-
+--208334 Иссушение... (баф на крит от сферы)
+--209767 Очищение... (баф на снижение урона от фолиата)
 --Квартал звезд
 local warnPhase2					= mod:NewAnnounce("warnSpy", 1, 248732) --Шпион обнаружен , nil, nil, true
 local warnDrainMagic				= mod:NewCastAnnounce(209485, 4) --Похищение магии
-local warnCripple					= mod:NewTargetNoFilterAnnounce(214690, 3) --Увечье
-local warnCarrionSwarm				= mod:NewTargetNoFilterAnnounce(214688, 4) --Темная стая
+local warnCripple					= mod:NewTargetAnnounce(214690, 3) --Увечье
+local warnCarrionSwarm				= mod:NewTargetAnnounce(214688, 4) --Темная стая
 local warnShadowBoltVolley			= mod:NewCastAnnounce(214692, 4) --Залп стрел Тьмы
+local warnFelDetonation				= mod:NewCastAnnounce(211464, 4) --Взрыв Скверны
 
 local specWarnShadowBoltVolley		= mod:NewSpecialWarningDodge(214692, "-Tank", nil, nil, 2, 3) --Залп стрел Тьмы
 local specWarnCarrionSwarm			= mod:NewSpecialWarningDodge(214688, nil, nil, nil, 2, 2) --Темная стая
@@ -112,6 +114,7 @@ function mod:SPELL_CAST_START(args)
 		specWarnSearingGlare:Show(args.sourceName)
 		specWarnSearingGlare:Play("kickcast")
 	elseif spellId == 211464 then
+		warnFelDetonation:Show()
 		specWarnFelDetonation:Show()
 		specWarnFelDetonation:Play("aesoon")
 		timerFelDetonationCD:Start()
@@ -377,7 +380,7 @@ end
 function mod:UNIT_DIED(args)
 	local cid = self:GetCIDFromGUID(args.destGUID)
 	if cid == 104278 then --Порабощенная Скверной карательница
-		timerFelDetonationCD:Cancel()
+		timerFelDetonationCD:Stop()
 	elseif cid == 104275 then --Имаку'туя
 		timerWhirlingBladesCD:Cancel()
 	elseif cid == 104274 then --Баалгар Бдительный
@@ -385,8 +388,8 @@ function mod:UNIT_DIED(args)
 	elseif cid == 104273 then --Джазшариу
 		timerShockwaveCD:Cancel()
 	elseif cid == 104273 then --Герент Зловещий
-		timerCrippleCD:Cancel()
-		timerShadowBoltVolleyCD:Cancel()
-		timerCarrionSwarmCD:Cancel()
+		timerCrippleCD:Stop()
+		timerShadowBoltVolleyCD:Stop()
+		timerCarrionSwarmCD:Stop()
 	end
 end

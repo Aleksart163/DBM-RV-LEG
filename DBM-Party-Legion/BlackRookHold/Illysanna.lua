@@ -21,11 +21,12 @@ mod:RegisterEventsInCombat(
 
 --TODO, maybe GTFO for standing in fire left by dark rush and eye beams?
 --TODO, Interrupt warning for heroic/mythic/challenge mode arcane spell?
-local warnBrutalGlaive				= mod:NewTargetNoFilterAnnounce(197546, 2) --Жуткая глефа
+local warnBrutalGlaive				= mod:NewTargetAnnounce(197546, 2) --Жуткая глефа
 local warnDarkRush					= mod:NewTargetAnnounce(197478, 3) --Темный рывок
-local warnEyeBeam					= mod:NewTargetNoFilterAnnounce(197687, 4) --Пронзающий взгляд
+local warnEyeBeam					= mod:NewTargetAnnounce(197687, 4) --Пронзающий взгляд
 local warnArcaneBlitz				= mod:NewCastAnnounce(197797, 4) --Чародейская бомбардировка
 
+local specWarnSummonAdds			= mod:NewSpecialWarningSwitch(227477, "Tank|Dps", nil, nil, 1, 2) --Вызов помощников
 local specWarnArcaneBlitz			= mod:NewSpecialWarningInterrupt(197797, "HasInterrupt", nil, nil, 1, 2) --Чародейская бомбардировка
 local specWarnFelblazedGround		= mod:NewSpecialWarningYouMove(197821, nil, nil, nil, 1, 3) --Отпечаток пламени Скверны
 local specWarnBlazingTrail			= mod:NewSpecialWarningYouMove(197521, nil, nil, nil, 1, 3) --Огненный след
@@ -82,11 +83,14 @@ function mod:OnCombatStart(delay)
 		timerDarkRushCD:Start(13-delay) --Темный рывок +++
 		timerEyeBeamCD:Start(40-delay) --Пронзающий взгляд +++
 		countdownEyeBeam:Start(40-delay) --Пронзающий взгляд +++
+		specWarnSummonAdds:Schedule(42-delay)
 	else
 		timerBrutalGlaiveCD:Start(5.5-delay) --Жуткая глефа
 		timerVengefulShearCD:Start(8-delay) --Мстительное рассечение
 		timerDarkRushCD:Start(12.1-delay) --Темный рывок
 		timerEyeBeamCD:Start(40-delay) --Пронзающий взгляд
+		countdownEyeBeam:Start(40-delay) --Пронзающий взгляд +++
+		specWarnSummonAdds:Schedule(42-delay)
 	end
 end
 
@@ -194,6 +198,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 			timerVengefulShearCD:Start(7.5)
 			timerEyeBeamCD:Start()
 			countdownEyeBeam:Start()
+			specWarnSummonAdds:Schedule(107)
 		end
 	end
 end

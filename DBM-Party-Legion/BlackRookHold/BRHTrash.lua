@@ -18,11 +18,11 @@ mod:RegisterEvents(
 --TODO, add Etch? http://www.wowhead.com/spell=198959/etch
 --TODO, add Brutal Assault
 --Крепость Черной Ладьи треш
-local warnSoulEchoes				= mod:NewTargetNoFilterAnnounce(194966, 3) --Эхо души
-local warnArcaneOvercharge			= mod:NewTargetNoFilterAnnounce(221132, 4) --Чародейская перезарядка
+local warnSoulEchoes				= mod:NewTargetAnnounce(194966, 3) --Эхо души
+local warnArcaneOvercharge			= mod:NewTargetAnnounce(221132, 4) --Чародейская перезарядка
 local warnOverwhelmingRelease		= mod:NewSpellAnnounce(220918, 4) --Высвобождение мощи
-local warnRupturingPoison			= mod:NewTargetNoFilterAnnounce(221363, 4) --Раздирающий яд
-local warnMandibleStrike			= mod:NewTargetNoFilterAnnounce(221380, 4) --Удар жвалами
+local warnRupturingPoison			= mod:NewTargetAnnounce(221363, 4) --Раздирающий яд
+local warnMandibleStrike			= mod:NewTargetAnnounce(221380, 4) --Удар жвалами
 
 local specWarnQuake					= mod:NewSpecialWarningCast(240447, "SpelCaster", nil, nil, 1, 2) --Землетрясение
 local specWarnQuake2				= mod:NewSpecialWarningYouMoveAway(240447, "-SpelCaster", nil, nil, 1, 2) --Землетрясение

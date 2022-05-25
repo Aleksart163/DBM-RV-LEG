@@ -14,8 +14,8 @@ mod:RegisterEvents(
 )
 
 --TODO, still missing some GTFOs for this. Possibly other important spells.
-local warnArcaneBomb			= mod:NewTargetNoFilterAnnounce(192706, 4) --Чародейская бомба
-local warnPolymorph				= mod:NewTargetNoFilterAnnounce(197105, 1) --Превращение в рыбу
+local warnArcaneBomb			= mod:NewTargetAnnounce(192706, 4) --Чародейская бомба
+local warnPolymorph				= mod:NewTargetAnnounce(197105, 1) --Превращение в рыбу
 
 local specWarnPolymorph			= mod:NewSpecialWarningInterrupt(197105, "HasInterrupt", nil, nil, 3, 5) --Превращение в рыбу
 local specWarnPolymorph2		= mod:NewSpecialWarningDispel(197105, "Healer", nil, nil, 1, 2) --Превращение в рыбу

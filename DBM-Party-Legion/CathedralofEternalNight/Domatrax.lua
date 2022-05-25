@@ -21,7 +21,7 @@ mod:RegisterEventsInCombat(
 --TODO, other warnings? portal spawns/phases?
 --TODO, announce portal guardians, they fire UNIT_TARGETABLE_CHANGED (maybe other things?)
 local warnApproachingDoom			= mod:NewCastAnnounce(241622, 2) --Приближение погибели
-local warnFrenzy					= mod:NewTargetNoFilterAnnounce(243157, 4) --Бешенство
+local warnFrenzy					= mod:NewTargetAnnounce(243157, 4) --Бешенство
 local warnApproachingDoom2			= mod:NewSoonAnnounce(241622, 1) --Приближение погибели
 
 local specWarnFelsoulCleave			= mod:NewSpecialWarningDodge(236543, "Tank", nil, nil, 1, 2) --Удар оскверненной души

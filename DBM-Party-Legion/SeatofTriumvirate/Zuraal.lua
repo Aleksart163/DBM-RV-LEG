@@ -25,9 +25,9 @@ mod:RegisterEventsInCombat(
 --Void Brute
 --local warnNullPalm						= mod:NewSpellAnnounce(246134, 2, nil, "Tank")
 local warnPhase2						= mod:NewAnnounce("Phase2", 1, 244621) --Прорыв Бездны
-local warnUmbraShift					= mod:NewTargetNoFilterAnnounce(244433, 4) --Теневой рывок
-local warnFixate						= mod:NewTargetNoFilterAnnounce(244657, 3) --Сосредоточение внимания
-local warnVoidTear						= mod:NewTargetNoFilterAnnounce(244621, 2) --Прорыв Бездны
+local warnUmbraShift					= mod:NewTargetAnnounce(244433, 4) --Теневой рывок
+local warnFixate						= mod:NewTargetAnnounce(244657, 3) --Сосредоточение внимания
+local warnVoidTear						= mod:NewTargetAnnounce(244621, 2) --Прорыв Бездны
 local warnVoidTear2						= mod:NewPreWarnAnnounce(244621, 5, 1) --Прорыв Бездны
 
 local specWarnNullPalm					= mod:NewSpecialWarningDodge(246134, nil, nil, 2, 2, 2) --Длань обнуления
@@ -48,7 +48,7 @@ local timerFixate						= mod:NewTargetTimer(10, 244653, nil, nil, nil, 3, nil, D
 local yellFixate						= mod:NewYell(244653, nil, nil, nil, "YELL") --Сосредоточение внимания
 local yellFixate2						= mod:NewFadesYell(244653, nil, nil, nil, "YELL") --Сосредоточение внимания
 
-local countdownUmbraShift				= mod:NewCountdown(14, 244433) --Теневой рывок
+local countdownUmbraShift				= mod:NewCountdown(60, 244433) --Теневой рывок
 
 mod:AddSetIconOption("SetIconOnFixate", 244653, true, false, {7}) --Сосредоточение внимания
 
@@ -84,9 +84,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 244579 then
 		timerDeciminateCD:Start()
 	elseif spellId == 244653 then --Сосредоточение внимания
-		if not UmbraShift then
-			specWarnFixate2:Show()
-		end
+	--	specWarnFixate2:Show()
 	end
 end
 
@@ -114,7 +112,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			self:SetIcon(args.destName, 7)
 		end
 	elseif spellId == 244621 then --Прорыв Бездны
-		UmbraShift = false
+	--	UmbraShift = false
 		self.vb.aberrations = 0
 		warnVoidTear:Show(args.destName)
 		specWarnVoidTear:Show()
@@ -149,7 +147,7 @@ function mod:SPELL_DAMAGE(_, _, _, destName, destGUID, _, _, _, spellId)
 		if destGUID == UnitGUID("player") then
 			specWarnUmbraShift:Show()
 			specWarnUmbraShift:Play("teleyou")
-			UmbraShift = true
+		--	UmbraShift = true
 		else
 			warnUmbraShift:Show(destName)
 		end

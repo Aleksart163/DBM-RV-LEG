@@ -185,7 +185,9 @@ L:SetMiscLocalization({
 	RPSkovald = "No! I, too, have proved my worth, Odyn. I am God-King Skovald! These mortals dare not challenge my claim to the aegis!",
 	RPOdyn = "Most impressive! I never thought I would meet anyone who could match the Valarjar's strength... and yet here you stand.",
 	RPSolsten = "Hyrja... the fury of the storm is yours to command!",
-	RPOlmyr = "The Light shines eternal in you, Hyrja!" --The Light embraces you, Hyrja! если прошлое не робит
+	RPSolsten2 = "You sully this ritual with your presence, mortals!",
+	RPOlmyr = "The Light shines eternal in you, Hyrja!", --The Light embraces you, Hyrja! если прошлое не робит
+	RPOlmyr2 = "You will not deny Hyrja's ascendance!"
 })
 
 -----------------------
@@ -424,6 +426,10 @@ L:SetOptionLocalization({
 	Phase2 = "Announce Phase 2"
 })
 
+L:SetMiscLocalization({
+	TaintofSeaYell = "Taint of the Sea fading on %s. BEWARE!"
+})
+
 -----------------------
 --Maw of Souls Trash
 -----------------------
@@ -604,6 +610,24 @@ L= DBM:GetModLocalization(1820)
 -- Opera Hall: Westfall Story --
 -----------------------
 L= DBM:GetModLocalization(1826)
+
+L:SetWarningLocalization({
+	Phase = "Phase 2 soon",
+	Phase2 = "Phase 2",
+	Phase3 = "Phase 3 soon",
+	Phase4 = "Phase 3"
+})
+
+L:SetOptionLocalization({
+	Phase = "Warn in advance about phase 2 (on ~55% Toe Knee, Mythic+ only)",
+	Phase2 = "Announce Phase 2",
+	Phase3 = "Warn in advance about phase 2 (on ~55% Mrrgria, Mythic+ only)",
+	Phase4 = "Announce Phase 3"
+})
+
+L:SetMiscLocalization({
+	Tonny1 = "Wanna go for a spin?"
+})
 
 -----------------------
 -- Opera Hall: Beautiful Beast  --
@@ -789,7 +813,7 @@ L:SetTimerLocalization({
 })
 
 L:SetMiscLocalization({
-	RP1 = "Champions! Over Here!",
+	RP1 = "The Shadowguard is building up its presence near the temple.",
 	RP2 = "I sense great despair emanating from within. L'ura...",
 	RP3 = "Such chaos... such anguish. I have never sensed anything like it before."
 })

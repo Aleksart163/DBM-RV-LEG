@@ -4,7 +4,6 @@ local L		= mod:GetLocalizedStrings()
 mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 --mod:SetModelID(47785)
 mod:SetZone()
---mod:SetUsedIcons(2, 1)
 mod.isTrashMod = true
 
 
@@ -13,13 +12,15 @@ mod:RegisterEvents(
 	"SPELL_AURA_APPLIED 215430 199652",
 	"SPELL_AURA_REMOVED 215430 199652",
 	"SPELL_CAST_SUCCESS 199382",
-	"CHAT_MSG_MONSTER_YELL",
 	"SPELL_PERIODIC_DAMAGE 198959",
 	"SPELL_PERIODIC_MISSED 198959",
-	"UNIT_DIED"
+	"CHAT_MSG_MONSTER_YELL"
 )
 --Чертоги доблести
-local warnCrackle					= mod:NewTargetNoFilterAnnounce(199805, 3) --Разряд
+local warnThunderstrike				= mod:NewTargetAnnounce(215430, 4) --Громовой удар
+local warnCrackle					= mod:NewTargetAnnounce(199805, 3) --Разряд
+local warnChargedPulse				= mod:NewCastAnnounce(210875, 4) --Пульсирующий заряд
+
 
 local specWarnEtch					= mod:NewSpecialWarningYouMove(198959, nil, nil, nil, 1, 2) --Гравировка
 local specWarnCallAncestor			= mod:NewSpecialWarningSwitch(200969, "Dps", nil, nil, 1, 2) --Зов предков
@@ -39,10 +40,13 @@ local specWarnUnrulyYell			= mod:NewSpecialWarningInterrupt(199726, "HasInterrup
 local specWarnSearingLight			= mod:NewSpecialWarningInterrupt(192288, "HasInterrupt", nil, nil, 1, 2) --Опаляющий свет
 
 local timerSever					= mod:NewTargetTimer(12, 199652, nil, "Tank|Healer", nil, 3, nil, DBM_CORE_TANK_ICON) --Громовой удар
-local timerEyeofStormCD				= mod:NewCDTimer(31.5, 200901, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Око шторма
-local timerSanctifyCD				= mod:NewCDTimer(26.5, 192158, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Освящение
 local timerEnragingRoarCD			= mod:NewCDTimer(25, 199382, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON) --Яростный рев
 local timerThunderstrike			= mod:NewTargetTimer(3, 215430, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Громовой удар
+--Олмир
+local timerSanctifyCD				= mod:NewCDTimer(26.5, 192158, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Освящение
+local timerSearingLightCD			= mod:NewCDTimer(13, 192288, nil, "HasInterrupt", nil, 4, nil, DBM_CORE_INTERRUPT_ICON) --Опаляющий свет
+--Солстен
+local timerEyeofStormCD				= mod:NewCDTimer(31.5, 200901, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Око шторма
 
 local timerRoleplay					= mod:NewTimer(30, "timerRoleplay", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7) --Ролевая игра
 
@@ -53,9 +57,6 @@ local yellThunderstrike2			= mod:NewShortFadesYell(215430, nil, nil, nil, "YELL"
 local eyeShortName = DBM:GetSpellInfo(91320)--Inner Eye
 
 mod:AddRangeFrameOption(8, 215430) --Громовой удар
---mod:AddSetIconOption("SetIconOnThunderStrike", 215430, true, false, {2, 1}) --Громовой удар
-
-mod.vb.ThunderstrikeIcon = 1
 
 function mod:CrackleTarget(targetname, uId)
 	if not targetname then
@@ -85,6 +86,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 192288 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Опаляющий свет
 		specWarnSearingLight:Show()
 		specWarnSearingLight:Play("kickcast")
+		timerSearingLightCD:Start()
 	elseif spellId == 199382 then
 		timerEnragingRoarCD:Start()
 	elseif spellId == 200901 then --Око шторма
@@ -98,6 +100,7 @@ function mod:SPELL_CAST_START(args)
 		specWarnSanctify2:Play("watchorb")
 		timerSanctifyCD:Start()
 	elseif spellId == 210875 and self:AntiSpam(2, 1) then --Пульсирующий заряд
+		warnChargedPulse:Show()
 		specWarnChargedPulse:Show()
 		specWarnChargedPulse2:Show()
 	elseif spellId == 199652 then --Рассечение
@@ -117,6 +120,7 @@ end
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if args.spellId == 215430 then --Громовой удар
+		warnThunderstrike:CombinedShow(0.5, args.destName)
 		timerThunderstrike:Start(args.destName)
 		if args:IsPlayer() then
 			specWarnThunderstrike:Show()
@@ -150,22 +154,17 @@ function mod:SPELL_AURA_REMOVED(args)
 	end
 end
 
---[[function mod:UNIT_DIED(args)
-	local cid = self:GetCIDFromGUID(args.destGUID)
-	if cid == 97219 then --Солстен
-		timerEyeofStormCD:Cancel()
-	elseif cid == 97202 then --Олмир Просвещенный
-		timerSanctifyCD:Cancel()
-	end
-end]]
-
 function mod:CHAT_MSG_MONSTER_YELL(msg)
 	if msg == L.RPSkovald or msg:find(L.RPSkovald) then
 		self:SendSync("RPSkovald")
 	elseif msg == L.RPSolsten or msg:find(L.RPSolsten) then
 		self:SendSync("RPSolsten")
+	elseif msg == L.RPSolsten2 or msg:find(L.RPSolsten2) then
+		self:SendSync("RPSolsten2")
 	elseif msg == L.RPOlmyr or msg:find(L.RPOlmyr) then
 		self:SendSync("RPOlmyr")
+	elseif msg == L.RPOlmyr2 or msg:find(L.RPOlmyr2) then
+		self:SendSync("RPOlmyr2")
 	elseif msg == L.RPOdyn or msg:find(L.RPOdyn) then
 		self:SendSync("RPOdyn")
 	end
@@ -178,8 +177,14 @@ function mod:OnSync(msg, GUID)
 		timerRoleplay:Start(25.5)
 	elseif msg == "RPSolsten" then
 		timerEyeofStormCD:Cancel()
+	elseif msg == "RPSolsten2" then
+		timerEyeofStormCD:Start(9)
 	elseif msg == "RPOlmyr" then
 		timerSanctifyCD:Cancel()
+		timerSearingLightCD:Cancel()
+	elseif msg == "RPOlmyr2" then
+		timerSanctifyCD:Start(9.5)
+		timerSearingLightCD:Start(5.5)
 	end
 end
 

@@ -20,10 +20,10 @@ mod:RegisterEvents(
 	"CHAT_MSG_MONSTER_EMOTE"
 )
 --Каражан треш
-local warnVolatileCharge			= mod:NewSpellAnnounce(227925, 2)
+local warnVolatileCharge			= mod:NewTargetAnnounce(228331, 4) --Нестабильный заряд
 local warnOathofFealty				= mod:NewCastAnnounce(228280, 3) --Клятва верности
-local warnNullification				= mod:NewTargetNoFilterAnnounce(230083, 2) --Полная нейтрализация
-local warnReinvigorated				= mod:NewTargetNoFilterAnnounce(230087, 1) --Восполнение сил
+local warnNullification				= mod:NewTargetAnnounce(230083, 2) --Полная нейтрализация
+local warnReinvigorated				= mod:NewTargetAnnounce(230087, 1) --Восполнение сил
 
 local specWarnReinvigorated			= mod:NewSpecialWarningYouMoreDamage(230087, nil, nil, nil, 1, 2) --Восполнение сил
 local specWarnReinvigorated2		= mod:NewSpecialWarningEnd(230087, nil, nil, nil, 1, 2) --Восполнение сил
@@ -36,8 +36,8 @@ local specWarnPoetrySlam			= mod:NewSpecialWarningInterrupt(227917, "HasInterrup
 local specWarnBansheeWail			= mod:NewSpecialWarningInterrupt(228625, "HasInterrupt", nil, nil, 1, 2)
 local specWarnHealingTouch			= mod:NewSpecialWarningInterrupt(228606, "HasInterrupt", nil, nil, 1, 2)
 local specWarnConsumeMagic			= mod:NewSpecialWarningInterrupt(229714, "HasInterrupt", nil, nil, 1, 2)
-local specWarnFinalCurtain			= mod:NewSpecialWarningDodge(227925, "Melee", nil, nil, 1, 2)
-local specWarnVolatileCharge		= mod:NewSpecialWarningMoveAway(228331, nil, nil, nil, 3, 3)
+local specWarnFinalCurtain			= mod:NewSpecialWarningDodge(227925, "Melee", nil, nil, 1, 2) --Последний занавес
+local specWarnVolatileCharge		= mod:NewSpecialWarningYouMoveAway(228331, nil, nil, nil, 3, 3) --Нестабильный заряд
 local specWarnOathofFealty			= mod:NewSpecialWarningInterrupt(228280, "HasInterrupt", nil, nil, 3, 3) --Клятва верности
 local specWarnOathofFealty2			= mod:NewSpecialWarningDispel(228280, "MagicDispeller2", nil, nil, 1, 2) --Клятва верности
 
@@ -53,7 +53,8 @@ local timerOathofFealty				= mod:NewTargetTimer(15, 228280, nil, nil, nil, 3, ni
 local timerRoyalty					= mod:NewCDTimer(20, 229489, nil, nil, nil, 3, nil, DBM_CORE_DAMAGE_ICON) --Царственность
 
 local yellNullification				= mod:NewYell(230083, nil, nil, nil, "YELL") --Полная нейтрализация
-local yellVolatileCharge			= mod:NewYell(228331, nil, nil, nil, "YELL")
+local yellVolatileCharge			= mod:NewYell(228331, nil, nil, nil, "YELL") --Нестабильный заряд
+local yellVolatileCharge2			= mod:NewFadesYell(228331, nil, nil, nil, "YELL") --Нестабильный заряд
 local yellBurningBrand				= mod:NewYell(228610, nil, nil, nil, "YELL") --Горящее клеймо
 local yellBurningBrand2				= mod:NewFadesYell(228610, nil, nil, nil, "YELL") --Горящее клеймо
 local yellReinvigorated				= mod:NewYell(230087, L.ReinvigoratedYell, nil, nil, "YELL") --Восполнение сил
@@ -109,7 +110,6 @@ function mod:SPELL_CAST_START(args)
 end
 
 function mod:SPELL_AURA_APPLIED(args)
-	if not self.Options.Enabled then return end
 	local spellId = args.spellId
 	if spellId == 228331 then
 		warnVolatileCharge:CombinedShow(0.3, args.destName)
@@ -117,6 +117,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnVolatileCharge:Show()
 			specWarnVolatileCharge:Play("runout")
 			yellVolatileCharge:Yell()
+			yellVolatileCharge2:Countdown(5, 3)
 		end
 	elseif spellId == 228610 then
 		if args:IsPlayer() then
@@ -215,7 +216,7 @@ function mod:UNIT_DIED(args)
 		timerNullificationCD:Cancel()
 	elseif cid == 115388 then --Король
 		timerRoyalty:Cancel()
-	elseif cid == 115395 or cid == 115406 or cid == 115401 or cid == 115407 then --Ферзь, конь, слон и ладья
+	elseif (cid == 115395 or cid == 115406 or cid == 115401 or cid == 115407) then --Ферзь, конь, слон и ладья
 		timerRoyalty:Start()
 	end
 end

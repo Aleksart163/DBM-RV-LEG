@@ -17,7 +17,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_PERIODIC_MISSED 194235"
 )
 
-local warnFragment				= mod:NewTargetNoFilterAnnounce(194327, 3) --Разделение
+local warnFragment				= mod:NewTargetAnnounce(194327, 3) --Разделение
 local warnVoidSnap				= mod:NewSpellAnnounce(194266, 4) --Хватка Бездны
 
 local specWarnNetherRip			= mod:NewSpecialWarningYouMove(194235, nil, nil, nil, 1, 2) --Разрыв пустоты

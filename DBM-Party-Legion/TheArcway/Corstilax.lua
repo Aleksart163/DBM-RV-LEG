@@ -20,8 +20,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_SUCCESS 195791"
 )
 
-local warnSupression				= mod:NewTargetNoFilterAnnounce(196070, 4) --Протокол подавления
---local warnQuarantine				= mod:NewTargetNoFilterAnnounce(195804, 3) --Карантин
+local warnSupression				= mod:NewTargetAnnounce(196070, 4) --Протокол подавления
 
 local specWarnCleansing2			= mod:NewSpecialWarningRun(196115, "Melee", nil, nil, 4, 5) --Очищающая сила
 local specWarnDestabilizedOrb2		= mod:NewSpecialWarningYouMove(220500, nil, nil, nil, 1, 2) --Дестабилизированная сфера аура
@@ -85,7 +84,6 @@ function mod:SPELL_AURA_APPLIED(args)
 			self:SetIcon(args.destName, 8, 7)
 		end
 	elseif spellId == 195804 then --Карантин
-	--	warnQuarantine:Show(args.destName)
 		if args:IsPlayer() then
 			yellQuarantine:Yell()
 		else
