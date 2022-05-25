@@ -34,7 +34,7 @@ local Decimator = DBM:EJ_GetSectionInfo(15915)
  or (ability.id = 244399 or ability.id = 245294 or ability.id = 246919 or ability.id = 244294) and type = "cast"
  or (ability.id = 246220) and type = "applydebuff"
 --]]
-local warnFelBombardment				= mod:NewTargetNoFilterAnnounce(246220, 2) --Обстрел скверны
+local warnFelBombardment				= mod:NewTargetAnnounce(246220, 2) --Обстрел скверны
 local warnDecimation					= mod:NewTargetAnnounce(244410, 4) --Децимация
 local warnWarnApocDrive					= mod:NewAnnounce("Reaktor", 1, 244152) --Реактор апокалипсиса
 
@@ -47,7 +47,7 @@ local specWarnEradication				= mod:NewSpecialWarningRun(244969, nil, nil, nil, 4
 local specWarnEradication2				= mod:NewSpecialWarningDefensive(244969, nil, nil, nil, 3, 5) --Искоренение
 --local specWarnGTFO					= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 2)
 --Decimator
-local specWarnDecimation				= mod:NewSpecialWarningMoveAway(244410, nil, nil, nil, 4, 5) --Децимация
+local specWarnDecimation				= mod:NewSpecialWarningYouMoveAway(244410, nil, nil, nil, 4, 5) --Децимация
 local specWarnDecimation2				= mod:NewSpecialWarningDodge(244410, "-Tank", nil, nil, 2, 2) --Децимация
 
 local specWarnSurgingFel				= mod:NewSpecialWarningDodge(246663, nil, nil, nil, 2, 2) --Всплеск скверны

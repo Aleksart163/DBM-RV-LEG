@@ -43,7 +43,7 @@ mod:RegisterEventsInCombat(
 --Stage: Deployment
 local warnShatteringStrike				= mod:NewSpellAnnounce(248375, 2) --Разбивающий удар
 local warnDiabolicBomb					= mod:NewSpellAnnounce(246779, 3, nil, nil, nil, nil, nil, 2) --Демоническая бомба
-local warnReverberatingStrike			= mod:NewTargetNoFilterAnnounce(254926, 3) --Гулкий удар
+local warnReverberatingStrike			= mod:NewTargetAnnounce(254926, 3) --Гулкий удар
 local warnWarnInitializing				= mod:NewSpellAnnounce(246504, 3) --Инициализация
 --Reavers (or empowered boss from reaver deaths)
 local warnDecimation					= mod:NewTargetAnnounce(246687, 4) --Децимация

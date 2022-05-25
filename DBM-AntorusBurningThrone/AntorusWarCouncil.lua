@@ -34,7 +34,7 @@ local Erodus = DBM:EJ_GetSectionInfo(16130)
  or ability.id = 253015
 --]]
 --General
-local warnOutofPod						= mod:NewTargetNoFilterAnnounce("ej16098", 2, 244141) --Вне капсулы
+local warnOutofPod						= mod:NewTargetAnnounce("ej16098", 2, 244141) --Вне капсулы
 local warnExploitWeakness				= mod:NewStackAnnounce(244892, 2, nil, "Tank") --Обнаружить слабое место
 local warnPsychicAssault				= mod:NewStackAnnounce(244172, 3, nil, "-Tank", 2) --Псионная атака
 --In Pod
@@ -42,7 +42,7 @@ local warnPsychicAssault				= mod:NewStackAnnounce(244172, 3, nil, "-Tank", 2) -
 local warnEntropicMine					= mod:NewSpellAnnounce(245161, 2) --Энтропическая мина
 ----General Erodus
 --local warnSummonReinforcements			= mod:NewSpellAnnounce(245546, 2, nil, false, 2)
-local warnDemonicCharge					= mod:NewTargetNoFilterAnnounce(253040, 2, nil, "Ranged", 2) --Демонический рывок
+local warnDemonicCharge					= mod:NewTargetAnnounce(253040, 2, nil, "Ranged", 2) --Демонический рывок
 --Out of Pod
 ----Admiral Svirax
 local warnShockGrenade					= mod:NewTargetAnnounce(244737, 4, nil, true, 2) --Шоковая граната

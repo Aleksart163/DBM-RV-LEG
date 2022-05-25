@@ -455,10 +455,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif spellId == 249017 then --Магическая сингулярность 250693 or spellId == 
 		if args:IsPlayer() then
-			specWarnArcaneBuildup:Show()
-			specWarnArcaneBuildup:Play("runout")
-		--	timerArcaneSingularity:Start()
-			if self.vb.finalDoomCast == 1 and not UnitIsDeadOrGhost("player") then
+			if self.vb.finalDoomCast == 1 then
 				specWarnArcaneBuildup:Schedule(22)
 				specWarnArcaneBuildup:Schedule(47)
 				specWarnArcaneBuildup:Schedule(72)
@@ -478,7 +475,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				specWarnArcaneBuildup:Schedule(422)
 				specWarnArcaneBuildup:Schedule(447)
 				specWarnArcaneBuildup:Schedule(472)
-			elseif self.vb.finalDoomCast == 2 and not UnitIsDeadOrGhost("player") then
+			elseif self.vb.finalDoomCast == 2 then
 				specWarnArcaneBuildup:Schedule(22)
 				specWarnArcaneBuildup:Schedule(47)
 				specWarnArcaneBuildup:Schedule(72)
@@ -493,7 +490,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				specWarnArcaneBuildup:Schedule(297)
 				specWarnArcaneBuildup:Schedule(322)
 				specWarnArcaneBuildup:Schedule(347)
-			elseif self.vb.finalDoomCast == 3 and not UnitIsDeadOrGhost("player") then
+			elseif self.vb.finalDoomCast == 3 then
 				specWarnArcaneBuildup:Schedule(22)
 				specWarnArcaneBuildup:Schedule(47)
 				specWarnArcaneBuildup:Schedule(72)
@@ -504,14 +501,14 @@ function mod:SPELL_AURA_APPLIED(args)
 				specWarnArcaneBuildup:Schedule(197)
 				specWarnArcaneBuildup:Schedule(222)
 				specWarnArcaneBuildup:Schedule(247)
-			elseif self.vb.finalDoomCast == 4 and not UnitIsDeadOrGhost("player") then
+			elseif self.vb.finalDoomCast == 4 then
 				specWarnArcaneBuildup:Schedule(22)
 				specWarnArcaneBuildup:Schedule(47)
 				specWarnArcaneBuildup:Schedule(72)
 				specWarnArcaneBuildup:Schedule(97)
 				specWarnArcaneBuildup:Schedule(122)
 				specWarnArcaneBuildup:Schedule(147)
-			elseif self.vb.finalDoomCast == 5 and not UnitIsDeadOrGhost("player") then
+			elseif self.vb.finalDoomCast == 5 then
 				specWarnArcaneBuildup:Schedule(22)
 				specWarnArcaneBuildup:Schedule(47)
 				specWarnArcaneBuildup:Schedule(72)
@@ -523,10 +520,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 249015 then --Раскаленные угли 250691 or spellId == 
 		self.vb.burningembersIcon = self.vb.burningembersIcon + 1
 		if args:IsPlayer() then 
-			specWarnBurningEmbers:Show()
-			specWarnBurningEmbers:Play("runout")
-		--	timerBurningEmbers:Start()
-			if self.vb.finalDoomCast == 1 and not UnitIsDeadOrGhost("player") then
+			if self.vb.finalDoomCast == 1 then
 				specWarnBurningEmbers:Schedule(27)
 				specWarnBurningEmbers:Schedule(57)
 				specWarnBurningEmbers:Schedule(87)
@@ -544,7 +538,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				specWarnBurningEmbers:Schedule(447)
 				specWarnBurningEmbers:Schedule(477)
 				specWarnBurningEmbers:Schedule(507)
-			elseif self.vb.finalDoomCast == 2 and not UnitIsDeadOrGhost("player") then
+			elseif self.vb.finalDoomCast == 2 then
 				specWarnBurningEmbers:Schedule(27)
 				specWarnBurningEmbers:Schedule(57)
 				specWarnBurningEmbers:Schedule(87)
@@ -557,7 +551,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				specWarnBurningEmbers:Schedule(297)
 				specWarnBurningEmbers:Schedule(327)
 				specWarnBurningEmbers:Schedule(357)
-			elseif self.vb.finalDoomCast == 3 and not UnitIsDeadOrGhost("player") then
+			elseif self.vb.finalDoomCast == 3 then
 				specWarnBurningEmbers:Schedule(27)
 				specWarnBurningEmbers:Schedule(57)
 				specWarnBurningEmbers:Schedule(87)
@@ -566,13 +560,13 @@ function mod:SPELL_AURA_APPLIED(args)
 				specWarnBurningEmbers:Schedule(177)
 				specWarnBurningEmbers:Schedule(207)
 				specWarnBurningEmbers:Schedule(237)
-			elseif self.vb.finalDoomCast == 4 and not UnitIsDeadOrGhost("player") then
+			elseif self.vb.finalDoomCast == 4 then
 				specWarnBurningEmbers:Schedule(27)
 				specWarnBurningEmbers:Schedule(57)
 				specWarnBurningEmbers:Schedule(87)
 				specWarnBurningEmbers:Schedule(117)
 				specWarnBurningEmbers:Schedule(147)
-			elseif self.vb.finalDoomCast == 5 and not UnitIsDeadOrGhost("player") then
+			elseif self.vb.finalDoomCast == 5 then
 				specWarnBurningEmbers:Schedule(27)
 				specWarnBurningEmbers:Schedule(57)
 				specWarnBurningEmbers:Schedule(87)

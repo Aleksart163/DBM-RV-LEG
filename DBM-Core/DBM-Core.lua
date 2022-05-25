@@ -43,9 +43,9 @@
 ----------------------------------------------------------------
 --
 DBM = {
-	Revision = tonumber(("$Revision: 17661 $"):sub(12, -3)),
+	Revision = tonumber(("$Revision: 17662 $"):sub(12, -3)),
 	DisplayVersion = "7.3.35 Right Version",
-	ReleaseRevision = 17660
+	ReleaseRevision = 17661
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -93,7 +93,7 @@ DBM.DefaultOptions = {
 	SpecialWarningSound = "Sound\\Spells\\PVPFlagTaken.ogg",
 	SpecialWarningSound2 = "Sound\\Creature\\AlgalonTheObserver\\UR_Algalon_BHole01.ogg",
 	SpecialWarningSound3 = "Interface\\AddOns\\DBM-Core\\sounds\\AirHorn.ogg",
-	SpecialWarningSound4 = "Interface\\AddOns\\DBM-Core\\Sounds\\Custom\\RunAwayBitch.ogg", --"Sound\\Creature\\HoodWolf\\HoodWolfTransformPlayer01.ogg",
+	SpecialWarningSound4 = "Sound\\Creature\\LadyMalande\\BLCKTMPLE_LadyMal_Aggro01.ogg", --"Interface\\AddOns\\DBM-Core\\Sounds\\Custom\\RunAwayBitch.ogg", --"Sound\\Creature\\HoodWolf\\HoodWolfTransformPlayer01.ogg",
 --	SpecialWarningSound5 = "Sound\\Creature\\Loathstare\\Loa_Naxx_Aggro02.ogg",
 	ModelSoundValue = "Short",
 	CountdownVoice = "Alarak",
@@ -4328,11 +4328,11 @@ do
 					--Disable if revision grossly out of date even if not major patch.
 					if raid[newerVersionPerson[1]] and raid[newerVersionPerson[2]] and raid[newerVersionPerson[3]] then
 						local revDifference = mmin((raid[newerVersionPerson[1]].revision - DBM.Revision), (raid[newerVersionPerson[2]].revision - DBM.Revision), (raid[newerVersionPerson[3]].revision - DBM.Revision))
-						if revDifference > 85000 then --Отключение аддона WTF? Sorry but your DBM is being turned off until you update. Grossly out of date mods cause fps loss, freezes, lua error spam, or just very bad information, if mod is not up to date with latest changes. All around undesirable experience to put yourself or other raid mates through
+						if revDifference > 100 then --Отключение аддона WTF? Sorry but your DBM is being turned off until you update. Grossly out of date mods cause fps loss, freezes, lua error spam, or just very bad information, if mod is not up to date with latest changes. All around undesirable experience to put yourself or other raid mates through
 							if updateNotificationDisplayed < 3 then
 								updateNotificationDisplayed = 3
 								AddMsg(DBM, DBM_CORE_UPDATEREMINDER_DISABLE)
-								DBM:Disable(true)
+							--	DBM:Disable(true)
 							end
 						end
 					--Disable if out of date and it's a major patch.
@@ -4354,7 +4354,7 @@ do
 				if testBuild and revDifference > 5 then
 					updateNotificationDisplayed = 7
 					AddMsg(DBM, DBM_CORE_UPDATEREMINDER_DISABLE)
-					DBM:Disable(true)
+				--	DBM:Disable(true)
 				else
 					updateNotificationDisplayed = 2
 					AddMsg(DBM, DBM_CORE_UPDATEREMINDER_HEADER_ALPHA:format(revDifference))
@@ -8928,8 +8928,8 @@ do
 		return newAnnounce(self, "target", spellId, color or 3, icon, optionDefault, optionName, castTime, preWarnTime, noSound, true)
 	end
 	
-	function bossModPrototype:NewTargetAnnounce(spellId, color, ...)
-		return newAnnounce(self, "target", spellId, color or 3, ...)
+	function bossModPrototype:NewTargetAnnounce(spellId, color, icon, optionDefault, optionName, castTime, preWarnTime, noSound, noFilter) --function bossModPrototype:NewTargetAnnounce(spellId, color, ...)
+		return newAnnounce(self, "target", spellId, color or 3, icon, optionDefault, optionName, castTime, preWarnTime, noSound, true) --return newAnnounce(self, "target", spellId, color or 3, ...)
 	end
 
 	function bossModPrototype:NewTargetCountAnnounce(spellId, color, ...)
@@ -9219,7 +9219,7 @@ do
 				timer = tonumber(string.sub(timer, 7))
 			elseif timer:match("Alt") then
 				altVoice = 2
-				timer = tonumber(string.sub(timer, 4))
+				timer = tonumber(string.sub(timer, 5)) --если что вернуть на 4
 			end
 		end
 		--TODO, maybe make this not use an entire sound object?

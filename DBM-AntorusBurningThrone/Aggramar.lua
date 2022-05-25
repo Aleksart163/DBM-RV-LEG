@@ -28,7 +28,7 @@ mod:RegisterEventsInCombat(
  or ability.id = 244894 and (type = "applybuff" or type = "removebuff")
  or (ability.id = 245994 or ability.id = 254452) and type = "applydebuff"
 --]]
-local warnPhase							= mod:NewPhaseChangeAnnounce(2, nil, nil, nil, nil, nil, 2)
+local warnPhase							= mod:NewPhaseChangeAnnounce(1, nil, nil, nil, nil, nil, 2)
 local warnPhase2						= mod:NewAnnounce("Phase1", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 2
 local warnPhase3						= mod:NewAnnounce("Phase3", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 3
 

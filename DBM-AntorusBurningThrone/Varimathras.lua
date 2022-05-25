@@ -35,8 +35,8 @@ local warnTormentofFel					= mod:NewSpellAnnounce(243979, 2, nil, nil, nil, nil,
 local warnTormentofShadows				= mod:NewSpellAnnounce(243974, 2, nil, nil, nil, nil, nil, 2) --Пытка тьмой
 --The Fallen Nathrezim
 local warnShadowStrike					= mod:NewSpellAnnounce(243960, 2, nil, "Tank", 2) --Теневой удар Doesn't need special warning because misery should trigger special warning at same time
-local warnMarkedPrey					= mod:NewTargetNoFilterAnnounce(244042, 3) --Метка жертвы
-local warnNecroticEmbrace				= mod:NewTargetNoFilterAnnounce(244094, 4) --Некротические объятия
+local warnMarkedPrey					= mod:NewTargetAnnounce(244042, 3) --Метка жертвы
+local warnNecroticEmbrace				= mod:NewTargetAnnounce(244094, 4) --Некротические объятия
 local warnEchoesofDoom					= mod:NewTargetAnnounce(248732, 3) --Отголоски гибели
 
 --Torments of the Shivarra
@@ -185,7 +185,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self.Options.SetIconEmbrace then
 			self:SetIcon(args.destName, self.vb.totalEmbrace+2)--Should be BW compatible, for most part.
 		end
-	--	warnNecroticEmbrace:CombinedShow(0.7, args.destName)--Combined message because even if it starts on 1, people are gonna fuck it up
+		warnNecroticEmbrace:CombinedShow(0.5, args.destName)--Combined message because even if it starts on 1, people are gonna fuck it up
 		if self:IsMythic() then
 			if args:IsPlayer() then
 				if not playerAffected then
@@ -205,7 +205,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				end
 			end
 		else
-			warnNecroticEmbrace:Show(args.destName)--Combined message because even if it starts on 1, people are gonna fuck it up
+			warnNecroticEmbrace:CombinedShow(0.5, args.destName)--Combined message because even if it starts on 1, people are gonna fuck it up
 			if args:IsPlayer() then
 				if not playerAffected then
 					playerAffected = true
@@ -222,7 +222,7 @@ function mod:SPELL_AURA_APPLIED(args)
 						DBM.RangeCheck:Show(10)
 					end
 				end
-			elseif self:CheckNearby(15, args.destName) then
+			elseif self:CheckNearby(10, args.destName) then
 				specWarnNecroticEmbrace2:Show(args.destName)
 			end
 		end
