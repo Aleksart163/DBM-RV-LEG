@@ -21,10 +21,10 @@ mod:RegisterEventsInCombat(
 --TOOD, maybe play gathershare for ALL (except tank) for nightmare target.
 --TODO, maybe add an arrow group up hud for nightmare target depending on number of players it takes to clear it.
 --TODO, feed on the weak have any significance?
+local warnApocNightmare				= mod:NewSpellAnnounce(200050, 4) --Апокалиптический Кошмар
 local warnApocNightmare2			= mod:NewSoonAnnounce(200050, 1) --Апокалиптический Кошмар
 local warnNightmare					= mod:NewTargetAnnounce(200243, 3) --Кошмар наяву
 local warnParanoia					= mod:NewTargetAnnounce(200289, 3) --Усугубляющаяся паранойя
-local warnApocNightmare				= mod:NewSpellAnnounce(200050, 3) --Апокалиптический Кошмар
 local warnFeedontheWeak				= mod:NewTargetAnnounce(200238, 4) --Пожирание слабых
 
 local specWarnApocNightmare2		= mod:NewSpecialWarningDefensive(200050, nil, nil, nil, 3, 5) --Апокалиптический Кошмар
@@ -80,7 +80,9 @@ end
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 200182 then
-		specWarnFesteringRip:Show(args.destName)
+		if self:IsHard() then
+			specWarnFesteringRip:Show(args.destName)
+		end
 	elseif spellId == 200243 then
 		self.vb.nightmareIcon = self.vb.nightmareIcon + 1
 		timerNightmare:Start(args.destName)
@@ -104,7 +106,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerParanoia:Start(args.destName)
 		if args:IsPlayer() then
 			specWarnParanoia:Show()
-			specWarnParanoia:Play("scatter")
+			specWarnParanoia:Play("runaway")
 			yellParanoia:Yell()
 		elseif self:CheckNearby(10, args.destName) then
 			warnParanoia:Show(args.destName)
@@ -115,7 +117,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 200238 then
 		if args:IsPlayer() then
 			specWarnFeedontheWeak:Show()
-			specWarnParanoia:Play("defensive")
+			specWarnFeedontheWeak:Play("defensive")
 			yellFeedontheWeak:Yell()
 		else
 			warnFeedontheWeak:Show(args.destName)
