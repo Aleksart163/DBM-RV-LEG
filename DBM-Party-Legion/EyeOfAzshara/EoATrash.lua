@@ -9,13 +9,14 @@ mod.isTrashMod = true
 
 mod:RegisterEvents(
 	"SPELL_CAST_START 196870 195046 195284 197105",
-	"SPELL_AURA_APPLIED 196127 192706 197105",
+	"SPELL_AURA_APPLIED 196127 192706 197105 196144",
 	"SPELL_AURA_REMOVED 197105 192706"
 )
 
 --TODO, still missing some GTFOs for this. Possibly other important spells.
 local warnArcaneBomb			= mod:NewTargetAnnounce(192706, 4) --Чародейская бомба
 local warnPolymorph				= mod:NewTargetAnnounce(197105, 1) --Превращение в рыбу
+local warnSandstorm				= mod:NewTargetAnnounce(196144, 2) --Песчаная буря
 
 local specWarnPolymorph			= mod:NewSpecialWarningInterrupt(197105, "HasInterrupt", nil, nil, 3, 5) --Превращение в рыбу
 local specWarnPolymorph2		= mod:NewSpecialWarningDispel(197105, "Healer", nil, nil, 1, 2) --Превращение в рыбу
@@ -25,6 +26,7 @@ local specWarnUndertow			= mod:NewSpecialWarningInterrupt(195284, "HasInterrupt"
 local specWarnSpraySand			= mod:NewSpecialWarningDodge(196127, "Melee", nil, nil, 1, 2) --Струя песка
 local specWarnArcaneBomb		= mod:NewSpecialWarningYouMoveAway(192706, nil, nil, nil, 3, 2) --Чародейская бомба
 local specWarnArcaneBomb2		= mod:NewSpecialWarningDispel(192706, "MagicDispeller2", nil, nil, 1, 2) --Чародейская бомба
+local specWarnSandstorm			= mod:NewSpecialWarningYou(196144, nil, nil, nil, 1, 2) --Песчаная буря
 
 local timerArcaneBomb			= mod:NewTargetTimer(15, 192706, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON..DBM_CORE_DEADLY_ICON) --Чародейская бомба
 local timerPolymorph			= mod:NewTargetTimer(8, 197105, nil, nil, nil, 3, nil, DBM_CORE_INTERRUPT_ICON..DBM_CORE_MAGIC_ICON) --Превращение в рыбу
@@ -33,6 +35,7 @@ local yellArcaneBomb			= mod:NewYell(192706, nil, nil, nil, "YELL") --Чарод
 local yellArcaneBombFades		= mod:NewFadesYell(192706, nil, nil, nil, "YELL") --Чародейская бомба
 local yellPolymorph				= mod:NewYell(197105, nil, nil, nil, "YELL") --Превращение в рыбу
 local yellPolymorphFades		= mod:NewFadesYell(197105, nil, nil, nil, "YELL") --Превращение в рыбу
+local yellSandstorm				= mod:NewYell(196144, nil, nil, nil, "YELL") --Песчаная буря
 
 mod:AddSetIconOption("SetIconOnArcaneBomb", 192706, true, false, {8}) --Чародейская бомба
 mod:AddSetIconOption("SetIconOnPolymorph", 197105, true, false, {7}) --Превращение в рыбу
@@ -90,6 +93,14 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 		if self.Options.SetIconOnPolymorph then
 			self:SetIcon(args.destName, 7, 8)
+		end
+	elseif spellId == 196144 then --Песчаная буря
+		if args:IsPlayer() then
+			specWarnSandstorm:Show()
+			specWarnSandstorm:Play("targetyou")
+			yellSandstorm:Yell()
+		else
+			warnSandstorm:CombinedShow(0.5, args.destName)
 		end
 	end
 end

@@ -12,8 +12,8 @@ mod:RegisterEvents(
 	"SPELL_AURA_APPLIED 215430 199652",
 	"SPELL_AURA_REMOVED 215430 199652",
 	"SPELL_CAST_SUCCESS 199382",
-	"SPELL_PERIODIC_DAMAGE 198959",
-	"SPELL_PERIODIC_MISSED 198959",
+	"SPELL_PERIODIC_DAMAGE 198959 199818",
+	"SPELL_PERIODIC_MISSED 198959 199818",
 	"CHAT_MSG_MONSTER_YELL"
 )
 --Чертоги доблести
@@ -22,6 +22,7 @@ local warnCrackle					= mod:NewTargetAnnounce(199805, 3) --Разряд
 local warnChargedPulse				= mod:NewCastAnnounce(210875, 4) --Пульсирующий заряд
 
 
+local specWarnCrackle2				= mod:NewSpecialWarningYouMove(199818, nil, nil, nil, 1, 2) --Разряд
 local specWarnEtch					= mod:NewSpecialWarningYouMove(198959, nil, nil, nil, 1, 2) --Гравировка
 local specWarnCallAncestor			= mod:NewSpecialWarningSwitch(200969, "Dps", nil, nil, 1, 2) --Зов предков
 local specWarnSever					= mod:NewSpecialWarningYouDefensive(199652, "Tank", nil, nil, 3, 5) --Рассечение
@@ -189,9 +190,16 @@ function mod:OnSync(msg, GUID)
 end
 
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
-	if spellId == 198959 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
-		specWarnEtch:Show()
-		specWarnEtch:Play("runaway")
+	if spellId == 198959 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then --Гравировка
+		if self:IsHard() then
+			specWarnEtch:Show()
+			specWarnEtch:Play("runaway")
+		end
+	elseif spellId == 199818 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then --Разряд
+		if self:IsHard() then
+			specWarnCrackle2:Show()
+			specWarnCrackle2:Play("runaway")
+		end
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
