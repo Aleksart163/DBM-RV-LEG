@@ -38,7 +38,7 @@ local timerEntropicForce				= mod:NewCastTimer(5, 246324, nil, nil, nil, 2, nil,
 local timerEternalTwilight				= mod:NewCastTimer(10, 248736, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Вечные сумерки (после треша) +++
 local timerAddsCD						= mod:NewCDTimer(61.9, 248736, nil, "-Healer", nil, 2, nil, DBM_CORE_DAMAGE_ICON..DBM_CORE_MYTHIC_ICON) --Призыв призрачных стражей (все норм с момента кика)
 
-local countdownEternalTwilight			= mod:NewCountdown(10, 248736) --Вечные сумерки (после треша)
+local countdownEternalTwilight			= mod:NewCountdown(10, 248736, nil, nil, 5) --Вечные сумерки (после треша)
 
 mod.vb.guardsActive = 0
 

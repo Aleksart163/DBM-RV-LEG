@@ -13,14 +13,14 @@ mod:RegisterEvents(
 	"CHAT_MSG_MONSTER_YELL"
 )
 
-local warnBurningHatred			= mod:NewTargetNoFilterAnnounce(200154, 3) --Пламенная ненависть
-local warnFrenzy				= mod:NewTargetNoFilterAnnounce(201983, 4) --Бешенство
+local warnBurningHatred			= mod:NewTargetAnnounce(200154, 3) --Пламенная ненависть
+local warnFrenzy				= mod:NewTargetAnnounce(201983, 4) --Бешенство
 local warnBound					= mod:NewCastAnnounce(193585, 4) --Скованность
 
 local specWarnBound				= mod:NewSpecialWarningInterrupt(193585, "HasInterrupt", nil, nil, 1, 2) --Скованность
 local specWarnBurningHatred		= mod:NewSpecialWarningYouRun(200154, nil, nil, nil, 4, 2) --Пламенная ненависть
-local specWarnAcidSplatter		= mod:NewSpecialWarningMove(183407, nil, nil, nil, 1, 2)
-local specWarnAvalanche			= mod:NewSpecialWarningDodge(183088, "Tank", nil, nil, 1, 2)
+local specWarnAcidSplatter		= mod:NewSpecialWarningYouMove(183407, nil, nil, nil, 1, 2) --Кислотный всплеск
+local specWarnAvalanche			= mod:NewSpecialWarningDodge(183088, "Tank", nil, nil, 1, 2) --Лавина
 
 local timerFrenzy				= mod:NewTargetTimer(8, 201983, nil, "Tank", nil, 3, nil) --Бешенство
 

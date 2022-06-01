@@ -28,7 +28,7 @@ local specWarnCrystallineGround		= mod:NewSpecialWarningYouDontMove(215898, nil,
 local timerShatterCD				= mod:NewCDTimer(24.2, 188114, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Дробление +++
 local timerRazorShardsCD			= mod:NewCDTimer(25, 188169, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Бритвенно-острые осколки +++
 
-local countdownShatter				= mod:NewCountdown(24.2, 188114) --Дробление
+local countdownShatter				= mod:NewCountdown(24.2, 188114, nil, nil, 5) --Дробление
 
 function mod:OnCombatStart(delay)
 	timerShatterCD:Start(23-delay) --Дробление +3сек +++

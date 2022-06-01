@@ -37,7 +37,7 @@ local timerRagnarokCD				= mod:NewCDTimer(53, 193826, nil, nil, nil, 2, nil, DBM
 
 local yellFelblazeRush				= mod:NewYell(193659, nil, nil, nil, "YELL") --Рывок пламени Скверны
 
-local countdownRagnarok				= mod:NewCountdown(53, 193826) --Рагнарек
+local countdownRagnarok				= mod:NewCountdown(53, 193826, nil, nil, 5) --Рагнарек
 
 local shield2 = DBM:GetSpellInfo(193983)
 

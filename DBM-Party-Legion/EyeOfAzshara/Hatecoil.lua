@@ -35,7 +35,7 @@ local timerFocusedLightningCD		= mod:NewNextTimer(15.5, 193611, nil, nil, nil, 3
 
 local yellCurseofWitch				= mod:NewShortFadesYell(193698)
 
-local countdownStaticNova			= mod:NewCountdown(34, 193597)
+local countdownStaticNova			= mod:NewCountdown(34, 193597, nil, nil, 5)
 
 function mod:OnCombatStart(delay)
 	timerStaticNovaCD:Start(10.5-delay)

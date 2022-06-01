@@ -37,7 +37,7 @@ local timerShadowFadeCD				= mod:NewCDTimer(80, 233206, nil, nil, nil, 6) --Ух
 local yellDemonicUpheaval			= mod:NewYell(233963, nil, nil, nil, "YELL") --Демоническое извержение
 local yellDemonicUpheaval2			= mod:NewFadesYell(233963, nil, nil, nil, "YELL") --Демоническое извержение
 
-local countdownShadowFade			= mod:NewCountdown(80, 233206) --Уход во тьму
+local countdownShadowFade			= mod:NewCountdown(80, 233206, nil, nil, 5) --Уход во тьму
 
 mod:AddRangeFrameOption(8, 234817) --Темное одиночество 5 yards probably too small, next lowest range on crap api is 8
 mod:AddInfoFrameOption(234217, true)

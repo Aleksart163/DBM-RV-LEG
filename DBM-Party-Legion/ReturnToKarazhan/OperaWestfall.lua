@@ -4,7 +4,7 @@ local L		= mod:GetLocalizedStrings()
 mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 mod:SetCreatureID(114261, 114260) --Тонни, Мрргрия
 mod:SetEncounterID(1957)--Shared (so not used for encounter START since it'd fire 3 mods)
-mod:DisableESCombatDetection()--However, with ES disabled, EncounterID can be used for BOSS_KILL/ENCOUNTER_END
+--mod:DisableESCombatDetection()--However, with ES disabled, EncounterID can be used for BOSS_KILL/ENCOUNTER_END
 mod:SetZone()
 mod:SetBossHPInfoToHighest()
 
@@ -21,13 +21,13 @@ mod:RegisterEventsInCombat(
 	"SPELL_PERIODIC_MISSED 227480",
 	"SPELL_ABSORBED 227480",
 	"CHAT_MSG_MONSTER_YELL",
-	"UNIT_DIED",
 	"UNIT_HEALTH boss1"
 )
+
 --Однажды в Западном Крае https://ru.wowhead.com/npc=114260/мрргрия/эпохальный-журнал-сражений
 local warnPhase						= mod:NewAnnounce("Phase", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 2
 local warnPhase2					= mod:NewAnnounce("Phase2", 1, 227783) --Фаза 2
-local warnPhase3					= mod:NewAnnounce("Phase3", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 3
+--local warnPhase3					= mod:NewAnnounce("Phase3", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 3
 local warnPhase4					= mod:NewAnnounce("Phase4", 1, 227453) --Фаза 3
 local warnLegSweep					= mod:NewCastAnnounce(227568, 4) --Пламенная подсечка
 local warnLegSweep2					= mod:NewTargetAnnounce(227568, 3) --Пламенная подсечка
@@ -58,7 +58,6 @@ local warned_preP1 = false
 local warned_preP2 = false
 local warned_preP3 = false
 local warned_preP4 = false
-
 mod:AddRangeFrameOption(5, 227777)
 
 mod.vb.phase = 1
@@ -72,11 +71,11 @@ function mod:OnCombatStart(delay)
 	if self:IsHard() then
 		timerLegSweepCD:Start(9.5-delay) --Пламенная подсечка +++
 		timerFlameGaleCD:Start(22.5-delay) --Ураган пламени +++
-		countdownFlameGale:Start(22.5-delay) --Ураган пламени +++
+	--	countdownFlameGale:Start(22.5-delay) --Ураган пламени +++
 	else
 		timerLegSweepCD:Start(9.5-delay) --Пламенная подсечка
 		timerFlameGaleCD:Start(22.5-delay) --Ураган пламени
-		countdownFlameGale:Start(22.5-delay) --Ураган пламени
+	--	countdownFlameGale:Start(22.5-delay) --Ураган пламени
 	end
 end
 
@@ -162,7 +161,7 @@ mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
 mod.SPELL_PERIODIC_DAMAGE = mod.SPELL_ABSORBED
 
 function mod:OnSync(msg)
-	if msg == "Tonny1" then --Ураган пламени
+	if msg == "Tonny" then --Ураган пламени
 		specWarnFlameGale:Show()
 		if self:IsHard() then
 			timerFlameGaleCD:Start()
@@ -171,78 +170,77 @@ function mod:OnSync(msg)
 			timerFlameGaleCD:Start()
 			countdownFlameGale:Start()
 		end
+	elseif msg == "Phase2" then --Фаза 2
+		self.vb.phase = 3
+		warned_preP4 = true
+		warnPhase4:Show()
+		warnPhase4:Play("phasechange")
+		timerLegSweepCD:Start(10)
+		timerFlameGaleCD:Start(22)
+		countdownFlameGale:Start(22)
 	end
 end
 
 function mod:CHAT_MSG_MONSTER_YELL(msg)
-	if msg == L.Tonny1 or msg:find(L.Tonny1) then
-		self:SendSync("Tonny1")
+	if msg == L.Tonny or msg:find(L.Tonny) then
+		self:SendSync("Tonny")
+	elseif msg == L.Phase2 or msg:find(L.Phase2) then
+		self:SendSync("Phase2")
 	end
 end
 
 function mod:UNIT_HEALTH(uId)
 	if self:IsHard() then --миф и миф+
-		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 114261 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.55 then --Тонни скоро фаза 2
+		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 114261 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.56 then --Тонни скоро фаза 2
 			warned_preP1 = true
 			warnPhase:Show()
-		elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 114261 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.50 then --Тонни фаза 2
+		elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 114261 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.51 then --Тонни фаза 2
 			self.vb.phase = 2
 			warned_preP2 = true
 			warnPhase2:Show()
 			warnPhase2:Play("phasechange")
 			timerLegSweepCD:Stop()
 			timerFlameGaleCD:Stop()
+			countdownFlameGale:Cancel()
 			timerThunderRitualCD:Start(8)
 			timerWashAwayCD:Start(16)
 			countdownWashAway:Start(16)
-		elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 114260 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.55 then --Мрргрия скоро фаза 3
+		elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 114260 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.56 then --Мрргрия скоро фаза 3
 			warned_preP3 = true
 			warnPhase3:Show()
-		elseif self.vb.phase == 2 and warned_preP3 and not warned_preP4 and self:GetUnitCreatureId(uId) == 114260 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.50 then --Мрргрия фаза 3
+--[[		elseif self.vb.phase == 2 and warned_preP3 and not warned_preP4 and self:GetUnitCreatureId(uId) == 114260 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.51 then --Мрргрия фаза 3
 			self.vb.phase = 3
 			warned_preP4 = true
 			warnPhase4:Show()
 			warnPhase4:Play("phasechange")
 			timerLegSweepCD:Start(10)
 			timerFlameGaleCD:Start(22)
-			countdownFlameGale:Start(22)
+			countdownFlameGale:Start(22)]]
 		end
 	else
-		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 114261 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.55 then --Тонни скоро фаза 2
+		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 114261 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.56 then --Тонни скоро фаза 2
 			warned_preP1 = true
-		elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 114261 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.50 then --Тонни фаза 2
+		elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 114261 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.51 then --Тонни фаза 2
 			self.vb.phase = 2
 			warned_preP2 = true
 			warnPhase2:Show()
 			warnPhase2:Play("phasechange")
 			timerLegSweepCD:Stop()
 			timerFlameGaleCD:Stop()
+			countdownFlameGale:Cancel()
 			timerThunderRitualCD:Start(8)
 			timerWashAwayCD:Start(16)
 			countdownWashAway:Start(16)
-		elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 114260 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.55 then --Мрргрия скоро фаза 3
+		elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 114260 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.56 then --Мрргрия скоро фаза 3
 			warned_preP3 = true
-		elseif self.vb.phase == 2 and warned_preP3 and not warned_preP4 and self:GetUnitCreatureId(uId) == 114260 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.50 then --Мрргрия фаза 3
+--[[		elseif self.vb.phase == 2 and warned_preP3 and not warned_preP4 and self:GetUnitCreatureId(uId) == 114260 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.51 then --Мрргрия фаза 3
 			self.vb.phase = 3
 			warned_preP4 = true
 			warnPhase4:Show()
 			warnPhase4:Play("phasechange")
 			timerLegSweepCD:Start(10)
 			timerFlameGaleCD:Start(22)
-			countdownFlameGale:Start(22)
+			countdownFlameGale:Start(22)]]
 		end
-	end
-end
-
-function mod:UNIT_DIED(args)
-	local cid = self:GetCIDFromGUID(args.destGUID)
-	if cid == 114261 then --Тонни
-		timerLegSweepCD:Cancel()
-		timerFlameGaleCD:Cancel()
-		countdownFlameGale:Cancel()
-	elseif cid == 114260 then --Мрргрия
-		timerThunderRitualCD:Cancel()
-		timerWashAwayCD:Cancel()
-		countdownWashAway:Cancel()
 	end
 end

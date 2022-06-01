@@ -23,6 +23,8 @@ mod:RegisterEventsInCombat(
 local warnPhase2					= mod:NewAnnounce("Phase2", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Фаза 2
 local warnCloud						= mod:NewSpellAnnounce(199143, 2) --Гипнотическое облако
 local warnSwarm						= mod:NewTargetAnnounce(201733, 2) --Жалящий рой
+local warnGuile						= mod:NewPreWarnAnnounce(199193, 5, 1) --Хитроумие повелителя ужаса
+local warnShadowBoltVolley			= mod:NewPreWarnAnnounce(202019, 5, 1) --Залп стрел Тьмы
 
 local specWarnDarkblast				= mod:NewSpecialWarningDodge(198820, nil, nil, nil, 3, 5) --Темный взрыв
 local specWarnGuile					= mod:NewSpecialWarningDodge(199193, nil, nil, nil, 3, 5) --Хитроумие повелителя ужаса
@@ -37,13 +39,14 @@ local timerGuileCD					= mod:NewCDCountTimer(85, 199193, nil, nil, nil, 6, nil, 
 local timerGuile					= mod:NewBuffFadesTimer(20, 199193, nil, nil, nil, 6, nil, DBM_CORE_MYTHIC_ICON) --Хитроумие повелителя ужаса
 local timerCloudCD					= mod:NewCDTimer(35, 199143, nil, nil, nil, 3) --Гипнотическое облако
 local timerSwarmCD					= mod:NewCDTimer(19.8, 201733, nil, nil, nil, 3) --Жалящий рой
-local timerShadowBoltVolleyCD		= mod:NewCDTimer(8, 202019, nil, nil, nil, 2) --Залп стрел Тьмы
+local timerShadowBoltVolleyCD		= mod:NewCDTimer(8, 202019, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Залп стрел Тьмы
 
 local yellSwarm						= mod:NewYellHelp(201733, nil, nil, nil, "YELL") --Жалящий рой
 
-local countdownDarkblast			= mod:NewCountdown(18, 198820) --Темный взрыв
-local countdownShear				= mod:NewCountdown(12, 198635, "Tank") --Неумолимый удар
-local countdownGuile				= mod:NewCountdown(39, 199193) --Хитроумие повелителя ужаса
+local countdownDarkblast			= mod:NewCountdown(18, 198820, nil, nil, 5) --Темный взрыв
+local countdownShear				= mod:NewCountdown("AltTwo12", 198635, "Tank", nil, 5) --Неумолимый удар
+local countdownGuile				= mod:NewCountdown(39, 199193, nil, nil, 5) --Хитроумие повелителя ужаса
+local countdownGuile2				= mod:NewCountdownFades("Alt20", 199193, nil, nil, 5) --Хитроумие повелителя ужаса
 
 mod:AddSetIconOption("SetIconOnSwarm", 201733, true, false, {7}) --Жалящий рой
 
@@ -83,7 +86,9 @@ function mod:SPELL_CAST_START(args)
 		specWarnGuile:ScheduleVoice(1.5, "keepmove")
 		specWarnGuileEnded:Schedule(20)
 		timerGuile:Start()
+		countdownGuile2:Start()
 		timerGuileCD:Start(nil, self.vb.guileCount+1)
+		warnGuile:Schedule(80)
 		if self.vb.guileCount == 1 then
 			timerCloudCD:Start(25)
 			timerSwarmCD:Start(27.5)
@@ -152,7 +157,9 @@ function mod:UNIT_DIED(args)
 		timerCloudCD:Start(30) --+18.5
 		countdownDarkblast:Start(19)
 		timerShadowBoltVolleyCD:Start(19)--Not confirmed, submitted by requesting user
+		warnShadowBoltVolley:Schedule(14)
 		timerGuileCD:Start(40, 1)--24-28
+		warnGuile:Schedule(35)
 		countdownGuile:Start(40)
 	end
 end

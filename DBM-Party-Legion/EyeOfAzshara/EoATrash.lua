@@ -14,6 +14,7 @@ mod:RegisterEvents(
 )
 
 --TODO, still missing some GTFOs for this. Possibly other important spells.
+--Око Азшары
 local warnArcaneBomb			= mod:NewTargetAnnounce(192706, 4) --Чародейская бомба
 local warnPolymorph				= mod:NewTargetAnnounce(197105, 1) --Превращение в рыбу
 local warnSandstorm				= mod:NewTargetAnnounce(196144, 2) --Песчаная буря
@@ -29,7 +30,7 @@ local specWarnArcaneBomb2		= mod:NewSpecialWarningDispel(192706, "MagicDispeller
 local specWarnSandstorm			= mod:NewSpecialWarningYou(196144, nil, nil, nil, 1, 2) --Песчаная буря
 
 local timerArcaneBomb			= mod:NewTargetTimer(15, 192706, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON..DBM_CORE_DEADLY_ICON) --Чародейская бомба
-local timerPolymorph			= mod:NewTargetTimer(8, 197105, nil, nil, nil, 3, nil, DBM_CORE_INTERRUPT_ICON..DBM_CORE_MAGIC_ICON) --Превращение в рыбу
+local timerPolymorph			= mod:NewTargetTimer(8, 197105, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON) --Превращение в рыбу
 
 local yellArcaneBomb			= mod:NewYell(192706, nil, nil, nil, "YELL") --Чародейская бомба
 local yellArcaneBombFades		= mod:NewFadesYell(192706, nil, nil, nil, "YELL") --Чародейская бомба

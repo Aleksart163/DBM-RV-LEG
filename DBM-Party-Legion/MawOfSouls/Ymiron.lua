@@ -26,11 +26,15 @@ local timerWindsCD					= mod:NewCDTimer(24, 193977, nil, nil, nil, 2) --Ветр
 local timerBaneCD					= mod:NewCDTimer(49.5, 193460, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Погибель
 local timerAriseFallenCD			= mod:NewCDTimer(19, 193566, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON) --Восстань, павший +1сек
 
+local countdownDarkSlash			= mod:NewCountdown("AltTwo14.6", 193211, "Tank", nil, 5) --Черная рана
+local countdownAriseFallen			= mod:NewCountdown(19, 193566, "-Healer", nil, 5) --Восстань, павший
+
 function mod:OnCombatStart(delay)
-	timerDarkSlashCD:Start(4-delay) --+0.5сек
-	timerScreamsCD:Start(7-delay) --+1сек
-	timerWindsCD:Start(16-delay) --+1сек
-	timerBaneCD:Start(22-delay) --+1сек
+	countdownDarkSlash:Start(4-delay) --Черная рана
+	timerDarkSlashCD:Start(4-delay) --Черная рана +0.5сек
+	timerScreamsCD:Start(7-delay) --Крики мертвых +1сек
+	timerWindsCD:Start(16-delay) --Ветра Нордскола +1сек
+	timerBaneCD:Start(22-delay) --Погибель +1сек
 end
 
 function mod:SPELL_CAST_START(args)
@@ -40,8 +44,10 @@ function mod:SPELL_CAST_START(args)
 		specWarnDarkSlash:Play("defensive")
 		if self:IsHard() then
 			timerDarkSlashCD:Start(16)
+			countdownDarkSlash:Start(16)
 		else
 			timerDarkSlashCD:Start()
+			countdownDarkSlash:Start()
 		end
 	elseif spellId == 193364 then
 		specWarnScreams:Show()
@@ -69,6 +75,7 @@ function mod:SPELL_CAST_START(args)
 		end
 		if not self:IsNormal() then
 			timerAriseFallenCD:Start()
+			countdownAriseFallen:Start()
 		end
 	elseif spellId == 193566 then
 		specAriseFallen:Show()

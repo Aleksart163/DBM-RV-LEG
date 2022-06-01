@@ -27,21 +27,22 @@ local warnSacredGround				= mod:NewTargetAnnounce(227789, 4) --Священна�
 local warnHolyWrath					= mod:NewCastAnnounce(227823, 4) --Гнев небес
 
 local specWarnHolyBolt				= mod:NewSpecialWarningMoveAway(227809, nil, nil, nil, 2, 3) --Священная молния
-local specWarnSacredGround			= mod:NewSpecialWarningYouMoveAway(227789, nil, nil, nil, 1, 2) --Священная земля
+local specWarnSacredGround			= mod:NewSpecialWarningYouMoveAway(227789, nil, nil, nil, 4, 2) --Священная земля
 local specWarnHolyShock				= mod:NewSpecialWarningInterrupt(227800, "HasInterrupt", nil, nil, 1, 2) --Шок небес
-local specWarnRepentance			= mod:NewSpecialWarningMoveTo(227508, nil, nil, nil, 3, 5) --Всеобщее покаяние
+local specWarnRepentance			= mod:NewSpecialWarningMoveTo(227508, nil, nil, nil, 4, 5) --Всеобщее покаяние
 local specWarnHolyWrath				= mod:NewSpecialWarningInterrupt(227823, "HasInterrupt", nil, nil, 3, 5) --Гнев небес
 
 local timerHolyBoltCD				= mod:NewCDTimer(13.5, 227809, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Священная молния
 local timerSacredGroundCD			= mod:NewCDTimer(23, 227789, nil, nil, nil, 3) --Священная земля 19-35 (delayed by bulwarks and what nots) +++
 local timerHolyShockCD				= mod:NewCDTimer(13, 227800, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON..DBM_CORE_DEADLY_ICON) --Шок небес +++
-local timerRepentanceCD				= mod:NewCDTimer(51, 227508, nil, nil, nil, 7, nil) --Всеобщее покаяние +++
+local timerRepentanceCD				= mod:NewCDTimer(51, 227508, nil, nil, nil, 7) --Всеобщее покаяние +++
 local timerHolyWrath				= mod:NewCastTimer(10, 227823, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON..DBM_CORE_DEADLY_ICON) --Гнев небес ++
 
 local yellSacredGround				= mod:NewYell(227789, nil, nil, nil, "YELL") --Священная земля
 --local berserkTimer				= mod:NewBerserkTimer(300)
 
-local countdownHolyWrath			= mod:NewCountdown(10, 227823)
+local countdownHolyBolt				= mod:NewCountdown(13.5, 227809, nil, nil, 5) --Священная молния
+local countdownHolyWrath			= mod:NewCountdown("Alt10", 227823, nil, nil, 5) --Гнев небес
 
 mod:AddSetIconOption("SetIconOnSacredGround", 227789, true, false, {7}) --Священная земля
 mod:AddRangeFrameOption(8, 227809)--TODO, keep looking for a VALID 6 yard item/spell
@@ -49,9 +50,24 @@ mod:AddInfoFrameOption(227817, true)
 
 local sacredGround = DBM:GetSpellInfo(227789) --Священная земля
 
+function mod:SacredGroundTarget(targetname, uId)
+	if not targetname then return end
+	if targetname == UnitName("player") then
+		specWarnSacredGround:Show()
+		specWarnSacredGround:Play("runout")
+		yellSacredGround:Yell()
+	else
+		warnSacredGround:Show(targetname)
+	end
+	if self.Options.SetIconOnSacredGround then
+		self:SetIcon(args.destName, 7, 5)
+	end
+end
+
 function mod:OnCombatStart(delay)
-	timerHolyBoltCD:Start(8.9) --Священная молния +++
-	timerSacredGroundCD:Start(10.9) --Священная земля +++
+	countdownHolyBolt:Start(8.9-delay) --Священная молния +++
+	timerHolyBoltCD:Start(8.9-delay) --Священная молния +++
+	timerSacredGroundCD:Start(10.9-delay) --Священная земля +++
 	timerHolyShockCD:Start(15.8-delay) --Шок небес +++
 	timerRepentanceCD:Start(50-delay) --Всеобщее покаяние +++
 	countdownHolyWrath:Start(50-delay) --Всеобщее покаяние +++
@@ -79,25 +95,21 @@ function mod:SPELL_CAST_START(args)
 		specWarnRepentance:Show(sacredGround)
 		timerRepentanceCD:Start()
 		countdownHolyWrath:Start(51)
+		timerHolyBoltCD:Stop()
+		countdownHolyBolt:Cancel()
+		timerHolyShockCD:Stop()
+		timerSacredGroundCD:Stop()
 	elseif spellId == 227823 then --Гнев небес
 		warnHolyWrath:Show()
 		timerHolyWrath:Start()
 		countdownHolyWrath:Start()
 	elseif spellId == 227789 then --Священная земля
-		local targetname = self:GetBossTarget(113971)
-		if not targetname then return end
-		warnSacredGround:Show(targetname)
-		if targetname == UnitName("player") then
-			specWarnSacredGround:Show()
-			yellSacredGround:Yell()
-		end
-		if self.Options.SetIconOnSacredGround then
-			self:SetIcon(targetname, 7, 5)
-		end
+		self:BossTargetScanner(args.sourceGUID, "SacredGroundTarget", 0.3, 9)
 		timerSacredGroundCD:Start()
 	elseif spellId == 227809 then --Священная молния
 		specWarnHolyBolt:Show()
 		timerHolyBoltCD:Start()
+		countdownHolyBolt:Start()
 	end
 end
 
@@ -128,6 +140,10 @@ function mod:SPELL_INTERRUPT(args)
 	if type(args.extraSpellId) == "number" and args.extraSpellId == 227823 then
 		timerHolyWrath:Stop()
 		countdownHolyWrath:Cancel()
+		timerSacredGroundCD:Start(4)
+		timerHolyShockCD:Start(8.5)
+		timerHolyBoltCD:Start(12.7)
+		countdownHolyBolt:Start(12.7)
 	end
 end
 

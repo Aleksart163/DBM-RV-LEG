@@ -35,8 +35,8 @@ local timerBurningHatred			= mod:NewTargetTimer(30, 200154, nil, nil, nil, 3, ni
 local yellBurningHatred				= mod:NewYell(200154, nil, nil, nil, "YELL") --Пламенная ненависть
 local yellBurningHatred2			= mod:NewFadesYell(200154, nil, nil, nil, "YELL") --Пламенная ненависть
 
-local countdownMagmaWave			= mod:NewCountdown(60, 200404) --Магматическая волна
-local countdownMagmaWave2			= mod:NewCountdownFades("AltTwo6", 200404) --Магматическая волна
+local countdownMagmaWave			= mod:NewCountdown(60, 200404, nil, nil, 5) --Магматическая волна
+local countdownMagmaWave2			= mod:NewCountdownFades("AltTwo6", 200404, nil, nil, 5) --Магматическая волна
 
 mod:AddSetIconOption("SetIconOnBurningHatred", 200154, true, false, {7}) --Пламенная ненависть
 

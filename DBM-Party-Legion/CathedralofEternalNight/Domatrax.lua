@@ -32,7 +32,7 @@ local timerFelsoulCleaveCD			= mod:NewCDTimer(17, 236543, nil, "Tank", nil, 5, n
 local timerChaoticEnergyCD			= mod:NewCDTimer(30, 234107, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Хаотическая энергия
 local timerApproachingDoom			= mod:NewCastTimer(20, 241622, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON) --Приближение погибели
 
-local countdownChaosEnergy			= mod:NewCountdown(30, 234107) --Хаотическая энергия
+local countdownChaosEnergy			= mod:NewCountdown(30, 234107, nil, nil, 5) --Хаотическая энергия
 
 mod:AddInfoFrameOption(238410, true)
 

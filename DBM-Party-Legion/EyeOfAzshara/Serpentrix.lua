@@ -117,8 +117,10 @@ end
 
 function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 191858 and destGUID == UnitGUID("player") and self:AntiSpam(2.5, 1) then
-		specWarnToxicPool:Show()
-		specWarnToxicPool:Play("runaway")
+		if self:IsHard() then
+			specWarnToxicPool:Show()
+			specWarnToxicPool:Play("runaway")
+		end
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE

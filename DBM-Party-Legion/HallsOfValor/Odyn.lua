@@ -5,7 +5,7 @@ mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 mod:SetCreatureID(95676)
 mod:SetEncounterID(1809)
 mod:SetZone()
-mod:SetUsedIcons(6, 4, 3, 2, 1)
+mod:SetUsedIcons(8, 6, 4, 3, 2, 1)
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
@@ -39,6 +39,9 @@ local timerRunicBrandCD				= mod:NewCDCountTimer(56, 197961, nil, nil, nil, 7) -
 local timerRunicBrand				= mod:NewTargetTimer(12, 197961, nil, nil, nil, 7) --Руническое клеймо
 local timerAddCD					= mod:NewCDTimer(54, 201221, nil, nil, nil, 1, 201215) --Призыв закаленного бурей воина 54-58
 
+local countdownTempest				= mod:NewCountdown(56, 198263, nil, nil, 5) --Светозарная буря
+
+mod:AddSetIconOption("SetIconOnSurge", 198750, true, false, {8})
 mod:AddSetIconOption("SetIconOnRunicBrand", 197961, true, false, {6, 4, 3, 2, 1}) --Руническое клеймо
 
 --Boss has (at least) three timer modes, cannot determine which one on pull so on fly figuring out is used
@@ -71,6 +74,7 @@ function mod:OnCombatStart(delay)
 	self.vb.brandCount = 0
 	if self:IsHard() then
 		timerTempestCD:Start(24-delay, 1) --Светозарная буря
+		countdownTempest:Start(24-delay) --Светозарная буря
 		timerShatterSpearsCD:Start(40-delay) --Расколотые копья
 		timerRunicBrandCD:Start(44.5-delay, 1) --Руническое клеймо
 		timerAddCD:Start(18-delay) --Призыв закаленного бурей воина
@@ -173,6 +177,7 @@ function mod:SPELL_CAST_START(args)
 			local nextCast = self.vb.tempestCount+1
 			if timers[nextCast] then
 				timerTempestCD:Start(timers[nextCast], nextCast)
+				countdownTempest:Start(timers[nextCast], nextCast)
 			end
 		end
 	elseif spellId == 198077 then
@@ -186,6 +191,9 @@ function mod:SPELL_CAST_START(args)
 		else
 			warnSurge:Show()
 			warnSurge:Play("kickcast")
+		end
+		if self.Options.SetIconOnSurge then
+			self:SetIcon(args.sourceGUID, 8, 15)
 		end
 	end
 end

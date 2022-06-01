@@ -43,8 +43,8 @@ local timerBacklash						= mod:NewBuffActiveTimer(12, 247816, nil, nil, nil, 6, 
 local timerBacklashCD					= mod:NewCDTimer(13.5, 247816, nil, nil, nil, 3, nil, DBM_CORE_DAMAGE_ICON) --Отдача +++
 
 --local countdownBreath					= mod:NewCountdown(22, 227233)
-local countdownBacklash					= mod:NewCountdown(13.5, 247816) --Отдача
-local countdownGrandShift				= mod:NewCountdown(14.5, 249009) --Масштабный рывок
+local countdownBacklash					= mod:NewCountdown(13.5, 247816, nil, nil, 5) --Отдача
+local countdownGrandShift				= mod:NewCountdown(14.5, 249009, nil, nil, 5) --Масштабный рывок
 
 mod.vb.phase = 1
 mod.vb.wardens = 0

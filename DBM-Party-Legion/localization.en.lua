@@ -614,19 +614,20 @@ L= DBM:GetModLocalization(1826)
 L:SetWarningLocalization({
 	Phase = "Phase 2 soon",
 	Phase2 = "Phase 2",
-	Phase3 = "Phase 3 soon",
+--	Phase3 = "Phase 3 soon",
 	Phase4 = "Phase 3"
 })
 
 L:SetOptionLocalization({
-	Phase = "Warn in advance about phase 2 (on ~55% Toe Knee, Mythic+ only)",
+	Phase = "Warn in advance about phase 2 (on ~56% Toe Knee, Mythic+ only)",
 	Phase2 = "Announce Phase 2",
-	Phase3 = "Warn in advance about phase 2 (on ~55% Mrrgria, Mythic+ only)",
+--	Phase3 = "Warn in advance about phase 2 (on ~55% Mrrgria, Mythic+ only)",
 	Phase4 = "Announce Phase 3"
 })
 
 L:SetMiscLocalization({
-	Tonny1 = "Wanna go for a spin?"
+	Tonny = "Wanna go for a spin?",
+	Phase2 = "It's you and me against the world, baby!"
 })
 
 -----------------------
@@ -640,15 +641,22 @@ L= DBM:GetModLocalization(1827)
 L= DBM:GetModLocalization(1835)
 
 L:SetWarningLocalization({
-	Phase1 = "Phase 2 soon",
-	Phase2 = "Phase 2",
+	Phase = "Phase 2 soon",
+	Phase1 = "Phase 2",
+	Phase2 = "Phase 3 soon",
 	Phase3 = "Phase 3"
 })
 
 L:SetOptionLocalization({
-	Phase1 = "Warn in advance about phase 2 (on ~56%, Mythic+ only)",
-	Phase2 = "Announce Phase 2",
+	Phase = "Warn in advance about phase 2 (on ~56%, Mythic+ only)",
+	Phase1 = "Announce Phase 2",
+	Phase2 = "Warn in advance about phase 3 (on ~10%, Mythic+ only)",
 	Phase3 = "Announce Phase 3"
+})
+
+L:SetMiscLocalization({
+	Perephase2 = "Time to face my quarry toe-to-toe!",
+	Perephase1 = "We ride, Midnight! To victory!"
 })
 
 -----------------------

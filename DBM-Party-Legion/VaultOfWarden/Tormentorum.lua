@@ -26,7 +26,7 @@ local specWarnStare				= mod:NewSpecialWarningYouLook(212564, nil, nil, nil, 3, 
 local timerSapSoulCD			= mod:NewCDTimer(21.5, 200905, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON) --Опустошение души
 local timerTormOrbCD			= mod:NewNextTimer(15, 212567, nil, nil, nil, 7) --Призыв сферы истязания
 
-local countSapSoul				= mod:NewCountdown(21.5, 200905, true, 2) --Опустошение души
+local countSapSoul				= mod:NewCountdown(21.5, 200905, true, 2, 5) --Опустошение души
 
 function mod:OnCombatStart(delay)
 	timerSapSoulCD:Start(13-delay)--Might be 10-13?

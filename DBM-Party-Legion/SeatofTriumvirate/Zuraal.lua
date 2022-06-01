@@ -25,10 +25,10 @@ mod:RegisterEventsInCombat(
 --Void Brute
 --local warnNullPalm						= mod:NewSpellAnnounce(246134, 2, nil, "Tank")
 local warnPhase2						= mod:NewAnnounce("Phase2", 1, 244621) --Прорыв Бездны
-local warnUmbraShift					= mod:NewTargetAnnounce(244433, 4) --Теневой рывок
 local warnFixate						= mod:NewTargetAnnounce(244657, 3) --Сосредоточение внимания
 local warnVoidTear						= mod:NewTargetAnnounce(244621, 2) --Прорыв Бездны
 local warnVoidTear2						= mod:NewPreWarnAnnounce(244621, 5, 1) --Прорыв Бездны
+local warnFixate2						= mod:NewCastAnnounce(244653, 4) --Сосредоточение внимания
 
 local specWarnNullPalm					= mod:NewSpecialWarningDodge(246134, nil, nil, 2, 2, 2) --Длань обнуления
 local specWarnCoalescedVoid				= mod:NewSpecialWarningSwitch(244602, "Dps", nil, nil, 1, 2) --Сгустившаяся Бездна
@@ -48,7 +48,7 @@ local timerFixate						= mod:NewTargetTimer(10, 244653, nil, nil, nil, 3, nil, D
 local yellFixate						= mod:NewYell(244653, nil, nil, nil, "YELL") --Сосредоточение внимания
 local yellFixate2						= mod:NewFadesYell(244653, nil, nil, nil, "YELL") --Сосредоточение внимания
 
-local countdownUmbraShift				= mod:NewCountdown(60, 244433) --Теневой рывок
+local countdownUmbraShift				= mod:NewCountdown(60, 244433, nil, nil, 5) --Теневой рывок
 
 mod:AddSetIconOption("SetIconOnFixate", 244653, true, false, {7}) --Сосредоточение внимания
 
@@ -84,7 +84,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 244579 then
 		timerDeciminateCD:Start()
 	elseif spellId == 244653 then --Сосредоточение внимания
-	--	specWarnFixate2:Show()
+		warnFixate2:Show()
 	end
 end
 
@@ -134,6 +134,9 @@ function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
 	if spellId == 244653 then --Сосредоточение внимания старый id 244657
 		timerFixate:Cancel(args.destName)
+		if args:IsPlayer() then
+			yellFixate2:Cancel()
+		end
 		if self.Options.SetIconOnFixate then
 			self:SetIcon(args.destName, 0)
 		end
@@ -148,8 +151,6 @@ function mod:SPELL_DAMAGE(_, _, _, destName, destGUID, _, _, _, spellId)
 			specWarnUmbraShift:Show()
 			specWarnUmbraShift:Play("teleyou")
 		--	UmbraShift = true
-		else
-			warnUmbraShift:Show(destName)
 		end
 	end
 end
@@ -174,7 +175,13 @@ function mod:UNIT_DIED(args)
 	if cid == 122482 then
 		self.vb.aberrations = self.vb.aberrations + 1
 		if self.vb.aberrations == 10 then
-			warnPhase2:Show()
+			self:SendSync("Phase2")
 		end
+	end
+end
+
+function mod:OnSync(msg)
+	if msg == "Phase2" then --Прорыв Бездны
+		warnPhase2:Show()
 	end
 end

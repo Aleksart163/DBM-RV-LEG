@@ -31,7 +31,7 @@ local timerFissureCD				= mod:NewCDTimer(23, 197776, nil, nil, nil, 3) --Раз�
 local timerSlashCD					= mod:NewCDTimer(25, 212030, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON..DBM_CORE_MYTHIC_ICON) --Темное рассечение 25-30 +++
 local timerSlamCD					= mod:NewCDTimer(47, 197810, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Злодейский мощный удар Possibly 40 but delayed by ICD triggering
 
-local countdownSlam					= mod:NewCountdown(47, 197810) --Злодейский мощный удар
+local countdownSlam					= mod:NewCountdown(47, 197810, nil, nil, 5) --Злодейский мощный удар
 
 --Boss seems to have intenal 6 second ICD and cannot cast any two spells within 6 seconds of another (minus summon bats)
 --[[

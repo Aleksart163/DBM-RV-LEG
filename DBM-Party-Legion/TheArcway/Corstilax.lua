@@ -39,7 +39,7 @@ local yellSupression				= mod:NewYell(196070, nil, nil, nil, "YELL") --Прот�
 local yellSupression2				= mod:NewFadesYell(196070, nil, nil, nil, "YELL") --Протокол подавления
 local yellQuarantine				= mod:NewYellHelp(195804, nil, nil, nil, "YELL") --Карантин
 
-local countdownCleansing			= mod:NewCountdown(49, 196115) --Очищающая сила
+local countdownCleansing			= mod:NewCountdown(49, 196115, nil, nil, 5) --Очищающая сила
 
 mod:AddSetIconOption("SetIconOnSupression", 196068, true, false, {8}) --Протокол подавления
 mod:AddSetIconOption("SetIconOnQuarantine", 195791, true, false, {7}) --Карантин

@@ -115,9 +115,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		end
 	end
 end
---19:55:22.943
---19:54:48.906
---11094
+
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 192985 then

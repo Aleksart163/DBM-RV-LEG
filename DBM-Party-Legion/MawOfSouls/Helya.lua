@@ -45,8 +45,8 @@ local timerTorrentCD					= mod:NewCDTimer(9.7, 198495, nil, nil, nil, 4, nil, DB
 local yellTaintofSea					= mod:NewYell(197262, nil, nil, nil, "YELL") --Морская порча
 local yellTaintofSea2					= mod:NewYell(197264, L.TaintofSeaYell, nil, nil, "YELL") --Морская порча
 
-local countdownBreath					= mod:NewCountdown(21, 227233) --Оскверняющий рев
-local countdownSubmerged				= mod:NewCountdown("AltTwo74.5", 196947) --Погружение
+local countdownBreath					= mod:NewCountdown(21, 227233, nil, nil, 5) --Оскверняющий рев
+local countdownSubmerged				= mod:NewCountdown("Alt74.5", 196947, nil, nil, 5) --Погружение
 
 mod:AddSetIconOption("SetIconOnTaintofSea", 197262, true, false, {8, 7, 6}) --Морская порча
 

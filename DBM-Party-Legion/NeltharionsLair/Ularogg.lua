@@ -27,7 +27,7 @@ local timerSunderCD					= mod:NewCDTimer(8.4, 198496, nil, "Tank", nil, 5, nil, 
 local timerStrikeCD					= mod:NewCDTimer(17.5, 198428, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Удар горы
 local timerStanceOfMountainCD		= mod:NewCDTimer(51, 198564, nil, nil, nil, 7) --Горная стойка
 
-local countdownStanceOfMountain		= mod:NewCountdown(51, 198564) --Горная стойка
+local countdownStanceOfMountain		= mod:NewCountdown(51, 198564, nil, nil, 5) --Горная стойка
 
 mod.vb.totemsAlive = 0
 mod.vb.stanceofmountainCast = 0

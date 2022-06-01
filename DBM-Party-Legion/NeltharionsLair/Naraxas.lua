@@ -36,7 +36,7 @@ local timerToxicRetchCD				= mod:NewCDTimer(14.5, 210150, nil, nil, nil, 3) --Т
 
 local yellSpikedTongue				= mod:NewYell(199176, nil, nil, nil, "YELL") --Шипастый язык
 
-local countdownSpikedTongue			= mod:NewCountdown(55, 199176, "Tank|Healer") --Шипастый язык
+local countdownSpikedTongue			= mod:NewCountdown(55, 199176, "Tank|Healer", nil, 5) --Шипастый язык
 --local countdownAdds					= mod:NewCountdown(65, 199817, "Dps") --Призыв прислужников
 
 mod:AddSetIconOption("SetIconOnSpikedTongue", 199176, true, false, {8}) --Шипастый язык

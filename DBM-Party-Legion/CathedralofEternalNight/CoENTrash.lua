@@ -8,18 +8,18 @@ mod:SetZone()
 mod.isTrashMod = true
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 239232 237391 238543 236737 242724 242760 239320 239266 241598",
+	"SPELL_CAST_START 239232 237391 238543 236737 242724 242760 239320 239266 241598 239235",
 	"SPELL_AURA_APPLIED 238688 239161 215489 237325 237583",
 --	"SPELL_PERIODIC_DAMAGE ",
 --	"SPELL_PERIODIC_MISSED ",
 	"UNIT_SPELLCAST_START"
 )
-
 --TODO, Interrupt warning for Shadow Wall 241937?
 --Собор вечной ночи
 local warnFelStrike				= mod:NewTargetAnnounce(236737, 3) --Удар Скверны
 local warnShadowWall			= mod:NewSpellAnnounce(241598, 3) --Стена Тьмы
 
+local specWarnFocusedDestruction = mod:NewSpecialWarningDefensive(239235, nil, nil, nil, 3, 5) --Направленное разрушение
 local specWarnBurningCelerity	= mod:NewSpecialWarningYouMove(237583, nil, nil, nil, 1, 2) --Пылающая стремительность
 local specWarnShadowWall		= mod:NewSpecialWarningInterrupt(241598, "HasInterrupt", nil, nil, 1, 2) --Стена Тьмы
 local specWarnToxicPollen		= mod:NewSpecialWarningYouMove(237325, nil, nil, nil, 1, 2) --Ядовитая пыльца
@@ -88,6 +88,9 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 239266 then
 		specWarnVenomStorm:Show()
 		specWarnVenomStorm:Play("shockwave")
+	elseif spellId == 239235 then --Направленное разрушение
+		specWarnFocusedDestruction:Show()
+		specWarnFocusedDestruction:Play("defensive")
 	end
 end
 

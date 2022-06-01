@@ -5,7 +5,7 @@ mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 mod:SetCreatureID(99192)
 mod:SetEncounterID(1839)
 mod:SetZone()
-mod:SetUsedIcons(2, 1)
+mod:SetUsedIcons(8, 7, 2, 1)
 
 mod:RegisterCombat("combat")
 
@@ -45,7 +45,9 @@ local yellFeedontheWeak				= mod:NewYell(200238, nil, nil, nil, "YELL") --Пож
 local yellNightmare					= mod:NewYell(200243, nil, nil, nil, "YELL") --Кошмар наяву
 local yellParanoia					= mod:NewYell(200289, nil, nil, nil, "YELL") --Усугубляющаяся паранойя
 
-mod:AddSetIconOption("SetIconOnNightmare", 200243, true, false, {2, 1})
+mod:AddSetIconOption("SetIconOnFeedontheWeak", 200238, true, false, {8}) --Пожирание слабых
+mod:AddSetIconOption("SetIconOnParanoia", 200289, true, false, {7}) --Усугубляющаяся паранойя
+mod:AddSetIconOption("SetIconOnNightmare", 200243, true, false, {2, 1}) --Кошмар наяву
 
 mod.vb.nightmareIcon = 1
 
@@ -113,7 +115,10 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnParanoia2:Show(args.destName)
 		else
 			warnParanoia:Show(args.destName)
-		end		
+		end
+		if self.Options.SetIconOnParanoia then
+			self:SetIcon(args.destName, 7)
+		end
 	elseif spellId == 200238 then
 		if args:IsPlayer() then
 			specWarnFeedontheWeak:Show()
@@ -121,7 +126,10 @@ function mod:SPELL_AURA_APPLIED(args)
 			yellFeedontheWeak:Yell()
 		else
 			warnFeedontheWeak:Show(args.destName)
-		end	
+		end
+		if self.Options.SetIconOnFeedontheWeak then
+			self:SetIcon(args.destName, 8, 5)
+		end
 	end
 end
 mod.SPELL_AURA_REFRESH = mod.SPELL_AURA_APPLIED
@@ -136,6 +144,9 @@ function mod:SPELL_AURA_REMOVED(args)
 		timerNightmare:Cancel(args.destName)
 	elseif spellId == 200289 then
 		timerParanoia:Cancel(args.destName)
+		if self.Options.SetIconOnParanoia then
+			self:SetIcon(args.destName, 0)
+		end
 	end
 end
 
@@ -150,7 +161,7 @@ end
 
 function mod:UNIT_HEALTH(uId)
 	if self:IsHard() then --миф и миф+
-		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 99192 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.55 then
+		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 99192 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.61 then
 			warned_preP1 = true
 			warnApocNightmare2:Show()
 		elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 99192 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.51 then
@@ -159,12 +170,12 @@ function mod:UNIT_HEALTH(uId)
 			specWarnApocNightmare2:Show()
 		end
 	else
-		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 99192 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.55 then
+		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 99192 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.61 then
 			warned_preP1 = true
-			warnApocNightmare2:Show()
 		elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 99192 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.51 then
 			self.vb.phase = 2
 			warned_preP2 = true
+			specWarnApocNightmare2:Show()
 		end
 	end
 end

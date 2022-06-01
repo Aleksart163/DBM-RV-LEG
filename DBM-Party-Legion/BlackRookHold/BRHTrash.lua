@@ -8,7 +8,7 @@ mod:SetZone()
 mod.isTrashMod = true
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 200261 221634 221688 225573 214003 221132 220918 200248 221363 221380",
+	"SPELL_CAST_START 200261 221634 221688 225573 214003 221132 220918 200248 221363 221380 200343",
 	"SPELL_AURA_APPLIED 194966 221132 221363 240447",
 	"SPELL_AURA_REMOVED 194966 221132 221363 240447",
 	"SPELL_CAST_SUCCESS 200343 200345 220918",
@@ -64,6 +64,15 @@ local yellArrowBarrage				= mod:NewYell(200343, nil, nil, nil, "YELL") --Зал�
 
 mod:AddRangeFrameOption(6)
 
+function mod:MandibleStrikeTarget(targetname, uId)
+	if targetname == UnitName("player") then
+		specWarnMandibleStrike:Show()
+		specWarnMandibleStrike:Play("defensive")
+	else
+		warnMandibleStrike:Show(targetname)
+	end
+end
+
 function mod:SPELL_CAST_START(args)
 	if not self.Options.Enabled then return end
 	local spellId = args.spellId
@@ -95,11 +104,14 @@ function mod:SPELL_CAST_START(args)
 		timerRupturingPoisonCD:Start()
 	elseif spellId == 221380 then --Удар жвалами
 		timerMandibleStrikeCD:Start()
-		local targetname = self:GetBossTarget(98637)
-		if not targetname then return end
-		warnMandibleStrike:Show(targetname)
-		if targetname == UnitName("player") then
-			specWarnMandibleStrike:Show()
+		self:BossTargetScanner(args.sourceGUID, "MandibleStrikeTarget", 0.1, 9)
+	elseif spellId == 200343 then --Залп стрел
+		if self:AntiSpam(3, 2) then
+			specWarnArrowBarrage:Show(args.destName)
+			specWarnArrowBarrage:Play("stilldanger")
+		end
+		if args:IsPlayer() and self:AntiSpam(3, 3) then
+			yellArrowBarrage:Yell()
 		end
 	end
 end
@@ -177,7 +189,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		timerQuake:Stop()
 	end
 end
-
+--[[
 function mod:SPELL_CAST_SUCCESS(args)
 	if not self.Options.Enabled then return end
 	local spellId = args.spellId
@@ -191,7 +203,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		end
 	end
 end
-
+]]
 function mod:UNIT_DIED(args)
 	local cid = self:GetCIDFromGUID(args.destGUID)
 	if cid == 111068 then --Верховный маг Галеорн https://ru.wowhead.com/npc=111068/верховный-маг-галеорн

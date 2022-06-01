@@ -27,7 +27,7 @@ local timerPulvCrudgelCD			= mod:NewCDTimer(34.2, 237276, nil, nil, nil, 2, nil,
 local timerScornfulGazeCD			= mod:NewCDTimer(36.5, 237726, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Глумливый взгляд
 local timerHeaveCrudCD				= mod:NewCDTimer(36.5, 243124, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Бросок дубины
 
-local countdownScornfulGaze			= mod:NewCountdown(36.5, 237726) --Магматическая волна
+local countdownScornfulGaze			= mod:NewCountdown(36.5, 237726, nil, nil, 5) --Глумливый взгляд
 
 local yellScornfulGaze				= mod:NewYell(237726, nil, nil, nil, "YELL") --Глумливый взгляд
 local yellScornfulGaze2				= mod:NewFadesYell(237726, nil, nil, nil, "YELL") --Глумливый взгляд

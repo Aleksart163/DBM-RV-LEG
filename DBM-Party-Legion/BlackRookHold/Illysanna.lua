@@ -33,7 +33,7 @@ local specWarnBlazingTrail			= mod:NewSpecialWarningYouMove(197521, nil, nil, ni
 local specWarnBrutalGlaive			= mod:NewSpecialWarningYouMoveAway(197546, nil, nil, nil, 4, 2) --Жуткая глефа
 local specWarnBrutalGlaive2			= mod:NewSpecialWarningCloseMoveAway(197546, nil, nil, nil, 2, 2) --Жуткая глефа
 local specWarnVengefulShear			= mod:NewSpecialWarningYouDefensive(197418, "Tank", nil, nil, 3, 2) --Мстительное рассечение
-local specWarnDarkRush				= mod:NewSpecialWarningYou(197478, nil, nil, nil, 2, 2) --Темный рывок
+local specWarnDarkRush				= mod:NewSpecialWarningYouRunning(197478, nil, nil, nil, 1, 2) --Темный рывок
 local specWarnEyeBeam				= mod:NewSpecialWarningYouRun(197687, nil, nil, nil, 4, 5) --Пронзающий взгляд
 local specWarnBonebreakingStrike	= mod:NewSpecialWarningDodge(197974, "Melee", nil, nil, 2, 2) --Костедробящий удар
 
@@ -45,8 +45,9 @@ local timerEyeBeamCD				= mod:NewNextTimer(105, 197696, nil, nil, nil, 6, nil, D
 
 local yellBrutalGlaive				= mod:NewYell(197546, nil, nil, nil, "YELL") --Жуткая глефа
 local yellEyeBeam					= mod:NewYell(197687, nil, nil, nil, "YELL") --Пронзающий взгляд
+local yellDarkRush					= mod:NewYell(197478, nil, nil, nil, "YELL") --Темный рывок
 
-local countdownEyeBeam				= mod:NewCountdown(105, 197696) --Пронзающий взгляд
+local countdownEyeBeam				= mod:NewCountdown(105, 197696, nil, nil, 5) --Пронзающий взгляд
 
 mod:AddSetIconOption("SetIconOnEyeBeam", 197687, true, false, {8}) --Пронзающий взгляд
 mod:AddSetIconOption("SetIconOnBrutalGlaive", 197546, true, false, {7}) --Жуткая глефа
@@ -56,16 +57,12 @@ mod:AddSetIconOption("SetIconOnDarkRush", 197478, true, false, {3, 2, 1}) --Те
 mod.vb.phase = 1
 
 function mod:BrutalGlaiveTarget(targetname, uId)
-	if not targetname then
-		warnBrutalGlaive:Show(DBM_CORE_UNKNOWN)
-		return
-	end
+	if not targetname then return end
 	if targetname == UnitName("player") then
 		specWarnBrutalGlaive:Show()
 		specWarnBrutalGlaive:Play("runout")
 		yellBrutalGlaive:Yell()
-	elseif self:CheckNearby(10, args.destName) then
-		warnBrutalGlaive:Show(targetname)
+	elseif self:CheckNearby(10, targetname) then
 		specWarnBrutalGlaive2:Show(targetname)
 	else
 		warnBrutalGlaive:Show(targetname)
@@ -81,16 +78,16 @@ function mod:OnCombatStart(delay)
 		timerBrutalGlaiveCD:Start(6-delay) --Жуткая глефа +++
 		timerVengefulShearCD:Start(9-delay) --Мстительное рассечение +++
 		timerDarkRushCD:Start(13-delay) --Темный рывок +++
-		timerEyeBeamCD:Start(40-delay) --Пронзающий взгляд +++
-		countdownEyeBeam:Start(40-delay) --Пронзающий взгляд +++
-		specWarnSummonAdds:Schedule(42-delay)
+		timerEyeBeamCD:Start(38-delay) --Пронзающий взгляд +++
+		countdownEyeBeam:Start(38-delay) --Пронзающий взгляд +++
+		specWarnSummonAdds:Schedule(40-delay)
 	else
 		timerBrutalGlaiveCD:Start(5.5-delay) --Жуткая глефа
 		timerVengefulShearCD:Start(8-delay) --Мстительное рассечение
 		timerDarkRushCD:Start(12.1-delay) --Темный рывок
 		timerEyeBeamCD:Start(40-delay) --Пронзающий взгляд
 		countdownEyeBeam:Start(40-delay) --Пронзающий взгляд +++
-		specWarnSummonAdds:Schedule(42-delay)
+		specWarnSummonAdds:Schedule(40-delay)
 	end
 end
 
@@ -115,11 +112,12 @@ end
 
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
-	if spellId == 197478 then
+	if spellId == 197478 then --Темный рывок
 		warnDarkRush:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
 			specWarnDarkRush:Show()
 			specWarnDarkRush:Play("targetyou")
+			yellDarkRush:Yell()
 		end
 		if self.Options.SetIconOnDarkRush then
 			self:SetAlphaIcon(0.5, args.destName, 3)
@@ -153,7 +151,7 @@ function mod:SPELL_CAST_START(args)
 		timerVengefulShearCD:Start()
 	elseif spellId == 197546 then
 		timerBrutalGlaiveCD:Start()
-		self:BossTargetScanner(98696, "BrutalGlaiveTarget", 0.1, 10, true)
+		self:BossTargetScanner(args.sourceGUID, "BrutalGlaiveTarget", 0.1, 9)
 	elseif spellId == 197974 then
 		specWarnBonebreakingStrike:Show()
 		specWarnBonebreakingStrike:Play("shockwave")
@@ -198,7 +196,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 			timerVengefulShearCD:Start(7.5)
 			timerEyeBeamCD:Start()
 			countdownEyeBeam:Start()
-			specWarnSummonAdds:Schedule(107)
+			specWarnSummonAdds:Schedule(105)
 		end
 	end
 end

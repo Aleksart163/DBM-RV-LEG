@@ -19,7 +19,7 @@ mod:RegisterEventsInCombat(
 local warnCallSouls2				= mod:NewSoonAnnounce(196078, 1) --Вызов душ
 local warnSwirlingScythe			= mod:NewTargetAnnounce(195254, 2) --Вращающаяся коса
 local warnSoulEchoes				= mod:NewTargetAnnounce(194966, 2) --Эхо души
-local warnCallSouls					= mod:NewSpellAnnounce(196078, 2) --Вызов душ Change to important warning if it becomes more relevant.
+local warnCallSouls					= mod:NewSpellAnnounce(196078, 3) --Вызов душ Change to important warning if it becomes more relevant.
 
 local specWarnSoulBurst				= mod:NewSpecialWarningDefensive(196587, nil, nil, nil, 3, 5) --Взрыв души
 local specWarnCallSouls				= mod:NewSpecialWarningSwitch(196078, "-Healer", nil, nil, 1, 2) --Вызов душ
@@ -32,12 +32,14 @@ local specWarnSoulEchosNear			= mod:NewSpecialWarningCloseMoveAway(194966, nil, 
 
 local timerSoulBurstCD				= mod:NewCDTimer(23.5, 196587, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON..DBM_CORE_MYTHIC_ICON) --Взрыв души
 local timerSwirlingScytheCD			= mod:NewCDTimer(21, 195254, nil, nil, nil, 3) --Вращающаяся коса 20-27
-local timerSoulEchoesCD				= mod:NewNextTimer(28, 194966, nil, nil, nil, 3) --Эхо души
+local timerSoulEchoesCD				= mod:NewNextTimer(28, 194966, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Эхо души
 local timerReapSoulCD				= mod:NewNextTimer(13, 194956, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Жатва душ
 
 local yellSwirlingScythe			= mod:NewYell(195254, nil, nil, nil, "YELL") --Вращающаяся коса
 local yellSoulEchos					= mod:NewYell(194966, nil, nil, nil, "YELL") --Эхо души
 local yellSoulEchos2				= mod:NewFadesYell(194966, nil, nil, nil, "YELL") --Эхо души
+
+local countdownReapSoul				= mod:NewCountdown(13, 194956, "Melee", nil, 5) --Жатва душ
 
 mod:AddSetIconOption("SetIconOnSoulEchoes", 194966, true, false, {8}) --Эхо души
 mod:AddSetIconOption("SetIconOnSwirlingScythe", 195254, true, false, {7}) --Вращающаяся коса
@@ -99,6 +101,7 @@ function mod:OnCombatStart(delay)
 	timerSwirlingScytheCD:Start(8-delay)
 	timerSoulEchoesCD:Start(15.5-delay)
 	timerReapSoulCD:Start(20-delay)
+	countdownReapSoul:Start(20-delay)
 end
 
 function mod:OnCombatEnd()
@@ -144,6 +147,7 @@ function mod:SPELL_CAST_START(args)
 		specWarnReapSoul:Show(self.vb.reapsoulCount)
 		specWarnReapSoul:Play("shockwave")
 		timerReapSoulCD:Start()
+		countdownReapSoul:Start()
 	elseif spellId == 196078 then --Вызов душ
 		self.vb.phase = 2
 		warned_preP2 = true
@@ -151,6 +155,7 @@ function mod:SPELL_CAST_START(args)
 		specWarnCallSouls:Schedule(2.5)
 		timerReapSoulCD:Stop()
 		timerReapSoulCD:Start(44)
+		countdownReapSoul:Start(44)
 		timerSwirlingScytheCD:Stop()
 		timerSwirlingScytheCD:Start(31.5)
 		timerSoulEchoesCD:Stop()

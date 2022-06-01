@@ -35,7 +35,7 @@ local timerSporesCD					= mod:NewCDTimer(20.5, 236524, nil, nil, nil, 2) --Яд�
 
 local yellFixate					= mod:NewYell(238674, nil, nil, nil, "YELL") --Сосредоточение внимания
 
-local countdownTimberSmash			= mod:NewCountdown("Alt21", 235751, "Tank") --Удар бревном
+local countdownTimberSmash			= mod:NewCountdown("Alt21", 235751, "Tank", nil, 5) --Удар бревном
 
 function mod:OnCombatStart(delay)
 	timerTimberSmashCD:Start(6-delay)

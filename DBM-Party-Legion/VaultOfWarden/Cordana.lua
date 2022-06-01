@@ -43,7 +43,7 @@ local timerCreepingDoomCD			= mod:NewCDTimer(74.5, 197422, nil, nil, nil, 2, nil
 local timerCreepingDoom				= mod:NewBuffActiveTimer(35, 197422, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Ползучая гибель 35-40
 local timerVengeanceCD				= mod:NewCDTimer(35, 205004, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON) --Отмщение 35-40
 
-local countdownCreepingDoom			= mod:NewCountdown(74.5, 197422) --Ползучая гибель
+local countdownCreepingDoom			= mod:NewCountdown(74.5, 197422, nil, nil, 5) --Ползучая гибель
 
 mod.vb.phase = 1
 local warned_preP1 = false
