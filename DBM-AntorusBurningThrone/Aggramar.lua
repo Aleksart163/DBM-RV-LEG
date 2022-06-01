@@ -10,7 +10,7 @@ mod:SetHotfixNoticeRev(16964)
 mod.respawnTime = 25
 
 --mod:RegisterCombat("combat", 121975)
-mod:RegisterCombat("yell", L.YellPullAggramar)
+mod:RegisterCombat("combat_yell", L.YellPullAggramar)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 244693 245458 245463 245301 255058 255061 255059",
@@ -43,12 +43,14 @@ local warnTaeshalachTech				= mod:NewCountAnnounce(244688, 3) --Искусный
 
 local specWarnFlameRend2				= mod:NewSpecialWarning("FlameRend3", nil, nil, nil, 1, 2) --другая пати
 
-local specWarnBlazingEruption			= mod:NewSpecialWarningStack(244912, "-Tank", 3, nil, nil, 3, 5) --Извержение пламени
+local specWarnBlazingEruption			= mod:NewSpecialWarningStack(244912, "-Tank", 2, nil, nil, 1, 5) --Извержение пламени
 --Stage One: Wrath of Aggramar
 local specWarnTaeshalachReach			= mod:NewSpecialWarningStack(245990, nil, 8, nil, nil, 3, 3) --Гигантский клинок
-local specWarnTaeshalachReachOther		= mod:NewSpecialWarningTaunt(245990, nil, nil, nil, 1, 2) --Гигантский клинок
+local specWarnTaeshalachReachOther		= mod:NewSpecialWarningTaunt(245990, nil, nil, nil, 3, 3) --Гигантский клинок
 local specWarnScorchingBlaze			= mod:NewSpecialWarningYouMoveAway(245994, nil, nil, nil, 1, 5) --Обжигающее пламя
+local specWarnScorchingBlazeNear		= mod:NewSpecialWarningCloseMoveAway(245994, nil, nil, nil, 1, 5) --Обжигающее пламя
 local specWarnRavenousBlaze				= mod:NewSpecialWarningYouMoveAway(254452, nil, nil, nil, 3, 5) --Хищное пламя
+local specWarnRavenousBlazeNear			= mod:NewSpecialWarningCloseMoveAway(254452, nil, nil, nil, 3, 5) --Хищное пламя
 local specWarnWakeofFlame				= mod:NewSpecialWarningDodge(244693, nil, nil, nil, 2, 2) --Огненная волна
 local specWarnFoeBreakerTaunt			= mod:NewSpecialWarningTaunt(245458, nil, nil, nil, 3, 2) --Сокрушитель
 local specWarnFoeBreakerDefensive		= mod:NewSpecialWarningDefensive(245458, nil, nil, nil, 3, 2) --Сокрушитель
@@ -76,8 +78,8 @@ local yellWakeofFlame					= mod:NewYell(244693, nil, nil, nil, "YELL") --Огн�
 local berserkTimer						= mod:NewBerserkTimer(600)
 
 --Stages One: Wrath of Aggramar
-local countdownTaeshalachTech			= mod:NewCountdown(61, 244688) --Искусный прием
-local countdownFlare					= mod:NewCountdown("Alt15", 245983, "-Tank") --Вспышка
+local countdownTaeshalachTech			= mod:NewCountdown(61, 244688, nil, nil, 5) --Искусный прием
+local countdownFlare					= mod:NewCountdown("Alt15", 245983, "-Tank", nil, 5) --Вспышка
 --local countdownWakeofFlame				= mod:NewCountdown("AltTwo24", 244693, "-Tank") --Огненная волна
 
 mod:AddSetIconOption("SetIconOnBlaze2", 254452, true, false, {5, 4, 3, 2, 1}) --Хищное пламя Both off by default, both conflit with one another
@@ -301,7 +303,6 @@ function mod:OnCombatStart(delay)
 	warned_preP4 = false
 	FlameRend = false
 	self.vb.techActive = false
-	--self.vb.incompleteCombo = false
 	table.wipe(unitTracked)
 	if self:IsMythic() then
 		comboUsed[1] = false
@@ -310,7 +311,6 @@ function mod:OnCombatStart(delay)
 		comboUsed[4] = false
 		timerRavenousBlazeCD:Start(4-delay)
 		timerWakeofFlameCD:Start(10.7-delay)--Health based?
-	--	countdownWakeofFlame:Start(10.7-delay)
 		timerTaeshalachTechCD:Start(14.3-delay, 1)--Health based?
 		countdownTaeshalachTech:Start(14.3-delay)
 		berserkTimer:Start(540-delay)
@@ -320,7 +320,6 @@ function mod:OnCombatStart(delay)
 		berserkTimer:Start(-delay)
 		timerScorchingBlazeCD:Start(4.8-delay)
 		timerWakeofFlameCD:Start(5.1-delay)
-	--	countdownWakeofFlame:Start(5.1-delay)
 		timerTaeshalachTechCD:Start(35-delay, 1)
 		countdownTaeshalachTech:Start(35-delay)
 	end
@@ -530,6 +529,9 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnScorchingBlaze:Show()
 			specWarnScorchingBlaze:Play("scatter")
 			yellScorchingBlaze:Yell()
+		elseif self:CheckNearby(5, args.destName) then
+			specWarnScorchingBlazeNear:CombinedShow(0.2, args.destName)
+			specWarnScorchingBlazeNear:Play("runaway")
 		end
 	elseif spellId == 254452 then
 		self.vb.blazeIcon = self.vb.blazeIcon + 1
@@ -543,6 +545,9 @@ function mod:SPELL_AURA_APPLIED(args)
 			warnRavenousBlazeCount:Schedule(4, 10)
 			warnRavenousBlazeCount:Schedule(6, 15)
 			warnRavenousBlazeCount:Schedule(8, 20)
+		elseif self:CheckNearby(10, args.destName) then
+			specWarnRavenousBlazeNear:CombinedShow(0.2, args.destName)
+			specWarnRavenousBlazeNear:Play("runaway")
 		end
 		if self.Options.SetIconOnBlaze2 then
 			self:SetIcon(args.destName, icon)
@@ -586,8 +591,8 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif spellId == 244912 then --Извержение пламени
 		local amount = args.amount or 1
-		if amount >= 3 and self:AntiSpam(2, 1) then
-			if args:IsPlayer() then
+		if args:IsPlayer() then
+			if amount >= 2 and self:AntiSpam(2, 1) then
 				specWarnBlazingEruption:Show(args.amount)
 				specWarnBlazingEruption:Play("stackhigh")
 			end

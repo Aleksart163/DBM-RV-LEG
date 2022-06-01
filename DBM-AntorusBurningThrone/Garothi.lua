@@ -13,7 +13,7 @@ mod.respawnTime = 29
 mod:DisableRegenDetection()--Prevent false combat when fighting trash
 
 --mod:RegisterCombat("combat", 122450)
-mod:RegisterCombat("yell", L.YellPullGarothi)
+mod:RegisterCombat("combat_yell", L.YellPullGarothi)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 244969 240277 246663",
@@ -72,8 +72,8 @@ local yellDecimationFades				= mod:NewShortFadesYell(244410, nil, nil, nil, "YEL
 
 local berserkTimer						= mod:NewBerserkTimer(600)
 
-local countdownChooseCannon				= mod:NewCountdown(15, 245124)
-local countdownFelBombardment			= mod:NewCountdown("Alt20", 246220, "Tank") --Обстрел скверны
+local countdownChooseCannon				= mod:NewCountdown(15, 245124, nil, nil, 5)
+local countdownFelBombardment			= mod:NewCountdown("Alt20", 246220, "Tank", nil, 5) --Обстрел скверны
 
 mod:AddSetIconOption("SetIconOnDecimation", 244410, true, false, {6, 5, 4, 3, 2, 1}) --Децимация
 mod:AddSetIconOption("SetIconOnBombardment", 246220, true, false, {8}) --Обстрел скверны

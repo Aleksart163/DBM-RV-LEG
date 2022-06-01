@@ -11,7 +11,7 @@ mod:SetHotfixNoticeRev(16939)
 mod.respawnTime = 29
 
 --mod:RegisterCombat("combat", 122367)
-mod:RegisterCombat("say", L.YellPullCouncil)
+mod:RegisterCombat("combat_say", L.YellPullCouncil)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 244625 246505 253040 245227",
@@ -67,7 +67,7 @@ local specWarnPyroblast					= mod:NewSpecialWarningInterrupt(246505, "HasInterru
 local specWarnDemonicChargeYou			= mod:NewSpecialWarningYou(253040, nil, nil, nil, 1, 2) --Демонический рывок
 local specWarnDemonicCharge				= mod:NewSpecialWarningClose(253040, nil, nil, nil, 1, 2) --Демонический рывок
 --Out of Pod
-----Admiral Svirax
+--Admiral Svirax
 local specWarnShockGrenade				= mod:NewSpecialWarningYouMoveAway(244737, nil, nil, nil, 3, 5) --Шоковая граната
 --General
 mod:AddTimerLine(GENERAL)
@@ -75,13 +75,13 @@ local timerExploitWeaknessCD			= mod:NewCDTimer(8.5, 244892, nil, "Tank", nil, 5
 local timerShockGrenadeCD				= mod:NewCDTimer(14.7, 244722, nil, nil, nil, 3, nil, DBM_CORE_MYTHIC_ICON..DBM_CORE_DEADLY_ICON) --Шоковая граната
 local timerAssumeCommandCD				= mod:NewNextTimer(90, 245227, nil, nil, nil, 6) --Принять командование
 --In Pod
-----Admiral Svirax
+--Admiral Svirax
 mod:AddTimerLine(Svirax)
 local timerFusilladeCD					= mod:NewNextCountTimer(29.3, 244625, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Шквальный огонь
 ----Chief Engineer Ishkar
 mod:AddTimerLine(Ishkar)
 local timerEntropicMineCD				= mod:NewCDTimer(10, 245161, nil, nil, nil, 3) --Энтропическая мина
-----General Erodus
+--General Erodus
 mod:AddTimerLine(Erodus)
 local timerSummonReinforcementsCD		= mod:NewNextTimer(8.4, 245546, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON) --Вызов подкрепления
 
@@ -92,11 +92,11 @@ local yellShockGrenadeFades				= mod:NewShortFadesYell(244737, nil, nil, nil, "Y
 local berserkTimer						= mod:NewBerserkTimer(600)
 
 --General
-local countdownAssumeCommand			= mod:NewCountdown("Alt50", 245227) --Принять командование
-local countdownExploitWeakness			= mod:NewCountdown("Alt8", 244892, "Tank", nil, 3) --Обнаружить слабое место
+local countdownAssumeCommand			= mod:NewCountdown(50, 245227, nil, nil, 5) --Принять командование
+local countdownExploitWeakness			= mod:NewCountdown("Alt8", 244892, "Tank", nil, 5) --Обнаружить слабое место
 --In Pod
 ----Admiral Svirax
-local countdownFusillade				= mod:NewCountdown("AltTwo30", 244625) --Шквальный огонь
+local countdownFusillade				= mod:NewCountdown("AltTwo30", 244625, nil, nil, 3) --Шквальный огонь
 ----General Erodus
 --local countdownReinforcements			= mod:NewCountdown(25, 245546) --Вызов подкрепления
 
@@ -137,11 +137,12 @@ function mod:OnCombatStart(delay)
 	timerAssumeCommandCD:Start(90-delay) --Принять командование
 --	countdownAssumeCommand:Start(90-delay)
 	if self:IsMythic() then
-		timerShockGrenadeCD:Start(14-delay) -- -1сек
-		timerEntropicMineCD:Start(15-delay)
+		timerShockGrenadeCD:Start(14-delay) --Шоковая граната -1сек 
+		timerEntropicMineCD:Start(15-delay) --Энтропическая мина
+		timerExploitWeaknessCD:Start(9-delay) --Обнаружить слабое место
 	elseif self:IsHeroic() then
-		timerEntropicMineCD:Start(15.5-delay)
-		timerExploitWeaknessCD:Start(8-delay) --Обнаружить слабое место
+		timerEntropicMineCD:Start(15.5-delay) --Энтропическая мина
+		timerExploitWeaknessCD:Start(9-delay) --Обнаружить слабое место +1
 	else
 		timerEntropicMineCD:Start(5.1-delay)
 	end

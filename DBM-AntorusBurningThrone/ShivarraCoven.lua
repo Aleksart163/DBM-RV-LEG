@@ -11,7 +11,7 @@ mod:SetHotfixNoticeRev(16963)
 mod.respawnTime = 28
 
 --mod:RegisterCombat("combat", 122468, 122467, 122469)
-mod:RegisterCombat("yell", L.YellPullCoven)
+mod:RegisterCombat("combat_yell", L.YellPullCoven)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 245627 252861 253650 250648 250095",
@@ -120,10 +120,10 @@ local yellCosmicGlareFades				= mod:NewShortFadesYell(250757, nil, nil, nil, "YE
 local berserkTimer						= mod:NewBerserkTimer(600)
 
 --Noura, Mother of Flames
-local countdownTitans					= mod:NewCountdown(90, "ej16138")
-local countdownFulminatingPulse			= mod:NewCountdown("Alt40", 253520, "Healer")
+local countdownTitans					= mod:NewCountdown(90, "ej16138", nil, nil, 5)
+local countdownFulminatingPulse			= mod:NewCountdown("Alt40", 253520, "Healer", nil, 5)
 --Asara, Mother of Night
-local countdownStormofDarkness			= mod:NewCountdown("AltTwo57", 252861) --Буря тьмы
+local countdownStormofDarkness			= mod:NewCountdown("AltTwo57", 252861, nil, nil, 5) --Буря тьмы
 
 mod:AddSetIconOption("SetIconOnFulminatingPulse2", 253520, true, false, {6, 5, 4}) --Гремучий импульс на 3 цели
 mod:AddSetIconOption("SetIconOnChilledBlood2", 245586, true, false, {3, 2, 1}) --Студеная кровь на 3 цели

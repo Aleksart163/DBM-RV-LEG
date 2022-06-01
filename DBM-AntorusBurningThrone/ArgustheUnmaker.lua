@@ -12,7 +12,7 @@ mod:SetMinSyncRevision(16895)
 mod.respawnTime = 29
 
 --mod:RegisterCombat("combat", 124828)
-mod:RegisterCombat("yell", L.YellPullArgus)
+mod:RegisterCombat("combat_yell", L.YellPullArgus)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 248165 248317 257296 255594 257645 252516 256542 255648 257619",
@@ -149,9 +149,9 @@ local berserkTimer					= mod:NewBerserkTimer(600)
 
 --Stage One: Storm and Sky
 local countdownSweapingScythe		= mod:NewCountdown("Alt5", 248499, false, nil, 3) --Сметающая коса Off by default since it'd be almost non stop, so users can elect into this one
-local countdownSargGaze				= mod:NewCountdown(35, 258068)
+local countdownSargGaze				= mod:NewCountdown(35, 258068, nil, nil, 5)
 --Stage Two: The Protector Redeemed
-local countdownSoulbomb				= mod:NewCountdown("AltTwo50", 251570) --Бомба души
+local countdownSoulbomb				= mod:NewCountdown("AltTwo50", 251570, nil, nil, 5) --Бомба души
 --Stage Three: Mythic
 local countdownSoulScythe			= mod:NewCountdown("Alt5", 258838, "Tank", nil, 3) --Рассекающая коса
 --Stage Four

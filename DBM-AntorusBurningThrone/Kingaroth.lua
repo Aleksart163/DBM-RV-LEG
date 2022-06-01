@@ -12,9 +12,9 @@ mod:SetMinSyncRevision(16975)
 mod.respawnTime = 29
 
 --mod:RegisterCombat("combat", 122578)
-mod:RegisterCombat("yell", L.YellPullKingaroth)
-mod:RegisterCombat("yell", L.YellPullKingaroth2)
-mod:RegisterCombat("yell", L.YellPullKingaroth3)
+mod:RegisterCombat("combat_yell", L.YellPullKingaroth)
+mod:RegisterCombat("combat_yell", L.YellPullKingaroth2)
+mod:RegisterCombat("combat_yell", L.YellPullKingaroth3)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 244312 254926 245807 252758 246692 246833 246516 257978 254919",
@@ -46,8 +46,8 @@ local warnDiabolicBomb					= mod:NewSpellAnnounce(246779, 3, nil, nil, nil, nil,
 local warnReverberatingStrike			= mod:NewTargetAnnounce(254926, 3) --Гулкий удар
 local warnWarnInitializing				= mod:NewSpellAnnounce(246504, 3) --Инициализация
 --Reavers (or empowered boss from reaver deaths)
-local warnDecimation					= mod:NewTargetAnnounce(246687, 4) --Децимация
-local warnDemolish						= mod:NewTargetAnnounce(246692, 4) --Разрушение
+local warnDecimation					= mod:NewTargetAnnounce(246687, 4) --Децимация (на 5 игроков)
+local warnDemolish						= mod:NewTargetAnnounce(246692, 4) --Разрушение (на 3 игрока)
 
 --Stage: Deployment
 --local specWarnGTFO					= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 2)
@@ -69,7 +69,7 @@ mod:AddTimerLine(BOSS)
 local timerForgingStrikeCD				= mod:NewCDTimer(14.3, 244312, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Прессование+
 local timerReverberatingStrikeCD		= mod:NewCDCountTimer(30, 254926, nil, nil, nil, 3) --Гулкий удар+
 local timerDiabolicBombCD				= mod:NewCDTimer(20, 246779, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON..DBM_CORE_HEALER_ICON) --Демоническая бомба+
-local timerRuiner						= mod:NewCastTimer(9, 246840, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Разрушитель+
+local timerRuiner						= mod:NewCastTimer(6, 246840, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Разрушитель+
 local timerRuinerCD						= mod:NewCDCountTimer(30, 246840, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Разрушитель+
 --local timerShatteringStrikeCD			= mod:NewCDTimer(30, 248375, nil, nil, nil, 2) --Разбивающий удар
 local timerApocProtocolCD				= mod:NewCDCountTimer(77.5, 246516, nil, nil, nil, 6, nil, DBM_CORE_HEALER_ICON) --Протокол Апокалипсис+
@@ -89,9 +89,9 @@ local yellDemolishFades					= mod:NewIconFadesYell(246692, nil, nil, nil, "YELL"
 local berserkTimer						= mod:NewBerserkTimer(600)
 
 --Stage: Deployment
-local countdownApocProtocol				= mod:NewCountdown(77.5, 246516) --Протокол Апокалипсис
-local countdownForgingStrike			= mod:NewCountdown("Alt14", 244312, "Tank", nil, 3) --Прессование
-local countdownRuiner					= mod:NewCountdown("AltTwo29", 246840) --Разрушитель
+local countdownApocProtocol				= mod:NewCountdown(77.5, 246516, nil, nil, 5) --Протокол Апокалипсис
+local countdownForgingStrike			= mod:NewCountdown("Alt14", 244312, "Tank", nil, 5) --Прессование
+local countdownRuiner					= mod:NewCountdown("AltTwo29", 246840, nil, nil, 5) --Разрушитель
 
 mod:AddSetIconOption("SetIconOnDemolish", 246692, true, false, {3, 2, 1}) --Разрушение
 mod:AddBoolOption("InfoFrame", true)
@@ -211,10 +211,8 @@ function mod:OnCombatStart(delay)
 		timerApocProtocolCD:Start(31.8-delay, 1) --Протокол Апокалипсис
 		countdownApocProtocol:Start(31.8) --Протокол Апокалипсис
 	end
---	timerReverberatingStrikeCD:Start(14.2-delay, 1)--14-15
 	timerRuinerCD:Start(26.1-delay, 1) --было 21.1
 	countdownRuiner:Start(26.1-delay) --было 21.1
-	--timerShatteringStrikeCD:Start(1-delay)--Not cast on pull
 	if self.Options.RangeFrame then
 		DBM.RangeCheck:Show(5)
 	end
@@ -255,14 +253,15 @@ function mod:SPELL_CAST_START(args)
 		specWarnAnnihilation:Play("helpsoak")
 	elseif spellId == 252758 or spellId == 246692 then
 		table.wipe(DemolishTargets)
-	elseif spellId == 246833 then--Ruiner
+	elseif spellId == 246833 then --Разрушитель
 		self.vb.ruinerCast = self.vb.ruinerCast + 1
 		timerForgingStrikeCD:Cancel()
 		countdownForgingStrike:Cancel()
 		specWarnRuiner:Show()
 		specWarnRuiner:Play("farfromline")
 		specWarnRuiner:ScheduleVoice(1.5, "keepmove")
-		timerRuiner:Start()
+		timerRuiner:Start(3)
+		timerRuiner:Schedule(3)
 		timerRuinerCD:Start(nil, self.vb.ruinerCast+1)--28-30 depending on difficulty
 		countdownRuiner:Start(30)
 		timerForgingStrikeCD:Start(10, self.vb.forgingStrikeCast+1)

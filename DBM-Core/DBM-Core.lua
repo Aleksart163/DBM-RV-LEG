@@ -43,9 +43,9 @@
 ----------------------------------------------------------------
 --
 DBM = {
-	Revision = tonumber(("$Revision: 17662 $"):sub(12, -3)),
-	DisplayVersion = "7.3.35 Right Version",
-	ReleaseRevision = 17661
+	Revision = tonumber(("$Revision: 17663 $"):sub(12, -3)),
+	DisplayVersion = "7.3.36 Right Version",
+	ReleaseRevision = 17662
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -130,7 +130,7 @@ DBM.DefaultOptions = {
 	DisableStatusWhisper = false,
 	DisableGuildStatus = false,
 	HideBossEmoteFrame2 = true,
-	ShowMinimapButton = false, -- Иконка1 (новая)
+	ShowMinimapButton = true, 
 	ShowFlashFrame = true,
 	SWarningAlphabetical = true,
 	SWarnNameInNote = true,
@@ -1195,7 +1195,7 @@ do
 			end
 			self.Bars:LoadOptions("DBM")
 			self.Arrow:LoadPosition()
-		--	if not self.Options.ShowMinimapButton then self:HideMinimapButton() end -- Иконка2 (старая)
+			if not self.Options.ShowMinimapButton then self:HideMinimapButton() end
 			--[[local soundChannels = tonumber(GetCVar("Sound_NumChannels")) or 24--if set to 24, may return nil, Defaults usually do
 			--If this messes with your fps, stop raiding with a toaster. It's only fix for addon sound ducking.
 			if soundChannels < 64 then
@@ -2655,7 +2655,7 @@ do
 	end)
 -------------------------------------------------
 --
-	function DBM:ToggleMinimapButton() -- Иконка3 (новая)
+	function DBM:ToggleMinimapButton()
 		self.Options.ShowMinimapButton = not self.Options.ShowMinimapButton
 		if self.Options.ShowMinimapButton then
 			button:Show()
@@ -2664,13 +2664,8 @@ do
 		end
 	end
 
-	function DBM:ToggleMinimapButton() -- Показ иконки у мини-карты при запуске игры
-		DBM_MinimapIcon.hide = not DBM_MinimapIcon.hide
-		if DBM_MinimapIcon.hide then
-			LibStub("LibDBIcon-1.0"):Hide("DBM")
-		else
-			LibStub("LibDBIcon-1.0"):Show("DBM")
-		end
+	function DBM:HideMinimapButton()
+		return button:Hide()
 	end
 end
 --
@@ -4328,10 +4323,10 @@ do
 					--Disable if revision grossly out of date even if not major patch.
 					if raid[newerVersionPerson[1]] and raid[newerVersionPerson[2]] and raid[newerVersionPerson[3]] then
 						local revDifference = mmin((raid[newerVersionPerson[1]].revision - DBM.Revision), (raid[newerVersionPerson[2]].revision - DBM.Revision), (raid[newerVersionPerson[3]].revision - DBM.Revision))
-						if revDifference > 100 then --Отключение аддона WTF? Sorry but your DBM is being turned off until you update. Grossly out of date mods cause fps loss, freezes, lua error spam, or just very bad information, if mod is not up to date with latest changes. All around undesirable experience to put yourself or other raid mates through
+						if revDifference > 100 then --WTF? Sorry but your DBM is being turned off until you update. Grossly out of date mods cause fps loss, freezes, lua error spam, or just very bad information, if mod is not up to date with latest changes. All around undesirable experience to put yourself or other raid mates through
 							if updateNotificationDisplayed < 3 then
 								updateNotificationDisplayed = 3
-								AddMsg(DBM, DBM_CORE_UPDATEREMINDER_DISABLE)
+								AddMsg(DBM, DBM_CORE_UPDATEREMINDER_DISABLE2)
 							--	DBM:Disable(true)
 							end
 						end
@@ -4353,7 +4348,7 @@ do
 				local revDifference = mmin((raid[newerRevisionPerson[1]].revision - DBM.Revision), (raid[newerRevisionPerson[2]].revision - DBM.Revision))
 				if testBuild and revDifference > 5 then
 					updateNotificationDisplayed = 7
-					AddMsg(DBM, DBM_CORE_UPDATEREMINDER_DISABLE)
+					AddMsg(DBM, DBM_CORE_UPDATEREMINDER_DISABLE2)
 				--	DBM:Disable(true)
 				else
 					updateNotificationDisplayed = 2
@@ -5038,7 +5033,7 @@ do
 	end
 
 	function DBM:ShowUpdateReminder(newVersion, newRevision, text, url)
-		urlText = url or DBM_CORE_UPDATEREMINDER_URL or "http://www.deadlybossmods.com"
+		urlText = url or DBM_CORE_UPDATEREMINDER_URL or "https://github.com/Aleksart163/DBM-for-Legion"
 		if not frame then
 			createFrame()
 		else
@@ -9219,7 +9214,7 @@ do
 				timer = tonumber(string.sub(timer, 7))
 			elseif timer:match("Alt") then
 				altVoice = 2
-				timer = tonumber(string.sub(timer, 5)) --если что вернуть на 4
+				timer = tonumber(string.sub(timer, 4))
 			end
 		end
 		--TODO, maybe make this not use an entire sound object?

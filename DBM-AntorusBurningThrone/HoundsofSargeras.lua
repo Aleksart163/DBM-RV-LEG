@@ -6,7 +6,7 @@ mod:SetCreatureID(122477, 122135)--122477 F'harg, 122135 Shatug
 mod:SetEncounterID(2074)
 mod:SetZone()
 mod:SetBossHPInfoToHighest()
-mod:SetUsedIcons(6, 5, 4, 3, 2, 1)
+mod:SetUsedIcons(5, 4, 3, 2, 1)
 mod:SetHotfixNoticeRev(16949)
 mod.respawnTime = 29--Guessed, it's not 4 anymore
 
@@ -33,7 +33,7 @@ local Shatug = DBM:EJ_GetSectionInfo(15836)
 local warnBurningMaw					= mod:NewTargetAnnounce(251448, 2, nil, false, 2) --Пылающая пасть
 local warnDesolateGaze					= mod:NewTargetAnnounce(244768, 3) --Опустошающий взгляд
 local warnEnflamedCorruption			= mod:NewSpellAnnounce(244057, 3) --Возгорание порчи
-local warnEnflamed						= mod:NewTargetAnnounce(248815, 3) --Возгорание
+--local warnEnflamed						= mod:NewTargetAnnounce(248815, 3) --Возгорание
 local warnMoltenTouch					= mod:NewSpellAnnounce(244072, 2) --Касание магмы
 --Shatug
 local warnCorruptingMaw					= mod:NewTargetAnnounce(251447, 2, nil, false, 2) --Заразная пасть
@@ -83,12 +83,12 @@ local countdownBurningMaw				= mod:NewCountdown("Alt10", 251448, "Tank", nil, 3)
 --Shatug
 local countdownCorruptingMaw			= mod:NewCountdown("Alt10", 251447, "Tank", nil, 3) --Заразная пасть
 
-mod:AddSetIconOption("SetIconOnWeightofDarkness2", 254429, true, false, {6, 5, 4, 3, 2, 1}) --Бремя тьмы
+mod:AddSetIconOption("SetIconOnWeightofDarkness2", 254429, true, false, {5, 4, 3, 2, 1}) --Бремя тьмы
 --mod:AddInfoFrameOption(239154, true)
 mod:AddRangeFrameOption("5/8")
 mod:AddBoolOption("SequenceTimers", false)
 
-mod.vb.WeightDarkIcon = 1
+mod.vb.WeightDarkIcon = 0
 mod.vb.longTimer = 95.9
 mod.vb.mediumTimer = 77
 
@@ -111,7 +111,7 @@ function mod:OnCombatStart(delay)
 	if self:AntiSpam(10, 1) then
 		--Do nothing, it just disables UpdateAllTimers/Focused Power from firing on pull
 	end
-	self.vb.WeightDarkIcon = 1
+	self.vb.WeightDarkIcon = 0
 	--Fire doggo
 	berserkTimer:Start(-delay)
 	timerBurningMawCD:Start(8.2-delay)--was same on heroic/mythic, or now
@@ -251,12 +251,12 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnDesolateGaze:Play("runout")
 			yellDesolateGaze:Yell()
 		end
-	elseif spellId == 251356 and self:AntiSpam(10, 1) then
+	elseif spellId == 251356 and self:AntiSpam(10, 1) then --Фокусирование силы
 		warnFocusingPower:Show()
 		timerFocusingPower:Start()
 		UpdateAllTimers(self)
 	elseif spellId == 248815 then--Enflamed
-		warnEnflamed:CombinedShow(0.3, args.destName)
+	--	warnEnflamed:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
 			specWarnEnflamed:Show()
 			specWarnEnflamed:Play("scatter")
@@ -276,17 +276,17 @@ function mod:SPELL_AURA_APPLIED(args)
 			end
 		end
 	elseif spellId == 254429 then
+		self.vb.WeightDarkIcon = self.vb.WeightDarkIcon + 1
 		warnWeightofDarkness:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
 			specWarnWeightOfDarkness:Show()
 		--	specWarnWeightOfDarkness:Play("gathershare")
 			yellWeightOfDarkness:Yell()
-			yellWeightOfDarknessFades:Countdown(5)
+			yellWeightOfDarknessFades:Countdown(5, 3)
 		end
 		if self.Options.SetIconOnWeightofDarkness2 then
 			self:SetIcon(args.destName, self.vb.WeightDarkIcon)
 		end
-		self.vb.WeightDarkIcon = self.vb.WeightDarkIcon + 1
 	elseif spellId == 244054 then--Flametouched
 		if args:IsPlayer() then
 			specWarnFlameTouched:Show(self:IconNumToTexture(7))--Red X for flame (more voted on red x than orange circle)
@@ -369,7 +369,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 			end
 		end
 	elseif spellId == 244069 then--Weight of Darkness
-		self.vb.WeightDarkIcon = 1
+		self.vb.WeightDarkIcon = 0
 		if not self.Options.SequenceTimers or self:IsEasy() then
 			timerWeightOfDarknessCD:Start(self.vb.mediumTimer)
 		else

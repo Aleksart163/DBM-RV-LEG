@@ -13,11 +13,9 @@ mod:SetMinSyncRevision(16950)
 mod.respawnTime = 30
 
 --mod:RegisterCombat("combat", 122104)
-mod:RegisterCombat("yell", L.YellPullHasabel)
-mod:RegisterCombat("yell", L.YellPullHasabel2)
-mod:RegisterCombat("yell", L.YellPullHasabel3)
---mod:RegisterCombat("yell", L.YellPullHasabel4)
---mod:RegisterCombat("yell", L.YellPullHasabel5)
+mod:RegisterCombat("combat_yell", L.YellPullHasabel)
+mod:RegisterCombat("combat_yell", L.YellPullHasabel2)
+mod:RegisterCombat("combat_yell", L.YellPullHasabel3)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 243983 244709 245504 244607 244915 246805 244689 244000",
@@ -110,8 +108,8 @@ local berserkTimer						= mod:NewBerserkTimer(600)
 
 --Platform: Nexus
 local countdownCollapsingWorld			= mod:NewCountdown(50, 243983, true, 3, 5) --Гибнущий мир
-local countdownRealityTear				= mod:NewCountdown("Alt12", 244016, false, 2, 4) --Разрыв реальности
-local countdownFelstormBarrage			= mod:NewCountdown("AltTwo32", 244000, nil, nil, 5) --Шквальный обстрел Скверны
+local countdownRealityTear				= mod:NewCountdown("Alt12", 244016, false, 2, 3) --Разрыв реальности
+local countdownFelstormBarrage			= mod:NewCountdown("AltTwo32", 244000, nil, nil, 3) --Шквальный обстрел Скверны
 
 mod:AddRangeFrameOption("8/10")
 mod:AddBoolOption("ShowAllPlatforms", false)

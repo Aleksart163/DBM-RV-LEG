@@ -11,9 +11,9 @@ mod:SetHotfixNoticeRev(16961)
 mod.respawnTime = 30
 
 --mod:RegisterCombat("combat", 124158)
-mod:RegisterCombat("yell", L.YellPullImonar)
-mod:RegisterCombat("yell", L.YellPullImonar2)
-mod:RegisterCombat("yell", L.YellPullImonar3)
+mod:RegisterCombat("combat_yell", L.YellPullImonar)
+mod:RegisterCombat("combat_yell", L.YellPullImonar2)
+mod:RegisterCombat("combat_yell", L.YellPullImonar3)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 247376 247923 248068 248070 248254",
@@ -83,9 +83,9 @@ local yellSleepCanister					= mod:NewPosYell(247552, DBM_CORE_AUTO_YELL_CUSTOM_P
 local berserkTimer						= mod:NewBerserkTimer(420)
 
 --Stage One: Attack Force
-local countdownPulseGrenade				= mod:NewCountdown(17, 247376) --Импульсная граната
+local countdownPulseGrenade				= mod:NewCountdown(17, 247376, nil, nil, 5) --Импульсная граната
 --Stage Two: Contract to Kill
-local countdownChargedBlasts			= mod:NewCountdown("AltTwo18", 247716) --Направленные взрывы
+local countdownChargedBlasts			= mod:NewCountdown("AltTwo18", 247716, nil, nil, 5) --Направленные взрывы
 
 mod:AddSetIconOption("SetIconOnSleepCanister", 247552, true, false, {3, 2, 1}) --Склянка с усыпляющим газом
 mod:AddSetIconOption("SetIconOnEmpPulse2", 250006, true, false, {8, 7, 6, 5, 4}) --Усиленная импульсная граната

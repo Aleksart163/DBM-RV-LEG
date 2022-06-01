@@ -10,7 +10,7 @@ mod:SetUsedIcons(5, 4, 3, 2, 1)
 mod:SetHotfixNoticeRev(16960)
 --mod.respawnTime = 29
 
-mod:RegisterCombat("yell", L.YellPullEonar)
+mod:RegisterCombat("combat_yell", L.YellPullEonar)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 249121 250701 246305",
@@ -81,8 +81,8 @@ local yellBurningEmbers					= mod:NewYell(250691, nil, nil, nil, "YELL") --Ра�
 --The Paraxis
 --local countdownRainofFel				= mod:NewCountdown("Alt60", 248332) --Дождь Скверны Not accurate enough yet. not until timer correction is added to handle speed of raids dps affecting sequence
 --Mythic
-local countdownFinalDoom				= mod:NewCountdown(90, 249121) --Всеобщая погибель
-local countdownFinalDoom2				= mod:NewCountdownFades(50, 249121) --Всеобщая погибель
+local countdownFinalDoom				= mod:NewCountdown(90, 249121, nil, nil, 5) --Всеобщая погибель
+local countdownFinalDoom2				= mod:NewCountdownFades(50, 249121, nil, nil, 5) --Всеобщая погибель
 
 --mod:AddSetIconOption("SetIconOnFeedbackTargeted2", 249016, false, false, {6, 5, 4, 3, 2, 1})
 mod:AddSetIconOption("SetIconOnBurningEmbers", 249015, true, false, {5, 4, 3, 2, 1})
@@ -277,7 +277,6 @@ function mod:OnCombatStart(delay)
 	self.vb.finalDoomCast = 0
 	self.vb.targetedIcon = 1
 	self.vb.burningembersIcon = 1
---	table.wipe(burningembersTargets)
 	berserkTimer:Start(-delay)
 	if not self:IsLFR() then
 		self.vb.lifeRequired = 4

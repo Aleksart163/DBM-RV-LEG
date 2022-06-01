@@ -11,8 +11,8 @@ mod:SetHotfixNoticeRev(17238)
 mod.respawnTime = 29
 
 --mod:RegisterCombat("combat", 122366)
-mod:RegisterCombat("yell", L.YellPullVarimathras)
-mod:RegisterCombat("yell", L.YellPullVarimathras2)
+mod:RegisterCombat("combat_yell", L.YellPullVarimathras)
+mod:RegisterCombat("combat_yell", L.YellPullVarimathras2)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_SUCCESS 243960 244093 243999 257644 244042",
@@ -76,8 +76,8 @@ local berserkTimer						= mod:NewBerserkTimer(390)
 
 --The Fallen Nathrezim
 local countdownShadowStrike				= mod:NewCountdown("Alt9", 243960, "Tank", nil, 3) --Теневой удар
-local countdownMarkedPrey				= mod:NewCountdown(30, 244042) --Метка жертвы
-local countdownNecroticEmbrace			= mod:NewCountdown("AltTwo30", 244093) --Некротические объятия
+local countdownMarkedPrey				= mod:NewCountdown("AltTwo30", 244042, nil, nil, 5) --Метка жертвы
+local countdownNecroticEmbrace			= mod:NewCountdown(30, 244093, nil, nil, 5) --Некротические объятия
 
 mod:AddSetIconOption("SetIconOnMarkedPrey", 244042, true, false, {8}) --Метка жертвы
 mod:AddSetIconOption("SetIconEmbrace", 244094, true, false, {4, 3}) --Некротические объятия
