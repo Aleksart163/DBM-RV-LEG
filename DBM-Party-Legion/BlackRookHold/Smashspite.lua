@@ -46,7 +46,7 @@ local yellFelVomit					= mod:NewYell(198446, nil, nil, nil, "YELL") --Сквер
 local yellFelVomit2					= mod:NewFadesYell(198446, nil, nil, nil, "YELL") --Сквернорвота
 
 local countdownHatefulGaze			= mod:NewCountdown(25.5, 198079, nil, nil, 5) --Ненавидящий взгляд
-local countdownHatefulGaze2			= mod:NewCountdownFades("AltTwo5", 198079, nil, nil, 5) --Ненавидящий взгляд
+local countdownHatefulGaze2			= mod:NewCountdownFades("Alt5", 198079, nil, nil, 5) --Ненавидящий взгляд
 
 mod:AddSetIconOption("SetIconOnHatefulGaze", 198079, true, false, {8}) --Ненавидящий взгляд
 mod:AddSetIconOption("SetIconOnFelVomit", 198446, true, false, {7}) --Сквернорвота
@@ -109,7 +109,13 @@ function mod:SPELL_AURA_APPLIED(args)
 		self.vb.hatefulchargeIcon = self.vb.hatefulchargeIcon + 1
 		local amount = args.amount or 1
 		timerHatefulCharge:Start(args.destName)
-		if amount >= 1 then
+		if amount >= 1 and not self:IsTank() then
+			if args:IsPlayer() then
+				specWarnHatefulCharge:Show(amount)
+			else
+				warnHatefulCharge:Show(args.destName, amount)
+			end
+		elseif amount >= 2 and self:IsTank() then
 			if args:IsPlayer() then
 				specWarnHatefulCharge:Show(amount)
 			else

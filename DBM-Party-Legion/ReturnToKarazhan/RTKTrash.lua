@@ -149,6 +149,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 230050 then --Полная нейтрализация
 		if args:IsPlayer() then
 			specWarnForceBlade:Show()
+			specWarnForceBlade:Play("defensive")
 		end
 	elseif spellId == 228280 then --Клятва верности
 		timerOathofFealty:Start(args.destName)

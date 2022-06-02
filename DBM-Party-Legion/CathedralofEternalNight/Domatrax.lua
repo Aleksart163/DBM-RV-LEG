@@ -24,11 +24,11 @@ local warnApproachingDoom			= mod:NewCastAnnounce(241622, 2) --Приближе�
 local warnFrenzy					= mod:NewTargetAnnounce(243157, 4) --Бешенство
 local warnApproachingDoom2			= mod:NewSoonAnnounce(241622, 1) --Приближение погибели
 
-local specWarnFelsoulCleave			= mod:NewSpecialWarningDodge(236543, "Tank", nil, nil, 1, 2) --Удар оскверненной души
+local specWarnFelsoulCleave			= mod:NewSpecialWarningDodge(236543, "Melee", nil, nil, 2, 3) --Удар оскверненной души
 local specWarnChaoticEnergy			= mod:NewSpecialWarningMoveTo(234107, nil, nil, nil, 3, 5) --Хаотическая энергия
 local specWarnAdds					= mod:NewSpecialWarningAdds(200597, "-Healer", nil, nil, 1, 2) --Открыть портал Скверны
 
-local timerFelsoulCleaveCD			= mod:NewCDTimer(17, 236543, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Удар оскверненной души
+local timerFelsoulCleaveCD			= mod:NewCDTimer(17, 236543, nil, "Melee", nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Удар оскверненной души
 local timerChaoticEnergyCD			= mod:NewCDTimer(30, 234107, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Хаотическая энергия
 local timerApproachingDoom			= mod:NewCastTimer(20, 241622, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON) --Приближение погибели
 
@@ -50,9 +50,9 @@ function mod:OnCombatStart(delay)
 	warned_preP2 = false
 	warned_preP3 = false
 	warned_preP4 = false
-	timerFelsoulCleaveCD:Start(9.5-delay)
-	timerChaoticEnergyCD:Start(31-delay)
-	countdownChaosEnergy:Start(31-delay)
+	timerFelsoulCleaveCD:Start(9.5-delay) --Удар оскверненной души
+	timerChaoticEnergyCD:Start(31-delay) --Хаотическая энергия
+	countdownChaosEnergy:Start(31-delay) --Хаотическая энергия
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:SetHeader(shield)
 		DBM.InfoFrame:Show(2, "enemypower", 2, ALTERNATE_POWER_INDEX)
@@ -133,13 +133,11 @@ function mod:UNIT_HEALTH(uId)
 	else
 		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 119542 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.95 then
 			warned_preP1 = true
-			warnApproachingDoom2:Show()
 		elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 119542 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.90 then
 			self.vb.phase = 2
 			warned_preP2 = true
 		elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 119542 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.55 then
 			warned_preP3 = true
-			warnApproachingDoom2:Show()
 		elseif self.vb.phase == 2 and warned_preP3 and not warned_preP4 and self:GetUnitCreatureId(uId) == 119542 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.50 then
 			self.vb.phase = 3
 			warned_preP4 = true

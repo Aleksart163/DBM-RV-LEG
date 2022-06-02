@@ -30,6 +30,7 @@ local warnSubmerged2					= mod:NewPreWarnAnnounce(196947, 5, 1) --Погруже
 local specWarnDestructorTentacle		= mod:NewSpecialWarningSwitch("ej12364", "Tank") --Щупальце разрушения
 local specWarnBrackwaterBarrage			= mod:NewSpecialWarningDodge(202088, nil, nil, nil, 3, 5) --Обстрел солоноватой водой Tank stays with destructor tentacle no matter what
 local specWarnSubmergedOver				= mod:NewSpecialWarningEnd(196947, nil, nil, nil, 1, 2) --Погружение
+local specWarnTaintofSeaOver			= mod:NewSpecialWarningEnd(197262, nil, nil, nil, 1, 2) --Морская порча
 local specWarnBreath					= mod:NewSpecialWarningDodge(227233, nil, nil, nil, 3, 5) --Оскверняющий рев
 local specWarnTorrent					= mod:NewSpecialWarningInterrupt(198495, "HasInterrupt", nil, nil, 1, 2) --Стремительный поток
 
@@ -152,6 +153,7 @@ function mod:SPELL_AURA_REMOVED(args)
 	elseif spellId == 197262 then --Морская порча
 	--	self.vb.taintofseaIcon = self.vb.taintofseaIcon + 1
 		if args:IsPlayer() then
+			specWarnTaintofSeaOver:Show()
 			yellTaintofSea2:Yell(playerName)
 		end
 		if self.Options.SetIconOnTaintofSea then

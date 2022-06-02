@@ -167,6 +167,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 207981 then
 		if args:IsPlayer() then
 			specWarnDisintegrationBeam:Show()
+			specWarnDisintegrationBeam:Play("defensive")
 			yellDisintegrationBeam:Yell()
 		end
 	elseif spellId == 214690 then --Увечье

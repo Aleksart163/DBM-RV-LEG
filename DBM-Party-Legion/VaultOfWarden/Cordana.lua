@@ -113,6 +113,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	--	timerDetonation:Start(args.destName)
 		if args:IsPlayer() then
 			specWarnDetonation:Show()
+			specWarnDetonation:Play("defensive")
 		end
 	elseif spellId == 216870 then --Сгущающиеся тени
 		if self:IsHard() then

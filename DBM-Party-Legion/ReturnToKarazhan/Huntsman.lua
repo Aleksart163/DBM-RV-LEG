@@ -17,14 +17,12 @@ mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED 227404 228895",
 	"SPELL_AURA_REMOVED 227404",
 	"SPELL_CAST_START 227363 227365 227339 227493 228852 227638",
+	"SPELL_CAST_SUCCESS 227636",
 	"UNIT_SPELLCAST_SUCCEEDED boss1 boss2",
 	"CHAT_MSG_MONSTER_YELL",
-	"UNIT_DIED",
 	"UNIT_HEALTH boss1"
 )
 
---TODO: Intangible Presence doesn't seem possible to support. How to tell right from wrong dispel is obfuscated
---Most of midnights timers are too short to really be worth including. he either spams charge or spams spectral chargers.
 local warnPhase						= mod:NewAnnounce("Phase", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 2
 local warnPhase1					= mod:NewAnnounce("Phase1", 1, 228852) --Фаза 2
 local warnPhase2					= mod:NewAnnounce("Phase2", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 3
@@ -54,6 +52,8 @@ mod:AddSetIconOption("SetIconOnSharedSuffering", 228852, true, false, {8}) --Р�
 
 mod.vb.phase = 1
 mod.vb.spectralchargeCast = 0
+mod.vb.mezairCast = 0
+mod.vb.mountedstrikeCast = 0
 
 local perephase = false
 local firstperephase = false
@@ -65,6 +65,8 @@ local warned_preP4 = false
 function mod:OnCombatStart(delay)
 	self.vb.phase = 1
 	self.vb.spectralchargeCast = 0
+	self.vb.mezairCast = 0
+	self.vb.mountedstrikeCast = 0
 	perephase = false
 	firstperephase = false
 	warned_preP1 = false
@@ -96,9 +98,20 @@ function mod:SPELL_CAST_START(args)
 		elseif self.vb.spectralchargeCast == 3 then
 			self.vb.spectralchargeCast = 0
 		end]]
-	elseif spellId == 227339 and self:AntiSpam(2, 1) then
+	elseif spellId == 227339 and self:AntiSpam(2, 1) then --Мезэр
+		self.vb.mezairCast = self.vb.mezairCast + 1
 		specWarnMezair:Show()
 		specWarnMezair:Play("chargemove")
+		if self.vb.mezairCast == 1 and self.vb.phase == 2 and perephase then -- через 3.5 сек как Ловчий спустился
+			perephase = false
+			self.vb.mountedstrikeCast = 0
+			specWarnSpectralCharge:Cancel() --Призрачный рывок
+			timerPresenceCD:Stop() --Незримое присутствие
+			timerSpectralChargeCD:Stop() --Призрачный рывок
+			timerMortalStrikeCD:Start(6) --Смертельный удар
+			timerSharedSufferingCD:Start(14.5) --Разделенные муки
+			countdownSharedSuffering:Start(14.5) --Разделенные муки
+		end
 	elseif spellId == 227493 then
 		specWarnMortalStrike:Show()
 		specWarnMortalStrike:Play("defensive")
@@ -123,6 +136,7 @@ function mod:SPELL_CAST_START(args)
 				specWarnSharedSuffering2:Show()
 			elseif self:IsHard() then
 				specWarnSharedSuffering3:Show()
+				specWarnSharedSuffering3:Play("runaway")
 			end
 		else
 			if self:IsNormal() or self:IsHeroic() then
@@ -130,10 +144,31 @@ function mod:SPELL_CAST_START(args)
 				specWarnSharedSuffering:Play("gathershare")
 			elseif self:IsHard() then
 				specWarnSharedSuffering3:Show()
+				specWarnSharedSuffering3:Play("runaway")
 			end
 		end
 		timerSharedSufferingCD:Start()
 		countdownSharedSuffering:Start(18)
+	end
+end
+
+function mod:SPELL_CAST_SUCCESS(args)
+	local spellId = args.spellId
+	if spellId == 227636 then --Удар всадника (перефаза наступила)
+		self.vb.mountedstrikeCast = self.vb.mountedstrikeCast + 1
+		if self.vb.mountedstrikeCast == 1 and self.vb.phase == 2 and not perephase then
+			perephase = true
+			self.vb.mezairCast = 0
+			timerMortalStrikeCD:Stop() --Смертельный удар
+			timerSharedSufferingCD:Stop() --Разделенные муки
+			countdownSharedSuffering:Cancel() --Разделенные муки
+			specWarnSpectralCharge:Schedule(1) --Призрачный рывок
+			specWarnSpectralCharge:ScheduleVoice(1, "watchstep") --Призрачный рывок
+			timerPresenceCD:Start(3) --Незримое присутствие
+			timerSpectralChargeCD:Schedule(13) --Призрачный рывок
+			specWarnSpectralCharge:Schedule(20.5) --Призрачный рывок
+			specWarnSpectralCharge:ScheduleVoice(20.5, "watchstep") --Призрачный рывок
+		end
 	end
 end
 
@@ -151,7 +186,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerPresenceCD:Cancel()
 	end
 end
-
+--[[
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	local spellId = legacySpellId or bfaSpellId
 	if spellId == 227338 then --Слез с коня (Неоседланная)
@@ -174,6 +209,17 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 			timerPresenceCD:Start()
 		end
 	end
+end]]
+
+function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
+	local spellId = legacySpellId or bfaSpellId
+	if spellId == 227404 then --Незримое присутствие
+		if self.vb.phase == 1 then
+			timerPresenceCD:Start(58)
+		else
+			timerPresenceCD:Start()
+		end
+	end
 end
 
 function mod:UNIT_HEALTH(uId)
@@ -185,6 +231,8 @@ function mod:UNIT_HEALTH(uId)
 			self.vb.phase = 2
 			warned_preP2 = true
 			warnPhase1:Show() --фаза 2
+			timerPresenceCD:Stop() --Незримое присутствие
+			timerMightyStompCD:Stop() --Могучий топот
 			timerMortalStrikeCD:Start(9.5) --смертельный удар
 			timerSharedSufferingCD:Start(18) --Разделенные муки
 			countdownSharedSuffering:Start(18) --Разделенные муки
@@ -199,32 +247,44 @@ function mod:UNIT_HEALTH(uId)
 			self.vb.phase = 2
 			warned_preP2 = true
 			warnPhase1:Show() --фаза 2
-			timerMortalStrikeCD:Start(9.5) --смертельный удар
-			timerSharedSufferingCD:Start(18) --Разделенные муки
-			countdownSharedSuffering:Start(18) --Разделенные муки
+			timerPresenceCD:Stop() --Незримое присутствие
+			timerMightyStompCD:Stop() --Могучий топот
+		--	timerMortalStrikeCD:Start(9.5) --смертельный удар
+		--	timerSharedSufferingCD:Start(18) --Разделенные муки
+		--	countdownSharedSuffering:Start(18) --Разделенные муки
 		elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 114262 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.10 then --Ловчий Начало фазы 3
 			warned_preP3 = true
 		end
 	end
 end
---[[
+
 function mod:CHAT_MSG_MONSTER_YELL(msg)
 	if msg == L.Perephase1 or msg:find(L.Perephase1) then --Сел на коня (Вперед, Полночь, к победе!)
-		perephase = true
+	--	perephase = true
 		if not firstperephase then
 			firstperephase = true
 		end
-		timerMortalStrikeCD:Cancel()
-		timerSharedSufferingCD:Cancel()
+	--	timerMortalStrikeCD:Stop() --Смертельный удар
+	--	timerSharedSufferingCD:Stop() --Разделенные муки
+	--	countdownSharedSuffering:Cancel() --Разделенные муки
 	elseif msg == L.Perephase2 or msg:find(L.Perephase2) then --Спустился с коня (Что ж, сразимся лицом к лицу!)
-		perephase = false
-		timerMortalStrikeCD:Start(9.5)
-		timerSharedSufferingCD:Start(18)
-		countdownSharedSuffering:Start(18)
+	--	perephase = false
+	--	timerSpectralChargeCD:Stop() --Призрачный рывок
+	--	specWarnSpectralCharge:Cancel() --Призрачный рывок
+	--	timerPresenceCD:Stop() --Незримое присутствие
+	--	timerMortalStrikeCD:Start(9.5) --Смертельный удар
+	--	timerSharedSufferingCD:Start(18) --Разделенные муки
+	--	countdownSharedSuffering:Start(18) --Разделенные муки
 	end
-	if perephase and firstperephase then
-		timerSpectralChargeCD:Start(4.5)
-		timerPresenceCD:Start(15.5) --отличное кд
-	end
+--[[	if perephase and firstperephase then
+		timerSpectralChargeCD:Start(2) --Призрачный рывок
+		specWarnSpectralCharge:Schedule(2) --Призрачный рывок
+		timerPresenceCD:Start(4) --Незримое присутствие
+		timerSpectralChargeCD:Schedule(14) --Призрачный рывок
+		specWarnSpectralCharge:Schedule(21.5) --Призрачный рывок
+	end]]
 end
-]]
+--19:52:53.939 Полночь последний раз хильнулась
+--19:52:55.519 удар всадника 227636
+--19:52:56.983 2 раз
+--19:52:58.488 3 раз
