@@ -49,7 +49,7 @@ local yellSharedSuffering			= mod:NewYell(228852, nil, nil, nil, "YELL") --Ра�
 local countdownSharedSuffering		= mod:NewCountdown(18, 228852, "Melee", nil, 5) --Разделенные муки
 
 mod:AddSetIconOption("SetIconOnSharedSuffering", 228852, true, false, {8}) --Разделенные муки
---няшмяш
+
 mod.vb.phase = 1
 mod.vb.spectralchargeCast = 0
 mod.vb.mezairCast = 0

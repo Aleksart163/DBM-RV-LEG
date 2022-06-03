@@ -36,9 +36,10 @@ local timerHowlingDarkCD				= mod:NewCDTimer(28.0, 244751, nil, nil, nil, 4, nil
 local timerEntropicForceCD				= mod:NewCDTimer(28.0, 246324, nil, nil, nil, 7) --Энтропическая сила 28-38 (все норм с момента кика) +++
 local timerEntropicForce				= mod:NewCastTimer(5, 246324, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Энтропическая сила +++
 local timerEternalTwilight				= mod:NewCastTimer(10, 248736, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Вечные сумерки (после треша) +++
-local timerAddsCD						= mod:NewCDTimer(61.9, 248736, nil, "-Healer", nil, 2, nil, DBM_CORE_DAMAGE_ICON..DBM_CORE_MYTHIC_ICON) --Призыв призрачных стражей (все норм с момента кика)
+local timerAddsCD						= mod:NewCDTimer(57.5, 248736, nil, "-Healer", nil, 2, nil, DBM_CORE_DAMAGE_ICON..DBM_CORE_MYTHIC_ICON) --Призыв призрачных стражей (все норм с момента кика)
 
-local countdownEternalTwilight			= mod:NewCountdown(10, 248736, nil, nil, 5) --Вечные сумерки (после треша)
+local countdownEternalTwilight			= mod:NewCountdown(57.5, 248736, nil, nil, 5) --Вечные сумерки (после треша)
+local countdownEternalTwilight2			= mod:NewCountdownFades("Alt10", 248736, nil, nil, 5) --Вечные сумерки (после треша)
 
 mod.vb.guardsActive = 0
 
@@ -64,12 +65,14 @@ function mod:SPELL_CAST_START(args)
 		specWarnHowlingDark:Show()
 		specWarnHowlingDark:Play("kickcast")
 	elseif spellId == 248736 and self:AntiSpam(3, 1) then --Вечные сумерки начало каста
-		warnEternalTwilight:Show()
-		timerEternalTwilight:Start()
-		countdownEternalTwilight:Start()
 		timerUmbralTentaclesCD:Stop()
 		timerEntropicForceCD:Stop()
 		timerHowlingDarkCD:Stop()
+		warnEternalTwilight:Show()
+		timerEternalTwilight:Start()
+		countdownEternalTwilight2:Start()
+		timerAddsCD:Start()
+		countdownEternalTwilight:Start()
 	elseif spellId == 246324 then
 		specWarnEntropicForce:Schedule(1)
 		specWarnEntropicForce:ScheduleVoice(1, "keepmove")
@@ -111,15 +114,13 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	elseif spellId == 249336 then--or 249335
 		specWarnAdds:Show()
 		specWarnAdds:Play("killmob")
-		timerAddsCD:Start(50.5) --57.5
-		countdownEternalTwilight:Start(50.5) --57.5
 	end
 end
 
 function mod:SPELL_INTERRUPT(args)
 	if type(args.extraSpellId) == "number" and args.extraSpellId == 248736 then
 		timerEternalTwilight:Stop()
-		countdownEternalTwilight:Cancel()
+		countdownEternalTwilight2:Cancel()
 		timerUmbralTentaclesCD:Start(12)
 		timerEntropicForceCD:Start(35)
 		timerHowlingDarkCD:Start(15)

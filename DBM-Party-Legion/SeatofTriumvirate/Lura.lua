@@ -35,24 +35,29 @@ local specWarnCalltoVoid				= mod:NewSpecialWarningSwitch(247795, "-Healer", nil
 local specWarnFragmentOfDespair			= mod:NewSpecialWarningSoak(245164, nil, nil, nil, 2, 3) --Частица отчаяния
 local specWarnGrandShift				= mod:NewSpecialWarningDodge(249009, nil, nil, nil, 2, 3) --Масштабный рывок
 
---local timerCalltoVoidCD					= mod:NewAITimer(12, 247795, nil, nil, nil, 1)
 local timerCalltoVoidCD					= mod:NewCDTimer(14.5, 247795, nil, nil, nil, 1, nil, DBM_CORE_TANK_ICON..DBM_CORE_DAMAGE_ICON) --Воззвание к Бездне
 local timerGrandShiftCD					= mod:NewCDTimer(14.5, 249009, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON..DBM_CORE_MYTHIC_ICON) --Масштабный рывок +++
 local timerUmbralCadenceCD				= mod:NewCDTimer(10.8, 247930, nil, nil, nil, 2, nil, DBM_CORE_HEALER_ICON) --Каденция Бездны +++
 local timerBacklash						= mod:NewBuffActiveTimer(12, 247816, nil, nil, nil, 6, nil, DBM_CORE_DAMAGE_ICON) --Отдача +++
 local timerBacklashCD					= mod:NewCDTimer(13.5, 247816, nil, nil, nil, 3, nil, DBM_CORE_DAMAGE_ICON) --Отдача +++
+local timerFragmentOfDespairCD			= mod:NewCDTimer(18.5, 245164, nil, nil, nil, 3, nil, DBM_CORE_DAMAGE_ICON) --Частица отчаяния
 
---local countdownBreath					= mod:NewCountdown(22, 227233)
 local countdownBacklash					= mod:NewCountdown(13.5, 247816, nil, nil, 5) --Отдача
 local countdownGrandShift				= mod:NewCountdown(14.5, 249009, nil, nil, 5) --Масштабный рывок
 
 mod.vb.phase = 1
 mod.vb.wardens = 0
+mod.vb.backlash = 0
 
 function mod:OnCombatStart(delay)
 	self.vb.phase = 1
 	self.vb.wardens = 0
-	--timerCalltoVoidCD:Start(1-delay)--Done instantly
+	self.vb.backlash = 0
+	if self:IsHard() then
+		timerFragmentOfDespairCD:Start(11)
+	else
+		timerFragmentOfDespairCD:Start(11)
+	end
 end
 
 function mod:SPELL_CAST_START(args)
@@ -64,6 +69,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 245164 and self:AntiSpam(3, 1) then
 		specWarnFragmentOfDespair:Schedule(1.5)
 		specWarnFragmentOfDespair:Play("helpsoak")
+		timerFragmentOfDespairCD:Start()
 	elseif spellId == 249009 then
 		specWarnGrandShift:Show()
 		specWarnGrandShift:Play("watchstep")
@@ -82,10 +88,20 @@ end
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 247816 then --Отдача
+		self.vb.backlash = self.vb.backlash + 1
 		warnBacklash:Show(args.destName)
 		specWarnBacklash:Show()
 		timerBacklash:Start()
-		--Pause Timers?
+		if self.vb.backlash == 1 then
+			timerCalltoVoidCD:Start(13) --Воззвание к Бездне
+			timerFragmentOfDespairCD:Start(23) --Частица отчаяния
+		elseif self.vb.backlash == 2 then
+			timerUmbralCadenceCD:Start(24)
+			if self:IsHard() then
+				timerGrandShiftCD:Start(21.5) --Масштабный рывок
+				countdownGrandShift:Start(21.5) --Масштабный рывок
+			end
+		end
 	elseif spellId == 248535 then
 		warnNaarusLamen:Show(args.destName)
 	elseif spellId == 247915 then --Разрастающийся мрак
@@ -110,6 +126,20 @@ function mod:SPELL_AURA_REMOVED(args)
 	end
 end
 
+function mod:CHAT_MSG_MONSTER_YELL(msg)
+	if msg == L.Backlash or msg:find(L.Backlash) then
+		self.vb.wardens = self.vb.wardens + 1
+		if self.vb.wardens == 1 then
+			countdownBacklash:Start()
+			timerBacklashCD:Start()
+		elseif self.vb.wardens == 2 then
+			countdownBacklash:Start()
+			timerBacklashCD:Start()
+		end
+	end
+end
+
+--[[
 function mod:UNIT_DIED(args)
 	local cid = self:GetCIDFromGUID(args.destGUID)
 	if cid == 124745 then
@@ -128,42 +158,14 @@ function mod:UNIT_DIED(args)
 			end
 		end
 	end
-end
+end]]
 
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
 	if spellId == 245242 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
-		specWarnRemnantofAnguish:Show()
-		specWarnRemnantofAnguish:Play("runaway")
+		if self:IsHard() then
+			specWarnRemnantofAnguish:Show()
+			specWarnRemnantofAnguish:Play("runaway")
+		end
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
-
---[[
-function mod:OnSync(msg)
-	if msg == "RPLura" then
-		timerBacklashCD:Start()
-		countdownBacklash:Start()
-	end
-end
-
-function mod:CHAT_MSG_MONSTER_YELL(msg) --CHAT_MSG_MONSTER_SAY
-	if msg == L.RPLura or msg:find(L.RPLura) then
-		self:SendSync("RPLura")
-	end
-end
---]]
-
---[[
-function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)
-	if msg:find("inv_misc_monsterhorn_03") then
-
-	end
-end
-
-function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
-	local spellId = legacySpellId or bfaSpellId
-	if spellId == 250011 then--Alleria Describes L'ura Conversation
-
-	end
-end
---]]
