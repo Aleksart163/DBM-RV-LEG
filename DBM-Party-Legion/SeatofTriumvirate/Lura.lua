@@ -9,22 +9,20 @@ mod:SetZone()
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_START 247795 245164 249009",
+	"SPELL_CAST_START 247795 245164 249009 247878",
 	"SPELL_CAST_SUCCESS 247930",
 	"SPELL_AURA_APPLIED 247816 248535 247915 245242",
 	"SPELL_AURA_APPLIED_DOSE 247915",
 	"SPELL_AURA_REMOVED 247816",
 --	"CHAT_MSG_RAID_BOSS_EMOTE",
-	"CHAT_MSG_MONSTER_YELL",
+--	"CHAT_MSG_MONSTER_YELL",
 	"SPELL_PERIODIC_DAMAGE 245242",
 	"SPELL_PERIODIC_MISSED 245242",
-	"UNIT_DIED",
+--	"UNIT_DIED",
 	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
 --https://ru.wowhead.com/npc=124745/страж-огромного-портала-бездны/эпохальный-журнал-сражений
---TODO, more timer work, with good english mythic or mythic+ transcriptor logs with start/stop properly used
---TODO, start grand shift timer on phase 2 trigger on mythic/mythic+ only
---TODO, RP timer
+
 local warnBacklash						= mod:NewTargetAnnounce(247816, 1, nil, "Healer") --Отдача
 local warnNaarusLamen					= mod:NewTargetAnnounce(248535, 2) --Стенания наару
 local warnGrowingDarkness				= mod:NewStackAnnounce(247915, 4, nil, nil, 2) --Разрастающийся мрак
@@ -39,10 +37,10 @@ local timerCalltoVoidCD					= mod:NewCDTimer(14.5, 247795, nil, nil, nil, 1, nil
 local timerGrandShiftCD					= mod:NewCDTimer(14.5, 249009, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON..DBM_CORE_MYTHIC_ICON) --Масштабный рывок +++
 local timerUmbralCadenceCD				= mod:NewCDTimer(10.8, 247930, nil, nil, nil, 2, nil, DBM_CORE_HEALER_ICON) --Каденция Бездны +++
 local timerBacklash						= mod:NewBuffActiveTimer(12, 247816, nil, nil, nil, 6, nil, DBM_CORE_DAMAGE_ICON) --Отдача +++
-local timerBacklashCD					= mod:NewCDTimer(13.5, 247816, nil, nil, nil, 3, nil, DBM_CORE_DAMAGE_ICON) --Отдача +++
+local timerBacklashCD					= mod:NewCDTimer(14, 247816, nil, nil, nil, 3, nil, DBM_CORE_DAMAGE_ICON) --Отдача +++
 local timerFragmentOfDespairCD			= mod:NewCDTimer(18.5, 245164, nil, nil, nil, 3, nil, DBM_CORE_DAMAGE_ICON) --Частица отчаяния
 
-local countdownBacklash					= mod:NewCountdown(13.5, 247816, nil, nil, 5) --Отдача
+local countdownBacklash					= mod:NewCountdown(14, 247816, nil, nil, 5) --Отдача
 local countdownGrandShift				= mod:NewCountdown(14.5, 249009, nil, nil, 5) --Масштабный рывок
 
 mod.vb.phase = 1
@@ -75,6 +73,15 @@ function mod:SPELL_CAST_START(args)
 		specWarnGrandShift:Play("watchstep")
 		timerGrandShiftCD:Start()
 		countdownGrandShift:Start()
+	elseif spellId == 247878 then --Вытягивание Бездны
+		self.vb.wardens = self.vb.wardens + 1
+		if self.vb.wardens == 1 then
+			countdownBacklash:Start()
+			timerBacklashCD:Start()
+		elseif self.vb.wardens == 3 then
+			countdownBacklash:Start()
+			timerBacklashCD:Start()
+		end
 	end
 end
 
@@ -96,10 +103,10 @@ function mod:SPELL_AURA_APPLIED(args)
 			timerCalltoVoidCD:Start(13) --Воззвание к Бездне
 			timerFragmentOfDespairCD:Start(23) --Частица отчаяния
 		elseif self.vb.backlash == 2 then
-			timerUmbralCadenceCD:Start(24)
+			timerUmbralCadenceCD:Start(23)
 			if self:IsHard() then
-				timerGrandShiftCD:Start(21.5) --Масштабный рывок
-				countdownGrandShift:Start(21.5) --Масштабный рывок
+				timerGrandShiftCD:Start(21) --Масштабный рывок
+				countdownGrandShift:Start(21) --Масштабный рывок
 			end
 		end
 	elseif spellId == 248535 then
@@ -125,40 +132,6 @@ function mod:SPELL_AURA_REMOVED(args)
 		--Resume timers?
 	end
 end
-
-function mod:CHAT_MSG_MONSTER_YELL(msg)
-	if msg == L.Backlash or msg:find(L.Backlash) then
-		self.vb.wardens = self.vb.wardens + 1
-		if self.vb.wardens == 1 then
-			countdownBacklash:Start()
-			timerBacklashCD:Start()
-		elseif self.vb.wardens == 2 then
-			countdownBacklash:Start()
-			timerBacklashCD:Start()
-		end
-	end
-end
-
---[[
-function mod:UNIT_DIED(args)
-	local cid = self:GetCIDFromGUID(args.destGUID)
-	if cid == 124745 then
-		self.vb.wardens = self.vb.wardens + 1
-		if self.vb.wardens == 1 then
-			timerBacklashCD:Start()
-			countdownBacklash:Start()
-			timerCalltoVoidCD:Start(27)
-		elseif self.vb.wardens == 3 then
-			timerBacklashCD:Start(19)
-			countdownBacklash:Start(19)
-			timerUmbralCadenceCD:Start(42.5)
-			if self:IsHard() then
-				timerGrandShiftCD:Start(40)
-				countdownGrandShift:Start(40)
-			end
-		end
-	end
-end]]
 
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
 	if spellId == 245242 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
