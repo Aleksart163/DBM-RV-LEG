@@ -12,8 +12,8 @@ mod:SetMinSyncRevision(16962)
 mod.respawnTime = 29
 mod:DisableRegenDetection()--Prevent false combat when fighting trash
 
---mod:RegisterCombat("combat", 122450)
-mod:RegisterCombat("combat_yell", L.YellPullGarothi)
+mod:RegisterCombat("combat")
+--mod:RegisterCombat("combat_yell", L.YellPullGarothi)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 244969 240277 246663",

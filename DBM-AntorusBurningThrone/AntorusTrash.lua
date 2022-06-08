@@ -8,10 +8,10 @@ mod:SetUsedIcons(8, 7, 6, 5, 4, 3, 2, 1)
 mod.isTrashMod = true
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 246209 245807 246444",
+	"SPELL_CAST_START 246209 245807 246444 254500",
 	"SPELL_CAST_SUCCESS 246664",
-	"SPELL_AURA_APPLIED 252760 246692 253600 254122 249297 246199 246687 254948 246698 244399",
-	"SPELL_AURA_APPLIED_DOSE",
+	"SPELL_AURA_APPLIED 252760 246692 253600 254122 249297 246199 246687 254948 246698 244399 254509 257920 248757 252797",
+	"SPELL_AURA_APPLIED_DOSE 257920 248757",
 	"SPELL_AURA_REMOVED 252760 246692 254122 249297 246687 253600",
 	"SPELL_PERIODIC_DAMAGE 246199",
 	"SPELL_PERIODIC_MISSED 246199",
@@ -34,8 +34,14 @@ local specWarnDecimation2				= mod:NewSpecialWarningDodge(246687, "-Tank", nil, 
 local specWarnSearingSlash				= mod:NewSpecialWarningDodge(246444, "Melee", nil, nil, 2, 2) --Обжигающий удар
 local specWarnPunishingFlame			= mod:NewSpecialWarningRun(246209, "Melee", nil, nil, 4, 3) --Наказующее пламя
 local specWarnPunishingFlame2			= mod:NewSpecialWarningDodge(246209, "Ranged", nil, nil, 2, 3) --Наказующее пламя
---
 local specWarnBurningWinds				= mod:NewSpecialWarningYouMove(246199, nil, nil, nil, 1, 2) --Горящие ветра
+--Император Деконикс
+local specWarnFearsomeLeap				= mod:NewSpecialWarningDodge(254500, nil, nil, nil, 2, 3) --Ужасающий прыжок
+local specWarnBladestorm				= mod:NewSpecialWarningDodge(254509, nil, nil, nil, 2, 3) --Вихрь клинков
+local specWarnFelTorch					= mod:NewSpecialWarningStack(257920, nil, 10, nil, nil, 1, 2) --Факел Скверны
+--Клобекс
+local specWarnPyrogenics				= mod:NewSpecialWarningDispel(248757, "MagicDispeller", nil, nil, 1, 3) --Пирогенез
+--
 local specWarnDemolish					= mod:NewSpecialWarningYouShare(252760, nil, nil, nil, 3, 5) --Разрушение
 local specWarnCloudofConfuse			= mod:NewSpecialWarningYouMoveAway(254122, nil, nil, nil, 3, 3) --Облако растерянности
 local specWarnCloudofConfuse2			= mod:NewSpecialWarningCloseMoveAway(254122, nil, nil, nil, 2, 3) --Облако растерянности
@@ -95,6 +101,9 @@ function mod:SPELL_CAST_START(args)
 		else
 			timerSearingSlashCD:Start()
 		end
+	elseif spellId == 254500 then --Ужасающий прыжок
+		specWarnFearsomeLeap:Show()
+		specWarnFearsomeLeap:Play("watchstep")
 	end
 end
 
@@ -175,7 +184,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self.Options.SetIconOnFlamesofReorig then
 			self:SetIcon(args.destName, 3, 6)
 		end
-	elseif spellId == 246687 or spellId == 244399 or spellId == 254948 then --Децимация
+	elseif spellId == 246687 or spellId == 244399 or spellId == 254948 or spellId == 252797 then --Децимация
 		self.vb.decimationIcon = self.vb.decimationIcon + 1
 		warnDecimation2:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
@@ -192,9 +201,25 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self.vb.decimationIcon == 5 then
 			self.vb.decimationIcon = 1
 		end
+	elseif spellId == 254509 then --Вихрь клинков
+		specWarnBladestorm:Show()
+		specWarnBladestorm:Play("watchstep")
+	elseif spellId == 257920 then --Факел Скверны
+		local amount = args.amount or 1
+		if args:IsPlayer() and not self:IsTank() then
+			if amount >= 10 and amount % 5 == 0 then
+				specWarnFelTorch:Show(amount)
+				specWarnFelTorch:Play("stackhigh")
+			end
+		end
+	elseif spellId == 248757 then --Пирогенез
+		local amount = args.amount or 1
+		if amount >= 2 then
+			specWarnPyrogenics:Show(args.destName)
+		end
 	end
 end
---mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
+mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 
 function mod:SPELL_AURA_REMOVED(args)
 	if not self.Options.Enabled then return end
@@ -235,7 +260,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		if self.Options.SetIconOnSoulburn then
 			self:SetIcon(args.destName, 0)
 		end
-	elseif spellId == 246687 or spellId == 244399 or spellId == 254948 then --Децимация
+	elseif spellId == 246687 or spellId == 244399 or spellId == 254948 or spellId == 252797 then --Децимация
 	--	self.vb.decimationIcon = self.vb.decimationIcon - 1
 		if args:IsPlayer() then
 			yellDecimationFades:Cancel()

@@ -43,9 +43,9 @@
 ----------------------------------------------------------------
 --
 DBM = {
-	Revision = tonumber(("$Revision: 17663 $"):sub(12, -3)),
+	Revision = tonumber(("$Revision: 17664 $"):sub(12, -3)),
 	DisplayVersion = "7.3.36 Right Version",
-	ReleaseRevision = 17662
+	ReleaseRevision = 17663
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -10131,8 +10131,8 @@ do
 		return newSpecialWarning(self, "standsand", text, nil, optionDefault, ...)
 	end
 	
-	function bossModPrototype:NewSpecialWarningStandWater(text, optionDefault, ...)
-		return newSpecialWarning(self, "standwater", text, nil, optionDefault, ...)
+	function bossModPrototype:NewSpecialWarningYouLookAway2(text, optionDefault, ...)
+		return newSpecialWarning(self, "youlookaway2", text, nil, optionDefault, ...)
 	end
 
 	function bossModPrototype:NewSpecialWarningPreWarn(text, optionDefault, time, ...)

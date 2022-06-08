@@ -10,8 +10,8 @@ mod:SetUsedIcons(8, 7, 3, 2, 1)
 mod:SetHotfixNoticeRev(16939)
 mod.respawnTime = 29
 
---mod:RegisterCombat("combat", 122367)
-mod:RegisterCombat("combat_say", L.YellPullCouncil)
+mod:RegisterCombat("combat")
+--mod:RegisterCombat("combat_say", L.YellPullCouncil)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 244625 246505 253040 245227",

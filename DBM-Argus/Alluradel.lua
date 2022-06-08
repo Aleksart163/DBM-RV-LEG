@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2011, "DBM-Argus", nil, 959)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17548 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 mod:SetCreatureID(124625)
 mod:SetEncounterID(2083)
 --mod:SetReCombatTime(20)
@@ -17,40 +17,45 @@ mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED_DOSE 247544"
 )
 
-local warnBeguilingCharm			= mod:NewTargetAnnounce(247549, 4)
-local warnFelLash					= mod:NewSpellAnnounce(247604, 2)
-local warnHeartBreaker				= mod:NewTargetAnnounce(247517, 2, nil, "Healer")
+local warnBeguilingCharm			= mod:NewTargetAnnounce(247549, 4) --Обманные чары
+local warnBeguilingCharm2			= mod:NewSoonAnnounce(247549, 1) --Обманные чары
+local warnFelLash					= mod:NewSpellAnnounce(247604, 2) --Бич Скверны
+local warnHeartBreaker				= mod:NewTargetAnnounce(247517, 3, nil, "Healer") --Разбитое сердце
 
-local specWarnBeguilingCharm		= mod:NewSpecialWarningLookAway(247549, nil, nil, nil, 3, 2)
-local specWarnSadist				= mod:NewSpecialWarningCount(247544, nil, DBM_CORE_AUTO_SPEC_WARN_OPTIONS.stack:format(12, 159515), nil, 1, 2)
-local specWarnSadistOther			= mod:NewSpecialWarningTaunt(247544, nil, nil, nil, 1, 2)
+local specWarnFelLash				= mod:NewSpecialWarningDodge(247604, "-Tank", nil, nil, 2, 2) --Бич Скверны
+local specWarnBeguilingCharm		= mod:NewSpecialWarningLookAway(247549, nil, nil, nil, 3, 5) --Обманные чары
+local specWarnSadist				= mod:NewSpecialWarningStack(247544, nil, 15, nil, nil, 1, 2) --Садизм
+local specWarnSadistOther			= mod:NewSpecialWarningTaunt(247544, nil, nil, nil, 1, 2) --Садизм
 
-local timerBeguilingCharmCD			= mod:NewCDTimer(34.1, 247549, nil, nil, nil, 2, nil, DBM_CORE_IMPORTANT_ICON)
-local timerFelLashCD				= mod:NewCDTimer(31.1, 247604, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
-local timerHeartBreakerCD			= mod:NewCDTimer(21.2, 247517, nil, "Healer", nil, 5, nil, DBM_CORE_HEALER_ICON)
+local timerBeguilingCharmCD			= mod:NewCDTimer(47, 247549, nil, nil, nil, 2, nil, DBM_CORE_IMPORTANT_ICON) --Обманные чары +++
+local timerFelLashCD				= mod:NewCDTimer(36, 247604, nil, "Melee", nil, 5, nil, DBM_CORE_TANK_ICON) --Бич Скверны +++
+local timerHeartBreakerCD			= mod:NewCDTimer(24.5, 247517, nil, nil, nil, 2, nil, DBM_CORE_HEALER_ICON..DBM_CORE_MAGIC_ICON) --Разбитое сердце +++
 
-local countdownBeguilingCharm		= mod:NewCountdown(34.1, 247549)
+local countdownBeguilingCharm		= mod:NewCountdown(47, 247549, nil, nil, 5) --Обманные чары
 
 mod:AddReadyCheckOption(48620, false)
 
 function mod:OnCombatStart(delay, yellTriggered)
 	if yellTriggered then
-		timerHeartBreakerCD:Start(5-delay)
-		timerFelLashCD:Start(15-delay)
-		timerBeguilingCharmCD:Start(30-delay)
-		countdownBeguilingCharm:Start(30-delay)
+		timerHeartBreakerCD:Start(6.5-delay) --Разбитое сердце +++
+		timerFelLashCD:Start(16.5-delay) --Бич Скверны +++
+		timerBeguilingCharmCD:Start(32.5-delay) --Обманные чары +++
+		countdownBeguilingCharm:Start(32.5-delay) --Обманные чары +++
+		warnStanceofMountain2:Schedule(22.5-delay) --Обманные чары
 	end
 end
 
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 247549 then
-		specWarnBeguilingCharm:Show()
-		specWarnBeguilingCharm:Play("turnaway")
+		specWarnBeguilingCharm:Schedule(1.5)
+		specWarnBeguilingCharm:ScheduleVoice(1.5, "turnaway")
 		timerBeguilingCharmCD:Start()
 		countdownBeguilingCharm:Start()
+		warnStanceofMountain2:Schedule(37)
 	elseif spellId == 247604 then
 		warnFelLash:Show()
+		specWarnFelLash:Show()
 		timerFelLashCD:Start()
 	end
 end
@@ -68,7 +73,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnBeguilingCharm:CombinedShow(1, args.destName)
 	elseif spellId == 247544 then
 		local amount = args.amount or 1
-		if (amount >= 12) and self:AntiSpam(4, 4) then--First warning at 12, then spam every 4 seconds above.
+		if (amount >= 15) and self:AntiSpam(4, 4) then--First warning at 12, then spam every 4 seconds above.
 			if self:IsTanking("player", "boss1", nil, true) then
 				specWarnSadist:Show(amount)
 				specWarnSadist:Play("changemt")

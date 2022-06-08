@@ -10,16 +10,16 @@ mod:SetUsedIcons(8, 7, 6, 5, 4, 3, 2, 1)
 mod:SetHotfixNoticeRev(16961)
 mod.respawnTime = 30
 
---mod:RegisterCombat("combat", 124158)
-mod:RegisterCombat("combat_yell", L.YellPullImonar)
-mod:RegisterCombat("combat_yell", L.YellPullImonar2)
-mod:RegisterCombat("combat_yell", L.YellPullImonar3)
+mod:RegisterCombat("combat")
+--mod:RegisterCombat("combat_yell", L.YellPullImonar)
+--mod:RegisterCombat("combat_yell", L.YellPullImonar2)
+--mod:RegisterCombat("combat_yell", L.YellPullImonar3)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 247376 247923 248068 248070 248254",
 	"SPELL_CAST_SUCCESS 247367 247552 247687 250255 254244",
-	"SPELL_AURA_APPLIED 247367 247565 247687 250255 250006 247641 255029",
-	"SPELL_AURA_APPLIED_DOSE 247367 247687 250255",
+	"SPELL_AURA_APPLIED 247367 247565 247687 250255 250006 247641 255029 250224 254183",
+	"SPELL_AURA_APPLIED_DOSE 247367 247687 250255 250224",
 	"SPELL_AURA_REMOVED 248233 250135 250006",
 --	"SPELL_PERIODIC_DAMAGE",
 --	"SPELL_PERIODIC_MISSED",
@@ -52,6 +52,8 @@ local warnEmpoweredPulseGrenade			= mod:NewTargetAnnounce(250006, 3) --Усил�
 --General
 --local specWarnGTFO					= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 2)
 --Stage One: Attack Force
+local specWarnSearedSkin				= mod:NewSpecialWarningYouDefensive(254183, nil, nil, nil, 3, 5) --Опаленная кожа
+local specWarnShocked					= mod:NewSpecialWarningStack(250224, nil, 2, nil, nil, 3, 5) --Шок
 local specWarnShocklance				= mod:NewSpecialWarningTaunt(247367, nil, nil, nil, 3, 5) --Копье-шокер
 local specWarnSleepCanister				= mod:NewSpecialWarningYouMoveAway(247552, nil, nil, nil, 3, 5) --Склянка с усыпляющим газом
 local specWarnSleepCanisterNear			= mod:NewSpecialWarningCloseMoveAway(247552, nil, nil, nil, 1, 2) --Склянка с усыпляющим газом
@@ -61,7 +63,7 @@ local specWarnSever						= mod:NewSpecialWarningTaunt(247687, nil, nil, nil, 3, 
 local specWarnChargedBlastsUnknown		= mod:NewSpecialWarningDodge(247716, nil, nil, nil, 2, 2) --Направленные взрывы
 local specWarnShrapnalBlast				= mod:NewSpecialWarningDodge(247923, nil, nil, nil, 1, 2) --Заряд шрапнели
 --Stage Three/Five: The Perfect Weapon
-local specWarnEmpPulseGrenade			= mod:NewSpecialWarningYouMoveAway(250006, nil, nil, nil, 3, 5) --Усиленная импульсная граната
+local specWarnEmpPulseGrenade			= mod:NewSpecialWarningYouMoveAway(250006, nil, nil, nil, 4, 5) --Усиленная импульсная граната
 --Intermission: On Deadly Ground
 
 --Stage One: Attack Force
@@ -78,7 +80,7 @@ local timerShrapnalBlastCD				= mod:NewCDCountTimer(13.3, 247923, nil, nil, nil,
 local yellSleepCanisterStun				= mod:NewYell(255029, L.DispelMe, nil, nil, "YELL") --Склянка с усыпляющим газом Auto yell when safe to dispel (no players within 10 yards)
 local yellStasisTrap					= mod:NewYell(247641, L.DispelMe, nil, nil, "YELL") --Стазисная ловушка
 local yellEmpPulseGrenade				= mod:NewYell(250006, nil, nil, nil, "YELL") --Усиленная импульсная граната
-local yellSleepCanister					= mod:NewPosYell(247552, DBM_CORE_AUTO_YELL_CUSTOM_POSITION) --Склянка с усыпляющим газом
+local yellSleepCanister					= mod:NewPosYell(247552, DBM_CORE_AUTO_YELL_CUSTOM_POSITION, nil, nil, "YELL") --Склянка с усыпляющим газом
 
 local berserkTimer						= mod:NewBerserkTimer(420)
 
@@ -347,6 +349,24 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 247641 then
 		if args:IsPlayer() then
 			yellStasisTrap:Yell()
+		end
+	elseif spellId == 250224 then --Шок
+		local amount = args.amount or 1
+		if amount >= 2 and not self:IsTank() then
+			if args:IsPlayer() then
+				specWarnShocked:Show(amount)
+				specWarnShocked:Play("stackhigh")
+			end
+		elseif amount >= 5 and self:IsTank() then
+			if args:IsPlayer() then
+				specWarnShocked:Show(amount)
+				specWarnShocked:Play("stackhigh")
+			end
+		end
+	elseif spellId == 254183 and self:AntiSpam(2, 1) then --Опаленная кожа
+		if args:IsPlayer() then
+			specWarnSearedSkin:Show()
+			specWarnSearedSkin:Play("stackhigh")
 		end
 	end
 end

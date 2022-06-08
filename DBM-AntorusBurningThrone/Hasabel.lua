@@ -12,10 +12,10 @@ mod:SetHotfixNoticeRev(16950)
 mod:SetMinSyncRevision(16950)
 mod.respawnTime = 30
 
---mod:RegisterCombat("combat", 122104)
-mod:RegisterCombat("combat_yell", L.YellPullHasabel)
-mod:RegisterCombat("combat_yell", L.YellPullHasabel2)
-mod:RegisterCombat("combat_yell", L.YellPullHasabel3)
+mod:RegisterCombat("combat")
+--mod:RegisterCombat("combat_yell", L.YellPullHasabel)
+--mod:RegisterCombat("combat_yell", L.YellPullHasabel2)
+--mod:RegisterCombat("combat_yell", L.YellPullHasabel3)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 243983 244709 245504 244607 244915 246805 244689 244000",

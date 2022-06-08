@@ -392,6 +392,7 @@ DBM_CORE_AUTO_SPEC_WARN_TEXTS = {
 	runningcount	= "%s! (%%s) - run together",
 	cast			= "%s - stop casting",
 	lookaway		= "%s! - look away",
+	youlookaway2	= "%s on you! - look away",
 	youlook			= "%s on you! - look at >%%s<",
 	youfind			= "%s on you! - return your soul",
 	reflect			= "%s on >%%s< - stop attacking",
@@ -406,8 +407,7 @@ DBM_CORE_AUTO_SPEC_WARN_TEXTS = {
 	moredamage		= "%s! - more damage on the boss",
 	youmoredamage	= "%s on you! - give more damage",
 	paraxiscount	= "%s! - turn of the (%%s) group",
-	standsand		= "%s! - move to land",
-	standwater		= "%s! - move to water"
+	standsand		= "%s! - move to land"
 }
 
 -- Auto-generated Special Warning Localizations
@@ -465,6 +465,7 @@ DBM_CORE_AUTO_SPEC_WARN_OPTIONS = {
 	runningcount	= "Show special warning (with count) \"run together\" for $spell:%s",
 	cast 			= "Show special warning to stop casting for $spell:%s",--Spell Interrupt
 	lookaway		= "Show special warning to look away for $spell:%s",
+	youlookaway2 	= "Show special warning \"look away\" when on you $spell:%s",
 	youlook			= "Show special warning \"look at...\" when you target $spell:%s",
 	youfind			= "Show special warning \"return your soul\" when you target $spell:%s",
 	reflect 		= "Show special warning to stop attacking $spell:%s",--Spell Reflect
@@ -479,8 +480,7 @@ DBM_CORE_AUTO_SPEC_WARN_OPTIONS = {
 	moredamage		= "Show special warning \"more damage on the boss\" when on target $spell:%s",
 	youmoredamage	= "Show special warning \"give more damage\" when on you $spell:%s",
 	paraxiscount	= "Show special warning (with count) \"turn of the ... group\" for $spell:%s",
-	standsand		= "Show special warning \"move to land\" for $spell:%s",
-	standwater		= "Show special warning \"move to water\" for $spell:%s"
+	standsand		= "Show special warning \"move to land\" for $spell:%s"
 }
 
 -- Auto-generated Timer Localizations

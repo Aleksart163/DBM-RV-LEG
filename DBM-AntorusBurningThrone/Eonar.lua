@@ -10,7 +10,8 @@ mod:SetUsedIcons(5, 4, 3, 2, 1)
 mod:SetHotfixNoticeRev(16960)
 --mod.respawnTime = 29
 
-mod:RegisterCombat("combat_yell", L.YellPullEonar)
+mod:RegisterCombat("combat")
+--mod:RegisterCombat("combat_yell", L.YellPullEonar)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 249121 250701 246305",

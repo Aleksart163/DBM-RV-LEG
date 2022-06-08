@@ -10,8 +10,8 @@ mod:SetUsedIcons(8, 7, 6, 5, 4, 3, 2, 1)
 mod:SetHotfixNoticeRev(16963)
 mod.respawnTime = 28
 
---mod:RegisterCombat("combat", 122468, 122467, 122469)
-mod:RegisterCombat("combat_yell", L.YellPullCoven)
+mod:RegisterCombat("combat")
+--mod:RegisterCombat("combat_yell", L.YellPullCoven)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 245627 252861 253650 250648 250095",

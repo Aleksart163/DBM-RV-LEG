@@ -10,9 +10,9 @@ mod:SetUsedIcons(8, 4, 3)
 mod:SetHotfixNoticeRev(17238)
 mod.respawnTime = 29
 
---mod:RegisterCombat("combat", 122366)
-mod:RegisterCombat("combat_yell", L.YellPullVarimathras)
-mod:RegisterCombat("combat_yell", L.YellPullVarimathras2)
+mod:RegisterCombat("combat")
+--mod:RegisterCombat("combat_yell", L.YellPullVarimathras)
+--mod:RegisterCombat("combat_yell", L.YellPullVarimathras2)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_SUCCESS 243960 244093 243999 257644 244042",
@@ -179,7 +179,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self.Options.SetIconOnMarkedPrey then
 			self:SetIcon(args.destName, 8, 7)
 		end
-	elseif spellId == 244094 then --Некротические объятия
+	elseif spellId == 244094 and self:AntiSpam(2, 1) then --Некротические объятия
 		self.vb.totalEmbrace = self.vb.totalEmbrace + 1
 		if self.vb.totalEmbrace >= 3 then return end--Once it's beyond 2 players, consider it a wipe and throttle messages
 		if self.Options.SetIconEmbrace then
@@ -226,7 +226,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				specWarnNecroticEmbrace2:Show(args.destName)
 			end
 		end
-	elseif spellId == 248732 then
+	elseif spellId == 248732 and self:AntiSpam(2, 1) then --Отголоски гибели
 		warnEchoesofDoom:CombinedShow(0.5, args.destName)--In case multiple shadows up
 		if args:IsPlayer() and self:AntiSpam(3, 1) then
 			specWarnEchoesOfDoom:Show()

@@ -5,12 +5,12 @@ mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 mod:SetCreatureID(121975)
 mod:SetEncounterID(2063)
 mod:SetZone()
-mod:SetUsedIcons(1, 2, 3, 4, 5)
+mod:SetUsedIcons(5, 4, 3, 2, 1)
 mod:SetHotfixNoticeRev(16964)
 mod.respawnTime = 25
 
---mod:RegisterCombat("combat", 121975)
-mod:RegisterCombat("combat_yell", L.YellPullAggramar)
+mod:RegisterCombat("combat")
+--mod:RegisterCombat("combat_yell", L.YellPullAggramar)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 244693 245458 245463 245301 255058 255061 255059",
@@ -45,31 +45,31 @@ local specWarnFlameRend2				= mod:NewSpecialWarning("FlameRend3", nil, nil, nil,
 
 local specWarnBlazingEruption			= mod:NewSpecialWarningStack(244912, "-Tank", 2, nil, nil, 1, 5) --Извержение пламени
 --Stage One: Wrath of Aggramar
-local specWarnTaeshalachReach			= mod:NewSpecialWarningStack(245990, nil, 8, nil, nil, 3, 3) --Гигантский клинок
-local specWarnTaeshalachReachOther		= mod:NewSpecialWarningTaunt(245990, nil, nil, nil, 3, 3) --Гигантский клинок
+local specWarnTaeshalachReach			= mod:NewSpecialWarningStack(245990, nil, 8, nil, nil, 1, 3) --Гигантский клинок
+local specWarnTaeshalachReachOther		= mod:NewSpecialWarningTaunt(245990, nil, nil, nil, 1, 3) --Гигантский клинок
 local specWarnScorchingBlaze			= mod:NewSpecialWarningYouMoveAway(245994, nil, nil, nil, 1, 5) --Обжигающее пламя
 local specWarnScorchingBlazeNear		= mod:NewSpecialWarningCloseMoveAway(245994, nil, nil, nil, 1, 5) --Обжигающее пламя
-local specWarnRavenousBlaze				= mod:NewSpecialWarningYouMoveAway(254452, nil, nil, nil, 3, 5) --Хищное пламя
-local specWarnRavenousBlazeNear			= mod:NewSpecialWarningCloseMoveAway(254452, nil, nil, nil, 3, 5) --Хищное пламя
+local specWarnRavenousBlaze				= mod:NewSpecialWarningYouMoveAway(254452, nil, nil, nil, 4, 5) --Хищное пламя
+local specWarnRavenousBlazeNear			= mod:NewSpecialWarningCloseMoveAway(254452, nil, nil, nil, 2, 5) --Хищное пламя
 local specWarnWakeofFlame				= mod:NewSpecialWarningDodge(244693, nil, nil, nil, 2, 2) --Огненная волна
 local specWarnFoeBreakerTaunt			= mod:NewSpecialWarningTaunt(245458, nil, nil, nil, 3, 2) --Сокрушитель
 local specWarnFoeBreakerDefensive		= mod:NewSpecialWarningDefensive(245458, nil, nil, nil, 3, 2) --Сокрушитель
-local specWarnFlameRend					= mod:NewSpecialWarningRunningCount(245463, nil, nil, nil, 3, 5) --Разрывающее пламя
+local specWarnFlameRend					= mod:NewSpecialWarningRunningCount(245463, nil, nil, nil, 4, 5) --Разрывающее пламя
 local specWarnFlameRendTaunt			= mod:NewSpecialWarningTaunt(245463, nil, nil, nil, 1, 2) --Разрывающее пламя
 local specWarnSearingTempest			= mod:NewSpecialWarningRun(245301, nil, nil, nil, 4, 3) --Опаляющая буря
 --Stage Two: Champion of Sargeras
 local specWarnFlare						= mod:NewSpecialWarningDodge(245983, "-Tank", nil, 2, 2, 2) --Вспышка
 
 --Stage One: Wrath of Aggramar
-local timerTaeshalachTechCD				= mod:NewNextCountTimer(58, 244688, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON) --Искусный прием было 61
-local timerFoeBreakerCD					= mod:NewNextCountTimer(6.1, 245458, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON) --Сокрушитель
-local timerFlameRendCD					= mod:NewNextCountTimer(6.1, 245463, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON) --Разрывающее пламя
+local timerTaeshalachTechCD				= mod:NewNextCountTimer(59, 244688, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON) --Искусный прием было 61
+local timerFoeBreakerCD					= mod:NewNextCountTimer(6.1, 245458, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Сокрушитель
+local timerFlameRendCD					= mod:NewNextCountTimer(6.1, 245463, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Разрывающее пламя
 local timerTempestCD					= mod:NewNextTimer(6.1, 245301, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Опаляющая буря
-local timerScorchingBlazeCD				= mod:NewCDTimer(6.5, 245994, nil, nil, nil, 3) --Обжигающее пламя 6.5-8
-local timerRavenousBlazeCD				= mod:NewCDTimer(22.2, 254452, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Хищное пламя
+local timerScorchingBlazeCD				= mod:NewCDTimer(6.5, 245994, nil, nil, nil, 3, nil, DBM_CORE_HEALER_ICON..DBM_CORE_DEADLY_ICON) --Обжигающее пламя 6.5-8
+local timerRavenousBlazeCD				= mod:NewCDTimer(22.2, 254452, nil, nil, nil, 3, nil, DBM_CORE_MYTHIC_ICON..DBM_CORE_DEADLY_ICON) --Хищное пламя
 local timerWakeofFlameCD				= mod:NewCDTimer(24.3, 244693, nil, nil, nil, 3) --Огненная волна
 --Stage Two: Champion of Sargeras
-local timerFlareCD						= mod:NewCDTimer(15, 245983, nil, nil, 2, 3) --Вспышка
+local timerFlareCD						= mod:NewCDTimer(15, 245983, nil, "Ranged", 2, 3, nil, DBM_CORE_DEADLY_ICON) --Вспышка
 
 local yellScorchingBlaze				= mod:NewYell(245994, nil, nil, nil, "YELL") --Обжигающее пламя
 local yellRavenousBlaze					= mod:NewPosYell(254452, nil, nil, nil, "YELL") --Хищное пламя
@@ -79,7 +79,7 @@ local berserkTimer						= mod:NewBerserkTimer(600)
 
 --Stages One: Wrath of Aggramar
 local countdownTaeshalachTech			= mod:NewCountdown(61, 244688, nil, nil, 5) --Искусный прием
-local countdownFlare					= mod:NewCountdown("Alt15", 245983, "-Tank", nil, 5) --Вспышка
+local countdownFlare					= mod:NewCountdown("Alt15", 245983, "Ranged", nil, 5) --Вспышка
 --local countdownWakeofFlame				= mod:NewCountdown("AltTwo24", 244693, "-Tank") --Огненная волна
 
 mod:AddSetIconOption("SetIconOnBlaze2", 254452, true, false, {5, 4, 3, 2, 1}) --Хищное пламя Both off by default, both conflit with one another

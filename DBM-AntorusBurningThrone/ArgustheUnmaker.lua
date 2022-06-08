@@ -11,8 +11,8 @@ mod:SetHotfixNoticeRev(16993)
 mod:SetMinSyncRevision(16895)
 mod.respawnTime = 29
 
---mod:RegisterCombat("combat", 124828)
-mod:RegisterCombat("combat_yell", L.YellPullArgus)
+mod:RegisterCombat("combat")
+--mod:RegisterCombat("combat_yell", L.YellPullArgus)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 248165 248317 257296 255594 257645 252516 256542 255648 257619",

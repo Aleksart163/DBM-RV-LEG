@@ -388,6 +388,7 @@ DBM_CORE_AUTO_SPEC_WARN_TEXTS.yourunning		= "%s на вас! - сбегитес�
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.runningcount		= "%s! (%%s) - сбегитесь вместе"
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.cast 				= "%s - прервите свой каст!"
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.lookaway			= "%s! - отвернитесь"
+DBM_CORE_AUTO_SPEC_WARN_TEXTS.youlookaway2		= "%s на вас! - отвернитесь от других"
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.youlook			= "%s на вас! - смотри на >%%s<"
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.youfind			= "%s на вас! - верните свою душу"
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.reflect 			= "%s на |3-5(>%%s<) - прекратите атаку"
@@ -405,7 +406,6 @@ DBM_CORE_AUTO_SPEC_WARN_TEXTS.moredamage		= "%s! - больше урону по 
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.youmoredamage		= "%s на вас! - дайте больше урона"
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.paraxiscount		= "%s! - очередь (%%s) группы"
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.standsand			= "%s - встаньте на песок"
-DBM_CORE_AUTO_SPEC_WARN_TEXTS.standwater		= "%s - встаньте в воду"
 
 -- Auto-generated Special Warning Localizations
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.spell 			= "Спец-предупреждение для $spell:%s"
@@ -461,6 +461,7 @@ DBM_CORE_AUTO_SPEC_WARN_OPTIONS.yourunning		= "Спец-предупрежден
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.runningcount	= "Спец-предупреждение (со счетчиком) \"сбегитесь вместе\" для $spell:%s"
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.cast 			= "Спец-предупреждение \"прервите свой каст\" для $spell:%s"
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.lookaway 		= "Спец-предупреждение \"отвернитесь\" для $spell:%s"
+DBM_CORE_AUTO_SPEC_WARN_OPTIONS.youlookaway2 	= "Спец-предупреждение \"отвернитесь от других\" когда на вас $spell:%s"
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.youlook			= "Спец-предупреждение \"смотрите на ...\" когда вы цель $spell:%s"
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.youfind			= "Спец-предупреждение \"верните свою духовную энергию\" когда вы цель $spell:%s"
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.reflect 		= "Спец-предупреждение \"прекратите атаку\" для $spell:%s"
@@ -478,7 +479,6 @@ DBM_CORE_AUTO_SPEC_WARN_OPTIONS.moredamage		= "Спец-предупрежден
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.youmoredamage	= "Спец-предупреждение \"дайте больше урона\" когда на вас $spell:%s"
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.paraxiscount	= "Спец-предупреждение (со счетчиком) \"очередь ... группы\" для $spell:%s"
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.standsand		= "Спец-предупреждение \"встаньте на песок\" для $spell:%s"
-DBM_CORE_AUTO_SPEC_WARN_OPTIONS.standwater		= "Спец-предупреждение \"встаньте в воду\" для $spell:%s"
 
 -- Auto-generated Timer Localizations
 DBM_CORE_AUTO_TIMER_TEXTS.target 		= "%s: >%%s<"

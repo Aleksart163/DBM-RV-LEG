@@ -11,10 +11,10 @@ mod:SetHotfixNoticeRev(16945)
 mod:SetMinSyncRevision(16975)
 mod.respawnTime = 29
 
---mod:RegisterCombat("combat", 122578)
-mod:RegisterCombat("combat_yell", L.YellPullKingaroth)
-mod:RegisterCombat("combat_yell", L.YellPullKingaroth2)
-mod:RegisterCombat("combat_yell", L.YellPullKingaroth3)
+mod:RegisterCombat("combat")
+--mod:RegisterCombat("combat_yell", L.YellPullKingaroth)
+--mod:RegisterCombat("combat_yell", L.YellPullKingaroth2)
+--mod:RegisterCombat("combat_yell", L.YellPullKingaroth3)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 244312 254926 245807 252758 246692 246833 246516 257978 254919",
@@ -29,17 +29,6 @@ mod:RegisterEventsInCombat(
 	"UNIT_SPELLCAST_SUCCEEDED boss1 boss2 boss3 boss4 boss5"
 )
 
---TODO, how does mythic reverberating decimatino work (18 yard spread?)
---TODO, analyze DiabolicBomb
---TODO, how to detect http://ptr.wowhead.com/spell=249920/weapons-upgrade
---TODO, workin http://ptr.wowhead.com/spell=246629/apocalypse-blast
---TODO, more work on infoframe for fel reaver construction status, etc.
---TODO, currently annihilation are only detectable via nameplate/target casts as such, it's pretty bad idea to support it unless it's really required
---[[
-(ability.id = 244312 or ability.id = 254926 or ability.id = 245807 or ability.id = 252758 or ability.id = 246692 or ability.id = 246833 or ability.id = 246516 or ability.id = 257997 or ability.id = 257978 or ability.id = 254919) and type = "begincast"
- or (ability.id = 252758 or ability.id = 246692 or ability.id = 248214) and type = "cast"
- or (ability.id = 246516 or ability.id = 246698 or ability.id = 252760) and (type = "removebuff" or type = "removedebuff")
---]]
 --Stage: Deployment
 local warnShatteringStrike				= mod:NewSpellAnnounce(248375, 2) --Разбивающий удар
 local warnDiabolicBomb					= mod:NewSpellAnnounce(246779, 3, nil, nil, nil, nil, nil, 2) --Демоническая бомба
