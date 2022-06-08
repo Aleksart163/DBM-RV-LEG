@@ -18,7 +18,7 @@ mod:RegisterEventsInCombat(
 )
 
 local warnFragment				= mod:NewTargetAnnounce(194327, 3) --Разделение
-local warnVoidSnap				= mod:NewSpellAnnounce(194266, 4) --Хватка Бездны
+local warnVoidSnap				= mod:NewCastAnnounce(194266, 4) --Хватка Бездны
 
 local specWarnNetherRip			= mod:NewSpecialWarningYouMove(194235, nil, nil, nil, 1, 2) --Разрыв пустоты
 local specWarnFragment			= mod:NewSpecialWarningSwitch(194327, "Dps", nil, nil, 1, 2) --Разделение

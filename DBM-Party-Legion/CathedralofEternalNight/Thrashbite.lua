@@ -10,6 +10,7 @@ mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED 238484 237726",
+	"SPELL_AURA_REMOVED 237726",
 	"SPELL_CAST_START 237276",
 	"SPELL_CAST_SUCCESS 243124"
 )
@@ -23,11 +24,13 @@ local specWarnMindControl			= mod:NewSpecialWarningSwitchCount(238484, nil, DBM_
 local specWarnScornfulGaze			= mod:NewSpecialWarningMoveTo(237726, nil, nil, nil, 4, 5) --Глумливый взгляд
 local specWarnScornfulGaze2			= mod:NewSpecialWarningDodge(237726, "-Tank", nil, nil, 2, 2) --Глумливый взгляд
 
-local timerPulvCrudgelCD			= mod:NewCDTimer(34.2, 237276, nil, nil, nil, 2, nil, DBM_CORE_TANK_ICON) --Сокрушающая дубина
+local timerPulvCrudgelCD			= mod:NewCDTimer(34.2, 237276, nil, nil, nil, 2, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Сокрушающая дубина
 local timerScornfulGazeCD			= mod:NewCDTimer(36.5, 237726, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Глумливый взгляд
+local timerScornfulGaze				= mod:NewCastTimer(7, 237726, nil, nil, nil, 7) --Глумливый взгляд
 local timerHeaveCrudCD				= mod:NewCDTimer(36.5, 243124, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Бросок дубины
 
-local countdownScornfulGaze			= mod:NewCountdown(36.5, 237726, nil, nil, 5) --Глумливый взгляд
+local countdownScornfulGaze			= mod:NewCountdown(37, 237726, nil, nil, 5) --Глумливый взгляд
+local countdownScornfulGaze2		= mod:NewCountdownFades("Alt7", 237726, nil, nil, 5) --Глумливый взгляд
 
 local yellScornfulGaze				= mod:NewYell(237726, nil, nil, nil, "YELL") --Глумливый взгляд
 local yellScornfulGaze2				= mod:NewFadesYell(237726, nil, nil, nil, "YELL") --Глумливый взгляд
@@ -35,10 +38,16 @@ local yellScornfulGaze2				= mod:NewFadesYell(237726, nil, nil, nil, "YELL") --�
 mod:AddSetIconOption("SetIconOnScornfulGaze", 237726, true, false, {8}) --Глумливый взгляд
 
 function mod:OnCombatStart(delay)
-	timerPulvCrudgelCD:Start(6-delay)
-	timerHeaveCrudCD:Start(15.5-delay)
-	timerScornfulGazeCD:Start(26.7-delay)
-	countdownScornfulGaze:Start(26.7-delay)
+	if self:IsHard() then
+		timerPulvCrudgelCD:Start(6-delay) --Сокрушающая дубина +++
+		timerHeaveCrudCD:Start(17.5-delay) --Бросок дубины +++
+		timerScornfulGazeCD:Start(26.7-delay) --Глумливый взгляд +++
+		countdownScornfulGaze:Start(26.7-delay) --Глумливый взгляд +++
+	else
+		timerPulvCrudgelCD:Start(6-delay) --Сокрушающая дубина
+		timerHeaveCrudCD:Start(15.5-delay) --Бросок дубины
+		timerScornfulGazeCD:Start(26.7-delay)
+	end
 end
 
 function mod:OnCombatEnd()
@@ -58,7 +67,10 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnMindControl:Play("findmc")
 		end
 	elseif spellId == 237726 then --Глумливый взгляд
+		timerScornfulGaze:Start()
 		timerScornfulGazeCD:Start()
+		timerHeaveCrudCD:Start(27.5)
+		countdownScornfulGaze2:Start()
 		countdownScornfulGaze:Start()
 		if args:IsPlayer() then
 			specWarnScornfulGaze:Show(L.bookCase)
@@ -74,9 +86,20 @@ function mod:SPELL_AURA_APPLIED(args)
 	end
 end
 
+function mod:SPELL_AURA_REMOVED(args)
+	local spellId = args.spellId
+	if spellId == 237726 then --Глумливый взгляд
+		timerScornfulGaze:Stop()
+		countdownScornfulGaze2:Cancel()
+		if args:IsPlayer() then
+			yellScornfulGaze2:Cancel()
+		end
+	end
+end
+
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
-	if spellId == 237276 then
+	if spellId == 237276 then --Сокрушающая дубина
 		specWarnPulvCrudgel:Show()
 		specWarnPulvCrudgel2:Show()
 		timerPulvCrudgelCD:Start()
@@ -87,7 +110,6 @@ function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
 	if spellId == 243124 then
 		warnHeaveCrud:Show()
-		timerHeaveCrudCD:Start()
 	end
 end
 

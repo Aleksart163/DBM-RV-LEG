@@ -41,6 +41,7 @@ local timerBacklashCD					= mod:NewCDTimer(14, 247816, nil, nil, nil, 3, nil, DB
 local timerFragmentOfDespairCD			= mod:NewCDTimer(18.5, 245164, nil, nil, nil, 3, nil, DBM_CORE_DAMAGE_ICON) --Частица отчаяния
 
 local countdownBacklash					= mod:NewCountdown(14, 247816, nil, nil, 5) --Отдача
+local countdownBacklash2				= mod:NewCountdownFades("Alt12", 247816, nil, nil, 5) --Отдача
 local countdownGrandShift				= mod:NewCountdown(14.5, 249009, nil, nil, 5) --Масштабный рывок
 
 mod.vb.phase = 1
@@ -99,6 +100,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnBacklash:Show(args.destName)
 		specWarnBacklash:Show()
 		timerBacklash:Start()
+		countdownBacklash2:Start()
 		if self.vb.backlash == 1 then
 			timerCalltoVoidCD:Start(13) --Воззвание к Бездне
 			timerFragmentOfDespairCD:Start(23) --Частица отчаяния
@@ -134,7 +136,7 @@ function mod:SPELL_AURA_REMOVED(args)
 end
 
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
-	if spellId == 245242 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
+	if spellId == 245242 and destGUID == UnitGUID("player") and self:AntiSpam(2, 4) then
 		if self:IsHard() then
 			specWarnRemnantofAnguish:Show()
 			specWarnRemnantofAnguish:Play("runaway")

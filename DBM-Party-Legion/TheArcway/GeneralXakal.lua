@@ -66,8 +66,8 @@ local function blizzardHatesBossMods(self)
 	specWarnBat:Show()
 	specWarnBat:Play("mobsoon")
 	if self:IsHard() then
-		timerBatCD:Start(26)
-		self:Schedule(26, blizzardHatesBossMods, self)
+		timerBatCD:Start(25)
+		self:Schedule(25, blizzardHatesBossMods, self)
 	else
 		timerBatCD:Start()
 		self:Schedule(31, blizzardHatesBossMods, self)
@@ -108,8 +108,10 @@ end
 
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
 	if spellId == 220443 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
-		specWarnWakeofShadows:Show()
-		specWarnWakeofShadows:Play("runaway")
+		if self:IsHard() then
+			specWarnWakeofShadows:Show()
+			specWarnWakeofShadows:Play("runaway")
+		end
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE

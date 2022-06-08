@@ -148,8 +148,7 @@ end
 function mod:SPELL_DAMAGE(_, _, _, destName, destGUID, _, _, _, spellId)
 	if spellId == 244433 then
 		if destGUID == UnitGUID("player") then
-			specWarnUmbraShift:Show()
-			specWarnUmbraShift:Play("teleyou")
+			specWarnUmbraShift:Schedule(1)
 		--	UmbraShift = true
 		end
 	end

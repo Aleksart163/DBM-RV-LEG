@@ -121,7 +121,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 209404 then
 		specWarnSealMagic:Show()
 		specWarnSealMagic:Play("runout")
-	elseif spellId == 209495 then
+	elseif spellId == 209495 and self:AntiSpam(2, 2) then --Удар с размаху
 		--Don't want to move too early, just be moving already as cast is finishing
 		specWarnChargedSmash:Schedule(1.2)
 		specWarnChargedSmash:ScheduleVoice(1.2, "chargemove")
@@ -381,16 +381,16 @@ end
 function mod:UNIT_DIED(args)
 	local cid = self:GetCIDFromGUID(args.destGUID)
 	if cid == 104278 then --Порабощенная Скверной карательница
-		timerFelDetonationCD:Stop()
+		timerFelDetonationCD:Cancel()
 	elseif cid == 104275 then --Имаку'туя
 		timerWhirlingBladesCD:Cancel()
 	elseif cid == 104274 then --Баалгар Бдительный
 		timerDisintegrationBeamCD:Cancel()
 	elseif cid == 104273 then --Джазшариу
 		timerShockwaveCD:Cancel()
-	elseif cid == 104273 then --Герент Зловещий
-		timerCrippleCD:Stop()
-		timerShadowBoltVolleyCD:Stop()
-		timerCarrionSwarmCD:Stop()
+	elseif cid == 108151 then --Герент Зловещий
+		timerCrippleCD:Cancel()
+		timerShadowBoltVolleyCD:Cancel()
+		timerCarrionSwarmCD:Cancel()
 	end
 end

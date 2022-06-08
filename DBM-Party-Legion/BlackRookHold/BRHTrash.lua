@@ -12,7 +12,8 @@ mod:RegisterEvents(
 	"SPELL_AURA_APPLIED 194966 221132 221363 240447",
 	"SPELL_AURA_REMOVED 194966 221132 221363 240447",
 	"SPELL_CAST_SUCCESS 200343 200345 220918",
-	"UNIT_DIED"
+	"UNIT_DIED",
+	"CHAT_MSG_MONSTER_SAY"
 )
 
 --TODO, add Etch? http://www.wowhead.com/spell=198959/etch
@@ -53,6 +54,8 @@ local timerOverwhelmingReleaseCD	= mod:NewCDTimer(25, 221132, nil, nil, nil, 2, 
 local timerArcaneOverchargeCD		= mod:NewCDTimer(20, 221132, nil, nil, nil, 3, nil) --Чародейская перезарядка
 local timerArcaneOvercharge			= mod:NewTargetTimer(6, 221132, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Чародейская перезарядка
 
+local timerRoleplay					= mod:NewTimer(24, "timerRoleplay", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7) --Ролевая игра
+
 local timerQuake					= mod:NewCastTimer(2.5, 240447, nil, nil, nil, 3, nil, DBM_CORE_INTERRUPT_ICON..DBM_CORE_DEADLY_ICON) --Землетрясение
 
 local yellRupturingPoison			= mod:NewYell(221363, nil, nil, nil, "YELL") --Раздирающий яд
@@ -85,8 +88,8 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 221688 then
 		specWarnOverDetonation:Show()
 		specWarnOverDetonation:Play("runout")
-	elseif spellId == 225573 then --Исцеление тьмой and self:CheckInterruptFilter(args.sourceGUID, false, true)
-		specWarnDarkMending:Show(args.sourceName)
+	elseif spellId == 225573 and self:AntiSpam(2, 1) then --Исцеление тьмой and self:CheckInterruptFilter(args.sourceGUID, false, true)
+		specWarnDarkMending:Show()
 		specWarnDarkMending:Play("kickcast")
 	elseif spellId == 214003 and self:AntiSpam(3, 4) then
 		specWarnCoupdeGrace:Show()
@@ -213,5 +216,17 @@ function mod:UNIT_DIED(args)
 	elseif cid == 98637 then --Древняя вдова https://ru.wowhead.com/npc=98637/древняя-вдова
 		timerRupturingPoisonCD:Cancel()
 		timerMandibleStrikeCD:Cancel()
+	end
+end
+
+function mod:OnSync(msg)
+	if msg == "RP1" then
+		timerRoleplay:Start()
+	end
+end
+
+function mod:CHAT_MSG_MONSTER_SAY(msg)
+	if msg == L.RP1 or msg:find(L.RP1) then
+		self:SendSync("RP1")
 	end
 end

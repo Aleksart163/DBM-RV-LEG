@@ -153,17 +153,20 @@ function mod:SPELL_CAST_START(args)
 		warned_preP2 = true
 		warnCallSouls:Show()
 		specWarnCallSouls:Schedule(2.5)
-		timerReapSoulCD:Stop()
-		timerReapSoulCD:Start(44)
-		countdownReapSoul:Start(44)
 		timerSwirlingScytheCD:Stop()
-		timerSwirlingScytheCD:Start(31.5)
 		timerSoulEchoesCD:Stop()
-		timerSoulEchoesCD:Start(39)
+		timerReapSoulCD:Stop()
+		countdownReapSoul:Stop()
 		timerSoulBurstCD:Start()
-	elseif spellId == 196587 then --Вызов душ
-		specWarnSoulBurst:Show()
-		specWarnSoulBurst:Play("defensive")
+	elseif spellId == 196587 then --Взрыв души
+		if self:IsHard() or self:IsHeroic() then
+			specWarnSoulBurst:Show()
+			specWarnSoulBurst:Play("defensive")
+		end
+		timerSwirlingScytheCD:Start(8)
+		timerSoulEchoesCD:Start(15.2)
+		timerReapSoulCD:Start(20.2)
+		countdownReapSoul:Start(20.2)
 	end
 end
 

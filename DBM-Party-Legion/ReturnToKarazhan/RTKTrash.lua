@@ -10,7 +10,7 @@ mod.isTrashMod = true
 mod:RegisterEvents(
 	"SPELL_CAST_START 228255 228239 227917 227925 228625 228606 229714 227966 228254 228280 230094",
 	"SPELL_AURA_APPLIED 228331 229706 229716 228610 229074 230083 230050 228280 230087",
-	"SPELL_AURA_APPLIED_DOSE 229074",
+	"SPELL_AURA_APPLIED_DOSE 229074 228610",
 	"SPELL_AURA_REFRESH 229074",
 	"SPELL_AURA_REMOVED 229489 230083 228280 230087",
 --	"SPELL_DAMAGE 204762",
@@ -119,7 +119,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			yellVolatileCharge:Yell()
 			yellVolatileCharge2:Countdown(5, 3)
 		end
-	elseif spellId == 228610 then
+	elseif spellId == 228610 then --Горящее клеймо
 		if args:IsPlayer() then
 			specWarnBurningBrand:Show()
 			specWarnBurningBrand:Play("runout")
@@ -179,6 +179,10 @@ function mod:SPELL_AURA_REMOVED(args)
 			specWarnReinvigorated2:Show()
 			yellReinvigorated2:Cancel()
 		end
+	elseif spellId == 228610 then --Горящее клеймо
+		if args:IsPlayer() then
+			yellBurningBrand2:Cancel()
+		end
 	end
 end
 
@@ -217,7 +221,7 @@ function mod:UNIT_DIED(args)
 		timerNullificationCD:Cancel()
 	elseif cid == 115388 then --Король
 		timerRoyalty:Cancel()
-	elseif (cid == 115395 or cid == 115406 or cid == 115401 or cid == 115407) then --Ферзь, конь, слон и ладья
+	elseif cid == 115395 or cid == 115406 or cid == 115401 or cid == 115407 then --Ферзь, конь, слон и ладья
 		timerRoyalty:Start()
 	end
 end

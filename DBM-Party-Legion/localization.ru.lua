@@ -47,6 +47,18 @@ L:SetGeneralLocalization({
 	name = "Трэш КЧЛ"
 })
 
+L:SetOptionLocalization({
+	timerRoleplay = "Отсчет времени ролевых игр"
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = GUILD_INTEREST_RP
+})
+
+L:SetMiscLocalization({
+	RP1 = "Я... я все понял..."
+})
+
 -----------------------------
 --<<<Чаща Темного Сердца>>>--
 -----------------------------
@@ -810,6 +822,10 @@ L= DBM:GetModLocalization(1981)
 --Л'ура--
 ---------
 L= DBM:GetModLocalization(1982)
+--[[
+L:SetMiscLocalization({
+	Backlash = "Забери ее тень, Аллерия! Вспомни, чему я тебя учил!"
+})]]
 
 -------------
 --Трэш-мобы--

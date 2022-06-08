@@ -11,7 +11,7 @@ mod:RegisterCombat("combat")
 mod:SetUsedIcons(7)
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_START 198820 199143 199193 202019",
+	"SPELL_CAST_START 198820 199143 199193 202019 198641",
 	"SPELL_CAST_SUCCESS 198635 201733",
 	"SPELL_AURA_APPLIED 201733",
 	"SPELL_AURA_REMOVED 199193 201733",
@@ -25,7 +25,9 @@ local warnCloud						= mod:NewSpellAnnounce(199143, 2) --Гипнотическ�
 local warnSwarm						= mod:NewTargetAnnounce(201733, 2) --Жалящий рой
 local warnGuile						= mod:NewPreWarnAnnounce(199193, 5, 1) --Хитроумие повелителя ужаса
 local warnShadowBoltVolley			= mod:NewPreWarnAnnounce(202019, 5, 1) --Залп стрел Тьмы
+local warnLegacyRavencrest			= mod:NewPreWarnAnnounce(199368, 5, 1) --Наследие Гребня Ворона
 
+local specWarnWhirlingBlade			= mod:NewSpecialWarningDodge(198641, nil, nil, nil, 2, 3) --Крутящийся клинок
 local specWarnDarkblast				= mod:NewSpecialWarningDodge(198820, nil, nil, nil, 3, 5) --Темный взрыв
 local specWarnGuile					= mod:NewSpecialWarningDodge(199193, nil, nil, nil, 3, 5) --Хитроумие повелителя ужаса
 local specWarnGuileEnded			= mod:NewSpecialWarningEnd(199193, nil, nil, nil, 1, 2) --Хитроумие повелителя ужаса
@@ -40,11 +42,13 @@ local timerGuile					= mod:NewBuffFadesTimer(20, 199193, nil, nil, nil, 6, nil, 
 local timerCloudCD					= mod:NewCDTimer(35, 199143, nil, nil, nil, 3) --Гипнотическое облако
 local timerSwarmCD					= mod:NewCDTimer(19.8, 201733, nil, nil, nil, 3) --Жалящий рой
 local timerShadowBoltVolleyCD		= mod:NewCDTimer(8, 202019, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Залп стрел Тьмы
+local timerLegacyRavencrestCD		= mod:NewCDTimer(24.5, 199368, nil, nil, nil, 7) --Наследие Гребня Ворона
+local timerWhirlingBladeCD			= mod:NewCDTimer(25.5, 198641, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Крутящийся клинок
 
 local yellSwarm						= mod:NewYellHelp(201733, nil, nil, nil, "YELL") --Жалящий рой
 
 local countdownDarkblast			= mod:NewCountdown(18, 198820, nil, nil, 5) --Темный взрыв
-local countdownShear				= mod:NewCountdown("AltTwo12", 198635, "Tank", nil, 5) --Неумолимый удар
+local countdownShear				= mod:NewCountdown("Alt12", 198635, "Tank", nil, 5) --Неумолимый удар
 local countdownGuile				= mod:NewCountdown(39, 199193, nil, nil, 5) --Хитроумие повелителя ужаса
 local countdownGuile2				= mod:NewCountdownFades("Alt20", 199193, nil, nil, 5) --Хитроумие повелителя ужаса
 
@@ -58,10 +62,17 @@ function mod:OnCombatStart(delay)
 	self.vb.phase = 1
 	self.vb.shadowboltCount = 0
 	self.vb.guileCount = 0
-	timerUnerringShearCD:Start(5.5-delay)
-	countdownShear:Start(5.5-delay)
-	timerDarkBlastCD:Start(12-delay) --Темный взрыв +2 сек
-	countdownDarkblast:Start(12-delay) --Темный взрыв +2 сек
+	if not self:IsNormal() then
+		timerUnerringShearCD:Start(5.5-delay) --Неумолимый удар
+		countdownShear:Start(5.5-delay) --Неумолимый удар
+		timerDarkBlastCD:Start(12-delay) --Темный взрыв +2 сек
+		countdownDarkblast:Start(12-delay) --Темный взрыв +2 сек
+		timerWhirlingBladeCD:Start(10.5-delay) --Крутящийся клинок
+	else
+		timerUnerringShearCD:Start(5.5-delay) --Неумолимый удар
+		countdownShear:Start(5.5-delay) --Неумолимый удар
+		timerDarkBlastCD:Start(10-delay) --Темный взрыв
+	end
 end
 
 function mod:SPELL_CAST_START(args)
@@ -103,6 +114,12 @@ function mod:SPELL_CAST_START(args)
 			specWarnShadowBolt:Play("defensive")
 		end
 		--timerShadowBoltVolleyCD:Start()--Not known, and probably not important
+	elseif spellId == 198641 then --Крутящийся клинок
+		if not self:IsNormal() then
+			specWarnWhirlingBlade:Show()
+			specWarnWhirlingBlade:Play("watchstep")
+		end
+		timerWhirlingBladeCD:Start()
 	end
 end
 
@@ -150,13 +167,15 @@ end
 
 function mod:UNIT_DIED(args)
 	local cid = self:GetCIDFromGUID(args.destGUID)
-	if cid == 98965 then--Kur'talos Ravencrest
+	if cid == 98965 then --Кур'талос Гребень Ворона
 		if not self:IsNormal() then
 			timerSwarmCD:Start(24) --+15 сек
 		end
+		warnLegacyRavencrest:Schedule(19.5)
+		timerLegacyRavencrestCD:Start()
 		timerCloudCD:Start(30) --+18.5
 		countdownDarkblast:Start(19)
-		timerShadowBoltVolleyCD:Start(19)--Not confirmed, submitted by requesting user
+		timerShadowBoltVolleyCD:Start(19)
 		warnShadowBoltVolley:Schedule(14)
 		timerGuileCD:Start(40, 1)--24-28
 		warnGuile:Schedule(35)
@@ -168,6 +187,7 @@ function mod:OnSync(msg)
 	if msg == "Latosius" then
 		self.vb.phase = 2
 		warnPhase2:Show()
+		timerWhirlingBladeCD:Cancel()
 		countdownShear:Cancel()
 		timerDarkBlastCD:Cancel()
 		timerUnerringShearCD:Cancel()
@@ -175,7 +195,7 @@ function mod:OnSync(msg)
 	end
 end
 
-function mod:CHAT_MSG_MONSTER_SAY(msg) --CHAT_MSG_MONSTER_YELL
+function mod:CHAT_MSG_MONSTER_SAY(msg)
 	if msg == L.Latosius or msg:find(L.Latosius) then
 		self:SendSync("Latosius")
 	end

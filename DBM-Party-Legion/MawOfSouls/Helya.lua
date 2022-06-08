@@ -182,12 +182,12 @@ end
 
 function mod:UNIT_HEALTH(uId)
 	if self:IsHard() then --миф и миф+
-		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 96759 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.83 then
+		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 96759 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.85 then
 			warned_preP1 = true
 			warnPhase:Show()
 		end
 	else
-		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 96759 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.83 then
+		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 96759 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.85 then
 			warned_preP1 = true
 			warnPhase:Show()
 		end

@@ -20,7 +20,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_SUCCESS 227636",
 	"UNIT_SPELLCAST_SUCCEEDED boss1 boss2",
 	"CHAT_MSG_MONSTER_YELL",
-	"UNIT_HEALTH boss1"
+	"UNIT_HEALTH boss1 boss2"
 )
 
 local warnPhase						= mod:NewAnnounce("Phase", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 2
@@ -47,6 +47,7 @@ local timerSharedSufferingCD		= mod:NewNextTimer(18, 228852, nil, nil, nil, 5, n
 local yellSharedSuffering			= mod:NewYell(228852, nil, nil, nil, "YELL") --Разделенные муки
 
 local countdownSharedSuffering		= mod:NewCountdown(18, 228852, "Melee", nil, 5) --Разделенные муки
+local countdownSharedSuffering2		= mod:NewCountdownFades("Alt3.8", 228852, nil, nil, 3) --Разделенные муки
 
 mod:AddSetIconOption("SetIconOnSharedSuffering", 228852, true, false, {8}) --Разделенные муки
 
@@ -149,6 +150,7 @@ function mod:SPELL_CAST_START(args)
 		end
 		timerSharedSufferingCD:Start()
 		countdownSharedSuffering:Start(18)
+		countdownSharedSuffering2:Start()
 	end
 end
 
@@ -257,7 +259,7 @@ function mod:UNIT_HEALTH(uId)
 		end
 	end
 end
-
+--[[
 function mod:CHAT_MSG_MONSTER_YELL(msg)
 	if msg == L.Perephase1 or msg:find(L.Perephase1) then --Сел на коня (Вперед, Полночь, к победе!)
 	--	perephase = true
@@ -276,15 +278,11 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 	--	timerSharedSufferingCD:Start(18) --Разделенные муки
 	--	countdownSharedSuffering:Start(18) --Разделенные муки
 	end
---[[	if perephase and firstperephase then
+	if perephase and firstperephase then
 		timerSpectralChargeCD:Start(2) --Призрачный рывок
 		specWarnSpectralCharge:Schedule(2) --Призрачный рывок
 		timerPresenceCD:Start(4) --Незримое присутствие
 		timerSpectralChargeCD:Schedule(14) --Призрачный рывок
 		specWarnSpectralCharge:Schedule(21.5) --Призрачный рывок
-	end]]
-end
---19:52:53.939 Полночь последний раз хильнулась
---19:52:55.519 удар всадника 227636
---19:52:56.983 2 раз
---19:52:58.488 3 раз
+	end
+end]]

@@ -28,6 +28,7 @@ local specWarnCarrionSwarm2			= mod:NewSpecialWarningYouMove(233177, nil, nil, n
 local specWarnShadowFade			= mod:NewSpecialWarningSwitch(233206, "Dps", nil, nil, 1, 2) --Уход во тьму
 local specWarnCarrionSwarm			= mod:NewSpecialWarningYouDefensive(233155, "Tank", nil, nil, 3, 5) --Темная стая
 local specWarnDemonicUpheaval		= mod:NewSpecialWarningYouMoveAway(233963, nil, nil, nil, 4, 5) --Демоническое извержение
+local specWarnDemonicUpheaval2		= mod:NewSpecialWarningEnd(233963, nil, nil, nil, 1, 2) --Демоническое извержение
 
 local timerDarkSolitudeCD			= mod:NewCDTimer(8.5, 234817, nil, nil, nil, 3, nil, DBM_CORE_HEALER_ICON..DBM_CORE_DEADLY_ICON) --Темное одиночество
 local timerCarrionSwarmCD			= mod:NewCDTimer(18, 233155, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Темная стая
@@ -38,6 +39,7 @@ local yellDemonicUpheaval			= mod:NewYell(233963, nil, nil, nil, "YELL") --Де�
 local yellDemonicUpheaval2			= mod:NewFadesYell(233963, nil, nil, nil, "YELL") --Демоническое извержение
 
 local countdownShadowFade			= mod:NewCountdown(80, 233206, nil, nil, 5) --Уход во тьму
+local countdownDemonicUpheaval		= mod:NewCountdownFades("Alt26.5", 233196, nil, nil, 5) --Демоническое извержение
 
 mod:AddRangeFrameOption(8, 234817) --Темное одиночество 5 yards probably too small, next lowest range on crap api is 8
 mod:AddInfoFrameOption(234217, true)
@@ -93,6 +95,7 @@ function mod:SPELL_CAST_START(args)
 		end
 	elseif spellId == 233963 or spellId == 233196 then --Демоническое извержение
 		timerDemonicUpheavalCD:Start()
+		countdownDemonicUpheaval:Start()
 	end
 end
 
@@ -128,6 +131,7 @@ function mod:UNIT_AURA_UNFILTERED(uId)
 			specWarnDemonicUpheaval:Play("runout")
 			yellDemonicUpheaval:Yell()
 			yellDemonicUpheaval2:Countdown(5, 3)
+			specWarnDemonicUpheaval2:Schedule(5)
 		end
 	end
 end

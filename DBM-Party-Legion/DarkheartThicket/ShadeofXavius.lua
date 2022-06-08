@@ -5,7 +5,7 @@ mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 mod:SetCreatureID(99192)
 mod:SetEncounterID(1839)
 mod:SetZone()
-mod:SetUsedIcons(8, 7, 2, 1)
+mod:SetUsedIcons(8, 7, 1)
 
 mod:RegisterCombat("combat")
 
@@ -30,15 +30,16 @@ local warnFeedontheWeak				= mod:NewTargetAnnounce(200238, 4) --Пожирани
 local specWarnApocNightmare2		= mod:NewSpecialWarningDefensive(200050, nil, nil, nil, 3, 5) --Апокалиптический Кошмар
 local specWarnFeedontheWeak			= mod:NewSpecialWarningYouDefensive(200238, nil, nil, nil, 3, 5) --Пожирание слабых
 local specWarnFesteringRip			= mod:NewSpecialWarningDispel(200182, "MagicDispeller2", nil, nil, 1, 2) --Гноящаяся рана
-local specWarnNightmare				= mod:NewSpecialWarningYouShare(200243, nil, nil, nil, 3, 3) --Кошмар наяву
+local specWarnFesteringRip2			= mod:NewSpecialWarningYou(200182, nil, nil, nil, 1, 2) --Гноящаяся рана
+local specWarnNightmare				= mod:NewSpecialWarningYouShare(200243, nil, nil, nil, 1, 3) --Кошмар наяву
 local specWarnParanoia				= mod:NewSpecialWarningMoveAway(200289, nil, nil, nil, 3, 5) --Усугубляющаяся паранойя
 local specWarnParanoia2				= mod:NewSpecialWarningCloseMoveAway(200289, nil, nil, nil, 1, 3) --Усугубляющаяся паранойя
 
 local timerFeedontheWeakCD			= mod:NewCDTimer(20, 200238, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Пожирание слабых
-local timerFesteringRipCD			= mod:NewCDTimer(17, 200182, nil, "Tank|MagicDispeller2", nil, 5, nil, DBM_CORE_MAGIC_ICON) --Гноящаяся рана 17-21
+local timerFesteringRipCD			= mod:NewCDTimer(17, 200182, nil, "MagicDispeller2", nil, 5, nil, DBM_CORE_MAGIC_ICON) --Гноящаяся рана 17-21
 local timerNightmareCD				= mod:NewCDTimer(17, 200243, nil, nil, nil, 3) --Кошмар наяву 17-25
 local timerNightmare				= mod:NewTargetTimer(20, 200243, nil, nil, nil, 7) --Кошмар наяву
-local timerParanoiaCD				= mod:NewCDTimer(18, 200359, nil, nil, nil, 3) --Искусственная паранойя 18-28
+local timerParanoiaCD				= mod:NewCDTimer(18, 200359, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Искусственная паранойя 18-28
 local timerParanoia					= mod:NewTargetTimer(20, 200359, nil, nil, nil, 7) --Искусственная паранойя
 
 local yellFeedontheWeak				= mod:NewYell(200238, nil, nil, nil, "YELL") --Пожирание слабых
@@ -47,9 +48,7 @@ local yellParanoia					= mod:NewYell(200289, nil, nil, nil, "YELL") --Усугу
 
 mod:AddSetIconOption("SetIconOnFeedontheWeak", 200238, true, false, {8}) --Пожирание слабых
 mod:AddSetIconOption("SetIconOnParanoia", 200289, true, false, {7}) --Усугубляющаяся паранойя
-mod:AddSetIconOption("SetIconOnNightmare", 200243, true, false, {2, 1}) --Кошмар наяву
-
-mod.vb.nightmareIcon = 1
+mod:AddSetIconOption("SetIconOnNightmare", 200243, true, false, {1}) --Кошмар наяву
 
 mod.vb.phase = 1
 local warned_preP1 = false
@@ -59,7 +58,6 @@ function mod:OnCombatStart(delay)
 	self.vb.phase = 1
 	warned_preP1 = false
 	warned_preP2 = false
-	self.vb.nightmareIcon = 1
 	timerFesteringRipCD:Start(3.4-delay)
 	timerNightmareCD:Start(11-delay)
 	timerFeedontheWeakCD:Start(15-delay)
@@ -72,7 +70,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
 	if spellId == 200359 then
 		timerParanoiaCD:Start()
-	elseif spellId == 200182 then
+	elseif spellId == 200182 then --Гноящаяся рана
 		timerFesteringRipCD:Start()
 	elseif spellId == 200238 then --Пожирание слабых
 		timerFeedontheWeakCD:Start()
@@ -81,12 +79,17 @@ end
 
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
-	if spellId == 200182 then
+	if spellId == 200182 then --Гноящаяся рана
 		if self:IsHard() then
-			specWarnFesteringRip:Show(args.destName)
+			if args:IsPlayer() then
+				specWarnFesteringRip2:Show()
+				specWarnFesteringRip2:Play("targetyou")
+			else
+				specWarnFesteringRip:Show(args.destName)
+				specWarnFesteringRip:Play("dispel")
+			end
 		end
-	elseif spellId == 200243 then
-		self.vb.nightmareIcon = self.vb.nightmareIcon + 1
+	elseif spellId == 200243 then --Кошмар наяву
 		timerNightmare:Start(args.destName)
 		if args:IsPlayer() then
 			specWarnNightmare:Show()
@@ -96,21 +99,15 @@ function mod:SPELL_AURA_APPLIED(args)
 			warnNightmare:Show(args.destName)
 		end
 		if self.Options.SetIconOnNightmare then
-			self:SetIcon(args.destName, self.vb.nightmareIcon)
+			self:SetIcon(args.destName, 1)
 		end
-		--Alternate Icons
-		if self.vb.nightmareIcon == 1 then
-			self.vb.nightmareIcon = 2
-		else
-			self.vb.nightmareIcon = 1
-		end
-	elseif spellId == 200289 then
+	elseif spellId == 200289 then --Усугубляющаяся паранойя
 		timerParanoia:Start(args.destName)
 		if args:IsPlayer() then
 			specWarnParanoia:Show()
 			specWarnParanoia:Play("runaway")
 			yellParanoia:Yell()
-		elseif self:CheckNearby(10, args.destName) then
+		elseif self:CheckNearby(15, args.destName) then
 			warnParanoia:Show(args.destName)
 			specWarnParanoia2:Show(args.destName)
 		else
@@ -119,7 +116,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self.Options.SetIconOnParanoia then
 			self:SetIcon(args.destName, 7)
 		end
-	elseif spellId == 200238 then
+	elseif spellId == 200238 then --Пожирание слабых
 		if args:IsPlayer() then
 			specWarnFeedontheWeak:Show()
 			specWarnFeedontheWeak:Play("defensive")
@@ -136,13 +133,12 @@ mod.SPELL_AURA_REFRESH = mod.SPELL_AURA_APPLIED
 
 function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
-	if spellId == 200243 then
-		self.vb.nightmareIcon = self.vb.nightmareIcon - 1
+	if spellId == 200243 then --Кошмар наяву
+		timerNightmare:Cancel(args.destName)
 		if self.Options.SetIconOnNightmare then
 			self:SetIcon(args.destName, 0)
 		end
-		timerNightmare:Cancel(args.destName)
-	elseif spellId == 200289 then
+	elseif spellId == 200289 then --Усугубляющаяся паранойя
 		timerParanoia:Cancel(args.destName)
 		if self.Options.SetIconOnParanoia then
 			self:SetIcon(args.destName, 0)
@@ -168,6 +164,7 @@ function mod:UNIT_HEALTH(uId)
 			self.vb.phase = 2
 			warned_preP2 = true
 			specWarnApocNightmare2:Show()
+			specWarnApocNightmare2:Play("defensive")
 		end
 	else
 		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 99192 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.61 then
@@ -176,6 +173,7 @@ function mod:UNIT_HEALTH(uId)
 			self.vb.phase = 2
 			warned_preP2 = true
 			specWarnApocNightmare2:Show()
+			specWarnApocNightmare2:Play("defensive")
 		end
 	end
 end

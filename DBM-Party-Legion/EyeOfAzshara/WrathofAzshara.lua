@@ -22,21 +22,26 @@ local warnMythicTornado				= mod:NewSpellAnnounce(192680, 3) --Волшебны�
 local warnRagingStorms				= mod:NewCastAnnounce(192696, 4) --Бушующий шторм
 local warnCrushingDepths			= mod:NewTargetAnnounce(197365, 4) --Морская пучина
 
-local specWarnCrushingDepths		= mod:NewSpecialWarningYouClose(197365, nil, nil, nil, 2, 2) --Морская пучина
-local specWarnCrushingDepths2		= mod:NewSpecialWarningYouDefensive(197365, nil, nil, nil, 3, 2) --Морская пучина
 local specWarnArcaneBomb			= mod:NewSpecialWarningYouMoveAway(192706, nil, nil, nil, 3, 2) --Чародейская бомба
 local specWarnArcaneBomb2			= mod:NewSpecialWarningDispel(192706, "MagicDispeller2", nil, nil, 1, 3) --Чародейская бомба
+local specWarnArcaneBomb3			= mod:NewSpecialWarningEnd(192706, nil, nil, nil, 1, 2) --Чародейская бомба
+local specWarnCrushingDepths		= mod:NewSpecialWarningYouClose(197365, nil, nil, nil, 2, 2) --Морская пучина
+local specWarnCrushingDepths2		= mod:NewSpecialWarningYouShare(197365, nil, nil, nil, 3, 5) --Морская пучина
 local specWarnMassiveDeluge			= mod:NewSpecialWarningDodge(192617, nil, nil, nil, 2, 2) --Потоп
 
 local timerCrushingDepthsCD			= mod:NewCDTimer(34, 197365, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Морская пучина
 local timerMythicTornadoCD			= mod:NewCDTimer(25, 192680, nil, nil, nil, 3) --Волшебный торнадо
 local timerMassiveDelugeCD			= mod:NewCDTimer(50, 192617, nil, nil, nil, 2, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Потоп
-local timerArcaneBombCD				= mod:NewCDTimer(23, 192706, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON..DBM_CORE_MAGIC_ICON) --Чародейская бомба 23-37
+local timerArcaneBombCD				= mod:NewCDTimer(30, 192706, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON..DBM_CORE_MAGIC_ICON) --Чародейская бомба +++ 1 раз проверил, все норм
 local timerArcaneBomb				= mod:NewTargetTimer(15, 192706, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON) --Чародейская бомба
 
 local yellArcaneBomb				= mod:NewYell(192706, nil, nil, nil, "YELL") --Чародейская бомба
-local yellArcaneBombFades			= mod:NewFadesYell(192706, nil, nil, nil, "YELL") --Чародейская бомба
+local yellArcaneBombFades			= mod:NewShortFadesYell(192706, nil, nil, nil, "YELL") --Чародейская бомба
 local yellCrushingDepths			= mod:NewYellHelp(197365, nil, nil, nil, "YELL") --Морская пучина
+local yellCrushingDepthsFades		= mod:NewShortFadesYell(197365, nil, nil, nil, "YELL") --Морская пучина
+
+local countdownrushingDepths		= mod:NewCountdown(34, 197365, nil, nil, 5) --Морская пучина
+local countdownrushingDepths2		= mod:NewCountdownFades("Alt6", 197365, nil, nil, 5) --Морская пучина
 
 mod:AddSetIconOption("SetIconOnArcaneBomb", 192706, true, false, {8}) --Чародейская бомба
 mod:AddSetIconOption("SetIconOnCrushingDepths", 197365, true, false, {7}) --Морская пучина
@@ -49,13 +54,14 @@ function mod:CheckPhase2()
 	return 
 end
 
-function mod:CrushingDepthsTarget(targetname, uId)
+function mod:CrushingDepthsTarget(targetname, uId) --Морская пучина
 	if not targetname then return end
 	if targetname == UnitName("player") then
 		specWarnCrushingDepths2:Show()
 		specWarnCrushingDepths2:Play("defensive")
 		yellCrushingDepths:Yell()
-	elseif self:CheckNearby(25, targetname) then
+		yellCrushingDepthsFades:Countdown(6, 3)
+	elseif self:CheckNearby(30, targetname) then
 		specWarnCrushingDepths:Show(targetname)
 	else
 		warnCrushingDepths:Show(targetname)
@@ -105,6 +111,7 @@ function mod:SPELL_AURA_REMOVED(args)
 	if spellId == 192706 then --Чародейская бомба
 		timerArcaneBomb:Cancel(args.destName)
 		if args:IsPlayer() then
+			specWarnArcaneBomb3:Show()
 			yellArcaneBombFades:Cancel()
 		end
 		if self.Options.RangeFrame then
@@ -134,6 +141,8 @@ function mod:SPELL_CAST_START(args)
 		warnRagingStorms:Show()
 	elseif spellId == 197365 then --Морская пучина
 		timerCrushingDepthsCD:Start(40)
+		countdownrushingDepths:Start(40)
+		countdownrushingDepths2:Start()
 		self:BossTargetScanner(args.sourceGUID, "CrushingDepthsTarget", 0.1, 9)
 	end
 end

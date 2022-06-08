@@ -8,7 +8,7 @@ mod:SetZone()
 mod.isTrashMod = true
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 198405 195031 195293 196885 194099",
+	"SPELL_CAST_START 198405 195031 195293 196885 194099 192019 199589",
 	"SPELL_CAST_SUCCESS 195279",
 	"SPELL_AURA_APPLIED 195279",
 	"SPELL_AURA_REMOVED 195279",
@@ -19,15 +19,19 @@ mod:RegisterEvents(
 )
 
 local warnScream				= mod:NewSpellAnnounce(198405, 4) --Леденящий душу вопль
+local warnWhirlpoolSouls		= mod:NewSpellAnnounce(199589, 4) --Водоворот душ
 
+local specWarnLanternDarkness	= mod:NewSpecialWarningDefensive(192019, nil, nil, nil, 3, 5) --Фонарь Тьмы
 local specWarnPoisonousSludge	= mod:NewSpecialWarningYouMove(194102, nil, nil, nil, 1, 2) --Ядовитая жижа
 local specWarnBind				= mod:NewSpecialWarningYouDefensive(195279, nil, nil, nil, 2, 5) --Связывание
 local specWarnScream			= mod:NewSpecialWarningInterrupt(198405, "HasInterrupt", nil, nil, 1, 2) --Леденящий душу вопль
 local specWarnDebilitatingShout	= mod:NewSpecialWarningInterrupt(195293, "HasInterrupt", nil, nil, 1, 2) --Истощающий крик
+local specWarnWhirlpoolSouls	= mod:NewSpecialWarningInterrupt(199589, "HasInterrupt", nil, nil, 3, 2) --Водоворот душ
 local specWarnGiveNoQuarter		= mod:NewSpecialWarningDodge(196885, nil, nil, nil, 2, 3) --Не щадить никого
 local specWarnBileBreath		= mod:NewSpecialWarningDodge(194099, nil, nil, nil, 2, 3) --Гнусное дыхание
 local specWarnDefiantStrike		= mod:NewSpecialWarningDodge(195031, nil, nil, nil, 1, 2) --Дерзкий удар
 
+local timerLanternDarknessCD	= mod:NewCDTimer(14.5, 192019, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Фонарь Тьмы
 local timerBindCD				= mod:NewCDTimer(15, 195279, nil, "Tank", nil, 3, nil, DBM_CORE_TANK_ICON) --Связывание
 local timerDebilitatingShoutCD	= mod:NewCDTimer(13.5, 195293, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON) --Истощающий крик
 local timerGiveNoQuarterCD		= mod:NewCDTimer(10, 196885, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Не щадить никого
@@ -59,6 +63,20 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 194099 then --Гнусное дыхание
 		specWarnBileBreath:Show()
 		specWarnBileBreath:Play("stilldanger")
+	elseif spellId == 192019 then --Фонарь Тьмы
+		timerLanternDarknessCD:Start()
+		if self:IsHard() or self:IsHeroic() then
+			specWarnLanternDarkness:Show()
+			specWarnLanternDarkness:Play("defensive")
+		end
+	elseif spellId == 199589 then --Водоворот душ
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnWhirlpoolSouls:Show(args.sourceName)
+			specWarnWhirlpoolSouls:Play("kickcast")
+		else
+			warnWhirlpoolSouls:Show()
+			warnWhirlpoolSouls:Play("kickcast")
+		end
 	end
 end
 
@@ -110,5 +128,7 @@ function mod:UNIT_DIED(args)
 		timerGiveNoQuarterCD:Cancel()
 		timerDebilitatingShoutCD:Cancel()
 		timerBindCD:Cancel()
+	elseif cid == 97182 then
+		timerLanternDarknessCD:Cancel()
 	end
 end

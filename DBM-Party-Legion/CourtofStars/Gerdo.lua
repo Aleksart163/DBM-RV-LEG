@@ -12,7 +12,7 @@ mod.noNormal = true
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_START 207261 207815 207806 215204",
+	"SPELL_CAST_START 207261 207815 207806 215204 207278",
 	"SPELL_AURA_APPLIED 215204",
 	"SPELL_AURA_REMOVED 215204",
 	"SPELL_CAST_SUCCESS 207278 219488",
@@ -24,6 +24,7 @@ local warnFlask						= mod:NewSpellAnnounce(207815, 3) --Настой свяще
 local warnFlask2					= mod:NewSoonAnnounce(207815, 1) --Настой священной ночи
 local warnSignalBeacon				= mod:NewSoonAnnounce(207806, 1) --Сигнальный маяк
 local warnStreetsweeper				= mod:NewSpellAnnounce(219488, 4) --Дворник
+local warnArcaneLockdown			= mod:NewCastAnnounce(207278, 3) --Чародейская изоляция
 
 local specWarnHinder				= mod:NewSpecialWarningInterrupt(215204, "HasInterrupt", nil, nil, 3, 2) --Помеха
 local specWarnHinder2				= mod:NewSpecialWarningDispel(215204, "MagicDispeller2", nil, nil, 1, 5) --Помеха
@@ -33,8 +34,7 @@ local specWarnBeacon				= mod:NewSpecialWarningSwitch(207806, "-Healer", nil, ni
 
 local timerStreetsweeperCD			= mod:NewCDTimer(7, 219488, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON..DBM_CORE_MYTHIC_ICON) --Дворник
 local timerResonantSlashCD			= mod:NewCDTimer(12.1, 207261, nil, nil, nil, 3, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Резонирующий удар сплеча +++
-local timerArcaneLockdownCD			= mod:NewCDTimer(30, 207278, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON..DBM_CORE_DEADLY_ICON) --Чародейская изоляция +++
---local timerSignalBeaconCD			= mod:NewCDTimer(20, 207806, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON) --Сигнальный маяк
+local timerArcaneLockdownCD			= mod:NewCDTimer(30, 207278, nil, nil, nil, 2, nil, DBM_CORE_MAGIC_ICON..DBM_CORE_DEADLY_ICON) --Чародейская изоляция +++
 
 mod:AddSetIconOption("SetIconOnHinder", 215204, true, false, {8, 7}) --Помеха
 
@@ -56,6 +56,11 @@ function mod:OnCombatStart(delay)
 	timerArcaneLockdownCD:Start(15.5-delay) --Чародейская изоляция +++
 	if self:IsHard() then
 		timerStreetsweeperCD:Start(11-delay) --Дворник
+		timerResonantSlashCD:Start(7-delay) --Резонирующий удар сплеча +++
+		timerArcaneLockdownCD:Start(15.5-delay) --Чародейская изоляция +++
+	else
+		timerResonantSlashCD:Start(7-delay) --Резонирующий удар сплеча +++
+		timerArcaneLockdownCD:Start(15-delay) --Чародейская изоляция +++
 	end
 end
 
@@ -82,6 +87,8 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 207806 then
 		specWarnBeacon:Show()
 		specWarnBeacon:Play("mobsoon")
+		timerStreetsweeperCD:Stop()
+		timerStreetsweeperCD:Start(9)
 	elseif spellId == 215204 then --Помеха
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnHinder:Show()
@@ -90,12 +97,14 @@ function mod:SPELL_CAST_START(args)
 			warnHinder:Show()
 			warnHinder:Play("kickcast")
 		end
+	elseif spellId == 207278 then --Чародейская изоляция
+		warnArcaneLockdown:Show()
 	end
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
-	if spellId == 207278 then--Success since jumping on cast start too early
+	if spellId == 207278 then --Чародейская изоляция
 		specWarnArcaneLockdown:Show()
 		specWarnArcaneLockdown:Play("keepjump")
 		if self:IsHard() then

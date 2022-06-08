@@ -44,6 +44,18 @@ L:SetGeneralLocalization({
 	name =	"Black Rook Hold Trash"
 })
 
+L:SetOptionLocalization({
+	timerRoleplay = "Show timer for roleplay duration"
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = GUILD_INTEREST_RP
+})
+
+L:SetMiscLocalization({
+	RP1 = "Now... now I see..."
+})
+
 -----------------------
 -- <<<Darkheart Thicket>>> --
 -----------------------
@@ -800,6 +812,10 @@ L= DBM:GetModLocalization(1981)
 -- L'ura  --
 -----------------------
 L= DBM:GetModLocalization(1982)
+--[[
+L:SetMiscLocalization({
+	Backlash = "Take her shadow for your own, Alleria! Do as I trained you!"
+})]]
 
 -----------------------
 --Seat of Triumvirate Trash

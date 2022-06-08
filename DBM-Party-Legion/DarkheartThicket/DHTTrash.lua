@@ -10,12 +10,12 @@ mod.isTrashMod = true
 mod:RegisterEvents(
 --	"SPELL_AURA_APPLIED 240447",
 --	"SPELL_AURA_REMOVED 240447",
-	"SPELL_CAST_START 198379 201226"
+	"SPELL_CAST_START 198379 201226 200580"
 )
 --Треш Чащи Темного Сердца
-
 local specWarnPrimalRampage				= mod:NewSpecialWarningDodge(198379, "Melee", nil, nil, 1, 2)
 local specWarnBloodAssault				= mod:NewSpecialWarningDodge(201226, nil, nil, nil, 2, 2) --Кровавая атака
+local specWarnMaddeningRoar				= mod:NewSpecialWarningDefensive(200580, nil, nil, nil, 3, 5) --Безумный рев
 
 function mod:SPELL_CAST_START(args)
 	if not self.Options.Enabled then return end
@@ -26,5 +26,8 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 201226 then --Кровавая атака
 		specWarnBloodAssault:Show()
 		specWarnBloodAssault:Play("chargemove")
+	elseif spellId == 200580 and self:AntiSpam(3, 1) then --Безумный рев
+		specWarnMaddeningRoar:Show()
+		specWarnMaddeningRoar:Play("defensive")
 	end
 end

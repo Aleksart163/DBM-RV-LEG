@@ -21,13 +21,13 @@ mod:RegisterEventsInCombat(
 	"SPELL_PERIODIC_MISSED 227480",
 	"SPELL_ABSORBED 227480",
 	"CHAT_MSG_MONSTER_YELL",
-	"UNIT_HEALTH boss1"
+	"UNIT_HEALTH boss1 boss2"
 )
 
 --Однажды в Западном Крае https://ru.wowhead.com/npc=114260/мрргрия/эпохальный-журнал-сражений
 local warnPhase						= mod:NewAnnounce("Phase", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 2
 local warnPhase2					= mod:NewAnnounce("Phase2", 1, 227783) --Фаза 2
---local warnPhase3					= mod:NewAnnounce("Phase3", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 3
+local warnPhase3					= mod:NewAnnounce("Phase3", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 3
 local warnPhase4					= mod:NewAnnounce("Phase4", 1, 227453) --Фаза 3
 local warnLegSweep					= mod:NewCastAnnounce(227568, 4) --Пламенная подсечка
 local warnLegSweep2					= mod:NewTargetAnnounce(227568, 3) --Пламенная подсечка
@@ -51,8 +51,8 @@ local timerWashAwayCD				= mod:NewCDTimer(23, 227783, nil, nil, nil, 2, nil, DBM
 local yellThunderRitual				= mod:NewYell(227777, nil, nil, nil, "YELL") --Ритуал грома
 local yellThunderRitual2			= mod:NewShortFadesYell(227777, nil, nil, nil, "YELL") --Ритуал грома
 
-local countdownFlameGale			= mod:NewCountdown(30.5, 227453) --Ураган пламени
-local countdownWashAway				= mod:NewCountdown("AltTwo23", 227783) --Ураганная волна
+local countdownFlameGale			= mod:NewCountdown(30.5, 227453, nil, nil, 5) --Ураган пламени
+local countdownWashAway				= mod:NewCountdown("Alt23", 227783, nil, nil, 5) --Ураганная волна
 
 local warned_preP1 = false
 local warned_preP2 = false
