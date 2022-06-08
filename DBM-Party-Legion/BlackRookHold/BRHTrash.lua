@@ -9,7 +9,8 @@ mod.isTrashMod = true
 
 mod:RegisterEvents(
 	"SPELL_CAST_START 200261 221634 221688 225573 214003 221132 220918 200248 221363 221380 200343",
-	"SPELL_AURA_APPLIED 194966 221132 221363 240447",
+	"SPELL_AURA_APPLIED 194966 221132 221363 240447 225909",
+	"SPELL_AURA_APPLIED_DOSE 225909",
 	"SPELL_AURA_REMOVED 194966 221132 221363 240447",
 	"SPELL_CAST_SUCCESS 200343 200345 220918",
 	"UNIT_DIED",
@@ -24,9 +25,13 @@ local warnArcaneOvercharge			= mod:NewTargetAnnounce(221132, 4) --Чародей
 local warnOverwhelmingRelease		= mod:NewSpellAnnounce(220918, 4) --Высвобождение мощи
 local warnRupturingPoison			= mod:NewTargetAnnounce(221363, 4) --Раздирающий яд
 local warnMandibleStrike			= mod:NewTargetAnnounce(221380, 4) --Удар жвалами
+local warnSoulVenom					= mod:NewStackAnnounce(225909, 4, nil, nil, 2) --Отравленная душа
 
 local specWarnQuake					= mod:NewSpecialWarningCast(240447, "SpelCaster", nil, nil, 1, 2) --Землетрясение
 local specWarnQuake2				= mod:NewSpecialWarningYouMoveAway(240447, "-SpelCaster", nil, nil, 1, 2) --Землетрясение
+
+local specWarnSoulVenom				= mod:NewSpecialWarningStack(225909, nil, 5, nil, nil, 1, 2) --Отравленная душа
+local specWarnSoulVenom2			= mod:NewSpecialWarningDispel(225909, "MagicDispeller2", nil, nil, 1, 3) --Отравленная душа
 
 local specWarnMandibleStrike		= mod:NewSpecialWarningYouDefensive(221380, nil, nil, nil, 2, 2) --Удар жвалами
 local specWarnRupturingPoison		= mod:NewSpecialWarningYouMoveAway(221363, nil, nil, nil, 3, 2) --Раздирающий яд
@@ -167,8 +172,32 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnQuake2:Show()
 			timerQuake:Start()
 		end
+	elseif spellId == 225909 then --Факел Скверны
+		local amount = args.amount or 1
+		if not self:IsNormal() then
+			if args:IsPlayer() then
+				if self:IsTank() then
+					if amount >= 10 and amount % 5 == 0 then
+						specWarnSoulVenom:Show(amount)
+						specWarnSoulVenom:Play("stackhigh")
+					end
+				else
+					if amount >= 5 and amount % 5 == 0 then
+						specWarnSoulVenom:Show(amount)
+						specWarnSoulVenom:Play("stackhigh")
+					end
+				end
+			else
+				if amount >= 10 and amount % 5 == 0 then
+					warnSoulVenom:Show(args.destName, amount)
+					specWarnSoulVenom2:Show(args.destName)
+					specWarnSoulVenom2:Play("stackhigh")
+				end
+			end
+		end
 	end
 end
+mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 
 function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId

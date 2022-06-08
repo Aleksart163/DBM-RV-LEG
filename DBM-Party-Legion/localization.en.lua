@@ -626,14 +626,14 @@ L= DBM:GetModLocalization(1826)
 L:SetWarningLocalization({
 	Phase = "Phase 2 soon",
 	Phase2 = "Phase 2",
---	Phase3 = "Phase 3 soon",
+	Phase3 = "Phase 3 soon",
 	Phase4 = "Phase 3"
 })
 
 L:SetOptionLocalization({
 	Phase = "Warn in advance about phase 2 (on ~56% Toe Knee, Mythic+ only)",
 	Phase2 = "Announce Phase 2",
---	Phase3 = "Warn in advance about phase 2 (on ~55% Mrrgria, Mythic+ only)",
+	Phase3 = "Warn in advance about phase 2 (on ~56% Mrrgria, Mythic+ only)",
 	Phase4 = "Announce Phase 3"
 })
 
@@ -725,11 +725,15 @@ L:SetGeneralLocalization({
 })
 
 L:SetOptionLocalization({
-	timerRoleplay = "Show timer to the start of the battle in the Opera Hall"
+	timerRoleplay = "Show timer to the start of the show \"Beautiful Beast\"",
+	timerRoleplay2 = "Show timer to the start of the show \"Westfall Story\"",
+	timerRoleplay3 = "Show timer to the start of the show \"Wikket\""
 })
 
 L:SetTimerLocalization({
-	timerRoleplay = GUILD_INTEREST_RP
+	timerRoleplay = "\"Beautiful Beast\"",
+	timerRoleplay2 = "\"Westfall Story\"",
+	timerRoleplay3 = "\"Wikket\""
 })
 
 L:SetMiscLocalization({

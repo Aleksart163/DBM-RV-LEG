@@ -62,7 +62,9 @@ local yellReinvigorated2			= mod:NewFadesYell(230087, nil, nil, nil, "YELL") --�
 
 local timerAchieve					= mod:NewBuffActiveTimer(480, 229074)
 
-local timerRoleplay					= mod:NewTimer(29, "timerRoleplay", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7) --Ролевая игра
+local timerRoleplay					= mod:NewTimer(29, "timerRoleplay", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7)
+local timerRoleplay2				= mod:NewTimer(29, "timerRoleplay2", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7)
+local timerRoleplay3				= mod:NewTimer(29, "timerRoleplay3", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7)
 
 local playerName = UnitName("player")
 
@@ -197,11 +199,11 @@ function mod:OnSync(msg)
 	if msg == "KaraSpeed" then
 		timerAchieve:Start()
 	elseif msg == "RPBeauty" then
-		timerRoleplay:Start(52.5) --(уже подправил до момента просмотра видео с каражана)
+		timerRoleplay:Start(52.5)
 	elseif msg == "RPWestfall" then
-		timerRoleplay:Start(46.5)
+		timerRoleplay2:Start(46.5)
 	elseif msg == "RPWikket" then
-		timerRoleplay:Start(70)
+		timerRoleplay3:Start(70)
 	end
 end
 

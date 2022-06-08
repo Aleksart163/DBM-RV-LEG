@@ -159,7 +159,7 @@ function mod:SPELL_CAST_START(args)
 		countdownReapSoul:Stop()
 		timerSoulBurstCD:Start()
 	elseif spellId == 196587 then --Взрыв души
-		if self:IsHard() or self:IsHeroic() then
+		if not self:IsNormal() then
 			specWarnSoulBurst:Show()
 			specWarnSoulBurst:Play("defensive")
 		end

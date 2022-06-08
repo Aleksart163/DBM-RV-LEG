@@ -634,14 +634,14 @@ L= DBM:GetModLocalization(1826)
 L:SetWarningLocalization({
 	Phase = "Скоро фаза 2",
 	Phase2 = "Фаза 2",
---	Phase3 = "Скоро фаза 3",
+	Phase3 = "Скоро фаза 3",
 	Phase4 = "Фаза 3"
 })
 
 L:SetOptionLocalization({
 	Phase = "Предупреждать заранее о фазе 2 (на ~56% Тонни, только Мифик+)",
 	Phase2 = "Объявлять фазу 2",
---	Phase3 = "Предупреждать заранее о фазе 3 (на ~55% Мрргрия, только Мифик+)",
+	Phase3 = "Предупреждать заранее о фазе 3 (на ~56% Мрргрия, только Мифик+)",
 	Phase4 = "Объявлять фазу 3"
 })
 
@@ -733,11 +733,15 @@ L:SetGeneralLocalization({
 })
 
 L:SetOptionLocalization({
-	timerRoleplay = "Отсчет времени до начала боя в Оперном зале"
+	timerRoleplay = "Отсчет времени до начала представления \"Красавица и Зверь\"",
+	timerRoleplay2 = "Отсчет времени до начала представления \"Однажды в Западном крае\"",
+	timerRoleplay3 = "Отсчет времени до начала представления \"Злюкер\""
 })
 
 L:SetTimerLocalization({
-	timerRoleplay = "Начало боя"
+	timerRoleplay = "\"Красавица и Зверь\"",
+	timerRoleplay2 = "\"Однажды и Западном крае\"",
+	timerRoleplay3 = "\"Злюкер\""
 })
 
 L:SetMiscLocalization({
