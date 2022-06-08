@@ -9,10 +9,12 @@ mod.isTrashMod = true
 
 mod:RegisterEvents(
 	"SPELL_CAST_START 200261 221634 221688 225573 214003 221132 220918 200248 221363 221380 200343",
-	"SPELL_AURA_APPLIED 194966 221132 221363 240447 225909",
-	"SPELL_AURA_APPLIED_DOSE 225909",
+	"SPELL_AURA_APPLIED 194966 221132 221363 240447 225909 240559",
+	"SPELL_AURA_APPLIED_DOSE 225909 240559",
 	"SPELL_AURA_REMOVED 194966 221132 221363 240447",
 	"SPELL_CAST_SUCCESS 200343 200345 220918",
+	"SPELL_PERIODIC_DAMAGE 226512",
+	"SPELL_PERIODIC_MISSED 226512",
 	"UNIT_DIED",
 	"CHAT_MSG_MONSTER_SAY"
 )
@@ -26,10 +28,12 @@ local warnOverwhelmingRelease		= mod:NewSpellAnnounce(220918, 4) --Высвоб�
 local warnRupturingPoison			= mod:NewTargetAnnounce(221363, 4) --Раздирающий яд
 local warnMandibleStrike			= mod:NewTargetAnnounce(221380, 4) --Удар жвалами
 local warnSoulVenom					= mod:NewStackAnnounce(225909, 4, nil, nil, 2) --Отравленная душа
-
+--Ключи
+local specWarnGrievousWound			= mod:NewSpecialWarningStack(240559, nil, 5, nil, nil, 3, 2) --Тяжкая рана
+local specWarnSanguineIchor			= mod:NewSpecialWarningYouMove(226512, nil, nil, nil, 1, 2) --Кровавый гной
 local specWarnQuake					= mod:NewSpecialWarningCast(240447, "SpelCaster", nil, nil, 1, 2) --Землетрясение
 local specWarnQuake2				= mod:NewSpecialWarningYouMoveAway(240447, "-SpelCaster", nil, nil, 1, 2) --Землетрясение
-
+--
 local specWarnSoulVenom				= mod:NewSpecialWarningStack(225909, nil, 5, nil, nil, 1, 2) --Отравленная душа
 local specWarnSoulVenom2			= mod:NewSpecialWarningDispel(225909, "MagicDispeller2", nil, nil, 1, 3) --Отравленная душа
 
@@ -172,7 +176,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnQuake2:Show()
 			timerQuake:Start()
 		end
-	elseif spellId == 225909 then --Факел Скверны
+	elseif spellId == 225909 then --Отравленная душа
 		local amount = args.amount or 1
 		if not self:IsNormal() then
 			if args:IsPlayer() then
@@ -193,6 +197,14 @@ function mod:SPELL_AURA_APPLIED(args)
 					specWarnSoulVenom2:Show(args.destName)
 					specWarnSoulVenom2:Play("stackhigh")
 				end
+			end
+		end
+	elseif spellId == 240559 then --Тяжкая рана
+		local amount = args.amount or 1
+		if args:IsPlayer() then
+			if amount >= 5 then
+				specWarnGrievousWound:Show(amount)
+				specWarnGrievousWound:Play("stackhigh")
 			end
 		end
 	end
@@ -259,3 +271,11 @@ function mod:CHAT_MSG_MONSTER_SAY(msg)
 		self:SendSync("RP1")
 	end
 end
+
+function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
+	if spellId == 226512 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
+		specWarnSanguineIchor:Show()
+		specWarnSanguineIchor:Play("runaway")
+	end
+end
+mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
