@@ -96,7 +96,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 221688 then
 		specWarnOverDetonation:Show()
 		specWarnOverDetonation:Play("runout")
-	elseif spellId == 225573 and self:AntiSpam(5, 1) then --Исцеление тьмой
+	elseif spellId == 225573 and self:AntiSpam(3, 1) then --Исцеление тьмой
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnDarkMending:Show()
 			specWarnDarkMending:Play("kickcast")
@@ -113,8 +113,9 @@ function mod:SPELL_CAST_START(args)
 		warnOverwhelmingRelease:Show()
 		specWarnOverwhelmingRelease:Show()
 		timerOverwhelmingReleaseCD:Start()
-	elseif spellId == 200248 then --Чародейская бомбардировка
+	elseif spellId == 200248 and self:AntiSpam(3, 1) then --Чародейская бомбардировка
 		specWarnArcaneBlitz:Show()
+		specWarnArcaneBlitz:Play("kickcast")
 		timerArcaneBlitzCD:Start()
 	elseif spellId == 221363 then --Раздирающий яд
 		timerRupturingPoisonCD:Start()
@@ -276,34 +277,10 @@ end
 
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
 	if spellId == 226512 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
-		specWarnSanguineIchor:Show()
-		specWarnSanguineIchor:Play("runaway")
+		if not self:IsNormal() then
+			specWarnSanguineIchor:Show()
+			specWarnSanguineIchor:Play("runaway")
+		end
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
---[[
-	elseif spellId == 225909 then --Отравленная душа
-		local amount = args.amount or 1
-		if not self:IsNormal() then
-			if args:IsPlayer() then
-				if self:IsTank() then
-					if amount >= 10 and amount % 5 == 0 then
-						specWarnSoulVenom:Show(amount)
-						specWarnSoulVenom:Play("stackhigh")
-					end
-				else
-					if amount >= 5 and amount % 5 == 0 then
-						specWarnSoulVenom:Show(amount)
-						specWarnSoulVenom:Play("stackhigh")
-					end
-				end
-			else
-				if amount >= 10 and amount % 5 == 0 then
-					warnSoulVenom:Show(args.destName, amount)
-					specWarnSoulVenom2:Show(args.destName)
-					specWarnSoulVenom2:Play("stackhigh")
-				end
-			end
-		end
-		]]
-		

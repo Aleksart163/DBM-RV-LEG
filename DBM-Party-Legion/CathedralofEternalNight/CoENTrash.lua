@@ -8,7 +8,7 @@ mod:SetZone()
 mod.isTrashMod = true
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 239232 237391 238543 236737 242724 242760 239320 239266 241598 239235",
+	"SPELL_CAST_START 239232 237391 238543 236737 242724 242760 239320 239266 241598 239235 239201",
 	"SPELL_AURA_APPLIED 238688 239161 215489 237325 237583",
 --	"SPELL_PERIODIC_DAMAGE ",
 --	"SPELL_PERIODIC_MISSED ",
@@ -19,6 +19,7 @@ mod:RegisterEvents(
 local warnFelStrike				= mod:NewTargetAnnounce(236737, 3) --Удар Скверны
 local warnShadowWall			= mod:NewSpellAnnounce(241598, 3) --Стена Тьмы
 
+local specWarnFelGlare			= mod:NewSpecialWarningDodge(239201, "Melee", nil, nil, 2, 2) --Взор Скверны
 local specWarnFocusedDestruction = mod:NewSpecialWarningDefensive(239235, nil, nil, nil, 3, 5) --Направленное разрушение
 local specWarnBurningCelerity	= mod:NewSpecialWarningYouMove(237583, nil, nil, nil, 1, 2) --Пылающая стремительность
 local specWarnShadowWall		= mod:NewSpecialWarningInterrupt(241598, "HasInterrupt", nil, nil, 1, 2) --Стена Тьмы
@@ -91,6 +92,9 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 239235 then --Направленное разрушение
 		specWarnFocusedDestruction:Show()
 		specWarnFocusedDestruction:Play("defensive")
+	elseif spellId == 239201 then --Взор Скверны
+		specWarnFelGlare:Show()
+		specWarnFelGlare:Play("watchstep")
 	end
 end
 
@@ -128,7 +132,7 @@ function mod:OnSync(msg)
 		specWarnShadowWave:Play("shockwave")
 	end
 end
-
+--[[
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
 	if spellId == 194102 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
 		specWarnPoisonousSludge:Show()
@@ -136,3 +140,4 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spell
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
+]]
