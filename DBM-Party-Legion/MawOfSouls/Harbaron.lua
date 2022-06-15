@@ -94,7 +94,7 @@ function mod:SPELL_CAST_START(args)
 		specWarnScythe:Show()
 		specWarnScythe:Play("shockwave")
 	elseif spellId == 194325 then --Разделение
-		self:BossTargetScanner(args.sourceGUID, "FragmentTarget", 0.1)
+		self:BossTargetScanner(args.sourceGUID, "FragmentTarget", 0.3)
 	end
 end
 
