@@ -52,7 +52,7 @@ function mod:OnCombatStart(delay)
 	self.vb.phase = 1
 	self.vb.wardens = 0
 	self.vb.backlash = 0
-	if self:IsHard() then
+	if not self:IsNormal() then
 		timerFragmentOfDespairCD:Start(11)
 	else
 		timerFragmentOfDespairCD:Start(11)

@@ -5,7 +5,7 @@ mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 mod:SetCreatureID(98207)
 mod:SetEncounterID(1826)
 mod:SetZone()
-mod:SetUsedIcons(2, 1)
+mod:SetUsedIcons(8, 7)
 
 mod.noNormal = true
 
@@ -21,9 +21,6 @@ mod:RegisterEventsInCombat(
 	"UNIT_SPELLCAST_CHANNEL_START boss1"
 )
 
---TODO timers are iffy.
---TODO, blink scanning should work but may not if logic errors. May be spammy in certain situations such as pets/etc taunting boss
---["200227-Tangled Web"] = "pull:35.2, 26.6, 21.8",
 local warnBlink					= mod:NewTargetAnnounce(199811, 4) --Молниеносные удары
 local warnWeb					= mod:NewTargetAnnounce(200284, 3) --Липкие путы
 
@@ -40,14 +37,14 @@ local timerVenomCD				= mod:NewCDTimer(29.8, 200024, nil, nil, nil, 3) --Яд П
 local yellBlink					= mod:NewYell(199811, nil, false, nil, "YELL") --Молниеносные удары
 local yellWeb					= mod:NewYell(200284, nil, nil, nil, "YELL") --Липкие путы
 
-mod:AddSetIconOption("SetIconOnWeb", 200284, true, false, {2, 1}) --Липкие путы
+mod:AddSetIconOption("SetIconOnWeb", 200284, true, false, {8, 7}) --Липкие путы
 
 mod.vb.blinkCount = 0
-mod.vb.webIcon = 1
+mod.vb.webIcon = 8
 
 function mod:OnCombatStart(delay) --все проверил
 	self.vb.blinkCount = 0
-	self.vb.webIcon = 1
+	self.vb.webIcon = 8
 	timerBlinkCD:Start(15.6-delay) --Молниеносные удары +1сек
 	timerVenomCD:Start(25-delay) --Яд Пустоты
 	timerWebCD:Start(35-delay) --Липкие путы
@@ -56,6 +53,7 @@ end
 function mod:SPELL_AURA_APPLIED(args) 
 	local spellId = args.spellId
 	if spellId == 200284 then --все проверил
+		self.vb.webIcon = self.vb.webIcon - 1
 		warnWeb:CombinedShow(0.5, args.destName)
 		if args:IsPlayer() then
 			specWarnWeb:Show()
@@ -64,14 +62,13 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self.Options.SetIconOnWeb then
 			self:SetIcon(args.destName, self.vb.webIcon)
 		end
-		self.vb.webIcon = self.vb.webIcon + 1
 	end
 end
 
-function mod:SPELL_AURA_REMOVED(args) --
+function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
 	if spellId == 200284 then --все проверил
-		self.vb.webIcon = self.vb.webIcon - 1
+		self.vb.webIcon = self.vb.webIcon + 1
 		if args:IsPlayer() then
 			specWarnWeb2:Show()
 		end
@@ -92,8 +89,10 @@ end
 
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 200040 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
-		specWarnVenomGTFO:Show()
-		specWarnVenomGTFO:Play("runaway")
+		if not self:IsNormal() then
+			specWarnVenomGTFO:Show()
+			specWarnVenomGTFO:Play("runaway")
+		end
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE

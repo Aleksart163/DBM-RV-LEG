@@ -21,7 +21,7 @@ mod:RegisterEventsInCombat(
 local warnSpear						= mod:NewSpellAnnounce(198072, 2) --Копье света
 local warnSurge						= mod:NewCastAnnounce(198750, 4) --Импульс
 
-local specWarnTempest				= mod:NewSpecialWarningRun(198263, nil, nil, nil, 3, 5) --Светозарная буря
+local specWarnTempest				= mod:NewSpecialWarningRun(198263, nil, nil, nil, 4, 5) --Светозарная буря
 local specWarnShatterSpears			= mod:NewSpecialWarningDodge(198077, nil, nil, nil, 2, 2) --Расколотые копья
 local specWarnSpear					= mod:NewSpecialWarningDodge(198072, nil, nil, nil, 2, 2) --Копье света
 local specWarnRunicBrand			= mod:NewSpecialWarningYouMoveToPos(197963, nil, nil, nil, 4, 5) --Руническое клеймо фиолетовая
@@ -90,7 +90,6 @@ end
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 197963 and args:IsPlayer() then--Purple K (NE)
-	--	specWarnRunicBrand:Show("|TInterface\\Icons\\Boss_OdunRunes_Purple.blp:12:12|tNE|TInterface\\Icons\\Boss_OdunRunes_Purple.blp:12:12|t")
 		specWarnRunicBrand:Show(self:IconNumToTexture(3))
 		specWarnRunicBrand:Play("frontright")
 		timerRunicBrand:Start(args.destName)
@@ -98,7 +97,6 @@ function mod:SPELL_AURA_APPLIED(args)
 			self:SetIcon(args.destName, 3, 12)
 		end
 	elseif spellId == 197964 and args:IsPlayer() then--Orange N (SE)
-	--	specWarnRunicBrand:Show("|TInterface\\Icons\\Boss_OdunRunes_Orange.blp:12:12|tSE|TInterface\\Icons\\Boss_OdunRunes_Orange.blp:12:12|t")
 		specWarnRunicBrand2:Show(self:IconNumToTexture(2))
 		specWarnRunicBrand:Play("backright")
 		timerRunicBrand:Start(args.destName)
@@ -106,7 +104,6 @@ function mod:SPELL_AURA_APPLIED(args)
 			self:SetIcon(args.destName, 2, 12)
 		end
 	elseif spellId == 197965 and args:IsPlayer() then--Yellow H (SW)
-	--	specWarnRunicBrand:Show("|TInterface\\Icons\\Boss_OdunRunes_Yellow.blp:12:12|tSW|TInterface\\Icons\\Boss_OdunRunes_Yellow.blp:12:12|t")
 		specWarnRunicBrand3:Show(self:IconNumToTexture(1))
 		specWarnRunicBrand:Play("backleft")
 		timerRunicBrand:Start(args.destName)
@@ -114,7 +111,6 @@ function mod:SPELL_AURA_APPLIED(args)
 			self:SetIcon(args.destName, 1, 12)
 		end
 	elseif spellId == 197966 and args:IsPlayer() then--Blue fishies (NW)
-	--	specWarnRunicBrand:Show("|TInterface\\Icons\\Boss_OdunRunes_Blue.blp:12:12|tNW|TInterface\\Icons\\Boss_OdunRunes_Blue.blp:12:12|t")
 		specWarnRunicBrand4:Show(self:IconNumToTexture(6))
 		specWarnRunicBrand:Play("frontleft")
 		timerRunicBrand:Start(args.destName)
@@ -122,7 +118,6 @@ function mod:SPELL_AURA_APPLIED(args)
 			self:SetIcon(args.destName, 6, 12)
 		end
 	elseif spellId == 197967 and args:IsPlayer() then--Green box (N)
-	--	specWarnRunicBrand:Show("|TInterface\\Icons\\Boss_OdunRunes_Green.blp:12:12|tN|TInterface\\Icons\\Boss_OdunRunes_Green.blp:12:12|t")
 		specWarnRunicBrand5:Show(self:IconNumToTexture(4))
 		specWarnRunicBrand:Play("frontcenter")--Does not exist yet
 		timerRunicBrand:Start(args.destName)

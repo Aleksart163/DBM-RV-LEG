@@ -8,7 +8,7 @@ mod.isTrashMod = true
 
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 199805 192563 199726 199382 200901 192158 192288 210875 199652 200969",
+	"SPELL_CAST_START 199805 192563 199726 199382 200901 192158 192288 210875 199652 200969 198888",
 	"SPELL_AURA_APPLIED 215430 199652",
 	"SPELL_AURA_REMOVED 215430 199652",
 	"SPELL_CAST_SUCCESS 199382",
@@ -21,7 +21,7 @@ local warnThunderstrike				= mod:NewTargetAnnounce(215430, 4) --Громовой
 local warnCrackle					= mod:NewTargetAnnounce(199805, 3) --Разряд
 local warnChargedPulse				= mod:NewCastAnnounce(210875, 4) --Пульсирующий заряд
 
-
+local specWarnLightningBreath		= mod:NewSpecialWarningDodge(198888, nil, nil, nil, 2, 3) --Грозовое дыхание
 local specWarnCrackle2				= mod:NewSpecialWarningYouMove(199818, nil, nil, nil, 1, 2) --Разряд
 local specWarnEtch					= mod:NewSpecialWarningYouMove(198959, nil, nil, nil, 1, 2) --Гравировка
 local specWarnCallAncestor			= mod:NewSpecialWarningSwitch(200969, "Dps", nil, nil, 1, 2) --Зов предков
@@ -103,11 +103,18 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 210875 and self:AntiSpam(2, 1) then --Пульсирующий заряд
 		warnChargedPulse:Show()
 		specWarnChargedPulse:Show()
+		specWarnChargedPulse:Play("justrun")
 		specWarnChargedPulse2:Show()
+		specWarnChargedPulse2:Play("watchstep")
 	elseif spellId == 199652 then --Рассечение
 		specWarnSever:Show()
-	elseif spellId == 199652 then --Зов предков
+		specWarnSever:Play("defensive")
+	elseif spellId == 200969 then --Зов предков
 		specWarnCallAncestor:Show()
+		specWarnCallAncestor:Play("switch")
+	elseif spellId == 198888 then --Грозовое дыхание
+		specWarnLightningBreath:Show()
+		specWarnLightningBreath:Play("watchstep")
 	end
 end
 

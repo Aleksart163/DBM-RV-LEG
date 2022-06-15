@@ -55,7 +55,7 @@ function mod:OnCombatStart(delay)
 	self.vb.phase = 1
 	warned_preP1 = false
 	warned_preP2 = false
-	if self:IsHard() then
+	if not self:IsNormal() then
 		timerGroundSlamCD:Start(5-delay) --Удар по земле+++
 		timerBubblesCD:Start(10-delay) --Пузырь газа+++
 		timerQuakeCD:Start(16-delay) --Землетрясение+++
@@ -117,7 +117,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 193018 then --Пузырь газа
 		self.vb.bubblesIcon = self.vb.bubblesIcon - 1
-		warnBubbles:CombinedShow(1, args.destName)
+		warnBubbles:CombinedShow(1.5, args.destName)
 		timerBubbles:Start(args.destName)
 		if args:IsPlayer() then
 			specWarnBubbles2:Show()

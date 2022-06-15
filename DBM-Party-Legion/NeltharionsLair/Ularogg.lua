@@ -34,7 +34,7 @@ mod.vb.stanceofmountainCast = 0
 
 function mod:OnCombatStart(delay)
 	self.vb.stanceofmountainCast = 0
-	if self:IsHard() then
+	if not self:IsNormal() then
 		timerSunderCD:Start(7-delay) --Раскол +++
 		timerStrikeCD:Start(20.5-delay) --Удар горы +++
 		timerStanceOfMountainCD:Start(31-delay) --Горная стойка +++

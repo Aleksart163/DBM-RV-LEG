@@ -562,6 +562,14 @@ L:SetMiscLocalization({
 -----------------------
 L= DBM:GetModLocalization(1468)
 
+L:SetWarningLocalization({
+	Countermeasure = "Countermeasure is ready!"
+})
+
+L:SetOptionLocalization({
+	Countermeasure = "Show warning for $spell:195189"
+})
+
 -----------------------
 -- Glazer --
 -----------------------

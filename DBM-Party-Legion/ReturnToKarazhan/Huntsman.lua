@@ -20,7 +20,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_SUCCESS 227636",
 	"UNIT_SPELLCAST_SUCCEEDED boss1 boss2",
 	"CHAT_MSG_MONSTER_YELL",
-	"UNIT_HEALTH boss1 boss2"
+	"UNIT_HEALTH boss1"
 )
 
 local warnPhase						= mod:NewAnnounce("Phase", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 2
@@ -103,7 +103,7 @@ function mod:SPELL_CAST_START(args)
 		self.vb.mezairCast = self.vb.mezairCast + 1
 		specWarnMezair:Show()
 		specWarnMezair:Play("chargemove")
-		if self.vb.mezairCast == 1 and self.vb.phase == 2 and perephase then -- через 3.5 сек как Ловчий спустился
+		if self.vb.mezairCast == 1 and warned_preP2 and perephase then -- через 3.5 сек как Ловчий спустился
 			perephase = false
 			self.vb.mountedstrikeCast = 0
 			specWarnSpectralCharge:Cancel() --Призрачный рывок
@@ -126,7 +126,7 @@ function mod:SPELL_CAST_START(args)
 					unitIsPlayer = true
 				end
 				if self.Options.SetIconOnSharedSuffering then
-					self:SetIcon(args.destName, 8, 4)
+					self:SetIcon(args.destName, 8, 5)
 				end
 				break
 			end
@@ -158,7 +158,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
 	if spellId == 227636 then --Удар всадника (перефаза наступила)
 		self.vb.mountedstrikeCast = self.vb.mountedstrikeCast + 1
-		if self.vb.mountedstrikeCast == 1 and self.vb.phase == 2 and not perephase then
+		if self.vb.mountedstrikeCast == 1 and warned_preP2 and not perephase then
 			perephase = true
 			self.vb.mezairCast = 0
 			timerMortalStrikeCD:Stop() --Смертельный удар
@@ -231,6 +231,8 @@ function mod:UNIT_HEALTH(uId)
 			warnPhase:Show()
 		elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 114264 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.51 then --Полночь Фаза 2
 			self.vb.phase = 2
+			self.vb.mezairCast = 0
+			self.vb.mountedstrikeCast = 0
 			warned_preP2 = true
 			warnPhase1:Show() --фаза 2
 			timerPresenceCD:Stop() --Незримое присутствие
@@ -238,9 +240,9 @@ function mod:UNIT_HEALTH(uId)
 			timerMortalStrikeCD:Start(9.5) --смертельный удар
 			timerSharedSufferingCD:Start(18) --Разделенные муки
 			countdownSharedSuffering:Start(18) --Разделенные муки
-		elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 114262 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.10 then --Ловчий Начало фазы 3
+--[[		elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 114262 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.10 then --Ловчий Начало фазы 3
 			warned_preP3 = true
-			warnPhase2:Show()
+			warnPhase2:Show()]]
 		end
 	else
 		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 114264 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.61 then --Полночь
@@ -254,8 +256,8 @@ function mod:UNIT_HEALTH(uId)
 		--	timerMortalStrikeCD:Start(9.5) --смертельный удар
 		--	timerSharedSufferingCD:Start(18) --Разделенные муки
 		--	countdownSharedSuffering:Start(18) --Разделенные муки
-		elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 114262 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.10 then --Ловчий Начало фазы 3
-			warned_preP3 = true
+--[[		elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 114262 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.10 then --Ловчий Начало фазы 3
+			warned_preP3 = true]]
 		end
 	end
 end

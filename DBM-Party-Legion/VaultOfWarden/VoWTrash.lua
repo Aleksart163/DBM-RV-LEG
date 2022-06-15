@@ -18,7 +18,7 @@ mod:RegisterEvents(
 --Казематы стражей треш
 local warnTorment				= mod:NewTargetAnnounce(202615, 3) --Мучение
 local warnNightmares			= mod:NewTargetAnnounce(193069, 4) --Кошмары
-local warnNightmares2			= mod:NewSpellAnnounce(193069, 3) --Кошмары
+local warnNightmares2			= mod:NewCastAnnounce(193069, 4) --Кошмары
 local warnDoubleStrike			= mod:NewTargetAnnounce(193607, 2) --Двойной удар
 local warnMetamorphosis			= mod:NewSpellAnnounce(193502, 4) --Метаморфоза
 
@@ -27,7 +27,7 @@ local specWarnSummonGrimguard	= mod:NewSpecialWarningSwitch(202728, "Tank", nil,
 local specWarnTemporalAnomaly	= mod:NewSpecialWarningYouMove(161044, nil, nil, nil, 1, 2) --Временная аномалия
 local specWarnArcaneSentries	= mod:NewSpecialWarningDodge(193936, nil, nil, nil, 2, 2) --Волшебные часовые
 local specWarnTemporalAnomaly2	= mod:NewSpecialWarningDodge(161056, nil, nil, nil, 2, 2) --Временная аномалия (каст)
-local specWarnNightmares2		= mod:NewSpecialWarningDispel(193069, "MagicDispeller", nil, nil, 1, 2) --Кошмары
+local specWarnNightmares2		= mod:NewSpecialWarningDispel(193069, "MagicDispeller2", nil, nil, 1, 2) --Кошмары
 local specWarnGiftoftheDoomsayer = mod:NewSpecialWarningDispel(193164, "MagicDispeller2", nil, nil, 1, 2) --Дар вестника рока
 local specWarnGiftoftheDoomsayer2 = mod:NewSpecialWarningYou(193164, nil, nil, nil, 1, 2) --Дар вестника рока
 local specWarnAnguishedSouls	= mod:NewSpecialWarningYouMove(202608, nil, nil, nil, 1, 2) --Страдающие души
@@ -117,7 +117,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			yellNightmares:Yell()
 		else
-			specWarnNightmares2:Show(args.destName)
+			specWarnNightmares2:CombinedShow(0.3, args.destName)
 		end
 	elseif spellId == 193607 then --Двойной удар
 		warnDoubleStrike:Show(args.destName)

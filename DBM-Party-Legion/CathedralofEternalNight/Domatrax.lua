@@ -53,7 +53,7 @@ function mod:OnCombatStart(delay)
 	warned_preP2 = false
 	warned_preP3 = false
 	warned_preP4 = false
-	if self:IsHard() then
+	if not self:IsNormal() then
 		timerFelsoulCleaveCD:Start(9.5-delay) --Удар оскверненной души +++
 		warnChaoticEnergy:Schedule(26-delay) --Хаотическая энергия +++
 		timerChaoticEnergyCD:Start(31-delay) --Хаотическая энергия +++

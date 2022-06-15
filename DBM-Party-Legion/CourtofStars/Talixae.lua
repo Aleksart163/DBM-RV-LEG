@@ -29,7 +29,7 @@ local countdownInfernalEruption		= mod:NewCountdown(32, 207881, nil, nil, 5) --�
 
 function mod:OnCombatStart(delay)
 	timerWitheringSoulCD:Start(12-delay)
-	if self:IsHard() then
+	if not self:IsNormal() then
 		timerInfernalEruptionCD:Start(14-delay) --Инфернальное извержение +++
 		countdownInfernalEruption:Start(14-delay)
 		timerBurningIntensityCD:Start(6-delay) --Интенсивное горение +++

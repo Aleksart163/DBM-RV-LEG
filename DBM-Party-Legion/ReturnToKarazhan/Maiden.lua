@@ -5,7 +5,7 @@ mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 mod:SetCreatureID(113971)
 mod:SetEncounterID(1954)
 mod:SetZone()
-mod:SetUsedIcons(7)
+mod:SetUsedIcons(8, 7)
 --mod:SetUsedIcons(1)
 --mod:SetHotfixNoticeRev(14922)
 --mod.respawnTime = 30
@@ -23,7 +23,8 @@ mod:RegisterEventsInCombat(
 )
 
 --Fix timers for repent and abilites after repent
-local warnSacredGround				= mod:NewTargetAnnounce(227789, 4) --Священная земля
+local warnSacredGround				= mod:NewTargetAnnounce(227789, 3) --Священная земля
+local warnHolyBolt					= mod:NewTargetAnnounce(227809, 3) --Священная молния
 local warnHolyWrath					= mod:NewCastAnnounce(227823, 4) --Гнев небес
 
 local specWarnHolyBolt				= mod:NewSpecialWarningMoveAway(227809, nil, nil, nil, 2, 3) --Священная молния
@@ -38,12 +39,14 @@ local timerHolyShockCD				= mod:NewCDTimer(13, 227800, nil, nil, nil, 4, nil, DB
 local timerRepentanceCD				= mod:NewCDTimer(51, 227508, nil, nil, nil, 7) --Всеобщее покаяние +++
 local timerHolyWrath				= mod:NewCastTimer(10, 227823, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON..DBM_CORE_DEADLY_ICON) --Гнев небес ++
 
+local yellHolyBolt					= mod:NewYell(227809, nil, nil, nil, "YELL") --Священная молния
 local yellSacredGround				= mod:NewYell(227789, nil, nil, nil, "YELL") --Священная земля
 --local berserkTimer				= mod:NewBerserkTimer(300)
 
 local countdownHolyBolt				= mod:NewCountdown(13.5, 227809, nil, nil, 5) --Священная молния
 local countdownHolyWrath			= mod:NewCountdown("Alt10", 227823, nil, nil, 5) --Гнев небес
 
+mod:AddSetIconOption("SetIconOnHolyBolt", 227809, true, false, {8}) --Священная молния
 mod:AddSetIconOption("SetIconOnSacredGround", 227789, true, false, {7}) --Священная земля
 mod:AddRangeFrameOption(8, 227809)--TODO, keep looking for a VALID 6 yard item/spell
 mod:AddInfoFrameOption(227817, true)
@@ -60,7 +63,23 @@ function mod:SacredGroundTarget(targetname, uId)
 		warnSacredGround:Show(targetname)
 	end
 	if self.Options.SetIconOnSacredGround then
-		self:SetIcon(args.destName, 7, 5)
+		self:SetIcon(targetname, 7, 5)
+	end
+end
+
+function mod:HolyBoltTarget(targetname, uId)
+	if not targetname then return end
+	if targetname == UnitName("player") then
+		specWarnHolyBolt:Show()
+		specWarnHolyBolt:Play("watchstep")
+		yellHolyBolt:Yell()
+	else
+		warnHolyBolt:Show(targetname)
+		specWarnHolyBolt:Show()
+		specWarnHolyBolt:Play("watchstep")
+	end
+	if self.Options.SetIconOnHolyBolt then
+		self:SetIcon(targetname, 8, 5)
 	end
 end
 
@@ -104,10 +123,10 @@ function mod:SPELL_CAST_START(args)
 		timerHolyWrath:Start()
 		countdownHolyWrath:Start()
 	elseif spellId == 227789 then --Священная земля
-		self:BossTargetScanner(args.sourceGUID, "SacredGroundTarget", 0.3, 9)
+		self:BossTargetScanner(args.sourceGUID, "SacredGroundTarget", 0.3)
 		timerSacredGroundCD:Start()
 	elseif spellId == 227809 then --Священная молния
-		specWarnHolyBolt:Show()
+		self:BossTargetScanner(args.sourceGUID, "HolyBoltTarget", 0.2)
 		timerHolyBoltCD:Start()
 		countdownHolyBolt:Start()
 	end

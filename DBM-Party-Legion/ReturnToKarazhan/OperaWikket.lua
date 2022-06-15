@@ -32,7 +32,7 @@ local specWarnMagicMagnificent		= mod:NewSpecialWarningMoveTo(227776, nil, nil, 
 --local specWarnWondrousRadiance		= mod:NewSpecialWarningMove(227416, nil, nil, nil, 1, 2) --Дивное сияние
 local specWarnWondrousRadiance		= mod:NewSpecialWarningDodge(227410, "Melee", nil, nil, 2, 3) --Дивное сияние
 
-local timerSummonAddsCD				= mod:NewCDTimer(32.7, 227477, nil, "Tank|Dps", nil, 1, nil, DBM_CORE_DAMAGE_ICON) --Вызов помощников +++
+local timerSummonAddsCD				= mod:NewCDTimer(32.7, 227477, nil, "Tank|Dps", nil, 1, nil, DBM_CORE_TANK_ICON..DBM_CORE_DAMAGE_ICON) --Вызов помощников +++
 local timerMagicMagnificentCD		= mod:NewCDTimer(46.1, 227776, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Несравненная магия +++
 local timerMagicMagnificent			= mod:NewCastTimer(5, 227776, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Несравненная магия +++
 local timerWondrousRadianceCD		= mod:NewCDTimer(10, 227410, nil, "Melee", nil, 5, nil, DBM_CORE_DEADLY_ICON) --Дивное сияние +++
@@ -44,7 +44,7 @@ local countdownMagicMagnificent2	= mod:NewCountdownFades("AltTwo5", 227776) --Н
 local defyGravity = DBM:GetSpellInfo(227405)
 
 function mod:OnCombatStart(delay)
-	if self:IsHard() then
+	if not self:IsNormal() then
 		timerDefyGravityCD:Start(10.5-delay) --Неподвластность притяжению +++
 		timerWondrousRadianceCD:Start(7.8-delay) --Дивное сияние +++
 		timerSummonAddsCD:Start(31-delay) --Вызов помощников +++

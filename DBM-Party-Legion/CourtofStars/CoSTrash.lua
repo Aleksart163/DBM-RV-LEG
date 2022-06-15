@@ -9,14 +9,15 @@ mod:SetOOCBWComms()
 mod.isTrashMod = true
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 209027 212031 209485 209410 209413 211470 211464 209404 209495 225100 211299 209378 207980 207979 214692 214688 214690 208334",
+	"SPELL_CAST_START 209027 212031 209485 209410 209413 211470 211464 209404 209495 225100 211299 209378 207980 207979 214692 214688 214690 208334 212773",
 	"SPELL_CAST_SUCCESS 214688",
-	"SPELL_AURA_APPLIED 209033 209512 207981 214690",
+	"SPELL_AURA_APPLIED 209033 209512 207981 214690 212773",
 	"SPELL_AURA_REMOVED 214690",
 	"CHAT_MSG_MONSTER_SAY",
 	"GOSSIP_SHOW",
 	"UNIT_DIED"
 )
+--208585 Поглощение пищи... (баф на хп от еды)
 --208334 Иссушение... (баф на крит от сферы)
 --209767 Очищение... (баф на снижение урона от фолиата)
 --Квартал звезд
@@ -26,6 +27,8 @@ local warnCripple					= mod:NewTargetAnnounce(214690, 3) --Увечье
 local warnCarrionSwarm				= mod:NewTargetAnnounce(214688, 4) --Темная стая
 local warnShadowBoltVolley			= mod:NewCastAnnounce(214692, 4) --Залп стрел Тьмы
 local warnFelDetonation				= mod:NewCastAnnounce(211464, 4) --Взрыв Скверны
+local warnSubdue					= mod:NewTargetAnnounce(212773, 4) --Подчинение
+local warnSubdue2					= mod:NewCastAnnounce(212773, 3) --Подчинение
 
 local specWarnShadowBoltVolley		= mod:NewSpecialWarningDodge(214692, "-Tank", nil, nil, 2, 3) --Залп стрел Тьмы
 local specWarnCarrionSwarm			= mod:NewSpecialWarningDodge(214688, nil, nil, nil, 2, 2) --Темная стая
@@ -39,6 +42,8 @@ local specWarnQuellingStrike		= mod:NewSpecialWarningDodge(209027, "Melee", nil,
 local specWarnChargedBlast			= mod:NewSpecialWarningDodge(212031, "Melee", nil, nil, 2, 2) --Заряженный взрыв
 local specWarnChargedSmash			= mod:NewSpecialWarningDodge(209495, "Melee", nil, nil, 2, 2) --Удар с размаху
 local specWarnDrainMagic			= mod:NewSpecialWarningInterrupt(209485, "HasInterrupt", nil, nil, 3, 5) --Похищение магии
+local specWarnSubdue				= mod:NewSpecialWarningInterrupt(212773, "HasInterrupt", nil, nil, 1, 3) --Подчинение
+local specWarnSubdue2				= mod:NewSpecialWarningDispel(212773, "MagicDispeller2", nil, nil, 1, 2) --Подчинение
 local specWarnNightfallOrb			= mod:NewSpecialWarningInterrupt(209410, "HasInterrupt", nil, nil, 1, 2)
 local specWarnSuppress				= mod:NewSpecialWarningInterrupt(209413, "HasInterrupt", nil, nil, 1, 2)
 local specWarnBewitch				= mod:NewSpecialWarningInterrupt(211470, "HasInterrupt", nil, nil, 1, 2)
@@ -61,6 +66,7 @@ local timerShockwaveCD				= mod:NewCDTimer(8.5, 207979, nil, nil, nil, 3, nil, D
 
 local timerRoleplay					= mod:NewTimer(29, "timerRoleplay", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7) --Ролевая игра
 
+local yellSubdue					= mod:NewYell(212773, nil, nil, nil, "YELL") --Подчинение
 local yellDisintegrationBeam		= mod:NewYell(207981, nil, nil, nil, "YELL") --Луч дезинтеграции
 local yellCripple					= mod:NewYell(214690, nil, nil, nil, "YELL") --Увечье
 local yellCarrionSwarm				= mod:NewYell(214688, nil, nil, nil, "YELL") --Темная стая
@@ -68,10 +74,7 @@ local yellCarrionSwarm				= mod:NewYell(214688, nil, nil, nil, "YELL") --Тем�
 mod:AddBoolOption("SpyHelper", true)
 
 function mod:CarrionSwarmTarget(targetname, uId)
-	if not targetname then
-		warnCarrionSwarm:Show(DBM_CORE_UNKNOWN)
-		return
-	end
+	if not targetname then return end
 	if targetname == UnitName("player") then
 		specWarnCarrionSwarm:Show()
 		specWarnCarrionSwarm:Play("watchstep")
@@ -142,9 +145,17 @@ function mod:SPELL_CAST_START(args)
 			specWarnShadowBoltVolley:Play("watchstep")
 		end
 	elseif spellId == 214688 then --Темная стая
-		self:BossTargetScanner(args.sourceGUID, "CarrionSwarmTarget", 0.1, 9)
+		self:BossTargetScanner(args.sourceGUID, "CarrionSwarmTarget", 0.2)
 	elseif spellId == 214690 then --Увечье
 		timerCrippleCD:Start()
+	elseif spellId == 212773 then --Подчинение
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnSubdue:Show(args.sourceName)
+			specWarnSubdue:Play("kickcast")
+		else
+			warnSubdue2:Show()
+			warnSubdue2:Play("kickcast")
+		end
 	end
 end
 
@@ -179,12 +190,26 @@ function mod:SPELL_AURA_APPLIED(args)
 				yellCripple:Yell()
 			else
 				specWarnCripple:Show(args.destName)
-				specWarnFortification:Play("dispelnow")
+				specWarnCripple:Play("dispelnow")
 			end
 		else
 			if args:IsPlayer() then
 				specWarnCripple2:Show()
 				yellCripple:Yell()
+			end
+		end
+	elseif spellId == 212773 then --Подчинение
+		warnSubdue:CombinedShow(0.3, args.destName)
+		if self:IsHard() then
+			if args:IsPlayer() then
+				yellSubdue:Yell()
+			else
+				specWarnSubdue2:CombinedShow(0.3, args.destName)
+				specWarnSubdue2:Play("dispelnow")
+			end
+		else
+			if args:IsPlayer() then
+				yellSubdue:Yell()
 			end
 		end
 	end

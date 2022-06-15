@@ -27,14 +27,14 @@ local warnEvo						= mod:NewSpellAnnounce(227254, 1) --Прилив сил
 local warnEvo2						= mod:NewPreWarnAnnounce(227254, 3, 4) --Прилив сил
 local warnEvoOver					= mod:NewEndAnnounce(227254, 2) --Прилив сил
 
-local specWarnPowerDischarge		= mod:NewSpecialWarningMove(227465, nil, nil, nil, 1, 2) --Разряд энергии
+local specWarnPowerDischarge		= mod:NewSpecialWarningYouMove(227465, nil, nil, nil, 1, 2) --Разряд энергии
 local specWarnEvo					= mod:NewSpecialWarningMoreDamage(227254, "-Healer", nil, nil, 3, 2) --Прилив сил
 local specWarnEvo2					= mod:NewSpecialWarningDefensive(227254, nil, nil, nil, 3, 3) --Прилив сил
 
-local timerSummonAddCD				= mod:NewNextTimer(9.7, 227267, nil, nil, nil, 1) --Призыв нестабильной энергии
+local timerSummonAddCD				= mod:NewNextTimer(9.7, 227267, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON) --Призыв нестабильной энергии
 local timerPowerDischargeCD			= mod:NewCDTimer(12.2, 227279, nil, nil, nil, 3) --Разряд энергии
-local timerEvoCD					= mod:NewNextTimer(70, 227254, nil, nil, nil, 6) --Прилив сил
-local timerEvo						= mod:NewBuffActiveTimer(20, 227254, nil, nil, nil, 6) --Прилив сил
+local timerEvoCD					= mod:NewNextTimer(70, 227254, nil, nil, nil, 6, nil, DBM_CORE_DAMAGE_ICON) --Прилив сил
+local timerEvo						= mod:NewBuffActiveTimer(20, 227254, nil, nil, nil, 6, nil, DBM_CORE_DEADLY_ICON) --Прилив сил
 
 --local berserkTimer					= mod:NewBerserkTimer(300)
 

@@ -10,6 +10,7 @@ mod:SetUsedIcons(8, 7, 1)
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
+	"SPELL_CAST_START 212834 200185",
 	"SPELL_AURA_APPLIED 200182 200243 200289 200238",
 	"SPELL_AURA_REFRESH 200243",
 	"SPELL_AURA_REMOVED 200243 200359",
@@ -18,15 +19,14 @@ mod:RegisterEventsInCombat(
 	"UNIT_HEALTH boss1"
 )
 
---TOOD, maybe play gathershare for ALL (except tank) for nightmare target.
---TODO, maybe add an arrow group up hud for nightmare target depending on number of players it takes to clear it.
---TODO, feed on the weak have any significance?
 local warnApocNightmare				= mod:NewSpellAnnounce(200050, 4) --Апокалиптический Кошмар
 local warnApocNightmare2			= mod:NewSoonAnnounce(200050, 1) --Апокалиптический Кошмар
 local warnNightmare					= mod:NewTargetAnnounce(200243, 3) --Кошмар наяву
 local warnParanoia					= mod:NewTargetAnnounce(200289, 3) --Усугубляющаяся паранойя
 local warnFeedontheWeak				= mod:NewTargetAnnounce(200238, 4) --Пожирание слабых
+local warnNightmareBolt				= mod:NewTargetAnnounce(200185, 4) --Кошмарная стрела
 
+local specWarnNightmareBolt			= mod:NewSpecialWarningYouDefensive(200185, nil, nil, nil, 3, 5) --Кошмарная стрела
 local specWarnApocNightmare2		= mod:NewSpecialWarningDefensive(200050, nil, nil, nil, 3, 5) --Апокалиптический Кошмар
 local specWarnFeedontheWeak			= mod:NewSpecialWarningYouDefensive(200238, nil, nil, nil, 3, 5) --Пожирание слабых
 local specWarnFesteringRip			= mod:NewSpecialWarningDispel(200182, "MagicDispeller2", nil, nil, 1, 2) --Гноящаяся рана
@@ -42,6 +42,7 @@ local timerNightmare				= mod:NewTargetTimer(20, 200243, nil, nil, nil, 7) --К�
 local timerParanoiaCD				= mod:NewCDTimer(18, 200359, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Искусственная паранойя 18-28
 local timerParanoia					= mod:NewTargetTimer(20, 200359, nil, nil, nil, 7) --Искусственная паранойя
 
+local yellNightmareBolt				= mod:NewYell(200185, nil, nil, nil, "YELL") --Кошмарная стрела
 local yellFeedontheWeak				= mod:NewYell(200238, nil, nil, nil, "YELL") --Пожирание слабых
 local yellNightmare					= mod:NewYell(200243, nil, nil, nil, "YELL") --Кошмар наяву
 local yellParanoia					= mod:NewYell(200289, nil, nil, nil, "YELL") --Усугубляющаяся паранойя
@@ -54,21 +55,44 @@ mod.vb.phase = 1
 local warned_preP1 = false
 local warned_preP2 = false
 
+function mod:NightmareBoltTarget(targetname, uId) --Кошмарная стрела
+	if not targetname then return end
+	if targetname == UnitName("player") then
+		specWarnNightmareBolt:Show()
+		specWarnNightmareBolt:Play("defensive")
+		yellNightmareBolt:Yell()
+	else
+		warnNightmareBolt:Show(targetname)
+	end
+end
+
 function mod:OnCombatStart(delay)
 	self.vb.phase = 1
 	warned_preP1 = false
 	warned_preP2 = false
-	timerFesteringRipCD:Start(3.4-delay)
-	timerNightmareCD:Start(11-delay)
-	timerFeedontheWeakCD:Start(15-delay)
-	--Feed on weak, 15
-	timerParanoiaCD:Start(26-delay)
-	--timerApocNightmareCD:Start(37)--Still needs more data to determine if CD or health based
+	if not self:IsNormal() then
+		timerFesteringRipCD:Start(3.4-delay)
+		timerNightmareCD:Start(11-delay)
+		timerFeedontheWeakCD:Start(15-delay)
+		timerParanoiaCD:Start(26-delay)
+	else
+		timerFesteringRipCD:Start(3.4-delay)
+		timerNightmareCD:Start(6-delay)
+		timerFeedontheWeakCD:Start(15-delay)
+		timerParanoiaCD:Start(19-delay)
+	end
+end
+
+function mod:SPELL_CAST_START(args)
+	local spellId = args.spellId
+	if spellId == 212834 or spellId == 200185 then --Кошмарная стрела
+		self:BossTargetScanner(args.sourceGUID, "NightmareBoltTarget", 0.2)
+	end
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
-	if spellId == 200359 then
+	if spellId == 200359 then --Искусственная паранойя
 		timerParanoiaCD:Start()
 	elseif spellId == 200182 then --Гноящаяся рана
 		timerFesteringRipCD:Start()
@@ -108,7 +132,6 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnParanoia:Play("runaway")
 			yellParanoia:Yell()
 		elseif self:CheckNearby(15, args.destName) then
-			warnParanoia:Show(args.destName)
 			specWarnParanoia2:Show(args.destName)
 		else
 			warnParanoia:Show(args.destName)
@@ -117,12 +140,14 @@ function mod:SPELL_AURA_APPLIED(args)
 			self:SetIcon(args.destName, 7)
 		end
 	elseif spellId == 200238 then --Пожирание слабых
-		if args:IsPlayer() then
-			specWarnFeedontheWeak:Show()
-			specWarnFeedontheWeak:Play("defensive")
-			yellFeedontheWeak:Yell()
-		else
-			warnFeedontheWeak:Show(args.destName)
+		if self:IsHard() or self:IsHeroic() then
+			if args:IsPlayer() then
+				specWarnFeedontheWeak:Show()
+				specWarnFeedontheWeak:Play("defensive")
+				yellFeedontheWeak:Yell()
+			else
+				warnFeedontheWeak:Show(args.destName)
+			end
 		end
 		if self.Options.SetIconOnFeedontheWeak then
 			self:SetIcon(args.destName, 8, 5)
@@ -150,13 +175,13 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	local spellId = legacySpellId or bfaSpellId
 	if spellId == 204808 then--Because cast is hidden from combat log, and debuff may miss (AMS or the like)
 		timerNightmareCD:Start()
-	elseif spellId == 200050 then--Apocalyptic Nightmare
+	elseif spellId == 200050 then --Апокалиптический Кошмар
 		warnApocNightmare:Show()
 	end
 end
 
 function mod:UNIT_HEALTH(uId)
-	if self:IsHard() then --миф и миф+
+	if not self:IsNormal() then
 		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 99192 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.61 then
 			warned_preP1 = true
 			warnApocNightmare2:Show()

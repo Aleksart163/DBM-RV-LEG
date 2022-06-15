@@ -18,6 +18,7 @@ mod:RegisterEventsInCombat(
 )
 
 local warnRoar						= mod:NewSpellAnnounce(199389, 3) --Сотрясающий землю рык
+local warnRoar2						= mod:NewPreWarnAnnounce(199389, 5, 1) --Сотрясающий землю рык
 local warnDownDraft					= mod:NewPreWarnAnnounce(199345, 5, 1) --Нисходящий поток
 
 local specWarnDownDraft				= mod:NewSpecialWarningMoveBoss(199345, nil, nil, nil, 4, 3) --Нисходящий поток
@@ -49,7 +50,7 @@ end
 
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
-	if spellId == 199389 then
+	if spellId == 199389 then --Сотрясающий землю рык
 		warnRoar:Show()
 	--	timerEarthShakerCD:Start()
 	elseif spellId == 199345 then --Нисходящий поток
@@ -59,6 +60,7 @@ function mod:SPELL_CAST_START(args)
 			timerBreathCD:Stop()
 			timerDownDraftCD:Start(34)
 			timerDownDraft:Start()
+			warnRoar:Schedule(7)
 			timerEarthShakerCD:Start(12)
 			warnDownDraft:Schedule(29)
 			countdownDownDraft:Start(34)
@@ -66,6 +68,7 @@ function mod:SPELL_CAST_START(args)
 		else
 			timerDownDraftCD:Start()
 			timerDownDraft:Start()
+			warnRoar:Schedule(7)
 			timerEarthShakerCD:Start(12)
 			warnDownDraft:Schedule(24)
 			countdownDownDraft:Start(29)
@@ -74,7 +77,7 @@ function mod:SPELL_CAST_START(args)
 end
 
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
-	if spellId == 199460 and destGUID == UnitGUID("player") and self:AntiSpam(3, 1) then
+	if spellId == 199460 and destGUID == UnitGUID("player") and self:AntiSpam(3, 1) then --Каменная осыпь
 		if self:IsHard() then
 			specWarnFallingRocks:Show()
 			specWarnFallingRocks:Play("runaway")
@@ -85,7 +88,7 @@ mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
 
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	local spellId = legacySpellId or bfaSpellId
-	if spellId == 199332 then--Even with this scanner, it's abougt 50/50 hit or miss you can grab a target at all
+	if spellId == 199332 then --Дыхание порчи
 		specWarnBreath:Show()
 		specWarnBreath:Play("breathsoon")
 		timerBreathCD:Start()

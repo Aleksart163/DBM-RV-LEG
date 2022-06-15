@@ -54,7 +54,7 @@ function mod:OnCombatStart(delay)
 	warned_preP3 = false
 	timerResonantSlashCD:Start(7-delay) --Резонирующий удар сплеча +++
 	timerArcaneLockdownCD:Start(15.5-delay) --Чародейская изоляция +++
-	if self:IsHard() then
+	if not self:IsNormal() then
 		timerStreetsweeperCD:Start(11-delay) --Дворник
 		timerResonantSlashCD:Start(7-delay) --Резонирующий удар сплеча +++
 		timerArcaneLockdownCD:Start(15.5-delay) --Чародейская изоляция +++

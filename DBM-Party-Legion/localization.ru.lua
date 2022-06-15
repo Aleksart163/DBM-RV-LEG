@@ -564,14 +564,22 @@ L:SetMiscLocalization({
 	lookSphere = "Сферу"
 })
 
--------------
---Смотрящий--
--------------
-L= DBM:GetModLocalization(1468)
-
 -----------
 --Вул'кан--
 -----------
+L= DBM:GetModLocalization(1468)
+
+L:SetWarningLocalization({
+	Countermeasure = "Система безопасности готова!"
+})
+
+L:SetOptionLocalization({
+	Countermeasure = "Предупреждение для $spell:195189"
+})
+
+-------------
+--Смотрящий--
+-------------
 L= DBM:GetModLocalization(1469)
 
 ------------------------------

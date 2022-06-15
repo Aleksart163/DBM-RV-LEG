@@ -38,7 +38,7 @@ local yellScornfulGaze2				= mod:NewFadesYell(237726, nil, nil, nil, "YELL") --�
 mod:AddSetIconOption("SetIconOnScornfulGaze", 237726, true, false, {8}) --Глумливый взгляд
 
 function mod:OnCombatStart(delay)
-	if self:IsHard() then
+	if not self:IsNormal() then
 		timerPulvCrudgelCD:Start(6-delay) --Сокрушающая дубина +++
 		timerHeaveCrudCD:Start(17.5-delay) --Бросок дубины +++
 		timerScornfulGazeCD:Start(26.7-delay) --Глумливый взгляд +++

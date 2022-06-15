@@ -40,16 +40,12 @@ mod:AddSetIconOption("SetIconOnThrow", 204658, true, false, {8}) --Сокруш�
 local playerName = UnitName("player")
 --AKA Crushing Grip
 function mod:ThrowTarget(targetname, uId)
-	if not targetname then
-		return
-	end
+	if not targetname then return end
 	if targetname == UnitName("player") then
-		--Can this be dodged? personal warning?
 		specWarnThrow:Show()
 		yellThrow:Yell(playerName)
 	elseif self:CheckNearby(10, targetname) then
 		specWarnThrow3:Show(targetname)
-		warnThrowTarget:Show(targetname)
 	else
 		warnThrowTarget:Show(targetname)
 	end
@@ -59,7 +55,7 @@ function mod:ThrowTarget(targetname, uId)
 end
 
 function mod:OnCombatStart(delay)
-	if self:IsHard() then
+	if not self:IsNormal() then
 		timerShatteredEarthCD:Start(7-delay) --Расколовшаяся земля ++
 		timerRootsCD:Start(15-delay) --Корни-душители ++
 		timerBreathCD:Start(21-delay) --Дыхание Кошмара ++

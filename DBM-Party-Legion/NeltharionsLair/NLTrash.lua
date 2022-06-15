@@ -9,7 +9,9 @@ mod.isTrashMod = true
 
 mod:RegisterEvents(
 	"SPELL_CAST_START 183088 193585",
-	"SPELL_AURA_APPLIED 200154 183407 201983",
+	"SPELL_AURA_APPLIED 200154 201983",
+	"SPELL_PERIODIC_DAMAGE 226388 183407",
+	"SPELL_PERIODIC_MISSED 226388 183407",
 	"CHAT_MSG_MONSTER_YELL"
 )
 
@@ -20,6 +22,7 @@ local warnBound					= mod:NewCastAnnounce(193585, 4) --Скованность
 local specWarnBound				= mod:NewSpecialWarningInterrupt(193585, "HasInterrupt", nil, nil, 1, 2) --Скованность
 local specWarnBurningHatred		= mod:NewSpecialWarningYouRun(200154, nil, nil, nil, 4, 2) --Пламенная ненависть
 local specWarnAcidSplatter		= mod:NewSpecialWarningYouMove(183407, nil, nil, nil, 1, 2) --Кислотный всплеск
+local specWarnRancidOoze		= mod:NewSpecialWarningYouMove(226388, nil, nil, nil, 1, 2) --Тухлая слизь
 local specWarnAvalanche			= mod:NewSpecialWarningDodge(183088, "Tank", nil, nil, 1, 2) --Лавина
 
 local timerFrenzy				= mod:NewTargetTimer(8, 201983, nil, "Tank", nil, 3, nil) --Бешенство
@@ -54,9 +57,6 @@ function mod:SPELL_AURA_APPLIED(args)
 		else
 			warnBurningHatred:Show(args.destName)
 		end
-	elseif spellId == 183407 and args:IsPlayer() and self:AntiSpam(3, 1) then
-		specWarnAcidSplatter:Show()
-		specWarnAcidSplatter:Play("runaway")
 	elseif spellId == 201983 then
 		warnFrenzy:Show(args.destName)
 		timerFrenzy:Start(args.destName)
@@ -74,3 +74,18 @@ function mod:OnSync(msg, GUID)
 		timerRoleplay:Start(20)
 	end
 end
+
+function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
+	if spellId == 226388 and destGUID == UnitGUID("player") and self:AntiSpam(3, 1) then
+		if not self:IsNormal() then
+			specWarnRancidOoze:Show()
+			specWarnRancidOoze:Play("runaway")
+		end
+	elseif spellId == 183407 and destGUID == UnitGUID("player") and self:AntiSpam(3, 1) then
+		if not self:IsNormal() then
+			specWarnAcidSplatter:Show()
+			specWarnAcidSplatter:Play("runaway")
+		end
+	end
+end
+mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE

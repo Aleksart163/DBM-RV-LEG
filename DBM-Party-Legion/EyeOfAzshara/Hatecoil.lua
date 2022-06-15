@@ -51,19 +51,14 @@ local monsoon = DBM:GetSpellInfo(196610)
 function mod:OnCombatStart(delay)
 	self.vb.curseofwitchIcon = 8
 	self.vb.focusedlightningCount = 0
-	if self:IsHard() then
+	if not self:IsNormal() then
 		warnStaticNova:Schedule(6-delay) --Кольцо молний +++
 		timerStaticNovaCD:Start(11-delay) --Кольцо молний +++
 		countdownStaticNova:Start(11-delay) --Кольцо молний +++
 		timerAddsCD:Start(19.5-delay) --Призыв шторма +++
 		timerMonsoonCD:Start(32-delay) --Муссон
-	elseif self:IsHeroic() then
-		warnStaticNova:Schedule(5.5-delay) --Кольцо молний
-		timerStaticNovaCD:Start(10.5-delay) --Кольцо молний
-		countdownStaticNova:Start(10.5-delay) --Кольцо молний
-		timerAddsCD:Start(19-delay) --Призыв шторма
-		timerMonsoonCD:Start(31-delay) --Муссон
 	else
+		warnStaticNova:Schedule(6-delay)
 		timerStaticNovaCD:Start(10.5-delay) --Кольцо молний
 		countdownStaticNova:Start(10.5-delay) --Кольцо молний
 		timerAddsCD:Start(19-delay) --Призыв шторма
@@ -111,7 +106,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnCurseofWitch:CombinedShow(0.1, args.destName)
 		timerCurseofWitch:Start()
 		if args:IsPlayer() then
-			specWarnCurseofWitch:Schedule(3)
+			specWarnCurseofWitch:Schedule(3.5)
 			yellCurseofWitch:Yell()
 			yellCurseofWitch2:Countdown(6, 3)
 		end

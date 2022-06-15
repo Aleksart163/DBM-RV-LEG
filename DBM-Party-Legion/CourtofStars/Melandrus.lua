@@ -43,7 +43,7 @@ function mod:SurgeTarget(targetname, uId)
 end
 
 function mod:OnCombatStart(delay)
-	if self:IsHard() then
+	if not self:IsNormal() then
 		timerGaleCD:Start(10.5-delay) 
 		timerMaelstromCD:Start(22-delay)
 		timerSurgeCD:Start(6-delay)

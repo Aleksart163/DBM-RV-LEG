@@ -41,7 +41,7 @@ local specWarnVolatileCharge		= mod:NewSpecialWarningYouMoveAway(228331, nil, ni
 local specWarnOathofFealty			= mod:NewSpecialWarningInterrupt(228280, "HasInterrupt", nil, nil, 3, 3) --Клятва верности
 local specWarnOathofFealty2			= mod:NewSpecialWarningDispel(228280, "MagicDispeller2", nil, nil, 1, 2) --Клятва верности
 
-local specWarnBurningBrand			= mod:NewSpecialWarningMoveAway(228610, nil, nil, nil, 3, 3) --Горящее клеймо
+local specWarnBurningBrand			= mod:NewSpecialWarningYouMoveAway(228610, nil, nil, nil, 3, 3) --Горящее клеймо
 local specWarnLeechLife				= mod:NewSpecialWarningDispel(228606, "Healer", nil, nil, 1, 2)
 local specWarnCurseofDoom			= mod:NewSpecialWarningDispel(229716, "Healer", nil, nil, 1, 2)
 local specWarnRoyalty				= mod:NewSpecialWarningSwitch(229489, "-Healer", nil, nil, 1, 2) --Царственность
@@ -67,6 +67,7 @@ local timerRoleplay2				= mod:NewTimer(29, "timerRoleplay2", "Interface\\Icons\\
 local timerRoleplay3				= mod:NewTimer(29, "timerRoleplay3", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7)
 
 local playerName = UnitName("player")
+local king = false
 
 function mod:SPELL_CAST_START(args)
 	if not self.Options.Enabled then return end
@@ -148,20 +149,23 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnNullification:Show()
 			yellNullification:Yell()
 		end
-	elseif spellId == 230050 then --Полная нейтрализация
+	elseif spellId == 230050 then --Силовой клинок
 		if args:IsPlayer() then
 			specWarnForceBlade:Show()
 			specWarnForceBlade:Play("defensive")
 		end
 	elseif spellId == 228280 then --Клятва верности
 		timerOathofFealty:Start(args.destName)
+		specWarnOathofFealty2:Show(args.destName)
+		specWarnOathofFealty2:Play("dispelnow")
 	elseif spellId == 230087 then --Восполнение сил
-		warnReinvigorated:Show(args.destName)
 		timerReinvigorated:Start(args.destName)
 		if args:IsPlayer() then
 			specWarnReinvigorated:Show()
 			yellReinvigorated:Yell(playerName)
 			yellReinvigorated2:Countdown(20, 3)
+		else
+			warnReinvigorated:Show(args.destName)
 		end
 	end
 end
@@ -181,10 +185,10 @@ function mod:SPELL_AURA_REMOVED(args)
 			specWarnReinvigorated2:Show()
 			yellReinvigorated2:Cancel()
 		end
-	elseif spellId == 228610 then --Горящее клеймо
+--[[	elseif spellId == 228610 then --Горящее клеймо
 		if args:IsPlayer() then
 			yellBurningBrand2:Cancel()
-		end
+		end]]
 	end
 end
 
@@ -207,7 +211,7 @@ function mod:OnSync(msg)
 	end
 end
 
-function mod:CHAT_MSG_MONSTER_YELL(msg) --CHAT_MSG_MONSTER_SAY
+function mod:CHAT_MSG_MONSTER_YELL(msg)
 	if msg == L.Beauty or msg:find(L.Beauty) then
 		self:SendSync("RPBeauty")
 	elseif msg == L.Westfall or msg:find(L.Westfall) then
@@ -222,8 +226,31 @@ function mod:UNIT_DIED(args)
 	if cid == 115765 then --Абстрактный нейтрализатор
 		timerNullificationCD:Cancel()
 	elseif cid == 115388 then --Король
+		king = true
 		timerRoyalty:Cancel()
-	elseif cid == 115395 or cid == 115406 or cid == 115401 or cid == 115407 then --Ферзь, конь, слон и ладья
-		timerRoyalty:Start()
+	elseif cid == 115395 then --Ферзь
+		if not king then
+			timerRoyalty:Start()
+		else
+			timerRoyalty:Cancel()
+		end
+	elseif cid == 115406 then --конь
+		if not king then
+			timerRoyalty:Start()
+		else
+			timerRoyalty:Cancel()
+		end
+	elseif cid == 115401 then --слон
+		if not king then
+			timerRoyalty:Start()
+		else
+			timerRoyalty:Cancel()
+		end
+	elseif cid == 115407 then --ладья
+		if not king then
+			timerRoyalty:Start()
+		else
+			timerRoyalty:Cancel()
+		end
 	end
 end

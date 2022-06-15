@@ -19,8 +19,6 @@ mod:RegisterEvents(
 	"CHAT_MSG_MONSTER_SAY"
 )
 
---TODO, add Etch? http://www.wowhead.com/spell=198959/etch
---TODO, add Brutal Assault
 --Крепость Черной Ладьи треш
 local warnSoulEchoes				= mod:NewTargetAnnounce(194966, 3) --Эхо души
 local warnArcaneOvercharge			= mod:NewTargetAnnounce(221132, 4) --Чародейская перезарядка
@@ -28,19 +26,19 @@ local warnOverwhelmingRelease		= mod:NewSpellAnnounce(220918, 4) --Высвоб�
 local warnRupturingPoison			= mod:NewTargetAnnounce(221363, 4) --Раздирающий яд
 local warnMandibleStrike			= mod:NewTargetAnnounce(221380, 4) --Удар жвалами
 local warnSoulVenom					= mod:NewStackAnnounce(225909, 4, nil, nil, 2) --Отравленная душа
+local warnDarkMending				= mod:NewCastAnnounce(225573, 3) --Исцеление тьмой
 --Ключи
-local specWarnGrievousWound			= mod:NewSpecialWarningStack(240559, nil, 5, nil, nil, 3, 2) --Тяжкая рана
+local specWarnGrievousWound			= mod:NewSpecialWarningStack(240559, nil, 5, nil, nil, 1, 2) --Тяжкая рана
 local specWarnSanguineIchor			= mod:NewSpecialWarningYouMove(226512, nil, nil, nil, 1, 2) --Кровавый гной
 local specWarnQuake					= mod:NewSpecialWarningCast(240447, "SpelCaster", nil, nil, 1, 2) --Землетрясение
 local specWarnQuake2				= mod:NewSpecialWarningYouMoveAway(240447, "-SpelCaster", nil, nil, 1, 2) --Землетрясение
 --
 local specWarnSoulVenom				= mod:NewSpecialWarningStack(225909, nil, 5, nil, nil, 1, 2) --Отравленная душа
 local specWarnSoulVenom2			= mod:NewSpecialWarningDispel(225909, "MagicDispeller2", nil, nil, 1, 3) --Отравленная душа
-
 local specWarnMandibleStrike		= mod:NewSpecialWarningYouDefensive(221380, nil, nil, nil, 2, 2) --Удар жвалами
 local specWarnRupturingPoison		= mod:NewSpecialWarningYouMoveAway(221363, nil, nil, nil, 3, 2) --Раздирающий яд
 local specWarnRupturingPoison2		= mod:NewSpecialWarningCloseMoveAway(221363, nil, nil, nil, 2, 2) --Раздирающий яд
-local specWarnArcaneBlitz			= mod:NewSpecialWarningInterrupt(200248, "-Healer", nil, nil, 1, 2) --Чародейская бомбардировка
+local specWarnArcaneBlitz			= mod:NewSpecialWarningInterrupt(200248, "HasInterrupt", nil, nil, 1, 2) --Чародейская бомбардировка
 local specWarnOverwhelmingRelease	= mod:NewSpecialWarningDodge(220918, nil, nil, nil, 2, 2) --Высвобождение мощи
 local specWarnArcaneOvercharge		= mod:NewSpecialWarningYouMoveAway(221132, nil, nil, nil, 3, 2) --Чародейская перезарядка
 local specWarnArcaneOvercharge2		= mod:NewSpecialWarningCloseMoveAway(221132, nil, nil, nil, 2, 2) --Чародейская перезарядка
@@ -77,6 +75,7 @@ local yellArrowBarrage				= mod:NewYell(200343, nil, nil, nil, "YELL") --Зал�
 mod:AddRangeFrameOption(6)
 
 function mod:MandibleStrikeTarget(targetname, uId)
+	if not targetname then return end
 	if targetname == UnitName("player") then
 		specWarnMandibleStrike:Show()
 		specWarnMandibleStrike:Play("defensive")
@@ -97,9 +96,14 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 221688 then
 		specWarnOverDetonation:Show()
 		specWarnOverDetonation:Play("runout")
-	elseif spellId == 225573 and self:AntiSpam(2, 1) then --Исцеление тьмой and self:CheckInterruptFilter(args.sourceGUID, false, true)
-		specWarnDarkMending:Show()
-		specWarnDarkMending:Play("kickcast")
+	elseif spellId == 225573 and self:AntiSpam(5, 1) then --Исцеление тьмой
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnDarkMending:Show()
+			specWarnDarkMending:Play("kickcast")
+		else
+			warnDarkMending:Show()
+			warnDarkMending:Play("kickcast")
+		end
 	elseif spellId == 214003 and self:AntiSpam(3, 4) then
 		specWarnCoupdeGrace:Show()
 		specWarnCoupdeGrace:Play("defensive")
@@ -115,8 +119,8 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 221363 then --Раздирающий яд
 		timerRupturingPoisonCD:Start()
 	elseif spellId == 221380 then --Удар жвалами
+		self:BossTargetScanner(args.sourceGUID, "MandibleStrikeTarget", 0.2)
 		timerMandibleStrikeCD:Start()
-		self:BossTargetScanner(args.sourceGUID, "MandibleStrikeTarget", 0.1, 9)
 	elseif spellId == 200343 then --Залп стрел
 		if self:AntiSpam(3, 2) then
 			specWarnArrowBarrage:Show(args.destName)
@@ -179,23 +183,21 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 225909 then --Отравленная душа
 		local amount = args.amount or 1
 		if not self:IsNormal() then
-			if args:IsPlayer() then
-				if self:IsTank() then
-					if amount >= 10 and amount % 5 == 0 then
-						specWarnSoulVenom:Show(amount)
-						specWarnSoulVenom:Play("stackhigh")
-					end
-				else
-					if amount >= 5 and amount % 5 == 0 then
-						specWarnSoulVenom:Show(amount)
-						specWarnSoulVenom:Play("stackhigh")
-					end
-				end
-			else
+			if args:IsPlayer() and self:IsTank() then
 				if amount >= 10 and amount % 5 == 0 then
+					specWarnSoulVenom:Show(amount)
+					specWarnSoulVenom:Play("stackhigh")
+				end
+			elseif args:IsPlayer() and not self:IsTank() then
+				if amount >= 5 and amount % 5 == 0 then
+					specWarnSoulVenom:Show(amount)
+					specWarnSoulVenom:Play("stackhigh")
+				end
+			elseif not args:IsPlayer() then
+				if amount >= 5 then
 					warnSoulVenom:Show(args.destName, amount)
-					specWarnSoulVenom2:Show(args.destName)
-					specWarnSoulVenom2:Play("stackhigh")
+					specWarnSoulVenom2:CombinedShow(0.5, args.destName)
+					specWarnSoulVenom2:Play("dispel")
 				end
 			end
 		end
@@ -279,3 +281,29 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spell
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
+--[[
+	elseif spellId == 225909 then --Отравленная душа
+		local amount = args.amount or 1
+		if not self:IsNormal() then
+			if args:IsPlayer() then
+				if self:IsTank() then
+					if amount >= 10 and amount % 5 == 0 then
+						specWarnSoulVenom:Show(amount)
+						specWarnSoulVenom:Play("stackhigh")
+					end
+				else
+					if amount >= 5 and amount % 5 == 0 then
+						specWarnSoulVenom:Show(amount)
+						specWarnSoulVenom:Play("stackhigh")
+					end
+				end
+			else
+				if amount >= 10 and amount % 5 == 0 then
+					warnSoulVenom:Show(args.destName, amount)
+					specWarnSoulVenom2:Show(args.destName)
+					specWarnSoulVenom2:Play("stackhigh")
+				end
+			end
+		end
+		]]
+		

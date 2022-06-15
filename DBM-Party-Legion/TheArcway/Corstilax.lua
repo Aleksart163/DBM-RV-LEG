@@ -65,6 +65,7 @@ function mod:SPELL_CAST_START(args)
 		timerCleansing:Start()
 	elseif spellId == 220481 then --Дестабилизированная сфера
 		specWarnDestabilizedOrb:Show()
+		specWarnDestabilizedOrb:Play("watchstep")
 		timerDestabilizedOrbCD:Start()
 	end
 end
@@ -94,9 +95,11 @@ function mod:SPELL_AURA_APPLIED(args)
 			self:SetIcon(args.destName, 7)
 		end
 	elseif spellId == 220500 then --Дестабилизированная сфера аура
-		if args:IsPlayer() then
-			specWarnDestabilizedOrb2:Show()
-			specWarnDestabilizedOrb2:Play("runout")
+		if not self:IsNormal() then
+			if args:IsPlayer() then
+				specWarnDestabilizedOrb2:Show()
+				specWarnDestabilizedOrb2:Play("runout")
+			end
 		end
 	end
 end
@@ -122,8 +125,10 @@ end
 
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
 	if spellId == 220500 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
-		specWarnDestabilizedOrb2:Show()
-		specWarnDestabilizedOrb2:Play("runaway")
+		if not self:IsNormal() then
+			specWarnDestabilizedOrb2:Show()
+			specWarnDestabilizedOrb2:Play("runaway")
+		end
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE

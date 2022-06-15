@@ -25,7 +25,7 @@ local warnPhase2						= mod:NewAnnounce("Phase2", 1, 196838) --Фаза 2
 local warnLeap							= mod:NewTargetAnnounce(197556, 2) --Хищный прыжок
 --local warnPhase2						= mod:NewPhaseAnnounce(2, 2, nil, nil, nil, nil, nil, 2)
 local warnFixate						= mod:NewTargetAnnounce(196838, 3) --Запах крови
-local warnFixate2						= mod:NewSpellAnnounce(196838, 4) --Запах крови
+--local warnFixate2						= mod:NewSpellAnnounce(196838, 4) --Запах крови
 local warnClawFrenzy					= mod:NewSpellAnnounce(196512, 2, nil, "Tank") --Бешеные когти
 
 local specWarnLeap						= mod:NewSpecialWarningYouMoveAway(197556, nil, nil, nil, 4, 3) --Хищный прыжок
@@ -124,7 +124,6 @@ end
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 196838 then
-		warnFixate2:Show()
 		timerFixateCD:Start()
 		self:BossTargetScanner(99868, "FixateTarget", 0.2, 12, true, nil, nil, nil, true)--Target scanning used to grab target 2-3 seconds faster. Doesn't seem to anymore?
 	elseif spellId == 196543 then

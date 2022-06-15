@@ -73,7 +73,7 @@ end
 
 function mod:OnCombatStart(delay)
 	self.vb.phase = 1
-	if self:IsHard() then
+	if not self:IsNormal() then
 		timerMythicTornadoCD:Start(9-delay) --Волшебный торнадо +++
 		timerMassiveDelugeCD:Start(11.5-delay) --Потоп +++
 		timerArcaneBombCD:Start(26-delay) --Чародейская бомба +++
@@ -97,6 +97,8 @@ function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 192706 then --Чародейская бомба
 		timerArcaneBomb:Start(args.destName)
+		specWarnArcaneBomb2:Schedule(3, args.destName)
+		specWarnArcaneBomb2:ScheduleVoice(3, "dispelnow")
 		if self.Options.RangeFrame then
 			DBM.RangeCheck:Show(10)
 		end
@@ -140,10 +142,10 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 192696 then --Бушующий шторм
 		warnRagingStorms:Show()
 	elseif spellId == 197365 then --Морская пучина
+		self:BossTargetScanner("boss1", "CrushingDepthsTarget", 0.1)
 		timerCrushingDepthsCD:Start(40)
 		countdownrushingDepths:Start(40)
 		countdownrushingDepths2:Start()
-		self:BossTargetScanner(args.sourceGUID, "CrushingDepthsTarget", 0.1, 9)
 	end
 end
 --[[
@@ -164,7 +166,6 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, _, _, _, targetname)
 			yellArcaneBombFades:Countdown(15, 3)
 		else
 			warnArcaneBomb:Show(targetname)
-			specWarnArcaneBomb2:Show(targetname)
 		end
 	end
 end

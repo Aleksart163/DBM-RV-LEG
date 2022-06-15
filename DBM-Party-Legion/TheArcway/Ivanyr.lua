@@ -41,10 +41,10 @@ local yellNetherLink				= mod:NewYell(196805, nil, nil, nil, "YELL") --Оков�
 mod:AddSetIconOption("SetIconOnVolatileMagic", 196562, true, false, {8, 7, 6}) --Нестабильная магия
 mod:AddRangeFrameOption(8, 196562) --Нестабильная магия
 
-mod.vb.volatilemagicIcon = 6
+mod.vb.volatilemagicIcon = 8
 
 function mod:OnCombatStart(delay)--Watch closely, review. He may be able to swap nether link and volatile magic?
-	self.vb.volatilemagicIcon = 6
+	self.vb.volatilemagicIcon = 8
 	timerVolatileMagicCD:Start(9.5-delay)--APPLIED
 	timerNetherLinkCD:Start(19.5-delay) --Оковы Пустоты +2 сек
 	timerOverchargeManaCD:Start(30.5-delay) --Перезарядка маны -1.5сек
@@ -59,7 +59,7 @@ end
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 196562 then --Нестабильная магия
-		self.vb.volatilemagicIcon = self.vb.volatilemagicIcon + 1
+		self.vb.volatilemagicIcon = self.vb.volatilemagicIcon - 1
 		warnVolatileMagic:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
 			specWarnVolatileMagic:Show()
@@ -72,9 +72,6 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 		if self.Options.SetIconOnVolatileMagic then
 			self:SetIcon(args.destName, self.vb.volatilemagicIcon)
-		end
-		if self.vb.volatilemagicIcon == 8 then
-			self.vb.volatilemagicIcon = 6
 		end
 	elseif spellId == 196805 then
 		warnNetherLink:CombinedShow(0.3, args.destName)
@@ -89,6 +86,7 @@ end
 function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
 	if spellId == 196562 then --Нестабильная магия
+		self.vb.volatilemagicIcon = self.vb.volatilemagicIcon + 1
 		if self.Options.RangeFrame then
 			DBM.RangeCheck:Hide()
 		end
@@ -113,8 +111,10 @@ end
 
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 196824 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
-		specWarnNetherLinkGTFO:Show()
-		specWarnNetherLinkGTFO:Play("runaway")
+		if not self:IsNormal() then
+			specWarnNetherLinkGTFO:Show()
+			specWarnNetherLinkGTFO:Play("runaway")
+		end
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE

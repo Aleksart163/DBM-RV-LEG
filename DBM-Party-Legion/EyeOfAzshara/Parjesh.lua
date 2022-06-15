@@ -57,7 +57,7 @@ function mod:OnCombatStart(delay)
 	self.vb.phase = 1
 	warned_preP1 = false
 	warned_preP2 = false
-	if self:IsHard() then
+	if not self:IsNormal() then
 		timerHatecoilCD:Start(3-delay) --Вызов подкрепления
 		timerSpearCD:Start(28.5-delay) --Пронзающее копье+++
 		countdownSpear:Start(28.5-delay) --Пронзающее копье+++

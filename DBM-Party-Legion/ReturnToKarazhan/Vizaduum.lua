@@ -42,12 +42,12 @@ local specWarnBurningBlast			= mod:NewSpecialWarningInterruptCount(229083, "HasI
 --Phase 1
 local specWarnFelBeam				= mod:NewSpecialWarningYouMoveAway(229242, nil, nil, nil, 4, 5) --Приказ: луч Скверны
 --ALL
-local timerChaoticShadowsCD			= mod:NewCDTimer(30, 229159, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Тени Хаоса
+local timerChaoticShadowsCD			= mod:NewCDTimer(30, 229159, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON..DBM_CORE_DEADLY_ICON) --Тени Хаоса
 local timerChaoticShadows			= mod:NewBuffActiveTimer(10, 229159, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Тени Хаоса
-local timerDisintegrateCD			= mod:NewCDTimer(10.8, 229151, nil, nil, nil, 3) --Расщепление
+local timerDisintegrateCD			= mod:NewCDTimer(10.8, 229151, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Расщепление
 --Phase 1
-local timerFelBeamCD				= mod:NewCDTimer(40, 229242, 219084, nil, nil, 3) --Приказ: луч Скверны
-local timerBombardmentCD			= mod:NewCDTimer(25, 229284, 229287, nil, nil, 3) --Приказ: бомбардировка
+local timerFelBeamCD				= mod:NewCDTimer(40, 229242, 219084, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Приказ: луч Скверны
+local timerBombardmentCD			= mod:NewCDTimer(25, 229284, 229287, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Приказ: бомбардировка
 local timerStabilizeRiftCD			= mod:NewCDTimer(25, 230084, nil, nil, nil, 1) --Стабилизация разлома
 local timerStabilizeRift			= mod:NewCastTimer(30, 230084, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON) --Стабилизация разлома
 
@@ -142,7 +142,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 			warned_preP4 = true
 			--Variable based on how long it takesto engage boss
 		--	timerChaoticShadowsCD:Start(41)
-			timerStabilizeRiftCD:Start(20.5)
+			timerStabilizeRiftCD:Start(24)
 			if self.Options.RangeFrame then
 				DBM.RangeCheck:Show(6)
 			end

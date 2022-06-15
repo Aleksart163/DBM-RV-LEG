@@ -5,7 +5,7 @@ mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 mod:SetCreatureID(96759)
 mod:SetEncounterID(1824)
 mod:SetZone()
-mod:SetUsedIcons(8, 7, 6)
+mod:SetUsedIcons(8, 7)
 
 mod:RegisterCombat("combat")
 
@@ -49,7 +49,7 @@ local yellTaintofSea2					= mod:NewYell(197264, L.TaintofSeaYell, nil, nil, "YEL
 local countdownBreath					= mod:NewCountdown(21, 227233, nil, nil, 5) --Оскверняющий рев
 local countdownSubmerged				= mod:NewCountdown("Alt74.5", 196947, nil, nil, 5) --Погружение
 
-mod:AddSetIconOption("SetIconOnTaintofSea", 197262, true, false, {8, 7, 6}) --Морская порча
+mod:AddSetIconOption("SetIconOnTaintofSea", 197262, true, false, {8, 7}) --Морская порча
 
 mod.vb.phase = 1
 mod.vb.taintofseaIcon = 8
@@ -132,7 +132,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self.Options.SetIconOnTaintofSea then
 			self:SetIcon(args.destName, self.vb.taintofseaIcon)
 		end
-		if self.vb.taintofseaIcon == 6 then
+		if self.vb.taintofseaIcon == 7 then
 			self.vb.taintofseaIcon = 8
 		end
 	end

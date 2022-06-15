@@ -141,8 +141,10 @@ end
 
 function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 203833 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
-		specWarnTimeSplit:Show()
-		specWarnTimeSplit:Play("runaway")
+		if not self:IsNormal() then
+			specWarnTimeSplit:Show()
+			specWarnTimeSplit:Play("runaway")
+		end
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE
