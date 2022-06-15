@@ -461,7 +461,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	end
 end
 
-function mod:UNIT_HEALTH(uId) --доделать
+function mod:UNIT_HEALTH(uId)
 	if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 122104 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.94 then --скоро фаза 2
 		warned_preP1 = true
 		warnXorothPortal2:Show()
@@ -476,14 +476,4 @@ function mod:UNIT_HEALTH(uId) --доделать
 		self.vb.phase = 4
 	end
 end
-
---TODO, interrupt rotation helper for Flames of Xoroth?
---TODO, find a workable cast ID for corrupt and enable interrupt warning
---TODO, an overview info frame showing the needs of portal worlds (how many shields up, how much fel miasma, how many fires in dark realm if possible)
---[[
-(ability.id = 243983 or ability.id = 244689 or ability.id = 244000) and type = "begincast"
- or ability.id = 244016 and type = "cast"
- or (ability.id = 245504 or ability.id = 244607 or ability.id = 246316 or ability.id = 244915  or ability.id = 246805) and type = "begincast"
- or (ability.id = 245050 or ability.id = 244598) and type = "cast"
- --]]
  

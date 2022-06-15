@@ -76,9 +76,9 @@ local berserkTimer						= mod:NewBerserkTimer(600)
 local yellRainofFel						= mod:NewYell(248332, nil, nil, nil, "YELL") --Дождь Скверны
 local yellRainofFelFades				= mod:NewShortFadesYell(248332, nil, nil, nil, "YELL") --Дождь Скверны
 local yellArcaneBuildup					= mod:NewYell(250693, nil, nil, nil, "YELL") --Волшебный вихрь
---local yellArcaneBuildupFades			= mod:NewShortFadesYell(250693, nil, nil, nil, "YELL") --Волшебный вихрь
+local yellArcaneBuildupFades			= mod:NewFadesYell(250693, nil, nil, nil, "YELL") --Волшебный вихрь
 local yellBurningEmbers					= mod:NewYell(250691, nil, nil, nil, "YELL") --Раскаленные угли
---local yellBurningEmbersFades			= mod:NewShortFadesYell(250691, nil, nil, nil, "YELL") --Раскаленные угли
+local yellBurningEmbersFades			= mod:NewFadesYell(250691, nil, nil, nil, "YELL") --Раскаленные угли
 --The Paraxis
 --local countdownRainofFel				= mod:NewCountdown("Alt60", 248332) --Дождь Скверны Not accurate enough yet. not until timer correction is added to handle speed of raids dps affecting sequence
 --Mythic
@@ -448,13 +448,15 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnRainofFel:Show()
 			specWarnRainofFel:Play("scatter")
 			yellRainofFel:Yell()
-			yellRainofFelFades:Countdown(5)
+			yellRainofFelFades:Countdown(5, 3)
 			if self.Options.RangeFrame then
 				DBM.RangeCheck:Show(8)
 			end
 		end
 	elseif spellId == 249017 then --Магическая сингулярность 250693 or spellId == 
 		if args:IsPlayer() then
+		--	yellArcaneBuildupFades:Countdown(25, 3)
+		--	self:Schedule(23, arcanesingularityOnPlayer, self)
 			if self.vb.finalDoomCast == 1 then
 				specWarnArcaneBuildup:Schedule(22)
 				specWarnArcaneBuildup:Schedule(47)
@@ -519,7 +521,9 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif spellId == 249015 then --Раскаленные угли 250691 or spellId == 
 		self.vb.burningembersIcon = self.vb.burningembersIcon + 1
-		if args:IsPlayer() then 
+		if args:IsPlayer() then
+		--	yellBurningEmbersFades:Countdown(30, 3)
+		--	self:Schedule(28, burningembersOnPlayer, self)
 			if self.vb.finalDoomCast == 1 then
 				specWarnBurningEmbers:Schedule(27)
 				specWarnBurningEmbers:Schedule(57)
@@ -671,3 +675,24 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spell
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
+--[[
+local function burningembersOnPlayer(self) --Раскаленные угли
+	specWarnBurningEmbers:Show()
+	specWarnBurningEmbers:Play("runaway")
+	if self:IsHard() then
+		timerBurningEmbers:Start()
+		yellBurningEmbersFades:Countdown(30, 3)
+		self:Schedule(30, burningembersOnPlayer, self)
+	end
+end
+
+local function arcanesingularityOnPlayer(self) --Магическая сингулярность
+	specWarnArcaneBuildup:Show()
+	specWarnArcaneBuildup:Play("runaway")
+	if self:IsHard() then
+		timerArcaneSingularity:Start()
+		yellArcaneBuildupFades:Countdown(25, 3)
+		self:Schedule(25, arcanesingularityOnPlayer, self)
+	end
+end
+]]
