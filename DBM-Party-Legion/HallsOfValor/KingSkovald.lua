@@ -78,16 +78,17 @@ function mod:SPELL_AURA_REMOVED(args)
 	end
 end
 
+--[[
 function mod:SPELL_CAST_SUCCESS(args)
 	if args.spellId == 193659 then --Рывок пламени Скверны
 		self:BossUnitTargetScannerAbort()
 	end
-end
+end]]
 
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 193659 then --Рывок пламени Скверны
-		self:BossUnitTargetScanner("boss1", "FelblazeRushTarget")
+		self:BossTargetScanner(args.sourceGUID, "FelblazeRushTarget", 0.1)
 		timerRushCD:Start()
 		countdownRush:Start()
 	elseif spellId == 193668 then
