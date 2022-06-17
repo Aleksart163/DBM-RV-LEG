@@ -47,9 +47,9 @@ local specWarnMisery					= mod:NewSpecialWarningYou(243961, nil, nil, nil, 1, 2)
 local specWarnMiseryTaunt				= mod:NewSpecialWarningTaunt(243961, nil, nil, nil, 1, 2) --Страдания
 local specWarnDarkFissure				= mod:NewSpecialWarningDodge(243999, nil, nil, nil, 2, 2) --Темный разлом
 local specWarnMarkedPrey				= mod:NewSpecialWarningYou(244042, nil, nil, 2, 1, 2) --Метка жертвы
-local specWarnNecroticEmbrace			= mod:NewSpecialWarningYouMoveAway(244094, nil, nil, 3, 3, 5) --Некротические объятия
+local specWarnNecroticEmbrace			= mod:NewSpecialWarningYouMoveAway(244094, nil, nil, nil, 3, 5) --Некротические объятия
 local specWarnNecroticEmbrace3			= mod:NewSpecialWarningYouMoveAwayPos(244094, nil, nil, 3, 3, 5) --Некротические объятия
-local specWarnNecroticEmbrace2			= mod:NewSpecialWarningCloseMoveAway(244094, nil, nil, nil, 2, 5) --Некротические объятия
+--local specWarnNecroticEmbrace2			= mod:NewSpecialWarningCloseMoveAway(244094, nil, nil, nil, 2, 5) --Некротические объятия
 local specWarnEchoesOfDoom				= mod:NewSpecialWarningYou(248732, nil, nil, nil, 1, 2) --Отголоски гибели
 --Torments of the Shivarra
 mod:AddTimerLine(GENERAL)
@@ -76,7 +76,7 @@ local berserkTimer						= mod:NewBerserkTimer(390)
 
 --The Fallen Nathrezim
 local countdownShadowStrike				= mod:NewCountdown("Alt9", 243960, "Tank", nil, 3) --Теневой удар
-local countdownMarkedPrey				= mod:NewCountdown("AltTwo30", 244042, nil, nil, 5) --Метка жертвы
+--local countdownMarkedPrey				= mod:NewCountdown("AltTwo30", 244042, nil, nil, 5) --Метка жертвы
 local countdownNecroticEmbrace			= mod:NewCountdown(30, 244093, nil, nil, 5) --Некротические объятия
 
 mod:AddSetIconOption("SetIconOnMarkedPrey", 244042, true, false, {8}) --Метка жертвы
@@ -96,7 +96,7 @@ function mod:OnCombatStart(delay)
 	timerShadowStrikeCD:Start(9.3-delay)
 	countdownShadowStrike:Start(9.3-delay)
 	timerMarkedPreyCD:Start(25.2-delay)
-	countdownMarkedPrey:Start(25.2-delay)
+--	countdownMarkedPrey:Start(25.2-delay)
 	timerDarkFissureCD:Start(15.3-delay)
 	if not self:IsEasy() then
 		timerNecroticEmbraceCD:Start(35-delay)
@@ -147,7 +147,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		end
 	elseif spellId == 244042 then --Метка жертвы
 		timerMarkedPreyCD:Start(30.5)
-		countdownMarkedPrey:Start(30.5)
+	--	countdownMarkedPrey:Start(30.5)
 	end
 end
 
@@ -179,13 +179,12 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self.Options.SetIconOnMarkedPrey then
 			self:SetIcon(args.destName, 8, 7)
 		end
-	elseif spellId == 244094 and self:AntiSpam(2, 1) then --Некротические объятия
+	elseif spellId == 244094 then --Некротические объятия
 		self.vb.totalEmbrace = self.vb.totalEmbrace + 1
 		if self.vb.totalEmbrace >= 3 then return end--Once it's beyond 2 players, consider it a wipe and throttle messages
 		if self.Options.SetIconEmbrace then
 			self:SetIcon(args.destName, self.vb.totalEmbrace+2)--Should be BW compatible, for most part.
 		end
-		warnNecroticEmbrace:CombinedShow(0.5, args.destName)--Combined message because even if it starts on 1, people are gonna fuck it up
 		if self:IsMythic() then
 			if args:IsPlayer() then
 				if not playerAffected then
@@ -198,22 +197,20 @@ function mod:SPELL_AURA_APPLIED(args)
 						specWarnNecroticEmbrace3:Play("targetyou")
 					end
 					yellNecroticEmbrace:Yell(self.vb.totalEmbrace, icon, icon)
-					yellNecroticEmbraceFades:Countdown(6, 4, icon)
+					yellNecroticEmbraceFades:Countdown(6, 3, icon)
 					if self.Options.RangeFrame then
 						DBM.RangeCheck:Show(10)
 					end
 				end
+			else
+				warnNecroticEmbrace:CombinedShow(0.5, args.destName)--Combined message because even if it starts on 1, people are gonna fuck it up
 			end
 		else
-			warnNecroticEmbrace:CombinedShow(0.5, args.destName)--Combined message because even if it starts on 1, people are gonna fuck it up
 			if args:IsPlayer() then
 				if not playerAffected then
 					playerAffected = true
-					local icon = self.vb.totalEmbrace+2
 					specWarnNecroticEmbrace:Show()
 					if not self:IsTank() then
-						specWarnNecroticEmbrace:Play("mm"..icon)
-					else
 						specWarnNecroticEmbrace:Play("targetyou")
 					end
 					yellNecroticEmbrace2:Yell()
@@ -222,8 +219,8 @@ function mod:SPELL_AURA_APPLIED(args)
 						DBM.RangeCheck:Show(10)
 					end
 				end
-			elseif self:CheckNearby(10, args.destName) then
-				specWarnNecroticEmbrace2:Show(args.destName)
+			else
+				warnNecroticEmbrace:CombinedShow(0.5, args.destName)--Combined message because even if it starts on 1, people are gonna fuck it up
 			end
 		end
 	elseif spellId == 248732 and self:AntiSpam(2, 1) then --Отголоски гибели

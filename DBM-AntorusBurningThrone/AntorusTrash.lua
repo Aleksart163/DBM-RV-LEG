@@ -184,7 +184,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self.Options.SetIconOnFlamesofReorig then
 			self:SetIcon(args.destName, 3, 6)
 		end
-	elseif spellId == 246687 or spellId == 244399 or spellId == 254948 or spellId == 252797 then --Децимация
+	elseif (spellId == 246687 or spellId == 244399 or spellId == 254948 or spellId == 252797) then --Децимация
 		self.vb.decimationIcon = self.vb.decimationIcon + 1
 		warnDecimation2:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then

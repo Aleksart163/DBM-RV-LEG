@@ -34,7 +34,7 @@ mod:RegisterEventsInCombat(
 local warnRainofFel						= mod:NewTargetCountAnnounce(248332, 1) --Дождь Скверны
 local warnWarpIn						= mod:NewTargetAnnounce(246888, 3, nil, nil, nil, nil, nil, 2, true) --Прибытие
 local warnLifeForce						= mod:NewCountAnnounce(250048, 1) --Жизненная сила
-local warnPurge							= mod:NewCountAnnounce(249934, 4) --Судный миг
+local warnPurge							= mod:NewCastAnnounce(249934, 4) --Судный миг
 
 local specWarnFelWake					= mod:NewSpecialWarningYouMove(248795, nil, nil, nil, 1, 2) --Отголосок скверны
 --The Paraxis
@@ -251,6 +251,28 @@ local function checkForDeadDestructor(self, forceStart)
 	end
 	DBM:Debug("checkForDeadDestructor ran, which means a destructor died before casting high alert, or DBM has a timer error near: "..self.vb.destructorCast, 2)
 end
+
+--[[
+local function burningembersOnPlayer(self) --Раскаленные угли
+	specWarnBurningEmbers:Show()
+	specWarnBurningEmbers:Play("runaway")
+	if self:IsHard() then
+		timerBurningEmbers:Start()
+		yellBurningEmbersFades:Countdown(30, 3)
+		self:Schedule(30, burningembersOnPlayer, self)
+	end
+end
+
+local function arcanesingularityOnPlayer(self) --Магическая сингулярность
+	specWarnArcaneBuildup:Show()
+	specWarnArcaneBuildup:Play("runaway")
+	if self:IsHard() then
+		timerArcaneSingularity:Start()
+		yellArcaneBuildupFades:Countdown(25, 3)
+		self:Schedule(25, arcanesingularityOnPlayer, self)
+	end
+end
+]]
 
 local function startBatsStuff(self)
 	self.vb.batCast = self.vb.batCast + 1
@@ -654,7 +676,7 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, npc, _, _, target)
 		end
 	elseif msg:find("spell:249934") then --Судный миг
 		self.vb.purgeCast = self.vb.purgeCast + 1
-		warnPurge:Show(self.vb.purgeCast)
+		warnPurge:Show()
 	end
 end
 
@@ -675,24 +697,3 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spell
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
---[[
-local function burningembersOnPlayer(self) --Раскаленные угли
-	specWarnBurningEmbers:Show()
-	specWarnBurningEmbers:Play("runaway")
-	if self:IsHard() then
-		timerBurningEmbers:Start()
-		yellBurningEmbersFades:Countdown(30, 3)
-		self:Schedule(30, burningembersOnPlayer, self)
-	end
-end
-
-local function arcanesingularityOnPlayer(self) --Магическая сингулярность
-	specWarnArcaneBuildup:Show()
-	specWarnArcaneBuildup:Play("runaway")
-	if self:IsHard() then
-		timerArcaneSingularity:Start()
-		yellArcaneBuildupFades:Countdown(25, 3)
-		self:Schedule(25, arcanesingularityOnPlayer, self)
-	end
-end
-]]
