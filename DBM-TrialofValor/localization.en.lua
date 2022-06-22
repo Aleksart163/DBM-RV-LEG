@@ -39,3 +39,15 @@ L = DBM:GetModLocalization("TrialofValorTrash")
 L:SetGeneralLocalization({
 	name =	"Trial of Valor Trash"
 })
+
+L:SetOptionLocalization({
+	timerRoleplay = "Show timer to the start of the battle with Odyn"
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = GUILD_INTEREST_RP
+})
+
+L:SetMiscLocalization({
+	RP1 = "Champions! You have spilled the blood of Helya's minions. The time has come to enter Helheim itself and end the sea witch's dark reign. But first... a final challenge!"
+})
