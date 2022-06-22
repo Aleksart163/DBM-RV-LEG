@@ -1,4 +1,5 @@
 if GetLocale() ~= "ruRU" then return end
+
 local L
 --$spell:137162
 ------------
