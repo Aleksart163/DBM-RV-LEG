@@ -10,15 +10,15 @@ mod.isTrashMod = true
 mod:RegisterEvents(
 	"SPELL_CAST_START 246209 245807 246444 254500",
 	"SPELL_CAST_SUCCESS 246664",
-	"SPELL_AURA_APPLIED 252760 246692 253600 254122 249297 246199 246687 254948 246698 244399 254509 257920 248757 252797",
+	"SPELL_AURA_APPLIED 252760 246692 253600 254122 249297 246199 254948 246698 244399 254509 257920 248757 252797 245770",
 	"SPELL_AURA_APPLIED_DOSE 257920 248757",
-	"SPELL_AURA_REMOVED 252760 246692 254122 249297 246687 253600",
+	"SPELL_AURA_REMOVED 252760 246692 254122 249297 253600 252797 245770 244399 254948",
 	"SPELL_PERIODIC_DAMAGE 246199",
 	"SPELL_PERIODIC_MISSED 246199",
 	"CHAT_MSG_MONSTER_YELL",
 	"UNIT_DIED"
 )
---244399 децимация с 1-го моба
+
 --TODO, these
 				--"Annihilation-252740-npc:127230 = pull:9.5", -- [1]
 				--"Decimation-252793-npc:127231 = pull:10.9, 0.0", -- [2]
@@ -159,7 +159,8 @@ function mod:SPELL_AURA_APPLIED(args)
 			yellSoulburn:Yell()
 			yellSoulburn2:Countdown(6, 3)
 		else
-			specWarnSoulburn2:Show(args.destName)
+			specWarnSoulburn2:CombinedShow(0.3, args.destName)
+			specWarnSoulburn2:Play("dispelnow")
 		end
 		if self.Options.SetIconOnSoulburn then
 			self:SetIcon(args.destName, self.vb.soulburnIcon)
@@ -184,16 +185,16 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self.Options.SetIconOnFlamesofReorig then
 			self:SetIcon(args.destName, 3, 6)
 		end
-	elseif spellId == 246687 or spellId == 244399 or spellId == 254948 or spellId == 252797 then --Децимация
+	elseif spellId == 245770 or spellId == 252797 or spellId == 244399 or spellId == 254948 then --Децимация
 		self.vb.decimationIcon = self.vb.decimationIcon + 1
 		warnDecimation2:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
 			specWarnDecimation:Show()
 			specWarnDecimation:Play("runout")
 			yellDecimation:Yell()
-			yellDecimationFades:Countdown(5, 3)
+			yellDecimationFades:Countdown(7, 3)
 		elseif self:AntiSpam(5, 1) then
-			specWarnDecimation2:Schedule(5)
+			specWarnDecimation2:Schedule(6)
 		end
 		if self.Options.SetIconOnDecimation then
 			self:SetIcon(args.destName, self.vb.decimationIcon)
@@ -216,6 +217,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		local amount = args.amount or 1
 		if amount >= 2 then
 			specWarnPyrogenics:Show(args.destName)
+			specWarnPyrogenics:Play("dispelnow")
 		end
 	end
 end
@@ -260,7 +262,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		if self.Options.SetIconOnSoulburn then
 			self:SetIcon(args.destName, 0)
 		end
-	elseif spellId == 246687 or spellId == 244399 or spellId == 254948 or spellId == 252797 then --Децимация
+	elseif spellId == 245770 or spellId == 252797 or spellId == 244399 or spellId == 254948 then --Децимация
 	--	self.vb.decimationIcon = self.vb.decimationIcon - 1
 		if args:IsPlayer() then
 			yellDecimationFades:Cancel()

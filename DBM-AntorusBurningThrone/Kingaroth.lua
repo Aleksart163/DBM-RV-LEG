@@ -320,16 +320,12 @@ function mod:SPELL_AURA_APPLIED(args)
 				specWarnForgingStrikeOther:Play("changemt")
 			end
 		end
-	elseif spellId == 246687 or spellId == 249680 then
+	elseif spellId == 246687 then --Децимация elseif spellId == 246687 or spellId == 249680 then
 		warnDecimation:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
 			specWarnDecimation:Show()
 			specWarnDecimation:Play("runout")
-			local _, _, _, _, _, _, expires = DBM:UnitDebuff("player", spellId)
-			if expires then
-				local remaining = expires-GetTime()
-				yellDecimation:Countdown(remaining)
-			end
+			yellDecimation:Countdown(6, 3)
 		end
 	elseif spellId == 246698 or spellId == 252760 then
 		if not tContains(DemolishTargets, args.destName) then
@@ -359,7 +355,7 @@ mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 
 function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
-	if spellId == 246687 or spellId == 249680 then
+	if spellId == 246687 then --Децимация elseif spellId == 246687 or spellId == 249680 then
 		if args:IsPlayer() then
 			yellDecimation:Cancel()
 		end

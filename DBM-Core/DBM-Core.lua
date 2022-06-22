@@ -43,9 +43,9 @@
 ----------------------------------------------------------------
 --
 DBM = {
-	Revision = tonumber(("$Revision: 17665 $"):sub(12, -3)),
+	Revision = tonumber(("$Revision: 17666 $"):sub(12, -3)),
 	DisplayVersion = "7.3.36 Right Version",
-	ReleaseRevision = 17664
+	ReleaseRevision = 17665
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -10860,7 +10860,7 @@ function bossModPrototype:AddSetIconOption(name, spellId, default, isHostile, ic
 		self.localization.options[name] = DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(spellId)
 	end
 	--A table defining used icons by number, insert icon textures to end of option
-	if iconsUsed then --новые метки
+	if iconsUsed then --Разняшали
 		self.localization.options[name] = self.localization.options[name].." ("
 		for i=1, #iconsUsed do
 			--Texture ID 137009 if direct calling RaidTargetingIcons stops working one day

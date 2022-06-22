@@ -76,7 +76,7 @@ local berserkTimer						= mod:NewBerserkTimer(390)
 
 --The Fallen Nathrezim
 local countdownShadowStrike				= mod:NewCountdown("Alt9", 243960, "Tank", nil, 3) --Теневой удар
---local countdownMarkedPrey				= mod:NewCountdown("AltTwo30", 244042, nil, nil, 5) --Метка жертвы
+local countdownMarkedPrey				= mod:NewCountdown("AltTwo30", 244042, nil, nil, 5) --Метка жертвы
 local countdownNecroticEmbrace			= mod:NewCountdown(30, 244093, nil, nil, 5) --Некротические объятия
 
 mod:AddSetIconOption("SetIconOnMarkedPrey", 244042, true, false, {8}) --Метка жертвы
@@ -96,11 +96,12 @@ function mod:OnCombatStart(delay)
 	timerShadowStrikeCD:Start(9.3-delay)
 	countdownShadowStrike:Start(9.3-delay)
 	timerMarkedPreyCD:Start(25.2-delay)
---	countdownMarkedPrey:Start(25.2-delay)
 	timerDarkFissureCD:Start(15.3-delay)
 	if not self:IsEasy() then
 		timerNecroticEmbraceCD:Start(35-delay)
 		countdownNecroticEmbrace:Start(35-delay)
+	else --только в обычке
+		countdownMarkedPrey:Start(25.2-delay)
 	end
 	if not self:IsLFR() then
 		berserkTimer:Start(310-delay)--Confirmed normal/heroic/mythic
@@ -147,7 +148,9 @@ function mod:SPELL_CAST_SUCCESS(args)
 		end
 	elseif spellId == 244042 then --Метка жертвы
 		timerMarkedPreyCD:Start(30.5)
-	--	countdownMarkedPrey:Start(30.5)
+		if self:IsEasy() then
+			countdownMarkedPrey:Start(30.5)
+		end
 	end
 end
 

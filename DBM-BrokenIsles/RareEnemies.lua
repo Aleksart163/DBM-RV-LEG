@@ -2,7 +2,6 @@ local mod	= DBM:NewMod("RareEnemies", "DBM-BrokenIsles", nil, 822)
 local L		= mod:GetLocalizedStrings()
 
 mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
---mod:SetCreatureID(103975, 99899, 102303)
 mod:SetZone()
 mod:SetMinSyncRevision(17650)
 
@@ -42,7 +41,7 @@ local specWarnSoulCleave		= mod:NewSpecialWarningDodge(223630, nil, nil, nil, 2,
 local specWarnSoulCleave2		= mod:NewSpecialWarningYou(223630, nil, nil, nil, 1, 3) --Раскалывание душ
 local specWarnWorldBreaker		= mod:NewSpecialWarningDodge(223659, nil, nil, nil, 2, 5) --Миродробитель
 local specWarnFelFissure		= mod:NewSpecialWarningDodge(218885, nil, nil, nil, 2, 5) --Разлом скверны
-local specWarnFelFissure2		= mod:NewSpecialWarningYouMove(218960, nil, nil, nil, 2, 5) --Разлом скверны
+local specWarnFelFissure2		= mod:NewSpecialWarningYouMove(218960, nil, nil, nil, 1, 5) --Разлом скверны
 local specWarnWickedLeap		= mod:NewSpecialWarningDodge(216808, nil, nil, nil, 2, 5) --Жестокий прыжок
 local specWarnHorrificVisage	= mod:NewSpecialWarningLookAway(216881, nil, nil, nil, 3, 5) --Ужасающий лик
 local specWarnRemnantofLight	= mod:NewSpecialWarningInterrupt2(216837, "HasInterrupt2", nil, nil, 2, 5) --Частица Света
@@ -62,7 +61,7 @@ local specWarnNova				= mod:NewSpecialWarningRun(206794, "Melee", nil, nil, 4, 5
 local specWarnNova2				= mod:NewSpecialWarningDodge(206794, "Ranged", nil, nil, 2, 3) --Новая
 local specWarnCorruptionBarrage = mod:NewSpecialWarningDodge(213585, nil, nil, nil, 1, 3) --Обстрел порчей
 local specWarnOverflowingTaint 	= mod:NewSpecialWarningDodge(217527, nil, nil, nil, 2, 3) --Переполняющая порча
-local specWarnVortex			= mod:NewSpecialWarningInterrupt(214183, "-Healer", nil, nil, 3, 5) --Воронка
+local specWarnVortex			= mod:NewSpecialWarningInterrupt(214183, "HasInterrupt", nil, nil, 3, 5) --Воронка
 local specWarnDeathWail			= mod:NewSpecialWarningRun(189157, "Melee", nil, nil, 4, 5) --Вой смерти
 local specWarnArcticTorrent		= mod:NewSpecialWarningDodge(218245, nil, nil, nil, 2, 3) --Арктический поток
 local specWarnDeathWail2		= mod:NewSpecialWarningDodge(189157, "Ranged", nil, nil, 2, 3) --Вой смерти
@@ -70,9 +69,9 @@ local specWarnFlrglDrglDrglGrgl2 = mod:NewSpecialWarningDodge(218250, nil, nil, 
 local specWarnBladeBarrage		= mod:NewSpecialWarningDodge(222596, "Ranged", nil, nil, 2, 3) --Залп клинков
 local specWarnBladeBarrage2		= mod:NewSpecialWarningRun(222596, "Melee", nil, nil, 4, 5) --Залп клинков
 local specWarnFlrglDrglDrglGrgl	= mod:NewSpecialWarningInterrupt(218250, "-Healer", nil, nil, 3, 5) --Флргл Дргл Дргл Гргл
-local specWarnFear				= mod:NewSpecialWarningInterrupt(221424, "-Healer", nil, nil, 3, 5) --Страх
+local specWarnFear				= mod:NewSpecialWarningInterrupt(221424, "HasInterrupt", nil, nil, 3, 5) --Страх
 local specWarnArcaneResonance	= mod:NewSpecialWarningInterrupt2(214095, "HasInterrupt2", nil, nil, 3, 5) --Резонанс
-local specWarnImpale			= mod:NewSpecialWarningInterrupt(222676, "-Healer", nil, nil, 3, 5) --Прокалывание
+local specWarnImpale			= mod:NewSpecialWarningInterrupt(222676, "HasInterrupt", nil, nil, 3, 5) --Прокалывание
 local specWarnViciousBite		= mod:NewSpecialWarningYouDefensive(221422, nil, nil, nil, 2, 5) --Яростный укус
 local specWarnCrushArmor		= mod:NewSpecialWarningStack(221425, nil, 3, nil, nil, 3, 5) --Сокрушение доспеха
 
@@ -122,26 +121,111 @@ local yellImpale				= mod:NewYell(222676, nil, nil, nil, "YELL") --Прокал�
 local yellImpaleFades			= mod:NewFadesYell(222676, nil, nil, nil, "YELL") --Прокалывание
 local yellArcticTorrent			= mod:NewYell(218245, nil, nil, nil, "YELL") --Арктический поток
 
+function mod:ArcticTorrentTarget(targetname, uId)
+	if not targetname then return end
+	if targetname == UnitName("player") then
+		specWarnArcticTorrent:Show()
+		specWarnArcticTorrent:Play("targetyou")
+		yellArcticTorrent:Yell()
+	else
+		warnArcticTorrent:Show(targetname)
+		specWarnArcticTorrent:Show()
+		specWarnArcticTorrent:Play("watchstep")
+	end
+end
+
+function mod:ClubSlamTarget(targetname, uId)
+	if not targetname then return end
+	if targetname == UnitName("player") then
+		specWarnClubSlam:Show()
+		specWarnClubSlam:Play("defensive")
+		yellClubSlam:Yell()
+	else
+		warnClubSlam:Show(targetname)
+		specWarnClubSlam2:Show()
+		specWarnClubSlam2:Play("watchstep")
+	end
+end
+
+function mod:WickedLeapTarget(targetname, uId)
+	if not targetname then return end
+	if targetname == UnitName("player") then
+		specWarnWickedLeap:Show()
+		specWarnWickedLeap:Play("watchstep")
+		yellWickedLeap:Yell()
+	else
+		warnWickedLeap:Show(targetname)
+		specWarnWickedLeap:Show()
+		specWarnWickedLeap:Play("watchstep")
+	end
+end
+
+function mod:RemnantofLightTarget(targetname, uId)
+	if not targetname then return end
+	if targetname == UnitName("player") then
+		specWarnRemnantofLight:Show()
+		specWarnRemnantofLight:Play("kickcast")
+		specWarnHorrificVisage:Schedule(3)
+		yellRemnantofLight:Yell()
+	else
+		warnRemnantofLight:Show(targetname)
+		specWarnRemnantofLight:Show()
+		specWarnRemnantofLight:Play("kickcast")
+		specWarnHorrificVisage:Schedule(3)
+	end
+end
+
+function mod:FelFissureTarget(targetname, uId)
+	if not targetname then return end
+	if targetname == UnitName("player") then
+		specWarnFelFissure:Show()
+		specWarnFelFissure:Play("watchstep")
+		yellFelFissure:Yell()
+	else
+		specWarnFelFissure:Show()
+		specWarnFelFissure:Play("watchstep")
+		warnFelFissure:Show(targetname)
+	end
+end
+
+function mod:DepthChargeTarget(targetname, uId) --Глубинная бомба
+	if not targetname then return end
+	if targetname == UnitName("player") then
+		specWarnDepthCharge:Show()
+		specWarnDepthCharge:Play("runout")
+		yellDepthCharge:Yell()
+	else
+		warnDepthCharge:Show(targetname)
+	end
+end
+
+function mod:OverdriveTarget(targetname, uId) --Форсаж
+	if not targetname then return end
+	if targetname == UnitName("player") then
+		specWarnOverdrive:Show()
+		specWarnOverdrive:Play("defensive")
+	end
+end
+
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 221424 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Страх
 		specWarnFear:Show()
+		specWarnFear:Play("kickcast")
 	elseif spellId == 222676 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Прокалывание
-		timerImpaleCD:Start()
 		specWarnImpale:Show()
+		specWarnImpale:Play("kickcast")
+		timerImpaleCD:Start()
 	elseif spellId == 189157 then --Вой смерти
 		specWarnDeathWail:Show()
+		specWarnDeathWail:Play("justrun")
 		specWarnDeathWail2:Show()
+		specWarnDeathWail2:Play("watchstep")
 	elseif spellId == 214095 then --Резонанс
 		specWarnArcaneResonance:Show()
+		specWarnArcaneResonance:Play("kickcast")
 	elseif spellId == 218245 then --Арктический поток
-		local targetname = self:GetBossTarget(109648)
-		if not targetname then return end
-		warnArcticTorrent:Show(targetname)
-		specWarnArcticTorrent:Show()
-		if targetname == UnitName("player") then
-			yellArcticTorrent:Yell()
-		end
+		self:BossTargetScanner(args.sourceGUID, "ArcticTorrentTarget", 0.2)
 		timerArcticTorrentCD:Start()
 		timerFlrglDrglDrglGrglCD:Start()
 	elseif spellId == 218250 then --Флргл Дргл Дргл Гргл
@@ -174,63 +258,29 @@ function mod:SPELL_CAST_START(args)
 		specWarnFearsomeShriek:Show()
 		timerFearsomeShriekCD:Start()
 	elseif spellId == 203671 then --Мощный удар дубиной
-		local targetname = self:GetBossTarget(105899)
-		if not targetname then return end
-		warnClubSlam:Show(targetname)
-		if targetname == UnitName("player") then
-			specWarnClubSlam:Show()
-			yellClubSlam:Yell()
-		else
-			specWarnClubSlam2:Show()
-		end
+		self:BossTargetScanner(args.sourceGUID, "ClubSlamTarget", 0.2)
 		timerClubSlamCD:Start()
 	elseif spellId == 216808 then --Жестокий прыжок
-		local targetname = self:GetBossTarget(109015)
-		if not targetname then return end
-		warnWickedLeap:Show(targetname)
-		if targetname == UnitName("player") then
-			specWarnWickedLeap:Show()
-			yellWickedLeap:Yell()
-		else
-			specWarnWickedLeap:Show()
-		end
+		self:BossTargetScanner(args.sourceGUID, "WickedLeapTarget", 0.2)
 		timerWickedLeapCD:Start()
 	elseif spellId == 216808 then --Частица Света
-		local targetname = self:GetBossTarget(109015)
-		if not targetname then return end
-		warnRemnantofLight:Show(targetname)
-		specWarnHorrificVisage:Schedule(3)
-		specWarnRemnantofLight:Show()
-		if targetname == UnitName("player") then
-			yellRemnantofLight:Yell()
-		end
+		self:BossTargetScanner(args.sourceGUID, "RemnantofLightTarget", 0.2)
 		timerRemnantofLightCD:Start()
 	elseif spellId == 218885 then --Разлом скверны
-		local targetname = self:GetBossTarget(109630)
-		if not targetname then return end
-		warnFelFissure:Show(targetname)
-		specWarnFelFissure:Show()
-		if targetname == UnitName("player") then
-			yellFelFissure:Yell()
-		end
+		self:BossTargetScanner(args.sourceGUID, "FelFissureTarget", 0.2)
 		timerFelFissureCD:Start()
 	elseif spellId == 223659 then --Миродробитель
 		specWarnWorldBreaker:Show()
 	elseif spellId == 223630 then --Раскалывание душ
 		specWarnSoulCleave:Show()
 	elseif spellId == 207002 then --Глубинная бомба
-		local targetname = self:GetBossTarget(104484)
-		if not targetname then return end
-		warnDepthCharge:Show(targetname)
-		if targetname == UnitName("player") then
-			specWarnDepthCharge:Show()
-			yellDepthCharge:Yell()
-		end
+		self:BossTargetScanner(args.sourceGUID, "DepthChargeTarget", 0.2)
 		timerDepthChargeCD:Start()
 	elseif spellId == 206972 then --Пробой корпуса
 		timerHullBreachCD:Start()
 	elseif spellId == 206995 then --Приливное извержение
 		specWarnTidalEruption:Show()
+		specWarnTidalEruption:Play("watchstep")
 		timerTidalEruptionCD:Start()
 	elseif spellId == 216981 then --Осколки кристалла
 		timerCrysShardsCD:Start()
@@ -244,8 +294,10 @@ function mod:SPELL_CAST_SUCCESS(args)
 		timerViciousBiteCD:Start()
 	elseif spellId == 218250 then --Флргл Дргл Дргл Гргл
 		specWarnFlrglDrglDrglGrgl2:Show()
+		specWarnFlrglDrglDrglGrgl2:Play("watchstep")
 	elseif spellId == 214183 then --Воронка
 		specWarnVortex:Show()
+		specWarnVortex:Play("kickcast")
 	elseif spellId == 223094 then --Кокон
 		timerWebWrapCD:Start()
 	elseif spellId == 216881 then --Ужасающий лик
@@ -289,23 +341,23 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 219102 then --Уязвимое место
 		timerExposedCoreCD:Start()
 	elseif spellId == 219087 then --Форсаж
-		local targetname = self:GetBossTarget(109641)
-		if not targetname then return end
-		if targetname == UnitName("player") then
-			specWarnOverdrive:Show()
-		end
+		self:BossTargetScanner(args.sourceGUID, "OverdriveTarget", 0.2)
 		timerOverdriveCD:Start()
 	elseif spellId == 206795 then --Дробящий укус
 		if args:IsPlayer() then
 			specWarnCrushingBite:Show()
+			specWarnCrushingBite:Play("defensive")
 		end
 	elseif spellId == 219060 then --Защитная раковина
 		specWarnProtectiveShellDis:Show(args.destName)
+		specWarnProtectiveShellDis:Play("dispelnow")
 	elseif spellId == 223630 then --Раскалывание душ
 		specWarnSoulCleave2:Show()
+		specWarnSoulCleave2:Play("targetyou")
 	elseif spellId == 206972 then --Пробой корпуса
 		if args:IsPlayer() then
 			specWarnHullBreach:Show()
+			specWarnHullBreach:Play("defensive")
 		end
 	end
 end
