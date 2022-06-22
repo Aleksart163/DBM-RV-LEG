@@ -22,7 +22,7 @@ local warnSpores					= mod:NewSpellAnnounce(236524, 2) --Ядовитые спо
 
 local specWarnTimberSmash			= mod:NewSpecialWarningDefensive(235751, "Tank", nil, nil, 1, 2) --Удар бревном
 local specWarnChokingVine			= mod:NewSpecialWarningRun(238598, nil, nil, nil, 4, 2) --Удушающие лозы
-local specWarnSucculentSecretion	= mod:NewSpecialWarningMove(240065, nil, nil, nil, 1, 2) --Выброс сока
+local specWarnSucculentSecretion	= mod:NewSpecialWarningYouMove(240065, nil, nil, nil, 1, 2) --Выброс сока
 local specWarnFulminatingLashers	= mod:NewSpecialWarningSwitch(236527, "-Healer", nil, nil, 1, 2) --Гремучие плеточники
 local specWarnSucculentLashers		= mod:NewSpecialWarningSwitch(236639, "-Healer", nil, nil, 1, 2) --Сочные плеточники
 local specWarnFixate				= mod:NewSpecialWarningRun(238674, nil, nil, nil, 4, 2) --Сосредоточение внимания
@@ -35,7 +35,7 @@ local timerSporesCD					= mod:NewCDTimer(20.5, 236524, nil, nil, nil, 2) --Яд�
 
 local yellFixate					= mod:NewYell(238674, nil, nil, nil, "YELL") --Сосредоточение внимания
 
-local countdownTimberSmash			= mod:NewCountdown("Alt21", 235751, "Tank", nil, 5) --Удар бревном
+local countdownTimberSmash			= mod:NewCountdown("Alt21.7", 235751, "Tank", nil, 5) --Удар бревном
 
 function mod:OnCombatStart(delay)
 	timerTimberSmashCD:Start(6-delay)
@@ -50,7 +50,7 @@ end
 
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
-	if spellId == 235751 then
+	if spellId == 235751 then --Удар бревном
 		specWarnTimberSmash:Show()
 		specWarnTimberSmash:Play("carefly")
 		timerTimberSmashCD:Start()
@@ -84,8 +84,10 @@ end
 
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 240065 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
-		specWarnSucculentSecretion:Show()
-		specWarnSucculentSecretion:Play("runaway")
+		if not self:IsNormal() then
+			specWarnSucculentSecretion:Show()
+			specWarnSucculentSecretion:Play("runaway")
+		end
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE

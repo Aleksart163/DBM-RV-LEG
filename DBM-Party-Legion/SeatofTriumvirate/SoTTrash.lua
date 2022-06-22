@@ -11,7 +11,8 @@ mod:RegisterEvents(
 	"SPELL_CAST_START 248304 245585 245727 248133 248184 248227",
 	"SPELL_AURA_APPLIED 249077 249081",
 	"SPELL_AURA_REMOVED 249081",
-	"CHAT_MSG_MONSTER_SAY"
+	"CHAT_MSG_MONSTER_SAY",
+	"GOSSIP_SHOW"
 )
 --Престол триумвирата
 local warnCorruptingVoid			= mod:NewTargetAnnounce(245510, 3) --Оскверняющая Бездна
@@ -34,6 +35,8 @@ local yellCorruptingVoid			= mod:NewYell(245510, nil, nil, nil, "YELL") --Оск
 local yellCorruptingVoid2			= mod:NewFadesYell(245510, nil, nil, nil, "YELL") --Оскверняющая Бездна
 local yellSupField					= mod:NewYell(249081, nil, nil, nil, "YELL") --Подавляющее поле
 local yellSupField2					= mod:NewFadesYell(249081, nil, nil, nil, "YELL") --Подавляющее поле
+
+mod:AddBoolOption("AlleriaActivation", true)
 
 function mod:SPELL_CAST_START(args)
 	if not self.Options.Enabled then return end
@@ -92,6 +95,20 @@ function mod:SPELL_AURA_REMOVED(args)
 	if spellId == 249081 then --Подавляющее поле
 		if args:IsPlayer() then
 			yellSupField2:Cancel()
+		end
+	end
+end
+
+function mod:GOSSIP_SHOW()
+	local guid = UnitGUID("target")
+	if not guid then return end
+	local cid = self:GetCIDFromGUID(guid)
+	if mod.Options.AlleriaActivation then
+		if cid == 123743 then --Аллерия Ветрокрылая
+			if select('#', GetGossipOptions()) > 0 then
+				SelectGossipOption(1)
+				CloseGossip()
+			end
 		end
 	end
 end

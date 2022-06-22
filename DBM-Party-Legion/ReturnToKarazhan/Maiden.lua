@@ -48,6 +48,7 @@ local countdownHolyWrath			= mod:NewCountdown("Alt10", 227823, nil, nil, 5) --Г
 
 mod:AddSetIconOption("SetIconOnHolyBolt", 227809, true, false, {8}) --Священная молния
 mod:AddSetIconOption("SetIconOnSacredGround", 227789, true, false, {7}) --Священная земля
+mod:AddBoolOption("AnnounceHolyBolt", false)
 mod:AddRangeFrameOption(8, 227809)--TODO, keep looking for a VALID 6 yard item/spell
 mod:AddInfoFrameOption(227817, true)
 
@@ -80,6 +81,13 @@ function mod:HolyBoltTarget(targetname, uId)
 	end
 	if self.Options.SetIconOnHolyBolt then
 		self:SetIcon(targetname, 8, 5)
+	end
+	if mod.Options.AnnounceHolyBolt then
+		if IsInRaid() then
+			SendChatMessage(L.HolyBolt:format(targetname), "RAID")
+		elseif IsInGroup() then
+			SendChatMessage(L.HolyBolt:format(targetname), "PARTY")
+		end
 	end
 end
 
@@ -123,7 +131,7 @@ function mod:SPELL_CAST_START(args)
 		timerHolyWrath:Start()
 		countdownHolyWrath:Start()
 	elseif spellId == 227789 then --Священная земля
-		self:BossTargetScanner(args.sourceGUID, "SacredGroundTarget", 0.3)
+		self:BossTargetScanner(args.sourceGUID, "SacredGroundTarget", 0.4)
 		timerSacredGroundCD:Start()
 	elseif spellId == 227809 then --Священная молния
 		self:BossTargetScanner(args.sourceGUID, "HolyBoltTarget", 0.2)

@@ -10,13 +10,16 @@ mod.isTrashMod = true
 mod:RegisterEvents(
 	"SPELL_CAST_START 199805 192563 199726 199382 200901 192158 192288 210875 199652 200969 198888",
 	"SPELL_AURA_APPLIED 215430 199652",
+	"SPELL_AURA_APPLIED_DOSE 199652",
 	"SPELL_AURA_REMOVED 215430 199652",
 	"SPELL_CAST_SUCCESS 199382",
 	"SPELL_PERIODIC_DAMAGE 198959 199818",
 	"SPELL_PERIODIC_MISSED 198959 199818",
+	"GOSSIP_SHOW",
 	"CHAT_MSG_MONSTER_YELL"
 )
---Чертоги доблести
+
+--Чертоги доблести трэш
 local warnThunderstrike				= mod:NewTargetAnnounce(215430, 4) --Громовой удар
 local warnCrackle					= mod:NewTargetAnnounce(199805, 3) --Разряд
 local warnChargedPulse				= mod:NewCastAnnounce(210875, 4) --Пульсирующий заряд
@@ -26,9 +29,11 @@ local specWarnCrackle2				= mod:NewSpecialWarningYouMove(199818, nil, nil, nil, 
 local specWarnEtch					= mod:NewSpecialWarningYouMove(198959, nil, nil, nil, 1, 2) --Гравировка
 local specWarnCallAncestor			= mod:NewSpecialWarningSwitch(200969, "Dps", nil, nil, 1, 2) --Зов предков
 local specWarnSever					= mod:NewSpecialWarningYouDefensive(199652, "Tank", nil, nil, 3, 5) --Рассечение
+local specWarnSever2				= mod:NewSpecialWarningStack(199652, nil, 2, nil, nil, 2, 2) --Рассечение
 local specWarnThunderstrike			= mod:NewSpecialWarningYouMoveAway(215430, nil, nil, nil, 3, 5) --Громовой удар
 local specWarnThunderstrike2		= mod:NewSpecialWarningCloseMoveAway(215430, nil, nil, nil, 2, 2) --Громовой удар
-local specWarnEyeofStorm			= mod:NewSpecialWarningMoveTo(200901, nil, nil, nil, 3, 2) --Око шторма
+local specWarnEyeofStorm			= mod:NewSpecialWarningMoveTo(200901, nil, nil, nil, 4, 3) --Око шторма
+local specWarnEyeofStorm2			= mod:NewSpecialWarningDefensive(200901, nil, nil, nil, 3, 3) --Око шторма
 local specWarnSanctify				= mod:NewSpecialWarningDodge(192158, "Ranged", nil, nil, 2, 5) --Освящение
 local specWarnSanctify2				= mod:NewSpecialWarningRun(192158, "Melee", nil, nil, 4, 5) --Освящение
 local specWarnChargedPulse			= mod:NewSpecialWarningRun(210875, "Melee", nil, nil, 4, 5) --Пульсирующий заряд
@@ -40,7 +45,7 @@ local specWarnCleansingFlame		= mod:NewSpecialWarningInterrupt(192563, "HasInter
 local specWarnUnrulyYell			= mod:NewSpecialWarningInterrupt(199726, "HasInterrupt", nil, nil, 1, 2) --Буйный вопль
 local specWarnSearingLight			= mod:NewSpecialWarningInterrupt(192288, "HasInterrupt", nil, nil, 1, 2) --Опаляющий свет
 
-local timerSever					= mod:NewTargetTimer(12, 199652, nil, "Tank|Healer", nil, 3, nil, DBM_CORE_TANK_ICON) --Громовой удар
+local timerSever					= mod:NewTargetTimer(12, 199652, nil, "Tank|Healer", nil, 3, nil, DBM_CORE_TANK_ICON) --Рассечение
 local timerEnragingRoarCD			= mod:NewCDTimer(25, 199382, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON) --Яростный рев
 local timerThunderstrike			= mod:NewTargetTimer(3, 215430, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Громовой удар
 --Олмир
@@ -49,7 +54,10 @@ local timerSearingLightCD			= mod:NewCDTimer(13, 192288, nil, "HasInterrupt", ni
 --Солстен
 local timerEyeofStormCD				= mod:NewCDTimer(31.5, 200901, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Око шторма
 
-local timerRoleplay					= mod:NewTimer(30, "timerRoleplay", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7) --Ролевая игра
+local timerRoleplay					= mod:NewTimer(30, "timerRoleplay", "Interface\\Icons\\ability_warrior_offensivestance", nil, nil, 7) --Ролевая игра
+
+local countdownEyeofStorm			= mod:NewCountdown(31.5, 200901, nil, nil, 3) --Око шторма
+local countdownSanctify				= mod:NewCountdown("Alt26.5", 192158, nil, nil, 3) --Освящение
 
 local yellCrackle					= mod:NewYell(199805, nil, nil, nil, "YELL") --Разряд
 local yellThunderstrike				= mod:NewYell(215430, nil, nil, nil, "YELL") --Громовой удар
@@ -57,6 +65,7 @@ local yellThunderstrike2			= mod:NewShortFadesYell(215430, nil, nil, nil, "YELL"
 
 local eyeShortName = DBM:GetSpellInfo(91320)--Inner Eye
 
+mod:AddBoolOption("BossActivation", true)
 mod:AddRangeFrameOption(8, 215430) --Громовой удар
 
 function mod:CrackleTarget(targetname, uId)
@@ -79,10 +88,10 @@ function mod:SPELL_CAST_START(args)
 	if spellId == 199805 then
 		self:BossTargetScanner(args.sourceGUID, "CrackleTarget", 0.1, 9)
 	elseif spellId == 192563 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
-		specWarnCleansingFlame:Show(args.sourceName)
+		specWarnCleansingFlame:Show()
 		specWarnCleansingFlame:Play("kickcast")
 	elseif spellId == 199726 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
-		specWarnUnrulyYell:Show(args.sourceName)
+		specWarnUnrulyYell:Show()
 		specWarnUnrulyYell:Play("kickcast")
 	elseif spellId == 192288 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Опаляющий свет
 		specWarnSearingLight:Show()
@@ -93,20 +102,24 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 200901 then --Око шторма
 		specWarnEyeofStorm:Show(eyeShortName)
 		specWarnEyeofStorm:Play("findshelter")
+		specWarnEyeofStorm2:Schedule(4)
+		specWarnEyeofStorm2:ScheduleVoice(4, "defensive")
 		timerEyeofStormCD:Start()
+		countdownEyeofStorm:Start()
 	elseif spellId == 192158 then --Освящение
 		specWarnSanctify:Show()
 		specWarnSanctify:Play("watchorb")
 		specWarnSanctify2:Show()
 		specWarnSanctify2:Play("watchorb")
 		timerSanctifyCD:Start()
+		countdownSanctify:Start()
 	elseif spellId == 210875 and self:AntiSpam(2, 1) then --Пульсирующий заряд
 		warnChargedPulse:Show()
 		specWarnChargedPulse:Show()
 		specWarnChargedPulse:Play("justrun")
 		specWarnChargedPulse2:Show()
 		specWarnChargedPulse2:Play("watchstep")
-	elseif spellId == 199652 then --Рассечение
+	elseif spellId == 199652 and self:AntiSpam(3, 1) then --Рассечение
 		specWarnSever:Show()
 		specWarnSever:Play("defensive")
 	elseif spellId == 200969 then --Зов предков
@@ -143,9 +156,17 @@ function mod:SPELL_AURA_APPLIED(args)
 			DBM.RangeCheck:Show(8)
 		end
 	elseif spellId == 199652 then --Рассечение
+		local amount = args.amount or 1
+		if args:IsPlayer() then
+			if amount >= 2 then
+				specWarnSever2:Show(amount)
+				specWarnSever2:Play("stackhigh")
+			end
+		end
 		timerSever:Start(args.destName)
 	end
 end
+mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 
 function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
@@ -159,6 +180,40 @@ function mod:SPELL_AURA_REMOVED(args)
 		end
 	elseif spellId == 199652 then --Рассечение
 		timerSever:Cancel(args.destName)
+	end
+end
+
+function mod:GOSSIP_SHOW()
+	local guid = UnitGUID("target")
+	if not guid then return end
+	local cid = self:GetCIDFromGUID(guid)
+	if mod.Options.BossActivation then
+		if cid == 97081 then --Король Бьорн
+			if select('#', GetGossipOptions()) > 0 then
+				SelectGossipOption(1)
+				CloseGossip()
+			end
+		elseif cid == 95843 then --Король Галдор
+			if select('#', GetGossipOptions()) > 0 then
+				SelectGossipOption(1)
+				CloseGossip()
+			end
+		elseif cid == 97083 then --Король Ранульф
+			if select('#', GetGossipOptions()) > 0 then
+				SelectGossipOption(1)
+				CloseGossip()
+			end
+		elseif cid == 97084 then --Король Тор
+			if select('#', GetGossipOptions()) > 0 then
+				SelectGossipOption(1)
+				CloseGossip()
+			end
+		elseif cid == 95676 then --Один
+			if select('#', GetGossipOptions()) > 0 then
+				SelectGossipOption(1, "", true)
+				self:SendSync("RPOdyn2")
+			end
+		end
 	end
 end
 
@@ -185,14 +240,21 @@ function mod:OnSync(msg, GUID)
 		timerRoleplay:Start(25.5)
 	elseif msg == "RPSolsten" then
 		timerEyeofStormCD:Cancel()
+		countdownEyeofStorm:Cancel()
 	elseif msg == "RPSolsten2" then
 		timerEyeofStormCD:Start(9)
+		countdownEyeofStorm:Start(9)
 	elseif msg == "RPOlmyr" then
 		timerSanctifyCD:Cancel()
+		countdownSanctify:Cancel()
 		timerSearingLightCD:Cancel()
 	elseif msg == "RPOlmyr2" then
 		timerSanctifyCD:Start(9.5)
+		countdownSanctify:Start(9.5)
 		timerSearingLightCD:Start(5.5)
+	elseif msg == "RPOdyn2" then
+		timerRoleplay:Start(2.8)
+		countdownEyeofStorm:Start(2.8)
 	end
 end
 
@@ -202,7 +264,7 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spell
 			specWarnEtch:Show()
 			specWarnEtch:Play("runaway")
 		end
-	elseif spellId == 199818 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then --Разряд
+	elseif spellId == 199818 and destGUID == UnitGUID("player") and self:AntiSpam(2.5, 1) then --Разряд
 		if self:IsHard() then
 			specWarnCrackle2:Show()
 			specWarnCrackle2:Play("runaway")

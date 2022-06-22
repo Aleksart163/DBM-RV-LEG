@@ -12,7 +12,6 @@ mod:RegisterCombat("combat")
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 227233 202088 198495",
 --	"SPELL_CAST_SUCCESS 197262",
-	"SPELL_ABSORBED 197262",
 	"SPELL_AURA_APPLIED 196947 197262",
 	"SPELL_AURA_REMOVED 196947 197262",
 	"CHAT_MSG_RAID_BOSS_EMOTE",
@@ -23,12 +22,13 @@ mod:RegisterEventsInCombat(
 local warnPhase							= mod:NewAnnounce("Phase1", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 2
 local warnPhase2						= mod:NewAnnounce("Phase2", 1, 196947) --Фаза 2
 local warnTaintofSea					= mod:NewTargetAnnounce(197262, 2) --Морская порча
-local warnSubmerged						= mod:NewSpellAnnounce(196947, 2) --Погружение
+--local warnSubmerged						= mod:NewSpellAnnounce(196947, 2) --Погружение
 local warnSubmerged2					= mod:NewPreWarnAnnounce(196947, 5, 1) --Погружение
 
 --local specWarnTaintofSea				= mod:NewSpecialWarningYouMoveAway(197262, nil, nil, nil, 3, 5) --Морская порча
 local specWarnDestructorTentacle		= mod:NewSpecialWarningSwitch("ej12364", "Tank") --Щупальце разрушения
 local specWarnBrackwaterBarrage			= mod:NewSpecialWarningDodge(202088, nil, nil, nil, 3, 5) --Обстрел солоноватой водой Tank stays with destructor tentacle no matter what
+local specWarnSubmerged					= mod:NewSpecialWarningDodge(196947, nil, nil, nil, 1, 2) --Погружение
 local specWarnSubmergedOver				= mod:NewSpecialWarningEnd(196947, nil, nil, nil, 1, 2) --Погружение
 local specWarnTaintofSeaOver			= mod:NewSpecialWarningEnd(197262, nil, nil, nil, 1, 2) --Морская порча
 local specWarnBreath					= mod:NewSpecialWarningDodge(227233, nil, nil, nil, 3, 5) --Оскверняющий рев
@@ -46,6 +46,7 @@ local timerTorrentCD					= mod:NewCDTimer(9.7, 198495, nil, nil, nil, 4, nil, DB
 local yellTaintofSea					= mod:NewYell(197262, nil, nil, nil, "YELL") --Морская порча
 local yellTaintofSea2					= mod:NewYell(197264, L.TaintofSeaYell, nil, nil, "YELL") --Морская порча
 
+local countdownBrackwaterBarrage		= mod:NewCountdown(15, 202088, nil, nil, 5) --Обстрел солоноватой водой
 local countdownBreath					= mod:NewCountdown(21, 227233, nil, nil, 5) --Оскверняющий рев
 local countdownSubmerged				= mod:NewCountdown("Alt74.5", 196947, nil, nil, 5) --Погружение
 
@@ -53,6 +54,7 @@ mod:AddSetIconOption("SetIconOnTaintofSea", 197262, true, false, {8, 7}) --Мо�
 
 mod.vb.phase = 1
 mod.vb.taintofseaIcon = 8
+
 local warned_preP1 = false
 local warned_preP2 = false
 local playerName = UnitName("player")
@@ -62,9 +64,12 @@ function mod:OnCombatStart(delay)
 	self.vb.taintofseaIcon = 8
 	warned_preP1 = false
 	warned_preP2 = false
-	timerPiercingTentacleCD:Start(8.5)
-	timerBrackwaterBarrageCD:Start()
-	timerTaintofSeaCD:Start(12.5)
+	if not self:IsNormal() then
+		timerPiercingTentacleCD:Start(8.5-delay)
+		timerBrackwaterBarrageCD:Start(15-delay)
+		countdownBrackwaterBarrage:Start(15-delay)
+		timerTaintofSeaCD:Start(12.5-delay)
+	end
 end
 
 function mod:SPELL_CAST_START(args)
@@ -77,15 +82,14 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 202088 then --Обстрел солоноватой водой
 		specWarnBrackwaterBarrage:Show()
 		specWarnBrackwaterBarrage:Play("breathsoon")
-		timerBrackwaterBarrageCD:Start(22)
-		--timerBreathCD:Start()
-		--countdownBreath:Start()
+		if not self:IsNormal() then
+			timerBrackwaterBarrageCD:Start(22)
+			countdownBrackwaterBarrage:Start(22)
+		end
 	elseif spellId == 198495 then --Стремительный поток
 		timerTorrentCD:Start()
-		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
-			specWarnTorrent:Show(args.sourceName)
-			specWarnTorrent:Play("kickcast")
-		end
+		specWarnTorrent:Show()
+		specWarnTorrent:Play("kickcast")
 	end
 end
 
@@ -109,7 +113,8 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerTorrentCD:Stop()
 		timerBreathCD:Cancel()
 		countdownBreath:Cancel()
-		warnSubmerged:Show()
+	--	warnSubmerged:Show()
+		specWarnSubmerged:Show()
 		timerSubmerged:Start()
 		countdownSubmerged:Start(15)
 		if self.vb.phase == 1 then
@@ -137,7 +142,6 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	end
 end
---mod.SPELL_AURA_APPLIED = mod.SPELL_ABSORBED
 
 function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
@@ -189,7 +193,6 @@ function mod:UNIT_HEALTH(uId)
 	else
 		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 96759 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.85 then
 			warned_preP1 = true
-			warnPhase:Show()
 		end
 	end
 end

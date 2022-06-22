@@ -11,6 +11,14 @@ local L
 ---------------
 L= DBM:GetModLocalization(1518)
 
+L:SetOptionLocalization{
+	AnnounceSoulEchoes = "Объявлять игроков, на которых $spell:194966, в чат"
+}
+
+L:SetMiscLocalization{
+	SoulEchoes = "Эхо души используется на: %s"
+}
+
 ----------------------------
 --Иллисанна Гребень Ворона--
 ----------------------------
@@ -48,7 +56,7 @@ L:SetGeneralLocalization({
 })
 
 L:SetOptionLocalization({
-	timerRoleplay = "Отсчет времени ролевых игр"
+	timerRoleplay = "Отсчет времени открытия двери"
 })
 
 L:SetTimerLocalization({
@@ -86,6 +94,15 @@ L= DBM:GetModLocalization(1656)
 --Тень Ксавия--
 ---------------
 L= DBM:GetModLocalization(1657)
+
+L:SetOptionLocalization{
+	AnnounceParanoia = "Объявлять игроков, на которых $spell:200289, в чат"
+}
+
+L:SetMiscLocalization{
+	Paranoia = "Усугубляющаяся паранойя используется на: %s",
+	ParanoiaYell = "Усугубляющаяся паранойя на %s. УЁБЫВАЙТЕ от меня!"
+}
 
 -------------
 --Трэш-мобы--
@@ -126,6 +143,14 @@ L= DBM:GetModLocalization(1479)
 ---------------
 L= DBM:GetModLocalization(1492)
 
+L:SetOptionLocalization{
+	AnnounceArcaneBomb = "Объявлять игроков, на которых $spell:192706, в чат"
+}
+
+L:SetMiscLocalization{
+	ArcaneBomb = "Чародейская бомба используется на: %s"
+}
+
 -------------
 --Трэш-мобы--
 -------------
@@ -148,6 +173,14 @@ L= DBM:GetModLocalization(1485)
 --Хирья--
 ---------
 L= DBM:GetModLocalization(1486)
+
+L:SetOptionLocalization{
+	AnnounceArcingBolt = "Объявлять игроков, на которых $spell:191976, в чат"
+}
+
+L:SetMiscLocalization{
+	ArcingBolt = "Дуговая молния используется на: %s"
+}
 
 ----------
 --Фенрир--
@@ -188,7 +221,8 @@ L:SetGeneralLocalization({
 })
 
 L:SetOptionLocalization({
-	timerRoleplay = "Отсчет времени до начала боя с Король-бог Сковальд и Один" --"Interface\\Icons\\ability_warrior_offensivestance"
+	timerRoleplay = "Отсчет времени до начала боя с Король-бог Сковальд и Один", --"Interface\\Icons\\ability_warrior_offensivestance"
+	BossActivation = "Активировать бой с Одином ( и королями ) в 1 нажатие"
 })
 
 L:SetTimerLocalization({
@@ -439,7 +473,7 @@ L:SetWarningLocalization({
 })
 
 L:SetOptionLocalization({
-	Phase1 = "Предупреждать заранее о фазе 2 (на ~83%)",
+	Phase1 = "Предупреждать заранее о фазе 2 (на ~85%)",
 	Phase2 = "Объявлять фазу 2"
 })
 
@@ -629,6 +663,14 @@ L:SetMiscLocalization({
 ----------------------
 L= DBM:GetModLocalization(1825)
 
+L:SetOptionLocalization{
+	AnnounceHolyBolt = "Объявлять игроков, на которых $spell:227809, в чат"
+}
+
+L:SetMiscLocalization{
+	HolyBolt = "Священная молния используется на: %s"
+}
+
 -------------------------
 --Оперный зал: "Злюкер"--
 -------------------------
@@ -743,7 +785,8 @@ L:SetGeneralLocalization({
 L:SetOptionLocalization({
 	timerRoleplay = "Отсчет времени до начала представления \"Красавица и Зверь\"",
 	timerRoleplay2 = "Отсчет времени до начала представления \"Однажды в Западном крае\"",
-	timerRoleplay3 = "Отсчет времени до начала представления \"Злюкер\""
+	timerRoleplay3 = "Отсчет времени до начала представления \"Злюкер\"",
+	OperaActivation = "Активировать представление в Опере в 1 нажатие"
 })
 
 L:SetTimerLocalization({
@@ -850,7 +893,8 @@ L:SetGeneralLocalization({
 
 L:SetOptionLocalization({
 	timerRoleplay = "Отсчет времени ролевых игр",
-	timerRoleplay2 = "Отсчет времени до начала боя с боссом"
+	timerRoleplay2 = "Отсчет времени до начала боя с боссом",
+	AlleriaActivation = "Активировать ролевые игры с Аллерией в 1 нажатие"
 })
 
 L:SetTimerLocalization({

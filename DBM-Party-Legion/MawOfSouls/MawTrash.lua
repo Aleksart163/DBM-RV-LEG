@@ -65,11 +65,11 @@ function mod:SPELL_CAST_START(args)
 		specWarnBileBreath:Play("stilldanger")
 	elseif spellId == 192019 then --Фонарь Тьмы
 		timerLanternDarknessCD:Start()
-		if self:IsHard() or self:IsHeroic() then
+		if not self:IsNormal() then
 			specWarnLanternDarkness:Show()
 			specWarnLanternDarkness:Play("defensive")
 		end
-	elseif spellId == 199589 then --Водоворот душ
+	elseif spellId == 199589 and self:AntiSpam(3, 1) then --Водоворот душ
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnWhirlpoolSouls:Show(args.sourceName)
 			specWarnWhirlpoolSouls:Play("kickcast")
@@ -116,8 +116,10 @@ end
 
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
 	if spellId == 194102 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
-		specWarnPoisonousSludge:Show()
-		specWarnPoisonousSludge:Play("runaway")
+		if not self:IsNormal() then
+			specWarnPoisonousSludge:Show()
+			specWarnPoisonousSludge:Play("runaway")
+		end
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE

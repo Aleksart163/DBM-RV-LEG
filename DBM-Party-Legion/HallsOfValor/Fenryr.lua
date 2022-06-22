@@ -19,13 +19,12 @@ mod:RegisterEventsInCombat(
 	"UNIT_DIED"
 )
 
-local warnPhase							= mod:NewAnnounce("Phase1", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 2
+--local warnPhase							= mod:NewAnnounce("Phase1", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 2
 local warnPhase2						= mod:NewAnnounce("Phase2", 1, 196838) --Фаза 2
 
 local warnLeap							= mod:NewTargetAnnounce(197556, 2) --Хищный прыжок
 --local warnPhase2						= mod:NewPhaseAnnounce(2, 2, nil, nil, nil, nil, nil, 2)
 local warnFixate						= mod:NewTargetAnnounce(196838, 3) --Запах крови
---local warnFixate2						= mod:NewSpellAnnounce(196838, 4) --Запах крови
 local warnClawFrenzy					= mod:NewSpellAnnounce(196512, 2, nil, "Tank") --Бешеные когти
 
 local specWarnLeap						= mod:NewSpecialWarningYouMoveAway(197556, nil, nil, nil, 4, 3) --Хищный прыжок
@@ -186,10 +185,9 @@ function mod:ZONE_CHANGED_NEW_AREA()
 end
 
 function mod:UNIT_HEALTH(uId)
-	if self:IsHard() then --миф и миф+
+	if not self:IsNormal() then --миф и миф+
 		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 99868 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.65 then
 			warned_preP1 = true
-			warnPhase:Show()
 		elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 99868 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.60 then
 			self.vb.phase = 2
 			warned_preP2 = true

@@ -24,7 +24,7 @@ local warnRestoration				= mod:NewCastAnnounce(197502, 4) --Исцеление
 local warnMotivated					= mod:NewStackAnnounce(197495, 3) --Мотивация
 local warnThrowSpear				= mod:NewTargetAnnounce(192131, 3) --Бросок копья
 
-local specWarnThrowSpear			= mod:NewSpecialWarningYouDefensive(192131, nil, nil, nil, 3, 2) --Бросок копья
+local specWarnThrowSpear			= mod:NewSpecialWarningYouDefensive(192131, nil, nil, nil, 3, 3) --Бросок копья
 local specWarnQuicksand				= mod:NewSpecialWarningYouMove(192053, nil, nil, nil, 1, 2) --Зыбучие пески
 local specWarnReinforcements		= mod:NewSpecialWarningSwitch(196563, "Tank", nil, nil, 1, 2) --Вызов подкрепления
 local specWarnCrashingwave			= mod:NewSpecialWarningDodge(191900, nil, nil, nil, 2, 2) --Сокрушительная волна

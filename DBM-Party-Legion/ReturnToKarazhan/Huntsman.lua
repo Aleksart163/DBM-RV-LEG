@@ -41,7 +41,7 @@ local specWarnSharedSuffering3		= mod:NewSpecialWarningRun(228852, "Melee", nil,
 local timerSpectralChargeCD			= mod:NewCDTimer(7.5, 227365, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Призрачный рывок
 local timerMightyStompCD			= mod:NewCDTimer(14, 227363, nil, nil, nil, 2, nil, DBM_CORE_INTERRUPT_ICON) --Могучий топот +++
 local timerPresenceCD				= mod:NewCDTimer(55, 227404, nil, "MagicDispeller2", nil, 5, nil, DBM_CORE_HEALER_ICON..DBM_CORE_MAGIC_ICON) --Незримое присутствие
-local timerMortalStrikeCD			= mod:NewNextTimer(16, 227493, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Смертельный удар +++
+local timerMortalStrikeCD			= mod:NewNextTimer(16, 227493, nil, "Melee", nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Смертельный удар +++
 local timerSharedSufferingCD		= mod:NewNextTimer(18, 228852, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Разделенные муки +++
 
 local yellSharedSuffering			= mod:NewYell(228852, nil, nil, nil, "YELL") --Разделенные муки
@@ -103,7 +103,7 @@ function mod:SPELL_CAST_START(args)
 		self.vb.mezairCast = self.vb.mezairCast + 1
 		specWarnMezair:Show()
 		specWarnMezair:Play("chargemove")
-		if self.vb.mezairCast == 1 and warned_preP2 and perephase then -- через 3.5 сек как Ловчий спустился
+		if self.vb.mezairCast == 1 and warned_preP2 and perephase and firstperephase then -- через 3.5 сек как Ловчий спустился
 			perephase = false
 			self.vb.mountedstrikeCast = 0
 			specWarnSpectralCharge:Cancel() --Призрачный рывок
@@ -158,7 +158,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
 	if spellId == 227636 then --Удар всадника (перефаза наступила)
 		self.vb.mountedstrikeCast = self.vb.mountedstrikeCast + 1
-		if self.vb.mountedstrikeCast == 1 and warned_preP2 and not perephase then
+		if self.vb.mountedstrikeCast == 1 and warned_preP2 and firstperephase and not perephase then
 			perephase = true
 			self.vb.mezairCast = 0
 			timerMortalStrikeCD:Stop() --Смертельный удар
@@ -261,7 +261,7 @@ function mod:UNIT_HEALTH(uId)
 		end
 	end
 end
---[[
+
 function mod:CHAT_MSG_MONSTER_YELL(msg)
 	if msg == L.Perephase1 or msg:find(L.Perephase1) then --Сел на коня (Вперед, Полночь, к победе!)
 	--	perephase = true
@@ -271,7 +271,7 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 	--	timerMortalStrikeCD:Stop() --Смертельный удар
 	--	timerSharedSufferingCD:Stop() --Разделенные муки
 	--	countdownSharedSuffering:Cancel() --Разделенные муки
-	elseif msg == L.Perephase2 or msg:find(L.Perephase2) then --Спустился с коня (Что ж, сразимся лицом к лицу!)
+--	elseif msg == L.Perephase2 or msg:find(L.Perephase2) then --Спустился с коня (Что ж, сразимся лицом к лицу!)
 	--	perephase = false
 	--	timerSpectralChargeCD:Stop() --Призрачный рывок
 	--	specWarnSpectralCharge:Cancel() --Призрачный рывок
@@ -280,11 +280,11 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 	--	timerSharedSufferingCD:Start(18) --Разделенные муки
 	--	countdownSharedSuffering:Start(18) --Разделенные муки
 	end
-	if perephase and firstperephase then
-		timerSpectralChargeCD:Start(2) --Призрачный рывок
-		specWarnSpectralCharge:Schedule(2) --Призрачный рывок
-		timerPresenceCD:Start(4) --Незримое присутствие
-		timerSpectralChargeCD:Schedule(14) --Призрачный рывок
-		specWarnSpectralCharge:Schedule(21.5) --Призрачный рывок
-	end
-end]]
+--	if perephase and firstperephase then
+--		timerSpectralChargeCD:Start(2) --Призрачный рывок
+--		specWarnSpectralCharge:Schedule(2) --Призрачный рывок
+--		timerPresenceCD:Start(4) --Незримое присутствие
+--		timerSpectralChargeCD:Schedule(14) --Призрачный рывок
+--		specWarnSpectralCharge:Schedule(21.5) --Призрачный рывок
+--	end
+end

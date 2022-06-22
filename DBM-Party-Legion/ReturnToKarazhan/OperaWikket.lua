@@ -79,6 +79,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 227477 then --Вызов помощников
 		warnSummonAdds:Show()
 		specWarnSummonAdds:Schedule(1)
+		specWarnSummonAdds:ScheduleVoice(1, "switch")
 		if self:IsHard() then
 			timerSummonAddsCD:Start(32.2)
 		else
@@ -99,6 +100,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	if spellId == 227410 then --Дивное сияние
 		warnWondrousRadiance:Show()
 		specWarnWondrousRadiance:Show()
+		specWarnWondrousRadiance:Play("watchstep")
 		timerWondrousRadianceCD:Start()
 	end
 end

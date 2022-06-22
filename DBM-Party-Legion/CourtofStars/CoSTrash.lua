@@ -66,6 +66,8 @@ local timerShockwaveCD				= mod:NewCDTimer(8.5, 207979, nil, nil, nil, 3, nil, D
 
 local timerRoleplay					= mod:NewTimer(29, "timerRoleplay", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7) --Ролевая игра
 
+local countdownFelDetonation		= mod:NewCountdown(12, 211464, nil, nil, 5) --Взрыв Скверны
+
 local yellSubdue					= mod:NewYell(212773, nil, nil, nil, "YELL") --Подчинение
 local yellDisintegrationBeam		= mod:NewYell(207981, nil, nil, nil, "YELL") --Луч дезинтеграции
 local yellCripple					= mod:NewYell(214690, nil, nil, nil, "YELL") --Увечье
@@ -87,10 +89,10 @@ end
 function mod:SPELL_CAST_START(args)
 	if not self.Options.Enabled then return end
 	local spellId = args.spellId
-	if spellId == 209027 and self:AntiSpam(2, 1) then
+	if spellId == 209027 and self:AntiSpam(3, 1) then
 		specWarnQuellingStrike:Show()
 		specWarnQuellingStrike:Play("shockwave")
-	elseif spellId == 212031 and self:AntiSpam(2, 2) then
+	elseif spellId == 212031 and self:AntiSpam(3, 2) then
 		specWarnChargedBlast:Show()
 		specWarnChargedBlast:Play("shockwave")
 	elseif spellId == 209485 then --Похищение магии
@@ -121,6 +123,7 @@ function mod:SPELL_CAST_START(args)
 		specWarnFelDetonation:Show()
 		specWarnFelDetonation:Play("aesoon")
 		timerFelDetonationCD:Start()
+		countdownFelDetonation:Start()
 	elseif spellId == 209404 then
 		specWarnSealMagic:Show()
 		specWarnSealMagic:Play("runout")
@@ -148,7 +151,7 @@ function mod:SPELL_CAST_START(args)
 		self:BossTargetScanner(args.sourceGUID, "CarrionSwarmTarget", 0.2)
 	elseif spellId == 214690 then --Увечье
 		timerCrippleCD:Start()
-	elseif spellId == 212773 then --Подчинение
+	elseif spellId == 212773 and self:AntiSpam(2, 1) then --Подчинение
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnSubdue:Show(args.sourceName)
 			specWarnSubdue:Play("kickcast")
@@ -356,7 +359,7 @@ do
 				CloseGossip()
 			end
 		end
-	
+		
 		-- Suspicious noble
 		if cid == 107486 then 
 			if select('#', GetGossipOptions()) > 0 then
@@ -407,6 +410,7 @@ function mod:UNIT_DIED(args)
 	local cid = self:GetCIDFromGUID(args.destGUID)
 	if cid == 104278 then --Порабощенная Скверной карательница
 		timerFelDetonationCD:Cancel()
+		countdownFelDetonation:Cancel()
 	elseif cid == 104275 then --Имаку'туя
 		timerWhirlingBladesCD:Cancel()
 	elseif cid == 104274 then --Баалгар Бдительный

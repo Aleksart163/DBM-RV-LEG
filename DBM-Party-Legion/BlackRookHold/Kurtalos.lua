@@ -5,13 +5,13 @@ mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 mod:SetCreatureID(98965, 98970)
 mod:SetEncounterID(1835)
 mod:SetZone()
+mod:SetUsedIcons(7, 6)
 mod:SetBossHPInfoToHighest()
 
 mod:RegisterCombat("combat")
-mod:SetUsedIcons(7)
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_START 198820 199143 199193 202019 198641",
+	"SPELL_CAST_START 198820 199143 199193 202019 198641 201733",
 	"SPELL_CAST_SUCCESS 198635 201733",
 	"SPELL_AURA_APPLIED 201733",
 	"SPELL_AURA_REMOVED 199193 201733",
@@ -19,15 +19,17 @@ mod:RegisterEventsInCombat(
 	"UNIT_DIED"
 )
 
---TODO, figure out swarm warnings, how many need to switch and kill?
+--Лорд Кур'талос Гребень Ворона https://ru.wowhead.com/npc=94923/лорд-курталос-гребень-ворона/эпохальный-журнал-сражений
 local warnPhase2					= mod:NewAnnounce("Phase2", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Фаза 2
 local warnCloud						= mod:NewSpellAnnounce(199143, 2) --Гипнотическое облако
 local warnSwarm						= mod:NewTargetAnnounce(201733, 2) --Жалящий рой
+local warnWhirlingBlade				= mod:NewTargetAnnounce(198641, 3) --Крутящийся клинок
 local warnGuile						= mod:NewPreWarnAnnounce(199193, 5, 1) --Хитроумие повелителя ужаса
 local warnShadowBoltVolley			= mod:NewPreWarnAnnounce(202019, 5, 1) --Залп стрел Тьмы
 local warnLegacyRavencrest			= mod:NewPreWarnAnnounce(199368, 5, 1) --Наследие Гребня Ворона
 
 local specWarnWhirlingBlade			= mod:NewSpecialWarningDodge(198641, nil, nil, nil, 2, 3) --Крутящийся клинок
+local specWarnWhirlingBlade2		= mod:NewSpecialWarningYouRun(198641, nil, nil, nil, 4, 3) --Крутящийся клинок
 local specWarnDarkblast				= mod:NewSpecialWarningDodge(198820, nil, nil, nil, 3, 5) --Темный взрыв
 local specWarnGuile					= mod:NewSpecialWarningDodge(199193, nil, nil, nil, 3, 5) --Хитроумие повелителя ужаса
 local specWarnGuileEnded			= mod:NewSpecialWarningEnd(199193, nil, nil, nil, 1, 2) --Хитроумие повелителя ужаса
@@ -39,12 +41,13 @@ local timerDarkBlastCD				= mod:NewCDTimer(18, 198820, nil, nil, nil, 3, nil, DB
 local timerUnerringShearCD			= mod:NewCDTimer(12, 198635, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Неумолимый удар
 local timerGuileCD					= mod:NewCDCountTimer(85, 199193, nil, nil, nil, 6, nil, DBM_CORE_DEADLY_ICON..DBM_CORE_MYTHIC_ICON) --Хитроумие повелителя ужаса
 local timerGuile					= mod:NewBuffFadesTimer(20, 199193, nil, nil, nil, 6, nil, DBM_CORE_MYTHIC_ICON) --Хитроумие повелителя ужаса
-local timerCloudCD					= mod:NewCDTimer(35, 199143, nil, nil, nil, 3) --Гипнотическое облако
+local timerCloudCD					= mod:NewCDTimer(35, 199143, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON) --Гипнотическое облако
 local timerSwarmCD					= mod:NewCDTimer(19.8, 201733, nil, nil, nil, 3) --Жалящий рой
 local timerShadowBoltVolleyCD		= mod:NewCDTimer(8, 202019, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Залп стрел Тьмы
 local timerLegacyRavencrestCD		= mod:NewCDTimer(24.5, 199368, nil, nil, nil, 7) --Наследие Гребня Ворона
 local timerWhirlingBladeCD			= mod:NewCDTimer(25.5, 198641, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Крутящийся клинок
 
+local yellWhirlingBlade				= mod:NewYell(198641, nil, nil, nil, "YELL") --Крутящийся клинок
 local yellSwarm						= mod:NewYellHelp(201733, nil, nil, nil, "YELL") --Жалящий рой
 
 local countdownDarkblast			= mod:NewCountdown(18, 198820, nil, nil, 5) --Темный взрыв
@@ -53,10 +56,40 @@ local countdownGuile				= mod:NewCountdown(39, 199193, nil, nil, 5) --Хитро
 local countdownGuile2				= mod:NewCountdownFades("Alt20", 199193, nil, nil, 5) --Хитроумие повелителя ужаса
 
 mod:AddSetIconOption("SetIconOnSwarm", 201733, true, false, {7}) --Жалящий рой
+mod:AddSetIconOption("SetIconOnWhirlingBlade", 198641, true, false, {6}) --Крутящийся клинок
 
 mod.vb.phase = 1
 mod.vb.shadowboltCount = 0
 mod.vb.guileCount = 0
+
+function mod:WhirlingBladeTarget(targetname, uId) --Крутящийся клинок
+	if not targetname then return end
+	if targetname == UnitName("player") then
+		specWarnWhirlingBlade2:Show()
+		specWarnWhirlingBlade2:Play("runout")
+		yellWhirlingBlade:Yell()
+	else
+		warnWhirlingBlade:Show(targetname)
+		specWarnWhirlingBlade:Show()
+		specWarnWhirlingBlade:Play("watchstep")
+	end
+	if self.Options.SetIconOnWhirlingBlade then
+		self:SetIcon(targetname, 6, 10)
+	end
+end
+
+function mod:SwarmTarget(targetname, uId) --Жалящий рой
+	if not targetname then return end
+	if targetname == UnitName("player") then
+		specWarnSwarm:Show()
+		specWarnSwarm:Play("targetyou")
+		yellSwarm:Yell()
+	else
+		warnSwarm:Show(targetname)
+		specWarnSwarm2:Schedule(1.5)
+		specWarnSwarm2:ScheduleVoice(1.5, "switch")
+	end
+end
 
 function mod:OnCombatStart(delay)
 	self.vb.phase = 1
@@ -115,11 +148,10 @@ function mod:SPELL_CAST_START(args)
 		end
 		--timerShadowBoltVolleyCD:Start()--Not known, and probably not important
 	elseif spellId == 198641 then --Крутящийся клинок
-		if not self:IsNormal() then
-			specWarnWhirlingBlade:Show()
-			specWarnWhirlingBlade:Play("watchstep")
-		end
+		self:BossTargetScanner(args.sourceGUID, "WhirlingBladeTarget", 0.3)
 		timerWhirlingBladeCD:Start()
+	elseif spellId == 201733 then --Жалящий рой
+		self:BossTargetScanner(args.sourceGUID, "SwarmTarget", 0.3)
 	end
 end
 
@@ -128,21 +160,14 @@ function mod:SPELL_CAST_SUCCESS(args)
 	if spellId == 198635 then
 		timerUnerringShearCD:Start()
 		countdownShear:Start()
-	elseif spellId == 201733 then
+	elseif spellId == 201733 then --Жалящий рой
 		timerSwarmCD:Start()
 	end
 end
 
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
-	if spellId == 201733 then
-		warnSwarm:Show(args.destName)
-		if args:IsPlayer() then
-			specWarnSwarm:Show()
-			yellSwarm:Yell()
-		else
-			specWarnSwarm2:Show()
-		end
+	if spellId == 201733 then --Жалящий рой
 		if self.Options.SetIconOnSwarm then
 			self:SetIcon(args.destName, 7)
 		end
@@ -158,7 +183,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		if not self:IsNormal() then
 			timerSwarmCD:Start(10.5)
 		end
-	elseif spellId == 201733 then
+	elseif spellId == 201733 then --Жалящий рой
 		if self.Options.SetIconOnSwarm then
 			self:SetIcon(args.destName, 0)
 		end

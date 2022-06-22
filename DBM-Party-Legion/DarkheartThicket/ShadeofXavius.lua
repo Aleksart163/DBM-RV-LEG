@@ -5,12 +5,12 @@ mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 mod:SetCreatureID(99192)
 mod:SetEncounterID(1839)
 mod:SetZone()
-mod:SetUsedIcons(8, 7, 1)
+mod:SetUsedIcons(8, 7, 6, 1)
 
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_START 212834 200185",
+	"SPELL_CAST_START 212834 200185 200289",
 	"SPELL_AURA_APPLIED 200182 200243 200289 200238",
 	"SPELL_AURA_REFRESH 200243",
 	"SPELL_AURA_REMOVED 200243 200359",
@@ -29,11 +29,11 @@ local warnNightmareBolt				= mod:NewTargetAnnounce(200185, 4) --Кошмарна
 local specWarnNightmareBolt			= mod:NewSpecialWarningYouDefensive(200185, nil, nil, nil, 3, 5) --Кошмарная стрела
 local specWarnApocNightmare2		= mod:NewSpecialWarningDefensive(200050, nil, nil, nil, 3, 5) --Апокалиптический Кошмар
 local specWarnFeedontheWeak			= mod:NewSpecialWarningYouDefensive(200238, nil, nil, nil, 3, 5) --Пожирание слабых
-local specWarnFesteringRip			= mod:NewSpecialWarningDispel(200182, "MagicDispeller2", nil, nil, 1, 2) --Гноящаяся рана
-local specWarnFesteringRip2			= mod:NewSpecialWarningYou(200182, nil, nil, nil, 1, 2) --Гноящаяся рана
+local specWarnFesteringRip			= mod:NewSpecialWarningDispel(200182, "MagicDispeller2", nil, nil, 1, 3) --Гноящаяся рана
+local specWarnFesteringRip2			= mod:NewSpecialWarningYou(200182, nil, nil, nil, 1, 3) --Гноящаяся рана
 local specWarnNightmare				= mod:NewSpecialWarningYouShare(200243, nil, nil, nil, 1, 3) --Кошмар наяву
-local specWarnParanoia				= mod:NewSpecialWarningMoveAway(200289, nil, nil, nil, 3, 5) --Усугубляющаяся паранойя
-local specWarnParanoia2				= mod:NewSpecialWarningCloseMoveAway(200289, nil, nil, nil, 1, 3) --Усугубляющаяся паранойя
+local specWarnParanoia				= mod:NewSpecialWarningYouMoveAway(200289, nil, nil, nil, 3, 5) --Усугубляющаяся паранойя
+local specWarnParanoia2				= mod:NewSpecialWarningCloseMoveAway(200289, nil, nil, nil, 1, 5) --Усугубляющаяся паранойя
 
 local timerFeedontheWeakCD			= mod:NewCDTimer(20, 200238, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Пожирание слабых
 local timerFesteringRipCD			= mod:NewCDTimer(17, 200182, nil, "MagicDispeller2", nil, 5, nil, DBM_CORE_MAGIC_ICON) --Гноящаяся рана 17-21
@@ -45,11 +45,16 @@ local timerParanoia					= mod:NewTargetTimer(20, 200359, nil, nil, nil, 7) --И�
 local yellNightmareBolt				= mod:NewYell(200185, nil, nil, nil, "YELL") --Кошмарная стрела
 local yellFeedontheWeak				= mod:NewYell(200238, nil, nil, nil, "YELL") --Пожирание слабых
 local yellNightmare					= mod:NewYell(200243, nil, nil, nil, "YELL") --Кошмар наяву
-local yellParanoia					= mod:NewYell(200289, nil, nil, nil, "YELL") --Усугубляющаяся паранойя
+local yellParanoia					= mod:NewYell(200289, L.ParanoiaYell, nil, nil, "YELL") --Усугубляющаяся паранойя
+local yellParanoia2					= mod:NewFadesYell(200289, nil, nil, nil, "YELL") --Усугубляющаяся паранойя
+
+local playerName = UnitName("player")
 
 mod:AddSetIconOption("SetIconOnFeedontheWeak", 200238, true, false, {8}) --Пожирание слабых
 mod:AddSetIconOption("SetIconOnParanoia", 200289, true, false, {7}) --Усугубляющаяся паранойя
+mod:AddSetIconOption("SetIconOnNightmareBolt", 200185, true, false, {6}) --Кошмарная стрела
 mod:AddSetIconOption("SetIconOnNightmare", 200243, true, false, {1}) --Кошмар наяву
+mod:AddBoolOption("AnnounceParanoia", false)
 
 mod.vb.phase = 1
 local warned_preP1 = false
@@ -63,6 +68,31 @@ function mod:NightmareBoltTarget(targetname, uId) --Кошмарная стре�
 		yellNightmareBolt:Yell()
 	else
 		warnNightmareBolt:Show(targetname)
+	end
+	if self.Options.SetIconOnNightmareBolt then
+		self:SetIcon(targetname, 6, 5)
+	end
+end
+
+function mod:ParanoiaTarget(targetname, uId) --Усугубляющаяся паранойя
+	if not targetname then return end
+	if targetname == UnitName("player") then
+		specWarnParanoia:Show()
+		specWarnParanoia:Play("runaway")
+		yellParanoia:Yell(playerName)
+		yellParanoia2:Countdown(20, 3)
+	elseif self:CheckNearby(15, targetname) then
+		specWarnParanoia2:Show(targetname)
+		specWarnParanoia2:Play("runaway")
+	else
+		warnParanoia:Show(targetname)
+	end
+	if mod.Options.AnnounceParanoia then
+		if IsInRaid() then
+			SendChatMessage(L.Paranoia:format(targetname), "RAID")
+		elseif IsInGroup() then
+			SendChatMessage(L.Paranoia:format(targetname), "PARTY")
+		end
 	end
 end
 
@@ -87,6 +117,8 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 212834 or spellId == 200185 then --Кошмарная стрела
 		self:BossTargetScanner(args.sourceGUID, "NightmareBoltTarget", 0.2)
+	elseif spellId == 200289 then --Усугубляющаяся паранойя
+		self:BossTargetScanner(args.sourceGUID, "ParanoiaTarget", 0.3)
 	end
 end
 
@@ -110,7 +142,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				specWarnFesteringRip2:Play("targetyou")
 			else
 				specWarnFesteringRip:Show(args.destName)
-				specWarnFesteringRip:Play("dispel")
+				specWarnFesteringRip:Play("dispelnow")
 			end
 		end
 	elseif spellId == 200243 then --Кошмар наяву
@@ -127,20 +159,11 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif spellId == 200289 then --Усугубляющаяся паранойя
 		timerParanoia:Start(args.destName)
-		if args:IsPlayer() then
-			specWarnParanoia:Show()
-			specWarnParanoia:Play("runaway")
-			yellParanoia:Yell()
-		elseif self:CheckNearby(15, args.destName) then
-			specWarnParanoia2:Show(args.destName)
-		else
-			warnParanoia:Show(args.destName)
-		end
 		if self.Options.SetIconOnParanoia then
 			self:SetIcon(args.destName, 7)
 		end
 	elseif spellId == 200238 then --Пожирание слабых
-		if self:IsHard() or self:IsHeroic() then
+		if not self:IsNormal() then
 			if args:IsPlayer() then
 				specWarnFeedontheWeak:Show()
 				specWarnFeedontheWeak:Play("defensive")

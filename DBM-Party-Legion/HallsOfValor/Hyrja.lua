@@ -46,6 +46,7 @@ local countdownShieldOfLight		= mod:NewCountdown("Alt27.5", 192018, "Tank", nil,
 
 mod:AddSetIconOption("SetIconOnExpelLight", 192048, true, false, {8}) --Световое излучение
 mod:AddSetIconOption("SetIconOnArcingBolt", 191976, true, false, {7}) --Дуговая молния
+mod:AddBoolOption("AnnounceArcingBolt", false)
 mod:AddRangeFrameOption(8, 192048) --Световое излучение
 
 local eyeShortName = DBM:GetSpellInfo(91320)--Inner Eye
@@ -66,6 +67,13 @@ function mod:ArcingBoltTarget(targetname, uId)
 	end
 	if self.Options.SetIconOnArcingBolt then
 		self:SetIcon(targetname, 7, 5)
+	end
+	if mod.Options.AnnounceArcingBolt then
+		if IsInRaid() then
+			SendChatMessage(L.ArcingBolt:format(targetname), "RAID")
+		elseif IsInGroup() then
+			SendChatMessage(L.ArcingBolt:format(targetname), "PARTY")
+		end
 	end
 end
 

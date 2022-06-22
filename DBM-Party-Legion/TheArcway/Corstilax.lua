@@ -20,18 +20,19 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_SUCCESS 195791"
 )
 
+--Корстилакс https://ru.wowhead.com/npc=98205/корстилакс/эпохальный-журнал-сражений
 local warnSupression				= mod:NewTargetAnnounce(196070, 4) --Протокол подавления
 
-local specWarnCleansing2			= mod:NewSpecialWarningRun(196115, "Melee", nil, nil, 4, 5) --Очищающая сила
+local specWarnCleansing2			= mod:NewSpecialWarningRun(196115, nil, nil, nil, 4, 5) --Очищающая сила
 local specWarnDestabilizedOrb2		= mod:NewSpecialWarningYouMove(220500, nil, nil, nil, 1, 2) --Дестабилизированная сфера аура
 local specWarnDestabilizedOrb		= mod:NewSpecialWarningDodge(220481, nil, nil, nil, 2, 2) --Дестабилизированная сфера
-local specWarnSupression			= mod:NewSpecialWarningRun(196070, nil, nil, nil, 4, 5) --Протокол подавления
+local specWarnSupression			= mod:NewSpecialWarningYouRun(196070, nil, nil, nil, 4, 5) --Протокол подавления
 local specWarnQuarantine			= mod:NewSpecialWarningTargetHelp(195804, nil, nil, nil, 1, 2) --Карантин
 local specWarnCleansing				= mod:NewSpecialWarningSpell(196115, nil, nil, nil, 2, 2) --Очищающая сила
 
 local timerDestabilizedOrbCD		= mod:NewNextTimer(26, 220481, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON..DBM_CORE_MYTHIC_ICON) --Дестабилизированная сфера
 local timerSupressionCD				= mod:NewNextTimer(46, 196070, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Протокол подавления
-local timerQuarantineCD				= mod:NewNextTimer(46, 195804, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Карантин
+local timerQuarantineCD				= mod:NewNextTimer(46, 195804, nil, nil, nil, 7) --Карантин
 local timerCleansingCD				= mod:NewNextTimer(49, 196115, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Очищающая сила
 local timerCleansing				= mod:NewCastTimer(10, 196115, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Очищающая сила
 
@@ -40,16 +41,23 @@ local yellSupression2				= mod:NewFadesYell(196070, nil, nil, nil, "YELL") --П�
 local yellQuarantine				= mod:NewYellHelp(195804, nil, nil, nil, "YELL") --Карантин
 
 local countdownCleansing			= mod:NewCountdown(49, 196115, nil, nil, 5) --Очищающая сила
+local countdownCleansing2			= mod:NewCountdown("Alt10", 196115, nil, nil, 5) --Очищающая сила
 
 mod:AddSetIconOption("SetIconOnSupression", 196068, true, false, {8}) --Протокол подавления
 mod:AddSetIconOption("SetIconOnQuarantine", 195791, true, false, {7}) --Карантин
 
 function mod:OnCombatStart(delay)
-	timerSupressionCD:Start(6-delay) --Протокол подавления +1сек
-	timerQuarantineCD:Start(22.5-delay)
-	timerCleansingCD:Start(30-delay)
-	countdownCleansing:Start(30-delay)
-	timerDestabilizedOrbCD:Start(8.5-delay)
+	if not self:IsNormal() then
+		timerSupressionCD:Start(6-delay) --Протокол подавления
+		timerQuarantineCD:Start(22.5-delay) --Карантин
+		timerCleansingCD:Start(30-delay) --Очищающая сила
+		countdownCleansing:Start(30-delay) --Очищающая сила
+		timerDestabilizedOrbCD:Start(8.5-delay) --Дестабилизированная сфера
+	else
+		timerSupressionCD:Start(5-delay) --Протокол подавления
+		timerQuarantineCD:Start(22.5-delay) --Карантин
+		timerCleansingCD:Start(30-delay) --Очищающая сила
+	end
 end
 
 function mod:SPELL_CAST_START(args)
@@ -62,6 +70,7 @@ function mod:SPELL_CAST_START(args)
 		specWarnCleansing2:Schedule(6)
 		timerCleansingCD:Start()
 		countdownCleansing:Start()
+		countdownCleansing2:Start()
 		timerCleansing:Start()
 	elseif spellId == 220481 then --Дестабилизированная сфера
 		specWarnDestabilizedOrb:Show()

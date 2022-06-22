@@ -22,7 +22,7 @@ local warnVoidSnap				= mod:NewCastAnnounce(194266, 4) --Хватка Бездн
 
 local specWarnNetherRip			= mod:NewSpecialWarningYouMove(194235, nil, nil, nil, 1, 2) --Разрыв пустоты
 local specWarnFragment			= mod:NewSpecialWarningSwitch(194327, "Dps", nil, nil, 1, 2) --Разделение
-local specWarnFragment2			= mod:NewSpecialWarningYou(194327, nil, nil, nil, 1, 2) --Разделение
+local specWarnFragment2			= mod:NewSpecialWarningYou(194327, nil, nil, nil, 3, 2) --Разделение
 local specWarnServitor			= mod:NewSpecialWarningSwitch(194231, "-Healer", nil, nil, 1, 2) --Призыв скованного прислужника
 local specWarnVoidSnap			= mod:NewSpecialWarningInterrupt(194266, "HasInterrupt", nil, nil, 1, 2) --Хватка Бездны
 local specWarnScythe			= mod:NewSpecialWarningDodge(194216, nil, nil, nil, 2, 3) --Космическая коса
@@ -100,7 +100,6 @@ end
 
 function mod:SPELL_CAST_SUCCESS(args)
 	if args.spellId == 194325 then
-	--	self:BossUnitTargetScannerAbort()
 		if self:IsHard() then
 			timerFragmentCD:Start(37.5)
 		else
@@ -111,8 +110,10 @@ end
 
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
 	if spellId == 194235 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
-		specWarnNetherRip:Show()
-		specWarnNetherRip:Play("runaway")
+		if not self:IsNormal() then
+			specWarnNetherRip:Show()
+			specWarnNetherRip:Play("runaway")
+		end
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE

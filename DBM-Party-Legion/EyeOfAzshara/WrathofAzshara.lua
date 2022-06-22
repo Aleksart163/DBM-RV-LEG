@@ -22,7 +22,7 @@ local warnMythicTornado				= mod:NewSpellAnnounce(192680, 3) --Волшебны�
 local warnRagingStorms				= mod:NewCastAnnounce(192696, 4) --Бушующий шторм
 local warnCrushingDepths			= mod:NewTargetAnnounce(197365, 4) --Морская пучина
 
-local specWarnArcaneBomb			= mod:NewSpecialWarningYouMoveAway(192706, nil, nil, nil, 3, 2) --Чародейская бомба
+local specWarnArcaneBomb			= mod:NewSpecialWarningYouMoveAway(192706, nil, nil, nil, 3, 3) --Чародейская бомба
 local specWarnArcaneBomb2			= mod:NewSpecialWarningDispel(192706, "MagicDispeller2", nil, nil, 1, 3) --Чародейская бомба
 local specWarnArcaneBomb3			= mod:NewSpecialWarningEnd(192706, nil, nil, nil, 1, 2) --Чародейская бомба
 local specWarnCrushingDepths		= mod:NewSpecialWarningYouClose(197365, nil, nil, nil, 2, 2) --Морская пучина
@@ -43,8 +43,9 @@ local yellCrushingDepthsFades		= mod:NewShortFadesYell(197365, nil, nil, nil, "Y
 local countdownrushingDepths		= mod:NewCountdown(34, 197365, nil, nil, 5) --Морская пучина
 local countdownrushingDepths2		= mod:NewCountdownFades("Alt6", 197365, nil, nil, 5) --Морская пучина
 
-mod:AddSetIconOption("SetIconOnArcaneBomb", 192706, true, false, {8}) --Чародейская бомба
-mod:AddSetIconOption("SetIconOnCrushingDepths", 197365, true, false, {7}) --Морская пучина
+mod:AddSetIconOption("SetIconOnArcaneBomb", 192706, true, false, {7}) --Чародейская бомба
+mod:AddSetIconOption("SetIconOnCrushingDepths", 197365, true, false, {8}) --Морская пучина
+mod:AddBoolOption("AnnounceArcaneBomb", false)
 mod:AddRangeFrameOption(10, 192706) --Чародейская бомба
 
 mod.vb.phase = 1
@@ -67,7 +68,7 @@ function mod:CrushingDepthsTarget(targetname, uId) --Морская пучина
 		warnCrushingDepths:Show(targetname)
 	end
 	if self.Options.SetIconOnCrushingDepths then
-		self:SetIcon(targetname, 7, 6)
+		self:SetIcon(targetname, 8, 6)
 	end
 end
 
@@ -103,7 +104,14 @@ function mod:SPELL_AURA_APPLIED(args)
 			DBM.RangeCheck:Show(10)
 		end
 		if self.Options.SetIconOnArcaneBomb then
-			self:SetIcon(args.destName, 8, 15)
+			self:SetIcon(args.destName, 7, 15)
+		end
+		if mod.Options.AnnounceArcaneBomb then
+			if IsInRaid() then
+				SendChatMessage(L.ArcaneBomb:format(args.destName), "RAID")
+			elseif IsInGroup() then
+				SendChatMessage(L.ArcaneBomb:format(args.destName), "PARTY")
+			end
 		end
 	end
 end
@@ -142,7 +150,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 192696 then --Бушующий шторм
 		warnRagingStorms:Show()
 	elseif spellId == 197365 then --Морская пучина
-		self:BossTargetScanner("boss1", "CrushingDepthsTarget", 0.1)
+		self:BossTargetScanner(args.sourceGUID, "CrushingDepthsTarget", 0.2)
 		timerCrushingDepthsCD:Start(40)
 		countdownrushingDepths:Start(40)
 		countdownrushingDepths2:Start()

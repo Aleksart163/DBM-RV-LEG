@@ -21,8 +21,10 @@ mod:RegisterEventsInCombat(
 	"UNIT_SPELLCAST_CHANNEL_START boss1"
 )
 
+--Нал'тира https://ru.wowhead.com/npc=98207/налтира/эпохальный-журнал-сражений
 local warnBlink					= mod:NewTargetAnnounce(199811, 4) --Молниеносные удары
 local warnWeb					= mod:NewTargetAnnounce(200284, 3) --Липкие путы
+local warnWeb2					= mod:NewSoonAnnounce(200284, 1) --Липкие путы
 
 local specWarnWeb				= mod:NewSpecialWarningYouMoveAway(200284, nil, nil, nil, 4, 3) --Липкие путы
 local specWarnWeb2				= mod:NewSpecialWarningYouFades(200284, nil, nil, nil, 1, 2) --Липкие путы
@@ -31,11 +33,13 @@ local specWarnBlinkNear			= mod:NewSpecialWarningClose(199811, nil, nil, nil, 1,
 local specWarnVenomGTFO			= mod:NewSpecialWarningYouMove(200040, nil, nil, nil, 1, 2) --Яд Пустоты
 --кд спеллов не проверял
 local timerBlinkCD				= mod:NewNextTimer(30, 199811, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Молниеносные удары
-local timerWebCD				= mod:NewCDTimer(24, 200227, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Липкие путы 21-26
+local timerWebCD				= mod:NewCDTimer(24, 200227, nil, nil, nil, 7) --Липкие путы 21-26
 local timerVenomCD				= mod:NewCDTimer(29.8, 200024, nil, nil, nil, 3) --Яд Пустоты 30-33
 
-local yellBlink					= mod:NewYell(199811, nil, false, nil, "YELL") --Молниеносные удары
+local yellBlink					= mod:NewYell(199811, nil, nil, nil, "YELL") --Молниеносные удары
 local yellWeb					= mod:NewYell(200284, nil, nil, nil, "YELL") --Липкие путы
+
+local countdownBlink			= mod:NewCountdown(30, 199811, nil, nil, 5) --Молниеносные удары
 
 mod:AddSetIconOption("SetIconOnWeb", 200284, true, false, {8, 7}) --Липкие путы
 
@@ -45,14 +49,23 @@ mod.vb.webIcon = 8
 function mod:OnCombatStart(delay) --все проверил
 	self.vb.blinkCount = 0
 	self.vb.webIcon = 8
-	timerBlinkCD:Start(15.6-delay) --Молниеносные удары +1сек
-	timerVenomCD:Start(25-delay) --Яд Пустоты
-	timerWebCD:Start(35-delay) --Липкие путы
+	if not self:IsNormal() then
+		timerBlinkCD:Start(15.6-delay) --Молниеносные удары+++
+		countdownBlink:Start(15.6-delay) --Молниеносные удары+++
+		timerVenomCD:Start(25-delay) --Яд Пустоты+++
+		warnWeb2:Schedule(30-delay) --Липкие путы+++
+		timerWebCD:Start(35-delay) --Липкие путы+++
+	else
+		timerBlinkCD:Start(15-delay) --Молниеносные удары
+		timerVenomCD:Start(25-delay) --Яд Пустоты
+		warnWeb2:Schedule(30-delay) --Липкие путы
+		timerWebCD:Start(35-delay) --Липкие путы
+	end
 end
 
 function mod:SPELL_AURA_APPLIED(args) 
 	local spellId = args.spellId
-	if spellId == 200284 then --все проверил
+	if spellId == 200284 then --Липкие путы
 		self.vb.webIcon = self.vb.webIcon - 1
 		warnWeb:CombinedShow(0.5, args.destName)
 		if args:IsPlayer() then
@@ -67,7 +80,7 @@ end
 
 function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
-	if spellId == 200284 then --все проверил
+	if spellId == 200284 then --Липкие путы
 		self.vb.webIcon = self.vb.webIcon + 1
 		if args:IsPlayer() then
 			specWarnWeb2:Show()
@@ -82,6 +95,7 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 200227 then
 		timerWebCD:Start()
+		warnWeb2:Schedule(20)
 	elseif spellId == 200024 and self:AntiSpam(5, 3) then
 		timerVenomCD:Start()
 	end
@@ -101,6 +115,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	local spellId = legacySpellId or bfaSpellId
 	if spellId == 199809 then--Blink Strikes begin
 		timerBlinkCD:Start()
+		countdownBlink:Start()
 		self.vb.blinkCount = 0
 	end
 end
@@ -127,6 +142,7 @@ function mod:UNIT_SPELLCAST_CHANNEL_START(uId, _, bfaSpellId, _, legacySpellId)
 		end
 		if self.vb.blinkCount == 2 then
 			timerBlinkCD:Start(24.5)
+			countdownBlink:Start(24.5)
 			self.vb.blinkCount = 0
 		end
 	end

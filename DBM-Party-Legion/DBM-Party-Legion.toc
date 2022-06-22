@@ -73,8 +73,8 @@ NeltharionsLair\Dargrul.lua
 NeltharionsLair\NLTrash.lua
 TheArcway\Ivanyr.lua
 TheArcway\Corstilax.lua
-TheArcway\GeneralXakal.lua
 TheArcway\Naltira.lua
+TheArcway\GeneralXakal.lua
 TheArcway\Vandros.lua
 TheArcway\ArcwayTrash.lua
 CourtofStars\Gerdo.lua

@@ -61,7 +61,7 @@ local timerOverwhelmingReleaseCD	= mod:NewCDTimer(25, 221132, nil, nil, nil, 2, 
 local timerArcaneOverchargeCD		= mod:NewCDTimer(20, 221132, nil, nil, nil, 3, nil) --Чародейская перезарядка
 local timerArcaneOvercharge			= mod:NewTargetTimer(6, 221132, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Чародейская перезарядка
 
-local timerRoleplay					= mod:NewTimer(24, "timerRoleplay", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7) --Ролевая игра
+local timerRoleplay					= mod:NewTimer(24.5, "timerRoleplay", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7) --Ролевая игра
 
 local timerQuake					= mod:NewCastTimer(2.5, 240447, nil, nil, nil, 3, nil, DBM_CORE_INTERRUPT_ICON..DBM_CORE_DEADLY_ICON) --Землетрясение
 
@@ -198,7 +198,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				if amount >= 5 then
 					warnSoulVenom:Show(args.destName, amount)
 					specWarnSoulVenom2:CombinedShow(0.5, args.destName)
-					specWarnSoulVenom2:Play("dispel")
+					specWarnSoulVenom2:Play("dispelnow")
 				end
 			end
 		end

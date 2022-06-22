@@ -8,6 +8,14 @@ local L
 -----------------------
 L= DBM:GetModLocalization(1518)
 
+L:SetOptionLocalization{
+	AnnounceSoulEchoes = "Announce the players on whom $spell:194966 in chat"
+}
+
+L:SetMiscLocalization{
+	SoulEchoes = "Soul Echoes is used on: %s"
+}
+
 -----------------------
 -- Illysanna Ravencrest --
 -----------------------
@@ -83,6 +91,15 @@ L= DBM:GetModLocalization(1656)
 -----------------------
 L= DBM:GetModLocalization(1657)
 
+L:SetOptionLocalization{
+	AnnounceParanoia = "Announce the players on whom $spell:200289 in chat"
+}
+
+L:SetMiscLocalization{
+	Paranoia = "Growing Paranoia is used on: %s",
+	ParanoiaYell = "Growing Paranoia on %s. Get away from me!"
+}
+
 -----------------------
 --Darkheart Thicket Trash
 -----------------------
@@ -121,6 +138,14 @@ L= DBM:GetModLocalization(1479)
 -----------------------
 L= DBM:GetModLocalization(1492)
 
+L:SetOptionLocalization{
+	AnnounceArcaneBomb = "Announce the players on whom $spell:192706 in chat"
+}
+
+L:SetMiscLocalization{
+	ArcaneBomb = "Arcane Bomb is used on: %s"
+}
+
 -----------------------
 --Eye of Azshara Trash
 -----------------------
@@ -143,6 +168,14 @@ L= DBM:GetModLocalization(1485)
 -----------------------
 L= DBM:GetModLocalization(1486)
 
+L:SetOptionLocalization{
+	AnnounceArcingBolt = "Announce the players on whom $spell:191976 in chat"
+}
+
+L:SetMiscLocalization{
+	ArcingBolt = "Arcing Bolt is used on: %s"
+}
+
 -----------------------
 -- Fenryr --
 -----------------------
@@ -163,9 +196,6 @@ L:SetOptionLocalization({
 -----------------------
 L= DBM:GetModLocalization(1488)
 
---[[L:SetMiscLocalization({
-	SkovaldRP		= "No! I, too, have proved my worth, Odyn. I am God-King Skovald! These mortals dare not challenge my claim to the aegis!"
-})]]
 
 -----------------------
 -- Odyn --
@@ -186,7 +216,8 @@ L:SetGeneralLocalization({
 })
 
 L:SetOptionLocalization({
-	timerRoleplay = "Show timer to the start of the battle with God-King Skovald and Odyn"
+	timerRoleplay = "Show timer to the start of the battle with God-King Skovald and Odyn",
+	BossActivation = "Activate combat with Odyn (and kings) in 1 click"
 })
 
 L:SetTimerLocalization({
@@ -434,7 +465,7 @@ L:SetWarningLocalization({
 })
 
 L:SetOptionLocalization({
-	Phase1 = "Warn in advance about phase 2 (on ~83%)",
+	Phase1 = "Warn in advance about phase 2 (on ~85%)",
 	Phase2 = "Announce Phase 2"
 })
 
@@ -621,6 +652,14 @@ L:SetMiscLocalization({
 -----------------------
 L= DBM:GetModLocalization(1825)
 
+L:SetOptionLocalization{
+	AnnounceHolyBolt = "Announce the players on whom $spell:227809 in chat"
+}
+
+L:SetMiscLocalization{
+	HolyBolt = "Holy Bolt is used on: %s"
+}
+
 -----------------------
 -- Opera Hall: Wikket  --
 -----------------------
@@ -735,7 +774,8 @@ L:SetGeneralLocalization({
 L:SetOptionLocalization({
 	timerRoleplay = "Show timer to the start of the show \"Beautiful Beast\"",
 	timerRoleplay2 = "Show timer to the start of the show \"Westfall Story\"",
-	timerRoleplay3 = "Show timer to the start of the show \"Wikket\""
+	timerRoleplay3 = "Show timer to the start of the show \"Wikket\"",
+	OperaActivation = "Activate show in Opera in 1 click"
 })
 
 L:SetTimerLocalization({
@@ -840,7 +880,8 @@ L:SetGeneralLocalization({
 
 L:SetOptionLocalization({
 	timerRoleplay = "Show timer for roleplay duration",
-	timerRoleplay2 = "Show timer to the start of the boss fight"
+	timerRoleplay2 = "Show timer to the start of the boss fight",
+	AlleriaActivation = "Activate role-playing with Alleria Windrunner in 1 click"
 })
 
 L:SetTimerLocalization({

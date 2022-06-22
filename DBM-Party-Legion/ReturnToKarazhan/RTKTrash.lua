@@ -11,13 +11,14 @@ mod:RegisterEvents(
 	"SPELL_CAST_START 228255 228239 227917 227925 228625 228606 229714 227966 228254 228280 230094",
 	"SPELL_AURA_APPLIED 228331 229706 229716 228610 229074 230083 230050 228280 230087",
 	"SPELL_AURA_APPLIED_DOSE 229074 228610",
-	"SPELL_AURA_REFRESH 229074",
+	"SPELL_AURA_REFRESH 229074 228610",
 	"SPELL_AURA_REMOVED 229489 230083 228280 230087",
 --	"SPELL_DAMAGE 204762",
 --	"SPELL_MISSED 204762",
-	"UNIT_DIED",
+	"GOSSIP_SHOW",
 	"CHAT_MSG_MONSTER_YELL",
-	"CHAT_MSG_MONSTER_EMOTE"
+	"CHAT_MSG_MONSTER_EMOTE",
+	"UNIT_DIED"
 )
 --Каражан треш
 local warnVolatileCharge			= mod:NewTargetAnnounce(228331, 4) --Нестабильный заряд
@@ -65,6 +66,8 @@ local timerAchieve					= mod:NewBuffActiveTimer(480, 229074)
 local timerRoleplay					= mod:NewTimer(29, "timerRoleplay", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7)
 local timerRoleplay2				= mod:NewTimer(29, "timerRoleplay2", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7)
 local timerRoleplay3				= mod:NewTimer(29, "timerRoleplay3", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7)
+
+mod:AddBoolOption("OperaActivation", true)
 
 local playerName = UnitName("player")
 local king = false
@@ -218,6 +221,20 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 		self:SendSync("RPWestfall")
 	elseif msg == L.Wikket or msg:find(L.Wikket) then
 		self:SendSync("RPWikket")
+	end
+end
+
+function mod:GOSSIP_SHOW()
+	local guid = UnitGUID("target")
+	if not guid then return end
+	local cid = self:GetCIDFromGUID(guid)
+	if mod.Options.OperaActivation then
+		if cid == 114339 then --Барнс
+			if select('#', GetGossipOptions()) > 0 then
+				SelectGossipOption(1)
+				CloseGossip()
+			end
+		end
 	end
 end
 

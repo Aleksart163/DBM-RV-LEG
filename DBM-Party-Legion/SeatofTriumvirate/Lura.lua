@@ -137,7 +137,7 @@ end
 
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
 	if spellId == 245242 and destGUID == UnitGUID("player") and self:AntiSpam(2, 4) then
-		if self:IsHard() then
+		if not self:IsNormal() then
 			specWarnRemnantofAnguish:Show()
 			specWarnRemnantofAnguish:Play("runaway")
 		end

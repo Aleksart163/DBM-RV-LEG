@@ -43,6 +43,7 @@ local countdownReapSoul				= mod:NewCountdown(13, 194956, "Melee", nil, 5) --Ж�
 
 mod:AddSetIconOption("SetIconOnSoulEchoes", 194966, true, false, {8}) --Эхо души
 mod:AddSetIconOption("SetIconOnSwirlingScythe", 195254, true, false, {7}) --Вращающаяся коса
+mod:AddBoolOption("AnnounceSoulEchoes", false)
 --mod:AddRangeFrameOption(5, 194966)
 
 mod.vb.reapsoulCount = 0
@@ -89,6 +90,13 @@ function mod:SoulTarget(targetname, uId)
 		end
 		if self.Options.SetIconOnSoulEchoes then
 			self:SetIcon(targetname, 8, 12)
+		end
+		if mod.Options.AnnounceSoulEchoes then
+			if IsInRaid() then
+				SendChatMessage(L.SoulEchoes:format(targetname), "RAID")
+			elseif IsInGroup() then
+				SendChatMessage(L.SoulEchoes:format(targetname), "PARTY")
+			end
 		end
 	end
 end
