@@ -10,9 +10,9 @@ mod.isTrashMod = true
 mod:RegisterEvents(
 	"SPELL_CAST_START 246209 245807 246444 254500",
 	"SPELL_CAST_SUCCESS 246664",
-	"SPELL_AURA_APPLIED 252760 246692 253600 254122 249297 246199 254948 246698 244399 254509 257920 248757 252797 245770",
+	"SPELL_AURA_APPLIED 252760 246692 253600 254122 249297 246199 254948 246698 244399 254509 257920 248757 252797 245770 246687",
 	"SPELL_AURA_APPLIED_DOSE 257920 248757",
-	"SPELL_AURA_REMOVED 252760 246692 254122 249297 253600 252797 245770 244399 254948",
+	"SPELL_AURA_REMOVED 252760 246692 254122 249297 253600 252797 245770 244399 254948 246687",
 	"SPELL_PERIODIC_DAMAGE 246199",
 	"SPELL_PERIODIC_MISSED 246199",
 	"CHAT_MSG_MONSTER_YELL",
@@ -185,7 +185,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self.Options.SetIconOnFlamesofReorig then
 			self:SetIcon(args.destName, 3, 6)
 		end
-	elseif spellId == 245770 or spellId == 252797 or spellId == 244399 or spellId == 254948 then --Децимация
+	elseif spellId == 245770 or spellId == 252797 or spellId == 244399 or spellId == 254948 or spellId == 246687 then --Децимация
 		self.vb.decimationIcon = self.vb.decimationIcon + 1
 		warnDecimation2:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
@@ -262,7 +262,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		if self.Options.SetIconOnSoulburn then
 			self:SetIcon(args.destName, 0)
 		end
-	elseif spellId == 245770 or spellId == 252797 or spellId == 244399 or spellId == 254948 then --Децимация
+	elseif spellId == 245770 or spellId == 252797 or spellId == 244399 or spellId == 254948 or spellId == 246687 then --Децимация
 	--	self.vb.decimationIcon = self.vb.decimationIcon - 1
 		if args:IsPlayer() then
 			yellDecimationFades:Cancel()
@@ -288,7 +288,7 @@ function mod:OnSync(msg)
 end
 
 function mod:CHAT_MSG_MONSTER_YELL(msg)
-	if msg == L.RPImonar or msg:find(L.RPImonar) then
+	if msg == L.RPImonar then
 		self:SendSync("RPImonar")
 	end
 end

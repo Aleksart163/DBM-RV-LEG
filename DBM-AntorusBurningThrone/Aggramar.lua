@@ -23,11 +23,7 @@ mod:RegisterEventsInCombat(
 	"UNIT_HEALTH boss1"
 )
 
---[[
-(ability.id = 244693 or ability.id = 245458 or ability.id = 245463 or ability.id = 245301 or ability.id = 255058 or ability.id = 255061 or ability.id = 255059) and type = "begincast"
- or ability.id = 244894 and (type = "applybuff" or type = "removebuff")
- or (ability.id = 245994 or ability.id = 254452) and type = "applydebuff"
---]]
+--Прошляпанное очко мурчаля
 local warnPhase							= mod:NewPhaseChangeAnnounce(1, nil, nil, nil, nil, nil, 2)
 local warnPhase2						= mod:NewAnnounce("Phase1", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 2
 local warnPhase3						= mod:NewAnnounce("Phase3", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 3
@@ -61,13 +57,13 @@ local specWarnSearingTempest			= mod:NewSpecialWarningRun(245301, nil, nil, nil,
 local specWarnFlare						= mod:NewSpecialWarningDodge(245983, "-Tank", nil, 2, 2, 2) --Вспышка
 
 --Stage One: Wrath of Aggramar
-local timerTaeshalachTechCD				= mod:NewNextCountTimer(59, 244688, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON) --Искусный прием было 61
+local timerTaeshalachTechCD				= mod:NewNextCountTimer(59, 244688, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_MYTHIC_ICON) --Искусный прием было 61 (если смотреть по героику)
 local timerFoeBreakerCD					= mod:NewNextCountTimer(6.1, 245458, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Сокрушитель
 local timerFlameRendCD					= mod:NewNextCountTimer(6.1, 245463, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Разрывающее пламя
 local timerTempestCD					= mod:NewNextTimer(6.1, 245301, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Опаляющая буря
 local timerScorchingBlazeCD				= mod:NewCDTimer(6.5, 245994, nil, nil, nil, 3, nil, DBM_CORE_HEALER_ICON..DBM_CORE_DEADLY_ICON) --Обжигающее пламя 6.5-8
 local timerRavenousBlazeCD				= mod:NewCDTimer(22.2, 254452, nil, nil, nil, 3, nil, DBM_CORE_MYTHIC_ICON..DBM_CORE_DEADLY_ICON) --Хищное пламя
-local timerWakeofFlameCD				= mod:NewCDTimer(24.3, 244693, nil, nil, nil, 3) --Огненная волна
+local timerWakeofFlameCD				= mod:NewCDTimer(24, 244693, nil, nil, nil, 3) --Огненная волна
 --Stage Two: Champion of Sargeras
 local timerFlareCD						= mod:NewCDTimer(15, 245983, nil, "Ranged", 2, 3, nil, DBM_CORE_DEADLY_ICON) --Вспышка
 
@@ -78,7 +74,7 @@ local yellWakeofFlame					= mod:NewYell(244693, nil, nil, nil, "YELL") --Огн�
 local berserkTimer						= mod:NewBerserkTimer(600)
 
 --Stages One: Wrath of Aggramar
-local countdownTaeshalachTech			= mod:NewCountdown(61, 244688, nil, nil, 5) --Искусный прием
+local countdownTaeshalachTech			= mod:NewCountdown(59, 244688, nil, nil, 5) --Искусный прием
 local countdownFlare					= mod:NewCountdown("Alt15", 245983, "Ranged", nil, 5) --Вспышка
 --local countdownWakeofFlame				= mod:NewCountdown("AltTwo24", 244693, "-Tank") --Огненная волна
 
@@ -316,6 +312,12 @@ function mod:OnCombatStart(delay)
 		berserkTimer:Start(540-delay)
 		table.wipe(comboDebug)
 		comboDebugCounter = 0
+	elseif self:IsHeroic() then
+		berserkTimer:Start(-delay)
+		timerScorchingBlazeCD:Start(5.5-delay) --Обжигающее пламя+++
+		timerWakeofFlameCD:Start(5.8-delay) --Огненная волна+++
+		timerTaeshalachTechCD:Start(36-delay, 1) --Искусный прием+++
+		countdownTaeshalachTech:Start(36-delay) --Искусный прием+++
 	else
 		berserkTimer:Start(-delay)
 		timerScorchingBlazeCD:Start(4.8-delay)
@@ -552,7 +554,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self.Options.SetIconOnBlaze2 then
 			self:SetIcon(args.destName, icon)
 		end
-	elseif spellId == 244894 then--Corrupt Aegis
+	elseif spellId == 244894 then --Оскверненная эгида
 		if self.vb.comboCount > 0 and self.vb.comboCount < 5 then
 			--self.vb.incompleteCombo = true
 			comboDebugCounter = comboDebugCounter + 1
@@ -603,7 +605,7 @@ mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 
 function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
-	if spellId == 244894 then--Corrupt Aegis
+	if spellId == 244894 then --Оскверненная эгида
 		self.vb.phase = self.vb.phase + 1
 		comboDebugCounter = comboDebugCounter + 1
 		comboDebug[comboDebugCounter] = "Phase: "..self.vb.phase
@@ -614,8 +616,13 @@ function mod:SPELL_AURA_REMOVED(args)
 		self.vb.foeCount = 0
 		self.vb.rendCount = 0
 		--timerScorchingBlazeCD:Start(3)--Unknown
-		timerTaeshalachTechCD:Start(35.5, self.vb.techCount+1)
-		countdownTaeshalachTech:Start(35.5)
+		if self:IsHeroic() then
+			timerTaeshalachTechCD:Start(36, self.vb.techCount+1)
+			countdownTaeshalachTech:Start(36)
+		else
+			timerTaeshalachTechCD:Start(35.5, self.vb.techCount+1)
+			countdownTaeshalachTech:Start(35.5)
+		end
 		if self:IsMythic() then
 			timerRavenousBlazeCD:Start(23)
 		else
@@ -672,7 +679,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	elseif spellId == 254451 then--Ravenous Blaze (mythic replacement for Scorching Blaze)
 		self.vb.blazeIcon = 1
 		timerRavenousBlazeCD:Start()--Unknown at this time
-	elseif spellId == 244688 then --Taeshalach Technique Искусный прием
+	elseif spellId == 244688 then --Искусный прием
 		self.vb.comboCount = 0
 		self.vb.firstCombo = nil
 		self.vb.secondCombo = nil

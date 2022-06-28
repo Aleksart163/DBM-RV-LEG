@@ -31,7 +31,7 @@ mod:RegisterEventsInCombat(
 )
 
 --The Paraxis
-local warnRainofFel						= mod:NewTargetCountAnnounce(248332, 1) --Дождь Скверны
+local warnRainofFel						= mod:NewTargetAnnounce(248332, 2) --Дождь Скверны
 local warnWarpIn						= mod:NewTargetAnnounce(246888, 3, nil, nil, nil, nil, nil, 2, true) --Прибытие
 local warnLifeForce						= mod:NewCountAnnounce(250048, 1) --Жизненная сила
 local warnPurge							= mod:NewCastAnnounce(249934, 4) --Судный миг
@@ -56,7 +56,7 @@ local specWarnFoulSteps					= mod:NewSpecialWarningStack(250140, nil, 12, nil, n
 --The Paraxis
 mod:AddTimerLine(GENERAL)
 local timerSpearofDoomCD				= mod:NewCDCountTimer(55, 248789, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Копье Рока 55-69
-local timerRainofFelCD					= mod:NewCDCountTimer(61, 248332, nil, nil, nil, 3) --Дождь Скверны
+--local timerRainofFelCD					= mod:NewCDCountTimer(61, 248332, nil, nil, nil, 3) --Дождь Скверны
 mod:AddTimerLine(DBM_ADDS)
 local timerDestructorCD					= mod:NewTimer(90, "timerDestructor", 254769, nil, nil, 1, DBM_CORE_TANK_ICON) --Разрушитель
 local timerObfuscatorCD					= mod:NewTimer(90, "timerObfuscator", 246753, nil, nil, 1, DBM_CORE_DAMAGE_ICON) --Маскировщик
@@ -108,7 +108,7 @@ mod.vb.purifierCast = 0
 mod.vb.batCast = 0
 mod.vb.targetedIcon = 1
 mod.vb.burningembersIcon = 1
-local normalRainOfFelTimers = {}--PTR, recheck
+--local normalRainOfFelTimers = {}--PTR, recheck
 --local burningembersTargets = {}
 --local mythicSpearofDoomTimers = {}
 --Копье Рока героик----------------------------------------------------------------------------------------------------------------
@@ -126,7 +126,7 @@ local normalDestructors = {17, 46.2, 32, 52.4, 93.7, 40.9, 50.2, 55.4, 49.2}--Li
 local normalObfuscators = {193}--Live, Dec 01
 --Дождь Скверны героик-------------------------------------------------------------------------------------------------------------
 --local heroicRainOfFelTimers = {9.3, 43, 10, 43, 20, 19, 20, 29.2, 45, 25, 99}--Live, Dec 26
-local heroicRainOfFelTimers = {14, 37.5, 21.5, 28, 29, 43.5, 32, 31.5, 25, 34, 45} --у 1 +4.7сек, у 2 -5.5сек, у 3 +11.5 сек, у 4 -15сек, у 5 +9сек, у 6 +24.5сек, у 7 +12сек, у 8 +2.3сек, у 9 -20сек, у 10 +9сек, у 11 -54сек
+--local heroicRainOfFelTimers = {14, 37.5, 21.5, 28, 29, 43.5, 32, 31.5, 25, 34, 45} --у 1 +4.7сек, у 2 -5.5сек, у 3 +11.5 сек, у 4 -15сек, у 5 +9сек, у 6 +24.5сек, у 7 +12сек, у 8 +2.3сек, у 9 -20сек, у 10 +9сек, у 11 -54сек
 -----------------------------------------------------------------------------------------------------------------------------------
 --Разрушитель героик---------------------------------------------------------------------------------------------------------------
 --local heroicDestructors = {15.7, 35.3, 40.6, 104.6, 134.7, 99.6}
@@ -146,7 +146,7 @@ local heroicBats = {160, 122, 105, 105} --у 1 -10сек, у 2 -3сек, у 3 х
 -----------------------------------------------------------------------------------------------------------------------------------
 --Дождь Скверны мифик--------------------------------------------------------------------------------------------------------------
 --local mythicRainOfFelTimers = {6, 23.1, 24.1, 46, 25, 49.3, 15, 45, 24, 49.2, 24.1, 49.2, 50}--Live, Dec 14
-local mythicRainOfFelTimers = {14, 39.5, 68.8, 28, 32.5, 38.3, 21, 29.5, 26, 21.2, 33.5, 41.2, 58.5} -- ВСЕ ГОТОВО у 1 +8сек, у 2 +16.4сек, у 3 +38.7сек, у 4 -18сек, у 5 +7.5 сек, у 6 -11сек, у 7 +6сек, у 8 -15.5, у 9 +2сек, у 10 -28сек, у 11 +9.4, у 12 -8сек, у 13 +8.5сек
+--local mythicRainOfFelTimers = {14, 39.5, 68.8, 28, 32.5, 38.3, 21, 29.5, 26, 21.2, 33.5, 41.2, 58.5} -- ВСЕ ГОТОВО у 1 +8сек, у 2 +16.4сек, у 3 +38.7сек, у 4 -18сек, у 5 +7.5 сек, у 6 -11сек, у 7 +6сек, у 8 -15.5, у 9 +2сек, у 10 -28сек, у 11 +9.4, у 12 -8сек, у 13 +8.5сек
 -----------------------------------------------------------------------------------------------------------------------------------
 --Разрушитель мифик----------------------------------------------------------------------------------------------------------------
 --local mythicDestructors = {27, 18, 87.4, 288.4, 20, 79}--Changed Dec 12th
@@ -457,15 +457,15 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 		self.vb.targetedIcon = self.vb.targetedIcon + 1]]
 	elseif spellId == 248332 then--Rain of Fel
-		warnRainofFel:CombinedShow(1, self.vb.rainOfFelCount, args.destName)
-		if self:AntiSpam(10, 4) then
+		warnRainofFel:CombinedShow(1, args.destName)
+--[[		if self:AntiSpam(10, 4) then
 			self.vb.rainOfFelCount = self.vb.rainOfFelCount + 1
 			local timer = self:IsMythic() and mythicRainOfFelTimers[self.vb.rainOfFelCount+1] or self:IsHeroic() and heroicRainOfFelTimers[self.vb.rainOfFelCount+1] or self:IsNormal() and normalRainOfFelTimers[self.vb.rainOfFelCount+1]
 			if timer then
 				timerRainofFelCD:Start(timer, self.vb.rainOfFelCount+1)
 				--countdownRainofFel:Start(timer)
 			end
-		end
+		end]]
 		if args:IsPlayer() then
 			specWarnRainofFel:Show()
 			specWarnRainofFel:Play("scatter")

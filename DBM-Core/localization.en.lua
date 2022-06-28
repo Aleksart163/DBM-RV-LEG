@@ -407,7 +407,8 @@ DBM_CORE_AUTO_SPEC_WARN_TEXTS = {
 	moredamage		= "%s! - more damage on the boss",
 	youmoredamage	= "%s on you! - give more damage",
 	paraxiscount	= "%s! - turn of the (%%s) group",
-	standsand		= "%s! - move to land"
+	standsand		= "%s! - move to land",
+	useitem			= "%s - use >%%s<"
 }
 
 -- Auto-generated Special Warning Localizations
@@ -480,7 +481,8 @@ DBM_CORE_AUTO_SPEC_WARN_OPTIONS = {
 	moredamage		= "Show special warning \"more damage on the boss\" when on target $spell:%s",
 	youmoredamage	= "Show special warning \"give more damage\" when on you $spell:%s",
 	paraxiscount	= "Show special warning (with count) \"turn of the ... group\" for $spell:%s",
-	standsand		= "Show special warning \"move to land\" for $spell:%s"
+	standsand		= "Show special warning \"move to land\" for $spell:%s",
+	useitem 		= "Show special warning \"use\" on whom $spell:%s"
 }
 
 -- Auto-generated Timer Localizations

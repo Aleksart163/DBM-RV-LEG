@@ -17,7 +17,7 @@ mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 247376 247923 248068 248070 248254",
-	"SPELL_CAST_SUCCESS 247367 247552 247687 250255 254244",
+	"SPELL_CAST_SUCCESS 247367 247552 247687 250255 254244 248254",
 	"SPELL_AURA_APPLIED 247367 247565 247687 250255 250006 247641 255029 250224 254183",
 	"SPELL_AURA_APPLIED_DOSE 247367 247687 250255 250224",
 	"SPELL_AURA_REMOVED 248233 250135 250006",
@@ -235,8 +235,6 @@ function mod:SPELL_CAST_START(args)
 			timerShrapnalBlastCD:Start(nil, self.vb.shrapnalCast+1)--13
 		end
 	elseif spellId == 248254 then
-		specWarnChargedBlastsUnknown:Show()
-		specWarnChargedBlastsUnknown:Play("farfromline")
 		if self:IsMythic() and self.vb.phase < 4 then
 			timerChargedBlastsCD:Start(13.4)
 			countdownChargedBlasts:Start(13.4)
@@ -263,6 +261,9 @@ function mod:SPELL_CAST_SUCCESS(args)
 		end
 	elseif spellId == 247687 then
 		timerSeverCD:Start()
+	elseif spellId == 248254 then
+		specWarnChargedBlastsUnknown:Show()
+		specWarnChargedBlastsUnknown:Play("farfromline")
 	end
 end
 

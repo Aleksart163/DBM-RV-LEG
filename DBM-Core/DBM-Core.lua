@@ -43,9 +43,9 @@
 ----------------------------------------------------------------
 --
 DBM = {
-	Revision = tonumber(("$Revision: 17666 $"):sub(12, -3)),
-	DisplayVersion = "7.3.36 Right Version",
-	ReleaseRevision = 17665
+	Revision = tonumber(("$Revision: 17667 $"):sub(12, -3)), --прошляпанное очко мурчаля
+	DisplayVersion = "7.3.37 Right Version",
+	ReleaseRevision = 17666
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -275,6 +275,7 @@ DBM.Counts = {
 	{text = "Alarak", value = "Alarak", path = "Interface\\AddOns\\DBM-Core\\Sounds\\Alarak\\", max = 5},
 	{text = "Artanis", value = "Artanis", path = "Interface\\AddOns\\DBM-Core\\Sounds\\Artanis\\", max = 5},
 	{text = "Kerrigan", value = "Kerrigan", path = "Interface\\AddOns\\DBM-Core\\Sounds\\Kerrigan\\", max = 5},
+	{text = "Raynor", value = "Raynor", path = "Interface\\AddOns\\DBM-Core\\Sounds\\Raynor\\", max = 5},
 	{text = "Tychus", value = "Tychus", path = "Interface\\AddOns\\DBM-Core\\Sounds\\Tychus\\", max = 5},
 	{text = "Vorazun", value = "Vorazun", path = "Interface\\AddOns\\DBM-Core\\Sounds\\Vorazun\\", max = 5},
 	{text = "Zeratul", value = "Zeratul", path = "Interface\\AddOns\\DBM-Core\\Sounds\\Zeratul\\", max = 5},
@@ -10072,6 +10073,10 @@ do
 		return newSpecialWarning(self, "lookaway", text, nil, optionDefault, ...)
 	end
 	
+	function bossModPrototype:NewSpecialWarningYouLookAway2(text, optionDefault, ...)
+		return newSpecialWarning(self, "youlookaway2", text, nil, optionDefault, ...)
+	end
+	
 	function bossModPrototype:NewSpecialWarningYouLook(text, optionDefault, ...)
 		return newSpecialWarning(self, "youlook", text, nil, optionDefault, ...)
 	end
@@ -10130,9 +10135,9 @@ do
 	function bossModPrototype:NewSpecialWarningStandSand(text, optionDefault, ...)
 		return newSpecialWarning(self, "standsand", text, nil, optionDefault, ...)
 	end
-	
-	function bossModPrototype:NewSpecialWarningYouLookAway2(text, optionDefault, ...)
-		return newSpecialWarning(self, "youlookaway2", text, nil, optionDefault, ...)
+
+	function bossModPrototype:NewSpecialWarningUseItem(text, optionDefault, ...)
+		return newSpecialWarning(self, "useitem", text, nil, optionDefault, ...)
 	end
 
 	function bossModPrototype:NewSpecialWarningPreWarn(text, optionDefault, time, ...)

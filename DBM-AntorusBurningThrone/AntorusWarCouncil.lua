@@ -89,7 +89,7 @@ local yellDemonicCharge					= mod:NewYell(253040, nil, nil, nil, "YELL") --Де�
 local yellShockGrenade					= mod:NewYell(244737, nil, nil, nil, "YELL") --Шоковая граната
 local yellShockGrenadeFades				= mod:NewShortFadesYell(244737, nil, nil, nil, "YELL") --Шоковая граната
 
-local berserkTimer						= mod:NewBerserkTimer(600)
+--local berserkTimer						= mod:NewBerserkTimer(600)
 
 --General
 local countdownAssumeCommand			= mod:NewCountdown(50, 245227, nil, nil, 5) --Принять командование
@@ -130,7 +130,7 @@ function mod:OnCombatStart(delay)
 	self.vb.lastIcon = 8
 	self.vb.ShockGrenadeIcon = 1
 	--In pod
-	berserkTimer:Start(-delay)
+--	berserkTimer:Start(-delay)
 	--Out of Pod
 	timerSummonReinforcementsCD:Start(8-delay)
 --	countdownReinforcements:Start(8-delay)
