@@ -16,7 +16,9 @@ mod:RegisterEvents(
 )
 
 --Ключи
-local specWarnNecroticWound			= mod:NewSpecialWarningStack(209858, nil, 10, nil, nil, 1, 2) --Некротическая язва
+local warnNecroticWound				= mod:NewStackAnnounce(209858, 4, nil, nil, 2) --Некротическая язва
+
+local specWarnNecroticWound			= mod:NewSpecialWarningStack(209858, nil, 10, nil, nil, 1, 3) --Некротическая язва
 local specWarnGrievousWound			= mod:NewSpecialWarningStack(240559, nil, 5, nil, nil, 1, 2) --Тяжкая рана
 local specWarnSanguineIchor			= mod:NewSpecialWarningYouMove(226512, nil, nil, nil, 1, 2) --Кровавый гной
 local specWarnQuake					= mod:NewSpecialWarningCast(240447, "Ranged", nil, nil, 1, 2) --Землетрясение
@@ -50,6 +52,10 @@ function mod:SPELL_AURA_APPLIED(args)
 			if amount >= 10 and amount % 5 == 0 then
 				specWarnNecroticWound:Show(amount)
 				specWarnNecroticWound:Play("stackhigh")
+			end
+		else
+			if amount >= 10 and amount % 5 == 0 then
+				warnNecroticWound:Show(args.destName, amount)
 			end
 		end
 	end
