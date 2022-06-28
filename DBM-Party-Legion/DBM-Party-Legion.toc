@@ -49,6 +49,7 @@ BlackRookHold\Illysanna.lua
 BlackRookHold\Smashspite.lua
 BlackRookHold\Kurtalos.lua
 BlackRookHold\BRHTrash.lua
+BlackRookHold\MAffix.lua
 DarkheartThicket\Glaidalis.lua
 DarkheartThicket\Oakheart.lua
 DarkheartThicket\Dresaron.lua

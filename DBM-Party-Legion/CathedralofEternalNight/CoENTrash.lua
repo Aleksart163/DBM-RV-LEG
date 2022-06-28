@@ -8,17 +8,25 @@ mod:SetZone()
 mod.isTrashMod = true
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 239232 237391 238543 236737 242724 242760 239320 239266 241598 239235 239201",
-	"SPELL_AURA_APPLIED 238688 239161 215489 237325 237583",
+	"SPELL_CAST_START 239232 237391 238543 236737 242724 242760 239320 239266 241598 239235 239201 237558 237565",
+	"SPELL_AURA_APPLIED 238688 239161 215489 237325 237583 237391",
+	"SPELL_AURA_REMOVED 237391",
 --	"SPELL_PERIODIC_DAMAGE ",
 --	"SPELL_PERIODIC_MISSED ",
 	"UNIT_SPELLCAST_START"
 )
---TODO, Interrupt warning for Shadow Wall 241937?
---Собор вечной ночи
+
+--Собор вечной ночи трэш
 local warnFelStrike				= mod:NewTargetAnnounce(236737, 3) --Удар Скверны
 local warnShadowWall			= mod:NewSpellAnnounce(241598, 3) --Стена Тьмы
+local warnFelRejuvenation		= mod:NewCastAnnounce(237558, 3) --Омоложение Скверной
+local warnBlisteringRain		= mod:NewCastAnnounce(237565, 4) --Обжигающий дождь
+local warnAlluringAroma			= mod:NewCastAnnounce(237391, 4) --Манящий аромат
+local warnAlluringAroma2		= mod:NewTargetAnnounce(237391, 2) --Манящий аромат
 
+local specWarnAlluringAroma2	= mod:NewSpecialWarningDispel(237391, "MagicDispeller2", nil, nil, 1, 3) --Манящий аромат
+local specWarnFelRejuvenation	= mod:NewSpecialWarningInterrupt(237558, "HasInterrupt", nil, nil, 3, 2) --Омоложение Скверной
+local specWarnBlisteringRain	= mod:NewSpecialWarningInterrupt(237565, "HasInterrupt", nil, nil, 3, 3) --Обжигающий дождь
 local specWarnFelGlare			= mod:NewSpecialWarningDodge(239201, "Melee", nil, nil, 2, 2) --Взор Скверны
 local specWarnFocusedDestruction = mod:NewSpecialWarningDefensive(239235, nil, nil, nil, 3, 5) --Направленное разрушение
 local specWarnBurningCelerity	= mod:NewSpecialWarningYouMove(237583, nil, nil, nil, 1, 2) --Пылающая стремительность
@@ -37,6 +45,9 @@ local specWarnTomeSilence		= mod:NewSpecialWarningSwitch(239161, "-Healer", nil,
 local specWarnFelblazeOrb		= mod:NewSpecialWarningDodge(239320, nil, nil, nil, 1, 2) --Сфера пламени Скверны
 local specWarnVenomStorm		= mod:NewSpecialWarningDodge(239266, nil, nil, nil, 1, 2) --Ядовитая буря
 
+local timerAlluringAroma		= mod:NewTargetTimer(8, 237391, nil, nil, nil, 3) --Манящий аромат
+
+local yellAlluringAroma			= mod:NewYell(237391, nil, nil, nil, "YELL") --Манящий аромат
 local yellFelStrike				= mod:NewYell(236737, nil, nil, nil, "YELL") --Удар Скверны
 
 function mod:FelStrikeTarget(targetname, uId)
@@ -63,9 +74,14 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 239232 then
 		specWarnBlindingGlare:Show()
 		specWarnBlindingGlare:Play("turnaway")
-	elseif spellId == 237391 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
-		specWarnAlluringAroma:Show(args.sourceName)
-		specWarnAlluringAroma:Play("kickcast")
+	elseif spellId == 237391 then --Манящий аромат
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnAlluringAroma:Show()
+			specWarnAlluringAroma:Play("kickcast")
+		else
+			warnAlluringAroma:Show()
+			warnAlluringAroma:Play("kickcast")
+		end
 	elseif spellId == 238543 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
 		specWarnDemonicMending:Show(args.sourceName)
 		specWarnDemonicMending:Play("kickcast")
@@ -95,6 +111,22 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 239201 then --Взор Скверны
 		specWarnFelGlare:Show()
 		specWarnFelGlare:Play("watchstep")
+	elseif spellId == 237558 then --Омоложение Скверной
+		if not self:IsNormal() then
+			if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+				specWarnFelRejuvenation:Show()
+				specWarnFelRejuvenation:Play("kickcast")
+			else
+				warnFelRejuvenation:Show()
+				warnFelRejuvenation:Play("kickcast")
+			end
+		end
+	elseif spellId == 237565 then --Обжигающий дождь
+		if self:IsHard() then
+			warnBlisteringRain:Show()
+			specWarnBlisteringRain:Show()
+			specWarnBlisteringRain:Play("kickcast")
+		end
 	end
 end
 
@@ -116,6 +148,22 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 237583 and args:IsPlayer() then --если не робит, то переделать
 		specWarnBurningCelerity:Show()
 		specWarnBurningCelerity:Play("runout")
+	elseif spellId == 237391 then --Манящий аромат
+		warnAlluringAroma2:CombinedShow(0.5, args.destName)
+		timerAlluringAroma:Start(args.destName)
+		if args:IsPlayer() then
+			yellAlluringAroma:Yell()
+		else
+			specWarnAlluringAroma2:CombinedShow(0.5, args.destName)
+			specWarnAlluringAroma2:ScheduleVoice(0.5, "dispelnow")
+		end
+	end
+end
+
+function mod:SPELL_AURA_REMOVED(args)
+	local spellId = args.spellId
+	if spellId == 237391 then --Манящий аромат
+		timerAlluringAroma:Cancel(args.destName)
 	end
 end
 

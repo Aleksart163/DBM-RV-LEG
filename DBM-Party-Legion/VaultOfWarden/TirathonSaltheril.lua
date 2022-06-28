@@ -35,7 +35,7 @@ local timerDarkStrikes				= mod:NewBuffActiveTimer(11, 191941, nil, "Tank", nil,
 local timerDarkStrikesCD			= mod:NewCDTimer(31, 191941, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Удары Тьмы
 --local timerHatred					= mod:NewCastTimer(10, 190830, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Ненависть+++
 local timerHatredCD					= mod:NewCDTimer(29, 190830, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Ненависть
-local timerFelMortarCD				= mod:NewCDTimer(14.5, 202913, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Залп Скверны+++
+local timerFelMortarCD				= mod:NewCDTimer(14.5, 202913, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON..DBM_CORE_DEADLY_ICON) --Залп Скверны+++
 local timerMetamorphosisCD			= mod:NewCDTimer(30, 192504, nil, nil, nil, 6, nil) --Метаморфоза
 local timerFuriousBlastCD			= mod:NewCDTimer(31, 191823, nil, nil, nil, 2, nil, DBM_CORE_INTERRUPT_ICON..DBM_CORE_DEADLY_ICON) --Яростный взрыв
 
@@ -49,8 +49,7 @@ function mod:OnCombatStart(delay)
 	warned_preP1 = false
 	if not self:IsNormal() then
 		timerDarkStrikesCD:Start(6-delay) --Удары Тьмы+++
-		timerFuriousBlastCD:Start(13.5-delay) --Яростный взрыв+++
-		countdownFuriousBlast:Start(13.5-delay) --Яростный взрыв+++
+		timerFelMortarCD:Start(13.5-delay) --Яростный взрыв+++
 		timerMetamorphosisCD:Start(20-delay) --Метаморфоза+++
 		warnMetamorphosis3:Schedule(15-delay) --Метаморфоза+++
 	else

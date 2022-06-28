@@ -75,6 +75,12 @@ function mod:OnCombatStart(delay)
 	end
 end
 
+function mod:OnCombatEnd()
+	if self.Options.SetIconOnFixate then
+		self:SetIcon(args.destName, 0)
+	end
+end
+
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 246134 then

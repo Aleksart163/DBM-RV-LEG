@@ -131,12 +131,11 @@ function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
 	if spellId == 247816 then --Отдача
 		timerBacklash:Stop()
-		--Resume timers?
 	end
 end
 
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
-	if spellId == 245242 and destGUID == UnitGUID("player") and self:AntiSpam(2, 4) then
+	if spellId == 245242 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
 		if not self:IsNormal() then
 			specWarnRemnantofAnguish:Show()
 			specWarnRemnantofAnguish:Play("runaway")

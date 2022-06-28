@@ -18,6 +18,7 @@ mod:RegisterEvents(
 	"UNIT_DIED"
 )
 
+--Утроба душ трэш
 local warnScream				= mod:NewSpellAnnounce(198405, 4) --Леденящий душу вопль
 local warnWhirlpoolSouls		= mod:NewSpellAnnounce(199589, 4) --Водоворот душ
 
@@ -45,25 +46,27 @@ function mod:SPELL_CAST_START(args)
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnScream:Show(args.sourceName)
 			specWarnScream:Play("kickcast")
-		else
+		elseif self:AntiSpam(2, 1) then
 			warnScream:Show()
 			warnScream:Play("kickcast")
 		end
 	elseif spellId == 195031 and self:AntiSpam(3, 1) then
 		specWarnDefiantStrike:Show()
 		specWarnDefiantStrike:Play("chargemove")
-	elseif spellId == 195293 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Истощающий крик
-		specWarnDebilitatingShout:Show()
-		specWarnDebilitatingShout:Play("kickcast")
+	elseif spellId == 195293 and self:AntiSpam(2, 1) then --Истощающий крик
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnDebilitatingShout:Show()
+			specWarnDebilitatingShout:Play("kickcast")
+		end
 		timerDebilitatingShoutCD:Start()
-	elseif spellId == 196885 then --Не щадить никого
+	elseif spellId == 196885 and self:AntiSpam(2, 1) then --Не щадить никого
 		specWarnGiveNoQuarter:Show()
 		specWarnGiveNoQuarter:Play("stilldanger")
 		timerGiveNoQuarterCD:Start()
-	elseif spellId == 194099 then --Гнусное дыхание
+	elseif spellId == 194099 and self:AntiSpam(2, 1) then --Гнусное дыхание
 		specWarnBileBreath:Show()
 		specWarnBileBreath:Play("stilldanger")
-	elseif spellId == 192019 then --Фонарь Тьмы
+	elseif spellId == 192019 and self:AntiSpam(3, 1) then --Фонарь Тьмы
 		timerLanternDarknessCD:Start()
 		if not self:IsNormal() then
 			specWarnLanternDarkness:Show()
@@ -73,7 +76,7 @@ function mod:SPELL_CAST_START(args)
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnWhirlpoolSouls:Show(args.sourceName)
 			specWarnWhirlpoolSouls:Play("kickcast")
-		else
+		elseif self:AntiSpam(2, 1) then
 			warnWhirlpoolSouls:Show()
 			warnWhirlpoolSouls:Play("kickcast")
 		end

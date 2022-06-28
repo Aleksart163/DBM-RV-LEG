@@ -5,12 +5,12 @@ mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 mod:SetCreatureID(95675)
 mod:SetEncounterID(1808)
 mod:SetZone()
-mod:SetUsedIcons(8, 1)
+mod:SetUsedIcons(1)
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
-	"SPELL_AURA_APPLIED 202711",
-	"SPELL_AURA_REMOVED 193826 202711",
+	"SPELL_AURA_APPLIED 202711 193783",
+	"SPELL_AURA_REMOVED 193826 202711 193783",
 	"SPELL_CAST_START 193659 193668 193826 194112",
 	"SPELL_CAST_SUCCESS 193659",
 	"SPELL_PERIODIC_DAMAGE 193702",
@@ -19,15 +19,16 @@ mod:RegisterEventsInCombat(
 
 --Король-бог Сковальд https://ru.wowhead.com/npc=95675/король-бог-сковальд/эпохальный-журнал-сражений
 local warnAegis						= mod:NewTargetAnnounce(202711, 2) --Эгида Агграмара
-local warnFelblazeRush				= mod:NewTargetAnnounce(193659, 3) --Рывок пламени Скверны
+local warnFelblazeRush				= mod:NewTargetAnnounce(193659, 4) --Рывок пламени Скверны
 local warnClaimAegis				= mod:NewSpellAnnounce(194112, 2) --Захватить Эгиду Агграмара!
+local warnRagnarok					= mod:NewPreWarnAnnounce(193826, 5, 1) --Рагнарек
 
 local specWarnFelblazeRush			= mod:NewSpecialWarningYouMoveAway(193659, nil, nil, nil, 3, 5) --Рывок пламени Скверны
 local specWarnSavageBlade			= mod:NewSpecialWarningDefensive(193668, "Tank", nil, nil, 1, 2) --Свирепый клинок
-local specWarnRagnarok				= mod:NewSpecialWarningMoveTo(193826, nil, nil, nil, 3, 5) --Рагнарек
+local specWarnRagnarok				= mod:NewSpecialWarningMoveTo(193826, "-Tank", nil, nil, 3, 5) --Рагнарек
+local specWarnRagnarok2				= mod:NewSpecialWarningUseItem(193826, nil, nil, nil, 3, 5) --Рагнарек
 local specWarnFlames				= mod:NewSpecialWarningYouMove(193702, nil, nil, nil, 1, 2) --Инфернальное пламя
 
-local timerClaimAegisCD				= mod:NewCDTimer(11, 194112, nil, nil, nil, 0) --Захватить Эгиду Агграмара!
 local timerRushCD					= mod:NewCDTimer(11, 193659, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Рывок пламени Скверны 11-13
 local timerSavageBladeCD			= mod:NewCDTimer(22, 193668, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Свирепый клинок 23
 local timerRagnarokCD				= mod:NewCDTimer(53, 193826, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Рагнарек 60
@@ -37,22 +38,17 @@ local yellFelblazeRush				= mod:NewYell(193659, nil, nil, nil, "YELL") --Рыв�
 local countdownRagnarok				= mod:NewCountdown("Alt53", 193826, nil, nil, 5) --Рагнарек
 local countdownRush					= mod:NewCountdown(11, 193659, nil, nil, 5) --Рывок пламени Скверны
 
-mod:AddSetIconOption("SetIconOnRush", 193659, true, false, {8}) --Рывок пламени Скверны
 mod:AddSetIconOption("SetIconOnAegis", 202711, true, false, {1}) --Эгида Агграмара
 
-local shield2 = DBM:GetSpellInfo(193983)
+local shield = DBM:GetSpellInfo(193983)
 
 function mod:FelblazeRushTarget(targetname, uId)
 	if not targetname then return end
+	warnFelblazeRush:Show(targetname)
 	if targetname == UnitName("player") then
 		specWarnFelblazeRush:Show()
 		specWarnFelblazeRush:Play("runout")
 		yellFelblazeRush:Yell()
-	else
-		warnFelblazeRush:Show(targetname)
-	end
-	if self.Options.SetIconOnRush then
-		self:SetIcon(targetname, 8, 5)
 	end
 end
 
@@ -60,6 +56,7 @@ function mod:OnCombatStart(delay)
 	if not self:IsNormal() then
 		timerRushCD:Start(6-delay) --Рывок пламени Скверны
 		countdownRush:Start(6-delay) --Рывок пламени Скверны
+		warnRagnarok:Schedule(8-delay) --Рагнарек
 		timerRagnarokCD:Start(13-delay) --Рагнарек
 		countdownRagnarok:Start(13-delay) --Рагнарек
 	else
@@ -72,7 +69,9 @@ end
 
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
-	if spellId == 202711 and args:IsDestTypePlayer() then --Эгида Агграмара
+	if spellId == 202711 and args:IsDestTypePlayer() then
+		warnAegis:Show(args.destName)
+	elseif spellId == 193783 then --Эгида Агграмара
 		warnAegis:Show(args.destName)
 		if self.Options.SetIconOnAegis then
 			self:SetIcon(args.destName, 1)
@@ -83,27 +82,28 @@ end
 function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
 	if spellId == 193826 then --Рагнарек
+		warnRagnarok:Schedule(48)
 		timerRagnarokCD:Start()
 		countdownRagnarok:Start()
-	elseif spellId == 202711 then --Эгида Агграмара
+	elseif spellId == 193783 then --Эгида Агграмара
 		if self.Options.SetIconOnAegis then
 			self:SetIcon(args.destName, 0)
 		end
 	end
 end
 
---[[
 function mod:SPELL_CAST_SUCCESS(args)
-	if args.spellId == 193659 then --Рывок пламени Скверны
+	if args.spellId == 193659 then
 		self:BossUnitTargetScannerAbort()
 	end
-end]]
+end
 
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 193659 then --Рывок пламени Скверны
-		self:BossTargetScanner(args.sourceGUID, "FelblazeRushTarget", 0.1)
+		self:BossUnitTargetScanner("boss1", "FelblazeRushTarget")
 		timerRushCD:Start()
+		countdownRush:Cancel()
 		countdownRush:Start()
 	elseif spellId == 193668 then
 		specWarnSavageBlade:Show()
@@ -116,21 +116,27 @@ function mod:SPELL_CAST_START(args)
 			timerSavageBladeCD:Start()
 		end
 	elseif spellId == 193826 then --Рагнарек
-		specWarnRagnarok:Show(shield2)
-		specWarnRagnarok:Play("findshield")
+		if ExtraActionBarFrame:IsShown() then
+			specWarnRagnarok2:Show(shield)
+			specWarnRagnarok2:Play("findshield")
+		else
+			specWarnRagnarok:Show(shield)
+			specWarnRagnarok:Play("findshield")
+		end
 		timerRushCD:Cancel()
 		countdownRush:Cancel()
+		timerSavageBladeCD:Stop()
 		timerRushCD:Start(12)
 		countdownRush:Start(12)
-		timerClaimAegisCD:Start(17)
-		timerSavageBladeCD:Stop()
+		timerSavageBladeCD:Start(17.5)
 	elseif spellId == 194112 then --Захватить Эгида Агграмара!
 		warnClaimAegis:Show()
-		timerSavageBladeCD:Start(13)
+		timerSavageBladeCD:Stop()
+		timerSavageBladeCD:Start(18)
 		timerRushCD:Cancel()
 		countdownRush:Cancel()
-		timerRushCD:Start(19)
-		countdownRush:Start(19)
+		timerRushCD:Start(13)
+		countdownRush:Start(13)
 	end
 end
 

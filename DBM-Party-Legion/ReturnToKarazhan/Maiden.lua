@@ -27,7 +27,7 @@ local warnSacredGround				= mod:NewTargetAnnounce(227789, 3) --Священна�
 local warnHolyBolt					= mod:NewTargetAnnounce(227809, 3) --Священная молния
 local warnHolyWrath					= mod:NewCastAnnounce(227823, 4) --Гнев небес
 
-local specWarnHolyBolt				= mod:NewSpecialWarningMoveAway(227809, nil, nil, nil, 2, 3) --Священная молния
+local specWarnHolyBolt				= mod:NewSpecialWarningYouMoveAway(227809, nil, nil, nil, 2, 3) --Священная молния
 local specWarnSacredGround			= mod:NewSpecialWarningYouMoveAway(227789, nil, nil, nil, 4, 2) --Священная земля
 local specWarnHolyShock				= mod:NewSpecialWarningInterrupt(227800, "HasInterrupt", nil, nil, 1, 2) --Шок небес
 local specWarnRepentance			= mod:NewSpecialWarningMoveTo(227508, nil, nil, nil, 4, 5) --Всеобщее покаяние
@@ -46,9 +46,7 @@ local yellSacredGround				= mod:NewYell(227789, nil, nil, nil, "YELL") --Свя�
 local countdownHolyBolt				= mod:NewCountdown(13.5, 227809, nil, nil, 5) --Священная молния
 local countdownHolyWrath			= mod:NewCountdown("Alt10", 227823, nil, nil, 5) --Гнев небес
 
-mod:AddSetIconOption("SetIconOnHolyBolt", 227809, true, false, {8}) --Священная молния
 mod:AddSetIconOption("SetIconOnSacredGround", 227789, true, false, {7}) --Священная земля
-mod:AddBoolOption("AnnounceHolyBolt", false)
 mod:AddRangeFrameOption(8, 227809)--TODO, keep looking for a VALID 6 yard item/spell
 mod:AddInfoFrameOption(227817, true)
 
@@ -56,12 +54,11 @@ local sacredGround = DBM:GetSpellInfo(227789) --Священная земля
 
 function mod:SacredGroundTarget(targetname, uId)
 	if not targetname then return end
+	warnSacredGround:Show(targetname)
 	if targetname == UnitName("player") then
 		specWarnSacredGround:Show()
 		specWarnSacredGround:Play("runout")
 		yellSacredGround:Yell()
-	else
-		warnSacredGround:Show(targetname)
 	end
 	if self.Options.SetIconOnSacredGround then
 		self:SetIcon(targetname, 7, 5)
@@ -70,24 +67,11 @@ end
 
 function mod:HolyBoltTarget(targetname, uId)
 	if not targetname then return end
+	warnHolyBolt:Show(targetname)
 	if targetname == UnitName("player") then
 		specWarnHolyBolt:Show()
-		specWarnHolyBolt:Play("watchstep")
+		specWarnHolyBolt:Play("runout")
 		yellHolyBolt:Yell()
-	else
-		warnHolyBolt:Show(targetname)
-		specWarnHolyBolt:Show()
-		specWarnHolyBolt:Play("watchstep")
-	end
-	if self.Options.SetIconOnHolyBolt then
-		self:SetIcon(targetname, 8, 5)
-	end
-	if mod.Options.AnnounceHolyBolt then
-		if IsInRaid() then
-			SendChatMessage(L.HolyBolt:format(targetname), "RAID")
-		elseif IsInGroup() then
-			SendChatMessage(L.HolyBolt:format(targetname), "PARTY")
-		end
 	end
 end
 
@@ -131,10 +115,10 @@ function mod:SPELL_CAST_START(args)
 		timerHolyWrath:Start()
 		countdownHolyWrath:Start()
 	elseif spellId == 227789 then --Священная земля
-		self:BossTargetScanner(args.sourceGUID, "SacredGroundTarget", 0.4)
+		self:BossTargetScanner(args.sourceGUID, "SacredGroundTarget", 0.1, 9)
 		timerSacredGroundCD:Start()
 	elseif spellId == 227809 then --Священная молния
-		self:BossTargetScanner(args.sourceGUID, "HolyBoltTarget", 0.2)
+		self:BossTargetScanner(args.sourceGUID, "HolyBoltTarget", 0.1, 9)
 		timerHolyBoltCD:Start()
 		countdownHolyBolt:Start()
 	end
@@ -169,8 +153,8 @@ function mod:SPELL_INTERRUPT(args)
 		countdownHolyWrath:Cancel()
 		timerSacredGroundCD:Start(4)
 		timerHolyShockCD:Start(8.5)
-		timerHolyBoltCD:Start(12.7)
-		countdownHolyBolt:Start(12.7)
+	--	timerHolyBoltCD:Start(12.7)
+	--	countdownHolyBolt:Start(12.7)
 	end
 end
 

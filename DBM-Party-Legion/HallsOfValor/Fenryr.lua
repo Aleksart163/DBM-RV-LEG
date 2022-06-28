@@ -11,33 +11,33 @@ mod:RegisterCombat("combat")
 mod:SetUsedIcons(8)
 
 mod:RegisterEventsInCombat(
-	"SPELL_AURA_APPLIED 197556 196838",
+	"SPELL_AURA_APPLIED 197556 196838 196828",
+	"SPELL_AURA_APPLIED_DOSE 196828",
 	"SPELL_AURA_REMOVED 196838",
 	"SPELL_CAST_START 196838 196543 197558",
-	"SPELL_CAST_SUCCESS 196567 196512 207707",
+	"SPELL_CAST_SUCCESS 196567 196512 207707 196543",
 	"UNIT_HEALTH",
 	"UNIT_DIED"
 )
 
---local warnPhase							= mod:NewAnnounce("Phase1", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 2
+--Фенрир https://ru.wowhead.com/npc=99868/фенрир/эпохальный-журнал-сражений#abilities;mode:
+local warnScentofBlood					= mod:NewStackAnnounce(196828, 4, nil, nil, 2) --Запах крови
 local warnPhase2						= mod:NewAnnounce("Phase2", 1, 196838) --Фаза 2
-
-local warnLeap							= mod:NewTargetAnnounce(197556, 2) --Хищный прыжок
---local warnPhase2						= mod:NewPhaseAnnounce(2, 2, nil, nil, nil, nil, nil, 2)
-local warnFixate						= mod:NewTargetAnnounce(196838, 3) --Запах крови
-local warnClawFrenzy					= mod:NewSpellAnnounce(196512, 2, nil, "Tank") --Бешеные когти
+local warnLeap							= mod:NewTargetAnnounce(197556, 3) --Хищный прыжок
+local warnFixate						= mod:NewTargetAnnounce(196838, 4) --Запах крови
+local warnFixate2						= mod:NewPreWarnAnnounce(196838, 5, 1) --Запах крови
+local warnClawFrenzy					= mod:NewSpellAnnounce(196512, 3, nil, "Melee") --Бешеные когти
 
 local specWarnLeap						= mod:NewSpecialWarningYouMoveAway(197556, nil, nil, nil, 4, 3) --Хищный прыжок
-local specWarnHowl						= mod:NewSpecialWarningCast(196543, "SpellCaster", nil, nil, 3, 2) --Пугающий вой
+local specWarnHowl						= mod:NewSpecialWarningCast(196543, "SpellCaster", nil, nil, 1, 3) --Пугающий вой
 local specWarnFixate					= mod:NewSpecialWarningYouRun(196838, nil, nil, nil, 4, 5) --Запах крови
 local specWarnFixateOver				= mod:NewSpecialWarningEnd(196838, nil, nil, nil, 1, 2) --Запах крови
-local specWarnWolves					= mod:NewSpecialWarningSwitch("ej12600", "Tank")
+local specWarnWolves					= mod:NewSpecialWarningSwitch("ej12600", "Tank|Dps", nil, nil, 1, 2) --Эбеновый ворг
 
-local timerLeapCD						= mod:NewCDTimer(32.5, 197556, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON)--31-36 --Хищный прыжок
---local timerClawFrenzyCD					= mod:NewCDTimer(9.7, 196512, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)--All over the place
-local timerHowlCD						= mod:NewCDTimer(31.5, 196543, nil, "SpellCaster", nil, 4, nil, DBM_CORE_INTERRUPT_ICON) --Пугающий вой Poor data
-local timerFixateCD						= mod:NewCDTimer(38.5, 196838, nil, nil, nil, 3) --Запах крови Poor data
-local timerWolvesCD						= mod:NewCDTimer(35, "ej12600", nil, nil, nil, 1, 199184)
+local timerLeapCD						= mod:NewCDTimer(32.5, 197556, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Хищный прыжок
+local timerClawFrenzyCD					= mod:NewCDTimer(9.7, 196512, nil, "Melee", nil, 5, nil, DBM_CORE_DEADLY_ICON) --Бешеные когти
+local timerHowlCD						= mod:NewCDTimer(31.5, 196543, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON) --Пугающий вой
+local timerFixateCD						= mod:NewCDTimer(38.5, 196838, nil, nil, nil, 7) --Запах крови
 
 local yellLeap							= mod:NewYell(197556, nil, nil, nil, "YELL") --Хищный прыжок
 local yellFixate						= mod:NewYell(196838, nil, nil, nil, "YELL") --Запах крови
@@ -73,9 +73,9 @@ function mod:OnCombatStart(delay)
 	warned_preP1 = false
 	warned_preP2 = false
 	self:SetWipeTime(5)
---	timerClawFrenzyCD:Start(19-delay)
-	timerHowlCD:Start(5-delay) --Пугающий вой было 8
-	timerLeapCD:Start(13.5-delay) --Хищный прыжок было 12
+	timerClawFrenzyCD:Start(10-delay) --Бешеные когти
+	timerHowlCD:Start(5-delay) --Пугающий вой
+	timerLeapCD:Start(13.5-delay) --Хищный прыжок
 end
 
 function mod:OnCombatEnd()
@@ -108,8 +108,14 @@ function mod:SPELL_AURA_APPLIED(args)
 				warnFixate:Show(args.destName)
 			end
 		end
+	elseif spellId == 196828 then --Запах крови
+		local amount = args.amount or 1
+		if amount >= 2 and amount % 2 == 0 then
+			warnScentofBlood:Show(args.destName, amount)
+		end
 	end
 end
+mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 
 function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
@@ -122,15 +128,21 @@ end
 
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
-	if spellId == 196838 then
-		timerFixateCD:Start()
+	if spellId == 196838 then --Запах крови
 		self:BossTargetScanner(99868, "FixateTarget", 0.2, 12, true, nil, nil, nil, true)--Target scanning used to grab target 2-3 seconds faster. Doesn't seem to anymore?
-	elseif spellId == 196543 then
+		timerFixateCD:Start()
+		warnFixate2:Schedule(33.5)
+		timerHowlCD:Start(20)
+		timerLeapCD:Start(25)
+		timerClawFrenzyCD:Start(17.7)
+	elseif spellId == 196543 then --Пугающий вой
 		specWarnHowl:Show()
 		specWarnHowl:Play("stopcast")
 		timerHowlCD:Start()
 	elseif spellId == 197558 then --Хищный прыжок
+		timerClawFrenzyCD:Cancel()
 		timerLeapCD:Start()
+		timerClawFrenzyCD:Start(11)
 	end
 end
 
@@ -148,11 +160,14 @@ function mod:SPELL_CAST_SUCCESS(args)
 			"ENCOUNTER_START",
 			"ZONE_CHANGED_NEW_AREA"
 		)
-	elseif spellId == 196512 then
+	elseif spellId == 196512 then --Бешеные когти
 		warnClawFrenzy:Show()
-	elseif spellId == 207707 and self:AntiSpam(2, 1) then--Wolves spawning out of stealth
-		specWarnWolves:Show()
-		timerWolvesCD:Start()
+		timerClawFrenzyCD:Start()
+	elseif spellId == 196543 then --Пугающий вой
+		if self.vb.phase == 2 then
+			specWarnWolves:Show()
+			specWarnWolves:Play("switch")
+		end
 	end
 end
 
@@ -192,6 +207,10 @@ function mod:UNIT_HEALTH(uId)
 			self.vb.phase = 2
 			warned_preP2 = true
 			warnPhase2:Show()
+			timerLeapCD:Start(15)
+			timerFixateCD:Start(28)
+			warnFixate2:Schedule(23)
+			timerClawFrenzyCD:Start(12.5)
 		end
 	else
 		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 99868 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.65 then

@@ -19,7 +19,7 @@ mod:RegisterEventsInCombat(
 --Один https://ru.wowhead.com/npc=114263/один/эпохальный-журнал-сражений#abilities;mode:
 local warnUnworthy					= mod:NewTargetAnnounce(198190, 1) --Недостойность
 local warnSpear						= mod:NewSpellAnnounce(198072, 2) --Копье света
-local warnSurge						= mod:NewCastAnnounce(198750, 4) --Импульс
+local warnSurge						= mod:NewSpellAnnounce(198750, 4) --Импульс
 
 local specWarnTempest				= mod:NewSpecialWarningRun(198263, nil, nil, nil, 4, 5) --Светозарная буря
 local specWarnShatterSpears			= mod:NewSpecialWarningDodge(198077, nil, nil, nil, 2, 2) --Расколотые копья
@@ -63,6 +63,10 @@ function mod:OnCombatStart(delay)
 		timerRunicBrandCD:Start(46.5-delay, 1) --Руническое клеймо+++
 		countdownRunicBrand:Start(46.5-delay) --Руническое клеймо+++
 		timerAddCD:Start(18-delay) --Призыв закаленного бурей воина+++
+		specWarnSpear:Schedule(8-delay) --Копье света+++
+		specWarnSpear:ScheduleVoice(8-delay, "watchstep") --Копье света+++
+		specWarnSpear:Schedule(16-delay) --Копье света+++
+		specWarnSpear:ScheduleVoice(16-delay, "watchstep") --Копье света+++
 		specWarnAdd:Schedule(19-delay) --Призыв закаленного бурей воина+++
 		specWarnAdd:ScheduleVoice(19-delay, "killmob") --Призыв закаленного бурей воина+++
 	else
@@ -131,7 +135,7 @@ function mod:SPELL_AURA_REMOVED(args)
 			self:SetIcon(args.destName, 0)
 		end
 	elseif spellId == 197964 and args:IsPlayer() then--Orange N (SE)
-		timerCrushArmor:Cancel(args.destName)
+		timerRunicBrand:Cancel(args.destName)
 		if self.Options.SetIconOnRunicBrand then
 			self:SetIcon(args.destName, 0)
 		end
@@ -155,19 +159,21 @@ end
 
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
-	if spellId == 198072 then
-		warnSpear:Show()
-		specWarnSpear:Show()
-	elseif spellId == 198263 then --Светозарная буря
+	if spellId == 198263 then --Светозарная буря
 		self.vb.tempestCount = self.vb.tempestCount + 1
 		specWarnTempest:Show(self.vb.tempestCount)
 		specWarnTempest:Play("runout")
 		timerTempestCast:Start()
 		countdownTempest2:Start()
---		timerSpearCD:Start(12)
 		timerTempestCD:Start(nil, self.vb.tempestCount+1)
 		countdownTempest:Start()
 		timerAddCD:Start(50)
+		specWarnSpear:Schedule(10) -- 1
+		specWarnSpear:ScheduleVoice(10, "watchstep")
+		specWarnSpear:Schedule(41) -- 2
+		specWarnSpear:ScheduleVoice(41, "watchstep")
+		specWarnSpear:Schedule(49) -- 3
+		specWarnSpear:ScheduleVoice(49, "watchstep")
 		specWarnAdd:Schedule(51)
 		specWarnAdd:ScheduleVoice(51, "killmob")
 	elseif spellId == 198077 then
@@ -193,7 +199,6 @@ function mod:SPELL_CAST_SUCCESS(args)
 		self.vb.brandCount = self.vb.brandCount + 1
 		timerRunicBrandCD:Start(nil, self.vb.tempestCount+1)
 		countdownRunicBrand:Start()
---		timerSpearCD:Start(18)
 	end
 end
 

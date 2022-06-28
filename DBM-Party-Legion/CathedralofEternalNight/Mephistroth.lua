@@ -50,12 +50,20 @@ local addsTable = {}
 
 function mod:OnCombatStart(delay)
 	table.wipe(addsTable)
-	timerDemonicUpheavalCD:Start(3.7-delay)--Cast Start
-	timerDarkSolitudeCD:Start(7.1-delay)
-	timerCarrionSwarmCD:Start(18.5-delay)
-	timerShadowFadeCD:Start(40-delay)--Cast Start
-	countdownShadowFade:Start(40-delay)
-	warnShadowFade2:Schedule(35-delay)
+	if not self:IsNormal() then
+		timerDemonicUpheavalCD:Start(3.7-delay) --Демоническое извержение
+		countdownDemonicUpheaval:Start(3.7-delay) --Демоническое извержение
+		timerDarkSolitudeCD:Start(7.1-delay) --Темное одиночество
+		timerCarrionSwarmCD:Start(18.5-delay) --Темная стая
+		timerShadowFadeCD:Start(40-delay) --Уход во тьму
+		countdownShadowFade:Start(40-delay) --Уход во тьму
+		warnShadowFade2:Schedule(35-delay) --Уход во тьму
+	else
+		timerDemonicUpheavalCD:Start(3.2-delay) --Демоническое извержение
+		timerDarkSolitudeCD:Start(8.1-delay) --Темное одиночество
+		timerCarrionSwarmCD:Start(15-delay) --Темная стая
+		timerShadowFadeCD:Start(40-delay) --Уход во тьму
+	end
 	if self.Options.RangeFrame then
 		DBM.RangeCheck:Show(8)
 	end
@@ -83,6 +91,7 @@ function mod:SPELL_CAST_START(args)
 		timerCarrionSwarmCD:Stop()
 		timerDarkSolitudeCD:Stop()
 		timerDemonicUpheavalCD:Stop()
+		countdownDemonicUpheaval:Cancel()
 		if self.Options.RangeFrame then
 			DBM.RangeCheck:Hide()
 		end
@@ -104,6 +113,7 @@ function mod:SPELL_AURA_REMOVED(args)
 	if spellId == 233206 then --Уход во тьму заканчивается
 		specWarnShadowFadeEnded:Show()
 		timerDemonicUpheavalCD:Start(3.5)--3 for cast start 6 for cast finish, decide which one want to use still
+		countdownDemonicUpheaval:Start(3.5)
 		timerDarkSolitudeCD:Start(7.5)
 		timerCarrionSwarmCD:Start(18.5)
 		timerShadowFadeCD:Start()
@@ -158,11 +168,3 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spell
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
-
---TODO: Can tank dodge swarm once cast starts?
---TODO, shadowfade ending and initial timers post shadow phase
---TODO, verify if more debuff spellids for Demonic Upheavel than one. determine if best place to do timer
---TODO, shadow of mephistro spawn warnings, probably 234034
---TODO, phases for mephisto
---TODO, announce who grabs shield on mephisto
---TODO, announce circles spawning on ground (watch step) on mephisto

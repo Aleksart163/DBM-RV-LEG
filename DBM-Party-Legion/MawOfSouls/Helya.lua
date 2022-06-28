@@ -116,6 +116,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	--	warnSubmerged:Show()
 		specWarnSubmerged:Show()
 		timerSubmerged:Start()
+		countdownBrackwaterBarrage:Cancel()
 		countdownSubmerged:Start(15)
 		if self.vb.phase == 1 then
 			self.vb.phase = 2

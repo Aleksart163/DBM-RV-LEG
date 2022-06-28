@@ -13,7 +13,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 212834 200185 200289",
 	"SPELL_AURA_APPLIED 200182 200243 200289 200238",
 	"SPELL_AURA_REFRESH 200243",
-	"SPELL_AURA_REMOVED 200243 200359",
+	"SPELL_AURA_REMOVED 200243 200289",
 	"SPELL_CAST_SUCCESS 200359 199837 200182 200238",
 	"UNIT_SPELLCAST_SUCCEEDED boss1",
 	"UNIT_HEALTH boss1"
@@ -54,7 +54,6 @@ mod:AddSetIconOption("SetIconOnFeedontheWeak", 200238, true, false, {8}) --По�
 mod:AddSetIconOption("SetIconOnParanoia", 200289, true, false, {7}) --Усугубляющаяся паранойя
 mod:AddSetIconOption("SetIconOnNightmareBolt", 200185, true, false, {6}) --Кошмарная стрела
 mod:AddSetIconOption("SetIconOnNightmare", 200243, true, false, {1}) --Кошмар наяву
-mod:AddBoolOption("AnnounceParanoia", false)
 
 mod.vb.phase = 1
 local warned_preP1 = false
@@ -62,12 +61,11 @@ local warned_preP2 = false
 
 function mod:NightmareBoltTarget(targetname, uId) --Кошмарная стрела
 	if not targetname then return end
+	warnNightmareBolt:Show(targetname)
 	if targetname == UnitName("player") then
 		specWarnNightmareBolt:Show()
 		specWarnNightmareBolt:Play("defensive")
 		yellNightmareBolt:Yell()
-	else
-		warnNightmareBolt:Show(targetname)
 	end
 	if self.Options.SetIconOnNightmareBolt then
 		self:SetIcon(targetname, 6, 5)
@@ -76,6 +74,7 @@ end
 
 function mod:ParanoiaTarget(targetname, uId) --Усугубляющаяся паранойя
 	if not targetname then return end
+	warnParanoia:Show(targetname)
 	if targetname == UnitName("player") then
 		specWarnParanoia:Show()
 		specWarnParanoia:Play("runaway")
@@ -84,15 +83,6 @@ function mod:ParanoiaTarget(targetname, uId) --Усугубляющаяся па
 	elseif self:CheckNearby(15, targetname) then
 		specWarnParanoia2:Show(targetname)
 		specWarnParanoia2:Play("runaway")
-	else
-		warnParanoia:Show(targetname)
-	end
-	if mod.Options.AnnounceParanoia then
-		if IsInRaid() then
-			SendChatMessage(L.Paranoia:format(targetname), "RAID")
-		elseif IsInGroup() then
-			SendChatMessage(L.Paranoia:format(targetname), "PARTY")
-		end
 	end
 end
 
@@ -116,9 +106,9 @@ end
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 212834 or spellId == 200185 then --Кошмарная стрела
-		self:BossTargetScanner(args.sourceGUID, "NightmareBoltTarget", 0.2)
+		self:BossTargetScanner(args.sourceGUID, "NightmareBoltTarget", 0.1, 9)
 	elseif spellId == 200289 then --Усугубляющаяся паранойя
-		self:BossTargetScanner(args.sourceGUID, "ParanoiaTarget", 0.3)
+		self:BossTargetScanner(args.sourceGUID, "ParanoiaTarget", 0.1, 9)
 	end
 end
 

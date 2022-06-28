@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1654, "DBM-Party-Legion", 2, 762)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17603 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 mod:SetCreatureID(96512)
 mod:SetEncounterID(1836)
 mod:SetZone()
@@ -11,76 +11,114 @@ mod:RegisterCombat("combat")
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 198379",
 	"SPELL_CAST_SUCCESS 198401 212464",
+	"SPELL_AURA_APPLIED 196376",
+	"SPELL_AURA_REMOVED 196376",
 	"SPELL_PERIODIC_DAMAGE 198408",
 	"SPELL_PERIODIC_MISSED 198408",
 	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
+--Верховный друид Глайдалис https://ru.wowhead.com/npc=96512/верховный-друид-глайдалис/эпохальный-журнал-сражений
+local warnLeap					= mod:NewTargetAnnounce(196346, 4) --Мучительный прыжок
+--local warnNightFall				= mod:NewSpellAnnounce(198401, 2) --Сумерки
 
-local warnLeap					= mod:NewTargetAnnounce(196346, 2) --Мучительный прыжок 0.5 seconds may still be too hard to dodge even if target scanning works.
-local warnNightFall				= mod:NewSpellAnnounce(198401, 2) --Сумерки
-
+local specWarnGrievousTear		= mod:NewSpecialWarningYou(196376, nil, nil, nil, 2, 2) --Мучительное разрывание
+local specWarnGrievousTear2		= mod:NewSpecialWarningEnd(196376, nil, nil, nil, 1, 2) --Мучительное разрывание
 local specWarnNightfall			= mod:NewSpecialWarningYouMove(198408, nil, nil, nil, 1, 2) --Сумерки
---local specWarnLeap			= mod:NewSpecialWarningDodge(196346, nil, nil, nil, 1) --Мучительный прыжок
-local specWarnRampage			= mod:NewSpecialWarningDefensive(198379, "Tank", nil, nil, 1, 2) --Первобытная ярость
+local specWarnRampage			= mod:NewSpecialWarningYouDefensive(198379, "Tank", nil, nil, 3, 2) --Первобытная ярость
+local specWarnRampage2			= mod:NewSpecialWarningDodge(198379, "MeleeDps", nil, nil, 2, 2) --Первобытная ярость
 
-local timerLeapCD				= mod:NewCDTimer(14, 196346, nil, nil, nil, 3) --Мучительный прыжок
-local timerRampageCD			= mod:NewCDTimer(15.8, 198379, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Первобытная ярость
-local timerNightfallCD			= mod:NewCDTimer(14.5, 198401, nil, nil, nil, 3) --Сумерки
+local timerLeapCD				= mod:NewCDTimer(14, 196346, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON..DBM_CORE_HEALER_ICON) --Мучительный прыжок
+local timerRampageCD			= mod:NewCDTimer(29, 198379, nil, "Melee", nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Первобытная ярость
+local timerNightfallCD			= mod:NewCDTimer(14.5, 198401, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Сумерки
 
 local yellLeap					= mod:NewYell(196346, nil, nil, nil, "YELL") --Мучительный прыжок
 
-function mod:LeapTarget(targetname, uId)
-	if not targetname then
-		warnLeap:Show(DBM_CORE_UNKNOWN)
-		return
-	end
-	if targetname == UnitName("player") then
-		yellLeap:Yell()
-	else
-		warnLeap:Show(targetname)
-	end
-end
+mod.vb.rampage = 0
 
 function mod:OnCombatStart(delay)
-	timerLeapCD:Start(5.9-delay)
-	timerRampageCD:Start(12.2-delay)
-	timerNightfallCD:Start(19-delay)
-end
-
-function mod:SPELL_CAST_SUCCESS(args)
-	local spellId = args.spellId
-	if (spellId == 198401 or spellId == 212464) and self:AntiSpam(2, 1) then
-		warnNightFall:Show()
-		if spellId == 212464 then
-			timerNightfallCD:Start(28)--Needs more support data. could be health based too
-		else
-			timerNightfallCD:Start()
-		end
+	self.vb.rampage = 0
+	if not self:IsNormal() then
+		timerLeapCD:Start(5.5-delay) --Мучительный прыжок
+		timerRampageCD:Start(13.5-delay) --Первобытная ярость
+	--	timerNightfallCD:Start(25-delay) --Сумерки
+	else
+		timerLeapCD:Start(5.9-delay) --Мучительный прыжок
+		timerRampageCD:Start(12.2-delay) --Первобытная ярость
+	--	timerNightfallCD:Start(19-delay) --Сумерки
 	end
 end
 
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 198379 then
+		self.vb.rampage = self.vb.rampage + 1
 		specWarnRampage:Show()
 		specWarnRampage:Play("defensive")
+		specWarnRampage2:Show()
+		specWarnRampage2:Play("watchstep")
 		timerRampageCD:Start()
+		if self.vb.rampage == 1 then
+			timerNightfallCD:Start(12.5)
+		elseif self.vb.rampage == 2 then
+			timerNightfallCD:Start(12)
+		elseif self.vb.rampage == 3 then
+			timerNightfallCD:Start(14)
+		elseif self.vb.rampage == 4 then
+			timerNightfallCD:Start(15)
+		elseif self.vb.rampage == 5 then
+			timerNightfallCD:Start(16)
+		elseif self.vb.rampage == 6 then
+			timerNightfallCD:Start(18)
+		elseif self.vb.rampage == 7 then
+			timerNightfallCD:Start(25)
+		elseif self.vb.rampage == 8 then
+			timerNightfallCD:Start(26)
+		elseif self.vb.rampage == 9 then
+			timerNightfallCD:Start(28.5)
+		elseif self.vb.rampage == 10 then
+			timerNightfallCD:Start(35)
+		elseif self.vb.rampage == 11 then
+			timerNightfallCD:Start(6)
+		end
+	end
+end
+
+function mod:SPELL_AURA_APPLIED(args)
+	local spellId = args.spellId
+	if spellId == 196376 then --Мучительное разрывание
+		warnLeap:Show(args.destName)
+		if args:IsPlayer() then
+			specWarnGrievousTear:Show()
+			specWarnGrievousTear:Play("defensive")
+			yellLeap:Yell()
+		end
+	end
+end
+
+function mod:SPELL_AURA_REMOVED(args)
+	local spellId = args.spellId
+	if spellId == 196376 then --Мучительное разрывание
+		if self:IsHard() then
+			if args:IsPlayer() then
+				specWarnGrievousTear2:Show()
+			end
+		end
 	end
 end
 
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 198408 and destGUID == UnitGUID("player") and self:AntiSpam(2, 2) then
-		specWarnNightfall:Show()
-		specWarnNightfall:Play("runaway")
+		if not self:IsNormal() then
+			specWarnNightfall:Show()
+			specWarnNightfall:Play("runaway")
+		end
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
 
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	local spellId = legacySpellId or bfaSpellId
-	--"<13.84 02:50:50> [UNIT_SPELLCAST_SUCCEEDED] Arch-Druid Glaidalis(Omegal) [[boss1:Grievous Leap::3-2084-1466-6383-196346-000018A4DA:196346]]", -- [47]
 	if spellId == 196346 then
-		self:BossTargetScanner(96512, "LeapTarget", 0.05, 12, true, nil, nil, nil, true)
 		timerLeapCD:Start()
 	end
 end

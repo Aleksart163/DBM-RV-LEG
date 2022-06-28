@@ -23,6 +23,7 @@ mod:RegisterEvents(
 --Каражан треш
 local warnVolatileCharge			= mod:NewTargetAnnounce(228331, 4) --Нестабильный заряд
 local warnOathofFealty				= mod:NewCastAnnounce(228280, 3) --Клятва верности
+local warnOathofFealty2				= mod:NewTargetAnnounce(228331, 3) --Клятва верности
 local warnNullification				= mod:NewTargetAnnounce(230083, 2) --Полная нейтрализация
 local warnReinvigorated				= mod:NewTargetAnnounce(230087, 1) --Восполнение сил
 
@@ -49,8 +50,8 @@ local specWarnRoyalty				= mod:NewSpecialWarningSwitch(229489, "-Healer", nil, n
 local specWarnFlashlight			= mod:NewSpecialWarningLookAway(227966, nil, nil, nil, 3, 3) --Фонарь
 
 local timerNullificationCD			= mod:NewCDTimer(14, 230094, nil, nil, nil, 7, nil) --Полная нейтрализация
-local timerReinvigorated			= mod:NewTargetTimer(20, 230087, nil, nil, nil, 3, nil, DBM_CORE_DAMAGE_ICON) --Восполнение сил
-local timerOathofFealty				= mod:NewTargetTimer(15, 228280, nil, nil, nil, 3, nil) --Клятва верности
+local timerReinvigorated			= mod:NewTargetTimer(20, 230087, nil, nil, nil, 7) --Восполнение сил
+local timerOathofFealty				= mod:NewTargetTimer(15, 228280, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON) --Клятва верности
 local timerRoyalty					= mod:NewCDTimer(20, 229489, nil, nil, nil, 3, nil, DBM_CORE_DAMAGE_ICON) --Царственность
 
 local yellNullification				= mod:NewYell(230083, nil, nil, nil, "YELL") --Полная нейтрализация
@@ -58,7 +59,7 @@ local yellVolatileCharge			= mod:NewYell(228331, nil, nil, nil, "YELL") --Нес
 local yellVolatileCharge2			= mod:NewFadesYell(228331, nil, nil, nil, "YELL") --Нестабильный заряд
 local yellBurningBrand				= mod:NewYell(228610, nil, nil, nil, "YELL") --Горящее клеймо
 local yellBurningBrand2				= mod:NewFadesYell(228610, nil, nil, nil, "YELL") --Горящее клеймо
-local yellReinvigorated				= mod:NewYell(230087, L.ReinvigoratedYell, nil, nil, "YELL") --Восполнение сил
+--local yellReinvigorated				= mod:NewYell(230087, L.ReinvigoratedYell, nil, nil, "YELL") --Восполнение сил
 local yellReinvigorated2			= mod:NewFadesYell(230087, nil, nil, nil, "YELL") --Восполнение сил
 
 local timerAchieve					= mod:NewBuffActiveTimer(480, 229074)
@@ -147,10 +148,11 @@ function mod:SPELL_AURA_APPLIED(args)
 			timerAchieve:Start(debuffTime)
 		end
 	elseif spellId == 230083 then --Полная нейтрализация
-		warnNullification:Show(args.destName)
 		if args:IsPlayer() then
 			specWarnNullification:Show()
 			yellNullification:Yell()
+		else
+			warnNullification:Show(args.destName)
 		end
 	elseif spellId == 230050 then --Силовой клинок
 		if args:IsPlayer() then
@@ -158,6 +160,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnForceBlade:Play("defensive")
 		end
 	elseif spellId == 228280 then --Клятва верности
+		warnOathofFealty2:CombinedShow(0.5, args.destName)
 		timerOathofFealty:Start(args.destName)
 		specWarnOathofFealty2:Show(args.destName)
 		specWarnOathofFealty2:Play("dispelnow")
@@ -165,7 +168,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerReinvigorated:Start(args.destName)
 		if args:IsPlayer() then
 			specWarnReinvigorated:Show()
-			yellReinvigorated:Yell(playerName)
+		--	yellReinvigorated:Yell(playerName)
 			yellReinvigorated2:Countdown(20, 3)
 		else
 			warnReinvigorated:Show(args.destName)
@@ -173,7 +176,6 @@ function mod:SPELL_AURA_APPLIED(args)
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
-mod.SPELL_AURA_REFRESH = mod.SPELL_AURA_APPLIED
 
 function mod:SPELL_AURA_REMOVED(args)
 	if not self.Options.Enabled then return end
@@ -188,10 +190,10 @@ function mod:SPELL_AURA_REMOVED(args)
 			specWarnReinvigorated2:Show()
 			yellReinvigorated2:Cancel()
 		end
---[[	elseif spellId == 228610 then --Горящее клеймо
+	elseif spellId == 228610 then --Горящее клеймо
 		if args:IsPlayer() then
 			yellBurningBrand2:Cancel()
-		end]]
+		end
 	end
 end
 

@@ -9,16 +9,24 @@ mod.isTrashMod = true
 
 mod:RegisterEvents(
 	"SPELL_CAST_START 198379 201226 200580",
-	"SPELL_AURA_APPLIED 204243 225568",
-	"SPELL_AURA_REMOVED 225568",
+	"SPELL_CAST_SUCCESS 201272",
+	"SPELL_SUMMON 201251",
+	"SPELL_AURA_APPLIED 204243 225568 198904",
+	"SPELL_AURA_REMOVED 225568 198904",
 	"SPELL_PERIODIC_DAMAGE 200822",
 	"SPELL_PERIODIC_MISSED 200822"
 )
+
 --Треш Чащи Темного Сердца
 local warnCurseofIsolation				= mod:NewTargetAnnounce(225568, 3) --Проклятие уединения
+local warnPoisonSpear					= mod:NewTargetAnnounce(198904, 3) --Отравленное копье
 
+local specWarnDispersion				= mod:NewSpecialWarningSwitch(201250, "Tank|Dps", nil, nil, 1, 2) --Слияние с Тьмой
+local specWarnBloodBomb					= mod:NewSpecialWarningDodge(201272, nil, nil, nil, 2, 2) --Кровавая бомба
 local specWarnCurseofIsolation			= mod:NewSpecialWarningDispel(225568, "RemoveCurse", nil, nil, 1, 3) --Проклятие уединения
+local specWarnPoisonSpear				= mod:NewSpecialWarningDispel(198904, "RemovePoison", nil, nil, 1, 3) --Отравленное копье
 local specWarnCurseofIsolation2			= mod:NewSpecialWarningYou(225568, nil, nil, nil, 2, 3) --Проклятие уединения
+local specWarnPoisonSpear2				= mod:NewSpecialWarningYou(198904, nil, nil, nil, 2, 3) --Отравленное копье
 local specWarnPrimalRampage				= mod:NewSpecialWarningDodge(198379, "Melee", nil, nil, 1, 2)
 local specWarnBloodAssault				= mod:NewSpecialWarningDodge(201226, nil, nil, nil, 2, 2) --Кровавая атака
 local specWarnMaddeningRoar				= mod:NewSpecialWarningDefensive(200580, nil, nil, nil, 3, 5) --Безумный рев
@@ -46,6 +54,23 @@ function mod:SPELL_CAST_START(args)
 	end
 end
 
+function mod:SPELL_CAST_SUCCESS(args)
+	local spellId = args.spellId
+	if spellId == 201272 then --Кровавая бомба
+		specWarnBloodBomb:Show()
+		specWarnBloodBomb:Play("watchstep")
+	end
+end
+
+--[[
+function mod:SPELL_SUMMON(args)
+	local spellId = args.spellId
+	if spellId == 201251 and self:AntiSpam(2, 1) then --Слияние с Тьмой
+		specWarnDispersion:Show()
+		specWarnDispersion:Play("switch")
+	end
+end]]
+
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 204243 and self:AntiSpam(3, 1) then --Истязающий глаз
@@ -63,6 +88,17 @@ function mod:SPELL_AURA_APPLIED(args)
 			else
 				specWarnCurseofIsolation:Show(args.destName)
 				specWarnCurseofIsolation:Play("dispelnow")
+			end
+		end
+	elseif spellId == 198904 then --Отравленное копье
+		warnPoisonSpear:CombinedShow(0.5, args.destName)
+		if self:IsHard() then
+			if args:IsPlayer() then
+				specWarnPoisonSpear2:Show()
+				specWarnPoisonSpear2:Play("defensive")
+			else
+				specWarnPoisonSpear:CombinedShow(0.5, args.destName)
+				specWarnPoisonSpear:Play("dispelnow")
 			end
 		end
 	end

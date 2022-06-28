@@ -45,7 +45,6 @@ local countdownrushingDepths2		= mod:NewCountdownFades("Alt6", 197365, nil, nil,
 
 mod:AddSetIconOption("SetIconOnArcaneBomb", 192706, true, false, {7}) --Чародейская бомба
 mod:AddSetIconOption("SetIconOnCrushingDepths", 197365, true, false, {8}) --Морская пучина
-mod:AddBoolOption("AnnounceArcaneBomb", false)
 mod:AddRangeFrameOption(10, 192706) --Чародейская бомба
 
 mod.vb.phase = 1
@@ -57,6 +56,7 @@ end
 
 function mod:CrushingDepthsTarget(targetname, uId) --Морская пучина
 	if not targetname then return end
+	warnCrushingDepths:Show(targetname)
 	if targetname == UnitName("player") then
 		specWarnCrushingDepths2:Show()
 		specWarnCrushingDepths2:Play("defensive")
@@ -64,8 +64,6 @@ function mod:CrushingDepthsTarget(targetname, uId) --Морская пучина
 		yellCrushingDepthsFades:Countdown(6, 3)
 	elseif self:CheckNearby(30, targetname) then
 		specWarnCrushingDepths:Show(targetname)
-	else
-		warnCrushingDepths:Show(targetname)
 	end
 	if self.Options.SetIconOnCrushingDepths then
 		self:SetIcon(targetname, 8, 6)
@@ -92,26 +90,22 @@ function mod:OnCombatEnd()
 	if self.Options.RangeFrame then
 		DBM.RangeCheck:Hide()
 	end
+	if self.Options.SetIconOnArcaneBomb then
+		self:SetIcon(args.destName, 0)
+	end
 end
 
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 192706 then --Чародейская бомба
 		timerArcaneBomb:Start(args.destName)
-		specWarnArcaneBomb2:Schedule(3, args.destName)
-		specWarnArcaneBomb2:ScheduleVoice(3, "dispelnow")
+	--	specWarnArcaneBomb2:Schedule(3, args.destName)
+	--	specWarnArcaneBomb2:ScheduleVoice(3, "dispelnow")
 		if self.Options.RangeFrame then
 			DBM.RangeCheck:Show(10)
 		end
 		if self.Options.SetIconOnArcaneBomb then
 			self:SetIcon(args.destName, 7, 15)
-		end
-		if mod.Options.AnnounceArcaneBomb then
-			if IsInRaid() then
-				SendChatMessage(L.ArcaneBomb:format(args.destName), "RAID")
-			elseif IsInGroup() then
-				SendChatMessage(L.ArcaneBomb:format(args.destName), "PARTY")
-			end
 		end
 	end
 end
@@ -150,22 +144,15 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 192696 then --Бушующий шторм
 		warnRagingStorms:Show()
 	elseif spellId == 197365 then --Морская пучина
-		self:BossTargetScanner(args.sourceGUID, "CrushingDepthsTarget", 0.2)
+		self:BossTargetScanner(args.sourceGUID, "CrushingDepthsTarget", 0.1, 9)
 		timerCrushingDepthsCD:Start(40)
 		countdownrushingDepths:Start(40)
 		countdownrushingDepths2:Start()
 	end
 end
---[[
-function mod:SPELL_CAST_SUCCESS(args)
-	if args.spellId == 197365 then --Морская пучина
-		timerCrushingDepthsCD:Start()
-	end
-end]]
 
---2 seconds faster than combat log
 function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, _, _, _, targetname)
-	if msg:find("spell:192708") then
+	if msg:find("spell:192708") then --Чародейская бомба
 		timerArcaneBombCD:Start()
 		if targetname == UnitName("player") then
 			specWarnArcaneBomb:Show()
@@ -174,6 +161,8 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, _, _, _, targetname)
 			yellArcaneBombFades:Countdown(15, 3)
 		else
 			warnArcaneBomb:Show(targetname)
+			specWarnArcaneBomb2:Schedule(3, targetname)
+			specWarnArcaneBomb2:ScheduleVoice(3, "dispelnow")
 		end
 	end
 end

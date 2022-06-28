@@ -64,6 +64,15 @@ L:SetMiscLocalization({
 	RP1 = "Now... now I see..."
 })
 
+-----------
+--Mythic+--
+-----------
+L = DBM:GetModLocalization("MAffix")
+
+L:SetGeneralLocalization({
+	name = "Mythic+ keys"
+})
+
 -----------------------
 -- <<<Darkheart Thicket>>> --
 -----------------------
@@ -92,11 +101,11 @@ L= DBM:GetModLocalization(1656)
 L= DBM:GetModLocalization(1657)
 
 L:SetOptionLocalization{
-	AnnounceParanoia = "Announce the players on whom $spell:200289 in chat"
+--	AnnounceParanoia = "Announce the players on whom $spell:200289 in chat"
 }
 
 L:SetMiscLocalization{
-	Paranoia = "Growing Paranoia is used on: %s",
+--	Paranoia = "Growing Paranoia is used on: %s",
 	ParanoiaYell = "Growing Paranoia on %s. Get away from me!"
 }
 
@@ -167,14 +176,6 @@ L= DBM:GetModLocalization(1485)
 -- Hyrja --
 -----------------------
 L= DBM:GetModLocalization(1486)
-
-L:SetOptionLocalization{
-	AnnounceArcingBolt = "Announce the players on whom $spell:191976 in chat"
-}
-
-L:SetMiscLocalization{
-	ArcingBolt = "Arcing Bolt is used on: %s"
-}
 
 -----------------------
 -- Fenryr --

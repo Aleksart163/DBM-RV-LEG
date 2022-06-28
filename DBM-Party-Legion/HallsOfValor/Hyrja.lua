@@ -34,7 +34,7 @@ local specWarnArcingBolt			= mod:NewSpecialWarningYouMoveAway(191976, nil, nil, 
 
 local timerArcingBoltCD				= mod:NewCDTimer(28, 191976, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Дуговая молния+++
 local timerShieldOfLightCD			= mod:NewCDTimer(28, 192018, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Щит Света 28-34
-local timerSpecialCD				= mod:NewNextTimer(30, 200736, nil, nil, nil, 2, 200901, DBM_CORE_DEADLY_ICON) --Особый спелл
+local timerSpecialCD				= mod:NewNextTimer(30, 200736, nil, nil, nil, 2, 143497, DBM_CORE_DEADLY_ICON) --Особый спелл
 local timerExpelLightCD				= mod:NewCDTimer(24.5, 192048, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Световое излучение+++
 
 local yellExpelLight				= mod:NewYell(192048, nil, nil, nil, "YELL") --Световое излучение
@@ -46,7 +46,6 @@ local countdownShieldOfLight		= mod:NewCountdown("Alt27.5", 192018, "Tank", nil,
 
 mod:AddSetIconOption("SetIconOnExpelLight", 192048, true, false, {8}) --Световое излучение
 mod:AddSetIconOption("SetIconOnArcingBolt", 191976, true, false, {7}) --Дуговая молния
-mod:AddBoolOption("AnnounceArcingBolt", false)
 mod:AddRangeFrameOption(8, 192048) --Световое излучение
 
 local eyeShortName = DBM:GetSpellInfo(91320)--Inner Eye
@@ -68,13 +67,16 @@ function mod:ArcingBoltTarget(targetname, uId)
 	if self.Options.SetIconOnArcingBolt then
 		self:SetIcon(targetname, 7, 5)
 	end
-	if mod.Options.AnnounceArcingBolt then
-		if IsInRaid() then
-			SendChatMessage(L.ArcingBolt:format(targetname), "RAID")
-		elseif IsInGroup() then
-			SendChatMessage(L.ArcingBolt:format(targetname), "PARTY")
-		end
-	end
+end
+
+local function UpdateArcingBoltTimer1(self)
+	timerArcingBoltCD:Stop()
+	timerArcingBoltCD:Start(13)
+end
+
+local function UpdateArcingBoltTimer2(self)
+	timerArcingBoltCD:Stop()
+	timerArcingBoltCD:Start(12)
 end
 
 function mod:OnCombatStart(delay)
@@ -162,7 +164,7 @@ end
 
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
-	if spellId == 192158 or spellId == 192307 then
+	if spellId == 192158 or spellId == 192307 then --Освящение
 		specWarnSanctify:Show()
 		specWarnSanctify:Play("watchorb")
 		specWarnSanctify2:Show()
@@ -172,12 +174,15 @@ function mod:SPELL_CAST_START(args)
 			countdownSpecial:Cancel()
 			countdownSpecial:Start()
 		end
+		if timerArcingBoltCD:GetTime() < 13 and warned_MET then
+			UpdateArcingBoltTimer2(self)
+		end
 	elseif spellId == 192018 then --Щит Света
 		specWarnShieldOfLight:Show()
 		specWarnShieldOfLight:Play("defensive")
 		timerShieldOfLightCD:Start()
 		countdownShieldOfLight:Start()
-	elseif spellId == 200901 then
+	elseif spellId == 200901 then --Око шторма
 		specWarnEyeofStorm:Show(eyeShortName)
 		specWarnEyeofStorm:Play("findshelter")
 		specWarnEyeofStorm2:Schedule(4)
@@ -187,8 +192,11 @@ function mod:SPELL_CAST_START(args)
 			countdownSpecial:Cancel()
 			countdownSpecial:Start()
 		end
+		if timerArcingBoltCD:GetTime() < 13 then
+			UpdateArcingBoltTimer1(self)
+		end
 	elseif spellId == 191976 then --Дуговая молния
-		self:BossTargetScanner(args.sourceGUID, "ArcingBoltTarget", 0.1)
+		self:BossTargetScanner(args.sourceGUID, "ArcingBoltTarget", 0.1, 9)
 		timerArcingBoltCD:Start(15)
 	end
 end

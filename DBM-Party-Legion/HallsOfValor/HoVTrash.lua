@@ -107,10 +107,10 @@ function mod:SPELL_CAST_START(args)
 		timerEyeofStormCD:Start()
 		countdownEyeofStorm:Start()
 	elseif spellId == 192158 then --Освящение
-		specWarnSanctify:Show()
-		specWarnSanctify:Play("watchorb")
 		specWarnSanctify2:Show()
 		specWarnSanctify2:Play("watchorb")
+		specWarnSanctify:Show()
+		specWarnSanctify:Play("watchorb")
 		timerSanctifyCD:Start()
 		countdownSanctify:Start()
 	elseif spellId == 210875 and self:AntiSpam(2, 1) then --Пульсирующий заряд
@@ -122,7 +122,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 199652 and self:AntiSpam(3, 1) then --Рассечение
 		specWarnSever:Show()
 		specWarnSever:Play("defensive")
-	elseif spellId == 200969 then --Зов предков
+	elseif spellId == 200969 and self:AntiSpam(3, 1) then --Зов предков
 		specWarnCallAncestor:Show()
 		specWarnCallAncestor:Play("switch")
 	elseif spellId == 198888 then --Грозовое дыхание
@@ -149,7 +149,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			yellThunderstrike:Yell()
 			yellThunderstrike2:Countdown(3)
 		elseif self:CheckNearby(10, args.destName) then
-			specWarnThunderstrike2:CombinedShow(0.3, args.destName)
+			specWarnThunderstrike2:CombinedShow(0.2, args.destName)
 			specWarnThunderstrike2:Play("watchstep")
 		end
 		if self.Options.RangeFrame then
@@ -264,7 +264,7 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spell
 			specWarnEtch:Show()
 			specWarnEtch:Play("runaway")
 		end
-	elseif spellId == 199818 and destGUID == UnitGUID("player") and self:AntiSpam(2.5, 1) then --Разряд
+	elseif spellId == 199818 and destGUID == UnitGUID("player") and self:AntiSpam(3, 1) then --Разряд
 		if self:IsHard() then
 			specWarnCrackle2:Show()
 			specWarnCrackle2:Play("runaway")

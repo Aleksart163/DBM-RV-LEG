@@ -67,6 +67,15 @@ L:SetMiscLocalization({
 	RP1 = "Я... я все понял..."
 })
 
+----------
+--Мифик+--
+----------
+L = DBM:GetModLocalization("MAffix")
+
+L:SetGeneralLocalization({
+	name = "Мифик+ ключи"
+})
+
 -----------------------------
 --<<<Чаща Темного Сердца>>>--
 -----------------------------
@@ -96,11 +105,11 @@ L= DBM:GetModLocalization(1656)
 L= DBM:GetModLocalization(1657)
 
 L:SetOptionLocalization{
-	AnnounceParanoia = "Объявлять игроков, на которых $spell:200289, в чат"
+--	AnnounceParanoia = "Объявлять игроков, на которых $spell:200289, в чат"
 }
 
 L:SetMiscLocalization{
-	Paranoia = "Усугубляющаяся паранойя используется на: %s",
+--	Paranoia = "Усугубляющаяся паранойя используется на: %s",
 	ParanoiaYell = "Усугубляющаяся паранойя на %s. УЁБЫВАЙТЕ от меня!"
 }
 
@@ -173,14 +182,6 @@ L= DBM:GetModLocalization(1485)
 --Хирья--
 ---------
 L= DBM:GetModLocalization(1486)
-
-L:SetOptionLocalization{
-	AnnounceArcingBolt = "Объявлять игроков, на которых $spell:191976, в чат"
-}
-
-L:SetMiscLocalization{
-	ArcingBolt = "Дуговая молния используется на: %s"
-}
 
 ----------
 --Фенрир--
