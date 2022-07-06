@@ -10,8 +10,8 @@ mod.isTrashMod = true
 mod:RegisterEvents(
 	"SPELL_CAST_START 198405 195031 195293 196885 194099 192019 199589",
 	"SPELL_CAST_SUCCESS 195279",
-	"SPELL_AURA_APPLIED 195279",
-	"SPELL_AURA_REMOVED 195279",
+	"SPELL_AURA_APPLIED 195279 200208",
+	"SPELL_AURA_REMOVED 195279 200208",
 	"SPELL_PERIODIC_DAMAGE 194102",
 	"SPELL_PERIODIC_MISSED 194102",
 	"CHAT_MSG_MONSTER_YELL",
@@ -22,6 +22,7 @@ mod:RegisterEvents(
 local warnScream				= mod:NewSpellAnnounce(198405, 4) --Леденящий душу вопль
 local warnWhirlpoolSouls		= mod:NewSpellAnnounce(199589, 4) --Водоворот душ
 
+local specWarnBrackwaterBlast	= mod:NewSpecialWarningYouDefensive(200208, nil, nil, nil, 3, 5) --Взрыв солоноватой воды
 local specWarnLanternDarkness	= mod:NewSpecialWarningDefensive(192019, nil, nil, nil, 3, 5) --Фонарь Тьмы
 local specWarnPoisonousSludge	= mod:NewSpecialWarningYouMove(194102, nil, nil, nil, 1, 2) --Ядовитая жижа
 local specWarnBind				= mod:NewSpecialWarningYouDefensive(195279, nil, nil, nil, 2, 5) --Связывание
@@ -95,6 +96,12 @@ function mod:SPELL_AURA_APPLIED(args)
 	if spellId == 195279 then --Связывание
 		if args:IsPlayer() then
 			specWarnBind:Show()
+			specWarnBind:Play("defensive")
+		end
+	elseif spellId == 200208 then --Взрыв солоноватой воды
+		if args:IsPlayer() then
+			specWarnBrackwaterBlast:Show()
+			specWarnBrackwaterBlast:Play("defensive")
 		end
 	end
 end
