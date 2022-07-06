@@ -64,6 +64,7 @@ function mod:CrushingDepthsTarget(targetname, uId) --Морская пучина
 		yellCrushingDepthsFades:Countdown(6, 3)
 	elseif self:CheckNearby(30, targetname) then
 		specWarnCrushingDepths:Show(targetname)
+		specWarnCrushingDepths:Play("runout")
 	end
 	if self.Options.SetIconOnCrushingDepths then
 		self:SetIcon(targetname, 8, 6)

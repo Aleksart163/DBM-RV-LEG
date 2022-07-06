@@ -57,12 +57,11 @@ local firstpull = false
 
 function mod:ArcingBoltTarget(targetname, uId)
 	if not targetname then return end
+	warnArcingBolt:Show(targetname)
 	if targetname == UnitName("player") then
 		specWarnArcingBolt:Show()
 		specWarnArcingBolt:Play("runout")
 		yellArcingBolt:Yell()
-	else
-		warnArcingBolt:Show(targetname)
 	end
 	if self.Options.SetIconOnArcingBolt then
 		self:SetIcon(targetname, 7, 5)

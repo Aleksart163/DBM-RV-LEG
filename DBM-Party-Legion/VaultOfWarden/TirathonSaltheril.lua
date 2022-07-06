@@ -19,7 +19,7 @@ mod:RegisterEventsInCombat(
 	"UNIT_HEALTH boss1"
 )
 
---https://ru.wowhead.com/npc=95885/тиратон-салтерил/эпохальный-журнал-сражений
+--Тиратон Салтерил https://ru.wowhead.com/npc=95885/тиратон-салтерил/эпохальный-журнал-сражений
 local warnMetamorphosis				= mod:NewSoonAnnounce(192504, 1) --Метаморфоза
 local warnMetamorphosis2			= mod:NewSpellAnnounce(192504, 4) --Метаморфоза
 local warnMetamorphosis3			= mod:NewPreWarnAnnounce(192504, 5, 1) --Метаморфоза
@@ -31,9 +31,8 @@ local specWarnFuriousBlast			= mod:NewSpecialWarningInterrupt(191823, "HasInterr
 local specWarnFelMortar				= mod:NewSpecialWarningDodge(202913, nil, nil, nil, 2, 2) --Залп Скверны
 local specWarnFelMortarGTFO			= mod:NewSpecialWarningYouMove(191853, nil, nil, nil, 1, 2) --Яростное пламя
 
-local timerDarkStrikes				= mod:NewBuffActiveTimer(11, 191941, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Удары Тьмы tooltip says 15 but every log was 10-11
+local timerDarkStrikes				= mod:NewBuffActiveTimer(11, 191941, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Удары Тьмы
 local timerDarkStrikesCD			= mod:NewCDTimer(31, 191941, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Удары Тьмы
---local timerHatred					= mod:NewCastTimer(10, 190830, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Ненависть+++
 local timerHatredCD					= mod:NewCDTimer(29, 190830, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Ненависть
 local timerFelMortarCD				= mod:NewCDTimer(14.5, 202913, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON..DBM_CORE_DEADLY_ICON) --Залп Скверны+++
 local timerMetamorphosisCD			= mod:NewCDTimer(30, 192504, nil, nil, nil, 6, nil) --Метаморфоза
@@ -100,7 +99,7 @@ function mod:SPELL_CAST_START(args)
 		else
 			timerDarkStrikesCD:Start()
 		end
-	elseif spellId == 191823 then
+	elseif spellId == 191823 then --Яростный взрыв
 		warnFuriousBlast:Show()
 		specWarnFuriousBlast:Show()
 		specWarnFuriousBlast:Play("kickcast")

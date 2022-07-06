@@ -9,7 +9,7 @@ mod.isTrashMod = true
 
 mod:RegisterEvents(
 	"SPELL_CAST_START 228255 228239 227917 227925 228625 228606 229714 227966 228254 228280 230094",
-	"SPELL_AURA_APPLIED 228331 229706 229716 228610 229074 230083 230050 228280 230087",
+	"SPELL_AURA_APPLIED 228331 229706 229716 228610 229074 230083 230050 228280 230087 228241",
 	"SPELL_AURA_APPLIED_DOSE 229074 228610",
 	"SPELL_AURA_REFRESH 229074 228610",
 	"SPELL_AURA_REMOVED 229489 230083 228280 230087",
@@ -20,20 +20,24 @@ mod:RegisterEvents(
 	"CHAT_MSG_MONSTER_EMOTE",
 	"UNIT_DIED"
 )
+
 --Каражан треш
 local warnVolatileCharge			= mod:NewTargetAnnounce(228331, 4) --Нестабильный заряд
 local warnOathofFealty				= mod:NewCastAnnounce(228280, 3) --Клятва верности
 local warnOathofFealty2				= mod:NewTargetAnnounce(228331, 3) --Клятва верности
 local warnNullification				= mod:NewTargetAnnounce(230083, 2) --Полная нейтрализация
 local warnReinvigorated				= mod:NewTargetAnnounce(230087, 1) --Восполнение сил
+local warnCursedTouch				= mod:NewTargetAnnounce(228241, 2) --Проклятое прикосновение
 
+local specWarnCursedTouch			= mod:NewSpecialWarningYou(228241, nil, nil, nil, 1, 2) --Проклятое прикосновение
+local specWarnCursedTouch2			= mod:NewSpecialWarningDispel(228241, "RemoveCurse", nil, nil, 1, 2) --Проклятое прикосновение
 local specWarnReinvigorated			= mod:NewSpecialWarningYouMoreDamage(230087, nil, nil, nil, 1, 2) --Восполнение сил
 local specWarnReinvigorated2		= mod:NewSpecialWarningEnd(230087, nil, nil, nil, 1, 2) --Восполнение сил
 local specWarnForceBlade			= mod:NewSpecialWarningYouDefensive(230050, nil, nil, nil, 3, 5) --Силовой клинок
 local specWarnNullification			= mod:NewSpecialWarningYouFind(230083, nil, nil, nil, 1, 2) --Полная нейтрализация
 local specWarnSoulLeech2			= mod:NewSpecialWarningInterrupt(228254, "HasInterrupt", nil, nil, 1, 2) --Поглощение души
 local specWarnSoulLeech				= mod:NewSpecialWarningInterrupt(228255, "HasInterrupt", nil, nil, 1, 2)
-local specWarnTerrifyingWail		= mod:NewSpecialWarningInterrupt(228239, "HasInterrupt", nil, nil, 1, 2)
+local specWarnTerrifyingWail		= mod:NewSpecialWarningInterrupt(228239, "HasInterrupt", nil, nil, 1, 2) --Ужасающий стон
 local specWarnPoetrySlam			= mod:NewSpecialWarningInterrupt(227917, "HasInterrupt", nil, nil, 1, 2)
 local specWarnBansheeWail			= mod:NewSpecialWarningInterrupt(228625, "HasInterrupt", nil, nil, 1, 2)
 local specWarnHealingTouch			= mod:NewSpecialWarningInterrupt(228606, "HasInterrupt", nil, nil, 1, 2)
@@ -79,7 +83,7 @@ function mod:SPELL_CAST_START(args)
 	if spellId == 228255 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
 		specWarnSoulLeech:Show(args.sourceName)
 		specWarnSoulLeech:Play("kickcast")
-	elseif spellId == 228239 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
+	elseif spellId == 228239 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Ужасающий стон
 		specWarnTerrifyingWail:Show(args.sourceName)
 		specWarnTerrifyingWail:Play("kickcast")
 	elseif spellId == 227917 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
@@ -125,6 +129,15 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnVolatileCharge:Play("runout")
 			yellVolatileCharge:Yell()
 			yellVolatileCharge2:Countdown(5, 3)
+		end
+	elseif spellId == 228241 then --Проклятое прикосновение
+		warnCursedTouch:CombinedShow(0.5, args.destName)
+		if args:IsPlayer() then
+			specWarnCursedTouch:Show()
+			specWarnCursedTouch:Play("defensive")
+		else
+			specWarnCursedTouch2:CombinedShow(0.5, args.destName)
+			specWarnCursedTouch2:Play("dispelnow")
 		end
 	elseif spellId == 228610 then --Горящее клеймо
 		if args:IsPlayer() then

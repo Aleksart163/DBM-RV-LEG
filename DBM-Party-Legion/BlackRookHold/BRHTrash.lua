@@ -8,7 +8,7 @@ mod:SetZone()
 mod.isTrashMod = true
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 200261 221634 221688 225573 214003 221132 220918 200248 221363 221380 200343",
+	"SPELL_CAST_START 200261 221634 221688 225573 214003 221132 220918 200248 221363 221380 200343 193633",
 	"SPELL_AURA_APPLIED 194966 221132 221363 225909",
 	"SPELL_AURA_APPLIED_DOSE 225909",
 	"SPELL_AURA_REMOVED 194966 221132 221363",
@@ -20,6 +20,7 @@ mod:RegisterEvents(
 )
 
 --Крепость Черной Ладьи треш
+--local warnShoot						= mod:NewTargetAnnounce(193633, 3) --Выстрел
 local warnSoulEchoes				= mod:NewTargetAnnounce(194966, 3) --Эхо души
 local warnArcaneOvercharge			= mod:NewTargetAnnounce(221132, 4) --Чародейская перезарядка
 local warnOverwhelmingRelease		= mod:NewSpellAnnounce(220918, 4) --Высвобождение мощи
@@ -27,7 +28,9 @@ local warnRupturingPoison			= mod:NewTargetAnnounce(221363, 4) --Раздира�
 local warnMandibleStrike			= mod:NewTargetAnnounce(221380, 4) --Удар жвалами
 local warnSoulVenom					= mod:NewStackAnnounce(225909, 4, nil, nil, 2) --Отравленная душа
 local warnDarkMending				= mod:NewCastAnnounce(225573, 3) --Исцеление тьмой
+local warnArcaneBlitz				= mod:NewCastAnnounce(200248, 3) --Чародейская бомбардировка
 --
+local specWarnShoot					= mod:NewSpecialWarningYou(193633, nil, nil, nil, 1, 2) --Выстрел
 local specWarnSoulVenom				= mod:NewSpecialWarningStack(225909, nil, 5, nil, nil, 1, 2) --Отравленная душа
 local specWarnSoulVenom2			= mod:NewSpecialWarningDispel(225909, "MagicDispeller2", nil, nil, 1, 3) --Отравленная душа
 local specWarnMandibleStrike		= mod:NewSpecialWarningYouDefensive(221380, nil, nil, nil, 2, 2) --Удар жвалами
@@ -51,13 +54,14 @@ local timerMandibleStrikeCD			= mod:NewCDTimer(16, 221380, nil, nil, nil, 3, nil
 local timerRupturingPoisonCD		= mod:NewCDTimer(10, 221363, nil, nil, nil, 3, nil) --Раздирающий яд
 local timerRupturingPoison			= mod:NewTargetTimer(6, 221363, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Раздирающий яд
 --Верховный маг
-local timerArcaneBlitzCD			= mod:NewCDTimer(30, 200248, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Чародейская бомбардировка
+--local timerArcaneBlitzCD			= mod:NewCDTimer(30, 200248, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Чародейская бомбардировка
 local timerOverwhelmingReleaseCD	= mod:NewCDTimer(25, 221132, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Высвобождение мощи
 local timerArcaneOverchargeCD		= mod:NewCDTimer(20, 221132, nil, nil, nil, 3, nil) --Чародейская перезарядка
 local timerArcaneOvercharge			= mod:NewTargetTimer(6, 221132, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Чародейская перезарядка
 
-local timerRoleplay					= mod:NewTimer(24.5, "timerRoleplay", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7) --Ролевая игра
+local timerRoleplay					= mod:NewTimer(25, "timerRoleplay", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7) --Ролевая игра
 
+local yellShoot						= mod:NewYell(193633, nil, nil, nil, "YELL") --Выстрел
 local yellRupturingPoison			= mod:NewYell(221363, nil, nil, nil, "YELL") --Раздирающий яд
 local yellRupturingPoisonFades		= mod:NewFadesYell(221363, nil, nil, nil, "YELL") --Раздирающий яд
 local yellSoulEchoes				= mod:NewYell(194966, nil, nil, nil, "YELL") --Эхо души
@@ -66,6 +70,15 @@ local yellArcaneOverchargeFades		= mod:NewFadesYell(221132, nil, nil, nil, "YELL
 local yellArrowBarrage				= mod:NewYell(200343, nil, nil, nil, "YELL") --Залп стрел
 
 mod:AddRangeFrameOption(6)
+
+function mod:ShootTarget(targetname, uId)
+	if not targetname then return end
+	if targetname == UnitName("player") then
+		specWarnShoot:Show()
+		specWarnShoot:Play("watchstep")
+		yellShoot:Yell()
+	end
+end
 
 function mod:MandibleStrikeTarget(targetname, uId)
 	if not targetname then return end
@@ -107,13 +120,17 @@ function mod:SPELL_CAST_START(args)
 		specWarnOverwhelmingRelease:Show()
 		timerOverwhelmingReleaseCD:Start()
 	elseif spellId == 200248 and self:AntiSpam(3, 1) then --Чародейская бомбардировка
-		specWarnArcaneBlitz:Show()
-		specWarnArcaneBlitz:Play("kickcast")
-		timerArcaneBlitzCD:Start()
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnArcaneBlitz:Show()
+			specWarnArcaneBlitz:Play("kickcast")
+		else
+			warnArcaneBlitz:Show()
+			warnArcaneBlitz:Play("kickcast")
+		end
 	elseif spellId == 221363 then --Раздирающий яд
 		timerRupturingPoisonCD:Start()
 	elseif spellId == 221380 then --Удар жвалами
-		self:BossTargetScanner(args.sourceGUID, "MandibleStrikeTarget", 0.2)
+		self:BossTargetScanner(args.sourceGUID, "MandibleStrikeTarget", 0.1, 9)
 		timerMandibleStrikeCD:Start()
 	elseif spellId == 200343 then --Залп стрел
 		if self:AntiSpam(3, 2) then
@@ -123,6 +140,8 @@ function mod:SPELL_CAST_START(args)
 		if args:IsPlayer() and self:AntiSpam(3, 3) then
 			yellArrowBarrage:Yell()
 		end
+	elseif spellId == 193633 then --Выстрел
+		self:BossTargetScanner(args.sourceGUID, "ShootTarget", 0.1, 9)
 	end
 end
 
@@ -216,7 +235,6 @@ end
 function mod:UNIT_DIED(args)
 	local cid = self:GetCIDFromGUID(args.destGUID)
 	if cid == 111068 then --Верховный маг Галеорн https://ru.wowhead.com/npc=111068/верховный-маг-галеорн
-		timerArcaneBlitzCD:Cancel()
 		timerOverwhelmingReleaseCD:Cancel()
 		timerArcaneOverchargeCD:Cancel()
 	elseif cid == 98637 then --Древняя вдова https://ru.wowhead.com/npc=98637/древняя-вдова

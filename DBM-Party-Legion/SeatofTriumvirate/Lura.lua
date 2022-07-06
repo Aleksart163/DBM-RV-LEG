@@ -11,7 +11,7 @@ mod:RegisterCombat("combat")
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 247795 245164 249009 247878",
 	"SPELL_CAST_SUCCESS 247930",
-	"SPELL_AURA_APPLIED 247816 248535 247915 245242",
+	"SPELL_AURA_APPLIED 247816 248535 247915",
 	"SPELL_AURA_APPLIED_DOSE 247915",
 	"SPELL_AURA_REMOVED 247816",
 --	"CHAT_MSG_RAID_BOSS_EMOTE",
@@ -118,11 +118,11 @@ function mod:SPELL_AURA_APPLIED(args)
 		if amount >= 10 and amount % 5 == 0 then
 			warnGrowingDarkness:Show(args.destName, amount)
 		end
-	elseif spellId == 245242 then --Отголосок страдания
+--[[	elseif spellId == 245242 then --Отголосок страдания
 		if args:IsPlayer() then
 			specWarnRemnantofAnguish:Show()
 			specWarnRemnantofAnguish:Play("runaway")
-		end
+		end]]
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
@@ -136,7 +136,7 @@ end
 
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
 	if spellId == 245242 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
-		if not self:IsNormal() then
+		if self:IsHard() then
 			specWarnRemnantofAnguish:Show()
 			specWarnRemnantofAnguish:Play("runaway")
 		end

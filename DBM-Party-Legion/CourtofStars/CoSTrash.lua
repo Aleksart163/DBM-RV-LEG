@@ -77,12 +77,11 @@ mod:AddBoolOption("SpyHelper", true)
 
 function mod:CarrionSwarmTarget(targetname, uId)
 	if not targetname then return end
+	warnCarrionSwarm:Show(targetname)
 	if targetname == UnitName("player") then
 		specWarnCarrionSwarm:Show()
 		specWarnCarrionSwarm:Play("watchstep")
 		yellCarrionSwarm:Yell()
-	else
-		warnCarrionSwarm:Show(targetname)
 	end
 end
 
@@ -148,7 +147,7 @@ function mod:SPELL_CAST_START(args)
 			specWarnShadowBoltVolley:Play("watchstep")
 		end
 	elseif spellId == 214688 then --Темная стая
-		self:BossTargetScanner(args.sourceGUID, "CarrionSwarmTarget", 0.2, 9)
+		self:BossTargetScanner(args.sourceGUID, "CarrionSwarmTarget", 0.1, 9)
 	elseif spellId == 214690 then --Увечье
 		timerCrippleCD:Start()
 	elseif spellId == 212773 and self:AntiSpam(2, 1) then --Подчинение

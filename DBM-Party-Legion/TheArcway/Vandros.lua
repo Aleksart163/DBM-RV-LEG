@@ -11,7 +11,7 @@ mod.noNormal = true
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
-	"SPELL_AURA_APPLIED 203957 220871",
+	"SPELL_AURA_APPLIED 203957 220871 203176",
 	"SPELL_AURA_APPLIED_DOSE 203176",
 	"SPELL_AURA_REMOVED 220871",
 	"SPELL_CAST_START 202974 203882 203176",
@@ -22,8 +22,8 @@ mod:RegisterEventsInCombat(
 	"UNIT_HEALTH boss1"
 )
 
---TODO, it might be time to build an interrupt table ("hasInterrupt") for better option defaults for spammy interrupt warnings.
---Force bomb might be more consistent now, need more logs, last log was 35
+--Советник Вандрос
+local warnBlast						= mod:NewStackAnnounce(203176, 3, nil, nil, 2) --Ускоряющий взрыв
 local warnTimeLock					= mod:NewTargetAnnounce(203957, 4) --Временное ограничение
 local warnUnstableMana				= mod:NewTargetAnnounce(220871, 4) --Нестабильная мана
 local warnPhase						= mod:NewAnnounce("Phase1", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 2
@@ -35,6 +35,7 @@ local specWarnBlast					= mod:NewSpecialWarningInterrupt(203176, "HasInterrupt",
 local specWarnBlastStacks			= mod:NewSpecialWarningDispel(203176, "MagicDispeller", nil, nil, 1, 2) --Ускоряющий взрыв
 local specWarnTimeLock				= mod:NewSpecialWarningInterrupt(203957, "HasInterrupt", nil, nil, 1, 2) --Временное ограничение
 local specWarnUnstableMana			= mod:NewSpecialWarningYouMoveAway(220871, nil, nil, nil, 4, 5) --Нестабильная мана
+local specWarnUnstableMana2			= mod:NewSpecialWarningCloseMoveAway(220871, nil, nil, nil, 2, 2) --Нестабильная мана
 
 local timerUnstableMana				= mod:NewTargetTimer(8, 220871, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Нестабильная мана
 local timerUnstableManaCD			= mod:NewCDTimer(35.5, 220871, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON..DBM_CORE_MYTHIC_ICON) --Нестабильная мана
@@ -67,7 +68,7 @@ end
 
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
-	if spellId == 203957 then
+	if spellId == 203957 then --Временное ограничение
 		--if people run different directions 2-3 of these can activate at once.
 		--So combined show and anti spam measures used.
 		warnTimeLock:Show(args.destName)
@@ -75,33 +76,33 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnTimeLock:Show(args.sourceName)
 			specWarnTimeLock:Play("kickcast")
 		end
-	elseif spellId == 220871 then
+	elseif spellId == 220871 then --Нестабильная мана
 		timerUnstableMana:Start(args.destName)
+		warnUnstableMana:Show(args.destName)
 		if args:IsPlayer() then
 			specWarnUnstableMana:Show()
 			specWarnUnstableMana:Play("runout")
 			specWarnUnstableMana:ScheduleVoice(1, "keepmove")
 			yellUnstableMana:Yell()
 			yellUnstableMana2:Countdown(8, 3)
-		else
-			warnUnstableMana:Show(args.destName)
+		elseif self:CheckNearby(15, args.destName) then
+			specWarnUnstableMana2:Show(args.destName)
+			specWarnUnstableMana2:Play("runout")
 		end
 		if self.Options.SetIconOnUnstableMana then
 			self:SetIcon(args.destName, 8, 8)
 		end
 		timerUnstableManaCD:Start()
-	end
-end
-
-function mod:SPELL_AURA_APPLIED_DOSE(args)
-	local spellId = args.spellId
-	if spellId == 203176 then
-		if args.amount >= 4 then
+	elseif spellId == 203176 then --Ускоряющий взрыв
+		local amount = args.amount or 1
+		if args.amount >= 2 then
+			warnBlast:Show(args.destName, amount)
 			specWarnBlastStacks:Show(args.destName)
 			specWarnBlastStacks:Play("dispelboss")
 		end
 	end
 end
+mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
@@ -205,7 +206,7 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 	end
 end
 
-function mod:OnSync(msg, GUID)
+function mod:OnSync(msg)
 	if msg == "RPVandros" then
 		if self:IsHard() then
 			timerEvent:Cancel()

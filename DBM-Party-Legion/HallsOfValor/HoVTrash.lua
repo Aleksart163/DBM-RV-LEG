@@ -8,7 +8,7 @@ mod.isTrashMod = true
 
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 199805 192563 199726 199382 200901 192158 192288 210875 199652 200969 198888",
+	"SPELL_CAST_START 199805 192563 199726 199382 200901 192158 192288 210875 199652 200969 198888 198931",
 	"SPELL_AURA_APPLIED 215430 199652",
 	"SPELL_AURA_APPLIED_DOSE 199652",
 	"SPELL_AURA_REMOVED 215430 199652",
@@ -23,7 +23,9 @@ mod:RegisterEvents(
 local warnThunderstrike				= mod:NewTargetAnnounce(215430, 4) --Громовой удар
 local warnCrackle					= mod:NewTargetAnnounce(199805, 3) --Разряд
 local warnChargedPulse				= mod:NewCastAnnounce(210875, 4) --Пульсирующий заряд
+local warnHealingLight				= mod:NewCastAnnounce(198931, 3) --Исцеляющий свет
 
+local specWarnHealingLight			= mod:NewSpecialWarningInterrupt(198931, "HasInterrupt", nil, nil, 1, 2) --Исцеляющий свет
 local specWarnLightningBreath		= mod:NewSpecialWarningDodge(198888, nil, nil, nil, 2, 3) --Грозовое дыхание
 local specWarnCrackle2				= mod:NewSpecialWarningYouMove(199818, nil, nil, nil, 1, 2) --Разряд
 local specWarnEtch					= mod:NewSpecialWarningYouMove(198959, nil, nil, nil, 1, 2) --Гравировка
@@ -128,6 +130,14 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 198888 then --Грозовое дыхание
 		specWarnLightningBreath:Show()
 		specWarnLightningBreath:Play("watchstep")
+	elseif spellId == 198931 and self:AntiSpam(2, 1) then --Исцеляющий свет
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnHealingLight:Show()
+			specWarnHealingLight:Play("kickcast")
+		else
+			warnHealingLight:Show()
+			warnHealingLight:Play("kickcast")
+		end
 	end
 end
 

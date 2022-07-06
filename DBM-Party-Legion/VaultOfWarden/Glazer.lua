@@ -23,7 +23,6 @@ local warnFocused					= mod:NewSoonAnnounce(194289, 1) --Фокусировка
 
 local specWarnBeamed				= mod:NewSpecialWarningMoreDamage(194333, "-Healer", nil, nil, 1, 2) --Облучение
 local specWarnFocused				= mod:NewSpecialWarningSwitch(194289, nil, nil, nil, 2, 2) --Фокусировка
---local specWarnFocused2				= mod:NewSpecialWarningEnd(194289, nil, nil, nil, 1, 2) --Фокусировка
 local specWarnGazeGTFO				= mod:NewSpecialWarningYouMove(194945, nil, nil, nil, 1, 2) --Подавляющий взгляд
 
 local timerGazeCD					= mod:NewCDTimer(19.4, 194942, nil, nil, nil, 3) --Подавляющий взгляд

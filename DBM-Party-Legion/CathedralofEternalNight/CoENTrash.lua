@@ -9,8 +9,9 @@ mod.isTrashMod = true
 
 mod:RegisterEvents(
 	"SPELL_CAST_START 239232 237391 238543 236737 242724 242760 239320 239266 241598 239235 239201 237558 237565",
-	"SPELL_AURA_APPLIED 238688 239161 215489 237325 237583 237391",
-	"SPELL_AURA_REMOVED 237391",
+	"SPELL_AURA_APPLIED 238688 239161 215489 237325 237583 237391 236954",
+	"SPELL_AURA_APPLIED_DOSE 236954",
+	"SPELL_AURA_REMOVED 237391 236954",
 --	"SPELL_PERIODIC_DAMAGE ",
 --	"SPELL_PERIODIC_MISSED ",
 	"UNIT_SPELLCAST_START"
@@ -22,8 +23,11 @@ local warnShadowWall			= mod:NewSpellAnnounce(241598, 3) --Стена Тьмы
 local warnFelRejuvenation		= mod:NewCastAnnounce(237558, 3) --Омоложение Скверной
 local warnBlisteringRain		= mod:NewCastAnnounce(237565, 4) --Обжигающий дождь
 local warnAlluringAroma			= mod:NewCastAnnounce(237391, 4) --Манящий аромат
+local warnSinisterFangs			= mod:NewStackAnnounce(236954, 4, nil, nil, 2) --Зловещие клыки
 local warnAlluringAroma2		= mod:NewTargetAnnounce(237391, 2) --Манящий аромат
 
+local specWarnSinisterFangs		= mod:NewSpecialWarningStack(236954, nil, 3, nil, nil, 1, 3) --Зловещие клыки
+local specWarnSinisterFangs2	= mod:NewSpecialWarningDispel(236954, "RemovePoison", nil, nil, 1, 3) --Зловещие клыки
 local specWarnAlluringAroma2	= mod:NewSpecialWarningDispel(237391, "MagicDispeller2", nil, nil, 1, 3) --Манящий аромат
 local specWarnFelRejuvenation	= mod:NewSpecialWarningInterrupt(237558, "HasInterrupt", nil, nil, 3, 2) --Омоложение Скверной
 local specWarnBlisteringRain	= mod:NewSpecialWarningInterrupt(237565, "HasInterrupt", nil, nil, 3, 3) --Обжигающий дождь
@@ -45,8 +49,10 @@ local specWarnTomeSilence		= mod:NewSpecialWarningSwitch(239161, "-Healer", nil,
 local specWarnFelblazeOrb		= mod:NewSpecialWarningDodge(239320, nil, nil, nil, 1, 2) --Сфера пламени Скверны
 local specWarnVenomStorm		= mod:NewSpecialWarningDodge(239266, nil, nil, nil, 1, 2) --Ядовитая буря
 
+local timerSinisterFangs		= mod:NewTargetTimer(15, 236954, nil, "Tank|RemovePoison", nil, 3, nil, DBM_CORE_POISON_ICON..DBM_CORE_HEALER_ICON) --Зловещие клыки
 local timerAlluringAroma		= mod:NewTargetTimer(8, 237391, nil, nil, nil, 3) --Манящий аромат
 
+local yellSinisterFangs			= mod:NewYell(236954, nil, nil, nil, "YELL") --Зловещие клыки
 local yellAlluringAroma			= mod:NewYell(237391, nil, nil, nil, "YELL") --Манящий аромат
 local yellFelStrike				= mod:NewYell(236737, nil, nil, nil, "YELL") --Удар Скверны
 
@@ -154,16 +160,35 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			yellAlluringAroma:Yell()
 		else
-			specWarnAlluringAroma2:CombinedShow(0.5, args.destName)
-			specWarnAlluringAroma2:ScheduleVoice(0.5, "dispelnow")
+			specWarnAlluringAroma2:Show(args.destName)
+			specWarnAlluringAroma2:Play("dispelnow")
+		end
+	elseif spellId == 236954 then --Зловещие клыки
+		local amount = args.amount or 1
+		if self:IsHard() then
+			timerSinisterFangs:Start(args.destName)
+			if amount >= 3 and amount % 2 == 0 then
+				if args:IsPlayer() then
+					specWarnSinisterFangs:Show()
+					specWarnSinisterFangs:Play("stackhigh")
+					yellSinisterFangs:Yell()
+				else
+					warnSinisterFangs:Show(args.destName, amount)
+					specWarnSinisterFangs2:Show(args.destName)
+					specWarnSinisterFangs2:Play("dispelnow")
+				end
+			end
 		end
 	end
 end
+mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 
 function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
 	if spellId == 237391 then --Манящий аромат
 		timerAlluringAroma:Cancel(args.destName)
+	elseif spellId == 236954 then --Зловещие клыки
+		timerSinisterFangs:Cancel(args.destName)
 	end
 end
 

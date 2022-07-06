@@ -27,6 +27,7 @@ local specWarnCleansing2			= mod:NewSpecialWarningRun(196115, nil, nil, nil, 4, 
 local specWarnDestabilizedOrb2		= mod:NewSpecialWarningYouMove(220500, nil, nil, nil, 1, 2) --Дестабилизированная сфера аура
 local specWarnDestabilizedOrb		= mod:NewSpecialWarningDodge(220481, nil, nil, nil, 2, 2) --Дестабилизированная сфера
 local specWarnSupression			= mod:NewSpecialWarningYouRun(196070, nil, nil, nil, 4, 5) --Протокол подавления
+local specWarnSupression2			= mod:NewSpecialWarningCloseMoveAway(196070, nil, nil, nil, 2, 2) --Протокол подавления
 local specWarnQuarantine			= mod:NewSpecialWarningTargetHelp(195804, nil, nil, nil, 1, 2) --Карантин
 local specWarnCleansing				= mod:NewSpecialWarningSpell(196115, nil, nil, nil, 2, 2) --Очищающая сила
 
@@ -88,7 +89,9 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnSupression:Play("runout")
 			specWarnSupression:ScheduleVoice(1, "keeprun")
 			yellSupression:Yell()
-			yellSupression2:Countdown(7, 3)
+		elseif self:CheckNearby(10, args.destName) then
+			specWarnSupression2:Show(args.destName)
+			specWarnSupression2:Play("runout")
 		end
 		if self.Options.SetIconOnSupression then
 			self:SetIcon(args.destName, 8, 7)

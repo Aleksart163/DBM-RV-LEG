@@ -17,6 +17,7 @@ mod:RegisterEventsInCombat(
 	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
 
+--Дресарон https://ru.wowhead.com/npc=99200/дресарон/эпохальный-журнал-сражений
 local warnRoar						= mod:NewSpellAnnounce(199389, 3) --Сотрясающий землю рык
 local warnRoar2						= mod:NewPreWarnAnnounce(199389, 5, 1) --Сотрясающий землю рык
 local warnDownDraft					= mod:NewPreWarnAnnounce(199345, 5, 1) --Нисходящий поток
@@ -79,7 +80,7 @@ function mod:SPELL_CAST_START(args)
 end
 
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
-	if spellId == 199460 and destGUID == UnitGUID("player") and self:AntiSpam(3, 1) then --Каменная осыпь
+	if spellId == 199460 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then --Каменная осыпь
 		if self:IsHard() then
 			specWarnFallingRocks:Show()
 			specWarnFallingRocks:Play("runaway")

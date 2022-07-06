@@ -8,7 +8,7 @@ mod:SetUsedIcons(8, 7, 6)
 mod.isTrashMod = true
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 196870 195046 195284 197105 196127 195253 196175 195129 196290 196296",
+	"SPELL_CAST_START 196870 195046 195284 197105 196127 195253 196175 195129 196290 196296 196028",
 	"SPELL_AURA_APPLIED 196127 192706 197105 196144 195253",
 	"SPELL_AURA_REMOVED 197105 192706 195253"
 )
@@ -21,6 +21,7 @@ local warnSandstorm				= mod:NewTargetAnnounce(196144, 2) --Песчаная б�
 
 local specWarnRoilingStorm		= mod:NewSpecialWarningDodge(196296, nil, nil, nil, 2, 3) --Бурлящая буря
 local specWarnChaoticTempest	= mod:NewSpecialWarningDodge(196290, nil, nil, nil, 2, 3) --Буря Хаоса
+local specWarnArcaneRebound		= mod:NewSpecialWarningInterrupt(196028, "HasInterrupt", nil, nil, 1, 2) --Волшебный рикошет
 local specWarnThunderingStomp	= mod:NewSpecialWarningInterrupt(195129, "HasInterrupt", nil, nil, 1, 2) --Грохочущий топот
 local specWarnArmorshell		= mod:NewSpecialWarningInterrupt(196175, "HasInterrupt", nil, nil, 1, 2) --Бронераковина
 local specWarnImprisoningBubble	= mod:NewSpecialWarningInterrupt(195253, "HasInterrupt", nil, nil, 3, 5) --Пузырь-тюрьма
@@ -54,12 +55,23 @@ mod:AddSetIconOption("SetIconOnImprisoningBubble", 195253, true, false, {7}) --�
 mod:AddSetIconOption("SetIconOnPolymorph", 197105, true, false, {6}) --Превращение в рыбу
 mod:AddRangeFrameOption(10, 192706) --Чародейская бомба
 
+function mod:PolymorphTarget(targetname, uId) --Превращение в рыбу
+	if not targetname then return end
+	warnPolymorph:Show(targetname)
+	if targetname == UnitName("player") then
+		yellPolymorph:Yell()
+	end
+end
+
 function mod:SPELL_CAST_START(args)
 	if not self.Options.Enabled then return end
 	local spellId = args.spellId
 	if spellId == 196870 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Буря
 		specWarnStorm:Show()
 		specWarnStorm:Play("kickcast")
+	elseif spellId == 196028 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Волшебный рикошет
+		specWarnArcaneRebound:Show()
+		specWarnArcaneRebound:Play("kickcast")
 	elseif spellId == 195046 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Живительная вода
 		specWarnRejuvWaters:Show()
 		specWarnRejuvWaters:Play("kickcast")
@@ -69,9 +81,12 @@ function mod:SPELL_CAST_START(args)
 			specWarnUndertow:Play("runout")
 			timerUndertow:Start()
 		end
-	elseif spellId == 197105 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Превращение в рыбу
-		specWarnPolymorph:Show()
-		specWarnPolymorph:Play("kickcast")
+	elseif spellId == 197105 then --Превращение в рыбу
+		self:BossTargetScanner(args.sourceGUID, "PolymorphTarget", 0.1, 9)
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnPolymorph:Show()
+			specWarnPolymorph:Play("kickcast")
+		end
 	elseif spellId == 195253 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Пузырь-тюрьма
 		specWarnImprisoningBubble:Show()
 		specWarnImprisoningBubble:Play("kickcast")
@@ -121,6 +136,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		else
 			warnPolymorph:Show(args.destName)
 			specWarnPolymorph2:Show(args.destName)
+			specWarnPolymorph2:Play("dispelnow")
 		end
 		if self.Options.SetIconOnPolymorph then
 			self:SetIcon(args.destName, 6, 8)

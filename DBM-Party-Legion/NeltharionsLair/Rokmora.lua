@@ -31,11 +31,16 @@ local timerRazorShardsCD			= mod:NewCDTimer(25, 188169, nil, nil, nil, 5, nil, D
 local countdownShatter				= mod:NewCountdown(24.2, 188114, nil, nil, 5) --Дробление
 
 function mod:OnCombatStart(delay)
-	timerShatterCD:Start(23-delay) --Дробление +3сек +++
-	countdownShatter:Start(23-delay) --Дробление +++
-	warnShatter2:Schedule(18-delay) --Дробление
-	timerRazorShardsCD:Start(28-delay) --Бритвенно-острые осколки +3сек +++
-	warnRazorShards2:Schedule(28-delay) --Бритвенно-острые осколки
+	if not self:IsNormal() then
+		warnShatter2:Schedule(18-delay) --Дробление+++
+		timerShatterCD:Start(23-delay) --Дробление+++
+		countdownShatter:Start(23-delay) --Дробление+++
+		timerRazorShardsCD:Start(28-delay) --Бритвенно-острые осколки+++
+		warnRazorShards2:Schedule(25-delay) --Бритвенно-острые осколки+++
+	else
+		timerShatterCD:Start(20-delay)
+		timerRazorShardsCD:Start(25-delay)
+	end
 end
 
 function mod:SPELL_CAST_START(args)

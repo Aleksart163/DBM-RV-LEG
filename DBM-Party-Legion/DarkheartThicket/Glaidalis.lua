@@ -17,9 +17,9 @@ mod:RegisterEventsInCombat(
 	"SPELL_PERIODIC_MISSED 198408",
 	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
+
 --Верховный друид Глайдалис https://ru.wowhead.com/npc=96512/верховный-друид-глайдалис/эпохальный-журнал-сражений
 local warnLeap					= mod:NewTargetAnnounce(196346, 4) --Мучительный прыжок
---local warnNightFall				= mod:NewSpellAnnounce(198401, 2) --Сумерки
 
 local specWarnGrievousTear		= mod:NewSpecialWarningYou(196376, nil, nil, nil, 2, 2) --Мучительное разрывание
 local specWarnGrievousTear2		= mod:NewSpecialWarningEnd(196376, nil, nil, nil, 1, 2) --Мучительное разрывание
@@ -33,6 +33,8 @@ local timerNightfallCD			= mod:NewCDTimer(14.5, 198401, nil, nil, nil, 3, nil, D
 
 local yellLeap					= mod:NewYell(196346, nil, nil, nil, "YELL") --Мучительный прыжок
 
+local countdownRampage			= mod:NewCountdown(29, 198379, "Melee", nil, 5) --Первобытная ярость
+
 mod.vb.rampage = 0
 
 function mod:OnCombatStart(delay)
@@ -40,11 +42,11 @@ function mod:OnCombatStart(delay)
 	if not self:IsNormal() then
 		timerLeapCD:Start(5.5-delay) --Мучительный прыжок
 		timerRampageCD:Start(13.5-delay) --Первобытная ярость
-	--	timerNightfallCD:Start(25-delay) --Сумерки
+		countdownRampage:Start(13.5-delay) --Первобытная ярость
 	else
 		timerLeapCD:Start(5.9-delay) --Мучительный прыжок
 		timerRampageCD:Start(12.2-delay) --Первобытная ярость
-	--	timerNightfallCD:Start(19-delay) --Сумерки
+		countdownRampage:Start(12.2-delay) --Первобытная ярость
 	end
 end
 
@@ -57,6 +59,7 @@ function mod:SPELL_CAST_START(args)
 		specWarnRampage2:Show()
 		specWarnRampage2:Play("watchstep")
 		timerRampageCD:Start()
+		countdownRampage:Start()
 		if self.vb.rampage == 1 then
 			timerNightfallCD:Start(12.5)
 		elseif self.vb.rampage == 2 then
@@ -86,7 +89,7 @@ end
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 196376 then --Мучительное разрывание
-		warnLeap:Show(args.destName)
+		warnLeap:CombinedShow(0.7, args.destName)
 		if args:IsPlayer() then
 			specWarnGrievousTear:Show()
 			specWarnGrievousTear:Play("defensive")

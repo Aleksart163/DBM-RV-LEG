@@ -109,6 +109,11 @@ L:SetMiscLocalization{
 	ParanoiaYell = "Growing Paranoia on %s. Get away from me!"
 }
 
+L:SetMiscLocalization({
+	XavApoc = "You will waste away slowly, painfully.",
+	XavApoc2 = "I will fracture your feeble mind!"
+})
+
 -----------------------
 --Darkheart Thicket Trash
 -----------------------

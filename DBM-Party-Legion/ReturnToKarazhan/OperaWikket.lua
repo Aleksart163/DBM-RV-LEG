@@ -19,7 +19,6 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_SUCCESS 227410"
 )
 
---TODO, info frame tracking players who do not have gravity when aoe cast starts?
 --Злюкер
 local warnMagicMagnificent2			= mod:NewSoonAnnounce(227776, 1) --Несравненная магия
 local warnMagicMagnificent			= mod:NewCastAnnounce(227776, 4) --Несравненная магия
@@ -29,7 +28,6 @@ local warnWondrousRadiance			= mod:NewSpellAnnounce(227410, 4, nil, "-Melee") --
 
 local specWarnSummonAdds			= mod:NewSpecialWarningSwitch(227477, "Tank|Dps", nil, nil, 1, 2) --Вызов помощников
 local specWarnMagicMagnificent		= mod:NewSpecialWarningMoveTo(227776, nil, nil, nil, 3, 5) --Несравненная магия
---local specWarnWondrousRadiance		= mod:NewSpecialWarningMove(227416, nil, nil, nil, 1, 2) --Дивное сияние
 local specWarnWondrousRadiance		= mod:NewSpecialWarningDodge(227410, "Melee", nil, nil, 2, 3) --Дивное сияние
 
 local timerSummonAddsCD				= mod:NewCDTimer(32.7, 227477, nil, "Tank|Dps", nil, 1, nil, DBM_CORE_TANK_ICON..DBM_CORE_DAMAGE_ICON) --Вызов помощников +++

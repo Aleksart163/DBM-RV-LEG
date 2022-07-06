@@ -26,7 +26,8 @@ local warnOverchargeMana			= mod:NewSoonAnnounce(196392, 1) --Перезаряд
 local warnVolatileMagic				= mod:NewTargetAnnounce(196562, 3) --Нестабильная магия
 local warnNetherLink				= mod:NewTargetAnnounce(196805, 4) --Оковы Пустоты
 
-local specWarnVolatileMagic			= mod:NewSpecialWarningMoveAway(196562, nil, nil, nil, 3, 5) --Нестабильная магия
+local specWarnVolatileMagic			= mod:NewSpecialWarningYouMoveAway(196562, nil, nil, nil, 3, 5) --Нестабильная магия
+local specWarnVolatileMagic2		= mod:NewSpecialWarningCloseMoveAway(196562, nil, nil, nil, 2, 2) --Нестабильная магия
 
 local specWarnNetherLink			= mod:NewSpecialWarningYouRunning(196805, nil, nil, nil, 1, 2) --Оковы Пустоты дебаф
 local specWarnNetherLinkGTFO		= mod:NewSpecialWarningYouMove(196805, nil, nil, nil, 1, 2) --Оковы Пустоты лужа
@@ -79,6 +80,9 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnVolatileMagic:Play("runout")
 			yellVolatileMagic:Yell()
 			yellVolatileMagic2:Countdown(4)
+		elseif self:CheckNearby(10, args.destName) then
+			specWarnVolatileMagic2:CombinedShow(0.3, args.destName)
+			specWarnVolatileMagic2:Play("runout")
 		end
 		if self.Options.RangeFrame then
 			DBM.RangeCheck:Show(8)

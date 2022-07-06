@@ -26,11 +26,13 @@ local warnArcaneBomb				= mod:NewSpellAnnounce(227618, 3) --Чародейска
 
 local specWarnEnergyVoid			= mod:NewSpecialWarningYouMove(227524, nil, nil, nil, 1, 2) --Энергетическая пустота
 local specWarnDecimatingEssence		= mod:NewSpecialWarningDefensive(227507, nil, nil, nil, 3, 5) --Истребляющая сущность
-local specWarnCoalescePower			= mod:NewSpecialWarningMoveTo(227297, nil, nil, nil, 1, 2) --Слияние энергии
+local specWarnCoalescePower			= mod:NewSpecialWarningMoveTo(227297, "Tank", nil, nil, 1, 2) --Слияние энергии
+local specWarnCoalescePower2		= mod:NewSpecialWarningDodge(227297, "-Tank", nil, nil, 1, 2) --Слияние энергии
+local specWarnArcaneBomb			= mod:NewSpecialWarningDodge(227618, "Melee", nil, nil, 2, 2) --Чародейская бомба
 local specWarnEnergyVoid2			= mod:NewSpecialWarningDodge(227523, "SpellCaster", nil, nil, 2, 3) --Энергетическая пустота
 
 local timerEnergyVoidCD				= mod:NewCDTimer(21.7, 227523, nil, nil, nil, 3) --Энергетическая пустота
-local timerCoalescePowerCD			= mod:NewNextTimer(30, 227297, nil, nil, nil, 1) --Слияние энергии
+local timerCoalescePowerCD			= mod:NewNextTimer(30, 227297, nil, nil, nil, 1, nil, DBM_CORE_TANK_ICON) --Слияние энергии
 
 local countdownCoalescePower		= mod:NewCountdown(30, 227297) --Слияние энергии
 
@@ -66,6 +68,8 @@ function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
 	if spellId == 227618 then
 		warnArcaneBomb:Show()
+		specWarnArcaneBomb:Show()
+		specWarnArcaneBomb:Play("watchstep")
 	elseif spellId == 227523 then
 		warnEnergyVoid:Show()
 		specWarnEnergyVoid2:Show()
@@ -78,6 +82,8 @@ function mod:SPELL_AURA_APPLIED(args)
 	if spellId == 227297 then
 		specWarnCoalescePower:Show(looseMana)
 		specWarnCoalescePower:Play("helpsoak")
+		specWarnCoalescePower2:Show()
+		specWarnCoalescePower2:Play("watchstep")
 		timerCoalescePowerCD:Start()
 		countdownCoalescePower:Start()
 	end
@@ -85,8 +91,10 @@ end
 
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
 	if spellId == 227524 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
-		specWarnEnergyVoid:Show()
-		specWarnEnergyVoid:Play("runaway")
+		if not self:IsNormal() then
+			specWarnEnergyVoid:Show()
+			specWarnEnergyVoid:Play("runaway")
+		end
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE

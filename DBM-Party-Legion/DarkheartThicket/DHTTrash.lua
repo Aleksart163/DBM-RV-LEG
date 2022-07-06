@@ -8,9 +8,9 @@ mod:SetZone()
 mod.isTrashMod = true
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 198379 201226 200580",
+	"SPELL_CAST_START 201226 200580",
 	"SPELL_CAST_SUCCESS 201272",
-	"SPELL_SUMMON 201251",
+	"SPELL_SUMMON 198910",
 	"SPELL_AURA_APPLIED 204243 225568 198904",
 	"SPELL_AURA_REMOVED 225568 198904",
 	"SPELL_PERIODIC_DAMAGE 200822",
@@ -21,27 +21,25 @@ mod:RegisterEvents(
 local warnCurseofIsolation				= mod:NewTargetAnnounce(225568, 3) --Проклятие уединения
 local warnPoisonSpear					= mod:NewTargetAnnounce(198904, 3) --Отравленное копье
 
-local specWarnDispersion				= mod:NewSpecialWarningSwitch(201250, "Tank|Dps", nil, nil, 1, 2) --Слияние с Тьмой
+local specWarnVileMushroom				= mod:NewSpecialWarningDodge(198910, nil, nil, nil, 2, 2) --Злогриб
 local specWarnBloodBomb					= mod:NewSpecialWarningDodge(201272, nil, nil, nil, 2, 2) --Кровавая бомба
 local specWarnCurseofIsolation			= mod:NewSpecialWarningDispel(225568, "RemoveCurse", nil, nil, 1, 3) --Проклятие уединения
 local specWarnPoisonSpear				= mod:NewSpecialWarningDispel(198904, "RemovePoison", nil, nil, 1, 3) --Отравленное копье
 local specWarnCurseofIsolation2			= mod:NewSpecialWarningYou(225568, nil, nil, nil, 2, 3) --Проклятие уединения
 local specWarnPoisonSpear2				= mod:NewSpecialWarningYou(198904, nil, nil, nil, 2, 3) --Отравленное копье
-local specWarnPrimalRampage				= mod:NewSpecialWarningDodge(198379, "Melee", nil, nil, 1, 2)
 local specWarnBloodAssault				= mod:NewSpecialWarningDodge(201226, nil, nil, nil, 2, 2) --Кровавая атака
 local specWarnMaddeningRoar				= mod:NewSpecialWarningDefensive(200580, nil, nil, nil, 3, 5) --Безумный рев
 local specWarnRottingEarth				= mod:NewSpecialWarningYouMove(200822, nil, nil, nil, 1, 2) --Гниющая земля
 local specWarnTormentingEye				= mod:NewSpecialWarningInterrupt(204243, "HasInterrupt", nil, nil, 1, 2) --Истязающий глаз
+
+local timerVileMushroomCD				= mod:NewCDTimer(14, 198910, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Злогриб
 
 local yellCurseofIsolation				= mod:NewYell(225568, nil, nil, nil, "YELL") --Проклятие уединения
 
 function mod:SPELL_CAST_START(args)
 	if not self.Options.Enabled then return end
 	local spellId = args.spellId
-	if spellId == 198379 then
-		specWarnPrimalRampage:Show()
-		specWarnPrimalRampage:Play("chargemove")
-	elseif spellId == 201226 then --Кровавая атака
+	if spellId == 201226 then --Кровавая атака
 		if not self:IsNormal() then
 			specWarnBloodAssault:Show()
 			specWarnBloodAssault:Play("chargemove")
@@ -57,19 +55,21 @@ end
 function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
 	if spellId == 201272 then --Кровавая бомба
-		specWarnBloodBomb:Show()
-		specWarnBloodBomb:Play("watchstep")
+		if not self:IsNormal() then
+			specWarnBloodBomb:Show()
+			specWarnBloodBomb:Play("watchstep")
+		end
 	end
 end
 
---[[
 function mod:SPELL_SUMMON(args)
 	local spellId = args.spellId
-	if spellId == 201251 and self:AntiSpam(2, 1) then --Слияние с Тьмой
-		specWarnDispersion:Show()
-		specWarnDispersion:Play("switch")
+	if spellId == 198910 and self:AntiSpam(5, 1) then --Злогриб
+		specWarnVileMushroom:Show()
+		specWarnVileMushroom:Play("watchstep")
+		timerVileMushroomCD:Start()
 	end
-end]]
+end
 
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId

@@ -41,13 +41,13 @@ local playerName = UnitName("player")
 --AKA Crushing Grip
 function mod:ThrowTarget(targetname, uId)
 	if not targetname then return end
+	warnThrowTarget:Show(targetname)
 	if targetname == UnitName("player") then
 		specWarnThrow:Show()
 		yellThrow:Yell(playerName)
 	elseif self:CheckNearby(10, targetname) then
 		specWarnThrow3:Show(targetname)
-	else
-		warnThrowTarget:Show(targetname)
+		specWarnThrow3:Play("runaway")
 	end
 	if self.Options.SetIconOnThrow then
 		self:SetIcon(targetname, 8, 10)

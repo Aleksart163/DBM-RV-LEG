@@ -48,13 +48,11 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 209858 then --Некротическая язва
 		local amount = args.amount or 1
 		timerNecroticWound:Start(args.destName)
-		if args:IsPlayer() then
-			if amount >= 10 and amount % 5 == 0 then
+		if amount >= 10 and amount % 5 == 0 then
+			if args:IsPlayer() then
 				specWarnNecroticWound:Show(amount)
 				specWarnNecroticWound:Play("stackhigh")
-			end
-		else
-			if amount >= 10 and amount % 5 == 0 then
+			else
 				warnNecroticWound:Show(args.destName, amount)
 			end
 		end

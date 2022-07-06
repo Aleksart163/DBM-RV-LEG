@@ -64,12 +64,12 @@ mod.vb.guileCount = 0
 
 function mod:WhirlingBladeTarget(targetname, uId) --Крутящийся клинок
 	if not targetname then return end
+	warnWhirlingBlade:Show(targetname)
 	if targetname == UnitName("player") then
 		specWarnWhirlingBlade2:Show()
 		specWarnWhirlingBlade2:Play("runout")
 		yellWhirlingBlade:Yell()
-	else
-		warnWhirlingBlade:Show(targetname)
+	elseif self:CheckNearby(40, targetname) then
 		specWarnWhirlingBlade:Show()
 		specWarnWhirlingBlade:Play("watchstep")
 	end
@@ -80,12 +80,12 @@ end
 
 function mod:SwarmTarget(targetname, uId) --Жалящий рой
 	if not targetname then return end
+	warnSwarm:Show(targetname)
 	if targetname == UnitName("player") then
 		specWarnSwarm:Show()
 		specWarnSwarm:Play("targetyou")
 		yellSwarm:Yell()
-	else
-		warnSwarm:Show(targetname)
+	elseif self:CheckNearby(20, targetname) then
 		specWarnSwarm2:Schedule(1.5)
 		specWarnSwarm2:ScheduleVoice(1.5, "switch")
 	end
@@ -148,10 +148,10 @@ function mod:SPELL_CAST_START(args)
 		end
 		--timerShadowBoltVolleyCD:Start()--Not known, and probably not important
 	elseif spellId == 198641 then --Крутящийся клинок
-		self:BossTargetScanner(args.sourceGUID, "WhirlingBladeTarget", 0.3)
+		self:BossTargetScanner(args.sourceGUID, "WhirlingBladeTarget", 0.1, 9)
 		timerWhirlingBladeCD:Start()
 	elseif spellId == 201733 then --Жалящий рой
-		self:BossTargetScanner(args.sourceGUID, "SwarmTarget", 0.3)
+		self:BossTargetScanner(args.sourceGUID, "SwarmTarget", 0.1, 9)
 	end
 end
 

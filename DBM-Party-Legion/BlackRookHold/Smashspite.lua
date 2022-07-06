@@ -35,8 +35,8 @@ local specWarnHatefulGaze3			= mod:NewSpecialWarningCloseMoveAway(198079, nil, n
 local specWarnBrutalHaymakerSoon	= mod:NewSpecialWarningSoon(198245, "Tank|Healer", nil, nil, 1, 2) --Жестокий удар кулаком Face fuck soon
 local specWarnBrutalHaymaker		= mod:NewSpecialWarningDefensive(198245, "Tank", nil, nil, 3, 2) --Жестокий удар кулаком Incoming face fuck
 
-local timerStompCD					= mod:NewCDTimer(17, 198073, nil, nil, nil, 2) --Сотрясающий землю топот +++ Next timers but delayed by other casts
-local timerHatefulGazeCD			= mod:NewCDTimer(25.5, 198079, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON..DBM_CORE_MYTHIC_ICON) --Ненавидящий взгляд +++ Next timers but delayed by other casts
+local timerStompCD					= mod:NewCDTimer(17, 198073, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Сотрясающий землю топот +++
+local timerHatefulGazeCD			= mod:NewCDTimer(25.5, 198079, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON..DBM_CORE_MYTHIC_ICON) --Ненавидящий взгляд +++
 local timerHatefulGaze				= mod:NewCastTimer(5, 198079, nil, nil, nil, 7) --Ненавидящий взгляд +++
 local timerHatefulCharge			= mod:NewTargetTimer(60, 224188, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Рывок ненависти
 
