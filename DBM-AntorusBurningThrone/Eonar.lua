@@ -43,7 +43,7 @@ local specWarnSpearofDoom				= mod:NewSpecialWarningDodge(248789, nil, nil, nil,
 local specWarnRainofFel					= mod:NewSpecialWarningYouMoveAway(248332, nil, nil, 2, 1, 2) --Дождь Скверны
 --Adds
 local specWarnSwing						= mod:NewSpecialWarningDodge(250701, "Melee", nil, nil, 1, 2) --Размах Скверны
-local specWarnArtilleryStrike			= mod:NewSpecialWarningInterrupt(246305, "HasInterrupt", nil, nil, 3, 3) --Артиллерийский удар
+local specWarnArtilleryStrike			= mod:NewSpecialWarningInterrupt(246305, "HasInterrupt", nil, nil, 1, 3) --Артиллерийский удар
 --local yellBurstingDreadflame			= mod:NewPosYell(238430, DBM_CORE_AUTO_YELL_CUSTOM_POSITION)
 --local specWarnMalignantAnguish		= mod:NewSpecialWarningInterrupt(236597, "HasInterrupt")
 --local specWarnGTFO					= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 2)
@@ -252,13 +252,13 @@ local function checkForDeadDestructor(self, forceStart)
 	DBM:Debug("checkForDeadDestructor ran, which means a destructor died before casting high alert, or DBM has a timer error near: "..self.vb.destructorCast, 2)
 end
 
---[[
+
 local function burningembersOnPlayer(self) --Раскаленные угли
 	specWarnBurningEmbers:Show()
 	specWarnBurningEmbers:Play("runaway")
+	timerBurningEmbers:Start(3)
+	yellBurningEmbersFades:Countdown(3)
 	if self:IsHard() then
-		timerBurningEmbers:Start()
-		yellBurningEmbersFades:Countdown(30, 3)
 		self:Schedule(30, burningembersOnPlayer, self)
 	end
 end
@@ -266,13 +266,13 @@ end
 local function arcanesingularityOnPlayer(self) --Магическая сингулярность
 	specWarnArcaneBuildup:Show()
 	specWarnArcaneBuildup:Play("runaway")
+	timerArcaneSingularity:Start(3)
+	yellArcaneBuildupFades:Countdown(3)
 	if self:IsHard() then
-		timerArcaneSingularity:Start()
-		yellArcaneBuildupFades:Countdown(25, 3)
 		self:Schedule(25, arcanesingularityOnPlayer, self)
 	end
 end
-]]
+
 
 local function startBatsStuff(self)
 	self.vb.batCast = self.vb.batCast + 1
@@ -304,7 +304,7 @@ function mod:OnCombatStart(delay)
 	if not self:IsLFR() then
 		self.vb.lifeRequired = 4
 		if self:IsMythic() then
-			timerRainofFelCD:Start(14-delay, 1) --Дождь Скверны
+		--	timerRainofFelCD:Start(14-delay, 1) --Дождь Скверны
 			timerSpearofDoomCD:Start(34-delay, 1) --Копье Рока
 			timerDestructorCD:Start(17, DBM_CORE_MIDDLE) --Разрушитель
 			self:Schedule(30, checkForDeadDestructor, self, 5)
@@ -315,7 +315,7 @@ function mod:OnCombatStart(delay)
 			timerBatsCD:Start(180, 1) --мыши, подправил
 			self:Schedule(195, startBatsStuff, self)
 		elseif self:IsHeroic() then
-			timerRainofFelCD:Start(14 -delay, 1) --Дождь Скверны, подправил
+		--	timerRainofFelCD:Start(14 -delay, 1) --Дождь Скверны, подправил
 			timerDestructorCD:Start(13, DBM_CORE_MIDDLE) --подправил
 			self:Schedule(27, checkForDeadDestructor, self)
 			timerSpearofDoomCD:Start(34-delay, 1) --Копье Рока
@@ -327,7 +327,7 @@ function mod:OnCombatStart(delay)
 			timerDestructorCD:Start(7, DBM_CORE_MIDDLE)
 			self:Schedule(27, checkForDeadDestructor, self)
 			timerObfuscatorCD:Start(174, 1)
-			--timerRainofFelCD:Start(30-delay, 1)
+		--	timerRainofFelCD:Start(30-delay, 1)
 		end
 	else
 		self.vb.lifeRequired = 3
@@ -458,14 +458,6 @@ function mod:SPELL_AURA_APPLIED(args)
 		self.vb.targetedIcon = self.vb.targetedIcon + 1]]
 	elseif spellId == 248332 then--Rain of Fel
 		warnRainofFel:CombinedShow(1, args.destName)
---[[		if self:AntiSpam(10, 4) then
-			self.vb.rainOfFelCount = self.vb.rainOfFelCount + 1
-			local timer = self:IsMythic() and mythicRainOfFelTimers[self.vb.rainOfFelCount+1] or self:IsHeroic() and heroicRainOfFelTimers[self.vb.rainOfFelCount+1] or self:IsNormal() and normalRainOfFelTimers[self.vb.rainOfFelCount+1]
-			if timer then
-				timerRainofFelCD:Start(timer, self.vb.rainOfFelCount+1)
-				--countdownRainofFel:Start(timer)
-			end
-		end]]
 		if args:IsPlayer() then
 			specWarnRainofFel:Show()
 			specWarnRainofFel:Play("scatter")
@@ -475,137 +467,23 @@ function mod:SPELL_AURA_APPLIED(args)
 				DBM.RangeCheck:Show(8)
 			end
 		end
-	elseif spellId == 249017 then --Магическая сингулярность 250693 or spellId == 
+	elseif spellId == 249017 then --Магическая сингулярность
 		if args:IsPlayer() then
-		--	yellArcaneBuildupFades:Countdown(25, 3)
-		--	self:Schedule(23, arcanesingularityOnPlayer, self)
-			if self.vb.finalDoomCast == 1 then
-				specWarnArcaneBuildup:Schedule(22)
-				specWarnArcaneBuildup:Schedule(47)
-				specWarnArcaneBuildup:Schedule(72)
-				specWarnArcaneBuildup:Schedule(97)
-				specWarnArcaneBuildup:Schedule(122)
-				specWarnArcaneBuildup:Schedule(147)
-				specWarnArcaneBuildup:Schedule(172)
-				specWarnArcaneBuildup:Schedule(197)
-				specWarnArcaneBuildup:Schedule(222)
-				specWarnArcaneBuildup:Schedule(247)
-				specWarnArcaneBuildup:Schedule(272)
-				specWarnArcaneBuildup:Schedule(297)
-				specWarnArcaneBuildup:Schedule(322)
-				specWarnArcaneBuildup:Schedule(347)
-				specWarnArcaneBuildup:Schedule(372)
-				specWarnArcaneBuildup:Schedule(397)
-				specWarnArcaneBuildup:Schedule(422)
-				specWarnArcaneBuildup:Schedule(447)
-				specWarnArcaneBuildup:Schedule(472)
-			elseif self.vb.finalDoomCast == 2 then
-				specWarnArcaneBuildup:Schedule(22)
-				specWarnArcaneBuildup:Schedule(47)
-				specWarnArcaneBuildup:Schedule(72)
-				specWarnArcaneBuildup:Schedule(97)
-				specWarnArcaneBuildup:Schedule(122)
-				specWarnArcaneBuildup:Schedule(147)
-				specWarnArcaneBuildup:Schedule(172)
-				specWarnArcaneBuildup:Schedule(197)
-				specWarnArcaneBuildup:Schedule(222)
-				specWarnArcaneBuildup:Schedule(247)
-				specWarnArcaneBuildup:Schedule(272)
-				specWarnArcaneBuildup:Schedule(297)
-				specWarnArcaneBuildup:Schedule(322)
-				specWarnArcaneBuildup:Schedule(347)
-			elseif self.vb.finalDoomCast == 3 then
-				specWarnArcaneBuildup:Schedule(22)
-				specWarnArcaneBuildup:Schedule(47)
-				specWarnArcaneBuildup:Schedule(72)
-				specWarnArcaneBuildup:Schedule(97)
-				specWarnArcaneBuildup:Schedule(122)
-				specWarnArcaneBuildup:Schedule(147)
-				specWarnArcaneBuildup:Schedule(172)
-				specWarnArcaneBuildup:Schedule(197)
-				specWarnArcaneBuildup:Schedule(222)
-				specWarnArcaneBuildup:Schedule(247)
-			elseif self.vb.finalDoomCast == 4 then
-				specWarnArcaneBuildup:Schedule(22)
-				specWarnArcaneBuildup:Schedule(47)
-				specWarnArcaneBuildup:Schedule(72)
-				specWarnArcaneBuildup:Schedule(97)
-				specWarnArcaneBuildup:Schedule(122)
-				specWarnArcaneBuildup:Schedule(147)
-			elseif self.vb.finalDoomCast == 5 then
-				specWarnArcaneBuildup:Schedule(22)
-				specWarnArcaneBuildup:Schedule(47)
-				specWarnArcaneBuildup:Schedule(72)
-			end
+			self:Schedule(22, arcanesingularityOnPlayer, self)
 			if self.Options.RangeFrame then
 				DBM.RangeCheck:Show(10)
 			end
 		end
-	elseif spellId == 249015 then --Раскаленные угли 250691 or spellId == 
+	elseif spellId == 249015 then --Раскаленные угли
 		self.vb.burningembersIcon = self.vb.burningembersIcon + 1
 		if args:IsPlayer() then
-		--	yellBurningEmbersFades:Countdown(30, 3)
-		--	self:Schedule(28, burningembersOnPlayer, self)
-			if self.vb.finalDoomCast == 1 then
-				specWarnBurningEmbers:Schedule(27)
-				specWarnBurningEmbers:Schedule(57)
-				specWarnBurningEmbers:Schedule(87)
-				specWarnBurningEmbers:Schedule(117)
-				specWarnBurningEmbers:Schedule(147)
-				specWarnBurningEmbers:Schedule(177)
-				specWarnBurningEmbers:Schedule(207)
-				specWarnBurningEmbers:Schedule(237)
-				specWarnBurningEmbers:Schedule(267)
-				specWarnBurningEmbers:Schedule(297)
-				specWarnBurningEmbers:Schedule(327)
-				specWarnBurningEmbers:Schedule(357)
-				specWarnBurningEmbers:Schedule(387)
-				specWarnBurningEmbers:Schedule(417)
-				specWarnBurningEmbers:Schedule(447)
-				specWarnBurningEmbers:Schedule(477)
-				specWarnBurningEmbers:Schedule(507)
-			elseif self.vb.finalDoomCast == 2 then
-				specWarnBurningEmbers:Schedule(27)
-				specWarnBurningEmbers:Schedule(57)
-				specWarnBurningEmbers:Schedule(87)
-				specWarnBurningEmbers:Schedule(117)
-				specWarnBurningEmbers:Schedule(147)
-				specWarnBurningEmbers:Schedule(177)
-				specWarnBurningEmbers:Schedule(207)
-				specWarnBurningEmbers:Schedule(237)
-				specWarnBurningEmbers:Schedule(267)
-				specWarnBurningEmbers:Schedule(297)
-				specWarnBurningEmbers:Schedule(327)
-				specWarnBurningEmbers:Schedule(357)
-			elseif self.vb.finalDoomCast == 3 then
-				specWarnBurningEmbers:Schedule(27)
-				specWarnBurningEmbers:Schedule(57)
-				specWarnBurningEmbers:Schedule(87)
-				specWarnBurningEmbers:Schedule(117)
-				specWarnBurningEmbers:Schedule(147)
-				specWarnBurningEmbers:Schedule(177)
-				specWarnBurningEmbers:Schedule(207)
-				specWarnBurningEmbers:Schedule(237)
-			elseif self.vb.finalDoomCast == 4 then
-				specWarnBurningEmbers:Schedule(27)
-				specWarnBurningEmbers:Schedule(57)
-				specWarnBurningEmbers:Schedule(87)
-				specWarnBurningEmbers:Schedule(117)
-				specWarnBurningEmbers:Schedule(147)
-			elseif self.vb.finalDoomCast == 5 then
-				specWarnBurningEmbers:Schedule(27)
-				specWarnBurningEmbers:Schedule(57)
-				specWarnBurningEmbers:Schedule(87)
-			end
+			self:Schedule(27, burningembersOnPlayer, self)
 			if self.Options.RangeFrame then
 				DBM.RangeCheck:Show(8)
 			end
 		end
 		if self.Options.SetIconOnBurningEmbers then
 			self:SetIcon(args.destName, self.vb.burningembersIcon)
-		end
-		if self.vb.burningembersIcon == 6 then
-			self.vb.burningembersIcon = 1
 		end
 	elseif spellId == 250140 then--Foul Steps
 		if args:IsPlayer() then

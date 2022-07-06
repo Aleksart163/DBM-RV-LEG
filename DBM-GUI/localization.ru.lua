@@ -7,7 +7,7 @@ L.MainFrame = "Deadly Boss Mods"
 
 L.TranslationByPrefix		= "Адаптация под uwow.biz - "
 L.TranslationBy 			= "Aleksart163 (Tielle)"
-L.Website					= "Дискорд для связи по вопросам: Aleksart163#1671 и сайт для обновления: |cFF73C2FBhttps://github.com/Aleksart163/DBM-for-Legion|r"
+L.Website					= "Дискорд для связи по вопросам: Aleksart163#1671 и сайт для обновления: |cFF73C2FBhttps://github.com/Aleksart163/DBM-for-Uwow|r"
 L.WebsiteButton				= "Обновление"
 
 L.OTabBosses				= "Боссы"

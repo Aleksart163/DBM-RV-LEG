@@ -43,9 +43,9 @@
 ----------------------------------------------------------------
 --
 DBM = {
-	Revision = tonumber(("$Revision: 17667 $"):sub(12, -3)), --прошляпанное очко мурчаля
+	Revision = tonumber(("$Revision: 17668 $"):sub(12, -3)), --прошляпанное очко мурчаля
 	DisplayVersion = "7.3.37 Right Version",
-	ReleaseRevision = 17666
+	ReleaseRevision = 17667
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -209,7 +209,7 @@ DBM.DefaultOptions = {
 	SpecialWarningFlashRepeat1 = false,
 	SpecialWarningFlashRepeat2 = false,
 	SpecialWarningFlashRepeat3 = true,
-	SpecialWarningFlashRepeat4 = false,
+	SpecialWarningFlashRepeat4 = true,
 	SpecialWarningFlashRepeat5 = true,
 	SpecialWarningFlashRepeatAmount = 2,--Repeat 2 times, mean 3 flashes (first plus 2 repeat)
 	SWarnClassColor = true,
@@ -5034,7 +5034,7 @@ do
 	end
 
 	function DBM:ShowUpdateReminder(newVersion, newRevision, text, url)
-		urlText = url or DBM_CORE_UPDATEREMINDER_URL or "https://github.com/Aleksart163/DBM-for-Legion"
+		urlText = url or DBM_CORE_UPDATEREMINDER_URL or "https://github.com/Aleksart163/DBM-for-Uwow"
 		if not frame then
 			createFrame()
 		else

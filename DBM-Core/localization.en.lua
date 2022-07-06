@@ -1,5 +1,5 @@
 
-DBM_CORE_NEED_SUPPORT				= "Are you good with programming or languages? If yes, the DBM needs your help in localizing DBM in more languages. Help us out by visiting |HDBM:forums|h|cff3588ffhttps://github.com/Aleksart163/DBM-for-Legion|r.\nFound a bug or wrong timer? Do you think some mod would need an additional warning, timer or special feature?\nVisit the new DBM discussion, bug report and feature request forums at |HDBM:forums|h|cff3588ffhttps://github.com/Aleksart163/DBM-for-Legion|r."
+DBM_CORE_NEED_SUPPORT				= "Are you good with programming or languages? If yes, the DBM needs your help in localizing DBM in more languages. Help us out by visiting |HDBM:forums|h|cff3588ffhttps://github.com/Aleksart163/DBM-for-Uwow|r.\nFound a bug or wrong timer? Do you think some mod would need an additional warning, timer or special feature?\nVisit the new DBM discussion, bug report and feature request forums at |HDBM:forums|h|cff3588ffhttps://github.com/Aleksart163/DBM-for-Uwow|r."
 DBM_HOW_TO_USE_MOD					= "Welcome to DBM. Type /dbm help for a list of supported commands. To access options type /dbm in your chat to begin configuration. Load specific zones manually to configure any boss specific settings to your liking as well. DBM will setup defaults for your spec, but you may want to fine tune these."
 --DBM_FORUMS_MESSAGE					= "Found a bug or wrong timer? Do you think some mod would need an additional warning, timer or special feature?\nVisit the new DBM discussion, bug report and feature request forums at |HDBM:forums|h|cff3588ffhttps://github.com/Aleksart163/DBM-for-Legion|r (you can click the link to copy the URL)"
 DBM_SILENT_REMINDER					= "Reminder: DBM is still in silent mode."
@@ -15,7 +15,7 @@ DBM_CORE_LOAD_MOD_EXP_MISMATCH		= "%s could not be loaded because it is designed
 DBM_CORE_LOAD_MOD_DISABLED			= "%s is installed but currently disabled. This mod will not be loaded unless you enable it."
 DBM_CORE_LOAD_MOD_DISABLED_PLURAL	= "%s are installed but currently disabled. These mods will not be loaded unless you enable them."
 
-DBM_CORE_UPDATEREMINDER_URL			= "https://github.com/Aleksart163/DBM-for-Legion"
+DBM_CORE_UPDATEREMINDER_URL			= "https://github.com/Aleksart163/DBM-for-Uwow"
 
 DBM_COPY_URL_DIALOG					= "Copy URL"
 
@@ -35,7 +35,7 @@ DBM_CORE_LOOT_SPEC_REMINDER			= "Your current spec is %s. Your current loot choi
 
 DBM_CORE_BIGWIGS_ICON_CONFLICT		= "DBM has detected that you have raid icons turned on in both BigWigs and DBM. Please disable icons in one of them to avoid conflicts"
 
-DBM_CORE_MOD_AVAILABLE				= "%s is available for this zone/boss. You can find download on |HDBM:forums|h|cff3588ffhttps://github.com/Aleksart163/DBM-for-Legion|r."
+DBM_CORE_MOD_AVAILABLE				= "%s is available for this zone/boss. You can find download on |HDBM:forums|h|cff3588ffhttps://github.com/Aleksart163/DBM-for-Uwow|r."
 
 DBM_CORE_COMBAT_STARTED				= "%s engaged. Good luck and have fun! :)"
 DBM_CORE_COMBAT_STARTED_IN_PROGRESS	= "Engaged an in progress fight against %s. Good luck and have fun! :)"
@@ -372,8 +372,8 @@ DBM_CORE_AUTO_SPEC_WARN_TEXTS = {
 	youdontmove 	= "%s under you! - dont move",
 	dontstand 		= "%s! - don't stand still",
 	youdontstand 	= "%s on you! - don't stand still",
-	dodge			= "%s! - dodge attack",
-	dodgecount		= "%s! (%%s) - dodge attack",
+	dodge			= "%s - dodge attack",
+	dodgecount		= "%s (%%s) - dodge attack",
 	dodgeloc		= "%s - dodge from %%s",
 	youmoveaway		= "%s on you! - move away from others",
 	youmoveawaypos	= "%s (Pos. %%s) on you!",

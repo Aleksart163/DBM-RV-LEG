@@ -123,12 +123,12 @@ local yellArcticTorrent			= mod:NewYell(218245, nil, nil, nil, "YELL") --Арк�
 
 function mod:ArcticTorrentTarget(targetname, uId)
 	if not targetname then return end
+	warnArcticTorrent:Show(targetname)
 	if targetname == UnitName("player") then
 		specWarnArcticTorrent:Show()
 		specWarnArcticTorrent:Play("targetyou")
 		yellArcticTorrent:Yell()
 	else
-		warnArcticTorrent:Show(targetname)
 		specWarnArcticTorrent:Show()
 		specWarnArcticTorrent:Play("watchstep")
 	end
@@ -136,12 +136,12 @@ end
 
 function mod:ClubSlamTarget(targetname, uId)
 	if not targetname then return end
+	warnClubSlam:Show(targetname)
 	if targetname == UnitName("player") then
 		specWarnClubSlam:Show()
 		specWarnClubSlam:Play("defensive")
 		yellClubSlam:Yell()
 	else
-		warnClubSlam:Show(targetname)
 		specWarnClubSlam2:Show()
 		specWarnClubSlam2:Play("watchstep")
 	end
@@ -149,12 +149,12 @@ end
 
 function mod:WickedLeapTarget(targetname, uId)
 	if not targetname then return end
+	warnWickedLeap:Show(targetname)
 	if targetname == UnitName("player") then
 		specWarnWickedLeap:Show()
 		specWarnWickedLeap:Play("watchstep")
 		yellWickedLeap:Yell()
 	else
-		warnWickedLeap:Show(targetname)
 		specWarnWickedLeap:Show()
 		specWarnWickedLeap:Play("watchstep")
 	end
@@ -162,13 +162,13 @@ end
 
 function mod:RemnantofLightTarget(targetname, uId)
 	if not targetname then return end
+	warnRemnantofLight:Show(targetname)
 	if targetname == UnitName("player") then
 		specWarnRemnantofLight:Show()
 		specWarnRemnantofLight:Play("kickcast")
 		specWarnHorrificVisage:Schedule(3)
 		yellRemnantofLight:Yell()
 	else
-		warnRemnantofLight:Show(targetname)
 		specWarnRemnantofLight:Show()
 		specWarnRemnantofLight:Play("kickcast")
 		specWarnHorrificVisage:Schedule(3)
@@ -177,6 +177,7 @@ end
 
 function mod:FelFissureTarget(targetname, uId)
 	if not targetname then return end
+	warnFelFissure:Show(targetname)
 	if targetname == UnitName("player") then
 		specWarnFelFissure:Show()
 		specWarnFelFissure:Play("watchstep")
@@ -184,18 +185,16 @@ function mod:FelFissureTarget(targetname, uId)
 	else
 		specWarnFelFissure:Show()
 		specWarnFelFissure:Play("watchstep")
-		warnFelFissure:Show(targetname)
 	end
 end
 
 function mod:DepthChargeTarget(targetname, uId) --Глубинная бомба
 	if not targetname then return end
+	warnDepthCharge:Show(targetname)
 	if targetname == UnitName("player") then
 		specWarnDepthCharge:Show()
 		specWarnDepthCharge:Play("runout")
 		yellDepthCharge:Yell()
-	else
-		warnDepthCharge:Show(targetname)
 	end
 end
 
@@ -225,7 +224,7 @@ function mod:SPELL_CAST_START(args)
 		specWarnArcaneResonance:Show()
 		specWarnArcaneResonance:Play("kickcast")
 	elseif spellId == 218245 then --Арктический поток
-		self:BossTargetScanner(args.sourceGUID, "ArcticTorrentTarget", 0.2)
+		self:BossTargetScanner(args.sourceGUID, "ArcticTorrentTarget", 0.1, 9)
 		timerArcticTorrentCD:Start()
 		timerFlrglDrglDrglGrglCD:Start()
 	elseif spellId == 218250 then --Флргл Дргл Дргл Гргл
@@ -258,23 +257,23 @@ function mod:SPELL_CAST_START(args)
 		specWarnFearsomeShriek:Show()
 		timerFearsomeShriekCD:Start()
 	elseif spellId == 203671 then --Мощный удар дубиной
-		self:BossTargetScanner(args.sourceGUID, "ClubSlamTarget", 0.2)
+		self:BossTargetScanner(args.sourceGUID, "ClubSlamTarget", 0.1, 9)
 		timerClubSlamCD:Start()
 	elseif spellId == 216808 then --Жестокий прыжок
-		self:BossTargetScanner(args.sourceGUID, "WickedLeapTarget", 0.2)
+		self:BossTargetScanner(args.sourceGUID, "WickedLeapTarget", 0.1, 9)
 		timerWickedLeapCD:Start()
 	elseif spellId == 216808 then --Частица Света
-		self:BossTargetScanner(args.sourceGUID, "RemnantofLightTarget", 0.2)
+		self:BossTargetScanner(args.sourceGUID, "RemnantofLightTarget", 0.1, 9)
 		timerRemnantofLightCD:Start()
 	elseif spellId == 218885 then --Разлом скверны
-		self:BossTargetScanner(args.sourceGUID, "FelFissureTarget", 0.2)
+		self:BossTargetScanner(args.sourceGUID, "FelFissureTarget", 0.1, 9)
 		timerFelFissureCD:Start()
 	elseif spellId == 223659 then --Миродробитель
 		specWarnWorldBreaker:Show()
 	elseif spellId == 223630 then --Раскалывание душ
 		specWarnSoulCleave:Show()
 	elseif spellId == 207002 then --Глубинная бомба
-		self:BossTargetScanner(args.sourceGUID, "DepthChargeTarget", 0.2)
+		self:BossTargetScanner(args.sourceGUID, "DepthChargeTarget", 0.1, 9)
 		timerDepthChargeCD:Start()
 	elseif spellId == 206972 then --Пробой корпуса
 		timerHullBreachCD:Start()
@@ -341,7 +340,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 219102 then --Уязвимое место
 		timerExposedCoreCD:Start()
 	elseif spellId == 219087 then --Форсаж
-		self:BossTargetScanner(args.sourceGUID, "OverdriveTarget", 0.2)
+		self:BossTargetScanner(args.sourceGUID, "OverdriveTarget", 0.1, 9)
 		timerOverdriveCD:Start()
 	elseif spellId == 206795 then --Дробящий укус
 		if args:IsPlayer() then

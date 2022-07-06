@@ -178,7 +178,7 @@ end
 
 function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
-	if spellId == 244399 or spellId == 245294 or spellId == 246919 then--Decimation
+	if spellId == 244399 or spellId == 245294 or spellId == 246919 then --Децимация
 		self.vb.lastCannon = 2--Anniilator 1 decimator 2
 		countdownChooseCannon:Start(15.8)
 		if self.vb.phase == 1 or self:IsMythic() then
@@ -186,13 +186,13 @@ function mod:SPELL_CAST_SUCCESS(args)
 		elseif self.vb.phase > 1 and not self:IsMythic() then
 			timerDecimationCD:Start(15.8)
 		end
-	elseif spellId == 244294 then--Annihilation
+	elseif spellId == 244294 then --Аннигиляция
+		specWarnAnnihilation:Show()
+		specWarnAnnihilation:Play("helpsoak")
 		if self.vb.annihilatorHaywire then
 			DBM:AddMsg("Blizzard fixed haywire Annihilator, tell DBM author")
 		else
 			self.vb.lastCannon = 1--Annihilation 1 Decimation 2
-			specWarnAnnihilation:Show()
-			specWarnAnnihilation:Play("helpsoak")
 			countdownChooseCannon:Start(15.8)
 			if self.vb.phase == 1 or self:IsMythic() then
 				timerDecimationCD:Start(15.8)
@@ -253,7 +253,8 @@ function mod:SPELL_AURA_APPLIED(args)
 				yellDecimationFades:Countdown(5, 3)
 			end
 		elseif self:AntiSpam(5, 1) then
-			specWarnDecimation2:Schedule(5)
+			specWarnDecimation2:Schedule(4.5)
+			specWarnDecimation2:ScheduleVoice(4.5, "watchstep")
 		end
 		if self.Options.SetIconOnDecimation then
 			self:SetIcon(args.destName, self.vb.deciminationActive)
