@@ -49,7 +49,7 @@ local specWarnArtilleryStrike			= mod:NewSpecialWarningInterrupt(246305, "HasInt
 --local specWarnGTFO					= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 2)
 --Mythic
 local specWarnFinalDoom					= mod:NewSpecialWarningParaxisCount(249121, nil, nil, nil, 1, 2) --Всеобщая погибель
-local specWarnArcaneBuildup				= mod:NewSpecialWarningYouMoveAway(250693, nil, nil, nil, 4, 2) --Волшебный вихрь
+local specWarnArcaneBuildup				= mod:NewSpecialWarningYouMoveAway(250171, nil, nil, nil, 4, 2) --Волшебный вихрь
 local specWarnBurningEmbers				= mod:NewSpecialWarningYouMoveAway(250691, nil, nil, nil, 4, 2) --Раскаленные угли
 local specWarnFoulSteps					= mod:NewSpecialWarningStack(250140, nil, 12, nil, nil, 1, 6) --Гнусные приемы Fine tune
 
@@ -68,15 +68,17 @@ local timerPurge						= mod:NewCastTimer(30, 249934, nil, nil, nil, 2, nil, DBM_
 local timerFinalDoom					= mod:NewCastTimer(50, 249121, nil, nil, nil, 2, nil, DBM_CORE_MYTHIC_ICON..DBM_CORE_DEADLY_ICON) --Всеобщая погибель
 local timerFinalDoomCD					= mod:NewCDCountTimer(90, 249121, nil, nil, nil, 6, nil, DBM_CORE_MYTHIC_ICON) --Всеобщая погибель
 
-local timerArcaneSingularity			= mod:NewNextTimer(25, 249017, nil, nil, nil, 7) --Магическая сингулярность
-local timerBurningEmbers				= mod:NewNextTimer(30, 249015, nil, nil, nil, 7) --Раскаленные угли
+local timerArcaneSingularity			= mod:NewNextTimer(25, 250171, nil, nil, nil, 7) --Магическая сингулярность
+local timerArcaneSingularity2			= mod:NewCastTimer(3, 250171, nil, nil, nil, 7) --Магическая сингулярность
+local timerBurningEmbers				= mod:NewNextTimer(30, 250691, nil, nil, nil, 7) --Раскаленные угли
+local timerBurningEmbers2				= mod:NewCastTimer(3, 250691, nil, nil, nil, 7) --Раскаленные угли
 
 local berserkTimer						= mod:NewBerserkTimer(600)
 
 local yellRainofFel						= mod:NewYell(248332, nil, nil, nil, "YELL") --Дождь Скверны
 local yellRainofFelFades				= mod:NewShortFadesYell(248332, nil, nil, nil, "YELL") --Дождь Скверны
-local yellArcaneBuildup					= mod:NewYell(250693, nil, nil, nil, "YELL") --Волшебный вихрь
-local yellArcaneBuildupFades			= mod:NewFadesYell(250693, nil, nil, nil, "YELL") --Волшебный вихрь
+local yellArcaneBuildup					= mod:NewYell(250171, nil, nil, nil, "YELL") --Волшебный вихрь
+local yellArcaneBuildupFades			= mod:NewFadesYell(250171, nil, nil, nil, "YELL") --Волшебный вихрь
 local yellBurningEmbers					= mod:NewYell(250691, nil, nil, nil, "YELL") --Раскаленные угли
 local yellBurningEmbersFades			= mod:NewFadesYell(250691, nil, nil, nil, "YELL") --Раскаленные угли
 --The Paraxis
@@ -84,6 +86,8 @@ local yellBurningEmbersFades			= mod:NewFadesYell(250691, nil, nil, nil, "YELL")
 --Mythic
 local countdownFinalDoom				= mod:NewCountdown(90, 249121, nil, nil, 5) --Всеобщая погибель
 local countdownFinalDoom2				= mod:NewCountdownFades(50, 249121, nil, nil, 5) --Всеобщая погибель
+local countdownArcaneSingularity		= mod:NewCountdown("Alt3", 250171, nil, nil) --Магическая сингулярность
+local countdownBurningEmbers			= mod:NewCountdown("Alt3", 250691, nil, nil) --Раскаленные угли
 
 --mod:AddSetIconOption("SetIconOnFeedbackTargeted2", 249016, false, false, {6, 5, 4, 3, 2, 1})
 mod:AddSetIconOption("SetIconOnBurningEmbers", 249015, true, false, {5, 4, 3, 2, 1})
@@ -256,20 +260,24 @@ end
 local function burningembersOnPlayer(self) --Раскаленные угли
 	specWarnBurningEmbers:Show()
 	specWarnBurningEmbers:Play("runaway")
-	timerBurningEmbers:Start(3)
+	timerBurningEmbers2:Start()
+	countdownBurningEmbers:Start()
 	yellBurningEmbersFades:Countdown(3)
 	if self:IsHard() then
 		self:Schedule(30, burningembersOnPlayer, self)
+		timerBurningEmbers:Start(30)
 	end
 end
 
 local function arcanesingularityOnPlayer(self) --Магическая сингулярность
 	specWarnArcaneBuildup:Show()
 	specWarnArcaneBuildup:Play("runaway")
-	timerArcaneSingularity:Start(3)
+	timerArcaneSingularity2:Start()
+	countdownArcaneSingularity:Start()
 	yellArcaneBuildupFades:Countdown(3)
 	if self:IsHard() then
 		self:Schedule(25, arcanesingularityOnPlayer, self)
+		timerArcaneSingularity:Start(25)
 	end
 end
 
@@ -370,8 +378,11 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 250701 and self:CheckInterruptFilter(args.sourceGUID, true) then
 		specWarnSwing:Show()
 		specWarnSwing:Play("watchstep")
-	elseif spellId == 246305 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Артиллерийский удар
-		specWarnArtilleryStrike:Show()
+	elseif spellId == 246305 then --Артиллерийский удар
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnArtilleryStrike:Show()
+			specWarnArtilleryStrike:Play("kickcast")
+		end
 	end
 end
 
@@ -417,7 +428,7 @@ end
 
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
-	if spellId == 250073 and not warnedAdds[args.sourceGUID] then--Purification (buff on purifier)
+	if spellId == 250073 and not warnedAdds[args.sourceGUID] then --Очиститель (баф очистителя)
 		warnedAdds[args.sourceGUID] = true
 		self.vb.purifiers = self.vb.purifiers + 1
 		if self:AntiSpam(5, 2) then
@@ -430,7 +441,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				timerPurifierCD:Start(timer, text)
 			end
 		end
-	elseif spellId == 246753 and not warnedAdds[args.sourceGUID] then--Cloak
+	elseif spellId == 246753 and not warnedAdds[args.sourceGUID] then --Маскировщик (баф маскировщика)
 		warnedAdds[args.sourceGUID] = true
 		self.vb.obfuscators = self.vb.obfuscators + 1
 		if self:AntiSpam(5, 2) then
@@ -470,6 +481,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 249017 then --Магическая сингулярность
 		if args:IsPlayer() then
 			self:Schedule(22, arcanesingularityOnPlayer, self)
+			timerArcaneSingularity:Start(22)
 			if self.Options.RangeFrame then
 				DBM.RangeCheck:Show(10)
 			end
@@ -478,6 +490,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		self.vb.burningembersIcon = self.vb.burningembersIcon + 1
 		if args:IsPlayer() then
 			self:Schedule(27, burningembersOnPlayer, self)
+			timerBurningEmbers:Start(27)
 			if self.Options.RangeFrame then
 				DBM.RangeCheck:Show(8)
 			end

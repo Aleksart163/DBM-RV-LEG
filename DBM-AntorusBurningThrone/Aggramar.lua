@@ -39,7 +39,7 @@ local warnTaeshalachTech				= mod:NewCountAnnounce(244688, 3) --Искусный
 
 local specWarnFlameRend2				= mod:NewSpecialWarning("FlameRend3", nil, nil, nil, 1, 2) --другая пати
 
-local specWarnBlazingEruption			= mod:NewSpecialWarningStack(244912, "-Tank", 2, nil, nil, 1, 5) --Извержение пламени
+local specWarnBlazingEruption			= mod:NewSpecialWarningStack(244912, nil, 2, nil, nil, 1, 5) --Извержение пламени
 --Stage One: Wrath of Aggramar
 local specWarnTaeshalachReach			= mod:NewSpecialWarningStack(245990, nil, 8, nil, nil, 1, 3) --Гигантский клинок
 local specWarnTaeshalachReachOther		= mod:NewSpecialWarningTaunt(245990, nil, nil, nil, 1, 3) --Гигантский клинок

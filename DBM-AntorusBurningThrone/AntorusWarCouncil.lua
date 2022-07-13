@@ -72,7 +72,7 @@ local specWarnShockGrenade				= mod:NewSpecialWarningYouMoveAway(244737, nil, ni
 --General
 mod:AddTimerLine(GENERAL)
 local timerExploitWeaknessCD			= mod:NewCDTimer(8.5, 244892, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Обнаружить слабое место
-local timerShockGrenadeCD				= mod:NewCDTimer(14.7, 244722, nil, nil, nil, 3, nil, DBM_CORE_MYTHIC_ICON..DBM_CORE_DEADLY_ICON) --Шоковая граната
+local timerShockGrenadeCD				= mod:NewCDTimer(12, 244722, nil, nil, nil, 3, nil, DBM_CORE_MYTHIC_ICON..DBM_CORE_DEADLY_ICON) --Шоковая граната
 local timerAssumeCommandCD				= mod:NewNextTimer(90, 245227, nil, nil, nil, 6) --Принять командование
 --In Pod
 --Admiral Svirax
@@ -171,41 +171,51 @@ function mod:SPELL_CAST_START(args)
 		end
 	elseif spellId == 253040 then
 		self:BossTargetScanner(args.sourceGUID, "DemonicChargeTarget", 0.2, 9)
-	elseif spellId == 245227 then--Assume Command (entering pod)
+	elseif spellId == 245227 then --Принять командование (начало каста)
 		specWarnAssumeCommand:Show()
 		specWarnAssumeCommand:Play("targetchange")
-		timerShockGrenadeCD:Stop()
 		timerExploitWeaknessCD:Stop()
 		countdownExploitWeakness:Cancel()
 		timerExploitWeaknessCD:Start(8)--8-14 (basically depends how fast you get there) If you heroic leap and are super fast. it's cast pretty much instantly on mob activation
 		countdownExploitWeakness:Start(8)
 		local cid = self:GetCIDFromGUID(args.sourceGUID) --тот, кто кастует
-		if cid == 122369 then--Chief Engineer Ishkar Фаза 3
+		if cid == 122369 then --Главный инженер Ишкар Фаза 3
 			timerShockGrenadeCD:Stop() --Шоковая граната
 			timerSummonReinforcementsCD:Stop() --Вызов подкрепления
 			timerFusilladeCD:Stop() --Шквальный огонь
 			countdownFusillade:Cancel() --Шквальный огонь
+			timerEntropicMineCD:Stop() --Энтропическая мина
 			timerFusilladeCD:Start(19, 1) --Шквальный огонь
 			countdownFusillade:Start(19) --Шквальный огонь
-			timerEntropicMineCD:Stop() --Энтропическая мина
 			if self:IsMythic() then
-				timerShockGrenadeCD:Start(9) --Шоковая граната
-				timerEntropicMineCD:Start(10) --Энтропическая мина
+				timerShockGrenadeCD:Start(17) --Шоковая граната
+				timerEntropicMineCD:Start(18) --Энтропическая мина
 			else
 				timerEntropicMineCD:Start(18) --Энтропическая мина
 			end
-		elseif cid == 122333 then--General Erodus
-			timerSummonReinforcementsCD:Start(11)--Starts elite ones
+		elseif cid == 122333 then --Генерал Эрод (фаза 4 Адмирал Свиракс)
+		--	timerSummonReinforcementsCD:Start(20) --Вызов подкрепления
 		--	countdownReinforcements:Start(11)
-		elseif cid == 122367 then--Admiral Svirax Фаза 2
+			timerShockGrenadeCD:Stop() --Шоковая граната
+			timerSummonReinforcementsCD:Stop() --Вызов подкрепления
+			timerEntropicMineCD:Stop() --Энтропическая мина
+			if self:IsMythic() then
+				timerShockGrenadeCD:Start(17) --Шоковая граната
+				timerEntropicMineCD:Start(18) --Энтропическая мина
+				timerSummonReinforcementsCD:Start(20) --Вызов подкрепления
+			else
+				timerEntropicMineCD:Start(18) --Энтропическая мина
+				timerSummonReinforcementsCD:Start(19) --Вызов подкрепления
+			end
+		elseif cid == 122367 then --Адмирал Свиракс Фаза 2
 			self.vb.FusilladeCount = 0
 			timerShockGrenadeCD:Stop() --Шоковая граната
 			timerSummonReinforcementsCD:Stop() --Вызов подкрепления
-			timerFusilladeCD:Start(19.5, 1) --Шквальный огонь
-			countdownFusillade:Start(19.5) --Шквальный огонь
 			timerEntropicMineCD:Stop() --Энтропическая мина
+			timerFusilladeCD:Start(19, 1) --Шквальный огонь
+			countdownFusillade:Start(19) --Шквальный огонь
 			if self:IsMythic() then
-				timerShockGrenadeCD:Start(18) --Шоковая граната
+				timerShockGrenadeCD:Start(17) --Шоковая граната
 				timerSummonReinforcementsCD:Start(20) --Вызов подкрепления
 			else
 				timerSummonReinforcementsCD:Start(19) --Вызов подкрепления

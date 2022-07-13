@@ -233,7 +233,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnFelBombardment:Play("runout")
 			specWarnFelBombardment:ScheduleVoice(7, "keepmove")
 			yellFelBombardment2:Yell()
-			yellFelBombardment:Countdown(7, 5)
+			yellFelBombardment:Countdown(7, 3)
 		elseif self:IsTank() then
 			specWarnFelBombardmentTaunt:Show(args.destName)
 			specWarnFelBombardmentTaunt:Play("tauntboss")

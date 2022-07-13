@@ -56,7 +56,7 @@ local warnFlashFreeze					= mod:NewStackAnnounce(245518, 2, nil, "Tank") --Мо�
 --Thu'raya, Mother of the Cosmos (Mythic)
 local warnCosmicGlare					= mod:NewTargetAnnounce(250757, 3) --Космический отблеск
 --Мучения
-local specWarnAmantul					= mod:NewSpecialWarning("Amantul", nil, nil, nil, 3, 5) --Мучения Амантула
+local specWarnAmantul					= mod:NewSpecialWarning("Amantul", "-Healer", nil, nil, 3, 5) --Мучения Амантула
 local specWarnNorgannon					= mod:NewSpecialWarning("Norgannon", nil, nil, nil, 3, 5) --Мучения Норганнона
 local specWarnGolgannet					= mod:NewSpecialWarning("Golgannet", nil, nil, nil, 3, 5) --Мучения Голганнета
 local specWarnKazgagot					= mod:NewSpecialWarning("Kazgagot", nil, nil, nil, 3, 5) --Мучения Казгарота

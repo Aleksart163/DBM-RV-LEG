@@ -49,6 +49,7 @@ local specWarnDarkFissure				= mod:NewSpecialWarningDodge(243999, nil, nil, nil,
 local specWarnMarkedPrey				= mod:NewSpecialWarningYou(244042, nil, nil, 2, 1, 2) --Метка жертвы
 local specWarnNecroticEmbrace			= mod:NewSpecialWarningYouMoveAway(244094, nil, nil, nil, 3, 5) --Некротические объятия
 local specWarnNecroticEmbrace3			= mod:NewSpecialWarningYouMoveAwayPos(244094, nil, nil, 3, 3, 5) --Некротические объятия
+local specWarnNecroticEmbrace4			= mod:NewSpecialWarningEnd(244094, nil, nil, nil, 1, 2) --Некротические объятия
 --local specWarnNecroticEmbrace2			= mod:NewSpecialWarningCloseMoveAway(244094, nil, nil, nil, 2, 5) --Некротические объятия
 local specWarnEchoesOfDoom				= mod:NewSpecialWarningYou(248732, nil, nil, nil, 1, 2) --Отголоски гибели
 --Torments of the Shivarra
@@ -269,6 +270,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		self.vb.totalEmbrace = self.vb.totalEmbrace - 1
 		if args:IsPlayer() then
 			playerAffected = false
+			specWarnNecroticEmbrace4:Show()
 			yellNecroticEmbraceFades:Cancel()
 			if self.Options.RangeFrame then
 				DBM.RangeCheck:Show(8)

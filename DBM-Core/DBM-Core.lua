@@ -43,9 +43,9 @@
 ----------------------------------------------------------------
 --
 DBM = {
-	Revision = tonumber(("$Revision: 17668 $"):sub(12, -3)), --прошляпанное очко мурчаля
+	Revision = tonumber(("$Revision: 17669 $"):sub(12, -3)), --прошляпанное очко мурчаля и пелии ✔
 	DisplayVersion = "7.3.37 Right Version",
-	ReleaseRevision = 17667
+	ReleaseRevision = 17668
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -7377,10 +7377,17 @@ function bossModPrototype:CheckInterruptFilter(sourceGUID, skip, checkCooldown)
 	if (DBM.Options.FilterInterrupt2 == "onlyTandF") or self.isTrashMod and (DBM.Options.FilterInterrupt2 == "TandFandBossCooldown") then
 		requireCooldown = false
 	end
-	if requireCooldown and ((GetSpellCooldown(6552)) ~= 0 or (GetSpellCooldown(47528)) ~= 0 or (GetSpellCooldown(2139)) ~= 0 or (GetSpellCooldown(1766)) ~= 0 or (GetSpellCooldown(106839)) ~= 0 or (GetSpellCooldown(96231)) ~= 0 or (GetSpellCooldown(15487)) ~= 0 or (GetSpellCooldown(57994)) ~= 0) then
-		InterruptAvailable = false--checkCooldown check requested and player has no spell that can interrupt available
+	if requireCooldown and ((GetSpellCooldown(6552)) ~= 0 or (GetSpellCooldown(31935)) ~= 0 or (GetSpellCooldown(96231)) ~= 0 or (GetSpellCooldown(147362)) ~= 0 or (GetSpellCooldown(187707)) ~= 0 or (GetSpellCooldown(1766)) ~= 0 or (GetSpellCooldown(15487)) ~= 0 or (GetSpellCooldown(57994)) ~= 0 or (GetSpellCooldown(2139)) ~= 0 or (GetSpellCooldown(19647)) ~= 0 or (GetSpellCooldown(171138)) ~= 0 or (GetSpellCooldown(116705)) ~= 0 or (GetSpellCooldown(78675)) ~= 0 or (GetSpellCooldown(106839)) ~= 0 or (GetSpellCooldown(183752)) ~= 0 or (GetSpellCooldown(47528)) ~= 0) then
+		InterruptAvailable = false --Зуботычина, Щит мстителя, Укор, Встречный выстрел, Намордник, Пинок, Безмолвие, Пронизывающий ветер, Антимагия, Запрет чар, Замок мира теней, Рука-копье, Столп солнечного света, Лобовая атака, Поглощение магии, Заморозка разума
 	end
 	if InterruptAvailable and (UnitGUID("target") == sourceGUID or UnitGUID("focus") == sourceGUID) then
+		return true
+	end
+	return false
+end
+
+function bossModPrototype:CheckTargetFilter(sourceGUID)
+	if (UnitGUID("target") == sourceGUID) then
 		return true
 	end
 	return false

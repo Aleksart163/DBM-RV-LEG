@@ -15,9 +15,9 @@ mod:RegisterCombat("combat")
 --mod:RegisterCombat("combat_yell", L.YellPullArgus)
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_START 248165 248317 257296 255594 257645 252516 256542 255648 257619",
+	"SPELL_CAST_START 248165 248317 257296 255594 257645 252516 256542 255648 257619 256544",
 	"SPELL_CAST_SUCCESS 248499 258039 258838 252729 252616 256388 258029",
-	"SPELL_AURA_APPLIED 248499 248396 250669 251570 255199 253021 255496 255496 255478 252729 252616 255433 255430 255429 255425 255422 255419 255418 258647 258646 257869 257931 257966 258838",
+	"SPELL_AURA_APPLIED 248499 248396 250669 251570 255199 253021 255496 255496 255478 252729 252616 255433 255430 255429 255425 255422 255419 255418 258647 258646 257869 257931 257966 258838 256388",
 	"SPELL_AURA_APPLIED_DOSE 248499 258039 258838",
 	"SPELL_AURA_REMOVED 250669 251570 255199 253021 255496 255496 255478 255433 255430 255429 255425 255422 255419 255418 248499 258039 257966 258647 258646 258838 248396 257869",
 	"SPELL_INTERRUPT",
@@ -29,17 +29,13 @@ mod:RegisterEventsInCombat(
 	"UNIT_HEALTH boss1"
 )
 
---TODO, custom warning to combine soulburst and bomb into single message instead of two messages, while still separating targets
---TODO, More info on InfoFrame?
---[[
-(ability.id = 256544 or ability.id = 255826 or ability.id = 248165 or ability.id = 248317 or ability.id = 257296 or ability.id = 255594 or ability.id = 252516 or ability.id = 255648 or ability.id = 257645 or ability.id = 256542 or ability.id = 257619 or ability.id = 255935) and type = "begincast"
- or (ability.id = 248499 or ability.id = 258039 or ability.id = 252729 or ability.id = 252616 or ability.id = 256388 or ability.id = 258838 or ability.id = 258029) and type = "cast"
- or (ability.id = 250669 or ability.id = 251570 or ability.id = 255199 or ability.id = 257931 or ability.id = 257869 or ability.id = 257966) and type = "applydebuff" or type = "interrupt" and target.id = 124828
---]]
+--Аргус Порабощенный https://ru.wowhead.com/npc=124828/аргус-порабощенный/эпохальный-журнал-сражений
 local warnPhase						= mod:NewPhaseChangeAnnounce() --Фаза
 local warnPhase1					= mod:NewAnnounce("Phase1", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 2
 local warnPhase2					= mod:NewAnnounce("Phase3", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 3
 local warnPhase3					= mod:NewAnnounce("Phase5", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 4
+local warnReapSoul					= mod:NewCastAnnounce(256542, 3) --Жатва душ
+local warnEndofAllThings			= mod:NewCastAnnounce(256544, 4) --Конец всего сущего
 --Stage One: Storm and Sky
 local warnTorturedRage				= mod:NewCountAnnounce(257296, 2) --Ярость порабощенного
 local warnSweepingScythe			= mod:NewStackAnnounce(248499, 2, nil, "Tank") --Сметающая коса
@@ -55,7 +51,7 @@ local warnSoulbomb					= mod:NewTargetNoFilterAnnounce(251570, 3) --Бомба �
 local warnAvatarofAggra				= mod:NewTargetNoFilterAnnounce(255199, 1) --Аватара Агграмара
 --Stage Three: The Arcane Masters
 local warnCosmicRay					= mod:NewTargetAnnounce(252729, 3) --Космический луч
-local warnCosmicBeaconCast			= mod:NewCastAnnounce(252616, 2) --Космический маяк
+--local warnCosmicBeaconCast			= mod:NewCastAnnounce(252616, 2) --Космический маяк
 local warnCosmicBeacon				= mod:NewTargetAnnounce(252616, 2) --Космический маяк
 local warnDiscsofNorg				= mod:NewCastAnnounce(252516, 1) --Диски Норганнона
 --Stage Three Mythic
@@ -66,6 +62,7 @@ local warnSoulRendingScythe			= mod:NewStackAnnounce(258838, 2, nil, "Tank") --�
 local warnGiftOfLifebinder			= mod:NewCastAnnounce(257619, 1) --Дар Хранительницы жизни
 local warnDeadlyScythe				= mod:NewStackAnnounce(258039, 2, nil, "Tank") --Смертоносная коса
 
+local specWarnEndofAllThings		= mod:NewSpecialWarningInterrupt(256544, "HasInterrupt", nil, nil, 3, 5) --Конец всего сущего
 --Stage One: Storm and Sky
 local specWarnSweepingScythe		= mod:NewSpecialWarningStack(248499, nil, 3, nil, nil, 3, 6) --Сметающая коса
 local specWarnSweepingScytheTaunt	= mod:NewSpecialWarningTaunt(248499, "Tank", nil, nil, 3, 2) --Сметающая коса
@@ -88,15 +85,15 @@ local specWarnAvatarofAggra			= mod:NewSpecialWarningYou(255199, nil, nil, nil, 
 local specWarnCosmicRay				= mod:NewSpecialWarningYou(252729, nil, nil, nil, 1, 2) --Космический луч
 --Stage Three Mythic
 local specWarnSargSentence			= mod:NewSpecialWarningYou(257966, nil, nil, nil, 1, 2) --Приговор Саргераса
-local specWarnApocModule			= mod:NewSpecialWarningSwitchCount(258029, "Dps", nil, nil, 3, 2)--EVERYONE
+local specWarnApocModule			= mod:NewSpecialWarningSwitchCount(258029, "Dps", nil, nil, 3, 2) --Процесс инициализации (мифик)
 local specWarnEdgeofAnni			= mod:NewSpecialWarningDodge(258834, nil, nil, nil, 2, 2) --Грань аннигиляции
 local specWarnSoulrendingScythe		= mod:NewSpecialWarningStack(258838, nil, 2, nil, nil, 3, 2) --Рассекающая коса
 local specWarnSoulrendingScytheTaunt= mod:NewSpecialWarningTaunt(258838, nil, nil, nil, 1, 2) --Рассекающая коса
 --Stage Four: The Gift of Life, The Forge of Loss (Non Mythic)
 local specWarnEmberofRage			= mod:NewSpecialWarningDodge(257299, nil, nil, nil, 2, 2)
-local specWarnDeadlyScythe			= mod:NewSpecialWarningStack(258039, nil, 2, nil, nil, 1, 2) --Смертоносная коса
+local specWarnDeadlyScythe			= mod:NewSpecialWarningStack(258039, nil, 3, nil, nil, 1, 2) --Смертоносная коса
 local specWarnDeadlyScytheTaunt		= mod:NewSpecialWarningTaunt(258039, nil, nil, nil, 1, 2) --Смертоносная коса
-local specWarnReorgModule			= mod:NewSpecialWarningSwitchCount(256389, "RangedDps", nil, nil, 1, 2)--Ranged only?
+local specWarnReorgModule			= mod:NewSpecialWarningSwitch(256389, "RangedDps", nil, nil, 3, 2) --Модуль пересозидания
 
 local timerNextPhase				= mod:NewPhaseTimer(74)
 --Stage One: Storm and Sky
@@ -125,8 +122,9 @@ local timerSargSentenceCD			= mod:NewTimer(35.2, "timerSargSentenceCD", 257966, 
 local timerEdgeofAnniCD				= mod:NewCDTimer(5.5, 258834, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Грань аннигиляции
 --Stage Four: The Gift of Life, The Forge of Loss (Non Mythic)
 mod:AddTimerLine(SCENARIO_STAGE:format(4))
-local timerDeadlyScytheCD			= mod:NewCDTimer(5.5, 258039, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Смертоносная коса
-local timerReorgModuleCD			= mod:NewCDCountTimer(48.1, 256389, nil, nil, nil, 1)
+local timerDeadlyScytheCD			= mod:NewCDTimer(5.5, 258039, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Смертоносная коса
+local timerReorgModuleCD			= mod:NewCDCountTimer(48, 256389, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON..DBM_CORE_MYTHIC_ICON) --Модуль пересозидания
+local timerEndofAllThings			= mod:NewCastTimer(15, 256544, nil, nil, nil, 2, nil, DBM_CORE_INTERRUPT_ICON..DBM_CORE_DEADLY_ICON) --Конец всего сущего
 
 local yellGiftofSky					= mod:NewYell(258646, L.SkyText, nil, nil, "YELL") --Дар небес
 local yellGiftofSky2				= mod:NewFadesYell(258646, nil, nil, nil, "YELL") --Дар небес
@@ -134,12 +132,12 @@ local yellGiftofSea					= mod:NewYell(258647, L.SeaText, nil, nil, "YELL") --Д�
 local yellGiftofSea2				= mod:NewFadesYell(258647, nil, nil, nil, "YELL") --Дар моря
 local yellSoulblightFades			= mod:NewShortFadesYell(248396, nil, nil, nil, "YELL") --Изнуряющая чума
 local yellSoulblight				= mod:NewYell(248396, L.Blight, nil, nil, "YELL") --Изнуряющая чума
-local yellSargRage					= mod:NewShortYell(257869, 6612) --Ярость Саргераса
-local yellSargFear					= mod:NewShortYell(257931, 5782) --Страх перед Саргерасом
-local yellSargFearCombo				= mod:NewComboYell(257931, 5782) --Страх перед Саргерасом
-local yellSoulbomb					= mod:NewPosYell(251570, DBM_CORE_AUTO_YELL_CUSTOM_POSITION, nil, nil, "YELL") --Бомба души (если крик не сработает, потом удалить)
+local yellSargRage					= mod:NewShortYell(257869, 6612, nil, nil, "YELL") --Ярость Саргераса
+local yellSargFear					= mod:NewShortYell(257931, 5782, nil, nil, "YELL") --Страх перед Саргерасом
+local yellSargFearCombo				= mod:NewComboYell(257931, 5782, nil, nil, "YELL") --Страх перед Саргерасом
+local yellSoulbomb					= mod:NewPosYell(251570, DBM_CORE_AUTO_YELL_CUSTOM_POSITION, nil, nil, "YELL") --Бомба души
 local yellSoulbombFades				= mod:NewIconFadesYell(251570, 155188) --Бомба души
-local yellSoulburst					= mod:NewPosYell(250669, DBM_CORE_AUTO_YELL_CUSTOM_POSITION, nil, nil, "YELL") --Взрывная душа (если крик не сработает, потом удалить)
+local yellSoulburst					= mod:NewPosYell(250669, DBM_CORE_AUTO_YELL_CUSTOM_POSITION, nil, nil, "YELL") --Взрывная душа
 local yellSoulburstFades			= mod:NewIconFadesYell(250669, nil, nil, nil, "YELL") --Взрывная душа
 local yellSargSentence				= mod:NewYell(257966, L.Sentence, nil, nil, "YELL") --Приговор Саргераса
 local yellSargSentenceFades			= mod:NewShortFadesYell(257966, nil, nil, nil, "YELL") --Приговор Саргераса
@@ -156,7 +154,9 @@ local countdownSoulbomb				= mod:NewCountdown("AltTwo50", 251570, nil, nil, 5) -
 local countdownSoulScythe			= mod:NewCountdown("Alt5", 258838, "Tank", nil, 3) --Рассекающая коса
 --Stage Four
 local countdownDeadlyScythe			= mod:NewCountdown("Alt5", 258039, false, nil, 3) --Смертоносная коса Off by default since it'd be almost non stop, so users can elect into this one
-local countdownReorgModule			= mod:NewCountdown("Alt48", 256389, "-Tank")
+local countdownReorgModule			= mod:NewCountdown("Alt48", 256389, "RangedDps", nil, 5) --Модуль пересозидания
+local countdownApocModule			= mod:NewCountdown("Alt48", 258029, "Dps", nil, 5)
+local countdownEndofAllThings		= mod:NewCountdown(15, 256544, nil, nil, 5) --Конец всего сущего
 
 mod:AddSetIconOption("SetIconGift", 255594, true, false, {6, 5}) --Небо и море 5 and 6
 mod:AddSetIconOption("SetIconOnAvatar", 255199, true, false, {4}) --Аватара Агграмара 4
@@ -195,7 +195,7 @@ local playerName = UnitName("player")
 --P3 Mythic Timers
 local torturedRage = {40, 40, 50, 30, 35, 10, 8, 35, 10, 8, 35}--3 timers from method video not logs, verify by logs to improve accuracy
 local sargSentenceTimers = {53, 56.9, 60, 53, 53}--1 timer from method video not logs, verify by logs to improve accuracy
-local apocModuleTimers = {31, 47, 47, 46.6, 53, 53}--Some variation detected in logs do to delay in combat log between spawn and cast (one timer from method video)
+local apocModuleTimers = {31, 47, 47, 46.6, 53, 53} --Some variation detected in logs do to delay in combat log between spawn and cast (one timer from method video)
 local sargGazeTimers = {23, 75, 70, 53, 53}--1 timer from method video not logs, verify by logs to improve accuracy
 local edgeofAnni = {5, 5, 90, 5, 45, 5}--All timers from method video (6:05 P3 start, 6:10, 6:15, 7:45, 7:50, 8:35, 8:40)
 --Both of these should be in fearCheck object for efficiency but with uncertainty of async, I don't want to come back and fix this later. Doing it this way ensures without a doubt it'll work by calling on load and again on combatstart
@@ -386,6 +386,13 @@ function mod:SPELL_CAST_START(args)
 		specWarnConeofDeath:Show()
 		specWarnConeofDeath:Play("shockwave")
 		timerConeofDeathCD:Start(nil, self.vb.coneCount+1)
+	elseif spellId == 256544 then --Конец всего сущего
+		warnEndofAllThings:Show()
+		warnEndofAllThingsPlay("kickcast")
+		specWarnEndofAllThings:Schedule(12)
+		specWarnEndofAllThings:ScheduleVoice(12, "kickcast")
+		timerEndofAllThings:Start()
+		countdownEndofAllThings:Start()
 	elseif spellId == 248317 then
 		self.vb.blightOrbCount = self.vb.blightOrbCount + 1
 		warnBlightOrb:Show(self.vb.blightOrbCount)
@@ -467,6 +474,7 @@ function mod:SPELL_CAST_START(args)
 			end
 		end
 	elseif spellId == 256542 then--Reap Soul
+		warnReapSoul:Show()
 		if not self:IsMythic() then
 			self.vb.phase = 4
 			warned_preP6 = true
@@ -510,24 +518,27 @@ function mod:SPELL_CAST_SUCCESS(args)
 	elseif spellId == 252729 and self:AntiSpam(5, 3) then
 		timerCosmicRayCD:Start()
 	elseif spellId == 252616 and self:AntiSpam(5, 4) then
-		warnCosmicBeaconCast:Show()
+	--	warnCosmicBeaconCast:Show()
 		timerCosmicBeaconCD:Start()
-	elseif spellId == 256388 and self:AntiSpam(5, 8) then--Initialization Sequence
+--[[	elseif spellId == 256388 and self:AntiSpam(5, 8) then --Процесс инициализации
 		self.vb.moduleCount = self.vb.moduleCount + 1
 		specWarnReorgModule:Show(self.vb.moduleCount)
 		specWarnReorgModule:Play("killmob")
 		timerReorgModuleCD:Start(nil, self.vb.moduleCount+1)
-		countdownReorgModule:Start()
-	elseif spellId == 258029 and self:AntiSpam(5, 7) then--Initialization Sequence (Mythic)
+		countdownReorgModule:Start()]]
+	elseif spellId == 258029 and self:AntiSpam(5, 7) then --Процесс инициализации (мифик)
 		self.vb.moduleCount = self.vb.moduleCount + 1
 		specWarnApocModule:Show(self.vb.moduleCount)
 		specWarnApocModule:Play("killmob")
 		local timer = apocModuleTimers[self.vb.moduleCount+1] or 46.6
 		timerReorgModuleCD:Start(timer, self.vb.moduleCount+1)
-		countdownReorgModule:Start(timer)
+		countdownApocModule:Start(timer)
 	end
 end
-
+--02:43:54.767
+--02:44:44.754
+--22:05:39.299
+--22:06:29.472
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 248499 then--Heroic/non mythic
@@ -568,7 +579,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			if not tContains(tankStacks, args.destName) then
 				table.insert(tankStacks, args.destName)
 			end
-			if amount >= 2 then
+			if amount >= 3 then
 				if args:IsPlayer() then
 					specWarnDeadlyScythe:Show(amount)
 					specWarnDeadlyScythe:Play("stackhigh")
@@ -761,6 +772,14 @@ function mod:SPELL_AURA_APPLIED(args)
 			yellSargSentenceFades:Countdown(30, 3)
 			fearCheck(self)
 		end
+	elseif spellId == 256388 and self:AntiSpam(3, 2) then --Процесс инициализации
+		self.vb.moduleCount = self.vb.moduleCount + 1
+	--	if self:AntiSpam(5, 2) then
+		specWarnReorgModule:Schedule(46.5)
+		specWarnReorgModule:ScheduleVoice(46.5, "killmob")
+	--	end
+		timerReorgModuleCD:Start(46.5, self.vb.moduleCount+1)
+		countdownReorgModule:Start(46.5)
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
@@ -859,6 +878,9 @@ end
 function mod:SPELL_INTERRUPT(args)
 	if type(args.extraSpellId) == "number" and args.extraSpellId == 256544 then
 		self.vb.TorturedRage = 0
+		specWarnEndofAllThings:Cancel()
+		timerEndofAllThings:Cancel()
+		countdownEndofAllThings:Cancel()
 		if self:IsMythic() then
 			self:Unschedule(ToggleRangeFinder)--Redundant, for good measure
 			self.vb.gazeCount = 0
@@ -871,7 +893,7 @@ function mod:SPELL_INTERRUPT(args)
 			countdownSargGaze:Start(20.2)
 			self:Schedule(18.2, ToggleRangeFinder, self)--Call Show 5 seconds Before NEXT rages get applied (2 seconds before cast + 3 sec cast time)
 			timerReorgModuleCD:Start(31.3, 1)
-			countdownReorgModule:Start(31.3)
+			countdownApocModule:Start(31.3)
 			timerTorturedRageCD:Start(40, 1)
 			timerSargSentenceCD:Start(53, 1)
 			--self:Schedule(63, checkForMissingSentence, self)
@@ -879,10 +901,18 @@ function mod:SPELL_INTERRUPT(args)
 			if not self:IsHeroic() then
 				timerSweepingScytheCD:Start(5, 1)
 				countdownSweapingScythe:Start(5)
-			else
-				timerDeadlyScytheCD:Start(5)
+				timerReorgModuleCD:Start(13, 1)
+				countdownReorgModule:Start(13)
+				specWarnReorgModule:Schedule(13)
+				specWarnReorgModule:ScheduleVoice(13, "killmob")
+			else -- под героик всё норм
+				timerDeadlyScytheCD:Start(5) --Смертоносная коса
+				timerReorgModuleCD:Start(13, 1)
+				countdownReorgModule:Start(13)
+				specWarnReorgModule:Schedule(13)
+				specWarnReorgModule:ScheduleVoice(13, "killmob")
 			end
-			local currentPowerPercent = UnitPower("boss1")/UnitPowerMax("boss1")
+--[[			local currentPowerPercent = UnitPower("boss1")/UnitPowerMax("boss1")
 			local remainingPercent
 			if currentPowerPercent then
 				remainingPercent = 1.0 - currentPowerPercent
@@ -890,11 +920,11 @@ function mod:SPELL_INTERRUPT(args)
 			if remainingPercent then
 				timerReorgModuleCD:Start(48.1*remainingPercent, 1)
 				countdownReorgModule:Start(48.1*remainingPercent)
-			end
-			timerTorturedRageCD:Start(10, 1)
-			timerSoulBurstCD:Start(20, 1)--First one is only burst, afterwards it's bomb and burst then burst only again
-			timerSoulBombCD:Start(20)
-			countdownSoulbomb:Start(20)
+			end]]
+			timerTorturedRageCD:Start(10, 1) --Ярость порабощенного
+			timerSoulBurstCD:Start(20, 1) --Взрывная душа
+			timerSoulBombCD:Start(20) --Бомба душа
+			countdownSoulbomb:Start(20) --Бомба душа
 		end
 	end
 end

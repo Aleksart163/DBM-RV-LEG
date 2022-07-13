@@ -224,7 +224,7 @@ function mod:SPELL_CAST_START(args)
 		specWarnArcaneResonance:Show()
 		specWarnArcaneResonance:Play("kickcast")
 	elseif spellId == 218245 then --Арктический поток
-		self:BossTargetScanner(args.sourceGUID, "ArcticTorrentTarget", 0.1, 9)
+		self:BossTargetScanner(args.sourceGUID, "ArcticTorrentTarget", 0.1, 2)
 		timerArcticTorrentCD:Start()
 		timerFlrglDrglDrglGrglCD:Start()
 	elseif spellId == 218250 then --Флргл Дргл Дргл Гргл
@@ -257,23 +257,23 @@ function mod:SPELL_CAST_START(args)
 		specWarnFearsomeShriek:Show()
 		timerFearsomeShriekCD:Start()
 	elseif spellId == 203671 then --Мощный удар дубиной
-		self:BossTargetScanner(args.sourceGUID, "ClubSlamTarget", 0.1, 9)
+		self:BossTargetScanner(args.sourceGUID, "ClubSlamTarget", 0.1, 2)
 		timerClubSlamCD:Start()
 	elseif spellId == 216808 then --Жестокий прыжок
-		self:BossTargetScanner(args.sourceGUID, "WickedLeapTarget", 0.1, 9)
+		self:BossTargetScanner(args.sourceGUID, "WickedLeapTarget", 0.1, 2)
 		timerWickedLeapCD:Start()
 	elseif spellId == 216808 then --Частица Света
-		self:BossTargetScanner(args.sourceGUID, "RemnantofLightTarget", 0.1, 9)
+		self:BossTargetScanner(args.sourceGUID, "RemnantofLightTarget", 0.1, 2)
 		timerRemnantofLightCD:Start()
 	elseif spellId == 218885 then --Разлом скверны
-		self:BossTargetScanner(args.sourceGUID, "FelFissureTarget", 0.1, 9)
+		self:BossTargetScanner(args.sourceGUID, "FelFissureTarget", 0.1, 2)
 		timerFelFissureCD:Start()
 	elseif spellId == 223659 then --Миродробитель
 		specWarnWorldBreaker:Show()
 	elseif spellId == 223630 then --Раскалывание душ
 		specWarnSoulCleave:Show()
 	elseif spellId == 207002 then --Глубинная бомба
-		self:BossTargetScanner(args.sourceGUID, "DepthChargeTarget", 0.1, 9)
+		self:BossTargetScanner(args.sourceGUID, "DepthChargeTarget", 0.1, 2)
 		timerDepthChargeCD:Start()
 	elseif spellId == 206972 then --Пробой корпуса
 		timerHullBreachCD:Start()
@@ -340,7 +340,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 219102 then --Уязвимое место
 		timerExposedCoreCD:Start()
 	elseif spellId == 219087 then --Форсаж
-		self:BossTargetScanner(args.sourceGUID, "OverdriveTarget", 0.1, 9)
+		self:BossTargetScanner(args.sourceGUID, "OverdriveTarget", 0.1, 2)
 		timerOverdriveCD:Start()
 	elseif spellId == 206795 then --Дробящий укус
 		if args:IsPlayer() then
@@ -372,7 +372,7 @@ function mod:SPELL_AURA_REMOVED(args)
 end
 
 function mod:CHAT_MSG_MONSTER_SAY(msg)
-	if msg == L.PullSkulvrax or msg:find(L.PullSkulvrax) then
+	if msg == L.PullSkulvrax then
 		timerRoleplay:Start(31)
 	end
 end
