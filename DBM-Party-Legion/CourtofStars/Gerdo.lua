@@ -18,6 +18,8 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_SUCCESS 207278 219488",
 	"UNIT_HEALTH boss1"
 )
+
+--Капитан патруля Гердо https://ru.wowhead.com/npc=104215/капитан-патруля-гердо/эпохальный-журнал-сражений
 local warnHinder					= mod:NewCastAnnounce(215204, 3) --Помеха
 local warnHinder2					= mod:NewTargetAnnounce(215204, 4) --Помеха
 local warnFlask						= mod:NewSpellAnnounce(207815, 3) --Настой священной ночи

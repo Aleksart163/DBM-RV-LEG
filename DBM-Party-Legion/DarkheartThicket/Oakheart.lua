@@ -12,7 +12,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 204666 204646 204574 204667 212786 204611",
 	"SPELL_AURA_APPLIED 204611"
 )
---https://ru.wowhead.com/npc=103344/дубосерд/эпохальный-журнал-сражений
+--Дубосерд https://ru.wowhead.com/npc=103344/дубосерд/эпохальный-журнал-сражений
 local warnShatteredEarth			= mod:NewSpellAnnounce(204666, 3) --Расколовшаяся земля
 local warnThrowTarget				= mod:NewTargetAnnounce(204658, 2) --Сокрушительная хватка
 
@@ -38,7 +38,7 @@ local countdownThrow				= mod:NewCountdown(30, 204611, "Tank", nil, 5) --Сок�
 mod:AddSetIconOption("SetIconOnThrow", 204658, true, false, {8}) --Сокрушительная хватка (бросок)
 
 local playerName = UnitName("player")
---AKA Crushing Grip
+
 function mod:ThrowTarget(targetname, uId)
 	if not targetname then return end
 	warnThrowTarget:Show(targetname)

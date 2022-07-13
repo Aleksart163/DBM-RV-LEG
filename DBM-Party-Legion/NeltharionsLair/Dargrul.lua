@@ -16,6 +16,7 @@ mod:RegisterEventsInCombat(
 	"CHAT_MSG_RAID_BOSS_EMOTE"
 )
 
+--Даргрул https://ru.wowhead.com/npc=91007/даргрул/эпохальный-журнал-сражений
 local warnCrystalSpikes				= mod:NewSpellAnnounce(200551, 2) --Кристальные шипы
 local warnBurningHatred				= mod:NewTargetAnnounce(200154, 3) --Пламенная ненависть
 

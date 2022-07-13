@@ -17,9 +17,7 @@ mod:RegisterEventsInCombat(
 	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
 
---TODO, power gain rate consistent?
---TODO, special warning to switch to tentacles once know for sure how to tell empowered apart from non empowered?
---TODO, More work on guard timers, with an english log that's actually captured properly (stared and stopped between pulls)
+--Наместник Незжар https://ru.wowhead.com/npc=124309/наместник-незжар/эпохальный-журнал-сражений
 local warnEternalTwilight				= mod:NewCastAnnounce(248736, 4) --Вечные сумерки (после треша)
 local warnHowlingDark					= mod:NewCastAnnounce(244751, 4) --Пронизывающая тьма (фир)
 local warnTentacles						= mod:NewSpellAnnounce(244769, 3) --Теневые щупальца

@@ -15,6 +15,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_PERIODIC_MISSED 192800"
 )
 
+--Рокмора https://ru.wowhead.com/npc=91003/рокмора/эпохальный-журнал-сражений
 local warnShatter					= mod:NewSpellAnnounce(188114, 4) --Дробление
 local warnShatter2					= mod:NewSoonAnnounce(188114, 3, nil, "-Tank") --Дробление
 local warnRazorShards				= mod:NewSpellAnnounce(188169, 4) --Бритвенно-острые осколки

@@ -24,7 +24,7 @@ mod:RegisterEventsInCombat(
 	"UNIT_DIED"
 )
 
---TODO: Timers
+--"Красавица и Зверь" https://ru.wowhead.com/npc=114328/коглстон/эпохальный-журнал-сражений
 --Babblet
 local warnSevereDusting				= mod:NewTargetAnnounce(228221, 3)
 --Cogglestone

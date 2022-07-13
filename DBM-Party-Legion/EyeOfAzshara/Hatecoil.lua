@@ -15,6 +15,7 @@ mod:RegisterEventsInCombat(
 	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
 
+--Леди Кольцо Ненависти https://ru.wowhead.com/npc=91789/леди-кольцо-ненависти/эпохальный-журнал-сражений
 local warnCurseofWitch				= mod:NewTargetAnnounce(193698, 4) --Проклятие ведьмы
 local warnStaticNova				= mod:NewPreWarnAnnounce(193597, 5, 1) --Кольцо молний
 local warnFocusedLightning			= mod:NewSoonAnnounce(193611, 1) --Средоточие молний

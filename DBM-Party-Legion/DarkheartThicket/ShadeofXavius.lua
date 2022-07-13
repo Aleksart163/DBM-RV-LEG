@@ -69,7 +69,7 @@ mod.vb.lastBoltTime = 0
 local warned_preP1 = false
 local warned_preP2 = false
 
-function mod:NightmareBoltTarget(targetname, uId) --Кошмарная стрела
+function mod:NightmareBoltTarget(targetname, uId) --Прошляпанное очко Мурчаля (✔)
 	if not targetname then return end
 	warnNightmareBolt:Show(targetname)
 	if targetname == UnitName("player") then
@@ -82,7 +82,7 @@ function mod:NightmareBoltTarget(targetname, uId) --Кошмарная стре�
 	end
 end
 
-function mod:ParanoiaTarget(targetname, uId) --Усугубляющаяся паранойя
+function mod:ParanoiaTarget(targetname, uId) --Усугубляющаяся паранойя (✔)
 	if not targetname then return end
 	warnParanoia:Show(targetname)
 	if targetname == UnitName("player") then
@@ -120,7 +120,7 @@ end
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 212834 or spellId == 200185 then --Кошмарная стрела
-		self:BossTargetScanner(args.sourceGUID, "NightmareBoltTarget", 0.1, 9)
+		self:BossTargetScanner(args.sourceGUID, "NightmareBoltTarget", 0.1, 2)
 		timerNightmareBoltCD:Start(17.8)
 		if self.vb.feedOnTheWeak == 1 and self.vb.nightmareBolt == 0 then
 			timerParanoiaCD:Start(4.8)
@@ -135,7 +135,7 @@ function mod:SPELL_CAST_START(args)
 		self.vb.nightmareBolt = self.vb.nightmareBolt + 1
 		self.vb.lastBoltTime = GetTime() + 19
 	elseif spellId == 200289 then --Усугубляющаяся паранойя
-		self:BossTargetScanner(args.sourceGUID, "ParanoiaTarget", 0.1, 9)
+		self:BossTargetScanner(args.sourceGUID, "ParanoiaTarget", 0.1, 2)
 		if self.vb.feedOnTheWeak == 1 and self.vb.growingParanoia == 0 then
 			timerNightmareBoltCD:Start(6)
 			timerFeedontheWeakCD:Start(17.5)
@@ -250,9 +250,9 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 end
 
 function mod:CHAT_MSG_MONSTER_YELL(msg)
-	if msg == L.XavApoc or msg:find(L.XavApoc) then
+	if msg == L.XavApoc then
 		self:SendSync("XavApoc")
-	elseif msg == L.XavApoc2 or msg:find(L.XavApoc2) then
+	elseif msg == L.XavApoc2 then
 		self:SendSync("XavApoc2")
 	end
 end

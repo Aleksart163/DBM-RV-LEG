@@ -12,11 +12,12 @@ mod:RegisterEvents(
 	"SPELL_AURA_APPLIED 215430 199652",
 	"SPELL_AURA_APPLIED_DOSE 199652",
 	"SPELL_AURA_REMOVED 215430 199652",
-	"SPELL_CAST_SUCCESS 199382",
+	"SPELL_CAST_SUCCESS 199382 200901",
 	"SPELL_PERIODIC_DAMAGE 198959 199818",
 	"SPELL_PERIODIC_MISSED 198959 199818",
 	"GOSSIP_SHOW",
-	"CHAT_MSG_MONSTER_YELL"
+	"CHAT_MSG_MONSTER_YELL",
+	"UNIT_DIED"
 )
 
 --Чертоги доблести трэш
@@ -104,8 +105,6 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 200901 then --Око шторма
 		specWarnEyeofStorm:Show(eyeShortName)
 		specWarnEyeofStorm:Play("findshelter")
-		specWarnEyeofStorm2:Schedule(4)
-		specWarnEyeofStorm2:ScheduleVoice(4, "defensive")
 		timerEyeofStormCD:Start()
 		countdownEyeofStorm:Start()
 	elseif spellId == 192158 then --Освящение
@@ -145,6 +144,10 @@ function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
 	if spellId == 199382 then --Яростный рев
 		specWarnEnragingRoar:Show()
+		specWarnEnragingRoar:Play("defensive")
+	elseif spellId == 200901 then --Око шторма
+		specWarnEyeofStorm2:Show()
+		specWarnEyeofStorm2:Play("defensive")
 	end
 end
 
@@ -197,7 +200,7 @@ function mod:GOSSIP_SHOW()
 	local guid = UnitGUID("target")
 	if not guid then return end
 	local cid = self:GetCIDFromGUID(guid)
-	if mod.Options.BossActivation then
+	if mod.Options.BossActivation then --Прошляпанное очко Мурчаля (✔)
 		if cid == 97081 then --Король Бьорн
 			if select('#', GetGossipOptions()) > 0 then
 				SelectGossipOption(1)
@@ -228,17 +231,17 @@ function mod:GOSSIP_SHOW()
 end
 
 function mod:CHAT_MSG_MONSTER_YELL(msg)
-	if msg == L.RPSkovald or msg:find(L.RPSkovald) then
+	if msg == L.RPSkovald then
 		self:SendSync("RPSkovald")
-	elseif msg == L.RPSolsten or msg:find(L.RPSolsten) then
+	elseif msg == L.RPSolsten then
 		self:SendSync("RPSolsten")
-	elseif msg == L.RPSolsten2 or msg:find(L.RPSolsten2) then
+	elseif msg == L.RPSolsten2 then
 		self:SendSync("RPSolsten2")
-	elseif msg == L.RPOlmyr or msg:find(L.RPOlmyr) then
+	elseif msg == L.RPOlmyr then
 		self:SendSync("RPOlmyr")
-	elseif msg == L.RPOlmyr2 or msg:find(L.RPOlmyr2) then
+	elseif msg == L.RPOlmyr2 then
 		self:SendSync("RPOlmyr2")
-	elseif msg == L.RPOdyn or msg:find(L.RPOdyn) then
+	elseif msg == L.RPOdyn then
 		self:SendSync("RPOdyn")
 	end
 end
@@ -282,3 +285,10 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spell
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
+
+function mod:UNIT_DIED(args)
+	local cid = self:GetCIDFromGUID(args.destGUID)
+	if cid == 99802 then --Артфаэль
+		timerEnragingRoarCD:Cancel()
+	end
+end

@@ -22,8 +22,7 @@ mod:RegisterEventsInCombat(
 	"UNIT_HEALTH boss1"
 )
 
---TODO, verify heroic+ Arcane Blast
---If complicated enough, setup interrupt rotation helper
+--Змеикс https://ru.wowhead.com/npc=91808/змеикс
 local warnSubmerge					= mod:NewSoonAnnounce(191873, 1) --Погружение
 local warnToxicWound				= mod:NewTargetAnnounce(191855, 2) --Отравленная рана
 local warnWinds						= mod:NewSpellAnnounce(191798, 2) --Жестокие ветра

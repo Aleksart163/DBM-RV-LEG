@@ -17,8 +17,7 @@ mod:RegisterEventsInCombat(
 	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
 
---TODO, see if swoop/screech target can be identified
---Void Hunter
+--Сарпиш https://ru.wowhead.com/npc=122316/сарпиш/эпохальный-журнал-сражений
 local warnUmbralFlanking				= mod:NewTargetAnnounce(247245, 3) --Призрачный удар
 local warnVoidTrap						= mod:NewSpellAnnounce(246026, 3, nil, nil, nil, nil, nil, 2) --Ловушка Бездны
 --local warnDreadScreech					= mod:NewCastAnnounce(248831, 2)

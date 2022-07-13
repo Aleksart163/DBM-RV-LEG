@@ -15,7 +15,8 @@ mod:RegisterEventsInCombat(
 	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
 
---TODO, voice file "face eye" or "face orb" (212564)
+--Инквизитор Истязарий https://ru.wowhead.com/npc=96015/инквизитор-истязарий/эпохальный-журнал-сражений
+--Не забыть всё тщательно проверить
 local warnTeleport				= mod:NewSpellAnnounce(200898, 2) --Телепортация
 
 local specWarnSapSoul			= mod:NewSpecialWarningInterrupt(200905, "HasInterrupt", nil, nil, 1, 2) --Опустошение души

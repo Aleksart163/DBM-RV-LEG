@@ -12,6 +12,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 193211 193364 193977 193460 193566"
 )
 
+--Имирон, падший король https://ru.wowhead.com/npc=96756/имирон-падший-король/эпохальный-журнал-сражений
 local warnBane						= mod:NewSpellAnnounce(193460, 3) --Погибель
 
 local specWarnBane					= mod:NewSpecialWarningDodge(193460, nil, nil, nil, 2, 2) --Погибель

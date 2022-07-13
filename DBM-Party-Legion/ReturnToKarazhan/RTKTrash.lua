@@ -8,8 +8,8 @@ mod:SetZone()
 mod.isTrashMod = true
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 228255 228239 227917 227925 228625 228606 229714 227966 228254 228280 230094",
-	"SPELL_AURA_APPLIED 228331 229706 229716 228610 229074 230083 230050 228280 230087 228241",
+	"SPELL_CAST_START 228255 228239 227917 227925 228625 228606 229714 227966 228254 228280 230094 229429 229608",
+	"SPELL_AURA_APPLIED 228331 229706 229716 228610 229074 230083 230050 228280 230087 228241 229468",
 	"SPELL_AURA_APPLIED_DOSE 229074 228610",
 	"SPELL_AURA_REFRESH 229074 228610",
 	"SPELL_AURA_REMOVED 229489 230083 228280 230087",
@@ -22,6 +22,7 @@ mod:RegisterEvents(
 )
 
 --Каражан треш
+local warnMovePiece					= mod:NewTargetAnnounce(229468, 3)
 local warnVolatileCharge			= mod:NewTargetAnnounce(228331, 4) --Нестабильный заряд
 local warnOathofFealty				= mod:NewCastAnnounce(228280, 3) --Клятва верности
 local warnOathofFealty2				= mod:NewTargetAnnounce(228331, 3) --Клятва верности
@@ -29,6 +30,9 @@ local warnNullification				= mod:NewTargetAnnounce(230083, 2) --Полная н�
 local warnReinvigorated				= mod:NewTargetAnnounce(230087, 1) --Восполнение сил
 local warnCursedTouch				= mod:NewTargetAnnounce(228241, 2) --Проклятое прикосновение
 
+local specWarnRoyalSlash			= mod:NewSpecialWarningDodge(229429, "Melee", nil, nil, 2, 2) --Удар короля сплеча
+
+local specWarnMightySwing			= mod:NewSpecialWarningDodge(229608, "Melee", nil, nil, 2, 2) --Могучий удар
 local specWarnCursedTouch			= mod:NewSpecialWarningYou(228241, nil, nil, nil, 1, 2) --Проклятое прикосновение
 local specWarnCursedTouch2			= mod:NewSpecialWarningDispel(228241, "RemoveCurse", nil, nil, 1, 2) --Проклятое прикосновение
 local specWarnReinvigorated			= mod:NewSpecialWarningYouMoreDamage(230087, nil, nil, nil, 1, 2) --Восполнение сил
@@ -57,6 +61,7 @@ local timerNullificationCD			= mod:NewCDTimer(14, 230094, nil, nil, nil, 7, nil)
 local timerReinvigorated			= mod:NewTargetTimer(20, 230087, nil, nil, nil, 7) --Восполнение сил
 local timerOathofFealty				= mod:NewTargetTimer(15, 228280, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON) --Клятва верности
 local timerRoyalty					= mod:NewCDTimer(20, 229489, nil, nil, nil, 3, nil, DBM_CORE_DAMAGE_ICON) --Царственность
+local timerMovePieceCD				= mod:NewCDTimer(6, 229468, nil, nil, nil, 7)
 
 local yellNullification				= mod:NewYell(230083, nil, nil, nil, "YELL") --Полная нейтрализация
 local yellVolatileCharge			= mod:NewYell(228331, nil, nil, nil, "YELL") --Нестабильный заряд
@@ -117,6 +122,12 @@ function mod:SPELL_CAST_START(args)
 		end
 	elseif spellId == 230094 then --Полная нейтрализация
 		timerNullificationCD:Start()
+	elseif spellId == 229429 then --Удар короля сплеча
+		specWarnRoyalSlash:Show()
+		specWarnRoyalSlash:Play("watchstep")
+	elseif spellId == 229608 then --Могучий удар
+		specWarnMightySwing:Show()
+		specWarnMightySwing:Play("watchstep")
 	end
 end
 
@@ -186,6 +197,9 @@ function mod:SPELL_AURA_APPLIED(args)
 		else
 			warnReinvigorated:Show(args.destName)
 		end
+	elseif spellId == 229468 then
+		warnMovePiece:Show(args.destName)
+		timerMovePieceCD:Start()
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED

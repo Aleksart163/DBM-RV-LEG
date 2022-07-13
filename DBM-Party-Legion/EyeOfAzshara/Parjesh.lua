@@ -17,6 +17,7 @@ mod:RegisterEventsInCombat(
 	"UNIT_HEALTH boss1"
 )
 
+--Полководец Паржеш https://ru.wowhead.com/npc=91784/полководец-паржеш/эпохальный-журнал-сражений
 local warnEnrage2					= mod:NewSoonAnnounce(197064, 1) --Исступление
 local warnEnrage					= mod:NewTargetAnnounce(197064, 4) --Исступление
 local warnImpalingSpear				= mod:NewTargetAnnounce(192094, 4) --Пронзающее копье

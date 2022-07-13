@@ -5,7 +5,7 @@ mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 mod:SetCreatureID(113971)
 mod:SetEncounterID(1954)
 mod:SetZone()
-mod:SetUsedIcons(8, 7)
+mod:SetUsedIcons(7)
 --mod:SetUsedIcons(1)
 --mod:SetHotfixNoticeRev(14922)
 --mod.respawnTime = 30
@@ -22,7 +22,7 @@ mod:RegisterEventsInCombat(
 	"RAID_BOSS_WHISPER"
 )
 
---Fix timers for repent and abilites after repent
+--Благочестивая дева https://ru.wowhead.com/npc=113971/благочестивая-дева/эпохальный-журнал-сражений
 local warnSacredGround				= mod:NewTargetAnnounce(227789, 3) --Священная земля
 local warnHolyBolt					= mod:NewTargetAnnounce(227809, 3) --Священная молния
 local warnHolyWrath					= mod:NewCastAnnounce(227823, 4) --Гнев небес
@@ -115,10 +115,10 @@ function mod:SPELL_CAST_START(args)
 		timerHolyWrath:Start()
 		countdownHolyWrath:Start()
 	elseif spellId == 227789 then --Священная земля
-		self:BossTargetScanner(args.sourceGUID, "SacredGroundTarget", 0.1, 9)
+		self:BossTargetScanner(args.sourceGUID, "SacredGroundTarget", 0.1, 2)
 		timerSacredGroundCD:Start()
 	elseif spellId == 227809 then --Священная молния
-		self:BossTargetScanner(args.sourceGUID, "HolyBoltTarget", 0.1, 9)
+		self:BossTargetScanner(args.sourceGUID, "HolyBoltTarget", 0.1, 2)
 		timerHolyBoltCD:Start()
 		countdownHolyBolt:Start()
 	end

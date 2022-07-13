@@ -65,9 +65,11 @@ end
 function mod:SPELL_SUMMON(args)
 	local spellId = args.spellId
 	if spellId == 198910 and self:AntiSpam(5, 1) then --Злогриб
-		specWarnVileMushroom:Show()
-		specWarnVileMushroom:Play("watchstep")
-		timerVileMushroomCD:Start()
+		if not self:IsNormal() then
+			specWarnVileMushroom:Show()
+			specWarnVileMushroom:Play("watchstep")
+			timerVileMushroomCD:Start()
+		end
 	end
 end
 

@@ -58,17 +58,17 @@ mod.vb.phase = 1
 
 function mod:BrutalGlaiveTarget(targetname, uId)
 	if not targetname then return end
+	warnBrutalGlaive:Show(targetname)
 	if targetname == UnitName("player") then
 		specWarnBrutalGlaive:Show()
 		specWarnBrutalGlaive:Play("runout")
 		yellBrutalGlaive:Yell()
 	elseif self:CheckNearby(10, targetname) then
 		specWarnBrutalGlaive2:Show(targetname)
-	else
-		warnBrutalGlaive:Show(targetname)
+		specWarnBrutalGlaive2:Play("runout")
 	end
 	if self.Options.SetIconOnBrutalGlaive then
-		self:SetIcon(args.destName, 7, 17)
+		self:SetIcon(args.destName, 7, 15)
 	end
 end
 
@@ -151,7 +151,7 @@ function mod:SPELL_CAST_START(args)
 		timerVengefulShearCD:Start()
 	elseif spellId == 197546 then
 		timerBrutalGlaiveCD:Start()
-		self:BossTargetScanner(args.sourceGUID, "BrutalGlaiveTarget", 0.1, 9)
+		self:BossTargetScanner(args.sourceGUID, "BrutalGlaiveTarget", 0.1, 2)
 	elseif spellId == 197974 then
 		specWarnBonebreakingStrike:Show()
 		specWarnBonebreakingStrike:Play("shockwave")

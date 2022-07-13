@@ -10,13 +10,14 @@ mod.noNormal = true
 
 mod:RegisterCombat("combat")
 
---Out of combat register, to support the secondary bosses off to sides
 mod:RegisterEvents(
 	"SPELL_CAST_START 208165 207881 207980 207906",
 	"SPELL_AURA_APPLIED 207906",
 	"SPELL_AURA_APPLIED_DOSE 207906"
 )
-local warnBurningIntensity			= mod:NewStackAnnounce(207906, 3) --Интенсивное горение
+
+--Таликса Пламя Гнева https://ru.wowhead.com/npc=104217/таликса-пламя-гнева/эпохальный-журнал-сражений
+local warnBurningIntensity			= mod:NewStackAnnounce(207906, 4) --Интенсивное горение
 
 local specWarnWitheringSoul			= mod:NewSpecialWarningInterrupt(208165, "HasInterrupt", nil, nil, 1, 3) --Иссохшая душа
 local specWarnInfernalEruption		= mod:NewSpecialWarningDodge(207881, nil, nil, nil, 2, 3) --Инфернальное извержение
@@ -43,7 +44,10 @@ end
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 208165 then --Иссохшая душа
-		specWarnWitheringSoul:Show()
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnWitheringSoul:Show()
+			specWarnWitheringSoul:Play("kickcast")
+		end
 		timerWitheringSoulCD:Start()
 	elseif spellId == 207881 then --Инфернальное извержение
 		specWarnInfernalEruption:Show()

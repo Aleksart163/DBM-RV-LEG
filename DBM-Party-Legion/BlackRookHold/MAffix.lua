@@ -6,16 +6,14 @@ mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 mod:SetZone()
 
 mod:RegisterEvents(
---	"SPELL_CAST_START",
 	"SPELL_AURA_APPLIED 240447 240559 209858",
 	"SPELL_AURA_APPLIED_DOSE 240559 209858",
 	"SPELL_AURA_REMOVED 240447",
---	"SPELL_CAST_SUCCESS",
 	"SPELL_PERIODIC_DAMAGE 226512",
 	"SPELL_PERIODIC_MISSED 226512"
 )
 
---Ключи
+--Прошляпанное очко Мурчаля (✔)
 local warnNecroticWound				= mod:NewStackAnnounce(209858, 4, nil, nil, 2) --Некротическая язва
 
 local specWarnNecroticWound			= mod:NewSpecialWarningStack(209858, nil, 10, nil, nil, 1, 3) --Некротическая язва

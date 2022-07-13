@@ -19,6 +19,7 @@ mod:RegisterEventsInCombat(
 	"UNIT_HEALTH boss1"
 )
 
+--Хелия https://ru.wowhead.com/npc=96759/хелия
 local warnPhase							= mod:NewAnnounce("Phase1", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 2
 local warnPhase2						= mod:NewAnnounce("Phase2", 1, 196947) --Фаза 2
 local warnTaintofSea					= mod:NewTargetAnnounce(197262, 2) --Морская порча
@@ -167,7 +168,6 @@ function mod:SPELL_AURA_REMOVED(args)
 	end
 end
 
---"<50.03 00:13:36> [CHAT_MSG_RAID_BOSS_EMOTE] |TInterface\\Icons\\inv_misc_monsterhorn_03.blp:20|t A %s emerges!#Destructor Tentacle###Destructor Tentacle##0#0##0#257#nil#0#false#false#false#false"
 function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)
 	if msg:find("inv_misc_monsterhorn_03") then
 		specWarnDestructorTentacle:Show()

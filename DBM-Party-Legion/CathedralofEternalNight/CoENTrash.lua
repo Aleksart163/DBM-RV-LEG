@@ -9,11 +9,11 @@ mod.isTrashMod = true
 
 mod:RegisterEvents(
 	"SPELL_CAST_START 239232 237391 238543 236737 242724 242760 239320 239266 241598 239235 239201 237558 237565",
-	"SPELL_AURA_APPLIED 238688 239161 215489 237325 237583 237391 236954",
+	"SPELL_AURA_APPLIED 238688 239161 237325 237583 237391 236954",
 	"SPELL_AURA_APPLIED_DOSE 236954",
 	"SPELL_AURA_REMOVED 237391 236954",
---	"SPELL_PERIODIC_DAMAGE ",
---	"SPELL_PERIODIC_MISSED ",
+	"SPELL_PERIODIC_DAMAGE 213124",
+	"SPELL_PERIODIC_MISSED 213124",
 	"UNIT_SPELLCAST_START"
 )
 
@@ -26,6 +26,7 @@ local warnAlluringAroma			= mod:NewCastAnnounce(237391, 4) --Манящий ар
 local warnSinisterFangs			= mod:NewStackAnnounce(236954, 4, nil, nil, 2) --Зловещие клыки
 local warnAlluringAroma2		= mod:NewTargetAnnounce(237391, 2) --Манящий аромат
 
+local specWarnVenomousPool		= mod:NewSpecialWarningYouMove(213124, nil, nil, nil, 1, 2) --Ядовитая лужа
 local specWarnSinisterFangs		= mod:NewSpecialWarningStack(236954, nil, 3, nil, nil, 1, 3) --Зловещие клыки
 local specWarnSinisterFangs2	= mod:NewSpecialWarningDispel(236954, "RemovePoison", nil, nil, 1, 3) --Зловещие клыки
 local specWarnAlluringAroma2	= mod:NewSpecialWarningDispel(237391, "MagicDispeller2", nil, nil, 1, 3) --Манящий аромат
@@ -36,7 +37,6 @@ local specWarnFocusedDestruction = mod:NewSpecialWarningDefensive(239235, nil, n
 local specWarnBurningCelerity	= mod:NewSpecialWarningYouMove(237583, nil, nil, nil, 1, 2) --Пылающая стремительность
 local specWarnShadowWall		= mod:NewSpecialWarningInterrupt(241598, "HasInterrupt", nil, nil, 1, 2) --Стена Тьмы
 local specWarnToxicPollen		= mod:NewSpecialWarningYouMove(237325, nil, nil, nil, 1, 2) --Ядовитая пыльца
-local specWarnVenomousPool		= mod:NewSpecialWarningYouMove(215489, nil, nil, nil, 1, 2) --Ядовитая лужа
 local specWarnFelStrike			= mod:NewSpecialWarningDodge(236737, nil, nil, nil, 1, 2) --Удар Скверны
 local specWarnAlluringAroma		= mod:NewSpecialWarningInterrupt(237391, "HasInterrupt", nil, nil, 1, 2) --Манящий аромат
 local specWarnDemonicMending	= mod:NewSpecialWarningInterrupt(238543, "HasInterrupt", nil, nil, 1, 2) --Демоническое лечение
@@ -145,9 +145,6 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 239161 and self:AntiSpam(4, 1) then
 		specWarnTomeSilence:Show()
 		specWarnTomeSilence:Play("targetchange")
-	elseif spellId == 215489 and args:IsPlayer() then --если не робит, то переделать
-		specWarnVenomousPool:Show()
-		specWarnVenomousPool:Play("runout")
 	elseif spellId == 237325 and args:IsPlayer() then --если не робит, то переделать
 		specWarnToxicPollen:Show()
 		specWarnToxicPollen:Play("runout")
@@ -205,12 +202,14 @@ function mod:OnSync(msg)
 		specWarnShadowWave:Play("shockwave")
 	end
 end
---[[
+
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
-	if spellId == 194102 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
-		specWarnPoisonousSludge:Show()
-		specWarnPoisonousSludge:Play("runaway")
+	if spellId == 213124 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
+		if not self:IsNormal() then
+			specWarnVenomousPool:Show()
+			specWarnVenomousPool:Play("runaway")
+		end
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
-]]
+

@@ -15,6 +15,7 @@ mod:RegisterEvents(
 	"CHAT_MSG_MONSTER_SAY",
 	"UNIT_DIED"
 )
+
 --Казематы стражей треш
 local warnTorment				= mod:NewTargetAnnounce(202615, 3) --Мучение
 local warnNightmares			= mod:NewTargetAnnounce(193069, 4) --Кошмары
@@ -144,7 +145,7 @@ function mod:SPELL_AURA_APPLIED(args)
 end
 
 function mod:CHAT_MSG_MONSTER_SAY(msg)
-	if msg == L.RoleRP or msg:find(L.RoleRP) then
+	if msg == L.RoleRP then
 		self:SendSync("Roleplay")
 	end
 end

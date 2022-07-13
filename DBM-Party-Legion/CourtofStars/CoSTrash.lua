@@ -147,7 +147,7 @@ function mod:SPELL_CAST_START(args)
 			specWarnShadowBoltVolley:Play("watchstep")
 		end
 	elseif spellId == 214688 then --Темная стая
-		self:BossTargetScanner(args.sourceGUID, "CarrionSwarmTarget", 0.1, 9)
+		self:BossTargetScanner(args.sourceGUID, "CarrionSwarmTarget", 0.1, 2)
 	elseif spellId == 214690 then --Увечье
 		timerCrippleCD:Start()
 	elseif spellId == 212773 and self:AntiSpam(2, 1) then --Подчинение

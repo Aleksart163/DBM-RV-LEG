@@ -19,7 +19,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_SUCCESS 227410"
 )
 
---Злюкер
+--"Злюкер" 
 local warnMagicMagnificent2			= mod:NewSoonAnnounce(227776, 1) --Несравненная магия
 local warnMagicMagnificent			= mod:NewCastAnnounce(227776, 4) --Несравненная магия
 local warnSummonAdds				= mod:NewSpellAnnounce(227477, 2) --Вызов помощников

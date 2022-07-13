@@ -24,9 +24,7 @@ mod:RegisterEventsInCombat(
 	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
 
---TODO: Burning Blast INterrupt helper. Figure out CD, then what to do with it
---TODO: figure out what to do with Felguard Sentry (115730)
---ALL
+--Виз'адуум Всевидящий https://ru.wowhead.com/npc=114790/визадуум-всевидящий/эпохальный-журнал-сражений
 local warnChaoticShadows			= mod:NewTargetAnnounce(229159, 3) --Тени Хаоса
 local warnFelBeam					= mod:NewTargetAnnounce(229242, 4) --Приказ: луч Скверны
 local warnDisintegrate				= mod:NewSpellAnnounce(229151, 4) --Расщепление	Switch to special warning if target scanning works

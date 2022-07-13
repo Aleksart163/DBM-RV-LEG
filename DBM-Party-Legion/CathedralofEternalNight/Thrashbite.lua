@@ -5,7 +5,7 @@ mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 mod:SetCreatureID(117194)
 mod:SetEncounterID(2057)
 mod:SetZone()
-mod:SetUsedIcons(8)
+mod:SetUsedIcons(7)
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
@@ -14,7 +14,8 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 237276",
 	"SPELL_CAST_SUCCESS 243124"
 )
---Долбогрыз Глумливый
+
+--Долбогрыз Глумливый https://ru.wowhead.com/npc=117194/долбогрыз-глумливый/эпохальный-журнал-сражений
 local warnScornfulGaze				= mod:NewTargetAnnounce(237726, 4, nil, nil, 2) --Глумливый взгляд
 local warnHeaveCrud					= mod:NewSpellAnnounce(243124, 2) --Бросок дубины
 
@@ -35,7 +36,7 @@ local countdownScornfulGaze2		= mod:NewCountdownFades("Alt7", 237726, nil, nil, 
 local yellScornfulGaze				= mod:NewYell(237726, nil, nil, nil, "YELL") --Глумливый взгляд
 local yellScornfulGaze2				= mod:NewFadesYell(237726, nil, nil, nil, "YELL") --Глумливый взгляд
 
-mod:AddSetIconOption("SetIconOnScornfulGaze", 237726, true, false, {8}) --Глумливый взгляд
+mod:AddSetIconOption("SetIconOnScornfulGaze", 237726, true, false, {7}) --Глумливый взгляд
 
 function mod:OnCombatStart(delay)
 	if not self:IsNormal() then
@@ -81,7 +82,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnScornfulGaze2:Show()
 		end
 		if self.Options.SetIconOnScornfulGaze then
-			self:SetIcon(args.destName, 8, 7)
+			self:SetIcon(args.destName, 7, 7)
 		end
 	end
 end

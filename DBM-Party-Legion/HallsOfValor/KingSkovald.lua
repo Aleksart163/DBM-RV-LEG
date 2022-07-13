@@ -42,7 +42,7 @@ mod:AddSetIconOption("SetIconOnAegis", 202711, true, false, {1}) --Эгида А
 
 local shield = DBM:GetSpellInfo(193983)
 
-function mod:FelblazeRushTarget(targetname, uId)
+function mod:FelblazeRushTarget(targetname, uId) --Рывок пламени Скверны (✔)
 	if not targetname then return end
 	warnFelblazeRush:Show(targetname)
 	if targetname == UnitName("player") then
@@ -92,16 +92,10 @@ function mod:SPELL_AURA_REMOVED(args)
 	end
 end
 
-function mod:SPELL_CAST_SUCCESS(args)
-	if args.spellId == 193659 then
-		self:BossUnitTargetScannerAbort()
-	end
-end
-
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 193659 then --Рывок пламени Скверны
-		self:BossUnitTargetScanner("boss1", "FelblazeRushTarget")
+		self:BossTargetScanner(args.sourceGUID, "FelblazeRushTarget", 0.1, 2)
 		timerRushCD:Start()
 		countdownRush:Cancel()
 		countdownRush:Start()

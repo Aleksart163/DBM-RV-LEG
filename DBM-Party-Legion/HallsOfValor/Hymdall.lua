@@ -21,7 +21,7 @@ mod:RegisterEventsInCombat(
 local warnBreath					= mod:NewSpellAnnounce(188404, 3, nil, nil, nil, nil, nil, 2) --Дыхание бури
 local warnDancingBlade				= mod:NewTargetAnnounce(193235, 3) --Танцующий клинок
 local warnSweep						= mod:NewSpellAnnounce(193092, 2, nil, nil) --Кровопролитный круговой удар
-local warnHorn						= mod:NewPreWarnAnnounce(191284, 5, 1) --Рог доблести
+--local warnHorn						= mod:NewPreWarnAnnounce(191284, 5, 1) --Рог доблести
 
 local specWarnSweep					= mod:NewSpecialWarningDefensive(193092, "Tank", nil, nil, 3, 3) --Кровопролитный круговой удар
 local specWarnHorn					= mod:NewSpecialWarningDefensive(191284, nil, nil, nil, 3, 3) --Рог доблести
@@ -44,7 +44,7 @@ local countdownSweep				= mod:NewCountdown("Alt15.5", 193092, "Tank", nil, 3) --
 --local countdownSweep				= mod:NewCountdownFades("Alt15.5", 193092, "Tank", nil, 3) --Кровопролитный круговой удар
 mod:AddSetIconOption("SetIconOnSweep", 193092, true, false, {8}) --Кровопролитный круговой удар
 
-function mod:DancingBladeTarget(targetname, uId)
+function mod:DancingBladeTarget(targetname, uId) --Танцующий клинок (✔)
 	if not targetname then return end
 	warnDancingBlade:Show(targetname)
 	if targetname == UnitName("player") then
@@ -64,7 +64,7 @@ function mod:OnCombatStart(delay)
 		countdownSweep:Start(16.5-delay) --Кровопролитный круговой удар+++
 		timerHornCD:Start(11.5-delay) --Рог доблести+++
 		countdownHorn:Start(11.5-delay) --Рог доблести+++
-		warnHorn:Schedule(6.5-delay) --Рог доблести+++
+	--	warnHorn:Schedule(6.5-delay) --Рог доблести+++
 		timerDancingBladeCD:Start(6-delay) --Танцующий клинок+++
 	end
 end
@@ -80,14 +80,14 @@ function mod:SPELL_CAST_START(args)
 		specWarnHornOfValor2:Schedule(9)
 		specWarnHornOfValor2:ScheduleVoice(9, "watchstep")
 		timerHornCD:Start()
-		warnHorn:Schedule(40)
+	--	warnHorn:Schedule(40)
 		countdownHorn:Start()
 		timerDancingBladeCD:Start(27)
 		timerBreath:Start(9)
 		timerBreath:Schedule(9)
 		timerBreath:Schedule(14)
 	elseif spellId == 193235 then --Танцующий клинок
-		self:BossTargetScanner(args.sourceGUID, "DancingBladeTarget", 0.1, 9)
+		self:BossTargetScanner(args.sourceGUID, "DancingBladeTarget", 0.1, 2)
 		timerDancingBladeCD:Start()
 	elseif spellId == 188404 and self:AntiSpam(5, 2) then --Дыхание бури
 		warnBreath:Show()

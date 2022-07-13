@@ -16,7 +16,7 @@ mod:RegisterEvents(
 	"GOSSIP_SHOW"
 )
 
---Престол триумвирата
+--Престол триумвирата трэш
 local warnCorruptingTouch			= mod:NewStackAnnounce(245748, 4, nil, nil, 2) --Оскверняющее прикосновение
 local warnCorruptingVoid			= mod:NewTargetAnnounce(245510, 3) --Оскверняющая Бездна
 local warnSupField					= mod:NewTargetAnnounce(249081, 3) --Подавляющее поле

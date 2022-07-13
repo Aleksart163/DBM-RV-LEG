@@ -16,19 +16,22 @@ mod:RegisterCombat("combat")
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 227507",
 	"SPELL_CAST_SUCCESS 227618 227523",
-	"SPELL_AURA_APPLIED 227297 227524",
+	"SPELL_AURA_APPLIED 227297 227524 227502",
+	"SPELL_AURA_APPLIED_DOSE 227502",
 	"SPELL_PERIODIC_DAMAGE 227524",
 	"SPELL_PERIODIC_MISSED 227524"
 )
 
+--Пожиратель маны https://ru.wowhead.com/npc=116494/пожиратель-маны/эпохальный-журнал-сражений
 local warnEnergyVoid				= mod:NewSpellAnnounce(227523, 1) --Энергетическая пустота
 local warnArcaneBomb				= mod:NewSpellAnnounce(227618, 3) --Чародейская бомба
 
+local specWarnUnstableMana			= mod:NewSpecialWarningStack(227502, nil, 2, nil, nil, 1, 3) --Нестабильная мана
 local specWarnEnergyVoid			= mod:NewSpecialWarningYouMove(227524, nil, nil, nil, 1, 2) --Энергетическая пустота
 local specWarnDecimatingEssence		= mod:NewSpecialWarningDefensive(227507, nil, nil, nil, 3, 5) --Истребляющая сущность
 local specWarnCoalescePower			= mod:NewSpecialWarningMoveTo(227297, "Tank", nil, nil, 1, 2) --Слияние энергии
 local specWarnCoalescePower2		= mod:NewSpecialWarningDodge(227297, "-Tank", nil, nil, 1, 2) --Слияние энергии
-local specWarnArcaneBomb			= mod:NewSpecialWarningDodge(227618, "Melee", nil, nil, 2, 2) --Чародейская бомба
+local specWarnArcaneBomb			= mod:NewSpecialWarningDodge(227618, nil, nil, nil, 2, 2) --Чародейская бомба
 local specWarnEnergyVoid2			= mod:NewSpecialWarningDodge(227523, "SpellCaster", nil, nil, 2, 3) --Энергетическая пустота
 
 local timerEnergyVoidCD				= mod:NewCDTimer(21.7, 227523, nil, nil, nil, 3) --Энергетическая пустота
@@ -86,8 +89,26 @@ function mod:SPELL_AURA_APPLIED(args)
 		specWarnCoalescePower2:Play("watchstep")
 		timerCoalescePowerCD:Start()
 		countdownCoalescePower:Start()
+	elseif spellId == 227502 then --Нестабильная мана
+		local amount = args.amount or 1
+		if self:IsNormal() or self:IsHeroic() then
+			if amount >= 3 then
+				if args:IsPlayer() then
+					specWarnUnstableMana:Show(args.amount)
+					specWarnUnstableMana:Play("stackhigh")
+				end
+			end
+		elseif self:IsHard() then
+			if amount >= 1 then
+				if args:IsPlayer() and not self:IsTank() then
+					specWarnUnstableMana:Show(args.amount)
+					specWarnUnstableMana:Play("stackhigh")
+				end
+			end
+		end
 	end
 end
+mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
 	if spellId == 227524 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then

@@ -22,7 +22,7 @@ mod:RegisterEventsInCombat(
 	"UNIT_HEALTH boss1"
 )
 
---Советник Вандрос
+--Советник Вандрос https://ru.wowhead.com/npc=98208/советник-вандрос/эпохальный-журнал-сражений
 local warnBlast						= mod:NewStackAnnounce(203176, 3, nil, nil, 2) --Ускоряющий взрыв
 local warnTimeLock					= mod:NewTargetAnnounce(203957, 4) --Временное ограничение
 local warnUnstableMana				= mod:NewTargetAnnounce(220871, 4) --Нестабильная мана
@@ -69,8 +69,6 @@ end
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 203957 then --Временное ограничение
-		--if people run different directions 2-3 of these can activate at once.
-		--So combined show and anti spam measures used.
 		warnTimeLock:Show(args.destName)
 		if self:AntiSpam(3, 2) then
 			specWarnTimeLock:Show(args.sourceName)
@@ -127,9 +125,6 @@ function mod:SPELL_CAST_START(args)
 		self.vb.interruptCount = self.vb.interruptCount + 1
 		local kickCount = self.vb.interruptCount
 		specWarnBlast:Show()
-		--Takes 3 to block all casts, it only takes 2 in a row to break his stacks though.
-		--3 count still makes sense for 2 though because you know which cast to skip to maintain order. Kick 1-2, skip 3, easy
-		--A group with only one interruptor won't be able to prevent his stacks and need to use dispels on boss instead
 		if kickCount == 1 then
 			specWarnBlast:Play("kick1r")
 		elseif kickCount == 2 then

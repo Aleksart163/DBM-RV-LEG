@@ -12,7 +12,7 @@ mod:RegisterEvents(
 	"SPELL_AURA_APPLIED 194006 210750 211745"
 )
 
---TODO, for time being, not registering high cpu spell damage events for GTFOs. One warning should be enough. Will re-evalulate if it is a problem
+--Катакомбы Сурамара трэш
 local warnPhaseBreach				= mod:NewCastAnnounce(211115, 4) --Фазовый прорыв
 local warnOozeExplosion				= mod:NewCastAnnounce(193938, 4) --Взрыв слизнюка
 --local warnPropheciesofDoom			= mod:NewSpellAnnounce(211771, 4) --Предсказания рока

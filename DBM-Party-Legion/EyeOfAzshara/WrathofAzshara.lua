@@ -10,13 +10,14 @@ mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 192617 192985 192696 197365",
-	"SPELL_CAST_SUCCESS 197365",
+--	"SPELL_CAST_SUCCESS 197365",
 	"SPELL_AURA_APPLIED 192706",
 	"SPELL_AURA_REMOVED 192706",
 	"CHAT_MSG_RAID_BOSS_EMOTE",
 	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
 
+--Гнев Азшары https://ru.wowhead.com/npc=96028/гнев-азшары/эпохальный-журнал-сражений
 local warnArcaneBomb				= mod:NewTargetAnnounce(192706, 4) --Чародейская бомба
 local warnMythicTornado				= mod:NewSpellAnnounce(192680, 3) --Волшебный торнадо
 local warnRagingStorms				= mod:NewCastAnnounce(192696, 4) --Бушующий шторм
@@ -64,7 +65,7 @@ function mod:CrushingDepthsTarget(targetname, uId) --Морская пучина
 		yellCrushingDepthsFades:Countdown(6, 3)
 	elseif self:CheckNearby(30, targetname) then
 		specWarnCrushingDepths:Show(targetname)
-		specWarnCrushingDepths:Play("runout")
+		specWarnCrushingDepths:Play("gather")
 	end
 	if self.Options.SetIconOnCrushingDepths then
 		self:SetIcon(targetname, 8, 6)
@@ -145,7 +146,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 192696 then --Бушующий шторм
 		warnRagingStorms:Show()
 	elseif spellId == 197365 then --Морская пучина
-		self:BossTargetScanner(args.sourceGUID, "CrushingDepthsTarget", 0.1, 9)
+		self:BossTargetScanner(args.sourceGUID, "CrushingDepthsTarget", 0.1, 2)
 		timerCrushingDepthsCD:Start(40)
 		countdownrushingDepths:Start(40)
 		countdownrushingDepths2:Start()

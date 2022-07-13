@@ -19,6 +19,7 @@ mod:RegisterEventsInCombat(
 	"UNIT_HEALTH boss1"
 )
 
+--Кордана Оскверненная Песнь https://ru.wowhead.com/npc=95888/кордана-оскверненная-песнь#abilities;mode:
 local warnPhase						= mod:NewAnnounce("Phase1", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 2
 local warnPhase2					= mod:NewAnnounce("Phase2", 1, 197422) --Фаза 2
 local warnDeepeningShadows			= mod:NewSpellAnnounce(213583, 4) --Сгущающиеся тени

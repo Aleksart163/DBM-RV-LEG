@@ -15,6 +15,7 @@ mod:RegisterEvents(
 	"CHAT_MSG_MONSTER_YELL"
 )
 
+--Логово Нелтариона трэш
 local warnBurningHatred			= mod:NewTargetAnnounce(200154, 3) --Пламенная ненависть
 local warnFrenzy				= mod:NewTargetAnnounce(201983, 4) --Бешенство
 local warnBound					= mod:NewCastAnnounce(193585, 4) --Скованность
@@ -64,7 +65,7 @@ function mod:SPELL_AURA_APPLIED(args)
 end
 
 function mod:CHAT_MSG_MONSTER_YELL(msg)
-	if msg == L.RoleP1 or msg:find(L.RoleP1) then
+	if msg == L.RoleP1 then
 		self:SendSync("RP1")
 	end
 end

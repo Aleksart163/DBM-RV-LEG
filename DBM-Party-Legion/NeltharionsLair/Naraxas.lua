@@ -17,6 +17,7 @@ mod:RegisterEventsInCombat(
 --	"SPELL_PERIODIC_MISSED 188494",
 	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
+
 -- Нараксас https://ru.wowhead.com/npc=91005/нараксас/эпохальный-журнал-сражений
 local warnPutridSkies				= mod:NewCastAnnounce(198963, 4) --Омерзительные небеса
 local warnFixate					= mod:NewTargetAnnounce(209906, 2, nil, false) --Самопожертвование фанатика Could be spammy, optional
@@ -126,7 +127,7 @@ mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
 
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	local spellId = legacySpellId or bfaSpellId
-	if spellId == 199817 then --Призыв прислужников (возможно надо будет расписать под несколько кастов)
+	if spellId == 199817 then --Призыв прислужников
 		specWarnAdds:Schedule(5)
 		specWarnAdds:ScheduleVoice(3, "mobsoon")
 		if self:IsHard() then

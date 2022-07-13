@@ -16,10 +16,10 @@ mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED 243157",
 	"UNIT_DIED",
 	"UNIT_SPELLCAST_SUCCEEDED boss1",
-	"UNIT_HEALTH"
+	"UNIT_HEALTH boss1"
 )
---TODO, other warnings? portal spawns/phases?
---TODO, announce portal guardians, they fire UNIT_TARGETABLE_CHANGED (maybe other things?)
+
+--Доматракс https://ru.wowhead.com/npc=119542/доматракс/эпохальный-журнал-сражений
 local warnApproachingDoom			= mod:NewCastAnnounce(241622, 2) --Приближение погибели
 local warnFrenzy					= mod:NewTargetAnnounce(243157, 4) --Бешенство
 local warnApproachingDoom2			= mod:NewSoonAnnounce(241622, 1) --Приближение погибели

@@ -23,6 +23,7 @@ mod:RegisterEventsInCombat(
 	"UNIT_HEALTH boss1"
 )
 
+--Ловчий Аттумен https://ru.wowhead.com/npc=114262/ловчий-аттумен/эпохальный-журнал-сражений
 local warnPhase						= mod:NewAnnounce("Phase", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 2
 local warnPhase1					= mod:NewAnnounce("Phase1", 1, 228852) --Фаза 2
 local warnPhase2					= mod:NewAnnounce("Phase2", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 3

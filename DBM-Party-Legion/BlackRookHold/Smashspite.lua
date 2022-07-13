@@ -5,7 +5,7 @@ mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 mod:SetCreatureID(98949)
 mod:SetEncounterID(1834)
 mod:SetZone()
-mod:SetUsedIcons(8, 7, 3, 2, 1)
+mod:SetUsedIcons(8, 7, 6, 5, 2, 1)
 
 mod:RegisterCombat("combat")
 
@@ -49,16 +49,18 @@ local countdownHatefulGaze			= mod:NewCountdown(25.5, 198079, nil, nil, 5) --Н�
 local countdownHatefulGaze2			= mod:NewCountdownFades("Alt5", 198079, nil, nil, 5) --Ненавидящий взгляд
 
 mod:AddSetIconOption("SetIconOnHatefulGaze", 198079, true, false, {8}) --Ненавидящий взгляд
-mod:AddSetIconOption("SetIconOnFelVomit", 198446, true, false, {7}) --Сквернорвота
-mod:AddSetIconOption("SetIconOnHatefulCharge", 224188, true, false, {3, 2, 1}) --Рывок ненависти
+mod:AddSetIconOption("SetIconOnFelVomit", 198446, true, false, {7, 6, 5}) --Сквернорвота
+mod:AddSetIconOption("SetIconOnHatefulCharge", 224188, true, false, {2, 1}) --Рывок ненависти
 mod:AddInfoFrameOption(198080)
 
 mod.vb.hatefulchargeIcon = 1
+mod.vb.felVomitIcon = 7
 
 local superWarned = false
 
 function mod:OnCombatStart(delay)
 	self.vb.hatefulchargeIcon = 1
+	self.vb.felVomitIcon = 7
 	if not self:IsNormal() then
 		timerHatefulGazeCD:Start(6-delay) --Ненавидящий взгляд
 		countdownHatefulGaze:Start(6-delay) --Ненавидящий взгляд
@@ -126,15 +128,16 @@ function mod:SPELL_AURA_APPLIED(args)
 			self:SetIcon(args.destName, self.vb.hatefulchargeIcon)
 		end
 	elseif spellId == 198446 then --Сквернорвота
+		self.vb.felVomitIcon = self.vb.felVomitIcon - 1
 		if args:IsPlayer() then
-			specWarnFelVomit:Schedule(4)
+			specWarnFelVomit:Schedule(3.5)
 			yellFelVomit:Yell()
-			yellFelVomit2:Countdown(8, 3)
+			yellFelVomit2:Countdown(6, 3)
 		else
-			warnFelVomit:Show(args.destName)
+			warnFelVomit:CombinedShow(0.5, args.destName)
 		end
 		if self.Options.SetIconOnFelVomit then
-			self:SetIcon(args.destName, 7, 10)
+			self:SetIcon(args.destName, self.vb.felVomitIcon)
 		end
 	end
 end
@@ -152,6 +155,14 @@ function mod:SPELL_AURA_REMOVED(args)
 		self.vb.hatefulchargeIcon = self.vb.hatefulchargeIcon - 1
 		timerHatefulCharge:Cancel(args.destName)
 		if self.Options.SetIconOnHatefulCharge then
+			self:SetIcon(args.destName, 0)
+		end
+	elseif spellId == 198446 then --Сквернорвота
+		self.vb.felVomitIcon = self.vb.felVomitIcon + 1
+		if args:IsPlayer() then
+			yellFelVomit2:Cancel()
+		end
+		if self.Options.SetIconOnFelVomit then
 			self:SetIcon(args.destName, 0)
 		end
 	end

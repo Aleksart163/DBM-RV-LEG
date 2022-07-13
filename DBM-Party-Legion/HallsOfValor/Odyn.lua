@@ -52,7 +52,7 @@ mod.vb.temptestMode = 1
 mod.vb.tempestCount = 0
 mod.vb.brandCount = 0
 
-function mod:OnCombatStart(delay)
+function mod:OnCombatStart(delay) --Прошляпанное очко мурчаля (✔)
 	self.vb.temptestMode = 1
 	self.vb.tempestCount = 0
 	self.vb.brandCount = 0

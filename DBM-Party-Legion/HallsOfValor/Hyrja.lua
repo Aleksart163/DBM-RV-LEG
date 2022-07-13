@@ -10,10 +10,11 @@ mod:RegisterCombat("combat")
 mod:SetWipeTime(120)
 
 mod:RegisterEventsInCombat(
+	"SPELL_CAST_START 192158 192018 192307 200901 191976",
+	"SPELL_CAST_SUCCESS 200901",
 	"SPELL_AURA_APPLIED 192048 192133 192132",
 	"SPELL_AURA_APPLIED_DOSE 192048 192133 192132",
 	"SPELL_AURA_REMOVED 192048 192133 192132",
-	"SPELL_CAST_START 192158 192018 192307 200901 191976",
 	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
 --Хирья https://ru.wowhead.com/npc=95833/хирья/эпохальный-журнал-сражений
@@ -55,7 +56,7 @@ local warned_MEH = false
 local warned_MET = false
 local firstpull = false
 
-function mod:ArcingBoltTarget(targetname, uId)
+function mod:ArcingBoltTarget(targetname, uId) --Дуговая молния (✔)
 	if not targetname then return end
 	warnArcingBolt:Show(targetname)
 	if targetname == UnitName("player") then
@@ -184,8 +185,6 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 200901 then --Око шторма
 		specWarnEyeofStorm:Show(eyeShortName)
 		specWarnEyeofStorm:Play("findshelter")
-		specWarnEyeofStorm2:Schedule(4)
-		specWarnEyeofStorm2:ScheduleVoice(4, "defensive")
 		if self.vb.phase == 2 then
 			timerSpecialCD:Start()
 			countdownSpecial:Cancel()
@@ -195,8 +194,16 @@ function mod:SPELL_CAST_START(args)
 			UpdateArcingBoltTimer1(self)
 		end
 	elseif spellId == 191976 then --Дуговая молния
-		self:BossTargetScanner(args.sourceGUID, "ArcingBoltTarget", 0.1, 9)
+		self:BossTargetScanner(args.sourceGUID, "ArcingBoltTarget", 0.1, 2)
 		timerArcingBoltCD:Start(15)
+	end
+end
+
+function mod:SPELL_CAST_SUCCESS(args)
+	local spellId = args.spellId
+	if spellId == 200901 then --Око шторма
+		specWarnEyeofStorm2:Show()
+		specWarnEyeofStorm2:Play("defensive")
 	end
 end
 

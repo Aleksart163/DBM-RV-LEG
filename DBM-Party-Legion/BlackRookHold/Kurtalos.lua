@@ -5,7 +5,7 @@ mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 mod:SetCreatureID(98965, 98970)
 mod:SetEncounterID(1835)
 mod:SetZone()
-mod:SetUsedIcons(7, 6)
+mod:SetUsedIcons(7)
 mod:SetBossHPInfoToHighest()
 
 mod:RegisterCombat("combat")
@@ -33,7 +33,7 @@ local specWarnWhirlingBlade2		= mod:NewSpecialWarningYouRun(198641, nil, nil, ni
 local specWarnDarkblast				= mod:NewSpecialWarningDodge(198820, nil, nil, nil, 3, 5) --Темный взрыв
 local specWarnGuile					= mod:NewSpecialWarningDodge(199193, nil, nil, nil, 3, 5) --Хитроумие повелителя ужаса
 local specWarnGuileEnded			= mod:NewSpecialWarningEnd(199193, nil, nil, nil, 1, 2) --Хитроумие повелителя ужаса
-local specWarnSwarm					= mod:NewSpecialWarningYou(201733, nil, nil, nil, 1, 2) --Жалящий рой
+local specWarnSwarm					= mod:NewSpecialWarningYou(201733, nil, nil, nil, 3, 2) --Жалящий рой
 local specWarnSwarm2				= mod:NewSpecialWarningSwitch(201733, "-Healer", nil, nil, 1, 2) --Жалящий рой
 local specWarnShadowBolt			= mod:NewSpecialWarningDefensive(202019, nil, nil, nil, 3, 5) --Залп стрел Тьмы
 
@@ -56,13 +56,13 @@ local countdownGuile				= mod:NewCountdown(39, 199193, nil, nil, 5) --Хитро
 local countdownGuile2				= mod:NewCountdownFades("Alt20", 199193, nil, nil, 5) --Хитроумие повелителя ужаса
 
 mod:AddSetIconOption("SetIconOnSwarm", 201733, true, false, {7}) --Жалящий рой
-mod:AddSetIconOption("SetIconOnWhirlingBlade", 198641, true, false, {6}) --Крутящийся клинок
+mod:AddSetIconOption("SetIconOnWhirlingBlade", 198641, true, false, {7}) --Крутящийся клинок
 
 mod.vb.phase = 1
 mod.vb.shadowboltCount = 0
 mod.vb.guileCount = 0
 
-function mod:WhirlingBladeTarget(targetname, uId) --Крутящийся клинок
+function mod:WhirlingBladeTarget(targetname, uId) --Крутящийся клинок (✔)
 	if not targetname then return end
 	warnWhirlingBlade:Show(targetname)
 	if targetname == UnitName("player") then
@@ -74,11 +74,11 @@ function mod:WhirlingBladeTarget(targetname, uId) --Крутящийся кли�
 		specWarnWhirlingBlade:Play("watchstep")
 	end
 	if self.Options.SetIconOnWhirlingBlade then
-		self:SetIcon(targetname, 6, 10)
+		self:SetIcon(targetname, 7, 10)
 	end
 end
 
-function mod:SwarmTarget(targetname, uId) --Жалящий рой
+function mod:SwarmTarget(targetname, uId) --Жалящий рой (✔)
 	if not targetname then return end
 	warnSwarm:Show(targetname)
 	if targetname == UnitName("player") then
@@ -87,7 +87,7 @@ function mod:SwarmTarget(targetname, uId) --Жалящий рой
 		yellSwarm:Yell()
 	elseif self:CheckNearby(20, targetname) then
 		specWarnSwarm2:Schedule(1.5)
-		specWarnSwarm2:ScheduleVoice(1.5, "switch")
+		specWarnSwarm2:ScheduleVoice(1.5, "killmob")
 	end
 end
 
@@ -148,10 +148,10 @@ function mod:SPELL_CAST_START(args)
 		end
 		--timerShadowBoltVolleyCD:Start()--Not known, and probably not important
 	elseif spellId == 198641 then --Крутящийся клинок
-		self:BossTargetScanner(args.sourceGUID, "WhirlingBladeTarget", 0.1, 9)
+		self:BossTargetScanner(args.sourceGUID, "WhirlingBladeTarget", 0.1, 2)
 		timerWhirlingBladeCD:Start()
 	elseif spellId == 201733 then --Жалящий рой
-		self:BossTargetScanner(args.sourceGUID, "SwarmTarget", 0.1, 9)
+		self:BossTargetScanner(args.sourceGUID, "SwarmTarget", 0.1, 2)
 	end
 end
 
@@ -221,7 +221,7 @@ function mod:OnSync(msg)
 end
 
 function mod:CHAT_MSG_MONSTER_SAY(msg)
-	if msg == L.Latosius or msg:find(L.Latosius) then
+	if msg == L.Latosius then
 		self:SendSync("Latosius")
 	end
 end

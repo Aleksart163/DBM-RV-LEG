@@ -14,6 +14,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 209602 209676 209628"
 )
 
+--Советник Меландр https://ru.wowhead.com/npc=101831/советник-меландр/эпохальный-журнал-сражений
 local warnSurge						= mod:NewTargetAnnounce(209602, 4) --Буйство клинков
 
 local specWarnSurge					= mod:NewSpecialWarningDodge(209602, nil, nil, nil, 1, 2) --Буйство клинков

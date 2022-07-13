@@ -24,7 +24,7 @@ mod:RegisterEventsInCombat(
 	"UNIT_HEALTH boss1 boss2"
 )
 
---Однажды в Западном Крае https://ru.wowhead.com/npc=114260/мрргрия/эпохальный-журнал-сражений
+--"Однажды в Западном крае" https://ru.wowhead.com/npc=114260/мрргрия/эпохальный-журнал-сражений
 local warnPhase						= mod:NewAnnounce("Phase", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 2
 local warnPhase2					= mod:NewAnnounce("Phase2", 1, 227783) --Фаза 2
 local warnPhase3					= mod:NewAnnounce("Phase3", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 3

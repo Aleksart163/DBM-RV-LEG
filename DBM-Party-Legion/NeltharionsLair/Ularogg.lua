@@ -16,7 +16,8 @@ mod:RegisterEventsInCombat(
 	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
 
-local warnBellowofDeeps				= mod:NewSpellAnnounce(193375, 2) --Рев глубин Change to special warning if they become important enough to switch to
+--Уларогг Скаломол https://ru.wowhead.com/npc=91004/уларогг-скаломол/эпохальный-журнал-сражений
+local warnBellowofDeeps				= mod:NewSpellAnnounce(193375, 2) --Рев глубин
 local warnStanceofMountain			= mod:NewSpellAnnounce(198564, 2) --Горная стойка
 local warnStanceofMountain2			= mod:NewSoonAnnounce(198564, 1) --Горная стойка
 

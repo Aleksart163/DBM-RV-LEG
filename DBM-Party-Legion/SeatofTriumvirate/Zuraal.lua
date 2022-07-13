@@ -20,9 +20,7 @@ mod:RegisterEventsInCombat(
 	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
 
---TODO, more timer updates, warning tweaks, countdowns
---TODO, personal alternate power and warn when extra action is ready to leave Umbra Shift
---Void Brute
+--Зураал Перерожденный https://ru.wowhead.com/npc=122313/зураал-перерожденный/эпохальный-журнал-сражений
 --local warnNullPalm						= mod:NewSpellAnnounce(246134, 2, nil, "Tank")
 local warnPhase2						= mod:NewAnnounce("Phase2", 1, 244621) --Прорыв Бездны
 local warnFixate						= mod:NewTargetAnnounce(244657, 3) --Сосредоточение внимания

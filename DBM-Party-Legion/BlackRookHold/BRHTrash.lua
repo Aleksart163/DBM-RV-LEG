@@ -61,7 +61,6 @@ local timerArcaneOvercharge			= mod:NewTargetTimer(6, 221132, nil, nil, nil, 3, 
 
 local timerRoleplay					= mod:NewTimer(25, "timerRoleplay", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7) --Ролевая игра
 
-local yellShoot						= mod:NewYell(193633, nil, nil, nil, "YELL") --Выстрел
 local yellRupturingPoison			= mod:NewYell(221363, nil, nil, nil, "YELL") --Раздирающий яд
 local yellRupturingPoisonFades		= mod:NewFadesYell(221363, nil, nil, nil, "YELL") --Раздирающий яд
 local yellSoulEchoes				= mod:NewYell(194966, nil, nil, nil, "YELL") --Эхо души
@@ -76,17 +75,15 @@ function mod:ShootTarget(targetname, uId)
 	if targetname == UnitName("player") then
 		specWarnShoot:Show()
 		specWarnShoot:Play("watchstep")
-		yellShoot:Yell()
 	end
 end
 
 function mod:MandibleStrikeTarget(targetname, uId)
 	if not targetname then return end
+	warnMandibleStrike:Show(targetname)
 	if targetname == UnitName("player") then
 		specWarnMandibleStrike:Show()
 		specWarnMandibleStrike:Play("defensive")
-	else
-		warnMandibleStrike:Show(targetname)
 	end
 end
 
@@ -130,7 +127,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 221363 then --Раздирающий яд
 		timerRupturingPoisonCD:Start()
 	elseif spellId == 221380 then --Удар жвалами
-		self:BossTargetScanner(args.sourceGUID, "MandibleStrikeTarget", 0.1, 9)
+		self:BossTargetScanner(args.sourceGUID, "MandibleStrikeTarget", 0.1, 2)
 		timerMandibleStrikeCD:Start()
 	elseif spellId == 200343 then --Залп стрел
 		if self:AntiSpam(3, 2) then
@@ -141,7 +138,7 @@ function mod:SPELL_CAST_START(args)
 			yellArrowBarrage:Yell()
 		end
 	elseif spellId == 193633 then --Выстрел
-		self:BossTargetScanner(args.sourceGUID, "ShootTarget", 0.1, 9)
+		self:BossTargetScanner(args.sourceGUID, "ShootTarget", 0.1, 2)
 	end
 end
 

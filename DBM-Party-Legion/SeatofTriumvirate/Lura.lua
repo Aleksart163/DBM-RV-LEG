@@ -21,8 +21,8 @@ mod:RegisterEventsInCombat(
 --	"UNIT_DIED",
 	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
---https://ru.wowhead.com/npc=124745/страж-огромного-портала-бездны/эпохальный-журнал-сражений
 
+--Л'ура https://ru.wowhead.com/npc=122314/лура/эпохальный-журнал-сражений
 local warnBacklash						= mod:NewTargetAnnounce(247816, 1, nil, "Healer") --Отдача
 local warnNaarusLamen					= mod:NewTargetAnnounce(248535, 2) --Стенания наару
 local warnGrowingDarkness				= mod:NewStackAnnounce(247915, 4, nil, nil, 2) --Разрастающийся мрак

@@ -55,7 +55,7 @@ mod:AddSetIconOption("SetIconOnImprisoningBubble", 195253, true, false, {7}) --�
 mod:AddSetIconOption("SetIconOnPolymorph", 197105, true, false, {6}) --Превращение в рыбу
 mod:AddRangeFrameOption(10, 192706) --Чародейская бомба
 
-function mod:PolymorphTarget(targetname, uId) --Превращение в рыбу
+function mod:PolymorphTarget(targetname, uId) --Превращение в рыбу (✔)
 	if not targetname then return end
 	warnPolymorph:Show(targetname)
 	if targetname == UnitName("player") then
@@ -82,7 +82,7 @@ function mod:SPELL_CAST_START(args)
 			timerUndertow:Start()
 		end
 	elseif spellId == 197105 then --Превращение в рыбу
-		self:BossTargetScanner(args.sourceGUID, "PolymorphTarget", 0.1, 9)
+		self:BossTargetScanner(args.sourceGUID, "PolymorphTarget", 0.1, 2)
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnPolymorph:Show()
 			specWarnPolymorph:Play("kickcast")

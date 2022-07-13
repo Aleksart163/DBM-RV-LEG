@@ -17,6 +17,7 @@ mod:RegisterEventsInCombat(
 --	"SPELL_PERIODIC_DAMAGE",
 --	"SPELL_PERIODIC_MISSED"
 )
+
 --Вулкан https://ru.wowhead.com/npc=95886/вулкан/эпохальный-журнал-сражений
 local warnFiredUp2					= mod:NewTargetAnnounce(215478, 4) --Обгорание
 local warnVolcano					= mod:NewSpellAnnounce(192621, 3, nil, nil, nil, nil, nil, 2) --Пирокласт

@@ -16,7 +16,7 @@ mod:RegisterEventsInCombat(
 	"UNIT_HEALTH boss1"
 )
 
---https://ru.wowhead.com/npc=91797/король-волнобород/эпохальный-журнал-сражений
+--Король Волнобород https://ru.wowhead.com/npc=91797/король-волнобород/эпохальный-журнал-сражений
 local warnBubbles					= mod:NewTargetAnnounce(193018, 4) --Пузырь газа
 local warnFrenzy					= mod:NewTargetAnnounce(197550, 4) --Бешенство
 local warnFrenzy2					= mod:NewSoonAnnounce(197550, 1) --Бешенство
@@ -28,7 +28,6 @@ local specWarnGroundSlam			= mod:NewSpecialWarningDodge(193093, "Melee", nil, ni
 local specWarnBubbles2				= mod:NewSpecialWarningYou(193018, nil, nil, nil, 3, 3) --Пузырь газа
 local specWarnBubbles3				= mod:NewSpecialWarningEnd(193018, nil, nil, nil, 1, 2) --Пузырь газа
 --local specWarnCallSeas				= mod:NewSpecialWarningDodge(193051, nil, nil, nil, 2, 2) --Зов морей
---local specWarnBubbles				= mod:NewSpecialWarningSpell(193018, "-Tank", nil, nil, 1, 6) --Пузырь газа
 
 local timerQuakeCD					= mod:NewCDTimer(21.8, 193152, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Землетрясение 21-25 +++
 local timerCallSeasCD				= mod:NewNextTimer(30, 193051, nil, nil, nil, 2) --Зов морей
@@ -62,7 +61,6 @@ function mod:OnCombatStart(delay)
 		countdownQuake:Start(16-delay) --Землетрясение+++
 		timerCallSeasCD:Start(20.5-delay) --Зов морей+++
 	else
-	--	timerGroundSlamCD:Start(6-delay) --Удар по земле
 		timerBubblesCD:Start(10-delay) --Пузырь газа
 		timerQuakeCD:Start(15-delay) --Землетрясение
 		timerCallSeasCD:Start(20-delay) --Зов морей
@@ -95,8 +93,6 @@ function mod:SPELL_CAST_START(args)
 		specWarnGroundSlam:Play("shockwave")
 		timerGroundSlamCD:Start()
 	elseif spellId == 193018 then --Пузырь газа
-	--	specWarnBubbles:Show()
-	--	specWarnBubbles:Play("takedamage")
 		timerBubblesCD:Start()
 	end
 end

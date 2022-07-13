@@ -17,6 +17,7 @@ mod:RegisterEventsInCombat(
 	"UNIT_SPELLCAST_SUCCEEDED"--All available unitIDs, no bossN for shadows
 )
 
+--Мефистрот https://ru.wowhead.com/npc=120793/мефистрот/эпохальный-журнал-сражений
 local warnDarkSolitude				= mod:NewSpellAnnounce(234817, 2) --Темное одиночество
 local warnShadowFade				= mod:NewSpellAnnounce(233206, 2) --Уход во тьму
 local warnDemonicUpheaval			= mod:NewTargetAnnounce(233963, 3) --Демоническое извержение
@@ -149,7 +150,6 @@ end
 --TODO, syncing maybe do to size and spread in room, not all nameplates will be caught by one person
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	local spellId = legacySpellId or bfaSpellId
-	--"<51.81 19:21:30> [UNIT_SPELLCAST_SUCCEEDED] Unknown(??) [[nameplate1:Shadow of Mephistroth Cosmetic::3-3020-1677-21626-234034-00025D92FA:234034]]", -- [308]
 	if spellId == 234034 then--Only will trigger if nameplate is in range
 		local guid = UnitGUID(uId)
 		if not addsTable[guid] then
