@@ -13,9 +13,9 @@ mod:RegisterEvents(
 
 local specWarnShatterboneShield		= mod:NewSpecialWarningReflect(228845, nil, nil, nil, 1, 2)
 local specWarnBreathOfDread			= mod:NewSpecialWarningMove(228371, nil, nil, nil, 1, 2)
-local specWarnBindSpirit			= mod:NewSpecialWarningDispel(228395, "MagicDispeller", nil, nil, 1, 2)
+local specWarnBindSpirit			= mod:NewSpecialWarningDispel(228395, "MagicDispeller2", nil, nil, 1, 2)
 
-local timerRoleplay					= mod:NewTimer(47, "timerRoleplay", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7)
+local timerRoleplay					= mod:NewTimer(49.5, "timerRoleplay", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7)
 
 function mod:SPELL_AURA_APPLIED(args)
 	if not self.Options.Enabled then return end
@@ -27,7 +27,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		specWarnBreathOfDread:Show(args.destName)
 		specWarnBreathOfDread:Play("runaway")
 	elseif spellId == 228395 and self:AntiSpam(2.5, 2) then
-		specWarnBindSpirit:Show(args.destName)
+		specWarnBindSpirit:CombinedShow(0.5, args.destName)
 		specWarnBindSpirit:Play("dispelnow")
 	end
 end

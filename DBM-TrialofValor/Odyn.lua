@@ -11,103 +11,108 @@ mod:SetUsedIcons(1)
 mod:SetHotfixNoticeRev(15581)
 mod.respawnTime = 29
 
-mod:RegisterCombat("combat", 114263)
-
+mod:RegisterCombat("combat")
+--Прошляпанное очко мурчаля (✔)
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_START 228003 228012 228171 231013",
+	"SPELL_CAST_START 228003 228012 228171 231013 227629",
 	"SPELL_CAST_SUCCESS 228012 228028 228162 231350 227629",
-	"SPELL_AURA_APPLIED 228029 227807 227959 227626 228918 227490 227491 227498 227499 227500 231311 231342 231344 231345 231346 229579 229580 229581 229582 229583 229584",
+	"SPELL_AURA_APPLIED 228029 227807 227959 227626 228918 227490 227491 227498 227499 227500 231311 231342 231344 231345 231346 229579 229580 229581 229582 229583 229584 227598 227594 227596 227595 227597",
 	"SPELL_AURA_APPLIED_DOSE 227626",
-	"SPELL_AURA_REMOVED 228029 227807 227959 227490 227491 227498 227499 227500 231311 231342 231344 231345 231346 229584",
+	"SPELL_AURA_REMOVED 228029 227807 227959 227490 227491 227498 227499 227500 231311 231342 231344 231345 231346 229584 227598 227594 227596 227595 227597",
 	"SPELL_PERIODIC_DAMAGE 228007 228683",
 	"SPELL_PERIODIC_MISSED 228007 228683",
 	"CHAT_MSG_RAID_BOSS_EMOTE",
 	"UNIT_SPELLCAST_SUCCEEDED boss1 boss2 boss3"
 )
 
---TODO, phase 3 storms (area of affect). not in combat log or even transcriptor. appears every 30 seconds give or take. verify in more attempts and add scheduler for it
---TODO, Cleansing flame timers/target announces?
---Stage 1: Halls of Valor was merely a set back
+--Один https://ru.wowhead.com/npc=114263/один
 local hymdall = DBM:EJ_GetSectionInfo(14005)
 local hyrja = DBM:EJ_GetSectionInfo(14006)
 
-local warnDancingBlade				= mod:NewCountAnnounce(228003, 3)--Change if target scanning works, but considering it doesn't in 5 man version of this spell, omitting for now
-local warnRevivify					= mod:NewCastAnnounce(228171, 4)
-local warnExpelLight				= mod:NewTargetAnnounce(228028, 3)
-local warnShieldofLight				= mod:NewTargetCountAnnounce(228270, 3, nil, nil, nil, nil, nil, nil, true)
+local warnDancingBlade				= mod:NewTargetAnnounce(228003, 3) --Танцующий клинок
+--local warnDancingBlade				= mod:NewCountAnnounce(228003, 3) --Танцующий клинок Change if target scanning works, but considering it doesn't in 5 man version of this spell, omitting for now
+local warnRevivify					= mod:NewCastAnnounce(228171, 2) --Регенерация
+local warnExpelLight				= mod:NewTargetAnnounce(228028, 3) --Световое излучение
+local warnShieldofLight				= mod:NewTargetCountAnnounce(228270, 3, nil, nil, nil, nil, nil, nil, true) --Щит Света
+local warnUnerringBlast				= mod:NewCastAnnounce(227629, 4) --Выверенный взрыв
 --Stage 2: Stuff
-local warnPhase2					= mod:NewPhaseAnnounce(2, 2)
+local warnPhase2					= mod:NewPhaseAnnounce(2, 2) --Фаза 2
 --Stage 3: Odyn immitates lei shen
-local warnPhase3					= mod:NewPhaseAnnounce(3, 2)
-local warnStormofJustice			= mod:NewTargetAnnounce(227807, 3)
+local warnPhase3					= mod:NewPhaseAnnounce(3, 2) --Фаза 3
+local warnStormofJustice			= mod:NewTargetAnnounce(227807, 3) --Буря правосудия
 
 --Stage 1: Halls of Valor was merely a set back
-local specWarnDancingBlade			= mod:NewSpecialWarningMove(228003, nil, nil, nil, 1, 2)
---local yellDancingBlade			= mod:NewYell(228003)
-local specWarnHornOfValor			= mod:NewSpecialWarningMoveAway(228012, nil, nil, nil, 1, 2)
-local specWarnExpelLight			= mod:NewSpecialWarningMoveAway(228028, nil, nil, nil, 1, 2)
-local yellExpelLight				= mod:NewYell(228028)
-local specWarnShieldofLight			= mod:NewSpecialWarningYou(228270, nil, nil, nil, 1, 2)
-local yellShieldofLightFades		= mod:NewFadesYell(228270)
-local specWarnBranded				= mod:NewSpecialWarningMoveTo(227503, nil, nil, nil, 3, 6)
-local yellBranded					= mod:NewPosYell(227490, DBM_CORE_AUTO_YELL_CUSTOM_POSITION)
+local specWarnDancingBlade			= mod:NewSpecialWarningYouMove(228003, nil, nil, nil, 1, 2) --Танцующий клинок
+local specWarnDancingBlade2			= mod:NewSpecialWarningYouRun(228003, nil, nil, nil, 3, 3) --Танцующий клинок
+local specWarnDancingBlade3			= mod:NewSpecialWarningCloseMoveAway(228003, nil, nil, nil, 2, 3) --Танцующий клинок
+local specWarnHornOfValor			= mod:NewSpecialWarningMoveAway(228012, nil, nil, nil, 1, 2) --Рог доблести
+local specWarnHornOfValor2			= mod:NewSpecialWarningRun(228012, "Melee", nil, nil, 4, 2) --Рог доблести
+local specWarnExpelLight			= mod:NewSpecialWarningYouMoveAway(228028, nil, nil, nil, 1, 2) --Световое излучение
+local specWarnShieldofLight			= mod:NewSpecialWarningYou(228270, nil, nil, nil, 1, 2) --Щит Света
+local specWarnBranded				= mod:NewSpecialWarningMoveTo(227503, nil, nil, nil, 3, 6) --Впитывание энергии
+local specWarnDrawPower				= mod:NewSpecialWarningSwitch(227503, "-Healer", nil, nil, 1, 2) --Впитывание энергии
+local specWarnUnerringBlast			= mod:NewSpecialWarningDefensive(227629, nil, nil, nil, 3, 5) --Выверенный взрыв
 --Stage 2: Odyn immitates margok
-local specWarnOdynsTest				= mod:NewSpecialWarningCount(227626, nil, DBM_CORE_AUTO_SPEC_WARN_OPTIONS.stack:format(5, 159515), nil, 1, 2)
-local specWarnOdynsTestOther		= mod:NewSpecialWarningTaunt(227626, nil, nil, nil, 1, 2)
-local specWarnShatterSpears			= mod:NewSpecialWarningDodge(231013, false, nil, 2, 2, 2)--Every 8 seconds, so off by default
-local specWarnHyrja					= mod:NewSpecialWarningSwitch("ej14006", nil, nil, nil, 1, 2)
-local specWarnHymall				= mod:NewSpecialWarningSwitch("ej14005", nil, nil, nil, 1, 2)
+local specWarnOdynsTest				= mod:NewSpecialWarningCount(227626, nil, DBM_CORE_AUTO_SPEC_WARN_OPTIONS.stack:format(5, 159515), nil, 1, 2) --Испытание Одина
+local specWarnOdynsTestOther		= mod:NewSpecialWarningTaunt(227626, nil, nil, nil, 1, 2) --Испытание Одина
+local specWarnShatterSpears			= mod:NewSpecialWarningDodge(231013, false, nil, 2, 2, 2) --Расколотые копья Every 8 seconds, so off by default
+local specWarnHyrja					= mod:NewSpecialWarningSwitch("ej14006", nil, nil, nil, 1, 2) --Хирья
+local specWarnHymall				= mod:NewSpecialWarningSwitch("ej14005", nil, nil, nil, 1, 2) --Химдалль
 
 --Stage 3: Odyn immitates lei shen
-local specWarnStormofJustice		= mod:NewSpecialWarningMoveAway(227807, nil, nil, nil, 1, 2)
-local yellStormofJustice			= mod:NewYell(227807)
-local specWarnStormforgedSpear		= mod:NewSpecialWarningRun(228918, nil, nil, nil, 4, 2)
-local specWarnStormforgedSpearOther	= mod:NewSpecialWarningTaunt(228918, nil, nil, nil, 1, 2)
-local specWarnCleansingFlame		= mod:NewSpecialWarningMove(228683, nil, nil, nil, 1, 2)
+local specWarnStormofJustice		= mod:NewSpecialWarningYouMoveAway(227807, nil, nil, nil, 1, 2) --Буря правосудия
+local specWarnStormforgedSpear		= mod:NewSpecialWarningRun(228918, nil, nil, nil, 4, 2) --Закаленное бурей копье
+local specWarnStormforgedSpearOther	= mod:NewSpecialWarningTaunt(228918, nil, nil, nil, 1, 2) --Закаленное бурей копье
+local specWarnCleansingFlame		= mod:NewSpecialWarningMove(228683, nil, nil, nil, 1, 2) --Очищающее пламя
 --Mythic
-local specWarnRunicBrand			= mod:NewSpecialWarningYouPos(231297, nil, nil, 2, 3, 6)
-local yellRunicBrand				= mod:NewPosYell(231297, DBM_CORE_AUTO_YELL_CUSTOM_POSITION)
+local specWarnRunicBrand			= mod:NewSpecialWarningYouPos(231297, nil, nil, 2, 3, 6) --Руническое клеймо
 
 --Adds (stage 1 and 2)
 mod:AddTimerLine(hymdall)
-local timerDancingBladeCD			= mod:NewNextTimer(31, 228003, nil, nil, nil, 3)--Alternating two times
-local timerHornOfValorCD			= mod:NewNextCountTimer(32, 228012, nil, nil, nil, 2)--Alternating two times
+local timerDancingBladeCD			= mod:NewNextTimer(31, 228003, nil, nil, nil, 3) --Танцующий клинок Alternating two times
+local timerHornOfValorCD			= mod:NewNextCountTimer(32, 228012, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Рог доблести Alternating two times
 mod:AddTimerLine(hyrja)
-local timerExpelLightCD				= mod:NewNextTimer(32, 228028, nil, nil, nil, 3)--Alternating two times
-local timerShieldofLightCD			= mod:NewNextCountTimer(32, 228270, nil, nil, nil, 3)--Alternating two times
+local timerExpelLightCD				= mod:NewNextTimer(32, 228028, nil, nil, nil, 3) --Световое излучение Alternating two times
+local timerShieldofLightCD			= mod:NewNextCountTimer(32, 228270, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Щит Света Alternating two times
 --Stage 1: Halls of Valor was merely a set back
 mod:AddTimerLine(SCENARIO_STAGE:format(1))
-local timerDrawPowerCD				= mod:NewNextTimer(70, 227503, nil, nil, nil, 6)
-local timerDrawPower				= mod:NewCastTimer(33, 227629, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON)
+local timerDrawPowerCD				= mod:NewNextTimer(70, 227503, nil, nil, nil, 1, nil, DBM_CORE_TANK_ICON..DBM_CORE_DAMAGE_ICON) --Впитывание энергии
+local timerDrawPower				= mod:NewCastTimer(32, 227629, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Выверенный взрыв (в героике 32, а не 33)
 --Stage 2: Odyn immitates margok
 mod:AddTimerLine(SCENARIO_STAGE:format(2))
 local timerSpearCD					= mod:NewNextTimer(8, 227697, nil, nil, nil, 3)
-local timerHymdallCD				= mod:NewNextTimer(70, "ej14005", nil, nil, nil, 1, 228012, DBM_CORE_DAMAGE_ICON)
-local timerHyrjaCD					= mod:NewNextTimer(70, "ej14006", nil, nil, nil, 1, 228270, DBM_CORE_DAMAGE_ICON)
+local timerHymdallCD				= mod:NewNextTimer(70, "ej14005", nil, nil, nil, 1, 228012, DBM_CORE_DAMAGE_ICON) --Химдалль
+local timerHyrjaCD					= mod:NewNextTimer(70, "ej14006", nil, nil, nil, 1, 228270, DBM_CORE_DAMAGE_ICON) --Хирья
 --Stage 3: Odyn immitates lei shen
 mod:AddTimerLine(SCENARIO_STAGE:format(3))
-local timerStormOfJusticeCD			= mod:NewNextTimer(10.9, 227807, nil, nil, nil, 3)
-local timerStormforgedSpearCD		= mod:NewNextTimer(10.9, 228918, 71466, "Tank|Healer", nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON)
+local timerStormOfJusticeCD			= mod:NewNextTimer(10.9, 227807, nil, nil, nil, 3) --Буря правосудия
+local timerStormforgedSpearCD		= mod:NewNextTimer(10.9, 228918, 71466, "Tank|Healer", nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Закаленное бурей копье
 --Mythic
 mod:AddTimerLine(ENCOUNTER_JOURNAL_SECTION_FLAG12)
-local timerRunicBrandCD				= mod:NewNextTimer(35, 231297, nil, nil, nil, 3, nil, DBM_CORE_HEROIC_ICON)
-local timerRadiantSmite				= mod:NewCastTimer(7.5, 231350, nil, nil, nil, 2, nil, DBM_CORE_HEROIC_ICON)
+local timerRunicBrandCD				= mod:NewNextTimer(35, 231297, nil, nil, nil, 3, nil, DBM_CORE_HEROIC_ICON) --Руническое клеймо
+local timerRadiantSmite				= mod:NewCastTimer(7.5, 231350, nil, nil, nil, 2, nil, DBM_CORE_HEROIC_ICON) --Сияние правосудия
 
+local yellDancingBlade				= mod:NewYell(228003, nil, nil, nil, "YELL") --Танцующий клинок
+local yellExpelLight				= mod:NewYell(228028, nil, nil, nil, "YELL") --Световое излучение
+local yellShieldofLightFades		= mod:NewFadesYell(228270, nil, nil, nil, "YELL") --Щит Света
+local yellBranded					= mod:NewPosYell(227490, DBM_CORE_AUTO_YELL_CUSTOM_POSITION, nil, nil, "YELL")
+local yellStormofJustice			= mod:NewYell(227807, nil, nil, nil, "YELL") --Буря правосудия
+local yellRunicBrand				= mod:NewPosYell(231297, DBM_CORE_AUTO_YELL_CUSTOM_POSITION, nil, nil, "YELL") --Руническое клеймо
 --local berserkTimer				= mod:NewBerserkTimer(300)
 
 --Stage 1: Halls of Valor was merely a set back
-local countdownDrawPower			= mod:NewCountdown(33, 227629)
-local countdownHorn					= mod:NewCountdown("Alt32", 228012)
-local countdownShield				= mod:NewCountdown("AltTwo32", 228270)
+local countdownDrawPower			= mod:NewCountdown(32, 227629, nil, nil, 5) --Выверенный взрыв (в героике 32, а не 33)
+local countdownHorn					= mod:NewCountdown("Alt32", 228012, nil, nil, 5) --Рог доблести
+local countdownShield				= mod:NewCountdown("AltTwo32", 228270, nil, nil, 3) --Щит Света
 --Stage 3: Odyn immitates lei shen
-local countdownStormforgedSpear		= mod:NewCountdown("Alt11", 228918, "Tank")
+local countdownStormforgedSpear		= mod:NewCountdown("Alt11", 228918, "Tank") --Закаленное бурей копье
 --Mythic
-local countdownRunicBrand			= mod:NewCountdown(35, 231297)
+local countdownRunicBrand			= mod:NewCountdown(35, 231297, nil, nil, 5) --Руническое клеймо
 
-mod:AddSetIconOption("SetIconOnShield", 228270, true)
-mod:AddInfoFrameOption(227503, true)
+mod:AddSetIconOption("SetIconOnShield", 228270, true, false, {1}) --Щит Света
+mod:AddInfoFrameOption(227503, true) --Впитывание энергии
 mod:AddRangeFrameOption("5/8/15")
-mod:AddNamePlateOption("NPAuraOnBranded", 227503, true)
+mod:AddNamePlateOption("NPAuraOnBranded", 227503, true) --Впитывание энергии
 
 mod.vb.phase = 1
 mod.vb.hornCasting = false
@@ -115,13 +120,14 @@ mod.vb.hornCast = 0
 mod.vb.shieldCast = 0
 mod.vb.expelLightCast = 0
 mod.vb.dancingBladeCast = 0
+mod.vb.runicShield = 0
 mod.vb.brandActive = false
 local drawTable = {}
 local playerProtected = false
 --Mythic Timers
-local dancingBladeTimers = {15.0, 20.1, 19.9, 25.0, 20.0}
-local hornTimers = {8.1, 22.0, 20.0, 35.0}
-local shieldTimers = {20.0, 20.0, 33.0, 22.0, 20.0}
+local dancingBladeTimers = {15.0, 20.0, 20.0, 25.0, 20.0}
+local hornTimers = {8.0, 22.0, 20.0, 35.0, 54.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0} --(✔)
+local shieldTimers = {20.0, 20.0, 33.0, 22.0, 20.0, 35.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0} --(✔)
 local expelLightTimers = {25.0, 20.0, 15.0, 30.0, 20.0}
 
 local debuffFilter
@@ -192,6 +198,19 @@ do
 	end
 end
 
+function mod:DancingBladeTarget(targetname, uId) --Танцующий клинок (✔)
+	if not targetname then return end
+	warnDancingBlade:Show(targetname)
+	if targetname == UnitName("player") then
+		specWarnDancingBlade2:Show()
+		specWarnDancingBlade2:Play("runout")
+		yellDancingBlade:Yell()
+	elseif self:CheckNearby(10, targetname) then
+		specWarnDancingBlade3:Show(targetname)
+		specWarnDancingBlade3:Play("runaway")
+	end
+end
+
 function mod:OnCombatStart(delay)
 	self.vb.phase = 1
 	self.vb.hornCasting = false
@@ -199,36 +218,38 @@ function mod:OnCombatStart(delay)
 	self.vb.shieldCast = 0
 	self.vb.expelLightCast = 0
 	self.vb.dancingBladeCast = 0
+	self.vb.runicShield = 0
 	self.vb.brandActive = false
 	table.wipe(drawTable)
 	playerDebuff = nil
 	if self:IsMythic() then
-		timerHornOfValorCD:Start(8-delay, 1)
-		countdownHorn:Start(8-delay)
-		timerDancingBladeCD:Start(15-delay)
-		timerShieldofLightCD:Start(20-delay, 1)
-		timerExpelLightCD:Start(25-delay)
-		timerDrawPowerCD:Start(35-delay)
-		countdownDrawPower:Start(35-delay)
-	elseif not self:IsEasy() then
-		timerHornOfValorCD:Start(8-delay, 1)
-		countdownHorn:Start(8-delay)
-		timerDancingBladeCD:Start(16-delay)
-		timerShieldofLightCD:Start(23-delay, 1)
-		countdownShield:Start(23-delay)
-		timerExpelLightCD:Start(32-delay)
-		timerDrawPowerCD:Start(40-delay)
-		countdownDrawPower:Start(40-delay)
-	else--LFR/Normal
-		timerHornOfValorCD:Start(10-delay, 1)
-		countdownHorn:Start(10-delay)
-		timerDancingBladeCD:Start(20-delay)
-		timerShieldofLightCD:Start(30-delay, 1)
-		countdownShield:Start(30-delay)
-		timerExpelLightCD:Start(40-delay)
+		timerHornOfValorCD:Start(8-delay, 1) --Рог доблести
+		countdownHorn:Start(8-delay) --Рог доблести
+		timerDancingBladeCD:Start(15-delay) --Танцующий клинок
+		timerShieldofLightCD:Start(20-delay, 1) --Щит Света
+		countdownShield:Start(20-delay) --Щит Света
+		timerExpelLightCD:Start(28.5-delay) --Световое излучение
+		timerDrawPowerCD:Start(35-delay) --Впитывание энергии
+		countdownDrawPower:Start(35-delay) --Впитывание энергии
+	elseif self:IsHeroic() then
+		timerHornOfValorCD:Start(8-delay, 1) --Рог доблести
+		countdownHorn:Start(8-delay) --Рог доблести
+		timerDancingBladeCD:Start(16-delay) --Танцующий клинок
+		timerShieldofLightCD:Start(24-delay, 1) --Щит Света
+		countdownShield:Start(24-delay) --Щит Света
+		timerExpelLightCD:Start(32.5-delay) --Световое излучение
+		timerDrawPowerCD:Start(40-delay) --Впитывание энергии
+		countdownDrawPower:Start(40-delay) --Впитывание энергии
+	elseif self:IsEasy() then--LFR/Normal
+		timerHornOfValorCD:Start(10-delay, 1) --Рог доблести
+		countdownHorn:Start(10-delay) --Рог доблести
+		timerDancingBladeCD:Start(20-delay) --Танцующий клинок
+		timerShieldofLightCD:Start(30-delay, 1) --Щит Света
+		countdownShield:Start(30-delay) --Щит Света
+		timerExpelLightCD:Start(40-delay) --Световое излучение
 		if self:IsNormal() then
-			timerDrawPowerCD:Start(45-delay)
-			countdownDrawPower:Start(45-delay)
+			timerDrawPowerCD:Start(45-delay) --Впитывание энергии
+			countdownDrawPower:Start(45-delay) --Впитывание энергии
 		end
 	end
 	if self.Options.NPAuraOnBranded then
@@ -250,9 +271,10 @@ end
 
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
-	if spellId == 228003 then
+	if spellId == 228003 then --Танцующий клинок
+		self:BossTargetScanner(args.sourceGUID, "DancingBladeTarget", 0.1, 2)
 		self.vb.dancingBladeCast = self.vb.dancingBladeCast + 1
-		warnDancingBlade:Show(self.vb.dancingBladeCast)
+	--	warnDancingBlade:Show(self.vb.dancingBladeCast)
 		if self.vb.phase == 1 then
 			if self:IsMythic() then
 				local timer = dancingBladeTimers[self.vb.dancingBladeCast+1]
@@ -265,7 +287,7 @@ function mod:SPELL_CAST_START(args)
 				else
 					timerDancingBladeCD:Start(20)
 				end
-			else
+			elseif self:IsHeroic() then
 				if self.vb.dancingBladeCast % 2 == 0 then
 					timerDancingBladeCD:Start(39)
 				else
@@ -275,11 +297,16 @@ function mod:SPELL_CAST_START(args)
 		else
 			timerDancingBladeCD:Start(12)
 		end
-	elseif spellId == 228012 then
+	elseif spellId == 228012 then --Рог доблести
 		self.vb.hornCasting = true
 		self.vb.hornCast = self.vb.hornCast + 1
-		specWarnHornOfValor:Show()
-		specWarnHornOfValor:Play("scatter")
+		if self:CheckTargetFilter(args.sourceGUID) then
+			specWarnHornOfValor2:Show()
+			specWarnHornOfValor2:Play("justrun")
+		else
+			specWarnHornOfValor:Show()
+			specWarnHornOfValor:Play("scatter")
+		end
 		if self.vb.phase == 1 then
 			if self:IsMythic() then
 				local timer = hornTimers[self.vb.hornCast+1]
@@ -289,12 +316,13 @@ function mod:SPELL_CAST_START(args)
 				end
 			elseif self:IsEasy() then
 				if self.vb.hornCast % 2 == 0 then
-					--timerHornOfValorCD:Start(43, self.vb.hornCast+1)--More data needed. Probably has an alternation
+					timerHornOfValorCD:Start(75, self.vb.hornCast+1)
+					countdownHorn:Start(75)
 				else
-					timerHornOfValorCD:Start(70)
-					countdownHorn:Start(70)
+					timerHornOfValorCD:Start(75, self.vb.hornCast+1)
+					countdownHorn:Start(75)
 				end
-			else
+			elseif self:IsHeroic() then
 				if self.vb.hornCast % 2 == 0 then
 					timerHornOfValorCD:Start(43, self.vb.hornCast+1)
 					countdownHorn:Start(43)
@@ -312,7 +340,16 @@ function mod:SPELL_CAST_START(args)
 		warnRevivify:Show()
 	elseif spellId == 231013 then
 		specWarnShatterSpears:Show()
-		specWarnHornOfValor:Play("watchorb")
+		specWarnShatterSpears:Play("watchorb")
+	elseif spellId == 227629 then --Выверенный взрыв
+		warnUnerringBlast:Show()
+		if not self:IsMythic() and self.vb.runicShield > 2 then
+			specWarnUnerringBlast:Show()
+			specWarnUnerringBlast:Play("defensive")
+		elseif self:IsMythic() then
+			specWarnUnerringBlast:Show()
+			specWarnUnerringBlast:Play("defensive")
+		end
 	end
 end
 
@@ -511,6 +548,8 @@ function mod:SPELL_AURA_REMOVED(args)
 		if self.Options.InfoFrame then
 			DBM.InfoFrame:Update()
 		end
+	elseif spellId == 227598 or spellId == 227594 or spellId == 227596 or spellId == 227595 or spellId == 227597 then --Рунный щит
+		self.vb.runicShield = self.vb.runicShield - 1
 	end
 end
 
@@ -527,7 +566,7 @@ mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
 
 --"<35.57 16:56:12> [CHAT_MSG_RAID_BOSS_EMOTE] |TInterface\\Icons\\ABILITY_PRIEST_FLASHOFLIGHT.BLP:20|t Hyrja targets |cFFFF0000Wakmagic|r with |cFFFF0404|Hspell:228162|h[Shield of Light]|h|r!#Hyrja###Wakmagic##0#0##0#476#nil#0#false#false#false#false", -- [241]
 function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, npc, _, _, target)
-	if msg:find("spell:228162") then
+	if msg:find("spell:228162") then --Щит Света
 		self.vb.shieldCast = self.vb.shieldCast + 1
 		if self.vb.phase == 1 then
 			if self:IsMythic() then
@@ -536,13 +575,21 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, npc, _, _, target)
 					timerShieldofLightCD:Start(timer, self.vb.shieldCast+1)
 					countdownShield:Start(timer)
 				end
-			else
+			elseif self:IsHeroic() then
 				if self.vb.shieldCast % 2 == 0 then
 					timerShieldofLightCD:Start(38, self.vb.shieldCast+1)
 					countdownShield:Start(38)
 				else
 					timerShieldofLightCD:Start(32, self.vb.shieldCast+1)
 					countdownShield:Start(32)
+				end
+			elseif self:IsEasy() then
+				if self.vb.shieldCast % 2 == 0 then
+					timerShieldofLightCD:Start(75, self.vb.shieldCast+1)
+					countdownShield:Start(75)
+				else
+					timerShieldofLightCD:Start(75, self.vb.shieldCast+1)
+					countdownShield:Start(75)
 				end
 			end
 		else
@@ -597,18 +644,23 @@ end
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	local spellId = legacySpellId or bfaSpellId
 	--"<51.36 16:56:28> [UNIT_SPELLCAST_SUCCEEDED] Odyn(??) [[boss1:Draw Power::3-3198-1648-10280-227503-000A6050FC:227503]]", -- [376]
-	if spellId == 227503 or spellId == 229576 then--Draw Power
+	if spellId == 227503 or spellId == 229576 then --Впитывание энергии (когда появляется треш и руны)
+		specWarnDrawPower:Show()
+		specWarnDrawPower:Play("switch")
 		timerDrawPower:Start()
 		countdownDrawPower:Start()
 		if self:IsEasy() then
+			self.vb.runicShield = 3
 			timerDrawPowerCD:Start(75)--LFR phase 2 verified. Might still be 70 in heroic though. no logs long enough for phase 2
 			countdownDrawPower:Start(75)
 		elseif self:IsMythic() then
+			self.vb.runicShield = 5
 			timerDrawPowerCD:Start(65)--65 in phase 1, 66 in phase 2 but i'm ok with using 65 for both for now
 			countdownDrawPower:Start(65)
-		else
-			timerDrawPowerCD:Start()
-			countdownDrawPower:Start(70)
+		elseif self:IsHeroic() then -- для героика 67 а не 70
+			self.vb.runicShield = 5
+			timerDrawPowerCD:Start(67)
+			countdownDrawPower:Start(67)
 		end
 		--if self.vb.phase == 2 then
 		--	timerSpearCD:Stop()
