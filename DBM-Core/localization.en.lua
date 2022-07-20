@@ -154,28 +154,28 @@ DBM_CORE_VERSIONCHECK_ENTRY_TWO		= "%s: %s (%s) & %s (%s)"--Two Boss mods
 DBM_CORE_VERSIONCHECK_ENTRY_NO_DBM	= "%s: No boss mod installed"
 DBM_CORE_VERSIONCHECK_FOOTER		= "Found %d player(s) with DBM & %d player(s) with Bigwigs"
 DBM_CORE_VERSIONCHECK_OUTDATED		= "Following %d player(s) have outdated boss mod version: %s"
-DBM_CORE_YOUR_VERSION_OUTDATED      = "WARNING! Your version of DeadlyBossMods is out-of-date. Please visit " .. DBM_CORE_UPDATEREMINDER_URL .. " to get the latest version (rus and eng)."
+DBM_CORE_YOUR_VERSION_OUTDATED      = "WARNING! Your version of Dungeon Boss Master is out-of-date. Please visit " .. DBM_CORE_UPDATEREMINDER_URL .. " to get the latest version (rus and eng)."
 DBM_CORE_VOICE_PACK_OUTDATED		= "Your selected DBM voice pack is missing some sounds supported by DBM. Some warning sounds will still play default sounds. Please download a newer version of voice pack or pack contact author for an update that contains missing audio"
 DBM_CORE_VOICE_MISSING				= "You had a DBM voice pack selected that could not be found. Your selection has been reset to 'None'. If this is an error, make sure your voice pack is properly installed and enabled in addons."
 DBM_CORE_VOICE_DISABLED				= "You currently have at least one DBM voice pack installed but none enabled. If you intend to use a voice pack, make sure it's chosen in 'Spoken Alerts', else uninstall unused voice packs to hide this message"
 DBM_CORE_VOICE_COUNT_MISSING		= "Countdown voice %d is set to a voice/count pack that could not be found. It has be reset to default setting: %s."
 DBM_BIG_WIGS						= "BigWigs"
 
-DBM_CORE_UPDATEREMINDER_HEADER			= "Your version of Deadly Boss Mods is out-of-date.\n Version %s (r%d) is available for download here: " .. DBM_CORE_UPDATEREMINDER_URL .. " "
-DBM_CORE_UPDATEREMINDER_HEADER_ALPHA	= "Your ALPHA version of Deadly Boss Mods is out-of-date.\n You are at least %d test versions behind. It is recommended that DBM users that choose ALPHA versions run the latest ALPHA. Otherwise, they should run latest RELEASE version. Out of date ALPHAs have a stricter version check because they are development versions of DBM."
+DBM_CORE_UPDATEREMINDER_HEADER			= "Your version of Dungeon Boss Master is out-of-date.\n Version %s (r%d) is available for download here: " .. DBM_CORE_UPDATEREMINDER_URL .. " "
+DBM_CORE_UPDATEREMINDER_HEADER_ALPHA	= "Your ALPHA version of Dungeon Boss Master is out-of-date.\n You are at least %d test versions behind. It is recommended that DBM users that choose ALPHA versions run the latest ALPHA. Otherwise, they should run latest RELEASE version. Out of date ALPHAs have a stricter version check because they are development versions of DBM."
 DBM_CORE_UPDATEREMINDER_FOOTER			= "Press " .. (IsMacClient() and "Cmd-C" or "Ctrl-C")  ..  " to copy the download link to your clipboard."
 DBM_CORE_UPDATEREMINDER_FOOTER_GENERIC	= "Press " .. (IsMacClient() and "Cmd-C" or "Ctrl-C")  ..  " to copy the link to your clipboard."
-DBM_CORE_UPDATEREMINDER_DISABLE			= "WARNING: Do to your Deadly Boss Mods being too out of date, it has been force disabled and cannot used until updated. This is to ensure old and incompatible code doesn't cause poor play experience for yourself or fellow raid members."
+DBM_CORE_UPDATEREMINDER_DISABLE			= "WARNING: Do to your Dungeon Boss Master being too out of date, it has been force disabled and cannot used until updated. This is to ensure old and incompatible code doesn't cause poor play experience for yourself or fellow raid members."
 DBM_CORE_UPDATEREMINDER_DISABLE2		= "WARNING: Due to the fact that someone from the raid is using a rogue version of the addon - yours is considered obsolete and should be disconnected permanently. Do not worry, as this version is the work of the player Aleksart163 - the addon will continue to work, but it is still recommended that you visit " .. DBM_CORE_UPDATEREMINDER_URL .. " to update."
 DBM_CORE_UPDATEREMINDER_HOTFIX			= "DBM version you are on has known issues during this boss encounter that are corrected if you update to latest release"
 DBM_CORE_UPDATEREMINDER_HOTFIX_ALPHA	= "DBM version you are on has known issues during this boss encounter that are corrected in an upcoming release (or latest alpha version)"
-DBM_CORE_UPDATEREMINDER_MAJORPATCH		= "WARNING: Do to your Deadly Boss Mods being out of date, DBM has been disabled until updated, since this is a major game patch. This is to ensure old and incompatible code doesn't cause poor play experience for yourself or fellow group members. Make sure you download a newer version from " .. DBM_CORE_UPDATEREMINDER_URL .. " as soon as possible."
-DBM_CORE_UPDATEREMINDER_TESTVERSION		= "WARNING: You are using a version of Deadly Boss Mods not intended to be used with this game version. Please make sure you download the appropriate version for your game client from " .. DBM_CORE_UPDATEREMINDER_URL .. "."
-DBM_CORE_VEM							= "WARNING: You are running both Deadly Boss Mods and Voice Encounter Mods. DBM will not run in this configuration and therefore will not be loaded."
+DBM_CORE_UPDATEREMINDER_MAJORPATCH		= "WARNING: Do to your Dungeon Boss Master being out of date, DBM has been disabled until updated, since this is a major game patch. This is to ensure old and incompatible code doesn't cause poor play experience for yourself or fellow group members. Make sure you download a newer version from " .. DBM_CORE_UPDATEREMINDER_URL .. " as soon as possible."
+DBM_CORE_UPDATEREMINDER_TESTVERSION		= "WARNING: You are using a version of Dungeon Boss Master not intended to be used with this game version. Please make sure you download the appropriate version for your game client from " .. DBM_CORE_UPDATEREMINDER_URL .. "."
+DBM_CORE_VEM							= "WARNING: You are running both Dungeon Boss Master and Voice Encounter Mods. DBM will not run in this configuration and therefore will not be loaded."
 DBM_CORE_3RDPROFILES					= "WARNING: DBM-Profiles not compatible with this version of DBM. It must be removed before DBM can proceed, to avoid conflict."
-DBM_CORE_DPMCORE						= "WARNING: Deadly PvP mods is discontinued and not compatible with this version of DBM. It must be removed before DBM can proceed, to avoid conflict."
+DBM_CORE_DPMCORE						= "WARNING: DBM PvP mods is discontinued and not compatible with this version of DBM. It must be removed before DBM can proceed, to avoid conflict."
 DBM_CORE_UPDATE_REQUIRES_RELAUNCH		= "WARNING: This DBM update will not work correctly if you don't fully restart your game client. This update contains new files or .toc file changes that cannot be loaded via ReloadUI. You may encounter broken functionality or errors if you continue without a client restart."
-DBM_CORE_OUT_OF_DATE_NAG				= "Your version of Deadly Boss Mods is out-of-date. It is recommended you update for this fight so you are not missing an important alert or timer or a yell rest of raid is expecting to see from you."
+DBM_CORE_OUT_OF_DATE_NAG				= "Your version of Dungeon Boss Master is out-of-date. It is recommended you update for this fight so you are not missing an important alert or timer or a yell rest of raid is expecting to see from you."
 
 DBM_CORE_MOVABLE_BAR				= "Drag me!"
 
@@ -184,7 +184,7 @@ DBM_PIZZA_SYNC_INFO					= "|Hplayer:%1$s|h[%1$s]|h sent you a DBM timer"
 DBM_PIZZA_CONFIRM_IGNORE			= "Do you really want to ignore DBM timers from %s for this session?"
 DBM_PIZZA_ERROR_USAGE				= "Usage: /dbm [broadcast] timer <time> <text>. <time> must be greater than 1."
 
-DBM_CORE_MINIMAP_TOOLTIP_HEADER		= "Deadly Boss Mods"
+DBM_CORE_MINIMAP_TOOLTIP_HEADER		= "Dungeon Boss Master"
 DBM_CORE_MINIMAP_TOOLTIP_FOOTER		= "Shift+click or right-click to move\nAlt+shift+click for free drag and drop"
 
 DBM_CORE_RANGECHECK_HEADER			= "Range Check (%dyd)"
@@ -582,7 +582,7 @@ DBM_CORE_AUTO_READY_CHECK_OPTION_TEXT	= "Play ready check sound when boss is pul
 
 -- New special warnings
 DBM_CORE_MOVE_WARNING_BAR			= "Announce movable"
-DBM_CORE_MOVE_WARNING_MESSAGE		= "Thanks for using Deadly Boss Mods"
+DBM_CORE_MOVE_WARNING_MESSAGE		= "Thanks for using Dungeon Boss Master"
 DBM_CORE_MOVE_SPECIAL_WARNING_BAR	= "Special warning movable"
 DBM_CORE_MOVE_SPECIAL_WARNING_TEXT	= "Special Warning"
 
@@ -638,12 +638,12 @@ DBM_INSTANCE_INFO_RESULTS			= "Instance ID scan results. Note that instances mig
 DBM_INSTANCE_INFO_SHOW_RESULTS		= "Players yet to respond: %s"
 
 DBM_CORE_LAG_CHECKING				= "Checking raid Latency..."
-DBM_CORE_LAG_HEADER					= "Deadly Boss Mods - Latency Results"
+DBM_CORE_LAG_HEADER					= "Dungeon Boss Master - Latency Results"
 DBM_CORE_LAG_ENTRY					= "%s: World delay [%d ms] / Home delay [%d ms]"
 DBM_CORE_LAG_FOOTER					= "No Response: %s"
 
 DBM_CORE_DUR_CHECKING				= "Checking raid Durability..."
-DBM_CORE_DUR_HEADER					= "Deadly Boss Mods - Durability Results"
+DBM_CORE_DUR_HEADER					= "Dungeon Boss Master - Durability Results"
 DBM_CORE_DUR_ENTRY					= "%s: Durability [%d percent] / Gear broken [%s]"
 DBM_CORE_LAG_FOOTER					= "No Response: %s"
 

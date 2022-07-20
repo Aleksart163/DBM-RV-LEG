@@ -3,7 +3,8 @@
 -- **            http://www.deadlybossmods.com            **
 -- **        https://www.patreon.com/deadlybossmods       **
 -- *********************************************************
---
+-- ДЛЯ ДУРАЧКОВ
+-- Ниже находится информация с офы Легиона под 2018 год
 -- This addon is written and copyrighted by:
 --    * Paul Emmerich (Tandanu @ EU-Aegwynn) (DBM-Core)
 --    * Martin Verges (Nitram @ EU-Azshara) (DBM-GUI)
@@ -43,9 +44,9 @@
 ----------------------------------------------------------------
 --
 DBM = {
-	Revision = tonumber(("$Revision: 17669 $"):sub(12, -3)), --прошляпанное очко мурчаля и пелии ✔
+	Revision = tonumber(("$Revision: 17670 $"):sub(12, -3)), --прошляпанное очко мурчаля и пелии ✔
 	DisplayVersion = "7.3.37 Right Version",
-	ReleaseRevision = 17668
+	ReleaseRevision = 17669
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -369,7 +370,7 @@ local updateFunctions = {}
 local raid = {}
 local modSyncSpam = {}
 local autoRespondSpam = {}
-local chatPrefix = "<Deadly Boss Mods> "
+local chatPrefix = "<Dungeon Boss Master> "
 local chatPrefixShort = "<DBM> "
 local ver = ("%s (r%d)"):format(DBM.DisplayVersion, DBM.Revision)
 local mainFrame = CreateFrame("Frame", "DBMMainFrame")
@@ -7982,6 +7983,7 @@ do
 			["SpellCaster"] = true,
 			["CasterDps"] = true,
 			["MagicDispeller2"] = true,
+			["HasInterrupt"] = true,
 		},
 		[268] = {	--Brewmaster Monk
 			["Tank"] = true,

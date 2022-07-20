@@ -320,10 +320,10 @@ function mod:OnCombatStart(delay)
 		countdownTaeshalachTech:Start(36-delay) --Искусный прием+++
 	else
 		berserkTimer:Start(-delay)
-		timerScorchingBlazeCD:Start(4.8-delay)
-		timerWakeofFlameCD:Start(5.1-delay)
-		timerTaeshalachTechCD:Start(35-delay, 1)
-		countdownTaeshalachTech:Start(35-delay)
+		timerScorchingBlazeCD:Start(5.5-delay) --Обжигающее пламя+++
+		timerWakeofFlameCD:Start(5.8-delay) --Огненная волна+++
+		timerTaeshalachTechCD:Start(36-delay, 1) --Искусный прием+++
+		countdownTaeshalachTech:Start(36-delay) --Искусный прием+++
 	end
 	--Everyone should lose spread except tanks which should stay stacked. Maybe melee are safe too?
 	if self.Options.RangeFrame and not self:IsTank() then
@@ -422,7 +422,7 @@ function mod:SPELL_CAST_START(args)
 		end
 		if self.vb.foeCount == 1 and not self:IsMythic() then
 			if self:IsEasy() then
-				timerFoeBreakerCD:Start(10, 2)
+				timerFoeBreakerCD:Start(7.5, 2) --Сокрушитель (на офе было 10)
 			else
 				timerFoeBreakerCD:Start(7.5, 2)
 			end
@@ -458,7 +458,7 @@ function mod:SPELL_CAST_START(args)
 		end
 		if self.vb.rendCount == 1 and not self:IsMythic() and not self:IsLFR() then
 			if self:IsNormal() then
-				timerFlameRendCD:Start(10, 2)
+				timerFlameRendCD:Start(7.5, 2) --Разрывающее пламя (на офе в обычке было 10)
 			else
 				timerFlameRendCD:Start(7.5, 2)
 			end
@@ -632,14 +632,14 @@ function mod:SPELL_AURA_REMOVED(args)
 		if self.vb.phase == 2 then
 			warnPhase:Play("ptwo")
 			warned_preP2 = true
-			timerFlareCD:Start(self:IsMythic() and 10) --and 8 or 10
+			timerFlareCD:Start(10) --and 8 or 10
 			if self:IsMythic() then
 				countdownFlare:Start(10)
 			end
 		elseif self.vb.phase == 3 then
 			warnPhase:Play("pthree")
 			warned_preP4 = true
-			timerFlareCD:Start(self:IsMythic() and 10) --and 8 or 10
+			timerFlareCD:Start(10) --and 8 or 10
 			if self:IsMythic() then
 				countdownFlare:Start(10)
 			end
@@ -706,8 +706,8 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 			--Set sequence
 			--Foebreaker instantly so no need for timer
 			if self:IsEasy() then--Check in LFR
-				timerFlameRendCD:Start(5, 1)
-				timerTempestCD:Start(20)
+				timerFlameRendCD:Start(3.5, 1) --Разрывающее пламя (на офе в обычке было 5)
+				timerTempestCD:Start(15) --Опаляющая буря (на офе в обычке было 20 сек)
 			else
 				timerFlameRendCD:Start(4, 1)
 				timerTempestCD:Start(15)
@@ -761,23 +761,23 @@ end
 
 function mod:UNIT_HEALTH(uId)
 	if self:IsLFR() then
-		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 121975 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.64 then
+		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 121975 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.66 then
 			warned_preP1 = true
 			warnPhase2:Show()
 		end
 	elseif self:IsMythic() then
-		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 121975 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.84 then
+		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 121975 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.86 then
 			warned_preP1 = true
 			warnPhase2:Show()
-		elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 121975 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.39 then
+		elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 121975 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.41 then
 			warned_preP3 = true
 			warnPhase3:Show()
 		end
-	else
-		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 121975 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.84 then
+	else --героик и обычка
+		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 121975 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.86 then
 			warned_preP1 = true
 			warnPhase2:Show()
-		elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 121975 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.44 then
+		elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 121975 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.46 then
 			warned_preP3 = true
 			warnPhase3:Show()
 		end

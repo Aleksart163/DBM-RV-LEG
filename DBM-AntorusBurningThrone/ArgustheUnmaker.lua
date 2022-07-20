@@ -47,7 +47,7 @@ local warnSargRage					= mod:NewTargetAnnounce(257869, 3) --Ярость Сар�
 local warnSargFear					= mod:NewTargetAnnounce(257931, 3) --Страх перед Саргерасом
 --Stage Two: The Protector Redeemed
 local warnSoulburst					= mod:NewTargetAnnounce(250669, 2) --Взрывная душа
-local warnSoulbomb					= mod:NewTargetNoFilterAnnounce(251570, 3) --Бомба души
+local warnSoulbomb					= mod:NewTargetNoFilterAnnounce(251570, 4) --Бомба души
 local warnAvatarofAggra				= mod:NewTargetNoFilterAnnounce(255199, 1) --Аватара Агграмара
 --Stage Three: The Arcane Masters
 local warnCosmicRay					= mod:NewTargetAnnounce(252729, 3) --Космический луч
@@ -124,7 +124,8 @@ local timerEdgeofAnniCD				= mod:NewCDTimer(5.5, 258834, nil, nil, nil, 3, nil, 
 mod:AddTimerLine(SCENARIO_STAGE:format(4))
 local timerDeadlyScytheCD			= mod:NewCDTimer(5.5, 258039, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Смертоносная коса
 local timerReorgModuleCD			= mod:NewCDCountTimer(48, 256389, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON..DBM_CORE_MYTHIC_ICON) --Модуль пересозидания
-local timerEndofAllThings			= mod:NewCastTimer(15, 256544, nil, nil, nil, 2, nil, DBM_CORE_INTERRUPT_ICON..DBM_CORE_DEADLY_ICON) --Конец всего сущего
+local timerReapSoul					= mod:NewCastTimer(15.8, 256542, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Жатва душ
+local timerEndofAllThings			= mod:NewCastTimer(19.8, 256544, nil, nil, nil, 2, nil, DBM_CORE_INTERRUPT_ICON..DBM_CORE_DEADLY_ICON) --Конец всего сущего
 
 local yellGiftofSky					= mod:NewYell(258646, L.SkyText, nil, nil, "YELL") --Дар небес
 local yellGiftofSky2				= mod:NewFadesYell(258646, nil, nil, nil, "YELL") --Дар небес
@@ -156,7 +157,7 @@ local countdownSoulScythe			= mod:NewCountdown("Alt5", 258838, "Tank", nil, 3) -
 local countdownDeadlyScythe			= mod:NewCountdown("Alt5", 258039, false, nil, 3) --Смертоносная коса Off by default since it'd be almost non stop, so users can elect into this one
 local countdownReorgModule			= mod:NewCountdown("Alt48", 256389, "RangedDps", nil, 5) --Модуль пересозидания
 local countdownApocModule			= mod:NewCountdown("Alt48", 258029, "Dps", nil, 5)
-local countdownEndofAllThings		= mod:NewCountdown(15, 256544, nil, nil, 5) --Конец всего сущего
+local countdownEndofAllThings		= mod:NewCountdown(19.8, 256544, nil, nil, 5) --Конец всего сущего
 
 mod:AddSetIconOption("SetIconGift", 255594, true, false, {6, 5}) --Небо и море 5 and 6
 mod:AddSetIconOption("SetIconOnAvatar", 255199, true, false, {4}) --Аватара Агграмара 4
@@ -389,10 +390,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 256544 then --Конец всего сущего
 		warnEndofAllThings:Show()
 		warnEndofAllThingsPlay("kickcast")
-		specWarnEndofAllThings:Schedule(12)
-		specWarnEndofAllThings:ScheduleVoice(12, "kickcast")
-		timerEndofAllThings:Start()
-		countdownEndofAllThings:Start()
+		self:SendSync("EndofAllThings")
 	elseif spellId == 248317 then
 		self.vb.blightOrbCount = self.vb.blightOrbCount + 1
 		warnBlightOrb:Show(self.vb.blightOrbCount)
@@ -473,8 +471,9 @@ function mod:SPELL_CAST_START(args)
 				end
 			end
 		end
-	elseif spellId == 256542 then--Reap Soul
+	elseif spellId == 256542 then --Жатва душ (под обычку таймер норм)
 		warnReapSoul:Show()
+		timerReapSoul:Start()
 		if not self:IsMythic() then
 			self.vb.phase = 4
 			warned_preP6 = true
@@ -1003,10 +1002,10 @@ function mod:OnSync(msg, sender)
 end
 
 function mod:UNIT_HEALTH(uId)
-	if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 124828 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.74 then --скоро фаза 2
+	if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 124828 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.76 then --скоро фаза 2
 		warned_preP1 = true
 		warnPhase1:Show()
-	elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 124828 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.44 then --скоро фаза 3
+	elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 124828 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.46 then --скоро фаза 3
 		warned_preP3 = true
 		warnPhase2:Show()
 	end
@@ -1020,5 +1019,14 @@ function mod:UNIT_DIED(args)
 			warned_preP5 = true
 			warnPhase3:Show()
 		end
+	end
+end
+
+function mod:OnSync(msg)
+	if msg == "EndofAllThings" then -- под обычку таймер норм где 19.8 сек каста
+		specWarnEndofAllThings:Schedule(12)
+		specWarnEndofAllThings:ScheduleVoice(12, "kickcast")
+		timerEndofAllThings:Start()
+		countdownEndofAllThings:Start()
 	end
 end

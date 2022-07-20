@@ -503,24 +503,24 @@ end
 
 function mod:UNIT_HEALTH(uId)
 	if self:IsHeroic() or self:IsNormal() or self:IsLFR() then
-		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 124158 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.70 then --Скоро фаза 2
+		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 124158 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.72 then --Скоро фаза 2
 			warned_preP1 = true
 			warnPhase2:Show()
-		elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 124158 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.37 then --Скоро фаза 3
+		elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 124158 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.40 then --Скоро фаза 3
 			warned_preP3 = true
 			warnPhase3:Show()
 		end
 	elseif self:IsMythic() then
-		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 124158 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.84 then --Скоро фаза 2 +
+		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 124158 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.86 then --Скоро фаза 2 +
 			warned_preP1 = true
 			warnPhase2:Show()
-		elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 124158 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.64 then --Скоро фаза 3 +
+		elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 124158 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.66 then --Скоро фаза 3 +
 			warned_preP3 = true
 			warnPhase3:Show()
-		elseif self.vb.phase == 3 and warned_preP4 and not warned_preP5 and self:GetUnitCreatureId(uId) == 124158 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.44 then --Скоро фаза 4 +
+		elseif self.vb.phase == 3 and warned_preP4 and not warned_preP5 and self:GetUnitCreatureId(uId) == 124158 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.46 then --Скоро фаза 4 +
 			warned_preP5 = true
 			warnPhase4:Show()
-		elseif self.vb.phase == 4 and warned_preP6 and not warned_preP7 and self:GetUnitCreatureId(uId) == 124158 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.24 then --Скоро фаза 5 +
+		elseif self.vb.phase == 4 and warned_preP6 and not warned_preP7 and self:GetUnitCreatureId(uId) == 124158 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.26 then --Скоро фаза 5 +
 			warned_preP7 = true
 			warnPhase5:Show()
 		end

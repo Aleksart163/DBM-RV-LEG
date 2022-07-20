@@ -98,15 +98,15 @@ L:SetWarningLocalization({
 })
 
 L:SetOptionLocalization({
-	Phase2 = "Warn in advance about phase 2 (on ~70%, on ~84% in mythic)",
-	Phase3 = "Warn in advance about phase 3 (on ~37%, on ~64% in mythic)",
-	Phase4 = "Warn in advance about phase 4 (on ~44% in mythic)",
-	Phase5 = "Warn in advance about phase 5 (on ~24% in mythic)"
+	Phase2 = "Warn in advance about phase 2 (on ~72%, on ~86% in mythic)",
+	Phase3 = "Warn in advance about phase 3 (on ~40%, on ~66% in mythic)",
+	Phase4 = "Warn in advance about phase 4 (on ~46% in mythic)",
+	Phase5 = "Warn in advance about phase 5 (on ~26% in mythic)"
 })
 
 L:SetMiscLocalization({
 	DispelMe = "Dispel Me!",
-	YellPullImonar = "Your bones will be my biggest payday.", --пеля прошляпнул очко
+	YellPullImonar = "Your bones will be my biggest payday.", --пеля прошляпнул очко ✔
 	YellPullImonar2 = "Think I'll keep a few of your parts as a trophy.",
 	YellPullImonar3 = "Your heads will adorn my trophy room."
 })
@@ -189,8 +189,8 @@ L:SetWarningLocalization({
 })
 
 L:SetOptionLocalization({
-	Phase1 = "Warn in advance about phase 2 (on ~84%)",
-	Phase3 = "Warn in advance about phase 3 (on ~44%, on ~39% in mythic)",
+	Phase1 = "Warn in advance about phase 2 (on ~86%)",
+	Phase3 = "Warn in advance about phase 3 (on ~46%, on ~41% in mythic)",
 	FlameRend1 = "Show special warning during $spell:245463 for the first group (only in mythic)",
 	FlameRend2 = "Show special warning during $spell:245463 for the second group (only in mythic)",
 	FlameRend3 = "Show special warning during $spell:245463 when it's not your turn (only in mythic)",
@@ -224,9 +224,9 @@ L:SetTimerLocalization({
 })
 
 L:SetOptionLocalization({
-	Phase1 = "Warn in advance about phase 2 (on ~74%)",
+	Phase1 = "Warn in advance about phase 2 (on ~76%)",
 	Phase2 = "Announce Phase 2",
-	Phase3 = "Warn in advance about phase 3 (on ~44%)",
+	Phase3 = "Warn in advance about phase 3 (on ~46%)",
 	Phase4 = "Announce Phase 3",
 	Phase5 = "Warn in advance about phase 4 (on 1 Constellar Designate)",
 	Phase6 = "Announce Phase 4",
