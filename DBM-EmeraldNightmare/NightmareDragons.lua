@@ -92,6 +92,8 @@ local timerBellowingRoarCD			= mod:NewCDTimer(44.5, 204078, 118699, nil, nil, 2)
 --Taerar
 local countdownShadesOfTaerar		= mod:NewCountdown(48.5, 204100, "Tank")
 
+local berserkTimer					= mod:NewBerserkTimer(600)
+
 mod:AddRangeFrameOption(10, 203787)
 mod:AddSetIconOption("SetIconOnInfection", 203787, false)
 mod:AddSetIconOption("SetIconOnOozes", 205298, false, true)
@@ -204,6 +206,7 @@ function mod:OnCombatStart(delay)
 	self:RegisterShortTermEvents(
 		"INSTANCE_ENCOUNTER_ENGAGE_UNIT"--We register here to make sure we wipe vb.on pull
 	)
+	berserkTimer:Start(-delay) --норм под обычку
 	timerBreathCD:Start(15.5, Ysondre)
 	timerDefiledSpiritCD:Start(30-delay)
 	timerNightmareBlastCD:Start(40-delay)--40 on mythic, it changing on heroic too is assumed. Was 22.5 before

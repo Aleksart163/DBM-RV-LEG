@@ -3,7 +3,7 @@ if GetLocale() ~= "ruRU" then return end
 if not DBM_GUI_Translations then DBM_GUI_Translations = {} end
 local L = DBM_GUI_Translations
 
-L.MainFrame = "Deadly Boss Mods"
+L.MainFrame = "Dungeon Boss Master"
 
 L.TranslationByPrefix		= "Адаптация под uwow.biz - "
 L.TranslationBy 			= "Aleksart163 (Tielle х100)"

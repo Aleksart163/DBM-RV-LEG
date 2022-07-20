@@ -2,7 +2,7 @@ DBM_GUI_Translations = {}
 
 local L = DBM_GUI_Translations
 
-L.MainFrame = "Deadly Boss Mods"
+L.MainFrame = "Dungeon Boss Master"
 
 L.TranslationByPrefix		= "Adaptation for uwow.biz - "
 L.TranslationBy 			= "Aleksart163 (Tielle х100)"
