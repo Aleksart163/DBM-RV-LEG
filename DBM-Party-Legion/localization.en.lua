@@ -366,10 +366,18 @@ L:SetGeneralLocalization({
 })
 
 L:SetWarningLocalization({
+	Eating = "%s casting a spell Eating",
+	SiphoningMagic = "%s casting a spell Siphoning Magic",
+	Purifying = "%s casting a spell Purifying",
+	Draining = "%s casting a spell Draining",
 	warnSpy = "Spy detected"
 })
 
 L:SetOptionLocalization({
+	Eating = "Show warning when $spell:208585 is being cast",
+	SiphoningMagic = "Show warning when $spell:208427 is being cast",
+	Purifying = "Show warning when $spell:209767 is being cast",
+	Draining = "Show warning when $spell:208334 is being cast",
 	warnSpy = "Special warning when a spy is detected",
 	SpyHelper = "Help identify the spy",
 	timerRoleplay = "Show timer to the start of the battle with Advisor Melandrus"
@@ -720,8 +728,9 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	Perephase2 = "Time to face my quarry toe-to-toe!",
-	Perephase1 = "We ride, Midnight! To victory!"
+	SharedSufferingYell = "Shared Suffering on %s. Get away from me!"
+--	Perephase2 = "Time to face my quarry toe-to-toe!",
+--	Perephase1 = "We ride, Midnight! To victory!"
 })
 
 -----------------------

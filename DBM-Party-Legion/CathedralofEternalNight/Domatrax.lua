@@ -31,10 +31,10 @@ local specWarnChaoticEnergy2		= mod:NewSpecialWarningEnd(234107, nil, nil, nil, 
 local specWarnAdds					= mod:NewSpecialWarningAdds(200597, "-Healer", nil, nil, 1, 2) --Открыть портал Скверны
 
 local timerFelsoulCleaveCD			= mod:NewCDTimer(17, 236543, nil, "Melee", nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Удар оскверненной души
-local timerChaoticEnergyCD			= mod:NewCDTimer(31, 234107, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Хаотическая энергия +++
+local timerChaoticEnergyCD			= mod:NewCDTimer(30.5, 234107, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Хаотическая энергия +++
 local timerApproachingDoom			= mod:NewCastTimer(20, 241622, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON) --Приближение погибели +++
 
-local countdownChaosEnergy			= mod:NewCountdown(31, 234107, nil, nil, 5) --Хаотическая энергия
+local countdownChaosEnergy			= mod:NewCountdown(30.5, 234107, nil, nil, 5) --Хаотическая энергия
 local countdownChaosEnergy2			= mod:NewCountdownFades("Alt5", 234107, nil, nil, 5) --Хаотическая энергия
 
 mod:AddInfoFrameOption(238410, true)

@@ -9,7 +9,7 @@ mod:SetOOCBWComms()
 mod.isTrashMod = true
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 209027 212031 209485 209410 209413 211470 211464 209404 209495 225100 211299 209378 207980 207979 214692 214688 214690 208334 212773",
+	"SPELL_CAST_START 209027 212031 209485 209410 209413 211470 211464 209404 209495 225100 211299 209378 207980 207979 214692 214688 214690 208334 212773 208585 209767 208427",
 	"SPELL_CAST_SUCCESS 214688",
 	"SPELL_AURA_APPLIED 209033 209512 207981 214690 212773",
 	"SPELL_AURA_REMOVED 214690",
@@ -17,10 +17,8 @@ mod:RegisterEvents(
 	"GOSSIP_SHOW",
 	"UNIT_DIED"
 )
---208585 Поглощение пищи... (баф на хп от еды)
---208334 Иссушение... (баф на крит от сферы)
---209767 Очищение... (баф на снижение урона от фолиата)
---Квартал звезд
+
+--Квартал звезд трэш
 local warnPhase2					= mod:NewAnnounce("warnSpy", 1, 248732) --Шпион обнаружен , nil, nil, true
 local warnDrainMagic				= mod:NewCastAnnounce(209485, 4) --Похищение магии
 local warnCripple					= mod:NewTargetAnnounce(214690, 3) --Увечье
@@ -29,6 +27,10 @@ local warnShadowBoltVolley			= mod:NewCastAnnounce(214692, 4) --Залп стр�
 local warnFelDetonation				= mod:NewCastAnnounce(211464, 4) --Взрыв Скверны
 local warnSubdue					= mod:NewTargetAnnounce(212773, 4) --Подчинение
 local warnSubdue2					= mod:NewCastAnnounce(212773, 3) --Подчинение
+local warnEating					= mod:NewAnnounce("Eating", 1, 208585) --Поглощение пищи (баф на хп от еды)
+local warnSiphoningMagic			= mod:NewAnnounce("SiphoningMagic", 1, 208427) --Похищение магии (Магический светильник)
+local warnPurifying					= mod:NewAnnounce("Purifying", 1, 209767) --Очищение (фолиант скверны)
+local warnDraining					= mod:NewAnnounce("Draining", 1, 208334) --Иссушение (сфера скверны)
 
 local specWarnShadowBoltVolley		= mod:NewSpecialWarningDodge(214692, "-Tank", nil, nil, 2, 3) --Залп стрел Тьмы
 local specWarnCarrionSwarm			= mod:NewSpecialWarningDodge(214688, nil, nil, nil, 2, 2) --Темная стая
@@ -64,7 +66,7 @@ local timerFelDetonationCD			= mod:NewCDTimer(12, 211464, nil, nil, nil, 2, nil,
 local timerWhirlingBladesCD			= mod:NewCDTimer(18, 209378, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Крутящиеся клинки
 local timerShockwaveCD				= mod:NewCDTimer(8.5, 207979, nil, nil, nil, 3, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Ударная волна
 
-local timerRoleplay					= mod:NewTimer(29, "timerRoleplay", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7) --Ролевая игра
+local timerRoleplay					= mod:NewTimer(28.5, "timerRoleplay", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7) --Ролевая игра
 
 local countdownFelDetonation		= mod:NewCountdown(12, 211464, nil, nil, 5) --Взрыв Скверны
 
@@ -72,6 +74,8 @@ local yellSubdue					= mod:NewYell(212773, nil, nil, nil, "YELL") --Подчин
 local yellDisintegrationBeam		= mod:NewYell(207981, nil, nil, nil, "YELL") --Луч дезинтеграции
 local yellCripple					= mod:NewYell(214690, nil, nil, nil, "YELL") --Увечье
 local yellCarrionSwarm				= mod:NewYell(214688, nil, nil, nil, "YELL") --Темная стая
+
+local NameP = DBM:GetUnitFullName("target")
 
 mod:AddBoolOption("SpyHelper", true)
 
@@ -96,7 +100,7 @@ function mod:SPELL_CAST_START(args)
 		specWarnChargedBlast:Play("shockwave")
 	elseif spellId == 209485 then --Похищение магии
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
-			specWarnDrainMagic:Show(args.sourceName)
+			specWarnDrainMagic:Show()
 			specWarnDrainMagic:Play("kickcast")
 		else
 			warnDrainMagic:Show()
@@ -146,6 +150,7 @@ function mod:SPELL_CAST_START(args)
 			specWarnShadowBoltVolley:Show()
 			specWarnShadowBoltVolley:Play("watchstep")
 		end
+		self:ResetGossipState()
 	elseif spellId == 214688 then --Темная стая
 		self:BossTargetScanner(args.sourceGUID, "CarrionSwarmTarget", 0.1, 2)
 	elseif spellId == 214690 then --Увечье
@@ -158,6 +163,14 @@ function mod:SPELL_CAST_START(args)
 			warnSubdue2:Show()
 			warnSubdue2:Play("kickcast")
 		end
+	elseif spellId == 208585 then --Поглощение пищи
+		warnEating:Show(args.sourceName)
+	elseif spellId == 208334 then --Иссушение
+		warnDraining:Show(args.sourceName)
+	elseif spellId == 209767 then --Очищение
+		warnPurifying:Show(args.sourceName)
+	elseif spellId == 208427 then --Похищение магии
+		warnSiphoningMagic:Show(args.sourceName)
 	end
 end
 
@@ -359,6 +372,104 @@ do
 			end
 		end
 		
+		if cid == 105249 then --Закуски ночной тени
+			if select('#', GetGossipOptions()) > 0 then
+				SelectGossipOption(1)
+				CloseGossip()
+			end
+		end
+		
+		if cid == 105340 then --Теневой цветок
+			if select('#', GetGossipOptions()) > 0 then
+				SelectGossipOption(1)
+				CloseGossip()
+			end
+		end
+		
+		if cid == 105117 then --Настой священной ночи
+			if select('#', GetGossipOptions()) > 0 then
+				SelectGossipOption(1)
+				CloseGossip()
+			end
+		end
+		
+		if cid == 106110 then --Промокший свиток
+			if select('#', GetGossipOptions()) > 0 then
+				SelectGossipOption(1)
+				CloseGossip()
+			end
+		end
+		
+		if cid == 106024 then --Магический светильник
+			if select('#', GetGossipOptions()) > 0 then
+				SelectGossipOption(1)
+				CloseGossip()
+			end
+		end
+		
+		if cid == 106018 then --Рыночные товары
+			if select('#', GetGossipOptions()) > 0 then
+				SelectGossipOption(1)
+				CloseGossip()
+			end
+		end
+		
+		if cid == 106113 then --Статуя ночнорожденного в натуральную величину
+			if select('#', GetGossipOptions()) > 0 then
+				SelectGossipOption(1)
+				CloseGossip()
+			end
+		end
+		
+		if cid == 105831 then --Инфернальный фолиант
+			if select('#', GetGossipOptions()) > 0 then
+				SelectGossipOption(1)
+				CloseGossip()
+			end
+		end
+		
+		if cid == 105157 then --Проводник магической энергии
+			if select('#', GetGossipOptions()) > 0 then
+				SelectGossipOption(1)
+				CloseGossip()
+			end
+		end
+		
+		if cid == 105160 then --Сфера Скверны
+			if select('#', GetGossipOptions()) > 0 then
+				SelectGossipOption(1)
+				CloseGossip()
+			end
+		end
+		
+		if cid == 106108 then --Отвар из звездной розы
+			if select('#', GetGossipOptions()) > 0 then
+				SelectGossipOption(1)
+				CloseGossip()
+			end
+		end
+		
+		if cid == 105215 then --Выброшенный хлам
+			if select('#', GetGossipOptions()) > 0 then
+				SelectGossipOption(1)
+				CloseGossip()
+			end
+		end
+		
+		if cid == 106112 then --Раненый ночнорожденный
+			if select('#', GetGossipOptions()) > 0 then
+				SelectGossipOption(1)
+				CloseGossip()
+			end
+		end
+		
+		if cid == 108154 then --Чародейский ключ
+			if select('#', GetGossipOptions()) > 0 then
+				SelectGossipOption(1)
+				CloseGossip()
+			end
+		end
+		
 		-- Suspicious noble
 		if cid == 107486 then 
 			if select('#', GetGossipOptions()) > 0 then
@@ -387,7 +498,7 @@ do
 			DBM.InfoFrame:Show(5, "function", updateInfoFrame)
 		elseif msg == "Finished" then
 			warnPhase2:Show()
-			self:ResetGossipState()
+		--	self:ResetGossipState()
 		--	self:Finish()
 		elseif msg == "RolePlayMel" then
 			timerRoleplay:Start()

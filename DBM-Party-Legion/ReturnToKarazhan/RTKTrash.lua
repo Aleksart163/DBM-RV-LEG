@@ -150,7 +150,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnCursedTouch2:CombinedShow(0.5, args.destName)
 			specWarnCursedTouch2:Play("dispelnow")
 		end
-	elseif spellId == 228610 then --Горящее клеймо
+	elseif spellId == 228610 and self:AntiSpam(3, 1) then --Горящее клеймо
 		if args:IsPlayer() then
 			specWarnBurningBrand:Show()
 			specWarnBurningBrand:Play("runout")

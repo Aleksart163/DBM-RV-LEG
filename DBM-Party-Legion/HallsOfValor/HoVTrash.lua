@@ -8,13 +8,13 @@ mod.isTrashMod = true
 
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 199805 192563 199726 199382 200901 192158 192288 210875 199652 200969 198888 198931",
+	"SPELL_CAST_START 199805 192563 199726 199382 200901 192158 192288 210875 199652 200969 198888 198931 191401 198892",
+	"SPELL_CAST_SUCCESS 199382 200901",
 	"SPELL_AURA_APPLIED 215430 199652",
 	"SPELL_AURA_APPLIED_DOSE 199652",
 	"SPELL_AURA_REMOVED 215430 199652",
-	"SPELL_CAST_SUCCESS 199382 200901",
-	"SPELL_PERIODIC_DAMAGE 198959 199818",
-	"SPELL_PERIODIC_MISSED 198959 199818",
+	"SPELL_PERIODIC_DAMAGE 198959 199818 198903",
+	"SPELL_PERIODIC_MISSED 198959 199818 198903",
 	"GOSSIP_SHOW",
 	"CHAT_MSG_MONSTER_YELL",
 	"UNIT_DIED"
@@ -25,7 +25,16 @@ local warnThunderstrike				= mod:NewTargetAnnounce(215430, 4) --Громовой
 local warnCrackle					= mod:NewTargetAnnounce(199805, 3) --Разряд
 local warnChargedPulse				= mod:NewCastAnnounce(210875, 4) --Пульсирующий заряд
 local warnHealingLight				= mod:NewCastAnnounce(198931, 3) --Исцеляющий свет
+local warnCracklingStorm			= mod:NewTargetAnnounce(198892, 3) --Грохочущая буря
 
+--local warnPenetratingShot			= mod:NewCastAnnounce(199210, 3) --Пробивающий выстрел
+
+--local specWarnPenetratingShot		= mod:NewSpecialWarningDodge(199210, nil, nil, nil, 2, 3) --Пробивающий выстрел
+
+local specWarnCracklingStorm		= mod:NewSpecialWarningYouRun(198892, nil, nil, nil, 4, 3) --Грохочущая буря
+local specWarnCracklingStorm2		= mod:NewSpecialWarningCloseMoveAway(198892, nil, nil, nil, 2, 3) --Грохочущая буря
+local specWarnCracklingStorm3		= mod:NewSpecialWarningYouMove(198903, nil, nil, nil, 1, 2) --Грохочущая буря
+local specWarnShoot					= mod:NewSpecialWarningYou(191401, nil, nil, nil, 1, 2) --Стремительный выстрел
 local specWarnHealingLight			= mod:NewSpecialWarningInterrupt(198931, "HasInterrupt", nil, nil, 1, 2) --Исцеляющий свет
 local specWarnLightningBreath		= mod:NewSpecialWarningDodge(198888, nil, nil, nil, 2, 3) --Грозовое дыхание
 local specWarnCrackle2				= mod:NewSpecialWarningYouMove(199818, nil, nil, nil, 1, 2) --Разряд
@@ -65,11 +74,36 @@ local countdownSanctify				= mod:NewCountdown("Alt26.5", 192158, nil, nil, 3) --
 local yellCrackle					= mod:NewYell(199805, nil, nil, nil, "YELL") --Разряд
 local yellThunderstrike				= mod:NewYell(215430, nil, nil, nil, "YELL") --Громовой удар
 local yellThunderstrike2			= mod:NewShortFadesYell(215430, nil, nil, nil, "YELL") --Громовой удар
+local yellCracklingStorm			= mod:NewYell(198892, nil, nil, nil, "YELL") --Грохочущая буря
 
 local eyeShortName = DBM:GetSpellInfo(91320)--Inner Eye
 
 mod:AddBoolOption("BossActivation", true)
 mod:AddRangeFrameOption(8, 215430) --Громовой удар
+
+function mod:CracklingStormTarget(targetname, uId) --Грохочущая буря ✔
+	if not targetname then return end
+	if targetname == UnitName("player") then
+		specWarnCracklingStorm:Show()
+		specWarnCracklingStorm:Play("runaway")
+		yellCracklingStorm:Yell()
+	elseif self:CheckNearby(10, targetname) then
+		specWarnCracklingStorm2:Show(targetname)
+		specWarnCracklingStorm2:Play("runout")
+	else
+		warnCracklingStorm:Show(targetname)
+	end
+end
+
+function mod:ShootTarget(targetname, uId) --Выстрел ✔
+	if not targetname then return end
+	if self:AntiSpam(2, targetname) then
+		if targetname == UnitName("player") then
+			specWarnShoot:Show()
+			specWarnShoot:Play("watchstep")
+		end
+	end
+end
 
 function mod:CrackleTarget(targetname, uId)
 	if not targetname then
@@ -137,6 +171,10 @@ function mod:SPELL_CAST_START(args)
 			warnHealingLight:Show()
 			warnHealingLight:Play("kickcast")
 		end
+	elseif spellId == 191401 then --Стремительный выстрел
+		self:BossTargetScanner(args.sourceGUID, "ShootTarget", 0.1, 2)
+	elseif spellId == 198892 then --Грохочущая буря
+		self:BossTargetScanner(args.sourceGUID, "CracklingStormTarget", 0.1, 2)
 	end
 end
 
@@ -281,6 +319,11 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spell
 		if self:IsHard() then
 			specWarnCrackle2:Show()
 			specWarnCrackle2:Play("runaway")
+		end
+	elseif spellId == 198903 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then --Грохочущая буря
+		if self:IsHard() then
+			specWarnCracklingStorm3:Show()
+			specWarnCracklingStorm3:Play("runaway")
 		end
 	end
 end

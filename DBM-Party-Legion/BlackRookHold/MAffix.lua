@@ -6,15 +6,16 @@ mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 mod:SetZone()
 
 mod:RegisterEvents(
+	"SPELL_CAST_SUCCESS 688 691 157757",
 	"SPELL_AURA_APPLIED 240447 240559 209858",
 	"SPELL_AURA_APPLIED_DOSE 240559 209858",
-	"SPELL_AURA_REMOVED 240447",
-	"SPELL_PERIODIC_DAMAGE 226512",
-	"SPELL_PERIODIC_MISSED 226512"
+	"SPELL_AURA_REMOVED 240447 240559",
+	"SPELL_PERIODIC_DAMAGE 226512 240559",
+	"SPELL_PERIODIC_MISSED 226512 240559"
 )
 
---Прошляпанное очко Мурчаля (✔)
-local warnNecroticWound				= mod:NewStackAnnounce(209858, 4, nil, nil, 2) --Некротическая язва
+--Прошляпанное очко Мурчаля ✔
+local warnNecroticWound				= mod:NewStackAnnounce(209858, 3, nil, nil, 2) --Некротическая язва
 
 local specWarnNecroticWound			= mod:NewSpecialWarningStack(209858, nil, 10, nil, nil, 1, 3) --Некротическая язва
 local specWarnGrievousWound			= mod:NewSpecialWarningStack(240559, nil, 5, nil, nil, 1, 2) --Тяжкая рана
@@ -24,6 +25,31 @@ local specWarnQuake2				= mod:NewSpecialWarningMoveAway(240447, "Melee", nil, ni
 
 local timerQuake					= mod:NewCastTimer(2.5, 240447, nil, nil, nil, 2, nil, DBM_CORE_INTERRUPT_ICON..DBM_CORE_DEADLY_ICON) --Землетрясение
 local timerNecroticWound			= mod:NewTargetTimer(9, 209858, nil, "Tank|Healer", nil, 3, nil, DBM_CORE_TANK_ICON..DBM_CORE_HEALER_ICON) --Некротическая язва
+
+local dota5s = false
+local dispel = false
+local kick = false
+
+--[[
+function mod:SPELL_CAST_SUCCESS(args)
+	local spellId = args.spellId
+	if spellId == 688 then --диспел
+		if args:IsPlayer(args.sourceGUID) and not dispel then
+			dispel = true
+			kick = false
+		end
+	elseif spellId == 691 then --кик каста
+		if args:IsPlayer(args.sourceGUID) and not kick then
+			kick = true
+			dispel = false
+		end
+	elseif spellId == 157757 then --кик каста
+		if args:IsPlayer(args.sourceGUID) and not kick then
+			kick = true
+			dispel = false
+		end
+	end
+end]]
 
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
@@ -41,6 +67,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			if amount >= 5 then
 				specWarnGrievousWound:Show(amount)
 				specWarnGrievousWound:Play("stackhigh")
+				dota5s = true
 			end
 		end
 	elseif spellId == 209858 then --Некротическая язва
@@ -64,14 +91,21 @@ function mod:SPELL_AURA_REMOVED(args)
 		timerQuake:Stop()
 	elseif spellId == 209858 then --Некротическая язва
 		timerNecroticWound:Cancel(args.destName)
+	elseif spellId == 240559 then --Тяжкая рана
+		if args:IsPlayer() then
+			dota5s = false
+		end
 	end
 end
 
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
 	if spellId == 226512 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
-		if not self:IsNormal() then
-			specWarnSanguineIchor:Show()
-			specWarnSanguineIchor:Play("runaway")
+		specWarnSanguineIchor:Show()
+		specWarnSanguineIchor:Play("runaway")
+	elseif spellId == 240559 and destGUID == UnitGUID("player") then
+		if dota5s and self:AntiSpam(5, 1) then
+			specWarnGrievousWound:Show(5)
+			specWarnGrievousWound:Play("stackhigh")
 		end
 	end
 end

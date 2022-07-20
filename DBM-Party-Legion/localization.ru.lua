@@ -374,10 +374,18 @@ L:SetGeneralLocalization({
 })
 
 L:SetWarningLocalization({
+	Eating = "%s применяет заклинание Поглощение пищи",
+	SiphoningMagic = "%s применяет заклинание Похищение магии",
+	Purifying = "%s применяет заклинание Очищение",
+	Draining = "%s применяет заклинание Иссушение",
 	warnSpy = "Шпион обнаружен"
 })
 
 L:SetOptionLocalization({
+	Eating = "Предупреждать о применении заклинания $spell:208585",
+	SiphoningMagic = "Предупреждать о применении заклинания $spell:208427",
+	Purifying = "Предупреждать о применении заклинания $spell:209767",
+	Draining = "Предупреждать о применении заклинания $spell:208334",
 	warnSpy = "Спец-предупреждение когда шпион обнаружен",
 	SpyHelper = "Помочь идентифицировать шпиона",
 	timerRoleplay = "Отсчет времени до начала боя с Советник Меландр"
@@ -731,8 +739,9 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	Perephase2 = "Что ж, сразимся лицом к лицу!",
-	Perephase1 = "Вперед, Полночь, к победе!"
+	SharedSufferingYell = "Разделенные муки на %s. УЁБЫВАЙТЕ от меня!"
+--	Perephase2 = "Что ж, сразимся лицом к лицу!",
+--	Perephase1 = "Вперед, Полночь, к победе!"
 })
 
 ----------

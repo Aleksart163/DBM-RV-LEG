@@ -44,7 +44,7 @@ local countdownSweep				= mod:NewCountdown("Alt15.5", 193092, "Tank", nil, 3) --
 --local countdownSweep				= mod:NewCountdownFades("Alt15.5", 193092, "Tank", nil, 3) --Кровопролитный круговой удар
 mod:AddSetIconOption("SetIconOnSweep", 193092, true, false, {8}) --Кровопролитный круговой удар
 
-function mod:DancingBladeTarget(targetname, uId) --Танцующий клинок (✔)
+function mod:DancingBladeTarget(targetname, uId) --Танцующий клинок ✔
 	if not targetname then return end
 	warnDancingBlade:Show(targetname)
 	if targetname == UnitName("player") then

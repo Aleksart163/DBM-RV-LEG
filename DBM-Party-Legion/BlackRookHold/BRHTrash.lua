@@ -70,15 +70,17 @@ local yellArrowBarrage				= mod:NewYell(200343, nil, nil, nil, "YELL") --Зал�
 
 mod:AddRangeFrameOption(6)
 
-function mod:ShootTarget(targetname, uId)
+function mod:ShootTarget(targetname, uId) --Выстрел ✔
 	if not targetname then return end
-	if targetname == UnitName("player") then
-		specWarnShoot:Show()
-		specWarnShoot:Play("watchstep")
+	if self:AntiSpam(2, targetname) then
+		if targetname == UnitName("player") then
+			specWarnShoot:Show()
+			specWarnShoot:Play("watchstep")
+		end
 	end
 end
 
-function mod:MandibleStrikeTarget(targetname, uId)
+function mod:MandibleStrikeTarget(targetname, uId) --Удар жвалами ✔
 	if not targetname then return end
 	warnMandibleStrike:Show(targetname)
 	if targetname == UnitName("player") then

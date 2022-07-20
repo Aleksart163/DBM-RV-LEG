@@ -98,7 +98,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnBind:Show()
 			specWarnBind:Play("defensive")
 		end
-	elseif spellId == 200208 then --Взрыв солоноватой воды
+	elseif spellId == 200208 and self:AntiSpam(3, 1) then --Взрыв солоноватой воды
 		if args:IsPlayer() then
 			specWarnBrackwaterBlast:Show()
 			specWarnBrackwaterBlast:Play("defensive")

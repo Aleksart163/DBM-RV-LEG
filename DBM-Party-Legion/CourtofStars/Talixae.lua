@@ -19,11 +19,11 @@ mod:RegisterEvents(
 --Таликса Пламя Гнева https://ru.wowhead.com/npc=104217/таликса-пламя-гнева/эпохальный-журнал-сражений
 local warnBurningIntensity			= mod:NewStackAnnounce(207906, 4) --Интенсивное горение
 
-local specWarnWitheringSoul			= mod:NewSpecialWarningInterrupt(208165, "HasInterrupt", nil, nil, 1, 3) --Иссохшая душа
+local specWarnWitheringSoul			= mod:NewSpecialWarningInterrupt(208165, "HasInterrupt", nil, nil, 1, 2) --Иссохшая душа
 local specWarnInfernalEruption		= mod:NewSpecialWarningDodge(207881, nil, nil, nil, 2, 3) --Инфернальное извержение
 
 local timerBurningIntensityCD		= mod:NewCDTimer(23.5, 207906, nil, "Tank|Healer", nil, 5, nil, DBM_CORE_HEALER_ICON) --Интенсивное горение +++
-local timerWitheringSoulCD			= mod:NewCDTimer(14.5, 208165, nil, "HasInterrupt", nil, 3, nil, DBM_CORE_INTERRUPT_ICON) --Иссохшая душа +++
+local timerWitheringSoulCD			= mod:NewCDTimer(14.5, 208165, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON) --Иссохшая душа +++
 local timerInfernalEruptionCD		= mod:NewCDTimer(32, 207881, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON..DBM_CORE_MYTHIC_ICON) --Инфернальное извержение +++
 
 local countdownInfernalEruption		= mod:NewCountdown(32, 207881, nil, nil, 5) --Инфернальное извержение
@@ -44,10 +44,8 @@ end
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 208165 then --Иссохшая душа
-		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
-			specWarnWitheringSoul:Show()
-			specWarnWitheringSoul:Play("kickcast")
-		end
+		specWarnWitheringSoul:Show()
+		specWarnWitheringSoul:Play("kickcast")
 		timerWitheringSoulCD:Start()
 	elseif spellId == 207881 then --Инфернальное извержение
 		specWarnInfernalEruption:Show()

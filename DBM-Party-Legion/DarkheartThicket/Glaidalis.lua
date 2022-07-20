@@ -24,7 +24,7 @@ local warnLeap					= mod:NewTargetAnnounce(196346, 4) --Мучительный �
 local specWarnGrievousTear		= mod:NewSpecialWarningYou(196376, nil, nil, nil, 2, 2) --Мучительное разрывание
 local specWarnGrievousTear2		= mod:NewSpecialWarningEnd(196376, nil, nil, nil, 1, 2) --Мучительное разрывание
 local specWarnNightfall			= mod:NewSpecialWarningYouMove(198408, nil, nil, nil, 1, 2) --Сумерки
-local specWarnRampage			= mod:NewSpecialWarningYouDefensive(198379, "Tank", nil, nil, 3, 2) --Первобытная ярость
+local specWarnRampage			= mod:NewSpecialWarningDodgeCount(198379, "Tank", nil, nil, 3, 2) --Первобытная ярость
 local specWarnRampage2			= mod:NewSpecialWarningDodge(198379, "MeleeDps", nil, nil, 2, 2) --Первобытная ярость
 
 local timerLeapCD				= mod:NewCDTimer(14, 196346, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON..DBM_CORE_HEALER_ICON) --Мучительный прыжок
@@ -54,7 +54,7 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 198379 then
 		self.vb.rampage = self.vb.rampage + 1
-		specWarnRampage:Show()
+		specWarnRampage:Show(self.vb.rampage)
 		specWarnRampage:Play("defensive")
 		specWarnRampage2:Show()
 		specWarnRampage2:Play("watchstep")

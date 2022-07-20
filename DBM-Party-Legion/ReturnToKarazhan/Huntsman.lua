@@ -20,7 +20,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_SUCCESS 227636",
 	"UNIT_SPELLCAST_SUCCEEDED boss1 boss2",
 	"CHAT_MSG_MONSTER_YELL",
-	"UNIT_HEALTH boss1"
+	"UNIT_HEALTH"
 )
 
 --Ловчий Аттумен https://ru.wowhead.com/npc=114262/ловчий-аттумен/эпохальный-журнал-сражений
@@ -45,7 +45,7 @@ local timerPresenceCD				= mod:NewCDTimer(55, 227404, nil, "MagicDispeller2", ni
 local timerMortalStrikeCD			= mod:NewNextTimer(16, 227493, nil, "Melee", nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Смертельный удар +++
 local timerSharedSufferingCD		= mod:NewNextTimer(18, 228852, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Разделенные муки +++
 
-local yellSharedSuffering			= mod:NewYell(228852, nil, nil, nil, "YELL") --Разделенные муки
+local yellSharedSuffering			= mod:NewYell(228852, L.SharedSufferingYell, nil, nil, "YELL") --Разделенные муки
 
 local countdownSharedSuffering		= mod:NewCountdown(18, 228852, "Melee", nil, 5) --Разделенные муки
 local countdownSharedSuffering2		= mod:NewCountdownFades("Alt3.8", 228852, nil, nil, 3) --Разделенные муки
@@ -155,6 +155,7 @@ function mod:SPELL_CAST_START(args)
 	end
 end
 
+--[[
 function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
 	if spellId == 227636 then --Удар всадника (перефаза наступила)
@@ -173,7 +174,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 			specWarnSpectralCharge:ScheduleVoice(20.5, "watchstep") --Призрачный рывок
 		end
 	end
-end
+end]]
 
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
@@ -189,6 +190,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerPresenceCD:Cancel()
 	end
 end
+
 --[[
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	local spellId = legacySpellId or bfaSpellId
@@ -222,6 +224,16 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 		else
 			timerPresenceCD:Start()
 		end
+	elseif spellId == 227338 then--Riderless
+		timerPresenceCD:Stop()
+		timerMortalStrikeCD:Start()
+		timerSharedSufferingCD:Start()
+		countdownSharedSuffering:Start()
+	elseif spellId == 227584 or spellId == 227601 then--Mounted or Intermission
+		timerMortalStrikeCD:Stop()
+		timerSharedSufferingCD:Stop()
+		countdownSharedSuffering:Cancel()
+		timerPresenceCD:Start(2)
 	end
 end
 
@@ -254,9 +266,9 @@ function mod:UNIT_HEALTH(uId)
 			warnPhase1:Show() --фаза 2
 			timerPresenceCD:Stop() --Незримое присутствие
 			timerMightyStompCD:Stop() --Могучий топот
-		--	timerMortalStrikeCD:Start(9.5) --смертельный удар
-		--	timerSharedSufferingCD:Start(18) --Разделенные муки
-		--	countdownSharedSuffering:Start(18) --Разделенные муки
+			timerMortalStrikeCD:Start(9.5) --смертельный удар
+			timerSharedSufferingCD:Start(18) --Разделенные муки
+			countdownSharedSuffering:Start(18) --Разделенные муки
 --[[		elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 114262 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.10 then --Ловчий Начало фазы 3
 			warned_preP3 = true]]
 		end
