@@ -24,7 +24,7 @@ local specWarnQuake					= mod:NewSpecialWarningCast(240447, "Ranged", nil, nil, 
 local specWarnQuake2				= mod:NewSpecialWarningMoveAway(240447, "Melee", nil, nil, 1, 2) --Землетрясение
 
 local timerQuake					= mod:NewCastTimer(2.5, 240447, nil, nil, nil, 2, nil, DBM_CORE_INTERRUPT_ICON..DBM_CORE_DEADLY_ICON) --Землетрясение
-local timerNecroticWound			= mod:NewTargetTimer(9, 209858, nil, "Tank|Healer", nil, 3, nil, DBM_CORE_TANK_ICON..DBM_CORE_HEALER_ICON) --Некротическая язва
+local timerNecroticWound			= mod:NewTargetTimer(9, 209858, nil, "Tank|Healer", nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_HEALER_ICON) --Некротическая язва
 
 local dota5s = false
 local dispel = false
@@ -32,23 +32,7 @@ local kick = false
 
 --[[
 function mod:SPELL_CAST_SUCCESS(args)
-	local spellId = args.spellId
-	if spellId == 688 then --диспел
-		if args:IsPlayer(args.sourceGUID) and not dispel then
-			dispel = true
-			kick = false
-		end
-	elseif spellId == 691 then --кик каста
-		if args:IsPlayer(args.sourceGUID) and not kick then
-			kick = true
-			dispel = false
-		end
-	elseif spellId == 157757 then --кик каста
-		if args:IsPlayer(args.sourceGUID) and not kick then
-			kick = true
-			dispel = false
-		end
-	end
+
 end]]
 
 function mod:SPELL_AURA_APPLIED(args)
@@ -70,7 +54,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				dota5s = true
 			end
 		end
-	elseif spellId == 209858 then --Некротическая язва
+	elseif spellId == 209858 and args:IsDestTypePlayer() then --Некротическая язва
 		local amount = args.amount or 1
 		timerNecroticWound:Start(args.destName)
 		if amount >= 10 and amount % 5 == 0 then

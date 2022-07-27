@@ -9,7 +9,7 @@ mod:SetOOCBWComms()
 mod.isTrashMod = true
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 209027 212031 209485 209410 209413 211470 211464 209404 209495 225100 211299 209378 207980 207979 214692 214688 214690 208334 212773 208585 209767 208427",
+	"SPELL_CAST_START 209027 212031 209485 209410 209413 211470 211464 209404 209495 225100 211299 209378 207980 207979 214692 214688 214690 208334 212773 208585 209767 208427 208370 210872 210307 208939 210925 210217 210922 210253 210330",
 	"SPELL_CAST_SUCCESS 214688",
 	"SPELL_AURA_APPLIED 209033 209512 207981 214690 212773",
 	"SPELL_AURA_REMOVED 214690",
@@ -26,18 +26,29 @@ local warnCarrionSwarm				= mod:NewTargetAnnounce(214688, 4) --Темная ст
 local warnShadowBoltVolley			= mod:NewCastAnnounce(214692, 4) --Залп стрел Тьмы
 local warnFelDetonation				= mod:NewCastAnnounce(211464, 4) --Взрыв Скверны
 local warnSubdue					= mod:NewTargetAnnounce(212773, 4) --Подчинение
+local warnSuppress					= mod:NewTargetAnnounce(209413, 4) --Подавление
+local warnDisintegrationBeam		= mod:NewTargetAnnounce(207980, 4) --Луч дезинтеграции
 local warnSubdue2					= mod:NewCastAnnounce(212773, 3) --Подчинение
-local warnEating					= mod:NewAnnounce("Eating", 1, 208585) --Поглощение пищи (баф на хп от еды)
-local warnSiphoningMagic			= mod:NewAnnounce("SiphoningMagic", 1, 208427) --Похищение магии (Магический светильник)
-local warnPurifying					= mod:NewAnnounce("Purifying", 1, 209767) --Очищение (фолиант скверны)
-local warnDraining					= mod:NewAnnounce("Draining", 1, 208334) --Иссушение (сфера скверны)
+local warnDisableBeacon				= mod:NewTargetSourceAnnounce(210253, 1) --Отключение маяка
+local warnEating					= mod:NewTargetSourceAnnounce(208585, 1) --Поглощение пищи (баф на хп от еды)
+local warnSiphoningMagic			= mod:NewTargetSourceAnnounce(208427, 1) --Похищение магии (Магический светильник)
+local warnPurifying					= mod:NewTargetSourceAnnounce(209767, 1) --Очищение (фолиант скверны)
+local warnDraining					= mod:NewTargetSourceAnnounce(208334, 1) --Иссушение (сфера скверны)
+local warnInvokingText				= mod:NewTargetSourceAnnounce(210872, 1) --Текст пробуждения (промокший свиток)
+local warnDrinking					= mod:NewTargetSourceAnnounce(210307, 1) --Выпивание (отвар из звездной розы)
+local warnReleaseSpores				= mod:NewTargetSourceAnnounce(208939, 1) --Высвобождение спор (теневой цветок)
+local warnShuttingDown				= mod:NewTargetSourceAnnounce(208370, 1) --Отключение (сфера инженерии)
+local warnTreating					= mod:NewTargetSourceAnnounce(210925, 1) --Лечение (ночнорожденный)
+local warnPilfering					= mod:NewTargetSourceAnnounce(210217, 1) --Воровство (рыночные товары)
+local warnDefacing					= mod:NewTargetSourceAnnounce(210330, 1) --Осквернение (Статуя ночнорожденного в натуральную величину)
+local warnTinkering					= mod:NewTargetSourceAnnounce(210922, 1) --Конструирование (выброшенный хлам)
 
 local specWarnShadowBoltVolley		= mod:NewSpecialWarningDodge(214692, "-Tank", nil, nil, 2, 3) --Залп стрел Тьмы
 local specWarnCarrionSwarm			= mod:NewSpecialWarningDodge(214688, nil, nil, nil, 2, 2) --Темная стая
 local specWarnCripple				= mod:NewSpecialWarningDispel(214690, "MagicDispeller2", nil, nil, 1, 2) --Увечье
 local specWarnCripple2				= mod:NewSpecialWarningYou(214690, nil, nil, nil, 1, 2) --Увечье
 local specWarnFelDetonation			= mod:NewSpecialWarningDodge(211464, nil, nil, nil, 2, 3) --Взрыв Скверны
-local specWarnDisintegrationBeam	= mod:NewSpecialWarningYouDefensive(207981, nil, nil, nil, 3, 6) --Луч дезинтеграции
+local specWarnDisintegrationBeam	= mod:NewSpecialWarningYouDefensive(207980, nil, nil, nil, 3, 6) --Луч дезинтеграции
 local specWarnShockwave				= mod:NewSpecialWarningDodge(207979, "Melee", nil, nil, 2, 3) --Ударная волна
 local specWarnFortification			= mod:NewSpecialWarningDispel(209033, "MagicDispeller", nil, nil, 1, 2) --Укрепление
 local specWarnQuellingStrike		= mod:NewSpecialWarningDodge(209027, "Melee", nil, nil, 2, 2) --Подавляющий удар
@@ -47,7 +58,7 @@ local specWarnDrainMagic			= mod:NewSpecialWarningInterrupt(209485, "HasInterrup
 local specWarnSubdue				= mod:NewSpecialWarningInterrupt(212773, "HasInterrupt", nil, nil, 1, 3) --Подчинение
 local specWarnSubdue2				= mod:NewSpecialWarningDispel(212773, "MagicDispeller2", nil, nil, 1, 2) --Подчинение
 local specWarnNightfallOrb			= mod:NewSpecialWarningInterrupt(209410, "HasInterrupt", nil, nil, 1, 2)
-local specWarnSuppress				= mod:NewSpecialWarningInterrupt(209413, "HasInterrupt", nil, nil, 1, 2)
+local specWarnSuppress				= mod:NewSpecialWarningInterrupt(209413, "HasInterrupt", nil, nil, 1, 2) --Подавление
 local specWarnBewitch				= mod:NewSpecialWarningInterrupt(211470, "HasInterrupt", nil, nil, 1, 2)
 local specWarnChargingStation		= mod:NewSpecialWarningInterrupt(225100, "HasInterrupt", nil, nil, 1, 2)
 local specWarnSearingGlare			= mod:NewSpecialWarningInterrupt(211299, "HasInterrupt", nil, nil, 1, 2)
@@ -66,26 +77,58 @@ local timerFelDetonationCD			= mod:NewCDTimer(12, 211464, nil, nil, nil, 2, nil,
 local timerWhirlingBladesCD			= mod:NewCDTimer(18, 209378, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Крутящиеся клинки
 local timerShockwaveCD				= mod:NewCDTimer(8.5, 207979, nil, nil, nil, 3, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Ударная волна
 
-local timerRoleplay					= mod:NewTimer(28.5, "timerRoleplay", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7) --Ролевая игра
+local timerRoleplay					= mod:NewTimer(28, "timerRoleplay", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7) --Ролевая игра
 
 local countdownFelDetonation		= mod:NewCountdown(12, 211464, nil, nil, 5) --Взрыв Скверны
 
+--local yellEating					= mod:NewYell(208585, L.EatingYell, nil, nil, "YELL") --Поглощение пищи
+--local yellSiphoningMagic			= mod:NewYell(208427, L.SiphoningMagic, nil, nil, "YELL") --Похищение магии
+--local yellPurifying					= mod:NewYell(209767, L.PurifyingYell, nil, nil, "YELL") --Очищение
+local yellSuppress					= mod:NewYell(209413, nil, nil, nil, "YELL") --Подавление
 local yellSubdue					= mod:NewYell(212773, nil, nil, nil, "YELL") --Подчинение
-local yellDisintegrationBeam		= mod:NewYell(207981, nil, nil, nil, "YELL") --Луч дезинтеграции
+local yellDisintegrationBeam		= mod:NewYell(207980, nil, nil, nil, "YELL") --Луч дезинтеграции
 local yellCripple					= mod:NewYell(214690, nil, nil, nil, "YELL") --Увечье
 local yellCarrionSwarm				= mod:NewYell(214688, nil, nil, nil, "YELL") --Темная стая
 
-local NameP = DBM:GetUnitFullName("target")
-
+mod:AddBoolOption("YellOnEating", true) --Поглощение пищи (хп)
+mod:AddBoolOption("YellOnSiphoningMagic", true) --Похищение магии (урон)
+mod:AddBoolOption("YellOnPurifying", true) --Очищение (защита)
+mod:AddBoolOption("YellOnDraining", true) --Иссушение (крит)
+mod:AddBoolOption("YellOnInvokingText", true) --Текст пробуждения (скорость бега)
+mod:AddBoolOption("YellOnDrinking", true) --Выпивание (хп и мана реген)
+mod:AddBoolOption("YellOnReleaseSpores", true) --Высвобождение спор (скорость боя)
+mod:AddBoolOption("YellOnShuttingDown", true) --Отключение (големы)
+mod:AddBoolOption("YellOnTreating", true) --Лечение (отвлечение)
+mod:AddBoolOption("YellOnPilfering", true) --Воровство (отвлечение)
+mod:AddBoolOption("YellOnTinkering", true) --Конструирование (отвлечение)
+mod:AddBoolOption("YellOnDefacing", true) --Осквернение (отвлечение)
 mod:AddBoolOption("SpyHelper", true)
 
-function mod:CarrionSwarmTarget(targetname, uId)
+function mod:CarrionSwarmTarget(targetname, uId) --Темная стая ✔
 	if not targetname then return end
 	warnCarrionSwarm:Show(targetname)
 	if targetname == UnitName("player") then
 		specWarnCarrionSwarm:Show()
 		specWarnCarrionSwarm:Play("watchstep")
 		yellCarrionSwarm:Yell()
+	end
+end
+
+function mod:SuppressTarget(targetname, uId) --Подавление ✔
+	if not targetname then return end
+	warnSuppress:Show(targetname)
+	if targetname == UnitName("player") then
+		yellSuppress:Yell()
+	end
+end
+
+function mod:DisintegrationBeamTarget(targetname, uId) --Луч дезинтеграции ✔
+	if not targetname then return end
+	warnDisintegrationBeam:Show(targetname)
+	if targetname == UnitName("player") then
+		specWarnDisintegrationBeam:Show()
+		specWarnDisintegrationBeam:Play("defensive")
+		yellDisintegrationBeam:Yell()
 	end
 end
 
@@ -109,9 +152,12 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 209410 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
 		specWarnNightfallOrb:Show(args.sourceName)
 		specWarnNightfallOrb:Play("kickcast")
-	elseif spellId == 209413 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
-		specWarnSuppress:Show(args.sourceName)
-		specWarnSuppress:Play("kickcast")
+	elseif spellId == 209413 then --Подавление
+		self:BossTargetScanner(args.sourceGUID, "SuppressTarget", 0.1, 2)
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnSuppress:Show()
+			specWarnSuppress:Play("kickcast")
+		end
 	elseif spellId == 211470 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
 		specWarnBewitch:Show(args.sourceName)
 		specWarnBewitch:Play("kickcast")
@@ -138,7 +184,8 @@ function mod:SPELL_CAST_START(args)
 		specWarnWhirlingBlades:Show()
 		specWarnWhirlingBlades:Play("runout")
 		timerWhirlingBladesCD:Start()
-	elseif spellId == 207980 then
+	elseif spellId == 207980 then --Луч дезинтеграции
+		self:BossTargetScanner(args.sourceGUID, "DisintegrationBeamTarget", 0.1, 2)
 		timerDisintegrationBeamCD:Start()
 	elseif spellId == 207979 then --Ударная волна
 		specWarnShockwave:Show()
@@ -165,12 +212,114 @@ function mod:SPELL_CAST_START(args)
 		end
 	elseif spellId == 208585 then --Поглощение пищи
 		warnEating:Show(args.sourceName)
-	elseif spellId == 208334 then --Иссушение
-		warnDraining:Show(args.sourceName)
-	elseif spellId == 209767 then --Очищение
-		warnPurifying:Show(args.sourceName)
+		if self.Options.YellOnEating and args:IsPlayerSource() then
+			if IsInRaid() then
+				SendChatMessage(L.EatingYell, "INSTANCE_CHAT")
+			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
+				SendChatMessage(L.EatingYell, "PARTY")
+			end
+		end
 	elseif spellId == 208427 then --Похищение магии
 		warnSiphoningMagic:Show(args.sourceName)
+		if self.Options.YellOnSiphoningMagic and args:IsPlayerSource() then
+			if IsInRaid() then
+				SendChatMessage(L.SiphoningMagic, "RAID")
+			elseif IsInGroup() then
+				SendChatMessage(L.SiphoningMagic, "PARTY")
+			end
+		end
+	elseif spellId == 209767 then --Очищение
+		warnPurifying:Show(args.sourceName)
+		if self.Options.YellOnPurifying and args:IsPlayerSource() then
+			if IsInRaid() then
+				SendChatMessage(L.PurifyingYell, "RAID")
+			elseif IsInGroup() then
+				SendChatMessage(L.PurifyingYell, "PARTY")
+			end
+		end
+	elseif spellId == 208334 then --Иссушение
+		warnDraining:Show(args.sourceName)
+		if self.Options.YellOnDraining and args:IsPlayerSource() then
+			if IsInRaid() then
+				SendChatMessage(L.DrainingYell, "RAID")
+			elseif IsInGroup() then
+				SendChatMessage(L.DrainingYell, "PARTY")
+			end
+		end
+	elseif spellId == 208370 then --Отключение
+		warnShuttingDown:Show(args.sourceName)
+		if self.Options.YellOnShuttingDown and args:IsPlayerSource() then
+			if IsInRaid() then
+				SendChatMessage(L.ShuttingDownYell, "RAID")
+			elseif IsInGroup() then
+				SendChatMessage(L.ShuttingDownYell, "PARTY")
+			end
+		end
+	elseif spellId == 210872 then --Текст пробуждения
+		warnInvokingText:Show(args.sourceName)
+		if self.Options.YellOnInvokingText and args:IsPlayerSource() then
+			if IsInRaid() then
+				SendChatMessage(L.InvokingTextYell, "RAID")
+			elseif IsInGroup() then
+				SendChatMessage(L.InvokingTextYell, "PARTY")
+			end
+		end
+	elseif spellId == 210307 then --Выпивание
+		warnDrinking:Show(args.sourceName)
+		if self.Options.YellOnDrinking and args:IsPlayerSource() then
+			if IsInRaid() then
+				SendChatMessage(L.DrinkingYell, "RAID")
+			elseif IsInGroup() then
+				SendChatMessage(L.DrinkingYell, "PARTY")
+			end
+		end
+	elseif spellId == 208939 then --Высвобождение спор
+		warnReleaseSpores:Show(args.sourceName)
+		if self.Options.YellOnReleaseSpores and args:IsPlayerSource() then
+			if IsInRaid() then
+				SendChatMessage(L.ReleaseSporesYell, "RAID")
+			elseif IsInGroup() then
+				SendChatMessage(L.ReleaseSporesYell, "PARTY")
+			end
+		end
+	elseif spellId == 210925 then --Лечение
+		warnTreating:Show(args.sourceName)
+		if self.Options.YellOnTreating and args:IsPlayerSource() then
+			if IsInRaid() then
+				SendChatMessage(L.TreatingYell, "RAID")
+			elseif IsInGroup() then
+				SendChatMessage(L.TreatingYell, "PARTY")
+			end
+		end
+	elseif spellId == 210217 then --Воровство
+		warnPilfering:Show(args.sourceName)
+		if self.Options.YellOnPilfering and args:IsPlayerSource() then
+			if IsInRaid() then
+				SendChatMessage(L.PilferingYell, "RAID")
+			elseif IsInGroup() then
+				SendChatMessage(L.PilferingYell, "PARTY")
+			end
+		end
+	elseif spellId == 210922 then --Конструирование
+		warnTinkering:Show(args.sourceName)
+		if self.Options.YellOnTinkering and args:IsPlayerSource() then
+			if IsInRaid() then
+				SendChatMessage(L.TinkeringYell, "RAID")
+			elseif IsInGroup() then
+				SendChatMessage(L.TinkeringYell, "PARTY")
+			end
+		end
+	elseif spellId == 210330 then --Осквернение
+		warnDefacing:Show(args.sourceName)
+		if self.Options.YellOnDefacing and args:IsPlayerSource() then
+			if IsInRaid() then
+				SendChatMessage(L.DefacingYell, "RAID")
+			elseif IsInGroup() then
+				SendChatMessage(L.DefacingYell, "PARTY")
+			end
+		end
+	elseif spellId == 210253 then --Отключение маяка
+		warnDisableBeacon:Show(args.sourceName)
 	end
 end
 
@@ -184,18 +333,18 @@ end
 function mod:SPELL_AURA_APPLIED(args)
 	if not self.Options.Enabled then return end
 	local spellId = args.spellId
-	if spellId == 209033 and not args:IsDestTypePlayer() then
+	if spellId == 209033 and not args:IsDestTypePlayer() then --Укрепление
 		specWarnFortification:Show(args.destName)
 		specWarnFortification:Play("dispelnow")
 	elseif spellId == 209512 and args:IsPlayer() then
 		specWarnDisruptingEnergy:Show()
 		specWarnDisruptingEnergy:Play("runaway")
-	elseif spellId == 207981 then
+--[[	elseif spellId == 207981 then --Луч дезинтеграции
 		if args:IsPlayer() then
 			specWarnDisintegrationBeam:Show()
 			specWarnDisintegrationBeam:Play("defensive")
 			yellDisintegrationBeam:Yell()
-		end
+		end]]
 	elseif spellId == 214690 then --Увечье
 		warnCripple:Show(args.destName)
 		timerCripple:Start(args.destName)
@@ -225,6 +374,9 @@ function mod:SPELL_AURA_APPLIED(args)
 		else
 			if args:IsPlayer() then
 				yellSubdue:Yell()
+			else
+				specWarnSubdue2:CombinedShow(0.3, args.destName)
+				specWarnSubdue2:Play("dispelnow")
 			end
 		end
 	end
@@ -527,7 +679,7 @@ function mod:UNIT_DIED(args)
 		timerDisintegrationBeamCD:Cancel()
 	elseif cid == 104273 then --Джазшариу
 		timerShockwaveCD:Cancel()
-	elseif cid == 108151 then --Герент Зловещий
+	elseif cid == 108151 or cid == 107435 then --Герент Зловещий
 		timerCrippleCD:Cancel()
 		timerShadowBoltVolleyCD:Cancel()
 		timerCarrionSwarmCD:Cancel()

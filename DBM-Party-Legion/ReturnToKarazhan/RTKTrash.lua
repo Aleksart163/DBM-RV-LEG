@@ -8,7 +8,7 @@ mod:SetZone()
 mod.isTrashMod = true
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 228255 228239 227917 227925 228625 228606 229714 227966 228254 228280 230094 229429 229608",
+	"SPELL_CAST_START 228255 228239 227917 227925 228625 228606 229714 227966 228254 228280 230094 229429 229608 228700",
 	"SPELL_AURA_APPLIED 228331 229706 229716 228610 229074 230083 230050 228280 230087 228241 229468",
 	"SPELL_AURA_APPLIED_DOSE 229074 228610",
 	"SPELL_AURA_REFRESH 229074 228610",
@@ -29,6 +29,7 @@ local warnOathofFealty2				= mod:NewTargetAnnounce(228331, 3) --Клятва в�
 local warnNullification				= mod:NewTargetAnnounce(230083, 2) --Полная нейтрализация
 local warnReinvigorated				= mod:NewTargetAnnounce(230087, 1) --Восполнение сил
 local warnCursedTouch				= mod:NewTargetAnnounce(228241, 2) --Проклятое прикосновение
+local warnArcaneBarrage				= mod:NewCastAnnounce(228700, 3) --Чародейский обстрел
 
 local specWarnRoyalSlash			= mod:NewSpecialWarningDodge(229429, "Melee", nil, nil, 2, 2) --Удар короля сплеча
 
@@ -46,6 +47,7 @@ local specWarnPoetrySlam			= mod:NewSpecialWarningInterrupt(227917, "HasInterrup
 local specWarnBansheeWail			= mod:NewSpecialWarningInterrupt(228625, "HasInterrupt", nil, nil, 1, 2)
 local specWarnHealingTouch			= mod:NewSpecialWarningInterrupt(228606, "HasInterrupt", nil, nil, 1, 2)
 local specWarnConsumeMagic			= mod:NewSpecialWarningInterrupt(229714, "HasInterrupt", nil, nil, 1, 2)
+local specWarnArcaneBarrage			= mod:NewSpecialWarningInterrupt(228700, "HasInterrupt", nil, nil, 1, 2) --Чародейский обстрел
 local specWarnFinalCurtain			= mod:NewSpecialWarningDodge(227925, "Melee", nil, nil, 1, 2) --Последний занавес
 local specWarnVolatileCharge		= mod:NewSpecialWarningYouMoveAway(228331, nil, nil, nil, 3, 3) --Нестабильный заряд
 local specWarnOathofFealty			= mod:NewSpecialWarningInterrupt(228280, "HasInterrupt", nil, nil, 3, 3) --Клятва верности
@@ -128,6 +130,14 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 229608 then --Могучий удар
 		specWarnMightySwing:Show()
 		specWarnMightySwing:Play("watchstep")
+	elseif spellId == 228700 then --Чародейский обстрел
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnArcaneBarrage:Show()
+			specWarnArcaneBarrage:Play("kickcast")
+		else
+			warnArcaneBarrage:Show()
+			warnArcaneBarrage:Play("kickcast")
+		end
 	end
 end
 

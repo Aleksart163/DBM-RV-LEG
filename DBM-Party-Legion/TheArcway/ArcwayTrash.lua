@@ -8,8 +8,8 @@ mod:SetZone()
 mod.isTrashMod = true
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 211757 226206 211115 211771 193938 226269 211217 211917 211875",
-	"SPELL_AURA_APPLIED 194006 210750 211745"
+	"SPELL_CAST_START 211757 226206 211115 211771 193938 226269 211217 211917 211875 210645 210662 210684",
+	"SPELL_AURA_APPLIED 194006 210750 211745 211756"
 )
 
 --Катакомбы Сурамара трэш
@@ -25,11 +25,15 @@ local specWarnOozeExplosion			= mod:NewSpecialWarningRun(193938, "Melee", nil, n
 local specWarnOozeExplosion2		= mod:NewSpecialWarningDodge(193938, "Ranged", nil, nil, 2, 2) --Взрыв слизнюка
 local specWarnPropheciesofDoom		= mod:NewSpecialWarningDefensive(211771, nil, nil, nil, 3, 5) --Предсказания рока
 
+local specWarnSearingWound			= mod:NewSpecialWarningYou(211756, nil, nil, nil, 1, 3) --Жгучая рана
 local specWarnArcaneSlicer			= mod:NewSpecialWarningDodge(211217, nil, nil, nil, 2, 3) --Чародейский рассекатель
 local specWarnTorment				= mod:NewSpecialWarningInterrupt(226269, "HasInterrupt", nil, nil, 1, 2) --Мучение
 local specWarnPhaseBreach			= mod:NewSpecialWarningInterrupt(211115, "HasInterrupt", nil, nil, 3, 5) --Фазовый прорыв
 local specWarnArgusPortal			= mod:NewSpecialWarningInterrupt(211757, "HasInterrupt", nil, nil, 1, 2) --Портал на Аргус
 local specWarnArcaneReconstitution	= mod:NewSpecialWarningInterrupt(226206, "HasInterrupt", nil, nil, 1, 2) --Чародейское воссоздание
+local specWarnArcanicBane			= mod:NewSpecialWarningInterrupt(210645, "HasInterrupt", nil, nil, 1, 2) --Чародейская погибель
+local specWarnUnstableFlux			= mod:NewSpecialWarningInterrupt(210662, "HasInterrupt", nil, nil, 1, 2) --Нестабильный поток
+local specWarnSiphonEssence			= mod:NewSpecialWarningInterrupt(210684, "HasInterrupt", nil, nil, 1, 2) --Вытягивание сущности
 
 local specWarnOozePuddle			= mod:NewSpecialWarningYouMove(194006, nil, nil, nil, 1, 2) --Лужа слизи
 local specWarnColapsingRift			= mod:NewSpecialWarningYouMove(210750, nil, nil, nil, 1, 2) --Смыкающийся разлом
@@ -37,6 +41,7 @@ local specWarnFelStrike				= mod:NewSpecialWarningYouMove(211745, nil, nil, nil,
 
 local timerFelstormCD				= mod:NewCDTimer(23.5, 211917, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Буря Скверны
 local timerBladestormCD				= mod:NewCDTimer(23.5, 211875, nil, nil, nil, 3) --Вихрь клинков
+local timerSearingWound				= mod:NewTargetTimer(10, 211756, nil, nil, nil, 3, nil, DBM_CORE_HEALER_ICON..DBM_CORE_DEADLY_ICON) --Жгучая рана
 
 function mod:SPELL_CAST_START(args)
 	if not self.Options.Enabled then return end
@@ -47,7 +52,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 226206 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
 		specWarnArcaneReconstitution:Show()
 		specWarnArcaneReconstitution:Play("kickcast")
-	elseif spellId == 211115 and self:AntiSpam(2, 1) then --Фазовый прорыв
+	elseif spellId == 211115 then --Фазовый прорыв
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnPhaseBreach:Show()
 			specWarnPhaseBreach:Play("kickcast")
@@ -77,6 +82,15 @@ function mod:SPELL_CAST_START(args)
 		specWarnBladestorm2:Show()
 		specWarnBladestorm:Show()
 		timerBladestormCD:Start()
+	elseif spellId == 210645 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Чародейская погибель
+		specWarnArcanicBane:Show()
+		specWarnArcanicBane:Play("kickcast")
+	elseif spellId == 210662 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Нестабильный поток
+		specWarnUnstableFlux:Show()
+		specWarnUnstableFlux:Play("kickcast")
+	elseif spellId == 210684 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Вытягивание сущности
+		specWarnSiphonEssence:Show()
+		specWarnSiphonEssence:Play("kickcast")
 	end
 end
 
@@ -92,5 +106,11 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 211745 and args:IsPlayer() then
 		specWarnFelStrike:Show()
 		specWarnFelStrike:Play("runaway")
+	elseif spellId == 211756 and args:IsDestTypePlayer() then --Жгучая рана
+		timerSearingWound:Start(args.destName)
+		if args:IsPlayer() then
+			specWarnSearingWound:Show()
+			specWarnSearingWound:Play("targetyou")
+		end
 	end
 end

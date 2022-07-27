@@ -8,8 +8,8 @@ mod:SetZone()
 mod.isTrashMod = true
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 196799 193069 196799 196249 193502 193936 161056 202728 196242 191527",
-	"SPELL_AURA_APPLIED 202615 193069 193607 202608 161044 193164",
+	"SPELL_CAST_START 196799 193069 196799 196249 193502 193936 161056 202728 196242 191527 191735",
+	"SPELL_AURA_APPLIED 202615 193069 193607 202608 161044 193164 210202",
 --	"SPELL_AURA_REMOVED",
 	"SPELL_CAST_SUCCESS 202606",
 	"CHAT_MSG_MONSTER_SAY",
@@ -23,6 +23,8 @@ local warnNightmares2			= mod:NewCastAnnounce(193069, 4) --Кошмары
 local warnDoubleStrike			= mod:NewTargetAnnounce(193607, 2) --Двойной удар
 local warnMetamorphosis			= mod:NewSpellAnnounce(193502, 4) --Метаморфоза
 
+local specWarnDeafeningScreech	= mod:NewSpecialWarningDodge(191735, nil, nil, nil, 2, 2) --Оглушительный визг
+local specWarnFoulStench		= mod:NewSpecialWarningYouMove(210202, nil, nil, nil, 3, 3) --Зловонный смрад
 local specWarnDeafeningShout	= mod:NewSpecialWarningCast(191527, "SpellCaster", nil, nil, 3, 2) --Оглушающий крик
 local specWarnSummonGrimguard	= mod:NewSpecialWarningSwitch(202728, "Tank", nil, nil, 1, 2) --Призыв мрачного стража
 local specWarnTemporalAnomaly	= mod:NewSpecialWarningYouMove(161044, nil, nil, nil, 1, 2) --Временная аномалия
@@ -35,7 +37,7 @@ local specWarnAnguishedSouls	= mod:NewSpecialWarningYouMove(202608, nil, nil, ni
 local specWarnAnguishedSouls2	= mod:NewSpecialWarningDodge(202606, nil, nil, nil, 2, 2) --Страдающие души
 local specWarnTorment			= mod:NewSpecialWarningYouClose(202615, nil, nil, nil, 3, 2) --Мучение
 local specWarnTorment2			= mod:NewSpecialWarningYouDefensive(202615, nil, nil, nil, 2, 5) --Мучение
-local specWarnDoubleStrike		= mod:NewSpecialWarningDefensive(193607, nil, nil, nil, 2, 2) --Двойной удар
+local specWarnDoubleStrike		= mod:NewSpecialWarningYouDefensive(193607, nil, nil, nil, 2, 2) --Двойной удар
 local specWarnUnleashedFury		= mod:NewSpecialWarningInterrupt(196799, "-Healer", nil, nil, 2, 2) --Высвобождение ярости
 local specWarnNightmares		= mod:NewSpecialWarningInterrupt(193069, "HasInterrupt", nil, nil, 3, 2) --Кошмары
 local specWarnMeteor			= mod:NewSpecialWarningShare(196249, nil, nil, nil, 1, 2) --Метеор
@@ -90,6 +92,9 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 191527 then --Оглушающий крик
 		specWarnDeafeningShout:Show()
 		timerDeafeningShoutCD:Start()
+	elseif spellId == 191735 and self:AntiSpam(3, 1) then --Оглушительный визг
+		specWarnDeafeningScreech:Show()
+		specWarnDeafeningScreech:Play("watchstep")
 	end
 end
 
@@ -98,6 +103,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
 	if spellId == 202606 and self:AntiSpam(3, 1) then --Страдающие души
 		specWarnAnguishedSouls2:Show()
+		specWarnAnguishedSouls2:Play("watchstep")
 	end
 end
 
@@ -119,6 +125,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			yellNightmares:Yell()
 		else
 			specWarnNightmares2:CombinedShow(0.3, args.destName)
+			specWarnNightmares2:Play("dispelnow")
 		end
 	elseif spellId == 193607 then --Двойной удар
 		warnDoubleStrike:Show(args.destName)
@@ -126,20 +133,30 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerDoubleStrikeCD:Start()
 		if args:IsPlayer() then
 			specWarnDoubleStrike:Show()
+			specWarnDoubleStrike:Play("defensive")
 		end
 	elseif spellId == 202608 then --Страдающие души
 		if args:IsPlayer() then
 			specWarnAnguishedSouls:Show()
+			specWarnAnguishedSouls:Play("runout")
 		end
 	elseif spellId == 161044 then --Временная аномалия
 		if args:IsPlayer() then
 			specWarnTemporalAnomaly:Show()
+			specWarnTemporalAnomaly:Play("runout")
 		end
 	elseif spellId == 193164 then --Дар вестника рока
 		if args:IsPlayer() then
 			specWarnGiftoftheDoomsayer2:Show()
+			specWarnGiftoftheDoomsayer2:Play("targetyou")
 		else
 			specWarnGiftoftheDoomsayer:Show(args.destName)
+			specWarnGiftoftheDoomsayer:Play("dispelnow")
+		end
+	elseif spellId == 210202 then --Зловонный смрад
+		if args:IsPlayer() then
+			specWarnFoulStench:Show()
+			specWarnFoulStench:Play("runout")
 		end
 	end
 end

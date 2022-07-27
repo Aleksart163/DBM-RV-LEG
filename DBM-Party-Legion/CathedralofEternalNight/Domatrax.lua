@@ -16,7 +16,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED 243157",
 	"UNIT_DIED",
 	"UNIT_SPELLCAST_SUCCEEDED boss1",
-	"UNIT_HEALTH boss1"
+	"UNIT_HEALTH"
 )
 
 --Доматракс https://ru.wowhead.com/npc=119542/доматракс/эпохальный-журнал-сражений

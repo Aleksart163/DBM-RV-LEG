@@ -18,16 +18,18 @@ mod:RegisterEventsInCombat(
 )
 
 --Мефистрот https://ru.wowhead.com/npc=120793/мефистрот/эпохальный-журнал-сражений
-local warnDarkSolitude				= mod:NewSpellAnnounce(234817, 2) --Темное одиночество
+--local warnDarkSolitude				= mod:NewSpellAnnounce(234817, 2) --Темное одиночество
 local warnShadowFade				= mod:NewSpellAnnounce(233206, 2) --Уход во тьму
 local warnDemonicUpheaval			= mod:NewTargetAnnounce(233963, 3) --Демоническое извержение
 local warnShadowAdd					= mod:NewSpellAnnounce("ej14965", 2, 233206) --Уход во тьму треш
 local warnShadowFade2				= mod:NewPreWarnAnnounce(233206, 5, 1) --Уход во тьму
 
+local specWarnDarkSolitude			= mod:NewSpecialWarningKeepDist(234817, nil, nil, nil, 1, 2) --Темное одиночество
 local specWarnShadowFadeEnded		= mod:NewSpecialWarningEnd(233206, nil, nil, nil, 1, 2) --Уход во тьму
-local specWarnCarrionSwarm2			= mod:NewSpecialWarningYouMove(233177, nil, nil, nil, 1, 2) --Темная стая
 local specWarnShadowFade			= mod:NewSpecialWarningSwitch(233206, "Dps", nil, nil, 1, 2) --Уход во тьму
 local specWarnCarrionSwarm			= mod:NewSpecialWarningYouDefensive(233155, "Tank", nil, nil, 3, 5) --Темная стая
+local specWarnCarrionSwarm2			= mod:NewSpecialWarningYouMove(233177, nil, nil, nil, 1, 2) --Темная стая
+local specWarnCarrionSwarm3			= mod:NewSpecialWarningDodge(233155, "MeleeDps", nil, nil, 2, 3) --Темная стая
 local specWarnDemonicUpheaval		= mod:NewSpecialWarningYouMoveAway(233963, nil, nil, nil, 4, 5) --Демоническое извержение
 local specWarnDemonicUpheaval2		= mod:NewSpecialWarningEnd(233963, nil, nil, nil, 1, 2) --Демоническое извержение
 
@@ -48,6 +50,7 @@ mod:AddInfoFrameOption(234217, true)
 local demonicUpheaval, darkSolitude = DBM:GetSpellInfo(233963), DBM:GetSpellInfo(234217)
 local demonicUpheavalTable = {}
 local addsTable = {}
+
 
 function mod:OnCombatStart(delay)
 	table.wipe(addsTable)
@@ -84,11 +87,13 @@ function mod:SPELL_CAST_START(args)
 	if spellId == 233155 then
 		specWarnCarrionSwarm:Show()
 		specWarnCarrionSwarm:Play("shockwave")
+		specWarnCarrionSwarm3:Show()
+		specWarnCarrionSwarm3:Play("watchstep")
 		timerCarrionSwarmCD:Start()
 	elseif spellId == 233206 then--Shadow Fade
 		warnShadowFade:Show()
-		specWarnShadowFade:Schedule(7)
-		specWarnShadowFade:ScheduleVoice(7, "switch")
+		specWarnShadowFade:Schedule(6)
+		specWarnShadowFade:ScheduleVoice(6, "killmob")
 		timerCarrionSwarmCD:Stop()
 		timerDarkSolitudeCD:Stop()
 		timerDemonicUpheavalCD:Stop()
@@ -97,7 +102,8 @@ function mod:SPELL_CAST_START(args)
 			DBM.RangeCheck:Hide()
 		end
 	elseif spellId == 234817 then
-		warnDarkSolitude:Show()
+	--	warnDarkSolitude:Show()
+		specWarnDarkSolitude:Show(8)
 		timerDarkSolitudeCD:Start()
 		if self.Options.InfoFrame then
 			DBM.InfoFrame:SetHeader(darkSolitude)
@@ -116,7 +122,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		timerDemonicUpheavalCD:Start(3.5)--3 for cast start 6 for cast finish, decide which one want to use still
 		countdownDemonicUpheaval:Start(3.5)
 		timerDarkSolitudeCD:Start(7.5)
-		timerCarrionSwarmCD:Start(18.5)
+		timerCarrionSwarmCD:Start(19)
 		timerShadowFadeCD:Start()
 		warnShadowFade2:Schedule(75)
 		countdownShadowFade:Start()

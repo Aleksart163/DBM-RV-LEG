@@ -44,10 +44,11 @@ mod.vb.guardsActive = 0
 function mod:OnCombatStart(delay)
 	self.vb.guardsActive = 0
 	if self:IsHard() then
-		timerUmbralTentaclesCD:Start(13-delay) --Теневые щупальца +++
+		timerUmbralTentaclesCD:Start(12-delay) --Теневые щупальца +++
 		timerHowlingDarkCD:Start(15-delay) --Пронизывающая тьма (фир) +++
 		timerEntropicForceCD:Start(33-delay) --Энтропическая сила +++
 		timerAddsCD:Start(51.5-delay) --Призыв призрачных стражей (треш) +++
+		countdownEternalTwilight:Start(51.5-delay) --Призыв призрачных стражей (треш) +++
 	else
 		timerUmbralTentaclesCD:Start(11.8-delay) --Теневые щупальца
 		timerHowlingDarkCD:Start(15.5-delay) --Пронизывающая тьма (фир)
@@ -72,8 +73,8 @@ function mod:SPELL_CAST_START(args)
 		timerAddsCD:Start()
 		countdownEternalTwilight:Start()
 	elseif spellId == 246324 then
-		specWarnEntropicForce:Schedule(1)
-		specWarnEntropicForce:ScheduleVoice(1, "keepmove")
+		specWarnEntropicForce:Show()
+		specWarnEntropicForce:Play("keepmove")
 	end
 end
 

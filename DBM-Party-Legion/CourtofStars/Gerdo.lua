@@ -91,7 +91,7 @@ function mod:SPELL_CAST_START(args)
 		specWarnBeacon:Play("mobsoon")
 		timerStreetsweeperCD:Stop()
 		timerStreetsweeperCD:Start(9)
-	elseif spellId == 215204 then --Помеха
+	elseif spellId == 215204 and self:AntiSpam(2, 1) then --Помеха
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnHinder:Show()
 			specWarnHinder:Play("kickcast")

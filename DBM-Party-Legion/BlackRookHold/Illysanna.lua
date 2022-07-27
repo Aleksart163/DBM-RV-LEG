@@ -41,13 +41,13 @@ local timerBrutalGlaiveCD			= mod:NewCDTimer(15, 197546, nil, nil, nil, 3, nil, 
 local timerVengefulShearCD			= mod:NewCDTimer(11, 197418, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Мстительное рассечение 11-16
 local timerDarkRushCD				= mod:NewCDTimer(30, 197478, nil, nil, nil, 3) --Темный рывок
 local timerEyeBeam					= mod:NewCastTimer(12, 197696, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Пронзающий взгляд
-local timerEyeBeamCD				= mod:NewNextTimer(105, 197696, nil, nil, nil, 6, nil, DBM_CORE_DEADLY_ICON) --Пронзающий взгляд
+local timerEyeBeamCD				= mod:NewNextTimer(103, 197696, nil, nil, nil, 6, nil, DBM_CORE_DEADLY_ICON) --Пронзающий взгляд
 
 local yellBrutalGlaive				= mod:NewYell(197546, nil, nil, nil, "YELL") --Жуткая глефа
 local yellEyeBeam					= mod:NewYell(197687, nil, nil, nil, "YELL") --Пронзающий взгляд
 local yellDarkRush					= mod:NewYell(197478, nil, nil, nil, "YELL") --Темный рывок
 
-local countdownEyeBeam				= mod:NewCountdown(105, 197696, nil, nil, 5) --Пронзающий взгляд
+local countdownEyeBeam				= mod:NewCountdown(103, 197696, nil, nil, 5) --Пронзающий взгляд
 
 mod:AddSetIconOption("SetIconOnEyeBeam", 197687, true, false, {8}) --Пронзающий взгляд
 mod:AddSetIconOption("SetIconOnBrutalGlaive", 197546, true, false, {7}) --Жуткая глефа
@@ -68,7 +68,7 @@ function mod:BrutalGlaiveTarget(targetname, uId)
 		specWarnBrutalGlaive2:Play("runout")
 	end
 	if self.Options.SetIconOnBrutalGlaive then
-		self:SetIcon(args.destName, 7, 15)
+		self:SetIcon(targetname, 7, 15)
 	end
 end
 
@@ -196,7 +196,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 			timerVengefulShearCD:Start(7.5)
 			timerEyeBeamCD:Start()
 			countdownEyeBeam:Start()
-			specWarnSummonAdds:Schedule(105)
+			specWarnSummonAdds:Schedule(103)
 		end
 	end
 end

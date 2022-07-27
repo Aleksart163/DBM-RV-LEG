@@ -25,7 +25,7 @@ local warnVoidTrap						= mod:NewSpellAnnounce(246026, 3, nil, nil, nil, nil, ni
 --local specWarnHuntersRush				= mod:NewSpecialWarningDefensive(247145, "Tank", nil, nil, 1, 2)
 --local specWarnOverloadTrap				= mod:NewSpecialWarningDodge(247206, nil, nil, nil, 2, 2) --Заряженные ловушки
 local specWarnUmbralFlanking			= mod:NewSpecialWarningYouMoveAway(247245, nil, nil, nil, 1, 2) --Призрачный удар
-local specWarnRavagingDarkness			= mod:NewSpecialWarningDodge(245802, nil, nil, nil, 2, 2) --Опустошающая тьма
+local specWarnRavagingDarkness			= mod:NewSpecialWarningDodge(245802, nil, nil, nil, 2, 3) --Опустошающая тьма
 local specWarnDreadScreech				= mod:NewSpecialWarningInterrupt(248831, "HasInterrupt", nil, nil, 3, 5) --Ужасный визг
 
 local timerVoidTrapCD					= mod:NewCDTimer(16, 247175, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Ловушка Бездны +++
@@ -95,9 +95,6 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self.Options.SetIconOnUmbralFlanking then
 			self:SetIcon(args.destName, self.vb.umbralflankingIcon)
 		end
-		if self.vb.umbralflankingIcon == 6 then
-			self.vb.umbralflankingIcon = 8
-		end
 --	elseif spellId == 247145 then
 --		specWarnHuntersRush:Show()
 --		specWarnHuntersRush:Play("defensive")
@@ -108,7 +105,7 @@ end
 function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
 	if spellId == 247245 then
-	--	self.vb.umbralflankingIcon = self.vb.umbralflankingIcon + 1
+		self.vb.umbralflankingIcon = self.vb.umbralflankingIcon + 1
 		if self.Options.SetIconOnUmbralFlanking then
 			self:SetIcon(args.destName, 0)
 		end

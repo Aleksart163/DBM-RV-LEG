@@ -109,7 +109,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self.Options.RangeFrame then
 			DBM.RangeCheck:Show(8)
 		end
-		if self.Options.SetIconOnArcingBolt then
+		if self.Options.SetIconOnExpelLight then
 			self:SetIcon(args.destName, 8, 5)
 		end
 		timerExpelLightCD:Start()

@@ -26,7 +26,7 @@ mod:RegisterEventsInCombat(
 local warnEnergyVoid				= mod:NewSpellAnnounce(227523, 1) --Энергетическая пустота
 local warnArcaneBomb				= mod:NewSpellAnnounce(227618, 3) --Чародейская бомба
 
-local specWarnUnstableMana			= mod:NewSpecialWarningStack(227502, nil, 2, nil, nil, 1, 3) --Нестабильная мана
+local specWarnUnstableMana			= mod:NewSpecialWarningStack(227502, nil, 1, nil, nil, 1, 3) --Нестабильная мана
 local specWarnEnergyVoid			= mod:NewSpecialWarningYouMove(227524, nil, nil, nil, 1, 2) --Энергетическая пустота
 local specWarnDecimatingEssence		= mod:NewSpecialWarningDefensive(227507, nil, nil, nil, 3, 5) --Истребляющая сущность
 local specWarnCoalescePower			= mod:NewSpecialWarningMoveTo(227297, "Tank", nil, nil, 1, 2) --Слияние энергии
@@ -91,17 +91,17 @@ function mod:SPELL_AURA_APPLIED(args)
 		countdownCoalescePower:Start()
 	elseif spellId == 227502 then --Нестабильная мана
 		local amount = args.amount or 1
-		if self:IsNormal() or self:IsHeroic() then
-			if amount >= 3 then
-				if args:IsPlayer() then
-					specWarnUnstableMana:Show(args.amount)
+		if self:IsHeroic() then
+			if args:IsPlayer() then
+				if amount >= 3 then
+					specWarnUnstableMana:Show(amount)
 					specWarnUnstableMana:Play("stackhigh")
 				end
 			end
-		elseif self:IsHard() then
-			if amount >= 1 then
-				if args:IsPlayer() and not self:IsTank() then
-					specWarnUnstableMana:Show(args.amount)
+		else
+			if args:IsPlayer() and not self:IsTank() then
+				if amount >= 1 then
+					specWarnUnstableMana:Show(amount)
 					specWarnUnstableMana:Play("stackhigh")
 				end
 			end

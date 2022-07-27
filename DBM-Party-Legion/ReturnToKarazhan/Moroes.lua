@@ -16,7 +16,8 @@ mod:RegisterCombat("combat")
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 227672 227578 227545 227736 227672",
 	"SPELL_CAST_SUCCESS 227872",
-	"SPELL_AURA_APPLIED 227832 227616",
+	"SPELL_AURA_APPLIED 227832 227616 227742",
+	"SPELL_AURA_APPLIED_DOSE 227742",
 --	"SPELL_AURA_REMOVED",
 --	"SPELL_PERIODIC_DAMAGE",
 --	"SPELL_PERIODIC_MISSED",
@@ -25,7 +26,8 @@ mod:RegisterEventsInCombat(
 )
 
 --Мороуз https://ru.wowhead.com/npc=114312/мороуз/эпохальный-журнал-сражений
-local warnVanish					= mod:NewSpellAnnounce(227737, 2) --Исчезновение
+local warnGarrote					= mod:NewStackAnnounce(227742, 3, nil, nil, 2) --Гаррота
+local warnVanish					= mod:NewTargetAnnounce(227736, 3) --Исчезновение
 local warnGhastlyPurge				= mod:NewSpellAnnounce(227872, 4) --Жуткое очищение
 local warnGhastlyPurge2				= mod:NewSoonAnnounce(227872, 1) --Жуткое очищение
 --Baroness Dorothea Millstipe
@@ -35,6 +37,8 @@ local warnHealingStream				= mod:NewCastAnnounce(227578, 4) --Исцеляющи
 --Lady Keira Berrybuck
 local warnEmpoweredArms				= mod:NewTargetAnnounce(227616, 4) --Усиление оружия
 --Мороуз
+local specWarnGarrote				= mod:NewSpecialWarningStack(227742, nil, 1, nil, nil, 1, 3) --Гаррота
+local specWarnVanish				= mod:NewSpecialWarningYou(227736, nil, nil, nil, 1, 2) --Исчезновение
 local specWarnCoatCheck				= mod:NewSpecialWarningYouDefensive(227832, nil, nil, nil, 3, 3) --Дресс-код
 local specWarnCoatCheckHealer		= mod:NewSpecialWarningDispel(227832, "MagicDispeller2", nil, nil, 3, 3) --Дресс-код
 --Лорд Криспин Ференс
@@ -48,12 +52,13 @@ local specWarnEmpoweredArms			= mod:NewSpecialWarningDispel(227616, "MagicDispel
 local specWarnEmpoweredArms2		= mod:NewSpecialWarningDefensive(227616, "Tank", nil, nil, 3, 3) --Усиление оружия
 --Moroes
 local timerCoatCheckCD				= mod:NewNextTimer(27.3, 227832, nil, "Tank|Healer", nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_MAGIC_ICON) --Дресс-код
-local timerVanishCD					= mod:NewNextTimer(19, 227737, nil, nil, nil, 3) --Исчезновение
+local timerVanishCD					= mod:NewNextTimer(19, 227736, nil, nil, nil, 3) --Исчезновение
 --Lady Lady Catriona Von'Indi
 local timerHealingStreamCD			= mod:NewCDTimer(40, 227578, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON) --Исцеляющий поток
 --Lord Crispin Ference
 local timerWillBreakerCD			= mod:NewCDTimer(40, 227672, nil, "Tank", nil, 5) --Сокрушитель воли
 
+local yellVanish					= mod:NewYell(227736, nil, nil, nil, "YELL") --Исчезновение
 --local berserkTimer					= mod:NewBerserkTimer(300)
 
 --local countdownFocusedGazeCD		= mod:NewCountdown(40, 198006)
@@ -95,6 +100,16 @@ do
 			end
 		end
 		return lines
+	end
+end
+
+function mod:VanishTarget(targetname, uId) --Исчезновение ✔
+	if not targetname then return end
+	warnVanish:Show(targetname)
+	if targetname == UnitName("player") then
+		specWarnVanish:Show()
+		specWarnVanish:Play("targetyou")
+		yellVanish:Yell()
 	end
 end
 
@@ -144,8 +159,8 @@ function mod:SPELL_CAST_START(args)
 			warnManaDrain:Show()
 			warnManaDrain:Play("kickcast")
 		end
-	elseif spellId == 227736 then
-		warnVanish:Show()
+	elseif spellId == 227736 then --Исчезновение
+		self:BossTargetScanner(args.sourceGUID, "VanishTarget", 0.1, 2)
 		timerVanishCD:Start()
 	end
 end
@@ -182,8 +197,19 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnEmpoweredArms:Show(args.destName)
 			specWarnEmpoweredArms:Play("dispelnow")
 		end
+	elseif spellId == 227742 then --Гаррота
+		local amount = args.amount or 1
+		if args:IsPlayer() then
+			if amount >= 1 then
+				specWarnGarrote:Show(amount)
+				specWarnGarrote:Play("stackhigh")
+			end
+		else
+			warnGarrote:Show(args.destName, amount)
+		end
 	end
 end
+mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 
 function mod:UNIT_DIED(args)
 	local cid = self:GetCIDFromGUID(args.destGUID)

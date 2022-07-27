@@ -45,6 +45,7 @@ local timerCreepingDoom				= mod:NewBuffActiveTimer(35, 197422, nil, nil, nil, 2
 local timerVengeanceCD				= mod:NewCDTimer(35, 205004, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON) --Отмщение 35-40
 
 local countdownCreepingDoom			= mod:NewCountdown(74.5, 197422, nil, nil, 5) --Ползучая гибель
+local countdownCreepingDoom2		= mod:NewCountdownFades("Alt35", 197422, nil, nil, 5) --Ползучая гибель
 
 mod.vb.phase = 1
 local warned_preP1 = false
@@ -79,6 +80,7 @@ function mod:SPELL_CAST_START(args)
 		timerKickCD:Stop()
 		timerDeepeningShadowsCD:Stop()
 		timerCreepingDoom:Start()
+		countdownCreepingDoom2:Start()
 		countdownCreepingDoom:Start()
 		warnCreepingDoom2:Schedule(69.5)
 	elseif spellId == 213685 then --вторая Ползучая гибель
@@ -87,6 +89,7 @@ function mod:SPELL_CAST_START(args)
 		specWarnCreepingDoom:Play("stilldanger")
 		specWarnCreepingDoom:ScheduleVoice(2, "keepmove")
 		timerCreepingDoom:Start(20)
+		countdownCreepingDoom2:Start(20)
 		timerCreepingDoomCD:Start(64.5)
 		countdownCreepingDoom:Start(64.5)
 		warnCreepingDoom2:Schedule(59.5)
@@ -160,7 +163,7 @@ mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
 
 function mod:UNIT_HEALTH(uId)
 	if self:IsHard() then --миф и миф+
-		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 95888 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.46 then
+		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 95888 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.51 then
 			warned_preP1 = true
 			warnPhase:Show()
 		elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 95888 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.41 then
@@ -170,7 +173,7 @@ function mod:UNIT_HEALTH(uId)
 			warnPhase2:Play("phasechange")
 		end
 	else
-		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 95888 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.46 then
+		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 95888 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.51 then
 			warned_preP1 = true
 		elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 95888 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.41 then
 			self.vb.phase = 2

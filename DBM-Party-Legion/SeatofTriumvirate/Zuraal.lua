@@ -28,7 +28,7 @@ local warnVoidTear						= mod:NewTargetAnnounce(244621, 2) --Прорыв Без
 local warnVoidTear2						= mod:NewPreWarnAnnounce(244621, 5, 1) --Прорыв Бездны
 local warnFixate2						= mod:NewCastAnnounce(244653, 4) --Сосредоточение внимания
 
-local specWarnNullPalm					= mod:NewSpecialWarningDodge(246134, nil, nil, 2, 2, 2) --Длань обнуления
+local specWarnNullPalm					= mod:NewSpecialWarningDodge(246134, nil, nil, nil, 2, 3) --Длань обнуления
 local specWarnCoalescedVoid				= mod:NewSpecialWarningSwitch(244602, "Dps", nil, nil, 1, 2) --Сгустившаяся Бездна
 local specWarnUmbraShift				= mod:NewSpecialWarning("UmbraShift", nil, nil, nil, 1, 2) --Теневой рывок
 local specWarnFixate					= mod:NewSpecialWarningYouRun(244657, nil, nil, nil, 4, 5) --Сосредоточение внимания

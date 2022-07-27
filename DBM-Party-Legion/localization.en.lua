@@ -366,18 +366,22 @@ L:SetGeneralLocalization({
 })
 
 L:SetWarningLocalization({
-	Eating = "%s casting a spell Eating",
-	SiphoningMagic = "%s casting a spell Siphoning Magic",
-	Purifying = "%s casting a spell Purifying",
-	Draining = "%s casting a spell Draining",
 	warnSpy = "Spy detected"
 })
 
 L:SetOptionLocalization({
-	Eating = "Show warning when $spell:208585 is being cast",
-	SiphoningMagic = "Show warning when $spell:208427 is being cast",
-	Purifying = "Show warning when $spell:209767 is being cast",
-	Draining = "Show warning when $spell:208334 is being cast",
+	YellOnEating = "Report when you cast a spell $spell:208585",
+	YellOnSiphoningMagic = "Report when you cast a spell $spell:208427",
+	YellOnPurifying = "Report when you cast a spell $spell:209767",
+	YellOnDraining = "Report when you cast a spell $spell:208334",
+	YellOnInvokingText = "Report when you cast a spell $spell:210872",
+	YellOnDrinking = "Report when you cast a spell $spell:210307",
+	YellOnReleaseSpores = "Report when you cast a spell $spell:208939",
+	YellOnShuttingDown = "Report when you cast a spell $spell:208370",
+	YellOnTreating = "Report when you cast a spell $spell:210925",
+	YellOnPilfering = "Report when you cast a spell $spell:210217",
+	YellOnDefacing = "Report when you cast a spell $spell:210330",
+	YellOnTinkering = "Report when you cast a spell $spell:210922",
 	warnSpy = "Special warning when a spy is detected",
 	SpyHelper = "Help identify the spy",
 	timerRoleplay = "Show timer to the start of the battle with Advisor Melandrus"
@@ -388,7 +392,19 @@ L:SetTimerLocalization({
 })
 
 L:SetMiscLocalization({
-	RolePlayMelan 	= "Must you leave so soon, Grand Magistrix?",
+	EatingYell = "I use Nightshade Refreshments, now we have more hp!",
+	SiphoningMagic = "I use Magical Lantern, now we have more damage!",
+	PurifyingYell = "I use Infernal Tome, now we have more protection!",
+	DrainingYell = "I use Fel Orb, now we have more critical damage!",
+	InvokingTextYell = "I use Waterlogged Scroll, now we have more speed running!",
+	DrinkingYell = "I use Starlight Rose Brew, now we have more mana and hp regen!",
+	ReleaseSporesYell = "I use Umbral Bloom, now we have more combat speed!",
+	ShuttingDownYell = "I use Arcane Power Conduit, now all the Guardian Construct will be turned off!",
+	TreatingYell = "I heal Wounded Nightborne Civilian and distracting the mini-boss!",
+	PilferingYell = "I use Bazaar Goods and distracting the mini-boss!",
+	DefacingYell = "I use Lifesized Nightborne Statue and distracting the mini-boss!",
+	TinkeringYell = "I use Discarded Junk and distracting the mini-boss!",
+	RolePlayMelan = "Must you leave so soon, Grand Magistrix?",
 	Gloves1		= "There's a rumor that the spy always wears gloves.",
 	Gloves2		= "I heard the spy carefully hides their hands.",
 	Gloves3		= "I heard the spy always dons gloves.",

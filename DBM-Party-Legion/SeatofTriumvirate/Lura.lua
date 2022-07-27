@@ -37,8 +37,8 @@ local timerCalltoVoidCD					= mod:NewCDTimer(14.5, 247795, nil, nil, nil, 1, nil
 local timerGrandShiftCD					= mod:NewCDTimer(14.5, 249009, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON..DBM_CORE_MYTHIC_ICON) --Масштабный рывок +++
 local timerUmbralCadenceCD				= mod:NewCDTimer(10.8, 247930, nil, nil, nil, 2, nil, DBM_CORE_HEALER_ICON) --Каденция Бездны +++
 local timerBacklash						= mod:NewBuffActiveTimer(12, 247816, nil, nil, nil, 6, nil, DBM_CORE_DAMAGE_ICON) --Отдача +++
-local timerBacklashCD					= mod:NewCDTimer(14, 247816, nil, nil, nil, 3, nil, DBM_CORE_DAMAGE_ICON) --Отдача +++
-local timerFragmentOfDespairCD			= mod:NewCDTimer(18.5, 245164, nil, nil, nil, 3, nil, DBM_CORE_DAMAGE_ICON) --Частица отчаяния
+local timerBacklashCD					= mod:NewCDTimer(14, 247816, nil, nil, nil, 7) --Отдача +++
+local timerFragmentOfDespairCD			= mod:NewCDTimer(18.5, 245164, nil, nil, nil, 2, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Частица отчаяния
 
 local countdownBacklash					= mod:NewCountdown(14, 247816, nil, nil, 5) --Отдача
 local countdownBacklash2				= mod:NewCountdownFades("Alt12", 247816, nil, nil, 5) --Отдача
@@ -77,9 +77,11 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 247878 then --Вытягивание Бездны
 		self.vb.wardens = self.vb.wardens + 1
 		if self.vb.wardens == 1 then
+			timerFragmentOfDespairCD:Cancel()
 			countdownBacklash:Start()
 			timerBacklashCD:Start()
 		elseif self.vb.wardens == 3 then
+			timerFragmentOfDespairCD:Cancel()
 			countdownBacklash:Start()
 			timerBacklashCD:Start()
 		end

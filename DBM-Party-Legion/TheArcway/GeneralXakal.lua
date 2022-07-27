@@ -24,9 +24,9 @@ local specWarnWakeofShadows			= mod:NewSpecialWarningYouMove(220443, nil, nil, n
 local specWarnBat					= mod:NewSpecialWarningSwitch("ej12489", "-Healer", nil, nil, 1, 2) --Треш
 local specWarnFissure				= mod:NewSpecialWarningDodge(197776, nil, nil, nil, 2, 2) --Разлом Скверны
 local specWarnSlash					= mod:NewSpecialWarningDodge(212030, nil, nil, nil, 2, 2) --Темное рассечение
-local specWarnSlam					= mod:NewSpecialWarningDefensive(197810, nil, nil, nil, 3, 2) --Злодейский мощный удар
+local specWarnSlam					= mod:NewSpecialWarningDefensive(197810, nil, nil, nil, 3, 5) --Злодейский мощный удар
 
-local timerBatCD					= mod:NewNextTimer(31, "ej12489", nil, nil, nil, 1, 183219, DBM_CORE_DAMAGE_ICON) --Треш 31.1
+local timerBatCD					= mod:NewNextTimer(31, "ej12489", nil, nil, nil, 1, 183219, DBM_CORE_TANK_ICON..DBM_CORE_DAMAGE_ICON) --Треш 31.1
 --Both 13 unless delayed by other interactions. Seems similar to archimondes timer code with a hard ICD mechanic.
 local timerFissureCD				= mod:NewCDTimer(23, 197776, nil, nil, nil, 7) --Разлом Скверны +++
 local timerSlashCD					= mod:NewCDTimer(25, 212030, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON..DBM_CORE_MYTHIC_ICON) --Темное рассечение 25-30 +++
