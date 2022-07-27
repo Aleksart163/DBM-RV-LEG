@@ -303,6 +303,7 @@ DBM_CORE_ACHIEVEMENT_TIMER_SPEED_KILL = "Достижение"
 -- Auto-generated Warning Localizations
 DBM_CORE_AUTO_ANNOUNCE_TEXTS.you 			= "%s на тебе"
 DBM_CORE_AUTO_ANNOUNCE_TEXTS.target 		= "%s на |3-5(>%%s<)"
+DBM_CORE_AUTO_ANNOUNCE_TEXTS.targetsource  	= ">%%s< применяет заклинание %s"
 DBM_CORE_AUTO_ANNOUNCE_TEXTS.targetcount	= "%s (%%s) на |3-5(>%%s<)"
 DBM_CORE_AUTO_ANNOUNCE_TEXTS.spell 			= "%s"
 DBM_CORE_AUTO_ANNOUNCE_TEXTS.ends			= "%s заканчивается"
@@ -320,6 +321,7 @@ DBM_CORE_AUTO_ANNOUNCE_TEXTS.stack 			= "%s на |3-5(>%%s<) (%%d)"
 local prewarnOption = "Предупреждать заранее о $spell:%s"
 DBM_CORE_AUTO_ANNOUNCE_OPTIONS.you 			= "Объявлять когда $spell:%s на тебе"
 DBM_CORE_AUTO_ANNOUNCE_OPTIONS.target 		= "Объявлять цели заклинания $spell:%s"
+DBM_CORE_AUTO_ANNOUNCE_OPTIONS.targetsource	= "Объявлять источник использования заклинания $spell:%s"
 DBM_CORE_AUTO_ANNOUNCE_OPTIONS.targetcount	= "Объявлять цели заклинания $spell:%s (со счетчиком)"
 DBM_CORE_AUTO_ANNOUNCE_OPTIONS.spell 		= "Предупреждение для $spell:%s"
 DBM_CORE_AUTO_ANNOUNCE_OPTIONS.ends			= "Предупреждать об окончании $spell:%s"
@@ -408,6 +410,7 @@ DBM_CORE_AUTO_SPEC_WARN_TEXTS.youmoredamage		= "%s на вас! - дайте б�
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.paraxiscount		= "%s! - очередь (%%s) группы"
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.standsand			= "%s - встаньте на песок"
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.useitem			= "%s - используйте >%%s<"
+DBM_CORE_AUTO_SPEC_WARN_TEXTS.keepdist			= "%s - держите дистанцию (%%s)м"
 
 -- Auto-generated Special Warning Localizations
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.spell 			= "Спец-предупреждение для $spell:%s"
@@ -483,6 +486,7 @@ DBM_CORE_AUTO_SPEC_WARN_OPTIONS.youmoredamage	= "Спец-предупрежде
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.paraxiscount	= "Спец-предупреждение (со счетчиком) \"очередь ... группы\" для $spell:%s"
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.standsand		= "Спец-предупреждение \"встаньте на песок\" для $spell:%s"
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.useitem 		= "Спец-предупреждение \"используйте\" на ком $spell:%s"
+DBM_CORE_AUTO_SPEC_WARN_OPTIONS.keepdist 		= "Спец-предупреждение \"держите дистанцию N метров\" для $spell:%s"
 
 -- Auto-generated Timer Localizations
 DBM_CORE_AUTO_TIMER_TEXTS.target 		= "%s: >%%s<"

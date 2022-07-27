@@ -124,7 +124,7 @@ local timerEdgeofAnniCD				= mod:NewCDTimer(5.5, 258834, nil, nil, nil, 3, nil, 
 mod:AddTimerLine(SCENARIO_STAGE:format(4))
 local timerDeadlyScytheCD			= mod:NewCDTimer(5.5, 258039, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Смертоносная коса
 local timerReorgModuleCD			= mod:NewCDCountTimer(48, 256389, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON..DBM_CORE_MYTHIC_ICON) --Модуль пересозидания
-local timerReapSoul					= mod:NewCastTimer(15.8, 256542, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Жатва душ
+local timerReapSoul					= mod:NewCastTimer(13, 256542, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Жатва душ
 local timerEndofAllThings			= mod:NewCastTimer(19.8, 256544, nil, nil, nil, 2, nil, DBM_CORE_INTERRUPT_ICON..DBM_CORE_DEADLY_ICON) --Конец всего сущего
 
 local yellGiftofSky					= mod:NewYell(258646, L.SkyText, nil, nil, "YELL") --Дар небес
@@ -388,8 +388,6 @@ function mod:SPELL_CAST_START(args)
 		specWarnConeofDeath:Play("shockwave")
 		timerConeofDeathCD:Start(nil, self.vb.coneCount+1)
 	elseif spellId == 256544 then --Конец всего сущего
-		warnEndofAllThings:Show()
-		warnEndofAllThingsPlay("kickcast")
 		self:SendSync("EndofAllThings")
 	elseif spellId == 248317 then
 		self.vb.blightOrbCount = self.vb.blightOrbCount + 1
@@ -534,10 +532,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		countdownApocModule:Start(timer)
 	end
 end
---02:43:54.767
---02:44:44.754
---22:05:39.299
---22:06:29.472
+
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 248499 then--Heroic/non mythic
@@ -1024,9 +1019,16 @@ end
 
 function mod:OnSync(msg)
 	if msg == "EndofAllThings" then -- под обычку таймер норм где 19.8 сек каста
+		warnEndofAllThings:Show()
+		warnEndofAllThings:Play("kickcast")
 		specWarnEndofAllThings:Schedule(12)
 		specWarnEndofAllThings:ScheduleVoice(12, "kickcast")
-		timerEndofAllThings:Start()
-		countdownEndofAllThings:Start()
+		if self:IsHeroic() then
+			timerEndofAllThings:Start(15)
+			countdownEndofAllThings:Start(15)
+		else
+			timerEndofAllThings:Start()
+			countdownEndofAllThings:Start()
+		end
 	end
 end

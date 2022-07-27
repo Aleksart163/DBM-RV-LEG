@@ -6,9 +6,9 @@ mod:SetCreatureID(122369, 122333, 122367)--Chief Engineer Ishkar, General Erodus
 mod:SetEncounterID(2070)
 mod:SetZone()
 mod:SetBossHPInfoToHighest()
-mod:SetUsedIcons(8, 7, 3, 2, 1)
+mod:SetUsedIcons(8, 7, 6, 2, 1)
 mod:SetHotfixNoticeRev(16939)
-mod.respawnTime = 29
+mod.respawnTime = 30
 
 mod:RegisterCombat("combat")
 --mod:RegisterCombat("combat_say", L.YellPullCouncil)
@@ -100,14 +100,14 @@ local countdownFusillade				= mod:NewCountdown("AltTwo30", 244625, nil, nil, 3) 
 ----General Erodus
 --local countdownReinforcements			= mod:NewCountdown(25, 245546) --Вызов подкрепления
 
-mod:AddSetIconOption("SetIconOnAdds", 245546, true, true, {8, 7}) --Вызов подкрепления
-mod:AddSetIconOption("SetIconOnShockGrenade", 244737, true, false, {3, 2, 1}) --Шоковая граната
+mod:AddSetIconOption("SetIconOnShockGrenade", 244737, true, false, {8, 7, 6}) --Шоковая граната
+mod:AddSetIconOption("SetIconOnAdds", 245546, true, true, {2, 1}) --Вызов подкрепления
 mod:AddRangeFrameOption("8")
 
 local felShield = DBM:GetSpellInfo(244910)
 mod.vb.FusilladeCount = 0
-mod.vb.lastIcon = 8
-mod.vb.ShockGrenadeIcon = 1
+mod.vb.lastIcon = 1
+mod.vb.ShockGrenadeIcon = 8
 
 function mod:DemonicChargeTarget(targetname, uId)
 	if not targetname then return end
@@ -127,8 +127,8 @@ end
 
 function mod:OnCombatStart(delay)
 	self.vb.FusilladeCount = 0
-	self.vb.lastIcon = 8
-	self.vb.ShockGrenadeIcon = 1
+	self.vb.lastIcon = 1
+	self.vb.ShockGrenadeIcon = 8
 	--In pod
 --	berserkTimer:Start(-delay)
 	--Out of Pod
@@ -234,17 +234,6 @@ function mod:SPELL_CAST_SUCCESS(args)
 	elseif spellId == 245227 then--Assume Command
 		timerAssumeCommandCD:Start(90)
 		countdownAssumeCommand:Start(90)
-	elseif spellId == 253037 then
-		if args:IsPlayer() then
-			specWarnDemonicChargeYou:Show()
-			specWarnDemonicChargeYou:Play("runaway")
-			yellDemonicCharge:Yell()
-		elseif self:CheckNearby(10, args.destName) then
-			specWarnDemonicCharge:Show(args.destName)
-			specWarnDemonicCharge:Play("watchstep")
-		else
-			warnDemonicCharge:Show(args.destName)
-		end
 	end
 end
 
@@ -264,7 +253,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self.Options.SetIconOnShockGrenade then
 			self:SetIcon(args.destName, self.vb.ShockGrenadeIcon)
 		end
-		self.vb.ShockGrenadeIcon = self.vb.ShockGrenadeIcon + 1
+		self.vb.ShockGrenadeIcon = self.vb.ShockGrenadeIcon - 1
 	elseif spellId == 244892 then
 		local uId = DBM:GetRaidUnitId(args.destName)
 	--	if self:IsTanking(uId) then
@@ -314,6 +303,7 @@ mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
 	if spellId == 244737 then
+		self.vb.ShockGrenadeIcon = self.vb.ShockGrenadeIcon + 1
 		if args:IsPlayer() then
 			yellShockGrenadeFades:Cancel()
 			if self.Options.RangeFrame then
@@ -365,10 +355,10 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 		if self.Options.SetIconOnAdds then
 			self:ScanForMobs(122890, 0, self.vb.lastIcon, 1, 0.1, 12, "SetIconOnAdds")
 		end
-		if self.vb.lastIcon == 8 then
-			self.vb.lastIcon = 7
+		if self.vb.lastIcon == 1 then
+			self.vb.lastIcon = 2
 		else
-			self.vb.lastIcon = 8
+			self.vb.lastIcon = 1
 		end
 	end
 end

@@ -3,7 +3,7 @@
 -- **            http://www.deadlybossmods.com            **
 -- **        https://www.patreon.com/deadlybossmods       **
 -- *********************************************************
--- ДЛЯ ДУРАЧКОВ
+-- ДЛЯ ДУРАЧКОВ, которым нехуй заняться
 -- Ниже находится информация с офы Легиона под 2018 год
 -- This addon is written and copyrighted by:
 --    * Paul Emmerich (Tandanu @ EU-Aegwynn) (DBM-Core)
@@ -44,9 +44,9 @@
 ----------------------------------------------------------------
 --
 DBM = {
-	Revision = tonumber(("$Revision: 17670 $"):sub(12, -3)), --прошляпанное очко мурчаля и пелии ✔
+	Revision = tonumber(("$Revision: 17671 $"):sub(12, -3)), --прошляпанное очко мурчаля ✔ (да, прошляпил он знатно)
 	DisplayVersion = "7.3.37 Right Version",
-	ReleaseRevision = 17669
+	ReleaseRevision = 17670
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -7378,7 +7378,8 @@ function bossModPrototype:CheckInterruptFilter(sourceGUID, skip, checkCooldown)
 	if (DBM.Options.FilterInterrupt2 == "onlyTandF") or self.isTrashMod and (DBM.Options.FilterInterrupt2 == "TandFandBossCooldown") then
 		requireCooldown = false
 	end
-	if requireCooldown and ((GetSpellCooldown(6552)) ~= 0 or (GetSpellCooldown(31935)) ~= 0 or (GetSpellCooldown(96231)) ~= 0 or (GetSpellCooldown(147362)) ~= 0 or (GetSpellCooldown(187707)) ~= 0 or (GetSpellCooldown(1766)) ~= 0 or (GetSpellCooldown(15487)) ~= 0 or (GetSpellCooldown(57994)) ~= 0 or (GetSpellCooldown(2139)) ~= 0 or (GetSpellCooldown(19647)) ~= 0 or (GetSpellCooldown(171138)) ~= 0 or (GetSpellCooldown(116705)) ~= 0 or (GetSpellCooldown(78675)) ~= 0 or (GetSpellCooldown(106839)) ~= 0 or (GetSpellCooldown(183752)) ~= 0 or (GetSpellCooldown(47528)) ~= 0) then
+--	if requireCooldown and ((GetSpellCooldown(6552)) ~= 0 or (GetSpellCooldown(31935)) ~= 0 or (GetSpellCooldown(96231)) ~= 0 or (GetSpellCooldown(147362)) ~= 0 or (GetSpellCooldown(187707)) ~= 0 or (GetSpellCooldown(1766)) ~= 0 or (GetSpellCooldown(15487)) ~= 0 or (GetSpellCooldown(57994)) ~= 0 or (GetSpellCooldown(2139)) ~= 0 or (GetSpellCooldown(19647)) ~= 0 or (GetSpellCooldown(171138)) ~= 0 or (GetSpellCooldown(116705)) ~= 0 or (GetSpellCooldown(78675)) ~= 0 or (GetSpellCooldown(106839)) ~= 0 or (GetSpellCooldown(183752)) ~= 0 or (GetSpellCooldown(47528)) ~= 0) then
+	if requireCooldown and ((GetSpellCooldown(6552)) ~= 0 or (GetSpellCooldown(31935)) ~= 0 or (GetSpellCooldown(96231)) ~= 0 or (GetSpellCooldown(147362)) ~= 0 or (GetSpellCooldown(187707)) ~= 0 or (GetSpellCooldown(1766)) ~= 0 or (GetSpellCooldown(15487)) ~= 0 or (GetSpellCooldown(57994)) ~= 0 or (GetSpellCooldown(2139)) ~= 0 or (GetSpellCooldown(19647)) ~= 0 or (GetSpellCooldown(171138)) ~= 0 or (GetSpellCooldown(116705)) ~= 0 or (GetSpellCooldown(78675)) ~= 0 or (GetSpellCooldown(106839)) ~= 0 or (GetSpellCooldown(47528)) ~= 0) then
 		InterruptAvailable = false --Зуботычина, Щит мстителя, Укор, Встречный выстрел, Намордник, Пинок, Безмолвие, Пронизывающий ветер, Антимагия, Запрет чар, Замок мира теней, Рука-копье, Столп солнечного света, Лобовая атака, Поглощение магии, Заморозка разума
 	end
 	if InterruptAvailable and (UnitGUID("target") == sourceGUID or UnitGUID("focus") == sourceGUID) then
@@ -8937,6 +8938,10 @@ do
 		return newAnnounce(self, "target", spellId, color or 3, icon, optionDefault, optionName, castTime, preWarnTime, noSound, true) --return newAnnounce(self, "target", spellId, color or 3, ...)
 	end
 
+	function bossModPrototype:NewTargetSourceAnnounce(spellId, color, ...)
+		return newAnnounce(self, "targetsource", spellId, color or 1, ...)
+	end
+
 	function bossModPrototype:NewTargetCountAnnounce(spellId, color, ...)
 		return newAnnounce(self, "targetcount", spellId, color or 3, ...)
 	end
@@ -9857,7 +9862,7 @@ do
 			if announceType == "target" or announceType == "targetcount" or announceType == "close" or announceType == "reflect" then
 				catType = "announceother"
 			--Directly affects you 
-			elseif announceType == "you" or announceType == "yourun" or announceType == "yourunning" or announceType == "closemoveaway" or announceType == "youfind" or announceType == "youclose" or announceType == "youshare" or announceType == "youdefensive" or announceType == "youmoveaway" or announceType == "youmove" or announceType == "youcount" or announceType == "youpos" or announceType == "move" or announceType == "dodge" or announceType == "moveaway" or announceType == "run" or announceType == "stack" or announceType == "moveto" or announceType == "soakpos" or announceType == "youmoveawaypos" or announceType == "youfades" or announceType == "youdontmove" or announceType == "cast" then
+			elseif announceType == "keepdist" or announceType == "you" or announceType == "yourun" or announceType == "yourunning" or announceType == "closemoveaway" or announceType == "youfind" or announceType == "youclose" or announceType == "youshare" or announceType == "youdefensive" or announceType == "youmoveaway" or announceType == "youmove" or announceType == "youcount" or announceType == "youpos" or announceType == "move" or announceType == "dodge" or announceType == "moveaway" or announceType == "run" or announceType == "stack" or announceType == "moveto" or announceType == "soakpos" or announceType == "youmoveawaypos" or announceType == "youfades" or announceType == "youdontmove" or announceType == "cast" then
 				catType = "announcepersonal"
 			--Things you have to do to fulfil your role
 			elseif announceType == "taunt" or announceType == "moredamage" or announceType == "defensive" or announceType == "interrupt2" or announceType == "dispel" or announceType == "interrupt" or announceType == "interruptcount" or announceType == "switch" or announceType == "switchcount" or announceType == "youmoredamage" then
@@ -10147,6 +10152,10 @@ do
 
 	function bossModPrototype:NewSpecialWarningUseItem(text, optionDefault, ...)
 		return newSpecialWarning(self, "useitem", text, nil, optionDefault, ...)
+	end
+	
+	function bossModPrototype:NewSpecialWarningKeepDist(text, optionDefault, ...)
+		return newSpecialWarning(self, "keepdist", text, nil, optionDefault, ...)
 	end
 
 	function bossModPrototype:NewSpecialWarningPreWarn(text, optionDefault, time, ...)

@@ -303,6 +303,7 @@ DBM_CORE_ACHIEVEMENT_TIMER_SPEED_KILL = "Achievement"--BATTLE_PET_SOURCE_6
 DBM_CORE_AUTO_ANNOUNCE_TEXTS = {
 	you			= "%s on YOU",
 	target		= "%s on >%%s<",
+	targetsource= ">%%s< casts a spell %s",
 	targetcount	= "%s (%%s) on >%%s<",
 	spell		= "%s",
 	ends 		= "%s ended",
@@ -322,6 +323,7 @@ local prewarnOption = "Show pre-warning for $spell:%s"
 DBM_CORE_AUTO_ANNOUNCE_OPTIONS = {
 	you			= "Announce when $spell:%s on you",
 	target		= "Announce $spell:%s targets",
+	targetsource= "Announce the source of a spell to be used $spell:%s",
 	targetcount	= "Announce $spell:%s targets (with count)",
 	spell		= "Show warning for $spell:%s",
 	ends		= "Show warning when $spell:%s has ended",
@@ -408,7 +410,8 @@ DBM_CORE_AUTO_SPEC_WARN_TEXTS = {
 	youmoredamage	= "%s on you! - give more damage",
 	paraxiscount	= "%s! - turn of the (%%s) group",
 	standsand		= "%s! - move to land",
-	useitem			= "%s - use >%%s<"
+	useitem			= "%s - use >%%s<",
+	keepdist		= "%s - keep a distance of (%%s)м"
 }
 
 -- Auto-generated Special Warning Localizations
@@ -482,7 +485,8 @@ DBM_CORE_AUTO_SPEC_WARN_OPTIONS = {
 	youmoredamage	= "Show special warning \"give more damage\" when on you $spell:%s",
 	paraxiscount	= "Show special warning (with count) \"turn of the ... group\" for $spell:%s",
 	standsand		= "Show special warning \"move to land\" for $spell:%s",
-	useitem 		= "Show special warning \"use\" on whom $spell:%s"
+	useitem 		= "Show special warning \"use\" on whom $spell:%s",
+	keepdist 		= "Show special warning \"keep a distance of N meters\" for $spell:%s"
 }
 
 -- Auto-generated Timer Localizations

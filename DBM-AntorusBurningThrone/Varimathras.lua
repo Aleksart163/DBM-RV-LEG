@@ -287,7 +287,7 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 244005 and destGUID == UnitGUID("player") and self:AntiSpam(2, 4) then
 		specWarnGTFO:Show()
 		specWarnGTFO:Play("runaway")
-	elseif spellId == 248740 and destGUID == UnitGUID("player") and self:AntiSpam(2, 4) then
+	elseif spellId == 248740 and destGUID == UnitGUID("player") and self:AntiSpam(3, 1) then
 		specWarnGTFO2:Show()
 		specWarnGTFO2:Play("runaway")
 	end

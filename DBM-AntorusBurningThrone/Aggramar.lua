@@ -28,8 +28,8 @@ local warnPhase							= mod:NewPhaseChangeAnnounce(1, nil, nil, nil, nil, nil, 2
 local warnPhase2						= mod:NewAnnounce("Phase1", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 2
 local warnPhase3						= mod:NewAnnounce("Phase3", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 3
 
-local warnFlameRend1					= mod:NewAnnounce("FlameRend1", 1, 245463) --1ая группа
-local warnFlameRend2					= mod:NewAnnounce("FlameRend2", 1, 245463) --2ая группа
+--local warnFlameRend1					= mod:NewAnnounce("FlameRend1", 1, 245463) --1ая группа
+--local warnFlameRend2					= mod:NewAnnounce("FlameRend2", 1, 245463) --2ая группа
 --Stage One: Wrath of Aggramar
 local warnTaeshalachReach				= mod:NewStackAnnounce(245990, 2, nil, "Tank") --Гигантский клинок
 local warnScorchingBlaze				= mod:NewTargetAnnounce(245994, 2) --Обжигающее пламя
@@ -48,8 +48,8 @@ local specWarnScorchingBlazeNear		= mod:NewSpecialWarningCloseMoveAway(245994, n
 local specWarnRavenousBlaze				= mod:NewSpecialWarningYouMoveAway(254452, nil, nil, nil, 4, 5) --Хищное пламя
 local specWarnRavenousBlazeNear			= mod:NewSpecialWarningCloseMoveAway(254452, nil, nil, nil, 2, 5) --Хищное пламя
 local specWarnWakeofFlame				= mod:NewSpecialWarningDodge(244693, nil, nil, nil, 2, 2) --Огненная волна
-local specWarnFoeBreakerTaunt			= mod:NewSpecialWarningTaunt(245458, nil, nil, nil, 3, 2) --Сокрушитель
-local specWarnFoeBreakerDefensive		= mod:NewSpecialWarningDefensive(245458, nil, nil, nil, 3, 2) --Сокрушитель
+local specWarnFoeBreakerTaunt			= mod:NewSpecialWarningTaunt(245458, nil, nil, nil, 3, 3) --Сокрушитель
+local specWarnFoeBreakerDefensive		= mod:NewSpecialWarningDefensive(245458, nil, nil, nil, 3, 3) --Сокрушитель
 local specWarnFlameRend					= mod:NewSpecialWarningRunningCount(245463, nil, nil, nil, 4, 5) --Разрывающее пламя
 local specWarnFlameRendTaunt			= mod:NewSpecialWarningTaunt(245463, nil, nil, nil, 1, 2) --Разрывающее пламя
 local specWarnSearingTempest			= mod:NewSpecialWarningRun(245301, nil, nil, nil, 4, 3) --Опаляющая буря
@@ -447,10 +447,10 @@ function mod:SPELL_CAST_START(args)
 		end
 		if spellId == 255058 then--Empowered/Mythic Version
 			if self.vb.rendCount == 1 then
-				warnFlameRend1:Show()
+			--	warnFlameRend1:Show()
 				specWarnFlameRend:Play("shareone")
 			else
-				warnFlameRend2:Show()
+			--	warnFlameRend2:Show()
 				specWarnFlameRend:Play("sharetwo")
 			end
 		else

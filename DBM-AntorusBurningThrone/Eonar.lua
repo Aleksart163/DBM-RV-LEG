@@ -2,13 +2,13 @@ local mod	= DBM:NewMod(2025, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
 mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
-mod:SetCreatureID(124445)
+mod:SetCreatureID(122500, 124445)
 mod:SetEncounterID(2075)
 mod:SetZone()
 --mod:SetBossHPInfoToHighest()
 mod:SetUsedIcons(5, 4, 3, 2, 1)
 mod:SetHotfixNoticeRev(16960)
---mod.respawnTime = 29
+mod.respawnTime = 30
 
 mod:RegisterCombat("combat")
 --mod:RegisterCombat("combat_yell", L.YellPullEonar)
@@ -122,7 +122,7 @@ local lfrDestructors2 = {21.2, 43.8, 39.0, 51.1, 37.0, 53.0, 43.6, 45.2, 43.2}--
 --local normalDestructors = {17, 46.2, 32, 52.4, 93.7, 40.9, 50.2, 55.4, 49.2}--Live, Dec 01. Old 17, 39.4, 28, 44.2, 92.4, 41.3, 50, 53.4, 48.1
 local normalDestructors = {15.7, 35.3, 40, 104, 139, 99.6}--Live, Dec 01. Old 17, 39.4, 28, 44.2, 92.4, 41.3, 50, 53.4, 48.1
 local normalObfuscators = {77.6, 146.5, 94.7, 100} --переправленные сервером, всё ок
-local normalBats = {160, 122, 105, 105} --переправленные сервером, с 3 хз 
+local normalBats = {159, 124, 85, 105} --переправленные сервером, у 3 -20сек (если судить по героику)
 --Дождь Скверны героик-------------------------------------------------------------------------------------------------------------
 --local heroicRainOfFelTimers = {9.3, 43, 10, 43, 20, 19, 20, 29.2, 45, 25, 99}--Live, Dec 26
 --local heroicRainOfFelTimers = {14, 37.5, 21.5, 28, 29, 43.5, 32, 31.5, 25, 34, 45} --у 1 +4.7сек, у 2 -5.5сек, у 3 +11.5 сек, у 4 -15сек, у 5 +9сек, у 6 +24.5сек, у 7 +12сек, у 8 +2.3сек, у 9 -20сек, у 10 +9сек, у 11 -54сек
@@ -141,7 +141,7 @@ local heroicPurifiers = {116.5, 67.3, 29.6} --у 1 -8.5сек, у 2 +1.2 сек,
 -----------------------------------------------------------------------------------------------------------------------------------
 --Мыши героик----------------------------------------------------------------------------------------------------------------------
 --local heroicBats = {170, 125, 105, 105}
-local heroicBats = {160, 122, 105, 105} --у 1 -10сек, у 2 -3сек, у 3 хз,
+local heroicBats = {159, 124, 85, 105} --у 1 -10сек, у 2 -3сек, у 3 -20сек
 --Копье Рока героик----------------------------------------------------------------------------------------------------------------
 --local heroicSpearofDoomTimers = {35, 59.2, 64.3, 40, 84.7, 34.1, 65.2}--Live, Nov 29
 local heroicSpearofDoomTimers = {34, 60, 60, 60, 60, 60, 60} -- ВСЕ ГОТОВО у 1 -1сек, у 2 +0.8 сек, у 3 -4.3сек, у 4 +20сек, у 5 -25сек, у 6+ 26сек, у 7 хз, НО СКОРЕЕ ВСЕГО -5сек
@@ -156,16 +156,16 @@ local mythicDestructors = {27, 21, 90.4, 289.5, 20, 79} --у 2 +3 сек, у 3 +
 -----------------------------------------------------------------------------------------------------------------------------------
 --Маскировщик мифик----------------------------------------------------------------------------------------------------------------
 --local mythicObfuscators = {46, 243, 43.8, 90.8}
-local mythicObfuscators = {43, 247.5, 43.8, 90} --у 1 -3сек, у 2 +4.5сек, у 4 -0.8сек
+local mythicObfuscators = {43, 247.5, 44.3, 90} --у 1 -3сек, у 2 +4.5сек, у 4 -0.8сек
 -----------------------------------------------------------------------------------------------------------------------------------
 --Очиститель мифик-----------------------------------------------------------------------------------------------------------------
 --local mythicPurifiers = {65.7, 82.6, 66.9, 145.7}
---local mythicPurifiers = {66, 83, 60, 145.7} --у 3 -6.9сек
-local mythicPurifiers = {66, 83, 205.7} --новая версия, (в старой 3-я сломано у админов)
+local mythicPurifiers = {66, 83, 60, 145.7} --у 3 -6.9сек
 -----------------------------------------------------------------------------------------------------------------------------------
 --Мыши мифик-----------------------------------------------------------------------------------------------------------------------
 --local mythicBats = {195, 79.9, 100, 95}
-local mythicBats = {180, 70.5, 93.6, 121} --у 1 -15сек, у 2 -9.4сек, у 3 -6.4 сек, у 4 +26 сек
+--local mythicBats = {180, 70.5, 93.6, 121} --у 1 -15сек, у 2 -9.4сек, у 3 -6.4 сек, у 4 +26 сек
+local mythicBats = {189, 76.5, 113.5, 121} --
 -----------------------------------------------------------------------------------------------------------------------------------
 --Копье Рока мифик--
 local mythicSpearofDoomTimers = {34, 96.5, 135.5, 74.5, 116, 34.1, 65.2} --у 1 -1сек, у 2 +37.3 сек, у 3 +71.2 сек, у 4 +34.5 сек, у 5 +31.3 сек - далее хз
@@ -178,8 +178,8 @@ local warnedAdds = {}
 local addCountToLocationMythic = {
 	["Dest"] = {DBM_CORE_MIDDLE, DBM_CORE_TOP, DBM_CORE_BOTTOM, DBM_CORE_MIDDLE, DBM_CORE_TOP, DBM_CORE_MIDDLE},
 	["Obfu"] = {DBM_CORE_BOTTOM, DBM_CORE_MIDDLE, DBM_CORE_TOP, DBM_CORE_BOTTOM},
---	["Pur"] = {DBM_CORE_MIDDLE, DBM_CORE_MIDDLE, DBM_CORE_BOTTOM, DBM_CORE_TOP} --старая версия, бот сломан у админов
-	["Pur"] = {DBM_CORE_MIDDLE, DBM_CORE_MIDDLE, DBM_CORE_TOP}
+	["Pur"] = {DBM_CORE_MIDDLE, DBM_CORE_MIDDLE, DBM_CORE_BOTTOM, DBM_CORE_TOP}
+--	["Pur"] = {DBM_CORE_MIDDLE, DBM_CORE_MIDDLE, DBM_CORE_TOP}
 }
 local addCountToLocationHeroic = {
 	["Dest"] = {DBM_CORE_MIDDLE, DBM_CORE_BOTTOM, DBM_CORE_TOP, DBM_CORE_BOTTOM, DBM_CORE_MIDDLE.."/"..DBM_CORE_TOP, DBM_CORE_MIDDLE.."/"..DBM_CORE_TOP},
@@ -325,8 +325,8 @@ function mod:OnCombatStart(delay)
 			timerPurifierCD:Start(65.7, DBM_CORE_MIDDLE) --Очиститель
 			timerFinalDoomCD:Start(58.8-delay, 1) --Всеобщая погибель
 			countdownFinalDoom:Start(58.8-delay) --Всеобщая погибель
-			timerBatsCD:Start(180, 1) --мыши, подправил
-			self:Schedule(180, startBatsStuff, self)
+			timerBatsCD:Start(189, 1) --мыши, подправил
+			self:Schedule(189, startBatsStuff, self)
 		elseif self:IsHeroic() then
 		--	timerRainofFelCD:Start(14 -delay, 1) --Дождь Скверны, подправил
 			timerDestructorCD:Start(13, DBM_CORE_MIDDLE) --Разрушитель
@@ -334,14 +334,14 @@ function mod:OnCombatStart(delay)
 			timerSpearofDoomCD:Start(34-delay, 1) --Копье Рока
 			timerObfuscatorCD:Start(77.6, DBM_CORE_TOP) --маскировщик, подправил
 			timerPurifierCD:Start(116.5, DBM_CORE_MIDDLE) --очиститель, подправил
-			timerBatsCD:Start(160, 1) --мыши, подправил
-			self:Schedule(160, startBatsStuff, self) --мыши, подправил
+			timerBatsCD:Start(159, 1) --мыши, подправил
+			self:Schedule(159, startBatsStuff, self) --мыши, подправил
 		else--Normal
 			timerDestructorCD:Start(13, DBM_CORE_MIDDLE) --Разрушитель, было 7
 			self:Schedule(27, checkForDeadDestructor, self)
 			timerObfuscatorCD:Start(77.6, DBM_CORE_TOP) --маскировщик, подправил
-			timerBatsCD:Start(160, 1) --мыши, подправил
-			self:Schedule(160, startBatsStuff, self)
+			timerBatsCD:Start(159, 1) --мыши, подправил
+			self:Schedule(159, startBatsStuff, self)
 		--	timerRainofFelCD:Start(30-delay, 1)
 		end
 	else

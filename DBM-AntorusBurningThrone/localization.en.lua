@@ -183,8 +183,8 @@ L= DBM:GetModLocalization(1984)
 L:SetWarningLocalization({
 	Phase1 = "Phase 2 soon",
 	Phase3 = "Phase 3 soon",
-	FlameRend1 = "Damage is shared by the 1st group",
-	FlameRend2 = "Damage is shared by the 2nd group",
+--	FlameRend1 = "Damage is shared by the 1st group",
+--	FlameRend2 = "Damage is shared by the 2nd group",
 	FlameRend3 = "Another group's turn"
 })
 

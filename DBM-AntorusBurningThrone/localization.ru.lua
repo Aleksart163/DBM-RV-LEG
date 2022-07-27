@@ -184,8 +184,8 @@ L= DBM:GetModLocalization(1984)
 L:SetWarningLocalization({
 	Phase1 = "Скоро фаза 2",
 	Phase3 = "Скоро фаза 3",
-	FlameRend1 = "Урон делит 1-ая группа",
-	FlameRend2 = "Урон делит 2-ая группа",
+--	FlameRend1 = "Урон делит 1-ая группа",
+--	FlameRend2 = "Урон делит 2-ая группа",
 	FlameRend3 = "Очередь другой группы"
 })
 

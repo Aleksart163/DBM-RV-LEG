@@ -143,15 +143,15 @@ function mod:OnCombatStart(delay)
 			timerEnflamedCorruptionCD:Start(49.5-delay) --Возгорание порчи +1.2 сек
 			timerDesolateGazeCD:Start(78-delay)
 			--Shadow doggo
-			timerComsumingSphereCD:Start(49.5-delay) --Поглощаяющая сфера +1.2 сек
-			timerWeightOfDarknessCD:Start(73.1-delay)
+		--	timerComsumingSphereCD:Start(49.5-delay) --Поглощаяющая сфера +1.2 сек
+		--	timerWeightOfDarknessCD:Start(73.1-delay)
 		elseif self:IsHeroic() then
 			--Fire doggo
 			timerEnflamedCorruptionCD:Start(51.1-delay)
 			timerDesolateGazeCD:Start(82.4-delay)
 			--Shadow doggo
-			timerComsumingSphereCD:Start(51.1-delay)
-			timerWeightOfDarknessCD:Start(77-delay)
+		--	timerComsumingSphereCD:Start(52.5-delay) --Поглощаяющая сфера +1.4 сек
+		--	timerWeightOfDarknessCD:Start(77-delay)
 		else--Normal confirmed, LFR assumed
 			--Fire doggo
 			if not self:IsLFR() then
@@ -190,10 +190,21 @@ function mod:SPELL_CAST_START(args)
 				timerDesolateGazeCD:Start(30.5)--30.5-31.7
 			end
 		end
-	elseif spellId == 244056 then
+	elseif spellId == 244056 then --Вытягивание порчи
 		warnSiphonCorruption:Show()
 		if not self.Options.SequenceTimers or self:IsEasy() then
 			timerSiphonCorruptionCD:Start(self.vb.mediumTimer)
+			if self:IsHeroic() then
+				timerComsumingSphereCD:Start(26) --вроде точно
+				specWarnComsumingSphere:Schedule(26)
+				specWarnComsumingSphere:ScheduleVoice(26, "watchorb")
+				timerWeightOfDarknessCD:Start(52.5) --Бремя тьмы вроде точно
+			elseif self:IsMythic() then
+				timerComsumingSphereCD:Start(24) --вроде точно
+				specWarnComsumingSphere:Schedule(24)
+				specWarnComsumingSphere:ScheduleVoice(24, "watchorb")
+				timerWeightOfDarknessCD:Start(47) --Бремя тьмы вроде точно
+			end
 		else
 			if self:IsMythic() then
 				timerComsumingSphereCD:Start(23.2)--23.2
