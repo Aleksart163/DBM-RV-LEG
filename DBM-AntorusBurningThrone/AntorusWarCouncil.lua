@@ -117,7 +117,7 @@ function mod:DemonicChargeTarget(targetname, uId)
 			specWarnDemonicChargeYou:Play("runaway")
 			yellDemonicCharge:Yell()
 		end
-	elseif self:AntiSpam(5, 1) and self:CheckNearby(7, targetname) then --AntiSpam(3.5, 2)
+	elseif self:AntiSpam(3.5, 2) and self:CheckNearby(10, targetname) then --AntiSpam(3.5, 2)
 		specWarnDemonicCharge:Show(targetname)
 		specWarnDemonicCharge:Play("watchstep")
 	else
