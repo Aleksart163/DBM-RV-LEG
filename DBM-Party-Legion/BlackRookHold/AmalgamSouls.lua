@@ -19,14 +19,14 @@ mod:RegisterEventsInCombat(
 local warnCallSouls2				= mod:NewSoonAnnounce(196078, 1) --Вызов душ
 local warnSwirlingScythe			= mod:NewTargetAnnounce(195254, 2) --Вращающаяся коса
 local warnSoulEchoes				= mod:NewTargetAnnounce(194966, 2) --Эхо души
-local warnCallSouls					= mod:NewSpellAnnounce(196078, 3) --Вызов душ Change to important warning if it becomes more relevant.
+local warnCallSouls					= mod:NewSpellAnnounce(196078, 3) --Вызов душ
 
 local specWarnSoulBurst				= mod:NewSpecialWarningDefensive(196587, nil, nil, nil, 3, 5) --Взрыв души
 local specWarnCallSouls				= mod:NewSpecialWarningSwitch(196078, "-Healer", nil, nil, 1, 2) --Вызов душ
-local specWarnReapSoul				= mod:NewSpecialWarningDodgeCount(194956, "-Tank", nil, nil, 2, 2) --Жатва душ
-local specWarnReapSoul2				= mod:NewSpecialWarningDodge(194956, "Tank", nil, nil, 3, 5) --Жатва душ
+local specWarnReapSoul				= mod:NewSpecialWarningDodge(194956, "MeleeDps", nil, nil, 2, 2) --Жатва душ
+local specWarnReapSoul2				= mod:NewSpecialWarningYouMove(194956, "Tank", nil, nil, 3, 5) --Жатва душ
 local specWarnSoulEchos				= mod:NewSpecialWarningYouRun(194966, nil, nil, nil, 4, 5) --Эхо души
-local specWarnSwirlingScythe		= mod:NewSpecialWarningDodge(195254, nil, nil, nil, 1, 2) --Вращающаяся коса
+local specWarnSwirlingScythe		= mod:NewSpecialWarningDodge(195254, nil, nil, nil, 2, 2) --Вращающаяся коса
 local specWarnSwirlingScytheNear	= mod:NewSpecialWarningCloseMoveAway(195254, nil, nil, nil, 1, 2) --Вращающаяся коса
 local specWarnSoulEchosNear			= mod:NewSpecialWarningCloseMoveAway(194966, nil, nil, nil, 1, 2) --Эхо души
 
@@ -45,7 +45,6 @@ mod:AddSetIconOption("SetIconOnSoulEchoes", 194966, true, false, {8}) --Эхо �
 mod:AddSetIconOption("SetIconOnSwirlingScythe", 195254, true, false, {7}) --Вращающаяся коса
 --mod:AddRangeFrameOption(5, 194966)
 
-mod.vb.reapsoulCount = 0
 mod.vb.phase = 1
 local warned_preP1 = false
 local warned_preP2 = false
@@ -59,7 +58,7 @@ function mod:ScytheTarget(targetname, uId)
 		specWarnSwirlingScythe:Show()
 		specWarnSwirlingScythe:Play("runaway")
 		yellSwirlingScythe:Yell()
-	elseif self:CheckNearby(6, targetname) then
+	elseif self:CheckNearby(7, targetname) then
 		specWarnSwirlingScytheNear:Show(targetname)
 		specWarnSwirlingScytheNear:Play("runaway")
 	else
@@ -97,7 +96,6 @@ function mod:OnCombatStart(delay)
 	self.vb.phase = 1
 	warned_preP1 = false
 	warned_preP2 = false
-	self.vb.reapsoulCount = 0
 	timerSwirlingScytheCD:Start(8-delay)
 	timerSoulEchoesCD:Start(15.5-delay)
 	timerReapSoulCD:Start(20-delay)
@@ -141,10 +139,9 @@ function mod:SPELL_CAST_START(args)
 		timerSoulEchoesCD:Start()
 		self:BossTargetScanner(98542, "SoulTarget", 0.1, 20, true, nil, nil, nil, true)--Always filter tank, because if scan fails debuff will be used.
 	elseif spellId == 194956 then
-		self.vb.reapsoulCount = self.vb.reapsoulCount + 1
 		specWarnReapSoul2:Show()
 		specWarnReapSoul2:Play("shockwave")
-		specWarnReapSoul:Show(self.vb.reapsoulCount)
+		specWarnReapSoul:Show()
 		specWarnReapSoul:Play("shockwave")
 		timerReapSoulCD:Start()
 		countdownReapSoul:Start()

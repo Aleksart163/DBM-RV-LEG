@@ -214,8 +214,8 @@ function mod:SPELL_CAST_START(args)
 		warnEating:Show(args.sourceName)
 		if self.Options.YellOnEating and args:IsPlayerSource() then
 			if IsInRaid() then
-				SendChatMessage(L.EatingYell, "INSTANCE_CHAT")
-			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
+				SendChatMessage(L.EatingYell, "RAID")
+			elseif IsInGroup() then
 				SendChatMessage(L.EatingYell, "PARTY")
 			end
 		end

@@ -25,7 +25,7 @@ local warnStygianBlast				= mod:NewSpellAnnounce(248133, 3) --Стигийски
 
 local specWarnDarkenedRemnant		= mod:NewSpecialWarningDodge(248128, nil, nil, nil, 2, 2) --Потемневший прах
 local specWarnCorruptingTouch		= mod:NewSpecialWarningStack(245748, nil, 2, nil, nil, 1, 3) --Оскверняющее прикосновение
-local specWarnCorruptingTouch2		= mod:NewSpecialWarningDispel(245748, "MagicDispeller2", nil, nil, 1, 3) --Оскверняющее прикосновение
+local specWarnCorruptingTouch2		= mod:NewSpecialWarningDispel(245748, "MagicDispeller2", nil, nil, 3, 3) --Оскверняющее прикосновение
 local specWarnCorruptingVoid		= mod:NewSpecialWarningYouMoveAway(245510, nil, nil, nil, 4, 3) --Оскверняющая Бездна
 local specWarnDarkMatter			= mod:NewSpecialWarningSwitch(248227, nil, nil, nil, 1, 2) --Темная сущность
 local specWarnSupField				= mod:NewSpecialWarningYouDontMove(249081, nil, nil, nil, 1, 2) --Подавляющее поле

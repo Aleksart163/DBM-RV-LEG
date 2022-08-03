@@ -41,10 +41,10 @@ local countdownTimberSmash			= mod:NewCountdown("Alt21.7", 235751, "Tank", nil, 
 
 mod:AddSetIconOption("SetIconOnChokingVines", 238598, true, false, {7}) --Удушающие лозы
 
-mod.vb.sporesCount = 1
+mod.vb.sporesCount = 0
 
 function mod:OnCombatStart(delay)
-	self.vb.sporesCount = 1
+	self.vb.sporesCount = 0
 	if self:IsHard() then
 		timerTimberSmashCD:Start(6-delay) --Удар бревном
 		countdownTimberSmash:Start(6-delay) --Удар бревном
@@ -98,7 +98,7 @@ end
 
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
-	if spellId == 238598 then --Удушающие лозы
+	if spellId == 238598 and args:IsDestTypePlayer() then --Удушающие лозы
 		if args:IsPlayer() then
 			specWarnChokingVine:Show()
 			specWarnChokingVine:Play("runaway")

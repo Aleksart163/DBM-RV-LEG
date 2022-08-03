@@ -14,6 +14,7 @@ mod:RegisterEvents(
 
 --Катакомбы Сурамара трэш
 local warnPhaseBreach				= mod:NewCastAnnounce(211115, 4) --Фазовый прорыв
+local warnArcaneReconstitution		= mod:NewCastAnnounce(226206, 3) --Чародейское воссоздание
 local warnOozeExplosion				= mod:NewCastAnnounce(193938, 4) --Взрыв слизнюка
 --local warnPropheciesofDoom			= mod:NewSpellAnnounce(211771, 4) --Предсказания рока
 
@@ -49,9 +50,14 @@ function mod:SPELL_CAST_START(args)
 	if spellId == 211757 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
 		specWarnArgusPortal:Show()
 		specWarnArgusPortal:Play("kickcast")
-	elseif spellId == 226206 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
-		specWarnArcaneReconstitution:Show()
-		specWarnArcaneReconstitution:Play("kickcast")
+	elseif spellId == 226206 then --Чародейское воссоздание
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnArcaneReconstitution:Show()
+			specWarnArcaneReconstitution:Play("kickcast")
+		else
+			warnArcaneReconstitution:Show()
+			warnArcaneReconstitution:Play("kickcast")
+		end
 	elseif spellId == 211115 then --Фазовый прорыв
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnPhaseBreach:Show()

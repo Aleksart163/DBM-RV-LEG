@@ -9,7 +9,7 @@ mod.isTrashMod = true
 
 mod:RegisterEvents(
 	"SPELL_CAST_START 228255 228239 227917 227925 228625 228606 229714 227966 228254 228280 230094 229429 229608 228700",
-	"SPELL_AURA_APPLIED 228331 229706 229716 228610 229074 230083 230050 228280 230087 228241 229468",
+	"SPELL_AURA_APPLIED 228331 229706 229716 228610 229074 230083 230050 228280 230087 228241 229468 229489",
 	"SPELL_AURA_APPLIED_DOSE 229074 228610",
 	"SPELL_AURA_REFRESH 229074 228610",
 	"SPELL_AURA_REMOVED 229489 230083 228280 230087",
@@ -130,7 +130,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 229608 then --Могучий удар
 		specWarnMightySwing:Show()
 		specWarnMightySwing:Play("watchstep")
-	elseif spellId == 228700 then --Чародейский обстрел
+	elseif spellId == 228700 and self:AntiSpam(3, 1) then --Чародейский обстрел
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnArcaneBarrage:Show()
 			specWarnArcaneBarrage:Play("kickcast")
@@ -210,6 +210,8 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 229468 then
 		warnMovePiece:Show(args.destName)
 		timerMovePieceCD:Start()
+	elseif spellId == 229489 then --Царственность
+		timerRoyalty:Cancel()
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
@@ -217,8 +219,9 @@ mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 function mod:SPELL_AURA_REMOVED(args)
 	if not self.Options.Enabled then return end
 	local spellId = args.spellId
-	if spellId == 229489 then
+	if spellId == 229489 then --Царственность
 		specWarnRoyalty:Show(args.destName)
+		timerRoyalty:Start()
 	elseif spellId == 228280 then --Клятва верности
 		timerOathofFealty:Cancel(args.destName)
 	elseif spellId == 230087 then --Восполнение сил
@@ -254,11 +257,11 @@ function mod:OnSync(msg)
 end
 
 function mod:CHAT_MSG_MONSTER_YELL(msg)
-	if msg == L.Beauty or msg:find(L.Beauty) then
+	if msg == L.Beauty then
 		self:SendSync("RPBeauty")
-	elseif msg == L.Westfall or msg:find(L.Westfall) then
+	elseif msg == L.Westfall then
 		self:SendSync("RPWestfall")
-	elseif msg == L.Wikket or msg:find(L.Wikket) then
+	elseif msg == L.Wikket then
 		self:SendSync("RPWikket")
 	end
 end
@@ -284,6 +287,7 @@ function mod:UNIT_DIED(args)
 	elseif cid == 115388 then --Король
 		king = true
 		timerRoyalty:Cancel()
+		timerMovePieceCD:Cancel()
 	elseif cid == 115395 then --Ферзь
 		if not king then
 			timerRoyalty:Start()

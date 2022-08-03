@@ -249,7 +249,7 @@ function mod:OnSync(msg)
 end
 
 function mod:CHAT_MSG_MONSTER_SAY(msg)
-	if msg == L.RP1 or msg:find(L.RP1) then
+	if msg == L.RP1 then
 		self:SendSync("RP1")
 	end
 end

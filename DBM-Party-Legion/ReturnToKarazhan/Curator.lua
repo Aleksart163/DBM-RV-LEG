@@ -29,7 +29,6 @@ local warnOverload					= mod:NewStackAnnounce(227257, 4, nil, nil, 2) --Пере
 local warnAdds						= mod:NewSpellAnnounce(227267, 2, nil, "Healer") --Призыв нестабильной энергии
 local warnEvo						= mod:NewSpellAnnounce(227254, 2, nil, "Healer") --Прилив сил
 local warnEvo2						= mod:NewPreWarnAnnounce(227254, 3, 4) --Прилив сил
-local warnEvoOver					= mod:NewEndAnnounce(227254, 2) --Прилив сил
 
 local specWarnAdds					= mod:NewSpecialWarningSwitch(227267, "-Healer", nil, nil, 1, 2) --Призыв нестабильной энергии
 local specWarnPowerDischarge		= mod:NewSpecialWarningYouMove(227465, nil, nil, nil, 1, 2) --Разряд энергии
@@ -41,7 +40,7 @@ local timerPowerDischargeCD			= mod:NewCDTimer(12.2, 227279, nil, nil, nil, 3) -
 local timerEvoCD					= mod:NewNextTimer(70, 227254, nil, nil, nil, 6, nil, DBM_CORE_DAMAGE_ICON) --Прилив сил
 local timerEvo						= mod:NewBuffActiveTimer(20, 227254, nil, nil, nil, 6, nil, DBM_CORE_DEADLY_ICON) --Прилив сил
 
-local countdownEvo					= mod:NewCountdown(70, 227254) --Прилив сил
+local countdownEvo					= mod:NewCountdown(70, 227254, nil, nil, 5) --Прилив сил
 
 function mod:OnCombatStart(delay)
 	if not self:IsNormal() then
@@ -92,7 +91,6 @@ mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
 	if spellId == 227254 then --Прилив сил
-		warnEvoOver:Show()
 		timerSummonAddCD:Start(6)
 		timerPowerDischargeCD:Start(13)
 		timerEvoCD:Start(53.5) --для миф0 норм

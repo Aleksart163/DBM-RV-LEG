@@ -27,7 +27,7 @@ local warnSinisterFangs			= mod:NewStackAnnounce(236954, 4, nil, nil, 2) --Зл�
 local warnAlluringAroma2		= mod:NewTargetAnnounce(237391, 2) --Манящий аромат
 
 local specWarnVenomousPool		= mod:NewSpecialWarningYouMove(213124, nil, nil, nil, 1, 2) --Ядовитая лужа
-local specWarnSinisterFangs		= mod:NewSpecialWarningStack(236954, nil, 3, nil, nil, 1, 3) --Зловещие клыки
+local specWarnSinisterFangs		= mod:NewSpecialWarningStack(236954, nil, 2, nil, nil, 1, 3) --Зловещие клыки
 local specWarnSinisterFangs2	= mod:NewSpecialWarningDispel(236954, "RemovePoison", nil, nil, 1, 3) --Зловещие клыки
 local specWarnAlluringAroma2	= mod:NewSpecialWarningDispel(237391, "MagicDispeller2", nil, nil, 1, 3) --Манящий аромат
 local specWarnFelRejuvenation	= mod:NewSpecialWarningInterrupt(237558, "HasInterrupt", nil, nil, 3, 2) --Омоложение Скверной
@@ -47,7 +47,7 @@ local specWarnShadowWave		= mod:NewSpecialWarningDodge(238653, nil, nil, nil, 2,
 local specWarnChokingVines		= mod:NewSpecialWarningRun(238688, nil, nil, nil, 4, 2) --Удушающие лозы
 local specWarnTomeSilence		= mod:NewSpecialWarningSwitch(239161, "-Healer", nil, nil, 1, 2) --Фолиант вечной немоты
 local specWarnFelblazeOrb		= mod:NewSpecialWarningDodge(239320, nil, nil, nil, 1, 2) --Сфера пламени Скверны
-local specWarnVenomStorm		= mod:NewSpecialWarningDodge(239266, nil, nil, nil, 1, 2) --Ядовитая буря
+local specWarnVenomStorm		= mod:NewSpecialWarningDodge(239266, nil, nil, nil, 2, 2) --Ядовитая буря
 
 local timerSinisterFangs		= mod:NewTargetTimer(15, 236954, nil, "Tank|RemovePoison", nil, 3, nil, DBM_CORE_POISON_ICON..DBM_CORE_HEALER_ICON) --Зловещие клыки
 local timerAlluringAroma		= mod:NewTargetTimer(8, 237391, nil, nil, nil, 3) --Манящий аромат
@@ -108,9 +108,9 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 239320 then
 		specWarnFelblazeOrb:Show()
 		specWarnFelblazeOrb:Play("watchorb")
-	elseif spellId == 239266 then
+	elseif spellId == 239266 then --Ядовитая буря
 		specWarnVenomStorm:Show()
-		specWarnVenomStorm:Play("shockwave")
+		specWarnVenomStorm:Play("watchstep")
 	elseif spellId == 239235 then --Направленное разрушение
 		specWarnFocusedDestruction:Show()
 		specWarnFocusedDestruction:Play("defensive")
@@ -164,7 +164,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		local amount = args.amount or 1
 		if self:IsHard() then
 			timerSinisterFangs:Start(args.destName)
-			if amount >= 3 and amount % 2 == 0 then
+			if amount >= 2 and amount % 2 == 0 then
 				if args:IsPlayer() then
 					specWarnSinisterFangs:Show(amount)
 					specWarnSinisterFangs:Play("stackhigh")
@@ -212,4 +212,3 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spell
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
-

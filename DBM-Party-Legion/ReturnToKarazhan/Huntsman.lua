@@ -276,7 +276,7 @@ function mod:UNIT_HEALTH(uId)
 end
 
 function mod:CHAT_MSG_MONSTER_YELL(msg)
-	if msg == L.Perephase1 or msg:find(L.Perephase1) then --Сел на коня (Вперед, Полночь, к победе!)
+	if msg == L.Perephase1 then --Сел на коня (Вперед, Полночь, к победе!)
 	--	perephase = true
 		if not firstperephase then
 			firstperephase = true
