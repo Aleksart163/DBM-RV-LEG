@@ -214,6 +214,7 @@ DBM_CORE_INFOFRAME_MAIN				= "Main:"--Main power
 DBM_CORE_INFOFRAME_ALT				= "Alt:"--Alternate Power
 
 DBM_LFG_INVITE						= "LFG Invite"
+DBM_PHASE							= "Stage %d"
 
 DBM_CORE_SLASHCMD_HELP				= {
 	"Available slash commands:",
@@ -354,7 +355,7 @@ DBM_CORE_AUTO_SPEC_WARN_TEXTS = {
 	interruptcount2	= "%s! (%%s) - interrupt",
 	you				= "%s on you",
 	youcount		= "%s (%%s) on you",
-	youpos			= "%s (Position: %%s) on you",
+	youpos			= "%s (%%s) on you!",
 	soak			= "%s! - close out",
 	soakcount		= "%s (%%s) - close out",
 	soakpos			= "%s (Soak Position: %%s)",
@@ -378,7 +379,7 @@ DBM_CORE_AUTO_SPEC_WARN_TEXTS = {
 	dodgecount		= "%s (%%s) - dodge attack",
 	dodgeloc		= "%s - dodge from %%s",
 	youmoveaway		= "%s on you! - move away from others",
-	youmoveawaypos	= "%s (Pos. %%s) on you!",
+	youmoveawaypos	= "%s (%%s) on you!",
 	moveaway		= "%s - move away from others",
 	moveboss		= "%s - run to the boss",
 	moveto			= "%s - move to >%%s<",

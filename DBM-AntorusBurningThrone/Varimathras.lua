@@ -268,7 +268,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		end
 	elseif spellId == 244094 then
 		self.vb.totalEmbrace = self.vb.totalEmbrace - 1
-		if args:IsPlayer() then
+		if args:IsPlayer() and self:AntiSpam(3, 1) then
 			playerAffected = false
 			specWarnNecroticEmbrace4:Show()
 			yellNecroticEmbraceFades:Cancel()

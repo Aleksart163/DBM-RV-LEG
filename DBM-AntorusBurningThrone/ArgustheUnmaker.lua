@@ -38,7 +38,7 @@ local warnReapSoul					= mod:NewCastAnnounce(256542, 3) --Жатва душ
 local warnEndofAllThings			= mod:NewCastAnnounce(256544, 4) --Конец всего сущего
 --Stage One: Storm and Sky
 local warnTorturedRage				= mod:NewCountAnnounce(257296, 2) --Ярость порабощенного
-local warnSweepingScythe			= mod:NewStackAnnounce(248499, 2, nil, "Tank") --Сметающая коса
+local warnSweepingScythe			= mod:NewStackAnnounce(248499, 2, nil, "Tank|Healer") --Сметающая коса
 local warnBlightOrb					= mod:NewCountAnnounce(248317, 2) --Чумная сфера
 local warnSoulblight				= mod:NewTargetAnnounce(248396, 2, nil, false, 2) --Изнуряющая чума
 local warnSkyandSea					= mod:NewTargetAnnounce(255594, 1) --Небо и море
@@ -57,10 +57,10 @@ local warnDiscsofNorg				= mod:NewCastAnnounce(252516, 1) --Диски Норг�
 --Stage Three Mythic
 local warnSargSentence				= mod:NewTargetAnnounce(257966, 3) --Приговор Саргераса
 local warnEdgeofAnni				= mod:NewCountAnnounce(258834, 4) --Грань аннигиляции
-local warnSoulRendingScythe			= mod:NewStackAnnounce(258838, 2, nil, "Tank") --Рассекающая коса
+local warnSoulRendingScythe			= mod:NewStackAnnounce(258838, 2, nil, "Tank|Healer") --Рассекающая коса
 --Stage Four: The Gift of Life, The Forge of Loss (Non Mythic)
 local warnGiftOfLifebinder			= mod:NewCastAnnounce(257619, 1) --Дар Хранительницы жизни
-local warnDeadlyScythe				= mod:NewStackAnnounce(258039, 2, nil, "Tank") --Смертоносная коса
+local warnDeadlyScythe				= mod:NewStackAnnounce(258039, 2, nil, "Tank|Healer") --Смертоносная коса
 
 local specWarnEndofAllThings		= mod:NewSpecialWarningInterrupt(256544, "HasInterrupt", nil, nil, 3, 5) --Конец всего сущего
 --Stage One: Storm and Sky
@@ -717,20 +717,20 @@ function mod:SPELL_AURA_APPLIED(args)
 			DBM.Nameplate:Show(true, args.destGUID, spellId)
 		end
 		if self.Options.SetIconOnVulnerability then
-			if spellId == 255433 then--Arcane
-				self:ScanForMobs(args.destGUID, 2, 5, 1, 0.2, 15)
-			elseif spellId == 255430 then--Shadow
-				self:ScanForMobs(args.destGUID, 2, 3, 1, 0.2, 15)
-			elseif spellId == 255429 then--Fire
-				self:ScanForMobs(args.destGUID, 2, 2, 1, 0.2, 15)
-			elseif spellId == 255425 then--Frost
-				self:ScanForMobs(args.destGUID, 2, 6, 1, 0.2, 15)
-			elseif spellId == 255422 then--Nature
-				self:ScanForMobs(args.destGUID, 2, 4, 1, 0.2, 15)
-			elseif spellId == 255419 then--Holy
-				self:ScanForMobs(args.destGUID, 2, 1, 1, 0.2, 15)
-			elseif spellId == 255418 then--Melee
-				self:ScanForMobs(args.destGUID, 2, 7, 1, 0.2, 15)
+			if spellId == 255433 then --Тайная
+				self:SetIcon(args.destName, 4)
+			elseif spellId == 255430 then --Тьма
+				self:SetIcon(args.destName, 3)
+			elseif spellId == 255429 then --Огонь
+				self:SetIcon(args.destName, 2)
+			elseif spellId == 255425 then --Лед
+				self:SetIcon(args.destName, 5)
+			elseif spellId == 255422 then --Природа
+				self:SetIcon(args.destName, 6)
+			elseif spellId == 255419 then --Свет
+				self:SetIcon(args.destName, 7)
+			elseif spellId == 255418 then --Физ.урон
+				self:SetIcon(args.destName, 1)
 			end
 		end
 	elseif spellId == 257869 then

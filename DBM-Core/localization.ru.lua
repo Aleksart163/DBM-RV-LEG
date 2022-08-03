@@ -214,6 +214,8 @@ DBM_CORE_INFOFRAME_MAIN				= "Основная:" --Main power
 DBM_CORE_INFOFRAME_ALT				= "Альтер.:" --Alternate Power
 
 DBM_LFG_INVITE						= "Приглашение в подземелье"
+DBM_PHASE							= "%d-й этап"
+
 
 DBM_CORE_SLASHCMD_HELP				= {
 	"Доступные слэш команды:",
@@ -350,7 +352,7 @@ DBM_CORE_AUTO_SPEC_WARN_TEXTS.interruptcount	= "%s - прервите каст! 
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.interruptcount2	= "%s! (%%s) - прервите каст"
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.you 				= "%s на вас"
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.youcount			= "%s (%%s) на вас!"
-DBM_CORE_AUTO_SPEC_WARN_TEXTS.youpos			= "%s (Позиция: %%s) на вас"
+DBM_CORE_AUTO_SPEC_WARN_TEXTS.youpos			= "%s (%%s) на вас" --собаки
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.soak				= "%s! - перекройте"
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.soakcount			= "%s (%%s) - перекройте"
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.soakpos			= "%s (Позиция погл.: %%s)"
@@ -374,7 +376,7 @@ DBM_CORE_AUTO_SPEC_WARN_TEXTS.dodge				= "%s - избегайте"
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.dodgecount		= "%s (%%s) - избегайте"
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.dodgeloc			= "%s - уклоняйтесь от %%s"
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.youmoveaway 		= "%s на вас! - отбегите от других"
-DBM_CORE_AUTO_SPEC_WARN_TEXTS.youmoveawaypos	= "%s (%%s) на вас"
+DBM_CORE_AUTO_SPEC_WARN_TEXTS.youmoveawaypos	= "%s (%%s) на вас" --матрас
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.moveaway			= "%s - отбегите от других"
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.moveboss			= "%s - бегите к боссу"
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.moveto			= "%s - бегите к >%%s<"

@@ -50,11 +50,11 @@ local warnShockGrenade					= mod:NewTargetAnnounce(244737, 4, nil, true, 2) --Ш
 
 --General
 --local specWarnGTFO					= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 2)
-local specWarnExploitWeakness			= mod:NewSpecialWarningStack(244892, nil, 2, nil, nil, 3, 5) --Обнаружить слабое место
+local specWarnExploitWeakness			= mod:NewSpecialWarningStack(244892, nil, 3, nil, nil, 3, 5) --Обнаружить слабое место
 local specWarnExploitWeaknesslf			= mod:NewSpecialWarningTaunt(244892, "Tank", nil, nil, 3, 5) --Обнаружить слабое место
 local specWarnPsychicAssaultStack		= mod:NewSpecialWarningStack(244172, nil, 10, nil, nil, 1, 6) --Псионная атака
 local specWarnPsychicAssault			= mod:NewSpecialWarningMove(244172, nil, nil, nil, 3, 2) --Псионная атака Two diff warnings cause we want to upgrade to high priority at 19+ stacks
-local specWarnAssumeCommand				= mod:NewSpecialWarningSwitch(253040, "Dps|Tank", nil, nil, 1, 2) --Принять командование
+local specWarnAssumeCommand				= mod:NewSpecialWarningSwitch(245227, "Dps|Tank", nil, nil, 1, 2) --Принять командование
 --In Pod
 ----Admiral Svirax
 local specWarnFusillade					= mod:NewSpecialWarningMoveTo(244625, nil, nil, nil, 1, 5) --Шквальный огонь
@@ -199,6 +199,7 @@ function mod:SPELL_CAST_START(args)
 			timerShockGrenadeCD:Stop() --Шоковая граната
 			timerSummonReinforcementsCD:Stop() --Вызов подкрепления
 			timerEntropicMineCD:Stop() --Энтропическая мина
+			timerFusilladeCD:Stop() --Шквальный огонь
 			if self:IsMythic() then
 				timerShockGrenadeCD:Start(17) --Шоковая граната
 				timerEntropicMineCD:Start(18) --Энтропическая мина
@@ -258,7 +259,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		local uId = DBM:GetRaidUnitId(args.destName)
 	--	if self:IsTanking(uId) then
 		local amount = args.amount or 1
-		if amount >= 2 then
+		if amount >= 3 then
 			if args:IsPlayer() and self:IsTanking(uId) then
 				specWarnExploitWeakness:Show(amount)
 				specWarnExploitWeakness:Play("stackhigh")

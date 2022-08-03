@@ -44,9 +44,9 @@
 ----------------------------------------------------------------
 --
 DBM = {
-	Revision = tonumber(("$Revision: 17671 $"):sub(12, -3)), --прошляпанное очко мурчаля ✔ (да, прошляпил он знатно)
-	DisplayVersion = "7.3.37 Right Version",
-	ReleaseRevision = 17670
+	Revision = tonumber(("$Revision: 17672 $"):sub(12, -3)), --прошляпанное очко мурчаля ✔ (да, прошляпил он знатно)
+	DisplayVersion = "7.3.38 Right Version",
+	ReleaseRevision = 17671
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -5925,7 +5925,8 @@ do
 				local hp = mod.highesthealth and mod:GetHighestBossHealth() or mod:GetLowestBossHealth()
 				local wipeHP = mod.CustomHealthUpdate and mod:CustomHealthUpdate() or hp and ("%d%%"):format(hp) or DBM_CORE_UNKNOWN
 				if mod.vb.phase then
-					wipeHP = wipeHP.." ("..SCENARIO_STAGE:format(mod.vb.phase)..")"
+				--	wipeHP = wipeHP.." ("..SCENARIO_STAGE:format(mod.vb.phase)..")"
+					wipeHP = wipeHP.." ("..DBM_PHASE:format(mod.vb.phase)..")"
 				end
 				if mod.numBoss then
 					local bossesKilled = mod.numBoss - mod.vb.bossLeft
@@ -6707,7 +6708,7 @@ do
 			local hp = mod.highesthealth and mod:GetHighestBossHealth() or mod:GetLowestBossHealth()
 			local hpText = mod.CustomHealthUpdate and mod:CustomHealthUpdate() or hp and ("%d%%"):format(hp) or DBM_CORE_UNKNOWN
 			if mod.vb.phase then
-				hpText = hpText.." ("..SCENARIO_STAGE:format(mod.vb.phase)..")"
+				hpText = hpText.." ("..DBM_PHASE:format(mod.vb.phase)..")"
 			end
 			if mod.numBoss then
 				local bossesKilled = mod.numBoss - mod.vb.bossLeft
@@ -6726,7 +6727,7 @@ do
 			local hp = mod.highesthealth and mod:GetHighestBossHealth() or mod:GetLowestBossHealth()
 			local hpText = mod.CustomHealthUpdate and mod:CustomHealthUpdate() or hp and ("%d%%"):format(hp) or DBM_CORE_UNKNOWN
 			if mod.vb.phase then
-				hpText = hpText.." ("..SCENARIO_STAGE:format(mod.vb.phase)..")"
+				hpText = hpText.." ("..DBM_PHASE:format(mod.vb.phase)..")"
 			end
 			if mod.numBoss then
 				local bossesKilled = mod.numBoss - mod.vb.bossLeft

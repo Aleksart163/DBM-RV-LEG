@@ -56,7 +56,7 @@ local warnCloyingShadows				= mod:NewTargetAnnounce(245118, 2, nil, false) --Н�
 local warnHungeringGloom				= mod:NewTargetAnnounce(245075, 2, nil, false) --Алчущий сумрак
 
 --Platform: Nexus
-local specWarnRealityTear				= mod:NewSpecialWarningStack(244016, nil, 2, nil, nil, 3, 5) --Разрыв реальности
+local specWarnRealityTear				= mod:NewSpecialWarningStack(244016, nil, 3, nil, nil, 3, 5) --Разрыв реальности
 local specWarnRealityTearOther			= mod:NewSpecialWarningTaunt(244016, nil, nil, nil, 3, 5) --Разрыв реальности
 local specWarnTransportPortal			= mod:NewSpecialWarningSwitch(244677, "-Healer", nil, 2, 1, 2) --Транспортный портал
 local specWarnCollapsingWorld			= mod:NewSpecialWarningDodgeCount(243983, nil, nil, nil, 2, 3) --Гибнущий мир
@@ -304,7 +304,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		local uId = DBM:GetRaidUnitId(args.destName)
 --		if self:IsTanking(uId) then
 			local amount = args.amount or 1
-			if amount >= 2 then
+			if amount >= 3 then
 				if args:IsPlayer() then--At this point the other tank SHOULD be clear.
 					specWarnRealityTear:Show(amount)
 					specWarnRealityTear:Play("stackhigh")

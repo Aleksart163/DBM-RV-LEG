@@ -6,7 +6,7 @@ mod:SetCreatureID(122500, 124445)
 mod:SetEncounterID(2075)
 mod:SetZone()
 --mod:SetBossHPInfoToHighest()
-mod:SetUsedIcons(5, 4, 3, 2, 1)
+mod:SetUsedIcons(8, 7, 6, 5, 4)
 mod:SetHotfixNoticeRev(16960)
 mod.respawnTime = 30
 
@@ -58,9 +58,9 @@ mod:AddTimerLine(GENERAL)
 local timerSpearofDoomCD				= mod:NewCDCountTimer(55, 248789, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Копье Рока 55-69
 --local timerRainofFelCD					= mod:NewCDCountTimer(61, 248332, nil, nil, nil, 3) --Дождь Скверны
 mod:AddTimerLine(DBM_ADDS)
-local timerDestructorCD					= mod:NewTimer(90, "timerDestructor", 254769, nil, nil, 1, DBM_CORE_TANK_ICON) --Разрушитель
+local timerDestructorCD					= mod:NewTimer(90, "timerDestructor", 254769, nil, nil, 1, DBM_CORE_TANK_ICON..DBM_CORE_DAMAGE_ICON) --Разрушитель
 local timerObfuscatorCD					= mod:NewTimer(90, "timerObfuscator", 246753, nil, nil, 1, DBM_CORE_DAMAGE_ICON) --Маскировщик
-local timerPurifierCD					= mod:NewTimer(90, "timerPurifier", 250074, nil, nil, 1, DBM_CORE_TANK_ICON) --Очиститель
+local timerPurifierCD					= mod:NewTimer(90, "timerPurifier", 250074, nil, nil, 1, DBM_CORE_TANK_ICON..DBM_CORE_DAMAGE_ICON) --Очиститель
 local timerBatsCD						= mod:NewTimer(90, "timerBats", 242080, nil, nil, 1, DBM_CORE_DAMAGE_ICON) --Мыши
 --Mythic 
 mod:AddTimerLine(ENCOUNTER_JOURNAL_SECTION_FLAG12)
@@ -90,7 +90,7 @@ local countdownArcaneSingularity		= mod:NewCountdown("Alt3", 250171, nil, nil) -
 local countdownBurningEmbers			= mod:NewCountdown("Alt3", 250691, nil, nil) --Раскаленные угли
 
 --mod:AddSetIconOption("SetIconOnFeedbackTargeted2", 249016, false, false, {6, 5, 4, 3, 2, 1})
-mod:AddSetIconOption("SetIconOnBurningEmbers", 249015, true, false, {5, 4, 3, 2, 1})
+mod:AddSetIconOption("SetIconOnBurningEmbers", 249015, true, false, {8, 7, 6, 5, 4})
 mod:AddInfoFrameOption(250030, true)
 mod:AddNamePlateOption("NPAuraOnPurification", 250074)
 mod:AddNamePlateOption("NPAuraOnFelShielding", 250555)
@@ -111,7 +111,7 @@ mod.vb.obfuscatorCast = 0
 mod.vb.purifierCast = 0
 mod.vb.batCast = 0
 mod.vb.targetedIcon = 1
-mod.vb.burningembersIcon = 1
+mod.vb.burningembersIcon = 8
 --local normalRainOfFelTimers = {}--PTR, recheck
 --local burningembersTargets = {}
 --local mythicSpearofDoomTimers = {}
@@ -120,16 +120,16 @@ local lfrDestructors = {21.5, 51.9, 50.3, 64.3, 107.2, 58.2, 44.1, 46.2, 44.2}--
 local lfrDestructors2 = {21.2, 43.8, 39.0, 51.1, 37.0, 53.0, 43.6, 45.2, 43.2}--3 Life force LFR version
 --Нормал треш
 --local normalDestructors = {17, 46.2, 32, 52.4, 93.7, 40.9, 50.2, 55.4, 49.2}--Live, Dec 01. Old 17, 39.4, 28, 44.2, 92.4, 41.3, 50, 53.4, 48.1
-local normalDestructors = {15.7, 35.3, 40, 104, 139, 99.6}--Live, Dec 01. Old 17, 39.4, 28, 44.2, 92.4, 41.3, 50, 53.4, 48.1
-local normalObfuscators = {77.6, 146.5, 94.7, 100} --переправленные сервером, всё ок
-local normalBats = {159, 124, 85, 105} --переправленные сервером, у 3 -20сек (если судить по героику)
+local normalDestructors = {15.7, 35.3, 41, 102, 133.5, 99.6}--Live, Dec 01. Old 17, 39.4, 28, 44.2, 92.4, 41.3, 50, 53.4, 48.1
+local normalObfuscators = {79, 146.5, 94.7, 100} --переправленные сервером, всё ок
+local normalBats = {159, 124, 79, 105} --переправленные сервером (почти такие же как в героике)
 --Дождь Скверны героик-------------------------------------------------------------------------------------------------------------
 --local heroicRainOfFelTimers = {9.3, 43, 10, 43, 20, 19, 20, 29.2, 45, 25, 99}--Live, Dec 26
 --local heroicRainOfFelTimers = {14, 37.5, 21.5, 28, 29, 43.5, 32, 31.5, 25, 34, 45} --у 1 +4.7сек, у 2 -5.5сек, у 3 +11.5 сек, у 4 -15сек, у 5 +9сек, у 6 +24.5сек, у 7 +12сек, у 8 +2.3сек, у 9 -20сек, у 10 +9сек, у 11 -54сек
 -----------------------------------------------------------------------------------------------------------------------------------
 --Разрушитель героик---------------------------------------------------------------------------------------------------------------
 --local heroicDestructors = {15.7, 35.3, 40.6, 104.6, 134.7, 99.6}
-local heroicDestructors = {15.7, 35.3, 40, 104, 139, 99.6} -- ВСЕ ГОТОВО у 1 и 2 норм, у 3 -3сек, у 4 норм, у 5 +4.3 сек, у 6 хз
+local heroicDestructors = {15.7, 35.3, 41, 102, 133.5, 99.6} -- ВСЕ ГОТОВО у 1 и 2 норм, у 3 -3сек, у 4 норм, у 5 +4.3 сек, у 6 хз
 -----------------------------------------------------------------------------------------------------------------------------------
 --Маскировщик героик---------------------------------------------------------------------------------------------------------------
 --local heroicObfuscators = {80.6, 148.5, 94.7, 99.9}
@@ -141,7 +141,7 @@ local heroicPurifiers = {116.5, 67.3, 29.6} --у 1 -8.5сек, у 2 +1.2 сек,
 -----------------------------------------------------------------------------------------------------------------------------------
 --Мыши героик----------------------------------------------------------------------------------------------------------------------
 --local heroicBats = {170, 125, 105, 105}
-local heroicBats = {159, 124, 85, 105} --у 1 -10сек, у 2 -3сек, у 3 -20сек
+local heroicBats = {159, 124, 79, 105} --у 1 -10сек, у 2 -3сек, у 3 -20сек
 --Копье Рока героик----------------------------------------------------------------------------------------------------------------
 --local heroicSpearofDoomTimers = {35, 59.2, 64.3, 40, 84.7, 34.1, 65.2}--Live, Nov 29
 local heroicSpearofDoomTimers = {34, 60, 60, 60, 60, 60, 60} -- ВСЕ ГОТОВО у 1 -1сек, у 2 +0.8 сек, у 3 -4.3сек, у 4 +20сек, у 5 -25сек, у 6+ 26сек, у 7 хз, НО СКОРЕЕ ВСЕГО -5сек
@@ -152,7 +152,7 @@ local heroicSpearofDoomTimers = {34, 60, 60, 60, 60, 60, 60} -- ВСЕ ГОТО�
 -----------------------------------------------------------------------------------------------------------------------------------
 --Разрушитель мифик----------------------------------------------------------------------------------------------------------------
 --local mythicDestructors = {27, 18, 87.4, 288.4, 20, 79}--Changed Dec 12th
-local mythicDestructors = {27, 21, 90.4, 289.5, 20, 79} --у 2 +3 сек, у 3 +3 сек, у 4 +1 сек
+local mythicDestructors = {27, 21, 90.4, 289.5, 21, 79} --у 2 +3 сек, у 3 +3 сек, у 4 +1 сек
 -----------------------------------------------------------------------------------------------------------------------------------
 --Маскировщик мифик----------------------------------------------------------------------------------------------------------------
 --local mythicObfuscators = {46, 243, 43.8, 90.8}
@@ -160,12 +160,12 @@ local mythicObfuscators = {43, 247.5, 44.3, 90} --у 1 -3сек, у 2 +4.5сек
 -----------------------------------------------------------------------------------------------------------------------------------
 --Очиститель мифик-----------------------------------------------------------------------------------------------------------------
 --local mythicPurifiers = {65.7, 82.6, 66.9, 145.7}
-local mythicPurifiers = {66, 83, 60, 145.7} --у 3 -6.9сек
+local mythicPurifiers = {66, 83, 60, 137.7} --у 3 -6.9сек
 -----------------------------------------------------------------------------------------------------------------------------------
 --Мыши мифик-----------------------------------------------------------------------------------------------------------------------
 --local mythicBats = {195, 79.9, 100, 95}
 --local mythicBats = {180, 70.5, 93.6, 121} --у 1 -15сек, у 2 -9.4сек, у 3 -6.4 сек, у 4 +26 сек
-local mythicBats = {189, 76.5, 113.5, 121} --
+local mythicBats = {189, 76, 103.5, 84} --
 -----------------------------------------------------------------------------------------------------------------------------------
 --Копье Рока мифик--
 local mythicSpearofDoomTimers = {34, 96.5, 135.5, 74.5, 116, 34.1, 65.2} --у 1 -1сек, у 2 +37.3 сек, у 3 +71.2 сек, у 4 +34.5 сек, у 5 +31.3 сек - далее хз
@@ -312,7 +312,7 @@ function mod:OnCombatStart(delay)
 	self.vb.spearCast = 0
 	self.vb.finalDoomCast = 0
 	self.vb.targetedIcon = 1
-	self.vb.burningembersIcon = 1
+	self.vb.burningembersIcon = 8
 	berserkTimer:Start(-delay)
 	if not self:IsLFR() then
 		self.vb.lifeRequired = 4
@@ -339,7 +339,7 @@ function mod:OnCombatStart(delay)
 		else--Normal
 			timerDestructorCD:Start(13, DBM_CORE_MIDDLE) --Разрушитель, было 7
 			self:Schedule(27, checkForDeadDestructor, self)
-			timerObfuscatorCD:Start(77.6, DBM_CORE_TOP) --маскировщик, подправил
+			timerObfuscatorCD:Start(79, DBM_CORE_TOP) --маскировщик, подправил
 			timerBatsCD:Start(159, 1) --мыши, подправил
 			self:Schedule(159, startBatsStuff, self)
 		--	timerRainofFelCD:Start(30-delay, 1)
@@ -382,14 +382,12 @@ function mod:SPELL_CAST_START(args)
 			timerFinalDoomCD:Start(timer, self.vb.finalDoomCast+1)
 			countdownFinalDoom:Start(timer)
 		end
-	elseif spellId == 250701 and self:CheckInterruptFilter(args.sourceGUID, true) then
+	elseif spellId == 250701 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Размах скверны
 		specWarnSwing:Show()
 		specWarnSwing:Play("watchstep")
-	elseif spellId == 246305 then --Артиллерийский удар
-		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
-			specWarnArtilleryStrike:Show()
-			specWarnArtilleryStrike:Play("kickcast")
-		end
+	elseif spellId == 246305 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Артиллерийский удар
+		specWarnArtilleryStrike:Show()
+		specWarnArtilleryStrike:Play("kickcast")
 	end
 end
 
@@ -494,7 +492,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			end
 		end
 	elseif spellId == 249015 then --Раскаленные угли
-		self.vb.burningembersIcon = self.vb.burningembersIcon + 1
+		self.vb.burningembersIcon = self.vb.burningembersIcon - 1
 		if args:IsPlayer() then
 			self:Schedule(27, burningembersOnPlayer, self)
 			timerBurningEmbers:Start(27)
