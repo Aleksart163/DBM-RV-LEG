@@ -91,6 +91,7 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(2009)
 
 L:SetWarningLocalization({
+	PulseGrenade = "Pulse Grenade - stay away from others",
 	Phase2 = "Phase 2 soon",
 	Phase3 = "Phase 3 soon",
 	Phase4 = "Phase 4 soon",
@@ -98,6 +99,7 @@ L:SetWarningLocalization({
 })
 
 L:SetOptionLocalization({
+	PulseGrenade = "Show special warning \"stay away from others\" when you are affected by $spell:250006",
 	Phase2 = "Warn in advance about phase 2 (on ~72%, on ~86% in mythic)",
 	Phase3 = "Warn in advance about phase 3 (on ~40%, on ~66% in mythic)",
 	Phase4 = "Warn in advance about phase 4 (on ~46% in mythic)",

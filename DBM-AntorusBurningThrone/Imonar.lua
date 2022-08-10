@@ -55,15 +55,18 @@ local warnEmpoweredPulseGrenade			= mod:NewTargetAnnounce(250006, 3) --Усил�
 local specWarnSearedSkin				= mod:NewSpecialWarningYouDefensive(254183, nil, nil, nil, 3, 5) --Опаленная кожа
 local specWarnShocked					= mod:NewSpecialWarningStack(250224, nil, 2, nil, nil, 3, 5) --Шок
 local specWarnShocklance				= mod:NewSpecialWarningTaunt(247367, nil, nil, nil, 3, 5) --Копье-шокер
+local specWarnShocklance2				= mod:NewSpecialWarningStack(247367, nil, 3, nil, nil, 3, 3) --Копье-шокер
 local specWarnSleepCanister				= mod:NewSpecialWarningYouMoveAway(247552, nil, nil, nil, 3, 5) --Склянка с усыпляющим газом
 local specWarnSleepCanisterNear			= mod:NewSpecialWarningCloseMoveAway(247552, nil, nil, nil, 1, 2) --Склянка с усыпляющим газом
 local specWarnPulseGrenade				= mod:NewSpecialWarningDodge(247376, nil, nil, nil, 1, 2) --Импульсная граната
 --Stage Two: Contract to Kill
 local specWarnSever						= mod:NewSpecialWarningTaunt(247687, nil, nil, nil, 3, 5) --Рассечение
+local specWarnSever2					= mod:NewSpecialWarningStack(247687, nil, 3, nil, nil, 3, 3) --Рассечение
 local specWarnChargedBlastsUnknown		= mod:NewSpecialWarningDodge(247716, nil, nil, nil, 2, 2) --Направленные взрывы
 local specWarnShrapnalBlast				= mod:NewSpecialWarningDodge(247923, nil, nil, nil, 1, 2) --Заряд шрапнели
 --Stage Three/Five: The Perfect Weapon
 local specWarnEmpPulseGrenade			= mod:NewSpecialWarningYouMoveAway(250006, nil, nil, nil, 4, 5) --Усиленная импульсная граната
+local specWarnEmpPulseGrenade2			= mod:NewSpecialWarning("PulseGrenade", nil, nil, nil, 1, 3) --Усиленная импульсная граната
 --Intermission: On Deadly Ground
 
 --Stage One: Attack Force
@@ -81,6 +84,7 @@ local yellSleepCanisterStun				= mod:NewYell(255029, L.DispelMe, nil, nil, "YELL
 local yellStasisTrap					= mod:NewYell(247641, L.DispelMe, nil, nil, "YELL") --Стазисная ловушка
 local yellEmpPulseGrenade				= mod:NewYell(250006, nil, nil, nil, "YELL") --Усиленная импульсная граната
 local yellSleepCanister					= mod:NewPosYell(247552, DBM_CORE_AUTO_YELL_CUSTOM_POSITION, nil, nil, "YELL") --Склянка с усыпляющим газом
+local yellSleepCanister2				= mod:NewYell(255029, nil, nil, nil, "YELL") --Усыпляющий газ
 
 local berserkTimer						= mod:NewBerserkTimer(420)
 
@@ -269,41 +273,51 @@ end
 
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
-	if spellId == 247367 or spellId == 250255 then
+	if spellId == 247367 or spellId == 250255 then --Копье-шокер
 		local uId = DBM:GetRaidUnitId(args.destName)
 		if self:IsTanking(uId) then
 			local amount = args.amount or 1
-			if spellId == 247367 and amount >= 4 then
-				local _, _, _, _, _, _, expireTime = DBM:UnitDebuff("player", spellId)
-				local remaining
-				if expireTime then
-					remaining = expireTime-GetTime()
-				end
-				if not UnitIsDeadOrGhost("player") and (not remaining or remaining and remaining < 4) then
-					specWarnShocklance:Show(args.destName)
-					specWarnShocklance:Play("tauntboss")
+			if spellId == 247367 and amount >= 3 then
+				if args:IsPlayer() then
+					specWarnShocklance2:Show(amount)
+					specWarnShocklance2:Play("stackhigh")
 				else
-					warnShocklance:Show(args.destName, amount)
+					local _, _, _, _, _, _, expireTime = DBM:UnitDebuff("player", spellId)
+					local remaining
+					if expireTime then
+						remaining = expireTime-GetTime()
+					end
+					if not UnitIsDeadOrGhost("player") and (not remaining or remaining and remaining < 4) then
+						specWarnShocklance:Show(args.destName)
+						specWarnShocklance:Play("tauntboss")
+					else
+						warnShocklance:Show(args.destName, amount)
+					end
 				end
 			else
 				warnShocklance:Show(args.destName, amount)
 			end
 		end
-	elseif spellId == 247687 then
+	elseif spellId == 247687 then --Рассечение
 		local uId = DBM:GetRaidUnitId(args.destName)
 		if self:IsTanking(uId) then
 			local amount = args.amount or 1
-			if amount >= 2 then
-				local _, _, _, _, _, _, expireTime = DBM:UnitDebuff("player", spellId)
-				local remaining
-				if expireTime then
-					remaining = expireTime-GetTime()
-				end
-				if not UnitIsDeadOrGhost("player") and (not remaining or remaining and remaining < 7) then
-					specWarnSever:Show(args.destName)
-					specWarnSever:Play("tauntboss")
+			if amount >= 3 then
+				if args:IsPlayer() then
+					specWarnSever2:Show(amount)
+					specWarnSever2:Play("stackhigh")
 				else
-					warnSever:Show(args.destName, amount)
+					local _, _, _, _, _, _, expireTime = DBM:UnitDebuff("player", spellId)
+					local remaining
+					if expireTime then
+						remaining = expireTime-GetTime()
+					end
+					if not UnitIsDeadOrGhost("player") and (not remaining or remaining and remaining < 7) then
+						specWarnSever:Show(args.destName)
+						specWarnSever:Play("tauntboss")
+					else
+						warnSever:Show(args.destName, amount)
+					end
 				end
 			else
 				warnSever:Show(args.destName, amount)
@@ -330,6 +344,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnEmpPulseGrenade:Show()
 			specWarnEmpPulseGrenade:Play("range5")
+			specWarnEmpPulseGrenade2:Schedule(5)
 			yellEmpPulseGrenade:Yell()
 		end
 		updateRangeFrame(self)
@@ -448,6 +463,7 @@ function mod:RAID_BOSS_WHISPER(msg)
 	if msg:find("spell:254244") then
 		specWarnSleepCanister:Show()
 		specWarnSleepCanister:Play("runout")
+		yellSleepCanister2:Yell()
 		playerSleepDebuff = true
 		updateRangeFrame(self)
 	end

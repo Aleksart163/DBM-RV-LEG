@@ -92,6 +92,7 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(2009)
 
 L:SetWarningLocalization({
+	PulseGrenade = "Импульсная граната - держитесь подальше от других",
 	Phase2 = "Скоро фаза 2",
 	Phase3 = "Скоро фаза 3",
 	Phase4 = "Скоро фаза 4",
@@ -99,6 +100,7 @@ L:SetWarningLocalization({
 })
 
 L:SetOptionLocalization({
+	PulseGrenade = "Спец-предупреждение \"держитесь подальше от других\" когда вы цель $spell:250006",
 	Phase2 = "Предупреждать заранее о фазе 2 (на ~72%, на ~86% в мифике)",
 	Phase3 = "Предупреждать заранее о фазе 3 (на ~40%, на ~66% в мифике)",
 	Phase4 = "Предупреждать заранее о фазе 4 (на ~46% в мифике)",

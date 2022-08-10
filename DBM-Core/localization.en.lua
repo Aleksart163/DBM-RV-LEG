@@ -1,5 +1,5 @@
 
-DBM_CORE_NEED_SUPPORT				= "Are you good with programming or languages? If yes, the DBM needs your help in localizing DBM in more languages. Help us out by visiting |HDBM:forums|h|cff3588ffhttps://github.com/Aleksart163/DBM-for-Uwow|r.\nFound a bug or wrong timer? Do you think some mod would need an additional warning, timer or special feature?\nVisit the new DBM discussion, bug report and feature request forums at |HDBM:forums|h|cff3588ffhttps://github.com/Aleksart163/DBM-for-Uwow|r."
+DBM_CORE_NEED_SUPPORT				= "Are you good with programming or languages? If yes, the DBM needs your help in localizing DBM in more languages. Help us out by visiting |HDBM:forums|h|cff3588ffhttps://forum.uwow.biz/threads/aktualnyj-dbm-pod-uwow-biz.303812/|r.\nFound a bug or wrong timer? Do you think some mod would need an additional warning, timer or special feature?\nVisit the new DBM discussion, bug report and feature request forums at |HDBM:forums|h|cff3588ffhttps://forum.uwow.biz/threads/aktualnyj-dbm-pod-uwow-biz.303812/|r."
 DBM_HOW_TO_USE_MOD					= "Welcome to DBM. Type /dbm help for a list of supported commands. To access options type /dbm in your chat to begin configuration. Load specific zones manually to configure any boss specific settings to your liking as well. DBM will setup defaults for your spec, but you may want to fine tune these."
 --DBM_FORUMS_MESSAGE					= "Found a bug or wrong timer? Do you think some mod would need an additional warning, timer or special feature?\nVisit the new DBM discussion, bug report and feature request forums at |HDBM:forums|h|cff3588ffhttps://github.com/Aleksart163/DBM-for-Legion|r (you can click the link to copy the URL)"
 DBM_SILENT_REMINDER					= "Reminder: DBM is still in silent mode."
@@ -361,6 +361,8 @@ DBM_CORE_AUTO_SPEC_WARN_TEXTS = {
 	soakpos			= "%s (Soak Position: %%s)",
 	target			= "%s on >%%s<",
 	targethelp		= "%s on >%%s< - help",
+	targetdodge		= "%s on >%%s< - dodge",
+	targetsoak		= "%s on >%%s< - close out",
 	targetcount		= "%s (%%s) on >%%s< ",
 	youdefensive 	= "%s on you! - defensive",
 	defensive		= "%s! - defensive",
@@ -435,7 +437,9 @@ DBM_CORE_AUTO_SPEC_WARN_OPTIONS = {
 	soakcount		= "Show special warning (with count) \"close out\" for $spell:%s",
 	soakpos			= "Show special warning (with position) to help soak others affected by $spell:%s",
 	target 			= "Show special warning when someone is affected by $spell:%s",
-	targethelp 		= "Show special warning \"help\" when someone is affected by $spell:%s",
+	targethelp 		= "Show special warning (with name) \"help\" when someone is affected by $spell:%s",
+	targetdodge 	= "Show special warning (with name) \"dodge\" when someone is affected by $spell:%s",
+	targetsoak	 	= "Show special warning (with name) \"close out\" when someone is affected by $spell:%s",
 	targetcount 	= "Show special warning (with count) when someone is affected by $spell:%s",
 	youdefensive	= "Show special warning to use defensive abilites when you are affected by $spell:%s",
 	defensive 		= "Show special warning to use defensive abilites for $spell:%s",

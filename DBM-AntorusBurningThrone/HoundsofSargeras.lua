@@ -124,13 +124,6 @@ local function UpdateAllTimers(self)
 	end
 end
 
---20:24:41.176 аура наложилась 251447 (тёмная) 251448 (огненная)
---20:24:43.692 продамажило танка
---20:24:43.709 аура спала
-
---20:24:52.192 аура наложилась
---20:24:54.755 продамажило танка
---20:24:54.755 аура спала
 function mod:OnCombatStart(delay)
 	if self:AntiSpam(10, 1) then
 		--Do nothing, it just disables UpdateAllTimers/Focused Power from firing on pull
@@ -164,32 +157,6 @@ function mod:OnCombatStart(delay)
 			timerEnflamedCorruptionCD:Start(55.6-delay) --Возгорание порчи+++
 		end
 	end
---[[	if not self.Options.SequenceTimers then
-		if self:IsMythic() then
-			--Fire doggo
-		--	timerEnflamedCorruptionCD:Start(49.5-delay) --Возгорание порчи +1.2 сек
-		--	timerDesolateGazeCD:Start(78-delay) --Опустошающий взгляд
-			--Shadow doggo
-		--	timerComsumingSphereCD:Start(49.5-delay) --Поглощаяющая сфера +1.2 сек
-		--	timerWeightOfDarknessCD:Start(73.1-delay)
-		elseif self:IsHeroic() then
-			--Fire doggo
-		--	timerEnflamedCorruptionCD:Start(52.5-delay) --Возгорание порчи+++
-		--	timerDesolateGazeCD:Start(85.5-delay) --Опустошающий взгляд+++
-			--Shadow doggo
-		--	timerComsumingSphereCD:Start(52.5-delay) --Поглощаяющая сфера +1.4 сек
-		--	timerWeightOfDarknessCD:Start(77-delay)
-		else--Normal confirmed, LFR assumed
-			--Fire doggo
-			if not self:IsLFR() then
-			--	timerEnflamedCorruptionCD:Start(55.5-delay) --Возгорание порчи+++
-			end
-			--timerDesolateGazeCD:Start(88.8-delay) --Опустошающий взгляд
-			--Shadow doggo
-		--	timerComsumingSphereCD:Start(55.2-delay)
-			--Weight not even cast
-		end
-	end]]
 	if self.Options.RangeFrame then
 		DBM.RangeCheck:Show(5)--Molten Touch (assumed)
 	end
@@ -199,9 +166,9 @@ function mod:OnCombatEnd()
 	if self.Options.RangeFrame then
 		DBM.RangeCheck:Hide()
 	end
---	if self.Options.InfoFrame then
---		DBM.InfoFrame:Hide()
---	end
+	if self.Options.SetIconOnWeightofDarkness2 then
+		self:SetIcon(args.destName, 0)
+	end
 end
 
 function mod:SPELL_CAST_START(args)
@@ -272,10 +239,10 @@ end
 function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
 	if spellId == 244086 and self:AntiSpam(3, 1) then --Касание магмы (244072 изначальный) 
-		warnMoltenTouch:Show()
-		warnMoltenTouch:Play("watchstep")
-	--	specWarnMoltenTouch:Show()
-	--	specWarnMoltenTouch:Play("watchstep")
+	--	warnMoltenTouch:Show()
+	--	warnMoltenTouch:Play("watchstep")
+		specWarnMoltenTouch:Show()
+		specWarnMoltenTouch:Play("watchstep")
 		if not self.Options.SequenceTimers or self:IsEasy() then
 			timerMoltenTouchCD:Start(self.vb.longTimer)
 		else

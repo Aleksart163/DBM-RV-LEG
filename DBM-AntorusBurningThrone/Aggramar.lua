@@ -50,6 +50,7 @@ local specWarnRavenousBlazeNear			= mod:NewSpecialWarningCloseMoveAway(254452, n
 local specWarnWakeofFlame				= mod:NewSpecialWarningDodge(244693, nil, nil, nil, 2, 2) --Огненная волна
 local specWarnFoeBreakerTaunt			= mod:NewSpecialWarningTaunt(245458, nil, nil, nil, 3, 3) --Сокрушитель
 local specWarnFoeBreakerDefensive		= mod:NewSpecialWarningDefensive(245458, nil, nil, nil, 3, 3) --Сокрушитель
+local specWarnFoeBreaker				= mod:NewSpecialWarningDodge(245458, "MeleeDps", nil, nil, 2, 3) --Сокрушитель
 local specWarnFlameRend					= mod:NewSpecialWarningRunningCount(245463, nil, nil, nil, 4, 5) --Разрывающее пламя
 local specWarnFlameRendTaunt			= mod:NewSpecialWarningTaunt(245463, nil, nil, nil, 1, 2) --Разрывающее пламя
 local specWarnSearingTempest			= mod:NewSpecialWarningRun(245301, nil, nil, nil, 4, 3) --Опаляющая буря
@@ -398,8 +399,10 @@ function mod:SPELL_CAST_START(args)
 		--	countdownWakeofFlame:Start(24.3)
 		end
 		self:BossTargetScanner(args.sourceGUID, "WakeTarget", 0.1, 12, true, nil, nil, nil, true)
-	elseif spellId == 245458 or spellId == 255059 then
+	elseif spellId == 245458 or spellId == 255059 then --Сокрушитель
 		self.vb.comboCount = self.vb.comboCount + 1
+		specWarnFoeBreaker:Show()
+		specWarnFoeBreaker:Play("watchstep")
 		if self:IsMythic() then
 			if not self.vb.firstCombo then
 				self.vb.firstCombo = "Foe"

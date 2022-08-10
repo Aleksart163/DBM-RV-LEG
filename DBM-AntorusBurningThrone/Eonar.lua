@@ -152,11 +152,11 @@ local heroicSpearofDoomTimers = {34, 60, 60, 60, 60, 60, 60} -- ВСЕ ГОТО�
 -----------------------------------------------------------------------------------------------------------------------------------
 --Разрушитель мифик----------------------------------------------------------------------------------------------------------------
 --local mythicDestructors = {27, 18, 87.4, 288.4, 20, 79}--Changed Dec 12th
-local mythicDestructors = {27, 21, 90.4, 289.5, 21, 79} --у 2 +3 сек, у 3 +3 сек, у 4 +1 сек
+local mythicDestructors = {27, 21, 90.4, 289.5, 22, 80} --у 2 +3 сек, у 3 +3 сек, у 4 +1 сек
 -----------------------------------------------------------------------------------------------------------------------------------
 --Маскировщик мифик----------------------------------------------------------------------------------------------------------------
 --local mythicObfuscators = {46, 243, 43.8, 90.8}
-local mythicObfuscators = {43, 247.5, 44.3, 90} --у 1 -3сек, у 2 +4.5сек, у 4 -0.8сек
+local mythicObfuscators = {43, 247.5, 44.3, 90, 100.5} --у 1 -3сек, у 2 +4.5сек, у 4 -0.8сек
 -----------------------------------------------------------------------------------------------------------------------------------
 --Очиститель мифик-----------------------------------------------------------------------------------------------------------------
 --local mythicPurifiers = {65.7, 82.6, 66.9, 145.7}
@@ -174,10 +174,10 @@ local mythicSpearofDoomTimers = {34, 96.5, 135.5, 74.5, 116, 34.1, 65.2} --у 1 
 --local finalDoomTimers = {59.3, 120, 94, 104.6, 99.6}--Live, Dec 5
 local finalDoomTimers = {58.8, 126, 98, 106.1, 100} -- ВСЕ ГОТОВО у 1 -0.5 сек, у 2 +6 сек, у 3 +4 секLive, у 4 +1.5 сек, у 5 +0.4
 -----------------------------------------------------------------------------------------------------------------------------------
-local warnedAdds = {}
+local warnedAdds = {} --центр, сверху, снизу
 local addCountToLocationMythic = {
 	["Dest"] = {DBM_CORE_MIDDLE, DBM_CORE_TOP, DBM_CORE_BOTTOM, DBM_CORE_MIDDLE, DBM_CORE_TOP, DBM_CORE_MIDDLE},
-	["Obfu"] = {DBM_CORE_BOTTOM, DBM_CORE_MIDDLE, DBM_CORE_TOP, DBM_CORE_BOTTOM},
+	["Obfu"] = {DBM_CORE_BOTTOM, DBM_CORE_MIDDLE, DBM_CORE_TOP, DBM_CORE_BOTTOM, DBM_CORE_UNKNOWN}, --определить откуда выходит 5-ый маскировщик
 	["Pur"] = {DBM_CORE_MIDDLE, DBM_CORE_MIDDLE, DBM_CORE_BOTTOM, DBM_CORE_TOP}
 --	["Pur"] = {DBM_CORE_MIDDLE, DBM_CORE_MIDDLE, DBM_CORE_TOP}
 }
@@ -367,6 +367,9 @@ function mod:OnCombatEnd()
 	if self.Options.NPAuraOnPurification or self.Options.NPAuraOnFelShielding then
 		DBM.Nameplate:Hide(true, nil, nil, nil, true, true)
 	end
+	if self.Options.SetIconOnBurningEmbers then
+		self:SetIcon(args.destName, 0)
+	end
 end
 
 function mod:SPELL_CAST_START(args)
@@ -405,8 +408,8 @@ function mod:SPELL_CAST_SUCCESS(args)
 				local text = self:IsHeroic() and addCountToLocationHeroic["Obfu"][self.vb.obfuscatorCast+1] or self:IsNormal() and addCountToLocationNormal["Obfu"][self.vb.obfuscatorCast+1] or self:IsMythic() and addCountToLocationMythic["Obfu"][self.vb.obfuscatorCast+1] or self.vb.obfuscatorCast+1
 				timerObfuscatorCD:Start(timer, text)
 			end
-		end]]
-	if spellId == 254769 and args:GetSrcCreatureID() == 123760 and not warnedAdds[args.sourceGUID] then--High Alert
+		end
+	if spellId == 254769 and args:GetSrcCreatureID() == 123760 and not warnedAdds[args.sourceGUID] then --Повышенная готовность
 		warnedAdds[args.sourceGUID] = true
 		self:Unschedule(checkForDeadDestructor)
 		self.vb.destructors = self.vb.destructors + 1
@@ -424,8 +427,8 @@ function mod:SPELL_CAST_SUCCESS(args)
 				end
 				timerDestructorCD:Start(timer-10, text)--High alert fires about 9 seconds after spawn so using it as a trigger has a -10 adjustment
 			end
-		end
-	elseif spellId == 250048 then
+		end]]
+	if spellId == 250048 then
 		self.vb.lifeForceCast = self.vb.lifeForceCast + 1
 		warnLifeForce:Show(self.vb.lifeForceCast)
 	end
@@ -457,6 +460,25 @@ function mod:SPELL_AURA_APPLIED(args)
 			if timer then
 				local text = self:IsHeroic() and addCountToLocationHeroic["Obfu"][self.vb.obfuscatorCast+1] or self:IsNormal() and addCountToLocationNormal["Obfu"][self.vb.obfuscatorCast+1] or self:IsMythic() and addCountToLocationMythic["Obfu"][self.vb.obfuscatorCast+1] or self.vb.obfuscatorCast+1
 				timerObfuscatorCD:Start(timer, text)
+			end
+		end
+	elseif spellId == 254769 and args:GetSrcCreatureID() == 123760 and not warnedAdds[args.sourceGUID] then --Повышенная готовность
+		warnedAdds[args.sourceGUID] = true
+		self:Unschedule(checkForDeadDestructor)
+		self.vb.destructors = self.vb.destructors + 1
+		if self:AntiSpam(5, args.sourceName) then
+			warnWarpIn:Show(L.Destructors)
+			warnWarpIn:Play("bigmob")
+			self.vb.destructorCast = self.vb.destructorCast + 1
+			local timer = self:IsMythic() and mythicDestructors[self.vb.destructorCast+1] or self:IsHeroic() and heroicDestructors[self.vb.destructorCast+1] or self:IsNormal() and normalDestructors[self.vb.destructorCast+1] or self:IsLFR() and lfrDestructors2[self.vb.destructorCast+1]
+			if timer then
+				local text = self:IsHeroic() and addCountToLocationHeroic["Dest"][self.vb.destructorCast+1] or self:IsNormal() and addCountToLocationNormal["Dest"][self.vb.destructorCast+1] or self:IsMythic() and addCountToLocationMythic["Dest"][self.vb.destructorCast+1] or self:IsLFR() and addCountToLocationLFR["Dest"][self.vb.destructorCast+1] or self.vb.destructorCast+1
+				if not self:IsLFR() then--This work around doesn't work in LFR because if dps is slow LFR massively slows down spawns to help out
+					self:Schedule(timer+10, checkForDeadDestructor, self)
+				else
+					timerDestructorCD:Stop()--Because of way LFR works, we need to do timer cleanup if they come earlier than expected
+				end
+				timerDestructorCD:Start(timer-10, text)--High alert fires about 9 seconds after spawn so using it as a trigger has a -10 adjustment
 			end
 		end
 	elseif spellId == 250074 then--Purification (buff on enemies near purifier)

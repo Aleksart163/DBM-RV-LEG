@@ -44,9 +44,9 @@
 ----------------------------------------------------------------
 --
 DBM = {
-	Revision = tonumber(("$Revision: 17672 $"):sub(12, -3)), --прошляпанное очко мурчаля ✔ (да, прошляпил он знатно)
+	Revision = tonumber(("$Revision: 17673 $"):sub(12, -3)), --прошляпанное очко мурчаля ✔ (да, прошляпил он знатно)
 	DisplayVersion = "7.3.38 Right Version",
-	ReleaseRevision = 17671
+	ReleaseRevision = 17672
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -7780,11 +7780,12 @@ do
 		["MagicDispeller2"] = true--диспел с союзников от дебаффов. Хилеры и другие спеки
 		["HasInterrupt"] = true,--Has an interrupt that is 24 seconds or less CD that is BASELINE (not a talent)
 		["HasInterrupt2"] = true, --пока хз, не помню зачем сделал
+		["Dhdd"] = true, --Перекрывать
 		["HasImmunity"] = true,--Has an immunity that can prevent or remove a spell effect (not just one that reduces damage like turtle or dispursion)
 	}]]
 
 	local specRoleTable = {
-		[62] = {	--Arcane Mage
+		[62] = {	--Аркан маг
 			["Dps"] = true,
 			["Ranged"] = true,
 			["RangedDps"] = true,
@@ -7796,7 +7797,7 @@ do
 			["HasImmunity"] = true,
 			["HasInterrupt2"] = true,
 		},
-		[65] = {	--Holy Paladin
+		[65] = {	--Холи пал
 			["Healer"] = true,
 			["Ranged"] = true,
 			["ManaUser"] = true,
@@ -7808,7 +7809,7 @@ do
 			["HasInterrupt2"] = true,
 			["MagicDispeller2"] = true,
 		},
-		[66] = {	--Protection Paladin
+		[66] = {	--Прото пал
 			["Tank"] = true,
 			["Melee"] = true,
 			["ManaUser"] = true,
@@ -7819,7 +7820,7 @@ do
 			["HasImmunity"] = true,
 			["HasInterrupt2"] = true,
 		},
-		[70] = {	--Retribution Paladin
+		[70] = {	--Ретри пал
 			["Dps"] = true,
 			["Melee"] = true,
 			["MeleeDps"] = true,
@@ -7830,7 +7831,7 @@ do
 			["HasInterrupt"] = true,
 			["HasInterrupt2"] = true,
 		},
-		[71] = {	--Arms Warrior
+		[71] = {	--Армс вар
 			["Dps"] = true,
 			["Melee"] = true,
 			["MeleeDps"] = true,
@@ -7838,14 +7839,14 @@ do
 			["Physical"] = true,
 			["HasInterrupt"] = true,
 		},
-		[73] = {	--Protection Warrior
+		[73] = {	--Прото вар
 			["Tank"] = true,
 			["Melee"] = true,
 			["Physical"] = true,
 			["HasInterrupt"] = true,
 			--["RaidCooldown"] = true,--Rallying Cry (in 8.x)
 		},
-		[102] = {	--Balance Druid
+		[102] = {	--Сова
 			["Dps"] = true,
 			["Ranged"] = true,
 			["RangedDps"] = true,
@@ -7855,7 +7856,7 @@ do
 			["RemoveCurse"] = true,
 			["RemovePoison"] = true,
 		},
-		[103] = {	--Feral Druid
+		[103] = {	--Ферал
 			["Dps"] = true,
 			["Melee"] = true,
 			["MeleeDps"] = true,
@@ -7864,7 +7865,7 @@ do
 			["RemovePoison"] = true,
 			["HasInterrupt"] = true,
 		},
-		[104] = {	--Guardian Druid
+		[104] = {	--Медведь
 			["Tank"] = true,
 			["Melee"] = true,
 			["Physical"] = true,
@@ -7872,7 +7873,7 @@ do
 			["RemovePoison"] = true,
 			["HasInterrupt"] = true,
 		},
-		[105] = {	-- Restoration Druid
+		[105] = {	--Дерево
 			["Healer"] = true,
 			["Ranged"] = true,
 			["ManaUser"] = true,
@@ -7882,34 +7883,34 @@ do
 			["RemovePoison"] = true,
 			["MagicDispeller2"] = true,
 		},
-		[250] = {	--Blood DK
+		[250] = {	--Блад дк
 			["Tank"] = true,
 			["Melee"] = true,
 			["Physical"] = true,
 			["HasInterrupt"] = true,
 		},
-		[251] = {	--Frost DK
+		[251] = {	--Фрост дк
 			["Dps"] = true,
 			["Melee"] = true,
 			["MeleeDps"] = true,
 			["Physical"] = true,
 			["HasInterrupt"] = true,
 		},
-		[253] = {	--Beastmaster Hunter
+		[253] = {	--Бистмастер хант
 			["Dps"] = true,
 			["Ranged"] = true,
 			["RangedDps"] = true,
 			["Physical"] = true,
 			["HasInterrupt"] = true,
 		},
-		[255] = {	--Survival Hunter (Legion)
+		[255] = {	--Сурв хант
 			["Dps"] = true,
 			["Melee"] = true,
 			["MeleeDps"] = true,
 			["Physical"] = true,
 			["HasInterrupt"] = true,
 		},
-		[256] = {	--Discipline Priest
+		[256] = {	--ДЦ
 			["Healer"] = true,
 			["Ranged"] = true,
 			["ManaUser"] = true,
@@ -7921,7 +7922,7 @@ do
 			["HasInterrupt2"] = true,
 			["MagicDispeller2"] = true,
 		},
-		[258] = {	--Shadow Priest
+		[258] = {	--ШП
 			["Dps"] = true,
 			["Ranged"] = true,
 			["RangedDps"] = true,
@@ -7932,7 +7933,7 @@ do
 			["HasInterrupt2"] = true,
 			["MagicDispeller2"] = true,
 		},
-		[259] = {	--Assassination Rogue
+		[259] = {	--Ликвидация крыса
 			["Dps"] = true,
 			["Melee"] = true,
 			["MeleeDps"] = true,
@@ -7941,7 +7942,7 @@ do
 			["HasImmunity"] = true,
 			["HasInterrupt2"] = true,
 		},
-		[262] = {	--Elemental Shaman
+		[262] = {	--Элем шаман
 			["Dps"] = true,
 			["Ranged"] = true,
 			["RangedDps"] = true,
@@ -7953,7 +7954,7 @@ do
 			["HasInterrupt"] = true,
 			["HasInterrupt2"] = true,
 		},
-		[263] = {	--Enhancement Shaman
+		[263] = {	--Энх шаман
 			["Dps"] = true,
 			["Melee"] = true,
 			["MeleeDps"] = true,
@@ -7965,7 +7966,7 @@ do
 			["HasInterrupt"] = true,
 			["HasInterrupt2"] = true,
 		},
-		[264] = {	--Restoration Shaman
+		[264] = {	--Рестор шаман
 			["Healer"] = true,
 			["Ranged"] = true,
 			["ManaUser"] = true,
@@ -7977,7 +7978,7 @@ do
 			["HasInterrupt2"] = true,
 			["MagicDispeller2"] = true,
 		},
-		[265] = {	--Affliction Warlock
+		[265] = {	--Афли лок
 			["Dps"] = true,
 			["Ranged"] = true,
 			["RangedDps"] = true,
@@ -7987,7 +7988,7 @@ do
 			["MagicDispeller2"] = true,
 			["HasInterrupt"] = true,
 		},
-		[268] = {	--Brewmaster Monk
+		[268] = {	--Хмелевар монк
 			["Tank"] = true,
 			["Melee"] = true,
 			["Physical"] = true,
@@ -7996,7 +7997,7 @@ do
 			["HasInterrupt"] = true,
 			["HasInterrupt2"] = true,
 		},
-		[269] = {	--Windwalker Monk
+		[269] = {	--ТСВ монк
 			["Dps"] = true,
 			["Melee"] = true,
 			["MeleeDps"] = true,
@@ -8006,7 +8007,7 @@ do
 			["HasInterrupt"] = true,
 			["HasInterrupt2"] = true,
 		},
-		[270] = {	--Mistweaver Monk
+		[270] = {	--ТТ монк
 			["Healer"] = true,
 			["Melee"] = true,
 			["Ranged"] = true,
@@ -8018,15 +8019,16 @@ do
 			["HasInterrupt2"] = true,
 			["MagicDispeller2"] = true,
 		},
-		[577] = {	--Havok Demon Hunter
+		[577] = {	--Дх дд
 			["Dps"] = true,
 			["Melee"] = true,
 			["MeleeDps"] = true,
 			["Physical"] = true,
 			["HasInterrupt"] = true,
 			["HasInterrupt2"] = true,
+			["Dhdd"] = true,
 		},
-		[581] = {	--Vengeance Demon Hunter
+		[581] = {	--Дх танк
 			["Tank"] = true,
 			["Melee"] = true,
 			["Physical"] = true,
@@ -9863,7 +9865,7 @@ do
 			if announceType == "target" or announceType == "targetcount" or announceType == "close" or announceType == "reflect" then
 				catType = "announceother"
 			--Directly affects you 
-			elseif announceType == "keepdist" or announceType == "you" or announceType == "yourun" or announceType == "yourunning" or announceType == "closemoveaway" or announceType == "youfind" or announceType == "youclose" or announceType == "youshare" or announceType == "youdefensive" or announceType == "youmoveaway" or announceType == "youmove" or announceType == "youcount" or announceType == "youpos" or announceType == "move" or announceType == "dodge" or announceType == "moveaway" or announceType == "run" or announceType == "stack" or announceType == "moveto" or announceType == "soakpos" or announceType == "youmoveawaypos" or announceType == "youfades" or announceType == "youdontmove" or announceType == "cast" then
+			elseif announceType == "targetsoak" or announceType == "targethelp" or announceType == "targetdodge" or announceType == "keepdist" or announceType == "you" or announceType == "yourun" or announceType == "yourunning" or announceType == "closemoveaway" or announceType == "youfind" or announceType == "youclose" or announceType == "youshare" or announceType == "youdefensive" or announceType == "youmoveaway" or announceType == "youmove" or announceType == "youcount" or announceType == "youpos" or announceType == "move" or announceType == "dodge" or announceType == "moveaway" or announceType == "run" or announceType == "stack" or announceType == "moveto" or announceType == "soakpos" or announceType == "youmoveawaypos" or announceType == "youfades" or announceType == "youdontmove" or announceType == "cast" then
 				catType = "announcepersonal"
 			--Things you have to do to fulfil your role
 			elseif announceType == "taunt" or announceType == "moredamage" or announceType == "defensive" or announceType == "interrupt2" or announceType == "dispel" or announceType == "interrupt" or announceType == "interruptcount" or announceType == "switch" or announceType == "switchcount" or announceType == "youmoredamage" then
@@ -9946,6 +9948,14 @@ do
 	
 	function bossModPrototype:NewSpecialWarningTargetHelp(text, optionDefault, ...)
 		return newSpecialWarning(self, "targethelp", text, nil, optionDefault, ...)
+	end
+	
+	function bossModPrototype:NewSpecialWarningTargetDodge(text, optionDefault, ...)
+		return newSpecialWarning(self, "targetdodge", text, nil, optionDefault, ...)
+	end
+
+	function bossModPrototype:NewSpecialWarningTargetSoak(text, optionDefault, ...)
+		return newSpecialWarning(self, "targetsoak", text, nil, optionDefault, ...)
 	end
 	
 	function bossModPrototype:NewSpecialWarningTargetCount(text, optionDefault, ...)
@@ -10578,6 +10588,8 @@ do
 			icon = type(texture) == "number" and GetSpellTexture(texture) or texture or type(spellId) == "string" and select(4, DBM:EJ_GetSectionInfo(string.sub(spellId, 3))) ~= "" and select(4, DBM:EJ_GetSectionInfo(string.sub(spellId, 3))) or (type(spellId) == "number" and GetSpellTexture(spellId)) or "Interface\\Icons\\Spell_Nature_WispSplode"
 			if timerType == "stage" then
 				colorType = 6
+			elseif timerType == "nextspecial" or timerType == "cdspecial" then
+				colorType = 7
 			end
 		elseif timerType == "roleplay" then
 			icon = type(texture) == "number" and GetSpellTexture(texture) or texture or type(spellId) == "string" and select(4, DBM:EJ_GetSectionInfo(string.sub(spellId, 3))) ~= "" and select(4, DBM:EJ_GetSectionInfo(string.sub(spellId, 3))) or (type(spellId) == "number" and GetSpellTexture(spellId)) or "Interface\\Icons\\Spell_Holy_BorrowedTime"

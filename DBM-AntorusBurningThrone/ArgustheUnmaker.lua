@@ -17,8 +17,8 @@ mod:RegisterCombat("combat")
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 248165 248317 257296 255594 257645 252516 256542 255648 257619 256544",
 	"SPELL_CAST_SUCCESS 248499 258039 258838 252729 252616 256388 258029",
-	"SPELL_AURA_APPLIED 248499 248396 250669 251570 255199 253021 255496 255496 255478 252729 252616 255433 255430 255429 255425 255422 255419 255418 258647 258646 257869 257931 257966 258838 256388",
-	"SPELL_AURA_APPLIED_DOSE 248499 258039 258838",
+	"SPELL_AURA_APPLIED 248499 248396 250669 251570 255199 253021 255496 255496 255478 252729 252616 255433 255430 255429 255425 255422 255419 255418 258647 258646 257869 257931 257966 258838 256388 257299",
+	"SPELL_AURA_APPLIED_DOSE 248499 258039 258838 257299",
 	"SPELL_AURA_REMOVED 250669 251570 255199 253021 255496 255496 255478 255433 255430 255429 255425 255422 255419 255418 248499 258039 257966 258647 258646 258838 248396 257869",
 	"SPELL_INTERRUPT",
 	"SPELL_PERIODIC_DAMAGE 248167",
@@ -59,6 +59,7 @@ local warnSargSentence				= mod:NewTargetAnnounce(257966, 3) --Приговор 
 local warnEdgeofAnni				= mod:NewCountAnnounce(258834, 4) --Грань аннигиляции
 local warnSoulRendingScythe			= mod:NewStackAnnounce(258838, 2, nil, "Tank|Healer") --Рассекающая коса
 --Stage Four: The Gift of Life, The Forge of Loss (Non Mythic)
+local warnReorgModule				= mod:NewSpellAnnounce(256389, 3) --Модуль пересозидания
 local warnGiftOfLifebinder			= mod:NewCastAnnounce(257619, 1) --Дар Хранительницы жизни
 local warnDeadlyScythe				= mod:NewStackAnnounce(258039, 2, nil, "Tank|Healer") --Смертоносная коса
 
@@ -90,7 +91,8 @@ local specWarnEdgeofAnni			= mod:NewSpecialWarningDodge(258834, nil, nil, nil, 2
 local specWarnSoulrendingScythe		= mod:NewSpecialWarningStack(258838, nil, 2, nil, nil, 3, 2) --Рассекающая коса
 local specWarnSoulrendingScytheTaunt= mod:NewSpecialWarningTaunt(258838, nil, nil, nil, 1, 2) --Рассекающая коса
 --Stage Four: The Gift of Life, The Forge of Loss (Non Mythic)
-local specWarnEmberofRage			= mod:NewSpecialWarningDodge(257299, nil, nil, nil, 2, 2)
+local specWarnEmberofRage			= mod:NewSpecialWarningDodge(257299, nil, nil, nil, 2, 2) --Глыбы ярости
+local specWarnEmberofRage2			= mod:NewSpecialWarningStack(257299, nil, 1, nil, nil, 1, 3) --Глыбы ярости
 local specWarnDeadlyScythe			= mod:NewSpecialWarningStack(258039, nil, 3, nil, nil, 1, 2) --Смертоносная коса
 local specWarnDeadlyScytheTaunt		= mod:NewSpecialWarningTaunt(258039, nil, nil, nil, 1, 2) --Смертоносная коса
 local specWarnReorgModule			= mod:NewSpecialWarningSwitch(256389, "RangedDps", nil, nil, 3, 2) --Модуль пересозидания
@@ -99,8 +101,8 @@ local timerNextPhase				= mod:NewPhaseTimer(74)
 --Stage One: Storm and Sky
 mod:AddTimerLine(SCENARIO_STAGE:format(1))
 local timerSweepingScytheCD			= mod:NewCDCountTimer(5.6, 248499, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Сметающая коса 5.6-15.7
-local timerConeofDeathCD			= mod:NewCDCountTimer(19.4, 248165, nil, nil, nil, 3) --Конус смерти 19.4-24
-local timerBlightOrbCD				= mod:NewCDCountTimer(22, 248317, nil, nil, nil, 3) --Чумная сфера 22-32
+local timerConeofDeathCD			= mod:NewCDCountTimer(21, 248165, nil, nil, nil, 3) --Конус смерти (под героик норм)
+local timerBlightOrbCD				= mod:NewCDCountTimer(25, 248317, nil, nil, nil, 3) --Чумная сфера (под героик норм)
 local timerTorturedRageCD			= mod:NewCDCountTimer(13, 257296, nil, nil, nil, 2, nil, DBM_CORE_HEALER_ICON) --Ярость порабощенного 13-16
 local timerSkyandSeaCD				= mod:NewCDCountTimer(24.9, 255594, nil, nil, nil, 5) --Небо и море 24.9-27.8
 mod:AddTimerLine(ENCOUNTER_JOURNAL_SECTION_FLAG12)--Mythic Stage 1
@@ -159,11 +161,11 @@ local countdownReorgModule			= mod:NewCountdown("Alt48", 256389, "RangedDps", ni
 local countdownApocModule			= mod:NewCountdown("Alt48", 258029, "Dps", nil, 5)
 local countdownEndofAllThings		= mod:NewCountdown(19.8, 256544, nil, nil, 5) --Конец всего сущего
 
-mod:AddSetIconOption("SetIconGift", 255594, true, false, {6, 5}) --Небо и море 5 and 6
-mod:AddSetIconOption("SetIconOnAvatar", 255199, true, false, {4}) --Аватара Агграмара 4
 mod:AddSetIconOption("SetIconOnSoulBomb", 251570, true, false, {8}) --Бомба души
 mod:AddSetIconOption("SetIconOnSoulBurst", 250669, true, false, {7, 3}) --Взрывная душа
-mod:AddSetIconOption("SetIconOnVulnerability", 255418, true, true, {7, 6, 5, 4, 3, 2, 1}) --дебаффы кураторов 1-7
+mod:AddSetIconOption("SetIconGift", 255594, true, false, {6, 5}) --Небо и море 5 and 6
+mod:AddSetIconOption("SetIconOnAvatar", 255199, true, false, {4}) --Аватара Агграмара 4
+mod:AddSetIconOption("SetIconOnVulnerability", 252516, true, false, {7, 6, 5, 4, 3, 2, 1}) --дебаффы кураторов 1-7
 mod:AddInfoFrameOption(nil, true)--Change to EJ entry since spell not localized
 mod:AddRangeFrameOption(5, 257869) --Ярость Саргераса
 mod:AddNamePlateOption("NPAuraOnInevitability", 253021)
@@ -366,6 +368,7 @@ function mod:OnCombatStart(delay)
 	if self.Options.NPAuraOnInevitability or self.Options.NPAuraOnCosmosSword or self.Options.NPAuraOnEternalBlades or self.Options.NPAuraOnVulnerability then
 		DBM:FireEvent("BossMod_EnableHostileNameplates")
 	end
+	DBM:AddMsg("Закрываешь Аргуса в мифе? Свяжись с автором аддона и помоги починить таймеры на боссе.")
 end
 
 function mod:OnCombatEnd()
@@ -769,11 +772,18 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 256388 and self:AntiSpam(3, 2) then --Процесс инициализации
 		self.vb.moduleCount = self.vb.moduleCount + 1
 	--	if self:AntiSpam(5, 2) then
+		warnReorgModule:Show()
 		specWarnReorgModule:Schedule(46.5)
 		specWarnReorgModule:ScheduleVoice(46.5, "killmob")
 	--	end
 		timerReorgModuleCD:Start(46.5, self.vb.moduleCount+1)
 		countdownReorgModule:Start(46.5)
+	elseif spellId == 257299 then --Глыбы ярости
+		local amount = args.amount or 1
+		if args:IsPlayer() and amount >= 1 then
+			specWarnEmberofRage2:Show(amount)
+			specWarnEmberofRage2:Play("stackhigh")
+		end
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED

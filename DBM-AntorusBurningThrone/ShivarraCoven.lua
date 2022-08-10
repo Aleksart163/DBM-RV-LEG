@@ -14,7 +14,7 @@ mod:RegisterCombat("combat")
 --mod:RegisterCombat("combat_yell", L.YellPullCoven)
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_START 245627 252861 253650 250648 250095",
+	"SPELL_CAST_START 245627 252861 253650 250648 250095 245303",
 	"SPELL_CAST_SUCCESS 244899 253520 245532 250335 250333 250334 249793 245518 246329",
 	"SPELL_AURA_APPLIED 244899 253520 245518 245586 250757 249863",
 	"SPELL_AURA_APPLIED_DOSE 244899 245518",
@@ -69,7 +69,7 @@ local specWarnFieryStrike				= mod:NewSpecialWarningStack(244899, nil, 2, nil, n
 local specWarnFieryStrikeOther			= mod:NewSpecialWarningTaunt(244899, nil, nil, nil, 1, 2) --Пламенный удар
 local specWarnFulminatingPulse			= mod:NewSpecialWarningYouMoveAway(253520, nil, nil, nil, 1, 3) --Гремучий импульс
 --Asara, Mother of Night
-local specWarnShadowBlades				= mod:NewSpecialWarningDodge(246329, nil, nil, nil, 2, 2)
+local specWarnShadowBlades				= mod:NewSpecialWarningDodge(246329, nil, nil, nil, 2, 2) --Теневые клинки
 local specWarnStormofDarkness			= mod:NewSpecialWarningIcePud(252861, nil, nil, nil, 2, 3) --Буря тьмы
 --Diima, Mother of Gloom
 local specWarnFlashfreeze				= mod:NewSpecialWarningStack(245518, nil, 2, nil, nil, 1, 6) --Морозная вспышка
@@ -77,7 +77,7 @@ local specWarnFlashfreezeOther			= mod:NewSpecialWarningTaunt(245518, nil, nil, 
 local specWarnChilledBlood				= mod:NewSpecialWarningTarget(245586, "Healer", nil, nil, 1, 2) --Студеная кровь
 local specWarnOrbofFrost				= mod:NewSpecialWarningDodge(253650, nil, nil, nil, 1, 2)
 --Thu'raya, Mother of the Cosmos (Mythic)
-local specWarnTouchoftheCosmos			= mod:NewSpecialWarningInterruptCount(250648, "HasInterrupt", nil, nil, 1, 2)
+local specWarnTouchoftheCosmos			= mod:NewSpecialWarningInterruptCount(250648, "HasInterrupt", nil, nil, 1, 2) --Прикосновение космоса
 local specWarnCosmicGlare				= mod:NewSpecialWarningYou(250757, nil, nil, nil, 1, 2) --Космический отблеск
 --Torment of the Titans
 local specWarnTormentofTitans			= mod:NewSpecialWarningSpell("ej16138", nil, nil, nil, 1, 7)
@@ -91,7 +91,7 @@ local timerWhirlingSaberCD				= mod:NewNextTimer(35.1, 245627, nil, nil, nil, 3)
 local timerFulminatingPulseCD			= mod:NewNextTimer(40.1, 253520, nil, nil, nil, 3) --Гремучий импульс
 --Asara, Mother of Night
 mod:AddTimerLine(Asara)
-local timerShadowBladesCD				= mod:NewCDTimer(27.6, 246329, nil, nil, nil, 3)
+local timerShadowBladesCD				= mod:NewCDTimer(27.6, 246329, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Теневые клинки
 local timerStormofDarknessCD			= mod:NewNextCountTimer(56.8, 252861, nil, nil, nil, 2, nil, DBM_CORE_HEALER_ICON) --Буря тьмы
 --Diima, Mother of Gloom
 mod:AddTimerLine(Diima)
@@ -100,7 +100,7 @@ local timerChilledBloodCD				= mod:NewNextTimer(25.4, 245586, nil, nil, nil, 5, 
 local timerOrbofFrostCD					= mod:NewNextTimer(30, 253650, nil, nil, nil, 3)
 --Thu'raya, Mother of the Cosmos (Mythic)
 mod:AddTimerLine(Thuraya)
-local timerCosmicGlareCD				= mod:NewCDTimer(15.8, 250757, nil, nil, nil, 3, nil, DBM_CORE_HEROIC_ICON) --Космический отблеск
+local timerCosmicGlareCD				= mod:NewCDTimer(15, 250757, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Космический отблеск
 --Torment of the Titans
 mod:AddTimerLine(torment)
 ----Activations timers
@@ -149,6 +149,11 @@ mod.vb.ignoreFirstInterrupt = false
 mod.vb.firstCastHappend = false
 local CVAR1, CVAR2 = nil, nil
 
+local function UpdateShadowBladesTimer(self)
+	timerShadowBladesCD:Stop()
+	timerShadowBladesCD:Start(5)
+end
+
 function mod:OnCombatStart(delay)
 	self.vb.stormCount = 0
 	self.vb.chilledCount = 0
@@ -167,14 +172,14 @@ function mod:OnCombatStart(delay)
 	end
 	--Diima, Mother of Gloom is first one to go inactive
 	berserkTimer:Start(-delay)
-	timerWhirlingSaberCD:Start(8-delay)
+	timerWhirlingSaberCD:Start(8.5-delay) --Вращающийся меч (под гер и мифик точно)
 	timerFieryStrikeCD:Start(11-delay)
-	timerShadowBladesCD:Start(10.9-delay)
+	timerShadowBladesCD:Start(15-delay) --Теневые клинки (под гер и мифик вроде точно)
 	if not self:IsEasy() then
 		timerFulminatingPulseCD:Start(20.3-delay)
 		countdownFulminatingPulse:Start(20.3-delay)
-		timerStormofDarknessCD:Start(26-delay, 1)
-		countdownStormofDarkness:Start(26-delay)
+		timerStormofDarknessCD:Start(29-delay, 1) --Буря тьмы  (под гер и мифик вроде точно)
+		countdownStormofDarkness:Start(29-delay)
 	end
 	if self.Options.NPAuraOnVisageofTitan then
 		DBM:FireEvent("BossMod_EnableHostileNameplates")
@@ -230,22 +235,31 @@ end
 
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
-	if spellId == 245627 then
+	if spellId == 245627 then --Вращающийся меч
 		warnWhirlingSaber:Show()
-		timerWhirlingSaberCD:Start()
-	elseif spellId == 252861 then
+		if self:IsHeroic() or self:IsMythic() then --смотрится норм под героик
+			timerWhirlingSaberCD:Start(36)
+		else
+			timerWhirlingSaberCD:Start()
+		end
+	elseif spellId == 252861 then --Буря тьмы
 		self.vb.stormCount = self.vb.stormCount + 1
 		specWarnStormofDarkness:Show(self.vb.stormCount)
 		specWarnStormofDarkness:Play("findshelter")
-		timerStormofDarknessCD:Start(56.8, self.vb.stormCount+1)
-		countdownStormofDarkness:Start(56.8)
+		if self:IsHeroic() or self:IsMythic() then --смотрится норм под героик
+			timerStormofDarknessCD:Start(58, self.vb.stormCount+1)
+			countdownStormofDarkness:Start(58)
+		else
+			timerStormofDarknessCD:Start(56.8, self.vb.stormCount+1)
+			countdownStormofDarkness:Start(56.8)
+		end
 	elseif spellId == 253650 then
 		specWarnOrbofFrost:Show()
 		specWarnOrbofFrost:Play("161411")
 		timerOrbofFrostCD:Start()
 	elseif spellId == 250095 and self:AntiSpam(3, 1) then
 		timerMachinationsofAman:Start()
-	elseif spellId == 250648 then
+	elseif spellId == 250648 then --Прикосновение космоса
 		if self.vb.firstCastHappend or not self.vb.ignoreFirstInterrupt then
 			self.vb.touchCosmosCast = self.vb.touchCosmosCast + 1
 		end
@@ -260,6 +274,10 @@ function mod:SPELL_CAST_START(args)
 			specWarnTouchoftheCosmos:Play("kick"..kickCount.."r")
 		end
 		if not self.vb.firstCastHappend then self.vb.firstCastHappend = true end
+	elseif spellId == 245303 then --Касание Тьмы
+		if timerShadowBladesCD:GetTime() < 5 then
+			UpdateShadowBladesTimer(self)
+		end
 	end
 end
 
@@ -281,18 +299,22 @@ function mod:SPELL_CAST_SUCCESS(args)
 			timerMachinationsofAmanThulCD:Start()
 			warnAmantul:Schedule(80)
 			specWarnAmantul:Schedule(85)
+			specWarnAmantul:ScheduleVoice(85, "killmob") "watchstep"
 		elseif spellId == 250333 then--Flames of Khaz'goroth
 			timerFlamesofKhazgorothCD:Start()
 			warnKazgagot:Schedule(80)
 			specWarnKazgagot:Schedule(85)
+			specWarnKazgagot:ScheduleVoice(85, "watchstep")
 		elseif spellId == 250334 then--Spectral Army of Norgannon
 			timerSpectralArmyofNorgannonCD:Start()
 			warnNorgannon:Schedule(80)
 			specWarnNorgannon:Schedule(85)
+			specWarnNorgannon:ScheduleVoice(85, "watchstep")
 		elseif spellId == 249793 then--Fury of Golganneth
 			timerFuryofGolgannethCD:Start()
 			warnGolgannet:Schedule(80)
 			specWarnGolgannet:Schedule(85)
+			specWarnGolgannet:ScheduleVoice(85, "watchstep")
 		end
 	elseif spellId == 246329 then--Shadow Blades
 		specWarnShadowBlades:Show()
@@ -493,7 +515,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 			timerBossIncoming:Start(8.7, name)
 		end
 		DBM:Debug("UNIT_SPELLCAST_SUCCEEDED fired with: "..name, 2)
-	elseif spellId == 250752 then--Cosmic Glare
+	elseif spellId == 250752 then --Космический отблеск
 		timerCosmicGlareCD:Start()
 	end
 end
@@ -551,10 +573,18 @@ function mod:UNIT_TARGETABLE_CHANGED(uId)
 				warnActivated:Show(UnitName(uId))
 			end
 			DBM:Debug("UNIT_TARGETABLE_CHANGED, Boss Engaging", 2)
-			timerChilledBloodCD:Start(6.5)
+			if self:IsHeroic() or self:IsMythic() then --Выходит дима и в героике всё точно
+				timerChilledBloodCD:Start(8)
+			else
+				timerChilledBloodCD:Start(6.5)
+			end
 			timerFlashFreezeCD:Start(10.1)
 			if not self:IsEasy() then
-				timerOrbofFrostCD:Start(30)
+				if self:IsHeroic() then --в героике всё точно
+					timerOrbofFrostCD:Start(30.5)
+				else
+					timerOrbofFrostCD:Start(30)
+				end
 			end
 		else
 			DBM:Debug("UNIT_TARGETABLE_CHANGED, Boss Leaving", 2)
