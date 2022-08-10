@@ -149,10 +149,11 @@ mod.vb.ignoreFirstInterrupt = false
 mod.vb.firstCastHappend = false
 local CVAR1, CVAR2 = nil, nil
 
+--[[
 local function UpdateShadowBladesTimer(self)
 	timerShadowBladesCD:Stop()
 	timerShadowBladesCD:Start(5)
-end
+end]]
 
 function mod:OnCombatStart(delay)
 	self.vb.stormCount = 0
@@ -274,10 +275,10 @@ function mod:SPELL_CAST_START(args)
 			specWarnTouchoftheCosmos:Play("kick"..kickCount.."r")
 		end
 		if not self.vb.firstCastHappend then self.vb.firstCastHappend = true end
-	elseif spellId == 245303 then --Касание Тьмы
+--[[	elseif spellId == 245303 then --Касание Тьмы
 		if timerShadowBladesCD:GetTime() < 5 then
 			UpdateShadowBladesTimer(self)
-		end
+		end]]
 	end
 end
 
