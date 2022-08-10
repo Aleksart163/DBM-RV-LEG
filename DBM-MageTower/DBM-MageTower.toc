@@ -1,0 +1,28 @@
+﻿## Interface: 70300
+## X-Min-Interface: 70300
+## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Mage Tower|r
+## Title-ruRU:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Башня магов|r
+## Author: Aleksart163
+## LoadOnDemand: 1
+## RequiredDeps: DBM-Core
+## SavedVariables: DBMMageTower_AllSavedVars
+## SavedVariablesPerCharacter: DBMMageTower_SavedStats
+## X-DBM-Mod: 1
+## X-DBM-Mod-Type: SCENARIO
+## X-DBM-Mod-Category: LEG
+## X-DBM-Mod-Name: Mage Tower
+## X-DBM-Mod-Name-ruRU: Башня магов
+## X-DBM-Mod-Sort: 516
+## X-DBM-Mod-MapID: 1148, 1698, 1710, 1703, 1702, 1684, 1673, 1616
+## X-DBM-Mod-MinCoreRevision: 17650
+
+localization.en.lua
+localization.ru.lua
+Kruul.lua
+ErdrisThorn.lua
+FelTotem.lua
+ImpossibleFoe.lua
+Queen.lua
+Twins.lua
+Xylem.lua
+Timers.lua
