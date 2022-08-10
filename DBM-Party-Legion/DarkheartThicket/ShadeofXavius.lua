@@ -5,7 +5,7 @@ mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 mod:SetCreatureID(99192)
 mod:SetEncounterID(1839)
 mod:SetZone()
-mod:SetUsedIcons(8, 7, 6, 1)
+mod:SetUsedIcons(8, 7, 1)
 
 mod:RegisterCombat("combat")
 
@@ -57,8 +57,8 @@ local countdownApocNightmare		= mod:NewCountdown(5, 200050, nil, nil, 5) --Ап�
 local playerName = UnitName("player")
 
 mod:AddSetIconOption("SetIconOnFeedontheWeak", 200238, true, false, {8}) --Пожирание слабых
+mod:AddSetIconOption("SetIconOnNightmareBolt", 200185, true, false, {8}) --Кошмарная стрела
 mod:AddSetIconOption("SetIconOnParanoia", 200289, true, false, {7}) --Усугубляющаяся паранойя
-mod:AddSetIconOption("SetIconOnNightmareBolt", 200185, true, false, {6}) --Кошмарная стрела
 mod:AddSetIconOption("SetIconOnNightmare", 200243, true, false, {1}) --Кошмар наяву
 
 mod.vb.phase = 1
@@ -69,7 +69,7 @@ mod.vb.lastBoltTime = 0
 local warned_preP1 = false
 local warned_preP2 = false
 
-function mod:NightmareBoltTarget(targetname, uId) --Прошляпанное очко Мурчаля (✔)
+function mod:NightmareBoltTarget(targetname, uId) --Прошляпанное очко Мурчаля ✔
 	if not targetname then return end
 	warnNightmareBolt:Show(targetname)
 	if targetname == UnitName("player") then
@@ -78,11 +78,11 @@ function mod:NightmareBoltTarget(targetname, uId) --Прошляпанное о�
 		yellNightmareBolt:Yell()
 	end
 	if self.Options.SetIconOnNightmareBolt then
-		self:SetIcon(targetname, 6, 5)
+		self:SetIcon(targetname, 8, 5)
 	end
 end
 
-function mod:ParanoiaTarget(targetname, uId) --Усугубляющаяся паранойя (✔)
+function mod:ParanoiaTarget(targetname, uId) --Усугубляющаяся паранойя ✔
 	if not targetname then return end
 	warnParanoia:Show(targetname)
 	if targetname == UnitName("player") then
@@ -114,6 +114,21 @@ function mod:OnCombatStart(delay)
 	--	timerNightmareCD:Start(6-delay)
 		timerFeedontheWeakCD:Start(15-delay)
 		timerParanoiaCD:Start(19-delay)
+	end
+end
+
+function mod:OnCombatEnd()
+	if self.Options.SetIconOnFeedontheWeak then
+		self:SetIcon(args.destName, 0)
+	end
+	if self.Options.SetIconOnParanoia then
+		self:SetIcon(args.destName, 0)
+	end
+	if self.Options.SetIconOnNightmareBolt then
+		self:SetIcon(args.destName, 0)
+	end
+	if self.Options.SetIconOnNightmare then
+		self:SetIcon(args.destName, 0)
 	end
 end
 
@@ -251,23 +266,38 @@ end
 
 function mod:CHAT_MSG_MONSTER_YELL(msg)
 	if msg == L.XavApoc then
-		self:SendSync("XavApoc")
+	--	self:SendSync("XavApoc")
+		warnApocNightmare:Show()
+		timerApocNightmare:Start()
+		countdownApocNightmare:Start()
+		specWarnApocNightmare2:Show()
+		specWarnApocNightmare2:Play("defensive")
 	elseif msg == L.XavApoc2 then
-		self:SendSync("XavApoc2")
+	--	self:SendSync("XavApoc2")
+		warnApocNightmare:Show()
+		timerApocNightmare:Start()
+		countdownApocNightmare:Start()
+		specWarnApocNightmare2:Show()
+		specWarnApocNightmare2:Play("defensive")
 	end
 end
 
+--[[
 function mod:OnSync(msg)
 	if msg == "XavApoc" then
 		warnApocNightmare:Show()
 		timerApocNightmare:Start()
 		countdownApocNightmare:Start()
+		specWarnApocNightmare2:Show()
+		specWarnApocNightmare2:Play("defensive")
 	elseif msg == "XavApoc2" then
 		warnApocNightmare:Show()
 		timerApocNightmare:Start()
 		countdownApocNightmare:Start()
+		specWarnApocNightmare2:Show()
+		specWarnApocNightmare2:Play("defensive")
 	end
-end
+end]]
 
 function mod:UNIT_HEALTH(uId)
 	if not self:IsNormal() then
@@ -277,8 +307,8 @@ function mod:UNIT_HEALTH(uId)
 		elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 99192 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.51 then
 			self.vb.phase = 2
 			warned_preP2 = true
-			specWarnApocNightmare2:Show()
-			specWarnApocNightmare2:Play("defensive")
+		--	specWarnApocNightmare2:Show()
+		--	specWarnApocNightmare2:Play("defensive")
 		end
 	else
 		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 99192 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.61 then
@@ -286,8 +316,8 @@ function mod:UNIT_HEALTH(uId)
 		elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 99192 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.51 then
 			self.vb.phase = 2
 			warned_preP2 = true
-			specWarnApocNightmare2:Show()
-			specWarnApocNightmare2:Play("defensive")
+		--	specWarnApocNightmare2:Show()
+		--	specWarnApocNightmare2:Play("defensive")
 		end
 	end
 end

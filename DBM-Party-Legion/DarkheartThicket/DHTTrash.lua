@@ -46,12 +46,12 @@ function mod:SPELL_CAST_START(args)
 			specWarnBloodAssault:Show()
 			specWarnBloodAssault:Play("chargemove")
 		end
-	elseif spellId == 200580 and self:AntiSpam(2, 1) then --Безумный рев
-		if self:IsHard() then
+	elseif spellId == 200580 then --Безумный рев
+		if not self:IsNormal() and self:AntiSpam(2, 1) then
 			specWarnMaddeningRoar:Show()
 			specWarnMaddeningRoar:Play("defensive")
 		end
-	elseif spellId == 200630 then --Ошеломляющий визг
+	elseif spellId == 200630 and self:AntiSpam(2, 1) then --Ошеломляющий визг
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnUnnervingScreech:Show()
 			specWarnUnnervingScreech:Play("kickcast")

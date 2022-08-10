@@ -5,7 +5,7 @@ mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 mod:SetCreatureID(98965, 98970)
 mod:SetEncounterID(1835)
 mod:SetZone()
-mod:SetUsedIcons(7)
+mod:SetUsedIcons(8, 7)
 mod:SetBossHPInfoToHighest()
 
 mod:RegisterCombat("combat")
@@ -55,14 +55,14 @@ local countdownShear				= mod:NewCountdown("Alt12", 198635, "Tank", nil, 5) --Н
 local countdownGuile				= mod:NewCountdown(39, 199193, nil, nil, 5) --Хитроумие повелителя ужаса
 local countdownGuile2				= mod:NewCountdownFades("Alt20", 199193, nil, nil, 5) --Хитроумие повелителя ужаса
 
+mod:AddSetIconOption("SetIconOnWhirlingBlade", 198641, true, false, {8}) --Крутящийся клинок
 mod:AddSetIconOption("SetIconOnSwarm", 201733, true, false, {7}) --Жалящий рой
-mod:AddSetIconOption("SetIconOnWhirlingBlade", 198641, true, false, {7}) --Крутящийся клинок
 
 mod.vb.phase = 1
 mod.vb.shadowboltCount = 0
 mod.vb.guileCount = 0
 
-function mod:WhirlingBladeTarget(targetname, uId) --Крутящийся клинок (✔)
+function mod:WhirlingBladeTarget(targetname, uId) --Крутящийся клинок ✔
 	if not targetname then return end
 	warnWhirlingBlade:Show(targetname)
 	if targetname == UnitName("player") then
@@ -74,11 +74,11 @@ function mod:WhirlingBladeTarget(targetname, uId) --Крутящийся кли�
 		specWarnWhirlingBlade:Play("watchstep")
 	end
 	if self.Options.SetIconOnWhirlingBlade then
-		self:SetIcon(targetname, 7, 10)
+		self:SetIcon(targetname, 8, 10)
 	end
 end
 
-function mod:SwarmTarget(targetname, uId) --Жалящий рой (✔)
+function mod:SwarmTarget(targetname, uId) --Жалящий рой ✔
 	if not targetname then return end
 	warnSwarm:Show(targetname)
 	if targetname == UnitName("player") then
@@ -105,6 +105,15 @@ function mod:OnCombatStart(delay)
 		timerUnerringShearCD:Start(5.5-delay) --Неумолимый удар
 		countdownShear:Start(5.5-delay) --Неумолимый удар
 		timerDarkBlastCD:Start(10-delay) --Темный взрыв
+	end
+end
+
+function mod:OnCombatEnd()
+	if self.Options.SetIconOnWhirlingBlade then
+		self:SetIcon(args.destName, 0)
+	end
+	if self.Options.SetIconOnSwarm then
+		self:SetIcon(args.destName, 0)
 	end
 end
 
@@ -208,6 +217,7 @@ function mod:UNIT_DIED(args)
 	end
 end
 
+--[[
 function mod:OnSync(msg)
 	if msg == "Latosius" then
 		self.vb.phase = 2
@@ -218,10 +228,17 @@ function mod:OnSync(msg)
 		timerUnerringShearCD:Cancel()
 		countdownDarkblast:Cancel()
 	end
-end
+end]]
 
 function mod:CHAT_MSG_MONSTER_SAY(msg)
 	if msg == L.Latosius then
-		self:SendSync("Latosius")
+	--	self:SendSync("Latosius")
+		self.vb.phase = 2
+		warnPhase2:Show()
+		timerWhirlingBladeCD:Cancel()
+		countdownShear:Cancel()
+		timerDarkBlastCD:Cancel()
+		timerUnerringShearCD:Cancel()
+		countdownDarkblast:Cancel()
 	end
 end

@@ -26,34 +26,52 @@ mod:RegisterEventsInCombat(
 
 --Смотритель https://ru.wowhead.com/npc=114247/смотритель/эпохальный-журнал-сражений
 local warnOverload					= mod:NewStackAnnounce(227257, 4, nil, nil, 2) --Перегрузка
-local warnAdds						= mod:NewSpellAnnounce(227267, 2, nil, "Healer") --Призыв нестабильной энергии
-local warnEvo						= mod:NewSpellAnnounce(227254, 2, nil, "Healer") --Прилив сил
+local warnAdds						= mod:NewSpellAnnounce(227267, 3, nil, "Healer") --Призыв нестабильной энергии
+local warnEvo						= mod:NewSpellAnnounce(227254, 3, nil, "Healer") --Прилив сил
 local warnEvo2						= mod:NewPreWarnAnnounce(227254, 3, 4) --Прилив сил
 
+local specWarnPowerDischarge2		= mod:NewSpecialWarningDodge(227279, nil, nil, nil, 2, 2) --Разряд энергии
 local specWarnAdds					= mod:NewSpecialWarningSwitch(227267, "-Healer", nil, nil, 1, 2) --Призыв нестабильной энергии
 local specWarnPowerDischarge		= mod:NewSpecialWarningYouMove(227465, nil, nil, nil, 1, 2) --Разряд энергии
 local specWarnEvo					= mod:NewSpecialWarningMoreDamage(227254, "-Healer", nil, nil, 3, 2) --Прилив сил
 local specWarnEvo2					= mod:NewSpecialWarningDefensive(227254, nil, nil, nil, 3, 3) --Прилив сил
 
 local timerSummonAddCD				= mod:NewNextTimer(9.5, 227267, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON) --Призыв нестабильной энергии
-local timerPowerDischargeCD			= mod:NewCDTimer(12.2, 227279, nil, nil, nil, 3) --Разряд энергии
+local timerPowerDischargeCD			= mod:NewCDTimer(14, 227279, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Разряд энергии
 local timerEvoCD					= mod:NewNextTimer(70, 227254, nil, nil, nil, 6, nil, DBM_CORE_DAMAGE_ICON) --Прилив сил
 local timerEvo						= mod:NewBuffActiveTimer(20, 227254, nil, nil, nil, 6, nil, DBM_CORE_DEADLY_ICON) --Прилив сил
 
 local countdownEvo					= mod:NewCountdown(70, 227254, nil, nil, 5) --Прилив сил
 
+mod.vb.powerDischargeCast = 0
+
+local powerDischarges = {14, 14, 14, 45.2, 14, 14, 45.2, 14, 14, 45.2, 14, 14, 45.2, 14, 14, 45.2, 14, 14, 45.2, 14, 14, 45.2}
+
+local function startPowerDischarge(self)
+	self.vb.powerDischargeCast = self.vb.powerDischargeCast + 1
+	specWarnPowerDischarge2:Show()
+	specWarnPowerDischarge2:Play("watchstep")
+	local timer = self:IsHard() and powerDischarges[self.vb.powerDischargeCast+1] or self:IsHeroic() and powerDischarges[self.vb.powerDischargeCast+1]
+	if timer then
+		timerPowerDischargeCD:Start(timer, self.vb.powerDischargeCast+1)
+		self:Schedule(timer, startPowerDischarge, self)
+	end
+end
+
 function mod:OnCombatStart(delay)
+	self.vb.powerDischargeCast = 0
 	if not self:IsNormal() then
 		timerSummonAddCD:Start(6-delay) --Призыв нестабильной энергии
-		timerPowerDischargeCD:Start(13-delay) --Разряд энергии
 		timerEvoCD:Start(53-delay) --Прилив сил
 		countdownEvo:Start(53) --Прилив сил
-	else
-		timerSummonAddCD:Start(6-delay)
-		timerPowerDischargeCD:Start(13.5)
-		timerEvoCD:Start(68-delay)
-		countdownEvo:Start(68)
+		timerPowerDischargeCD:Start(13-delay) --Разряд энергии
+		self:Schedule(13, startPowerDischarge, self)
 	end
+--		timerSummonAddCD:Start(6-delay)
+--		timerPowerDischargeCD:Start(13.5)
+--		timerEvoCD:Start(68-delay)
+--		countdownEvo:Start(68)
+--	end
 end
 
 function mod:OnCombatEnd()
@@ -74,7 +92,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 227254 then --Прилив сил
 		timerSummonAddCD:Stop()
-		timerPowerDischargeCD:Stop()
+	--	timerPowerDischargeCD:Stop()
 		warnEvo:Show()
 		specWarnEvo:Show()
 		warnEvo2:Schedule(17)
@@ -92,7 +110,7 @@ function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
 	if spellId == 227254 then --Прилив сил
 		timerSummonAddCD:Start(6)
-		timerPowerDischargeCD:Start(13)
+	--	timerPowerDischargeCD:Start(13)
 		timerEvoCD:Start(53.5) --для миф0 норм
 		countdownEvo:Start(53.5) --для миф0 норм
 	end
@@ -111,6 +129,6 @@ mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	local spellId = legacySpellId or bfaSpellId
 	if spellId == 227278 then
-		timerPowerDischargeCD:Start()
+	--	timerPowerDischargeCD:Start() --сломано со стороны сервера
 	end
 end

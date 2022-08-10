@@ -22,8 +22,10 @@ local warnHeaveCrud					= mod:NewSpellAnnounce(243124, 2) --Бросок дуб�
 local specWarnPulvCrudgel			= mod:NewSpecialWarningRun(237276, "Melee", nil, nil, 4, 2) --Сокрушающая дубина
 local specWarnPulvCrudgel2			= mod:NewSpecialWarningDodge(237276, "Ranged", nil, nil, 2, 2) --Сокрушающая дубина
 local specWarnMindControl			= mod:NewSpecialWarningSwitchCount(238484, nil, DBM_CORE_AUTO_SPEC_WARN_OPTIONS.switch:format(238484), nil, 1, 2) --Завораживающая биография
-local specWarnScornfulGaze			= mod:NewSpecialWarningMoveTo(237726, nil, nil, nil, 4, 5) --Глумливый взгляд
-local specWarnScornfulGaze2			= mod:NewSpecialWarningDodge(237726, "-Tank", nil, nil, 2, 2) --Глумливый взгляд
+local specWarnScornfulGaze			= mod:NewSpecialWarningYouMoveAway(237726, nil, nil, nil, 4, 5) --Глумливый взгляд
+local specWarnScornfulGaze2			= mod:NewSpecialWarningTargetDodge(237726, "-Tank", nil, nil, 2, 2) --Глумливый взгляд
+local specWarnScornfulGaze3			= mod:NewSpecialWarningYouDefensive(237726, "Tank", nil, nil, 3, 3) --Глумливый взгляд
+local specWarnScornfulGaze4			= mod:NewSpecialWarningTargetSoak(237726, "Tank", nil, nil, 3, 3) --Глумливый взгляд
 
 local timerPulvCrudgelCD			= mod:NewCDTimer(34.2, 237276, nil, nil, nil, 2, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Сокрушающая дубина
 local timerScornfulGazeCD			= mod:NewCDTimer(36.5, 237726, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Глумливый взгляд
@@ -52,9 +54,9 @@ function mod:OnCombatStart(delay)
 end
 
 function mod:OnCombatEnd()
---	if self.Options.RangeFrame then
---		DBM.RangeCheck:Hide()
---	end
+	if self.Options.SetIconOnScornfulGaze then
+		self:SetIcon(args.destName, 0)
+	end
 end
 
 function mod:SPELL_AURA_APPLIED(args)
@@ -73,13 +75,22 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerHeaveCrudCD:Start(27.5)
 		countdownScornfulGaze2:Start()
 		countdownScornfulGaze:Start()
-		if args:IsPlayer() then
-			specWarnScornfulGaze:Show(L.bookCase)
+		if args:IsPlayer() and not self:IsTank() then
+			specWarnScornfulGaze:Show()
+			specWarnScornfulGaze:Play("runaway")
+			yellScornfulGaze:Yell()
+			yellScornfulGaze2:Countdown(7, 3)
+		elseif args:IsPlayer() and self:IsTank() then
+			specWarnScornfulGaze3:Show()
+			specWarnScornfulGaze3:Play("defensive")
 			yellScornfulGaze:Yell()
 			yellScornfulGaze2:Countdown(7, 3)
 		else
 			warnScornfulGaze:Show(args.destName)
-			specWarnScornfulGaze2:Show()
+			specWarnScornfulGaze4:Show(args.destName)
+			specWarnScornfulGaze4:Play("helpsoak")
+			specWarnScornfulGaze2:Show(args.destName)
+			specWarnScornfulGaze2:Play("watchstep")
 		end
 		if self.Options.SetIconOnScornfulGaze then
 			self:SetIcon(args.destName, 7, 7)

@@ -54,8 +54,6 @@ function mod:OnCombatStart(delay)
 	warned_preP1 = false
 	warned_preP2 = false
 	warned_preP3 = false
-	timerResonantSlashCD:Start(7-delay) --Резонирующий удар сплеча +++
-	timerArcaneLockdownCD:Start(15.5-delay) --Чародейская изоляция +++
 	if not self:IsNormal() then
 		timerStreetsweeperCD:Start(11-delay) --Дворник
 		timerResonantSlashCD:Start(7-delay) --Резонирующий удар сплеча +++
@@ -63,6 +61,12 @@ function mod:OnCombatStart(delay)
 	else
 		timerResonantSlashCD:Start(7-delay) --Резонирующий удар сплеча +++
 		timerArcaneLockdownCD:Start(15-delay) --Чародейская изоляция +++
+	end
+end
+
+function mod:OnCombatEnd()
+	if self.Options.SetIconOnHinder then
+		self:SetIcon(args.destName, 0)
 	end
 end
 

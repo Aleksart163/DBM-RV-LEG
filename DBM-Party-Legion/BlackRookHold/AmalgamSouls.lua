@@ -10,12 +10,15 @@ mod:SetUsedIcons(8, 7)
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
-	"SPELL_AURA_APPLIED 194966",
+	"SPELL_AURA_APPLIED 194966 196930",
+	"SPELL_AURA_APPLIED_DOSE 196930",
 	"SPELL_AURA_REMOVED 194966",
 	"SPELL_CAST_START 195254 194966 194956 196078 196587",
 	"UNIT_HEALTH boss1"
 )
 
+--Слияние душ https://ru.wowhead.com/npc=98542/слияние-душ/эпохальный-журнал-сражений
+local warnSoulgorge					= mod:NewStackAnnounce(196930, 4, nil, nil, 2) --Пожирание душ
 local warnCallSouls2				= mod:NewSoonAnnounce(196078, 1) --Вызов душ
 local warnSwirlingScythe			= mod:NewTargetAnnounce(195254, 2) --Вращающаяся коса
 local warnSoulEchoes				= mod:NewTargetAnnounce(194966, 2) --Эхо души
@@ -31,7 +34,7 @@ local specWarnSwirlingScytheNear	= mod:NewSpecialWarningCloseMoveAway(195254, ni
 local specWarnSoulEchosNear			= mod:NewSpecialWarningCloseMoveAway(194966, nil, nil, nil, 1, 2) --Эхо души
 
 local timerSoulBurstCD				= mod:NewCDTimer(23, 196587, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON..DBM_CORE_MYTHIC_ICON) --Взрыв души
-local timerSwirlingScytheCD			= mod:NewCDTimer(21, 195254, nil, nil, nil, 3) --Вращающаяся коса 20-27
+local timerSwirlingScytheCD			= mod:NewCDTimer(21, 195254, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Вращающаяся коса 20-27
 local timerSoulEchoesCD				= mod:NewNextTimer(28, 194966, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Эхо души
 local timerReapSoulCD				= mod:NewNextTimer(13, 194956, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Жатва душ
 
@@ -103,9 +106,12 @@ function mod:OnCombatStart(delay)
 end
 
 function mod:OnCombatEnd()
---	if self.Options.RangeFrame then
---		DBM.RangeCheck:Hide()
---	end
+	if self.Options.SetIconOnSoulEchoes then
+		self:SetIcon(args.destName, 0)
+	end
+	if self.Options.SetIconOnSwirlingScythe then
+		self:SetIcon(args.destName, 0)
+	end
 end
 
 function mod:SPELL_AURA_APPLIED(args)
@@ -118,8 +124,12 @@ function mod:SPELL_AURA_APPLIED(args)
 		else
 			warnSoulEchoes:Show(args.destName)
 		end
+	elseif spellId == 196930 then --Пожирание душ
+		local amount = args.amount or 1
+		warnSoulgorge:Show(args.destName, amount)
 	end
 end
+mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 
 function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId

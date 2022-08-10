@@ -18,7 +18,8 @@ mod:RegisterEventsInCombat(
 	"RAID_BOSS_WHISPER",
 	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
---Тут ещё ничего не проверено
+
+--Агронокс https://ru.wowhead.com/npc=117193/агронокс/эпохальный-журнал-сражений
 local warnSpores					= mod:NewCountAnnounce(236524, 3) --Ядовитые споры
 local warnChokingVine				= mod:NewTargetAnnounce(238598, 4) --Удушающие лозы
 
@@ -50,7 +51,7 @@ function mod:OnCombatStart(delay)
 		countdownTimberSmash:Start(6-delay) --Удар бревном
 		timerSporesCD:Start(12-delay) --Ядовитые споры++
 		timerFulminatingLashersCD:Start(11-delay) --Гремучие плеточники+++
-		timerChokingVinesCD:Start(26.5-delay) --Удушающие лозы+++
+		timerChokingVinesCD:Start(25-delay) --Удушающие лозы+++
 		timerSucculentLashersCD:Start(18-delay) --Сочные плеточники+++
 	else
 		timerTimberSmashCD:Start(6-delay) --Удар бревном
@@ -58,6 +59,12 @@ function mod:OnCombatStart(delay)
 		timerSporesCD:Start(12-delay) --Ядовитые споры
 		timerFulminatingLashersCD:Start(17.5-delay) --Гремучие плеточники
 		timerChokingVinesCD:Start(24.2-delay) --Удушающие лозы
+	end
+end
+
+function mod:OnCombatEnd()
+	if self.Options.SetIconOnChokingVines then
+		self:SetIcon(args.destName, 0)
 	end
 end
 

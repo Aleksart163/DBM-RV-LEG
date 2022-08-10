@@ -8,7 +8,7 @@ mod:SetZone()
 mod.isTrashMod = true
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 183088 193585",
+	"SPELL_CAST_START 183088 193585 226296",
 	"SPELL_AURA_APPLIED 200154 201983",
 	"SPELL_PERIODIC_DAMAGE 226388 183407",
 	"SPELL_PERIODIC_MISSED 226388 183407",
@@ -18,7 +18,8 @@ mod:RegisterEvents(
 --Логово Нелтариона трэш
 local warnBurningHatred			= mod:NewTargetAnnounce(200154, 3) --Пламенная ненависть
 local warnFrenzy				= mod:NewTargetAnnounce(201983, 4) --Бешенство
-local warnBound					= mod:NewCastAnnounce(193585, 4) --Скованность
+local warnBound					= mod:NewCastAnnounce(193585, 3) --Скованность
+local warnPiercingShards		= mod:NewCastAnnounce(226296, 4) --Острые осколки
 
 local specWarnBound				= mod:NewSpecialWarningInterrupt(193585, "HasInterrupt", nil, nil, 1, 2) --Скованность
 local specWarnBurningHatred		= mod:NewSpecialWarningYouRun(200154, nil, nil, nil, 4, 2) --Пламенная ненависть
@@ -44,6 +45,9 @@ function mod:SPELL_CAST_START(args)
 			warnBound:Show()
 			warnBound:Play("kickcast")
 		end
+	elseif spellId == 226296 then
+		warnPiercingShards:Show()
+		warnPiercingShards:Play("watchstep")
 	end
 end
 

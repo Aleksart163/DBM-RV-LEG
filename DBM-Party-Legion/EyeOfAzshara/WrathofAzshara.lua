@@ -33,8 +33,8 @@ local specWarnMassiveDeluge			= mod:NewSpecialWarningDodge(192617, nil, nil, nil
 local timerCrushingDepthsCD			= mod:NewCDTimer(34, 197365, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Морская пучина
 local timerMythicTornadoCD			= mod:NewCDTimer(25, 192680, nil, nil, nil, 3) --Волшебный торнадо
 local timerMassiveDelugeCD			= mod:NewCDTimer(50, 192617, nil, nil, nil, 2, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Потоп
-local timerArcaneBombCD				= mod:NewCDTimer(30, 192706, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON..DBM_CORE_MAGIC_ICON) --Чародейская бомба +++ 1 раз проверил, все норм
-local timerArcaneBomb				= mod:NewTargetTimer(15, 192706, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON) --Чародейская бомба
+local timerArcaneBombCD				= mod:NewCDTimer(30, 192706, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON..DBM_CORE_DEADLY_ICON) --Чародейская бомба+++
+local timerArcaneBomb				= mod:NewTargetTimer(15, 192706, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON..DBM_CORE_DEADLY_ICON) --Чародейская бомба+++
 
 local yellArcaneBomb				= mod:NewYell(192706, nil, nil, nil, "YELL") --Чародейская бомба
 local yellArcaneBombFades			= mod:NewShortFadesYell(192706, nil, nil, nil, "YELL") --Чародейская бомба
@@ -44,8 +44,8 @@ local yellCrushingDepthsFades		= mod:NewShortFadesYell(197365, nil, nil, nil, "Y
 local countdownrushingDepths		= mod:NewCountdown(34, 197365, nil, nil, 5) --Морская пучина
 local countdownrushingDepths2		= mod:NewCountdownFades("Alt6", 197365, nil, nil, 5) --Морская пучина
 
-mod:AddSetIconOption("SetIconOnArcaneBomb", 192706, true, false, {7}) --Чародейская бомба
 mod:AddSetIconOption("SetIconOnCrushingDepths", 197365, true, false, {8}) --Морская пучина
+mod:AddSetIconOption("SetIconOnArcaneBomb", 192706, true, false, {7}) --Чародейская бомба
 mod:AddRangeFrameOption(10, 192706) --Чародейская бомба
 
 mod.vb.phase = 1
@@ -63,12 +63,12 @@ function mod:CrushingDepthsTarget(targetname, uId) --Морская пучина
 		specWarnCrushingDepths2:Play("defensive")
 		yellCrushingDepths:Yell()
 		yellCrushingDepthsFades:Countdown(6, 3)
-	elseif self:CheckNearby(30, targetname) then
+	elseif self:CheckNearby(40, targetname) then
 		specWarnCrushingDepths:Show(targetname)
 		specWarnCrushingDepths:Play("gather")
 	end
 	if self.Options.SetIconOnCrushingDepths then
-		self:SetIcon(targetname, 8, 6)
+		self:SetIcon(targetname, 7, 6)
 	end
 end
 
@@ -92,6 +92,9 @@ function mod:OnCombatEnd()
 	if self.Options.RangeFrame then
 		DBM.RangeCheck:Hide()
 	end
+	if self.Options.SetIconOnCrushingDepths then
+		self:SetIcon(args.destName, 0)
+	end
 	if self.Options.SetIconOnArcaneBomb then
 		self:SetIcon(args.destName, 0)
 	end
@@ -107,7 +110,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			DBM.RangeCheck:Show(10)
 		end
 		if self.Options.SetIconOnArcaneBomb then
-			self:SetIcon(args.destName, 7, 15)
+			self:SetIcon(args.destName, 8, 15)
 		end
 	end
 end

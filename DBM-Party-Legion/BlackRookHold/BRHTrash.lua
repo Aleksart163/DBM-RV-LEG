@@ -8,7 +8,7 @@ mod:SetZone()
 mod.isTrashMod = true
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 200261 221634 221688 225573 214003 221132 220918 200248 221363 221380 200343 193633",
+	"SPELL_CAST_START 200261 221634 221688 225573 214003 221132 220918 200248 221363 221380 200343 193633 200291",
 	"SPELL_AURA_APPLIED 194966 221132 221363 225909",
 	"SPELL_AURA_APPLIED_DOSE 225909",
 	"SPELL_AURA_REMOVED 194966 221132 221363",
@@ -29,6 +29,7 @@ local warnMandibleStrike			= mod:NewTargetAnnounce(221380, 4) --Удар жва�
 local warnSoulVenom					= mod:NewStackAnnounce(225909, 4, nil, nil, 2) --Отравленная душа
 local warnDarkMending				= mod:NewCastAnnounce(225573, 3) --Исцеление тьмой
 local warnArcaneBlitz				= mod:NewCastAnnounce(200248, 3) --Чародейская бомбардировка
+local warnKnifeDance				= mod:NewCastAnnounce(200291, 3) --Танец с кинжалами
 --
 local specWarnShoot					= mod:NewSpecialWarningYou(193633, nil, nil, nil, 1, 2) --Выстрел
 local specWarnSoulVenom				= mod:NewSpecialWarningStack(225909, nil, 5, nil, nil, 1, 2) --Отравленная душа
@@ -141,6 +142,8 @@ function mod:SPELL_CAST_START(args)
 		end
 	elseif spellId == 193633 then --Выстрел
 		self:BossTargetScanner(args.sourceGUID, "ShootTarget", 0.1, 2)
+	elseif spellId == 200291 and self:AntiSpam(2, 1) then --Танец с кинжалами
+		warnKnifeDance:Show()
 	end
 end
 
@@ -167,12 +170,13 @@ function mod:SPELL_AURA_APPLIED(args)
 			yellArcaneOverchargeFades:Countdown(6, 3)
 		elseif self:CheckNearby(6, args.destName) then
 			specWarnArcaneOvercharge2:Show(args.destName)
+			specWarnArcaneOvercharge2:Play("runaway")
 		end
 		if self.Options.RangeFrame then
 			DBM.RangeCheck:Show(6)
 		end
 	elseif spellId == 221363 then --Раздирающий яд
-		warnRupturingPoison:Show(args.destName)
+		warnRupturingPoison:CombinedShow(0.5, args.destName)
 		timerRupturingPoison:Start(args.destName)
 		if args:IsPlayer() then
 			specWarnRupturingPoison:Show()
@@ -181,6 +185,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			yellRupturingPoisonFades:Countdown(6, 3)
 		elseif self:CheckNearby(6, args.destName) then
 			specWarnRupturingPoison2:Show(args.destName)
+			specWarnRupturingPoison2:Play("runaway")
 		end
 		if self.Options.RangeFrame then
 			DBM.RangeCheck:Show(6)

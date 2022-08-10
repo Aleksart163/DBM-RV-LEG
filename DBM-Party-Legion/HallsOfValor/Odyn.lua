@@ -81,6 +81,15 @@ function mod:OnCombatStart(delay) --Прошляпанное очко мурча
 	end
 end
 
+function mod:OnCombatEnd()
+	if self.Options.SetIconOnSurge then
+		self:SetIcon(args.destName, 0)
+	end
+	if self.Options.SetIconOnRunicBrand then
+		self:SetIcon(args.destName, 0)
+	end
+end
+
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 197963 and args:IsPlayer() then--Purple K (NE)

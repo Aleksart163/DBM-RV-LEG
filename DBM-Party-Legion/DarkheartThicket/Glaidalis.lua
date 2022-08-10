@@ -5,6 +5,7 @@ mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 mod:SetCreatureID(96512)
 mod:SetEncounterID(1836)
 mod:SetZone()
+mod:SetUsedIcons(8, 7)
 
 mod:RegisterCombat("combat")
 
@@ -35,10 +36,14 @@ local yellLeap					= mod:NewYell(196346, nil, nil, nil, "YELL") --Мучител
 
 local countdownRampage			= mod:NewCountdown(29, 198379, "Melee", nil, 5) --Первобытная ярость
 
+mod:AddSetIconOption("SetIconOnGrievousTear", 196376, true, false, {8, 7}) --Мучительное разрывание
+
 mod.vb.rampage = 0
+mod.vb.grievousTearIcon = 8
 
 function mod:OnCombatStart(delay)
 	self.vb.rampage = 0
+	self.vb.grievousTearIcon = 8
 	if not self:IsNormal() then
 		timerLeapCD:Start(5.5-delay) --Мучительный прыжок
 		timerRampageCD:Start(13.5-delay) --Первобытная ярость
@@ -47,6 +52,12 @@ function mod:OnCombatStart(delay)
 		timerLeapCD:Start(5.9-delay) --Мучительный прыжок
 		timerRampageCD:Start(12.2-delay) --Первобытная ярость
 		countdownRampage:Start(12.2-delay) --Первобытная ярость
+	end
+end
+
+function mod:OnCombatEnd()
+	if self.Options.SetIconOnGrievousTear then
+		self:SetIcon(args.destName, 0)
 	end
 end
 
@@ -95,16 +106,24 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnGrievousTear:Play("defensive")
 			yellLeap:Yell()
 		end
+		if self.Options.SetIconOnGrievousTear then
+			self:SetIcon(args.destName, self.vb.grievousTearIcon)
+		end
+		self.vb.grievousTearIcon = self.vb.grievousTearIcon - 1
 	end
 end
 
 function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
 	if spellId == 196376 then --Мучительное разрывание
+		self.vb.grievousTearIcon = self.vb.grievousTearIcon + 1
 		if self:IsHard() then
 			if args:IsPlayer() then
 				specWarnGrievousTear2:Show()
 			end
+		end
+		if self.Options.SetIconOnGrievousTear then
+			self:SetIcon(args.destName, 0)
 		end
 	end
 end

@@ -8,7 +8,7 @@ mod:SetZone()
 mod.isTrashMod = true
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 196799 193069 196799 196249 193502 193936 161056 202728 196242 191527 191735",
+	"SPELL_CAST_START 196799 193069 196799 196249 193502 193936 161056 202728 196242 191527 191735 194064",
 	"SPELL_AURA_APPLIED 202615 193069 193607 202608 161044 193164 210202",
 --	"SPELL_AURA_REMOVED",
 	"SPELL_CAST_SUCCESS 202606",
@@ -22,7 +22,10 @@ local warnNightmares			= mod:NewTargetAnnounce(193069, 4) --Кошмары
 local warnNightmares2			= mod:NewCastAnnounce(193069, 4) --Кошмары
 local warnDoubleStrike			= mod:NewTargetAnnounce(193607, 2) --Двойной удар
 local warnMetamorphosis			= mod:NewSpellAnnounce(193502, 4) --Метаморфоза
+local warnAMotherLove			= mod:NewTargetAnnounce(194064, 3) --Материнская любовь
 
+local specWarnAMotherLove		= mod:NewSpecialWarningYouMoveAway(194064, nil, nil, nil, 4, 3) --Материнская любовь
+local specWarnAMotherLove2		= mod:NewSpecialWarningTargetDodge(194064, nil, nil, nil, 2, 2) --Материнская любовь
 local specWarnDeafeningScreech	= mod:NewSpecialWarningDodge(191735, nil, nil, nil, 2, 2) --Оглушительный визг
 local specWarnFoulStench		= mod:NewSpecialWarningYouMove(210202, nil, nil, nil, 3, 3) --Зловонный смрад
 local specWarnDeafeningShout	= mod:NewSpecialWarningCast(191527, "SpellCaster", nil, nil, 3, 2) --Оглушающий крик
@@ -59,6 +62,20 @@ local timerRoleplay				= mod:NewTimer(23, "timerRoleplay", "Interface\\Icons\\Sp
 
 local yellNightmares			= mod:NewYell(193069, nil, nil, nil, "YELL") --Кошмары
 local yellTorment				= mod:NewYell(202615, nil, nil, nil, "YELL") --Мучение
+local yellAMotherLove			= mod:NewYell(194064, nil, nil, nil, "YELL") --Материнская любовь
+
+function mod:AMotherLoveTarget(targetname, uId) --Материнская любовь ✔
+	if not targetname then return end
+	if targetname == UnitName("player") then
+		specWarnAMotherLove:Show()
+		specWarnAMotherLove:Play("runaway")
+		yellAMotherLove:Yell()
+	else
+		warnAMotherLove:Show(targetname)
+		specWarnAMotherLove2:Show(targetname)
+		specWarnAMotherLove2:Play("runout")
+	end
+end
 
 function mod:SPELL_CAST_START(args)
 	if not self.Options.Enabled then return end
@@ -92,9 +109,11 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 191527 then --Оглушающий крик
 		specWarnDeafeningShout:Show()
 		timerDeafeningShoutCD:Start()
-	elseif spellId == 191735 and self:AntiSpam(3, 1) then --Оглушительный визг
+	elseif spellId == 191735 and self:AntiSpam(2, 1) then --Оглушительный визг
 		specWarnDeafeningScreech:Show()
 		specWarnDeafeningScreech:Play("watchstep")
+	elseif spellId == 194064 then --Материнская любовь
+		self:BossTargetScanner(args.sourceGUID, "AMotherLoveTarget", 0.1, 2)
 	end
 end
 

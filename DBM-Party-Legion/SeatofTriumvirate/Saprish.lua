@@ -85,7 +85,6 @@ end
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 247245 then
-		self.vb.umbralflankingIcon = self.vb.umbralflankingIcon - 1
 		warnUmbralFlanking:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
 			specWarnUmbralFlanking:Show()
@@ -95,6 +94,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self.Options.SetIconOnUmbralFlanking then
 			self:SetIcon(args.destName, self.vb.umbralflankingIcon)
 		end
+		self.vb.umbralflankingIcon = self.vb.umbralflankingIcon - 1
 --	elseif spellId == 247145 then
 --		specWarnHuntersRush:Show()
 --		specWarnHuntersRush:Play("defensive")

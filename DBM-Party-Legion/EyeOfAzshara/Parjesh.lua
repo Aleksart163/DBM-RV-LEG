@@ -20,19 +20,21 @@ mod:RegisterEventsInCombat(
 --Полководец Паржеш https://ru.wowhead.com/npc=91784/полководец-паржеш/эпохальный-журнал-сражений
 local warnEnrage2					= mod:NewSoonAnnounce(197064, 1) --Исступление
 local warnEnrage					= mod:NewTargetAnnounce(197064, 4) --Исступление
-local warnImpalingSpear				= mod:NewTargetAnnounce(192094, 4) --Пронзающее копье
 local warnRestoration				= mod:NewCastAnnounce(197502, 4) --Исцеление
 local warnMotivated					= mod:NewStackAnnounce(197495, 3) --Мотивация
+local warnImpalingSpear				= mod:NewTargetAnnounce(192094, 4) --Пронзающее копье
 local warnThrowSpear				= mod:NewTargetAnnounce(192131, 3) --Бросок копья
 
+local specWarnImpalingSpear			= mod:NewSpecialWarningMoveTo(192094, nil, nil, nil, 3, 5) --Пронзающее копье
+local specWarnImpalingSpear2		= mod:NewSpecialWarningTargetDodge(192094, nil, nil, nil, 2, 2) --Пронзающее копье
 local specWarnThrowSpear			= mod:NewSpecialWarningYouDefensive(192131, nil, nil, nil, 3, 3) --Бросок копья
 local specWarnQuicksand				= mod:NewSpecialWarningYouMove(192053, nil, nil, nil, 1, 2) --Зыбучие пески
-local specWarnReinforcements		= mod:NewSpecialWarningSwitch(196563, "Tank", nil, nil, 1, 2) --Вызов подкрепления
-local specWarnCrashingwave			= mod:NewSpecialWarningDodge(191900, nil, nil, nil, 2, 2) --Сокрушительная волна
-local specWarnImpalingSpear			= mod:NewSpecialWarningMoveTo(192094, nil, nil, nil, 3, 5) --Пронзающее копье
-local specWarnImpalingSpear2		= mod:NewSpecialWarningDodge(192094, nil, nil, nil, 2, 2) --Пронзающее копье
+local specWarnReinforcements		= mod:NewSpecialWarningSwitch(196563, "-Healer", nil, nil, 1, 2) --Вызов подкрепления
+local specWarnCrashingwave			= mod:NewSpecialWarningDodge(191900, "-Tank", nil, nil, 2, 2) --Сокрушительная волна
+local specWarnCrashingwave2			= mod:NewSpecialWarningYouDefensive(191900, "Tank", nil, nil, 2, 2) --Сокрушительная волна
 local specWarnRestoration			= mod:NewSpecialWarningInterrupt(197502, "HasInterrupt", nil, nil, 1, 2) --Исцеление
 
+local timerCrashingwaveCD			= mod:NewCDTimer(27, 191900, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Сокрушительная волна
 local timerHatecoilCD				= mod:NewCDTimer(28, 192072, nil, nil, nil, 1, nil, DBM_CORE_TANK_ICON..DBM_CORE_DAMAGE_ICON) --Вызов подкрепления+++
 local timerSpearCD					= mod:NewCDTimer(26.5, 192094, nil, nil, nil, 7) --Пронзающее копье+++
 local timerThrowSpear				= mod:NewTargetTimer(9, 192131, nil, nil, nil, 3, nil, DBM_CORE_HEALER_ICON..DBM_CORE_DEADLY_ICON) --Бросок копья+++
@@ -42,7 +44,7 @@ local yellImpalingSpear2			= mod:NewShortFadesYell(192094, nil, nil, nil, "YELL"
 local yellThrowSpear				= mod:NewYell(192131, nil, nil, nil, "YELL") --Бросок копья
 local yellThrowSpear2				= mod:NewShortFadesYell(192131, nil, nil, nil, "YELL") --Бросок копья
 
-local countdownSpear				= mod:NewCountdown(26.5, 192094, nil, nil, 5) --Пронзающее копье
+local countdownCrashingwave			= mod:NewCountdown(27, 191900, nil, nil, 5) --Сокрушительная волна
 local countdownSpear2				= mod:NewCountdownFades("Alt5", 192094, nil, nil, 5) --Пронзающее копье
 
 mod:AddSetIconOption("SetIconOnImpalingSpear", 192094, true, false, {8}) --Пронзающее копье
@@ -61,11 +63,11 @@ function mod:OnCombatStart(delay)
 	if not self:IsNormal() then
 		timerHatecoilCD:Start(3-delay) --Вызов подкрепления
 		timerSpearCD:Start(28.5-delay) --Пронзающее копье+++
-		countdownSpear:Start(28.5-delay) --Пронзающее копье+++
+		timerCrashingwaveCD:Start(25-delay) --Сокрушительная волна+++
+		countdownCrashingwave:Start(25-delay) --Сокрушительная волна+++
 	else
 		timerHatecoilCD:Start(3-delay) --Вызов подкрепления
 		timerSpearCD:Start(28-delay) --Пронзающее копье
-		countdownSpear:Start(28-delay) --Пронзающее копье
 	end
 end
 
@@ -73,7 +75,6 @@ function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 192094 then --Пронзающее копье
 		timerSpearCD:Start()
-		countdownSpear:Start()
 		countdownSpear2:Start()
 		if args:IsPlayer() then
 			specWarnImpalingSpear:Show(trash)
@@ -82,7 +83,8 @@ function mod:SPELL_AURA_APPLIED(args)
 			yellImpalingSpear2:Countdown(5, 3)
 		else
 			warnImpalingSpear:Show(args.destName)
-			specWarnImpalingSpear2:Show()
+			specWarnImpalingSpear2:Show(args.destName)
+			specWarnImpalingSpear2:Play("watchstep")
 		end
 		if self.Options.SetIconOnImpalingSpear then
 			self:SetIcon(args.destName, 8, 5)
@@ -128,11 +130,16 @@ function mod:SPELL_CAST_START(args)
 		specWarnReinforcements:Play("bigmobsoon")
 		timerHatecoilCD:Start()
 	elseif spellId == 197502 then
+		warnRestoration:Show()
 		specWarnRestoration:Show()
 		specWarnRestoration:Play("kickcast")
-	elseif spellId == 191900 then
+	elseif spellId == 191900 then --Сокрушительная волна
 		specWarnCrashingwave:Show()
-		specWarnCrashingwave:Play("chargemove")
+		specWarnCrashingwave:Play("watchstep")
+		specWarnCrashingwave2:Show()
+		specWarnCrashingwave2:Play("defensive")
+		timerCrashingwaveCD:Start()
+		countdownCrashingwave:Start()
 	end
 end
 

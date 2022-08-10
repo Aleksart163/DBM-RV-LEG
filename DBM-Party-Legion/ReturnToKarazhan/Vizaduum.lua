@@ -41,6 +41,7 @@ local warnPhase33					= mod:NewPhaseAnnounce(3, 2)
 local specWarnChaoticShadows		= mod:NewSpecialWarningYou(229159, nil, nil, nil, 1, 2) --Тени Хаоса
 local specWarnChaoticShadows2		= mod:NewSpecialWarningYouMoveAway(229159, nil, nil, nil, 3, 5) --Тени Хаоса
 local specWarnBurningBlast			= mod:NewSpecialWarningInterruptCount(229083, "HasInterrupt", nil, nil, 1, 2) --Выброс пламени
+local specWarnBurningBlast2			= mod:NewSpecialWarningDispel(229083, "MagicDispeller2", nil, nil, 3, 3) --Выброс пламени
 --local specWarnBombardment			= mod:NewSpecialWarningDodge(229284, nil, nil, nil, 2, 2) --Приказ: бомбардировка
 local specWarnDisintegrate			= mod:NewSpecialWarningDodge(229151, nil, nil, nil, 2, 2) --Расщепление
 local specWarnFelBeam				= mod:NewSpecialWarningYouMoveAway(229242, nil, nil, nil, 4, 5) --Приказ: луч Скверны
@@ -63,8 +64,10 @@ local yellFelBeam					= mod:NewYell(229242, nil, nil, nil, "YELL") --Прика�
 local yellChaoticShadows			= mod:NewPosYell(229159, DBM_CORE_AUTO_YELL_CUSTOM_POSITION, nil, nil, "YELL") --Тени Хаоса
 local yellChaoticShadows2			= mod:NewFadesYell(229159, nil, nil, nil, "YELL") --Тени Хаоса
 
+local countdownFelBeam				= mod:NewCountdown(40, 229242, nil, nil, 5) --Приказ: луч Скверны
 local countdownBombardment			= mod:NewCountdown("Alt25", 229284, nil, nil, 5) --Приказ: бомбардировка
-local countdownShadowPhlegm			= mod:NewCountdown(5, 230066, nil, nil, 5) --Флегма тьмы
+local countdownStabilizeRift		= mod:NewCountdownFades(29.7, 230084, nil, nil, 5) --Стабилизация разлома
+--local countdownShadowPhlegm			= mod:NewCountdown(5, 230066, nil, nil, 5) --Флегма тьмы
 
 --local berserkTimer					= mod:NewBerserkTimer(300)
 
@@ -102,16 +105,22 @@ function mod:OnCombatStart(delay)
 	perephase = false
 	table.wipe(chaoticShadowsTargets)
 	--These timers seem to vary about 1-2 sec
-	timerFelBeamCD:Start(6-delay) --Приказ: луч Скверны+++
-	timerDisintegrateCD:Start(11-delay) --Расщепление+++
-	timerChaoticShadowsCD:Start(18.5-delay) --Тени Хаоса+++
-	timerBombardmentCD:Start(26-delay) --Приказ: бомбардировка+++
-	countdownBombardment:Start(26-delay) --Приказ: бомбардировка+++
+	if not self:IsNormal() then
+		timerFelBeamCD:Start(6-delay) --Приказ: луч Скверны+++
+		countdownFelBeam:Start(6-delay) --Приказ: луч Скверны+++
+		timerDisintegrateCD:Start(11-delay) --Расщепление+++
+		timerChaoticShadowsCD:Start(18.5-delay) --Тени Хаоса+++
+		timerBombardmentCD:Start(26-delay) --Приказ: бомбардировка+++
+		countdownBombardment:Start(26-delay) --Приказ: бомбардировка+++
+	end
 end
 
 function mod:OnCombatEnd()
 	if self.Options.RangeFrame then
 		DBM.RangeCheck:Hide()
+	end
+	if self.Options.SetIconOnShadows then
+		self:SetIcon(args.destName, 0)
 	end
 end
 
@@ -163,17 +172,12 @@ function mod:SPELL_CAST_SUCCESS(args)
 			perephase = true
 			warned_preP2 = true
 			timerFelBeamCD:Stop()
-			--Variable based on how long it takesto engage boss
-			--timerDisintegrateCD:Start(15)--Cast when boss engaged
+			countdownFelBeam:Cancel()
 			timerDisintegrateCD:Start(15.5)
-		--	timerBombardmentCD:Start(41)
-		--	timerChaoticShadowsCD:Start(45)
 		elseif self.vb.phase == 3 then
 			warnPhase33:Show()
 			self.vb.burningBlastCount = 0
 			warned_preP4 = true
-			--Variable based on how long it takesto engage boss
-		--	timerChaoticShadowsCD:Start(41)
 			timerStabilizeRiftCD:Start(24)
 			timerDisintegrateCD:Start(58.7)
 			timerChaoticShadowsCD:Start(71.7)
@@ -215,6 +219,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerChaoticShadowsCD:Start(37)
 	elseif spellId == 229241 then
 		timerFelBeamCD:Start()
+		countdownFelBeam:Start()
 		if args:IsPlayer() then
 			specWarnFelBeam:Show()
 			specWarnFelBeam:Play("justrun")
@@ -225,6 +230,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif spellId == 230084 then --Стабилизация разлома
 		timerStabilizeRift:Start()
+		countdownStabilizeRift:Start()
 	elseif spellId == 230002 and args:IsDestTypePlayer() then --Пылающая подрезка
 		local amount = args.amount or 1
 		if amount >= 3 then
@@ -232,6 +238,12 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif spellId == 229083 then --Выброс пламени
 		local amount = args.amount or 1
+		if not self:IsNormal() then
+			if not args:IsPlayer() then
+				specWarnBurningBlast2:Show(args.destName)
+				specWarnBurningBlast2:Play("dispelnow")
+			end
+		end
 		if amount >= 2 then
 			warnBurningBlast:Show(args.destName, amount)
 		end
@@ -251,6 +263,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		end
 	elseif spellId == 230084 then --Стабилизация разлома
 		timerStabilizeRift:Cancel()
+		countdownStabilizeRift:Cancel()
 	end
 end
 
@@ -258,7 +271,6 @@ function mod:SPELL_DAMAGE(args)
 	local spellId = args.spellId
 	if spellId == 230067 then --Флегма тьмы
 		timerShadowPhlegmCD:Start()
-		countdownShadowPhlegm:Start()
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE
@@ -267,6 +279,7 @@ function mod:SPELL_INTERRUPT(args)
 	if type(args.extraSpellId) == "number" and args.extraSpellId == 230084 then
 		timerDisintegrateCD:Stop()
 		timerChaoticShadowsCD:Stop()
+		countdownStabilizeRift:Cancel()
 		timerDisintegrateCD:Start(11)
 		timerChaoticShadowsCD:Start(18)
 	end

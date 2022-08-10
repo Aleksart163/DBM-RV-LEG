@@ -20,7 +20,7 @@ mod:RegisterEventsInCombat(
 	"UNIT_POWER_FREQUENT boss1"
 )
 
---TODO, maye GTFO for fire on ground (and timers and other stuff for it too maybe, seems all over place though).
+--Хмуродроб Лютый https://ru.wowhead.com/npc=98949/хмуродроб-лютый/эпохальный-журнал-сражений
 local warnHatefulGaze				= mod:NewTargetAnnounce(198079, 4) --Ненавидящий взгляд
 local warnFelVomit					= mod:NewTargetAnnounce(198446, 3) --Сквернорвота
 local warnHatefulCharge				= mod:NewStackAnnounce(224188, 4) --Рывок ненависти
@@ -32,7 +32,8 @@ local specWarnStomp					= mod:NewSpecialWarningDefensive(198073, nil, nil, nil, 
 local specWarnHatefulGaze			= mod:NewSpecialWarningYouDefensive(198079, nil, nil, nil, 3, 5) --Ненавидящий взгляд
 local specWarnHatefulGaze2			= mod:NewSpecialWarningYouMoveAway(198079, nil, nil, nil, 4, 3) --Ненавидящий взгляд
 local specWarnHatefulGaze3			= mod:NewSpecialWarningCloseMoveAway(198079, nil, nil, nil, 2, 3) --Ненавидящий взгляд
-local specWarnBrutalHaymakerSoon	= mod:NewSpecialWarningSoon(198245, "Tank|Healer", nil, nil, 1, 2) --Жестокий удар кулаком Face fuck soon
+local specWarnHatefulGaze4			= mod:NewSpecialWarningTargetSoak(198079, "Tank|Dhdd", nil, nil, 1, 3) --Ненавидящий взгляд
+local specWarnBrutalHaymakerSoon	= mod:NewSpecialWarningSoon(198245, "Tank|Healer", nil, nil, 2, 2) --Жестокий удар кулаком Face fuck soon
 local specWarnBrutalHaymaker		= mod:NewSpecialWarningDefensive(198245, "Tank", nil, nil, 3, 2) --Жестокий удар кулаком Incoming face fuck
 
 local timerStompCD					= mod:NewCDTimer(17, 198073, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Сотрясающий землю топот +++
@@ -76,6 +77,15 @@ function mod:OnCombatEnd()
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:Hide()
 	end
+	if self.Options.SetIconOnHatefulGaze then
+		self:SetIcon(args.destName, 0)
+	end
+	if self.Options.SetIconOnFelVomit then
+		self:SetIcon(args.destName, 0)
+	end
+	if self.Options.SetIconOnHatefulCharge then
+		self:SetIcon(args.destName, 0)
+	end
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
@@ -101,8 +111,11 @@ function mod:SPELL_AURA_APPLIED(args)
 		elseif self:CheckNearby(10, args.destName) then
 			warnHatefulGaze:Show(args.destName)
 			specWarnHatefulGaze3:Show(args.destName)
+			specWarnHatefulGaze3:Play("watchstep")
 		else
 			warnHatefulGaze:Show(args.destName)
+			specWarnHatefulGaze4:Show(args.destName)
+			specWarnHatefulGaze4:Play("helpsoak")
 		end
 		if self.Options.SetIconOnHatefulGaze then
 			self:SetIcon(args.destName, 8, 5)
@@ -114,12 +127,14 @@ function mod:SPELL_AURA_APPLIED(args)
 		if amount >= 1 and not self:IsTank() then
 			if args:IsPlayer() then
 				specWarnHatefulCharge:Show(amount)
+				specWarnHatefulCharge:Play("stackhigh")
 			else
 				warnHatefulCharge:Show(args.destName, amount)
 			end
 		elseif amount >= 2 and self:IsTank() then
 			if args:IsPlayer() then
 				specWarnHatefulCharge:Show(amount)
+				specWarnHatefulCharge:Play("stackhigh")
 			else
 				warnHatefulCharge:Show(args.destName, amount)
 			end

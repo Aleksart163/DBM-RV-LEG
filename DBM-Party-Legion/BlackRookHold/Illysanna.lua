@@ -92,9 +92,15 @@ function mod:OnCombatStart(delay)
 end
 
 function mod:OnCombatEnd()
---	if self.Options.RangeFrame then
---		DBM.RangeCheck:Hide()
---	end
+	if self.Options.SetIconOnEyeBeam then
+		self:SetIcon(args.destName, 0)
+	end
+	if self.Options.SetIconOnBrutalGlaive then
+		self:SetIcon(args.destName, 0)
+	end
+	if self.Options.SetIconOnDarkRush then
+		self:SetIcon(args.destName, 0)
+	end
 end
 
 function mod:SPELL_CAST_SUCCESS(args)

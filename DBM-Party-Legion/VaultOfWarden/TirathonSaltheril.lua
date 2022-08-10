@@ -31,6 +31,7 @@ local specWarnFuriousBlast			= mod:NewSpecialWarningInterrupt(191823, "HasInterr
 local specWarnFelMortar				= mod:NewSpecialWarningDodge(202913, nil, nil, nil, 2, 2) --Залп Скверны
 local specWarnFelMortarGTFO			= mod:NewSpecialWarningYouMove(191853, nil, nil, nil, 1, 2) --Яростное пламя
 
+local timerSpecialCD				= mod:NewNextSpecialTimer(13.5)
 local timerDarkStrikes				= mod:NewBuffActiveTimer(11, 191941, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Удары Тьмы
 local timerDarkStrikesCD			= mod:NewCDTimer(31, 191941, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Удары Тьмы
 local timerHatredCD					= mod:NewCDTimer(29, 190830, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Ненависть
@@ -48,12 +49,13 @@ function mod:OnCombatStart(delay)
 	warned_preP1 = false
 	if not self:IsNormal() then
 		timerDarkStrikesCD:Start(6-delay) --Удары Тьмы+++
-		timerFelMortarCD:Start(13.5-delay) --Яростный взрыв+++
+		timerSpecialCD:Start(13.5-delay) --Яростный взрыв+++
+		countdownFuriousBlast:Start(13.5-delay) --Яростный взрыв
 		timerMetamorphosisCD:Start(20-delay) --Метаморфоза+++
 		warnMetamorphosis3:Schedule(15-delay) --Метаморфоза+++
 	else
 		timerDarkStrikesCD:Start(6-delay) --Удары Тьмы
-		timerFuriousBlastCD:Start(13.5-delay) --Яростный взрыв
+		timerSpecialCD:Start(13.5-delay) --Яростный взрыв+++
 		countdownFuriousBlast:Start(13.5-delay) --Яростный взрыв
 		timerMetamorphosisCD:Start(20-delay) --Метаморфоза
 		warnMetamorphosis3:Schedule(15-delay) --Метаморфоза
@@ -123,7 +125,7 @@ end
 
 
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
-	if spellId == 191853 and destGUID == UnitGUID("player") and self:AntiSpam(2, 2) then
+	if spellId == 191853 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
 		if self:IsHard() then
 			specWarnFelMortarGTFO:Show()
 			specWarnFelMortarGTFO:Play("runaway")
@@ -143,7 +145,7 @@ end
 
 function mod:UNIT_HEALTH(uId)
 	if self:IsHard() then --миф и миф+
-		if self.vb.phase == 2 and not warned_preP1 and self:GetUnitCreatureId(uId) == 95885 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.46 then --Тиратон Салтерил
+		if self.vb.phase == 2 and not warned_preP1 and self:GetUnitCreatureId(uId) == 95885 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.51 then --Тиратон Салтерил
 			warned_preP1 = true
 			warnMetamorphosis:Show()
 		end

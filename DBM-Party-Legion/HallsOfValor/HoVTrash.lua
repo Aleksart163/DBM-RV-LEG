@@ -148,13 +148,13 @@ function mod:SPELL_CAST_START(args)
 		specWarnSanctify:Play("watchorb")
 		timerSanctifyCD:Start()
 		countdownSanctify:Start()
-	elseif spellId == 210875 and self:AntiSpam(2, 1) then --Пульсирующий заряд
+	elseif spellId == 210875 and self:AntiSpam(1, 1) then --Пульсирующий заряд
 		warnChargedPulse:Show()
 		specWarnChargedPulse:Show()
 		specWarnChargedPulse:Play("justrun")
 		specWarnChargedPulse2:Show()
 		specWarnChargedPulse2:Play("watchstep")
-	elseif spellId == 199652 and self:AntiSpam(3, 1) then --Рассечение
+	elseif spellId == 199652 and self:AntiSpam(2, 1) then --Рассечение
 		specWarnSever:Show()
 		specWarnSever:Play("defensive")
 	elseif spellId == 200969 and self:AntiSpam(3, 1) then --Зов предков
@@ -238,7 +238,7 @@ function mod:GOSSIP_SHOW()
 	local guid = UnitGUID("target")
 	if not guid then return end
 	local cid = self:GetCIDFromGUID(guid)
-	if mod.Options.BossActivation then --Прошляпанное очко Мурчаля (✔)
+	if mod.Options.BossActivation then --Прошляпанное очко Мурчаля ✔
 		if cid == 97081 then --Король Бьорн
 			if select('#', GetGossipOptions()) > 0 then
 				SelectGossipOption(1)

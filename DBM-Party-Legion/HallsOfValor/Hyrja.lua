@@ -124,7 +124,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if not self:IsNormal() then
 			if amount == 1 then
 				timerExpelLightCD:Start(2)
-			elseif amount >= 5 and amount % 5 == 0 then
+			elseif amount >= 2 and amount % 2 == 0 then
 				warnMysticEmpowermentHoly:Show(args.destName, amount)
 			end
 		end
@@ -139,7 +139,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if not self:IsNormal() then
 			if amount == 1 then
 				timerArcingBoltCD:Start(3)
-			elseif amount >= 5 and amount % 5 == 0 then
+			elseif amount >= 2 and amount % 2 == 0 then
 				warnMysticEmpowermentThunder:Show(args.destName, amount)
 			end
 		end

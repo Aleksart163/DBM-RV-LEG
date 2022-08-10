@@ -76,9 +76,9 @@ function mod:OnCombatStart(delay)
 end
 
 function mod:OnCombatEnd()
---	if self.Options.RangeFrame then
---		DBM.RangeCheck:Hide()
---	end
+	if self.Options.SetIconOnSpikedTongue then
+		self:SetIcon(args.destName, 0)
+	end
 end
 
 function mod:SPELL_AURA_APPLIED(args)
@@ -100,7 +100,7 @@ mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 199176 then
-		self:BossTargetScanner(args.sourceGUID, "SpikedTongueTarget", 0.1, 9)
+		self:BossTargetScanner(args.sourceGUID, "SpikedTongueTarget", 0.1, 2)
 		if self:IsHard() then
 			timerSpikedTongueCD:Start(57)
 			countdownSpikedTongue:Start(57)
@@ -128,8 +128,8 @@ mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	local spellId = legacySpellId or bfaSpellId
 	if spellId == 199817 then --Призыв прислужников
-		specWarnAdds:Schedule(5)
-		specWarnAdds:ScheduleVoice(3, "mobsoon")
+		specWarnAdds:Schedule(1)
+		specWarnAdds:ScheduleVoice(1, "mobsoon")
 		if self:IsHard() then
 			timerAddsCD:Start(75)
 		else
