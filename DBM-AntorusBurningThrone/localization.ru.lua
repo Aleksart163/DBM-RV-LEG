@@ -18,9 +18,10 @@ L:SetOptionLocalization({
 	Reaktor = "Предупреждать заранее о $spell:244152 (за ~3% до каста)"
 })
 
+--[[
 L:SetMiscLocalization({
 	YellPullGarothi = "Обнаружен противник. Уровень угрозы - номинальный."
-})
+})]]
 
 --------------------
 --Гончие Саргераса--
@@ -36,9 +37,10 @@ L:SetOptionLocalization({
 --------------------------
 L= DBM:GetModLocalization(1997)
 
+--[[
 L:SetMiscLocalization({
 	YellPullCouncil	= "От меня ещё никто не уходил живым."
-})
+})]]
 
 ----------------------------------
 --Хранительница порталов Азабель--
@@ -49,12 +51,13 @@ L:SetOptionLocalization({
 	ShowAllPlatforms = "Показать все анонсы независимо от местоположения платформы игрока"
 })
 
+--[[
 L:SetMiscLocalization({
 	YellPullHasabel = "Ха! Так это и есть лучшие из защитников Азерота?",
 	YellPullHasabel2 = "Ваш поход закончится здесь.",
 	YellPullHasabel3 = "Легион сокрушает всех своих врагов!",
 --	YellPullHasabel4 = "Нам покорились все миры. Ваш – следующий."
-})
+})]]
 
 ------------------------------
 --Эонар, Хранительница жизни--
@@ -76,7 +79,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	YellPullEonar = "Герои! Демоны пытаются захватить мою сущность для своего повелителя.",
+--	YellPullEonar = "Герои! Демоны пытаются захватить мою сущность для своего повелителя.",
 	Obfuscators = "Маскировщик",
 	Destructors = "Разрушитель",
 	Purifiers 	= "Очиститель",
@@ -108,10 +111,10 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	DispelMe = "Диспел мне!",
-	YellPullImonar = "Ваши кости будут щедро оплачены.",
-	YellPullImonar2 = "Я оставлю от вас пару кусочков на память.",
-	YellPullImonar3 = "Ваши головы украсят мою коллекцию."
+--	YellPullImonar = "Ваши кости будут щедро оплачены.",
+--	YellPullImonar2 = "Я оставлю от вас пару кусочков на память.",
+--	YellPullImonar3 = "Ваши головы украсят мою коллекцию.",
+	DispelMe = "Диспел мне!"
 })
 
 -------------
@@ -124,21 +127,23 @@ L:SetOptionLocalization({
 	UseAddTime = "Всегда показывать таймеры, когда босс выходит из фазы инициализации, вместо того, чтобы скрывать их. (Если таймеры отключены, они возобновятся, когда босс снова станет активным, но могут оставить мало предупреждений, если до окончания действия таймеров осталось 1-2 секунды)."
 })
 
+--[[
 L:SetMiscLocalization({
 	YellPullKingaroth = "За работу!",
 	YellPullKingaroth2 = "И вы надеетесь одолеть мои машины этим жалким оружием?",
 	YellPullKingaroth3 = "Приготовьтесь к утилизации."
-})
+})]]
 
 --------------
 --Вариматрас--
 --------------
 L= DBM:GetModLocalization(1983)
 
+--[[
 L:SetMiscLocalization({
 	YellPullVarimathras = "Идите сюда и познайте страдания!",
 	YellPullVarimathras2 = "Нападайте! Я покажу вам, что такое боль!"
-})
+})]]
 
 ----------------
 --Ковен шиварр--
@@ -174,9 +179,10 @@ L:SetOptionLocalization({
 	IgnoreFirstKick		= "При использовании этой опции первое прерывание исключается из чередования (требуется права лидера рейда)"
 })
 
+--[[
 L:SetMiscLocalization({
 	YellPullCoven		= "Сейчас ваша плоть зашипит на огне."
-})
+})]]
 
 ------------
 --Агграмар--
@@ -201,7 +207,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	YellPullAggramar = "Вы сгорите!",
+--	YellPullAggramar = "Вы сгорите!",
 	Foe			= "Сокрушитель",
 	Rend		= "Пламя",
 	Tempest 	= "Буря",
@@ -237,13 +243,13 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	YellPullArgus = "Смерть! Смерть и боль!",
+--	YellPullArgus = "Смерть! Смерть и боль!",
 	SeaText		= "Хаста/Верса на %s",
 	SkyText		= "Крит/Маст на %s",
-	Blight		= "Чума на %s",
+	Blight		= "Чума на %s!",
 	Burst		= "Взрыв на мне!",
-	Sentence	= "Приговор на %s",
-	Bomb		= "Бомба на мне!"
+	Sentence	= "Приговор на %s!",
+	Bomb		= "БОМБА на мне!"
 })
 
 -------------
@@ -256,7 +262,6 @@ L:SetGeneralLocalization({
 })
 
 L:SetOptionLocalization({
-	YellOnHeroism = "Сообщать, когда кто-то применяет заклинание $spell:32182 или аналогичные ему",
 	timerRoleplay = "Отсчет времени до начала боя с боссами"
 })
 
@@ -265,6 +270,5 @@ L:SetTimerLocalization({
 })
 
 L:SetMiscLocalization({
-	HeroismYell = "%s использует %s!",
 	RPImonar = "Стоять!"
 })
