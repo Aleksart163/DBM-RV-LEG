@@ -34,6 +34,7 @@ local specWarnRottingEarth				= mod:NewSpecialWarningYouMove(200822, nil, nil, n
 local specWarnTormentingEye				= mod:NewSpecialWarningInterrupt(204243, "HasInterrupt", nil, nil, 1, 2) --Истязающий глаз
 local specWarnUnnervingScreech			= mod:NewSpecialWarningInterrupt(200630, "HasInterrupt", nil, nil, 1, 2) --Ошеломляющий визг
 
+local timerCurseofIsolation				= mod:NewTargetTimer(12, 225568, nil, "Tank|RemoveCurse", nil, 3, nil, DBM_CORE_CURSE_ICON..DBM_CORE_HEALER_ICON) --Проклятие уединения
 local timerVileMushroomCD				= mod:NewCDTimer(14, 198910, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Злогриб
 
 local yellCurseofIsolation				= mod:NewYell(225568, nil, nil, nil, "YELL") --Проклятие уединения
@@ -46,8 +47,8 @@ function mod:SPELL_CAST_START(args)
 			specWarnBloodAssault:Show()
 			specWarnBloodAssault:Play("chargemove")
 		end
-	elseif spellId == 200580 then --Безумный рев
-		if not self:IsNormal() and self:AntiSpam(2, 1) then
+	elseif spellId == 200580 and self:AntiSpam(2, 1) then --Безумный рев
+		if not self:IsNormal() then
 			specWarnMaddeningRoar:Show()
 			specWarnMaddeningRoar:Play("defensive")
 		end
@@ -64,7 +65,7 @@ end
 
 function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
-	if spellId == 201272 then --Кровавая бомба
+	if spellId == 201272 and self:AntiSpam(2, 1) then --Кровавая бомба
 		if not self:IsNormal() then
 			specWarnBloodBomb:Show()
 			specWarnBloodBomb:Play("watchstep")
@@ -74,7 +75,7 @@ end
 
 function mod:SPELL_SUMMON(args)
 	local spellId = args.spellId
-	if spellId == 198910 and self:AntiSpam(5, 1) then --Злогриб
+	if spellId == 198910 and self:AntiSpam(3, 1) then --Злогриб
 		if not self:IsNormal() then
 			specWarnVileMushroom:Show()
 			specWarnVileMushroom:Play("watchstep")
@@ -92,8 +93,13 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif spellId == 225568 then --Проклятие уединения
 		warnCurseofIsolation:CombinedShow(0.5, args.destName)
+		timerCurseofIsolation:Start(args.destName)
 		if self:IsHard() then
 			if args:IsPlayer() and self:IsTank() then
+				specWarnCurseofIsolation2:Show()
+				specWarnCurseofIsolation2:Play("watchstep")
+				yellCurseofIsolation:Yell()
+			elseif args:IsPlayer() and not self:IsTank() then
 				specWarnCurseofIsolation2:Show()
 				specWarnCurseofIsolation2:Play("watchstep")
 				yellCurseofIsolation:Yell()
@@ -113,6 +119,13 @@ function mod:SPELL_AURA_APPLIED(args)
 				specWarnPoisonSpear:Play("dispelnow")
 			end
 		end
+	end
+end
+
+function mod:SPELL_AURA_REMOVED(args)
+	local spellId = args.spellId
+	if spellId == 225568 then --Проклятие уединения
+		timerCurseofIsolation:Cancel(args.destName)
 	end
 end
 

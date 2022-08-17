@@ -29,7 +29,7 @@ local warnMandibleStrike			= mod:NewTargetAnnounce(221380, 4) --Удар жва�
 local warnSoulVenom					= mod:NewStackAnnounce(225909, 4, nil, nil, 2) --Отравленная душа
 local warnDarkMending				= mod:NewCastAnnounce(225573, 3) --Исцеление тьмой
 local warnArcaneBlitz				= mod:NewCastAnnounce(200248, 3) --Чародейская бомбардировка
-local warnKnifeDance				= mod:NewCastAnnounce(200291, 3) --Танец с кинжалами
+local warnKnifeDance				= mod:NewSpellAnnounce(200291, 4) --Танец с кинжалами
 --
 local specWarnShoot					= mod:NewSpecialWarningYou(193633, nil, nil, nil, 1, 2) --Выстрел
 local specWarnSoulVenom				= mod:NewSpecialWarningStack(225909, nil, 5, nil, nil, 1, 2) --Отравленная душа

@@ -5,6 +5,7 @@ mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 mod:SetZone()
 
 mod:RegisterEvents(
+--	"SPELL_CAST_SUCCESS 688 691 157757 80353 32182 230935 90355 2825 160452",
 	"SPELL_CAST_SUCCESS 688 691 157757",
 	"SPELL_AURA_APPLIED 240447 240559 209858 240443",
 	"SPELL_AURA_APPLIED_DOSE 240559 209858 240443",
@@ -28,14 +29,78 @@ local timerNecroticWound			= mod:NewTargetTimer(9, 209858, nil, "Tank|Healer", n
 local timerBurst					= mod:NewTargetTimer(4, 240443, nil, nil, nil, 3, nil, DBM_CORE_MYTHIC_ICON..DBM_CORE_DEADLY_ICON) --Взрыв
 
 local dota5s = false
-local dispel = false
-local kick = false
 
 --[[
 function mod:SPELL_CAST_SUCCESS(args)
+	local spellId = args.spellId
+	if spellId == 80353 or spellId == 32182 or spellId == 2825 or spellId == 90355 or spellId == 160452 or spellId == 230935 then --Героизм
+		if spellId == 80353 then --Искажение времени
+			warnTimeWarp:Show(args.sourceName)
+			if self.Options.YellOnHeroism then
+				if IsInRaid() then
+					SendChatMessage(L.HeroismYell:format(args.sourceName, timeWarp), "RAID")
+				elseif IsInGroup() then
+					SendChatMessage(L.HeroismYell:format(args.sourceName, timeWarp), "PARTY")
+				end
+			end
+		elseif spellId == 32182 then --Героизм
+			warnHeroism:Show(args.sourceName)
+			if self.Options.YellOnHeroism then
+				if IsInRaid() then
+					SendChatMessage(L.HeroismYell:format(args.sourceName, heroism), "RAID")
+				elseif IsInGroup() then
+					SendChatMessage(L.HeroismYell:format(args.sourceName, heroism), "PARTY")
+				end
+			end
+		elseif spellId == 2825 then --Кровожадность
+			warnBloodlust:Show(args.sourceName)
+			if self.Options.YellOnHeroism then
+				if IsInRaid() then
+					SendChatMessage(L.HeroismYell:format(args.sourceName, bloodlust), "RAID")
+				elseif IsInGroup() then
+					SendChatMessage(L.HeroismYell:format(args.sourceName, bloodlust), "PARTY")
+				end
+			end
+		elseif spellId == 90355 then --Древняя истерия (пет ханта)
+			warnHysteria:Show(args.sourceName)
+			if self.Options.YellOnHeroism then
+				if IsInRaid() then
+					SendChatMessage(L.HeroismYell:format(args.sourceName, hysteria), "RAID")
+				elseif IsInGroup() then
+					SendChatMessage(L.HeroismYell:format(args.sourceName, hysteria), "PARTY")
+				end
+			end
+		elseif spellId == 160452 then --Ветер пустоты (пет ханта)
+			warnNetherwinds:Show(args.sourceName)
+			if self.Options.YellOnHeroism then
+				if IsInRaid() then
+					SendChatMessage(L.HeroismYell:format(args.sourceName, winds), "RAID")
+				elseif IsInGroup() then
+					SendChatMessage(L.HeroismYell:format(args.sourceName, winds), "PARTY")
+				end
+			end
+		elseif spellId == 230935 then --Барабаны гор
+			warnDrums:Show(args.sourceName)
+			if self.Options.YellOnHeroism then
+				if IsInRaid() then
+					SendChatMessage(L.HeroismYell:format(args.sourceName, drums), "RAID")
+				elseif IsInGroup() then
+					SendChatMessage(L.HeroismYell:format(args.sourceName, drums), "PARTY")
+				end
+			end
+		end
+	end
+end
 
-end]]
 
+		if self.Options.YellOnHeroism and args:IsPlayerSource() or args:IsPetSource() then
+			if IsInRaid() then
+				SendChatMessage(L.HeroismYell:format(args.sourceName), "RAID")
+			elseif IsInGroup() then
+				SendChatMessage(L.HeroismYell:format(args.sourceName), "PARTY")
+			end
+		end]]
+		
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 240447 then --Землетрясение

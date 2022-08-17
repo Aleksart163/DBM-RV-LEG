@@ -469,7 +469,7 @@ L:SetMiscLocalization({
 	LightVest	= "Светлый жилет/Light vest",
 	DarkVest	= "Темный жилет/Dark vest",
 	Female		= "Женщина/Female",
-	Male		= "ужчина/Male",
+	Male		= "Мужчина/Male",
 	ShortSleeve = "Короткие рукава/Short sleeves",
 	LongSleeve	= "Длинные рукава/Long sleeves",
 	Potions		= "Зелья/Potions",

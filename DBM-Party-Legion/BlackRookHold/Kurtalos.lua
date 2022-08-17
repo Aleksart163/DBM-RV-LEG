@@ -28,12 +28,12 @@ local warnGuile						= mod:NewPreWarnAnnounce(199193, 5, 1) --Хитроумие
 local warnShadowBoltVolley			= mod:NewPreWarnAnnounce(202019, 5, 1) --Залп стрел Тьмы
 local warnLegacyRavencrest			= mod:NewPreWarnAnnounce(199368, 5, 1) --Наследие Гребня Ворона
 
-local specWarnWhirlingBlade			= mod:NewSpecialWarningDodge(198641, nil, nil, nil, 2, 3) --Крутящийся клинок
+local specWarnWhirlingBlade			= mod:NewSpecialWarningTargetDodge(198641, nil, nil, nil, 2, 3) --Крутящийся клинок
 local specWarnWhirlingBlade2		= mod:NewSpecialWarningYouRun(198641, nil, nil, nil, 4, 3) --Крутящийся клинок
 local specWarnDarkblast				= mod:NewSpecialWarningDodge(198820, nil, nil, nil, 3, 5) --Темный взрыв
 local specWarnGuile					= mod:NewSpecialWarningDodge(199193, nil, nil, nil, 3, 5) --Хитроумие повелителя ужаса
 local specWarnGuileEnded			= mod:NewSpecialWarningEnd(199193, nil, nil, nil, 1, 2) --Хитроумие повелителя ужаса
-local specWarnSwarm					= mod:NewSpecialWarningYou(201733, nil, nil, nil, 3, 2) --Жалящий рой
+local specWarnSwarm					= mod:NewSpecialWarningYou(201733, nil, nil, nil, 3, 3) --Жалящий рой
 local specWarnSwarm2				= mod:NewSpecialWarningSwitch(201733, "-Healer", nil, nil, 1, 2) --Жалящий рой
 local specWarnShadowBolt			= mod:NewSpecialWarningDefensive(202019, nil, nil, nil, 3, 5) --Залп стрел Тьмы
 
@@ -70,7 +70,7 @@ function mod:WhirlingBladeTarget(targetname, uId) --Крутящийся кли�
 		specWarnWhirlingBlade2:Play("runout")
 		yellWhirlingBlade:Yell()
 	elseif self:CheckNearby(40, targetname) then
-		specWarnWhirlingBlade:Show()
+		specWarnWhirlingBlade:Show(targetname)
 		specWarnWhirlingBlade:Play("watchstep")
 	end
 	if self.Options.SetIconOnWhirlingBlade then

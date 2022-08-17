@@ -105,7 +105,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			timerCorruptingTouch:Start(args.destName)
 			if amount >= 2 and amount % 2 == 0 then
 				if args:IsPlayer() then
-					specWarnCorruptingTouch:Show()
+					specWarnCorruptingTouch:Show(amount)
 					specWarnCorruptingTouch:Play("stackhigh")
 					yellCorruptingTouch:Yell()
 				else
@@ -145,11 +145,11 @@ function mod:GOSSIP_SHOW()
 end
 
 function mod:CHAT_MSG_MONSTER_SAY(msg)
-	if msg == L.RP1 or msg:find(L.RP1) then
+	if msg == L.RP1 then
 		self:SendSync("RP1")
-	elseif msg == L.RP2 or msg:find(L.RP2) then
+	elseif msg == L.RP2 then
 		self:SendSync("RP2")
-	elseif msg == L.RP3 or msg:find(L.RP3) then
+	elseif msg == L.RP3 then
 		self:SendSync("RP3")
 	end
 end
