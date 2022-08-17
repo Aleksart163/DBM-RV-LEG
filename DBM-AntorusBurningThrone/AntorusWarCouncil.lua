@@ -141,7 +141,7 @@ function mod:OnCombatStart(delay)
 		timerEntropicMineCD:Start(15-delay) --Энтропическая мина
 		timerExploitWeaknessCD:Start(9-delay) --Обнаружить слабое место
 	elseif self:IsHeroic() then
-		timerEntropicMineCD:Start(15.5-delay) --Энтропическая мина
+		timerEntropicMineCD:Start(15-delay) --Энтропическая мина+++
 		timerExploitWeaknessCD:Start(9-delay) --Обнаружить слабое место +1
 	else
 		timerEntropicMineCD:Start(5.1-delay)

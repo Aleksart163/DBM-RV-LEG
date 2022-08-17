@@ -44,9 +44,9 @@
 ----------------------------------------------------------------
 --
 DBM = {
-	Revision = tonumber(("$Revision: 17673 $"):sub(12, -3)), --прошляпанное очко мурчаля ✔ (да, прошляпил он знатно)
+	Revision = tonumber(("$Revision: 17674 $"):sub(12, -3)), --прошляпанное очко мурчаля ✔
 	DisplayVersion = "7.3.38 Right Version",
-	ReleaseRevision = 17672
+	ReleaseRevision = 17673
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 

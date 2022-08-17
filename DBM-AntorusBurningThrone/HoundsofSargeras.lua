@@ -114,6 +114,7 @@ local function UpdateAllTimers(self)
 	--Shadow Doggo
 	timerCorruptingMawCD:Stop()
 	if timerComsumingSphereCD:GetTime() > 0 then
+		specWarnComsumingSphere:Cancel()
 		timerComsumingSphereCD:AddTime(15) --Поглощаяющая сфера
 	end
 	if timerWeightOfDarknessCD:GetTime() > 0 then
@@ -131,8 +132,8 @@ function mod:OnCombatStart(delay)
 	self.vb.WeightDarkIcon = 0
 	--Fire doggo
 	berserkTimer:Start(-delay)
-	timerBurningMawCD:Start(9-delay) --Пылающая пасть
-	timerCorruptingMawCD:Start(12-delay) --Заразная пасть
+	timerBurningMawCD:Start(9-delay) --Пылающая пасть+++ (под героик точно)
+	timerCorruptingMawCD:Start(11-delay) --Заразная пасть+++ (под героик точно)
 	--Shadow doggo
 	if self:IsMythic() then
 		FlameTouched = false
@@ -176,17 +177,15 @@ function mod:SPELL_CAST_START(args)
 	if spellId == 244057 then --Возгорание порчи
 		warnEnflamedCorruption:Show()
 		if self:IsHeroic() then
-			timerEnflamedCorruptionCD:Start(95.9) --Возгорание порчи
+			timerBurningMawCD:Stop()
+			timerEnflamedCorruptionCD:Start(98) --Возгорание порчи
 			timerDesolateGazeCD:Start(33) --Опустошающий взгляд+++
-			if timerBurningMawCD:GetTime() < 9 then
-				timerBurningMawCD:Start(10)
-			end
+			timerBurningMawCD:Start(10)
 		elseif self:IsMythic() then
+			timerBurningMawCD:Stop()
 			timerEnflamedCorruptionCD:Start(89.5) --Возгорание порчи
 			timerDesolateGazeCD:Start(30) --Опустошающий взгляд
-			if timerBurningMawCD:GetTime() < 9 then
-				timerBurningMawCD:Start(16)
-			end
+			timerBurningMawCD:Start(16)
 		else --обычка и лфр
 			timerEnflamedCorruptionCD:Start(104) --Возгорание порчи+++
 			timerDesolateGazeCD:Start(34) --Опустошающий взгляд+++
@@ -194,23 +193,21 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 244056 then --Вытягивание порчи
 		warnSiphonCorruption:Show()
 		if self:IsHeroic() then
+			timerCorruptingMawCD:Stop()
 			timerSiphonCorruptionCD:Start(79) --Вытягивание порчи+++
 			timerComsumingSphereCD:Start(26) --Поглощаяющая сфера+++
 			specWarnComsumingSphere:Schedule(26) --Поглощаяющая сфера+++
 			specWarnComsumingSphere:ScheduleVoice(26, "watchorb") --Поглощаяющая сфера+++
 			timerWeightOfDarknessCD:Start(52) --Бремя тьмы+++ (уже пофиксил с нового видео за 27 число)
-			if timerCorruptingMawCD:GetTime() < 9 then
-				timerCorruptingMawCD:Start(10)
-			end
+			timerCorruptingMawCD:Start(10)
 		elseif self:IsMythic() then
+			timerCorruptingMawCD:Stop()
 			timerSiphonCorruptionCD:Start(72) --Вытягивание порчи+++
 			timerComsumingSphereCD:Start(24) --Поглощаяющая сфера
 			specWarnComsumingSphere:Schedule(24) --Поглощаяющая сфера
 			specWarnComsumingSphere:ScheduleVoice(24, "watchorb") --Поглощаяющая сфера
 			timerWeightOfDarknessCD:Start(47) --Бремя тьмы вроде точно
-			if timerCorruptingMawCD:GetTime() < 9 then
-				timerCorruptingMawCD:Start(16)
-			end
+			timerCorruptingMawCD:Start(16)
 		else --обычка и лфр
 			timerSiphonCorruptionCD:Start(85) --Вытягивание порчи+++
 			timerComsumingSphereCD:Start(28) --Поглощаяющая сфера+++
@@ -337,7 +334,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self:IsMythic() then
 			timerBurningMawCD:Start(10.5)
 		else
-			timerCorruptingMawCD:Start() --Под нормал точно 11
+			timerBurningMawCD:Start() --Под нормал точно 11
 		end
 	elseif spellId == 251447 then --Заразная пасть
 		if self:IsMythic() then
@@ -401,9 +398,9 @@ end
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	local spellId = legacySpellId or bfaSpellId
 	if spellId == 244159 then--Consuming Sphere
-		specWarnComsumingSphere:Show()
+--[[		specWarnComsumingSphere:Show()
 		specWarnComsumingSphere:Play("watchorb")
---[[		if not self.Options.SequenceTimers or self:IsEasy() then
+		if not self.Options.SequenceTimers or self:IsEasy() then
 			timerComsumingSphereCD:Start(self.vb.mediumTimer)
 		else
 			if self:IsMythic() then

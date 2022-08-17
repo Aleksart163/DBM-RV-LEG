@@ -19,9 +19,7 @@ mod:RegisterEvents(
 	"UNIT_DIED"
 )
 
---TODO, these
-				--"Annihilation-252740-npc:127230 = pull:9.5", -- [1]
-				--"Decimation-252793-npc:127231 = pull:10.9, 0.0", -- [2]
+--АПТ трэш
 local warnDecimation2					= mod:NewTargetAnnounce(246687, 4) --Децимация (доделать)
 local warnDemolish						= mod:NewTargetAnnounce(252760, 4) --Разрушение
 local warnCloudofConfuse				= mod:NewTargetAnnounce(254122, 4) --Облако растерянности
@@ -38,7 +36,7 @@ local specWarnBurningWinds				= mod:NewSpecialWarningYouMove(246199, nil, nil, n
 --Император Деконикс
 local specWarnFearsomeLeap				= mod:NewSpecialWarningDodge(254500, nil, nil, nil, 2, 3) --Ужасающий прыжок
 local specWarnBladestorm				= mod:NewSpecialWarningDodge(254509, nil, nil, nil, 2, 3) --Вихрь клинков
-local specWarnFelTorch					= mod:NewSpecialWarningStack(257920, nil, 10, nil, nil, 1, 2) --Факел Скверны
+local specWarnFelTorch					= mod:NewSpecialWarningStack(257920, nil, 15, nil, nil, 1, 2) --Факел Скверны
 --Клобекс
 local specWarnPyrogenics				= mod:NewSpecialWarningDispel(248757, "MagicDispeller", nil, nil, 1, 3) --Пирогенез
 --
@@ -107,12 +105,11 @@ function mod:SPELL_CAST_START(args)
 	end
 end
 
---[[function mod:SPELL_CAST_SUCCESS(args)
+--[[
+function mod:SPELL_CAST_SUCCESS(args)
 	if not self.Options.Enabled then return end
 	local spellId = args.spellId
-	if spellId == 246664 and self:AntiSpam(5, 1) then
-		specWarnAnnihilation:Show()
-		specWarnAnnihilation:Play("helpsoak")
+	
 	end
 end]]
 
@@ -192,7 +189,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnDecimation:Show()
 			specWarnDecimation:Play("runout")
 			yellDecimation:Yell()
-			yellDecimationFades:Countdown(7, 3)
+			yellDecimationFades:Countdown(5, 3)
 		elseif self:AntiSpam(5, 1) then
 			specWarnDecimation2:Schedule(6)
 		end
@@ -208,7 +205,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 257920 then --Факел Скверны
 		local amount = args.amount or 1
 		if args:IsPlayer() and not self:IsTank() then
-			if amount >= 10 and amount % 5 == 0 then
+			if amount >= 15 and amount % 5 == 0 then
 				specWarnFelTorch:Show(amount)
 				specWarnFelTorch:Play("stackhigh")
 			end

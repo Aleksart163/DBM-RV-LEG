@@ -344,7 +344,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnEmpPulseGrenade:Show()
 			specWarnEmpPulseGrenade:Play("range5")
-			specWarnEmpPulseGrenade2:Schedule(5)
+			specWarnEmpPulseGrenade2:Schedule(7)
 			yellEmpPulseGrenade:Yell()
 		end
 		updateRangeFrame(self)

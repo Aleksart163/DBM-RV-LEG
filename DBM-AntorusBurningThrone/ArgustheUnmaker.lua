@@ -109,7 +109,8 @@ mod:AddTimerLine(ENCOUNTER_JOURNAL_SECTION_FLAG12)--Mythic Stage 1
 local timerSargGazeCD				= mod:NewCDCountTimer(35.2, 258068, nil, nil, nil, 3, nil, DBM_CORE_HEROIC_ICON)
 --Stage Two: The Protector Redeemed
 mod:AddTimerLine(SCENARIO_STAGE:format(2))
-local timerSoulBombCD				= mod:NewNextTimer(42, 251570, nil, nil, nil, 3, nil, DBM_CORE_TANK_ICON) --Бомба души
+local timerSoulBombCD				= mod:NewNextTimer(42, 251570, nil, nil, nil, 3, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Бомба души
+local timerSoulBomb					= mod:NewTargetTimer(12, 251570, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON..DBM_CORE_MYTHIC_ICON) --Бомба души
 local timerSoulBurstCD				= mod:NewNextCountTimer("d42", 250669, nil, nil, nil, 3) --Взрывная душа
 local timerEdgeofObliterationCD		= mod:NewCDCountTimer(34, 255826, nil, nil, nil, 2)
 local timerAvatarofAggraCD			= mod:NewCDTimer(59.9, 255199, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON) --Аватара Агграмара
@@ -520,7 +521,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	elseif spellId == 252616 and self:AntiSpam(5, 4) then
 	--	warnCosmicBeaconCast:Show()
 		timerCosmicBeaconCD:Start()
---[[	elseif spellId == 256388 and self:AntiSpam(5, 8) then --Процесс инициализации
+--[[	elseif spellId == 256388 and self:AntiSpam(5, 8) then --Процесс инициализации (старый в об и гер)
 		self.vb.moduleCount = self.vb.moduleCount + 1
 		specWarnReorgModule:Show(self.vb.moduleCount)
 		specWarnReorgModule:Play("killmob")
@@ -629,7 +630,8 @@ function mod:SPELL_AURA_APPLIED(args)
 			self:SetIcon(args.destName, icon)
 		end
 		self.vb.soulBurstIcon = self.vb.soulBurstIcon + 4--Icons 3 and 7 used to match BW
-	elseif spellId == 251570 then
+	elseif spellId == 251570 then --Бомба души
+		timerSoulBomb:Start(args.destName)
 		if args:IsPlayer() then
 			specWarnSoulbomb:Show()
 			specWarnSoulbomb:Play("targetyou")--Would be better if bombrun was "bomb on you" and not "bomb on you, run". Since Don't want to give misinformation, generic it is
@@ -769,21 +771,21 @@ function mod:SPELL_AURA_APPLIED(args)
 			yellSargSentenceFades:Countdown(30, 3)
 			fearCheck(self)
 		end
-	elseif spellId == 256388 and self:AntiSpam(3, 2) then --Процесс инициализации
+	elseif spellId == 256388 and self:AntiSpam(3, 2) then --Процесс инициализации (новый в об и гер)
 		self.vb.moduleCount = self.vb.moduleCount + 1
-	--	if self:AntiSpam(5, 2) then
 		warnReorgModule:Show()
 		specWarnReorgModule:Schedule(46.5)
 		specWarnReorgModule:ScheduleVoice(46.5, "killmob")
-	--	end
 		timerReorgModuleCD:Start(46.5, self.vb.moduleCount+1)
 		countdownReorgModule:Start(46.5)
-	elseif spellId == 257299 then --Глыбы ярости
+--[[	elseif spellId == 257299 then --Глыбы ярости ( не идёт, слишком дохуя)
 		local amount = args.amount or 1
-		if args:IsPlayer() and amount >= 1 then
-			specWarnEmberofRage2:Show(amount)
-			specWarnEmberofRage2:Play("stackhigh")
-		end
+		if amount >= 1 then
+			if args:IsPlayer() then
+				specWarnEmberofRage2:Show(amount)
+				specWarnEmberofRage2:Play("stackhigh")
+			end
+		end]]
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
@@ -798,7 +800,8 @@ function mod:SPELL_AURA_REMOVED(args)
 		if self.Options.SetIconOnSoulBurst then
 			self:SetIcon(args.destName, 0)
 		end
-	elseif spellId == 251570 then
+	elseif spellId == 251570 then --Бомба души
+		timerSoulBomb:Cancel(args.destName)
 		if args:IsPlayer() then
 			self:Unschedule(delayedBoonCheck)
 			yellSoulbombFades:Cancel()
