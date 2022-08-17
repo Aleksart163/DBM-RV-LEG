@@ -13,11 +13,11 @@ L:SetGeneralLocalization({
 })
 
 L:SetWarningLocalization({
-	Phase2 = "Скоро фаза 2",
+	Phase2 = "Скоро фаза 2"
 })
 
 L:SetOptionLocalization({
-	Phase2 = "Предупреждать заранее о фазе 2 (на ~10%)",
+	Phase2 = "Предупреждать заранее о фазе 2 (на ~10%)"
 })
 
 ----------------------
@@ -66,7 +66,7 @@ L:SetGeneralLocalization({
 L= DBM:GetModLocalization("Twins")
 
 L:SetGeneralLocalization({
-	name = "Разделение близнецов"
+	name = "Разделить близнецов"
 })
 
 ---------------------
