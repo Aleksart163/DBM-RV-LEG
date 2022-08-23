@@ -367,9 +367,6 @@ function mod:OnCombatEnd()
 	if self.Options.NPAuraOnPurification or self.Options.NPAuraOnFelShielding then
 		DBM.Nameplate:Hide(true, nil, nil, nil, true, true)
 	end
-	if self.Options.SetIconOnBurningEmbers then
-		self:SetIcon(args.destName, 0)
-	end
 end
 
 function mod:SPELL_CAST_START(args)

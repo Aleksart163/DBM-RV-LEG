@@ -44,9 +44,9 @@
 ----------------------------------------------------------------
 --
 DBM = {
-	Revision = tonumber(("$Revision: 17674 $"):sub(12, -3)), --прошляпанное очко мурчаля ✔
+	Revision = tonumber(("$Revision: 17675 $"):sub(12, -3)), --прошляпанное очко мурчаля ✔
 	DisplayVersion = "7.3.38 Right Version",
-	ReleaseRevision = 17673
+	ReleaseRevision = 17674
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -4336,7 +4336,7 @@ do
 					elseif not testBuild and dbmToc < wowTOC then
 						updateNotificationDisplayed = 3
 						AddMsg(DBM, DBM_CORE_UPDATEREMINDER_MAJORPATCH)
-						DBM:Disable(true)
+					--	DBM:Disable(true)
 					end
 				end
 			end
@@ -9545,7 +9545,6 @@ do
 			else
 				moving = true
 				anchorFrame:Show()
-				DBM:AddSpecialWarning(DBM_CORE_MOVE_SPECIAL_WARNING_TEXT)
 				DBM:AddSpecialWarning(DBM_CORE_MOVE_SPECIAL_WARNING_TEXT)
 				self:Schedule(15, moveEnd, self)
 				self.Bars:CreateBar(15, DBM_CORE_MOVE_SPECIAL_WARNING_BAR)

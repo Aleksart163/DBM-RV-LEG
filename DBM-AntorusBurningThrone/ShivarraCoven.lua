@@ -300,7 +300,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 			timerMachinationsofAmanThulCD:Start()
 			warnAmantul:Schedule(70)
 			specWarnAmantul:Schedule(85)
-			specWarnAmantul:ScheduleVoice(85, "killmob") "watchstep"
+			specWarnAmantul:ScheduleVoice(85, "killmob")
 		elseif spellId == 250333 then--Flames of Khaz'goroth
 			timerFlamesofKhazgorothCD:Start()
 			warnKazgagot:Schedule(70)

@@ -35,7 +35,7 @@ local Erodus = DBM:EJ_GetSectionInfo(16130)
 --]]
 --General
 local warnOutofPod						= mod:NewTargetAnnounce("ej16098", 2, 244141) --Вне капсулы
-local warnExploitWeakness				= mod:NewStackAnnounce(244892, 2, nil, "Tank") --Обнаружить слабое место
+local warnExploitWeakness				= mod:NewStackAnnounce(244892, 2, nil, "Tank|Healer") --Обнаружить слабое место
 local warnPsychicAssault				= mod:NewStackAnnounce(244172, 3, nil, "-Tank", 2) --Псионная атака
 --In Pod
 ----Chief Engineer Ishkar
@@ -139,10 +139,10 @@ function mod:OnCombatStart(delay)
 	if self:IsMythic() then
 		timerShockGrenadeCD:Start(14-delay) --Шоковая граната -1сек 
 		timerEntropicMineCD:Start(15-delay) --Энтропическая мина
-		timerExploitWeaknessCD:Start(9-delay) --Обнаружить слабое место
+		timerExploitWeaknessCD:Start(8.5-delay) --Обнаружить слабое место
 	elseif self:IsHeroic() then
 		timerEntropicMineCD:Start(15-delay) --Энтропическая мина+++
-		timerExploitWeaknessCD:Start(9-delay) --Обнаружить слабое место +1
+		timerExploitWeaknessCD:Start(8.5-delay) --Обнаружить слабое место+++
 	else
 		timerEntropicMineCD:Start(5.1-delay)
 	end
@@ -185,8 +185,12 @@ function mod:SPELL_CAST_START(args)
 			timerFusilladeCD:Stop() --Шквальный огонь
 			countdownFusillade:Cancel() --Шквальный огонь
 			timerEntropicMineCD:Stop() --Энтропическая мина
+			timerExploitWeaknessCD:Stop() --Обнаружить слабое место
+			countdownExploitWeakness:Cancel() --Обнаружить слабое место
 			timerFusilladeCD:Start(19, 1) --Шквальный огонь
 			countdownFusillade:Start(19) --Шквальный огонь
+			timerExploitWeaknessCD:Start(11) --Обнаружить слабое место
+			countdownExploitWeakness:Start(11) --Обнаружить слабое место
 			if self:IsMythic() then
 				timerShockGrenadeCD:Start(17) --Шоковая граната
 				timerEntropicMineCD:Start(18) --Энтропическая мина
@@ -200,6 +204,10 @@ function mod:SPELL_CAST_START(args)
 			timerSummonReinforcementsCD:Stop() --Вызов подкрепления
 			timerEntropicMineCD:Stop() --Энтропическая мина
 			timerFusilladeCD:Stop() --Шквальный огонь
+			timerExploitWeaknessCD:Stop() --Обнаружить слабое место
+			countdownExploitWeakness:Cancel() --Обнаружить слабое место
+			timerExploitWeaknessCD:Start(11) --Обнаружить слабое место
+			countdownExploitWeakness:Start(11) --Обнаружить слабое место
 			if self:IsMythic() then
 				timerShockGrenadeCD:Start(17) --Шоковая граната
 				timerEntropicMineCD:Start(18) --Энтропическая мина
@@ -213,8 +221,12 @@ function mod:SPELL_CAST_START(args)
 			timerShockGrenadeCD:Stop() --Шоковая граната
 			timerSummonReinforcementsCD:Stop() --Вызов подкрепления
 			timerEntropicMineCD:Stop() --Энтропическая мина
+			timerExploitWeaknessCD:Stop() --Обнаружить слабое место
+			countdownExploitWeakness:Cancel() --Обнаружить слабое место
 			timerFusilladeCD:Start(19, 1) --Шквальный огонь
 			countdownFusillade:Start(19) --Шквальный огонь
+			timerExploitWeaknessCD:Start(11) --Обнаружить слабое место
+			countdownExploitWeakness:Start(11) --Обнаружить слабое место
 			if self:IsMythic() then
 				timerShockGrenadeCD:Start(17) --Шоковая граната
 				timerSummonReinforcementsCD:Start(20) --Вызов подкрепления
@@ -229,9 +241,9 @@ function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
 	if spellId == 244722 then
 		timerShockGrenadeCD:Start()--21
-	elseif spellId == 244892 then
-		timerExploitWeaknessCD:Start()
-		countdownExploitWeakness:Start(8.5)
+	elseif spellId == 244892 then --Обнаружить слабое место (под героик точно 8 сек)
+		timerExploitWeaknessCD:Start(8)
+		countdownExploitWeakness:Start(8)
 	elseif spellId == 245227 then--Assume Command
 		timerAssumeCommandCD:Start(90)
 		countdownAssumeCommand:Start(90)

@@ -237,7 +237,7 @@ function mod:SPELL_CAST_START(args)
 			self.vb.reverbStrikeCast = self.vb.reverbStrikeCast + 1
 			timerReverberatingStrikeCD:Start(28, self.vb.reverbStrikeCast+1)--More work needed
 		end
-	elseif spellId == 245807 then
+	elseif spellId == 245807 then --Аннигиляция
 		specWarnAnnihilation:Show()
 		specWarnAnnihilation:Play("helpsoak")
 	elseif spellId == 252758 or spellId == 246692 then
@@ -430,7 +430,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 		--specWarnDecimation:Show()
 		--specWarnDecimation:Play("scatter")
 		timerDecimationCD:Start(nil, UnitGUID(uId))
-	elseif spellId == 246657 then--Annihilation
+	elseif spellId == 246657 and self:AntiSpam(2, 1) then--Annihilation
 		specWarnAnnihilation:Show()
 		specWarnAnnihilation:Play("helpsoak")
 		timerAnnihilationCD:Start(nil, UnitGUID(uId))

@@ -34,8 +34,8 @@ local warnPhase						= mod:NewPhaseChangeAnnounce() --Фаза
 local warnPhase1					= mod:NewAnnounce("Phase1", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 2
 local warnPhase2					= mod:NewAnnounce("Phase3", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 3
 local warnPhase3					= mod:NewAnnounce("Phase5", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 4
-local warnReapSoul					= mod:NewCastAnnounce(256542, 3) --Жатва душ
-local warnEndofAllThings			= mod:NewCastAnnounce(256544, 4) --Конец всего сущего
+local warnReapSoul					= mod:NewTargetSourceAnnounce(256542, 3) --Жатва душ
+local warnEndofAllThings			= mod:NewTargetSourceAnnounce(256544, 4) --Конец всего сущего
 --Stage One: Storm and Sky
 local warnTorturedRage				= mod:NewCountAnnounce(257296, 2) --Ярость порабощенного
 local warnSweepingScythe			= mod:NewStackAnnounce(248499, 2, nil, "Tank|Healer") --Сметающая коса
@@ -128,7 +128,7 @@ mod:AddTimerLine(SCENARIO_STAGE:format(4))
 local timerDeadlyScytheCD			= mod:NewCDTimer(5.5, 258039, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Смертоносная коса
 local timerReorgModuleCD			= mod:NewCDCountTimer(48, 256389, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON..DBM_CORE_MYTHIC_ICON) --Модуль пересозидания
 local timerReapSoul					= mod:NewCastTimer(13, 256542, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Жатва душ
-local timerEndofAllThings			= mod:NewCastTimer(19.8, 256544, nil, nil, nil, 2, nil, DBM_CORE_INTERRUPT_ICON..DBM_CORE_DEADLY_ICON) --Конец всего сущего
+local timerEndofAllThings			= mod:NewCastTimer(15, 256544, nil, nil, nil, 2, nil, DBM_CORE_INTERRUPT_ICON..DBM_CORE_DEADLY_ICON) --Конец всего сущего
 
 local yellGiftofSky					= mod:NewYell(258646, L.SkyText, nil, nil, "YELL") --Дар небес
 local yellGiftofSky2				= mod:NewFadesYell(258646, nil, nil, nil, "YELL") --Дар небес
@@ -160,7 +160,7 @@ local countdownSoulScythe			= mod:NewCountdown("Alt5", 258838, "Tank", nil, 3) -
 local countdownDeadlyScythe			= mod:NewCountdown("Alt5", 258039, false, nil, 3) --Смертоносная коса Off by default since it'd be almost non stop, so users can elect into this one
 local countdownReorgModule			= mod:NewCountdown("Alt48", 256389, "RangedDps", nil, 5) --Модуль пересозидания
 local countdownApocModule			= mod:NewCountdown("Alt48", 258029, "Dps", nil, 5)
-local countdownEndofAllThings		= mod:NewCountdown(19.8, 256544, nil, nil, 5) --Конец всего сущего
+local countdownEndofAllThings		= mod:NewCountdown(15, 256544, nil, nil, 5) --Конец всего сущего
 
 mod:AddSetIconOption("SetIconOnSoulBomb", 251570, true, false, {8}) --Бомба души
 mod:AddSetIconOption("SetIconOnSoulBurst", 250669, true, false, {7, 3}) --Взрывная душа
@@ -474,7 +474,7 @@ function mod:SPELL_CAST_START(args)
 			end
 		end
 	elseif spellId == 256542 then --Жатва душ (под обычку таймер норм)
-		warnReapSoul:Show()
+		warnReapSoul:Show(args.sourceName)
 		timerReapSoul:Start()
 		if not self:IsMythic() then
 			self.vb.phase = 4
@@ -1032,16 +1032,11 @@ end
 
 function mod:OnSync(msg)
 	if msg == "EndofAllThings" then -- под обычку таймер норм где 19.8 сек каста
-		warnEndofAllThings:Show()
+		warnEndofAllThings:Show(args.sourceName)
 		warnEndofAllThings:Play("kickcast")
 		specWarnEndofAllThings:Schedule(12)
 		specWarnEndofAllThings:ScheduleVoice(12, "kickcast")
-		if self:IsHeroic() then
-			timerEndofAllThings:Start(15)
-			countdownEndofAllThings:Start(15)
-		else
-			timerEndofAllThings:Start()
-			countdownEndofAllThings:Start()
-		end
+		timerEndofAllThings:Start(15)
+		countdownEndofAllThings:Start(15)
 	end
 end

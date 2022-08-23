@@ -37,7 +37,6 @@ local warnMoltenTouch					= mod:NewSpellAnnounce(244072, 2) --Касание м�
 --Shatug
 local warnWeightofDarkness				= mod:NewTargetAnnounce(254429, 3) --Бремя тьмы
 local warnSiphonCorruption				= mod:NewSpellAnnounce(244056, 3) --Вытягивание порчи
-local warnSiphoned						= mod:NewTargetAnnounce(248819, 3, nil, false, 2) --Вытягивание
 --General/Mythic
 local warnFocusingPower					= mod:NewSpellAnnounce(251356, 2) --Фокусирование силы
 local warnDarkReconstitution			= mod:NewTargetSourceAnnounce(249113, 3) --Темное восстановление
@@ -75,7 +74,9 @@ local yellWeightOfDarkness				= mod:NewYell(254429, nil, nil, nil, "YELL") --Б�
 local yellWeightOfDarknessFades			= mod:NewShortFadesYell(254429, nil, nil, nil, "YELL") --Бремя тьмы
 local yellEnflamed						= mod:NewShortFadesYell(248815, nil, nil, nil, "YELL") --Возгорание
 local yellDesolateGaze					= mod:NewYell(244768, nil, nil, nil, "YELL") --Опустошающий взгляд
-local yellSiphoned						= mod:NewShortFadesYell(248819, nil, nil, nil, "YELL") --Вытягивание
+local yellDesolateGazeFades				= mod:NewShortFadesYell(244768, nil, nil, nil, "YELL") --Опустошающий взгляд
+local yellSiphoned						= mod:NewYell(248819, nil, nil, nil, "YELL") --Вытягивание
+local yellSiphonedFades					= mod:NewShortFadesYell(248819, nil, nil, nil, "YELL") --Вытягивание
 
 local berserkTimer						= mod:NewBerserkTimer(600)
 
@@ -273,12 +274,13 @@ end
 
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
-	if spellId == 244768 then
+	if spellId == 244768 then --Опустошающий взгляд
 		warnDesolateGaze:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
 			specWarnDesolateGaze:Show()
 			specWarnDesolateGaze:Play("runout")
 			yellDesolateGaze:Yell()
+			yellDesolateGazeFades:Countdown(8, 3)
 		end
 	elseif spellId == 251356 and self:AntiSpam(10, 1) then --Фокусирование силы
 		warnFocusingPower:Show()
@@ -295,11 +297,11 @@ function mod:SPELL_AURA_APPLIED(args)
 			end
 		end
 	elseif spellId == 248819 then --Вытягивание
-		warnSiphoned:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
 			specWarnSiphoned:Show()
 			specWarnSiphoned:Play("gathershare")
-			yellSiphoned:Countdown(3)
+			yellSiphoned:Yell()
+			yellSiphonedFades:Countdown(3, 2)
 			if self.Options.RangeFrame then
 				DBM.RangeCheck:Show(8)
 			end
@@ -356,7 +358,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		end
 	elseif spellId == 248819 then --Вытягивание
 		if args:IsPlayer() then
-			yellSiphoned:Cancel()
+			yellSiphonedFades:Cancel()
 			if self.Options.RangeFrame then
 				DBM.RangeCheck:Show(5)
 			end
