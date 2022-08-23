@@ -1,3 +1,4 @@
+﻿if GetLocale() ~= "deDE" then return end
 local L
 
 --Прошляпанное очко Мурчаля ✔
@@ -8,15 +9,7 @@ local L
 L= DBM:GetModLocalization("Kruul")
 
 L:SetGeneralLocalization({
-	name =	"The Highlord's Return"
-})
-
-L:SetWarningLocalization({
-	Phase2 = "Phase 2 soon"
-})
-
-L:SetOptionLocalization({
-	Phase2 = "Warn in advance about phase 2 (on ~10%)"
+	name =	"Rückkehr des Hochlords"
 })
 
 ------------------------
@@ -25,7 +18,7 @@ L:SetOptionLocalization({
 L= DBM:GetModLocalization("ErdrisThorn")
 
 L:SetGeneralLocalization({
-	name =	"End of the Risen Threat"
+	name =	"Das Ende der erwachten Bedrohung"
 })
 
 ------------------------
@@ -34,7 +27,7 @@ L:SetGeneralLocalization({
 L= DBM:GetModLocalization("FelTotem")
 
 L:SetGeneralLocalization({
-	name =	"Feltotem's Fall"
+	name =	"Sturz der Teufelstotems"
 })
 
 ------------------------
@@ -43,11 +36,11 @@ L:SetGeneralLocalization({
 L= DBM:GetModLocalization("ImpossibleFoe")
 
 L:SetGeneralLocalization({
-	name =	"An Impossible Foe"
+	name =	"Ein unmöglicher Feind"
 })
 
 L:SetMiscLocalization({
-	impServants = "Kill the Imp Servants before they energize Agatha!"
+	impServants =	"Tötet die Wichteldiener, bevor sie Agatha Energie gewähren!"--needs to be verified (video-captured translation)
 })
 
 ------------------------
@@ -56,7 +49,7 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization("Queen")
 
 L:SetGeneralLocalization({
-	name =	"The God-Queen's Fury"
+	name =	"Zorn der Gottkönigin"
 })
 
 ------------------------
@@ -65,7 +58,7 @@ L:SetGeneralLocalization({
 L= DBM:GetModLocalization("Twins")
 
 L:SetGeneralLocalization({
-	name =	"Thwarting the Twins"
+	name =	"Zwillinge bezwingen"
 })
 
 ------------------------
@@ -74,7 +67,7 @@ L:SetGeneralLocalization({
 L= DBM:GetModLocalization("Xylem")
 
 L:SetGeneralLocalization({
-	name =	"Closing the Eye"
+	name =	"Ein Auge zudrücken"
 })
 
 ------------------------
@@ -83,7 +76,7 @@ L:SetGeneralLocalization({
 L= DBM:GetModLocalization("Timers")
 
 L:SetGeneralLocalization({
-	name = "Combat start timers"
+	name = "Kampfstart-Timer"
 })
 
 L:SetOptionLocalization({
@@ -95,8 +88,7 @@ L:SetTimerLocalization({
 })
 
 L:SetMiscLocalization({
-	Kruul = "Arrogant fools! I am empowered by the souls of a thousand conquered worlds!",
-	Twins1 = "I cannot let you unleash your power upon Azeroth, Raest. If you do not yield, I will be forced to destroy you!",
-	ErdrisThorn1 = "No way I'm staying behind! The attacks on my town must be stopped!",
-	Agatha1 = "Even now, my sayaad tempt your weak-willed mages. Your allies will surrender willingly to the Legion!"
+	Kruul = "Arrogantes Pack! Ich trage die Seelen von tausend unterworfenen Welten in mir!",
+	Twins = "Ich kann nicht zulassen, dass du deine Macht auf Azeroth entfesselst, Raest. Wenn du nicht einhältst, bin ich gezwungen, dich zu vernichten!",
+	ErdrisThorn1 = "Nie im Leben ziehe ich mich zurück! Wir müssen den Angriffen auf mein Dorf ein Ende setzen!"
 })

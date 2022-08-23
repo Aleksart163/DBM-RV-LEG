@@ -84,7 +84,9 @@ function mod:SPELL_CAST_SUCCESS(args)
 		if self.Options.YellOnHeroism then
 			if IsInRaid() then
 				SendChatMessage(L.HeroismYell:format(args.sourceName, timeWarp), "RAID")
-			elseif IsInGroup() then
+			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
+				SendChatMessage(L.HeroismYell:format(args.sourceName, timeWarp), "INSTANCE_CHAT")
+			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
 				SendChatMessage(L.HeroismYell:format(args.sourceName, timeWarp), "PARTY")
 			end
 		end
@@ -95,7 +97,9 @@ function mod:SPELL_CAST_SUCCESS(args)
 		if self.Options.YellOnHeroism then
 			if IsInRaid() then
 				SendChatMessage(L.HeroismYell:format(args.sourceName, heroism), "RAID")
-			elseif IsInGroup() then
+			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
+				SendChatMessage(L.HeroismYell:format(args.sourceName, heroism), "INSTANCE_CHAT")
+			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
 				SendChatMessage(L.HeroismYell:format(args.sourceName, heroism), "PARTY")
 			end
 		end
@@ -106,7 +110,9 @@ function mod:SPELL_CAST_SUCCESS(args)
 		if self.Options.YellOnHeroism then
 			if IsInRaid() then
 				SendChatMessage(L.HeroismYell:format(args.sourceName, bloodlust), "RAID")
-			elseif IsInGroup() then
+			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
+				SendChatMessage(L.HeroismYell:format(args.sourceName, bloodlust), "INSTANCE_CHAT")
+			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
 				SendChatMessage(L.HeroismYell:format(args.sourceName, bloodlust), "PARTY")
 			end
 		end
@@ -117,7 +123,9 @@ function mod:SPELL_CAST_SUCCESS(args)
 		if self.Options.YellOnHeroism then
 			if IsInRaid() then
 				SendChatMessage(L.HeroismYell:format(args.sourceName, hysteria), "RAID")
-			elseif IsInGroup() then
+			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
+				SendChatMessage(L.HeroismYell:format(args.sourceName, hysteria), "INSTANCE_CHAT")
+			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
 				SendChatMessage(L.HeroismYell:format(args.sourceName, hysteria), "PARTY")
 			end
 		end
@@ -128,7 +136,9 @@ function mod:SPELL_CAST_SUCCESS(args)
 		if self.Options.YellOnHeroism then
 			if IsInRaid() then
 				SendChatMessage(L.HeroismYell:format(args.sourceName, winds), "RAID")
-			elseif IsInGroup() then
+			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
+				SendChatMessage(L.HeroismYell:format(args.sourceName, winds), "INSTANCE_CHAT")
+			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
 				SendChatMessage(L.HeroismYell:format(args.sourceName, winds), "PARTY")
 			end
 		end
@@ -139,7 +149,9 @@ function mod:SPELL_CAST_SUCCESS(args)
 		if self.Options.YellOnHeroism then
 			if IsInRaid() then
 				SendChatMessage(L.HeroismYell:format(args.sourceName, drums), "RAID")
-			elseif IsInGroup() then
+			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
+				SendChatMessage(L.HeroismYell:format(args.sourceName, drums), "INSTANCE_CHAT")
+			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
 				SendChatMessage(L.HeroismYell:format(args.sourceName, drums), "PARTY")
 			end
 		end

@@ -1,3 +1,4 @@
+if GetLocale() ~= "esES" and GetLocale() ~= "esMX" then return end
 local L
 
 --Прошляпанное очко Мурчаля ✔
@@ -8,15 +9,15 @@ local L
 L= DBM:GetModLocalization("Kruul")
 
 L:SetGeneralLocalization({
-	name =	"The Highlord's Return"
+	name =	"El retorno del Alto Señor"
 })
 
 L:SetWarningLocalization({
-	Phase2 = "Phase 2 soon"
+	Phase2 = "Pronto la fase 2"
 })
 
 L:SetOptionLocalization({
-	Phase2 = "Warn in advance about phase 2 (on ~10%)"
+	Phase2 = "Advertir de antemano sobre la fase 2 (en un ~10%)"
 })
 
 ------------------------
@@ -25,7 +26,7 @@ L:SetOptionLocalization({
 L= DBM:GetModLocalization("ErdrisThorn")
 
 L:SetGeneralLocalization({
-	name =	"End of the Risen Threat"
+	name =	"Fin a la amenaza resucitada"
 })
 
 ------------------------
@@ -34,7 +35,7 @@ L:SetGeneralLocalization({
 L= DBM:GetModLocalization("FelTotem")
 
 L:SetGeneralLocalization({
-	name =	"Feltotem's Fall"
+	name =	"La caída de los Tótem Vil"
 })
 
 ------------------------
@@ -43,11 +44,11 @@ L:SetGeneralLocalization({
 L= DBM:GetModLocalization("ImpossibleFoe")
 
 L:SetGeneralLocalization({
-	name =	"An Impossible Foe"
+	name =	"Rival imposible"
 })
 
 L:SetMiscLocalization({
-	impServants = "Kill the Imp Servants before they energize Agatha!"
+	impServants = "¡Asesina a los Sirvientes diablillos antes de que aumenten la energía de Agatha!"
 })
 
 ------------------------
@@ -56,7 +57,7 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization("Queen")
 
 L:SetGeneralLocalization({
-	name =	"The God-Queen's Fury"
+	name =	"La furia de la Reina diosa"
 })
 
 ------------------------
@@ -65,7 +66,7 @@ L:SetGeneralLocalization({
 L= DBM:GetModLocalization("Twins")
 
 L:SetGeneralLocalization({
-	name =	"Thwarting the Twins"
+	name =	"Fiasco de los gemelos"
 })
 
 ------------------------
@@ -74,7 +75,7 @@ L:SetGeneralLocalization({
 L= DBM:GetModLocalization("Xylem")
 
 L:SetGeneralLocalization({
-	name =	"Closing the Eye"
+	name =	"Cerrar el ojo"
 })
 
 ------------------------
@@ -83,7 +84,7 @@ L:SetGeneralLocalization({
 L= DBM:GetModLocalization("Timers")
 
 L:SetGeneralLocalization({
-	name = "Combat start timers"
+	name = "Temporizadores de inicio de batalla"
 })
 
 L:SetOptionLocalization({
@@ -95,8 +96,8 @@ L:SetTimerLocalization({
 })
 
 L:SetMiscLocalization({
-	Kruul = "Arrogant fools! I am empowered by the souls of a thousand conquered worlds!",
-	Twins1 = "I cannot let you unleash your power upon Azeroth, Raest. If you do not yield, I will be forced to destroy you!",
-	ErdrisThorn1 = "No way I'm staying behind! The attacks on my town must be stopped!",
-	Agatha1 = "Even now, my sayaad tempt your weak-willed mages. Your allies will surrender willingly to the Legion!"
+	Kruul = "¡Estúpidos arrogantes! ¡Tengo el poder de las almas de mil mundos conquistados!",
+	Twins1 = "Raest, no puedo permitir que liberes tu poder sobre Azeroth. ¡Si no te detienes, tendré que destruirte!",
+	ErdrisThorn1 = "¡No me quedaré de brazos cruzados! ¡Hay que detener los ataques a mi poblado!",
+	Agatha1 = "En este momento, mis sayaad están tentando a tus débiles magos. ¡Tus aliados se entregarán a la Legión por propia voluntad!"
 })

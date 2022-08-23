@@ -18,7 +18,7 @@ local warnHatefulGaze				= mod:NewTargetAnnounce(235984, 3) --Жалящая м�
 
 local specWarnKnifeDance			= mod:NewSpecialWarningDodge(235823, nil, nil, nil, 2, 2) --Танец с кинжалами
 
-local timerRoleplay					= mod:NewTimer(29, "timerRoleplay", "Interface\\Icons\\ability_warrior_offensivestance", nil, nil, 7)
+local timerRoleplay					= mod:NewTimer(30, "timerRoleplay", "Interface\\Icons\\ability_warrior_offensivestance", nil, nil, 7)
 
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
@@ -34,16 +34,18 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnHatefulGaze:Show(args.destName)
 	end
 end
-
+--[[
 function mod:OnSync(msg)
 	if msg == "RPTwins" then
 	--	timerRoleplay:Start(35)
 	end
-end
+end]]
 
 function mod:CHAT_MSG_MONSTER_YELL(msg)
-	if msg == L.Twins then --Разделить близнецов
+	if msg == L.Twins1 then --Разделить близнецов
 		timerRoleplay:Start(22.5)
+	elseif msg == L.Agatha1 then --Агата
+		timerRoleplay:Start(17.5)
 	end
 end
 

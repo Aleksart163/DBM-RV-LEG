@@ -48,7 +48,7 @@ L:SetGeneralLocalization({
 })
 
 L:SetMiscLocalization({
-	impServants = "Kill the Imp Servants before they energize Agatha!"
+	impServants = "Перебейте бесов-прислужников, пока они не усилили Агату своей энергией!"
 })
 
 ---------------------
@@ -79,7 +79,7 @@ L:SetGeneralLocalization({
 })
 
 --------------------------
--- Башня магов: Таймеры --
+-- Башня магов: Таймеры -- (Прошляпанное очко Мурчаля ✔)
 --------------------------
 L= DBM:GetModLocalization("Timers")
 
@@ -88,15 +88,16 @@ L:SetGeneralLocalization({
 })
 
 L:SetOptionLocalization({
-	timerRoleplay = "Отсчет времени до начала боя"
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
 })
 
 L:SetTimerLocalization({
-	timerRoleplay = "Начало боя"
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
 })
 
-L:SetMiscLocalization({ --Отсчеты при начале боя
-	Kruul = "Дерзкие глупцы! Меня питают души тысяч покоренных миров!",
-	Twins = "Я не позволю тебе обрушить эту силу на Азерот, Рейст. Остановись, или мне придется убить тебя!",
-	ErdrisThorn1 = "Нет уж! Пора положить конец атакам на мой город!"
+L:SetMiscLocalization({
+	Kruul = "Дерзкие глупцы! Меня питают души тысяч покоренных миров!", --Верховный лорд Круул https://ru.wowhead.com/npc=117198/верховный-лорд-круул
+	Twins1 = "Я не позволю тебе обрушить эту силу на Азерот, Рейст. Остановись, или мне придется убить тебя!", --Карам Волшебное Копье https://ru.wowhead.com/npc=116410/карам-волшебное-копье
+	ErdrisThorn1 = "Нет уж! Пора положить конец атакам на мой город!", --Калли Керрингтон
+	Agatha1 = "Мои сайаады уже искушают слабовольных магов! Они сами сдадутся Легиону!" --Агата https://ru.wowhead.com/npc=115638/агата
 })

@@ -16,6 +16,8 @@ mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED 234422 234423",
 	"SPELL_AURA_APPLIED_DOSE 234422",
 	"SPELL_SUMMON 234428",
+	"SPELL_PERIODIC_DAMAGE 234675",
+	"SPELL_PERIODIC_MISSED 234675",
 	"UNIT_HEALTH",
 	"UNIT_DIED",
 	"UNIT_SPELLCAST_SUCCEEDED boss1 boss2 boss3"
@@ -36,7 +38,7 @@ local specWarnDecay				= mod:NewSpecialWarningStack(234422, nil, 5, nil, nil, 1,
 local specWarnDrainLife			= mod:NewSpecialWarningInterrupt(234423, nil, nil, 2, 3, 2) --Похищение жизни
 local specWarnSmash				= mod:NewSpecialWarningDodge(234631, nil, nil, nil, 2, 2) --Мощный удар
 local specWarnAnnihilate		= mod:NewSpecialWarningDefensive(236572, nil, nil, nil, 3, 3) --Аннигиляция
---local specWarnTwistedReflection	= mod:NewSpecialWarningInterrupt(234676, nil, nil, nil, 3, 2) --Кривое зеркало
+local specWarnNetherstomp		= mod:NewSpecialWarningYouMove(234675, nil, nil, nil, 3, 3) --Растаптывание Пустоты
 
 local timerDrainLifeCD			= mod:NewCDTimer(24.3, 234423, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON) --Похищение жизни
 local timerHolyWardCD			= mod:NewCDTimer(60, 233473, nil, nil, nil, 3, nil, DBM_CORE_HEALER_ICON) --Священный оберег
@@ -48,10 +50,8 @@ local timerInfernalCD			= mod:NewCDTimer(75, 235112, nil, nil, nil, 1, 157898, D
 local timerAnnihilateCD			= mod:NewCDCountTimer(40, 236572, nil, nil, nil, 3, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Аннигиляция
 
 --local countdownAbberations		= mod:NewCountdown(50, 235110) --Аберрация Пустоты
-local countdownDrainLife		= mod:NewCountdown("Alt24", 234423) --Похищение жизни
 local countdownInfernal			= mod:NewCountdown(74.5, 235112) --Призыв тлеющего инфернала
---Phase 2
---local countdownAnnihilate		= mod:NewCountdown(40, 236572) --Аннигиляция
+local countdownDrainLife		= mod:NewCountdown("Alt24", 234423) --Похищение жизни
 
 mod.vb.phase = 1
 mod.vb.annihilateCast = 0
@@ -116,7 +116,6 @@ function mod:SPELL_CAST_SUCCESS(args)
 	if args.spellId == 236572 then --Аннигиляция
 		self.vb.annihilateCast = self.vb.annihilateCast + 1
 		timerAnnihilateCD:Start(25, self.vb.annihilateCast+1)
-		countdownAnnihilate:Start()
 	end
 end
 
@@ -143,6 +142,14 @@ function mod:SPELL_AURA_APPLIED(args)
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 
+function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
+	if spellId == 234675 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
+		specWarnNetherstomp:Show()
+		specWarnNetherstomp:Play("runaway")
+	end
+end
+mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
+
 function mod:UNIT_HEALTH(uId)
 	if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 117933 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.10 then --Варисс
 		warned_preP1 = true
@@ -151,7 +158,7 @@ function mod:UNIT_HEALTH(uId)
 end
 
 function mod:UNIT_DIED(args)
-	if args.destGUID == UnitGUID("player") then --Соло сценарий, если игрок умер, то закончить бой
+	if args.destGUID == UnitGUID("player") then --Соло сценарий
 		DBM:EndCombat(self, true)
 	end
 	local cid = self:GetCIDFromGUID(args.destGUID)
@@ -162,7 +169,6 @@ function mod:UNIT_DIED(args)
 		timerTormentingEyeCD:Stop()
 		timerInfernalCD:Stop()
 		countdownInfernal:Cancel()
-		timerNetherAbberationCD:Cancel()
 		self:UnscheduleMethod("Infernal")
 	end
 end
@@ -171,12 +177,6 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 	if spellId == 233456 then
 		DBM:EndCombat(self)
 	end
-end
-
-function mod:Abberation()
-	timerNetherAbberationCD:Start()
-	countdownAbberations:Start()
-	self:ScheduleMethod(50, "Abberation")
 end
 
 function mod:Infernal()
