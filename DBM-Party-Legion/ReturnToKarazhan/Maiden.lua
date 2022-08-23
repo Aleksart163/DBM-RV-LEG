@@ -54,11 +54,12 @@ local sacredGround = DBM:GetSpellInfo(227789) --Священная земля
 
 function mod:SacredGroundTarget(targetname, uId)
 	if not targetname then return end
-	warnSacredGround:Show(targetname)
 	if targetname == UnitName("player") then
 		specWarnSacredGround:Show()
 		specWarnSacredGround:Play("runout")
 		yellSacredGround:Yell()
+	else
+		warnSacredGround:Show(targetname)
 	end
 	if self.Options.SetIconOnSacredGround then
 		self:SetIcon(targetname, 7, 5)
@@ -67,11 +68,12 @@ end
 
 function mod:HolyBoltTarget(targetname, uId)
 	if not targetname then return end
-	warnHolyBolt:Show(targetname)
 	if targetname == UnitName("player") then
 		specWarnHolyBolt:Show()
 		specWarnHolyBolt:Play("runout")
 		yellHolyBolt:Yell()
+	else
+		warnHolyBolt:Show(targetname)
 	end
 end
 

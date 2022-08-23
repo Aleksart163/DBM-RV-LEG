@@ -44,13 +44,8 @@ local countdownSweep				= mod:NewCountdown("Alt15.5", 193092, "Tank", nil, 3) --
 --local countdownSweep				= mod:NewCountdownFades("Alt15.5", 193092, "Tank", nil, 3) --Кровопролитный круговой удар
 mod:AddSetIconOption("SetIconOnSweep", 193092, true, false, {8}) --Кровопролитный круговой удар
 
---local specWarnComsumingSphere			= mod:NewSpecialWarningDodge(244131, nil, nil, nil, 2, 2) --Поглощаяющая сфера
-
---local timerComsumingSphereCD			= mod:NewCDTimer(77, 244131, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Поглощаяющая сфера
-
 function mod:DancingBladeTarget(targetname, uId) --Танцующий клинок ✔
 	if not targetname then return end
-	warnDancingBlade:Show(targetname)
 	if targetname == UnitName("player") then
 		specWarnDancingBlade2:Show()
 		specWarnDancingBlade2:Play("runout")
@@ -58,6 +53,8 @@ function mod:DancingBladeTarget(targetname, uId) --Танцующий клино
 	elseif self:CheckNearby(10, targetname) then
 		specWarnDancingBlade3:Show(targetname)
 		specWarnDancingBlade3:Play("runaway")
+	else
+		warnDancingBlade:Show(targetname)
 	end
 end
 
@@ -75,8 +72,6 @@ function mod:OnCombatStart(delay)
 		countdownHorn:Start(11.5-delay) --Рог доблести+++
 	--	warnHorn:Schedule(6.5-delay) --Рог доблести+++
 		timerDancingBladeCD:Start(6-delay) --Танцующий клинок+++
-	--	timerComsumingSphereCD:Start(15-delay)
-	--	specWarnComsumingSphere:Schedule(15-delay) --Поглощаяющая сфера+++
 	end
 end
 

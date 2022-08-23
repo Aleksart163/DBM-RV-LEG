@@ -56,11 +56,11 @@ L:SetGeneralLocalization({
 })
 
 L:SetOptionLocalization({
-	timerRoleplay = "Отсчет времени открытия двери"
+	timerRoleplay = DBM_CORE_OPTION_TIMER_DOOR_OPENING
 })
 
 L:SetTimerLocalization({
-	timerRoleplay = GUILD_INTEREST_RP
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_DOOR_OPENING
 })
 
 L:SetMiscLocalization({
@@ -157,14 +157,6 @@ L= DBM:GetModLocalization(1479)
 ---------------
 L= DBM:GetModLocalization(1492)
 
-L:SetOptionLocalization{
-	AnnounceArcaneBomb = "Объявлять игроков, на которых $spell:192706, в чат"
-}
-
-L:SetMiscLocalization{
-	ArcaneBomb = "Чародейская бомба используется на: %s"
-}
-
 -------------
 --Трэш-мобы--
 -------------
@@ -232,7 +224,7 @@ L:SetOptionLocalization({
 })
 
 L:SetTimerLocalization({
-	timerRoleplay = "Начало боя"
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
 })
 
 L:SetMiscLocalization({
@@ -282,7 +274,7 @@ L:SetOptionLocalization({
 })
 
 L:SetTimerLocalization({
-	timerRoleplay = "Начало боя"
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
 })
 
 L:SetMiscLocalization({
@@ -328,7 +320,7 @@ L:SetWarningLocalization({
 })
 
 L:SetOptionLocalization({
-	Phase1 = "Предупреждать заранее о фазе 2 (на ~54%, только Мифик+)",
+	Phase1 = "Предупреждать заранее о фазе 2 (на ~56%, только Мифик+)",
 	Phase2 = "Объявлять фазу 2"
 })
 
@@ -396,7 +388,7 @@ L:SetOptionLocalization({
 })
 
 L:SetTimerLocalization({
-	timerRoleplay = "Начало боя"
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
 })
 
 L:SetMiscLocalization({
@@ -525,7 +517,7 @@ L:SetOptionLocalization({
 })
 
 L:SetTimerLocalization({
-	timerRoleplay = "Начало боя"
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
 })
 
 L:SetMiscLocalization({
@@ -657,7 +649,7 @@ L:SetWarningLocalization({
 })
 
 L:SetOptionLocalization({
-	Phase1 = "Предупреждать заранее о фазе 2 (на ~46%, только Мифик+)",
+	Phase1 = "Предупреждать заранее о фазе 2 (на ~51%, только Мифик+)",
 	Phase2 = "Объявлять фазу 2"
 })
 
@@ -671,16 +663,14 @@ L:SetGeneralLocalization({
 })
 
 L:SetTimerLocalization({
-	timerRoleplay = "Начало боя"
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
 })
 
 L:SetOptionLocalization({
-	lookSphere = "Спец-предупреждение \"гляди на Сферу\" когда вы цель $spell:212564",
 	timerRoleplay = "Отсчет времени до начала боя с Корданой"
 })
 
 L:SetMiscLocalization({
-	lookSphere = "гляди на Сферу",
 	RoleRP = "Как предсказуемо! Я знала, что вы придете."
 })
 
@@ -692,14 +682,6 @@ L:SetMiscLocalization({
 --Благочестивая дева--
 ----------------------
 L= DBM:GetModLocalization(1825)
-
-L:SetOptionLocalization{
-	AnnounceHolyBolt = "Объявлять игроков, на которых $spell:227809, в чат"
-}
-
-L:SetMiscLocalization{
-	HolyBolt = "Священная молния используется на: %s"
-}
 
 -------------------------
 --Оперный зал: "Злюкер"--
@@ -719,9 +701,9 @@ L:SetWarningLocalization({
 })
 
 L:SetOptionLocalization({
-	Phase = "Предупреждать заранее о фазе 2 (на ~56% Тонни, только Мифик+)",
+	Phase = "Предупреждать заранее о фазе 2 (на ~61% Тонни, только Мифик+)",
 	Phase2 = "Объявлять фазу 2",
-	Phase3 = "Предупреждать заранее о фазе 3 (на ~56% Мрргрия, только Мифик+)",
+	Phase3 = "Предупреждать заранее о фазе 3 (на ~61% Мрргрия, только Мифик+)",
 	Phase4 = "Объявлять фазу 3"
 })
 
@@ -755,9 +737,9 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	SharedSufferingYell = "Разделенные муки на %s. УЁБЫВАЙТЕ от меня!"
---	Perephase2 = "Что ж, сразимся лицом к лицу!",
---	Perephase1 = "Вперед, Полночь, к победе!"
+	SharedSufferingYell = "Разделенные муки на %s. УЁБЫВАЙТЕ от меня!",
+	Perephase1 = "Что ж, сразимся лицом к лицу!"
+--	Perephase2 = "Вперед, Полночь, к победе!"
 })
 
 ----------
@@ -817,19 +799,22 @@ L:SetOptionLocalization({
 	timerRoleplay = "Отсчет времени до начала представления \"Красавица и Зверь\"",
 	timerRoleplay2 = "Отсчет времени до начала представления \"Однажды в Западном крае\"",
 	timerRoleplay3 = "Отсчет времени до начала представления \"Злюкер\"",
+	timerRoleplay4 = DBM_CORE_OPTION_TIMER_DOOR_OPENING,
 	OperaActivation = "Активировать представление в Опере в 1 нажатие"
 })
 
 L:SetTimerLocalization({
 	timerRoleplay = "\"Красавица и Зверь\"",
 	timerRoleplay2 = "\"Однажды и Западном крае\"",
-	timerRoleplay3 = "\"Злюкер\""
+	timerRoleplay3 = "\"Злюкер\"",
+	timerRoleplay4 = DBM_CORE_GENERIC_TIMER_DOOR_OPENING
 })
 
 L:SetMiscLocalization({
 	Beauty = "Добрый вечер, дамы и господа, и добро пожаловать на наше сегодняшнее представление!",
 	Westfall = "Дамы и господа, добро пожаловать на вечернее представление!",
 	Wikket = "Дамы и господа, добро пожаловать... ОХ!",
+	Medivh1 = "Я разбросал по башне столько фрагментов своей души...",
 	ReinvigoratedYell = "Восполнение сил на %s. Держите меня семеро!",
 	speedRun = "Странный холод возвещает о темном присутствии..."
 })
@@ -908,10 +893,6 @@ L= DBM:GetModLocalization(1981)
 --Л'ура--
 ---------
 L= DBM:GetModLocalization(1982)
---[[
-L:SetMiscLocalization({
-	Backlash = "Забери ее тень, Аллерия! Вспомни, чему я тебя учил!"
-})]]
 
 -------------
 --Трэш-мобы--
@@ -923,14 +904,14 @@ L:SetGeneralLocalization({
 })
 
 L:SetOptionLocalization({
-	timerRoleplay = "Отсчет времени ролевых игр",
-	timerRoleplay2 = "Отсчет времени до начала боя с боссом",
+	timerRoleplay = DBM_CORE_OPTION_TIMER_DOOR_OPENING,
+	timerRoleplay2 = DBM_CORE_OPTION_TIMER_COMBAT,
 	AlleriaActivation = "Активировать ролевые игры с Аллерией в 1 нажатие"
 })
 
 L:SetTimerLocalization({
-	timerRoleplay = GUILD_INTEREST_RP,
-	timerRoleplay2 = "Начало боя"
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_DOOR_OPENING,
+	timerRoleplay2 = DBM_CORE_GENERIC_TIMER_COMBAT
 })
 
 L:SetMiscLocalization({

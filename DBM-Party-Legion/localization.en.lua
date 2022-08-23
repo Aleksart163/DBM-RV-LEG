@@ -53,11 +53,11 @@ L:SetGeneralLocalization({
 })
 
 L:SetOptionLocalization({
-	timerRoleplay = "Show timer for roleplay duration"
+	timerRoleplay = DBM_CORE_OPTION_TIMER_DOOR_OPENING
 })
 
 L:SetTimerLocalization({
-	timerRoleplay = GUILD_INTEREST_RP
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_DOOR_OPENING
 })
 
 L:SetMiscLocalization({
@@ -106,7 +106,7 @@ L:SetOptionLocalization{
 
 L:SetMiscLocalization{
 --	Paranoia = "Growing Paranoia is used on: %s",
-	ParanoiaYell = "Growing Paranoia on %s. Get away from me!"
+	ParanoiaYell = "Growing Paranoia on %s. GET AWAY from me!"
 }
 
 L:SetMiscLocalization({
@@ -151,14 +151,6 @@ L= DBM:GetModLocalization(1479)
 -- Wrath of Azshara --
 -----------------------
 L= DBM:GetModLocalization(1492)
-
-L:SetOptionLocalization{
-	AnnounceArcaneBomb = "Announce the players on whom $spell:192706 in chat"
-}
-
-L:SetMiscLocalization{
-	ArcaneBomb = "Arcane Bomb is used on: %s"
-}
 
 -----------------------
 --Eye of Azshara Trash
@@ -227,7 +219,7 @@ L:SetOptionLocalization({
 })
 
 L:SetTimerLocalization({
-	timerRoleplay = GUILD_INTEREST_RP
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
 })
 
 L:SetMiscLocalization({
@@ -235,7 +227,7 @@ L:SetMiscLocalization({
 	RPOdyn = "Most impressive! I never thought I would meet anyone who could match the Valarjar's strength... and yet here you stand.",
 	RPSolsten = "Hyrja... the fury of the storm is yours to command!",
 	RPSolsten2 = "You sully this ritual with your presence, mortals!",
-	RPOlmyr = "The Light shines eternal in you, Hyrja!", --The Light embraces you, Hyrja! если прошлое не робит
+	RPOlmyr = "The Light shines eternal in you, Hyrja!",
 	RPOlmyr2 = "You will not deny Hyrja's ascendance!"
 })
 
@@ -276,7 +268,7 @@ L:SetOptionLocalization({
 })
 
 L:SetTimerLocalization({
-	timerRoleplay = GUILD_INTEREST_RP
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
 })
 
 L:SetMiscLocalization({
@@ -321,12 +313,12 @@ L:SetWarningLocalization({
 })
 
 L:SetOptionLocalization({
-	Phase1 = "Warn in advance about phase 2 (on ~54%, Mythic+ only)",
+	Phase1 = "Warn in advance about phase 2 (on ~56%, Mythic+ only)",
 	Phase2 = "Announce Phase 2"
 })
 
 L:SetMiscLocalization({
-	Phase2Van = "Enough! You little beasts are getting out of hand!" --прошляпанное очко пелии
+	Phase2Van = "Enough! You little beasts are getting out of hand!" --прошляпанное очко мурчаля
 })
 
 -----------------------
@@ -388,7 +380,7 @@ L:SetOptionLocalization({
 })
 
 L:SetTimerLocalization({
-	timerRoleplay = GUILD_INTEREST_RP
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
 })
 
 L:SetMiscLocalization({
@@ -517,7 +509,7 @@ L:SetOptionLocalization({
 })
 
 L:SetTimerLocalization({
-	timerRoleplay = GUILD_INTEREST_RP
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
 })
 
 L:SetMiscLocalization({
@@ -647,7 +639,7 @@ L:SetWarningLocalization({
 })
 
 L:SetOptionLocalization({
-	Phase1 = "Warn in advance about phase 2 (on ~46%, Mythic+ only)",
+	Phase1 = "Warn in advance about phase 2 (on ~51%, Mythic+ only)",
 	Phase2 = "Announce Phase 2"
 })
 
@@ -661,16 +653,14 @@ L:SetGeneralLocalization({
 })
 
 L:SetTimerLocalization({
-	timerRoleplay = GUILD_INTEREST_RP
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
 })
 
 L:SetOptionLocalization({
-	lookSphere = "Show special warning \"look at the Sphere\" when you target $spell:212564",
 	timerRoleplay = "Show timer to the start of the fight with Kordana"
 })
 
 L:SetMiscLocalization({
-	lookSphere = "look at the Sphere",
 	RoleRP = "How utterly predictable! I knew that you would come."
 })
 
@@ -681,14 +671,6 @@ L:SetMiscLocalization({
 -- Maiden of Virtue --
 -----------------------
 L= DBM:GetModLocalization(1825)
-
-L:SetOptionLocalization{
-	AnnounceHolyBolt = "Announce the players on whom $spell:227809 in chat"
-}
-
-L:SetMiscLocalization{
-	HolyBolt = "Holy Bolt is used on: %s"
-}
 
 -----------------------
 -- Opera Hall: Wikket  --
@@ -708,9 +690,9 @@ L:SetWarningLocalization({
 })
 
 L:SetOptionLocalization({
-	Phase = "Warn in advance about phase 2 (on ~56% Toe Knee, Mythic+ only)",
+	Phase = "Warn in advance about phase 2 (on ~61% Toe Knee, Mythic+ only)",
 	Phase2 = "Announce Phase 2",
-	Phase3 = "Warn in advance about phase 2 (on ~56% Mrrgria, Mythic+ only)",
+	Phase3 = "Warn in advance about phase 2 (on ~61% Mrrgria, Mythic+ only)",
 	Phase4 = "Announce Phase 3"
 })
 
@@ -737,16 +719,16 @@ L:SetWarningLocalization({
 })
 
 L:SetOptionLocalization({
-	Phase = "Warn in advance about phase 2 (on ~56%, Mythic+ only)",
+	Phase = "Warn in advance about phase 2 (on ~61%, Mythic+ only)",
 	Phase1 = "Announce Phase 2",
 	Phase2 = "Warn in advance about phase 3 (on ~10%, Mythic+ only)",
 	Phase3 = "Announce Phase 3"
 })
 
 L:SetMiscLocalization({
-	SharedSufferingYell = "Shared Suffering on %s. Get away from me!"
---	Perephase2 = "Time to face my quarry toe-to-toe!",
---	Perephase1 = "We ride, Midnight! To victory!"
+	SharedSufferingYell = "Shared Suffering on %s. GET AWAY from me!",
+	Perephase1 = "Time to face my quarry toe-to-toe!"
+--	Perephase2 = "We ride, Midnight! To victory!"
 })
 
 -----------------------
@@ -806,19 +788,22 @@ L:SetOptionLocalization({
 	timerRoleplay = "Show timer to the start of the show \"Beautiful Beast\"",
 	timerRoleplay2 = "Show timer to the start of the show \"Westfall Story\"",
 	timerRoleplay3 = "Show timer to the start of the show \"Wikket\"",
+	timerRoleplay4 = DBM_CORE_OPTION_TIMER_DOOR_OPENING,
 	OperaActivation = "Activate show in Opera in 1 click"
 })
 
 L:SetTimerLocalization({
 	timerRoleplay = "\"Beautiful Beast\"",
 	timerRoleplay2 = "\"Westfall Story\"",
-	timerRoleplay3 = "\"Wikket\""
+	timerRoleplay3 = "\"Wikket\"",
+	timerRoleplay4 = DBM_CORE_GENERIC_TIMER_DOOR_OPENING
 })
 
 L:SetMiscLocalization({
 	Beauty = "Good evening, ladies and gentlemen. We proudly welcome you to this evening's feature presentation!",
 	Westfall = "Ladies and gentlemen, welcome to this evening's feature presentation!",
 	Wikket = "Welcome, ladies and gentlemen, to our--OOF!",
+	Medivh1 = "I've left so many fragments of myself throughout this tower...",
 	ReinvigoratedYell = "Reinvigorated on %s!",
 	speedRun = "The strange chill of a dark presence winds through the air..."
 })
@@ -895,10 +880,6 @@ L= DBM:GetModLocalization(1981)
 -- L'ura  --
 -----------------------
 L= DBM:GetModLocalization(1982)
---[[
-L:SetMiscLocalization({
-	Backlash = "Take her shadow for your own, Alleria! Do as I trained you!"
-})]]
 
 -----------------------
 --Seat of Triumvirate Trash
@@ -910,14 +891,14 @@ L:SetGeneralLocalization({
 })
 
 L:SetOptionLocalization({
-	timerRoleplay = "Show timer for roleplay duration",
-	timerRoleplay2 = "Show timer to the start of the boss fight",
+	timerRoleplay = DBM_CORE_OPTION_TIMER_DOOR_OPENING,
+	timerRoleplay2 = DBM_CORE_OPTION_TIMER_COMBAT,
 	AlleriaActivation = "Activate role-playing with Alleria Windrunner in 1 click"
 })
 
 L:SetTimerLocalization({
-	timerRoleplay = GUILD_INTEREST_RP,
-	timerRoleplay2 = "The start of the battle"
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_DOOR_OPENING,
+	timerRoleplay2 = DBM_CORE_GENERIC_TIMER_COMBAT
 })
 
 L:SetMiscLocalization({

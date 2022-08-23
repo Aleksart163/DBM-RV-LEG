@@ -30,6 +30,7 @@ local specWarnBubbles3				= mod:NewSpecialWarningEnd(193018, nil, nil, nil, 1, 2
 --local specWarnCallSeas				= mod:NewSpecialWarningDodge(193051, nil, nil, nil, 2, 2) --Зов морей
 
 local timerQuakeCD					= mod:NewCDTimer(21.8, 193152, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Землетрясение 21-25 +++
+local timerQuake2					= mod:NewCastTimer(4, 193171, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON..DBM_CORE_MYTHIC_ICON) --Повторный толчок
 local timerCallSeasCD				= mod:NewNextTimer(30, 193051, nil, nil, nil, 2) --Зов морей
 local timerGroundSlamCD				= mod:NewCDTimer(18.2, 193093, nil, "Melee", nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Удар по земле 18.2-30
 local timerBubblesCD				= mod:NewNextTimer(32, 193018, nil, nil, nil, 7) --Пузырь газа
@@ -105,7 +106,8 @@ function mod:SPELL_CAST_SUCCESS(args)
 		timerCallSeasCD:Start()
 	elseif spellId == 193152 then --Землетрясение
 		specWarnQuake2:Schedule(1)
-		specWarnQuake2:ScheduleVoice(1, "watchstep")
+		specWarnQuake2:ScheduleVoice(1, "runout")
+		timerQuake2:Start()
 	end
 end
 

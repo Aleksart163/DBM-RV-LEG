@@ -9,13 +9,14 @@ mod.isTrashMod = true
 
 mod:RegisterEvents(
 	"SPELL_CAST_START 228255 228239 227917 227925 228625 228606 229714 227966 228254 228280 230094 229429 229608 228700",
-	"SPELL_AURA_APPLIED 228331 229706 229716 228610 229074 230083 230050 228280 230087 228241 229468 229489",
-	"SPELL_AURA_APPLIED_DOSE 229074 228610",
+	"SPELL_AURA_APPLIED 228331 229706 229716 228610 229074 230083 230050 228280 230087 228241 229468 229489 230297 228576",
+	"SPELL_AURA_APPLIED_DOSE 229074 228610 228576",
 	"SPELL_AURA_REFRESH 229074 228610",
-	"SPELL_AURA_REMOVED 229489 230083 228280 230087",
+	"SPELL_AURA_REMOVED 229489 230083 228280 230087 230297",
 --	"SPELL_DAMAGE 204762",
 --	"SPELL_MISSED 204762",
 	"GOSSIP_SHOW",
+	"CHAT_MSG_MONSTER_SAY",
 	"CHAT_MSG_MONSTER_YELL",
 	"CHAT_MSG_MONSTER_EMOTE",
 	"UNIT_DIED"
@@ -30,9 +31,15 @@ local warnNullification				= mod:NewTargetAnnounce(230083, 2) --Полная н�
 local warnReinvigorated				= mod:NewTargetAnnounce(230087, 1) --Восполнение сил
 local warnCursedTouch				= mod:NewTargetAnnounce(228241, 2) --Проклятое прикосновение
 local warnArcaneBarrage				= mod:NewCastAnnounce(228700, 3) --Чародейский обстрел
+local warnBrittleBones				= mod:NewTargetAnnounce(230297, 3) --Ослабление костей
+local warnBansheeWail				= mod:NewCastAnnounce(228625, 3) --Вой банши
+local warnAllured					= mod:NewStackAnnounce(228576, 3, nil, nil, 2) --Соблазнение
 
 local specWarnRoyalSlash			= mod:NewSpecialWarningDodge(229429, "Melee", nil, nil, 2, 2) --Удар короля сплеча
 
+local specWarnAllured				= mod:NewSpecialWarningStack(228576, nil, 80, nil, nil, 1, 3) --Соблазнение
+local specWarnBrittleBones			= mod:NewSpecialWarningDispel(230297, "RemoveCurse", nil, nil, 1, 3) --Ослабление костей
+local specWarnBrittleBones2			= mod:NewSpecialWarningYou(230297, nil, nil, nil, 1, 3) --Ослабление костей
 local specWarnMightySwing			= mod:NewSpecialWarningDodge(229608, "Melee", nil, nil, 2, 2) --Могучий удар
 local specWarnCursedTouch			= mod:NewSpecialWarningYou(228241, nil, nil, nil, 1, 2) --Проклятое прикосновение
 local specWarnCursedTouch2			= mod:NewSpecialWarningDispel(228241, "RemoveCurse", nil, nil, 1, 2) --Проклятое прикосновение
@@ -44,7 +51,7 @@ local specWarnSoulLeech2			= mod:NewSpecialWarningInterrupt(228254, "HasInterrup
 local specWarnSoulLeech				= mod:NewSpecialWarningInterrupt(228255, "HasInterrupt", nil, nil, 1, 2)
 local specWarnTerrifyingWail		= mod:NewSpecialWarningInterrupt(228239, "HasInterrupt", nil, nil, 1, 2) --Ужасающий стон
 local specWarnPoetrySlam			= mod:NewSpecialWarningInterrupt(227917, "HasInterrupt", nil, nil, 1, 2)
-local specWarnBansheeWail			= mod:NewSpecialWarningInterrupt(228625, "HasInterrupt", nil, nil, 1, 2)
+local specWarnBansheeWail			= mod:NewSpecialWarningInterrupt(228625, "HasInterrupt", nil, nil, 1, 2) --Вой банши
 local specWarnHealingTouch			= mod:NewSpecialWarningInterrupt(228606, "HasInterrupt", nil, nil, 1, 2)
 local specWarnConsumeMagic			= mod:NewSpecialWarningInterrupt(229714, "HasInterrupt", nil, nil, 1, 2)
 local specWarnArcaneBarrage			= mod:NewSpecialWarningInterrupt(228700, "HasInterrupt", nil, nil, 1, 2) --Чародейский обстрел
@@ -65,6 +72,7 @@ local timerOathofFealty				= mod:NewTargetTimer(15, 228280, nil, nil, nil, 3, ni
 local timerRoyalty					= mod:NewCDTimer(20, 229489, nil, nil, nil, 3, nil, DBM_CORE_DAMAGE_ICON) --Царственность
 local timerMovePieceCD				= mod:NewCDTimer(6, 229468, nil, nil, nil, 7)
 
+local yellBrittleBones				= mod:NewYell(230297, nil, nil, nil, "YELL") --Ослабление костей
 local yellNullification				= mod:NewYell(230083, nil, nil, nil, "YELL") --Полная нейтрализация
 local yellVolatileCharge			= mod:NewYell(228331, nil, nil, nil, "YELL") --Нестабильный заряд
 local yellVolatileCharge2			= mod:NewFadesYell(228331, nil, nil, nil, "YELL") --Нестабильный заряд
@@ -75,9 +83,10 @@ local yellReinvigorated2			= mod:NewFadesYell(230087, nil, nil, nil, "YELL") --�
 
 local timerAchieve					= mod:NewBuffActiveTimer(480, 229074)
 
-local timerRoleplay					= mod:NewTimer(29, "timerRoleplay", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7)
-local timerRoleplay2				= mod:NewTimer(29, "timerRoleplay2", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7)
-local timerRoleplay3				= mod:NewTimer(29, "timerRoleplay3", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7)
+local timerRoleplay					= mod:NewTimer(30, "timerRoleplay", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7)
+local timerRoleplay2				= mod:NewTimer(30, "timerRoleplay2", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7)
+local timerRoleplay3				= mod:NewTimer(30, "timerRoleplay3", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7)
+local timerRoleplay4				= mod:NewTimer(30, "timerRoleplay4", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7)
 
 mod:AddBoolOption("OperaActivation", true)
 
@@ -96,9 +105,14 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 227917 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
 		specWarnPoetrySlam:Show(args.sourceName)
 		specWarnPoetrySlam:Play("kickcast")
-	elseif spellId == 228625 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
-		specWarnBansheeWail:Show(args.sourceName)
-		specWarnBansheeWail:Play("kickcast")
+	elseif spellId == 228625 then --Вой банши
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnBansheeWail:Show()
+			specWarnBansheeWail:Play("kickcast")
+		else
+			warnBansheeWail:Show()
+			warnBansheeWail:Play("kickcast")
+		end
 	elseif spellId == 228606 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
 		specWarnHealingTouch:Show(args.sourceName)
 		specWarnHealingTouch:Play("kickcast")
@@ -212,6 +226,32 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerMovePieceCD:Start()
 	elseif spellId == 229489 then --Царственность
 		timerRoyalty:Cancel()
+	elseif spellId == 230297 then --Ослабление костей
+		warnBrittleBones:CombinedShow(0.5, args.destName)
+		if self:IsHard() then
+			if args:IsPlayer() and self:IsTank() then
+				specWarnBrittleBones2:Show()
+				specWarnBrittleBones2:Play("watchstep")
+				yellBrittleBones:Yell()
+			elseif args:IsPlayer() and not self:IsTank() then
+				specWarnBrittleBones2:Show()
+				specWarnBrittleBones2:Play("watchstep")
+				yellBrittleBones:Yell()
+			else
+				specWarnBrittleBones:CombinedShow(0.5, args.destName)
+				specWarnBrittleBones:ScheduleVoice(0.5, "dispelnow")
+			end
+		end
+	elseif spellId == 228576 and args:IsDestTypePlayer() then --Соблазнение
+		local amount = args.amount or 1
+		if amount >= 80 and amount % 5 == 0 then
+			if args:IsPlayer() then
+				specWarnAllured:Show(amount)
+				specWarnAllured:Play("stackhigh")
+			else
+				warnAllured:Show(args.destName, amount)
+			end
+		end
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
@@ -253,6 +293,14 @@ function mod:OnSync(msg)
 		timerRoleplay2:Start(46.5)
 	elseif msg == "RPWikket" then
 		timerRoleplay3:Start(70)
+	elseif msg == "RPMedivh1" then
+		timerRoleplay4:Start(14.7)
+	end
+end
+
+function mod:CHAT_MSG_MONSTER_SAY(msg)
+	if msg == L.Medivh1 then
+		self:SendSync("RPMedivh1")
 	end
 end
 

@@ -64,7 +64,6 @@ mod.vb.guileCount = 0
 
 function mod:WhirlingBladeTarget(targetname, uId) --Крутящийся клинок ✔
 	if not targetname then return end
-	warnWhirlingBlade:Show(targetname)
 	if targetname == UnitName("player") then
 		specWarnWhirlingBlade2:Show()
 		specWarnWhirlingBlade2:Play("runout")
@@ -72,6 +71,8 @@ function mod:WhirlingBladeTarget(targetname, uId) --Крутящийся кли�
 	elseif self:CheckNearby(40, targetname) then
 		specWarnWhirlingBlade:Show(targetname)
 		specWarnWhirlingBlade:Play("watchstep")
+	else
+		warnWhirlingBlade:Show(targetname)
 	end
 	if self.Options.SetIconOnWhirlingBlade then
 		self:SetIcon(targetname, 8, 10)
@@ -80,7 +81,6 @@ end
 
 function mod:SwarmTarget(targetname, uId) --Жалящий рой ✔
 	if not targetname then return end
-	warnSwarm:Show(targetname)
 	if targetname == UnitName("player") then
 		specWarnSwarm:Show()
 		specWarnSwarm:Play("targetyou")
@@ -88,6 +88,8 @@ function mod:SwarmTarget(targetname, uId) --Жалящий рой ✔
 	elseif self:CheckNearby(20, targetname) then
 		specWarnSwarm2:Schedule(1.5)
 		specWarnSwarm2:ScheduleVoice(1.5, "killmob")
+	else
+		warnSwarm:Show(targetname)
 	end
 end
 
@@ -105,15 +107,6 @@ function mod:OnCombatStart(delay)
 		timerUnerringShearCD:Start(5.5-delay) --Неумолимый удар
 		countdownShear:Start(5.5-delay) --Неумолимый удар
 		timerDarkBlastCD:Start(10-delay) --Темный взрыв
-	end
-end
-
-function mod:OnCombatEnd()
-	if self.Options.SetIconOnWhirlingBlade then
-		self:SetIcon(args.destName, 0)
-	end
-	if self.Options.SetIconOnSwarm then
-		self:SetIcon(args.destName, 0)
 	end
 end
 

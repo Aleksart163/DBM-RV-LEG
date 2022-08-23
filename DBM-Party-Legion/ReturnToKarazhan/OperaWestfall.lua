@@ -191,7 +191,7 @@ end
 
 function mod:UNIT_HEALTH(uId)
 	if self:IsHard() then --миф и миф+
-		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 114261 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.56 then --Тонни скоро фаза 2
+		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 114261 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.61 then --Тонни скоро фаза 2
 			warned_preP1 = true
 			warnPhase:Show()
 		elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 114261 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.51 then --Тонни фаза 2
@@ -205,7 +205,7 @@ function mod:UNIT_HEALTH(uId)
 			timerThunderRitualCD:Start(8)
 			timerWashAwayCD:Start(16)
 			countdownWashAway:Start(16)
-		elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 114260 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.56 then --Мрргрия скоро фаза 3
+		elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 114260 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.61 then --Мрргрия скоро фаза 3
 			warned_preP3 = true
 			warnPhase3:Show()
 --[[		elseif self.vb.phase == 2 and warned_preP3 and not warned_preP4 and self:GetUnitCreatureId(uId) == 114260 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.51 then --Мрргрия фаза 3
@@ -218,7 +218,7 @@ function mod:UNIT_HEALTH(uId)
 			countdownFlameGale:Start(22)]]
 		end
 	else
-		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 114261 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.56 then --Тонни скоро фаза 2
+		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 114261 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.61 then --Тонни скоро фаза 2
 			warned_preP1 = true
 		elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 114261 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.51 then --Тонни фаза 2
 			self.vb.phase = 2
@@ -231,7 +231,7 @@ function mod:UNIT_HEALTH(uId)
 			timerThunderRitualCD:Start(8)
 			timerWashAwayCD:Start(16)
 			countdownWashAway:Start(16)
-		elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 114260 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.56 then --Мрргрия скоро фаза 3
+		elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 114260 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.61 then --Мрргрия скоро фаза 3
 			warned_preP3 = true
 --[[		elseif self.vb.phase == 2 and warned_preP3 and not warned_preP4 and self:GetUnitCreatureId(uId) == 114260 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.51 then --Мрргрия фаза 3
 			self.vb.phase = 3

@@ -53,12 +53,6 @@ function mod:OnCombatStart(delay)
 	end
 end
 
-function mod:OnCombatEnd()
-	if self.Options.SetIconOnScornfulGaze then
-		self:SetIcon(args.destName, 0)
-	end
-end
-
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 238484 then
@@ -124,19 +118,3 @@ function mod:SPELL_CAST_SUCCESS(args)
 		warnHeaveCrud:Show()
 	end
 end
-
---[[
-function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
-	if spellId == 188494 and destGUID == UnitGUID("player") and self:AntiSpam(3, 2) then
-		specWarnRancidMaw:Show()
-	end
-end
-mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
-
-function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
-	local spellId = legacySpellId or bfaSpellId
-	if spellId == 199817 then
-
-	end
-end
---]]

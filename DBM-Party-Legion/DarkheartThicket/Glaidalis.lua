@@ -55,12 +55,6 @@ function mod:OnCombatStart(delay)
 	end
 end
 
-function mod:OnCombatEnd()
-	if self.Options.SetIconOnGrievousTear then
-		self:SetIcon(args.destName, 0)
-	end
-end
-
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 198379 then

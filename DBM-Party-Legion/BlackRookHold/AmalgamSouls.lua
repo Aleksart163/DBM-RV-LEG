@@ -105,15 +105,6 @@ function mod:OnCombatStart(delay)
 	countdownReapSoul:Start(20-delay)
 end
 
-function mod:OnCombatEnd()
-	if self.Options.SetIconOnSoulEchoes then
-		self:SetIcon(args.destName, 0)
-	end
-	if self.Options.SetIconOnSwirlingScythe then
-		self:SetIcon(args.destName, 0)
-	end
-end
-
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 194966 and self:AntiSpam(3, args.destName) then--Backup Soul echos warning that's 2 seconds slower than target scan

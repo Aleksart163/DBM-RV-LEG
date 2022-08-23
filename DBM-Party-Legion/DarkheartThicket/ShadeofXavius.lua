@@ -71,11 +71,12 @@ local warned_preP2 = false
 
 function mod:NightmareBoltTarget(targetname, uId) --Прошляпанное очко Мурчаля ✔
 	if not targetname then return end
-	warnNightmareBolt:Show(targetname)
 	if targetname == UnitName("player") then
 		specWarnNightmareBolt:Show()
 		specWarnNightmareBolt:Play("defensive")
 		yellNightmareBolt:Yell()
+	else
+		warnNightmareBolt:Show(targetname)
 	end
 	if self.Options.SetIconOnNightmareBolt then
 		self:SetIcon(targetname, 8, 5)
@@ -84,7 +85,6 @@ end
 
 function mod:ParanoiaTarget(targetname, uId) --Усугубляющаяся паранойя ✔
 	if not targetname then return end
-	warnParanoia:Show(targetname)
 	if targetname == UnitName("player") then
 		specWarnParanoia:Show()
 		specWarnParanoia:Play("runaway")
@@ -92,6 +92,8 @@ function mod:ParanoiaTarget(targetname, uId) --Усугубляющаяся па
 	elseif self:CheckNearby(15, targetname) then
 		specWarnParanoia2:Show(targetname)
 		specWarnParanoia2:Play("runaway")
+	else
+		warnParanoia:Show(targetname)
 	end
 end
 
@@ -114,21 +116,6 @@ function mod:OnCombatStart(delay)
 	--	timerNightmareCD:Start(6-delay)
 		timerFeedontheWeakCD:Start(15-delay)
 		timerParanoiaCD:Start(19-delay)
-	end
-end
-
-function mod:OnCombatEnd()
-	if self.Options.SetIconOnFeedontheWeak then
-		self:SetIcon(args.destName, 0)
-	end
-	if self.Options.SetIconOnParanoia then
-		self:SetIcon(args.destName, 0)
-	end
-	if self.Options.SetIconOnNightmareBolt then
-		self:SetIcon(args.destName, 0)
-	end
-	if self.Options.SetIconOnNightmare then
-		self:SetIcon(args.destName, 0)
 	end
 end
 
@@ -255,25 +242,24 @@ function mod:SPELL_AURA_REMOVED(args)
 	end
 end
 
+--[[
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	local spellId = legacySpellId or bfaSpellId
 	if spellId == 204808 then--Because cast is hidden from combat log, and debuff may miss (AMS or the like)
-	--	timerNightmareCD:Start()
+		timerNightmareCD:Start()
 	elseif spellId == 200050 then --Апокалиптический Кошмар
-	--	warnApocNightmare:Show()
+		warnApocNightmare:Show()
 	end
-end
+end]]
 
 function mod:CHAT_MSG_MONSTER_YELL(msg)
 	if msg == L.XavApoc then
-	--	self:SendSync("XavApoc")
 		warnApocNightmare:Show()
 		timerApocNightmare:Start()
 		countdownApocNightmare:Start()
 		specWarnApocNightmare2:Show()
 		specWarnApocNightmare2:Play("defensive")
 	elseif msg == L.XavApoc2 then
-	--	self:SendSync("XavApoc2")
 		warnApocNightmare:Show()
 		timerApocNightmare:Start()
 		countdownApocNightmare:Start()
@@ -281,23 +267,6 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 		specWarnApocNightmare2:Play("defensive")
 	end
 end
-
---[[
-function mod:OnSync(msg)
-	if msg == "XavApoc" then
-		warnApocNightmare:Show()
-		timerApocNightmare:Start()
-		countdownApocNightmare:Start()
-		specWarnApocNightmare2:Show()
-		specWarnApocNightmare2:Play("defensive")
-	elseif msg == "XavApoc2" then
-		warnApocNightmare:Show()
-		timerApocNightmare:Start()
-		countdownApocNightmare:Start()
-		specWarnApocNightmare2:Show()
-		specWarnApocNightmare2:Play("defensive")
-	end
-end]]
 
 function mod:UNIT_HEALTH(uId)
 	if not self:IsNormal() then
@@ -307,8 +276,6 @@ function mod:UNIT_HEALTH(uId)
 		elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 99192 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.51 then
 			self.vb.phase = 2
 			warned_preP2 = true
-		--	specWarnApocNightmare2:Show()
-		--	specWarnApocNightmare2:Play("defensive")
 		end
 	else
 		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 99192 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.61 then
@@ -316,8 +283,6 @@ function mod:UNIT_HEALTH(uId)
 		elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 99192 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.51 then
 			self.vb.phase = 2
 			warned_preP2 = true
-		--	specWarnApocNightmare2:Show()
-		--	specWarnApocNightmare2:Play("defensive")
 		end
 	end
 end

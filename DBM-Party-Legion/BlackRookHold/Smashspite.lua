@@ -77,15 +77,6 @@ function mod:OnCombatEnd()
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:Hide()
 	end
-	if self.Options.SetIconOnHatefulGaze then
-		self:SetIcon(args.destName, 0)
-	end
-	if self.Options.SetIconOnFelVomit then
-		self:SetIcon(args.destName, 0)
-	end
-	if self.Options.SetIconOnHatefulCharge then
-		self:SetIcon(args.destName, 0)
-	end
 end
 
 function mod:SPELL_CAST_SUCCESS(args)

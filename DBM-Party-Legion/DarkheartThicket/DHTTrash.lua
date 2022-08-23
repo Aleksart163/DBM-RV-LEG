@@ -104,8 +104,8 @@ function mod:SPELL_AURA_APPLIED(args)
 				specWarnCurseofIsolation2:Play("watchstep")
 				yellCurseofIsolation:Yell()
 			else
-				specWarnCurseofIsolation:Show(args.destName)
-				specWarnCurseofIsolation:Play("dispelnow")
+				specWarnCurseofIsolation:CombinedShow(0.5, args.destName)
+				specWarnCurseofIsolation:ScheduleVoice(0.5, "dispelnow")
 			end
 		end
 	elseif spellId == 198904 then --Отравленное копье

@@ -57,9 +57,10 @@ mod:AddRangeFrameOption(10, 192706) --Чародейская бомба
 
 function mod:PolymorphTarget(targetname, uId) --Превращение в рыбу (✔)
 	if not targetname then return end
-	warnPolymorph:Show(targetname)
 	if targetname == UnitName("player") then
 		yellPolymorph:Yell()
+	else
+		warnPolymorph:Show(targetname)
 	end
 end
 

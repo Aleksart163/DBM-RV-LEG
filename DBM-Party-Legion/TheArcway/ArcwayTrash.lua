@@ -8,7 +8,7 @@ mod:SetZone()
 mod.isTrashMod = true
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 211757 226206 211115 211771 193938 226269 211217 211917 211875 210645 210662 210684",
+	"SPELL_CAST_START 211757 226206 211115 211771 193938 226269 211217 211917 211875 210645 210662 210684 211007",
 	"SPELL_AURA_APPLIED 194006 210750 211745 211756"
 )
 
@@ -16,6 +16,7 @@ mod:RegisterEvents(
 local warnPhaseBreach				= mod:NewCastAnnounce(211115, 4) --Фазовый прорыв
 local warnArcaneReconstitution		= mod:NewCastAnnounce(226206, 3) --Чародейское воссоздание
 local warnOozeExplosion				= mod:NewCastAnnounce(193938, 4) --Взрыв слизнюка
+local warnEyeVortex					= mod:NewCastAnnounce(211007, 4) --Око урагана
 --local warnPropheciesofDoom			= mod:NewSpellAnnounce(211771, 4) --Предсказания рока
 
 local specWarnFelstorm				= mod:NewSpecialWarningDodge(211917, nil, nil, nil, 2, 2) --Буря Скверны
@@ -28,6 +29,7 @@ local specWarnPropheciesofDoom		= mod:NewSpecialWarningDefensive(211771, nil, ni
 
 local specWarnSearingWound			= mod:NewSpecialWarningYou(211756, nil, nil, nil, 1, 3) --Жгучая рана
 local specWarnArcaneSlicer			= mod:NewSpecialWarningDodge(211217, nil, nil, nil, 2, 3) --Чародейский рассекатель
+local specWarnEyeVortex				= mod:NewSpecialWarningInterrupt(211007, "HasInterrupt", nil, nil, 1, 2) --Око урагана
 local specWarnTorment				= mod:NewSpecialWarningInterrupt(226269, "HasInterrupt", nil, nil, 1, 2) --Мучение
 local specWarnPhaseBreach			= mod:NewSpecialWarningInterrupt(211115, "HasInterrupt", nil, nil, 3, 5) --Фазовый прорыв
 local specWarnArgusPortal			= mod:NewSpecialWarningInterrupt(211757, "HasInterrupt", nil, nil, 1, 2) --Портал на Аргус
@@ -97,6 +99,14 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 210684 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Вытягивание сущности
 		specWarnSiphonEssence:Show()
 		specWarnSiphonEssence:Play("kickcast")
+	elseif spellId == 211007 then --Око урагана
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnEyeVortex:Show()
+			specWarnEyeVortex:Play("kickcast")
+		else
+			warnEyeVortex:Show()
+			warnEyeVortex:Play("kickcast")
+		end
 	end
 end
 

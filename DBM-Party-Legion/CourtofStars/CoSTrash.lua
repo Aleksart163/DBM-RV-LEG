@@ -106,29 +106,32 @@ mod:AddBoolOption("SpyHelper", true)
 
 function mod:CarrionSwarmTarget(targetname, uId) --Темная стая ✔
 	if not targetname then return end
-	warnCarrionSwarm:Show(targetname)
 	if targetname == UnitName("player") then
 		specWarnCarrionSwarm:Show()
 		specWarnCarrionSwarm:Play("watchstep")
 		yellCarrionSwarm:Yell()
+	else
+		warnCarrionSwarm:Show(targetname)
 	end
 end
 
 function mod:SuppressTarget(targetname, uId) --Подавление ✔
 	if not targetname then return end
-	warnSuppress:Show(targetname)
 	if targetname == UnitName("player") then
 		yellSuppress:Yell()
+	else
+		warnSuppress:Show(targetname)
 	end
 end
 
 function mod:DisintegrationBeamTarget(targetname, uId) --Луч дезинтеграции ✔
 	if not targetname then return end
-	warnDisintegrationBeam:Show(targetname)
 	if targetname == UnitName("player") then
 		specWarnDisintegrationBeam:Show()
 		specWarnDisintegrationBeam:Play("defensive")
 		yellDisintegrationBeam:Yell()
+	else
+		warnDisintegrationBeam:Show(targetname)
 	end
 end
 
@@ -215,7 +218,9 @@ function mod:SPELL_CAST_START(args)
 		if self.Options.YellOnEating and args:IsPlayerSource() then
 			if IsInRaid() then
 				SendChatMessage(L.EatingYell, "RAID")
-			elseif IsInGroup() then
+			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
+				SendChatMessage(L.EatingYell, "INSTANCE_CHAT")
+			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
 				SendChatMessage(L.EatingYell, "PARTY")
 			end
 		end
@@ -224,7 +229,9 @@ function mod:SPELL_CAST_START(args)
 		if self.Options.YellOnSiphoningMagic and args:IsPlayerSource() then
 			if IsInRaid() then
 				SendChatMessage(L.SiphoningMagic, "RAID")
-			elseif IsInGroup() then
+			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
+				SendChatMessage(L.SiphoningMagic, "INSTANCE_CHAT")
+			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
 				SendChatMessage(L.SiphoningMagic, "PARTY")
 			end
 		end
@@ -233,7 +240,9 @@ function mod:SPELL_CAST_START(args)
 		if self.Options.YellOnPurifying and args:IsPlayerSource() then
 			if IsInRaid() then
 				SendChatMessage(L.PurifyingYell, "RAID")
-			elseif IsInGroup() then
+			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
+				SendChatMessage(L.PurifyingYell, "INSTANCE_CHAT")
+			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
 				SendChatMessage(L.PurifyingYell, "PARTY")
 			end
 		end
@@ -242,7 +251,9 @@ function mod:SPELL_CAST_START(args)
 		if self.Options.YellOnDraining and args:IsPlayerSource() then
 			if IsInRaid() then
 				SendChatMessage(L.DrainingYell, "RAID")
-			elseif IsInGroup() then
+			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
+				SendChatMessage(L.DrainingYell, "INSTANCE_CHAT")
+			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
 				SendChatMessage(L.DrainingYell, "PARTY")
 			end
 		end
@@ -251,7 +262,9 @@ function mod:SPELL_CAST_START(args)
 		if self.Options.YellOnShuttingDown and args:IsPlayerSource() then
 			if IsInRaid() then
 				SendChatMessage(L.ShuttingDownYell, "RAID")
-			elseif IsInGroup() then
+			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
+				SendChatMessage(L.ShuttingDownYell, "INSTANCE_CHAT")
+			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
 				SendChatMessage(L.ShuttingDownYell, "PARTY")
 			end
 		end
@@ -260,7 +273,9 @@ function mod:SPELL_CAST_START(args)
 		if self.Options.YellOnInvokingText and args:IsPlayerSource() then
 			if IsInRaid() then
 				SendChatMessage(L.InvokingTextYell, "RAID")
-			elseif IsInGroup() then
+			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
+				SendChatMessage(L.InvokingTextYell, "INSTANCE_CHAT")
+			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
 				SendChatMessage(L.InvokingTextYell, "PARTY")
 			end
 		end
@@ -269,7 +284,9 @@ function mod:SPELL_CAST_START(args)
 		if self.Options.YellOnDrinking and args:IsPlayerSource() then
 			if IsInRaid() then
 				SendChatMessage(L.DrinkingYell, "RAID")
-			elseif IsInGroup() then
+			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
+				SendChatMessage(L.DrinkingYell, "INSTANCE_CHAT")
+			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
 				SendChatMessage(L.DrinkingYell, "PARTY")
 			end
 		end
@@ -278,7 +295,9 @@ function mod:SPELL_CAST_START(args)
 		if self.Options.YellOnReleaseSpores and args:IsPlayerSource() then
 			if IsInRaid() then
 				SendChatMessage(L.ReleaseSporesYell, "RAID")
-			elseif IsInGroup() then
+			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
+				SendChatMessage(L.ReleaseSporesYell, "INSTANCE_CHAT")
+			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
 				SendChatMessage(L.ReleaseSporesYell, "PARTY")
 			end
 		end
@@ -287,7 +306,9 @@ function mod:SPELL_CAST_START(args)
 		if self.Options.YellOnTreating and args:IsPlayerSource() then
 			if IsInRaid() then
 				SendChatMessage(L.TreatingYell, "RAID")
-			elseif IsInGroup() then
+			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
+				SendChatMessage(L.TreatingYell, "INSTANCE_CHAT")
+			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
 				SendChatMessage(L.TreatingYell, "PARTY")
 			end
 		end
@@ -296,7 +317,9 @@ function mod:SPELL_CAST_START(args)
 		if self.Options.YellOnPilfering and args:IsPlayerSource() then
 			if IsInRaid() then
 				SendChatMessage(L.PilferingYell, "RAID")
-			elseif IsInGroup() then
+			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
+				SendChatMessage(L.PilferingYell, "INSTANCE_CHAT")
+			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
 				SendChatMessage(L.PilferingYell, "PARTY")
 			end
 		end
@@ -305,7 +328,9 @@ function mod:SPELL_CAST_START(args)
 		if self.Options.YellOnTinkering and args:IsPlayerSource() then
 			if IsInRaid() then
 				SendChatMessage(L.TinkeringYell, "RAID")
-			elseif IsInGroup() then
+			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
+				SendChatMessage(L.TinkeringYell, "INSTANCE_CHAT")
+			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
 				SendChatMessage(L.TinkeringYell, "PARTY")
 			end
 		end
@@ -314,7 +339,9 @@ function mod:SPELL_CAST_START(args)
 		if self.Options.YellOnDefacing and args:IsPlayerSource() then
 			if IsInRaid() then
 				SendChatMessage(L.DefacingYell, "RAID")
-			elseif IsInGroup() then
+			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
+				SendChatMessage(L.DefacingYell, "INSTANCE_CHAT")
+			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
 				SendChatMessage(L.DefacingYell, "PARTY")
 			end
 		end
@@ -339,12 +366,6 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 209512 and args:IsPlayer() then
 		specWarnDisruptingEnergy:Show()
 		specWarnDisruptingEnergy:Play("runaway")
---[[	elseif spellId == 207981 then --Луч дезинтеграции
-		if args:IsPlayer() then
-			specWarnDisintegrationBeam:Show()
-			specWarnDisintegrationBeam:Play("defensive")
-			yellDisintegrationBeam:Yell()
-		end]]
 	elseif spellId == 214690 then --Увечье
 		warnCripple:Show(args.destName)
 		timerCripple:Start(args.destName)
@@ -505,7 +526,7 @@ do
 	function mod:CHAT_MSG_MONSTER_SAY(msg)
 		if msg:find(L.Found) then
 			self:SendSync("Finished")
-		elseif msg == L.RolePlayMelan or msg:find(L.RolePlayMelan) then
+		elseif msg == L.RolePlayMelan then
 			self:SendSync("RolePlayMel")
 		end
 	end
@@ -615,13 +636,6 @@ do
 			end
 		end
 		
-		if cid == 108154 then --Чародейский ключ
-			if select('#', GetGossipOptions()) > 0 then
-				SelectGossipOption(1)
-				CloseGossip()
-			end
-		end
-		
 		-- Suspicious noble
 		if cid == 107486 then 
 			if select('#', GetGossipOptions()) > 0 then
@@ -630,7 +644,9 @@ do
 				local clue = clues[GetGossipText()]
 				if clue and not hints[clue] then
 					CloseGossip()
-					if IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
+					if IsInRaid() then
+						SendChatMessage(hintTranslations[clue], "RAID")
+					elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
 						SendChatMessage(hintTranslations[clue], "INSTANCE_CHAT")
 					elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
 						SendChatMessage(hintTranslations[clue], "PARTY")

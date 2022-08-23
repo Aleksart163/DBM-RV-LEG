@@ -58,7 +58,6 @@ mod.vb.phase = 1
 
 function mod:BrutalGlaiveTarget(targetname, uId)
 	if not targetname then return end
-	warnBrutalGlaive:Show(targetname)
 	if targetname == UnitName("player") then
 		specWarnBrutalGlaive:Show()
 		specWarnBrutalGlaive:Play("runout")
@@ -66,6 +65,8 @@ function mod:BrutalGlaiveTarget(targetname, uId)
 	elseif self:CheckNearby(10, targetname) then
 		specWarnBrutalGlaive2:Show(targetname)
 		specWarnBrutalGlaive2:Play("runout")
+	else
+		warnBrutalGlaive:Show(targetname)
 	end
 	if self.Options.SetIconOnBrutalGlaive then
 		self:SetIcon(targetname, 7, 15)
@@ -88,18 +89,6 @@ function mod:OnCombatStart(delay)
 		timerEyeBeamCD:Start(40-delay) --Пронзающий взгляд
 		countdownEyeBeam:Start(40-delay) --Пронзающий взгляд +++
 		specWarnSummonAdds:Schedule(40-delay)
-	end
-end
-
-function mod:OnCombatEnd()
-	if self.Options.SetIconOnEyeBeam then
-		self:SetIcon(args.destName, 0)
-	end
-	if self.Options.SetIconOnBrutalGlaive then
-		self:SetIcon(args.destName, 0)
-	end
-	if self.Options.SetIconOnDarkRush then
-		self:SetIcon(args.destName, 0)
 	end
 end
 

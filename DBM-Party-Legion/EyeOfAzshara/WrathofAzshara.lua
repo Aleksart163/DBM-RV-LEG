@@ -57,7 +57,6 @@ end
 
 function mod:CrushingDepthsTarget(targetname, uId) --Морская пучина
 	if not targetname then return end
-	warnCrushingDepths:Show(targetname)
 	if targetname == UnitName("player") then
 		specWarnCrushingDepths2:Show()
 		specWarnCrushingDepths2:Play("defensive")
@@ -66,6 +65,8 @@ function mod:CrushingDepthsTarget(targetname, uId) --Морская пучина
 	elseif self:CheckNearby(40, targetname) then
 		specWarnCrushingDepths:Show(targetname)
 		specWarnCrushingDepths:Play("gather")
+	else
+		warnCrushingDepths:Show(targetname)
 	end
 	if self.Options.SetIconOnCrushingDepths then
 		self:SetIcon(targetname, 7, 6)
@@ -88,15 +89,8 @@ function mod:OnCombatStart(delay)
 end
 
 function mod:OnCombatEnd()
-	self.vb.phase = 1
 	if self.Options.RangeFrame then
 		DBM.RangeCheck:Hide()
-	end
-	if self.Options.SetIconOnCrushingDepths then
-		self:SetIcon(args.destName, 0)
-	end
-	if self.Options.SetIconOnArcaneBomb then
-		self:SetIcon(args.destName, 0)
 	end
 end
 

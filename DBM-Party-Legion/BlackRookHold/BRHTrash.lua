@@ -83,10 +83,11 @@ end
 
 function mod:MandibleStrikeTarget(targetname, uId) --Удар жвалами ✔
 	if not targetname then return end
-	warnMandibleStrike:Show(targetname)
 	if targetname == UnitName("player") then
 		specWarnMandibleStrike:Show()
 		specWarnMandibleStrike:Play("defensive")
+	else
+		warnMandibleStrike:Show(targetname)
 	end
 end
 

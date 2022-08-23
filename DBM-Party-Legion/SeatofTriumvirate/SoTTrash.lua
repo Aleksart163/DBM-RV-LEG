@@ -8,7 +8,7 @@ mod:SetZone()
 mod.isTrashMod = true
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 248304 245585 245727 248133 248184 248227 248128",
+	"SPELL_CAST_START 248304 245585 245727 248133 248184 248227 248128 245522",
 	"SPELL_AURA_APPLIED 249077 249081 245748",
 	"SPELL_AURA_APPLIED_DOSE 245748",
 	"SPELL_AURA_REMOVED 249081 245748",
@@ -33,6 +33,7 @@ local specWarnVoidDiffusion			= mod:NewSpecialWarningInterrupt(245585, "HasInter
 local specWarnConsumeEssence		= mod:NewSpecialWarningInterrupt(245727, "HasInterrupt", nil, nil, 1, 2) --Поглощение сущности
 local specWarnStygianBlast			= mod:NewSpecialWarningInterrupt(248133, "HasInterrupt", nil, nil, 1, 2) --Стигийский заряд
 local specWarnDarkFlay				= mod:NewSpecialWarningInterrupt(248184, "HasInterrupt", nil, nil, 1, 2) --Темное свежевание
+local specWarnEntropicMist			= mod:NewSpecialWarningInterrupt(245522, "HasInterrupt", nil, nil, 1, 2) --Энтропический туман
 
 local timerCorruptingTouch			= mod:NewTargetTimer(12, 245748, nil, "Tank|MagicDispeller2", nil, 3, nil, DBM_CORE_MAGIC_ICON..DBM_CORE_HEALER_ICON) --Оскверняющее прикосновение
 
@@ -67,8 +68,11 @@ function mod:SPELL_CAST_START(args)
 			warnStygianBlast:Play("kickcast")
 		end
 	elseif spellId == 248184 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
-		specWarnDarkFlay:Show(args.sourceName)
+		specWarnDarkFlay:Show()
 		specWarnDarkFlay:Play("kickcast")
+	elseif spellId == 245522 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Энтропический туман
+		specWarnEntropicMist:Show()
+		specWarnEntropicMist:Play("kickcast")
 	elseif spellId == 248227 then
 		specWarnDarkMatter:Show()
 		specWarnDarkMatter:Play("killmob")

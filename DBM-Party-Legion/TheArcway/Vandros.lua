@@ -34,7 +34,7 @@ local specWarnForceBomb				= mod:NewSpecialWarningDodge(202974, nil, nil, nil, 2
 local specWarnBlast					= mod:NewSpecialWarningInterrupt(203176, "HasInterrupt", nil, 2, 1, 2) --Ускоряющий взрыв
 local specWarnBlastStacks			= mod:NewSpecialWarningDispel(203176, "MagicDispeller", nil, nil, 1, 2) --Ускоряющий взрыв
 local specWarnTimeLock				= mod:NewSpecialWarningInterrupt(203957, "HasInterrupt", nil, nil, 1, 2) --Временное ограничение
-local specWarnUnstableMana			= mod:NewSpecialWarningYouMoveAway(220871, nil, nil, nil, 4, 5) --Нестабильная мана
+local specWarnUnstableMana			= mod:NewSpecialWarningYouMoveAway(220871, nil, nil, nil, 3, 5) --Нестабильная мана
 local specWarnUnstableMana2			= mod:NewSpecialWarningCloseMoveAway(220871, nil, nil, nil, 2, 2) --Нестабильная мана
 
 local timerUnstableMana				= mod:NewTargetTimer(8, 220871, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Нестабильная мана
@@ -71,12 +71,11 @@ function mod:SPELL_AURA_APPLIED(args)
 	if spellId == 203957 then --Временное ограничение
 		warnTimeLock:Show(args.destName)
 		if self:AntiSpam(3, 2) then
-			specWarnTimeLock:Show(args.sourceName)
+			specWarnTimeLock:Show()
 			specWarnTimeLock:Play("kickcast")
 		end
 	elseif spellId == 220871 then --Нестабильная мана
 		timerUnstableMana:Start(args.destName)
-		warnUnstableMana:Show(args.destName)
 		if args:IsPlayer() then
 			specWarnUnstableMana:Show()
 			specWarnUnstableMana:Play("runout")
@@ -86,6 +85,8 @@ function mod:SPELL_AURA_APPLIED(args)
 		elseif self:CheckNearby(15, args.destName) then
 			specWarnUnstableMana2:Show(args.destName)
 			specWarnUnstableMana2:Play("runout")
+		else
+			warnUnstableMana:Show(args.destName)
 		end
 		if self.Options.SetIconOnUnstableMana then
 			self:SetIcon(args.destName, 8, 8)
