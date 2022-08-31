@@ -27,6 +27,6 @@ L:SetMiscLocalization{
 	HeroismYell = "[DBM RV] %s использует %s!",
 	PortalYell = "[DBM RV] %s открывает %s!",
 	SoulwellYell = "[DBM RV] %s ставит %s!",
-	SoulstoneYell = "[DBM RV] %s применил %s на %s!",
+	SoulstoneYell = "[DBM RV] %s применяет %s на %s!",
 	SummoningYell = "[DBM RV] %s начинает %s!"
 }

@@ -94,7 +94,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerUnstableManaCD:Start()
 	elseif spellId == 203176 then --Ускоряющий взрыв
 		local amount = args.amount or 1
-		if args.amount >= 2 then
+		if amount >= 2 then
 			warnBlast:Show(args.destName, amount)
 			specWarnBlastStacks:Show(args.destName)
 			specWarnBlastStacks:Play("dispelboss")

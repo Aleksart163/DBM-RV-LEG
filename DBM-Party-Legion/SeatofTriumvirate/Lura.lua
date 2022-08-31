@@ -120,11 +120,6 @@ function mod:SPELL_AURA_APPLIED(args)
 		if amount >= 10 and amount % 5 == 0 then
 			warnGrowingDarkness:Show(args.destName, amount)
 		end
---[[	elseif spellId == 245242 then --Отголосок страдания
-		if args:IsPlayer() then
-			specWarnRemnantofAnguish:Show()
-			specWarnRemnantofAnguish:Play("runaway")
-		end]]
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
