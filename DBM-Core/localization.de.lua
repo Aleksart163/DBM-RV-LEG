@@ -14,6 +14,8 @@ DBM_CORE_LOAD_MOD_EXP_MISMATCH		= "%s kann nicht geladen werden, da es für eine
 DBM_CORE_LOAD_MOD_DISABLED			= "%s ist installiert, aber derzeit nicht aktiviert. Dieses Mod wird nicht geladen, falls du es nicht aktivierst."
 DBM_CORE_LOAD_MOD_DISABLED_PLURAL	= "%s sind installiert, aber derzeit nicht aktiviert. Diese Mods werden nicht geladen, falls du sie nicht aktivierst."
 
+DBM_CORE_UPDATEREMINDER_URL			= "https://github.com/Aleksart163/DBM-for-Uwow"
+
 DBM_COPY_URL_DIALOG					= "Kopiere URL"
 
 --Post Patch 7.1
@@ -36,7 +38,7 @@ DBM_CORE_COMBAT_STARTED				= "Kampf gegen %s hat begonnen. Viel Glück! :)";
 DBM_CORE_COMBAT_STARTED_IN_PROGRESS	= "Du wurdest in den laufenden Kampf gegen %s verwickelt. Viel Glück! :)"
 DBM_CORE_GUILD_COMBAT_STARTED		= "Kampf gegen %s wurde von deiner Gilde begonnen."
 DBM_CORE_SCENARIO_STARTED			= "%s gestartet. Viel Glück! :)"
-DBM_CORE_SCENARIO_STARTED_IN_PROGRESS	=	"Du bist dem laufenden Szenario %s beigetreten. Viel Glück! :)"
+DBM_CORE_SCENARIO_STARTED_IN_PROGRESS	= "Du bist dem laufenden Szenario %s beigetreten. Viel Glück! :)"
 DBM_CORE_BOSS_DOWN					= "%s besiegt nach %s!"
 DBM_CORE_BOSS_DOWN_I				= "%s besiegt! Das war dein %d. Sieg."
 DBM_CORE_BOSS_DOWN_L				= "%s besiegt nach %s! Dein letzter Sieg hat %s gedauert und der schnellste %s. Das war dein %d. Sieg."
@@ -149,27 +151,27 @@ DBM_CORE_VERSIONCHECK_ENTRY_TWO		= "%s: %s (%s) und %s (%s)"--Two Boss mods
 DBM_CORE_VERSIONCHECK_ENTRY_NO_DBM	= "%s: Kein Boss Mod installiert."
 DBM_CORE_VERSIONCHECK_FOOTER		= "%d Spieler mit DBM und %d Spieler mit BigWigs gefunden."
 DBM_CORE_VERSIONCHECK_OUTDATED		= "Folgende %d Spieler haben veraltete DBM Versionen: %s"
-DBM_CORE_YOUR_VERSION_OUTDATED      = "Deine Version von Deadly Boss Mods ist veraltet! Bitte besuche http://www.deadlybossmods.com um die neueste Version herunterzuladen."
+DBM_CORE_YOUR_VERSION_OUTDATED      = "Deine Version von Dungeon Boss Master ist veraltet! Bitte besuche " .. DBM_CORE_UPDATEREMINDER_URL .. " um die neueste Version herunterzuladen."
 DBM_CORE_VOICE_PACK_OUTDATED		= "Deinem ausgewählten DBM Sprachpack fehlen einige Sounds, die von von DBM unterstützt werden. Für einige Warnungssounds werden weiterhin die Standardsounds abgespielt. Bitte lade dir eine neuere Version des Spachpacks herunter oder kontaktiere den Autor des Sprachpacks für ein Update, welches die fehlenden Sounds enthält."
 DBM_CORE_VOICE_MISSING				= "Du hast einen DBM Sprachpack ausgewählt, der nicht gefunden werden konnte. Deine Auswahl wurde auf 'Kein Sprachpack' zurückgesetzt. Bitte stelle sicher, dass der Sprachpack korrekt installiert und in der Addon-Liste aktiviert wurde, falls dies ein Fehler ist."
 DBM_CORE_VOICE_DISABLED				= "Du hast derzeit mindestens einen DBM Sprachpack installiert, aber keinen aktiviert. Falls du einen Sprachpack nutzen möchtest, dann wähle ihn unter \"Gesprochene Warnungen\" aus. Ansonsten kannst du die ungenutzten Sprachpacks deinstallieren, um diese Meldung zu unterdrücken."
 DBM_CORE_VOICE_COUNT_MISSING		= "Für die Countdown-Stimme %d ist ein Sprach-/Zählpack ausgewählt, der nicht gefunden werden konnte. Die Stimme wurde auf die Standardeinstellung zurückgesetzt: %s."
 --DBM_BIG_WIGS
 
-DBM_CORE_UPDATEREMINDER_HEADER			= "Deine Version von Deadly Boss Mods ist veraltet.\n Version %s (r%d) kann über Curse/Twitch, WoWI oder von deadlybossmods.com heruntergeladen werden."
-DBM_CORE_UPDATEREMINDER_HEADER_ALPHA	= "Deine ALPHA-Version von Deadly Boss Mods ist veraltet.\nDu liegst mindestens %d Revisionen zurück. Es wird empfohlen bei einer Entscheidung für ALPHA-Versionen immer die neueste ALPHA-Version zu nutzen. Ansonsten sollte die neueste RELEASE-Version genutzt werden. ALPHA-Versionen haben eine strengere Versionsprüfung, da diese Entwicklungsversionen von DBM sind."
+DBM_CORE_UPDATEREMINDER_HEADER			= "Deine Version von Dungeon Boss Master ist veraltet.\n Version %s (r%d) kann über " .. DBM_CORE_UPDATEREMINDER_URL .. "."
+DBM_CORE_UPDATEREMINDER_HEADER_ALPHA	= "Deine ALPHA-Version von Dungeon Boss Master ist veraltet.\nDu liegst mindestens %d Revisionen zurück. Es wird empfohlen bei einer Entscheidung für ALPHA-Versionen immer die neueste ALPHA-Version zu nutzen. Ansonsten sollte die neueste RELEASE-Version genutzt werden. ALPHA-Versionen haben eine strengere Versionsprüfung, da diese Entwicklungsversionen von DBM sind."
 DBM_CORE_UPDATEREMINDER_FOOTER			= "Drücke " .. (IsMacClient() and "Cmd-C" or "Strg+C")  ..  " um den Downloadlink in die Zwischenablage zu kopieren."
 DBM_CORE_UPDATEREMINDER_FOOTER_GENERIC	= "Drücke " .. (IsMacClient() and "Cmd-C" or "Strg+C")  ..  " um den Link in die Zwischenablage zu kopieren."
-DBM_CORE_UPDATEREMINDER_DISABLE			= "WARNUNG: Da dein Deadly Boss Mods zu veraltet ist, hat es sich zwangsweise deaktiviert und kann erst nach einer Aktualisierung wieder genutzt werden. Derart alter und inkompatibler Code kann zu einem schlechten Spielerlebnis bei dir oder deinen Schlachtzugsmitgliedern führen."
+DBM_CORE_UPDATEREMINDER_DISABLE			= "WARNUNG: Da dein Dungeon Boss Master zu veraltet ist, hat es sich zwangsweise deaktiviert und kann erst nach einer Aktualisierung wieder genutzt werden. Derart alter und inkompatibler Code kann zu einem schlechten Spielerlebnis bei dir oder deinen Schlachtzugsmitgliedern führen."
 DBM_CORE_UPDATEREMINDER_HOTFIX			= "Deine Version von DBM hat bekannte Probleme während dieses Bosskampfes, die durch ein Update auf die neueste DBM-Version behoben werden können."
 DBM_CORE_UPDATEREMINDER_HOTFIX_ALPHA	= "Deine Version von DBM hat bekannte Probleme während dieses Bosskampfes, die in einer künftigen DBM-Version behoben sind (oder in der neuesten Alphaversion)."
-DBM_CORE_UPDATEREMINDER_MAJORPATCH		= "WARNUNG: Da dein Deadly Boss Mods veraltet und deshalb leider für diesen Major Patch des Spiels nicht mehr geeignet ist, hat es sich bis zu einer Aktualisierung deaktiviert. Alter und inkompatibler Code kann zu einem schlechten Spielerlebnis bei dir oder deinen Schlachtzugsmitgliedern führen. Bitte lade dir baldmöglichst eine neue Version von deadlybossmods.com oder Curse herunter."
-DBM_CORE_UPDATEREMINDER_TESTVERSION		= "WARNUNG: Du benutzt eine Version von Deadly Boss Mods die nicht für diese Version des Spiels gedacht ist. Bitte lade dir eine zum Spiel passende Version von deadlybossmods.com oder Curse herunter."
-DBM_CORE_VEM							= "WARNUNG: Du benutzt Deadly Boss Mods zusammen mit Voice Encounter Mods. DBM läuft nicht in dieser Konfiguration und wird deshalb nicht geladen."
+DBM_CORE_UPDATEREMINDER_MAJORPATCH		= "WARNUNG: Da dein Dungeon Boss Master veraltet und deshalb leider für diesen Major Patch des Spiels nicht mehr geeignet ist, hat es sich bis zu einer Aktualisierung deaktiviert. Alter und inkompatibler Code kann zu einem schlechten Spielerlebnis bei dir oder deinen Schlachtzugsmitgliedern führen. Bitte lade dir baldmöglichst eine neue Version von " .. DBM_CORE_UPDATEREMINDER_URL .. " oder Curse herunter."
+DBM_CORE_UPDATEREMINDER_TESTVERSION		= "WARNUNG: Du benutzt eine Version von Dungeon Boss Master die nicht für diese Version des Spiels gedacht ist. Bitte lade dir eine zum Spiel passende Version von " .. DBM_CORE_UPDATEREMINDER_URL .. " oder Curse herunter."
+DBM_CORE_VEM							= "WARNUNG: Du benutzt Dungeon Boss Master zusammen mit Voice Encounter Mods. DBM läuft nicht in dieser Konfiguration und wird deshalb nicht geladen."
 DBM_CORE_3RDPROFILES					= "WARNUNG: DBM-Profiles ist mit dieser Version von DBM nicht kompatibel. Es muss entfernt werden bevor DBM genutzt werden kann um Konflikte zu vermeiden."
 DBM_CORE_DPMCORE						= "WARNUNG: Deadly Pvp Mods (DPM) wird nicht mehr gepflegt und ist mit dieser Version von DBM nicht kompatibel. Es muss entfernt werden bevor DBM genutzt werden kann um Konflikte zu vermeiden."
 DBM_CORE_UPDATE_REQUIRES_RELAUNCH		= "WARNUNG: Dieses Update von DBM arbeitet erst nach einem vollständigem Neustart des Spielclients korrekt. Das Update enthält neue Dateien oder Änderungen an .toc-Dateien, die nicht mit \"/reload\" geladen werden können. Die Funktionsfähigkeit von DBM kann beeinträchtigt sein und es können Fehler auftreten, bis du den Spielclient neu startest."
-DBM_CORE_OUT_OF_DATE_NAG				= "Deine Version von Deadly Boss Mods ist veraltet. Du solltest eine Aktualisierung für diesen Kampf durchführen, da du sonst wichtige Warnungen oder Timer verpassen könntest oder automatische \"Schreie\" fehlen, die der Rest deines Schlachtzuges von dir erwartet."
+DBM_CORE_OUT_OF_DATE_NAG				= "Deine Version von Dungeon Boss Master ist veraltet. Du solltest eine Aktualisierung für diesen Kampf durchführen, da du sonst wichtige Warnungen oder Timer verpassen könntest oder automatische \"Schreie\" fehlen, die der Rest deines Schlachtzuges von dir erwartet."
 
 DBM_CORE_MOVABLE_BAR				= "Zieh mich!"
 
@@ -486,7 +488,7 @@ DBM_CORE_AUTO_READY_CHECK_OPTION_TEXT	= "Spiele \"Bereitschaftscheck\"-Sound, we
 
 -- New special warnings
 DBM_CORE_MOVE_WARNING_BAR			= "bewegbare Schlachtzugwarnung"
-DBM_CORE_MOVE_WARNING_MESSAGE		= "Danke, dass du Deadly Boss Mods verwendest"
+DBM_CORE_MOVE_WARNING_MESSAGE		= "Danke, dass du Dungeon Boss Master verwendest"
 DBM_CORE_MOVE_SPECIAL_WARNING_BAR	= "bewegbare Spezialwarnung"
 DBM_CORE_MOVE_SPECIAL_WARNING_TEXT	= "Spezialwarnung"
 
@@ -542,11 +544,11 @@ DBM_INSTANCE_INFO_RESULTS			= "Ergebnis des Instanzsperren-Scans (IDs). Bitte be
 DBM_INSTANCE_INFO_SHOW_RESULTS		= "Spieler die noch nicht geantwortet haben: %s"
 
 DBM_CORE_LAG_CHECKING				= "Prüfe Schlachtzuglatenz..."
-DBM_CORE_LAG_HEADER					= "Deadly Boss Mods - Latenzergebnisse"
+DBM_CORE_LAG_HEADER					= "Dungeon Boss Master - Latenzergebnisse"
 DBM_CORE_LAG_ENTRY					= "%s: %dms (Welt) / %dms (Standort)"
 DBM_CORE_LAG_FOOTER					= "Keine Antwort: %s"
 
 DBM_CORE_DUR_CHECKING				= "Prüfe Schlachtzughaltbarkeit..."
-DBM_CORE_DUR_HEADER					= "Deadly Boss Mods - Haltbarkeitergebnisse"
+DBM_CORE_DUR_HEADER					= "Dungeon Boss Master - Haltbarkeitergebnisse"
 DBM_CORE_DUR_ENTRY					= "%s: Haltbarkeit [%d Prozent] / Ausrüstung defekt [%s]"
 DBM_CORE_LAG_FOOTER					= "Keine Antwort: %s"

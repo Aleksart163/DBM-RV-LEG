@@ -1,15 +1,7 @@
 ﻿if GetLocale() ~= "zhTW" then return end
 local L
 
-------------------------
--- White TIger Temple --
-------------------------
-L= DBM:GetModLocalization("d640")
-
-L:SetMiscLocalization({
-	Endless				= "無盡",--Could not find a global for this one.
-	ReplyWhisper		= "<Deadly Boss Mods> %s正在試煉場試煉中(模式:%s 波數:%d)"
-})
+--Прошляпанное очко Мурчаля ✔
 
 ------------------------
 -- Mage Tower: TANK --
@@ -23,7 +15,7 @@ L:SetGeneralLocalization({
 ------------------------
 -- Mage Tower: Healer --
 ------------------------
-L= DBM:GetModLocalization("ArtifactHealer")
+L= DBM:GetModLocalization("ErdrisThorn")
 
 L:SetGeneralLocalization({
 	name =	"終結復活者的威脅"
@@ -32,7 +24,7 @@ L:SetGeneralLocalization({
 ------------------------
 -- Mage Tower: DPS --
 ------------------------
-L= DBM:GetModLocalization("ArtifactFelTotem")
+L= DBM:GetModLocalization("FelTotem")
 
 L:SetGeneralLocalization({
 	name =	"魔化圖騰的落敗"
@@ -41,7 +33,7 @@ L:SetGeneralLocalization({
 ------------------------
 -- Mage Tower: DPS --
 ------------------------
-L= DBM:GetModLocalization("ArtifactImpossibleFoe")
+L= DBM:GetModLocalization("ImpossibleFoe")
 
 L:SetGeneralLocalization({
 	name =	"難以對付的敵人"
@@ -54,7 +46,7 @@ L:SetMiscLocalization({
 ------------------------
 -- Mage Tower: DPS --
 ------------------------
-L= DBM:GetModLocalization("ArtifactQueen")
+L= DBM:GetModLocalization("Queen")
 
 L:SetGeneralLocalization({
 	name =	"神御女王之怒"
@@ -63,7 +55,7 @@ L:SetGeneralLocalization({
 ------------------------
 -- Mage Tower: DPS --
 ------------------------
-L= DBM:GetModLocalization("ArtifactTwins")
+L= DBM:GetModLocalization("Twins")
 
 L:SetGeneralLocalization({
 	name =	"阻止他們"
@@ -72,8 +64,32 @@ L:SetGeneralLocalization({
 ------------------------
 -- Mage Tower: DPS --
 ------------------------
-L= DBM:GetModLocalization("ArtifactXylem")
+L= DBM:GetModLocalization("Xylem")
 
 L:SetGeneralLocalization({
 	name =	"閉上眼睛"
+})
+
+------------------------
+-- Mage Tower: Timers --
+------------------------
+L= DBM:GetModLocalization("Timers")
+
+L:SetGeneralLocalization({
+	name = "Combat start timers"
+})
+
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+})
+
+L:SetMiscLocalization({
+	Kruul = "Arrogant fools! I am empowered by the souls of a thousand conquered worlds!",
+	Twins1 = "I cannot let you unleash your power upon Azeroth, Raest. If you do not yield, I will be forced to destroy you!",
+	ErdrisThorn1 = "No way I'm staying behind! The attacks on my town must be stopped!",
+	Agatha1 = "Even now, my sayaad tempt your weak-willed mages. Your allies will surrender willingly to the Legion!"
 })

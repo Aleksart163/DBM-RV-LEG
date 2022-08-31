@@ -1,7 +1,7 @@
 ﻿if GetLocale() ~= "deDE" then return end
 local L
 
---Прошляпанное очко Мурчаля ✔
+--Прошляпанное очко Мурчаля ✔✔
 
 ------------------------
 -- Mage Tower: TANK --
@@ -40,7 +40,7 @@ L:SetGeneralLocalization({
 })
 
 L:SetMiscLocalization({
-	impServants =	"Tötet die Wichteldiener, bevor sie Agatha Energie gewähren!"--needs to be verified (video-captured translation)
+	impServants = "Tötet die Wichteldiener, bevor sie Agatha Energie gewähren!" --
 })
 
 ------------------------
@@ -59,6 +59,11 @@ L= DBM:GetModLocalization("Twins")
 
 L:SetGeneralLocalization({
 	name =	"Zwillinge bezwingen"
+})
+
+L:SetMiscLocalization({
+	TwinsRP1 = "Absolut nutzlos! Tritt zur Seite, Bruder, während ich deine Arbeit mache.", --
+	TwinsRP2 = "Wieder einmal muss ich hinter dir aufräumen, Bruder!" --
 })
 
 ------------------------
@@ -88,7 +93,8 @@ L:SetTimerLocalization({
 })
 
 L:SetMiscLocalization({
-	Kruul = "Arrogantes Pack! Ich trage die Seelen von tausend unterworfenen Welten in mir!",
-	Twins = "Ich kann nicht zulassen, dass du deine Macht auf Azeroth entfesselst, Raest. Wenn du nicht einhältst, bin ich gezwungen, dich zu vernichten!",
-	ErdrisThorn1 = "Nie im Leben ziehe ich mich zurück! Wir müssen den Angriffen auf mein Dorf ein Ende setzen!"
+	Kruul = "Arrogantes Pack! Ich trage die Seelen von tausend unterworfenen Welten in mir!", --
+	Twins1 = "Ich kann nicht zulassen, dass du deine Macht auf Azeroth entfesselst, Raest. Wenn du nicht einhältst, bin ich gezwungen, dich zu vernichten!", --
+	ErdrisThorn1 = "Nie im Leben ziehe ich mich zurück! Wir müssen den Angriffen auf mein Dorf ein Ende setzen!", --
+	Agatha1 = "Meine Sayaad bringen Eure schwachen Magier bereits in Versuchung. Eure Verbündeten werden sich widerstandslos der Legion beugen." --
 })

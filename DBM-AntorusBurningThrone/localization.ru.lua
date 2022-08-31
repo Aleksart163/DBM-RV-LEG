@@ -7,22 +7,6 @@ local L
 --------------------------------
 L= DBM:GetModLocalization(1992)
 
-L:SetWarningLocalization({
-	Reaktor = "Скоро Реактор апокалипсиса"
-})
-
-L:SetTimerLocalization({
-})
-
-L:SetOptionLocalization({
-	Reaktor = "Предупреждать заранее о $spell:244152 (за ~3% до каста)"
-})
-
---[[
-L:SetMiscLocalization({
-	YellPullGarothi = "Обнаружен противник. Уровень угрозы - номинальный."
-})]]
-
 --------------------
 --Гончие Саргераса--
 --------------------
@@ -95,19 +79,11 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(2009)
 
 L:SetWarningLocalization({
-	PulseGrenade = "Импульсная граната - стойте подальше от других",
-	Phase2 = "Скоро фаза 2",
-	Phase3 = "Скоро фаза 3",
-	Phase4 = "Скоро фаза 4",
-	Phase5 = "Скоро фаза 5"
+	PulseGrenade = "Импульсная граната - стойте подальше от других"
 })
 
 L:SetOptionLocalization({
-	PulseGrenade = "Спец-предупреждение \"стойте подальше от других\" когда вы цель $spell:250006",
-	Phase2 = "Предупреждать заранее о фазе 2 (на ~72%, на ~86% в мифике)",
-	Phase3 = "Предупреждать заранее о фазе 3 (на ~40%, на ~66% в мифике)",
-	Phase4 = "Предупреждать заранее о фазе 4 (на ~46% в мифике)",
-	Phase5 = "Предупреждать заранее о фазе 5 (на ~26% в мифике)"
+	PulseGrenade = "Спец-предупреждение \"стойте подальше от других\" когда вы цель $spell:250006"
 })
 
 L:SetMiscLocalization({
@@ -190,16 +166,12 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(1984)
 
 L:SetWarningLocalization({
-	Phase1 = "Скоро фаза 2",
-	Phase3 = "Скоро фаза 3",
 --	FlameRend1 = "Урон делит 1-ая группа",
 --	FlameRend2 = "Урон делит 2-ая группа",
 	FlameRend3 = "Очередь другой группы"
 })
 
 L:SetOptionLocalization({
-	Phase1 = "Предупреждать заранее о фазе 2 (на ~86%)",
-	Phase3 = "Предупреждать заранее о фазе 3 (на ~46%, на ~41% в мифике)",
 	FlameRend1 = "Спец-предупреждение во время $spell:245463 для первой группы (только мифик)",
 	FlameRend2 = "Спец-предупреждение во время $spell:245463 для второй группы (только мифик)",
 	FlameRend3 = "Спец-предупреждение во время $spell:245463, когда не ваша очередь (только мифик)",
@@ -219,26 +191,11 @@ L:SetMiscLocalization({
 ----------------------
 L= DBM:GetModLocalization(2031)
 
-L:SetWarningLocalization({
-	Phase1 = "Скоро фаза 2",
-	Phase2 = "Фаза 2",
-	Phase3 = "Скоро фаза 3",
-	Phase4 = "Фаза 3",
-	Phase5 = "Скоро фаза 4",
-	Phase6 = "Фаза 4"
-})
-
 L:SetTimerLocalization({
 	timerSargSentenceCD	= "Восс. Приговор (%s)"
 })
 
 L:SetOptionLocalization({
-	Phase1 = "Предупреждать заранее о фазе 2 (на ~76%)",
-	Phase2 = "Объявлять фазу 2",
-	Phase3 = "Предупреждать заранее о фазе 3 (на ~46%)",
-	Phase4 = "Объявлять фазу 3",
-	Phase5 = "Предупреждать заранее о фазе 4 (на 1 Констеллар-кураторе)",
-	Phase6 = "Объявлять фазу 4",
 	timerSargSentenceCD = DBM_CORE_AUTO_TIMER_OPTIONS["cdcount"]:format(257966)
 })
 
@@ -262,11 +219,11 @@ L:SetGeneralLocalization({
 })
 
 L:SetOptionLocalization({
-	timerRoleplay = "Отсчет времени до начала боя с боссами"
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
 })
 
 L:SetTimerLocalization({
-	timerRoleplay = "Начало боя"
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
 })
 
 L:SetMiscLocalization({

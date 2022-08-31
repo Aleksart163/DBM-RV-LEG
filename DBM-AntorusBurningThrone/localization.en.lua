@@ -5,20 +5,10 @@ local L
 ---------------------------
 L= DBM:GetModLocalization(1992)
 
-L:SetWarningLocalization({
-	Reaktor = "Apocalypse Drive soon"
-})
-
-L:SetTimerLocalization({
-})
-
-L:SetOptionLocalization({
-	Reaktor = "Warn in advance about $spell:244152 (~3% before cast)"
-})
-
+--[[
 L:SetMiscLocalization({
 	YellPullGarothi = "Enemy combatants detected. Threat level nominal."
-})
+})]]
 
 ---------------------------
 -- Hounds of Sargeras --
@@ -34,9 +24,10 @@ L:SetOptionLocalization({
 ---------------------------
 L= DBM:GetModLocalization(1997)
 
+--[[
 L:SetMiscLocalization({
 	YellPullCouncil = "This is one engagement you will not walk away from."
-})
+})]]
 
 ---------------------------
 -- Eonar, the Lifebinder --
@@ -58,7 +49,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	YellPullEonar = "Champions! The forces of the Legion seek to capture my essense for their infernal master!",
+--	YellPullEonar = "Champions! The forces of the Legion seek to capture my essense for their infernal master!",
 	Obfuscators = "Obfuscator",
 	Destructors = "Destructor",
 	Purifiers 	= "Purifier",
@@ -77,13 +68,14 @@ L:SetOptionLocalization({
 	ShowAllPlatforms = "Show all announces regardless of player platform location"
 })
 
+--[[
 L:SetMiscLocalization({
 	YellPullHasabel = "Is this the best you could muster? Hah. Pathetic.",
 	YellPullHasabel2 = "Your war ends here.",
 	YellPullHasabel3 = "The Legion devastates all who oppose us!",
 --	YellPullHasabel4 = "Every world in our path has fallen. Yours is next.",
 --	YellPullHasabel5 = "Your resistance is at an end!"
-})
+})]]
 
 ---------------------------
 -- Imonar the Soulhunter --
@@ -91,26 +83,18 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(2009)
 
 L:SetWarningLocalization({
-	PulseGrenade = "Pulse Grenade - stay away from others",
-	Phase2 = "Phase 2 soon",
-	Phase3 = "Phase 3 soon",
-	Phase4 = "Phase 4 soon",
-	Phase5 = "Phase 5 soon"
+	PulseGrenade = "Pulse Grenade - stay away from others"
 })
 
 L:SetOptionLocalization({
-	PulseGrenade = "Show special warning \"stay away from others\" when you are affected by $spell:250006",
-	Phase2 = "Warn in advance about phase 2 (on ~72%, on ~86% in mythic)",
-	Phase3 = "Warn in advance about phase 3 (on ~40%, on ~66% in mythic)",
-	Phase4 = "Warn in advance about phase 4 (on ~46% in mythic)",
-	Phase5 = "Warn in advance about phase 5 (on ~26% in mythic)"
+	PulseGrenade = "Show special warning \"stay away from others\" when you are affected by $spell:250006"
 })
 
 L:SetMiscLocalization({
-	DispelMe = "Dispel Me!",
-	YellPullImonar = "Your bones will be my biggest payday.", --пеля прошляпнул очко ✔
-	YellPullImonar2 = "Think I'll keep a few of your parts as a trophy.",
-	YellPullImonar3 = "Your heads will adorn my trophy room."
+	DispelMe = "Dispel Me!"
+--	YellPullImonar = "Your bones will be my biggest payday.", --пеля прошляпнул очко ✔
+--	YellPullImonar2 = "Think I'll keep a few of your parts as a trophy.",
+--	YellPullImonar3 = "Your heads will adorn my trophy room."
 })
 
 ---------------------------
@@ -123,21 +107,23 @@ L:SetOptionLocalization({
 	UseAddTime = "Always show timers for what's coming next when boss leaves initialisation phase instead of hiding them. (If disabled, correct timers will resume when boss becomes active again, but may leave little warning if any cooldowns only had 1-2 seconds left)"
 })
 
+--[[
 L:SetMiscLocalization({
 	YellPullKingaroth = "Time to work.",
 	YellPullKingaroth2 = "You hope to topple my machines with those pathetic weapons?",
 	YellPullKingaroth3 = "Prepare to be deconstructed."
-})
+})]]
 
 ---------------------------
 -- Varimathras --
 ---------------------------
 L= DBM:GetModLocalization(1983)
 
+--[[
 L:SetMiscLocalization({
 	YellPullVarimathras = "Draw your blades! I will show you torment!",
 	YellPullVarimathras2 = "Come, then. We will trade pain for pain!"
-})
+})]]
 
 ---------------------------
 -- The Coven of Shivarra --
@@ -173,9 +159,10 @@ L:SetOptionLocalization({
 	IgnoreFirstKick		= "With this option, very first interrupt is excluded in rotation (Requires raid leader)"
 })
 
+--[[
 L:SetMiscLocalization({
 	YellPullCoven = "I can't wait to hear your flesh sizzle."
-})
+})]]
 
 ---------------------------
 -- Aggramar --
@@ -183,16 +170,12 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(1984)
 
 L:SetWarningLocalization({
-	Phase1 = "Phase 2 soon",
-	Phase3 = "Phase 3 soon",
 --	FlameRend1 = "Damage is shared by the 1st group",
 --	FlameRend2 = "Damage is shared by the 2nd group",
 	FlameRend3 = "Another group's turn"
 })
 
 L:SetOptionLocalization({
-	Phase1 = "Warn in advance about phase 2 (on ~86%)",
-	Phase3 = "Warn in advance about phase 3 (on ~46%, on ~41% in mythic)",
 	FlameRend1 = "Show special warning during $spell:245463 for the first group (only in mythic)",
 	FlameRend2 = "Show special warning during $spell:245463 for the second group (only in mythic)",
 	FlameRend3 = "Show special warning during $spell:245463 when it's not your turn (only in mythic)",
@@ -200,7 +183,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	YellPullAggramar = "You will burn!",
+--	YellPullAggramar = "You will burn!",
 	Foe			= "Foe",
 	Rend		= "Rend",
 	Tempest 	= "Tempest",
@@ -212,31 +195,16 @@ L:SetMiscLocalization({
 ---------------------------
 L= DBM:GetModLocalization(2031)
 
-L:SetWarningLocalization({
-	Phase1 = "Phase 2 soon",
-	Phase2 = "Phase 2",
-	Phase3 = "Phase 3 soon",
-	Phase4 = "Phase 3",
-	Phase5 = "Phase 4 soon",
-	Phase6 = "Phase 4"
-})
-
 L:SetTimerLocalization({
 	timerSargSentenceCD	= "Sentence CD (%s)"
 })
 
 L:SetOptionLocalization({
-	Phase1 = "Warn in advance about phase 2 (on ~76%)",
-	Phase2 = "Announce Phase 2",
-	Phase3 = "Warn in advance about phase 3 (on ~46%)",
-	Phase4 = "Announce Phase 3",
-	Phase5 = "Warn in advance about phase 4 (on 1 Constellar Designate)",
-	Phase6 = "Announce Phase 4",
 	timerSargSentenceCD = DBM_CORE_AUTO_TIMER_OPTIONS["cdcount"]:format(257966)
 })
 
 L:SetMiscLocalization({
-	YellPullArgus = "Death! Death and pain!",
+--	YellPullArgus = "Death! Death and pain!",
 	SeaText		= "{rt6} Haste/Vers on %s",
 	SkyText		= "{rt5} Crit/Mast on %s",
 	Blight		= "Blight on %s",
@@ -255,11 +223,11 @@ L:SetGeneralLocalization({
 })
 
 L:SetOptionLocalization({
-	timerRoleplay = "Countdown to the start of the boss fight"
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
 })
 
 L:SetTimerLocalization({
-	timerRoleplay = "The start of the battle"
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
 })
 
 L:SetMiscLocalization({

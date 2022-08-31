@@ -19,13 +19,13 @@ mod:RegisterEventsInCombat(
 	"SPELL_PERIODIC_DAMAGE 234675",
 	"SPELL_PERIODIC_MISSED 234675",
 	"UNIT_HEALTH",
-	"UNIT_DIED",
-	"UNIT_SPELLCAST_SUCCEEDED boss1 boss2 boss3"
+	"UNIT_DIED"
 )
 
 --Прошляпанное очко Мурчаля ✔ Верховный лорд Круул
 local warnDrainLife				= mod:NewTargetAnnounce(234423, 3) --Похищение жизни
-local warnPhase2				= mod:NewAnnounce("Phase2", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 2
+local warnPhase					= mod:NewPhaseChangeAnnounce(1)
+local warnPhase2				= mod:NewPrePhaseAnnounce(2, 1)
 --Tank (Kruul)
 local warnHolyWard				= mod:NewCastAnnounce(233473, 1) --Священный оберег
 local warnDecay					= mod:NewStackAnnounce(234422, 4) --Аура разложения
@@ -44,14 +44,12 @@ local timerDrainLifeCD			= mod:NewCDTimer(24.3, 234423, nil, nil, nil, 4, nil, D
 local timerHolyWardCD			= mod:NewCDTimer(60, 233473, nil, nil, nil, 3, nil, DBM_CORE_HEALER_ICON) --Священный оберег
 local timerHolyWard				= mod:NewCastTimer(8, 233473, nil, false, nil, 3, nil, DBM_CORE_HEALER_ICON) --Священный оберег
 local timerTormentingEyeCD		= mod:NewCDTimer(15.4, 234428, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON) --Призыв истязающего глаза
---local timerNetherAbberationCD	= mod:NewCDTimer(50, 235110, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON) --Аберрация Пустоты
 local timerInfernalCD			= mod:NewCDTimer(75, 235112, nil, nil, nil, 1, 157898, DBM_CORE_DAMAGE_ICON..DBM_CORE_DEADLY_ICON) --Призыв тлеющего инфернала
 --Phase 2
 local timerAnnihilateCD			= mod:NewCDCountTimer(40, 236572, nil, nil, nil, 3, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Аннигиляция
 
---local countdownAbberations		= mod:NewCountdown(50, 235110) --Аберрация Пустоты
-local countdownInfernal			= mod:NewCountdown(74.5, 235112) --Призыв тлеющего инфернала
-local countdownDrainLife		= mod:NewCountdown("Alt24", 234423) --Похищение жизни
+local countdownInfernal			= mod:NewCountdown(74.5, 235112, nil, nil, 5) --Призыв тлеющего инфернала
+local countdownDrainLife		= mod:NewCountdown("Alt24", 234423, nil, nil, 5) --Похищение жизни
 
 mod.vb.phase = 1
 mod.vb.annihilateCast = 0
@@ -68,17 +66,13 @@ function mod:OnCombatStart(delay)
 	timerDrainLifeCD:Start(11.5) --Похищение жизни+++
 	countdownDrainLife:Start(11.5) --Похищение жизни+++
 	timerHolyWardCD:Start(60) --Священный оберег
---	countdownAbberations:Start(15.5) --Аберрация Пустоты+++
 	timerInfernalCD:Start(44.5) --Призыв тлеющего инфернала
 	countdownInfernal:Start(44.5) --Призыв тлеющего инфернала
 	self:ScheduleMethod(44.5, "Infernal") --Призыв тлеющего инфернала
---	timerNetherAbberationCD:Start(15.5) --Аберрация Пустоты+++
---	self:ScheduleMethod(15.5, "Abberation")
 	DBM:AddMsg("Есть вероятность, что таймеры при начале боя будут включаться, если только вы сами ударите Варисса. Не медлите и вступайте в бой скорее, от этого зависит их точность.")
 end
 
 function mod:OnCombatEnd()
---	self:UnscheduleMethod("Abberation")
 	self:UnscheduleMethod("Infernal")
 end
 
@@ -153,28 +147,25 @@ mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
 function mod:UNIT_HEALTH(uId)
 	if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 117933 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.10 then --Варисс
 		warned_preP1 = true
-		warnPhase2:Show()
+		warnPhase2:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase+1))
 	end
 end
 
 function mod:UNIT_DIED(args)
-	if args.destGUID == UnitGUID("player") then --Соло сценарий
+	if args.destGUID == UnitGUID("player") then
 		DBM:EndCombat(self, true)
 	end
 	local cid = self:GetCIDFromGUID(args.destGUID)
 	if cid == 117933 then --Варисс
 		self.vb.phase = 2
+		warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase))
 		timerDrainLifeCD:Stop()
 		countdownDrainLife:Cancel()
 		timerTormentingEyeCD:Stop()
 		timerInfernalCD:Stop()
 		countdownInfernal:Cancel()
 		self:UnscheduleMethod("Infernal")
-	end
-end
-
-function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
-	if spellId == 233456 then
+	elseif cid == 117198 then --Круул
 		DBM:EndCombat(self)
 	end
 end

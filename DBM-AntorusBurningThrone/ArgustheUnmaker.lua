@@ -30,11 +30,14 @@ mod:RegisterEventsInCombat(
 )
 
 --Аргус Порабощенный https://ru.wowhead.com/npc=124828/аргус-порабощенный/эпохальный-журнал-сражений
-local warnPhase						= mod:NewPhaseChangeAnnounce() --Фаза
-local warnPhase1					= mod:NewAnnounce("Phase1", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 2
-local warnPhase2					= mod:NewAnnounce("Phase3", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 3
-local warnPhase3					= mod:NewAnnounce("Phase5", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 4
-local warnReapSoul					= mod:NewTargetSourceAnnounce(256542, 3) --Жатва душ
+local warnPhase						= mod:NewPhaseChangeAnnounce(1) --Фаза
+--local warnPhase1					= mod:NewAnnounce("Phase1", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 2
+--local warnPhase2					= mod:NewAnnounce("Phase3", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 3
+--local warnPhase3					= mod:NewAnnounce("Phase5", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 4
+local warnPrePhase2					= mod:NewPrePhaseAnnounce(2, 1)
+local warnPrePhase3					= mod:NewPrePhaseAnnounce(3, 1)
+local warnPrePhase4					= mod:NewPrePhaseAnnounce(4, 1)
+local warnReapSoul					= mod:NewTargetSourceAnnounce(256542, 4) --Жатва душ
 local warnEndofAllThings			= mod:NewTargetSourceAnnounce(256544, 4) --Конец всего сущего
 --Stage One: Storm and Sky
 local warnTorturedRage				= mod:NewCountAnnounce(257296, 2) --Ярость порабощенного
@@ -59,7 +62,7 @@ local warnSargSentence				= mod:NewTargetAnnounce(257966, 3) --Приговор 
 local warnEdgeofAnni				= mod:NewCountAnnounce(258834, 4) --Грань аннигиляции
 local warnSoulRendingScythe			= mod:NewStackAnnounce(258838, 2, nil, "Tank|Healer") --Рассекающая коса
 --Stage Four: The Gift of Life, The Forge of Loss (Non Mythic)
-local warnReorgModule				= mod:NewSpellAnnounce(256389, 3) --Модуль пересозидания
+local warnReorgModule				= mod:NewSpellAnnounce(256389, 3, nil, "-Ranged") --Модуль пересозидания
 local warnGiftOfLifebinder			= mod:NewCastAnnounce(257619, 1) --Дар Хранительницы жизни
 local warnDeadlyScythe				= mod:NewStackAnnounce(258039, 2, nil, "Tank|Healer") --Смертоносная коса
 
@@ -392,7 +395,13 @@ function mod:SPELL_CAST_START(args)
 		specWarnConeofDeath:Play("shockwave")
 		timerConeofDeathCD:Start(nil, self.vb.coneCount+1)
 	elseif spellId == 256544 then --Конец всего сущего
-		self:SendSync("EndofAllThings")
+		warnEndofAllThings:Show(args.sourceName)
+		warnEndofAllThings:Play("kickcast")
+		specWarnEndofAllThings:Schedule(12)
+		specWarnEndofAllThings:ScheduleVoice(12, "kickcast")
+		timerEndofAllThings:Start(15)
+		countdownEndofAllThings:Start(15)
+	--	self:SendSync("EndofAllThings")
 	elseif spellId == 248317 then
 		self.vb.blightOrbCount = self.vb.blightOrbCount + 1
 		warnBlightOrb:Show(self.vb.blightOrbCount)
@@ -1012,10 +1021,10 @@ end
 function mod:UNIT_HEALTH(uId)
 	if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 124828 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.76 then --скоро фаза 2
 		warned_preP1 = true
-		warnPhase1:Show()
+		warnPrePhase2:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase+1))
 	elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 124828 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.46 then --скоро фаза 3
 		warned_preP3 = true
-		warnPhase2:Show()
+		warnPrePhase3:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase+1))
 	end
 end
 
@@ -1025,11 +1034,12 @@ function mod:UNIT_DIED(args)
 		self.vb.kurators = self.vb.kurators - 1
 		if self.vb.kurators == 1 then
 			warned_preP5 = true
-			warnPhase3:Show()
+			warnPrePhase4:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase+1))
 		end
 	end
 end
 
+--[[
 function mod:OnSync(msg)
 	if msg == "EndofAllThings" then -- под обычку таймер норм где 19.8 сек каста
 		warnEndofAllThings:Show(args.sourceName)
@@ -1039,4 +1049,4 @@ function mod:OnSync(msg)
 		timerEndofAllThings:Start(15)
 		countdownEndofAllThings:Start(15)
 	end
-end
+end]]

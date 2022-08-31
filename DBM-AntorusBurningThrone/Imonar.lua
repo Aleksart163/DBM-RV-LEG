@@ -18,8 +18,8 @@ mod:RegisterCombat("combat")
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 247376 247923 248068 248070 248254",
 	"SPELL_CAST_SUCCESS 247367 247552 247687 250255 254244 248254",
-	"SPELL_AURA_APPLIED 247367 247565 247687 250255 250006 247641 255029 250224 254183",
-	"SPELL_AURA_APPLIED_DOSE 247367 247687 250255 250224",
+	"SPELL_AURA_APPLIED 247367 247565 247687 250255 250006 247641 255029 250224 254183 248424",
+	"SPELL_AURA_APPLIED_DOSE 247367 247687 250255 250224 248424",
 	"SPELL_AURA_REMOVED 248233 250135 250006",
 --	"SPELL_PERIODIC_DAMAGE",
 --	"SPELL_PERIODIC_MISSED",
@@ -29,17 +29,13 @@ mod:RegisterEventsInCombat(
 	"UNIT_HEALTH boss1"
 )
 
---TODO, Announce stacks of Gathering Power if relevant
---[[
-(ability.id = 247376 or ability.id = 248068 or ability.id = 247923 or ability.id = 248070 or ability.id = 248254) and type = "begincast"
- or (ability.id = 247367 or ability.id = 250255 or ability.id = 247552 or ability.id = 247687 or ability.id = 254244) and type = "cast"
- or (ability.id = 248233 or ability.id = 250135) and (type = "applybuff" or type = "removebuff")
---]]
-local warnPhase							= mod:NewPhaseChangeAnnounce(2, nil, nil, nil, nil, nil, 2) --фаза
-local warnPhase2						= mod:NewAnnounce("Phase2", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 2
-local warnPhase3						= mod:NewAnnounce("Phase3", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 3
-local warnPhase4						= mod:NewAnnounce("Phase4", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 4
-local warnPhase5						= mod:NewAnnounce("Phase5", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 5
+--Ловец душ Имонар
+local warnPhase							= mod:NewPhaseChangeAnnounce(1, nil, nil, nil, nil, nil, 2) --фаза
+local warnPrePhase2						= mod:NewPrePhaseAnnounce(2, 1)
+local warnPrePhase3						= mod:NewPrePhaseAnnounce(3, 1)
+local warnPrePhase4						= mod:NewPrePhaseAnnounce(4, 1)
+local warnPrePhase5						= mod:NewPrePhaseAnnounce(5, 1)
+local warnGatheringPower				= mod:NewStackAnnounce(248424, 4, nil, nil, 2) --Накопление силы
 --Stage One: Attack Force
 local warnShocklance					= mod:NewStackAnnounce(247367, 2, nil, "Tank") --Копье-шокер
 local warnSleepCanister					= mod:NewTargetAnnounce(247552, 4) --Склянка с усыпляющим газом
@@ -52,7 +48,7 @@ local warnEmpoweredPulseGrenade			= mod:NewTargetAnnounce(250006, 3) --Усил�
 --General
 --local specWarnGTFO					= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 2)
 --Stage One: Attack Force
-local specWarnSearedSkin				= mod:NewSpecialWarningYouDefensive(254183, nil, nil, nil, 3, 5) --Опаленная кожа
+local specWarnSearedSkin				= mod:NewSpecialWarningYouMove(254183, nil, nil, nil, 3, 3) --Опаленная кожа
 local specWarnShocked					= mod:NewSpecialWarningStack(250224, nil, 2, nil, nil, 3, 5) --Шок
 local specWarnShocklance				= mod:NewSpecialWarningTaunt(247367, nil, nil, nil, 3, 5) --Копье-шокер
 local specWarnShocklance2				= mod:NewSpecialWarningStack(247367, nil, 3, nil, nil, 3, 3) --Копье-шокер
@@ -384,6 +380,11 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnSearedSkin:Show()
 			specWarnSearedSkin:Play("stackhigh")
 		end
+	elseif spellId == 248424 then --Накопление силы
+		local amount = args.amount or 1
+		if amount >= 10 and amount % 5 == 0 then
+			warnGatheringPower:Show(args.destName, amount)
+		end
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
@@ -449,16 +450,6 @@ function mod:SPELL_AURA_REMOVED(args)
 	end
 end
 
---[[
-function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
-	if spellId == 228007 and destGUID == UnitGUID("player") and self:AntiSpam(2, 4) then
-		specWarnGTFO:Show()
-		specWarnGTFO:Play("runaway")
-	end
-end
-mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
---]]
-
 function mod:RAID_BOSS_WHISPER(msg)
 	if msg:find("spell:254244") then
 		specWarnSleepCanister:Show()
@@ -519,26 +510,26 @@ end
 
 function mod:UNIT_HEALTH(uId)
 	if self:IsHeroic() or self:IsNormal() or self:IsLFR() then
-		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 124158 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.72 then --Скоро фаза 2
+		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 124158 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.72 then --Скоро фаза 2 (за 5%)
 			warned_preP1 = true
-			warnPhase2:Show()
-		elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 124158 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.40 then --Скоро фаза 3
+			warnPrePhase2:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase+1))
+		elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 124158 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.39 then --Скоро фаза 3 (за 5%)
 			warned_preP3 = true
-			warnPhase3:Show()
+			warnPrePhase3:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase+1))
 		end
 	elseif self:IsMythic() then
 		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 124158 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.86 then --Скоро фаза 2 +
 			warned_preP1 = true
-			warnPhase2:Show()
-		elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 124158 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.66 then --Скоро фаза 3 +
+			warnPrePhase2:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase+1))
+		elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 124158 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.66 then --Скоро фаза 3 (за 5%)
 			warned_preP3 = true
-			warnPhase3:Show()
-		elseif self.vb.phase == 3 and warned_preP4 and not warned_preP5 and self:GetUnitCreatureId(uId) == 124158 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.46 then --Скоро фаза 4 +
+			warnPrePhase3:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase+1))
+		elseif self.vb.phase == 3 and warned_preP4 and not warned_preP5 and self:GetUnitCreatureId(uId) == 124158 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.46 then --Скоро фаза 4 (за 5%)
 			warned_preP5 = true
-			warnPhase4:Show()
-		elseif self.vb.phase == 4 and warned_preP6 and not warned_preP7 and self:GetUnitCreatureId(uId) == 124158 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.26 then --Скоро фаза 5 +
+			warnPrePhase4:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase+1))
+		elseif self.vb.phase == 4 and warned_preP6 and not warned_preP7 and self:GetUnitCreatureId(uId) == 124158 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.26 then --Скоро фаза 5 (за 5%)
 			warned_preP7 = true
-			warnPhase5:Show()
+			warnPrePhase5:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase+1))
 		end
 	end
 end

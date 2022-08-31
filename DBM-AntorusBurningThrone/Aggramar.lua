@@ -25,8 +25,10 @@ mod:RegisterEventsInCombat(
 
 --Прошляпанное очко мурчаля
 local warnPhase							= mod:NewPhaseChangeAnnounce(1, nil, nil, nil, nil, nil, 2)
-local warnPhase2						= mod:NewAnnounce("Phase1", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 2
-local warnPhase3						= mod:NewAnnounce("Phase3", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 3
+--local warnPhase2						= mod:NewAnnounce("Phase1", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 2
+--local warnPhase3						= mod:NewAnnounce("Phase3", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 3
+local warnPrePhase2						= mod:NewPrePhaseAnnounce(2, 1)
+local warnPrePhase3						= mod:NewPrePhaseAnnounce(3, 1)
 
 --local warnFlameRend1					= mod:NewAnnounce("FlameRend1", 1, 245463) --1ая группа
 --local warnFlameRend2					= mod:NewAnnounce("FlameRend2", 1, 245463) --2ая группа
@@ -306,25 +308,25 @@ function mod:OnCombatStart(delay)
 		comboUsed[2] = false
 		comboUsed[3] = false
 		comboUsed[4] = false
-		timerRavenousBlazeCD:Start(4-delay)
-		timerWakeofFlameCD:Start(10.7-delay)--Health based?
-		timerTaeshalachTechCD:Start(14.3-delay, 1)--Health based?
-		countdownTaeshalachTech:Start(14.3-delay)
+		timerRavenousBlazeCD:Start(4-delay) --Хищное пламя+++
+		timerWakeofFlameCD:Start(11-delay) --Огненная волна+++
+		timerTaeshalachTechCD:Start(15-delay, 1) --Искусный прием+++
+		countdownTaeshalachTech:Start(15-delay) --Искусный прием+++
 		berserkTimer:Start(540-delay)
 		table.wipe(comboDebug)
 		comboDebugCounter = 0
 	elseif self:IsHeroic() then
-		berserkTimer:Start(-delay)
 		timerScorchingBlazeCD:Start(5.5-delay) --Обжигающее пламя+++
 		timerWakeofFlameCD:Start(5.8-delay) --Огненная волна+++
 		timerTaeshalachTechCD:Start(36-delay, 1) --Искусный прием+++
 		countdownTaeshalachTech:Start(36-delay) --Искусный прием+++
+		berserkTimer:Start(-delay)
 	else
-		berserkTimer:Start(-delay)
 		timerScorchingBlazeCD:Start(5.5-delay) --Обжигающее пламя+++
 		timerWakeofFlameCD:Start(5.8-delay) --Огненная волна+++
 		timerTaeshalachTechCD:Start(36-delay, 1) --Искусный прием+++
 		countdownTaeshalachTech:Start(36-delay) --Искусный прием+++
+		berserkTimer:Start(-delay)
 	end
 	--Everyone should lose spread except tanks which should stay stacked. Maybe melee are safe too?
 	if self.Options.RangeFrame and not self:IsTank() then
@@ -623,8 +625,8 @@ function mod:SPELL_AURA_REMOVED(args)
 			timerTaeshalachTechCD:Start(36, self.vb.techCount+1)
 			countdownTaeshalachTech:Start(36)
 		else
-			timerTaeshalachTechCD:Start(35.5, self.vb.techCount+1)
-			countdownTaeshalachTech:Start(35.5)
+			timerTaeshalachTechCD:Start(36, self.vb.techCount+1) --под мифик отлично
+			countdownTaeshalachTech:Start(36)
 		end
 		if self:IsMythic() then
 			timerRavenousBlazeCD:Start(23)
@@ -697,7 +699,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 		countdownFlare:Cancel()
 	--	countdownWakeofFlame:Cancel()
 		if self:IsMythic() then
-			--Reset combo and tech count if needed
+			timerRavenousBlazeCD:Start(26)
 			if self.vb.techCount == 5 then
 				self.vb.techCount = 1
 				comboUsed[1] = false
@@ -766,23 +768,23 @@ function mod:UNIT_HEALTH(uId)
 	if self:IsLFR() then
 		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 121975 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.66 then
 			warned_preP1 = true
-			warnPhase2:Show()
+			warnPrePhase2:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase+1))
 		end
 	elseif self:IsMythic() then
 		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 121975 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.86 then
 			warned_preP1 = true
-			warnPhase2:Show()
+			warnPrePhase2:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase+1))
 		elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 121975 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.41 then
 			warned_preP3 = true
-			warnPhase3:Show()
+			warnPrePhase3:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase+1))
 		end
 	else --героик и обычка
 		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 121975 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.86 then
 			warned_preP1 = true
-			warnPhase2:Show()
+			warnPrePhase2:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase+1))
 		elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 121975 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.46 then
 			warned_preP3 = true
-			warnPhase3:Show()
+			warnPrePhase3:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase+1))
 		end
 	end
 end

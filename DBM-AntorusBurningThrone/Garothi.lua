@@ -36,7 +36,9 @@ local Decimator = DBM:EJ_GetSectionInfo(15915)
 --]]
 local warnFelBombardment				= mod:NewTargetAnnounce(246220, 3) --Обстрел скверны
 local warnDecimation					= mod:NewTargetAnnounce(244410, 3) --Децимация
-local warnWarnApocDrive					= mod:NewAnnounce("Reaktor", 1, 244152) --Реактор апокалипсиса
+local warnPhase							= mod:NewPhaseChangeAnnounce(1)
+local warnPrePhase2						= mod:NewPrePhaseAnnounce(2, 1)
+local warnPrePhase3						= mod:NewPrePhaseAnnounce(3, 1)
 
 local specWarnFelBombardment			= mod:NewSpecialWarningYouMoveAway(246220, nil, nil, nil, 3, 5) --Обстрел скверны
 local specWarnFelBombardmentTaunt		= mod:NewSpecialWarningTaunt(246220, nil, nil, nil, 3, 5) --Обстрел скверны
@@ -292,6 +294,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 		timerSurgingFelCast:Cancel()
 		timerSurgingFelCD:Cancel()
 	--	specWarnSurgingFel:Cancel()
+		warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase))
 		if self.vb.phase == 2 and not self:IsMythic() then
 			if spellId == 245515 then--decimator-cannon-eject
 				timerAnnihilationCD:Start(22)
@@ -336,20 +339,20 @@ end
 
 function mod:UNIT_HEALTH(uId)
 	if self:IsHeroic() or self:IsMythic() then
-		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 122450 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.69 then --Скоро Реактор апокалипсиса 1
+		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 122450 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.71 then --Скоро фаза 2 (за 5%)
 			warned_preP1 = true
-			warnWarnApocDrive:Show()
-		elseif self.vb.phase == 2 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 122450 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.38 then --Скоро Реактор апокалипсиса 2
+			warnPrePhase2:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase+1))
+		elseif self.vb.phase == 2 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 122450 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.40 then --Скоро фаза 3 (за 5%)
 			warned_preP2 = true
-			warnWarnApocDrive:Show()
+			warnPrePhase3:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase+1))
 		end
 	elseif self:IsNormal() or self:IsLFR() then
-		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 122450 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.63 then --Скоро Реактор апокалипсиса 1
+		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 122450 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.66 then --Скоро фаза 2 (за 5%)
 			warned_preP1 = true
-			warnWarnApocDrive:Show()
-		elseif self.vb.phase == 2 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 122450 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.23 then --Скоро Реактор апокалипсиса 2
+			warnPrePhase2:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase+1))
+		elseif self.vb.phase == 2 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 122450 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.26 then --Скоро фаза 3 (за 5%)
 			warned_preP2 = true
-			warnWarnApocDrive:Show()
+			warnPrePhase3:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase+1))
 		end
 	end
 end

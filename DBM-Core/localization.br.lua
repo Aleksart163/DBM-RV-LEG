@@ -11,6 +11,8 @@ DBM_CORE_LOAD_GUI_COMBAT			= "A interface gráfica não pode ser carregada em co
 DBM_CORE_BAD_LOAD					= "DBM detectou que a sua mod desta área falhou ao tentar carregar por completo por estar em combate. Use o comando /reloadui assim que sair de combate para corrigir o problema."
 DBM_CORE_LOAD_MOD_VER_MISMATCH		= "%s não foi carregado por não cumprir os requerimentos. Uma atualização da mod é necessária. Obrigado."
 
+DBM_CORE_UPDATEREMINDER_URL			= "https://github.com/Aleksart163/DBM-for-Uwow"
+
 DBM_CORE_DYNAMIC_DIFFICULTY_CLUMP	= "DBM desabilitou o quadro de alcance dinâmico nesta luta, por falta de informação sobre o numero de jogadores à ficarem amontoados para um grupo desse tamanho."
 
 DBM_CORE_DYNAMIC_ADD_COUNT			= "DBM desabilitou aviso da contagem de adds nesta luta, por falta de informação da quantidade de adds para um grupo deste tamanho."
@@ -20,7 +22,7 @@ DBM_CORE_LOOT_SPEC_REMINDER			= "A sua especialização atual é %s. A sua escol
 
 DBM_CORE_BIGWIGS_ICON_CONFLICT		= "DBM detectou que você tem ícones habilitados tanto no BigWigs quanto no DBM. Por favor desabilite um dos dois para evitar conflitos com o líder da raid"
 
-DBM_CORE_MOD_AVAILABLE				= "%s esta disponível para este conteúdo. Esta disponível em |HDBM:forums|h|cff3588ffdeadlybossmods.com|r. Está mensagem só será exibida uma vez."
+DBM_CORE_MOD_AVAILABLE				= "%s esta disponível para este conteúdo. Esta disponível em |HDBM:forums|h|cff3588ffhttps://github.com/Aleksart163/DBM-for-Uwow|r. Está mensagem só será exibida uma vez."
 
 DBM_CORE_COMBAT_STARTED				= "%s na mira. Boa sorte e divirta-se! :)"
 
@@ -116,26 +118,26 @@ DBM_CORE_WHISPER_SCENARIO_END_KILL_STATS	= "%s foi completado %s! Eles tem um to
 DBM_CORE_WHISPER_SCENARIO_END_WIPE			= "%s não foi completado %s"
 DBM_CORE_WHISPER_SCENARIO_END_WIPE_STATS	= "%s não foi completado %s. Eles tem um total de %d vitórias parciais nesta dificuldade."
 
-DBM_CORE_VERSIONCHECK_HEADER		= "Deadly Boss Mods - Versões"
+DBM_CORE_VERSIONCHECK_HEADER		= "Dungeon Boss Masters - Versões"
 DBM_CORE_VERSIONCHECK_ENTRY			= "%s: %s (%s)"
 DBM_CORE_VERSIONCHECK_ENTRY_TWO		= "%s: %s (%s) & %s (%s)"--Two Boss mods
 DBM_CORE_VERSIONCHECK_ENTRY_NO_DBM	= "%s: DBM não instalado"
 DBM_CORE_VERSIONCHECK_FOOTER		= "Encontrados %d jogadores com DBM & %d jogadores com Bigwigs"
 DBM_CORE_VERSIONCHECK_OUTDATED		= "Os seguintes %d jogadores estão com versões desatualizadas de boss mods: %s"
-DBM_CORE_YOUR_VERSION_OUTDATED      = "Sua versão do Deadly Boss Mods está desatualizada. Por favor, acesse www.deadlybossmods.com para baixar a versão mais recente."
+DBM_CORE_YOUR_VERSION_OUTDATED      = "Sua versão do Dungeon Boss Master está desatualizada. Por favor, acesse " .. DBM_CORE_UPDATEREMINDER_URL .. " para baixar a versão mais recente."
 DBM_CORE_VOICE_PACK_OUTDATED		= "O pacote de vozes do seu DBM pode estar sem alguns dos sons suportados por esta versão do DBM. Filtro de aviso especial sonoro foi desativado. Por favor baixe a versão mais recente do pacote de vozes ou contate o autor para um pacote que contenha os sons aqui referidos."
 DBM_CORE_VOICE_MISSING				= "Você tinha um pacote de vozes DBM selecionado que não pode ser encontrado. Sua seleção foi restaurada para 'Nenhum/None'. Caso seja um erro, certifique-se que o pacote esta instalado corretamente e habilitado em addons."
 DBM_CORE_VOICE_COUNT_MISSING		= "Voz de contagem regressiva %d esta selecionada para um pacote de voz que não pode ser encontrado. Foi restaurada a configuração padrão."
 
-DBM_CORE_UPDATEREMINDER_HEADER		= "Sua versão do Deadly Boss Mods está desatualizada.\n A versão %s (r%d) está disponível para baixar no site da curse, WoWI ou aqui:"
+DBM_CORE_UPDATEREMINDER_HEADER		= "Sua versão do Dungeon Boss Master está desatualizada.\n A versão %s (r%d) está disponível para baixar no site da: " .. DBM_CORE_UPDATEREMINDER_URL .. " "
 DBM_CORE_UPDATEREMINDER_HEADER_ALPHA	= "A sua versão alpha do DBM está desatualizada.\n Você esta pelo menos %d versões de testes para trás. É recomendado que os usuários do DBM utilizem a versão mais recente do alpha ou a mais recente das versões estáveis. Versões alphas desatualizadas podem resultar em faltas de algumas funcionalidades ou totalmente inoperante."
 DBM_CORE_UPDATEREMINDER_FOOTER		= "Pressione Ctrl+C para copiar o link de download para a área de transferência."
 DBM_CORE_UPDATEREMINDER_FOOTER_GENERIC	= "Pressione Ctrl+C para copiar o link de download para a área de transferência."
 DBM_CORE_UPDATEREMINDER_DISABLE			= "AVISO: O seu DBM foi desativado por estar drasticamente desatualizado (pelo menos %d revisões), atualize para utilizar novamente. Isso garante que versões antigas ou códigos incompatíveis não arruínem à experiência de jogo para você ou para os membros da raid."
 DBM_CORE_UPDATEREMINDER_HOTFIX			= "A sua versão do DBM contem temporizadores ou avisos incorretos para este chefe. Isso foi corrigido em uma versão mais recente ( ou alpha caso não exista versão estável mais recente disponível)"
 DBM_CORE_UPDATEREMINDER_HOTFIX_ALPHA	= DBM_CORE_UPDATEREMINDER_HOTFIX--TEMP, FIX ME!
-DBM_CORE_UPDATEREMINDER_MAJORPATCH		= "AVISO: O seu DBM foi desativado por estar drasticamente desatualizado (pelo menos %d revisões), atualize para utilizar novamente. Isso garante que versões antigas ou códigos incompatíveis não arruínem à experiência de jogo para você ou para os membros da raid. Certifique-se de baixar a versão mais recente em deadlybossmods.com ou curse o mais breve possível."
-DBM_CORE_UPDATEREMINDER_TESTVERSION		= "AVISO: Você esta usando uma versão do DBM que não foi criada para esta versão do jogo. Por favor, certifique-se de baixar a versão correta em deadlybossmods.com ou curse."
+DBM_CORE_UPDATEREMINDER_MAJORPATCH		= "AVISO: O seu DBM foi desativado por estar drasticamente desatualizado (pelo menos %d revisões), atualize para utilizar novamente. Isso garante que versões antigas ou códigos incompatíveis não arruínem à experiência de jogo para você ou para os membros da raid. Certifique-se de baixar a versão mais recente em " .. DBM_CORE_UPDATEREMINDER_URL .. " ou curse o mais breve possível."
+DBM_CORE_UPDATEREMINDER_TESTVERSION		= "AVISO: Você esta usando uma versão do DBM que não foi criada para esta versão do jogo. Por favor, certifique-se de baixar a versão correta em " .. DBM_CORE_UPDATEREMINDER_URL .. "."
 DBM_CORE_VEM				= "AVISO: Você esta usando DBM e Voice Encounter Mods. DBM não funcionara corretamente nesta configuração e portanto não será carregada."
 DBM_CORE_3RDPROFILES				= "AVISO: DBM-Profiles não é compatível com esta versão de DBM. Deve ser removida antes de DBM continuar para evitar conflitos."
 DBM_CORE_UPDATE_REQUIRES_RELAUNCH		= "AVISO: Esta versão de DBM não funcionara corretamente até que você recomece o jogo por completo. Esta atualização contem novos arquivos ou mudanças no .toc que não podem ser carregadas via ReloadUI. Você pode encontrar funcionalidades quebradas ou erros caso continue sem recomeçar o jogo por completo."

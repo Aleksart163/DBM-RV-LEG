@@ -12,14 +12,6 @@ L:SetGeneralLocalization({
 	name = "Возвращение верховного лорда"
 })
 
-L:SetWarningLocalization({
-	Phase2 = "Скоро фаза 2"
-})
-
-L:SetOptionLocalization({
-	Phase2 = "Предупреждать заранее о фазе 2 (на ~10%)"
-})
-
 ----------------------
 -- Башня магов: Хил -- (Хпал, Хприст, Монах, Дерево)
 ----------------------
@@ -67,6 +59,11 @@ L= DBM:GetModLocalization("Twins")
 
 L:SetGeneralLocalization({
 	name = "Разделить близнецов"
+})
+
+L:SetMiscLocalization({
+	TwinsRP1 = "Ты бесполезен, брат! Постой в стороне – а я все сделаю сам!", --Фаза 2
+	TwinsRP2 = "Опять мне приходится все делать за тебя, брат!" --Фаза 3
 })
 
 ---------------------
