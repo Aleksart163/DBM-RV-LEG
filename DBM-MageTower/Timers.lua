@@ -40,15 +40,17 @@ end
 function mod:CHAT_MSG_MONSTER_YELL(msg)
 	if msg == L.Twins1 then --Разделить близнецов
 		timerRoleplay:Start(22)
-	elseif msg == L.Agatha1 then --Агата
+	elseif msg == L.Agatha1 then --Невероятный противник
 		timerRoleplay:Start(17.5)
+	elseif msg == L.Sigryn1 then --Ярость королевы-богини
+		timerRoleplay:Start(24)
 	end
 end
 
 function mod:CHAT_MSG_MONSTER_SAY(msg)
 	if msg == L.Kruul then --Верховный лорд Круул
 		timerRoleplay:Start(26)
-	elseif msg == L.ErdrisThorn1 then --Лорд Эрдрис Терновый Шип
+	elseif msg == L.ErdrisThorn1 then --Последнее восстание
 		timerRoleplay:Start(22.5) --34 при начале фулл флуда
 	end
 end
