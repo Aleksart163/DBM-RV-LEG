@@ -8,14 +8,6 @@ local L
 -----------------------
 L= DBM:GetModLocalization(1518)
 
-L:SetOptionLocalization{
-	AnnounceSoulEchoes = "Announce the players on whom $spell:194966 in chat"
-}
-
-L:SetMiscLocalization{
-	SoulEchoes = "Soul Echoes is used on: %s"
-}
-
 -----------------------
 -- Illysanna Ravencrest --
 -----------------------
@@ -30,14 +22,6 @@ L= DBM:GetModLocalization(1664)
 -- Lord Kur'talos Ravencrest --
 -----------------------
 L= DBM:GetModLocalization(1672)
-
-L:SetWarningLocalization({
-	Phase2 = "Phase 2"
-})
-
-L:SetOptionLocalization({
-	Phase2 = "Announce Phase 2"
-})
 
 L:SetMiscLocalization({
 	Latosius = "Enough! I tire of this."
@@ -100,13 +84,8 @@ L= DBM:GetModLocalization(1656)
 -----------------------
 L= DBM:GetModLocalization(1657)
 
-L:SetOptionLocalization{
---	AnnounceParanoia = "Announce the players on whom $spell:200289 in chat"
-}
-
 L:SetMiscLocalization{
---	Paranoia = "Growing Paranoia is used on: %s",
-	ParanoiaYell = "Growing Paranoia on %s. GET AWAY from me!"
+	ParanoiaYell = "%s on %s. GET AWAY from me!"
 }
 
 L:SetMiscLocalization({
@@ -178,16 +157,6 @@ L= DBM:GetModLocalization(1486)
 -- Fenryr --
 -----------------------
 L= DBM:GetModLocalization(1487)
-
-L:SetWarningLocalization({
-	Phase1 = "Phase 2 soon",
-	Phase2 = "Phase 2"
-})
-
-L:SetOptionLocalization({
-	Phase1 = "Warn in advance about phase 2 (on ~65%)",
-	Phase2 = "Announce Phase 2"
-})
 
 -----------------------
 -- God-King Skovald --
@@ -384,18 +353,19 @@ L:SetTimerLocalization({
 })
 
 L:SetMiscLocalization({
-	EatingYell = "[DBM RV] I use Nightshade Refreshments, now we have more hp!",
-	SiphoningMagic = "[DBM RV] I use Magical Lantern, now we have more damage!",
-	PurifyingYell = "[DBM RV] I use Infernal Tome, now we have more protection!",
-	DrainingYell = "[DBM RV] I use Fel Orb, now we have more critical damage!",
-	InvokingTextYell = "[DBM RV] I use Waterlogged Scroll, now we have more speed running!",
-	DrinkingYell = "[DBM RV] I use Starlight Rose Brew, now we have more mana and hp regen!",
-	ReleaseSporesYell = "[DBM RV] I use Umbral Bloom, now we have more combat speed!",
-	ShuttingDownYell = "[DBM RV] I use Arcane Power Conduit, now all the Guardian Construct will be turned off!",
-	TreatingYell = "[DBM RV] I heal Wounded Nightborne Civilian and distracting the mini-boss!",
-	PilferingYell = "[DBM RV] I use Bazaar Goods and distracting the mini-boss!",
-	DefacingYell = "[DBM RV] I use Lifesized Nightborne Statue and distracting the mini-boss!",
-	TinkeringYell = "[DBM RV] I use Discarded Junk and distracting the mini-boss!",
+	EatingYell = "[DBM RV] %s uses %s, now we have more hp!",
+	SiphoningMagic = "[DBM RV] %s uses %s, now we have more damage!",
+	PurifyingYell = "[DBM RV] %s uses %s, now we have more protection!",
+	DrainingYell = "[DBM RV] %s uses %s, now we have more critical damage!",
+	InvokingTextYell = "[DBM RV] %s uses %s, now we have more speed running!",
+	DrinkingYell = "[DBM RV] %s uses %s, now we have more mana and hp regen!",
+	ReleaseSporesYell = "[DBM RV] %s uses %s, now we have more combat speed!",
+	ShuttingDownYell = "[DBM RV] %s uses %s, now all the Guardian Construct will be turned off!",
+	TreatingYell = "[DBM RV] %s uses %s and distracting the mini-boss!",
+	PilferingYell = "[DBM RV] %s uses %s and distracting the mini-boss!",
+	DefacingYell = "[DBM RV] %s uses %s and distracting the mini-boss!",
+	TinkeringYell = "[DBM RV] %s uses %s and distracting the mini-boss!",
+	--
 	RolePlayMelan = "Must you leave so soon, Grand Magistrix?",
 	Gloves1		= "There's a rumor that the spy always wears gloves.",
 	Gloves2		= "I heard the spy carefully hides their hands.",
@@ -615,12 +585,8 @@ L:SetMiscLocalization({
 -----------------------
 L= DBM:GetModLocalization(1468)
 
-L:SetWarningLocalization({
-	Countermeasure = "Countermeasure is ready!"
-})
-
-L:SetOptionLocalization({
-	Countermeasure = "Show warning for $spell:195189"
+L:SetMiscLocalization({
+	MurchalProshlyapOchko = "The room's countermeasures are now armed."
 })
 
 -----------------------

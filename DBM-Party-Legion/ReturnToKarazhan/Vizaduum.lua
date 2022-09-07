@@ -119,9 +119,6 @@ function mod:OnCombatEnd()
 	if self.Options.RangeFrame then
 		DBM.RangeCheck:Hide()
 	end
-	if self.Options.SetIconOnShadows then
-		self:SetIcon(args.destName, 0)
-	end
 end
 
 function mod:SPELL_CAST_START(args)

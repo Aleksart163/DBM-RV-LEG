@@ -4,6 +4,7 @@ local L
 -------------------------
 -- Torreón Grajo Negro --
 -------------------------
+
 -----------------------
 -- Amalgama de almas --
 -----------------------
@@ -24,6 +25,10 @@ L= DBM:GetModLocalization(1664)
 ----------------------------------
 L= DBM:GetModLocalization(1672)
 
+L:SetMiscLocalization({
+	Latosius = "¡Suficiente! Estoy cansado de esto."
+})
+
 ----------------------
 -- Enemigos menores --
 ----------------------
@@ -31,6 +36,27 @@ L = DBM:GetModLocalization("BRHTrash")
 
 L:SetGeneralLocalization({
 	name =	"Enemigos menores"
+})
+
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_DOOR_OPENING
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_DOOR_OPENING
+})
+
+L:SetMiscLocalization({
+	RP1 = "Ahora... ya veo..."
+})
+
+----------
+--Мифик+--
+----------
+L = DBM:GetModLocalization("MAffix")
+
+L:SetGeneralLocalization({
+	name = "Llaves Miticos+"
 })
 
 -----------------------------
@@ -46,6 +72,10 @@ L= DBM:GetModLocalization(1654)
 ----------------------
 L= DBM:GetModLocalization(1655)
 
+L:SetMiscLocalization({
+	ThrowYell = "Lanzamiento en %s"
+})
+
 --------------
 -- Dresaron --
 --------------
@@ -55,6 +85,15 @@ L= DBM:GetModLocalization(1656)
 -- Sombra de Xavius --
 ----------------------
 L= DBM:GetModLocalization(1657)
+
+L:SetMiscLocalization{
+	ParanoiaYell = "%s en %s. Alejaros de mi!"
+}
+
+L:SetMiscLocalization({
+	XavApoc = "Вас ждет медленная и мучительная смерть!",
+	XavApoc2 = "Я сокрушу ваши слабые разумы!"
+})
 
 ----------------------
 -- Enemigos menores --
@@ -147,6 +186,24 @@ L = DBM:GetModLocalization("HoVTrash")
 
 L:SetGeneralLocalization({
 	name =	"Enemigos menores"
+})
+
+L:SetOptionLocalization({
+	timerRoleplay = "Отсчет времени до начала боя с Король-бог Сковальд и Один", --"Interface\\Icons\\ability_warrior_offensivestance"
+	BossActivation = "Активировать бой с Одином ( и королями ) в 1 нажатие"
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+})
+
+L:SetMiscLocalization({
+	RPSkovald = "Нет! Я, Король-бог Сковальд, тоже доказал, что достоин. Эти смертные не посмеют оспорить мое право владеть Эгидой!",
+	RPOdyn = "Удивительно! Я не верил, что кто-то может сравниться с валарьярами... Но вы доказали, что это возможно.",
+	RPSolsten = "Хирья... Теперь ты можешь повелевать яростью бури!",
+	RPSolsten2 = "Смертные, вы оскверняете ритуал!",
+	RPOlmyr = "Да озарит тебя вечный Свет, Хирья!",
+	RPOlmyr2 = "Вы не помешаете перерождению Хирьи!"
 })
 
 ---------------------------
@@ -250,11 +307,43 @@ L:SetGeneralLocalization({
 })
 
 L:SetOptionLocalization({
-	SpyHelper	= "Ayudar a encontrar al espía"
+	YellOnEating = "Avisar, cuando alguien esta usando hechizo $spell:208585",
+	YellOnSiphoningMagic = "Avisar, cuando alguien esta usando hechizo $spell:208427",
+	YellOnPurifying = "Avisar, cuando alguien esta usando hechizo $spell:209767",
+	YellOnDraining = "Avisar, cuando alguien esta usando hechizo $spell:208334",
+	YellOnInvokingText = "Avisar, cuando alguien esta usando hechizo $spell:210872",
+	YellOnDrinking = "Avisar, cuando alguien esta usando hechizo $spell:210307",
+	YellOnReleaseSpores = "Avisar, cuando alguien esta usando hechizo $spell:208939",
+	YellOnShuttingDown = "Avisar, cuando alguien esta usando hechizo $spell:208370",
+	YellOnTreating = "Avisar, cuando alguien esta usando hechizo $spell:210925",
+	YellOnPilfering = "Avisar, cuando alguien esta usando hechizo $spell:210217",
+	YellOnDefacing = "Avisar, cuando alguien esta usando hechizo $spell:210330",
+	YellOnTinkering = "Avisar, cuando alguien esta usando hechizo $spell:210922",
+	warnSpy = "Спец-предупреждение когда шпион обнаружен",
+	SpyHelper	= "Ayudar a encontrar al espía",
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
 })
 
 if GetLocale() == "esES" then
 L:SetMiscLocalization({
+	EatingYell = "[DBM RV] %s usando %s!",
+	SiphoningMagic = "[DBM RV] %s usando %s!",
+	PurifyingYell = "[DBM RV] %s usando %s!",
+	DrainingYell = "[DBM RV] %s usando %s!",
+	InvokingTextYell = "[DBM RV] %s usando %s!",
+	DrinkingYell = "[DBM RV] %s usando %s!",
+	ReleaseSporesYell = "[DBM RV] %s usando %s!",
+	ShuttingDownYell = "[DBM RV] %s usando %s!",
+	TreatingYell = "[DBM RV] %s usando %s!",
+	PilferingYell = "[DBM RV] %s usando %s!",
+	DefacingYell = "[DBM RV] %s usando %s!",
+	TinkeringYell = "[DBM RV] %s usando %s!",
+	--
+	RolePlayMelan 	= "Великий магистр, не слишком ли рано?",
 	Gloves1			= "Dicen los rumores que el espía siempre lleva guantes.",
 	Gloves2			= "He oído que el espía siempre lleva las manos enfundadas en guantes.",
 	Gloves3			= "Hay quien dice que el espía lleva guantes para ocultar sus notables cicatrices.",
@@ -320,6 +409,20 @@ L:SetMiscLocalization({
 })
 else--esMX
 L:SetMiscLocalization({
+	EatingYell = "[DBM RV] %s usando %s!",
+	SiphoningMagic = "[DBM RV] %s usando %s!",
+	PurifyingYell = "[DBM RV] %s usando %s!",
+	DrainingYell = "[DBM RV] %s usando %s!",
+	InvokingTextYell = "[DBM RV] %s usando %s!",
+	DrinkingYell = "[DBM RV] %s usando %s!",
+	ReleaseSporesYell = "[DBM RV] %s usando %s!",
+	ShuttingDownYell = "[DBM RV] %s usando %s!",
+	TreatingYell = "[DBM RV] %s usando %s!",
+	PilferingYell = "[DBM RV] %s usando %s!",
+	DefacingYell = "[DBM RV] %s usando %s!",
+	TinkeringYell = "[DBM RV] %s usando %s!",
+	--
+--	RolePlayMelan 	= "Великий магистр, не слишком ли рано?",
 	Gloves1			= "Oí que el espía siempre usa guantes.",
 	Gloves2			= "Dicen los rumores que el espía siempre usa guantes.",
 	Gloves3			= "Oí que el espía se cubre cuidadosamente las manos.",
@@ -502,6 +605,10 @@ L= DBM:GetModLocalization(1695)
 -- Ceniz'golm --
 ----------------
 L= DBM:GetModLocalization(1468)
+
+L:SetMiscLocalization({
+	MurchalProshlyapOchko = "Las contramedidas de la habitación están armadas."
+})
 
 ----------------
 -- Observador --

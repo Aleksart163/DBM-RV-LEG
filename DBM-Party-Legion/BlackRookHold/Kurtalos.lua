@@ -2,7 +2,7 @@ local mod	= DBM:NewMod(1672, "DBM-Party-Legion", 1, 740)
 local L		= mod:GetLocalizedStrings()
 
 mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
-mod:SetCreatureID(98965, 98970)
+mod:SetCreatureID(98965, 98970) --Кур'талос Гребень Ворона, Латосий
 mod:SetEncounterID(1835)
 mod:SetZone()
 mod:SetUsedIcons(8, 7)
@@ -16,11 +16,13 @@ mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED 201733",
 	"SPELL_AURA_REMOVED 199193 201733",
 	"CHAT_MSG_MONSTER_SAY",
+	"UNIT_HEALTH",
 	"UNIT_DIED"
 )
 
 --Лорд Кур'талос Гребень Ворона https://ru.wowhead.com/npc=94923/лорд-курталос-гребень-ворона/эпохальный-журнал-сражений
-local warnPhase2					= mod:NewAnnounce("Phase2", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Фаза 2
+local warnPhase						= mod:NewPhaseChangeAnnounce(1)
+local warnPhase2					= mod:NewPrePhaseAnnounce(2, 1)
 local warnCloud						= mod:NewSpellAnnounce(199143, 2) --Гипнотическое облако
 local warnSwarm						= mod:NewTargetAnnounce(201733, 2) --Жалящий рой
 local warnWhirlingBlade				= mod:NewTargetAnnounce(198641, 3) --Крутящийся клинок
@@ -62,7 +64,9 @@ mod.vb.phase = 1
 mod.vb.shadowboltCount = 0
 mod.vb.guileCount = 0
 
-function mod:WhirlingBladeTarget(targetname, uId) --Крутящийся клинок ✔
+local warned_preP1 = false
+
+function mod:WhirlingBladeTarget(targetname, uId) --Крутящийся клинок и прошляпанное очко Мурчаля✔
 	if not targetname then return end
 	if targetname == UnitName("player") then
 		specWarnWhirlingBlade2:Show()
@@ -97,6 +101,7 @@ function mod:OnCombatStart(delay)
 	self.vb.phase = 1
 	self.vb.shadowboltCount = 0
 	self.vb.guileCount = 0
+	warned_preP1 = false
 	if not self:IsNormal() then
 		timerUnerringShearCD:Start(5.5-delay) --Неумолимый удар
 		countdownShear:Start(5.5-delay) --Неумолимый удар
@@ -210,28 +215,27 @@ function mod:UNIT_DIED(args)
 	end
 end
 
---[[
-function mod:OnSync(msg)
-	if msg == "Latosius" then
+function mod:CHAT_MSG_MONSTER_SAY(msg)
+	if msg == L.Latosius then
 		self.vb.phase = 2
-		warnPhase2:Show()
+		warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase))
 		timerWhirlingBladeCD:Cancel()
 		countdownShear:Cancel()
 		timerDarkBlastCD:Cancel()
 		timerUnerringShearCD:Cancel()
 		countdownDarkblast:Cancel()
 	end
-end]]
+end
 
-function mod:CHAT_MSG_MONSTER_SAY(msg)
-	if msg == L.Latosius then
-	--	self:SendSync("Latosius")
-		self.vb.phase = 2
-		warnPhase2:Show()
-		timerWhirlingBladeCD:Cancel()
-		countdownShear:Cancel()
-		timerDarkBlastCD:Cancel()
-		timerUnerringShearCD:Cancel()
-		countdownDarkblast:Cancel()
+function mod:UNIT_HEALTH(uId)
+	if not self:IsNormal() then
+		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 98965 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.31 then --Кур'талос
+			warned_preP1 = true
+			warnPhase2:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase+1))
+		end
+	else
+		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 98965 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.31 then --Кур'талос
+			warned_preP1 = true
+		end
 	end
 end

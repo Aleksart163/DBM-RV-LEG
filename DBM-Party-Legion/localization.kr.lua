@@ -4,6 +4,7 @@ local L
 -----------------------
 -- <<<Black Rook Hold>>> --
 -----------------------
+
 -----------------------
 -- The Amalgam of Souls --
 -----------------------
@@ -24,6 +25,10 @@ L= DBM:GetModLocalization(1664)
 -----------------------
 L= DBM:GetModLocalization(1672)
 
+L:SetMiscLocalization({
+	Latosius = "됐다! 슬슬 싫증이 나는군."
+})
+
 -----------------------
 --Black Rook Hold Trash
 -----------------------
@@ -31,6 +36,27 @@ L = DBM:GetModLocalization("BRHTrash")
 
 L:SetGeneralLocalization({
 	name =	"검은 떼까마귀 요새 일반몹"
+})
+
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_DOOR_OPENING
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_DOOR_OPENING
+})
+
+L:SetMiscLocalization({
+	RP1 = "Я... я все понял..."
+})
+
+----------
+--Мифик+--
+----------
+L = DBM:GetModLocalization("MAffix")
+
+L:SetGeneralLocalization({
+	name = "신화+ 키"
 })
 
 -----------------------
@@ -441,6 +467,10 @@ L= DBM:GetModLocalization(1695)
 -- Ash'golm --
 -----------------------
 L= DBM:GetModLocalization(1468)
+
+L:SetMiscLocalization({
+	MurchalProshlyapOchko = "석실 방어 장치가 활성화 되었습니다."
+})
 
 -----------------------
 -- Glazer --

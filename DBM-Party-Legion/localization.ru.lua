@@ -11,14 +11,6 @@ local L
 ---------------
 L= DBM:GetModLocalization(1518)
 
-L:SetOptionLocalization{
-	AnnounceSoulEchoes = "Объявлять игроков, на которых $spell:194966, в чат"
-}
-
-L:SetMiscLocalization{
---	SoulEchoes = "Эхо души используется на: %s"
-}
-
 ----------------------------
 --Иллисанна Гребень Ворона--
 ----------------------------
@@ -33,14 +25,6 @@ L= DBM:GetModLocalization(1664)
 --Лорд Кур'талос Гребень Ворона--
 ---------------------------------
 L= DBM:GetModLocalization(1672)
-
-L:SetWarningLocalization({
-	Phase2 = "Фаза 2"
-})
-
-L:SetOptionLocalization({
-	Phase2 = "Объявлять фазу 2"
-})
 
 L:SetMiscLocalization({
 	Latosius = "Все, мне это надоело!"
@@ -104,13 +88,8 @@ L= DBM:GetModLocalization(1656)
 ---------------
 L= DBM:GetModLocalization(1657)
 
-L:SetOptionLocalization{
---	AnnounceParanoia = "Объявлять игроков, на которых $spell:200289, в чат"
-}
-
 L:SetMiscLocalization{
---	Paranoia = "Усугубляющаяся паранойя используется на: %s",
-	ParanoiaYell = "Усугубляющаяся паранойя на %s. УЁБЫВАЙТЕ от меня!"
+	ParanoiaYell = "%s на %s. УЁБЫВАЙТЕ от меня!"
 }
 
 L:SetMiscLocalization({
@@ -126,7 +105,6 @@ L = DBM:GetModLocalization("DHTTrash")
 L:SetGeneralLocalization({
 	name = "Трэш ЧТС"
 })
-
 
 --------------------
 --<<<Око Азшары>>>--
@@ -184,16 +162,6 @@ L= DBM:GetModLocalization(1486)
 --Фенрир--
 ----------
 L= DBM:GetModLocalization(1487)
-
-L:SetWarningLocalization({
-	Phase1 = "Скоро фаза 2",
-	Phase2 = "Фаза 2"
-})
-
-L:SetOptionLocalization({
-	Phase1 = "Предупреждать заранее о фазе 2 (на ~65%)",
-	Phase2 = "Объявлять фазу 2"
-})
 
 -----------------------
 --Король-бог Сковальд--
@@ -370,18 +338,18 @@ L:SetWarningLocalization({
 })
 
 L:SetOptionLocalization({
-	YellOnEating = "Сообщать, когда вы применяете заклинание $spell:208585",
-	YellOnSiphoningMagic = "Сообщать, когда вы применяете заклинание $spell:208427",
-	YellOnPurifying = "Сообщать, когда вы применяете заклинание $spell:209767",
-	YellOnDraining = "Сообщать, когда вы применяете заклинание $spell:208334",
-	YellOnInvokingText = "Сообщать, когда вы применяете заклинание $spell:210872",
-	YellOnDrinking = "Сообщать, когда вы применяете заклинание $spell:210307",
-	YellOnReleaseSpores = "Сообщать, когда вы применяете заклинание $spell:208939",
-	YellOnShuttingDown = "Сообщать, когда вы применяете заклинание $spell:208370",
-	YellOnTreating = "Сообщать, когда вы применяете заклинание $spell:210925",
-	YellOnPilfering = "Сообщать, когда вы применяете заклинание $spell:210217",
-	YellOnDefacing = "Сообщать, когда вы применяете заклинание $spell:210330",
-	YellOnTinkering = "Сообщать, когда вы применяете заклинание $spell:210922",
+	YellOnEating = "Сообщать, когда кто-то применяеет заклинание $spell:208585",
+	YellOnSiphoningMagic = "Сообщать, когда кто-то применяеет заклинание $spell:208427",
+	YellOnPurifying = "Сообщать, когда кто-то применяеет заклинание $spell:209767",
+	YellOnDraining = "Сообщать, когда кто-то применяеет заклинание $spell:208334",
+	YellOnInvokingText = "Сообщать, когда кто-то применяеет заклинание $spell:210872",
+	YellOnDrinking = "Сообщать, когда кто-то применяеет заклинание $spell:210307",
+	YellOnReleaseSpores = "Сообщать, когда кто-то применяеет заклинание $spell:208939",
+	YellOnShuttingDown = "Сообщать, когда кто-то применяеет заклинание $spell:208370",
+	YellOnTreating = "Сообщать, когда кто-то применяеет заклинание $spell:210925",
+	YellOnPilfering = "Сообщать, когда кто-то применяеет заклинание $spell:210217",
+	YellOnDefacing = "Сообщать, когда кто-то применяеет заклинание $spell:210330",
+	YellOnTinkering = "Сообщать, когда кто-то применяеет заклинание $spell:210922",
 	warnSpy = "Спец-предупреждение когда шпион обнаружен",
 	SpyHelper = "Помочь идентифицировать шпиона",
 	timerRoleplay = "Отсчет времени до начала боя с Советник Меландр"
@@ -392,18 +360,19 @@ L:SetTimerLocalization({
 })
 
 L:SetMiscLocalization({
-	EatingYell = "[DBM RV] Использую Закуски ночной тени, теперь у нас больше хп!",
-	SiphoningMagic = "[DBM RV] Использую Магический светильник, теперь у нас больше урона!",
-	PurifyingYell = "[DBM RV] Использую Инфернальный фолиант, теперь у нас больше защиты!",
-	DrainingYell = "[DBM RV] Использую Сферу Скверны, теперь у нас больше крита!",
-	InvokingTextYell = "[DBM RV] Использую Промокший свиток, теперь у нас больше скорости бега!",
-	DrinkingYell = "[DBM RV] Использую Отвар из звездной розы, теперь у нас больше регена хп и маны!",
-	ReleaseSporesYell = "[DBM RV] Использую Теневой цветок, теперь у нас больше скорости боя!",
-	ShuttingDownYell = "[DBM RV] Использую Проводник магической энергии, теперь все Големы-стражи будут выключены!",
-	TreatingYell = "[DBM RV] Лечу Раненого ночнорожденного и отвлекаю мини-босса!",
-	PilferingYell = "[DBM RV] Использую Рыночные товары и отвлекаю мини-босса!",
-	DefacingYell = "[DBM RV] Использую Статую ночнорожденного в натуральную величину и отвлекаю мини-босса!",
-	TinkeringYell = "[DBM RV] Использую Выброшенный хлам и отвлекаю мини-босса!",
+	EatingYell = "[DBM RV] %s использует %s, теперь у нас больше хп!",
+	SiphoningMagic = "[DBM RV] %s использует %s, теперь у нас больше урона!",
+	PurifyingYell = "[DBM RV] %s использует %s, теперь у нас больше защиты!",
+	DrainingYell = "[DBM RV] %s использует %s, теперь у нас больше крита!",
+	InvokingTextYell = "[DBM RV] %s использует %s, теперь у нас больше скорости бега!",
+	DrinkingYell = "[DBM RV] %s использует %s, теперь у нас больше регена хп и маны!",
+	ReleaseSporesYell = "[DBM RV] %s использует %s, теперь у нас больше скорости боя!",
+	ShuttingDownYell = "[DBM RV] %s использует %s, теперь все Големы-стражи будут выключены!",
+	TreatingYell = "[DBM RV] %s использует %s и отвлекает мини-босса!",
+	PilferingYell = "[DBM RV] %s использует %s и отвлекает мини-босса!",
+	DefacingYell = "[DBM RV] %s использует %s и отвлекает мини-босса!",
+	TinkeringYell = "[DBM RV] %s использует %s и отвлекает мини-босса!",
+	--
 	RolePlayMelan 	= "Великий магистр, не слишком ли рано?",
 	Gloves1			= "Ходят слухи, что шпион все время носит перчатки.",
 	Gloves2			= "Я слышал, шпион все время носит перчатки.",
@@ -625,12 +594,8 @@ L:SetMiscLocalization({
 -----------
 L= DBM:GetModLocalization(1468)
 
-L:SetWarningLocalization({
-	Countermeasure = "Система безопасности готова!"
-})
-
-L:SetOptionLocalization({
-	Countermeasure = "Предупреждение для $spell:195189"
+L:SetMiscLocalization({
+	MurchalProshlyapOchko = "Система безопасности комнаты теперь вооружена."
 })
 
 -------------
@@ -721,20 +686,6 @@ L= DBM:GetModLocalization(1827)
 --Ловчий Аттумен--
 ------------------
 L= DBM:GetModLocalization(1835)
-
-L:SetWarningLocalization({
-	Phase = "Скоро фаза 2",
-	Phase1 = "Фаза 2",
-	Phase2 = "Скоро фаза 3",
-	Phase3 = "Фаза 3"
-})
-
-L:SetOptionLocalization({
-	Phase = "Предупреждать заранее о фазе 2 (на ~61%, только Мифик+)",
-	Phase1 = "Объявлять фазу 2",
-	Phase2 = "Предупреждать заранее о фазе 3 (на ~10%, только Мифик+)",
-	Phase3 = "Объявлять фазу 3"
-})
 
 L:SetMiscLocalization({
 	SharedSufferingYell = "Разделенные муки на %s. УЁБЫВАЙТЕ от меня!",

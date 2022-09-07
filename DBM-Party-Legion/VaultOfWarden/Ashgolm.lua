@@ -6,25 +6,25 @@ mod:SetCreatureID(95886)
 mod:SetEncounterID(1816)
 mod:SetZone()
 mod:SetUsedIcons(8, 7, 6, 5, 4)
+
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 192522 192631 192621 195187",
 	"SPELL_AURA_APPLIED 192517 192519 215478",
 	"SPELL_AURA_APPLIED_DOSE 192519",
-	"SPELL_AURA_REMOVED 192517 192519"
---	"SPELL_CAST_SUCCESS",
---	"SPELL_PERIODIC_DAMAGE",
---	"SPELL_PERIODIC_MISSED"
+	"SPELL_AURA_REMOVED 192517 192519",
+	"CHAT_MSG_MONSTER_EMOTE"
 )
 
 --Вулкан https://ru.wowhead.com/npc=95886/вулкан/эпохальный-журнал-сражений
 local warnFiredUp2					= mod:NewTargetAnnounce(215478, 4) --Обгорание
 local warnVolcano					= mod:NewSpellAnnounce(192621, 3, nil, nil, nil, nil, nil, 2) --Пирокласт
 local warnFiredUp					= mod:NewCastAnnounce(195187, 4) --Взрыв
-local warnCountermeasure			= mod:NewPreWarnAnnounce(195189, 5, 1, 235297) --Система безопасности
-local warnCountermeasure2			= mod:NewAnnounce("Countermeasure", 2, 235297) --Система безопасности
+local warnCountermeasure			= mod:NewSoonAnnounce(195189, 2, 235297) --Система безопасности
+--local warnCountermeasure2			= mod:NewAnnounce("Countermeasure", 2, 235297) --Система безопасности
 
+local specWarnProshlyap				= mod:NewSpecialWarningReady(195189, nil, nil, nil, 1, 3) --Система безопасности
 local specWarnFiredUp2				= mod:NewSpecialWarningYou(215478, nil, nil, nil, 3, 5) --Обгорание
 local specWarnFiredUp				= mod:NewSpecialWarningDefensive(195187, nil, nil, nil, 3, 5) --Взрыв
 local specWarnLava					= mod:NewSpecialWarningStack(192519, nil, 2, nil, nil, 1, 2) --Лава
@@ -56,18 +56,16 @@ function mod:OnCombatStart(delay)
 		timerVolcanoCD:Start(10.5-delay) --Пирокласт+++
 		timerLavaWreathCD:Start(25-delay) --Лавовое кольцо+++
 		timerFissureCD:Start(40.5-delay) --Разлом+++
-		timerCountermeasureCD:Start(7-delay) --Система безопасности+++
-		warnCountermeasure:Schedule(2-delay) --Система безопасности+++
-		warnCountermeasure2:Schedule(7-delay) --Система безопасности+++
-		countdownCountermeasure:Start(7-delay) --Система безопасности+++
+		timerCountermeasureCD:Start(6.5-delay) --Система безопасности+++
+		warnCountermeasure:Schedule(1.5-delay) --Система безопасности+++
+		countdownCountermeasure:Start(6.5-delay) --Система безопасности+++
 	else
 		timerVolcanoCD:Start(10.5-delay) --Пирокласт
 		timerLavaWreathCD:Start(25-delay) --Лавовое кольцо
 		timerFissureCD:Start(40.5-delay) --Разлом
-		timerCountermeasureCD:Start(7-delay) --Система безопасности
-		warnCountermeasure:Schedule(2-delay) --Система безопасности
-		warnCountermeasure2:Schedule(7-delay) --Система безопасности+++
-		countdownCountermeasure:Start(7-delay) --Система безопасности
+		timerCountermeasureCD:Start(6.5-delay) --Система безопасности
+		warnCountermeasure:Schedule(1.5-delay) --Система безопасности
+		countdownCountermeasure:Start(6.5-delay) --Система безопасности
 	end
 end
 
@@ -104,26 +102,10 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerBrittle:Start()
 		countdownBrittle:Start()
 		if not self:IsNormal() then
-			if self.vb.countermeasure == 1 then
-				timerCountermeasureCD:Start(71)
-				warnCountermeasure:Schedule(66)
-				warnCountermeasure2:Schedule(71)
-				countdownCountermeasure:Start(71)
-			elseif self.vb.countermeasure == 2 then
-				timerCountermeasureCD:Start(66)
-				warnCountermeasure:Schedule(61)
-				warnCountermeasure2:Schedule(66)
-				countdownCountermeasure:Start(66)
-			elseif self.vb.countermeasure == 3 then
-				timerCountermeasureCD:Start(71)
-				warnCountermeasure:Schedule(66)
-				warnCountermeasure2:Schedule(71)
-				countdownCountermeasure:Start(71)
-			elseif self.vb.countermeasure >= 4 then
-				timerCountermeasureCD:Start(66)
-				warnCountermeasure:Schedule(61)
-				warnCountermeasure2:Schedule(66)
-				countdownCountermeasure:Start(66)
+			if self.vb.countermeasure >= 1 then --
+				warnCountermeasure:Schedule(60)
+				timerCountermeasureCD:Start(65)
+				countdownCountermeasure:Start(65)
 			end
 		end
 	elseif spellId == 192519 then --Лава
@@ -153,3 +135,12 @@ function mod:SPELL_AURA_APPLIED(args)
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
+
+function mod:CHAT_MSG_MONSTER_EMOTE(msg)
+	if msg:find(L.MurchalProshlyapOchko) or msg == L.MurchalProshlyapOchko then
+	--	warnCountermeasure2:Show()
+		specWarnProshlyap:Show()
+		timerCountermeasureCD:Cancel()
+		countdownCountermeasure:Cancel()
+	end
+end

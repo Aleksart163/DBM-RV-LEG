@@ -4,6 +4,7 @@ local L
 -----------------------
 -- <<<Black Rook Hold>>> --
 -----------------------
+
 -----------------------
 -- The Amalgam of Souls --
 -----------------------
@@ -24,6 +25,10 @@ L= DBM:GetModLocalization(1664)
 -----------------------
 L= DBM:GetModLocalization(1672)
 
+L:SetMiscLocalization({
+	Latosius = "Chega! Estou cansado disso."
+})
+
 -----------------------
 --Black Rook Hold Trash
 -----------------------
@@ -31,6 +36,27 @@ L = DBM:GetModLocalization("BRHTrash")
 
 L:SetGeneralLocalization({
 	name =	"Black Rook Hold Trash"
+})
+
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_DOOR_OPENING
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_DOOR_OPENING
+})
+
+L:SetMiscLocalization({
+	RP1 = "Я... я все понял..."
+})
+
+----------
+--Мифик+--
+----------
+L = DBM:GetModLocalization("MAffix")
+
+L:SetGeneralLocalization({
+	name = "Mítico+ chaves"
 })
 
 -----------------------
@@ -436,6 +462,10 @@ L= DBM:GetModLocalization(1695)
 -- Ash'golm --
 -----------------------
 L= DBM:GetModLocalization(1468)
+
+L:SetMiscLocalization({
+	MurchalProshlyapOchko = "As medidas de defesa da sala estão armadas."
+})
 
 -----------------------
 -- Glazer --

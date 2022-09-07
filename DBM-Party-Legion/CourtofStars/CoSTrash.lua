@@ -43,6 +43,7 @@ local warnPilfering					= mod:NewTargetSourceAnnounce(210217, 1) --Воровс�
 local warnDefacing					= mod:NewTargetSourceAnnounce(210330, 1) --Осквернение (Статуя ночнорожденного в натуральную величину)
 local warnTinkering					= mod:NewTargetSourceAnnounce(210922, 1) --Конструирование (выброшенный хлам)
 
+local specWarnSuppress2				= mod:NewSpecialWarningYou(209413, nil, nil, nil, 1, 2) --Подавление
 local specWarnShadowBoltVolley		= mod:NewSpecialWarningDodge(214692, "-Tank", nil, nil, 2, 3) --Залп стрел Тьмы
 local specWarnCarrionSwarm			= mod:NewSpecialWarningDodge(214688, nil, nil, nil, 2, 2) --Темная стая
 local specWarnCripple				= mod:NewSpecialWarningDispel(214690, "MagicDispeller2", nil, nil, 1, 2) --Увечье
@@ -104,6 +105,19 @@ mod:AddBoolOption("YellOnTinkering", true) --Конструирование (о�
 mod:AddBoolOption("YellOnDefacing", true) --Осквернение (отвлечение)
 mod:AddBoolOption("SpyHelper", true)
 
+local eating = DBM:GetSpellInfo(208585) --Поглощение пищи
+local siphoningMagic = DBM:GetSpellInfo(208427) --Похищение магии
+local purifying = DBM:GetSpellInfo(209767) --Очищение
+local draining = DBM:GetSpellInfo(208334) --Иссушение
+local invokingText = DBM:GetSpellInfo(210872) --Текст пробуждения
+local drinking = DBM:GetSpellInfo(210307) --Выпивание
+local releaseSpores = DBM:GetSpellInfo(208939) --Высвобождение спор
+local shuttingDown = DBM:GetSpellInfo(208370) --Отключение
+local treating = DBM:GetSpellInfo(210925) --Лечение
+local pilfering = DBM:GetSpellInfo(210217) --Воровство
+local tinkering = DBM:GetSpellInfo(210922) --Конструирование
+local defacing = DBM:GetSpellInfo(210330) --Осквернение
+
 function mod:CarrionSwarmTarget(targetname, uId) --Темная стая ✔
 	if not targetname then return end
 	if targetname == UnitName("player") then
@@ -118,6 +132,8 @@ end
 function mod:SuppressTarget(targetname, uId) --Подавление ✔
 	if not targetname then return end
 	if targetname == UnitName("player") then
+		specWarnSuppress2:Show()
+		specWarnSuppress2:Play("targetyou")
 		yellSuppress:Yell()
 	else
 		warnSuppress:Show(targetname)
@@ -215,134 +231,135 @@ function mod:SPELL_CAST_START(args)
 		end
 	elseif spellId == 208585 then --Поглощение пищи
 		warnEating:Show(args.sourceName)
-		if self.Options.YellOnEating and args:IsPlayerSource() then
+	--	if self.Options.YellOnEating and args:IsPlayerSource() then
+		if self.Options.YellOnEating then
 			if IsInRaid() then
-				SendChatMessage(L.EatingYell, "RAID")
+				SendChatMessage(L.EatingYell:format(args.sourceName, eating), "RAID")
 			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
-				SendChatMessage(L.EatingYell, "INSTANCE_CHAT")
+				SendChatMessage(L.EatingYell:format(args.sourceName, eating), "INSTANCE_CHAT")
 			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
-				SendChatMessage(L.EatingYell, "PARTY")
+				SendChatMessage(L.EatingYell:format(args.sourceName, eating), "PARTY")
 			end
 		end
 	elseif spellId == 208427 then --Похищение магии
 		warnSiphoningMagic:Show(args.sourceName)
-		if self.Options.YellOnSiphoningMagic and args:IsPlayerSource() then
+		if self.Options.YellOnSiphoningMagic then
 			if IsInRaid() then
-				SendChatMessage(L.SiphoningMagic, "RAID")
+				SendChatMessage(L.SiphoningMagic:format(args.sourceName, siphoningMagic), "RAID")
 			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
-				SendChatMessage(L.SiphoningMagic, "INSTANCE_CHAT")
+				SendChatMessage(L.SiphoningMagic:format(args.sourceName, siphoningMagic), "INSTANCE_CHAT")
 			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
-				SendChatMessage(L.SiphoningMagic, "PARTY")
+				SendChatMessage(L.SiphoningMagic:format(args.sourceName, siphoningMagic), "PARTY")
 			end
 		end
 	elseif spellId == 209767 then --Очищение
 		warnPurifying:Show(args.sourceName)
-		if self.Options.YellOnPurifying and args:IsPlayerSource() then
+		if self.Options.YellOnPurifying then
 			if IsInRaid() then
-				SendChatMessage(L.PurifyingYell, "RAID")
+				SendChatMessage(L.PurifyingYell:format(args.sourceName, purifying), "RAID")
 			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
-				SendChatMessage(L.PurifyingYell, "INSTANCE_CHAT")
+				SendChatMessage(L.PurifyingYell:format(args.sourceName, purifying), "INSTANCE_CHAT")
 			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
-				SendChatMessage(L.PurifyingYell, "PARTY")
+				SendChatMessage(L.PurifyingYell:format(args.sourceName, purifying), "PARTY")
 			end
 		end
 	elseif spellId == 208334 then --Иссушение
 		warnDraining:Show(args.sourceName)
-		if self.Options.YellOnDraining and args:IsPlayerSource() then
+		if self.Options.YellOnDraining then
 			if IsInRaid() then
-				SendChatMessage(L.DrainingYell, "RAID")
+				SendChatMessage(L.DrainingYell:format(args.sourceName, draining), "RAID")
 			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
-				SendChatMessage(L.DrainingYell, "INSTANCE_CHAT")
+				SendChatMessage(L.DrainingYell:format(args.sourceName, draining), "INSTANCE_CHAT")
 			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
-				SendChatMessage(L.DrainingYell, "PARTY")
-			end
-		end
-	elseif spellId == 208370 then --Отключение
-		warnShuttingDown:Show(args.sourceName)
-		if self.Options.YellOnShuttingDown and args:IsPlayerSource() then
-			if IsInRaid() then
-				SendChatMessage(L.ShuttingDownYell, "RAID")
-			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
-				SendChatMessage(L.ShuttingDownYell, "INSTANCE_CHAT")
-			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
-				SendChatMessage(L.ShuttingDownYell, "PARTY")
+				SendChatMessage(L.DrainingYell:format(args.sourceName, draining), "PARTY")
 			end
 		end
 	elseif spellId == 210872 then --Текст пробуждения
 		warnInvokingText:Show(args.sourceName)
-		if self.Options.YellOnInvokingText and args:IsPlayerSource() then
+		if self.Options.YellOnInvokingText then
 			if IsInRaid() then
-				SendChatMessage(L.InvokingTextYell, "RAID")
+				SendChatMessage(L.InvokingTextYell:format(args.sourceName, invokingText), "RAID")
 			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
-				SendChatMessage(L.InvokingTextYell, "INSTANCE_CHAT")
+				SendChatMessage(L.InvokingTextYell:format(args.sourceName, invokingText), "INSTANCE_CHAT")
 			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
-				SendChatMessage(L.InvokingTextYell, "PARTY")
+				SendChatMessage(L.InvokingTextYell:format(args.sourceName, invokingText), "PARTY")
 			end
 		end
 	elseif spellId == 210307 then --Выпивание
 		warnDrinking:Show(args.sourceName)
-		if self.Options.YellOnDrinking and args:IsPlayerSource() then
+		if self.Options.YellOnDrinking then
 			if IsInRaid() then
-				SendChatMessage(L.DrinkingYell, "RAID")
+				SendChatMessage(L.DrinkingYell:format(args.sourceName, drinking), "RAID")
 			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
-				SendChatMessage(L.DrinkingYell, "INSTANCE_CHAT")
+				SendChatMessage(L.DrinkingYell:format(args.sourceName, drinking), "INSTANCE_CHAT")
 			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
-				SendChatMessage(L.DrinkingYell, "PARTY")
+				SendChatMessage(L.DrinkingYell:format(args.sourceName, drinking), "PARTY")
 			end
 		end
 	elseif spellId == 208939 then --Высвобождение спор
 		warnReleaseSpores:Show(args.sourceName)
-		if self.Options.YellOnReleaseSpores and args:IsPlayerSource() then
+		if self.Options.YellOnReleaseSpores then
 			if IsInRaid() then
-				SendChatMessage(L.ReleaseSporesYell, "RAID")
+				SendChatMessage(L.ReleaseSporesYell:format(args.sourceName, releaseSpores), "RAID")
 			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
-				SendChatMessage(L.ReleaseSporesYell, "INSTANCE_CHAT")
+				SendChatMessage(L.ReleaseSporesYell:format(args.sourceName, releaseSpores), "INSTANCE_CHAT")
 			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
-				SendChatMessage(L.ReleaseSporesYell, "PARTY")
+				SendChatMessage(L.ReleaseSporesYell:format(args.sourceName, releaseSpores), "PARTY")
+			end
+		end
+	elseif spellId == 208370 then --Отключение
+		warnShuttingDown:Show(args.sourceName)
+		if self.Options.YellOnShuttingDown then
+			if IsInRaid() then
+				SendChatMessage(L.ShuttingDownYell:format(args.sourceName, shuttingDown), "RAID")
+			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
+				SendChatMessage(L.ShuttingDownYell:format(args.sourceName, shuttingDown), "INSTANCE_CHAT")
+			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
+				SendChatMessage(L.ShuttingDownYell:format(args.sourceName, shuttingDown), "PARTY")
 			end
 		end
 	elseif spellId == 210925 then --Лечение
 		warnTreating:Show(args.sourceName)
-		if self.Options.YellOnTreating and args:IsPlayerSource() then
+		if self.Options.YellOnTreating then
 			if IsInRaid() then
-				SendChatMessage(L.TreatingYell, "RAID")
+				SendChatMessage(L.TreatingYell:format(args.sourceName, treating), "RAID")
 			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
-				SendChatMessage(L.TreatingYell, "INSTANCE_CHAT")
+				SendChatMessage(L.TreatingYell:format(args.sourceName, treating), "INSTANCE_CHAT")
 			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
-				SendChatMessage(L.TreatingYell, "PARTY")
+				SendChatMessage(L.TreatingYell:format(args.sourceName, treating), "PARTY")
 			end
 		end
 	elseif spellId == 210217 then --Воровство
 		warnPilfering:Show(args.sourceName)
-		if self.Options.YellOnPilfering and args:IsPlayerSource() then
+		if self.Options.YellOnPilfering then
 			if IsInRaid() then
-				SendChatMessage(L.PilferingYell, "RAID")
+				SendChatMessage(L.PilferingYell:format(args.sourceName, pilfering), "RAID")
 			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
-				SendChatMessage(L.PilferingYell, "INSTANCE_CHAT")
+				SendChatMessage(L.PilferingYell:format(args.sourceName, pilfering), "INSTANCE_CHAT")
 			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
-				SendChatMessage(L.PilferingYell, "PARTY")
+				SendChatMessage(L.PilferingYell:format(args.sourceName, pilfering), "PARTY")
 			end
 		end
 	elseif spellId == 210922 then --Конструирование
 		warnTinkering:Show(args.sourceName)
-		if self.Options.YellOnTinkering and args:IsPlayerSource() then
+		if self.Options.YellOnTinkering then
 			if IsInRaid() then
-				SendChatMessage(L.TinkeringYell, "RAID")
+				SendChatMessage(L.TinkeringYell:format(args.sourceName, tinkering), "RAID")
 			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
-				SendChatMessage(L.TinkeringYell, "INSTANCE_CHAT")
+				SendChatMessage(L.TinkeringYell:format(args.sourceName, tinkering), "INSTANCE_CHAT")
 			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
-				SendChatMessage(L.TinkeringYell, "PARTY")
+				SendChatMessage(L.TinkeringYell:format(args.sourceName, tinkering), "PARTY")
 			end
 		end
 	elseif spellId == 210330 then --Осквернение
 		warnDefacing:Show(args.sourceName)
-		if self.Options.YellOnDefacing and args:IsPlayerSource() then
+		if self.Options.YellOnDefacing then
 			if IsInRaid() then
-				SendChatMessage(L.DefacingYell, "RAID")
+				SendChatMessage(L.DefacingYell:format(args.sourceName, defacing), "RAID")
 			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
-				SendChatMessage(L.DefacingYell, "INSTANCE_CHAT")
+				SendChatMessage(L.DefacingYell:format(args.sourceName, defacing), "INSTANCE_CHAT")
 			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
-				SendChatMessage(L.DefacingYell, "PARTY")
+				SendChatMessage(L.DefacingYell:format(args.sourceName, defacing), "PARTY")
 			end
 		end
 	elseif spellId == 210253 then --Отключение маяка
@@ -666,7 +683,7 @@ do
 			DBM.InfoFrame:Show(5, "function", updateInfoFrame)
 		elseif msg == "Finished" then
 			warnPhase2:Show()
-		--	self:ResetGossipState()
+			self:ResetGossipState()
 		--	self:Finish()
 		elseif msg == "RolePlayMel" then
 			timerRoleplay:Start()

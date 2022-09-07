@@ -22,7 +22,8 @@ mod:RegisterEventsInCombat(
 
 --Фенрир https://ru.wowhead.com/npc=99868/фенрир/эпохальный-журнал-сражений#abilities;mode:
 local warnScentofBlood					= mod:NewStackAnnounce(196828, 4, nil, nil, 2) --Запах крови
-local warnPhase2						= mod:NewAnnounce("Phase2", 1, 196838) --Фаза 2
+local warnPhase							= mod:NewPhaseChangeAnnounce(1)
+local warnPhase2						= mod:NewPrePhaseAnnounce(2, 1, 196838)
 local warnLeap							= mod:NewTargetAnnounce(197556, 3) --Хищный прыжок
 local warnFixate						= mod:NewTargetAnnounce(196838, 4) --Запах крови
 local warnFixate2						= mod:NewPreWarnAnnounce(196838, 5, 1) --Запах крови
@@ -176,8 +177,8 @@ function mod:ENCOUNTER_START(encounterID)
 	if encounterID == 1807 and self:IsInCombat() then
 --		self:SetWipeTime(5)
 --		self:UnregisterShortTermEvents()
-		warnPhase2:Show()
-		warnPhase2:Play("ptwo")
+--		warnPhase2:Show()
+--		warnPhase2:Play("ptwo")
 		--timerWolvesCD:Start(5)
 		--timerHowlCD:Start(5)--2-6, useless timer
 		--timerFixateCD:Start(9.3)--7-20, useless timer
@@ -200,25 +201,30 @@ function mod:ZONE_CHANGED_NEW_AREA()
 end
 
 function mod:UNIT_HEALTH(uId)
-	if not self:IsNormal() then --миф и миф+
-		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 99868 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.65 then
+	if not self:IsNormal() then --гер, миф и миф+
+		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 99868 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.71 then
 			warned_preP1 = true
+			warnPhase2:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase+1))
 		elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 99868 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.60 then
 			self.vb.phase = 2
 			warned_preP2 = true
-			warnPhase2:Show()
+			warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase))
 			timerLeapCD:Start(15)
 			timerFixateCD:Start(28)
 			warnFixate2:Schedule(23)
 			timerClawFrenzyCD:Start(12.5)
 		end
 	else
-		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 99868 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.65 then
+		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 99868 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.71 then
 			warned_preP1 = true
 		elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 99868 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.60 then
 			self.vb.phase = 2
 			warned_preP2 = true
-			warnPhase2:Show()
+			warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase))
+			timerLeapCD:Start(15)
+			timerFixateCD:Start(28)
+			warnFixate2:Schedule(23)
+			timerClawFrenzyCD:Start(12.5)
 		end
 	end
 end

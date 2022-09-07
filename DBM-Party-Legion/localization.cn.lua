@@ -1,14 +1,11 @@
--- Mini Dragon(projecteurs@gmail.com)
--- 夏一可
--- Blizzard Entertainment
--- Last update: 2018/04/04
-
 if GetLocale() ~= "zhCN" then return end
+
 local L
 
 -----------------------
 -- <<<Black Rook Hold>>> --
 -----------------------
+
 -----------------------
 -- The Amalgam of Souls --
 -----------------------
@@ -29,6 +26,10 @@ L= DBM:GetModLocalization(1664)
 -----------------------
 L= DBM:GetModLocalization(1672)
 
+L:SetMiscLocalization({
+	Latosius = "够了！我受够了。"
+})
+
 -----------------------
 --Black Rook Hold Trash
 -----------------------
@@ -38,9 +39,31 @@ L:SetGeneralLocalization({
 	name =	"黑鸦堡垒小怪"
 })
 
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_DOOR_OPENING
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_DOOR_OPENING
+})
+
+L:SetMiscLocalization({
+	RP1 = "Я... я все понял..."
+})
+
+----------
+--Мифик+--
+----------
+L = DBM:GetModLocalization("MAffix")
+
+L:SetGeneralLocalization({
+	name = "神话+ 钥匙"
+})
+
 -----------------------
 -- <<<Darkheart Thicket>>> --
 -----------------------
+
 -----------------------
 -- Arch-Druid Glaidalis --
 -----------------------
@@ -444,6 +467,10 @@ L= DBM:GetModLocalization(1695)
 -- Ash'golm --
 -----------------------
 L= DBM:GetModLocalization(1468)
+
+L:SetMiscLocalization({
+	MurchalProshlyapOchko = "房间内的反制机关已启动。"
+})
 
 -----------------------
 -- Glazer --

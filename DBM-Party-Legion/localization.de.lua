@@ -24,6 +24,10 @@ L= DBM:GetModLocalization(1664)
 -----------------------
 L= DBM:GetModLocalization(1672)
 
+L:SetMiscLocalization({
+	Latosius = "Es reicht! Genug der Scharade."
+})
+
 -----------------------
 --Black Rook Hold Trash
 -----------------------
@@ -33,9 +37,31 @@ L:SetGeneralLocalization({
 	name =	"Trash der Rabenwehr"
 })
 
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_DOOR_OPENING
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_DOOR_OPENING
+})
+
+L:SetMiscLocalization({
+	RP1 = "Jetzt... Jetzt sehe ich..."
+})
+
+----------
+--Мифик+--
+----------
+L = DBM:GetModLocalization("MAffix")
+
+L:SetGeneralLocalization({
+	name = "Mythic+ keys"
+})
+
 -----------------------
 -- <<<Darkheart Thicket>>> --
 -----------------------
+
 -----------------------
 -- Arch-Druid Glaidalis --
 -----------------------
@@ -441,6 +467,10 @@ L= DBM:GetModLocalization(1695)
 -- Ash'golm --
 -----------------------
 L= DBM:GetModLocalization(1468)
+
+L:SetMiscLocalization({
+	MurchalProshlyapOchko = "Die Gegenmaßnahmen des Raumes sind nun aktiviert."
+})
 
 -----------------------
 -- Glazer --

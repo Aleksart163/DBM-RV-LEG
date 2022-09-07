@@ -22,7 +22,7 @@ mod:RegisterEventsInCombat(
 
 --Зураал Перерожденный https://ru.wowhead.com/npc=122313/зураал-перерожденный/эпохальный-журнал-сражений
 --local warnNullPalm						= mod:NewSpellAnnounce(246134, 2, nil, "Tank")
-local warnPhase2						= mod:NewAnnounce("Phase2", 1, 244621) --Прорыв Бездны
+--local warnPhase2						= mod:NewAnnounce("Phase2", 1, 244621) --Прорыв Бездны
 local warnFixate						= mod:NewTargetAnnounce(244657, 3) --Сосредоточение внимания
 local warnVoidTear						= mod:NewTargetAnnounce(244621, 2) --Прорыв Бездны
 local warnVoidTear2						= mod:NewPreWarnAnnounce(244621, 5, 1) --Прорыв Бездны
@@ -35,6 +35,7 @@ local specWarnFixate					= mod:NewSpecialWarningYouRun(244657, nil, nil, nil, 4,
 local specWarnFixate2					= mod:NewSpecialWarningDodge(244653, nil, nil, nil, 2, 2) --Сосредоточение внимания
 local specWarnVoidTear					= mod:NewSpecialWarningMoreDamage(244621, "-Healer", nil, nil, 3, 2) --Прорыв Бездны
 local specWarnVoidTear2					= mod:NewSpecialWarningEnd(244621, nil, nil, nil, 1, 2) --Прорыв Бездны
+local specWarnVoidTear3					= mod:NewSpecialWarningReady(244621, nil, nil, nil, 1, 2) --Прорыв Бездны
 
 local timerNullPalmCD					= mod:NewCDTimer(10.9, 246134, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Длань обнуления
 local timerDeciminateCD					= mod:NewCDTimer(12.1, 244579, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON) --Истребление
@@ -179,6 +180,6 @@ end
 
 function mod:OnSync(msg)
 	if msg == "Phase2" then --Прорыв Бездны
-		warnPhase2:Show()
+		specWarnVoidTear3:Show()
 	end
 end

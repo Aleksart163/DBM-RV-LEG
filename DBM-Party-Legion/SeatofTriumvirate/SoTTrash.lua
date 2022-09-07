@@ -160,9 +160,9 @@ end
 
 function mod:OnSync(msg, GUID)
 	if msg == "RP1" then
-		timerRoleplay:Start(22.5)
+		timerRoleplay:Start(22)
 	elseif msg == "RP2" then
-		timerRoleplay:Start(33)
+		timerRoleplay:Start(32.5)
 	elseif msg == "RP3" then
 		timerRoleplay2:Start(31.7)
 	end
