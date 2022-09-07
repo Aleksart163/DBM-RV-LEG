@@ -93,3 +93,11 @@ L = DBM:GetModLocalization("EmeraldNightmareTrash")
 L:SetGeneralLocalization({
 	name =	"Трэш Изумрудного кошмара"
 })
+
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+})

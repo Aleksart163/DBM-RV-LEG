@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1703, "DBM-EmeraldNightmare", nil, 768)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17603 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 mod:SetCreatureID(102672)
 mod:SetEncounterID(1853)
 mod:SetZone()
@@ -23,46 +23,49 @@ mod:RegisterEventsInCombat(
 	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
 
-local warnVolatileRot				= mod:NewTargetAnnounce(204463, 4)
-local warnRot						= mod:NewTargetAnnounce(203096, 3)
-local warnRotFades					= mod:NewFadesAnnounce(203096, 1)
-local warnHeartofSwarm				= mod:NewSpellAnnounce(203552, 2)
-local warnHeartofSwarmEnd			= mod:NewEndAnnounce(203552, 2)
-local warnInfestedMind				= mod:NewTargetAnnounce(205043, 4)
+local warnVolatileRot				= mod:NewTargetAnnounce(204463, 4) --Взрывоопасная гниль
+local warnRot						= mod:NewTargetAnnounce(203096, 3) --Гниль
+local warnRotFades					= mod:NewFadesAnnounce(203096, 1) --Гниль
+local warnHeartofSwarm				= mod:NewSpellAnnounce(203552, 2) --Королева роя
+local warnHeartofSwarmEnd			= mod:NewEndAnnounce(203552, 2) --Королева роя
+local warnInfestedMind				= mod:NewTargetAnnounce(205043, 4) --Зараженный разум
 
-local specWarnBreath				= mod:NewSpecialWarningDodge(202977, nil, nil, nil, 2, 2)
-local specWarnVolatileRot			= mod:NewSpecialWarningRun(204463, nil, nil, nil, 3, 2)
-local specWarnVolatileRotSwap		= mod:NewSpecialWarningTaunt(204463, nil, nil, nil, 1, 2)
-local yellVolatileRot				= mod:NewFadesYell(204463)
-local specWarnRot					= mod:NewSpecialWarningRun(203096, nil, nil, nil, 1, 2)
-local yellRot						= mod:NewFadesYell(203096)
-local specWarnInfestedGround		= mod:NewSpecialWarningMove(203045, nil, nil, nil, 1, 2)
-local specWarnBurst					= mod:NewSpecialWarningMove(203646, nil, nil, nil, 1, 2)
-local specWarnInfestedMindYou		= mod:NewSpecialWarningYou(205043, nil, nil, nil, 1, 2)
-local yellInfestedMind				= mod:NewYell(205043)
-local specWarnInfestedMind			= mod:NewSpecialWarningSwitch(205043, "Dps", nil, nil, 1, 2)
-local specWarnSpreadInfestation		= mod:NewSpecialWarningInterrupt(205070, "HasInterrupt", nil, nil, 1, 2)
-local specWarnInfestedStack			= mod:NewSpecialWarningStack(204504, nil, 7, nil, 2, 1, 6)
+local specWarnBreath				= mod:NewSpecialWarningDodge(202977, nil, nil, nil, 2, 2) --Заразное дыхание
+local specWarnVolatileRot			= mod:NewSpecialWarningYouMoveAway(204463, nil, nil, nil, 3, 2) --Взрывоопасная гниль
+local specWarnVolatileRotSwap		= mod:NewSpecialWarningTaunt(204463, nil, nil, nil, 1, 2) --Взрывоопасная гниль
+local specWarnRot					= mod:NewSpecialWarningYouMoveAway(203096, nil, nil, nil, 1, 2) --Гниль
+local specWarnInfestedGround		= mod:NewSpecialWarningYouMove(203045, nil, nil, nil, 1, 2) --Зараженная земля
+local specWarnBurst					= mod:NewSpecialWarningYouMove(203646, nil, nil, nil, 1, 2) --Выброс порчи
+local specWarnInfestedMindYou		= mod:NewSpecialWarningYou(205043, nil, nil, nil, 1, 2) --Зараженный разум
+local specWarnInfestedMind			= mod:NewSpecialWarningSwitch(205043, "Dps", nil, nil, 1, 2) --Зараженный разум
+local specWarnSpreadInfestation		= mod:NewSpecialWarningInterrupt(205070, "HasInterrupt", nil, nil, 1, 2) --Распространение заразы
+local specWarnInfestedStack			= mod:NewSpecialWarningStack(204504, nil, 7, nil, 2, 1, 5) --Чумное заражение
 
-local timerBreathCD					= mod:NewCDCountTimer(36, 202977, nil, nil, nil, 3)--36-42
-local timerVolatileRotCD			= mod:NewCDCountTimer(20.5, 204463, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)--20.5-24 variation non mythic. 22-30 mythic
-local timerRotCD					= mod:NewCDCountTimer(15.3, 203096, nil, nil, nil, 3)
-local timerSwarm					= mod:NewBuffActiveTimer(23, 203552, nil, nil, nil, 6)
-local timerSwarmCD					= mod:NewCDCountTimer(98, 203552, nil, nil, nil, 6)--Needs new sample size
+local timerBreathCD					= mod:NewCDCountTimer(36, 202977, nil, nil, nil, 3) --Заразное дыхание 36-42
+local timerVolatileRotCD			= mod:NewCDCountTimer(20.5, 204463, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Взрывоопасная гниль 20.5-24 variation non mythic. 22-30 mythic
+local timerRotCD					= mod:NewCDCountTimer(15.3, 203096, nil, nil, nil, 3) --Гниль
+local timerSwarm					= mod:NewBuffActiveTimer(23, 203552, nil, nil, nil, 6) --Королева роя
+local timerSwarmCD					= mod:NewCDCountTimer(98, 203552, nil, nil, nil, 6) --Королева роя Needs new sample size
 mod:AddTimerLine(ENCOUNTER_JOURNAL_SECTION_FLAG12)
-local timerInfestingMindCD			= mod:NewNextTimer(10, 205043, nil, nil, nil, 3, nil, DBM_CORE_HEROIC_ICON)--36-42
+local timerInfestingMindCD			= mod:NewNextTimer(10, 205043, nil, nil, nil, 3, nil, DBM_CORE_HEROIC_ICON) --Зараженный разум 36-42
 
 local berserkTimer					= mod:NewBerserkTimer(600)
 
-local countdownBreath				= mod:NewCountdown(36, 202977, false)--Can't in good concious have a countdown on by default for something with a 6 second variation
-local countdownVolatileRot			= mod:NewCountdown("Alt20.5", 204463, false)--Same deal as above
-local countdownRot					= mod:NewCountdownFades("Alt5", 203096)
+local countdownBreath				= mod:NewCountdown(36, 202977, false) --Заразное дыхание Can't in good concious have a countdown on by default for something with a 6 second variation
+local countdownVolatileRot			= mod:NewCountdown("Alt20.5", 204463, false) --Взрывоопасная гниль Same deal as above
+local countdownRot					= mod:NewCountdownFades("Alt5", 203096) --Гниль
+local countdownSwarm				= mod:NewCountdown(10, 203552, nil, nil, 5) --Королева роя
+local countdownSwarm2				= mod:NewCountdownFades(10, 203552, nil, nil, 5) --Королева роя
 
-mod:AddSetIconOption("SetIconOnRot", 203096)--Of course I'll probably be forced to change method when BW does their own thing, for compat.
-mod:AddRangeFrameOption(30, 204463)--Range not actually known, 30 used for now
+local yellVolatileRot				= mod:NewFadesYell(204463, nil, nil, nil, "YELL") --Взрывоопасная гниль
+local yellRot						= mod:NewFadesYell(203096, nil, nil, nil, "YELL") --Гниль
+local yellInfestedMind				= mod:NewYell(205043, nil, nil, nil, "YELL") --Зараженный разум
+
+mod:AddSetIconOption("SetIconOnRot", 203096, true, false, {4, 3, 2, 1}) --Гниль Of course I'll probably be forced to change method when BW does their own thing, for compat.
+mod:AddRangeFrameOption(30, 204463) --Взрывоопасная гниль Range not actually known, 30 used for now
 mod:AddInfoFrameOption(204506)
 
-local debuffName, stackDebuff = DBM:GetSpellInfo(204463), DBM:GetSpellInfo(204506)
+local debuffName, stackDebuff = DBM:GetSpellInfo(204463), DBM:GetSpellInfo(204506) --Взрывоопасная гниль
 
 mod.vb.breathCount = 0
 mod.vb.rotCast = 0
@@ -85,12 +88,13 @@ function mod:OnCombatStart(delay)
 	self.vb.volatileRotCast = 0
 	self.vb.swarmCast = 0
 	--Only start timers if boss isn't starting at 0 energy
-	timerRotCD:Start(5.2-delay, 1)
-	timerVolatileRotCD:Start(20-delay, 1)--20-25.8
-	countdownVolatileRot:Start(20-delay)
-	timerBreathCD:Start(35-delay, 1)--35-40
-	countdownBreath:Start(35-delay)
-	timerSwarmCD:Start(86-delay, 1)--86-91
+	timerRotCD:Start(5.5-delay, 1) --Гниль+++
+	timerVolatileRotCD:Start(24-delay, 1) --Взрывоопасная гниль+++ (героик и обычка)
+	countdownVolatileRot:Start(24-delay) --Взрывоопасная гниль+++ (героик и обычка)
+	timerBreathCD:Start(37-delay, 1) --Заразное дыхание+++ (героик и обычка)
+	countdownBreath:Start(37-delay) --Заразное дыхание+++ (героик и обычка)
+	timerSwarmCD:Start(83.5-delay, 1) --Королева роя+++ (обычка)
+	countdownSwarm:Start(83.5-delay) --Королева роя+++ (обычка)
 	if self:IsEasy() then
 		berserkTimer:Start(-delay)
 	else
@@ -166,17 +170,11 @@ end
 
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
-	if spellId == 204463 then
+	if spellId == 204463 then --Взрывоопасная гниль
 		if args:IsPlayer() then
 			specWarnVolatileRot:Show()
 			specWarnVolatileRot:Play("runout")
-			local _, _, _, _, _, duration, expires, _, _ = UnitDebuff("player", args.spellName)
-			if expires then
-				local remaining = expires-GetTime()
-				yellVolatileRot:Schedule(remaining-1, 1)
-				yellVolatileRot:Schedule(remaining-2, 2)
-				yellVolatileRot:Schedule(remaining-3, 3)
-			end
+			yellVolatileRot:Countdown(8, 3)
 			if self.Options.RangeFrame then
 				DBM.RangeCheck:Show(30)
 			end
@@ -191,19 +189,12 @@ function mod:SPELL_AURA_APPLIED(args)
 				DBM.RangeCheck:Show(30, debuffFilter)
 			end
 		end
-	elseif spellId == 203096 then
+	elseif spellId == 203096 then --Гниль
 		warnRot:CombinedShow(0.5, args.destName)
 		if args:IsPlayer() then
 			specWarnRot:Show()
 			specWarnRot:Play("runout")
-			local _, _, _, _, _, duration, expires, _, _ = UnitDebuff("player", args.spellName)
-			if expires then
-				local remaining = expires-GetTime()
-				yellRot:Schedule(remaining-1, 1)
-				yellRot:Schedule(remaining-2, 2)
-				yellRot:Schedule(remaining-3, 3)
-				countdownRot:Start(remaining)
-			end
+			yellRot:Countdown(9, 3)
 		end
 		if self.Options.SetIconOnRot then
 			self:SetAlphaIcon(0.8, args.destName)--Number of icons variable by raid size and duration of fight
