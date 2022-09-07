@@ -44,9 +44,9 @@
 ----------------------------------------------------------------
 --
 DBM = {
-	Revision = tonumber(("$Revision: 17676 $"):sub(12, -3)), --прошляпанное очко мурчаля ✔
+	Revision = tonumber(("$Revision: 17677 $"):sub(12, -3)), --прошляпанное очко мурчаля ✔
 	DisplayVersion = "7.3.39 Right Version",
-	ReleaseRevision = 17675
+	ReleaseRevision = 17676
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -9864,7 +9864,7 @@ do
 			if announceType == "target" or announceType == "targetcount" or announceType == "close" or announceType == "reflect" then
 				catType = "announceother"
 			--Directly affects you 
-			elseif announceType == "targetsoak" or announceType == "targethelp" or announceType == "targetdodge" or announceType == "keepdist" or announceType == "you" or announceType == "yourun" or announceType == "yourunning" or announceType == "closemoveaway" or announceType == "youfind" or announceType == "youclose" or announceType == "youshare" or announceType == "youdefensive" or announceType == "youmoveaway" or announceType == "youmove" or announceType == "youcount" or announceType == "youpos" or announceType == "move" or announceType == "dodge" or announceType == "moveaway" or announceType == "run" or announceType == "stack" or announceType == "moveto" or announceType == "soakpos" or announceType == "youmoveawaypos" or announceType == "youfades" or announceType == "youdontmove" or announceType == "cast" then
+			elseif announceType == "targetint" or announceType == "targetrun" or announceType == "targetsoak" or announceType == "targethelp" or announceType == "targetdodge" or announceType == "keepdist" or announceType == "you" or announceType == "yourun" or announceType == "yourunning" or announceType == "closemoveaway" or announceType == "youfind" or announceType == "youclose" or announceType == "youshare" or announceType == "youdefensive" or announceType == "youmoveaway" or announceType == "youmove" or announceType == "youcount" or announceType == "youpos" or announceType == "move" or announceType == "dodge" or announceType == "moveaway" or announceType == "run" or announceType == "stack" or announceType == "moveto" or announceType == "soakpos" or announceType == "youmoveawaypos" or announceType == "youfades" or announceType == "youdontmove" or announceType == "cast" then
 				catType = "announcepersonal"
 			--Things you have to do to fulfil your role
 			elseif announceType == "taunt" or announceType == "moredamage" or announceType == "defensive" or announceType == "interrupt2" or announceType == "dispel" or announceType == "interrupt" or announceType == "interruptcount" or announceType == "switch" or announceType == "switchcount" or announceType == "youmoredamage" then
@@ -9883,6 +9883,10 @@ do
 
 	function bossModPrototype:NewSpecialWarningEnd(text, optionDefault, ...)
 		return newSpecialWarning(self, "ends", text, nil, optionDefault, ...)
+	end
+	
+	function bossModPrototype:NewSpecialWarningReady(text, optionDefault, ...)
+		return newSpecialWarning(self, "ready", text, nil, optionDefault, ...)
 	end
 
 	function bossModPrototype:NewSpecialWarningFades(text, optionDefault, ...)
@@ -9955,6 +9959,14 @@ do
 
 	function bossModPrototype:NewSpecialWarningTargetSoak(text, optionDefault, ...)
 		return newSpecialWarning(self, "targetsoak", text, nil, optionDefault, ...)
+	end
+	
+	function bossModPrototype:NewSpecialWarningTargetRun(text, optionDefault, ...)
+		return newSpecialWarning(self, "targetrun", text, nil, optionDefault, ...)
+	end
+	
+	function bossModPrototype:NewSpecialWarningTargetInt(text, optionDefault, ...)
+		return newSpecialWarning(self, "targetint", text, nil, optionDefault, ...)
 	end
 	
 	function bossModPrototype:NewSpecialWarningTargetCount(text, optionDefault, ...)

@@ -32,7 +32,7 @@ DBM_CORE_LOOT_SPEC_REMINDER			= "Tu especialización es %s. Tu especialización 
 
 DBM_CORE_BIGWIGS_ICON_CONFLICT		= "DBM ha detectado que tienes habilitados los iconos de banda en BigWigs y DBM. Por favor, desactívalos en uno de los dos addons para evitar conflictos con la configuración de tu líder de banda."
 
-DBM_CORE_MOD_AVAILABLE				= "El módulo de %s está disponible para este contenido. Puedes descargarlo a través de Curse, WoWInterface o deadlybossmods.com."
+DBM_CORE_MOD_AVAILABLE				= "El módulo de %s está disponible para este contenido. Puedes descargarlo a través de |HDBM:forums|h|cff3588ffhttps://github.com/Aleksart163/DBM-for-Uwow|r."
 
 DBM_CORE_COMBAT_STARTED				= "Encuentro de %s iniciado. ¡Buena suerte!"
 DBM_CORE_COMBAT_STARTED_IN_PROGRESS	= "Te has unido al encuentro de %s mientras estaba en curso. ¡Buena suerte!"
@@ -298,6 +298,7 @@ DBM_CORE_ACHIEVEMENT_TIMER_SPEED_KILL = "Logro"
 -- Auto-generated Warning Localizations
 DBM_CORE_AUTO_ANNOUNCE_TEXTS.you		= "%s en ti"
 DBM_CORE_AUTO_ANNOUNCE_TEXTS.target		= "%s en >%%s<"
+DBM_CORE_AUTO_ANNOUNCE_TEXTS.targetsource = ">%%s< esta usando hechizo %s"
 DBM_CORE_AUTO_ANNOUNCE_TEXTS.targetcount= "%s (%%s) en >%%s<"
 DBM_CORE_AUTO_ANNOUNCE_TEXTS.spell		= "%s"
 DBM_CORE_AUTO_ANNOUNCE_TEXTS.ends 		= "%s ha terminado"
@@ -315,6 +316,7 @@ DBM_CORE_AUTO_ANNOUNCE_TEXTS.stack		= "%s en >%%s< (%%d)"
 local prewarnOption = "Mostrar aviso previo para $spell:%s"
 DBM_CORE_AUTO_ANNOUNCE_OPTIONS.you			= "Anunciar que te afecta $spell:%s"
 DBM_CORE_AUTO_ANNOUNCE_OPTIONS.target		= "Anunciar objetivos de $spell:%s"
+DBM_CORE_AUTO_ANNOUNCE_OPTIONS.targetsource	= "Anunciar quien esta utilizando hechizo $spell:%s"
 DBM_CORE_AUTO_ANNOUNCE_OPTIONS.targetcount	= "Anunciar objetivos de $spell:%s (con contador)"
 DBM_CORE_AUTO_ANNOUNCE_OPTIONS.spell		= "Mostrar aviso para $spell:%s"
 DBM_CORE_AUTO_ANNOUNCE_OPTIONS.ends			= "Mostrar aviso cuando termine $spell:%s"

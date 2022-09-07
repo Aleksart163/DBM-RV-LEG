@@ -41,6 +41,7 @@ local warnPrePhase2						= mod:NewPrePhaseAnnounce(2, 1)
 local warnPrePhase3						= mod:NewPrePhaseAnnounce(3, 1)
 
 local specWarnFelBombardment			= mod:NewSpecialWarningYouMoveAway(246220, nil, nil, nil, 3, 5) --Обстрел скверны
+local specWarnFelBombardment2			= mod:NewSpecialWarningYou(246220, nil, nil, nil, 1, 2) --Обстрел скверны
 local specWarnFelBombardmentTaunt		= mod:NewSpecialWarningTaunt(246220, nil, nil, nil, 3, 5) --Обстрел скверны
 local specWarnApocDrive					= mod:NewSpecialWarningSwitch(244152, "-Healer", nil, nil, 1, 2) --Реактор апокалипсиса
 local specWarnEradication				= mod:NewSpecialWarningRun(244969, nil, nil, nil, 4, 5) --Искоренение
@@ -225,13 +226,14 @@ end
 
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
-	if spellId == 246220 then
+	if spellId == 246220 then --Обстрел скверны
 		self.vb.FelBombardmentActive = self.vb.FelBombardmentActive + 1
 		warnFelBombardment:Show(args.destName)
 		if args:IsPlayer() then
-			specWarnFelBombardment:Show()
-			specWarnFelBombardment:Play("runout")
-			specWarnFelBombardment:ScheduleVoice(7, "keepmove")
+			specWarnFelBombardment2:Show()
+			specWarnFelBombardment2:Play("targetyou")
+			specWarnFelBombardment:Schedule(3.5)
+			specWarnFelBombardment:ScheduleVoice(3.5, "runout")
 			yellFelBombardment2:Yell()
 			yellFelBombardment:Countdown(7, 3)
 		elseif self:IsTank() then

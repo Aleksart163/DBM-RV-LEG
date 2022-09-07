@@ -385,9 +385,11 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 250701 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Размах скверны
 		specWarnSwing:Show()
 		specWarnSwing:Play("watchstep")
-	elseif spellId == 246305 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Артиллерийский удар
-		specWarnArtilleryStrike:Show()
-		specWarnArtilleryStrike:Play("kickcast")
+	elseif spellId == 246305 then --Артиллерийский удар
+		if self:CheckTargetFilter(args.sourceGUID) then
+			specWarnArtilleryStrike:Show()
+			specWarnArtilleryStrike:Play("kickcast")
+		end
 	end
 end
 

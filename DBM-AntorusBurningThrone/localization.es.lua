@@ -109,7 +109,7 @@ L= DBM:GetModLocalization(1983)
 ------------------------
 L= DBM:GetModLocalization(1986)
 
-L:SetTimerLocalization({
+L:SetTimerLocalization({ -- mantener distancia 2m entre jugadore 2 метра дистанции
 	timerBossIncoming		= DBM_INCOMING
 })
 
