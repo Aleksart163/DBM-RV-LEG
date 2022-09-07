@@ -69,6 +69,7 @@ mod.vb.lastBoltTime = 0
 local warned_preP1 = false
 local warned_preP2 = false
 
+local playerName = UnitName("player")
 local paranoia = DBM:GetSpellInfo(200289) --Усугубляющаяся паранойя
 
 function mod:NightmareBoltTarget(targetname, uId) --Прошляпанное очко Мурчаля ✔
@@ -90,7 +91,7 @@ function mod:ParanoiaTarget(targetname, uId) --Усугубляющаяся па
 	if targetname == UnitName("player") then
 		specWarnParanoia:Show()
 		specWarnParanoia:Play("runaway")
-		yellParanoia:Yell(paranoia, targetname) --args.destName
+		yellParanoia:Yell(paranoia, playerName) --args.destName
 	elseif self:CheckNearby(15, targetname) then
 		specWarnParanoia2:Show(targetname)
 		specWarnParanoia2:Play("runaway")

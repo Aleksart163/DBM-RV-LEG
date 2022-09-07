@@ -451,18 +451,8 @@ L= DBM:GetModLocalization(1512)
 -----------------------
 L= DBM:GetModLocalization(1663)
 
-L:SetWarningLocalization({
-	Phase1 = "Phase 2 soon",
-	Phase2 = "Phase 2"
-})
-
-L:SetOptionLocalization({
-	Phase1 = "Warn in advance about phase 2 (on ~85%)",
-	Phase2 = "Announce Phase 2"
-})
-
 L:SetMiscLocalization({
-	TaintofSeaYell = "Taint of the Sea fading on %s. BEWARE!"
+	TaintofSeaYell = "%s fading on %s. BEWARE!"
 })
 
 -----------------------

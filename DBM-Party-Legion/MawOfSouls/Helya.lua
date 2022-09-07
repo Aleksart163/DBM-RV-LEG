@@ -20,13 +20,13 @@ mod:RegisterEventsInCombat(
 )
 
 --Хелия https://ru.wowhead.com/npc=96759/хелия
-local warnPhase							= mod:NewAnnounce("Phase1", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 2
-local warnPhase2						= mod:NewAnnounce("Phase2", 1, 196947) --Фаза 2
-local warnTaintofSea					= mod:NewTargetAnnounce(197262, 2) --Морская порча
---local warnSubmerged						= mod:NewSpellAnnounce(196947, 2) --Погружение
+local warnPhase							= mod:NewPhaseChangeAnnounce(1)
+local warnPhase2						= mod:NewPrePhaseAnnounce(2, 1, 196947)
+local warnTaintofSea					= mod:NewTargetAnnounce(197262, 3) --Морская порча
 local warnSubmerged2					= mod:NewPreWarnAnnounce(196947, 5, 1) --Погружение
 
---local specWarnTaintofSea				= mod:NewSpecialWarningYouMoveAway(197262, nil, nil, nil, 3, 5) --Морская порча
+local specWarnTaintofSea				= mod:NewSpecialWarningYou(197262, nil, nil, nil, 1, 3) --Морская порча
+local specWarnTaintofSea2				= mod:NewSpecialWarningDispel(197262, "MagicDispeller2", nil, nil, 1, 3) --Морская порча
 local specWarnDestructorTentacle		= mod:NewSpecialWarningSwitch("ej12364", "Tank") --Щупальце разрушения
 local specWarnBrackwaterBarrage			= mod:NewSpecialWarningDodge(202088, nil, nil, nil, 3, 5) --Обстрел солоноватой водой Tank stays with destructor tentacle no matter what
 local specWarnSubmerged					= mod:NewSpecialWarningDodge(196947, nil, nil, nil, 1, 2) --Погружение
@@ -54,14 +54,17 @@ local countdownSubmerged				= mod:NewCountdown("Alt74.5", 196947, nil, nil, 5) -
 mod:AddSetIconOption("SetIconOnTaintofSea", 197262, true, false, {8, 7}) --Морская порча
 
 mod.vb.phase = 1
+mod.vb.submerged = 0
 mod.vb.taintofseaIcon = 8
 
 local warned_preP1 = false
 local warned_preP2 = false
 local playerName = UnitName("player")
+local taintofSea = DBM:GetSpellInfo(197262) --Морская порча
 
 function mod:OnCombatStart(delay)
 	self.vb.phase = 1
+	self.vb.submerged = 0
 	self.vb.taintofseaIcon = 8
 	warned_preP1 = false
 	warned_preP2 = false
@@ -122,14 +125,17 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self.vb.phase == 1 then
 			self.vb.phase = 2
 			warned_preP2 = true
-			warnPhase2:Schedule(15)
-			warnPhase2:Play("phasechange")
 		end
 	elseif spellId == 197262 then --Морская порча
 		self.vb.taintofseaIcon = self.vb.taintofseaIcon - 1
-		warnTaintofSea:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
+			specWarnTaintofSea:Show()
+			specWarnTaintofSea:Play("targetyou")
 			yellTaintofSea:Yell()
+		else
+			warnTaintofSea:Show(args.destName)
+			specWarnTaintofSea2:Show(args.destName)
+			specWarnTaintofSea2:Play("dispelnow")
 		end
 		if self.vb.phase == 1 then
 			timerTaintofSeaCD:Start()
@@ -148,6 +154,7 @@ end
 function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
 	if spellId == 196947 then --Погружение
+		self.vb.submerged = self.vb.submerged + 1
 		timerTorrentCD:Start(11) --было 5
 		timerSubmerged2:Start()
 		countdownSubmerged:Start()
@@ -156,11 +163,15 @@ function mod:SPELL_AURA_REMOVED(args)
 		timerBreathCD:Start(19)
 		countdownBreath:Start(19)
 		timerTaintofSeaCD:Start(10)
+		if self.vb.submerged == 1 then
+			warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase))
+			warnPhase:Play("phasechange")
+		end
 	elseif spellId == 197262 then --Морская порча
 	--	self.vb.taintofseaIcon = self.vb.taintofseaIcon + 1
 		if args:IsPlayer() then
 			specWarnTaintofSeaOver:Show()
-			yellTaintofSea2:Yell(playerName)
+			yellTaintofSea2:Yell(taintofSea, playerName)
 		end
 		if self.Options.SetIconOnTaintofSea then
 			self:SetIcon(args.destName, 0)
@@ -186,10 +197,10 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 end
 
 function mod:UNIT_HEALTH(uId)
-	if self:IsHard() then --миф и миф+
+	if not self:IsNormal() then --гер, миф и миф+
 		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 96759 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.85 then
 			warned_preP1 = true
-			warnPhase:Show()
+			warnPhase2:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase+1))
 		end
 	else
 		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 96759 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.85 then

@@ -458,18 +458,8 @@ L= DBM:GetModLocalization(1512)
 ---------
 L= DBM:GetModLocalization(1663)
 
-L:SetWarningLocalization({
-	Phase1 = "Скоро фаза 2",
-	Phase2 = "Фаза 2"
-})
-
-L:SetOptionLocalization({
-	Phase1 = "Предупреждать заранее о фазе 2 (на ~85%)",
-	Phase2 = "Объявлять фазу 2"
-})
-
 L:SetMiscLocalization({
-	TaintofSeaYell = "Морская порча спадает с %s. Берегись!"
+	TaintofSeaYell = "%s спадает с %s. Берегись!"
 })
 
 -------------
