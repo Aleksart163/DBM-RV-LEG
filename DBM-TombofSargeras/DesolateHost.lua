@@ -210,14 +210,14 @@ function mod:SPELL_CAST_START(args)
 			specWarnSunderingDoomRun:Show()
 			specWarnSunderingDoomRun:Play("justrun")
 		else
-			specWarnSunderingDoomGather:Show(BOSS)
+			specWarnSunderingDoomGather:Show(DBM_CORE_TOTHEBOSS)
 			specWarnSunderingDoomGather:Play("gathershare")
 		end
 		timerSunderingDoomCD:Start()
 		countdownSunderingDoom:Start()
 	elseif spellId == 236544 then--Doomed Sunering (spirit realm soaks)
 		if DBM:UnitBuff("player", spiritRealm) or DBM:UnitDebuff("player", spiritRealm) then--Figure out which it is
-			specWarnDoomedSunderingGather:Show(BOSS)
+			specWarnDoomedSunderingGather:Show(DBM_CORE_TOTHEBOSS)
 			specWarnDoomedSunderingGather:Play("gathershare")
 		else
 			specWarnDoomedSunderingRun:Show()

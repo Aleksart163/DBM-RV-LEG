@@ -78,7 +78,7 @@ end]]
 function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
 	if spellId == 80353 then --Искажение времени
-		if self:AntiSpam(2, 1) then
+		if self:AntiSpam(2.5, 1) then
 			warnTimeWarp:Show(args.sourceName)
 		end
 		if self.Options.YellOnHeroism then
@@ -91,7 +91,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 			end
 		end
 	elseif spellId == 32182 then --Героизм
-		if self:AntiSpam(2, 1) then
+		if self:AntiSpam(2.5, 1) then
 			warnHeroism:Show(args.sourceName)
 		end
 		if self.Options.YellOnHeroism then
@@ -104,7 +104,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 			end
 		end
 	elseif spellId == 2825 then --Кровожадность
-		if self:AntiSpam(2, 1) then
+		if self:AntiSpam(2.5, 1) then
 			warnBloodlust:Show(args.sourceName)
 		end
 		if self.Options.YellOnHeroism then
@@ -117,7 +117,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 			end
 		end
 	elseif spellId == 90355 then --Древняя истерия (пет ханта)
-		if self:AntiSpam(2, 1) then
+		if self:AntiSpam(2.5, 1) then
 			warnHysteria:Show(args.sourceName)
 		end
 		if self.Options.YellOnHeroism then
@@ -130,7 +130,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 			end
 		end
 	elseif spellId == 160452 then --Ветер пустоты (пет ханта)
-		if self:AntiSpam(2, 1) then
+		if self:AntiSpam(2.5, 1) then
 			warnNetherwinds:Show(args.sourceName)
 		end
 		if self.Options.YellOnHeroism then
@@ -143,7 +143,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 			end
 		end
 	elseif spellId == 230935 then --Барабаны гор
-		if self:AntiSpam(2, 1) then
+		if self:AntiSpam(2.5, 1) then
 			warnDrums:Show(args.sourceName)
 		end
 		if self.Options.YellOnHeroism then
@@ -307,7 +307,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 				SendChatMessage(L.PortalYell:format(args.sourceName, dalaran2), "PARTY")
 			end
 		end
-	elseif spellId == 29893 and self:AntiSpam(2, 1) then --Источник душ
+	elseif spellId == 29893 and self:AntiSpam(2.5, 1) then --Источник душ
 		if self.Options.YellOnSoulwell then
 			if IsInRaid() then
 				SendChatMessage(L.SoulwellYell:format(args.sourceName, soulwell), "RAID")
@@ -335,7 +335,9 @@ end
 function mod:SPELL_CREATE(args)
 	local spellId = args.spellId
 	if spellId == 698 then --Ритуал призыва
-		warnRitualofSummoning:Show(args.sourceName)
+		if self:AntiSpam(2.5, 1) then
+			warnRitualofSummoning:Show(args.sourceName)
+		end
 		if self.Options.YellOnRitualofSummoning then
 			if IsInRaid() then
 				SendChatMessage(L.SummoningYell:format(args.sourceName, summoning), "RAID")
@@ -343,7 +345,7 @@ function mod:SPELL_CREATE(args)
 				SendChatMessage(L.SummoningYell:format(args.sourceName, summoning), "PARTY")
 			end
 		end
-	elseif spellId == 188036 and self:AntiSpam(2, 1) then --Котел духов
+	elseif spellId == 188036 and self:AntiSpam(2.5, 1) then --Котел духов
 		if self.Options.YellOnSpiritCauldron then
 			if IsInRaid() then
 				SendChatMessage(L.SoulwellYell:format(args.sourceName, cauldron), "RAID")

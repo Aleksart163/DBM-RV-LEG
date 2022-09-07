@@ -1,7 +1,7 @@
 if GetLocale() ~= "koKR" then return end
 local L
 
---Прошляпанное очко Мурчаля ✔
+--Прошляпанное очко Мурчаля ✔✔
 
 ------------------------
 -- Mage Tower: TANK --
@@ -40,7 +40,7 @@ L:SetGeneralLocalization({
 })
 
 L:SetMiscLocalization({
-	impServants = "임프 하수인들이 아가타에게 힘을 불어넣기 전에 처치하세요!"
+	impServants = "임프 하수인이 아가타에게 힘을 불어넣기 전에 그들을 처치해야 합니다!" --
 })
 
 ------------------------
@@ -52,6 +52,10 @@ L:SetGeneralLocalization({
 	name =	"여신왕의 분노"
 })
 
+L:SetMiscLocalization({
+	SigrynRP1 = "내가... 뭘 하는 거지? 이건 옳지 않아!"
+})
+
 ------------------------
 -- Mage Tower: DPS --
 ------------------------
@@ -59,6 +63,11 @@ L= DBM:GetModLocalization("Twins")
 
 L:SetGeneralLocalization({
 	name =	"쌍둥이의 싸움 막기"
+})
+
+L:SetMiscLocalization({
+	TwinsRP1 = "형편없군! 내가 처리할 테니 저리 비켜라, 형제여.",
+	TwinsRP2 = "형제여, 또 내가 너의 뒤치다꺼리를 해야 하는구나!"
 })
 
 ------------------------
@@ -88,8 +97,9 @@ L:SetTimerLocalization({
 })
 
 L:SetMiscLocalization({
-	Kruul = "Arrogant fools! I am empowered by the souls of a thousand conquered worlds!",
-	Twins1 = "I cannot let you unleash your power upon Azeroth, Raest. If you do not yield, I will be forced to destroy you!",
-	ErdrisThorn1 = "No way I'm staying behind! The attacks on my town must be stopped!",
-	Agatha1 = "Even now, my sayaad tempt your weak-willed mages. Your allies will surrender willingly to the Legion!"
+	Kruul = "오만하고 멍청한 것들! 나에게는 수천 개의 세계에서 얻은 영혼의 힘이 흘러넘친다!", --
+	Twins1 = "라이스트, 네가 아제로스를 뒤흔들게 할 수는 없어. 그만두지 않으면 널 쓰러뜨리겠다!", --
+	ErdrisThorn1 = "보고만 있지 않을 거야! 내 마을을 지켜야 해!", --
+	Agatha1 = "지금도 내 세이야드는 의지가 약한 마법사들을 유혹하고 있다. 네 동맹은 제 발로 군단에 굴복할 것이다!", --
+	Sigryn1 = "이 벽 뒤에 영영 숨을 수 있을 것 같으냐, 오딘!" --
 })

@@ -30,12 +30,14 @@
 ## X-DBM-Mod-MapID: 1712, 1676, 1530, 1648, 1520, 1779, 1501, 1466, 1456, 1477, 1458, 1516, 1571, 1492, 1544, 1493, 1651, 1677, 1753
 ## X-DBM-Mod-MinCoreRevision: 17650
 
+localization.br.lua
+localization.it.lua
+localization.fr.lua
 localization.en.lua
-localization.ru.lua
-localization.cn.lua
 localization.de.lua
 localization.kr.lua
+localization.ru.lua
 localization.tw.lua
+localization.cn.lua
 localization.es.lua
-localization.it.lua
 Spells.lua

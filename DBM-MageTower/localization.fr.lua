@@ -52,6 +52,10 @@ L:SetGeneralLocalization({
 	name = "La fureur de la Déesse-Reine"
 })
 
+L:SetMiscLocalization({
+	SigrynRP1 = "Que… qu’est-ce que je suis en train de faire ? C’est impardonnable !" --
+})
+
 ------------------------
 -- Mage Tower: DPS --
 ------------------------
@@ -96,5 +100,6 @@ L:SetMiscLocalization({
 	Kruul = "Arrogants imbéciles ! Je détiens la puissance des âmes d’un millier de mondes !", --
 	Twins1 = "Je ne peux pas te laisser déchaîner ta puissance sur Azeroth, Raëst. Si tu n’abandonnes pas, je serai forcé de te détruire !", --
 	ErdrisThorn1 = "Il est hors de question que je reste en arrière ! Les attaques sur mon village doivent cesser !", --
-	Agatha1 = "En ce moment même, mes sayaad séduisent vos mages les plus faibles. Vos alliés se rendront de leur plein gré à la Légion !" --
+	Agatha1 = "En ce moment même, mes sayaad séduisent vos mages les plus faibles. Vos alliés se rendront de leur plein gré à la Légion !", --
+	Sigryn1 = "Tu ne pourra pas te cacher éternellement derrière ces murs, Odyn !" --
 })

@@ -40,7 +40,6 @@ local specWarnRunicDetonation	= mod:NewSpecialWarningSoak(237914, nil, nil, nil,
 local specWarnKnowledge			= mod:NewSpecialWarningSwitch(237952, nil, nil, nil, 1, 2) --Знание предков
 
 --Сигрин
---Timers obviously affected by CC usage
 local timerThrowSpearCD			= mod:NewCDTimer(13.4, 238694, nil, nil, nil, 3) --Бросок копья
 --local timerAdvanceCD			= mod:NewCDTimer(13.4, 237849, nil, nil, nil, 2) --Продвижение
 local timerBloodFatherCD		= mod:NewCDCountTimer(13.4, 237945, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Кровь отца
@@ -55,18 +54,11 @@ local timerKnowledgeCD			= mod:NewCDCountTimer(13.4, 237952, nil, nil, nil, 3) -
 
 local countdownBloodFather		= mod:NewCountdown(13.4, 237945) --Кровь отца
 
---This may not be accurate way to do it, it may be some kind of shared CD like HFC council and just be grossly affected by CCs
---These are ones consistent between 4 pulls (including kill) though
 local bladeStormTimers = {125.0, 105.0, 30.0}
 local berserkerRageTimers = {26.0, 175.0}
 local bloodFatherTimers = {89.5, 120.0, 120.0, 120.0, 120.0}
 local ancestralKnowledgeTimers = {98.4, 69.2, 118.4, 66.3, 26.7, 27.1, 27.5}--Rest 25
---[[
---I mean, there is some consistency until 4 and 5. I'm not sure if this is result of CC though or RNG
-["237914-Runic Detonation"] = "pull:43.7, 14.6, 87.5, 56.3, 14.2, 13.3",
-["237914-Runic Detonation"] = "pull:43.4, 13.4, 87.4, 10.9, 47.4, 12.6, 10.5",
-["237914-Runic Detonation"] = "pull:43.5, 14.6, 87.5, 11.0, 44.1, 10.9, 13.4",
---]]
+
 local bloodCount = 0
 local bladeCount = 0
 local berserkerCount = 0

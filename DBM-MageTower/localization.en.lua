@@ -51,6 +51,10 @@ L:SetGeneralLocalization({
 	name =	"The God-Queen's Fury"
 })
 
+L:SetMiscLocalization({
+	SigrynRP1 = "What... what am I doing? This is not right!"
+})
+
 ------------------------
 -- Mage Tower: DPS --
 ------------------------
@@ -95,5 +99,7 @@ L:SetMiscLocalization({
 	Kruul = "Arrogant fools! I am empowered by the souls of a thousand conquered worlds!",
 	Twins1 = "I cannot let you unleash your power upon Azeroth, Raest. If you do not yield, I will be forced to destroy you!",
 	ErdrisThorn1 = "No way I'm staying behind! The attacks on my town must be stopped!",
-	Agatha1 = "Even now, my sayaad tempt your weak-willed mages. Your allies will surrender willingly to the Legion!"
+	Agatha1 = "Even now, my sayaad tempt your weak-willed mages. Your allies will surrender willingly to the Legion!",
+	Sigryn1 = "You cannot hide behind these walls forever, Odyn!"
+--	Sigryn2 = "What's this? The outsider has come to stop me? I owe you much, but I cannot allow you to impede my quest for justice!"
 })

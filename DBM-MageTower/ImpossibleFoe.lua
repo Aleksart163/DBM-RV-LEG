@@ -2,7 +2,7 @@
 local L		= mod:GetLocalizedStrings()
 
 mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
-mod:SetCreatureID(115638)
+mod:SetCreatureID(115638) --Агата
 mod:SetZone()
 mod.soloChallenge = true
 mod.onlyNormal = true
@@ -14,12 +14,16 @@ mod:RegisterEventsInCombat(
 	"SPELL_AURA_REMOVED 243113",
 	"SPELL_PERIODIC_DAMAGE 236161",
 	"SPELL_PERIODIC_MISSED 236161",
+	"UNIT_HEALTH",
 	"UNIT_DIED",
 	"UNIT_SPELLCAST_SUCCEEDED boss1",
 	"CHAT_MSG_RAID_BOSS_EMOTE"
 )
 
 --Прошляпанное очко Мурчаля ✔ Невероятный противник
+local warnPhase					= mod:NewPhaseChangeAnnounce(1)
+local warnPrePhase2				= mod:NewPrePhaseAnnounce(2, 1)
+
 local specWarnImpServants		= mod:NewSpecialWarningSwitch(235140, nil, nil, nil, 1, 2) --Месть Агаты
 local specWarnDarkFury			= mod:NewSpecialWarningMoreDamage(243113, nil, nil, nil, 1, 5) --Темная ярость
 local specWarnPlagueZone		= mod:NewSpecialWarningYouMove(236161, nil, nil, nil, 1, 2) --Область чумы
@@ -34,7 +38,14 @@ mod:AddInfoFrameOption(243113, true)
 
 mod.vb.phase = 1
 
+local warned_preP1 = false
+local warned_preP2 = false
+local warned_preP3 = false
+
 function mod:OnCombatStart(delay)
+	warned_preP1 = false
+	warned_preP2 = false
+	warned_preP3 = false
 	self.vb.phase = 1
 	timerImpServantsCD:Start(15-delay) --Месть Агаты+++
 	countdownImpServants:Start(15-delay) --Месть Агаты+++
@@ -90,12 +101,17 @@ function mod:UNIT_DIED(args)
 	if args.destGUID == UnitGUID("player") then
 		DBM:EndCombat(self, true)
 	end
+	local cid = self:GetCIDFromGUID(args.destGUID)
+	if cid == 115638 then --Агата
+		DBM:EndCombat(self)
+	end
 end
 
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 	if spellId == 242987 then
 		if self.vb.phase == 1 then
 			self.vb.phase = 2
+			warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase))
 		end
 	end
 end
@@ -106,5 +122,12 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)
 		specWarnImpServants:Play("bigmob")
 		timerImpServantsCD:Start()
 		countdownImpServants:Start()
+	end
+end
+
+function mod:UNIT_HEALTH(uId)
+	if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 115638 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.61 then --Агата
+		warned_preP1 = true
+		warnPrePhase2:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase+1))
 	end
 end

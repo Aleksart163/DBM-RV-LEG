@@ -1,3 +1,4 @@
+if GetLocale() ~= "frFR" then return end
 local L
 
 ---------------
@@ -49,5 +50,5 @@ L:SetTimerLocalization({
 })
 
 L:SetMiscLocalization({
-	RP1 = "Champions! You have spilled the blood of Helya's minions. The time has come to enter Helheim itself and end the sea witch's dark reign. But first... a final challenge!"
+	RP1 = "Champions ! Vous avez versé le sang des serviteurs de Helya. Il est temps d’envahir Helheim et de mettre fin au règne de la sorcière. Mais d’abord… un ultime défi !" --
 })

@@ -1,5 +1,5 @@
 ## Interface: 70300
-## X-Min-Interface: 70200
+## X-Min-Interface: 70000
 ## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Tomb of Sargeras|r
 ## Title-koKR:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0살게라스의 무덤|r
 ## Title-deDE:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Grabmal des Sargeras|r
@@ -16,7 +16,8 @@
 ## X-DBM-Mod-Has-Mythic : 1
 ## X-DBM-Mod-Sort: 502
 ## X-DBM-Mod-MapID: 1676
-## X-DBM-Mod-MinCoreRevision: 14737
+## X-DBM-Mod-MinCoreRevision: 17650
+
 localization.en.lua
 localization.kr.lua
 localization.de.lua

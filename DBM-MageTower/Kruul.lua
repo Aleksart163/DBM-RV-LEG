@@ -15,6 +15,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_SUCCESS 236572",
 	"SPELL_AURA_APPLIED 234422 234423",
 	"SPELL_AURA_APPLIED_DOSE 234422",
+	"SPELL_AURA_REMOVED 234422",
 	"SPELL_SUMMON 234428",
 	"SPELL_PERIODIC_DAMAGE 234675",
 	"SPELL_PERIODIC_MISSED 234675",
@@ -34,6 +35,7 @@ local warnTormentingEye			= mod:NewSpellAnnounce(234428, 2) --Призыв ис�
 --local warnNetherAberration		= mod:NewSpellAnnounce(235110, 2) --Аберрация Пустоты
 local warnInfernal				= mod:NewSpellAnnounce(235112, 3, 157898) --Призыв тлеющего инфернала
 
+local specWarnDecay2			= mod:NewSpecialWarningEnd(234422, nil, nil, nil, 1, 2) --Аура разложения
 local specWarnDecay				= mod:NewSpecialWarningStack(234422, nil, 5, nil, nil, 1, 5) --Аура разложения
 local specWarnDrainLife			= mod:NewSpecialWarningInterrupt(234423, nil, nil, 2, 3, 2) --Похищение жизни
 local specWarnSmash				= mod:NewSpecialWarningDodge(234631, nil, nil, nil, 2, 2) --Мощный удар
@@ -124,17 +126,28 @@ function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 234422 then --Аура разложения
 		local amount = args.amount or 1
-		if amount >= 5 then
-			specWarnDecay:Show(amount)
-			specWarnDecay:Play("stackhigh")
-		elseif amount % 2 == 0 then
-			warnDecay:Show(args.destName, amount)
+		if args:IsPlayer() then
+			if amount >= 5 then
+				specWarnDecay:Show(amount)
+				specWarnDecay:Play("stackhigh")
+			elseif amount % 2 == 0 then
+				warnDecay:Show(args.destName, amount)
+			end
 		end
 	elseif spellId == 234423 then --Похищение жизни
 		warnDrainLife:Show(args.destName)
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
+
+function mod:SPELL_AURA_REMOVED(args)
+	local spellId = args.spellId
+	if spellId == 234422 then --Аура разложения
+		if args:IsPlayer() then
+			specWarnDecay2:Show()
+		end
+	end
+end
 
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
 	if spellId == 234675 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then

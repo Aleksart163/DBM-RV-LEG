@@ -52,6 +52,10 @@ L:SetGeneralLocalization({
 	name =	"Zorn der Gottkönigin"
 })
 
+L:SetMiscLocalization({
+	SigrynRP1 = "Was... tue ich da? Das ist falsch!" --
+})
+
 ------------------------
 -- Mage Tower: DPS --
 ------------------------
@@ -96,5 +100,7 @@ L:SetMiscLocalization({
 	Kruul = "Arrogantes Pack! Ich trage die Seelen von tausend unterworfenen Welten in mir!", --
 	Twins1 = "Ich kann nicht zulassen, dass du deine Macht auf Azeroth entfesselst, Raest. Wenn du nicht einhältst, bin ich gezwungen, dich zu vernichten!", --
 	ErdrisThorn1 = "Nie im Leben ziehe ich mich zurück! Wir müssen den Angriffen auf mein Dorf ein Ende setzen!", --
-	Agatha1 = "Meine Sayaad bringen Eure schwachen Magier bereits in Versuchung. Eure Verbündeten werden sich widerstandslos der Legion beugen." --
+	Agatha1 = "Meine Sayaad bringen Eure schwachen Magier bereits in Versuchung. Eure Verbündeten werden sich widerstandslos der Legion beugen.", --
+	Sigryn1 = "Ihr könnt Euch nicht ewig hinter diesen Mauern verstecken, Odyn!" --
+--	Sigryn2 = "What's this? The outsider has come to stop me? I owe you much, but I cannot allow you to impede my quest for justice!"
 })

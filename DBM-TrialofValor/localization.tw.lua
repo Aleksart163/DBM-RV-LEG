@@ -1,4 +1,5 @@
 if GetLocale() ~= "zhTW" then return end
+
 local L
 
 ---------------
@@ -39,4 +40,16 @@ L = DBM:GetModLocalization("TrialofValorTrash")
 
 L:SetGeneralLocalization({
 	name =	"勇氣試煉小怪"
+})
+
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+})
+
+L:SetMiscLocalization({
+	RP1 = "各位勇士！你們擊敗了黑爾雅的手下。現在該是勇闖黑爾海姆，終結這個邪惡海巫的時候了！在此之前…還有最後的考驗！"
 })

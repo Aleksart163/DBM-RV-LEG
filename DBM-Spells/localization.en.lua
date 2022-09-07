@@ -1,6 +1,6 @@
 local L
 
---Прошляпанное очко Мурчаля ✔
+--Прошляпанное очко Мурчаля ✔✔
 
 ------------
 -- Spells --
@@ -23,9 +23,9 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization{
-	HeroismYell = "[DBM RV] %s using %s!",
+	HeroismYell = "[DBM RV] %s uses %s!",
 	PortalYell = "[DBM RV] %s opens %s!",
 	SoulwellYell = "[DBM RV] %s puts %s!",
-	SoulstoneYell = "[DBM RV] %s applied %s to %s!",
+	SoulstoneYell = "[DBM RV] %s applies %s to %s!",
 	SummoningYell = "[DBM RV] %s begins %s!"
 }

@@ -1,7 +1,7 @@
 ﻿if GetLocale() ~= "zhTW" then return end
 local L
 
---Прошляпанное очко Мурчаля ✔
+--Прошляпанное очко Мурчаля ✔✔
 
 ------------------------
 -- Mage Tower: TANK --
@@ -40,7 +40,7 @@ L:SetGeneralLocalization({
 })
 
 L:SetMiscLocalization({
-	impServants =	"趁小鬼僕從還沒有強化亞加薩，趕緊殺死小鬼僕從！"
+	impServants =	"趁小鬼僕從還沒有強化亞加薩，趕緊殺死小鬼僕從！" --
 })
 
 ------------------------
@@ -52,6 +52,10 @@ L:SetGeneralLocalization({
 	name =	"神御女王之怒"
 })
 
+L:SetMiscLocalization({
+	SigrynRP1 = "我…我在做什麼？這樣不對！" --
+})
+
 ------------------------
 -- Mage Tower: DPS --
 ------------------------
@@ -59,6 +63,11 @@ L= DBM:GetModLocalization("Twins")
 
 L:SetGeneralLocalization({
 	name =	"阻止他們"
+})
+
+L:SetMiscLocalization({
+	TwinsRP1 = "沒用！走開，哥哥，你辦不到的事我來做。", --
+	TwinsRP2 = "哥哥，我又在幫你收拾殘局了！" --
 })
 
 ------------------------
@@ -88,8 +97,9 @@ L:SetTimerLocalization({
 })
 
 L:SetMiscLocalization({
-	Kruul = "Arrogant fools! I am empowered by the souls of a thousand conquered worlds!",
-	Twins1 = "I cannot let you unleash your power upon Azeroth, Raest. If you do not yield, I will be forced to destroy you!",
-	ErdrisThorn1 = "No way I'm staying behind! The attacks on my town must be stopped!",
-	Agatha1 = "Even now, my sayaad tempt your weak-willed mages. Your allies will surrender willingly to the Legion!"
+	Kruul = "傲慢的笨蛋！我已經吸收了無數靈魂的力量！", --
+	Twins1 = "雷斯特，我不能讓你對艾澤拉斯釋放力量。要是你不住手，就是在逼我殺了你！", --
+	ErdrisThorn1 = "我才不要袖手旁觀！我不想看到村子再受到攻擊！", --
+	Agatha1 = "此時，我的薩亞德迷惑了你那些意志軟弱的法師。你的盟友會很樂意向燃燒軍團屈服！", --
+	Sigryn1 = "歐丁，你別想永遠躲在英靈殿裡！" --
 })

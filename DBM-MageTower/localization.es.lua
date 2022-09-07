@@ -52,6 +52,10 @@ L:SetGeneralLocalization({
 	name =	"La furia de la Reina diosa"
 })
 
+L:SetMiscLocalization({
+	SigrynRP1 = "¿Qué... qué estoy haciendo? ¡Esto no está bien!"
+})
+
 ------------------------
 -- Mage Tower: DPS --
 ------------------------
@@ -81,7 +85,7 @@ L:SetGeneralLocalization({
 L= DBM:GetModLocalization("Timers")
 
 L:SetGeneralLocalization({
-	name = "Temporizadores de inicio de batalla"
+	name = "Temporizadores del principio de la batalla"
 })
 
 L:SetOptionLocalization({
@@ -96,5 +100,6 @@ L:SetMiscLocalization({
 	Kruul = "¡Estúpidos arrogantes! ¡Tengo el poder de las almas de mil mundos conquistados!", --
 	Twins1 = "Raest, no puedo permitir que liberes tu poder sobre Azeroth. ¡Si no te detienes, tendré que destruirte!", --
 	ErdrisThorn1 = "¡No me quedaré de brazos cruzados! ¡Hay que detener los ataques a mi poblado!", --
-	Agatha1 = "En este momento, mis sayaad están tentando a tus débiles magos. ¡Tus aliados se entregarán a la Legión por propia voluntad!" --
+	Agatha1 = "En este momento, mis sayaad están tentando a tus débiles magos. ¡Tus aliados se entregarán a la Legión por propia voluntad!", --
+	Sigryn1 = "¡No puedes esconderte detrás de estos muros por siempre, Odyn!"
 })
