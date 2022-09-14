@@ -62,6 +62,7 @@ L:SetGeneralLocalization({
 -----------------------------
 -- Arboleda Corazón Oscuro --
 -----------------------------
+
 -----------------------
 -- Archidruida Glaidalis --
 -----------------------
@@ -87,12 +88,12 @@ L= DBM:GetModLocalization(1656)
 L= DBM:GetModLocalization(1657)
 
 L:SetMiscLocalization{
-	ParanoiaYell = "%s en %s. Alejaros de mi!"
+	ParanoiaYell = "%s en %s. ALEJAROS de mi!"
 }
 
 L:SetMiscLocalization({
-	XavApoc = "Вас ждет медленная и мучительная смерть!",
-	XavApoc2 = "Я сокрушу ваши слабые разумы!"
+	XavApoc = "Te apagarás lenta y dolorosamente.",
+	XavApoc2 = "¡Quebraré tu mente débil!"
 })
 
 ----------------------
@@ -103,7 +104,6 @@ L = DBM:GetModLocalization("DHTTrash")
 L:SetGeneralLocalization({
 	name =	"Enemigos menores"
 })
-
 
 --------------------
 -- Ojo de Azshara --
@@ -632,6 +632,7 @@ L:SetGeneralLocalization({
 ------------------------
 -- Regreso a Karazhan --
 ------------------------
+
 ------------------------
 -- Doncella de Virtud --
 ------------------------
@@ -647,6 +648,11 @@ L= DBM:GetModLocalization(1820)
 --------------------------------------------
 L= DBM:GetModLocalization(1826)
 
+L:SetMiscLocalization({
+	Tonny = "¿Quieres ir por un paseo?",
+	Phase2 = "¡Somos tu yo contra el mundo, sí!"
+})
+
 ------------------------------------
 -- Sala de la Ópera: Bella Bestia --
 ------------------------------------
@@ -656,6 +662,12 @@ L= DBM:GetModLocalization(1827)
 -- Attumen el Montero --
 ------------------------
 L= DBM:GetModLocalization(1835)
+
+L:SetMiscLocalization({
+	SharedSufferingYell = "%s en %s. ALEJAROS de mi!",
+	Perephase1 = "¡Hora de enfrentarme a mi presa cara a cara!",
+	Perephase2 = "¡Cabalgamos, Medianoche! ¡A la victoria!"
+})
 
 ------------
 -- Moroes --
@@ -700,13 +712,33 @@ L:SetGeneralLocalization({
 	name =	"Enemigos menores"
 })
 
+L:SetOptionLocalization({
+	timerRoleplay = "Отсчет времени до начала представления \"bestia hermosa\"",
+	timerRoleplay2 = "Отсчет времени до начала представления \"Páramos de Poniente\"",
+	timerRoleplay3 = "Отсчет времени до начала представления \"makaku\"",
+	timerRoleplay4 = DBM_CORE_OPTION_TIMER_DOOR_OPENING,
+	OperaActivation = "Активировать представление в Опере в 1 нажатие"
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = "\"bestia hermosa\"",
+	timerRoleplay2 = "\"Páramos de Poniente\"",
+	timerRoleplay3 = "\"makaku\"",
+	timerRoleplay4 = DBM_CORE_GENERIC_TIMER_DOOR_OPENING
+})
+
 L:SetMiscLocalization({
-	speedRun		=	"La brisa fría de una presencia oscura colma el aire..."
+	Beauty = "Добрый вечер, дамы и господа, и добро пожаловать на наше сегодняшнее представление!",
+	Westfall = "Damas y caballeros, bienvenidos a la presentación estelar de esta tarde!",
+	Wikket = "Дамы и господа, добро пожаловать... ОХ!",
+	Medivh1 = "He dejado muchos fragmentos de mí mismo por toda esta torre...",
+	speedRun = "La brisa fría de una presencia oscura colma el aire..."
 })
 
 ---------------------------------
 -- Catedral de la Noche Eterna --
 ---------------------------------
+
 -------------
 -- Agronox --
 -------------
@@ -772,3 +804,19 @@ L:SetGeneralLocalization({
 	name =	"Enemigos menores"
 })
 
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_DOOR_OPENING,
+	timerRoleplay2 = DBM_CORE_OPTION_TIMER_COMBAT,
+	AlleriaActivation = DBM_CORE_GENERIC_TIMER_ROLE_PLAY
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_DOOR_OPENING,
+	timerRoleplay2 = DBM_CORE_GENERIC_TIMER_COMBAT
+})
+
+L:SetMiscLocalization({
+	RP1 = "La Guardia de las Sombras está fortaleciendo su posición cerca del templo.",
+	RP2 = "Percibo una gran desesperación que emana del interior. L'ura...",
+	RP3 = "Cuánto caos... Cuánta angustia. Nunca antes sentí algo así."
+})

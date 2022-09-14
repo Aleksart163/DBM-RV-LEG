@@ -47,7 +47,7 @@ L:SetTimerLocalization({
 })
 
 L:SetMiscLocalization({
-	RP1 = "Я... я все понял..."
+	RP1 = "이제... 이제 알겠군..."
 })
 
 ----------
@@ -62,6 +62,7 @@ L:SetGeneralLocalization({
 -----------------------
 -- <<<Darkheart Thicket>>> --
 -----------------------
+
 -----------------------
 -- Arch-Druid Glaidalis --
 -----------------------
@@ -82,6 +83,15 @@ L= DBM:GetModLocalization(1656)
 -----------------------
 L= DBM:GetModLocalization(1657)
 
+L:SetMiscLocalization{
+	ParanoiaYell = "%s 에 %s. 내게서 도망쳐!"
+}
+
+L:SetMiscLocalization({
+	XavApoc = "고통스럽게, 천천히 죽여주마.",
+	XavApoc2 = "네 나약한 정신을 조각내주마!"
+})
+
 -----------------------
 --Darkheart Thicket Trash
 -----------------------
@@ -91,10 +101,10 @@ L:SetGeneralLocalization({
 	name =	"어둠심장 숲 일반몹"
 })
 
-
 -----------------------
 -- <<<Eye of Azshara>>> --
 -----------------------
+
 -----------------------
 -- Warlord Parjesh --
 -----------------------
@@ -137,6 +147,7 @@ L:SetGeneralLocalization({
 -----------------------
 -- <<<Halls of Valor>>> --
 -----------------------
+
 -----------------------
 -- Hymdall --
 -----------------------
@@ -182,6 +193,7 @@ L:SetGeneralLocalization({
 -----------------------
 -- <<<Neltharion's Lair>>> --
 -----------------------
+
 -----------------------
 -- Rokmora --
 -----------------------
@@ -214,6 +226,7 @@ L:SetGeneralLocalization({
 -----------------------
 -- <<<The Arcway>>> --
 -----------------------
+
 -----------------------
 -- Ivanyr --
 -----------------------
@@ -255,6 +268,7 @@ L:SetGeneralLocalization({
 -----------------------
 -- <<<Court of Stars>>> --
 -----------------------
+
 -----------------------
 -- Patrol Captain Gerdo --
 -----------------------
@@ -353,6 +367,7 @@ L:SetMiscLocalization({
 -----------------------
 -- <<<The Maw of Souls>>> --
 -----------------------
+
 -----------------------
 -- Ymiron, the Fallen King --
 -----------------------
@@ -380,6 +395,7 @@ L:SetGeneralLocalization({
 -----------------------
 -- <<<Assault Violet Hold>>> --
 -----------------------
+
 -----------------------
 -- Mindflayer Kaahrj --
 -----------------------
@@ -453,6 +469,7 @@ L:SetMiscLocalization({
 -----------------------
 -- <<<Vault of the Wardens>>> --
 -----------------------
+
 -----------------------
 -- Tirathon Saltheril --
 -----------------------
@@ -494,6 +511,7 @@ L:SetGeneralLocalization({
 -----------------------
 -- <<<Return To Karazhan>>> --
 -----------------------
+
 -----------------------
 -- Maiden of Virtue --
 -----------------------
@@ -509,6 +527,11 @@ L= DBM:GetModLocalization(1820)
 -----------------------
 L= DBM:GetModLocalization(1826)
 
+L:SetMiscLocalization({
+	Tonny = "한 바퀴 돌아 볼까?",
+	Phase2 = "너와 내가 이 세상에 맞서는 거야!"
+})
+
 -----------------------
 -- Opera Hall: Beautiful Beast  --
 -----------------------
@@ -518,6 +541,12 @@ L= DBM:GetModLocalization(1827)
 -- Attumen the Huntsman --
 -----------------------
 L= DBM:GetModLocalization(1835)
+
+L:SetMiscLocalization({
+	SharedSufferingYell = "%s on %s. RUN AWAY from me!",
+	Perephase1 = "이제 사냥감을 정면으로 상대해야겠군!",
+	Perephase2 = "천둥아, 우리는 승리를 향해 나아간다!"
+})
 
 -----------------------
 -- Moroes --
@@ -562,13 +591,33 @@ L:SetGeneralLocalization({
 	name =	"다시 찾은 카라잔 일반몹"
 })
 
+L:SetOptionLocalization({
+	timerRoleplay3 = "Отсчет времени до начала представления \"우끼드\"",
+	timerRoleplay2 = "Отсчет времени до начала представления \"서부 몰락지대 이야기\"",
+	timerRoleplay = "Отсчет времени до начала представления \"미녀와 짐승\"",
+	timerRoleplay4 = DBM_CORE_OPTION_TIMER_DOOR_OPENING,
+	OperaActivation = "Активировать представление в Опере в 1 нажатие"
+})
+
+L:SetTimerLocalization({
+	timerRoleplay3 = "\"우끼드\"",
+	timerRoleplay2 = "\"서부 몰락지대 이야기\"",
+	timerRoleplay = "\"미녀와 짐승\"",
+	timerRoleplay4 = DBM_CORE_GENERIC_TIMER_DOOR_OPENING
+})
+
 L:SetMiscLocalization({
-	speedRun		=	"어둠의 존재를 알리는 기묘한 한기가 주위에 퍼져나갑니다..."
+	Beauty = "Добрый вечер, дамы и господа, и добро пожаловать на наше сегодняшнее представление!",
+	Westfall = "신사 숙녀 여러분, 오늘 저녁의 특집 공연에 오신 것을 환영합니다!",
+	Wikket = "Дамы и господа, добро пожаловать... ОХ!",
+	Medivh1 = "나는 이 탑에 나의 파편들을 많이도 남겼었지...",
+	speedRun = "어둠의 존재를 알리는 기묘한 한기가 주위에 퍼져나갑니다..."
 })
 
 -----------------------
 -- <<<Cathedral of Eternal Night >>> --
 -----------------------
+
 -----------------------
 -- Agronox --
 -----------------------
@@ -605,6 +654,7 @@ L:SetGeneralLocalization({
 -----------------------
 -- <<<Seat of Triumvirate >>> --
 -----------------------
+
 -----------------------
 -- Zuraal --
 -----------------------
@@ -634,3 +684,19 @@ L:SetGeneralLocalization({
 	name =	"삼두정의 권좌 일반몹"
 })
 
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_DOOR_OPENING,
+	timerRoleplay2 = DBM_CORE_OPTION_TIMER_COMBAT,
+	AlleriaActivation = DBM_CORE_GENERIC_TIMER_ROLE_PLAY
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_DOOR_OPENING,
+	timerRoleplay2 = DBM_CORE_GENERIC_TIMER_COMBAT
+})
+
+L:SetMiscLocalization({
+	RP1 = "어둠수호병들이 사원 근처에서 세를 키우고 있어요.",
+	RP2 = "안에서 크나큰 절망이 솟아나는 게 느껴지는군. 르우라야...",
+	RP3 = "이 혼돈... 이 고통. 이런 건 느낀 적이 없어."
+})

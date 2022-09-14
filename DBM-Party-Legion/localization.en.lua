@@ -3,6 +3,7 @@ local L
 -----------------------
 -- <<<Black Rook Hold>>> --
 -----------------------
+
 -----------------------
 -- The Amalgam of Souls --
 -----------------------
@@ -60,6 +61,7 @@ L:SetGeneralLocalization({
 -----------------------
 -- <<<Darkheart Thicket>>> --
 -----------------------
+
 -----------------------
 -- Arch-Druid Glaidalis --
 -----------------------
@@ -85,7 +87,7 @@ L= DBM:GetModLocalization(1656)
 L= DBM:GetModLocalization(1657)
 
 L:SetMiscLocalization{
-	ParanoiaYell = "%s on %s. GET AWAY from me!"
+	ParanoiaYell = "%s on %s. RUN AWAY from me!"
 }
 
 L:SetMiscLocalization({
@@ -106,6 +108,7 @@ L:SetGeneralLocalization({
 -----------------------
 -- <<<Eye of Azshara>>> --
 -----------------------
+
 -----------------------
 -- Warlord Parjesh --
 -----------------------
@@ -143,6 +146,7 @@ L:SetGeneralLocalization({
 -----------------------
 -- <<<Halls of Valor>>> --
 -----------------------
+
 -----------------------
 -- Hymdall --
 -----------------------
@@ -169,10 +173,6 @@ L= DBM:GetModLocalization(1488)
 -----------------------
 L= DBM:GetModLocalization(1489)
 
-L:SetMiscLocalization({
-	tempestModeMessage = "Not tempest sequence: %s. Rechecking in 8 seconds."
-})
-
 -----------------------
 --Halls of Valor Trash
 -----------------------
@@ -183,8 +183,8 @@ L:SetGeneralLocalization({
 })
 
 L:SetOptionLocalization({
-	timerRoleplay = "Show timer to the start of the battle with God-King Skovald and Odyn",
-	BossActivation = "Activate combat with Odyn (and kings) in 1 click"
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT,
+	BossActivation = DBM_CORE_GENERIC_TIMER_ROLE_PLAY
 })
 
 L:SetTimerLocalization({
@@ -192,17 +192,18 @@ L:SetTimerLocalization({
 })
 
 L:SetMiscLocalization({
+	RPSolsten = "You sully this ritual with your presence, mortals!",
+	RPSolsten2 = "Hyrja... the fury of the storm is yours to command!",
+	RPOlmyr = "You will not deny Hyrja's ascendance!",
+	RPOlmyr2 = "The Light shines eternal in you, Hyrja!",
 	RPSkovald = "No! I, too, have proved my worth, Odyn. I am God-King Skovald! These mortals dare not challenge my claim to the aegis!",
-	RPOdyn = "Most impressive! I never thought I would meet anyone who could match the Valarjar's strength... and yet here you stand.",
-	RPSolsten = "Hyrja... the fury of the storm is yours to command!",
-	RPSolsten2 = "You sully this ritual with your presence, mortals!",
-	RPOlmyr = "The Light shines eternal in you, Hyrja!",
-	RPOlmyr2 = "You will not deny Hyrja's ascendance!"
+	RPOdyn = "Most impressive! I never thought I would meet anyone who could match the Valarjar's strength... and yet here you stand."
 })
 
 -----------------------
 -- <<<Neltharion's Lair>>> --
 -----------------------
+
 -----------------------
 -- Rokmora --
 -----------------------
@@ -247,6 +248,7 @@ L:SetMiscLocalization({
 -----------------------
 -- <<<The Arcway>>> --
 -----------------------
+
 -----------------------
 -- Ivanyr --
 -----------------------
@@ -302,6 +304,7 @@ L:SetGeneralLocalization({
 -----------------------
 -- <<<Court of Stars>>> --
 -----------------------
+
 -----------------------
 -- Patrol Captain Gerdo --
 -----------------------
@@ -345,7 +348,7 @@ L:SetOptionLocalization({
 	YellOnTinkering = "Report when you cast a spell $spell:210922",
 	warnSpy = "Special warning when a spy is detected",
 	SpyHelper = "Help identify the spy",
-	timerRoleplay = "Show timer to the start of the battle with Advisor Melandrus"
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
 })
 
 L:SetTimerLocalization({
@@ -436,6 +439,7 @@ L:SetMiscLocalization({
 -----------------------
 -- <<<The Maw of Souls>>> --
 -----------------------
+
 -----------------------
 -- Ymiron, the Fallen King --
 -----------------------
@@ -479,6 +483,7 @@ L:SetMiscLocalization({
 -----------------------
 -- <<<Assault Violet Hold>>> --
 -----------------------
+
 -----------------------
 -- Mindflayer Kaahrj --
 -----------------------
@@ -552,6 +557,7 @@ L:SetMiscLocalization({
 -----------------------
 -- <<<Vault of the Wardens>>> --
 -----------------------
+
 -----------------------
 -- Tirathon Saltheril --
 -----------------------
@@ -623,6 +629,7 @@ L:SetMiscLocalization({
 -----------------------
 -- <<<Return To Karazhan>>> --
 -----------------------
+
 -----------------------
 -- Maiden of Virtue --
 -----------------------
@@ -637,20 +644,6 @@ L= DBM:GetModLocalization(1820)
 -- Opera Hall: Westfall Story --
 -----------------------
 L= DBM:GetModLocalization(1826)
-
-L:SetWarningLocalization({
-	Phase = "Phase 2 soon",
-	Phase2 = "Phase 2",
-	Phase3 = "Phase 3 soon",
-	Phase4 = "Phase 3"
-})
-
-L:SetOptionLocalization({
-	Phase = "Warn in advance about phase 2 (on ~61% Toe Knee, Mythic+ only)",
-	Phase2 = "Announce Phase 2",
-	Phase3 = "Warn in advance about phase 2 (on ~61% Mrrgria, Mythic+ only)",
-	Phase4 = "Announce Phase 3"
-})
 
 L:SetMiscLocalization({
 	Tonny = "Wanna go for a spin?",
@@ -667,24 +660,10 @@ L= DBM:GetModLocalization(1827)
 -----------------------
 L= DBM:GetModLocalization(1835)
 
-L:SetWarningLocalization({
-	Phase = "Phase 2 soon",
-	Phase1 = "Phase 2",
-	Phase2 = "Phase 3 soon",
-	Phase3 = "Phase 3"
-})
-
-L:SetOptionLocalization({
-	Phase = "Warn in advance about phase 2 (on ~61%, Mythic+ only)",
-	Phase1 = "Announce Phase 2",
-	Phase2 = "Warn in advance about phase 3 (on ~10%, Mythic+ only)",
-	Phase3 = "Announce Phase 3"
-})
-
 L:SetMiscLocalization({
-	SharedSufferingYell = "Shared Suffering on %s. GET AWAY from me!",
-	Perephase1 = "Time to face my quarry toe-to-toe!"
---	Perephase2 = "We ride, Midnight! To victory!"
+	SharedSufferingYell = "%s on %s. RUN AWAY from me!",
+	Perephase1 = "Time to face my quarry toe-to-toe!",
+	Perephase2 = "We ride, Midnight! To victory!"
 })
 
 -----------------------
@@ -745,7 +724,7 @@ L:SetOptionLocalization({
 	timerRoleplay2 = "Show timer to the start of the show \"Westfall Story\"",
 	timerRoleplay3 = "Show timer to the start of the show \"Wikket\"",
 	timerRoleplay4 = DBM_CORE_OPTION_TIMER_DOOR_OPENING,
-	OperaActivation = "Activate show in Opera in 1 click"
+	OperaActivation = DBM_CORE_GENERIC_TIMER_ROLE_PLAY
 })
 
 L:SetTimerLocalization({
@@ -760,13 +739,13 @@ L:SetMiscLocalization({
 	Westfall = "Ladies and gentlemen, welcome to this evening's feature presentation!",
 	Wikket = "Welcome, ladies and gentlemen, to our--OOF!",
 	Medivh1 = "I've left so many fragments of myself throughout this tower...",
-	ReinvigoratedYell = "Reinvigorated on %s!",
 	speedRun = "The strange chill of a dark presence winds through the air..."
 })
 
 -----------------------
 -- <<<Cathedral of Eternal Night >>> --
 -----------------------
+
 -----------------------
 -- Agronox --
 -----------------------
@@ -807,18 +786,17 @@ L:SetGeneralLocalization({
 -----------------------
 -- <<<Seat of Triumvirate >>> --
 -----------------------
+
 -----------------------
 -- Zuraal --
 -----------------------
 L= DBM:GetModLocalization(1979)
 
 L:SetWarningLocalization({
-	Phase2 = "Void Tear ready!", --Void Tear
 	UmbraShift = "Umbra Shift on you - destroy the enemies"
 })
 
 L:SetOptionLocalization({
-	Phase2 = "Show special warning when $spell:244621 ready to use",
 	UmbraShift = "Show special warning \"destroy the enemies\" when you target $spell:244433"
 })
 
@@ -849,7 +827,7 @@ L:SetGeneralLocalization({
 L:SetOptionLocalization({
 	timerRoleplay = DBM_CORE_OPTION_TIMER_DOOR_OPENING,
 	timerRoleplay2 = DBM_CORE_OPTION_TIMER_COMBAT,
-	AlleriaActivation = "Activate role-playing with Alleria Windrunner in 1 click"
+	AlleriaActivation = DBM_CORE_GENERIC_TIMER_ROLE_PLAY
 })
 
 L:SetTimerLocalization({

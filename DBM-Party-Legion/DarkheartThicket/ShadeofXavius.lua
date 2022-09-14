@@ -91,7 +91,7 @@ function mod:ParanoiaTarget(targetname, uId) --Усугубляющаяся па
 	if targetname == UnitName("player") then
 		specWarnParanoia:Show()
 		specWarnParanoia:Play("runaway")
-		yellParanoia:Yell(paranoia, playerName) --args.destName
+		yellParanoia:Yell(paranoia, playerName)
 	elseif self:CheckNearby(15, targetname) then
 		specWarnParanoia2:Show(targetname)
 		specWarnParanoia2:Play("runaway")

@@ -82,9 +82,6 @@ local timerRoleplay					= mod:NewTimer(28, "timerRoleplay", "Interface\\Icons\\S
 
 local countdownFelDetonation		= mod:NewCountdown(12, 211464, nil, nil, 5) --Взрыв Скверны
 
---local yellEating					= mod:NewYell(208585, L.EatingYell, nil, nil, "YELL") --Поглощение пищи
---local yellSiphoningMagic			= mod:NewYell(208427, L.SiphoningMagic, nil, nil, "YELL") --Похищение магии
---local yellPurifying					= mod:NewYell(209767, L.PurifyingYell, nil, nil, "YELL") --Очищение
 local yellSuppress					= mod:NewYell(209413, nil, nil, nil, "YELL") --Подавление
 local yellSubdue					= mod:NewYell(212773, nil, nil, nil, "YELL") --Подчинение
 local yellDisintegrationBeam		= mod:NewYell(207980, nil, nil, nil, "YELL") --Луч дезинтеграции
@@ -562,63 +559,63 @@ do
 			end
 		end
 		
-		if cid == 105249 then --Закуски ночной тени
+		if cid == 105249 then --Закуски ночной тени (Расы - панды, профы - кулинарка 800)
 			if select('#', GetGossipOptions()) > 0 then
 				SelectGossipOption(1)
 				CloseGossip()
 			end
 		end
 		
-		if cid == 105340 then --Теневой цветок
+		if cid == 105340 then --Теневой цветок (классы - друиды, профы - травничество 800)
 			if select('#', GetGossipOptions()) > 0 then
 				SelectGossipOption(1)
 				CloseGossip()
 			end
 		end
 		
-		if cid == 105117 then --Настой священной ночи
+		if cid == 105117 then --Настой священной ночи (классы - роги, профы - алхимка 100+)
 			if select('#', GetGossipOptions()) > 0 then
 				SelectGossipOption(1)
 				CloseGossip()
 			end
 		end
 		
-		if cid == 106110 then --Промокший свиток
+		if cid == 106110 then --Промокший свиток (классы - шаман, профы - кожевничество, начертание по 100+)
 			if select('#', GetGossipOptions()) > 0 then
 				SelectGossipOption(1)
 				CloseGossip()
 			end
 		end
 		
-		if cid == 106024 then --Магический светильник
+		if cid == 106024 then --Магический светильник (расы - эльфы, классы - маг, профы - наложение чар 100+)
 			if select('#', GetGossipOptions()) > 0 then
 				SelectGossipOption(1)
 				CloseGossip()
 			end
 		end
 		
-		if cid == 106018 then --Рыночные товары
+		if cid == 106018 then --Рыночные товары (классы - воин, разбойник, профы - кожевничество 100+)
 			if select('#', GetGossipOptions()) > 0 then
 				SelectGossipOption(1)
 				CloseGossip()
 			end
 		end
 		
-		if cid == 106113 then --Статуя ночнорожденного в натуральную величину
+		if cid == 106113 then --Статуя ночнорожденного в натуральную величину (профы - горное дело и ювелирное 100+)
 			if select('#', GetGossipOptions()) > 0 then
 				SelectGossipOption(1)
 				CloseGossip()
 			end
 		end
 		
-		if cid == 105831 then --Инфернальный фолиант
+		if cid == 105831 then --Инфернальный фолиант (классы - дх, жрец, паладин)
 			if select('#', GetGossipOptions()) > 0 then
 				SelectGossipOption(1)
 				CloseGossip()
 			end
 		end
 		
-		if cid == 105157 then --Проводник магической энергии
+		if cid == 105157 then --Проводник магической энергии (расы - гном, гоблин, профы - инженерия 100+)
 			if select('#', GetGossipOptions()) > 0 then
 				SelectGossipOption(1)
 				CloseGossip()

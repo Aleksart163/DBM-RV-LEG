@@ -12,7 +12,7 @@ mod:RegisterCombat("combat")
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 246134 244579 244653",
 	"SPELL_CAST_SUCCESS 244433 246139",
-	"SPELL_AURA_APPLIED 244657 244621 244653",
+	"SPELL_AURA_APPLIED 244657 244621 244653 244061",
 	"SPELL_AURA_REMOVED 244657 244621 244653",
 	"SPELL_DAMAGE 244433",
 --	"CHAT_MSG_RAID_BOSS_EMOTE",
@@ -22,10 +22,10 @@ mod:RegisterEventsInCombat(
 
 --Зураал Перерожденный https://ru.wowhead.com/npc=122313/зураал-перерожденный/эпохальный-журнал-сражений
 --local warnNullPalm						= mod:NewSpellAnnounce(246134, 2, nil, "Tank")
---local warnPhase2						= mod:NewAnnounce("Phase2", 1, 244621) --Прорыв Бездны
 local warnFixate						= mod:NewTargetAnnounce(244657, 3) --Сосредоточение внимания
 local warnVoidTear						= mod:NewTargetAnnounce(244621, 2) --Прорыв Бездны
-local warnVoidTear2						= mod:NewPreWarnAnnounce(244621, 5, 1) --Прорыв Бездны
+local warnVoidTear2						= mod:NewPreWarnAnnounce(244061, 5, 1) --Мир Бездны
+local warnVoidTear3						= mod:NewTargetAnnounce(244061, 2) --Мир Бездны
 local warnFixate2						= mod:NewCastAnnounce(244653, 4) --Сосредоточение внимания
 
 local specWarnNullPalm					= mod:NewSpecialWarningDodge(246134, nil, nil, nil, 2, 3) --Длань обнуления
@@ -40,14 +40,14 @@ local specWarnVoidTear3					= mod:NewSpecialWarningReady(244621, nil, nil, nil, 
 local timerNullPalmCD					= mod:NewCDTimer(10.9, 246134, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Длань обнуления
 local timerDeciminateCD					= mod:NewCDTimer(12.1, 244579, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON) --Истребление
 local timerCoalescedVoidCD				= mod:NewCDTimer(12.1, 244602, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON) --Сгустившаяся Бездна
-local timerUmbraShiftCD					= mod:NewCDTimer(12, 244433, nil, nil, nil, 6, nil, DBM_CORE_DAMAGE_ICON..DBM_CORE_MYTHIC_ICON) --Теневой рывок
+local timerUmbraShiftCD					= mod:NewCDTimer(12, 244061, nil, nil, nil, 6, nil, DBM_CORE_DAMAGE_ICON..DBM_CORE_MYTHIC_ICON) --Мир Бездны
 local timerVoidTear						= mod:NewBuffActiveTimer(20, 244621, nil, nil, nil, 3, nil, DBM_CORE_DAMAGE_ICON) --Прорыв Бездны
 local timerFixate						= mod:NewTargetTimer(10, 244653, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Сосредоточение внимания
 
 local yellFixate						= mod:NewYell(244653, nil, nil, nil, "YELL") --Сосредоточение внимания
 local yellFixate2						= mod:NewFadesYell(244653, nil, nil, nil, "YELL") --Сосредоточение внимания
 
-local countdownUmbraShift				= mod:NewCountdown(60, 244433, nil, nil, 5) --Теневой рывок
+local countdownUmbraShift				= mod:NewCountdown(60, 244061, nil, nil, 5) --Мир Бездны
 
 mod:AddSetIconOption("SetIconOnFixate", 244653, true, false, {7}) --Сосредоточение внимания
 
@@ -61,16 +61,16 @@ function mod:OnCombatStart(delay)
 		timerNullPalmCD:Start(11-delay) --Длань обнуления
 		timerDeciminateCD:Start(16-delay) --Истребление
 		timerCoalescedVoidCD:Start(18-delay) --Сгустившаяся Бездна
-		timerUmbraShiftCD:Start(40-delay) --Теневой рывок
-		countdownUmbraShift:Start(40-delay) --Теневой рывок
-		warnVoidTear2:Schedule(35-delay) --Теневой рывок
+		timerUmbraShiftCD:Start(40-delay) --Мир Бездны
+		countdownUmbraShift:Start(40-delay) --Мир Бездны
+		warnVoidTear2:Schedule(35-delay) --Мир Бездны
 	else
 		timerNullPalmCD:Start(10-delay) --Длань обнуления
 		timerDeciminateCD:Start(17.5-delay) --Истребление
 		timerCoalescedVoidCD:Start(19.5-delay) --Сгустившаяся Бездна
-		timerUmbraShiftCD:Start(40.5-delay) --Теневой рывок
-		countdownUmbraShift:Start(40.5-delay) --Теневой рывок
-		warnVoidTear2:Schedule(35-delay) --Теневой рывок
+		timerUmbraShiftCD:Start(40.5-delay) --Мир Бездны
+		countdownUmbraShift:Start(40.5-delay) --Мир Бездны
+		warnVoidTear2:Schedule(35-delay) --Мир Бездны
 	end
 end
 
@@ -126,6 +126,10 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerUmbraShiftCD:Start(60) --Теневой рывок
 		countdownUmbraShift:Start(60) --Теневой рывок
 		warnVoidTear2:Schedule(55) --Теневой рывок
+	elseif spellId == 244061 then --Мир Бездны
+		if not args:IsPlayer() then
+			warnVoidTear3:Show(args.destName)
+		end
 	end
 end
 

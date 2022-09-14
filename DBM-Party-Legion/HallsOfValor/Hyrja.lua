@@ -29,9 +29,10 @@ local specWarnSanctify				= mod:NewSpecialWarningDodge(192158, "Ranged", nil, ni
 local specWarnSanctify2				= mod:NewSpecialWarningRun(192158, "Melee", nil, nil, 4, 5) --Освящение
 local specWarnEyeofStorm			= mod:NewSpecialWarningMoveTo(200901, nil, nil, nil, 4, 3) --Око шторма
 local specWarnEyeofStorm2			= mod:NewSpecialWarningDefensive(200901, nil, nil, nil, 3, 3) --Око шторма
-local specWarnExpelLight			= mod:NewSpecialWarningYouMoveAway(192048, nil, nil, nil, 3, 3) --Световое излучение
---local specWarnExpelLight2			= mod:NewSpecialWarningYouDefensive(192048, nil, nil, nil, 3, 3) --Световое излучение
-local specWarnArcingBolt			= mod:NewSpecialWarningYouMoveAway(191976, nil, nil, nil, 3, 3) --Дуговая молния
+local specWarnExpelLight			= mod:NewSpecialWarningYouMoveAway(192048, nil, nil, nil, 1, 3) --Световое излучение
+local specWarnExpelLight2			= mod:NewSpecialWarningYouDefensive(192048, nil, nil, nil, 3, 3) --Световое излучение
+local specWarnArcingBolt			= mod:NewSpecialWarningYouMoveAway(191976, nil, nil, nil, 1, 3) --Дуговая молния
+local specWarnArcingBolt2			= mod:NewSpecialWarningYouDefensive(191976, nil, nil, nil, 3, 3) --Дуговая молния
 
 local timerArcingBoltCD				= mod:NewCDTimer(28, 191976, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Дуговая молния+++
 local timerShieldOfLightCD			= mod:NewCDTimer(28, 192018, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Щит Света 28-34
@@ -55,14 +56,23 @@ mod.vb.phase = 1
 local warned_MEH = false
 local warned_MET = false
 local firstpull = false
+local meh2s = false --свет
+local met2s = false --гром
 
 function mod:ArcingBoltTarget(targetname, uId) --Дуговая молния (✔)
 	if not targetname then return end
-	warnArcingBolt:Show(targetname)
 	if targetname == UnitName("player") then
-		specWarnArcingBolt:Show()
-		specWarnArcingBolt:Play("runout")
-		yellArcingBolt:Yell()
+		if met2s then
+			specWarnArcingBolt2:Show()
+			specWarnArcingBolt2:Play("defensive")
+			yellArcingBolt:Yell()
+		else
+			specWarnArcingBolt:Show()
+			specWarnArcingBolt:Play("runout")
+			yellArcingBolt:Yell()
+		end
+	else
+		warnArcingBolt:Show(targetname)
 	end
 	if self.Options.SetIconOnArcingBolt then
 		self:SetIcon(targetname, 7, 5)
@@ -84,6 +94,8 @@ function mod:OnCombatStart(delay)
 	warned_MEH = false
 	warned_MET = false
 	firstpull = false
+	meh2s = false
+	met2s = false
 end
 
 function mod:OnCombatEnd()
@@ -98,12 +110,17 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnExpelLight:Show(args.destName)
 		if not self:IsNormal() then
 			if args:IsPlayer() then
-				specWarnExpelLight:Show()
-				specWarnExpelLight:Play("runout")
-			--	specWarnExpelLight2:Schedule(1.5)
-			--	specWarnExpelLight2:ScheduleVoice(1.5, "defensive")
-				yellExpelLight:Yell()
-				yellExpelLight2:Countdown(3)
+				if meh2s then
+					specWarnExpelLight2:Show()
+					specWarnExpelLight2:Play("defensive")
+					yellExpelLight:Yell()
+					yellExpelLight2:Countdown(3)
+				else
+					specWarnExpelLight:Show()
+					specWarnExpelLight:Play("runout")
+					yellExpelLight:Yell()
+					yellExpelLight2:Countdown(3)
+				end
 			end
 		end
 		if self.Options.RangeFrame then
@@ -124,6 +141,10 @@ function mod:SPELL_AURA_APPLIED(args)
 		if not self:IsNormal() then
 			if amount == 1 then
 				timerExpelLightCD:Start(2)
+			elseif amount >= 2 then
+				meh2s = true
+			elseif amount < 2 then
+				meh2s = false
 			elseif amount >= 2 and amount % 2 == 0 then
 				warnMysticEmpowermentHoly:Show(args.destName, amount)
 			end
@@ -139,6 +160,10 @@ function mod:SPELL_AURA_APPLIED(args)
 		if not self:IsNormal() then
 			if amount == 1 then
 				timerArcingBoltCD:Start(3)
+			elseif amount >= 2 then
+				met2s = true
+			elseif amount < 2 then
+				met2s = false
 			elseif amount >= 2 and amount % 2 == 0 then
 				warnMysticEmpowermentThunder:Show(args.destName, amount)
 			end

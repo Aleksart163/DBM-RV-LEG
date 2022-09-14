@@ -82,6 +82,15 @@ L= DBM:GetModLocalization(1656)
 -----------------------
 L= DBM:GetModLocalization(1657)
 
+L:SetMiscLocalization{
+	ParanoiaYell = "%s auf %s. Lauf vor mir weg!"
+}
+
+L:SetMiscLocalization({
+	XavApoc = "Ihr werdet langsam und qualvoll dahinsiechen.",
+	XavApoc2 = "Ich werde Euren gläsernen Verstand zerbersten lassen!"
+})
+
 -----------------------
 --Darkheart Thicket Trash
 -----------------------
@@ -91,10 +100,10 @@ L:SetGeneralLocalization({
 	name =	"Trash des Finsterherzdickichts"
 })
 
-
 -----------------------
 -- <<<Eye of Azshara>>> --
 -----------------------
+
 -----------------------
 -- Warlord Parjesh --
 -----------------------
@@ -491,6 +500,18 @@ L:SetGeneralLocalization({
 	name =	"Trash des Verlieses der Wächterinnen"
 })
 
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+})
+
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
+})
+
+L:SetMiscLocalization({
+	RoleRP = "Wie lächerlich berechenbar! Ich wusste, Ihr würdet kommen."
+})
+
 -----------------------
 -- <<<Return To Karazhan>>> --
 -----------------------
@@ -509,6 +530,11 @@ L= DBM:GetModLocalization(1820)
 -----------------------
 L= DBM:GetModLocalization(1826)
 
+L:SetMiscLocalization({
+	Tonny = "Wagen wir ein Tänzchen?",
+	Phase2 = "Du und ich gegen den Rest der Welt, Baby!"
+})
+
 -----------------------
 -- Opera Hall: Beautiful Beast  --
 -----------------------
@@ -518,6 +544,12 @@ L= DBM:GetModLocalization(1827)
 -- Attumen the Huntsman --
 -----------------------
 L= DBM:GetModLocalization(1835)
+
+L:SetMiscLocalization({
+	SharedSufferingYell = "%s auf %s. Lauf vor mir weg!",
+	Perephase1 = "Ich stelle mich der Beute. Auge in Auge!",
+	Perephase2 = "Wir reiten, Mittnacht! Zum Sieg!"
+})
 
 -----------------------
 -- Moroes --
@@ -562,8 +594,27 @@ L:SetGeneralLocalization({
 	name =	"Trash der Rückkehr nach Karazhan"
 })
 
+L:SetOptionLocalization({
+	timerRoleplay = "Отсчет времени до начала представления \"Das schöne Biest\"",
+	timerRoleplay2 = "Отсчет времени до начала представления \"Westfall Story\"",
+	timerRoleplay3 = "Отсчет времени до начала представления \"Wikket\"",
+	timerRoleplay4 = DBM_CORE_OPTION_TIMER_DOOR_OPENING,
+	OperaActivation = "Активировать представление в Опере в 1 нажатие"
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = "\"Das schöne Biest\"",
+	timerRoleplay2 = "\"Westfall Story\"",
+	timerRoleplay3 = "\"Wikket\"",
+	timerRoleplay4 = DBM_CORE_GENERIC_TIMER_DOOR_OPENING
+})
+
 L:SetMiscLocalization({
-	speedRun		=	"Die seltsame Kühle einer dunklen Präsenz durchweht die Luft..."
+	Beauty = "Добрый вечер, дамы и господа, и добро пожаловать на наше сегодняшнее представление!",
+	Westfall = "Meine Damen und Herren, willkommen zu unserer heutigen Vorstellung!",
+	Wikket = "Дамы и господа, добро пожаловать... ОХ!",
+	Medivh1 = "Ich habe so viel von mir selbst in diesem Turm zurückgelassen...",
+	speedRun = "Die seltsame Kühle einer dunklen Präsenz durchweht die Luft..."
 })
 
 -----------------------
@@ -634,3 +685,19 @@ L:SetGeneralLocalization({
 	name =	"Trash des Sitzes des Triumvirats"
 })
 
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_DOOR_OPENING,
+	timerRoleplay2 = DBM_CORE_OPTION_TIMER_COMBAT,
+	AlleriaActivation = "Активировать ролевые игры с Аллерией в 1 нажатие"
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_DOOR_OPENING,
+	timerRoleplay2 = DBM_CORE_GENERIC_TIMER_COMBAT
+})
+
+L:SetMiscLocalization({
+	RP1 = "Die Schattenwache verstärkt ihre Truppen in der Nähe des Tempels.",
+	RP2 = "Ich spüre große Verzweiflung innerhalb der Gemäuer. L'ura...",
+	RP3 = "Dieses Chaos... diese Qualen. Etwas Derartiges habe ich noch nie gespürt."
+})

@@ -289,17 +289,17 @@ function mod:OnSync(msg, GUID)
 		timerRoleplay:Start(33.5)
 	elseif msg == "RPOdyn" then
 		timerRoleplay:Start(25.5)
-	elseif msg == "RPSolsten" then
+	elseif msg == "RPSolsten2" then
 		timerEyeofStormCD:Cancel()
 		countdownEyeofStorm:Cancel()
-	elseif msg == "RPSolsten2" then
+	elseif msg == "RPSolsten" then
 		timerEyeofStormCD:Start(9)
 		countdownEyeofStorm:Start(9)
-	elseif msg == "RPOlmyr" then
+	elseif msg == "RPOlmyr2" then
 		timerSanctifyCD:Cancel()
 		countdownSanctify:Cancel()
 		timerSearingLightCD:Cancel()
-	elseif msg == "RPOlmyr2" then
+	elseif msg == "RPOlmyr" then
 		timerSanctifyCD:Start(9.5)
 		countdownSanctify:Start(9.5)
 		timerSearingLightCD:Start(5.5)

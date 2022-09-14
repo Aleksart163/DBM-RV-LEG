@@ -36,7 +36,7 @@ L:SetMiscLocalization({
 L = DBM:GetModLocalization("BRHTrash")
 
 L:SetGeneralLocalization({
-	name =	"Black Rook Hold Trash"
+	name =	"Bastion du Freux Trash"
 })
 
 L:SetOptionLocalization({
@@ -84,19 +84,28 @@ L= DBM:GetModLocalization(1656)
 -----------------------
 L= DBM:GetModLocalization(1657)
 
+L:SetMiscLocalization{
+	ParanoiaYell = "%s sur %s. ENFUIS-TOI loin de moi!"
+}
+
+L:SetMiscLocalization({
+	XavApoc = "Vous allez agoniser lentement et dans la douleur.",
+	XavApoc2 = "Je vais briser votre esprit si fragile !"
+})
+
 -----------------------
 --Darkheart Thicket Trash
 -----------------------
 L = DBM:GetModLocalization("DHTTrash")
 
 L:SetGeneralLocalization({
-	name =	"Darkheart Thicket Trash"
+	name =	"Fourré Sombrecœur Trash"
 })
-
 
 -----------------------
 -- <<<Eye of Azshara>>> --
 -----------------------
+
 -----------------------
 -- Warlord Parjesh --
 -----------------------
@@ -133,12 +142,13 @@ L= DBM:GetModLocalization(1492)
 L = DBM:GetModLocalization("EoATrash")
 
 L:SetGeneralLocalization({
-	name =	"Eye of Azshara Trash"
+	name =	"L’Œil d’Azshara Trash"
 })
 
 -----------------------
 -- <<<Halls of Valor>>> --
 -----------------------
+
 -----------------------
 -- Hymdall --
 -----------------------
@@ -174,12 +184,13 @@ L:SetMiscLocalization({
 L = DBM:GetModLocalization("HoVTrash")
 
 L:SetGeneralLocalization({
-	name =	"Halls of Valor Trash"
+	name =	"Salles des Valeureux Trash"
 })
 
 -----------------------
 -- <<<Neltharion's Lair>>> --
 -----------------------
+
 -----------------------
 -- Rokmora --
 -----------------------
@@ -206,12 +217,13 @@ L= DBM:GetModLocalization(1687)
 L = DBM:GetModLocalization("NLTrash")
 
 L:SetGeneralLocalization({
-	name =	"Neltharion's Lair Trash"
+	name =	"Repaire de Neltharion Trash"
 })
 
 -----------------------
 -- <<<The Arcway>>> --
 -----------------------
+
 -----------------------
 -- Ivanyr --
 -----------------------
@@ -247,12 +259,13 @@ L= DBM:GetModLocalization(1501)
 L = DBM:GetModLocalization("ArcwayTrash")
 
 L:SetGeneralLocalization({
-	name =	"The Arcway Trash"
+	name =	"L’Arcavia Trash"
 })
 
 -----------------------
 -- <<<Court of Stars>>> --
 -----------------------
+
 -----------------------
 -- Patrol Captain Gerdo --
 -----------------------
@@ -274,7 +287,7 @@ L= DBM:GetModLocalization(1720)
 L = DBM:GetModLocalization("CoSTrash")
 
 L:SetGeneralLocalization({
-	name =	"Court of Stars Trash"
+	name =	"Cour des Étoiles Trash"
 })
 
 L:SetOptionLocalization({
@@ -350,6 +363,7 @@ L:SetMiscLocalization({
 -----------------------
 -- <<<The Maw of Souls>>> --
 -----------------------
+
 -----------------------
 -- Ymiron, the Fallen King --
 -----------------------
@@ -371,12 +385,13 @@ L= DBM:GetModLocalization(1663)
 L = DBM:GetModLocalization("MawTrash")
 
 L:SetGeneralLocalization({
-	name =	"Maw of Souls Trash"
+	name =	"La Gueule des âmes Trash"
 })
 
 -----------------------
 -- <<<Assault Violet Hold>>> --
 -----------------------
+
 -----------------------
 -- Mindflayer Kaahrj --
 -----------------------
@@ -423,7 +438,7 @@ L= DBM:GetModLocalization(1711)
 L = DBM:GetModLocalization("AVHTrash")
 
 L:SetGeneralLocalization({
-	name =	"Assault Violet Hold Trash"
+	name =	"Assaut sur le fort Pourpre Trash"
 })
 
 L:SetWarningLocalization({
@@ -450,6 +465,7 @@ L:SetMiscLocalization({
 -----------------------
 -- <<<Vault of the Wardens>>> --
 -----------------------
+
 -----------------------
 -- Tirathon Saltheril --
 -----------------------
@@ -485,12 +501,13 @@ L= DBM:GetModLocalization(1470)
 L = DBM:GetModLocalization("VoWTrash")
 
 L:SetGeneralLocalization({
-	name =	"Vault of Wardens Trash"
+	name =	"Caveau des Gardiennes Trash"
 })
 
 -----------------------
 -- <<<Return To Karazhan>>> --
 -----------------------
+
 -----------------------
 -- Maiden of Virtue --
 -----------------------
@@ -506,6 +523,11 @@ L= DBM:GetModLocalization(1820)
 -----------------------
 L= DBM:GetModLocalization(1826)
 
+L:SetMiscLocalization({
+	Tonny = "Ça vous dit de faire un tour ?",
+	Phase2 = "Mon univers est là : vous et moi !"
+})
+
 -----------------------
 -- Opera Hall: Beautiful Beast  --
 -----------------------
@@ -515,6 +537,12 @@ L= DBM:GetModLocalization(1827)
 -- Attumen the Huntsman --
 -----------------------
 L= DBM:GetModLocalization(1835)
+
+L:SetMiscLocalization({
+	SharedSufferingYell = "%s sur %s. ENFUIS-TOI loin de moi!",
+	Perephase1 = "L’heure est venue de vous affronter les yeux dans les yeux !",
+	Perephase2 = "Au galop, Minuit ! Vers la victoire !"
+})
 
 -----------------------
 -- Moroes --
@@ -556,16 +584,36 @@ L:SetGeneralLocalization({
 L = DBM:GetModLocalization("RTKTrash")
 
 L:SetGeneralLocalization({
-	name =	"Return To Karazhan Trash"
+	name =	"Retour à Karazhan Trash"
+})
+
+L:SetOptionLocalization({
+	timerRoleplay = "Отсчет времени до начала представления \"La belle bête\"",
+	timerRoleplay2 = "Отсчет времени до начала представления \"De l’amour à la mer\"",
+	timerRoleplay3 = "Отсчет времени до начала представления \"Lokdu\"",
+	timerRoleplay4 = DBM_CORE_OPTION_TIMER_DOOR_OPENING,
+	OperaActivation = DBM_CORE_GENERIC_TIMER_ROLE_PLAY
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = "\"Opéra : La belle bête\"",
+	timerRoleplay2 = "\"De l’amour à la mer\"",
+	timerRoleplay3 = "\"Lokdu\"",
+	timerRoleplay4 = DBM_CORE_GENERIC_TIMER_DOOR_OPENING
 })
 
 L:SetMiscLocalization({
-	speedRun		=	"The strange chill of a dark presence winds through the air..."
+	Beauty = "Добрый вечер, дамы и господа, и добро пожаловать на наше сегодняшнее представление!",
+	Westfall = "Mesdames et messieurs, bienvenue à la représentation de ce soir !",
+	Wikket = "Дамы и господа, добро пожаловать... ОХ!",
+	Medivh1 = "J’ai laissé tant de parcelles de mon être dans cette tour…",
+	speedRun = "The strange chill of a dark presence winds through the air..."
 })
 
 -----------------------
 -- <<<Cathedral of Eternal Night >>> --
 -----------------------
+
 -----------------------
 -- Agronox --
 -----------------------
@@ -592,6 +640,63 @@ L= DBM:GetModLocalization(1878)
 L = DBM:GetModLocalization("CoENTrash")
 
 L:SetGeneralLocalization({
-	name =	"Cathedral of Eternal Night Trash"--Maybe something shorter?
+	name =	"Cathédrale de la Nuit éternelle Trash"
 })
 
+-----------------------
+-- <<<Seat of Triumvirate >>> --
+-----------------------
+
+-----------------------
+-- Zuraal --
+-----------------------
+L= DBM:GetModLocalization(1979)
+
+L:SetWarningLocalization({
+	UmbraShift = "Umbra Shift on you - destroy the enemies"
+})
+
+L:SetOptionLocalization({
+	UmbraShift = "Show special warning \"destroy the enemies\" when you target $spell:244433"
+})
+
+-----------------------
+-- Saprish  --
+-----------------------
+L= DBM:GetModLocalization(1980)
+
+-----------------------
+-- Viceroy Nezhar --
+-----------------------
+L= DBM:GetModLocalization(1981)
+
+-----------------------
+-- L'ura  --
+-----------------------
+L= DBM:GetModLocalization(1982)
+
+-----------------------
+--Seat of Triumvirate Trash
+-----------------------
+L = DBM:GetModLocalization("SoTTrash")
+
+L:SetGeneralLocalization({
+	name =	"Siège du triumvirat Trash"
+})
+
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_DOOR_OPENING,
+	timerRoleplay2 = DBM_CORE_OPTION_TIMER_COMBAT,
+	AlleriaActivation = DBM_CORE_GENERIC_TIMER_ROLE_PLAY
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_DOOR_OPENING,
+	timerRoleplay2 = DBM_CORE_GENERIC_TIMER_COMBAT
+})
+
+L:SetMiscLocalization({
+	RP1 = "The Shadowguard is building up its presence near the temple.",
+	RP2 = "I sense great despair emanating from within. L'ura...",
+	RP3 = "Such chaos... such anguish. I have never sensed anything like it before."
+})

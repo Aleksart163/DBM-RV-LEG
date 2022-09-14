@@ -19,12 +19,14 @@ mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED 227297 227524 227502",
 	"SPELL_AURA_APPLIED_DOSE 227502",
 	"SPELL_PERIODIC_DAMAGE 227524",
-	"SPELL_PERIODIC_MISSED 227524"
+	"SPELL_PERIODIC_MISSED 227524",
+	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
 
 --Пожиратель маны https://ru.wowhead.com/npc=116494/пожиратель-маны/эпохальный-журнал-сражений
+local warnEnergyDischarge			= mod:NewPreWarnAnnounce(227457, 5, 1) --Энергетический разряд
+local warnEnergyDischarge2			= mod:NewSpellAnnounce(227457, 4) --Энергетический разряд
 local warnEnergyVoid				= mod:NewSpellAnnounce(227523, 1) --Энергетическая пустота
-local warnArcaneBomb				= mod:NewSpellAnnounce(227618, 3) --Чародейская бомба
 
 local specWarnUnstableMana			= mod:NewSpecialWarningStack(227502, nil, 1, nil, nil, 1, 3) --Нестабильная мана
 local specWarnEnergyVoid			= mod:NewSpecialWarningYouMove(227524, nil, nil, nil, 1, 2) --Энергетическая пустота
@@ -34,10 +36,12 @@ local specWarnCoalescePower2		= mod:NewSpecialWarningDodge(227297, "-Tank", nil,
 local specWarnArcaneBomb			= mod:NewSpecialWarningDodge(227618, nil, nil, nil, 2, 2) --Чародейская бомба
 local specWarnEnergyVoid2			= mod:NewSpecialWarningDodge(227523, "SpellCaster", nil, nil, 2, 3) --Энергетическая пустота
 
+local timerEnergyDischargeCD		= mod:NewCDTimer(27, 227457, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Энергетический разряд
 local timerEnergyVoidCD				= mod:NewCDTimer(21.7, 227523, nil, nil, nil, 3) --Энергетическая пустота
-local timerCoalescePowerCD			= mod:NewNextTimer(30, 227297, nil, nil, nil, 1, nil, DBM_CORE_TANK_ICON) --Слияние энергии
+local timerCoalescePowerCD			= mod:NewNextTimer(30, 227297, nil, nil, nil, 1, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Слияние энергии
 
-local countdownCoalescePower		= mod:NewCountdown(30, 227297) --Слияние энергии
+local countdownEnergyDischarge		= mod:NewCountdown(27, 227457, nil, nil, 5) --Слияние энергии
+local countdownCoalescePower		= mod:NewCountdown("Alt30", 227297, nil, nil, 5) --Слияние энергии
 
 mod:AddInfoFrameOption(227502, true)
 
@@ -47,6 +51,9 @@ function mod:OnCombatStart(delay)
 	timerEnergyVoidCD:Start(14.5-delay)
 	timerCoalescePowerCD:Start(30-delay)
 	countdownCoalescePower:Start(30-delay)
+	warnEnergyDischarge:Schedule(17-delay) --Энергетический разряд
+	timerEnergyDischargeCD:Start(22-delay) --Энергетический разряд
+	countdownEnergyDischarge:Start(22-delay) --Энергетический разряд
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:SetHeader(unstableMana)
 		DBM.InfoFrame:Show(5, "playerdebuffstacks", unstableMana)
@@ -61,7 +68,7 @@ end
 
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
-	if spellId == 227507 then
+	if spellId == 227507 then --Истребляющая сущность
 		specWarnDecimatingEssence:Show()
 		specWarnDecimatingEssence:Play("aesoon")
 	end
@@ -70,7 +77,6 @@ end
 function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
 	if spellId == 227618 then
-		warnArcaneBomb:Show()
 		specWarnArcaneBomb:Show()
 		specWarnArcaneBomb:Play("watchstep")
 	elseif spellId == 227523 then
@@ -119,3 +125,14 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spell
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
+
+function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
+	local spellId = legacySpellId or bfaSpellId
+	if spellId == 227457 then --Энергетический разряд
+		warnEnergyDischarge2:Show()
+		warnEnergyDischarge:Schedule(22)
+		warnEnergyDischarge:ScheduleVoice(22, "aesoon")
+		timerEnergyDischargeCD:Start()
+		countdownEnergyDischarge:Start()
+	end
+end

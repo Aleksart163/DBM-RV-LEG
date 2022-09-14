@@ -25,10 +25,9 @@ mod:RegisterEventsInCombat(
 )
 
 --"Однажды в Западном крае" https://ru.wowhead.com/npc=114260/мрргрия/эпохальный-журнал-сражений
-local warnPhase						= mod:NewAnnounce("Phase", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 2
-local warnPhase2					= mod:NewAnnounce("Phase2", 1, 227783) --Фаза 2
-local warnPhase3					= mod:NewAnnounce("Phase3", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 3
-local warnPhase4					= mod:NewAnnounce("Phase4", 1, 227453) --Фаза 3
+local warnPhase						= mod:NewPhaseChangeAnnounce(1)
+local warnPhase2					= mod:NewPrePhaseAnnounce(2, 1, 227783)
+local warnPhase3					= mod:NewPrePhaseAnnounce(3, 1, 227453)
 local warnLegSweep					= mod:NewCastAnnounce(227568, 4) --Пламенная подсечка
 local warnLegSweep2					= mod:NewTargetAnnounce(227568, 3) --Пламенная подсечка
 --Тонни
@@ -160,6 +159,7 @@ end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
 mod.SPELL_PERIODIC_DAMAGE = mod.SPELL_ABSORBED
 
+--[[
 function mod:OnSync(msg)
 	if msg == "Tonny" then --Ураган пламени
 		specWarnFlameGale:Show()
@@ -173,32 +173,45 @@ function mod:OnSync(msg)
 	elseif msg == "Phase2" then --Фаза 2
 		self.vb.phase = 3
 		warned_preP4 = true
-		warnPhase4:Show()
-		warnPhase4:Play("phasechange")
+		timerLegSweepCD:Start(10)
+		timerFlameGaleCD:Start(22)
+		countdownFlameGale:Start(22)
+	end
+end]]
+
+function mod:CHAT_MSG_MONSTER_YELL(msg)
+	if msg == L.Tonny then
+	--	self:SendSync("Tonny")
+		specWarnFlameGale:Show()
+		if self:IsHard() then
+			timerFlameGaleCD:Start()
+			countdownFlameGale:Start()
+		else
+			timerFlameGaleCD:Start()
+			countdownFlameGale:Start()
+		end
+	elseif msg == L.Phase2 then
+	--	self:SendSync("Phase2")
+		self.vb.phase = 3
+		warned_preP4 = true
+		warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase))
+		warnPhase:Play("phasechange")
 		timerLegSweepCD:Start(10)
 		timerFlameGaleCD:Start(22)
 		countdownFlameGale:Start(22)
 	end
 end
 
-function mod:CHAT_MSG_MONSTER_YELL(msg)
-	if msg == L.Tonny or msg:find(L.Tonny) then
-		self:SendSync("Tonny")
-	elseif msg == L.Phase2 or msg:find(L.Phase2) then
-		self:SendSync("Phase2")
-	end
-end
-
 function mod:UNIT_HEALTH(uId)
-	if self:IsHard() then --миф и миф+
+	if not self:IsNormal() then --миф и миф+
 		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 114261 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.61 then --Тонни скоро фаза 2
 			warned_preP1 = true
-			warnPhase:Show()
+			warnPhase2:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase+1))
 		elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 114261 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.51 then --Тонни фаза 2
 			self.vb.phase = 2
 			warned_preP2 = true
-			warnPhase2:Show()
-			warnPhase2:Play("phasechange")
+			warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase))
+			warnPhase:Play("phasechange")
 			timerLegSweepCD:Stop()
 			timerFlameGaleCD:Stop()
 			countdownFlameGale:Cancel()
@@ -207,12 +220,10 @@ function mod:UNIT_HEALTH(uId)
 			countdownWashAway:Start(16)
 		elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 114260 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.61 then --Мрргрия скоро фаза 3
 			warned_preP3 = true
-			warnPhase3:Show()
+			warnPhase3:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase+1))
 --[[		elseif self.vb.phase == 2 and warned_preP3 and not warned_preP4 and self:GetUnitCreatureId(uId) == 114260 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.51 then --Мрргрия фаза 3
 			self.vb.phase = 3
 			warned_preP4 = true
-			warnPhase4:Show()
-			warnPhase4:Play("phasechange")
 			timerLegSweepCD:Start(10)
 			timerFlameGaleCD:Start(22)
 			countdownFlameGale:Start(22)]]
@@ -223,8 +234,8 @@ function mod:UNIT_HEALTH(uId)
 		elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 114261 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.51 then --Тонни фаза 2
 			self.vb.phase = 2
 			warned_preP2 = true
-			warnPhase2:Show()
-			warnPhase2:Play("phasechange")
+			warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase))
+			warnPhase:Play("phasechange")
 			timerLegSweepCD:Stop()
 			timerFlameGaleCD:Stop()
 			countdownFlameGale:Cancel()
@@ -236,8 +247,6 @@ function mod:UNIT_HEALTH(uId)
 --[[		elseif self.vb.phase == 2 and warned_preP3 and not warned_preP4 and self:GetUnitCreatureId(uId) == 114260 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.51 then --Мрргрия фаза 3
 			self.vb.phase = 3
 			warned_preP4 = true
-			warnPhase4:Show()
-			warnPhase4:Play("phasechange")
 			timerLegSweepCD:Start(10)
 			timerFlameGaleCD:Start(22)
 			countdownFlameGale:Start(22)]]

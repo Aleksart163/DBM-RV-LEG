@@ -89,7 +89,7 @@ L= DBM:GetModLocalization(1656)
 L= DBM:GetModLocalization(1657)
 
 L:SetMiscLocalization{
-	ParanoiaYell = "%s на %s. УЁБЫВАЙТЕ от меня!"
+	ParanoiaYell = "%s на %s. УЁБЫВАЙТЕ от меня!" --Бегите
 }
 
 L:SetMiscLocalization({
@@ -187,8 +187,8 @@ L:SetGeneralLocalization({
 })
 
 L:SetOptionLocalization({
-	timerRoleplay = "Отсчет времени до начала боя с Король-бог Сковальд и Один", --"Interface\\Icons\\ability_warrior_offensivestance"
-	BossActivation = "Активировать бой с Одином ( и королями ) в 1 нажатие"
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT, --"Interface\\Icons\\ability_warrior_offensivestance"
+	BossActivation = DBM_CORE_GENERIC_TIMER_ROLE_PLAY
 })
 
 L:SetTimerLocalization({
@@ -196,12 +196,12 @@ L:SetTimerLocalization({
 })
 
 L:SetMiscLocalization({
+	RPSolsten = "Смертные, вы оскверняете ритуал!",
+	RPSolsten2 = "Хирья... Теперь ты можешь повелевать яростью бури!",
+	RPOlmyr = "Вы не помешаете перерождению Хирьи!",
+	RPOlmyr2 = "Да озарит тебя вечный Свет, Хирья!",
 	RPSkovald = "Нет! Я, Король-бог Сковальд, тоже доказал, что достоин. Эти смертные не посмеют оспорить мое право владеть Эгидой!",
-	RPOdyn = "Удивительно! Я не верил, что кто-то может сравниться с валарьярами... Но вы доказали, что это возможно.",
-	RPSolsten = "Хирья... Теперь ты можешь повелевать яростью бури!",
-	RPSolsten2 = "Смертные, вы оскверняете ритуал!",
-	RPOlmyr = "Да озарит тебя вечный Свет, Хирья!",
-	RPOlmyr2 = "Вы не помешаете перерождению Хирьи!"
+	RPOdyn = "Удивительно! Я не верил, что кто-то может сравниться с валарьярами... Но вы доказали, что это возможно."
 })
 
 ---------------------------
@@ -622,7 +622,7 @@ L:SetTimerLocalization({
 })
 
 L:SetOptionLocalization({
-	timerRoleplay = "Отсчет времени до начала боя с Корданой"
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
 })
 
 L:SetMiscLocalization({
@@ -648,20 +648,6 @@ L= DBM:GetModLocalization(1820)
 ------------------------------------------
 L= DBM:GetModLocalization(1826)
 
-L:SetWarningLocalization({
-	Phase = "Скоро фаза 2",
-	Phase2 = "Фаза 2",
-	Phase3 = "Скоро фаза 3",
-	Phase4 = "Фаза 3"
-})
-
-L:SetOptionLocalization({
-	Phase = "Предупреждать заранее о фазе 2 (на ~61% Тонни, только Мифик+)",
-	Phase2 = "Объявлять фазу 2",
-	Phase3 = "Предупреждать заранее о фазе 3 (на ~61% Мрргрия, только Мифик+)",
-	Phase4 = "Объявлять фазу 3"
-})
-
 L:SetMiscLocalization({
 	Tonny = "Ну что, покружимся?",
 	Phase2 = "Да, детка, весь этот мир против нас!"
@@ -678,9 +664,9 @@ L= DBM:GetModLocalization(1827)
 L= DBM:GetModLocalization(1835)
 
 L:SetMiscLocalization({
-	SharedSufferingYell = "Разделенные муки на %s. УЁБЫВАЙТЕ от меня!",
-	Perephase1 = "Что ж, сразимся лицом к лицу!"
---	Perephase2 = "Вперед, Полночь, к победе!"
+	SharedSufferingYell = "%s на %s. УЁБЫВАЙТЕ от меня!",
+	Perephase1 = "Что ж, сразимся лицом к лицу!",
+	Perephase2 = "Вперед, Полночь, к победе!"
 })
 
 ----------
@@ -737,17 +723,17 @@ L:SetGeneralLocalization({
 })
 
 L:SetOptionLocalization({
-	timerRoleplay = "Отсчет времени до начала представления \"Красавица и Зверь\"",
-	timerRoleplay2 = "Отсчет времени до начала представления \"Однажды в Западном крае\"",
 	timerRoleplay3 = "Отсчет времени до начала представления \"Злюкер\"",
+	timerRoleplay2 = "Отсчет времени до начала представления \"Однажды в Западном крае\"",
+	timerRoleplay = "Отсчет времени до начала представления \"Красавица и Зверь\"",
 	timerRoleplay4 = DBM_CORE_OPTION_TIMER_DOOR_OPENING,
 	OperaActivation = "Активировать представление в Опере в 1 нажатие"
 })
 
 L:SetTimerLocalization({
-	timerRoleplay = "\"Красавица и Зверь\"",
-	timerRoleplay2 = "\"Однажды и Западном крае\"",
 	timerRoleplay3 = "\"Злюкер\"",
+	timerRoleplay2 = "\"Однажды и Западном крае\"",
+	timerRoleplay = "\"Красавица и Зверь\"",
 	timerRoleplay4 = DBM_CORE_GENERIC_TIMER_DOOR_OPENING
 })
 
@@ -756,7 +742,6 @@ L:SetMiscLocalization({
 	Westfall = "Дамы и господа, добро пожаловать на вечернее представление!",
 	Wikket = "Дамы и господа, добро пожаловать... ОХ!",
 	Medivh1 = "Я разбросал по башне столько фрагментов своей души...",
-	ReinvigoratedYell = "Восполнение сил на %s. Держите меня семеро!",
 	speedRun = "Странный холод возвещает о темном присутствии..."
 })
 
@@ -811,12 +796,10 @@ L:SetGeneralLocalization({
 L= DBM:GetModLocalization(1979)
 
 L:SetWarningLocalization({
-	Phase2 = "Прорыв Бездны готов!", --Void Tear
 	UmbraShift = "Теневой рывок на вас - уничтожайте врагов"
 })
 
 L:SetOptionLocalization({
-	Phase2 = "Спец-предупреждение когда $spell:244621 готово для использования",
 	UmbraShift = "Спец-предупреждение \"уничтожайте врагов\" когда вы цель $spell:244433"
 })
 
@@ -847,7 +830,7 @@ L:SetGeneralLocalization({
 L:SetOptionLocalization({
 	timerRoleplay = DBM_CORE_OPTION_TIMER_DOOR_OPENING,
 	timerRoleplay2 = DBM_CORE_OPTION_TIMER_COMBAT,
-	AlleriaActivation = "Активировать ролевые игры с Аллерией в 1 нажатие"
+	AlleriaActivation = DBM_CORE_GENERIC_TIMER_ROLE_PLAY
 })
 
 L:SetTimerLocalization({

@@ -42,7 +42,7 @@ local yellCurseofIsolation				= mod:NewYell(225568, nil, nil, nil, "YELL") --П�
 function mod:SPELL_CAST_START(args)
 	if not self.Options.Enabled then return end
 	local spellId = args.spellId
-	if spellId == 201226 then --Кровавая атака
+	if spellId == 201226 and self:AntiSpam(2, 1) then --Кровавая атака
 		if not self:IsNormal() then
 			specWarnBloodAssault:Show()
 			specWarnBloodAssault:Play("chargemove")
@@ -110,13 +110,20 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif spellId == 198904 then --Отравленное копье
 		warnPoisonSpear:CombinedShow(0.5, args.destName)
-		if self:IsHard() then
-			if args:IsPlayer() then
-				specWarnPoisonSpear2:Show()
-				specWarnPoisonSpear2:Play("defensive")
-			else
-				specWarnPoisonSpear:CombinedShow(0.5, args.destName)
-				specWarnPoisonSpear:Play("dispelnow")
+		if not self:IsNormal() then
+			if self:IsHeroic() then
+				if args:IsPlayer() then
+					specWarnPoisonSpear2:Show()
+					specWarnPoisonSpear2:Play("defensive")
+				end
+			elseif self:IsHard() then
+				if args:IsPlayer() then
+					specWarnPoisonSpear2:Show()
+					specWarnPoisonSpear2:Play("defensive")
+				else
+					specWarnPoisonSpear:CombinedShow(0.5, args.destName)
+					specWarnPoisonSpear:Play("dispelnow")
+				end
 			end
 		end
 	end

@@ -35,6 +35,7 @@ local specWarnMortalStrike			= mod:NewSpecialWarningDefensive(227493, "Tank", ni
 local specWarnSharedSuffering		= mod:NewSpecialWarningMoveTo(228852, nil, nil, nil, 3, 5) --Разделенные муки
 local specWarnSharedSuffering2		= mod:NewSpecialWarningYouDefensive(228852, nil, nil, nil, 3, 5) --Разделенные муки
 local specWarnSharedSuffering3		= mod:NewSpecialWarningRun(228852, "Melee", nil, nil, 3, 5) --Разделенные муки
+local specWarnRagnarok				= mod:NewSpecialWarningDefensive(193826, nil, nil, nil, 3, 5) 
 
 local timerSpectralChargeCD			= mod:NewCDTimer(7.5, 227365, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Призрачный рывок
 local timerMightyStompCD			= mod:NewCDTimer(14, 227363, nil, nil, nil, 2, nil, DBM_CORE_INTERRUPT_ICON) --Могучий топот +++
@@ -55,6 +56,8 @@ mod.vb.spectralchargeCast = 0
 mod.vb.mezairCast = 0
 mod.vb.mountedstrikeCast = 0
 
+local sharedSuffering = DBM:GetSpellInfo(228852)
+local playerName = UnitName("player")
 local perephase = false
 local firsttwophase = false
 local firstperephase = false
@@ -62,6 +65,7 @@ local warned_preP1 = false
 local warned_preP2 = false
 local warned_preP3 = false
 local warned_preP4 = false
+local phase2 = false
 
 --[[
 local function UpdateTimers(self)
@@ -85,6 +89,7 @@ function mod:OnCombatStart(delay)
 	warned_preP2 = false
 	warned_preP3 = false
 	warned_preP4 = false
+	phase2 = false
 	timerMightyStompCD:Start(14-delay) --Могучий топот
 	timerPresenceCD:Start(6-delay) --Незримое присутствие
 end
@@ -143,7 +148,7 @@ function mod:SPELL_CAST_START(args)
 			end
 		end
 		if unitIsPlayer then
-			yellSharedSuffering:Yell(targetName)
+			yellSharedSuffering:Yell(sharedSuffering, playerName)
 			if self:IsNormal() or self:IsHeroic() then
 				specWarnSharedSuffering2:Show()
 			elseif self:IsHard() then
@@ -197,6 +202,9 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerSharedSufferingCD:Cancel()
 		timerMortalStrikeCD:Cancel()
 		timerPresenceCD:Cancel()
+		if phase2 then
+			phase2 = false
+		end
 	end
 end
 
@@ -254,10 +262,13 @@ function mod:UNIT_HEALTH(uId)
 		elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 114264 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.51 then --Полночь Фаза 2
 			self.vb.phase = 2
 			warned_preP2 = true
+--			firsttwophase = true
 			warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase))
 			self:NextProshlyap()
-		elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 114264 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.51 then --Полночь Фаза 2
-			self:NextProshlyap()
+		elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 114264 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.51 then
+			if phase2 then
+				self:NextProshlyap()
+			end
 		end
 	else
 		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 114264 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.61 then --Полночь
@@ -268,35 +279,33 @@ function mod:UNIT_HEALTH(uId)
 			warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase))
 			self:NextProshlyap()
 		elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 114264 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.51 then --Полночь Фаза 2
-			self:NextProshlyap()
+			if phase2 then
+				self:NextProshlyap()
+			end
 		end
 	end
 end
 
 function mod:NextProshlyap()
-	self.vb.murchalproshlyap = self.vb.murchalproshlyap + 1
-	if self.vb.murchalproshlyap >= 1 then
-		timerPresenceCD:Stop() --Незримое присутствие
-		timerMightyStompCD:Stop() --Могучий топот
-		timerMortalStrikeCD:Start(9.5) --смертельный удар
-		timerSharedSufferingCD:Start(18) --Разделенные муки
-		countdownSharedSuffering:Start(18) --Разделенные муки
-	end
+--	self.vb.murchalproshlyap = self.vb.murchalproshlyap + 1
+--	if self.vb.murchalproshlyap >= 1 then
+	timerPresenceCD:Stop() --Незримое присутствие
+	timerMightyStompCD:Stop() --Могучий топот
+	timerMortalStrikeCD:Start(9.5) --смертельный удар
+	timerSharedSufferingCD:Start(18) --Разделенные муки
+--	countdownSharedSuffering:Start(18) --Разделенные муки
 end
 
---[[
+
 function mod:CHAT_MSG_MONSTER_YELL(msg)
 	if msg == L.Perephase1 then --Спустился с коня (Что ж, сразимся лицом к лицу!)
-	--	self.vb.phase = 2
-	--	self.vb.mezairCast = 0
-	--	self.vb.mountedstrikeCast = 0
-	--	warned_preP2 = true
-	--	warnPhase1:Show() --фаза 2
-	--	perephase = true
-	--	timerMortalStrikeCD:Stop() --Смертельный удар
-	--	timerSharedSufferingCD:Stop() --Разделенные муки
-	--	countdownSharedSuffering:Cancel() --Разделенные муки
---	elseif msg == L.Perephase2 then --Спустился с коня (Что ж, сразимся лицом к лицу!)
+		if not phase2 then
+			specWarnRagnarok:Show()
+			phase2 = true
+		end
+--		firsttwophase = true
+	elseif msg == L.Perephase2 then --Спустился с коня (Что ж, сразимся лицом к лицу!)
+		specWarnRagnarok:Show()
 	--	perephase = false
 	--	timerSpectralChargeCD:Stop() --Призрачный рывок
 	--	specWarnSpectralCharge:Cancel() --Призрачный рывок
@@ -312,4 +321,4 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 --		timerSpectralChargeCD:Schedule(14) --Призрачный рывок
 --		specWarnSpectralCharge:Schedule(21.5) --Призрачный рывок
 --	end
-end]]
+end

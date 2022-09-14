@@ -48,7 +48,7 @@ L:SetTimerLocalization({
 })
 
 L:SetMiscLocalization({
-	RP1 = "Я... я все понял..."
+	RP1 = "这下……我明白了……"
 })
 
 ----------
@@ -84,6 +84,15 @@ L= DBM:GetModLocalization(1656)
 -----------------------
 L= DBM:GetModLocalization(1657)
 
+L:SetMiscLocalization{
+	ParanoiaYell = "%s on %s. 离我远点！"
+}
+
+L:SetMiscLocalization({
+	XavApoc = "你会慢慢地、痛苦地衰弱下去。",
+	XavApoc2 = "我要击溃你脆弱的心灵！"
+})
+
 -----------------------
 --Darkheart Thicket Trash
 -----------------------
@@ -96,6 +105,7 @@ L:SetGeneralLocalization({
 -----------------------
 -- <<<Eye of Azshara>>> --
 -----------------------
+
 -----------------------
 -- Warlord Parjesh --
 -----------------------
@@ -138,6 +148,7 @@ L:SetGeneralLocalization({
 -----------------------
 -- <<<Halls of Valor>>> --
 -----------------------
+
 -----------------------
 -- Hymdall --
 -----------------------
@@ -158,18 +169,10 @@ L= DBM:GetModLocalization(1487)
 -----------------------
 L= DBM:GetModLocalization(1488)
 
-L:SetMiscLocalization({
-	SkovaldRP		= 	"不！我也证明了自己，奥丁。我是神王斯科瓦尔德！这些凡人休想抢走我的圣盾！"
-})
-
 -----------------------
 -- Odyn --
 -----------------------
 L= DBM:GetModLocalization(1489)
-
-L:SetMiscLocalization({
-	tempestModeMessage		=	"非明光风暴序列: %s. 8秒后再检查."
-})
 
 -----------------------
 --Halls of Valor Trash
@@ -180,9 +183,28 @@ L:SetGeneralLocalization({
 	name =	"英灵殿小怪"
 })
 
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT,
+	BossActivation = DBM_CORE_GENERIC_TIMER_ROLE_PLAY
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+})
+
+L:SetMiscLocalization({
+	RPSolsten = "你们的存在玷污了这场仪式，凡人！",
+	RPSolsten2 = "赫娅……你来执掌风暴的怒火！",
+	RPOlmyr = "你休想妨碍赫娅的晋升！",
+	RPOlmyr2 = "愿圣光永远照耀你，赫娅！",
+	RPSkovald = "不！我也证明了自己，奥丁。我是神王斯科瓦尔德！这些凡人休想抢走我的圣盾！",
+	RPOdyn = "真了不起！没想到还有人能对抗瓦拉加尔的力量……而他们就站在我面前。"
+})
+
 -----------------------
 -- <<<Neltharion's Lair>>> --
 -----------------------
+
 -----------------------
 -- Rokmora --
 -----------------------
@@ -215,6 +237,7 @@ L:SetGeneralLocalization({
 -----------------------
 -- <<<The Arcway>>> --
 -----------------------
+
 -----------------------
 -- Ivanyr --
 -----------------------
@@ -256,6 +279,7 @@ L:SetGeneralLocalization({
 -----------------------
 -- <<<Court of Stars>>> --
 -----------------------
+
 -----------------------
 -- Patrol Captain Gerdo --
 -----------------------
@@ -353,6 +377,7 @@ L:SetMiscLocalization({ --神坑
 -----------------------
 -- <<<The Maw of Souls>>> --
 -----------------------
+
 -----------------------
 -- Ymiron, the Fallen King --
 -----------------------
@@ -380,6 +405,7 @@ L:SetGeneralLocalization({
 -----------------------
 -- <<<Assault Violet Hold>>> --
 -----------------------
+
 -----------------------
 -- Mindflayer Kaahrj --
 -----------------------
@@ -453,6 +479,7 @@ L:SetMiscLocalization({
 -----------------------
 -- <<<Vault of the Wardens>>> --
 -----------------------
+
 -----------------------
 -- Tirathon Saltheril --
 -----------------------
@@ -494,6 +521,7 @@ L:SetGeneralLocalization({
 -----------------------
 -- <<<Return To Karazhan>>> --
 -----------------------
+
 -----------------------
 -- Maiden of Virtue --
 -----------------------
@@ -509,6 +537,11 @@ L= DBM:GetModLocalization(1820)
 -----------------------
 L= DBM:GetModLocalization(1826)
 
+L:SetMiscLocalization({
+	Tonny = "想出去兜兜风吗？",
+	Phase2 = "让我们一起对抗世界吧，宝贝！"
+})
+
 -----------------------
 -- Opera Hall: Beautiful Beast  --
 -----------------------
@@ -518,6 +551,12 @@ L= DBM:GetModLocalization(1827)
 -- Attumen the Huntsman --
 -----------------------
 L= DBM:GetModLocalization(1835)
+
+L:SetMiscLocalization({
+	SharedSufferingYell = "%s on %s. RUN AWAY from me!",
+	Perephase1 = "该直面我的猎物了！",
+	Perephase2 = "跑起来，午夜！为了胜利！"
+})
 
 -----------------------
 -- Moroes --
@@ -553,13 +592,33 @@ L:SetGeneralLocalization({
 	name =	"重返卡拉赞小怪"
 })
 
+L:SetOptionLocalization({
+	timerRoleplay3 = "Отсчет времени до начала представления \"魔法坏女巫\"",
+	timerRoleplay2 = "Отсчет времени до начала представления \"西部故事\"",
+	timerRoleplay = "Отсчет времени до начала представления \"美女与野兽\"",
+	timerRoleplay4 = DBM_CORE_OPTION_TIMER_DOOR_OPENING,
+	OperaActivation = "Активировать представление в Опере в 1 нажатие"
+})
+
+L:SetTimerLocalization({
+	timerRoleplay3 = "\"魔法坏女巫\"",
+	timerRoleplay2 = "\"西部故事\"",
+	timerRoleplay = "\"美女与野兽\"",
+	timerRoleplay4 = DBM_CORE_GENERIC_TIMER_DOOR_OPENING
+})
+
 L:SetMiscLocalization({
-	speedRun		=	"空气中弥漫着某种诡异的黑暗寒风……"
+	Beauty = "Добрый вечер, дамы и господа, и добро пожаловать на наше сегодняшнее представление!",
+	Westfall = "女士们先生们，欢迎各位前来观看今晚的演出！",
+	Wikket = "Дамы и господа, добро пожаловать... ОХ!",
+	Medivh1 = "我在这座塔的各个角落留下了许多碎片……",
+	speedRun = "空气中弥漫着某种诡异的黑暗寒风……"
 })
 
 -----------------------
 -- <<<Cathedral of Eternal Night >>> --
 -----------------------
+
 -----------------------
 -- Agronox --
 -----------------------
@@ -596,6 +655,7 @@ L:SetGeneralLocalization({
 -----------------------
 -- <<<Seat of Triumvirate >>> --
 -----------------------
+
 -----------------------
 -- Zuraal --
 -----------------------
@@ -623,4 +683,21 @@ L = DBM:GetModLocalization("SoTTrash")
 
 L:SetGeneralLocalization({
 	name =	"执政团之座小怪"
+})
+
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_DOOR_OPENING,
+	timerRoleplay2 = DBM_CORE_OPTION_TIMER_COMBAT,
+	AlleriaActivation = DBM_CORE_GENERIC_TIMER_ROLE_PLAY
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_DOOR_OPENING,
+	timerRoleplay2 = DBM_CORE_GENERIC_TIMER_COMBAT
+})
+
+L:SetMiscLocalization({
+	RP1 = "影卫就盘踞在附近的神殿里。",
+	RP2 = "我感觉里面散发出强烈的绝望。鲁拉……",
+	RP3 = "如此混乱……如此痛苦。我从未体验过这种感受。"
 })
