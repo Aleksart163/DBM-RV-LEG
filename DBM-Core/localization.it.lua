@@ -215,7 +215,13 @@ DBM_CORE_AUTO_COUNTDOWN_OPTION_TEXT		= "Esegui il conto alla rovescia per $spell
 DBM_CORE_AUTO_COUNTOUT_OPTION_TEXT		= "Esegui il conteggio per la durata di $spell:%s"
 DBM_CORE_AUTO_YELL_OPTION_TEXT.yell		= "Urla quando sei afflitto da $spell:%s"
 DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT.yell	= "%s su di " .. UnitName("player") .. "!"
-
+DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT.yellhelp = "%s su di " .. UnitName("player") .. "! Aiutami!"
+DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT.count	= "%s su di " .. UnitName("player") .. "! (%%d)"
+DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT.fade	= "%s scomparirà attraverso %%d"
+DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT.shortfade = "%%d"
+DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT.iconfade = "{rt%%2$d}%%1$d"
+DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT.position = "%s %%s su di {rt%%d}"..UnitName("player").."{rt%%d}"
+DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT.combo = "%s e %%s"
 
 -- New special warnings
 DBM_CORE_MOVE_SPECIAL_WARNING_BAR	= "Avvisi Speciali Mobili"

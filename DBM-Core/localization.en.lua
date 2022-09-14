@@ -125,6 +125,7 @@ DBM_CORE_OPTION_TIMER_COMBAT		= "Show timer for combat start"
 DBM_CORE_GENERIC_TIMER_COMBAT		= "Combat starts"
 DBM_CORE_OPTION_TIMER_DOOR_OPENING	= "Show timer for to door opening"
 DBM_CORE_GENERIC_TIMER_DOOR_OPENING	= "Door opening"
+DBM_CORE_GENERIC_TIMER_ROLE_PLAY	= "Activate role-playing or npc in 1 click"
 DBM_CORE_BAD						= "Bad"
 
 DBM_CORE_OPTION_CATEGORY_TIMERS			= "Bars"
@@ -578,7 +579,7 @@ DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT = {
 	yell			= "%s on " .. UnitName("player"),
 	yellhelp		= "%s on " .. UnitName("player") .. "! Help!",
 	count			= "%s on " .. UnitName("player") .. " (%%d)",
-	fade			= "%s fading in %%d",
+	fade			= "%s scomparirà attraverso %%d",
 	shortfade		= "%%d",
 	iconfade		= "{rt%%2$d}%%1$d",
 	position 		= "%s %%s on {rt%%d}"..UnitName("player").."{rt%%d}",

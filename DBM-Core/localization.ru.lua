@@ -126,6 +126,7 @@ DBM_CORE_OPTION_TIMER_COMBAT		= "Отсчет времени до начала �
 DBM_CORE_GENERIC_TIMER_COMBAT		= "Бой начинается"
 DBM_CORE_OPTION_TIMER_DOOR_OPENING	= "Отсчет времени до открытия дверей"
 DBM_CORE_GENERIC_TIMER_DOOR_OPENING	= "Открывание двери"
+DBM_CORE_GENERIC_TIMER_ROLE_PLAY	= "Активировать ролевые игры или npc в 1 нажатие"
 DBM_CORE_BAD						= "Плохой"
 
 DBM_CORE_OPTION_CATEGORY_TIMERS			= "Индикаторы"

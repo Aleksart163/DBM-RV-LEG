@@ -120,6 +120,8 @@ DBM_CORE_GENERIC_TIMER_BERSERK		= "Rabia"
 DBM_CORE_OPTION_TIMER_BERSERK		= "Mostrar tiempo restante para $spell:26662"
 DBM_CORE_GENERIC_TIMER_COMBAT		= "Comienza el encuentro"
 DBM_CORE_OPTION_TIMER_COMBAT		= "Mostrar temporizador para el inicio del encuentro"
+DBM_CORE_OPTION_TIMER_DOOR_OPENING	= "Отсчет времени до открытия дверей"
+DBM_CORE_GENERIC_TIMER_DOOR_OPENING	= "Открывание двери"
 DBM_CORE_BAD						= "Daño"
 
 DBM_CORE_OPTION_CATEGORY_TIMERS			= "Barras"

@@ -120,6 +120,8 @@ DBM_CORE_GENERIC_TIMER_BERSERK		= "Berserker"
 DBM_CORE_OPTION_TIMER_BERSERK		= "Zeige Zeit bis $spell:26662"
 DBM_CORE_GENERIC_TIMER_COMBAT		= "Kampfbeginn"
 DBM_CORE_OPTION_TIMER_COMBAT		= "Zeige Zeit bis Kampfbeginn"
+DBM_CORE_OPTION_TIMER_DOOR_OPENING	= "Countdown bis zur Türöffnung"
+DBM_CORE_GENERIC_TIMER_DOOR_OPENING	= "Türöffnung"
 DBM_CORE_BAD						= "Schlechtes"
 
 DBM_CORE_OPTION_CATEGORY_TIMERS			= "Timer"
