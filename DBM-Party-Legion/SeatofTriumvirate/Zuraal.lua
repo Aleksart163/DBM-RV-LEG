@@ -127,9 +127,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		countdownUmbraShift:Start(60) --Теневой рывок
 		warnVoidTear2:Schedule(55) --Теневой рывок
 	elseif spellId == 244061 then --Мир Бездны
-		if not args:IsPlayer() then
-			warnVoidTear3:Show(args.destName)
-		end
+		warnVoidTear3:Show(args.destName)
 	end
 end
 

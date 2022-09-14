@@ -610,7 +610,7 @@ L:SetTimerLocalization({
 })
 
 L:SetMiscLocalization({
-	Beauty = "Добрый вечер, дамы и господа, и добро пожаловать на наше сегодняшнее представление!",
+	Beauty = "Guten Abend, meine Damen und Herren. Wir heißen Euch voller Stolz willkommen zu unserer heutigen Vorstellung!",
 	Westfall = "Meine Damen und Herren, willkommen zu unserer heutigen Vorstellung!",
 	Wikket = "Дамы и господа, добро пожаловать... ОХ!",
 	Medivh1 = "Ich habe so viel von mir selbst in diesem Turm zurückgelassen...",

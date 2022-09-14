@@ -35,7 +35,7 @@ local specWarnMortalStrike			= mod:NewSpecialWarningDefensive(227493, "Tank", ni
 local specWarnSharedSuffering		= mod:NewSpecialWarningMoveTo(228852, nil, nil, nil, 3, 5) --Разделенные муки
 local specWarnSharedSuffering2		= mod:NewSpecialWarningYouDefensive(228852, nil, nil, nil, 3, 5) --Разделенные муки
 local specWarnSharedSuffering3		= mod:NewSpecialWarningRun(228852, "Melee", nil, nil, 3, 5) --Разделенные муки
-local specWarnRagnarok				= mod:NewSpecialWarningDefensive(193826, nil, nil, nil, 3, 5) 
+--local specWarnRagnarok				= mod:NewSpecialWarningDefensive(193826, nil, nil, nil, 3, 5) 
 
 local timerSpectralChargeCD			= mod:NewCDTimer(7.5, 227365, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Призрачный рывок
 local timerMightyStompCD			= mod:NewCDTimer(14, 227363, nil, nil, nil, 2, nil, DBM_CORE_INTERRUPT_ICON) --Могучий топот +++
@@ -300,12 +300,12 @@ end
 function mod:CHAT_MSG_MONSTER_YELL(msg)
 	if msg == L.Perephase1 then --Спустился с коня (Что ж, сразимся лицом к лицу!)
 		if not phase2 then
-			specWarnRagnarok:Show()
+		--	specWarnRagnarok:Show()
 			phase2 = true
 		end
 --		firsttwophase = true
 	elseif msg == L.Perephase2 then --Спустился с коня (Что ж, сразимся лицом к лицу!)
-		specWarnRagnarok:Show()
+	--	specWarnRagnarok:Show()
 	--	perephase = false
 	--	timerSpectralChargeCD:Stop() --Призрачный рывок
 	--	specWarnSpectralCharge:Cancel() --Призрачный рывок
