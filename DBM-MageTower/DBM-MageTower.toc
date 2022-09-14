@@ -2,6 +2,7 @@
 ## X-Min-Interface: 70000
 ## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Mage Tower|r
 ## Title-ruRU:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Башня магов|r
+## Title-deDE:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Magierturm|r
 ## Author: Aleksart163
 ## LoadOnDemand: 1
 ## RequiredDeps: DBM-Core
@@ -12,6 +13,7 @@
 ## X-DBM-Mod-Category: LEG
 ## X-DBM-Mod-Name: Mage Tower
 ## X-DBM-Mod-Name-ruRU: Башня магов
+## X-DBM-Mod-Name-deDE: Magierturm
 ## X-DBM-Mod-Sort: 509
 ## X-DBM-Mod-MapID: 1148, 1698, 1710, 1703, 1702, 1684, 1673, 1616
 ## X-DBM-Mod-MinCoreRevision: 17650

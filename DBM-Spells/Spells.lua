@@ -22,6 +22,8 @@ local warnDrums						= mod:NewTargetSourceAnnounce(230935, 1) --Барабаны
 local warnRitualofSummoning			= mod:NewTargetSourceAnnounce(698, 1) --Ритуал призыва
 local warnSoulstone					= mod:NewTargetAnnounce(20707, 1) --Камень души
 
+local specWarnSoulstone				= mod:NewSpecialWarningYou(20707, nil, nil, nil, 1, 2) --Камень души
+
 mod:AddBoolOption("YellOnHeroism", false)
 mod:AddBoolOption("YellOnResurrect", false)
 mod:AddBoolOption("YellOnPortal", false)
@@ -322,6 +324,10 @@ function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 20707 then --Камень души
 		warnSoulstone:Show(args.destName)
+		if args:IsPlayer() then
+			specWarnSoulstone:Show()
+			specWarnSoulstone:Play("targetyou")
+		end
 		if self.Options.YellOnSoulstone then
 			if IsInRaid() then
 				SendChatMessage(L.SoulstoneYell:format(args.sourceName, soulstone, args.destName), "RAID")
@@ -334,10 +340,8 @@ end
 
 function mod:SPELL_CREATE(args)
 	local spellId = args.spellId
-	if spellId == 698 then --Ритуал призыва
-		if self:AntiSpam(2.5, 1) then
-			warnRitualofSummoning:Show(args.sourceName)
-		end
+	if spellId == 698 and self:AntiSpam(2, 1) then --Ритуал призыва
+		warnRitualofSummoning:Show(args.sourceName)
 		if self.Options.YellOnRitualofSummoning then
 			if IsInRaid() then
 				SendChatMessage(L.SummoningYell:format(args.sourceName, summoning), "RAID")
@@ -345,7 +349,7 @@ function mod:SPELL_CREATE(args)
 				SendChatMessage(L.SummoningYell:format(args.sourceName, summoning), "PARTY")
 			end
 		end
-	elseif spellId == 188036 and self:AntiSpam(2.5, 1) then --Котел духов
+	elseif spellId == 188036 and self:AntiSpam(2, 1) then --Котел духов
 		if self.Options.YellOnSpiritCauldron then
 			if IsInRaid() then
 				SendChatMessage(L.SoulwellYell:format(args.sourceName, cauldron), "RAID")
