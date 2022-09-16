@@ -59,6 +59,7 @@ function mod:OnCombatStart(delay)
 	timerFelRuptureCD:Start(7.5)
 	timerEarthquakeCD:Start(20.5)
 	timerFelSurgeCD:Start(62)--Correct place to do it?
+	DBM:AddMsg("Данный босс содержит оригинальные таймеры/анонсы и т.д. с офы Легиона за 2018 год, поэтому могут работать на данном сервере плохо. Следите за обновлениями для корректной работы модуля.")
 end
 
 function mod:SPELL_CAST_START(args)
