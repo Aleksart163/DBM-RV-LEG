@@ -21,7 +21,7 @@ mod:RegisterEvents(
 local warnFelStrike				= mod:NewTargetAnnounce(236737, 3) --Удар Скверны
 local warnShadowWall			= mod:NewSpellAnnounce(241598, 3) --Стена Тьмы
 local warnFelRejuvenation		= mod:NewCastAnnounce(237558, 3) --Омоложение Скверной
-local warnBlisteringRain		= mod:NewCastAnnounce(237565, 4) --Обжигающий дождь
+--local warnBlisteringRain		= mod:NewCastAnnounce(237565, 4) --Обжигающий дождь
 local warnAlluringAroma			= mod:NewCastAnnounce(237391, 4) --Манящий аромат
 local warnSinisterFangs			= mod:NewStackAnnounce(236954, 4, nil, nil, 2) --Зловещие клыки
 local warnAlluringAroma2		= mod:NewTargetAnnounce(237391, 2) --Манящий аромат
@@ -50,7 +50,7 @@ local specWarnFelblazeOrb		= mod:NewSpecialWarningDodge(239320, nil, nil, nil, 1
 local specWarnVenomStorm		= mod:NewSpecialWarningDodge(239266, nil, nil, nil, 2, 2) --Ядовитая буря
 
 local timerSinisterFangs		= mod:NewTargetTimer(15, 236954, nil, "Tank|RemovePoison", nil, 3, nil, DBM_CORE_POISON_ICON..DBM_CORE_HEALER_ICON) --Зловещие клыки
-local timerAlluringAroma		= mod:NewTargetTimer(8, 237391, nil, nil, nil, 3) --Манящий аромат
+local timerAlluringAroma		= mod:NewTargetTimer(8, 237391, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON) --Манящий аромат
 
 local yellSinisterFangs			= mod:NewYell(236954, nil, nil, nil, "YELL") --Зловещие клыки
 local yellAlluringAroma			= mod:NewYell(237391, nil, nil, nil, "YELL") --Манящий аромат
@@ -128,7 +128,7 @@ function mod:SPELL_CAST_START(args)
 			end
 		end
 	elseif spellId == 237565 then --Обжигающий дождь
-		warnBlisteringRain:Show()
+	--	warnBlisteringRain:Show()
 		if self:IsHard() then
 			specWarnBlisteringRain:Show()
 			specWarnBlisteringRain:Play("kickcast")

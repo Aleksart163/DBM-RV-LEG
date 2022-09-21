@@ -42,7 +42,7 @@ local yellToxicWound				= mod:NewYell(191855, nil, nil, nil, "YELL") --Отра�
 local yellToxicWound2				= mod:NewFadesYell(191855, nil, nil, nil, "YELL") --Отравленная рана
 
 --Next timers always, unless rampage is not interrupted (Boss will not cast anything else during rampages)
-local timerToxicWound				= mod:NewTargetTimer(6, 191855, nil, nil, nil, 3) --Отравленная рана+++
+local timerToxicWound				= mod:NewTargetTimer(6, 191855, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Отравленная рана+++
 local timerToxicWoundCD				= mod:NewCDTimer(16, 191855, nil, nil, nil, 7) --Отравленная рана
 local timerWindsCD					= mod:NewNextTimer(30, 191798, nil, nil, nil, 2) --Жестокие ветра
 

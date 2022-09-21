@@ -1,4 +1,5 @@
 if GetLocale() ~= "koKR" then return end
+
 local L
 
 -----------------------
@@ -26,7 +27,7 @@ L= DBM:GetModLocalization(1664)
 L= DBM:GetModLocalization(1672)
 
 L:SetMiscLocalization({
-	Latosius = "됐다! 슬슬 싫증이 나는군."
+	proshlyapMurchal = "됐다! 슬슬 싫증이 나는군."
 })
 
 -----------------------
@@ -115,11 +116,6 @@ L= DBM:GetModLocalization(1480)
 -----------------------
 L= DBM:GetModLocalization(1490)
 
-L:SetWarningLocalization({
-	specWarnStaticNova			= "정전기 회오리 - 땅으로 이동",
-	specWarnFocusedLightning	= "집중된 번개 - 물로 이동"
-})
-
 -----------------------
 -- King Deepbeard --
 -----------------------
@@ -168,18 +164,10 @@ L= DBM:GetModLocalization(1487)
 -----------------------
 L= DBM:GetModLocalization(1488)
 
-L:SetMiscLocalization({
-	SkovaldRP		= "안 돼! 나도 내 가치를 증명했다, 오딘. 나는 신왕 스코발드다! 나의 아이기스에 어찌 감히 필멸자가 손을 댄단 말이냐!"
-})
-
 -----------------------
 -- Odyn --
 -----------------------
 L= DBM:GetModLocalization(1489)
-
-L:SetMiscLocalization({
-	tempestModeMessage		=	"폭풍우 시퀀스 아님: %s. 8초 후 다시 검사합니다."
-})
 
 -----------------------
 --Halls of Valor Trash
@@ -188,6 +176,24 @@ L = DBM:GetModLocalization("HoVTrash")
 
 L:SetGeneralLocalization({
 	name =	"용맹의 전당 일반몹"
+})
+
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT,
+	BossActivation = DBM_CORE_GENERIC_TIMER_ROLE_PLAY
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+})
+
+L:SetMiscLocalization({
+	RPSolsten = "의식에 방해만 되는 것들 같으니라고!",
+	RPSolsten2 = "히리아... 이제 폭풍의 격노를 부릴 수 있게 되었다!",
+	RPOlmyr = "히리아의 승천을 막을 순 없다!",
+	RPOlmyr2 = "히리아, 빛이 네 안에서 영원히 빛나리라!",
+	RPSkovald = "안 돼! 나도 내 가치를 증명했다, 오딘. 나는 신왕 스코발드다! 나의 아이기스에 어찌 감히 필멸자가 손을 댄단 말이냐!",
+	RPOdyn = "정말 놀랍군! 발라리아르의 힘에 견줄 만큼 강력한 자를 보게 될 줄은 몰랐거늘, 이렇게 너희가 나타나다니."
 })
 
 -----------------------
@@ -223,6 +229,18 @@ L:SetGeneralLocalization({
 	name =	"넬타리온의 둥지 일반몹"
 })
 
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+})
+
+L:SetMiscLocalization({
+	RoleP1 = "나바로그? 이 배신자! 감히 침입자들을 끌고 여기 오다니!"
+})
+
 -----------------------
 -- <<<The Arcway>>> --
 -----------------------
@@ -242,10 +260,6 @@ L= DBM:GetModLocalization(1498)
 -----------------------
 L= DBM:GetModLocalization(1499)
 
-L:SetMiscLocalization({
-	batSpawn		=	"나에게 박쥐 붙음!"
-})
-
 -----------------------
 -- Nal'tira --
 -----------------------
@@ -255,6 +269,10 @@ L= DBM:GetModLocalization(1500)
 -- Advisor Vandros --
 -----------------------
 L= DBM:GetModLocalization(1501)
+
+L:SetMiscLocalization({
+	RPVandros = "그만! 짐승 같은 놈들이 너무 날뛰는구나!"
+})
 
 -----------------------
 --The Arcway Trash
@@ -294,10 +312,17 @@ L:SetGeneralLocalization({
 })
 
 L:SetOptionLocalization({
-	SpyHelper	= "첩자 색출 도우미"
+	SpyHelper	= "첩자 색출 도우미",
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
 })
 
 L:SetMiscLocalization({
+	--
+	proshlyapMurchal = "벌써 떠나셔야 합니까, 대마법학자님?",
 	Gloves1		= "그 첩자는 항상 장갑을 낀다고 하더군요.",
 	Gloves2		= "제가 듣기로는, 그 첩자는 항상 신경 써서 손을 가린다고 합니다.",
 	Gloves3		= "그 첩자는 항상 장갑을 낀다고 들었습니다.",
@@ -345,7 +370,7 @@ L:SetMiscLocalization({
 	Pouch2		= "제 친구가 말하길, 그 첩자는 금을 너무 좋아해서 허리띠 주머니에도 금이 가득 들어 있다고 합니다.",
 	Pouch3		= "그 첩자는 어찌나 사치스러운지 허리띠에 달린 주머니에 금화를 잔뜩 넣어서 다닌다고 합니다.",
 	Pouch4		= "그 첩자는 허리띠 주머니도 휘황찬란한 자수로 꾸며져 있다고 합니다.",
-	Found		= "자, 너무 그렇게 다그치지 마십시오",
+	Found		= "자, 너무 그렇게 다그치지 마십시오", -- 자, 너무 그렇게 다그치지 마십시오, Tielle 님. 어디 조용한 곳으로 가서 다시 얘기해 보는 게 어떻겠습니까? 따라오시죠...
 	--
 	Gloves		= "장갑",
 	NoGloves	= "장갑 없음",
@@ -390,6 +415,18 @@ L = DBM:GetModLocalization("MawTrash")
 
 L:SetGeneralLocalization({
 	name =	"영혼의 아귀 일반몹"
+})
+
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+})
+
+L:SetMiscLocalization({
+	Helya = "내 영역에 침범한 걸 후회하게 해주마."
 })
 
 -----------------------
@@ -607,9 +644,9 @@ L:SetTimerLocalization({
 })
 
 L:SetMiscLocalization({
-	Beauty = "Добрый вечер, дамы и господа, и добро пожаловать на наше сегодняшнее представление!",
+	Beauty = "신사 숙녀 여러분, 안녕하십니까. 오늘 저녁의 특집 공연에 오신 것을 환영합니다!",
 	Westfall = "신사 숙녀 여러분, 오늘 저녁의 특집 공연에 오신 것을 환영합니다!",
-	Wikket = "Дамы и господа, добро пожаловать... ОХ!",
+	Wikket = "신사 숙녀 여러분, 우리 공연에 잘-- 우욱!",
 	Medivh1 = "나는 이 탑에 나의 파편들을 많이도 남겼었지...",
 	speedRun = "어둠의 존재를 알리는 기묘한 한기가 주위에 퍼져나갑니다..."
 })

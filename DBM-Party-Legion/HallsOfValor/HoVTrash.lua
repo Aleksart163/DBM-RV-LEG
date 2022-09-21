@@ -271,6 +271,8 @@ end
 function mod:CHAT_MSG_MONSTER_YELL(msg)
 	if msg == L.RPSkovald then
 		self:SendSync("RPSkovald")
+	elseif msg == L.RPOdyn then
+		self:SendSync("RPOdyn")
 	elseif msg == L.RPSolsten then
 		self:SendSync("RPSolsten")
 	elseif msg == L.RPSolsten2 then
@@ -279,8 +281,6 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 		self:SendSync("RPOlmyr")
 	elseif msg == L.RPOlmyr2 then
 		self:SendSync("RPOlmyr2")
-	elseif msg == L.RPOdyn then
-		self:SendSync("RPOdyn")
 	end
 end
 
@@ -289,23 +289,23 @@ function mod:OnSync(msg, GUID)
 		timerRoleplay:Start(33.5)
 	elseif msg == "RPOdyn" then
 		timerRoleplay:Start(25.5)
-	elseif msg == "RPSolsten2" then
-		timerEyeofStormCD:Cancel()
-		countdownEyeofStorm:Cancel()
+	elseif msg == "RPOdyn2" then
+		timerRoleplay:Start(2.8)
+		countdownEyeofStorm:Start(2.8)
 	elseif msg == "RPSolsten" then
 		timerEyeofStormCD:Start(9)
 		countdownEyeofStorm:Start(9)
-	elseif msg == "RPOlmyr2" then
-		timerSanctifyCD:Cancel()
-		countdownSanctify:Cancel()
-		timerSearingLightCD:Cancel()
+	elseif msg == "RPSolsten2" then
+		timerEyeofStormCD:Cancel()
+		countdownEyeofStorm:Cancel()
 	elseif msg == "RPOlmyr" then
 		timerSanctifyCD:Start(9.5)
 		countdownSanctify:Start(9.5)
 		timerSearingLightCD:Start(5.5)
-	elseif msg == "RPOdyn2" then
-		timerRoleplay:Start(2.8)
-		countdownEyeofStorm:Start(2.8)
+	elseif msg == "RPOlmyr2" then
+		timerSanctifyCD:Cancel()
+		countdownSanctify:Cancel()
+		timerSearingLightCD:Cancel()
 	end
 end
 

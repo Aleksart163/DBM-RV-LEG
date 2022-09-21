@@ -24,7 +24,7 @@ local warnClaimAegis				= mod:NewSpellAnnounce(194112, 2) --Захватить �
 local warnRagnarok					= mod:NewPreWarnAnnounce(193826, 5, 1) --Рагнарек
 
 local specWarnFelblazeRush			= mod:NewSpecialWarningYouMoveAway(193659, nil, nil, nil, 3, 5) --Рывок пламени Скверны
-local specWarnSavageBlade			= mod:NewSpecialWarningDefensive(193668, "Tank", nil, nil, 1, 2) --Свирепый клинок
+local specWarnSavageBlade			= mod:NewSpecialWarningDefensive(193668, "Tank", nil, nil, 1, 3) --Свирепый клинок
 local specWarnRagnarok				= mod:NewSpecialWarningMoveTo(193826, "-Tank", nil, nil, 3, 5) --Рагнарек
 local specWarnRagnarok2				= mod:NewSpecialWarningUseItem(193826, nil, nil, nil, 3, 5) --Рагнарек
 local specWarnFlames				= mod:NewSpecialWarningYouMove(193702, nil, nil, nil, 1, 3) --Инфернальное пламя
@@ -114,13 +114,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 193668 then --Свирепый клинок
 		specWarnSavageBlade:Show()
 		specWarnSavageBlade:Play("defensive")
-		local elapsed, total = timerRagnarokCD:GetTime()
-		local remaining = total - elapsed
-		if remaining < 20 then
-			--Do nothing, ragnaros will reset it
-		else
-			timerSavageBladeCD:Start()
-		end
+		timerSavageBladeCD:Start()
 		if firstrush then
 			firstrush = false
 			timerRushCD:Start(5)

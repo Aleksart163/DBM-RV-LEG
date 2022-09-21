@@ -43,7 +43,7 @@ local warnPilfering					= mod:NewTargetSourceAnnounce(210217, 1) --Воровс�
 local warnDefacing					= mod:NewTargetSourceAnnounce(210330, 1) --Осквернение (Статуя ночнорожденного в натуральную величину)
 local warnTinkering					= mod:NewTargetSourceAnnounce(210922, 1) --Конструирование (выброшенный хлам)
 
-local specWarnSuppress2				= mod:NewSpecialWarningYou(209413, nil, nil, nil, 1, 2) --Подавление
+--local specWarnSuppress2				= mod:NewSpecialWarningYou(209413, nil, nil, nil, 1, 2) --Подавление
 local specWarnShadowBoltVolley		= mod:NewSpecialWarningDodge(214692, "-Tank", nil, nil, 2, 3) --Залп стрел Тьмы
 local specWarnCarrionSwarm			= mod:NewSpecialWarningDodge(214688, nil, nil, nil, 2, 2) --Темная стая
 local specWarnCripple				= mod:NewSpecialWarningDispel(214690, "MagicDispeller2", nil, nil, 1, 2) --Увечье
@@ -129,8 +129,8 @@ end
 function mod:SuppressTarget(targetname, uId) --Подавление ✔
 	if not targetname then return end
 	if targetname == UnitName("player") then
-		specWarnSuppress2:Show()
-		specWarnSuppress2:Play("targetyou")
+	--	specWarnSuppress2:Show()
+	--	specWarnSuppress2:Play("targetyou")
 		yellSuppress:Yell()
 	else
 		warnSuppress:Show(targetname)
@@ -540,7 +540,7 @@ do
 	function mod:CHAT_MSG_MONSTER_SAY(msg)
 		if msg:find(L.Found) then
 			self:SendSync("Finished")
-		elseif msg == L.RolePlayMelan then
+		elseif msg == L.proshlyapMurchal then
 			self:SendSync("RolePlayMel")
 		end
 	end
@@ -651,7 +651,7 @@ do
 		end
 		
 		-- Suspicious noble
-		if cid == 107486 then 
+		if cid == 107486 then --Болтливый сплетник
 			if select('#', GetGossipOptions()) > 0 then
 				SelectGossipOption(1)
 			else

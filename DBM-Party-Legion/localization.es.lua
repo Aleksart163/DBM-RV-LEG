@@ -1,4 +1,5 @@
 if GetLocale() ~= "esES" and GetLocale() ~= "esMX" then return end
+
 local L
 
 -------------------------
@@ -26,7 +27,8 @@ L= DBM:GetModLocalization(1664)
 L= DBM:GetModLocalization(1672)
 
 L:SetMiscLocalization({
-	Latosius = "¡Suficiente! Estoy cansado de esto."
+--	Latosius = "¡Basta! Me estoy cansando."
+	proshlyapMurchal = "¡Basta! Me estoy cansando."
 })
 
 ----------------------
@@ -47,7 +49,8 @@ L:SetTimerLocalization({
 })
 
 L:SetMiscLocalization({
-	RP1 = "Ahora... ya veo..."
+--	RP1 = "Ahora... Ahora lo veo..."
+	RP1 = "Ahora... Ahora lo veo..."
 })
 
 ----------
@@ -108,6 +111,7 @@ L:SetGeneralLocalization({
 --------------------
 -- Ojo de Azshara --
 --------------------
+
 --------------------------------
 -- Señor de la guerra Parjesh --
 --------------------------------
@@ -117,11 +121,6 @@ L= DBM:GetModLocalization(1480)
 -- Lady Espiral de Odio --
 --------------------------
 L= DBM:GetModLocalization(1490)
-
-L:SetWarningLocalization({
-	specWarnStaticNova			= "Nova estática - ¡ve a tierra!",
-	specWarnFocusedLightning	= "Relámpago enfocado - ¡ve al agua!"
-})
 
 -----------------------
 -- Rey Barbaprofunda --
@@ -150,6 +149,7 @@ L:SetGeneralLocalization({
 ---------------------
 -- Salas del Valor --
 ---------------------
+
 -----------------------
 -- Hymdall --
 -----------------------
@@ -175,10 +175,6 @@ L= DBM:GetModLocalization(1488)
 ----------
 L= DBM:GetModLocalization(1489)
 
-L:SetMiscLocalization({
-	tempestModeMessage		=	"Secuencia sin Tempestad radiante: %s. Volviendo a comprobar en 8 segundos."
-})
-
 ----------------------
 -- Enemigos menores --
 ----------------------
@@ -189,8 +185,8 @@ L:SetGeneralLocalization({
 })
 
 L:SetOptionLocalization({
-	timerRoleplay = "Отсчет времени до начала боя с Король-бог Сковальд и Один", --"Interface\\Icons\\ability_warrior_offensivestance"
-	BossActivation = "Активировать бой с Одином ( и королями ) в 1 нажатие"
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT,
+	BossActivation = DBM_CORE_GENERIC_TIMER_ROLE_PLAY
 })
 
 L:SetTimerLocalization({
@@ -198,17 +194,18 @@ L:SetTimerLocalization({
 })
 
 L:SetMiscLocalization({
-	RPSkovald = "Нет! Я, Король-бог Сковальд, тоже доказал, что достоин. Эти смертные не посмеют оспорить мое право владеть Эгидой!",
-	RPOdyn = "Удивительно! Я не верил, что кто-то может сравниться с валарьярами... Но вы доказали, что это возможно.",
-	RPSolsten = "Хирья... Теперь ты можешь повелевать яростью бури!",
-	RPSolsten2 = "Смертные, вы оскверняете ритуал!",
-	RPOlmyr = "Да озарит тебя вечный Свет, Хирья!",
-	RPOlmyr2 = "Вы не помешаете перерождению Хирьи!"
+	RPSolsten = "¡Vuestra presencia mancilla el ritual, mortales!",
+	RPSolsten2 = "Hyrja... ¡la furia de la tormenta está a tus órdenes!	",
+	RPOlmyr = "¡No impediréis la ascensión de Hyrja!",
+	RPOlmyr2 = "Hyrja, ¡la Luz brilla eternamente en ti!",
+	RPSkovald = "¡No! Yo también he demostrado mi valía, Odyn. ¡Soy el rey dios Skovald! Estos mortales no me arrebatarán la égida.",
+	RPOdyn = "Impresionante. Nunca pensé que encontraría a alguien capaz de igualar la fuerza de los Valarjar... pero aquí estáis."
 })
 
 ---------------------------
 -- Guarida de Neltharion --
 ---------------------------
+
 -------------
 -- Rokmora --
 -------------
@@ -238,9 +235,22 @@ L:SetGeneralLocalization({
 	name =	"Enemigos menores"
 })
 
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+})
+
+L:SetMiscLocalization({
+	RoleP1 = "¿Navarrogg? ¡Traidor! ¿Osas liderar a los intrusos contra nosotros?"
+})
+
 -----------------
 -- La Arquería --
 -----------------
+
 ------------
 -- Ivanyr --
 ------------
@@ -256,10 +266,6 @@ L= DBM:GetModLocalization(1498)
 -------------------
 L= DBM:GetModLocalization(1499)
 
-L:SetMiscLocalization({
-	batSpawn		=	"¡Refuerzos, a mí! ¡AHORA!"--Comprobar posibles cambios a la localización
-})
-
 --------------
 -- Nal'tira --
 --------------
@@ -269,6 +275,10 @@ L= DBM:GetModLocalization(1500)
 -- Consejero Vandros --
 -----------------------
 L= DBM:GetModLocalization(1501)
+
+L:SetMiscLocalization({
+	RPVandros = "¡Ya basta! ¡Os estáis descontrolando, pequeñas bestias!"
+})
 
 ----------------------
 -- Enemigos menores --
@@ -282,6 +292,7 @@ L:SetGeneralLocalization({
 ----------------------------
 -- Corte de las Estrellas --
 ----------------------------
+
 ----------------------------------
 -- Capitán de patrulleros Gerdo --
 ----------------------------------
@@ -343,7 +354,7 @@ L:SetMiscLocalization({
 	DefacingYell = "[DBM RV] %s usando %s!",
 	TinkeringYell = "[DBM RV] %s usando %s!",
 	--
-	RolePlayMelan 	= "Великий магистр, не слишком ли рано?",
+	proshlyapMurchal = "¿Tan pronto nos abandonas, Gran Magistrix?",
 	Gloves1			= "Dicen los rumores que el espía siempre lleva guantes.",
 	Gloves2			= "He oído que el espía siempre lleva las manos enfundadas en guantes.",
 	Gloves3			= "Hay quien dice que el espía lleva guantes para ocultar sus notables cicatrices.",
@@ -391,21 +402,22 @@ L:SetMiscLocalization({
 	Pouch2			= "He oído que el espía siempre lleva una faltriquera mágica.",
 	Pouch3			= "Un amigo me ha dicho que al espía le encanta el oro y que lleva una faltriquera llena.",
 	Pouch4			= "Dicen que la faltriquera del espía está llena de oro para demostrar extravagancia.",
+	Found			= "Bueno, bueno, no nos precipitemos. ¿Y si me acompañas para poder discutirlo en un ambiente más privado...?",
 	--
-	Gloves		= "guantes",
-	NoGloves	= "sin guantes",
-	Cape		= "capa",
-	Nocape		= "sin capa",
-	LightVest	= "jubón claro",
-	DarkVest	= "jubón oscuro",
-	Female		= "mujer",
-	Male		= "hombre",
-	ShortSleeve = "manga corta",
-	LongSleeve	= "manga larga",
-	Potions		= "pociones",
-	NoPotions	= "sin pociones",
-	Book		= "libro",
-	Pouch		= "faltriquera"
+	Gloves		= "guantes/Wears gloves",
+	NoGloves	= "sin guantes/No gloves",
+	Cape		= "capa/Wearing a cape",
+	Nocape		= "sin capa/No cape",
+	LightVest	= "jubón claro/Light vest",
+	DarkVest	= "jubón oscuro/Dark vest",
+	Female		= "mujer/Female",
+	Male		= "hombre/Male",
+	ShortSleeve = "manga corta/Short sleeves",
+	LongSleeve	= "manga larga/Long sleeves",
+	Potions		= "pociones/Potions",
+	NoPotions	= "sin pociones/No potions",
+	Book		= "libro/Book",
+	Pouch		= "faltriquera/Pouch"
 })
 else--esMX
 L:SetMiscLocalization({
@@ -422,7 +434,7 @@ L:SetMiscLocalization({
 	DefacingYell = "[DBM RV] %s usando %s!",
 	TinkeringYell = "[DBM RV] %s usando %s!",
 	--
---	RolePlayMelan 	= "Великий магистр, не слишком ли рано?",
+--	proshlyapMurchal = "Великий магистр, не слишком ли рано?",
 	Gloves1			= "Oí que el espía siempre usa guantes.",
 	Gloves2			= "Dicen los rumores que el espía siempre usa guantes.",
 	Gloves3			= "Oí que el espía se cubre cuidadosamente las manos.",
@@ -471,26 +483,27 @@ L:SetMiscLocalization({
 	Pouch3			= "Oí que el espía siempre lleva consigo una bolsa mágica.",
 	Pouch4			= "Un amigo dijo que al espía le encanta el oro y un bolso lleno de él.",
 		--
-	Gloves		= "guantes",
-	NoGloves	= "sin guantes",
-	Cape		= "capa",
-	Nocape		= "sin capa",
-	LightVest	= "jubón claro",
-	DarkVest	= "jubón oscuro",
-	Female		= "mujer",
-	Male		= "hombre",
-	ShortSleeve = "manga corta",
-	LongSleeve	= "manga larga",
-	Potions		= "pociones",
-	NoPotions	= "sin pociones",
-	Book		= "libro",
-	Pouch		= "bolsa"
+	Gloves		= "guantes/Wears gloves",
+	NoGloves	= "sin guantes/No gloves",
+	Cape		= "capa/Wearing a cape",
+	Nocape		= "sin capa/No cape",
+	LightVest	= "jubón claro/Light vest",
+	DarkVest	= "jubón oscuro/Dark vest",
+	Female		= "mujer/Female",
+	Male		= "hombre/Male",
+	ShortSleeve = "manga corta/Short sleeves",
+	LongSleeve	= "manga larga/Long sleeves",
+	Potions		= "pociones/Potions",
+	NoPotions	= "sin pociones/No potions",
+	Book		= "libro/Book",
+	Pouch		= "bolsa/Pouch"
 })
 end
 
 --------------------
 -- Fauce de Almas --
 --------------------
+
 --------------------------
 -- Ymiron, el Rey Caído --
 --------------------------
@@ -506,6 +519,10 @@ L= DBM:GetModLocalization(1512)
 -----------
 L= DBM:GetModLocalization(1663)
 
+L:SetMiscLocalization({
+	TaintofSeaYell = "%s desaparece con %s. Cuidado!"
+})
+
 ----------------------
 -- Enemigos menores --
 ----------------------
@@ -515,9 +532,23 @@ L:SetGeneralLocalization({
 	name =	"Enemigos menores"
 })
 
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+})
+
+L:SetMiscLocalization({
+--	Helya = "¡Lamentaréis haber entrado en mi reino!"
+	Helya = "¡Lamentaréis haber entrado en mi reino!"
+})
+
 -------------------------------
 -- Asalto al Bastión Violeta --
 -------------------------------
+
 ---------------------------
 -- Destripamentes Kaahrj --
 ---------------------------
@@ -591,6 +622,7 @@ L:SetMiscLocalization({
 -----------------------------
 -- Cámara de las Celadoras --
 -----------------------------
+
 ------------------------
 -- Tirathon Saltheril --
 ------------------------
@@ -713,25 +745,31 @@ L:SetGeneralLocalization({
 })
 
 L:SetOptionLocalization({
-	timerRoleplay = "Отсчет времени до начала представления \"bestia hermosa\"",
-	timerRoleplay2 = "Отсчет времени до начала представления \"Páramos de Poniente\"",
-	timerRoleplay3 = "Отсчет времени до начала представления \"makaku\"",
+	timerRoleplay = "Отсчет времени до начала представления \"Bella Bestia\"",
+--	timerRoleplay = "Отсчет времени до начала представления \"bestia hermosa\"",
+	timerRoleplay2 = "Отсчет времени до начала представления \"Historia de Poniente\"",
+--	timerRoleplay2 = "Отсчет времени до начала представления \"Páramos de Poniente\"",
+	timerRoleplay3 = "Отсчет времени до начала представления \"Makaku\"",
 	timerRoleplay4 = DBM_CORE_OPTION_TIMER_DOOR_OPENING,
 	OperaActivation = "Активировать представление в Опере в 1 нажатие"
 })
 
 L:SetTimerLocalization({
-	timerRoleplay = "\"bestia hermosa\"",
-	timerRoleplay2 = "\"Páramos de Poniente\"",
-	timerRoleplay3 = "\"makaku\"",
+	timerRoleplay = "\"Bella Bestia\"",
+--	timerRoleplay = "\"bestia hermosa\"",
+	timerRoleplay2 = "\"Historia de Poniente\"",
+--	timerRoleplay2 = "\"Páramos de Poniente\"",
+	timerRoleplay3 = "\"Makaku\"",
 	timerRoleplay4 = DBM_CORE_GENERIC_TIMER_DOOR_OPENING
 })
 
 L:SetMiscLocalization({
-	Beauty = "Добрый вечер, дамы и господа, и добро пожаловать на наше сегодняшнее представление!",
+	Beauty = "Buenas tardes, señoras y señores. ¡Sed bienvenidos a la representación de esta noche!",
+--	Beauty = "Buenas noches damas y caballeros. Orgullosamente les damos la bienvenida a la presentación programada para esta noche.",
 	Westfall = "Damas y caballeros, bienvenidos a la presentación estelar de esta tarde!",
-	Wikket = "Дамы и господа, добро пожаловать... ОХ!",
-	Medivh1 = "He dejado muchos fragmentos de mí mismo por toda esta torre...",
+	Wikket = "Señoras y señores, bienvenidos a nuestra... ¡AY!",
+	Medivh1 = "He dejado tantos fragmentos de mí mismo por esta torre...",
+--	Medivh1 = "He dejado muchos fragmentos de mí mismo por toda esta torre...",
 	speedRun = "La brisa fría de una presencia oscura colma el aire..."
 })
 
@@ -775,6 +813,7 @@ L:SetGeneralLocalization({
 ---------------------------
 -- Trono del Triunvirato --
 ---------------------------
+
 -------------------------
 -- Zuraal el Ascendido --
 -------------------------
@@ -816,7 +855,10 @@ L:SetTimerLocalization({
 })
 
 L:SetMiscLocalization({
-	RP1 = "La Guardia de las Sombras está fortaleciendo su posición cerca del templo.",
+	RP1 = "La Guardia de las Sombras está aumentando su presencia cerca del templo.",
+--	RP1 = "La Guardia de las Sombras está fortaleciendo su posición cerca del templo.",
 	RP2 = "Percibo una gran desesperación que emana del interior. L'ura...",
-	RP3 = "Cuánto caos... Cuánta angustia. Nunca antes sentí algo así."
+--	RP2 = "Percibo una gran desesperación que emana del interior. L'ura...",
+	RP3 = "Cuánto caos y cuánto tormento... Jamás había sentido algo parecido."
+--	RP3 = "Cuánto caos... Cuánta angustia. Nunca antes sentí algo así."
 })

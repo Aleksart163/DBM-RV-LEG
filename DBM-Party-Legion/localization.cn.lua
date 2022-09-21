@@ -27,7 +27,7 @@ L= DBM:GetModLocalization(1664)
 L= DBM:GetModLocalization(1672)
 
 L:SetMiscLocalization({
-	Latosius = "够了！我受够了。"
+	proshlyapMurchal = "够了！我受够了。"
 })
 
 -----------------------
@@ -115,11 +115,6 @@ L= DBM:GetModLocalization(1480)
 -- Lady Hatecoil --
 -----------------------
 L= DBM:GetModLocalization(1490)
-
-L:SetWarningLocalization({
-	specWarnStaticNova			= "静电新星 - 快站沙丘",
-	specWarnFocusedLightning	= "凝聚闪电 - 快进水域"
-})
 
 -----------------------
 -- King Deepbeard --
@@ -234,6 +229,18 @@ L:SetGeneralLocalization({
 	name =	"奈萨里奥的巢穴小怪"
 })
 
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+})
+
+L:SetMiscLocalization({
+	RoleP1 = "纳瓦罗格？！叛徒！你想带领这些入侵者对抗我们吗？！"
+})
+
 -----------------------
 -- <<<The Arcway>>> --
 -----------------------
@@ -253,10 +260,6 @@ L= DBM:GetModLocalization(1498)
 -----------------------
 L= DBM:GetModLocalization(1499)
 
-L:SetMiscLocalization({
-	batSpawn		=	"援助我！快！" --offical
-})
-
 -----------------------
 -- Nal'tira --
 -----------------------
@@ -266,6 +269,10 @@ L= DBM:GetModLocalization(1500)
 -- Advisor Vandros --
 -----------------------
 L= DBM:GetModLocalization(1501)
+
+L:SetMiscLocalization({
+	RPVandros = "够了！你们这些小畜生真是太难管教了！"
+})
 
 -----------------------
 --The Arcway Trash
@@ -305,10 +312,17 @@ L:SetGeneralLocalization({
 })
 
 L:SetOptionLocalization({
-	SpyHelper	= "帮忙识别密探"
+	SpyHelper	= "帮忙识别密探",
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
 })
 
 L:SetMiscLocalization({ --神坑
+	--
+	proshlyapMurchal = "这么快就走了吗，大魔导师？",
 	Gloves1		= "有传言说那个密探总是带着手套。",
 	Gloves2		= "我听说密探都会小心隐藏自己的双手。",
 	Gloves3		= "我听说那个密探总是带着手套。",
@@ -356,7 +370,7 @@ L:SetMiscLocalization({ --神坑
 	Pouch2		= "一个朋友说，那个密探喜欢黄金，所以在腰包里装满了金币。",
 	Pouch3		= "我听说那个密探的腰包里装满了摆阔用的金币。",
 	Pouch4		= "我听说那个密探的腰包上绣着精美的丝线。",
-	Found		= "喂喂，别急着下结论", --给s大大疯狂打电话
+	Found		= "喂喂，别急着下结论", -- 喂喂，别急着下结论，НИК。我们为什么不找个私密空间好好谈谈这个问题呢……
 	--
 	Gloves		= "手套",
 	NoGloves	= "没手套",
@@ -393,6 +407,10 @@ L= DBM:GetModLocalization(1512)
 -----------------------
 L= DBM:GetModLocalization(1663)
 
+L:SetMiscLocalization({
+--	TaintofSeaYell = "%s спадает с %s. Берегись!"
+})
+
 -----------------------
 --Maw of Souls Trash
 -----------------------
@@ -400,6 +418,18 @@ L = DBM:GetModLocalization("MawTrash")
 
 L:SetGeneralLocalization({
 	name =	"噬魂之喉小怪"
+})
+
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+})
+
+L:SetMiscLocalization({
+	Helya = "你们都会后悔闯入我的国度的。"
 })
 
 -----------------------
@@ -608,9 +638,9 @@ L:SetTimerLocalization({
 })
 
 L:SetMiscLocalization({
-	Beauty = "Добрый вечер, дамы и господа, и добро пожаловать на наше сегодняшнее представление!",
+	Beauty = "晚上好，女士们先生们。欢迎各位前来观看今晚的演出！",
 	Westfall = "女士们先生们，欢迎各位前来观看今晚的演出！",
-	Wikket = "Дамы и господа, добро пожаловать... ОХ!",
+	Wikket = "欢迎，女士们先生们。今晚——喔唷！",
 	Medivh1 = "我在这座塔的各个角落留下了许多碎片……",
 	speedRun = "空气中弥漫着某种诡异的黑暗寒风……"
 })

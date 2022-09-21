@@ -117,7 +117,7 @@ end
 
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
-	if spellId == 198820 then
+	if spellId == 198820 and self:AntiSpam(13.5, 1) then
 		if self.vb.phase == 1 then
 			specWarnDarkblast:Show()
 			specWarnDarkblast:Play("watchstep")
@@ -216,7 +216,7 @@ function mod:UNIT_DIED(args)
 end
 
 function mod:CHAT_MSG_MONSTER_SAY(msg)
-	if msg == L.Latosius then
+	if msg == L.proshlyapMurchal then
 		self.vb.phase = 2
 		warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase))
 		timerWhirlingBladeCD:Cancel()

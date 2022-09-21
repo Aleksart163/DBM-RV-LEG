@@ -14,7 +14,7 @@ mod:RegisterEvents(
 	"SPELL_PERIODIC_MISSED 226512 240559"
 )
 
---Прошляпанное очко Мурчаля ✔
+--Прошляпанное очко Мурчаля ✔✔✔
 local warnNecroticWound				= mod:NewStackAnnounce(209858, 3, nil, nil, 2) --Некротическая язва
 
 local specWarnNecroticWound			= mod:NewSpecialWarningStack(209858, nil, 10, nil, nil, 1, 3) --Некротическая язва
@@ -25,11 +25,12 @@ local specWarnQuake					= mod:NewSpecialWarningCast(240447, "Ranged", nil, nil, 
 local specWarnQuake2				= mod:NewSpecialWarningMoveAway(240447, "Melee", nil, nil, 1, 2) --Землетрясение
 
 local timerQuake					= mod:NewCastTimer(2.5, 240447, nil, nil, nil, 2, nil, DBM_CORE_INTERRUPT_ICON..DBM_CORE_DEADLY_ICON) --Землетрясение
+--local timerQuakeCD					= mod:NewCDTimer(20, 240447, nil, nil, nil, 7) --Землетрясение
 local timerNecroticWound			= mod:NewTargetTimer(9, 209858, nil, "Tank|Healer", nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_HEALER_ICON) --Некротическая язва
 local timerBurst					= mod:NewTargetTimer(4, 240443, nil, nil, nil, 3, nil, DBM_CORE_MYTHIC_ICON..DBM_CORE_DEADLY_ICON) --Взрыв
 
 local dota5s = false
-	
+
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 240447 then --Землетрясение

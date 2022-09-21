@@ -26,8 +26,8 @@ mod:RegisterEventsInCombat(
 local warnBlast						= mod:NewStackAnnounce(203176, 3, nil, nil, 2) --Ускоряющий взрыв
 local warnTimeLock					= mod:NewTargetAnnounce(203957, 4) --Временное ограничение
 local warnUnstableMana				= mod:NewTargetAnnounce(220871, 4) --Нестабильная мана
-local warnPhase						= mod:NewAnnounce("Phase1", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 2
-local warnPhase2					= mod:NewAnnounce("Phase2", 1, 220871) --Фаза 2
+local warnPhase						= mod:NewPhaseChangeAnnounce(1)
+local warnPhase2					= mod:NewPrePhaseAnnounce(2, 1, 220871)
 
 local specWarnTimeSplit				= mod:NewSpecialWarningMove(203833, nil, nil, nil, 1, 2) --Расщепление времени
 local specWarnForceBomb				= mod:NewSpecialWarningDodge(202974, nil, nil, nil, 2, 5) --Силовая бомба
@@ -157,18 +157,17 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 end
 
 function mod:UNIT_HEALTH(uId)
-	if self:IsHard() then --миф и миф+
-		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 98208 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.56 then
+	if not self:IsNormal() then --миф и миф+
+		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 98208 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.61 then
 			warned_preP1 = true
-			warnPhase:Show()
+			warnPhase2:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase+1))
 		elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 98208 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.51 then
 			self.vb.phase = 2
 			warned_preP2 = true
 		end
 	else
-		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 98208 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.56 then
+		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 98208 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.61 then
 			warned_preP1 = true
-			warnPhase:Show()
 		elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 98208 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.51 then
 			self.vb.phase = 2
 			warned_preP2 = true
@@ -176,45 +175,25 @@ function mod:UNIT_HEALTH(uId)
 	end
 end
 
---[[function mod:OnSync(msg)
-	if msg == "RPPhase2" then
-		if self:IsHard() then
-			if self.vb.phase == 2 and warned_preP2 then
-				timerEvent:Cancel()
-				timerForceBombD:Start(27)
-				warnPhase2:Show()
-				countdownEvent
-			end
-		else
-			if self.vb.phase == 2 and warned_preP1 then
-				timerEvent:Cancel()
-				timerForceBombD:Start(27)
-				warnPhase2:Show()
-				
-			end
-		end
-	end
-end]]
-
 function mod:CHAT_MSG_MONSTER_YELL(msg)
-	if msg == L.RPVandros or msg:find(L.RPVandros) then
-		self:SendSync("RPVandros")
+	if msg == L.RPVandros then
+		self:SendSync("VandrosRP")
 	end
 end
 
 function mod:OnSync(msg)
-	if msg == "RPVandros" then
-		if self:IsHard() then
+	if msg == "VandrosRP" then
+		if not self:IsNormal() then --Гер, миф, миф+ и прошляп очка Мурчаля
 			timerEvent:Cancel()
 			countdownEvent:Cancel()
 			timerForceBombD:Start(27)
-			warnPhase2:Show()
+			warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase))
 			timerUnstableManaCD:Start(5.5)
 		else
 			timerEvent:Cancel()
 			countdownEvent:Cancel()
 			timerForceBombD:Start(27)
-			warnPhase2:Show()
+			warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase))
 		end
 	end
 end

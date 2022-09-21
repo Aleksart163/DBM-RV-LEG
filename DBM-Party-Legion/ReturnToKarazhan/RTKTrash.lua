@@ -26,7 +26,7 @@ mod:RegisterEvents(
 local warnMovePiece					= mod:NewTargetAnnounce(229468, 3)
 local warnVolatileCharge			= mod:NewTargetAnnounce(228331, 4) --Нестабильный заряд
 local warnOathofFealty				= mod:NewCastAnnounce(228280, 3) --Клятва верности
-local warnOathofFealty2				= mod:NewTargetAnnounce(228331, 3) --Клятва верности
+local warnOathofFealty2				= mod:NewTargetAnnounce(228280, 2) --Клятва верности
 local warnNullification				= mod:NewTargetAnnounce(230083, 2) --Полная нейтрализация
 local warnReinvigorated				= mod:NewTargetAnnounce(230087, 1) --Восполнение сил
 local warnCursedTouch				= mod:NewTargetAnnounce(228241, 2) --Проклятое прикосновение

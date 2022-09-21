@@ -25,7 +25,7 @@ L= DBM:GetModLocalization(1664)
 L= DBM:GetModLocalization(1672)
 
 L:SetMiscLocalization({
-	Latosius = "Enough! I tire of this."
+	proshlyapMurchal = "Enough! I tire of this."
 })
 
 -----------------------
@@ -234,7 +234,7 @@ L:SetGeneralLocalization({
 })
 
 L:SetOptionLocalization({
-	timerRoleplay = "Show timer to the start of the battle with Rokmora" --"Interface\\Icons\\ability_warrior_offensivestance"
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
 })
 
 L:SetTimerLocalization({
@@ -264,10 +264,6 @@ L= DBM:GetModLocalization(1498)
 -----------------------
 L= DBM:GetModLocalization(1499)
 
-L:SetMiscLocalization({
-	batSpawn = "Reinforcements to me! NOW!"
-})
-
 -----------------------
 -- Nal'tira --
 -----------------------
@@ -278,18 +274,8 @@ L= DBM:GetModLocalization(1500)
 -----------------------
 L= DBM:GetModLocalization(1501)
 
-L:SetWarningLocalization({
-	Phase1 = "Phase 2 soon",
-	Phase2 = "Phase 2"
-})
-
-L:SetOptionLocalization({
-	Phase1 = "Warn in advance about phase 2 (on ~56%, Mythic+ only)",
-	Phase2 = "Announce Phase 2"
-})
-
 L:SetMiscLocalization({
-	Phase2Van = "Enough! You little beasts are getting out of hand!" --прошляпанное очко мурчаля
+	RPVandros = "Enough! You little beasts are getting out of hand!" --прошляпанное очко мурчаля
 })
 
 -----------------------
@@ -369,7 +355,7 @@ L:SetMiscLocalization({
 	DefacingYell = "[DBM RV] %s uses %s and distracting the mini-boss!",
 	TinkeringYell = "[DBM RV] %s uses %s and distracting the mini-boss!",
 	--
-	RolePlayMelan = "Must you leave so soon, Grand Magistrix?",
+	proshlyapMurchal = "Must you leave so soon, Grand Magistrix?",
 	Gloves1		= "There's a rumor that the spy always wears gloves.",
 	Gloves2		= "I heard the spy carefully hides their hands.",
 	Gloves3		= "I heard the spy always dons gloves.",
@@ -456,7 +442,7 @@ L= DBM:GetModLocalization(1512)
 L= DBM:GetModLocalization(1663)
 
 L:SetMiscLocalization({
-	TaintofSeaYell = "%s fading on %s. BEWARE!"
+	TaintofSeaYell = "%s disappears with %s. BEWARE!"
 })
 
 -----------------------
@@ -469,7 +455,7 @@ L:SetGeneralLocalization({
 })
 
 L:SetOptionLocalization({
-	timerRoleplay = "Show timer to the start of the fight with Helya"
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
 })
 
 L:SetTimerLocalization({

@@ -1,9 +1,11 @@
 if GetLocale() ~= "deDE" then return end
+
 local L
 
 -----------------------
 -- <<<Black Rook Hold>>> --
 -----------------------
+
 -----------------------
 -- The Amalgam of Souls --
 -----------------------
@@ -25,7 +27,7 @@ L= DBM:GetModLocalization(1664)
 L= DBM:GetModLocalization(1672)
 
 L:SetMiscLocalization({
-	Latosius = "Es reicht! Genug der Scharade."
+	proshlyapMurchal = "Es reicht! Genug der Scharade."
 })
 
 -----------------------
@@ -114,11 +116,6 @@ L= DBM:GetModLocalization(1480)
 -----------------------
 L= DBM:GetModLocalization(1490)
 
-L:SetWarningLocalization({
-	specWarnStaticNova			= "Statische Nova - geh auf Sanddüne",
-	specWarnFocusedLightning	= "Gebündelter Blitz - geh ins Wasser"
-})
-
 -----------------------
 -- King Deepbeard --
 -----------------------
@@ -146,6 +143,7 @@ L:SetGeneralLocalization({
 -----------------------
 -- <<<Halls of Valor>>> --
 -----------------------
+
 -----------------------
 -- Hymdall --
 -----------------------
@@ -166,18 +164,10 @@ L= DBM:GetModLocalization(1487)
 -----------------------
 L= DBM:GetModLocalization(1488)
 
-L:SetMiscLocalization({
-	SkovaldRP		= "Nein! Auch ich habe mich bewiesen, Odyn. Ich bin Gottkönig Skovald! Diese Sterblichen werden mir die Aegis nicht streitig machen!"
-})
-
 -----------------------
 -- Odyn --
 -----------------------
 L= DBM:GetModLocalization(1489)
-
-L:SetMiscLocalization({
-	tempestModeMessage		=	"Nicht Orkanabfolge: %s. Prüfe erneut in 8 Sekunden."
-})
 
 -----------------------
 --Halls of Valor Trash
@@ -188,9 +178,28 @@ L:SetGeneralLocalization({
 	name =	"Trash der Hallen der Tapferkeit"
 })
 
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT, 
+	BossActivation = DBM_CORE_GENERIC_TIMER_ROLE_PLAY
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+})
+
+L:SetMiscLocalization({
+	RPSolsten = "Ihr entweiht dieses Ritual mit Eurer Anwesenheit, Sterbliche!",
+	RPSolsten2 = "Hyrja... der Zorn des Sturms dient Eurem Wort!",
+	RPOlmyr = "Ihr werdet Hyrjas Aufstieg nicht stören!",
+	RPOlmyr2 = "Das Licht erstrahlt auf ewig in Euch, Hyrja!",
+	RPSkovald = "Nein! Auch ich habe mich bewiesen, Odyn. Ich bin Gottkönig Skovald! Diese Sterblichen werden mir die Aegis nicht streitig machen!",
+	RPOdyn = "Höchst beeindruckend! Ich hielt die Kräfte der Valarjar stets für unerreicht... und dennoch steht Ihr hier vor mir."
+})
+
 -----------------------
 -- <<<Neltharion's Lair>>> --
 -----------------------
+
 -----------------------
 -- Rokmora --
 -----------------------
@@ -220,9 +229,22 @@ L:SetGeneralLocalization({
 	name =	"Trash des Neltharions Hort"
 })
 
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+})
+
+L:SetMiscLocalization({
+	RoleP1 = "Navarrogg?! Verräter! Ihr führt diese Eindringlinge gegen uns ins Feld?!"
+})
+
 -----------------------
 -- <<<The Arcway>>> --
 -----------------------
+
 -----------------------
 -- Ivanyr --
 -----------------------
@@ -238,10 +260,6 @@ L= DBM:GetModLocalization(1498)
 -----------------------
 L= DBM:GetModLocalization(1499)
 
-L:SetMiscLocalization({
-	batSpawn		=	"Reinforcements to me! NOW!"--translate (trigger)
-})
-
 -----------------------
 -- Nal'tira --
 -----------------------
@@ -251,6 +269,10 @@ L= DBM:GetModLocalization(1500)
 -- Advisor Vandros --
 -----------------------
 L= DBM:GetModLocalization(1501)
+
+L:SetMiscLocalization({
+	RPVandros = "Es reicht! Ihr kleinen Monster geratet außer Kontrolle."
+})
 
 -----------------------
 --The Arcway Trash
@@ -264,6 +286,7 @@ L:SetGeneralLocalization({
 -----------------------
 -- <<<Court of Stars>>> --
 -----------------------
+
 -----------------------
 -- Patrol Captain Gerdo --
 -----------------------
@@ -289,10 +312,42 @@ L:SetGeneralLocalization({
 })
 
 L:SetOptionLocalization({
-	SpyHelper	= "Hilf bei der Erkennung des Spions"
+	YellOnEating = "Сообщать, когда кто-то применяеет заклинание $spell:208585",
+	YellOnSiphoningMagic = "Сообщать, когда кто-то применяеет заклинание $spell:208427",
+	YellOnPurifying = "Сообщать, когда кто-то применяеет заклинание $spell:209767",
+	YellOnDraining = "Сообщать, когда кто-то применяеет заклинание $spell:208334",
+	YellOnInvokingText = "Сообщать, когда кто-то применяеет заклинание $spell:210872",
+	YellOnDrinking = "Сообщать, когда кто-то применяеет заклинание $spell:210307",
+	YellOnReleaseSpores = "Сообщать, когда кто-то применяеет заклинание $spell:208939",
+	YellOnShuttingDown = "Сообщать, когда кто-то применяеет заклинание $spell:208370",
+	YellOnTreating = "Сообщать, когда кто-то применяеет заклинание $spell:210925",
+	YellOnPilfering = "Сообщать, когда кто-то применяеет заклинание $spell:210217",
+	YellOnDefacing = "Сообщать, когда кто-то применяеет заклинание $spell:210330",
+	YellOnTinkering = "Сообщать, когда кто-то применяеет заклинание $spell:210922",
+	warnSpy = "Спец-предупреждение когда шпион обнаружен",
+	SpyHelper	= "Hilf bei der Erkennung des Spions",
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
 })
 
 L:SetMiscLocalization({
+	EatingYell = "[DBM RV] %s использует %s, теперь у нас больше хп!",
+	SiphoningMagic = "[DBM RV] %s использует %s, теперь у нас больше урона!",
+	PurifyingYell = "[DBM RV] %s использует %s, теперь у нас больше защиты!",
+	DrainingYell = "[DBM RV] %s использует %s, теперь у нас больше крита!",
+	InvokingTextYell = "[DBM RV] %s использует %s, теперь у нас больше скорости бега!",
+	DrinkingYell = "[DBM RV] %s использует %s, теперь у нас больше регена хп и маны!",
+	ReleaseSporesYell = "[DBM RV] %s использует %s, теперь у нас больше скорости боя!",
+	ShuttingDownYell = "[DBM RV] %s использует %s, теперь все Големы-стражи будут выключены!",
+	TreatingYell = "[DBM RV] %s использует %s и отвлекает мини-босса!",
+	PilferingYell = "[DBM RV] %s использует %s и отвлекает мини-босса!",
+	DefacingYell = "[DBM RV] %s использует %s и отвлекает мини-босса!",
+	TinkeringYell = "[DBM RV] %s использует %s и отвлекает мини-босса!",
+	--
+	proshlyapMurchal = "Müsst Ihr schon gehen, Großmagistrix?",
 	Gloves1			= "Einem Gerücht zufolge trägt der Spion immer Handschuhe.",
 	Gloves2			= "Wie ich hörte, verbirgt der Spion sorgfältig die Hände.",
 	Gloves3			= "Ich hörte, dass der Spion immer Handschuhe anlegt.",
@@ -340,28 +395,29 @@ L:SetMiscLocalization({
 	Pouch2			= "Ein Freund behauptet, dass der Spion Gold liebt und einen Gürtelbeutel voll davon hat.",
 	Pouch3			= "Ich hörte, dass der Gürtelbeutel des Spions mit ausgefallenem Garn gesäumt wurde.",
 	Pouch4			= "Mir ist zu Ohren gekommen, dass der Gürtelbeutel des Spions mit Gold gefüllt ist, um besonders extravagant zu erscheinen.",
-	Found			= "Now now, let's not be hasty",--translate (trigger)
+	Found			= "Na, na, wir wollen doch nicht voreilig sein", -- Na, na, wir wollen doch nicht voreilig sein, Tielle. Wieso folgt Ihr mir nicht, damit wir in etwas privaterer Umgebung darüber sprechen können...
 	--
-	Gloves			= "Handschuhe",
-	NoGloves		= "keine Handschuhe",
-	Cape			= "Umhang",
-	Nocape			= "kein Umhang",
-	LightVest		= "helle Weste",
-	DarkVest		= "dunkle Weste",
-	Female			= "weiblich",
-	Male			= "männlich",
-	ShortSleeve		= "kurze Ärmel",
-	LongSleeve		= "lange Ärmel",
-	Potions			= "Tränke",
-	NoPotions		= "keine Tränke",
-	Book			= "Buch",
-	Pouch			= "Beutel"
+	Gloves			= "Handschuhe/Wears gloves",
+	NoGloves		= "keine Handschuhe/No gloves",
+	Cape			= "Umhang/Wearing a cape",
+	Nocape			= "kein Umhang/No cape",
+	LightVest		= "helle Weste/Light vest",
+	DarkVest		= "dunkle Weste/Dark vest",
+	Female			= "weiblich/Female",
+	Male			= "männlich/Male",
+	ShortSleeve		= "kurze Ärmel/Short sleeves",
+	LongSleeve		= "lange Ärmel/Long sleeves",
+	Potions			= "Tränke/Potions",
+	NoPotions		= "keine Tränke/No potions",
+	Book			= "Buch/Book",
+	Pouch			= "Beutel/Pouch"
 })
 
 
 -----------------------
 -- <<<The Maw of Souls>>> --
 -----------------------
+
 -----------------------
 -- Ymiron, the Fallen King --
 -----------------------
@@ -377,6 +433,10 @@ L= DBM:GetModLocalization(1512)
 -----------------------
 L= DBM:GetModLocalization(1663)
 
+L:SetMiscLocalization({
+	TaintofSeaYell = "%s verschwindet mit %s. Sich vorsehen!"
+})
+
 -----------------------
 --Maw of Souls Trash
 -----------------------
@@ -386,9 +446,22 @@ L:SetGeneralLocalization({
 	name =	"Trash des Seelenschlundes"
 })
 
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+})
+
+L:SetMiscLocalization({
+	Helya = "Ihr werdet bereuen, in mein Reich eingedrungen zu sein."
+})
+
 -----------------------
 -- <<<Assault Violet Hold>>> --
 -----------------------
+
 -----------------------
 -- Mindflayer Kaahrj --
 -----------------------
@@ -462,6 +535,7 @@ L:SetMiscLocalization({
 -----------------------
 -- <<<Vault of the Wardens>>> --
 -----------------------
+
 -----------------------
 -- Tirathon Saltheril --
 -----------------------
@@ -515,6 +589,7 @@ L:SetMiscLocalization({
 -----------------------
 -- <<<Return To Karazhan>>> --
 -----------------------
+
 -----------------------
 -- Maiden of Virtue --
 -----------------------
@@ -612,7 +687,7 @@ L:SetTimerLocalization({
 L:SetMiscLocalization({
 	Beauty = "Guten Abend, meine Damen und Herren. Wir heißen Euch voller Stolz willkommen zu unserer heutigen Vorstellung!",
 	Westfall = "Meine Damen und Herren, willkommen zu unserer heutigen Vorstellung!",
-	Wikket = "Дамы и господа, добро пожаловать... ОХ!",
+	Wikket = "Willkommen, meine Damen und Herren, zu... UFF!",
 	Medivh1 = "Ich habe so viel von mir selbst in diesem Turm zurückgelassen...",
 	speedRun = "Die seltsame Kühle einer dunklen Präsenz durchweht die Luft..."
 })
@@ -620,6 +695,7 @@ L:SetMiscLocalization({
 -----------------------
 -- <<<Cathedral of Eternal Night >>> --
 -----------------------
+
 -----------------------
 -- Agronox --
 -----------------------
@@ -656,6 +732,7 @@ L:SetGeneralLocalization({
 -----------------------
 -- <<<Seat of Triumvirate >>> --
 -----------------------
+
 -----------------------
 -- Zuraal --
 -----------------------

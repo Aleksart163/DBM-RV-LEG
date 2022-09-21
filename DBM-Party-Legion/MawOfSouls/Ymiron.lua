@@ -18,6 +18,7 @@ local warnBane						= mod:NewSpellAnnounce(193460, 3) --Погибель
 local specWarnBane					= mod:NewSpecialWarningDodge(193460, nil, nil, nil, 2, 2) --Погибель
 local specWarnDarkSlash				= mod:NewSpecialWarningDefensive(193211, "Tank", nil, nil, 3, 3) --Черная рана
 local specWarnScreams				= mod:NewSpecialWarningRun(193364, "Melee", nil, nil, 4, 3) --Крики мертвых
+local specWarnScreams2				= mod:NewSpecialWarningDodge(193364, "-Melee", nil, nil, 2, 3) --Крики мертвых
 local specWarnWinds					= mod:NewSpecialWarningDefensive(193977, nil, nil, nil, 2, 3) --Ветра Нордскола
 local specAriseFallen				= mod:NewSpecialWarningSwitch(193566, "-Healer", nil, nil, 1, 2) --Восстань, павший
 
@@ -53,6 +54,8 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 193364 then
 		specWarnScreams:Show()
 		specWarnScreams:Play("runout")
+		specWarnScreams2:Show()
+		specWarnScreams2:Play("watchstep")
 		if self:IsHard() then
 			timerScreamsCD:Start(31.5)
 		else

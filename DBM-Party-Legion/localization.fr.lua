@@ -27,7 +27,7 @@ L= DBM:GetModLocalization(1664)
 L= DBM:GetModLocalization(1672)
 
 L:SetMiscLocalization({
-	Latosius = "Assez ! Tout cela n’a que trop duré."
+	proshlyapMurchal = "Assez ! Tout cela n’a que trop duré."
 })
 
 -----------------------
@@ -116,11 +116,6 @@ L= DBM:GetModLocalization(1480)
 -----------------------
 L= DBM:GetModLocalization(1490)
 
-L:SetWarningLocalization({
-	specWarnStaticNova			= "Static Nova - move to land",
-	specWarnFocusedLightning	= "Focused Lightning - move to water"
-})
-
 -----------------------
 -- King Deepbeard --
 -----------------------
@@ -174,10 +169,6 @@ L= DBM:GetModLocalization(1488)
 -----------------------
 L= DBM:GetModLocalization(1489)
 
-L:SetMiscLocalization({
-	tempestModeMessage		=	"Not tempest sequence: %s. Rechecking in 8 seconds."
-})
-
 -----------------------
 --Halls of Valor Trash
 -----------------------
@@ -185,6 +176,24 @@ L = DBM:GetModLocalization("HoVTrash")
 
 L:SetGeneralLocalization({
 	name =	"Salles des Valeureux Trash"
+})
+
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT,
+	BossActivation = DBM_CORE_GENERIC_TIMER_ROLE_PLAY
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+})
+
+L:SetMiscLocalization({
+	RPSolsten = "Vous profanez ce rituel par votre présence, mortels !",
+	RPSolsten2 = "Hyrja… La fureur des tempêtes est à tes ordres !",
+	RPOlmyr = "Vous n’empêcherez pas l’ascension d’Hyrja !",
+	RPOlmyr2 = "Que la Lumière brille éternellement en toi, Hyrja !",
+	RPSkovald = "Non ! Moi aussi, j’ai prouvé ma valeur, Odyn. Je suis Skovald, le Dieu-Roi ! Ces mortels ne peuvent pas contester l’égide qui me revient de droit !",
+	RPOdyn = "Impressionnant ! Je n’aurais jamais cru rencontrer des guerriers capables de rivaliser avec les Valarjar… et pourtant, vous voilà."
 })
 
 -----------------------
@@ -220,6 +229,18 @@ L:SetGeneralLocalization({
 	name =	"Repaire de Neltharion Trash"
 })
 
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+})
+
+L:SetMiscLocalization({
+	RoleP1 = "Navarrogg ? Espèce de traître ! Tu oses t’allier à ces intrus pour nous défier ?!"
+})
+
 -----------------------
 -- <<<The Arcway>>> --
 -----------------------
@@ -239,10 +260,6 @@ L= DBM:GetModLocalization(1498)
 -----------------------
 L= DBM:GetModLocalization(1499)
 
-L:SetMiscLocalization({
-	batSpawn		=	"Reinforcements to me! NOW!"
-})
-
 -----------------------
 -- Nal'tira --
 -----------------------
@@ -252,6 +269,10 @@ L= DBM:GetModLocalization(1500)
 -- Advisor Vandros --
 -----------------------
 L= DBM:GetModLocalization(1501)
+
+L:SetMiscLocalization({
+	RPVandros = "Assez ! Vous outrepassez votre rang, rats !"
+})
 
 -----------------------
 --The Arcway Trash
@@ -291,10 +312,17 @@ L:SetGeneralLocalization({
 })
 
 L:SetOptionLocalization({
-	SpyHelper	= "Help identify the spy"
+	SpyHelper	= "Help identify the spy",
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
 })
 
 L:SetMiscLocalization({
+	--
+	proshlyapMurchal = "Vous partez déjà, grande magistrice ?",
 	Gloves1			= "On m’a raconté que la taupe portait des gants pour masquer d’affreuses cicatrices.",
 	Gloves2			= "On dit que la taupe porte toujours des gants.",
 	Gloves3			= "Le bruit court que la taupe porte toujours des gants.",
@@ -342,6 +370,7 @@ L:SetMiscLocalization({
 	Pouch2			= "D’après l’un de mes amis, la taupe aime l’or et les sacoches qui en sont pleines.",
 	Pouch3			= "On raconte que la sacoche de la taupe est pleine d’or. Si ça, ce n’est pas un signe extérieur de richesse…",
 	Pouch4			= "On raconte que la sacoche de la taupe est bordée d’une élégante broderie.",
+	Found			= "N’allez pas trop vite en besogne", --Allons, Tielle. N’allez pas trop vite en besogne. Et si vous me suiviez, que nous puissions en parler en privé ?
 	--
 	Gloves		= "gloves",
 	NoGloves	= "no gloves",
@@ -386,6 +415,18 @@ L = DBM:GetModLocalization("MawTrash")
 
 L:SetGeneralLocalization({
 	name =	"La Gueule des âmes Trash"
+})
+
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+})
+
+L:SetMiscLocalization({
+	Helya = "Vous allez TOUS regretter d’avoir osé pénétrer dans mon royaume."
 })
 
 -----------------------
@@ -603,9 +644,9 @@ L:SetTimerLocalization({
 })
 
 L:SetMiscLocalization({
-	Beauty = "Добрый вечер, дамы и господа, и добро пожаловать на наше сегодняшнее представление!",
+	Beauty = "Bonsoir et bienvenue, mesdames et messieurs. Nous sommes heureux de vous accueillir à la représentation de ce soir !",
 	Westfall = "Mesdames et messieurs, bienvenue à la représentation de ce soir !",
-	Wikket = "Дамы и господа, добро пожаловать... ОХ!",
+	Wikket = "Mesdames et messieurs, bienvenue à notre… ARGH !",
 	Medivh1 = "J’ai laissé tant de parcelles de mon être dans cette tour…",
 	speedRun = "The strange chill of a dark presence winds through the air..."
 })

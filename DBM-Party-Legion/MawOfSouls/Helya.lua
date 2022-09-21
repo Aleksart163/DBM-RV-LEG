@@ -27,7 +27,7 @@ local warnSubmerged2					= mod:NewPreWarnAnnounce(196947, 5, 1) --Погруже
 
 local specWarnTaintofSea				= mod:NewSpecialWarningYou(197262, nil, nil, nil, 1, 3) --Морская порча
 local specWarnTaintofSea2				= mod:NewSpecialWarningDispel(197262, "MagicDispeller2", nil, nil, 1, 3) --Морская порча
-local specWarnDestructorTentacle		= mod:NewSpecialWarningSwitch("ej12364", "Tank") --Щупальце разрушения
+local specWarnDestructorTentacle		= mod:NewSpecialWarningSwitch("ej12364", "-Healer") --Щупальце разрушения
 local specWarnBrackwaterBarrage			= mod:NewSpecialWarningDodge(202088, nil, nil, nil, 3, 5) --Обстрел солоноватой водой Tank stays with destructor tentacle no matter what
 local specWarnSubmerged					= mod:NewSpecialWarningDodge(196947, nil, nil, nil, 1, 2) --Погружение
 local specWarnSubmergedOver				= mod:NewSpecialWarningEnd(196947, nil, nil, nil, 1, 2) --Погружение
@@ -97,17 +97,6 @@ function mod:SPELL_CAST_START(args)
 	end
 end
 
---[[function mod:SPELL_CAST_SUCCESS(args)
-	local spellId = args.spellId
-	if spellId == 197262 then --Морская порча
-		if self.vb.phase == 1 then
-			timerTaintofSeaCD:Start()
-		else
-			timerTaintofSeaCD:Start(20)
-		end
-	end
-end]]
-
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 196947 then --Погружение
@@ -128,14 +117,22 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif spellId == 197262 then --Морская порча
 		self.vb.taintofseaIcon = self.vb.taintofseaIcon - 1
-		if args:IsPlayer() then
-			specWarnTaintofSea:Show()
-			specWarnTaintofSea:Play("targetyou")
-			yellTaintofSea:Yell()
+		if self:IsHard() then
+			if args:IsPlayer() then
+				specWarnTaintofSea:Show()
+				specWarnTaintofSea:Play("targetyou")
+				yellTaintofSea:Yell()
+			else
+				warnTaintofSea:Show(args.destName)
+				specWarnTaintofSea2:Show(args.destName)
+				specWarnTaintofSea2:Play("dispelnow")
+			end
 		else
-			warnTaintofSea:Show(args.destName)
-			specWarnTaintofSea2:Show(args.destName)
-			specWarnTaintofSea2:Play("dispelnow")
+			if args:IsPlayer() then
+				specWarnTaintofSea:Show()
+				specWarnTaintofSea:Play("targetyou")
+				yellTaintofSea:Yell()
+			end
 		end
 		if self.vb.phase == 1 then
 			timerTaintofSeaCD:Start()
@@ -182,6 +179,7 @@ end
 function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)
 	if msg:find("inv_misc_monsterhorn_03") then
 		specWarnDestructorTentacle:Show()
+		specWarnDestructorTentacle:Play("killmob")
 	end
 end
 

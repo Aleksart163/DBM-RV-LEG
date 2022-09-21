@@ -60,7 +60,7 @@ local timerOverwhelmingReleaseCD	= mod:NewCDTimer(25, 221132, nil, nil, nil, 2, 
 local timerArcaneOverchargeCD		= mod:NewCDTimer(20, 221132, nil, nil, nil, 3, nil) --Чародейская перезарядка
 local timerArcaneOvercharge			= mod:NewTargetTimer(6, 221132, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Чародейская перезарядка
 
-local timerRoleplay					= mod:NewTimer(25, "timerRoleplay", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7) --Ролевая игра
+local timerRoleplay					= mod:NewTimer(24.5, "timerRoleplay", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7) --Ролевая игра
 
 local yellRupturingPoison			= mod:NewYell(221363, nil, nil, nil, "YELL") --Раздирающий яд
 local yellRupturingPoisonFades		= mod:NewFadesYell(221363, nil, nil, nil, "YELL") --Раздирающий яд
@@ -248,14 +248,8 @@ function mod:UNIT_DIED(args)
 	end
 end
 
-function mod:OnSync(msg)
-	if msg == "RP1" then
-		timerRoleplay:Start()
-	end
-end
-
 function mod:CHAT_MSG_MONSTER_SAY(msg)
 	if msg == L.RP1 then
-		self:SendSync("RP1")
+		timerRoleplay:Start()
 	end
 end

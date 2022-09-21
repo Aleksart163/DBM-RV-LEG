@@ -27,7 +27,7 @@ L= DBM:GetModLocalization(1664)
 L= DBM:GetModLocalization(1672)
 
 L:SetMiscLocalization({
-	Latosius = "Все, мне это надоело!"
+	proshlyapMurchal = "Все, мне это надоело!"
 })
 
 -------------
@@ -173,10 +173,6 @@ L= DBM:GetModLocalization(1488)
 --------
 L= DBM:GetModLocalization(1489)
 
-L:SetMiscLocalization({
-	tempestModeMessage = "Не порядок бури: %s. Повторная проверка через 8 секунд."
-})
-
 -------------
 --Трэш-мобы--
 -------------
@@ -238,7 +234,7 @@ L:SetGeneralLocalization({
 })
 
 L:SetOptionLocalization({
-	timerRoleplay = "Отсчет времени до начала боя с Рокмора" --"Interface\\Icons\\ability_warrior_offensivestance"
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT --"Interface\\Icons\\ability_warrior_offensivestance"
 })
 
 L:SetTimerLocalization({
@@ -248,7 +244,6 @@ L:SetTimerLocalization({
 L:SetMiscLocalization({
 	RoleP1 = "Наваррогг?! Предатель, ты привел к нам чужаков?!"
 })
-
 ----------------------------
 --<<<Катакомбы Сурамара>>>--
 ----------------------------
@@ -268,10 +263,6 @@ L= DBM:GetModLocalization(1498)
 ------------------
 L= DBM:GetModLocalization(1499)
 
-L:SetMiscLocalization({
-	batSpawn = "Подкрепление мне! ЖИВО!" -- needs checking
-})
-
 ------------
 --Нал'тира--
 ------------
@@ -281,16 +272,6 @@ L= DBM:GetModLocalization(1500)
 --Советник Вандрос--
 --------------------
 L= DBM:GetModLocalization(1501)
-
-L:SetWarningLocalization({
-	Phase1 = "Скоро фаза 2",
-	Phase2 = "Фаза 2"
-})
-
-L:SetOptionLocalization({
-	Phase1 = "Предупреждать заранее о фазе 2 (на ~56%, только Мифик+)",
-	Phase2 = "Объявлять фазу 2"
-})
 
 L:SetMiscLocalization({
 	RPVandros = "Довольно! Вы что-то совсем распоясались!"
@@ -352,7 +333,7 @@ L:SetOptionLocalization({
 	YellOnTinkering = "Сообщать, когда кто-то применяеет заклинание $spell:210922",
 	warnSpy = "Спец-предупреждение когда шпион обнаружен",
 	SpyHelper = "Помочь идентифицировать шпиона",
-	timerRoleplay = "Отсчет времени до начала боя с Советник Меландр"
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
 })
 
 L:SetTimerLocalization({
@@ -373,7 +354,7 @@ L:SetMiscLocalization({
 	DefacingYell = "[DBM RV] %s использует %s и отвлекает мини-босса!",
 	TinkeringYell = "[DBM RV] %s использует %s и отвлекает мини-босса!",
 	--
-	RolePlayMelan 	= "Великий магистр, не слишком ли рано?",
+	proshlyapMurchal = "Великий магистр, не слишком ли рано?",
 	Gloves1			= "Ходят слухи, что шпион все время носит перчатки.",
 	Gloves2			= "Я слышал, шпион все время носит перчатки.",
 	Gloves3			= "Кто-то сказал, что у шпиона все руки в шрамах, поэтому бедняге приходится носить перчатки, чтобы скрывать их.",
@@ -472,7 +453,7 @@ L:SetGeneralLocalization({
 })
 
 L:SetOptionLocalization({
-	timerRoleplay = "Отсчет времени до начала боя с Хелией"
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
 })
 
 L:SetTimerLocalization({
@@ -560,7 +541,7 @@ L:SetMiscLocalization({
 --------------------------
 --<<<Казематы Стражей>>>--
 --------------------------
-
+--Волосали
 --------------------
 --Тиратон Салтерил--
 --------------------

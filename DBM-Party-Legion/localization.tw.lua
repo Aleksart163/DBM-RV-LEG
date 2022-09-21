@@ -27,7 +27,7 @@ L= DBM:GetModLocalization(1664)
 L= DBM:GetModLocalization(1672)
 
 L:SetMiscLocalization({
-	Latosius = "夠了！我不耐煩了。"
+	proshlyapMurchal = "夠了！我不耐煩了。"
 })
 
 -----------------------
@@ -179,6 +179,24 @@ L:SetGeneralLocalization({
 	name =	"英靈殿小怪"
 })
 
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT,
+	BossActivation = DBM_CORE_GENERIC_TIMER_ROLE_PLAY
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+})
+
+L:SetMiscLocalization({
+	RPSolsten = "凡人，你們的出現玷汙了這場儀式！",
+	RPSolsten2 = "海爾珈…風暴之怒任憑你操控！",
+	RPOlmyr = "不許你妨礙海爾珈的晉升！",
+	RPOlmyr2 = "海爾珈，聖光之力永遠與你同在！",
+	RPSkovald = "慢著！歐丁，我也證明了自己的力量。我是神御之王斯寇瓦德！這些凡人根本不敢挑戰我！",
+	RPOdyn = "了不起！我從沒想過有人能抵抗華爾拉亞的力量…而那個人現在就站在這裡。"
+})
+
 -----------------------
 -- <<<Neltharion's Lair>>> --
 -----------------------
@@ -212,6 +230,18 @@ L:SetGeneralLocalization({
 	name =	"奈薩里奧巢穴小怪"
 })
 
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+})
+
+L:SetMiscLocalization({
+	RoleP1 = "納瓦羅格？！叛徒！你竟然帶領入侵者對抗我們？"
+})
+
 -----------------------
 -- <<<The Arcway>>> --
 -----------------------
@@ -231,10 +261,6 @@ L= DBM:GetModLocalization(1498)
 -----------------------
 L= DBM:GetModLocalization(1499)
 
-L:SetMiscLocalization({
-	batSpawn		=	"Reinforcements to me! NOW!"
-})
-
 -----------------------
 -- Nal'tira --
 -----------------------
@@ -244,6 +270,10 @@ L= DBM:GetModLocalization(1500)
 -- Advisor Vandros --
 -----------------------
 L= DBM:GetModLocalization(1501)
+
+L:SetMiscLocalization({
+	RPVandros = "夠了！你們這些野獸簡直得寸進尺！"
+})
 
 -----------------------
 --The Arcway Trash
@@ -283,10 +313,17 @@ L:SetGeneralLocalization({
 })
 
 L:SetOptionLocalization({
-	SpyHelper	= "幫忙辨識間諜"
+	SpyHelper	= "幫忙辨識間諜",
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
 })
 
 L:SetMiscLocalization({
+	--
+	proshlyapMurchal = "大博學者，你一定要先離開嗎？",
 	Gloves1			= "有傳聞說那個間諜一直戴著手套。",
 	Gloves2			= "聽說那個間諜習慣把手藏起來。",
 	Gloves3			= "我聽說那個間諜總是戴著手套。",
@@ -334,22 +371,22 @@ L:SetMiscLocalization({
 	Pouch2			= "我朋友說間諜喜歡黃金，所以腰帶上的隨身包裝滿黃金。",
 	Pouch3			= "聽說間諜喜歡炫富，腰上的錢包裝滿金幣。",
 	Pouch4			= "我聽說那名間諜的腰帶上有個口袋，口袋的刺繡非常精緻。",
-	Found			= "喂喂，",
+	Found			= "喂喂，", --族說：喂喂，НИК。別太快下定論。我們何不找一個可以說話的地方好好談談呢…
 	--
-	Gloves		= "手套",
-	NoGloves	= "沒有手套",
-	Cape		= "斗篷",
-	Nocape		= "沒有斗蓬",
-	LightVest	= "淺色上衣",
-	DarkVest	= "深色上衣",
-	Female		= "女性",
-	Male		= "男性",
-	ShortSleeve = "短袖",
-	LongSleeve	= "長袖",
-	Potions		= "藥水瓶",
-	NoPotions	= "無藥水瓶",
-	Book		= "書本",
-	Pouch		= "腰袋"
+	Gloves		= "手套/Wears gloves",
+	NoGloves	= "沒有手套/No gloves",
+	Cape		= "斗篷/Wearing a cape",
+	Nocape		= "沒有斗蓬/No cape",
+	LightVest	= "淺色上衣/Light vest",
+	DarkVest	= "深色上衣/Dark vest",
+	Female		= "女性/Female",
+	Male		= "男性/Male",
+	ShortSleeve = "短袖/Short sleeves",
+	LongSleeve	= "長袖/Long sleeves",
+	Potions		= "藥水瓶/Potions",
+	NoPotions	= "無藥水瓶/No potions",
+	Book		= "書本/Book",
+	Pouch		= "腰袋/Pouch"
 }) 
 
 -----------------------
@@ -371,6 +408,10 @@ L= DBM:GetModLocalization(1512)
 -----------------------
 L= DBM:GetModLocalization(1663)
 
+L:SetMiscLocalization({
+--	TaintofSeaYell = "%s спадает с %s. Берегись!"
+})
+
 -----------------------
 --Maw of Souls Trash
 -----------------------
@@ -378,6 +419,18 @@ L = DBM:GetModLocalization("MawTrash")
 
 L:SetGeneralLocalization({
 	name =	"靈魂之喉小怪"
+})
+
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+})
+
+L:SetMiscLocalization({
+	Helya = "你們全都會後悔進犯我的國度。"
 })
 
 -----------------------
@@ -531,7 +584,7 @@ L= DBM:GetModLocalization(1827)
 L= DBM:GetModLocalization(1835)
 
 L:SetMiscLocalization({
-	SharedSufferingYell = "%s on %s. RUN AWAY from me!",
+	SharedSufferingYell = "%s on %s. 离我远点！",
 	Perephase1 = "該上場跟獵物正面對決了！",
 	Perephase2 = "奔馳吧，午夜！邁向勝利！"
 })
@@ -586,9 +639,9 @@ L:SetTimerLocalization({
 })
 
 L:SetMiscLocalization({
-	Beauty = "Добрый вечер, дамы и господа, и добро пожаловать на наше сегодняшнее представление!",
+	Beauty = "各位先生女士，晚安，很榮幸有機會歡迎大家來到今晚的表演現場！",
 	Westfall = "各位先生女士，歡迎大家來到今晚的表演現場！",
-	Wikket = "Дамы и господа, добро пожаловать... ОХ!",
+	Wikket = "先生女士，歡迎光臨我們的 - 啊！",
 	Medivh1 = "我在這座塔裡留下了很多自己的碎片…",
 	speedRun ="一陣詭異的冷風吹了過來…"
 })

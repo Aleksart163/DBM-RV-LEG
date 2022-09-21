@@ -1,4 +1,5 @@
 if GetLocale() ~= "ptBR" then return end
+
 local L
 
 -----------------------
@@ -26,7 +27,7 @@ L= DBM:GetModLocalization(1664)
 L= DBM:GetModLocalization(1672)
 
 L:SetMiscLocalization({
-	Latosius = "Chega! Estou cansado disso."
+	proshlyapMurchal = "Chega! Estou cansado disso."
 })
 
 -----------------------
@@ -101,7 +102,6 @@ L:SetGeneralLocalization({
 	name =	"Bosque Corenegro Besteira"
 })
 
-
 -----------------------
 -- <<<Eye of Azshara>>> --
 -----------------------
@@ -115,11 +115,6 @@ L= DBM:GetModLocalization(1480)
 -- Lady Hatecoil --
 -----------------------
 L= DBM:GetModLocalization(1490)
-
-L:SetWarningLocalization({
-	specWarnStaticNova			= "Static Nova - move to land",
-	specWarnFocusedLightning	= "Focused Lightning - move to water"
-})
 
 -----------------------
 -- King Deepbeard --
@@ -174,10 +169,6 @@ L= DBM:GetModLocalization(1488)
 -----------------------
 L= DBM:GetModLocalization(1489)
 
-L:SetMiscLocalization({
-	tempestModeMessage		=	"Not tempest sequence: %s. Rechecking in 8 seconds."
-})
-
 -----------------------
 --Halls of Valor Trash
 -----------------------
@@ -185,6 +176,24 @@ L = DBM:GetModLocalization("HoVTrash")
 
 L:SetGeneralLocalization({
 	name =	"Salões da Bravura Besteira"
+})
+
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT,
+	BossActivation = DBM_CORE_GENERIC_TIMER_ROLE_PLAY
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+})
+
+L:SetMiscLocalization({
+	RPSolsten = "Vocês maculam este ritual com sua presença, mortais!",
+	RPSolsten2 = "Hyrja... a fúria da tempestade está sob seu comando!",
+	RPOlmyr = "Vocês não negarão a ascensão de Hyrja!",
+	RPOlmyr2 = "A Luz brilha eternamente em você, Hyrja!",
+	RPSkovald = "Não! Eu também provei meu valor, Odyn. Eu sou o Deus-Rei Skovald! Esses mortais não ousam desafiar meu direito à égide!",
+	RPOdyn = "Muito impressionante! Eu nunca pensei que encontraria alguém capaz de igualar Valarjar em força... porém, aí estão vocês."
 })
 
 -----------------------
@@ -265,6 +274,10 @@ L= DBM:GetModLocalization(1500)
 -----------------------
 L= DBM:GetModLocalization(1501)
 
+L:SetMiscLocalization({
+	RPVandros = "Chega! Vocês, pestinhas, estão fora de controle!"
+})
+
 -----------------------
 --The Arcway Trash
 -----------------------
@@ -303,10 +316,17 @@ L:SetGeneralLocalization({
 })
 
 L:SetOptionLocalization({
-	SpyHelper	= "Help identify the spy"
+	SpyHelper	= "Help identify the spy",
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
 })
 
 L:SetMiscLocalization({
+	--
+	proshlyapMurchal = "Precisa sair tão cedo, Grã-Magistra?",
 	Gloves1			= "Alguém disse que o espião usa luvas para esconder cicatrizes.",
 	Gloves2			= "Dizem que o espião fica escondendo as mãos.",
 	Gloves3			= "Corre um boato de que o espião sempre usa luvas.",
@@ -354,6 +374,7 @@ L:SetMiscLocalization({
 	Pouch2			= "Ouvi dizer que a pochete do espião está cheia de ouro para mostrar extravagância.",
 	Pouch3			= "Um amigo disse que o espião ama ouro e uma pochete bem cheia disso.",
 	Pouch4			= "Ouvi dizer que o espião sempre anda com uma bolsa mágica.",
+	Found			= "Ora, ora, não sejamos apressados", -- Ora, ora, não sejamos apressados, НИК. Que tal me seguir e conversar em um local mais reservado...
 	--
 	Gloves		= "gloves",
 	NoGloves	= "no gloves",
@@ -391,6 +412,10 @@ L= DBM:GetModLocalization(1512)
 -----------------------
 L= DBM:GetModLocalization(1663)
 
+L:SetMiscLocalization({
+--	TaintofSeaYell = "%s спадает с %s. Берегись!"
+})
+
 -----------------------
 --Maw of Souls Trash
 -----------------------
@@ -398,6 +423,18 @@ L = DBM:GetModLocalization("MawTrash")
 
 L:SetGeneralLocalization({
 	name =	"Gorja das Almas Besteira"
+})
+
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+})
+
+L:SetMiscLocalization({
+	Helya = "TODOS vocês vão se arrepender de invadir o meu reino."
 })
 
 -----------------------
@@ -615,9 +652,9 @@ L:SetTimerLocalization({
 })
 
 L:SetMiscLocalization({
-	Beauty = "Добрый вечер, дамы и господа, и добро пожаловать на наше сегодняшнее представление!",
+	Beauty = "Boa noite, senhoras e senhores. Temos o prazer de apresentar o grande espetáculo desta noite.",
 	Westfall = "Senhoras e senhores, sejam bem-vindos à grande apresentação da noite!",
-	Wikket = "Дамы и господа, добро пожаловать... ОХ!",
+	Wikket = "Boa noite, senhoras e senhores, sejam bem... AU!",
 	Medivh1 = "Eu deixei tantos fragmentos meus nesta torre...",
 	speedRun = "The strange chill of a dark presence winds through the air..."
 })

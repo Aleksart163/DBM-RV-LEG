@@ -43,6 +43,7 @@ local yellSoulEchos					= mod:NewYell(194966, nil, nil, nil, "YELL") --Эхо д
 local yellSoulEchos2				= mod:NewFadesYell(194966, nil, nil, nil, "YELL") --Эхо души
 
 local countdownReapSoul				= mod:NewCountdown(13, 194956, "Melee", nil, 5) --Жатва душ
+local countdownReapSoul2			= mod:NewCountdownFades("Alt3", 194956, nil, nil, 3) --Жатва душ
 
 mod:AddSetIconOption("SetIconOnSoulEchoes", 194966, true, false, {8}) --Эхо души
 mod:AddSetIconOption("SetIconOnSwirlingScythe", 195254, true, false, {7}) --Вращающаяся коса
@@ -139,13 +140,14 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 194966 then
 		timerSoulEchoesCD:Start()
 		self:BossTargetScanner(98542, "SoulTarget", 0.1, 20, true, nil, nil, nil, true)--Always filter tank, because if scan fails debuff will be used.
-	elseif spellId == 194956 then
+	elseif spellId == 194956 then --Жатва душ
 		specWarnReapSoul2:Show()
 		specWarnReapSoul2:Play("shockwave")
 		specWarnReapSoul:Show()
 		specWarnReapSoul:Play("shockwave")
 		timerReapSoulCD:Start()
 		countdownReapSoul:Start()
+		countdownReapSoul2:Start()
 	elseif spellId == 196078 then --Вызов душ
 		self.vb.phase = 2
 		warned_preP2 = true

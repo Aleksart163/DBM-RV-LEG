@@ -35,6 +35,7 @@ local specWarnMortalStrike			= mod:NewSpecialWarningDefensive(227493, "Tank", ni
 local specWarnSharedSuffering		= mod:NewSpecialWarningMoveTo(228852, nil, nil, nil, 3, 5) --Разделенные муки
 local specWarnSharedSuffering2		= mod:NewSpecialWarningYouDefensive(228852, nil, nil, nil, 3, 5) --Разделенные муки
 local specWarnSharedSuffering3		= mod:NewSpecialWarningRun(228852, "Melee", nil, nil, 3, 5) --Разделенные муки
+local specWarnPresence				= mod:NewSpecialWarningYou(227404, nil, nil, nil, 1, 2) --Незримое присутствие
 --local specWarnRagnarok				= mod:NewSpecialWarningDefensive(193826, nil, nil, nil, 3, 5) 
 
 local timerSpectralChargeCD			= mod:NewCDTimer(7.5, 227365, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Призрачный рывок
@@ -205,6 +206,14 @@ function mod:SPELL_AURA_APPLIED(args)
 		if phase2 then
 			phase2 = false
 		end
+	elseif spellId == 227404 and self.vb.phase == 2 then --Незримое присутствие
+		if args:IsPlayer() then
+			specWarnPresence:Show()
+			specWarnPresence:Play("targetyou")
+		end
+		timerMortalStrikeCD:Stop() --Смертельный удар
+		timerSharedSufferingCD:Stop() --Разделенные муки
+		countdownSharedSuffering:Cancel() --Разделенные муки
 	end
 end
 
