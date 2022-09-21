@@ -31,7 +31,7 @@ mod:AddBoolOption("YellOnSoulwell", false)
 mod:AddBoolOption("YellOnSoulstone", false)
 mod:AddBoolOption("YellOnRitualofSummoning", false)
 mod:AddBoolOption("YellOnSpiritCauldron", true)
-mod:AddBoolOption("YellOnLavish", true)
+mod:AddBoolOption("YellOnLavish", false)
 
 local timeWarp = DBM:GetSpellInfo(80353) --Искажение времени
 local heroism = DBM:GetSpellInfo(32182) --Героизм
@@ -340,7 +340,7 @@ end
 
 function mod:SPELL_CREATE(args)
 	local spellId = args.spellId
-	if spellId == 698 and self:AntiSpam(2, 1) then --Ритуал призыва
+	if spellId == 698 then --Ритуал призыва
 		warnRitualofSummoning:Show(args.sourceName)
 		if self.Options.YellOnRitualofSummoning then
 			if IsInRaid() then
@@ -349,7 +349,7 @@ function mod:SPELL_CREATE(args)
 				SendChatMessage(L.SummoningYell:format(args.sourceName, summoning), "PARTY")
 			end
 		end
-	elseif spellId == 188036 and self:AntiSpam(2, 1) then --Котел духов
+	elseif spellId == 188036 then --Котел духов
 		if self.Options.YellOnSpiritCauldron then
 			if IsInRaid() then
 				SendChatMessage(L.SoulwellYell:format(args.sourceName, cauldron), "RAID")
@@ -357,7 +357,7 @@ function mod:SPELL_CREATE(args)
 				SendChatMessage(L.SoulwellYell:format(args.sourceName, cauldron), "PARTY")
 			end
 		end
-	elseif spellId == 201352 and self:AntiSpam(2, 1) then --Щедрое сурамарское угощение
+	elseif spellId == 201352 then --Щедрое сурамарское угощение
 		if self.Options.YellOnLavish then
 			if IsInRaid() then
 				SendChatMessage(L.SoulwellYell:format(args.sourceName, lavishSuramar), "RAID")
@@ -365,7 +365,7 @@ function mod:SPELL_CREATE(args)
 				SendChatMessage(L.SoulwellYell:format(args.sourceName, lavishSuramar), "PARTY")
 			end
 		end
-	elseif spellId == 201351 and self:AntiSpam(2, 1) then --Обильное угощение
+	elseif spellId == 201351 then --Обильное угощение
 		if self.Options.YellOnLavish then
 			if IsInRaid() then
 				SendChatMessage(L.SoulwellYell:format(args.sourceName, hearty), "RAID")

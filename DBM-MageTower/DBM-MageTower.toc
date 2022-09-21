@@ -3,10 +3,14 @@
 ## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Mage Tower|r
 ## Title-ruRU:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Башня магов|r
 ## Title-deDE:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Magierturm|r
-## Title-koKR:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0마법사 탑|r
-## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0法师塔|r
 ## Title-esES:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Torre de magos|r
 ## Title-esMX:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Torre de magos|r
+## Title-frFR:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Tour des mages|r
+## Title-itIT:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Torre della Magia|r
+## Title-ptBR:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Torre dos Magos|r
+## Title-koKR:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0마법사 탑|r
+## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0法师塔|r
+## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0法师塔|r
 ## Author: Aleksart163
 ## LoadOnDemand: 1
 ## RequiredDeps: DBM-Core
@@ -18,10 +22,14 @@
 ## X-DBM-Mod-Name: Mage Tower
 ## X-DBM-Mod-Name-ruRU: Башня магов
 ## X-DBM-Mod-Name-deDE: Magierturm
-## X-DBM-Mod-Name-koKR: 마법사 탑
-## X-DBM-Mod-Name-zhCN: 法师塔
 ## X-DBM-Mod-Name-esES: Torre de magos
 ## X-DBM-Mod-Name-esMX: Torre de magos
+## X-DBM-Mod-Name-frFR: Tour des mages
+## X-DBM-Mod-Name-itIT: Torre della Magia
+## X-DBM-Mod-Name-ptBR: Torre dos Magos
+## X-DBM-Mod-Name-koKR: 마법사 탑
+## X-DBM-Mod-Name-zhCN: 法师塔
+## X-DBM-Mod-Name-zhTW: 法师塔
 ## X-DBM-Mod-Sort: 509
 ## X-DBM-Mod-MapID: 1148, 1698, 1710, 1703, 1702, 1684, 1673, 1616
 ## X-DBM-Mod-MinCoreRevision: 17650
