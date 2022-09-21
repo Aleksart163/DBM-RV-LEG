@@ -32,7 +32,6 @@ local Shatug = DBM:EJ_GetSectionInfo(15836)
 --F'harg
 local warnDesolateGaze					= mod:NewTargetAnnounce(244768, 3) --Опустошающий взгляд
 local warnEnflamedCorruption			= mod:NewSpellAnnounce(244057, 3) --Возгорание порчи
---local warnEnflamed						= mod:NewTargetAnnounce(248815, 3) --Возгорание
 local warnMoltenTouch					= mod:NewSpellAnnounce(244072, 2) --Касание магмы
 --Shatug
 local warnWeightofDarkness				= mod:NewTargetAnnounce(254429, 3) --Бремя тьмы
@@ -40,6 +39,9 @@ local warnSiphonCorruption				= mod:NewSpellAnnounce(244056, 3) --Вытягив
 --General/Mythic
 local warnFocusingPower					= mod:NewSpellAnnounce(251356, 2) --Фокусирование силы
 local warnDarkReconstitution			= mod:NewTargetSourceAnnounce(249113, 3) --Темное восстановление
+local warnComsumingSphere				= mod:NewSoonAnnounce(244131, 1) --Поглощаяющая сфера
+local warnWeightOfDarkness2				= mod:NewPreWarnAnnounce(254429, 5, 1) --Бремя тьмы
+local warnDesolateGaze2					= mod:NewPreWarnAnnounce(244768, 5, 1) --Опустошающий взгляд
 
 --F'harg
 local specWarnMoltenTouch				= mod:NewSpecialWarningDodge(244072, nil, nil, nil, 2, 2) --Касание магмы
@@ -115,7 +117,9 @@ local function UpdateAllTimers(self)
 	--Shadow Doggo
 	timerCorruptingMawCD:Stop()
 	if timerComsumingSphereCD:GetTime() > 0 then
+		warnComsumingSphere:Cancel()
 		specWarnComsumingSphere:Cancel()
+		warnComsumingSphere:Schedule(10)
 		timerComsumingSphereCD:AddTime(15) --Поглощаяющая сфера
 	end
 	if timerWeightOfDarknessCD:GetTime() > 0 then
@@ -194,6 +198,7 @@ function mod:SPELL_CAST_START(args)
 			timerCorruptingMawCD:Stop()
 			timerSiphonCorruptionCD:Start(79) --Вытягивание порчи+++
 			timerComsumingSphereCD:Start(26) --Поглощаяющая сфера+++
+			warnComsumingSphere:Schedule(16) --Поглощаяющая сфера+++
 			specWarnComsumingSphere:Schedule(26) --Поглощаяющая сфера+++
 			specWarnComsumingSphere:ScheduleVoice(26, "watchorb") --Поглощаяющая сфера+++
 			timerWeightOfDarknessCD:Start(52) --Бремя тьмы+++ (уже пофиксил с нового видео за 27 число)
@@ -202,6 +207,7 @@ function mod:SPELL_CAST_START(args)
 			timerCorruptingMawCD:Stop()
 			timerSiphonCorruptionCD:Start(72) --Вытягивание порчи+++
 			timerComsumingSphereCD:Start(24) --Поглощаяющая сфера
+			warnComsumingSphere:Schedule(14) --Поглощаяющая сфера+++
 			specWarnComsumingSphere:Schedule(24) --Поглощаяющая сфера
 			specWarnComsumingSphere:ScheduleVoice(24, "watchorb") --Поглощаяющая сфера
 			timerWeightOfDarknessCD:Start(47) --Бремя тьмы вроде точно
@@ -209,6 +215,7 @@ function mod:SPELL_CAST_START(args)
 		else --обычка и лфр
 			timerSiphonCorruptionCD:Start(85) --Вытягивание порчи+++
 			timerComsumingSphereCD:Start(28) --Поглощаяющая сфера+++
+			warnComsumingSphere:Schedule(18) --Поглощаяющая сфера+++
 			specWarnComsumingSphere:Schedule(28) --Поглощаяющая сфера+++
 			specWarnComsumingSphere:ScheduleVoice(28, "watchorb") --Поглощаяющая сфера+++
 		end
@@ -284,7 +291,6 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerFocusingPower:Start()
 		UpdateAllTimers(self)
 	elseif spellId == 248815 then --Возгорание
-	--	warnEnflamed:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
 			specWarnEnflamed:Show()
 			specWarnEnflamed:Play("scatter")

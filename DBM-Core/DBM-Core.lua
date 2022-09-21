@@ -44,9 +44,9 @@
 ----------------------------------------------------------------
 --
 DBM = {
-	Revision = tonumber(("$Revision: 17678 $"):sub(12, -3)), --прошляпанное очко мурчаля ✔
+	Revision = tonumber(("$Revision: 17679 $"):sub(12, -3)), --прошляпанное очко мурчаля ✔
 	DisplayVersion = "7.3.39 Right Version",
-	ReleaseRevision = 17677
+	ReleaseRevision = 17678
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -261,6 +261,7 @@ DBM.DefaultOptions = {
 	WorldBossAlert = false,
 	AutoAcceptFriendInvite = false,
 	AutoAcceptGuildInvite = false,
+	AutoKeyLink = true,
 	FakeBWVersion = false,
 	AITimer = true,
 	AutoCorrectTimer = false,
@@ -1453,7 +1454,7 @@ do
 	end
 end
 
-
+--Волосали
 --------------------------
 --  OnUpdate/Scheduler  --
 --------------------------
