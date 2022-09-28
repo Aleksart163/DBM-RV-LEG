@@ -208,6 +208,9 @@ function mod:OnCombatStart(delay)
 end
 
 function mod:OnCombatEnd()
+	timerReverberatingStrikeCD:Cancel()
+	timerRuinerCD:Cancel()
+	timerRuiner:Cancel()
 	if self.Options.RangeFrame then
 		DBM.RangeCheck:Hide()
 	end

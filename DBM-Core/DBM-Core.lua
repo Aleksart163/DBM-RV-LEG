@@ -44,9 +44,9 @@
 ----------------------------------------------------------------
 --
 DBM = {
-	Revision = tonumber(("$Revision: 17679 $"):sub(12, -3)), --прошляпанное очко мурчаля ✔
-	DisplayVersion = "7.3.39 Right Version",
-	ReleaseRevision = 17678
+	Revision = tonumber(("$Revision: 17680 $"):sub(12, -3)), --прошляпанное очко мурчаля ✔
+	DisplayVersion = "7.3.40 Right Version",
+	ReleaseRevision = 17679
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -1843,8 +1843,8 @@ do
 		end
 		timer = timer * 60
 		sendSync("BT", timer)
-	end
-	
+	end	
+
 	SLASH_DEADLYBOSSMODS1 = "/dbm"
 	SLASH_DEADLYBOSSMODSRPULL1 = "/rpull"
 	SLASH_DEADLYBOSSMODSDWAY1 = "/dway"--/way not used because DBM would load before TomTom and can't check 
