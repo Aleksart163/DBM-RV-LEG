@@ -2,7 +2,8 @@ local mod	= DBM:NewMod("Spells", "DBM-Spells")
 local L		= mod:GetLocalizedStrings()
 
 mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
-mod:SetZone()
+--mod:SetZone()
+mod:SetZone(1712, 1676, 1530, 1648, 1520, 1779, 1501, 1466, 1456, 1477, 1458, 1516, 1571, 1492, 1544, 1493, 1651, 1677, 1753)
 
 mod:RegisterEvents(
 --	"SPELL_CAST_START",

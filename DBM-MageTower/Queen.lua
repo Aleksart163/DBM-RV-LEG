@@ -59,14 +59,14 @@ local berserkerRageTimers = {26.0, 175.0}
 local bloodFatherTimers = {89.5, 120.0, 120.0, 120.0, 120.0}
 local ancestralKnowledgeTimers = {98.4, 69.2, 118.4, 66.3, 26.7, 27.1, 27.5}--Rest 25
 
-local bloodCount = 0
+mod.vb.bloodCount = 0
 local bladeCount = 0
 local berserkerCount = 0
 local runicDetonationCount = 0
 local knowledgeCast = 0
 
 function mod:OnCombatStart(delay)
-	bloodCount = 0
+	self.vb.bloodCount = 0
 	bladeCount = 0
 	berserkerCount = 0
 	runicDetonationCount = 0
@@ -104,14 +104,13 @@ function mod:SPELL_CAST_START(args)
 		if timer then
 			timerBerserkersRageCD:Start(timer, berserkerCount+1)
 		end
-	elseif spellId == 237945 then
-		bloodCount = bloodCount + 1
+	elseif spellId == 237945 then --Кровь отца
+		self.vb.bloodCount = self.vb.bloodCount + 1
 		specWarnBloodFather:Show(args.sourceName)
 		specWarnBloodFather:Play("crowdcontrol")
-		local timer = bloodFatherTimers[bloodCount+1]
-		if timer then
-			timerBloodFatherCD:Start(timer, bloodCount+1)
-			countdownBloodFather:Start(timer)
+		if self.vb.bloodCount >= 1 then
+			timerBloodFatherCD:Start(120, self.vb.bloodCount+1)
+			countdownBloodFather:Start(120)
 		end
 	elseif spellId == 237857 then
 		bladeCount = bladeCount + 1
