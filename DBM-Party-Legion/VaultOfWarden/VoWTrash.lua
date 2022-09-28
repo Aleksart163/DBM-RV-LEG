@@ -13,6 +13,7 @@ mod:RegisterEvents(
 --	"SPELL_AURA_REMOVED",
 	"SPELL_CAST_SUCCESS 202606",
 	"CHAT_MSG_MONSTER_SAY",
+	"GOSSIP_SHOW",
 	"UNIT_DIED"
 )
 
@@ -26,7 +27,7 @@ local warnAMotherLove			= mod:NewTargetAnnounce(194064, 3) --Материнск�
 
 local specWarnAMotherLove		= mod:NewSpecialWarningYouMoveAway(194064, nil, nil, nil, 4, 3) --Материнская любовь
 local specWarnAMotherLove2		= mod:NewSpecialWarningTargetDodge(194064, nil, nil, nil, 2, 2) --Материнская любовь
-local specWarnDeafeningScreech	= mod:NewSpecialWarningDodge(191735, nil, nil, nil, 2, 2) --Оглушительный визг
+local specWarnDeafeningScreech	= mod:NewSpecialWarningDodge(191735, nil, nil, nil, 1, 2) --Оглушительный визг
 local specWarnFoulStench		= mod:NewSpecialWarningYouMove(210202, nil, nil, nil, 3, 3) --Зловонный смрад
 local specWarnDeafeningShout	= mod:NewSpecialWarningCast(191527, "SpellCaster", nil, nil, 3, 2) --Оглушающий крик
 local specWarnSummonGrimguard	= mod:NewSpecialWarningSwitch(202728, "Tank", nil, nil, 1, 2) --Призыв мрачного стража
@@ -109,7 +110,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 191527 then --Оглушающий крик
 		specWarnDeafeningShout:Show()
 		timerDeafeningShoutCD:Start()
-	elseif spellId == 191735 and self:AntiSpam(2, 1) then --Оглушительный визг
+	elseif spellId == 191735 then --Оглушительный визг
 		specWarnDeafeningScreech:Show()
 		specWarnDeafeningScreech:Play("watchstep")
 	elseif spellId == 194064 then --Материнская любовь
@@ -181,12 +182,12 @@ function mod:SPELL_AURA_APPLIED(args)
 end
 
 function mod:CHAT_MSG_MONSTER_SAY(msg)
-	if msg == L.RoleRP then
+	if msg == L.proshlyapMurchalRP then
 		self:SendSync("Roleplay")
 	end
 end
 
-function mod:OnSync(msg, GUID)
+function mod:OnSync(msg)
 	if msg == "Roleplay" then
 		timerRoleplay:Start()
 	end
@@ -204,5 +205,17 @@ function mod:UNIT_DIED(args)
 		timerThunderclapCD:Cancel()
 	elseif cid == 96657 then --https://ru.wowhead.com/npc=96657/иллиана-танцующая-с-клинками
 		timerDeafeningShoutCD:Cancel()
+	end
+end
+
+function mod:GOSSIP_SHOW()
+	local guid = UnitGUID("target")
+	if not guid then return end
+	local cid = self:GetCIDFromGUID(guid)
+	if cid == 103860 then --Дреланим Шелест Ветра
+		if select('#', GetGossipOptions()) > 0 then
+			SelectGossipOption(1, "", true)
+			CloseGossip()
+		end
 	end
 end

@@ -5,7 +5,7 @@ mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 mod:SetCreatureID(98965, 98970) --Кур'талос Гребень Ворона, Латосий
 mod:SetEncounterID(1835)
 mod:SetZone()
-mod:SetUsedIcons(8, 7)
+mod:SetUsedIcons(8)
 mod:SetBossHPInfoToHighest()
 
 mod:RegisterCombat("combat")
@@ -58,7 +58,7 @@ local countdownGuile				= mod:NewCountdown(39, 199193, nil, nil, 5) --Хитро
 local countdownGuile2				= mod:NewCountdownFades("Alt20", 199193, nil, nil, 5) --Хитроумие повелителя ужаса
 
 mod:AddSetIconOption("SetIconOnWhirlingBlade", 198641, true, false, {8}) --Крутящийся клинок
-mod:AddSetIconOption("SetIconOnSwarm", 201733, true, false, {7}) --Жалящий рой
+mod:AddSetIconOption("SetIconOnSwarm", 201733, true, false, {8}) --Жалящий рой
 
 mod.vb.phase = 1
 mod.vb.shadowboltCount = 0
@@ -117,7 +117,7 @@ end
 
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
-	if spellId == 198820 and self:AntiSpam(13.5, 1) then
+	if spellId == 198820 and self:AntiSpam(2, 2) then
 		if self.vb.phase == 1 then
 			specWarnDarkblast:Show()
 			specWarnDarkblast:Play("watchstep")
@@ -139,6 +139,7 @@ function mod:SPELL_CAST_START(args)
 		timerGuile:Start()
 		countdownGuile2:Start()
 		timerGuileCD:Start(nil, self.vb.guileCount+1)
+		countdownGuile:Start(85)
 		warnGuile:Schedule(80)
 		if self.vb.guileCount == 1 then
 			timerCloudCD:Start(25)
@@ -176,7 +177,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 201733 then --Жалящий рой
 		if self.Options.SetIconOnSwarm then
-			self:SetIcon(args.destName, 7)
+			self:SetIcon(args.destName, 8)
 		end
 	end
 end
@@ -215,7 +216,7 @@ function mod:UNIT_DIED(args)
 	end
 end
 
-function mod:CHAT_MSG_MONSTER_SAY(msg)
+function mod:CHAT_MSG_MONSTER_SAY(msg) --Прошляпанное очко Мурчаля Прошляпенко
 	if msg == L.proshlyapMurchal then
 		self.vb.phase = 2
 		warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase))

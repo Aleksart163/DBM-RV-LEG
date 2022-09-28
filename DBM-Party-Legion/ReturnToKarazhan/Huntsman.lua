@@ -36,6 +36,7 @@ local specWarnSharedSuffering		= mod:NewSpecialWarningMoveTo(228852, nil, nil, n
 local specWarnSharedSuffering2		= mod:NewSpecialWarningYouDefensive(228852, nil, nil, nil, 3, 5) --Разделенные муки
 local specWarnSharedSuffering3		= mod:NewSpecialWarningRun(228852, "Melee", nil, nil, 3, 5) --Разделенные муки
 local specWarnPresence				= mod:NewSpecialWarningYou(227404, nil, nil, nil, 1, 2) --Незримое присутствие
+local specWarnPresence2				= mod:NewSpecialWarningEnd(227404, nil, nil, nil, 1, 2) --Незримое присутствие
 --local specWarnRagnarok				= mod:NewSpecialWarningDefensive(193826, nil, nil, nil, 3, 5) 
 
 local timerSpectralChargeCD			= mod:NewCDTimer(7.5, 227365, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Призрачный рывок
@@ -206,7 +207,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if phase2 then
 			phase2 = false
 		end
-	elseif spellId == 227404 and self.vb.phase == 2 then --Незримое присутствие
+	elseif spellId == 227404 then --Незримое присутствие
 		if args:IsPlayer() then
 			specWarnPresence:Show()
 			specWarnPresence:Play("targetyou")
@@ -214,6 +215,15 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerMortalStrikeCD:Stop() --Смертельный удар
 		timerSharedSufferingCD:Stop() --Разделенные муки
 		countdownSharedSuffering:Cancel() --Разделенные муки
+	end
+end
+
+function mod:SPELL_AURA_REMOVED(args)
+	local spellId = args.spellId
+	if spellId == 227404 then --Незримое присутствие
+		if args:IsPlayer() then
+			specWarnPresence2:Show()
+		end
 	end
 end
 
@@ -313,7 +323,10 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 			phase2 = true
 		end
 --		firsttwophase = true
-	elseif msg == L.Perephase2 then --Спустился с коня (Что ж, сразимся лицом к лицу!)
+	elseif msg == L.Perephase2 then --Сел на коня (Вперед, Полночь, к победе!)
+		timerMortalStrikeCD:Stop()
+		timerSharedSufferingCD:Stop()
+		countdownSharedSuffering:Cancel()
 	--	specWarnRagnarok:Show()
 	--	perephase = false
 	--	timerSpectralChargeCD:Stop() --Призрачный рывок

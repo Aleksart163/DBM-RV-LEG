@@ -149,6 +149,10 @@ L:SetGeneralLocalization({
 -----------------------
 L= DBM:GetModLocalization(1485)
 
+L:SetMiscLocalization({
+	proshlyapMurchal = "Una grande battaglia! Ora potete passare."
+})
+
 -----------------------
 -- Hyrja --
 -----------------------
@@ -158,6 +162,10 @@ L= DBM:GetModLocalization(1486)
 -- Fenryr --
 -----------------------
 L= DBM:GetModLocalization(1487)
+
+L:SetMiscLocalization({
+	MurchalProshlyapOchko = "Ferito, Fenryr si nasconde nella sua tana."
+})
 
 -----------------------
 -- God-King Skovald --
@@ -549,6 +557,18 @@ L:SetGeneralLocalization({
 	name =	"Segrete delle Custodi Spazzatura"
 })
 
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+})
+
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
+})
+
+L:SetMiscLocalization({
+	proshlyapMurchalRP = "Come siete prevedibili! Sapevo sareste venuti." --Прошляпанное очко Мурчаля Прошляпенко
+})
+
 -----------------------
 -- <<<Return To Karazhan>>> --
 -----------------------
@@ -570,7 +590,7 @@ L= DBM:GetModLocalization(1826)
 
 L:SetMiscLocalization({
 	Tonny = "Andiamo a farci un giro?",
-	Phase2 = "Siamo noi due contro il mondo, piccola!"
+	Phase3 = "Siamo noi due contro il mondo, piccola!"
 })
 
 -----------------------

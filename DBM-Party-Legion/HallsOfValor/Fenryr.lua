@@ -16,6 +16,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_AURA_REMOVED 196838",
 	"SPELL_CAST_START 196838 196543 197558",
 	"SPELL_CAST_SUCCESS 196567 196512 207707 196543",
+	"CHAT_MSG_RAID_BOSS_EMOTE",
 	"UNIT_HEALTH",
 	"UNIT_DIED"
 )
@@ -226,5 +227,11 @@ function mod:UNIT_HEALTH(uId)
 			warnFixate2:Schedule(23)
 			timerClawFrenzyCD:Start(12.5)
 		end
+	end
+end
+
+function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)
+	if msg:find(L.MurchalProshlyapOchko) then
+		DBM:EndCombat(self)
 	end
 end

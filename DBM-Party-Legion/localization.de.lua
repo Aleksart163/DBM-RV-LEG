@@ -74,6 +74,10 @@ L= DBM:GetModLocalization(1654)
 -----------------------
 L= DBM:GetModLocalization(1655)
 
+L:SetMiscLocalization({
+	ThrowYell = "Wurf auf %s"
+})
+
 -----------------------
 -- Dresaron --
 -----------------------
@@ -149,6 +153,10 @@ L:SetGeneralLocalization({
 -----------------------
 L= DBM:GetModLocalization(1485)
 
+L:SetMiscLocalization({
+	proshlyapMurchal = "Ein glorreicher Kampf! Ihr dürft passieren."
+})
+
 -----------------------
 -- Hyrja --
 -----------------------
@@ -158,6 +166,10 @@ L= DBM:GetModLocalization(1486)
 -- Fenryr --
 -----------------------
 L= DBM:GetModLocalization(1487)
+
+L:SetMiscLocalization({
+	MurchalProshlyapOchko = "Fenryr zieht sich verwundet in seinen Bau zurück."
+})
 
 -----------------------
 -- God-King Skovald --
@@ -312,19 +324,19 @@ L:SetGeneralLocalization({
 })
 
 L:SetOptionLocalization({
-	YellOnEating = "Сообщать, когда кто-то применяеет заклинание $spell:208585",
-	YellOnSiphoningMagic = "Сообщать, когда кто-то применяеет заклинание $spell:208427",
-	YellOnPurifying = "Сообщать, когда кто-то применяеет заклинание $spell:209767",
-	YellOnDraining = "Сообщать, когда кто-то применяеет заклинание $spell:208334",
-	YellOnInvokingText = "Сообщать, когда кто-то применяеет заклинание $spell:210872",
-	YellOnDrinking = "Сообщать, когда кто-то применяеет заклинание $spell:210307",
-	YellOnReleaseSpores = "Сообщать, когда кто-то применяеет заклинание $spell:208939",
-	YellOnShuttingDown = "Сообщать, когда кто-то применяеет заклинание $spell:208370",
-	YellOnTreating = "Сообщать, когда кто-то применяеет заклинание $spell:210925",
-	YellOnPilfering = "Сообщать, когда кто-то применяеет заклинание $spell:210217",
-	YellOnDefacing = "Сообщать, когда кто-то применяеет заклинание $spell:210330",
-	YellOnTinkering = "Сообщать, когда кто-то применяеет заклинание $spell:210922",
-	warnSpy = "Спец-предупреждение когда шпион обнаружен",
+--	YellOnEating = "Сообщать, когда кто-то применяеет заклинание $spell:208585",
+--	YellOnSiphoningMagic = "Сообщать, когда кто-то применяеет заклинание $spell:208427",
+--	YellOnPurifying = "Сообщать, когда кто-то применяеет заклинание $spell:209767",
+--	YellOnDraining = "Сообщать, когда кто-то применяеет заклинание $spell:208334",
+--	YellOnInvokingText = "Сообщать, когда кто-то применяеет заклинание $spell:210872",
+--	YellOnDrinking = "Сообщать, когда кто-то применяеет заклинание $spell:210307",
+--	YellOnReleaseSpores = "Сообщать, когда кто-то применяеет заклинание $spell:208939",
+--	YellOnShuttingDown = "Сообщать, когда кто-то применяеет заклинание $spell:208370",
+--	YellOnTreating = "Сообщать, когда кто-то применяеет заклинание $spell:210925",
+--	YellOnPilfering = "Сообщать, когда кто-то применяеет заклинание $spell:210217",
+--	YellOnDefacing = "Сообщать, когда кто-то применяеет заклинание $spell:210330",
+--	YellOnTinkering = "Сообщать, когда кто-то применяеет заклинание $spell:210922",
+--	warnSpy = "Спец-предупреждение когда шпион обнаружен",
 	SpyHelper	= "Hilf bei der Erkennung des Spions",
 	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
 })
@@ -334,18 +346,18 @@ L:SetTimerLocalization({
 })
 
 L:SetMiscLocalization({
-	EatingYell = "[DBM RV] %s использует %s, теперь у нас больше хп!",
-	SiphoningMagic = "[DBM RV] %s использует %s, теперь у нас больше урона!",
-	PurifyingYell = "[DBM RV] %s использует %s, теперь у нас больше защиты!",
-	DrainingYell = "[DBM RV] %s использует %s, теперь у нас больше крита!",
-	InvokingTextYell = "[DBM RV] %s использует %s, теперь у нас больше скорости бега!",
-	DrinkingYell = "[DBM RV] %s использует %s, теперь у нас больше регена хп и маны!",
-	ReleaseSporesYell = "[DBM RV] %s использует %s, теперь у нас больше скорости боя!",
-	ShuttingDownYell = "[DBM RV] %s использует %s, теперь все Големы-стражи будут выключены!",
-	TreatingYell = "[DBM RV] %s использует %s и отвлекает мини-босса!",
-	PilferingYell = "[DBM RV] %s использует %s и отвлекает мини-босса!",
-	DefacingYell = "[DBM RV] %s использует %s и отвлекает мини-босса!",
-	TinkeringYell = "[DBM RV] %s использует %s и отвлекает мини-босса!",
+--	EatingYell = "[DBM RV] %s использует %s, теперь у нас больше хп!",
+--	SiphoningMagic = "[DBM RV] %s использует %s, теперь у нас больше урона!",
+--	PurifyingYell = "[DBM RV] %s использует %s, теперь у нас больше защиты!",
+--	DrainingYell = "[DBM RV] %s использует %s, теперь у нас больше крита!",
+--	InvokingTextYell = "[DBM RV] %s использует %s, теперь у нас больше скорости бега!",
+--	DrinkingYell = "[DBM RV] %s использует %s, теперь у нас больше регена хп и маны!",
+--	ReleaseSporesYell = "[DBM RV] %s использует %s, теперь у нас больше скорости боя!",
+--	ShuttingDownYell = "[DBM RV] %s использует %s, теперь все Големы-стражи будут выключены!",
+--	TreatingYell = "[DBM RV] %s использует %s и отвлекает мини-босса!",
+--	PilferingYell = "[DBM RV] %s использует %s и отвлекает мини-босса!",
+--	DefacingYell = "[DBM RV] %s использует %s и отвлекает мини-босса!",
+--	TinkeringYell = "[DBM RV] %s использует %s и отвлекает мини-босса!",
 	--
 	proshlyapMurchal = "Müsst Ihr schon gehen, Großmagistrix?",
 	Gloves1			= "Einem Gerücht zufolge trägt der Spion immer Handschuhe.",
@@ -583,7 +595,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	RoleRP = "Wie lächerlich berechenbar! Ich wusste, Ihr würdet kommen."
+	proshlyapMurchalRP = "Wie lächerlich berechenbar! Ich wusste, Ihr würdet kommen." --Прошляпанное очко Мурчаля Прошляпенко
 })
 
 -----------------------
@@ -607,7 +619,7 @@ L= DBM:GetModLocalization(1826)
 
 L:SetMiscLocalization({
 	Tonny = "Wagen wir ein Tänzchen?",
-	Phase2 = "Du und ich gegen den Rest der Welt, Baby!"
+	Phase3 = "Du und ich gegen den Rest der Welt, Baby!"
 })
 
 -----------------------
@@ -674,7 +686,7 @@ L:SetOptionLocalization({
 	timerRoleplay2 = "Отсчет времени до начала представления \"Westfall Story\"",
 	timerRoleplay3 = "Отсчет времени до начала представления \"Wikket\"",
 	timerRoleplay4 = DBM_CORE_OPTION_TIMER_DOOR_OPENING,
-	OperaActivation = "Активировать представление в Опере в 1 нажатие"
+	OperaActivation = DBM_CORE_GENERIC_TIMER_ROLE_PLAY
 })
 
 L:SetTimerLocalization({
@@ -705,10 +717,6 @@ L= DBM:GetModLocalization(1905)
 -- Trashbite the Scornful  --
 -----------------------
 L= DBM:GetModLocalization(1906)
-
-L:SetMiscLocalization({
-	bookCase	=	"hinter Bücherregal"
-})
 
 -----------------------
 -- Domatrax --
@@ -765,7 +773,7 @@ L:SetGeneralLocalization({
 L:SetOptionLocalization({
 	timerRoleplay = DBM_CORE_OPTION_TIMER_DOOR_OPENING,
 	timerRoleplay2 = DBM_CORE_OPTION_TIMER_COMBAT,
-	AlleriaActivation = "Активировать ролевые игры с Аллерией в 1 нажатие"
+	AlleriaActivation = DBM_CORE_GENERIC_TIMER_ROLE_PLAY
 })
 
 L:SetTimerLocalization({

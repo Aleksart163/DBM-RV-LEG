@@ -27,16 +27,15 @@ mod:RegisterEventsInCombat(
 )
 
 --Виз'адуум Всевидящий https://ru.wowhead.com/npc=114790/визадуум-всевидящий/эпохальный-журнал-сражений
+local warnPhase						= mod:NewPhaseChangeAnnounce(1)
+local warnPhase2					= mod:NewPrePhaseAnnounce(2, 1)
+local warnPhase3					= mod:NewPrePhaseAnnounce(3, 1)
 local warnBlazingHamstring			= mod:NewStackAnnounce(230002, 3, nil, nil, 2) --Пылающая подрезка
 local warnBurningBlast				= mod:NewStackAnnounce(229083, 3, nil, nil, 2) --Выброс пламени
 local warnChaoticShadows			= mod:NewTargetAnnounce(229159, 3) --Тени Хаоса
 local warnFelBeam					= mod:NewTargetAnnounce(229242, 4) --Приказ: луч Скверны
 local warnDisintegrate				= mod:NewSpellAnnounce(229151, 4) --Расщепление
 local warnBombardment				= mod:NewSpellAnnounce(229284, 3) --Приказ: бомбардировка
-local warnPhase						= mod:NewAnnounce("Phase1", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 2
-local warnPhase2					= mod:NewAnnounce("Phase2", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 3
-local warnPhase22					= mod:NewPhaseAnnounce(2, 2)
-local warnPhase33					= mod:NewPhaseAnnounce(3, 2)
 
 local specWarnChaoticShadows		= mod:NewSpecialWarningYou(229159, nil, nil, nil, 1, 2) --Тени Хаоса
 local specWarnChaoticShadows2		= mod:NewSpecialWarningYouMoveAway(229159, nil, nil, nil, 3, 5) --Тени Хаоса
@@ -164,7 +163,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		timerBombardmentCD:Stop()
 		countdownBombardment:Cancel()
 		if self.vb.phase == 2 then
-			warnPhase22:Show()
+			warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase))
 			self.vb.burningBlastCount = 0
 			perephase = true
 			warned_preP2 = true
@@ -172,7 +171,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 			countdownFelBeam:Cancel()
 			timerDisintegrateCD:Start(15.5)
 		elseif self.vb.phase == 3 then
-			warnPhase33:Show()
+			warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase))
 			self.vb.burningBlastCount = 0
 			warned_preP4 = true
 			timerStabilizeRiftCD:Start(24)
@@ -295,10 +294,10 @@ function mod:UNIT_HEALTH(uId)
 	if self:IsHard() then --миф и миф+
 		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 114790 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.68 then
 			warned_preP1 = true
-			warnPhase:Show()
+			warnPhase2:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase+1))
 		elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 114790 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.35 then
 			warned_preP3 = true
-			warnPhase2:Show()
+			warnPhase3:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase+1))
 		end
 	end
 end

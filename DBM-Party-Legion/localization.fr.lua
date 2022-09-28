@@ -149,6 +149,10 @@ L:SetGeneralLocalization({
 -----------------------
 L= DBM:GetModLocalization(1485)
 
+L:SetMiscLocalization({
+	proshlyapMurchal = "Vous avez livré un beau combat ! Vous pouvez passer."
+})
+
 -----------------------
 -- Hyrja --
 -----------------------
@@ -158,6 +162,10 @@ L= DBM:GetModLocalization(1486)
 -- Fenryr --
 -----------------------
 L= DBM:GetModLocalization(1487)
+
+L:SetMiscLocalization({
+	MurchalProshlyapOchko = "Blessé, Fenryr se replie dans sa tanière."
+})
 
 -----------------------
 -- God-King Skovald --
@@ -545,6 +553,18 @@ L:SetGeneralLocalization({
 	name =	"Caveau des Gardiennes Trash"
 })
 
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+})
+
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
+})
+
+L:SetMiscLocalization({
+	proshlyapMurchalRP = "Comme vous êtes prévisible. Je savais que vous viendriez." --Прошляпанное очко Мурчаля Прошляпенко
+})
+
 -----------------------
 -- <<<Return To Karazhan>>> --
 -----------------------
@@ -566,7 +586,7 @@ L= DBM:GetModLocalization(1826)
 
 L:SetMiscLocalization({
 	Tonny = "Ça vous dit de faire un tour ?",
-	Phase2 = "Mon univers est là : vous et moi !"
+	Phase3 = "Mon univers est là : vous et moi !"
 })
 
 -----------------------

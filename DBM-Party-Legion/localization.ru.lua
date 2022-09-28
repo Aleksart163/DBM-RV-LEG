@@ -153,6 +153,10 @@ L:SetGeneralLocalization({
 ------------
 L= DBM:GetModLocalization(1485)
 
+L:SetMiscLocalization({
+	proshlyapMurchal = "Славная битва! Теперь ваш путь свободен."
+})
+
 ---------
 --Хирья--
 ---------
@@ -162,6 +166,10 @@ L= DBM:GetModLocalization(1486)
 --Фенрир--
 ----------
 L= DBM:GetModLocalization(1487)
+
+L:SetMiscLocalization({
+	MurchalProshlyapOchko = "Раненый Фенрир отступает в свое логово."
+})
 
 -----------------------
 --Король-бог Сковальд--
@@ -244,6 +252,7 @@ L:SetTimerLocalization({
 L:SetMiscLocalization({
 	RoleP1 = "Наваррогг?! Предатель, ты привел к нам чужаков?!"
 })
+
 ----------------------------
 --<<<Катакомбы Сурамара>>>--
 ----------------------------
@@ -541,7 +550,7 @@ L:SetMiscLocalization({
 --------------------------
 --<<<Казематы Стражей>>>--
 --------------------------
---Волосали
+
 --------------------
 --Тиратон Салтерил--
 --------------------
@@ -579,16 +588,6 @@ L= DBM:GetModLocalization(1469)
 ------------------------------
 L= DBM:GetModLocalization(1470)
 
-L:SetWarningLocalization({
-	Phase1 = "Скоро фаза 2",
-	Phase2 = "Фаза 2"
-})
-
-L:SetOptionLocalization({
-	Phase1 = "Предупреждать заранее о фазе 2 (на ~51%, только Мифик+)",
-	Phase2 = "Объявлять фазу 2"
-})
-
 -------------
 --Трэш-мобы--
 -------------
@@ -607,7 +606,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	RoleRP = "Как предсказуемо! Я знала, что вы придете."
+	proshlyapMurchalRP = "Как предсказуемо! Я знала, что вы придете." --Прошляпанное очко Мурчаля Прошляпенко
 })
 
 -------------------------------
@@ -631,7 +630,7 @@ L= DBM:GetModLocalization(1826)
 
 L:SetMiscLocalization({
 	Tonny = "Ну что, покружимся?",
-	Phase2 = "Да, детка, весь этот мир против нас!"
+	Phase3 = "Да, детка, весь этот мир против нас!"
 })
 
 ------------------------------------
@@ -675,16 +674,6 @@ L= DBM:GetModLocalization(1818)
 ------------------------
 L= DBM:GetModLocalization(1838)
 
-L:SetWarningLocalization({
-	Phase1 = "Скоро фаза 2",
-	Phase2 = "Скоро фаза 3"
-})
-
-L:SetOptionLocalization({
-	Phase1 = "Предупреждать заранее о фазе 2 (на ~68%, только Мифик+)",
-	Phase2 = "Предупреждать заранее о фазе 2 (на ~35%, только Мифик+)"
-})
-
 -------------------
 --Ночная погибель--
 -------------------
@@ -708,7 +697,7 @@ L:SetOptionLocalization({
 	timerRoleplay2 = "Отсчет времени до начала представления \"Однажды в Западном крае\"",
 	timerRoleplay = "Отсчет времени до начала представления \"Красавица и Зверь\"",
 	timerRoleplay4 = DBM_CORE_OPTION_TIMER_DOOR_OPENING,
-	OperaActivation = "Активировать представление в Опере в 1 нажатие"
+	OperaActivation = DBM_CORE_GENERIC_TIMER_ROLE_PLAY
 })
 
 L:SetTimerLocalization({
@@ -739,14 +728,6 @@ L= DBM:GetModLocalization(1905)
 --Долбогрыз Глумливый--
 -----------------------
 L= DBM:GetModLocalization(1906)
-
-L:SetOptionLocalization({
-	bookCase = "Спец-предупреждение \"Бегите за книжный шкаф!\" когда вы цель $spell:237726"
-})
-
-L:SetMiscLocalization({
-	bookCase = "книжному шкафу!"
-})
 
 -------------
 --Доматракс--

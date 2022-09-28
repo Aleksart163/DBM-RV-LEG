@@ -149,6 +149,10 @@ L:SetGeneralLocalization({
 -----------------------
 L= DBM:GetModLocalization(1485)
 
+L:SetMiscLocalization({
+	proshlyapMurchal = "精彩的战斗！你们可以继续前进了。"
+})
+
 -----------------------
 -- Hyrja --
 -----------------------
@@ -158,6 +162,10 @@ L= DBM:GetModLocalization(1486)
 -- Fenryr --
 -----------------------
 L= DBM:GetModLocalization(1487)
+
+L:SetMiscLocalization({
+	MurchalProshlyapOchko = "受伤的芬雷尔逃回他的巢穴去了。"
+})
 
 -----------------------
 -- God-King Skovald --
@@ -542,10 +550,22 @@ L= DBM:GetModLocalization(1470)
 -----------------------
 --Vault of the Wardens Trash
 -----------------------
-L = DBM:GetModLocalization("")
+L = DBM:GetModLocalization("VoWTrash")
 
 L:SetGeneralLocalization({
 	name =	"守望者地窟小怪"
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+})
+
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
+})
+
+L:SetMiscLocalization({
+	proshlyapMurchalRP = "我早猜到了！我就知道你们会来。" --Прошляпанное очко Мурчаля Прошляпенко
 })
 
 -----------------------
@@ -569,7 +589,7 @@ L= DBM:GetModLocalization(1826)
 
 L:SetMiscLocalization({
 	Tonny = "想出去兜兜风吗？",
-	Phase2 = "让我们一起对抗世界吧，宝贝！"
+	Phase3 = "让我们一起对抗世界吧，宝贝！"
 })
 
 -----------------------

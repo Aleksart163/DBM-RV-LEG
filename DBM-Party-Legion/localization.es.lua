@@ -95,8 +95,10 @@ L:SetMiscLocalization{
 }
 
 L:SetMiscLocalization({
-	XavApoc = "Te apagarás lenta y dolorosamente.",
-	XavApoc2 = "¡Quebraré tu mente débil!"
+	XavApoc = "Os consumiréis, lenta y dolorosamente.",
+	XavApoc2 = "¡Destruiré vuestras débiles mentes!"
+--	XavApoc = "Te apagarás lenta y dolorosamente.",
+--	XavApoc2 = "¡Quebraré tu mente débil!"
 })
 
 ----------------------
@@ -155,6 +157,10 @@ L:SetGeneralLocalization({
 -----------------------
 L= DBM:GetModLocalization(1485)
 
+L:SetMiscLocalization({
+	proshlyapMurchal = "¡Una batalla excelente! El camino está despejado."
+})
+
 -----------------------
 -- Hyrja --
 -----------------------
@@ -164,6 +170,10 @@ L= DBM:GetModLocalization(1486)
 -- Fenryr --
 ------------
 L= DBM:GetModLocalization(1487)
+
+L:SetMiscLocalization({
+	MurchalProshlyapOchko = "Herido, Fenryr se retira a su guarida."
+})
 
 ----------------------
 -- Rey dios Skovald --
@@ -317,6 +327,10 @@ L:SetGeneralLocalization({
 	name =	"Enemigos menores"
 })
 
+L:SetWarningLocalization({
+	warnSpy = "Se ha encontrado un espía"
+})
+
 L:SetOptionLocalization({
 	YellOnEating = "Avisar, cuando alguien esta usando hechizo $spell:208585",
 	YellOnSiphoningMagic = "Avisar, cuando alguien esta usando hechizo $spell:208427",
@@ -330,7 +344,7 @@ L:SetOptionLocalization({
 	YellOnPilfering = "Avisar, cuando alguien esta usando hechizo $spell:210217",
 	YellOnDefacing = "Avisar, cuando alguien esta usando hechizo $spell:210330",
 	YellOnTinkering = "Avisar, cuando alguien esta usando hechizo $spell:210922",
-	warnSpy = "Спец-предупреждение когда шпион обнаружен",
+	warnSpy = "Avisar, cuando se descubre un espía",
 	SpyHelper	= "Ayudar a encontrar al espía",
 	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
 })
@@ -355,6 +369,7 @@ L:SetMiscLocalization({
 	TinkeringYell = "[DBM RV] %s usando %s!",
 	--
 	proshlyapMurchal = "¿Tan pronto nos abandonas, Gran Magistrix?",
+--	proshlyapMurchal = "¿Tan pronto nos abandonas, Gran Magistrix?",
 	Gloves1			= "Dicen los rumores que el espía siempre lleva guantes.",
 	Gloves2			= "He oído que el espía siempre lleva las manos enfundadas en guantes.",
 	Gloves3			= "Hay quien dice que el espía lleva guantes para ocultar sus notables cicatrices.",
@@ -403,6 +418,7 @@ L:SetMiscLocalization({
 	Pouch3			= "Un amigo me ha dicho que al espía le encanta el oro y que lleva una faltriquera llena.",
 	Pouch4			= "Dicen que la faltriquera del espía está llena de oro para demostrar extravagancia.",
 	Found			= "Bueno, bueno, no nos precipitemos. ¿Y si me acompañas para poder discutirlo en un ambiente más privado...?",
+--	Found			= "Bueno, bueno, no nos precipitemos. ¿Y si me acompañas para poder discutirlo en un ambiente más privado...?",
 	--
 	Gloves		= "guantes/Wears gloves",
 	NoGloves	= "sin guantes/No gloves",
@@ -482,7 +498,7 @@ L:SetMiscLocalization({
 	Pouch2			= "Oí que la bolsa del cinturón del espía está llena de oro para demostrar su extravagancia.",
 	Pouch3			= "Oí que el espía siempre lleva consigo una bolsa mágica.",
 	Pouch4			= "Un amigo dijo que al espía le encanta el oro y un bolso lleno de él.",
-		--
+	--
 	Gloves		= "guantes/Wears gloves",
 	NoGloves	= "sin guantes/No gloves",
 	Cape		= "capa/Wearing a cape",
@@ -639,7 +655,8 @@ L= DBM:GetModLocalization(1695)
 L= DBM:GetModLocalization(1468)
 
 L:SetMiscLocalization({
-	MurchalProshlyapOchko = "Las contramedidas de la habitación están armadas."
+	MurchalProshlyapOchko = "Las contramedidas de la sala están activadas."
+--	MurchalProshlyapOchko = "Las contramedidas de la habitación están armadas."
 })
 
 ----------------
@@ -659,6 +676,18 @@ L = DBM:GetModLocalization("VoWTrash")
 
 L:SetGeneralLocalization({
 	name =	"Enemigos menores"
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+})
+
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
+})
+
+L:SetMiscLocalization({
+	proshlyapMurchalRP = "¡Qué predecibles! Sabía que acabaríais viniendo." --Прошляпанное очко Мурчаля Прошляпенко
 })
 
 ------------------------
@@ -681,8 +710,10 @@ L= DBM:GetModLocalization(1820)
 L= DBM:GetModLocalization(1826)
 
 L:SetMiscLocalization({
-	Tonny = "¿Quieres ir por un paseo?",
-	Phase2 = "¡Somos tu yo contra el mundo, sí!"
+	Tonny = "¿Nos damos un garbeo?",
+--	Tonny = "¿Quieres ir por un paseo?",
+	Phase3 = "¡Somos tú y yo contra el mundo!"
+--	Phase3 = "¡Somos tu yo contra el mundo, sí!"
 })
 
 ------------------------------------
@@ -698,7 +729,9 @@ L= DBM:GetModLocalization(1835)
 L:SetMiscLocalization({
 	SharedSufferingYell = "%s en %s. ALEJAROS de mi!",
 	Perephase1 = "¡Hora de enfrentarme a mi presa cara a cara!",
-	Perephase2 = "¡Cabalgamos, Medianoche! ¡A la victoria!"
+--	Perephase1 = "¡Hora de enfrentarme a mi presa cara a cara!",
+	Perephase2 = "¡Cabalgamos, Medianoche! ¡Hacia la victoria!"
+--	Perephase2 = "¡Cabalgamos, Medianoche! ¡A la victoria!"
 })
 
 ------------
@@ -751,7 +784,7 @@ L:SetOptionLocalization({
 --	timerRoleplay2 = "Отсчет времени до начала представления \"Páramos de Poniente\"",
 	timerRoleplay3 = "Отсчет времени до начала представления \"Makaku\"",
 	timerRoleplay4 = DBM_CORE_OPTION_TIMER_DOOR_OPENING,
-	OperaActivation = "Активировать представление в Опере в 1 нажатие"
+	OperaActivation = DBM_CORE_GENERIC_TIMER_ROLE_PLAY
 })
 
 L:SetTimerLocalization({
@@ -766,7 +799,8 @@ L:SetTimerLocalization({
 L:SetMiscLocalization({
 	Beauty = "Buenas tardes, señoras y señores. ¡Sed bienvenidos a la representación de esta noche!",
 --	Beauty = "Buenas noches damas y caballeros. Orgullosamente les damos la bienvenida a la presentación programada para esta noche.",
-	Westfall = "Damas y caballeros, bienvenidos a la presentación estelar de esta tarde!",
+	Westfall = "¡Bienvenidos, señoras y señores, a la representación de esta tarde!",
+--	Westfall = "Damas y caballeros, bienvenidos a la presentación estelar de esta tarde!",
 	Wikket = "Señoras y señores, bienvenidos a nuestra... ¡AY!",
 	Medivh1 = "He dejado tantos fragmentos de mí mismo por esta torre...",
 --	Medivh1 = "He dejado muchos fragmentos de mí mismo por toda esta torre...",
@@ -786,10 +820,6 @@ L= DBM:GetModLocalization(1905)
 -- Dientizador el Desdeñoso  --
 -------------------------------
 L= DBM:GetModLocalization(1906)
-
-L:SetMiscLocalization({
-	bookCase	=	"las estanterías"
-})
 
 --------------
 -- Domatrax --

@@ -27,7 +27,7 @@ local warnSubmerged2					= mod:NewPreWarnAnnounce(196947, 5, 1) --Погруже
 
 local specWarnTaintofSea				= mod:NewSpecialWarningYou(197262, nil, nil, nil, 1, 3) --Морская порча
 local specWarnTaintofSea2				= mod:NewSpecialWarningDispel(197262, "MagicDispeller2", nil, nil, 1, 3) --Морская порча
-local specWarnDestructorTentacle		= mod:NewSpecialWarningSwitch("ej12364", "-Healer") --Щупальце разрушения
+local specWarnDestructorTentacle		= mod:NewSpecialWarningSwitch("ej12364", "Tank|Dps") --Щупальце разрушения
 local specWarnBrackwaterBarrage			= mod:NewSpecialWarningDodge(202088, nil, nil, nil, 3, 5) --Обстрел солоноватой водой Tank stays with destructor tentacle no matter what
 local specWarnSubmerged					= mod:NewSpecialWarningDodge(196947, nil, nil, nil, 1, 2) --Погружение
 local specWarnSubmergedOver				= mod:NewSpecialWarningEnd(196947, nil, nil, nil, 1, 2) --Погружение
@@ -42,7 +42,7 @@ local timerPiercingTentacleCD			= mod:NewNextTimer(9, 197596, nil, nil, nil, 3) 
 local timerSubmerged					= mod:NewBuffFadesTimer(15, 196947, nil, nil, nil, 6) --Погружение
 local timerSubmerged2					= mod:NewCDTimer(74.5, 196947, nil, nil, nil, 6) --Погружение
 local timerBreathCD						= mod:NewNextTimer(21, 227233, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Оскверняющий рев
-local timerTorrentCD					= mod:NewCDTimer(9.7, 198495, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON) --Стремительный поток often delayed and after breath so often will see 12-14
+local timerTorrentCD					= mod:NewCDTimer(9.7, 198495, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON..DBM_CORE_DEADLY_ICON) --Стремительный поток
 
 local yellTaintofSea					= mod:NewYell(197262, nil, nil, nil, "YELL") --Морская порча
 local yellTaintofSea2					= mod:NewYell(197264, L.TaintofSeaYell, nil, nil, "YELL") --Морская порча
@@ -106,7 +106,6 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerTorrentCD:Stop()
 		timerBreathCD:Cancel()
 		countdownBreath:Cancel()
-	--	warnSubmerged:Show()
 		specWarnSubmerged:Show()
 		timerSubmerged:Start()
 		countdownBrackwaterBarrage:Cancel()
@@ -132,6 +131,8 @@ function mod:SPELL_AURA_APPLIED(args)
 				specWarnTaintofSea:Show()
 				specWarnTaintofSea:Play("targetyou")
 				yellTaintofSea:Yell()
+			else
+				warnTaintofSea:Show(args.destName)
 			end
 		end
 		if self.vb.phase == 1 then
@@ -165,7 +166,6 @@ function mod:SPELL_AURA_REMOVED(args)
 			warnPhase:Play("phasechange")
 		end
 	elseif spellId == 197262 then --Морская порча
-	--	self.vb.taintofseaIcon = self.vb.taintofseaIcon + 1
 		if args:IsPlayer() then
 			specWarnTaintofSeaOver:Show()
 			yellTaintofSea2:Yell(taintofSea, playerName)
@@ -195,15 +195,8 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 end
 
 function mod:UNIT_HEALTH(uId)
-	if not self:IsNormal() then --гер, миф и миф+
-		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 96759 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.85 then
-			warned_preP1 = true
-			warnPhase2:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase+1))
-		end
-	else
-		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 96759 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.85 then
-			warned_preP1 = true
-			warnPhase2:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase+1))
-		end
+	if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 96759 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.85 then
+		warned_preP1 = true
+		warnPhase2:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase+1))
 	end
 end

@@ -104,7 +104,6 @@ L:SetGeneralLocalization({
 	name =	"Darkheart Thicket Trash"
 })
 
-
 -----------------------
 -- <<<Eye of Azshara>>> --
 -----------------------
@@ -152,6 +151,10 @@ L:SetGeneralLocalization({
 -----------------------
 L= DBM:GetModLocalization(1485)
 
+L:SetMiscLocalization({
+	proshlyapMurchal = "A battle well fought! The path forward is open."
+})
+
 -----------------------
 -- Hyrja --
 -----------------------
@@ -161,6 +164,10 @@ L= DBM:GetModLocalization(1486)
 -- Fenryr --
 -----------------------
 L= DBM:GetModLocalization(1487)
+
+L:SetMiscLocalization({
+	MurchalProshlyapOchko = "Wounded, Fenryr retreats to his den."
+})
 
 -----------------------
 -- God-King Skovald --
@@ -275,7 +282,7 @@ L= DBM:GetModLocalization(1500)
 L= DBM:GetModLocalization(1501)
 
 L:SetMiscLocalization({
-	RPVandros = "Enough! You little beasts are getting out of hand!" --прошляпанное очко мурчаля
+	RPVandros = "Enough! You little beasts are getting out of hand!" --прошляпанное очко мурчаля прошляпенко
 })
 
 -----------------------
@@ -420,7 +427,6 @@ L:SetMiscLocalization({
 	Book		= "Book/Книга",
 	Pouch		= "Pouch/Кошель"
 })
-
 
 -----------------------
 -- <<<The Maw of Souls>>> --
@@ -581,16 +587,6 @@ L= DBM:GetModLocalization(1469)
 -----------------------
 L= DBM:GetModLocalization(1470)
 
-L:SetWarningLocalization({
-	Phase1 = "Phase 2 soon",
-	Phase2 = "Phase 2"
-})
-
-L:SetOptionLocalization({
-	Phase1 = "Warn in advance about phase 2 (on ~51%, Mythic+ only)",
-	Phase2 = "Announce Phase 2"
-})
-
 -----------------------
 --Vault of Wardens Trash
 -----------------------
@@ -605,11 +601,11 @@ L:SetTimerLocalization({
 })
 
 L:SetOptionLocalization({
-	timerRoleplay = "Show timer to the start of the fight with Kordana"
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
 })
 
 L:SetMiscLocalization({
-	RoleRP = "How utterly predictable! I knew that you would come."
+	RoleRP = "How utterly predictable! I knew that you would come." --Прошляпанное очко Мурчаля Прошляпенко
 })
 
 -----------------------
@@ -633,7 +629,7 @@ L= DBM:GetModLocalization(1826)
 
 L:SetMiscLocalization({
 	Tonny = "Wanna go for a spin?",
-	Phase2 = "It's you and me against the world, baby!"
+	Phase3 = "It's you and me against the world, baby!"
 })
 
 -----------------------
@@ -676,16 +672,6 @@ L= DBM:GetModLocalization(1818)
 -- Viz'aduum the Watcher --
 -----------------------
 L= DBM:GetModLocalization(1838)
-
-L:SetWarningLocalization({
-	Phase1 = "Phase 2 soon",
-	Phase2 = "Phase 3 soon"
-})
-
-L:SetOptionLocalization({
-	Phase1 = "Warn in advance about phase 2 (on ~68%, Mythic+ only)",
-	Phase2 = "Warn in advance about phase 2 (on ~35%, Mythic+ only)"
-})
 
 -----------------------
 --Nightbane
@@ -741,14 +727,6 @@ L= DBM:GetModLocalization(1905)
 -- Trashbite the Scornful  --
 -----------------------
 L= DBM:GetModLocalization(1906)
-
-L:SetOptionLocalization({
-	bookCase = "Show special warning \"Run behind the bookcase\" when you target $spell:237726"
-})
-
-L:SetMiscLocalization({
-	bookCase = "the bookcase!"
-})
 
 -----------------------
 -- Domatrax --

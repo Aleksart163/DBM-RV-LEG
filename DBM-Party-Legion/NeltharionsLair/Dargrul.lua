@@ -35,7 +35,6 @@ local timerMagmaWaveCD				= mod:NewCDTimer(60, 200404, nil, nil, nil, 2, nil, DB
 local timerBurningHatred			= mod:NewTargetTimer(30, 200154, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Пламенная ненависть +++
 
 local yellBurningHatred				= mod:NewYell(200154, nil, nil, nil, "YELL") --Пламенная ненависть
-local yellBurningHatred2			= mod:NewFadesYell(200154, nil, nil, nil, "YELL") --Пламенная ненависть
 
 local countdownMagmaWave			= mod:NewCountdown(60, 200404, nil, nil, 5) --Магматическая волна
 local countdownMagmaWave2			= mod:NewCountdownFades("AltTwo6", 200404, nil, nil, 5) --Магматическая волна
@@ -113,13 +112,12 @@ end
 
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
-	if spellId == 200154 then --Пламенная ненависть
+	if spellId == 200154 and self:AntiSpam(2.5, args.destName) then --Пламенная ненависть
 		timerBurningHatred:Start(args.destName)
 		if args:IsPlayer() then
 			specWarnBurningHatred:Show()
 			specWarnBurningHatred:Play("targetyou")
 			yellBurningHatred:Yell()
-			yellBurningHatred2:Countdown(30, 3)
 		else
 			warnBurningHatred:Show(args.destName)
 		end
@@ -133,9 +131,8 @@ function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
 	if spellId == 200154 then
 		timerBurningHatred:Cancel(args.destName)
-		if args:IsPlayer() then
-			yellBurningHatred2:Cancel()
-		end
+	--	if args:IsPlayer() then
+	--	end
 		if self.Options.SetIconOnBurningHatred then
 			self:SetIcon(args.destName, 0)
 		end

@@ -31,6 +31,8 @@ local warnCracklingStorm			= mod:NewTargetAnnounce(198892, 3) --Грохочущ
 
 --local specWarnPenetratingShot		= mod:NewSpecialWarningDodge(199210, nil, nil, nil, 2, 3) --Пробивающий выстрел
 
+local specWarnThunderstrike			= mod:NewSpecialWarningYouMoveAway(215430, nil, nil, nil, 3, 5) --Громовой удар
+local specWarnThunderstrike2		= mod:NewSpecialWarningCloseMoveAway(215430, nil, nil, nil, 2, 3) --Громовой удар
 local specWarnCracklingStorm		= mod:NewSpecialWarningYouRun(198892, nil, nil, nil, 4, 3) --Грохочущая буря
 local specWarnCracklingStorm2		= mod:NewSpecialWarningCloseMoveAway(198892, nil, nil, nil, 2, 3) --Грохочущая буря
 local specWarnCracklingStorm3		= mod:NewSpecialWarningYouMove(198903, nil, nil, nil, 1, 2) --Грохочущая буря
@@ -42,8 +44,6 @@ local specWarnEtch					= mod:NewSpecialWarningYouMove(198959, nil, nil, nil, 1, 
 local specWarnCallAncestor			= mod:NewSpecialWarningSwitch(200969, "Dps", nil, nil, 1, 2) --Зов предков
 local specWarnSever					= mod:NewSpecialWarningYouDefensive(199652, "Tank", nil, nil, 3, 5) --Рассечение
 local specWarnSever2				= mod:NewSpecialWarningStack(199652, nil, 2, nil, nil, 2, 2) --Рассечение
-local specWarnThunderstrike			= mod:NewSpecialWarningYouMoveAway(215430, nil, nil, nil, 3, 5) --Громовой удар
-local specWarnThunderstrike2		= mod:NewSpecialWarningCloseMoveAway(215430, nil, nil, nil, 2, 2) --Громовой удар
 local specWarnEyeofStorm			= mod:NewSpecialWarningMoveTo(200901, nil, nil, nil, 4, 3) --Око шторма
 local specWarnEyeofStorm2			= mod:NewSpecialWarningDefensive(200901, nil, nil, nil, 3, 3) --Око шторма
 local specWarnSanctify				= mod:NewSpecialWarningDodge(192158, "Ranged", nil, nil, 2, 5) --Освящение
@@ -99,8 +99,10 @@ function mod:ShootTarget(targetname, uId) --Выстрел ✔
 	if not targetname then return end
 	if self:AntiSpam(2, targetname) then
 		if targetname == UnitName("player") then
-			specWarnShoot:Show()
-			specWarnShoot:Play("watchstep")
+			if self:IsHard() then
+				specWarnShoot:Show()
+				specWarnShoot:Play("watchstep")
+			end
 		end
 	end
 end
@@ -194,14 +196,16 @@ function mod:SPELL_AURA_APPLIED(args)
 	if args.spellId == 215430 then --Громовой удар
 		warnThunderstrike:CombinedShow(0.5, args.destName)
 		timerThunderstrike:Start(args.destName)
-		if args:IsPlayer() and self:AntiSpam(2, 1) then
-			specWarnThunderstrike:Show()
-			specWarnThunderstrike:Play("runout")
-			yellThunderstrike:Yell()
-			yellThunderstrike2:Countdown(3)
-		elseif self:CheckNearby(10, args.destName) then
-			specWarnThunderstrike2:CombinedShow(0.2, args.destName)
-			specWarnThunderstrike2:Play("watchstep")
+		if self:IsHard() then
+			if args:IsPlayer() and self:AntiSpam(2, 1) then
+				specWarnThunderstrike:Show()
+				specWarnThunderstrike:Play("runout")
+				yellThunderstrike:Yell()
+				yellThunderstrike2:Countdown(3, 2)
+			elseif self:CheckNearby(10, args.destName) then
+				specWarnThunderstrike2:CombinedShow(0.3, args.destName)
+				specWarnThunderstrike2:Play("watchstep")
+			end
 		end
 		if self.Options.RangeFrame then
 			DBM.RangeCheck:Show(8)
@@ -238,7 +242,7 @@ function mod:GOSSIP_SHOW()
 	local guid = UnitGUID("target")
 	if not guid then return end
 	local cid = self:GetCIDFromGUID(guid)
-	if mod.Options.BossActivation then --Прошляпанное очко Мурчаля ✔
+	if mod.Options.BossActivation then --Прошляпанное очко Мурчаля Прошляпенко ✔
 		if cid == 97081 then --Король Бьорн
 			if select('#', GetGossipOptions()) > 0 then
 				SelectGossipOption(1)
@@ -270,42 +274,30 @@ end
 
 function mod:CHAT_MSG_MONSTER_YELL(msg)
 	if msg == L.RPSkovald then
-		self:SendSync("RPSkovald")
-	elseif msg == L.RPOdyn then
-		self:SendSync("RPOdyn")
-	elseif msg == L.RPSolsten then
-		self:SendSync("RPSolsten")
-	elseif msg == L.RPSolsten2 then
-		self:SendSync("RPSolsten2")
-	elseif msg == L.RPOlmyr then
-		self:SendSync("RPOlmyr")
-	elseif msg == L.RPOlmyr2 then
-		self:SendSync("RPOlmyr2")
-	end
-end
-
-function mod:OnSync(msg, GUID)
-	if msg == "RPSkovald" then
 		timerRoleplay:Start(33.5)
-	elseif msg == "RPOdyn" then
+	elseif msg == L.RPOdyn then
 		timerRoleplay:Start(25.5)
-	elseif msg == "RPOdyn2" then
-		timerRoleplay:Start(2.8)
-		countdownEyeofStorm:Start(2.8)
-	elseif msg == "RPSolsten" then
+	elseif msg == L.RPSolsten then
 		timerEyeofStormCD:Start(9)
 		countdownEyeofStorm:Start(9)
-	elseif msg == "RPSolsten2" then
+	elseif msg == L.RPSolsten2 then
 		timerEyeofStormCD:Cancel()
 		countdownEyeofStorm:Cancel()
-	elseif msg == "RPOlmyr" then
+	elseif msg == L.RPOlmyr then
 		timerSanctifyCD:Start(9.5)
 		countdownSanctify:Start(9.5)
 		timerSearingLightCD:Start(5.5)
-	elseif msg == "RPOlmyr2" then
+	elseif msg == L.RPOlmyr2 then
 		timerSanctifyCD:Cancel()
 		countdownSanctify:Cancel()
 		timerSearingLightCD:Cancel()
+	end
+end
+
+function mod:OnSync(msg)
+	if msg == "RPOdyn2" then
+		timerRoleplay:Start(2.8)
+		countdownEyeofStorm:Start(2.8)
 	end
 end
 

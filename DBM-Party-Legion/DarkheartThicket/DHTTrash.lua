@@ -47,7 +47,7 @@ function mod:SPELL_CAST_START(args)
 			specWarnBloodAssault:Show()
 			specWarnBloodAssault:Play("chargemove")
 		end
-	elseif spellId == 200580 and self:AntiSpam(2, 1) then --Безумный рев
+	elseif spellId == 200580 and self:AntiSpam(2, 2) then --Безумный рев
 		if not self:IsNormal() then
 			specWarnMaddeningRoar:Show()
 			specWarnMaddeningRoar:Play("defensive")

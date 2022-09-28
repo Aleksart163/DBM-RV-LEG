@@ -190,7 +190,7 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 			timerFlameGaleCD:Start()
 			countdownFlameGale:Start()
 		end
-	elseif msg == L.Phase2 then
+	elseif msg == L.Phase3 then
 	--	self:SendSync("Phase2")
 		self.vb.phase = 3
 		warned_preP4 = true

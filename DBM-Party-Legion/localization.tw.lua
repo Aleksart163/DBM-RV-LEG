@@ -150,6 +150,10 @@ L:SetGeneralLocalization({
 -----------------------
 L= DBM:GetModLocalization(1485)
 
+L:SetMiscLocalization({
+	proshlyapMurchal = "精彩的戰鬥！前方的路為你而開。"
+})
+
 -----------------------
 -- Hyrja --
 -----------------------
@@ -159,6 +163,10 @@ L= DBM:GetModLocalization(1486)
 -- Fenryr --
 -----------------------
 L= DBM:GetModLocalization(1487)
+
+L:SetMiscLocalization({
+	MurchalProshlyapOchko = "芬里爾帶著傷撤退回牠的巢穴。"
+})
 
 -----------------------
 -- God-King Skovald --
@@ -549,6 +557,18 @@ L:SetGeneralLocalization({
 	name =	"看守者鐵獄小怪"
 })
 
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+})
+
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
+})
+
+L:SetMiscLocalization({
+	proshlyapMurchalRP = "還真是一點都不意外！我就知道你一定會來。" --Прошляпанное очко Мурчаля Прошляпенко
+})
+
 -----------------------
 -- <<<Return To Karazhan>>> --
 -----------------------
@@ -570,7 +590,7 @@ L= DBM:GetModLocalization(1826)
 
 L:SetMiscLocalization({
 	Tonny = "旋轉，跳躍！",
-	Phase2 = "就你和我對抗全世界，寶貝！"
+	Phase3 = "就你和我對抗全世界，寶貝！"
 })
 
 -----------------------

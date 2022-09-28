@@ -55,7 +55,7 @@ end
 function mod:SPELL_AURA_APPLIED(args)
 	if not self.Options.Enabled then return end
 	local spellId = args.spellId
-	if spellId == 200154 then
+	if spellId == 200154 and self:AntiSpam(2.5, args.destName) then --Пламенная ненависть
 		if args:IsPlayer() then
 			specWarnBurningHatred:Show()
 			specWarnBurningHatred:Play("targetyou")

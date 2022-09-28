@@ -20,8 +20,8 @@ mod:RegisterEventsInCombat(
 )
 
 --Кордана Оскверненная Песнь https://ru.wowhead.com/npc=95888/кордана-оскверненная-песнь#abilities;mode:
-local warnPhase						= mod:NewAnnounce("Phase1", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 2
-local warnPhase2					= mod:NewAnnounce("Phase2", 1, 197422) --Фаза 2
+local warnPhase						= mod:NewPhaseChangeAnnounce(1)
+local warnPhase2					= mod:NewPrePhaseAnnounce(2, 1, 197422)
 local warnDeepeningShadows			= mod:NewSpellAnnounce(213583, 4) --Сгущающиеся тени
 local warnCreepingDoom				= mod:NewSpellAnnounce(197422, 4) --Ползучая гибель
 local warnCreepingDoom2				= mod:NewSoonAnnounce(197422, 1) --Ползучая гибель
@@ -73,7 +73,6 @@ function mod:SPELL_CAST_START(args)
 		specWarnKick:Play("carefly")
 		timerKickCD:Start()
 	elseif spellId == 197422 then --первая Ползучая гибель
-		warnCreepingDoom:Show()
 		specWarnCreepingDoom:Show()
 		specWarnCreepingDoom:Play("stilldanger")
 		specWarnCreepingDoom:ScheduleVoice(2, "keepmove")
@@ -136,7 +135,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		timerDeepeningShadowsCD:Start(20)--20-25
 	elseif spellId == 197422 then --Первая ползучая гибель
 		timerCreepingDoomCD:Start(39.5)
-		timerVengeanceCD:Start(14)
+		timerVengeanceCD:Start(12) --раньше было 14
 		timerDeepeningShadowsCD:Start(12)
 		timerKickCD:Start(20)--Small sample
 	end
@@ -162,15 +161,15 @@ end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
 
 function mod:UNIT_HEALTH(uId)
-	if self:IsHard() then --миф и миф+
+	if not self:IsNormal() then --гер, миф, миф+ и прошляпанное очко Мурчаля Прошляпенко
 		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 95888 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.51 then
 			warned_preP1 = true
-			warnPhase:Show()
+			warnPhase2:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase+1))
 		elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 95888 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.41 then
 			self.vb.phase = 2
 			warned_preP2 = true
-			warnPhase2:Schedule(7)
-			warnPhase2:Play("phasechange")
+			warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase))
+			warnPhase:Play("phasechange")
 		end
 	else
 		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 95888 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.51 then
@@ -178,8 +177,8 @@ function mod:UNIT_HEALTH(uId)
 		elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 95888 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.41 then
 			self.vb.phase = 2
 			warned_preP2 = true
-			warnPhase2:Schedule(7)
-			warnPhase2:Play("phasechange")
+			warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase))
+			warnPhase:Play("phasechange")
 		end
 	end
 end

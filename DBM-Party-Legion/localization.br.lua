@@ -149,6 +149,10 @@ L:SetGeneralLocalization({
 -----------------------
 L= DBM:GetModLocalization(1485)
 
+L:SetMiscLocalization({
+	proshlyapMurchal = "Um bom combate! O caminho adiante está aberto."
+})
+
 -----------------------
 -- Hyrja --
 -----------------------
@@ -158,6 +162,10 @@ L= DBM:GetModLocalization(1486)
 -- Fenryr --
 -----------------------
 L= DBM:GetModLocalization(1487)
+
+L:SetMiscLocalization({
+	MurchalProshlyapOchko = "Ferido, Fenryr recua para a sua toca."
+})
 
 -----------------------
 -- God-King Skovald --
@@ -553,6 +561,18 @@ L:SetGeneralLocalization({
 	name =	"Câmara das Guardiãs Besteira"
 })
 
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+})
+
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
+})
+
+L:SetMiscLocalization({
+	proshlyapMurchalRP = "Totalmente previsível! Eu sabia que você viria." --Прошляпанное очко Мурчаля Прошляпенко
+})
+
 -----------------------
 -- <<<Return To Karazhan>>> --
 -----------------------
@@ -574,7 +594,7 @@ L= DBM:GetModLocalization(1826)
 
 L:SetMiscLocalization({
 	Tonny = "Quer dar uma voltinha?",
-	Phase2 = "Só eu e você contra o mundo, meu bem!"
+	Phase3 = "Só eu e você contra o mundo, meu bem!"
 })
 
 -----------------------

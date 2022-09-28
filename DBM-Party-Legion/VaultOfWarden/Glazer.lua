@@ -27,16 +27,19 @@ local specWarnFocused				= mod:NewSpecialWarningSwitch(194289, nil, nil, nil, 2,
 local specWarnGazeGTFO				= mod:NewSpecialWarningYouMove(194945, nil, nil, nil, 1, 2) --Подавляющий взгляд
 
 local timerGazeCD					= mod:NewCDTimer(15.5, 194942, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Подавляющий взгляд+++
-local timerFocusedCD				= mod:NewCDTimer(60, 194289, nil, nil, nil, 7) --Фокусировка+++
+local timerFocusedCD				= mod:NewCDCountTimer(60, 194289, nil, nil, nil, 7) --Фокусировка+++
 local timerFocused					= mod:NewCastTimer(62, 194289, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Фокусировка+++
 local timerBeamed					= mod:NewTargetTimer(15, 194333, nil, nil, nil, 3, nil, DBM_CORE_DAMAGE_ICON) --Облучение+++
 
 local countdownFocused				= mod:NewCountdown(60, 194289, nil, nil, 5) --Фокусировка
 
+mod.vb.focusedCount = 0
+
 function mod:OnCombatStart(delay)
+	self.vb.focusedCount = 0
 	if not self:IsNormal() then
 		timerGazeCD:Start(12-delay) --Подавляющий взгляд+++
-		timerFocusedCD:Start(30-delay) --Фокусировка+++
+		timerFocusedCD:Start(30-delay, 1) --Фокусировка+++
 		countdownFocused:Start(30-delay) --Фокусировка+++
 		warnFocused:Schedule(20-delay) --Фокусировка+++
 	else
@@ -47,6 +50,7 @@ end
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 193443 then --Фокусировка
+		self.vb.focusedCount = self.vb.focusedCount + 1
 		timerGazeCD:Stop()
 		timerFocused:Start()
 		specWarnFocused:Show()
@@ -71,7 +75,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerBeamed:Start(args.destName)
 		timerFocused:Stop()
 		specWarnBeamed:Show()
-		timerFocusedCD:Start()
+		timerFocusedCD:Start(nil, self.vb.focusedCount+1)
 		countdownFocused:Start()
 		warnFocused:Schedule(50)
 		timerGazeCD:Start(6)

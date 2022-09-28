@@ -149,6 +149,10 @@ L:SetGeneralLocalization({
 -----------------------
 L= DBM:GetModLocalization(1485)
 
+L:SetMiscLocalization({
+	proshlyapMurchal = "훌륭한 전투였다! 이제 길이 열렸다."
+})
+
 -----------------------
 -- Hyrja --
 -----------------------
@@ -158,6 +162,10 @@ L= DBM:GetModLocalization(1486)
 -- Fenryr --
 -----------------------
 L= DBM:GetModLocalization(1487)
+
+L:SetMiscLocalization({
+	MurchalProshlyapOchko = "부상당한 펜리르가 은신처로 후퇴합니다."
+})
 
 -----------------------
 -- God-King Skovald --
@@ -545,6 +553,18 @@ L:SetGeneralLocalization({
 	name =	"감시관의 금고 일반몹"
 })
 
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+})
+
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
+})
+
+L:SetMiscLocalization({
+	proshlyapMurchalRP = "역시 예상대로군! 너희가 올 줄 알았다." --Прошляпанное очко Мурчаля Прошляпенко
+})
+
 -----------------------
 -- <<<Return To Karazhan>>> --
 -----------------------
@@ -566,7 +586,7 @@ L= DBM:GetModLocalization(1826)
 
 L:SetMiscLocalization({
 	Tonny = "한 바퀴 돌아 볼까?",
-	Phase2 = "너와 내가 이 세상에 맞서는 거야!"
+	Phase3 = "너와 내가 이 세상에 맞서는 거야!"
 })
 
 -----------------------
