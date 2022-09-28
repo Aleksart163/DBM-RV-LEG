@@ -203,10 +203,10 @@ end
 
 function mod:UNIT_HEALTH(uId)
 	if not self:IsNormal() then --гер, миф и миф+
-		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 95674 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.71 then
-			warned_preP1 = true
-			warnPhase2:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase+1))
-		elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 99868 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.61 then
+--		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 95674 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.71 then
+--			warned_preP1 = true
+--			warnPhase2:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase+1))
+		if self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 99868 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.61 then
 			self.vb.phase = 2
 			warned_preP2 = true
 			warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase))
@@ -216,9 +216,9 @@ function mod:UNIT_HEALTH(uId)
 			timerClawFrenzyCD:Start(12.5)
 		end
 	else
-		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 95674 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.71 then
-			warned_preP1 = true
-		elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 99868 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.61 then
+--		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 95674 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.71 then
+--			warned_preP1 = true
+		if self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 99868 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.61 then
 			self.vb.phase = 2
 			warned_preP2 = true
 			warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase))
@@ -232,6 +232,7 @@ end
 
 function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)
 	if msg:find(L.MurchalProshlyapOchko) then
-	--	DBM:EndCombat(self)
+		warned_preP1 = true
+		warnPhase2:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase+1))
 	end
 end
