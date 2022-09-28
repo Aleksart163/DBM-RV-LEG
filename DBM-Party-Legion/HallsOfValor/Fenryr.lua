@@ -232,6 +232,6 @@ end
 
 function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)
 	if msg:find(L.MurchalProshlyapOchko) then
-		DBM:EndCombat(self)
+	--	DBM:EndCombat(self)
 	end
 end
