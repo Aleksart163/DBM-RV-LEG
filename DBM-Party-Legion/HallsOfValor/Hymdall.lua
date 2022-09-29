@@ -23,7 +23,7 @@ local warnBreath					= mod:NewSpellAnnounce(188404, 3, nil, nil, nil, nil, nil, 
 local warnDancingBlade				= mod:NewTargetAnnounce(193235, 4) --Танцующий клинок
 local warnSweep						= mod:NewTargetAnnounce(193092, 4) --Кровопролитный круговой удар
 
-local specWarnSweep					= mod:NewSpecialWarningDefensive(193092, "Tank", nil, nil, 3, 3) --Кровопролитный круговой удар
+local specWarnSweep					= mod:NewSpecialWarningDefensive(193092, nil, nil, nil, 3, 3) --Кровопролитный круговой удар
 local specWarnHorn					= mod:NewSpecialWarningDefensive(191284, nil, nil, nil, 3, 5) --Рог доблести
 local specWarnHornOfValor			= mod:NewSpecialWarningSoon(188404, nil, nil, nil, 1, 2) --Дыхание бури
 local specWarnHornOfValor2			= mod:NewSpecialWarningDodge(188404, nil, nil, nil, 2, 3) --Дыхание бури

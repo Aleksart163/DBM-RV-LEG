@@ -89,15 +89,15 @@ end
 
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
-	if spellId == 197556 then
+	if spellId == 197556 then --Хищный прыжок
 		warnLeap:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
 			specWarnLeap:Show()
 			specWarnLeap:Play("runout")
 			yellLeap:Yell()
-			if self.Options.RangeFrame then
-				DBM.RangeCheck:Show(10)
-			end
+		end
+		if self.Options.RangeFrame then
+			DBM.RangeCheck:Show(10)
 		end
 	elseif spellId == 196838 then
 		--Backup if target scan failed
@@ -203,10 +203,10 @@ end
 
 function mod:UNIT_HEALTH(uId)
 	if not self:IsNormal() then --гер, миф и миф+
---		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 95674 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.71 then
---			warned_preP1 = true
---			warnPhase2:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase+1))
-		if self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 99868 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.61 then
+		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 95674 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.71 then
+			warned_preP1 = true
+			warnPhase2:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase+1))
+		elseif self.vb.phase == 1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 99868 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.60 then
 			self.vb.phase = 2
 			warned_preP2 = true
 			warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase))
@@ -216,9 +216,9 @@ function mod:UNIT_HEALTH(uId)
 			timerClawFrenzyCD:Start(12.5)
 		end
 	else
---		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 95674 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.71 then
---			warned_preP1 = true
-		if self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 99868 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.61 then
+		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 95674 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.71 then
+			warned_preP1 = true
+		elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 99868 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.60 then
 			self.vb.phase = 2
 			warned_preP2 = true
 			warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase))
@@ -232,7 +232,8 @@ end
 
 function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)
 	if msg:find(L.MurchalProshlyapOchko) then
-		warned_preP1 = true
-		warnPhase2:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase+1))
+		timerClawFrenzyCD:Stop()
+		timerHowlCD:Stop()
+		timerLeapCD:Stop()
 	end
 end
