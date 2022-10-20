@@ -115,25 +115,25 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 223637 then --Разлом Скверны
 		local cid = self:GetCIDFromGUID(args.sourceGUID)
-		if (cid == 117066 or cid == 117420 or cid == 118017 or cid == 117060 or cid == 117059 or cid == 118016 or cid == 120310 or cid == 118013) then
+		if (cid == 117066 or cid == 117420 or cid == 118017 or cid == 117060 or cid == 117059 or cid == 118016 or cid == 120310 or cid == 118013) then --
 			specWarnFelFissure:Show()
 			specWarnFelFissure:Play("watchstep")
 		end
 	elseif spellId == 223693 then --Истинный Хаос
 		local cid = self:GetCIDFromGUID(args.sourceGUID)
-		if (cid == 117066 or cid == 117420 or cid == 118017 or cid == 117060 or cid == 117059 or cid == 118016 or cid == 120310 or cid == 118013) then
+		if (cid == 117066 or cid == 117420 or cid == 118017 or cid == 117060 or cid == 117059 or cid == 118016 or cid == 120310 or cid == 118013) then --
 			specWarnTrueChaos:Show()
 			specWarnTrueChaos:Play("kickcast")
 		end
 	elseif spellId == 239513 then --Огненный шар
 		local cid = self:GetCIDFromGUID(args.sourceGUID)
-		if (cid == 117065 or cid == 117969 or cid == 120126 or cid == 117991 or cid == 117067 or cid == 117970 or cid == 117973) then
+		if (cid == 117065 or cid == 117969 or cid == 120126 or cid == 117991 or cid == 117067 or cid == 117970 or cid == 117973) then --
 			specWarnFireball:Show()
 			specWarnFireball:Play("kickcast")
 		end
 	elseif spellId == 240095 then --Огненный ливень
 		local cid = self:GetCIDFromGUID(args.sourceGUID)
-		if (cid == 117065 or cid == 117039 or cid == 117969 or cid == 117040 or cid == 117991 or cid == 117067 or cid == 117035 or cid == 117970 or cid == 118006 or cid == 117038 or cid == 117973 or cid == 117036) then
+		if (cid == 117065 or cid == 117039 or cid == 117969 or cid == 117040 or cid == 117991 or cid == 117067 or cid == 117035 or cid == 117970 or cid == 118006 or cid == 117038 or cid == 117973 or cid == 117036) then --
 			specWarnRainofFire:Show()
 			specWarnRainofFire:Play("watchstep")
 		end
