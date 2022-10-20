@@ -1,3 +1,5 @@
+if GetLocale() ~= "itIT" then return end
+
 local L
 
 --Прошляпанное очко Мурчаля ✔
@@ -83,7 +85,7 @@ L= DBM:GetModLocalization(1796)
 L = DBM:GetModLocalization("Captainstower")
 
 L:SetGeneralLocalization({
-	name = "Warden Tower Assault"
+	name = "Assalto alla Torre delle Custodi"
 })
 
 ------------------
@@ -92,7 +94,7 @@ L:SetGeneralLocalization({
 L = DBM:GetModLocalization("RareEnemies")
 
 L:SetGeneralLocalization({
-	name = "Very dangerous enemies 1"
+	name = "Nemici molto pericolosi 1"
 })
 
 L:SetOptionLocalization({
@@ -104,7 +106,7 @@ L:SetTimerLocalization({
 })
 
 L:SetMiscLocalization({
-	PullSkulvrax = "I... survived the fall."
+	PullSkulvrax = "Sono sopravvissuta... alla caduta."
 })
 
 ------------------
@@ -113,7 +115,7 @@ L:SetMiscLocalization({
 L = DBM:GetModLocalization("RareEnemies2")
 
 L:SetGeneralLocalization({
-	name = "Very dangerous enemies 2"
+	name = "Nemici molto pericolosi 2"
 })
 
 L:SetOptionLocalization({

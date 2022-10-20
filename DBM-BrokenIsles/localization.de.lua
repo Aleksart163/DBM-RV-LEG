@@ -2,6 +2,8 @@ if GetLocale() ~= "deDE" then return end
 
 local L
 
+--Прошляпанное очко Мурчаля ✔
+
 -----------------------
 -- Ana-Mouz --
 -----------------------
@@ -77,32 +79,53 @@ L= DBM:GetModLocalization(1756)
 -----------------------
 L= DBM:GetModLocalization(1796)
 
-------------------
---Капитаны башен--
-------------------
+----------------------
+--captains of towers--
+----------------------
 L = DBM:GetModLocalization("Captainstower")
 
 L:SetGeneralLocalization({
-	name ="Angriff auf den Turm der Wächterinnen"
+	name = "Angriff auf den Turm der Wächterinnen"
 })
 
-----------------
---Редкие враги--
-----------------
+------------------
+--rare enemies 1--
+------------------
 L = DBM:GetModLocalization("RareEnemies")
 
 L:SetGeneralLocalization({
-	name ="Seltene Feinde"
-})
-
-L:SetTimerLocalization({
-	timerRoleplay = GUILD_INTEREST_RP
+	name = "Sehr gefährliche Feinde 1"
 })
 
 L:SetOptionLocalization({
-	timerRoleplay = "Countdown bis zum Beginn der Schlacht mit Skul'vrax"
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
 })
 
 L:SetMiscLocalization({
-	PullSkulvrax = "Ich... habe den Fall überlebt." --специально от Няша для прошляпанного очка пелии и бобра
+	PullSkulvrax = "Ich... habe den Fall überlebt." --специально от Няша для прошляпанного очка Мурчаля Прошляпенко
+})
+
+------------------
+--rare enemies 2--
+------------------
+L = DBM:GetModLocalization("RareEnemies2")
+
+L:SetGeneralLocalization({
+	name = "Sehr gefährliche Feinde 2"
+})
+
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+})
+
+L:SetMiscLocalization({
+--	PullSkulvrax = "Ich... habe den Fall überlebt."
 })

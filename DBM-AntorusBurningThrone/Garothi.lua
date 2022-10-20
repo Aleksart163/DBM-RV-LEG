@@ -57,7 +57,7 @@ local specWarnAnnihilation				= mod:NewSpecialWarningSoak(244761, nil, nil, nil,
 
 local timerFelBombardmentCD				= mod:NewNextTimer(20.7, 246220, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Обстрел скверны
 local timerApocDriveCast				= mod:NewCastTimer(30, 244152, nil, nil, nil, 6, nil, DBM_CORE_DEADLY_ICON) --Реактор апокалипсиса
-local timerSurgingFelCD					= mod:NewCDTimer(7, 246663, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Всплеск скверны
+local timerSurgingFelCD					= mod:NewCDTimer(6.5, 246663, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Всплеск скверны
 local timerSurgingFelCast				= mod:NewCastTimer(4, 246663, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Всплеск скверны
 local timerEradicationCast				= mod:NewCastTimer(6, 244969, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Искоренение
 local timerSpecialCD					= mod:NewNextSpecialTimer(20) --Когда оружие неизвестно
@@ -204,8 +204,8 @@ function mod:SPELL_CAST_SUCCESS(args)
 	elseif spellId == 246663 then --Всплеск скверны
 		if self:IsHeroic() then
 			timerSurgingFelCD:Start()
-			specWarnSurgingFel:Schedule(7)
-			timerSurgingFelCast:Schedule(7)
+			specWarnSurgingFel:Schedule(6.5)
+			timerSurgingFelCast:Schedule(6.5)
 		elseif self:IsMythic() then
 		--	timerSurgingFelCD:Start(1)
 			specWarnSurgingFel:Schedule(1)

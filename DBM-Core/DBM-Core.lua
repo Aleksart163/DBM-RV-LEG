@@ -44,9 +44,9 @@
 ----------------------------------------------------------------
 --
 DBM = {
-	Revision = tonumber(("$Revision: 17680 $"):sub(12, -3)), --прошляпанное очко мурчаля ✔
+	Revision = tonumber(("$Revision: 17681 $"):sub(12, -3)), --прошляпанное очко мурчаля ✔
 	DisplayVersion = "7.3.40 Right Version",
-	ReleaseRevision = 17679
+	ReleaseRevision = 17680
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -487,6 +487,7 @@ local UnitAffectingCombat, InCombatLockdown, IsFalling, IsEncounterInProgress, U
 local UnitGUID, UnitHealth, UnitHealthMax, UnitBuff, UnitDebuff = UnitGUID, UnitHealth, UnitHealthMax, UnitBuff, UnitDebuff
 local UnitExists, UnitIsDead, UnitIsFriend, UnitIsUnit = UnitExists, UnitIsDead, UnitIsFriend, UnitIsUnit
 local GetSpellInfo, EJ_GetSectionInfo, GetSectionIconFlags, GetSpellTexture, GetSpellCooldown = GetSpellInfo, C_EncounterJournal.GetSectionInfo, C_EncounterJournal.GetSectionIconFlags, GetSpellTexture, GetSpellCooldown
+local GetSpellLink = GetSpellLink
 local EJ_GetEncounterInfo, EJ_GetCreatureInfo, GetDungeonInfo = EJ_GetEncounterInfo, EJ_GetCreatureInfo, GetDungeonInfo
 local GetInstanceInfo = GetInstanceInfo
 local GetCurrentMapDungeonLevel, SetMapToCurrentZone, GetPlayerMapAreaID = GetCurrentMapDungeonLevel, SetMapToCurrentZone, GetPlayerMapAreaID
@@ -2560,9 +2561,9 @@ do
 			DBM:AddMsg(DBM_CORE_UPDATEREMINDER_DISABLE)
 			return
 		end
-		if self.NewerVersion and showConstantReminder >= 1 then
-			AddMsg(self, DBM_CORE_UPDATEREMINDER_HEADER:format(self.NewerVersion, showRealDate(self.HighestRelease)))
-		end
+--		if self.NewerVersion and showConstantReminder >= 1 then
+--			AddMsg(self, DBM_CORE_UPDATEREMINDER_HEADER:format(self.NewerVersion, showRealDate(self.HighestRelease)))
+--		end
 		if not IsAddOnLoaded("DBM-GUI") then
 			local enabled = GetAddOnEnableState(playerName, "DBM-GUI")
 			if enabled == 0 then
@@ -7807,7 +7808,7 @@ do
 			["RemovePoison"] = true,
 			["RemoveDisease"] = true,
 			["HasImmunity"] = true,
-			["HasInterrupt2"] = true,
+			["HasInterrupt2"] = true, --Молот правосудия
 			["MagicDispeller2"] = true,
 		},
 		[66] = {	--Прото пал
@@ -7819,7 +7820,7 @@ do
 			["RemoveDisease"] = true,
 			["HasInterrupt"] = true,
 			["HasImmunity"] = true,
-			["HasInterrupt2"] = true,
+			["HasInterrupt2"] = true, --Молот правосудия
 		},
 		[70] = {	--Ретри пал
 			["Dps"] = true,
@@ -7830,7 +7831,7 @@ do
 			["RemovePoison"] = true,
 			["RemoveDisease"] = true,
 			["HasInterrupt"] = true,
-			["HasInterrupt2"] = true,
+			["HasInterrupt2"] = true, --Молот правосудия
 		},
 		[71] = {	--Армс вар
 			["Dps"] = true,
@@ -7839,12 +7840,14 @@ do
 			["RaidCooldown"] = true,--Rallying Cry
 			["Physical"] = true,
 			["HasInterrupt"] = true,
+			["HasInterrupt2"] = true, --Ударная волна, Удар громовержца
 		},
 		[73] = {	--Прото вар
 			["Tank"] = true,
 			["Melee"] = true,
 			["Physical"] = true,
 			["HasInterrupt"] = true,
+			["HasInterrupt2"] = true, --Ударная волна, Удар громовержца
 			--["RaidCooldown"] = true,--Rallying Cry (in 8.x)
 		},
 		[102] = {	--Сова
@@ -7856,6 +7859,7 @@ do
 			["CasterDps"] = true,
 			["RemoveCurse"] = true,
 			["RemovePoison"] = true,
+			["HasInterrupt2"] = false, --Мощное оглушение и Тайфун (если взяты талантом)
 		},
 		[103] = {	--Ферал
 			["Dps"] = true,
@@ -7865,6 +7869,7 @@ do
 			["RemoveCurse"] = true,
 			["RemovePoison"] = true,
 			["HasInterrupt"] = true,
+			["HasInterrupt2"] = true, --Калечение, Мощное оглушение
 		},
 		[104] = {	--Медведь
 			["Tank"] = true,
@@ -7873,6 +7878,7 @@ do
 			["RemoveCurse"] = true,
 			["RemovePoison"] = true,
 			["HasInterrupt"] = true,
+			["HasInterrupt2"] = true, --Парализующий рык, Мощное оглушение
 		},
 		[105] = {	--Дерево
 			["Healer"] = true,
@@ -7883,12 +7889,14 @@ do
 			["RemoveCurse"] = true,
 			["RemovePoison"] = true,
 			["MagicDispeller2"] = true,
+			["HasInterrupt2"] = false, --Мощное оглушение и Тайфун (если взяты талантом)
 		},
 		[250] = {	--Блад дк
 			["Tank"] = true,
 			["Melee"] = true,
 			["Physical"] = true,
 			["HasInterrupt"] = true,
+			["HasInterrupt2"] = true, --Асфиксия, Хватка смерти
 		},
 		[251] = {	--Фрост дк
 			["Dps"] = true,
@@ -7896,6 +7904,7 @@ do
 			["MeleeDps"] = true,
 			["Physical"] = true,
 			["HasInterrupt"] = true,
+			["HasInterrupt2"] = true, --Хватка смерти, Ослепляющая наледь, Асфиксия
 		},
 		[253] = {	--Бистмастер хант
 			["Dps"] = true,
@@ -7903,6 +7912,7 @@ do
 			["RangedDps"] = true,
 			["Physical"] = true,
 			["HasInterrupt"] = true,
+			["HasInterrupt2"] = true, --(бист) Замораживающая ловушка, (мм) Взрывной выстрел, Замораживающая ловушка, Укус виверны
 		},
 		[255] = {	--Сурв хант
 			["Dps"] = true,
@@ -7910,6 +7920,7 @@ do
 			["MeleeDps"] = true,
 			["Physical"] = true,
 			["HasInterrupt"] = true,
+			["HasInterrupt2"] = true, --Замораживающая ловушка, Бомба-липучка
 		},
 		[256] = {	--ДЦ
 			["Healer"] = true,
@@ -7920,8 +7931,8 @@ do
 			["RaidCooldown"] = true,--Power Word: Barrier(Discipline) / Divine Hymn (Holy)
 			["RemoveDisease"] = true,
 			["MagicDispeller"] = true,
-			["HasInterrupt2"] = true,
 			["MagicDispeller2"] = true,
+			["HasInterrupt2"] = true, --(дц) Ментальный крик, Сковывание нежити, Сияющая мощь, (холи) Сковывание нежити, Слово Света: Наказание, Сияющая мощь, Порицание
 		},
 		[258] = {	--ШП
 			["Dps"] = true,
@@ -7931,8 +7942,8 @@ do
 			["SpellCaster"] = true,
 			["CasterDps"] = true,
 			["MagicDispeller"] = true,
-			["HasInterrupt2"] = true,
 			["MagicDispeller2"] = true,
+			["HasInterrupt2"] = true, --Сковывание нежити, Мыслебомба, Ментальный крик
 		},
 		[259] = {	--Ликвидация крыса
 			["Dps"] = true,

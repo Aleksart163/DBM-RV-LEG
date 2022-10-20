@@ -18,7 +18,7 @@ DBM_CORE_LOAD_MOD_DISABLED_PLURAL	= "%s установлены, но в наст
 
 DBM_CORE_UPDATEREMINDER_URL			= "https://github.com/Aleksart163/DBM-for-Uwow"
 
-DBM_COPY_URL_DIALOG					= "Посетите наш сайт для обновления на последнюю версию\r\n(привет прошляпанному очку администрации Pandawow, а так же Kondibober, Jenrys и pelia, что предложили проект получше своего, для раскрытия моего таланта в области разработки аддонов)"
+DBM_COPY_URL_DIALOG					= "Посетите наш сайт для обновления на последнюю версию\r\n"
 
 --Pre Patch 7.1 Notice
 DBM_CORE_NO_RANGE_SOON				= "Внимание: радар будет недоступен в подземельях в патче 7.1"
@@ -419,9 +419,9 @@ DBM_CORE_AUTO_SPEC_WARN_TEXTS.baitmur			= "забайтить мурчаля п�
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.moredamage		= "%s! - больше урону по боссу"
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.youmoredamage		= "%s на вас! - дайте больше урона"
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.paraxiscount		= "%s! - очередь (%%s) группы"
-DBM_CORE_AUTO_SPEC_WARN_TEXTS.standsand			= "%s - встаньте на песок"
-DBM_CORE_AUTO_SPEC_WARN_TEXTS.useitem			= "%s - используйте >%%s<"
-DBM_CORE_AUTO_SPEC_WARN_TEXTS.keepdist			= "%s - держите дистанцию (%%s)м"
+DBM_CORE_AUTO_SPEC_WARN_TEXTS.standsand			= "%s - встань на песок"
+DBM_CORE_AUTO_SPEC_WARN_TEXTS.useitem			= "%s - используй >%%s<"
+DBM_CORE_AUTO_SPEC_WARN_TEXTS.keepdist			= "%s - держи дистанцию (%%s)м"
 
 -- Auto-generated Special Warning Localizations
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.spell 			= "Спец-предупреждение для $spell:%s"

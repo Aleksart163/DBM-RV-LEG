@@ -2,7 +2,9 @@ if GetLocale() ~= "zhCN" then return end
 
 local L
 
------------------------китайский
+--Прошляпанное очко Мурчаля ✔
+
+-----------------------
 -- Ana-Mouz --
 -----------------------
 L= DBM:GetModLocalization(1790)
@@ -83,26 +85,47 @@ L= DBM:GetModLocalization(1796)
 L = DBM:GetModLocalization("Captainstower")
 
 L:SetGeneralLocalization({
-	name ="突袭守望高塔"
+	name = "突袭守望高塔"
 })
 
-----------------
---Редкие враги--
-----------------
+------------------
+--rare enemies 1--
+------------------
 L = DBM:GetModLocalization("RareEnemies")
 
 L:SetGeneralLocalization({
-	name ="稀有敌人"
-})
-
-L:SetTimerLocalization({
-	timerRoleplay = GUILD_INTEREST_RP
+	name = "非常危险的敌人 1"
 })
 
 L:SetOptionLocalization({
-	timerRoleplay = "Countdown to the start of the battle with Skul'vrax"
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
 })
 
 L:SetMiscLocalization({
-	PullSkulvrax = "I... survived the fall."
+	PullSkulvrax = "我……没有摔死。"
+})
+
+------------------
+--rare enemies 2--
+------------------
+L = DBM:GetModLocalization("RareEnemies2")
+
+L:SetGeneralLocalization({
+	name = "非常危险的敌人 2"
+})
+
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+})
+
+L:SetMiscLocalization({
+--	PullSkulvrax = "I... survived the fall."
 })

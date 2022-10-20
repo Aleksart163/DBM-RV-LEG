@@ -41,28 +41,29 @@ function mod:OnCombatStart(delay, yellTriggered)
 		timerFelLashCD:Start(16.5-delay) --Бич Скверны +++
 		timerBeguilingCharmCD:Start(32.5-delay) --Обманные чары +++
 		countdownBeguilingCharm:Start(32.5-delay) --Обманные чары +++
-		warnStanceofMountain2:Schedule(22.5-delay) --Обманные чары
+		warnBeguilingCharm2:Schedule(22.5-delay) --Обманные чары
 	end
 end
 
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
-	if spellId == 247549 then
+	if spellId == 247549 then --Обманные чары
 		specWarnBeguilingCharm:Schedule(1.5)
 		specWarnBeguilingCharm:ScheduleVoice(1.5, "turnaway")
 		timerBeguilingCharmCD:Start()
 		countdownBeguilingCharm:Start()
-		warnStanceofMountain2:Schedule(37)
-	elseif spellId == 247604 then
+		warnBeguilingCharm2:Schedule(37)
+	elseif spellId == 247604 then --Бич Скверны
 		warnFelLash:Show()
 		specWarnFelLash:Show()
+		specWarnFelLash:Play("watchstep")
 		timerFelLashCD:Start()
 	end
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
-	if spellId == 247517 then
+	if spellId == 247517 then --Разбитое сердце
 		timerHeartBreakerCD:Start()
 	end
 end
@@ -70,7 +71,7 @@ end
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 247551 then
-		warnBeguilingCharm:CombinedShow(1, args.destName)
+		warnBeguilingCharm:CombinedShow(0.5, args.destName)
 	elseif spellId == 247544 then
 		local amount = args.amount or 1
 		if (amount >= 15) and self:AntiSpam(4, 4) then--First warning at 12, then spam every 4 seconds above.

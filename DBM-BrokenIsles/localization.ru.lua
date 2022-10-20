@@ -2,7 +2,9 @@ if GetLocale() ~= "ruRU" then return end
 
 local L
 
------------$spell:137162
+--Прошляпанное очко Мурчаля ✔
+
+-----------
 --Ана-Муз--
 -----------
 L= DBM:GetModLocalization(1790)
@@ -83,26 +85,47 @@ L= DBM:GetModLocalization(1796)
 L = DBM:GetModLocalization("Captainstower")
 
 L:SetGeneralLocalization({
-	name ="Штурм Сторожевой башни"
+	name = "Штурм Сторожевой башни" --https://ru.wowhead.com/quest=43183/штурм-сторожевой-башни-дозорный-пункт-звездного-охотника
 })
 
-----------------
---Редкие враги--
-----------------
+------------------
+--Редкие враги 1--
+------------------
 L = DBM:GetModLocalization("RareEnemies")
 
 L:SetGeneralLocalization({
-	name ="Редкие враги"
-})
-
-L:SetTimerLocalization({
-	timerRoleplay = GUILD_INTEREST_RP
+	name = "Очень опасные враги 1"
 })
 
 L:SetOptionLocalization({
-	timerRoleplay = "Отсчет времени до начала боя с Скал'вракс"
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
 })
 
 L:SetMiscLocalization({
 	PullSkulvrax = "Я... еще жива..."
+})
+
+------------------
+--Редкие враги 2--
+------------------
+L = DBM:GetModLocalization("RareEnemies2")
+
+L:SetGeneralLocalization({
+	name = "Очень опасные враги 2"
+})
+
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+})
+
+L:SetMiscLocalization({
+--	PullSkulvrax = "Я... еще жива..."
 })

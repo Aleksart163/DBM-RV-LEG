@@ -1,13 +1,17 @@
 ## Interface: 70300
 ## X-Min-Interface: 70000
 ## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Broken Isles|r
+## Title-ruRU:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Расколотые острова|r
 ## Title-deDE:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Verheerten Inseln|r
+## Title-esES:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Islas Abruptas|r
+## Title-esMX:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Islas Abruptas|r
+## Title-frFR:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Îles Brisées|r
+## Title-itIT:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Isole Disperse|r
+## Title-ptBR:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Ilhas Partidas|r
+## Title-koKR:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0부서진 섬|r
 ## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0破碎群岛|r
 ## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0破碎群島|r
-## Title-esES:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Islas Abruptas|r
-## Title-koKR:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0부서진 섬|r
-## Title-ruRU:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Расколотые острова|r
-## Author: MysticalOS
+## Author: MysticalOS and Aleksart163
 ## LoadOnDemand: 1
 ## RequiredDeps: DBM-Core
 ## SavedVariables: DBMBrokenIsles_AllSavedVars
@@ -19,14 +23,20 @@
 ## X-DBM-Mod-World-Boss: 1
 ## X-DBM-Mod-Sort: 507
 ## X-DBM-Mod-MapID: 1220
-## X-DBM-Mod-LoadCID: 107023, 106981, 106984, 106982, 109943, 109331, 110378, 99929, 108879, 110321, 108678, 112350, 108829, 117239, 121124, 117470, 117303, 102075, 104290, 104289, 103757, 104294, 103653, 104292, 103975, 99899, 109648, 92423, 93654, 111454, 101649, 109641, 104481, 105899, 109015, 109630, 92334, 112756, 109318, 104484, 109113
+## X-DBM-Mod-LoadCID: 107023, 106981, 106984, 106982, 109943, 109331, 110378, 99929, 108879, 110321, 108678, 112350, 108829, 117239, 121124, 117470, 117303, 102075, 104290, 104289, 103757, 104294, 103653, 104292, 103975, 109677, 99899, 109648, 92423, 111454, 109641, 104481, 105899, 109015, 109630, 92334, 112756, 109318, 104484, 109113, 110346, 109990, 117065, 109575, 117054, 117055, 117066, 117420, 118017, 117060, 117059, 118016, 120310, 118013, 117056, 118000, 118002, 108885
 ## X-DBM-Mod-MinCoreRevision: 17650
 
 localization.en.lua
 localization.ru.lua
-localization.cn.lua
 localization.de.lua
+localization.es.lua
+localization.fr.lua
+localization.it.lua
+localization.br.lua
+localization.kr.lua
+localization.cn.lua
 localization.tw.lua
+
 AnaMouz.lua
 Apocron.lua
 Brutallus.lua
@@ -44,3 +54,4 @@ Soultakers.lua
 WitheredJim.lua
 Captainstower.lua
 RareEnemies.lua
+RareEnemies2.lua

@@ -193,12 +193,12 @@ function mod:OnCombatStart(delay)
 		countdownForgingStrike:Start(7-delay) --Прессование было 6
 		timerApocProtocolCD:Start(35-delay, 1) --Протокол Апокалипсис было 31.8
 		countdownApocProtocol:Start(35) --Протокол Апокалипсис было 31.8
-	else --оригинальные, ничего не менял
+	else -- всё оригинал, кроме протокола
 		timerDiabolicBombCD:Start(11-delay) --Демоническая бомба
 		timerForgingStrikeCD:Start(6-delay, 1) --Прессование
 		countdownForgingStrike:Start(6-delay) --Прессование
-		timerApocProtocolCD:Start(31.8-delay, 1) --Протокол Апокалипсис
-		countdownApocProtocol:Start(31.8) --Протокол Апокалипсис
+		timerApocProtocolCD:Start(35-delay, 1) --Протокол Апокалипсис +++
+		countdownApocProtocol:Start(35) --Протокол Апокалипсис +++
 	end
 	timerRuinerCD:Start(26.1-delay, 1) --было 21.1
 	countdownRuiner:Start(26.1-delay) --было 21.1
@@ -267,8 +267,8 @@ function mod:SPELL_CAST_START(args)
 		countdownRuiner:Cancel()
 		if self.Options.UseAddTime then
 			timerDiabolicBombCD:AddTime(42.3) --Демоническая бомба
-			timerRuinerCD:AddTime(43.5, self.vb.ruinerCast+1) --Разрушитель
-			countdownRuiner:Start(self.vb.ruinerTimeLeft+43.5) --Разрушитель
+			timerRuinerCD:AddTime(43, self.vb.ruinerCast+1) --Разрушитель
+			countdownRuiner:Start(self.vb.ruinerTimeLeft+43) --Разрушитель
 			timerReverberatingStrikeCD:AddTime(51.3, self.vb.reverbStrikeCast+1) --гулкий удар
 			timerForgingStrikeCD:AddTime(42.3, self.vb.forgingStrikeCast+1) --Прессование
 			countdownForgingStrike:Start(self.vb.forgingTimeLeft+42.3) --Прессование
