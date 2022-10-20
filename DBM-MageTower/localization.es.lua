@@ -1,4 +1,5 @@
 if GetLocale() ~= "esES" and GetLocale() ~= "esMX" then return end
+
 local L
 
 --Прошляпанное очко Мурчаля ✔
@@ -53,7 +54,7 @@ L:SetGeneralLocalization({
 })
 
 L:SetMiscLocalization({
-	SigrynRP1 = "¿Qué... qué estoy haciendo? ¡Esto no está bien!"
+	MurchalProshlyapRP = "¿Qué... qué estoy haciendo? ¡Esto no está bien!"
 })
 
 ------------------------
@@ -101,5 +102,5 @@ L:SetMiscLocalization({
 	Twins1 = "Raest, no puedo permitir que liberes tu poder sobre Azeroth. ¡Si no te detienes, tendré que destruirte!", --
 	ErdrisThorn1 = "¡No me quedaré de brazos cruzados! ¡Hay que detener los ataques a mi poblado!", --
 	Agatha1 = "En este momento, mis sayaad están tentando a tus débiles magos. ¡Tus aliados se entregarán a la Legión por propia voluntad!", --
-	Sigryn1 = "¡No puedes esconderte detrás de estos muros por siempre, Odyn!"
+	Sigryn1 = "¡No puedes esconderte detrás de estos muros por siempre, Odyn!" --
 })

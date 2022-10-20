@@ -1,4 +1,5 @@
 ﻿if GetLocale() ~= "zhCN" then return end
+
 local L
 
 --Прошляпанное очко Мурчаля ✔
@@ -53,7 +54,7 @@ L:SetGeneralLocalization({
 })
 
 L:SetMiscLocalization({
-	SigrynRP1 = "我……我在做什么？这不对！" --
+	MurchalProshlyapRP = "我……我在做什么？这不对！" --
 })
 
 ------------------------

@@ -7,7 +7,7 @@ mod:SetZone()
 mod.isTrashMod = true
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 235823",
+--	"SPELL_CAST_START 235823",
 	"SPELL_AURA_APPLIED 235984",
 	"CHAT_MSG_MONSTER_YELL",
 	"CHAT_MSG_MONSTER_SAY"
@@ -22,13 +22,14 @@ local timerRoleplay					= mod:NewTimer(30, "timerRoleplay", "Interface\\Icons\\a
 
 local pull = false
 
+--[[
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 235823 and self:AntiSpam(2, 1) then --Танец с кинжалами
 		specWarnKnifeDance:Show()
 		specWarnKnifeDance:Play("watchstep")
 	end
-end
+end]]
 
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
@@ -41,9 +42,9 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 	if msg == L.Twins1 then --Разделить близнецов
 		timerRoleplay:Start(22)
 	elseif msg == L.Agatha1 then --Невероятный противник
-		timerRoleplay:Start(17.5)
+		timerRoleplay:Start(17)
 	elseif msg == L.Sigryn1 then --Ярость королевы-богини
-		timerRoleplay:Start(24)
+		timerRoleplay:Start(20)
 	end
 end
 

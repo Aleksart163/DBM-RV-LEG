@@ -1,8 +1,8 @@
-if GetLocale() ~= "frFR" then return end
+if GetLocale() ~= "ptBR" then return end
 
 local L
 
---Прошляпанное очко Мурчаля ✔✔
+--Прошляпанное очко Мурчаля ✔
 
 ------------------------
 -- Mage Tower: TANK --
@@ -10,7 +10,7 @@ local L
 L= DBM:GetModLocalization("Kruul")
 
 L:SetGeneralLocalization({
-	name =	"Le retour du généralissime"
+	name = "O retorno do grão-lorde"
 })
 
 ------------------------
@@ -19,7 +19,9 @@ L:SetGeneralLocalization({
 L= DBM:GetModLocalization("ErdrisThorn")
 
 L:SetGeneralLocalization({
-	name =	"Halte au Ressuscité"
+	name = "O fim do perigo reanimado"
+-- "Ergam-se, meus soldados!" (активация босса)
+-- Seu espírito forte resiste à magia vil! (эмоция когда окружили)
 })
 
 ------------------------
@@ -28,7 +30,7 @@ L:SetGeneralLocalization({
 L= DBM:GetModLocalization("FelTotem")
 
 L:SetGeneralLocalization({
-	name =	"La chute des Totems-Fétides"
+	name = "Queda do Totem Vil"
 })
 
 ------------------------
@@ -37,11 +39,11 @@ L:SetGeneralLocalization({
 L= DBM:GetModLocalization("ImpossibleFoe")
 
 L:SetGeneralLocalization({
-	name =	"Une adversaire impossible"
+	name = "Inimigo impossível"
 })
 
 L:SetMiscLocalization({
-	impServants = "Tuez les diablotins serviteurs avant qu’ils énergisent Agatha "
+	impServants = "Mate os Diabretes Serviçais antes que eles energizem Ágata!" --
 })
 
 ------------------------
@@ -50,11 +52,11 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization("Queen")
 
 L:SetGeneralLocalization({
-	name = "La fureur de la Déesse-Reine"
+	name = "A fúria da Deusa-Rainha"
 })
 
 L:SetMiscLocalization({
-	MurchalProshlyapRP = "Que… qu’est-ce que je suis en train de faire ? C’est impardonnable !" --
+	MurchalProshlyapRP = "O quê? O que eu estou fazendo? Isso não pode estar certo." --
 })
 
 ------------------------
@@ -63,12 +65,12 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization("Twins")
 
 L:SetGeneralLocalization({
-	name = "Gêner les jumeaux"
+	name = "Dando jeito nos gêmeos"
 })
 
 L:SetMiscLocalization({
-	TwinsRP1 = "Inutile ! Laisse-moi faire ce dont tu ne peux pas te charger, mon frère.", --
-	TwinsRP2 = "Une fois encore, je dois faire le ménage derrière toi, mon frère !" --
+	TwinsRP1 = "Imprestável! Afaste-se para eu fazer o que você não foi capaz.", --
+	TwinsRP2 = "Mais uma vez sou eu que resolvo suas encrencas, irmão!" --
 })
 
 ------------------------
@@ -77,7 +79,7 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization("Xylem")
 
 L:SetGeneralLocalization({
-	name = "Fermer l’œil"
+	name =	"Fechando o olho"
 })
 
 ------------------------
@@ -86,7 +88,7 @@ L:SetGeneralLocalization({
 L= DBM:GetModLocalization("Timers")
 
 L:SetGeneralLocalization({
-	name = "Chronomètres de début de bataille"
+	name = "Cronômetros de início de batalha"
 })
 
 L:SetOptionLocalization({
@@ -98,9 +100,9 @@ L:SetTimerLocalization({
 })
 
 L:SetMiscLocalization({
-	Kruul = "Arrogants imbéciles ! Je détiens la puissance des âmes d’un millier de mondes !", --
-	Twins1 = "Je ne peux pas te laisser déchaîner ta puissance sur Azeroth, Raëst. Si tu n’abandonnes pas, je serai forcé de te détruire !", --
-	ErdrisThorn1 = "Il est hors de question que je reste en arrière ! Les attaques sur mon village doivent cesser !", --
-	Agatha1 = "En ce moment même, mes sayaad séduisent vos mages les plus faibles. Vos alliés se rendront de leur plein gré à la Légion !", --
-	Sigryn1 = "Tu ne pourra pas te cacher éternellement derrière ces murs, Odyn !" --
+	Kruul = "Tolos arrogantes! Eu me fortaleci com as almas de mil mundos conquistados!", --
+	Twins1 = "Não permitirei que você use seu poder contra Azeroth, Raest. Se você não se render, serei obrigado a destruí-lo!", --
+	ErdrisThorn1 = "Eu não fico para trás de jeito nenhum! Os ataques à minha cidade têm que acabar!", --
+	Agatha1 = "Neste exato momento, meus sayaads estão seduzindo os seus magos patéticos. Seus aliados vão se render à Legião!", --
+	Sigryn1 = "Você não pode se esconder atrás dessas muralhas para sempre, Odyn!" --
 })

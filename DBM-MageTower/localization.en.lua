@@ -52,7 +52,7 @@ L:SetGeneralLocalization({
 })
 
 L:SetMiscLocalization({
-	SigrynRP1 = "What... what am I doing? This is not right!"
+	MurchalProshlyapRP = "What... what am I doing? This is not right!"
 })
 
 ------------------------

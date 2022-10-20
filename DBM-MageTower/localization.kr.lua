@@ -1,4 +1,5 @@
 if GetLocale() ~= "koKR" then return end
+
 local L
 
 --Прошляпанное очко Мурчаля ✔✔
@@ -53,7 +54,7 @@ L:SetGeneralLocalization({
 })
 
 L:SetMiscLocalization({
-	SigrynRP1 = "내가... 뭘 하는 거지? 이건 옳지 않아!"
+	MurchalProshlyapRP = "내가... 뭘 하는 거지? 이건 옳지 않아!"
 })
 
 ------------------------

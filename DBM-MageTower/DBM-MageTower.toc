@@ -1,5 +1,5 @@
 ﻿## Interface: 70300
-## X-Min-Interface: 70000
+## X-Min-Interface: 70300
 ## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Mage Tower|r
 ## Title-ruRU:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Башня магов|r
 ## Title-deDE:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Magierturm|r
@@ -36,13 +36,15 @@
 
 localization.en.lua
 localization.ru.lua
-localization.fr.lua
-localization.cn.lua
 localization.de.lua
-localization.kr.lua
-localization.tw.lua
 localization.es.lua
+localization.fr.lua
 localization.it.lua
+localization.br.lua
+localization.kr.lua
+localization.cn.lua
+localization.tw.lua
+
 Kruul.lua
 ErdrisThorn.lua
 FelTotem.lua

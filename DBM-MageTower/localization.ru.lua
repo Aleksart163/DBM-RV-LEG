@@ -1,4 +1,5 @@
 if GetLocale() ~= "ruRU" then return end
+
 local L
 
 --Прошляпанное очко Мурчаля ✔
@@ -53,7 +54,7 @@ L:SetGeneralLocalization({
 })
 
 L:SetMiscLocalization({
-	SigrynRP1 = "Что же я делаю? Это неправильно!"
+	MurchalProshlyapRP = "Что же я делаю? Это неправильно!"
 })
 
 ---------------------
