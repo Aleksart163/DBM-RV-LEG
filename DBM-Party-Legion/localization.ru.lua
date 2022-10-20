@@ -75,7 +75,7 @@ L= DBM:GetModLocalization(1654)
 L= DBM:GetModLocalization(1655)
 
 L:SetMiscLocalization({
-	ThrowYell = "Бросок на %s"
+	ThrowYell = "Бросок на %s!"
 })
 
 ------------

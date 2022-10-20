@@ -37,13 +37,13 @@ local specWarnUnworthy				= mod:NewSpecialWarningYou(198190, nil, nil, nil, 1, 2
 local timerTempestCD				= mod:NewCDCountTimer(56, 198263, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Светозарная буря
 local timerTempestCast				= mod:NewCastTimer(7, 198263, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Светозарная буря
 local timerShatterSpearsCD			= mod:NewCDTimer(56, 198077, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Расколотые копья
-local timerRunicBrandCD				= mod:NewCDCountTimer(56, 197961, nil, nil, nil, 7) --Руническое клеймо
+local timerRunicBrandCD				= mod:NewCDCountTimer(54, 197961, nil, nil, nil, 7) --Руническое клеймо
 local timerRunicBrand				= mod:NewTargetTimer(12, 197961, nil, nil, nil, 7) --Руническое клеймо
 local timerAddCD					= mod:NewCDTimer(54, 201221, nil, nil, nil, 1, 201215, DBM_CORE_DAMAGE_ICON) --Призыв закаленного бурей воина 54-58
 
 local countdownTempest				= mod:NewCountdown(56, 198263, nil, nil, 5) --Светозарная буря
 local countdownTempest2				= mod:NewCountdownFades("Alt7", 198263, nil, nil, 5) --Светозарная буря
-local countdownRunicBrand			= mod:NewCountdown("Alt56", 197961, nil, nil, 5) --Руническое клеймо
+local countdownRunicBrand			= mod:NewCountdown("Alt54", 197961, nil, nil, 5) --Руническое клеймо
 
 mod:AddSetIconOption("SetIconOnSurge", 198750, true, true, {8})
 mod:AddSetIconOption("SetIconOnRunicBrand", 197961, true, false, {6, 4, 3, 2, 1}) --Руническое клеймо
@@ -60,8 +60,8 @@ function mod:OnCombatStart(delay) --Прошляпанное очко мурча
 		timerTempestCD:Start(24-delay, 1) --Светозарная буря+++
 		countdownTempest:Start(24-delay) --Светозарная буря+++
 		timerShatterSpearsCD:Start(40-delay) --Расколотые копья+++
-		timerRunicBrandCD:Start(46.5-delay, 1) --Руническое клеймо+++
-		countdownRunicBrand:Start(46.5-delay) --Руническое клеймо+++
+		timerRunicBrandCD:Start(44.5-delay, 1) --Руническое клеймо+++
+		countdownRunicBrand:Start(44.5-delay) --Руническое клеймо+++
 		timerAddCD:Start(18-delay) --Призыв закаленного бурей воина+++
 		specWarnSpear:Schedule(8-delay) --Копье света+++
 		specWarnSpear:ScheduleVoice(8-delay, "watchstep") --Копье света+++
@@ -73,8 +73,8 @@ function mod:OnCombatStart(delay) --Прошляпанное очко мурча
 		timerTempestCD:Start(24-delay, 1) --Светозарная буря+++
 		countdownTempest:Start(24-delay) --Светозарная буря+++
 		timerShatterSpearsCD:Start(40-delay) --Расколотые копья+++
-		timerRunicBrandCD:Start(46.5-delay, 1) --Руническое клеймо+++
-		countdownRunicBrand:Start(46.5-delay) --Руническое клеймо+++
+		timerRunicBrandCD:Start(44.5-delay, 1) --Руническое клеймо+++
+		countdownRunicBrand:Start(44.5-delay) --Руническое клеймо+++
 		timerAddCD:Start(18-delay) --Призыв закаленного бурей воина+++
 		specWarnAdd:Schedule(19-delay) --Призыв закаленного бурей воина+++
 		specWarnAdd:ScheduleVoice(19-delay, "killmob") --Призыв закаленного бурей воина+++

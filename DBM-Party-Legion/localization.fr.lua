@@ -74,6 +74,10 @@ L= DBM:GetModLocalization(1654)
 -----------------------
 L= DBM:GetModLocalization(1655)
 
+L:SetMiscLocalization({
+	ThrowYell = "Lancer sur %s!"
+})
+
 -----------------------
 -- Dresaron --
 -----------------------

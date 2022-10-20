@@ -75,7 +75,7 @@ L= DBM:GetModLocalization(1654)
 L= DBM:GetModLocalization(1655)
 
 L:SetMiscLocalization({
-	ThrowYell = "Wurf auf %s"
+	ThrowYell = "Wurf auf %s!"
 })
 
 -----------------------

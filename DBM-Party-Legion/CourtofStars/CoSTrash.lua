@@ -9,8 +9,8 @@ mod:SetOOCBWComms()
 mod.isTrashMod = true
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 209027 212031 209485 209410 209413 211470 211464 209404 209495 225100 211299 209378 207980 207979 214692 214688 214690 208334 212773 208585 209767 208427 208370 210872 210307 208939 210925 210217 210922 210253 210330",
-	"SPELL_CAST_SUCCESS 214688",
+	"SPELL_CAST_START 209027 212031 209485 209410 209413 211470 211464 209404 209495 225100 211299 209378 207980 207979 214692 214688 214690 212773 210253",
+	"SPELL_CAST_SUCCESS 214688 208585 208427 209767 208334 210872 210307 208939 208370 210925 210217 210922 210330",
 	"SPELL_AURA_APPLIED 209033 209512 207981 214690 212773",
 	"SPELL_AURA_REMOVED 214690",
 	"CHAT_MSG_MONSTER_SAY",
@@ -226,9 +226,17 @@ function mod:SPELL_CAST_START(args)
 			warnSubdue2:Show()
 			warnSubdue2:Play("kickcast")
 		end
+	elseif spellId == 210253 then --Отключение маяка
+		warnDisableBeacon:Show(args.sourceName)
+	end
+end
+
+function mod:SPELL_CAST_SUCCESS(args)
+	local spellId = args.spellId
+	if spellId == 214688 then --Темная стая
+		timerCarrionSwarmCD:Start()
 	elseif spellId == 208585 then --Поглощение пищи
 		warnEating:Show(args.sourceName)
-	--	if self.Options.YellOnEating and args:IsPlayerSource() then
 		if self.Options.YellOnEating then
 			if IsInRaid() then
 				SendChatMessage(L.EatingYell:format(args.sourceName, eating), "RAID")
@@ -359,15 +367,6 @@ function mod:SPELL_CAST_START(args)
 				SendChatMessage(L.DefacingYell:format(args.sourceName, defacing), "PARTY")
 			end
 		end
-	elseif spellId == 210253 then --Отключение маяка
-		warnDisableBeacon:Show(args.sourceName)
-	end
-end
-
-function mod:SPELL_CAST_SUCCESS(args)
-	local spellId = args.spellId
-	if spellId == 214688 then --Темная стая
-		timerCarrionSwarmCD:Start()
 	end
 end
 

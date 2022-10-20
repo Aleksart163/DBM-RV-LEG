@@ -77,7 +77,7 @@ L= DBM:GetModLocalization(1654)
 L= DBM:GetModLocalization(1655)
 
 L:SetMiscLocalization({
-	ThrowYell = "Lanzamiento en %s"
+	ThrowYell = "Lanzamiento en %s!"
 })
 
 --------------

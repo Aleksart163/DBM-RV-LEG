@@ -1,14 +1,16 @@
 ## Interface: 70300
-## X-Min-Interface: 70000
+## X-Min-Interface: 70300
 ## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Dungeons-Leg|r
+## Title-ruRU:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Групповые подземелья-Leg|r
+## Title-deDE:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Gruppe-Leg|r
 ## Title-esES:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Mazmorras-Leg|r
 ## Title-esMX:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Mazmorras-Leg|r
+## Title-frFR:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Donjons de groupe-Leg|r
+## Title-itIT:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Dungeon di gruppo-Leg|r
+## Title-ptBR:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Masmorras de grupo-Leg|r
 ## Title-koKR:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf05인 던전-Leg|r
-## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0隊伍首領-Leg|r
 ## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf05人小队-Leg|r
-## Title-deDE:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Gruppe-Leg|r
-## Title-frFR:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Groupe-Leg|r
-## Title-ruRU:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Групповые подземелья-Leg|r
+## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0隊伍首領-Leg|r
 ## Author: MysticalOS
 ## LoadOnDemand: 1
 ## RequiredDeps: DBM-Core
@@ -21,29 +23,31 @@
 ## X-DBM-Mod-Has-Mythic : 1
 ## X-DBM-Mod-SubCategoriesID: 1501, 1466, 1456, 1477, 1458, 1516, 1571, 1492, 1544, 1493, 1651, 1677, 1753
 ## X-DBM-Mod-Name: Dungeons
-## X-DBM-Mod-Name-deDE: Gruppe
 ## X-DBM-Mod-Name-ruRU: Групповые подземелья
+## X-DBM-Mod-Name-deDE: Gruppe
 ## X-DBM-Mod-Name-esES: Mazmorras
 ## X-DBM-Mod-Name-esMX: Mazmorras
-## X-DBM-Mod-Name-ptBR: Masmorras
-## X-DBM-Mod-Name-frFR: Groupe
-## X-DBM-Mod-Name-zhTW: 隊伍首領
-## X-DBM-Mod-Name-zhCN: 5人小队
+## X-DBM-Mod-Name-frFR: Donjons de groupe
+## X-DBM-Mod-Name-itIT: Dungeon di gruppo
+## X-DBM-Mod-Name-ptBR: Masmorras de grupo
 ## X-DBM-Mod-Name-koKR: 던전
+## X-DBM-Mod-Name-zhCN: 5人小队
+## X-DBM-Mod-Name-zhTW: 隊伍首領
 ## X-DBM-Mod-Sort: 508
 ## X-DBM-Mod-MapID: 1501, 1466, 1456, 1477, 1458, 1516, 1571, 1492, 1544, 1493, 1651, 1677, 1753
 ## X-DBM-Mod-MinCoreRevision: 17650
 
 localization.en.lua
-localization.cn.lua
-localization.de.lua
-localization.tw.lua
-localization.es.lua
-localization.kr.lua
 localization.ru.lua
-localization.br.lua
-localization.it.lua
+localization.de.lua
+localization.es.lua
 localization.fr.lua
+localization.it.lua
+localization.br.lua
+localization.kr.lua
+localization.cn.lua
+localization.tw.lua
+
 BlackRookHold\AmalgamSouls.lua
 BlackRookHold\Illysanna.lua
 BlackRookHold\Smashspite.lua

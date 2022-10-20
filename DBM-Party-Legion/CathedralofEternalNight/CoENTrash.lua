@@ -2,7 +2,6 @@ local mod	= DBM:NewMod("CoENTrash", "DBM-Party-Legion", 12)
 local L		= mod:GetLocalizedStrings()
 
 mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
---mod:SetModelID(47785)
 mod:SetZone()
 
 mod.isTrashMod = true
@@ -17,7 +16,7 @@ mod:RegisterEvents(
 	"UNIT_SPELLCAST_START"
 )
 
---Собор вечной ночи трэш
+--Собор вечной ночи трэш и прошляпанное очко Мурчаля Прошляпенко ✔
 local warnFelStrike				= mod:NewTargetAnnounce(236737, 3) --Удар Скверны
 local warnShadowWall			= mod:NewSpellAnnounce(241598, 3) --Стена Тьмы
 local warnFelRejuvenation		= mod:NewCastAnnounce(237558, 3) --Омоложение Скверной
@@ -35,14 +34,15 @@ local specWarnBlisteringRain	= mod:NewSpecialWarningInterrupt(237565, "HasInterr
 local specWarnFelGlare			= mod:NewSpecialWarningDodge(239201, "Melee", nil, nil, 2, 2) --Взор Скверны
 local specWarnFocusedDestruction = mod:NewSpecialWarningDefensive(239235, nil, nil, nil, 3, 5) --Направленное разрушение
 local specWarnBurningCelerity	= mod:NewSpecialWarningYouMove(237583, nil, nil, nil, 1, 2) --Пылающая стремительность
-local specWarnShadowWall		= mod:NewSpecialWarningInterrupt(241598, "HasInterrupt", nil, nil, 1, 2) --Стена Тьмы
+local specWarnShadowWall		= mod:NewSpecialWarningInterrupt(241598, nil, nil, nil, 1, 2) --Стена Тьмы
 local specWarnToxicPollen		= mod:NewSpecialWarningYouMove(237325, nil, nil, nil, 1, 2) --Ядовитая пыльца
 local specWarnFelStrike			= mod:NewSpecialWarningDodge(236737, nil, nil, nil, 1, 2) --Удар Скверны
-local specWarnAlluringAroma		= mod:NewSpecialWarningInterrupt(237391, "HasInterrupt", nil, nil, 1, 2) --Манящий аромат
-local specWarnDemonicMending	= mod:NewSpecialWarningInterrupt(238543, "HasInterrupt", nil, nil, 1, 2) --Демоническое лечение
-local specWarnDreadScream		= mod:NewSpecialWarningInterrupt(242724, "HasInterrupt", nil, nil, 1, 2) --Жуткий крик
+local specWarnAlluringAroma		= mod:NewSpecialWarningInterrupt(237391, nil, nil, nil, 1, 2) --Манящий аромат
+local specWarnDemonicMending	= mod:NewSpecialWarningInterrupt(238543, nil, nil, nil, 1, 2) --Демоническое лечение
+local specWarnDreadScream		= mod:NewSpecialWarningInterrupt(242724, nil, nil, nil, 1, 2) --Жуткий крик
 local specWarnBlindingGlare		= mod:NewSpecialWarningLookAway(239232, nil, nil, nil, 3, 5) --Ослепляющий взгляд
-local specWarnLumberingCrash	= mod:NewSpecialWarningRun(242760, "Melee", nil, nil, 4, 2) --Сокрушение древа
+local specWarnLumberingCrash	= mod:NewSpecialWarningRun(242760, "Melee", nil, nil, 4, 3) --Сокрушение древа
+local specWarnLumberingCrash2	= mod:NewSpecialWarningDodge(242760, "Ranged", nil, nil, 2, 2) --Сокрушение древа
 local specWarnShadowWave		= mod:NewSpecialWarningDodge(238653, nil, nil, nil, 2, 2) --Теневая волна
 local specWarnChokingVines		= mod:NewSpecialWarningRun(238688, nil, nil, nil, 4, 2) --Удушающие лозы
 local specWarnTomeSilence		= mod:NewSpecialWarningSwitch(239161, "-Healer", nil, nil, 1, 2) --Фолиант вечной немоты
@@ -81,30 +81,32 @@ function mod:SPELL_CAST_START(args)
 		specWarnBlindingGlare:Show()
 		specWarnBlindingGlare:Play("turnaway")
 	elseif spellId == 237391 then --Манящий аромат
-		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+		if self:CheckTargetFilter(args.sourceGUID) then
 			specWarnAlluringAroma:Show()
 			specWarnAlluringAroma:Play("kickcast")
 		else
 			warnAlluringAroma:Show()
 			warnAlluringAroma:Play("kickcast")
 		end
-	elseif spellId == 238543 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
+	elseif spellId == 238543 and self:CheckTargetFilter(args.sourceGUID) then
 		specWarnDemonicMending:Show(args.sourceName)
 		specWarnDemonicMending:Play("kickcast")
-	elseif spellId == 242724 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
+	elseif spellId == 242724 and self:CheckTargetFilter(args.sourceGUID) then
 		specWarnDreadScream:Show(args.sourceName)
 		specWarnDreadScream:Play("kickcast")
 	elseif spellId == 241598 then --Стена Тьмы
-		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+		if self:CheckTargetFilter(args.sourceGUID) then
 			specWarnShadowWall:Show()
 			specWarnShadowWall:Play("kickcast")
 		else
 			warnShadowWall:Show()
 			warnShadowWall:Play("kickcast")
 		end
-	elseif spellId == 242760 then
+	elseif spellId == 242760 then --Сокрушение древа
 		specWarnLumberingCrash:Show()
 		specWarnLumberingCrash:Play("runout")
+		specWarnLumberingCrash2:Show()
+		specWarnLumberingCrash2:Play("watchstep")
 	elseif spellId == 239320 then
 		specWarnFelblazeOrb:Show()
 		specWarnFelblazeOrb:Play("watchorb")
@@ -119,7 +121,7 @@ function mod:SPELL_CAST_START(args)
 		specWarnFelGlare:Play("watchstep")
 	elseif spellId == 237558 then --Омоложение Скверной
 		if not self:IsNormal() then
-			if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			if self:CheckTargetFilter(args.sourceGUID) then
 				specWarnFelRejuvenation:Show()
 				specWarnFelRejuvenation:Play("kickcast")
 			else
@@ -192,16 +194,18 @@ end
 function mod:UNIT_SPELLCAST_START(uId, _, bfaSpellId, _, legacySpellId)
 	local spellId = legacySpellId or bfaSpellId
 	if spellId == 238653 then
-		self:SendSync("ShadowWave")
+		specWarnShadowWave:Show()
+		specWarnShadowWave:Play("shockwave")
+	--	self:SendSync("ShadowWave")
 	end
 end
-
+--[[
 function mod:OnSync(msg)
 	if msg == "ShadowWave" then
 		specWarnShadowWave:Show()
 		specWarnShadowWave:Play("shockwave")
 	end
-end
+end]]
 
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
 	if spellId == 213124 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then

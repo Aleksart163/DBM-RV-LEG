@@ -14,7 +14,7 @@ mod:RegisterEvents(
 	"SPELL_PERIODIC_MISSED 226512 240559"
 )
 
---Прошляпанное очко Мурчаля ✔✔✔
+--Прошляпанное очко Мурчаля Прошляпенко ✔✔✔
 local warnNecroticWound				= mod:NewStackAnnounce(209858, 3, nil, nil, 2) --Некротическая язва
 
 local specWarnNecroticWound			= mod:NewSpecialWarningStack(209858, nil, 10, nil, nil, 1, 3) --Некротическая язва

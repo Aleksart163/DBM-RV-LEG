@@ -25,8 +25,8 @@ local warnSoulEchoes				= mod:NewTargetAnnounce(194966, 2) --Эхо души
 local warnCallSouls					= mod:NewSpellAnnounce(196078, 3) --Вызов душ
 
 local specWarnSoulBurst				= mod:NewSpecialWarningDefensive(196587, nil, nil, nil, 3, 5) --Взрыв души
-local specWarnCallSouls				= mod:NewSpecialWarningSwitch(196078, "-Healer", nil, nil, 1, 2) --Вызов душ
-local specWarnReapSoul				= mod:NewSpecialWarningDodge(194956, "MeleeDps", nil, nil, 2, 2) --Жатва душ
+local specWarnCallSouls				= mod:NewSpecialWarningSwitch(196078, "Dps|Tank", nil, nil, 1, 2) --Вызов душ
+local specWarnReapSoul				= mod:NewSpecialWarningDodge(194956, "Dps|Healer", nil, nil, 2, 2) --Жатва душ
 local specWarnReapSoul2				= mod:NewSpecialWarningYouMove(194956, "Tank", nil, nil, 3, 5) --Жатва душ
 local specWarnSoulEchos				= mod:NewSpecialWarningYouRun(194966, nil, nil, nil, 4, 5) --Эхо души
 local specWarnSwirlingScythe		= mod:NewSpecialWarningDodge(195254, nil, nil, nil, 2, 2) --Вращающаяся коса
@@ -42,7 +42,7 @@ local yellSwirlingScythe			= mod:NewYell(195254, nil, nil, nil, "YELL") --Вра
 local yellSoulEchos					= mod:NewYell(194966, nil, nil, nil, "YELL") --Эхо души
 local yellSoulEchos2				= mod:NewFadesYell(194966, nil, nil, nil, "YELL") --Эхо души
 
-local countdownReapSoul				= mod:NewCountdown(13, 194956, "Melee", nil, 5) --Жатва душ
+local countdownReapSoul				= mod:NewCountdown(13, 194956, nil, nil, 5) --Жатва душ
 local countdownReapSoul2			= mod:NewCountdownFades("Alt3", 194956, nil, nil, 3) --Жатва душ
 
 mod:AddSetIconOption("SetIconOnSoulEchoes", 194966, true, false, {8}) --Эхо души
@@ -171,15 +171,14 @@ function mod:SPELL_CAST_START(args)
 end
 
 function mod:UNIT_HEALTH(uId)
-	if self:IsHard() then --миф и миф+
-		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 98542 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.56 then
+	if not self:IsNormal() then --гер, миф и миф+
+		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 98542 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.61 then
 			warned_preP1 = true
 			warnCallSouls2:Show()
 		end
 	else
-		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 98542 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.56 then
+		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 98542 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.61 then
 			warned_preP1 = true
-			warnCallSouls2:Show()
 		end
 	end
 end
