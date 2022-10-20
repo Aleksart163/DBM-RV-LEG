@@ -1,13 +1,16 @@
 ﻿## Interface: 70300
 ## X-Min-Interface: 70000
 ## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Dungeons-WotLK|r
-## Title-frFR:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Groupe-WotLK|r
+## Title-ruRU:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Групповые подземелья-WotLK|r
 ## Title-deDE:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Gruppe-WotLK|r
 ## Title-esES:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Mazmorras-WotLK|r
+## Title-esMX:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Mazmorras-WotLK|r
+## Title-frFR:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Donjons de groupe-WotLK|r
+## Title-itIT:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Dungeon di gruppo-WotLK|r
+## Title-ptBR:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Masmorras de grupo-WotLK|r
+## Title-koKR:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf05인 던전-WotLK|r
+## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf05人小队-WotLK|r
 ## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0隊伍首領-WotLK|r
-## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0队伍-WotLK|r
-## Title-ruRU:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Групповые подземелья-WotLK|r
-## Title-koKR:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf05인던전-WotLK|r
 ## Author: Aleksart163
 ## LoadOnDemand: 1
 ## RequiredDeps: DBM-Core
@@ -19,26 +22,31 @@
 ## X-DBM-StatTypes: normal,heroic
 ## X-DBM-Mod-SubCategoriesID: 619, 604, 602, 576, 575, 658
 ## X-DBM-Mod-Name: Dungeons (WotLK)
-## X-DBM-Mod-Name-frFR: Groupe (WotLK)
-## X-DBM-Mod-Name-deDE: Gruppe (WotLK)
 ## X-DBM-Mod-Name-ruRU: Групповые подземелья (WotLK)
-## X-DBM-Mod-Name-zhTW: 隊伍首領 (WotLK)
-## X-DBM-Mod-Name-zhCN: 队伍首领 (WotLK)
+## X-DBM-Mod-Name-deDE: Gruppe (WotLK)
 ## X-DBM-Mod-Name-esES: Mazmorras (WotLK)
-## X-DBM-Mod-Name-koKR: 5인 던전 (WotLK)
 ## X-DBM-Mod-Name-esMX: Mazmorras (WotLK)
-## X-DBM-Mod-Sort: 558
-## X-DBM-Mod-MapID: 619,604,602,576,575,658
-## X-DBM-Mod-MinCoreRevision: 17622
+## X-DBM-Mod-Name-frFR: Donjons de groupe (WotLK)
+## X-DBM-Mod-Name-itIT: Dungeon di gruppo (WotLK)
+## X-DBM-Mod-Name-ptBR: Masmorras de grupo (WotLK)
+## X-DBM-Mod-Name-koKR: 던전 (WotLK)
+## X-DBM-Mod-Name-zhCN: 5人小队 (WotLK)
+## X-DBM-Mod-Name-zhTW: 隊伍首領 (WotLK)
+## X-DBM-Mod-Sort: 532
+## X-DBM-Mod-MapID: 619, 604, 602, 576, 575, 658
+## X-DBM-Mod-MinCoreRevision: 17650
 
 localization.en.lua
 localization.ru.lua
-localization.cn.lua
-localization.fr.lua
-localization.tw.lua
-localization.kr.lua
 localization.de.lua
 localization.es.lua
+localization.fr.lua
+localization.it.lua
+localization.br.lua
+localization.kr.lua
+localization.cn.lua
+localization.tw.lua
+
 AhnKahet\Taldaram.lua
 AhnKahet\Nadox.lua
 AhnKahet\JedogaShadowseeker.lua

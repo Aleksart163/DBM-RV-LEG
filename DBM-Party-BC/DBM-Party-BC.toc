@@ -1,12 +1,16 @@
 ﻿## Interface: 70300
 ## X-Min-Interface: 70000
 ## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Dungeons-TBC|r
-## Title-deDE:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Gruppe-TBC|r
 ## Title-ruRU:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Групповые подземелья-TBC|r
+## Title-deDE:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Gruppe-TBC|r
 ## Title-esES:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Mazmorras-TBC|r
+## Title-esMX:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Mazmorras-TBC|r
+## Title-frFR:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Donjons de groupe-TBC|r
+## Title-itIT:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Dungeon di gruppo-TBC|r
+## Title-ptBR:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Masmorras de grupo-TBC|r
 ## Title-koKR:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf05인던전-TBC|r
-## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0隊伍首領-TBC|r
 ## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0队伍首领-TBC|r
+## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0隊伍首領-TBC|r
 ## Author: Aleksart163
 ## LoadOnDemand: 1
 ## RequiredDeps: DBM-Core
@@ -18,23 +22,31 @@
 ## X-DBM-StatTypes: normal,heroic
 ## X-DBM-Mod-SubCategoriesID: 540, 547, 552, 557, 585, 269
 ## X-DBM-Mod-Name: Dungeons (TBC)
-## X-DBM-Mod-Name-deDE: Gruppe (TBC)
 ## X-DBM-Mod-Name-ruRU: Групповые подземелья (TBC)
+## X-DBM-Mod-Name-deDE: Gruppe (TBC)
 ## X-DBM-Mod-Name-esES: Mazmorras (TBC)
+## X-DBM-Mod-Name-esMX: Mazmorras (TBC)
+## X-DBM-Mod-Name-frFR: Donjons de groupe (TBC)
+## X-DBM-Mod-Name-itIT: Dungeon di gruppo (TBC)
+## X-DBM-Mod-Name-ptBR: Masmorras de grupo (TBC)
 ## X-DBM-Mod-Name-koKR: 5인 던전 (TBC)
-## X-DBM-Mod-Name-zhTW: 隊伍首領 (TBC)
 ## X-DBM-Mod-Name-zhCN: 队伍首领 (TBC)
-## X-DBM-Mod-Sort: 559
-## X-DBM-Mod-MapID: 540,547,552,557,585,269
-## X-DBM-Mod-MinCoreRevision: 17622
+## X-DBM-Mod-Name-zhTW: 隊伍首領 (TBC)
+## X-DBM-Mod-Sort: 533
+## X-DBM-Mod-MapID: 540, 547, 552, 557, 585, 269
+## X-DBM-Mod-MinCoreRevision: 17650
 
 localization.en.lua
 localization.ru.lua
-localization.cn.lua
 localization.de.lua
 localization.es.lua
+localization.fr.lua
+localization.it.lua
+localization.br.lua
 localization.kr.lua
+localization.cn.lua
 localization.tw.lua
+
 Hellfire_ShatteredHalls\Nethekurse.lua
 Hellfire_ShatteredHalls\Porung.lua
 Hellfire_ShatteredHalls\O'mrogg.lua

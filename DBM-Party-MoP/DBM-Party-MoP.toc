@@ -1,12 +1,15 @@
 ﻿## Interface: 70300
 ## X-Min-Interface: 70000
 ## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Dungeons-MoP|r
-## Title-koKR:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf05인던전-판다리아의 안개|r
+## Title-ruRU:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Групповые подземелья-MoP|r
 ## Title-deDE:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Gruppe-MoP|r
 ## Title-esES:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Mazmorras-MoP|r
-## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf05人队-MoP|r
-## Title-frFR:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Groupe-MoP|r
-## Title-ruRU:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Групповые подземелья-MoP|r
+## Title-esMX:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Mazmorras-MoP|r
+## Title-frFR:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Donjons de groupe-MoP|r
+## Title-itIT:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Dungeon di gruppo-MoP|r
+## Title-ptBR:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Masmorras de grupo-MoP|r
+## Title-koKR:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf05인 던전-MoP|r
+## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf05人小队-MoP|r
 ## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0隊伍首領-MoP|r
 ## Author: Aleksart163
 ## LoadOnDemand: 1
@@ -19,27 +22,31 @@
 ## X-DBM-StatTypes: normal,heroic
 ## X-DBM-Mod-SubCategoriesID: 960, 961, 959, 962, 994, 1011
 ## X-DBM-Mod-Name: Dungeons (MoP)
-## X-DBM-Mod-Name-koKR: 5인 던전 (MoP)
-## X-DBM-Mod-Name-deDE: Gruppe (MoP)
 ## X-DBM-Mod-Name-ruRU: Групповые подземелья (MoP)
+## X-DBM-Mod-Name-deDE: Gruppe (MoP)
 ## X-DBM-Mod-Name-esES: Mazmorras (MoP)
 ## X-DBM-Mod-Name-esMX: Mazmorras (MoP)
-## X-DBM-Mod-Name-ptBR: Masmorras (MoP)
+## X-DBM-Mod-Name-frFR: Donjons de groupe (MoP)
+## X-DBM-Mod-Name-itIT: Dungeon di gruppo (MoP)
+## X-DBM-Mod-Name-ptBR: Masmorras de grupo (MoP)
+## X-DBM-Mod-Name-koKR: 던전 (MoP)
+## X-DBM-Mod-Name-zhCN: 5人小队 (MoP)
 ## X-DBM-Mod-Name-zhTW: 隊伍首領 (MoP)
-## X-DBM-Mod-Name-zhCN: 5人副本 (MoP)
-## X-DBM-Mod-Name-frFR: Groupe (MoP)
-## X-DBM-Mod-Sort: 556
-## X-DBM-Mod-MapID: 960,961,959,962,994,1011
-## X-DBM-Mod-MinCoreRevision: 17622
+## X-DBM-Mod-Sort: 530
+## X-DBM-Mod-MapID: 960, 961, 959, 962, 994, 1011
+## X-DBM-Mod-MinCoreRevision: 17650
 
 localization.en.lua
 localization.ru.lua
-localization.cn.lua
 localization.de.lua
 localization.es.lua
 localization.fr.lua
+localization.it.lua
+localization.br.lua
 localization.kr.lua
+localization.cn.lua
 localization.tw.lua
+
 JadeSerpentTemple\WiseMari.lua
 JadeSerpentTemple\LibraryEvent.lua
 JadeSerpentTemple\LiuFlameheart.lua
