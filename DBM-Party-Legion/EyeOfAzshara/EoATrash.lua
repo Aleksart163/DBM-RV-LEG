@@ -122,6 +122,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		else
 			warnArcaneBomb:CombinedShow(0.5, args.destName)
 			specWarnArcaneBomb2:Show(args.destName)
+			specWarnArcaneBomb2:Play("dispelnow")
 		end
 		if self.Options.RangeFrame then
 			DBM.RangeCheck:Show(10)
@@ -158,6 +159,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		else
 			warnImprisoningBubble:CombinedShow(0.5, args.destName)
 			specWarnImprisoningBubble2:CombinedShow(0.5, args.destName)
+			specWarnImprisoningBubble2:Play("dispelnow")
 		end
 		if self.Options.SetIconOnImprisoningBubble then
 			self:SetIcon(args.destName, 7, 12)
