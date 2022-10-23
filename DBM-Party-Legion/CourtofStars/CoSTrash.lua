@@ -446,11 +446,16 @@ do
 		[L.Gloves2] = "gloves",
 		[L.Gloves3] = "gloves",
 		[L.Gloves4] = "gloves",
+		[L.Gloves5] = "gloves",
+		[L.Gloves6] = "gloves",
 		
 		[L.NoGloves1] = "no gloves",
 		[L.NoGloves2] = "no gloves",
 		[L.NoGloves3] = "no gloves",
 		[L.NoGloves4] = "no gloves",
+		[L.NoGloves5] = "no gloves",
+		[L.NoGloves6] = "no gloves",
+		[L.NoGloves7] = "no gloves",
 		
 		[L.Cape1] = "cape",
 		[L.Cape2] = "cape",
@@ -471,37 +476,48 @@ do
 		[L.Female2] = "female",
 		[L.Female3] = "female",
 		[L.Female4] = "female",
+		[L.Female5] = "female",
 		
 		[L.Male1] = "male",
 		[L.Male2] = "male",
 		[L.Male3] = "male",
 		[L.Male4] = "male",
+		[L.Male5] = "male",
+		[L.Male6] = "male",
 		
 		[L.ShortSleeve1] = "short sleeves",
 		[L.ShortSleeve2] = "short sleeves",
 		[L.ShortSleeve3] = "short sleeves",
 		[L.ShortSleeve4] = "short sleeves",
+		[L.ShortSleeve5] = "short sleeves",
 		
 		[L.LongSleeve1] = "long sleeves",
 		[L.LongSleeve2] = "long sleeves",
 		[L.LongSleeve3] = "long sleeves",
 		[L.LongSleeve4] = "long sleeves",
+		[L.LongSleeve5] = "long sleeves",
 		
 		[L.Potions1] = "potions",
 		[L.Potions2] = "potions",
 		[L.Potions3] = "potions",
 		[L.Potions4] = "potions",
+		[L.Potions5] = "potions",
+		[L.Potions6] = "potions",
 		
 		[L.NoPotions1] = "no potion",
 		[L.NoPotions2] = "no potion",
 		
 		[L.Book1] = "book",
 		[L.Book2] = "book",
+		[L.Book3] = "book",
 		
 		[L.Pouch1] = "pouch",
 		[L.Pouch2] = "pouch",
 		[L.Pouch3] = "pouch",
 		[L.Pouch4] = "pouch"
+		[L.Pouch5] = "pouch",
+		[L.Pouch6] = "pouch",
+		[L.Pouch7] = "pouch"
 	}
 	local bwClues = {
 		[1] = "cape",
