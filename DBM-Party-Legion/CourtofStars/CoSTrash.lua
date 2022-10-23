@@ -514,7 +514,7 @@ do
 		[L.Pouch1] = "pouch",
 		[L.Pouch2] = "pouch",
 		[L.Pouch3] = "pouch",
-		[L.Pouch4] = "pouch"
+		[L.Pouch4] = "pouch",
 		[L.Pouch5] = "pouch",
 		[L.Pouch6] = "pouch",
 		[L.Pouch7] = "pouch"
