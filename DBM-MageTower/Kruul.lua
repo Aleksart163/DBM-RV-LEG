@@ -5,8 +5,10 @@ mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 mod:SetCreatureID(117933, 117198) --Инквизитор Варисс, Верховный лорд Круул
 mod:SetZone()
 mod:SetBossHPInfoToHighest()
+
 mod.soloChallenge = true
 mod.onlyNormal = true
+mod.noStatistics = true
 
 mod:RegisterCombat("combat")
 

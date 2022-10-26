@@ -4,8 +4,10 @@ local L		= mod:GetLocalizedStrings()
 mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 mod:SetCreatureID(115638) --Агата
 mod:SetZone()
+
 mod.soloChallenge = true
 mod.onlyNormal = true
+mod.noStatistics = true
 
 mod:RegisterCombat("combat")
 

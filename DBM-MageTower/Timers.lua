@@ -5,6 +5,7 @@ mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 mod:SetZone()
 
 mod.isTrashMod = true
+mod.noStatistics = true
 
 mod:RegisterEvents(
 --	"SPELL_CAST_START 235823",

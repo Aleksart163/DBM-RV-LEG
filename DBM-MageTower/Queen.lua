@@ -6,8 +6,10 @@ mod:SetCreatureID(116484, 116499, 116496) --Сигрин, Ярл Вельбра�
 mod:SetEncounterID(2059)
 mod:SetZone()
 mod:SetBossHPInfoToHighest()
+
 mod.soloChallenge = true
 mod.onlyNormal = true
+mod.noStatistics = true
 
 mod:RegisterCombat("combat")
 

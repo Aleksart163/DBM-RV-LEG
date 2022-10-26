@@ -5,8 +5,10 @@ mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 mod:SetCreatureID(116409, 116410) --Рейст Волшебное Копье, Карам Волшебное Копье
 mod:SetZone()
 mod:SetBossHPInfoToHighest()
+
 mod.soloChallenge = true
 mod.onlyNormal = true
+mod.noStatistics = true
 
 mod:RegisterCombat("combat")
 
