@@ -16,7 +16,7 @@ DBM_CORE_LOAD_MOD_DISABLED_PLURAL	= "%s sind installiert, aber derzeit nicht akt
 
 DBM_CORE_UPDATEREMINDER_URL			= "https://github.com/Aleksart163/DBM-for-Uwow"
 
-DBM_COPY_URL_DIALOG					= "Kopiere URL"
+DBM_COPY_URL_DIALOG					= "Besuchen Sie unsere Website, um sie auf die neueste Version zu aktualisieren."
 
 --Post Patch 7.1
 DBM_CORE_NO_RANGE					= "Das Abstandsradar kann in Instanzen nicht genutzt werden. Es wird stattdessen die alte textbasierte Abstandsanzeige verwendet."
@@ -122,6 +122,7 @@ DBM_CORE_GENERIC_TIMER_COMBAT		= "Kampfbeginn"
 DBM_CORE_OPTION_TIMER_COMBAT		= "Zeige Zeit bis Kampfbeginn"
 DBM_CORE_OPTION_TIMER_DOOR_OPENING	= "Countdown bis zur Türöffnung"
 DBM_CORE_GENERIC_TIMER_DOOR_OPENING	= "Türöffnung"
+DBM_CORE_GENERIC_TIMER_ROLE_PLAY	= "Aktivieren Sie Rollenspiele oder NPCs mit 1 Klick"
 DBM_CORE_BAD						= "Schlechtes"
 
 DBM_CORE_OPTION_CATEGORY_TIMERS			= "Timer"
@@ -299,6 +300,7 @@ DBM_CORE_ACHIEVEMENT_TIMER_SPEED_KILL = "Zeit für Erfolg"
 -- Auto-generated Warning Localizations
 DBM_CORE_AUTO_ANNOUNCE_TEXTS.you		= "%s auf DIR"
 DBM_CORE_AUTO_ANNOUNCE_TEXTS.target		= "%s auf >%%s<"
+DBM_CORE_AUTO_ANNOUNCE_TEXTS.targetsource  	= ">%%s< wendet einen Zauber an %s"
 DBM_CORE_AUTO_ANNOUNCE_TEXTS.targetcount	= "%s (%%s) auf >%%s<"
 DBM_CORE_AUTO_ANNOUNCE_TEXTS.spell		= "%s"
 DBM_CORE_AUTO_ANNOUNCE_TEXTS.ends 		= "%s ist beendet"
@@ -316,6 +318,7 @@ DBM_CORE_AUTO_ANNOUNCE_TEXTS.stack		= "%s auf >%%s< (%%d)"
 local prewarnOption = "Zeige Vorwarnung für $spell:%s"
 DBM_CORE_AUTO_ANNOUNCE_OPTIONS.you			= "Verkünde, wenn du von $spell:%s betroffen bist"
 DBM_CORE_AUTO_ANNOUNCE_OPTIONS.target		= "Verkünde Ziele von $spell:%s"
+DBM_CORE_AUTO_ANNOUNCE_OPTIONS.targetsource	= "Quelle der Verwendung des Zauberspruchs deklarieren $spell:%s"
 DBM_CORE_AUTO_ANNOUNCE_OPTIONS.targetcount	= "Verkünde Ziele von $spell:%s (mit Zählung)"
 DBM_CORE_AUTO_ANNOUNCE_OPTIONS.spell		= "Zeige Warnung für $spell:%s"
 DBM_CORE_AUTO_ANNOUNCE_OPTIONS.ends		= "Zeige Warnung, wenn $spell:%s beendet ist"
@@ -333,6 +336,7 @@ DBM_CORE_AUTO_ANNOUNCE_OPTIONS.stack		= "Verkünde $spell:%s Stapel"
 
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.spell				= "%s!"
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.ends				= "%s beendet"
+DBM_CORE_AUTO_SPEC_WARN_TEXTS.ready				= "%s bereit"
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.fades				= "%s beendet"
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.soon				= "%s bald"
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.prewarn			= "%s in %s"
@@ -369,6 +373,7 @@ DBM_CORE_AUTO_SPEC_WARN_TEXTS.Addscustom		= "Adds kommen - %%s"
 -- Auto-generated Special Warning Localizations
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.spell 			= "Spezialwarnung für $spell:%s"
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.ends 			= "Spezialwarnung, wenn $spell:%s beendet ist"
+DBM_CORE_AUTO_SPEC_WARN_OPTIONS.ready 			= "Spezialwarnung zur Bereitschaft $spell:%s"
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.fades 			= "Spezialwarnung, wenn $spell:%s beendet ist"
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.soon 			= "Spezialvorwarnung für $spell:%s"
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.prewarn 		= "Spezialvorwarnung %s Sekunden vor $spell:%s"

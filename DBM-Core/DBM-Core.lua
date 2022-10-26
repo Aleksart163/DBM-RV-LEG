@@ -1,10 +1,10 @@
+-- ДЛЯ ДУРАЧКОВ, которым нехуй заняться
+-- Ниже находится информация с офы Легиона под 2018 год
 -- *********************************************************
 -- **               Deadly Boss Mods - Core               **
 -- **            http://www.deadlybossmods.com            **
 -- **        https://www.patreon.com/deadlybossmods       **
 -- *********************************************************
--- ДЛЯ ДУРАЧКОВ, которым нехуй заняться
--- Ниже находится информация с офы Легиона под 2018 год
 -- This addon is written and copyrighted by:
 --    * Paul Emmerich (Tandanu @ EU-Aegwynn) (DBM-Core)
 --    * Martin Verges (Nitram @ EU-Azshara) (DBM-GUI)
@@ -44,9 +44,9 @@
 ----------------------------------------------------------------
 --
 DBM = {
-	Revision = tonumber(("$Revision: 17681 $"):sub(12, -3)), --прошляпанное очко мурчаля ✔
+	Revision = tonumber(("$Revision: 17682 $"):sub(12, -3)), --прошляпанное очко мурчаля ✔
 	DisplayVersion = "7.3.40 Right Version",
-	ReleaseRevision = 17680
+	ReleaseRevision = 17681
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -3548,8 +3548,8 @@ end
 
 function DBM:LFG_PROPOSAL_SHOW()
 	if self.Options.ShowQueuePop and not self.Options.DontShowBossTimers then
-		self.Bars:CreateBar(46, DBM_LFG_INVITE, "Interface\\Icons\\Spell_Holy_BorrowedTime")
-		fireEvent("DBM_TimerStart", "DBMLFGTimer", DBM_LFG_INVITE, 46, "Interface\\Icons\\Spell_Holy_BorrowedTime", "extratimer", nil, 0)
+		self.Bars:CreateBar(45.5, DBM_LFG_INVITE, "Interface\\Icons\\Spell_Holy_BorrowedTime")
+		fireEvent("DBM_TimerStart", "DBMLFGTimer", DBM_LFG_INVITE, 45.5, "Interface\\Icons\\Spell_Holy_BorrowedTime", "extratimer", nil, 0)
 	end
 	if self.Options.LFDEnhance then
 		self:FlashClientIcon()

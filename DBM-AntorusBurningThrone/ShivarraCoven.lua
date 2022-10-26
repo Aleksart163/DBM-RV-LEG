@@ -117,7 +117,7 @@ local yellFlashfreeze					= mod:NewYell(245518, nil, false, nil, "YELL") --Мо�
 local yellCosmicGlare					= mod:NewYell(250757, nil, nil, nil, "YELL") --Космический отблеск
 local yellCosmicGlareFades				= mod:NewShortFadesYell(250757, nil, nil, nil, "YELL") --Космический отблеск
 
-local berserkTimer						= mod:NewBerserkTimer(600)
+local berserkTimer						= mod:NewBerserkTimer(720) --(под героик точно)
 
 --Noura, Mother of Flames
 local countdownTitans					= mod:NewCountdown(90, "ej16138", nil, nil, 5)

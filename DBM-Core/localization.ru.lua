@@ -18,7 +18,7 @@ DBM_CORE_LOAD_MOD_DISABLED_PLURAL	= "%s установлены, но в наст
 
 DBM_CORE_UPDATEREMINDER_URL			= "https://github.com/Aleksart163/DBM-for-Uwow"
 
-DBM_COPY_URL_DIALOG					= "Посетите наш сайт для обновления на последнюю версию\r\n"
+DBM_COPY_URL_DIALOG					= "Посетите наш сайт для обновления на последнюю версию аддона."
 
 --Pre Patch 7.1 Notice
 DBM_CORE_NO_RANGE_SOON				= "Внимание: радар будет недоступен в подземельях в патче 7.1"

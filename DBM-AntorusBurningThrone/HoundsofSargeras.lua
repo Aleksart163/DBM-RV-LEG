@@ -62,7 +62,7 @@ local timerFocusingPower				= mod:NewCastTimer(15, 251356, nil, nil, nil, 6) --�
 local timerDarkReconstitution			= mod:NewCastTimer(15, 249113, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON..DBM_CORE_MYTHIC_ICON) --Темное восстановление
 mod:AddTimerLine(Fharg)
 local timerBurningMawCD					= mod:NewCDTimer(11, 251448, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Пылающая пасть
-local timerMoltenTouchCD				= mod:NewCDTimer(95.9, 244072, nil, nil, nil, 3) --Касание магмы
+local timerMoltenTouchCD				= mod:NewCDTimer(95.9, 244072, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Касание магмы
 local timerEnflamedCorruptionCD			= mod:NewCDTimer(95.9, 244057, nil, nil, nil, 7) --Возгорание порчи
 local timerDesolateGazeCD				= mod:NewCDTimer(95.9, 244768, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Опустошающий взгляд
 mod:AddTimerLine(Shatug)
@@ -92,7 +92,6 @@ local countdownDarkReconstitution		= mod:NewCountdownFades(15, 249113, nil, nil,
 mod:AddSetIconOption("SetIconOnWeightofDarkness2", 254429, true, false, {5, 4, 3, 2, 1}) --Бремя тьмы
 --mod:AddInfoFrameOption(239154, true)
 mod:AddRangeFrameOption("5/8")
-mod:AddBoolOption("SequenceTimers", false)
 
 mod.vb.WeightDarkIcon = 0
 mod.vb.longTimer = 95.9
@@ -245,15 +244,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	--	warnMoltenTouch:Play("watchstep")
 		specWarnMoltenTouch:Show()
 		specWarnMoltenTouch:Play("watchstep")
-		if not self.Options.SequenceTimers or self:IsEasy() then
-			timerMoltenTouchCD:Start(self.vb.longTimer)
-		else
-			if self:IsMythic() then
-				timerEnflamedCorruptionCD:Start(30.5)
-			else
-				timerEnflamedCorruptionCD:Start(33)--33-34.2
-			end
-		end
+		timerMoltenTouchCD:Start(self.vb.longTimer)
 --[[	elseif spellId == 251445 then
 		warnBurningMaw:Show(args.destName)
 		if self:IsMythic() then
