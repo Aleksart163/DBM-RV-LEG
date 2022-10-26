@@ -49,15 +49,6 @@ L:SetMiscLocalization({
 	RP1 = "Now... now I see..."
 })
 
------------
---Mythic+--
------------
-L = DBM:GetModLocalization("MAffix")
-
-L:SetGeneralLocalization({
-	name = "Mythic+ keys"
-})
-
 -----------------------
 -- <<<Darkheart Thicket>>> --
 -----------------------
@@ -367,10 +358,15 @@ L:SetMiscLocalization({
 	Gloves2		= "I heard the spy carefully hides their hands.",
 	Gloves3		= "I heard the spy always dons gloves.",
 	Gloves4		= "Someone said the spy wears gloves to cover obvious scars.",
+	Gloves5		= false,
+	Gloves6		= false,
 	NoGloves1	= "There's a rumor that the spy never has gloves on.",
 	NoGloves2	= "You know... I found an extra pair of gloves in the back room. The spy is likely to be bare handed somewhere around here.",
 	NoGloves3	= "I heard the spy dislikes wearing gloves.",
 	NoGloves4	= "I heard the spy avoids having gloves on, in case some quick actions are needed.",
+	NoGloves5	= false,
+	NoGloves6	= false,
+	NoGloves7	= false,
 	Cape1		= "Someone mentioned the spy came in earlier wearing a cape.",
 	Cape2		= "I heard the spy enjoys wearing capes.",
 	NoCape1		= "I heard the spy dislikes capes and refuses to wear one.",
@@ -386,30 +382,41 @@ L:SetMiscLocalization({
 	Female2		= "I hear some woman has been constantly asking about the district...",
 	Female3		= "Someone's been saying that our new guest isn't male.",
 	Female4		= "A guest saw both her and Elisande arrive together earlier.",
+	Female5		= false,
 	Male1		= "I heard somewhere that the spy isn't female.",
 	Male2		= "I heard the spy is here and he's very good looking.",
 	Male3		= "A guest said she saw him entering the manor alongside the Grand Magistrix.",
 	Male4		= "One of the musicians said he would not stop asking questions about the district.",
+	Male5		= false,
+	Male6		= false,
 	ShortSleeve1= "I heard the spy wears short sleeves to keep their arms unencumbered.",
 	ShortSleeve2= "Someone told me the spy hates wearing long sleeves.",
 	ShortSleeve3= "A friend of mine said she saw the outfit the spy was wearing. It did not have long sleeves.",
 	ShortSleeve4= "I heard the spy enjoys the cool air and is not wearing long sleeves tonight.",
+	ShortSleeve5= false,
 	LongSleeve1 = "I heard the spy's outfit has long sleeves tonight.",
 	LongSleeve2 = "Someone said the spy is covering up their arms with long sleeves tonight.",
 	LongSleeve3 = "I just barely caught a glimpse of the spy's long sleeves earlier in the evening.",
 	LongSleeve4 = "A friend of mine mentioned the spy has long sleeves on.",
+	LongSleeve5 = false,
 	Potions1	= "I heard the spy brought along potions, I wonder why?",
 	Potions2	= "I didn't tell you this... but the spy is masquerading as an alchemist and carrying potions at the belt.",
 	Potions3	= "I'm pretty sure the spy has potions at the belt.",
 	Potions4	= "I heard the spy brought along some potions... just in case.",
+	Potions5	= false,
+	Potions6	= false,
 	NoPotions1	= "I heared the spy is not carrying any potions around.",
 	NoPotions2	= "A musician told me she saw the spy throw away their last potion and no longer has any left.",
 	Book1		= "I heard the spy always has a book of written secrets at the belt.",
 	Book2		= "Rumor has is the spy loves to read and always carries around at least one book.",
+	Book3		= false,
 	Pouch1		= "I heard the spy carries a magical pouch around at all times.",
 	Pouch2		= "A friend said the spy loves gold and a belt pouch filled with it.",
 	Pouch3		= "I heard the spy's belt pouch is filled with gold to show off extravagance.",
 	Pouch4		= "I heard the spy's belt pouch is lined with fancy threading.",
+	Pouch5		= false,
+	Pouch6		= false,
+	Pouch7		= false,
 	Found		= "Now now, let's not be hasty",
 	--
 	Gloves		= "Wears gloves/Носит перчатки",
@@ -803,4 +810,13 @@ L:SetMiscLocalization({
 	RP1 = "The Shadowguard is building up its presence near the temple.",
 	RP2 = "I sense great despair emanating from within. L'ura...",
 	RP3 = "Such chaos... such anguish. I have never sensed anything like it before."
+})
+
+-----------
+--Mythic+--
+-----------
+L = DBM:GetModLocalization("MAffix")
+
+L:SetGeneralLocalization({
+	name = "M+ Affixes"
 })

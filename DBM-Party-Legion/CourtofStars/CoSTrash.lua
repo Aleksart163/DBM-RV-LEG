@@ -2,7 +2,6 @@ local mod	= DBM:NewMod("CoSTrash", "DBM-Party-Legion", 7)
 local L		= mod:GetLocalizedStrings()
 
 mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
---mod:SetModelID(47785)
 mod:SetZone()
 mod:SetOOCBWComms()
 

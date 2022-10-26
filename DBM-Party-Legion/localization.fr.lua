@@ -51,15 +51,6 @@ L:SetMiscLocalization({
 	RP1 = "Je comprends, maintenant…"
 })
 
-----------
---Мифик+--
-----------
-L = DBM:GetModLocalization("MAffix")
-
-L:SetGeneralLocalization({
-	name = "Clés mythiques+"
-})
-
 -----------------------
 -- <<<Darkheart Thicket>>> --
 -----------------------
@@ -339,10 +330,15 @@ L:SetMiscLocalization({
 	Gloves2			= "On dit que la taupe porte toujours des gants.",
 	Gloves3			= "Le bruit court que la taupe porte toujours des gants.",
 	Gloves4			= "Il paraît que la taupe prend toujours soin de cacher ses mains.",
+	Gloves5			= false,
+	Gloves6			= false,
 	NoGloves1		= "Vous savez… J’ai trouvé une paire de gants abandonnée dans l’arrière-salle. Il faut croire que la taupe n’en porte pas.",
 	NoGloves2		= "J’ai entendu dire que la taupe évite de porter des gants, de crainte que cela ne nuise à sa dextérité.",
 	NoGloves3		= "On dit que la taupe déteste porter des gants.",
 	NoGloves4		= "Le bruit court que la taupe ne porte jamais de gants.",
+	NoGloves5		= false,
+	NoGloves6		= false,
+	NoGloves7		= false,
 	Cape1			= "Quelqu’un affirme que la taupe portait une cape lors de son passage ici.",
 	Cape2			= "On dit que la taupe aime porter des capes.",
 	NoCape1			= "Il paraît que la taupe n’aime pas les capes et refuse d’en porter.",
@@ -358,46 +354,57 @@ L:SetMiscLocalization({
 	Female2			= "Le bruit court que notre hôte ne serait pas un homme.",
 	Female3			= "On dit que la taupe est ici et que c’est une vraie beauté.",
 	Female4			= "On me dit qu’une femme ne cesse de poser des questions à propos du quartier…",
+	Female5			= false,
 	Male1			= "À en croire la rumeur, la taupe ne serait pas une espionne.",
 	Male2			= "À en croire l’un des musiciens, il n’arrêtait pas de poser des questions sur le quartier.",
 	Male3			= "Une invitée l’aurait vu entrer dans le manoir au côté de la grande magistrice.",
 	Male4			= "Il paraît que l’espion est ici et qu’il est fort séduisant, de surcroît.",
+	Male5			= false,
+	Male6			= false,
 	ShortSleeve1	= "Quelqu’un m’a dit que la taupe détestait porter des manches longues.",
 	ShortSleeve2	= "Une de mes amies prétend avoir vu la tenue que porte notre taupe. À l’en croire, ce ne serait pas un habit à manches longues.",
 	ShortSleeve3	= "Il paraît que la taupe porte des manches courtes pour rester plus libre de ses mouvements.",
 	ShortSleeve4	= "Il paraît que la taupe aime sentir la caresse du vent sur sa peau et ne porte pas de manches longues ce soir.",
+	ShortSleeve5	= false,
 	LongSleeve1 	= "D’après l’un de mes amis, la taupe porterait un habit à manches longues.",
 	LongSleeve2 	= "Il paraît que la taupe porte une tenue à manches longues ce soir.",
 	LongSleeve3 	= "J’ai brièvement entraperçu la taupe dans sa tenue à manches longues tout à l’heure.",
 	LongSleeve4 	= "Quelqu’un m’a dit que les bras de la taupe étaient dissimulés par un habit à manches longues, ce soir.",
+	LongSleeve5 	= false,
 	Potions1		= "La taupe porte des potions à la ceinture. J’en mettrais ma main au feu !",
 	Potions2		= "Ça reste entre nous… La taupe se fait passer pour un alchimiste et porte des potions à sa ceinture.",
 	Potions3		= "J’ai entendu dire que la taupe a apporté quelques potions… au cas où.",
 	Potions4		= "J’ai entendu dire que la taupe a apporté quelques potions. Je me demande bien pourquoi.",
+	Potions5		= false,
+	Potions6		= false,
 	NoPotions1		= "Une musicienne m’a dit avoir vu la taupe jeter sa dernière potion. Il semblerait donc qu’il ne lui en reste plus.",
 	NoPotions2		= "Il paraît que la taupe ne transporte aucune potion.",
 	Book1			= "Il paraît que la taupe porte toujours un livre des secrets à sa ceinture.",
 	Book2			= "Le bruit court que la taupe adore lire et transporte toujours au moins un livre.",
+	Book3			= false,
 	Pouch1			= "On raconte que la taupe ne se sépare jamais de sa sacoche magique.",
 	Pouch2			= "D’après l’un de mes amis, la taupe aime l’or et les sacoches qui en sont pleines.",
 	Pouch3			= "On raconte que la sacoche de la taupe est pleine d’or. Si ça, ce n’est pas un signe extérieur de richesse…",
 	Pouch4			= "On raconte que la sacoche de la taupe est bordée d’une élégante broderie.",
+	Pouch5			= false,
+	Pouch6			= false,
+	Pouch7			= false,
 	Found			= "N’allez pas trop vite en besogne", --Allons, Tielle. N’allez pas trop vite en besogne. Et si vous me suiviez, que nous puissions en parler en privé ?
 	--
-	Gloves		= "gloves",
-	NoGloves	= "no gloves",
-	Cape		= "cape",
-	Nocape		= "no cape",
-	LightVest	= "light vest",
-	DarkVest	= "dark vest",
-	Female		= "female",
-	Male		= "male",
-	ShortSleeve = "short sleeves",
-	LongSleeve	= "long sleeves",
-	Potions		= "potions",
-	NoPotions	= "no potions",
-	Book		= "book",
-	Pouch		= "pouch"
+	Gloves		= "Wears gloves/Носит перчатки",
+	NoGloves	= "No gloves/Без перчаток",
+	Cape		= "Wearing a cape/Носит плащ",
+	Nocape		= "No cape/Без плаща",
+	LightVest	= "Light vest/Светлый жилет",
+	DarkVest	= "Dark vest/Темный жилет",
+	Female		= "Female/Женщина",
+	Male		= "Male/Мужчина",
+	ShortSleeve = "Short sleeves/Короткие рукава",
+	LongSleeve	= "Long sleeves/Длинные рукава",
+	Potions		= "Potions/Зелья",
+	NoPotions	= "No potions/Нет зелий",
+	Book		= "Book/Книга",
+	Pouch		= "Pouch/Кошель"
 })
 
 
@@ -764,4 +771,13 @@ L:SetMiscLocalization({
 	RP1 = "The Shadowguard is building up its presence near the temple.",
 	RP2 = "I sense great despair emanating from within. L'ura...",
 	RP3 = "Such chaos... such anguish. I have never sensed anything like it before."
+})
+
+----------
+--Мифик+--
+----------
+L = DBM:GetModLocalization("MAffix")
+
+L:SetGeneralLocalization({
+	name = "M+ Affixes"
 })

@@ -51,15 +51,6 @@ L:SetMiscLocalization({
 	RP1 = "Jetzt... Jetzt sehe ich..."
 })
 
-----------
---Мифик+--
-----------
-L = DBM:GetModLocalization("MAffix")
-
-L:SetGeneralLocalization({
-	name = "Mythic+ keys"
-})
-
 -----------------------
 -- <<<Darkheart Thicket>>> --
 -----------------------
@@ -200,12 +191,12 @@ L:SetTimerLocalization({
 })
 
 L:SetMiscLocalization({
-	RPSolsten = "Ihr entweiht dieses Ritual mit Eurer Anwesenheit, Sterbliche!",
-	RPSolsten2 = "Hyrja... der Zorn des Sturms dient Eurem Wort!",
-	RPOlmyr = "Ihr werdet Hyrjas Aufstieg nicht stören!",
-	RPOlmyr2 = "Das Licht erstrahlt auf ewig in Euch, Hyrja!",
-	RPSkovald = "Nein! Auch ich habe mich bewiesen, Odyn. Ich bin Gottkönig Skovald! Diese Sterblichen werden mir die Aegis nicht streitig machen!",
-	RPOdyn = "Höchst beeindruckend! Ich hielt die Kräfte der Valarjar stets für unerreicht... und dennoch steht Ihr hier vor mir."
+	RPSolsten = "Ihr entweiht dieses Ritual mit Eurer Anwesenheit, Sterbliche!", --
+	RPSolsten2 = "Hyrja... der Zorn des Sturms dient Eurem Wort!", --
+	RPOlmyr = "Ihr werdet Hyrjas Aufstieg nicht stören!", --
+	RPOlmyr2 = "Das Licht erstrahlt auf ewig in Euch, Hyrja!", --
+	RPSkovald = "Nein! Auch ich habe mich bewiesen, Odyn. Ich bin Gottkönig Skovald! Diese Sterblichen werden mir die Aegis nicht streitig machen!", --
+	RPOdyn = "Höchst beeindruckend! Ich hielt die Kräfte der Valarjar stets für unerreicht... und dennoch steht Ihr hier vor mir." --
 })
 
 -----------------------
@@ -320,23 +311,23 @@ L= DBM:GetModLocalization(1720)
 L = DBM:GetModLocalization("CoSTrash")
 
 L:SetGeneralLocalization({
-	name =	"Trash des Hofs der Sterne"
+	name = "Trash des Hofs der Sterne"
 })
 
 L:SetOptionLocalization({
---	YellOnEating = "Сообщать, когда кто-то применяеет заклинание $spell:208585",
---	YellOnSiphoningMagic = "Сообщать, когда кто-то применяеет заклинание $spell:208427",
---	YellOnPurifying = "Сообщать, когда кто-то применяеет заклинание $spell:209767",
---	YellOnDraining = "Сообщать, когда кто-то применяеет заклинание $spell:208334",
---	YellOnInvokingText = "Сообщать, когда кто-то применяеет заклинание $spell:210872",
---	YellOnDrinking = "Сообщать, когда кто-то применяеет заклинание $spell:210307",
---	YellOnReleaseSpores = "Сообщать, когда кто-то применяеет заклинание $spell:208939",
---	YellOnShuttingDown = "Сообщать, когда кто-то применяеет заклинание $spell:208370",
---	YellOnTreating = "Сообщать, когда кто-то применяеет заклинание $spell:210925",
---	YellOnPilfering = "Сообщать, когда кто-то применяеет заклинание $spell:210217",
---	YellOnDefacing = "Сообщать, когда кто-то применяеет заклинание $spell:210330",
---	YellOnTinkering = "Сообщать, когда кто-то применяеет заклинание $spell:210922",
---	warnSpy = "Спец-предупреждение когда шпион обнаружен",
+	YellOnEating = "Melden, wenn jemand einen Zauber anwendet $spell:208585",
+	YellOnSiphoningMagic = "Melden, wenn jemand einen Zauber anwendet $spell:208427",
+	YellOnPurifying = "Melden, wenn jemand einen Zauber anwendet $spell:209767",
+	YellOnDraining = "Melden, wenn jemand einen Zauber anwendet $spell:208334",
+	YellOnInvokingText = "Melden, wenn jemand einen Zauber anwendet $spell:210872",
+	YellOnDrinking = "Melden, wenn jemand einen Zauber anwendet $spell:210307",
+	YellOnReleaseSpores = "Melden, wenn jemand einen Zauber anwendet $spell:208939",
+	YellOnShuttingDown = "Melden, wenn jemand einen Zauber anwendet $spell:208370",
+	YellOnTreating = "Melden, wenn jemand einen Zauber anwendet $spell:210925",
+	YellOnPilfering = "Melden, wenn jemand einen Zauber anwendet $spell:210217",
+	YellOnDefacing = "Melden, wenn jemand einen Zauber anwendet $spell:210330",
+	YellOnTinkering = "Melden, wenn jemand einen Zauber anwendet $spell:210922",
+	warnSpy = "Spezialwarnung, wenn ein Spion entdeckt wird",
 	SpyHelper	= "Hilf bei der Erkennung des Spions",
 	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
 })
@@ -346,28 +337,33 @@ L:SetTimerLocalization({
 })
 
 L:SetMiscLocalization({
---	EatingYell = "[DBM RV] %s использует %s, теперь у нас больше хп!",
---	SiphoningMagic = "[DBM RV] %s использует %s, теперь у нас больше урона!",
---	PurifyingYell = "[DBM RV] %s использует %s, теперь у нас больше защиты!",
---	DrainingYell = "[DBM RV] %s использует %s, теперь у нас больше крита!",
---	InvokingTextYell = "[DBM RV] %s использует %s, теперь у нас больше скорости бега!",
---	DrinkingYell = "[DBM RV] %s использует %s, теперь у нас больше регена хп и маны!",
---	ReleaseSporesYell = "[DBM RV] %s использует %s, теперь у нас больше скорости боя!",
---	ShuttingDownYell = "[DBM RV] %s использует %s, теперь все Големы-стражи будут выключены!",
---	TreatingYell = "[DBM RV] %s использует %s и отвлекает мини-босса!",
---	PilferingYell = "[DBM RV] %s использует %s и отвлекает мини-босса!",
---	DefacingYell = "[DBM RV] %s использует %s и отвлекает мини-босса!",
---	TinkeringYell = "[DBM RV] %s использует %s и отвлекает мини-босса!",
+	EatingYell = "[DBM RV] %s verwendet %s!",
+	SiphoningMagic = "[DBM RV] %s verwendet %s!",
+	PurifyingYell = "[DBM RV] %s verwendet %s!",
+	DrainingYell = "[DBM RV] %s verwendet %s!",
+	InvokingTextYell = "[DBM RV] %s verwendet %s!",
+	DrinkingYell = "[DBM RV] %s verwendet %s!",
+	ReleaseSporesYell = "[DBM RV] %s verwendet %s!",
+	ShuttingDownYell = "[DBM RV] %s verwendet %s!",
+	TreatingYell = "[DBM RV] %s verwendet %s!",
+	PilferingYell = "[DBM RV] %s verwendet %s!",
+	DefacingYell = "[DBM RV] %s verwendet %s!",
+	TinkeringYell = "[DBM RV] %s verwendet %s!",
 	--
 	proshlyapMurchal = "Müsst Ihr schon gehen, Großmagistrix?",
 	Gloves1			= "Einem Gerücht zufolge trägt der Spion immer Handschuhe.",
 	Gloves2			= "Wie ich hörte, verbirgt der Spion sorgfältig die Hände.",
 	Gloves3			= "Ich hörte, dass der Spion immer Handschuhe anlegt.",
 	Gloves4			= "Jemand behauptete, dass der Spion Handschuhe trägt, um sichtbare Narben zu verbergen.",
+	Gloves5			= false,
+	Gloves6			= false,
 	NoGloves1		= "Es gibt Gerüchte, dass der Spion niemals Handschuhe trägt.",
 	NoGloves2		= "Wisst Ihr... Ich habe ein zusätzliches Paar Handschuhe im Hinterzimmer gefunden. Wahrscheinlich ist der Spion hier irgendwo mit bloßen Händen unterwegs.",
 	NoGloves3		= "Mir ist zu Ohren gekommen, dass der Spion ungern Handschuhe trägt.",
 	NoGloves4		= "Ich hörte, dass der Spion es vermeidet, Handschuhe zu tragen, falls er schnell handeln muss.",
+	NoGloves5		= false,
+	NoGloves6		= false,
+	NoGloves7		= false,
 	Cape1			= "Jemand erwähnte, dass der Spion vorhin hier hereinkam und einen Umhang trug.",
 	Cape2			= "Mir ist zu Ohren gekommen, dass der Spion gerne Umhänge trägt.",
 	NoCape1			= "Ich hörte, dass der Spion keine Umhänge mag und sich weigert, einen zu tragen.",
@@ -383,31 +379,42 @@ L:SetMiscLocalization({
 	Female2			= "Wie ich höre, hat eine Frau sich ständig nach diesem Bezirk erkundigt...",
 	Female3			= "Jemand hat behauptet, dass unser neuester Gast nicht männlich ist.",
 	Female4			= "Man sagt, die Spionin wäre hier und sie wäre eine wahre Augenweide.",
+	Female5			= false,
 	Male1			= "Irgendwo habe ich gehört, dass der Spion nicht weiblich ist.",
 	Male2			= "Ich hörte, dass der Spion ein äußerst gutaussehender Herr ist.",
 	Male3			= "Ein Gast sagte, sie sah, wie ein Herr an der Seite der Großmagistrix das Anwesen betreten hat.",
 	Male4			= "Einer der Musiker sagte, er stellte unablässig Fragen über den Bezirk.",
+	Male5			= false,
+	Male6			= false,
 	ShortSleeve1	= "Mir ist zu Ohren gekommen, dass der Spion kurze Ärmel trägt, damit er seine Arme ungehindert bewegen kann.",
 	ShortSleeve2	= "Jemand sagte mir, dass der Spion lange Ärmel hasst.",
 	ShortSleeve3	= "Eine meiner Freundinnen sagte, dass sie die Kleidung des Spions gesehen hat. Er trägt keine langen Ärmel.",
 	ShortSleeve4	= "Man hat mir zugetragen, dass der Spion die kühle Luft mag und deshalb heute Abend keine langen Ärmel trägt.",
+	ShortSleeve5	= false,
 	LongSleeve1		= "Wie ich hörte, trägt der Spion heute Abend Kleidung mit langen Ärmeln.",
 	LongSleeve2		= "Jemand sagte, dass der Spion heute Abend seine Arme mit langen Ärmeln bedeckt.",
 	LongSleeve3		= "Ich habe am frühen Abend einen kurzen Blick auf die langen Ärmel des Spions erhascht.",
 	LongSleeve4		= "Einer meiner Freunde erwähnte, dass der Spion lange Ärmel trägt.",
+	LongSleeve5 	= false,
 	Potions1		= "Ich hörte, dass der Spion Tränke mitgebracht hat... Ich frage mich wieso?",
 	Potions2		= "Von mir habt Ihr das nicht... aber der Spion verkleidet sich als Alchemist und trägt Tränke an seinem Gürtel.",
 	Potions3		= "Ich bin mir ziemlich sicher, dass der Spion Tränke am Gürtel trägt.",
 	Potions4		= "Wie ich hörte, hat der Spion einige Tränke mitgebracht... für alle Fälle.",
+	Potions5		= false,
+	Potions6		= false,
 	NoPotions1		= "Wie ich hörte, hat der Spion keine Tränke bei sich.",
 	NoPotions2		= "Eine Musikerin erzählte mir, dass sie gesehen hat, wie der Spion seinen letzten Trank wegwarf und jetzt keinen mehr übrig hat.",
 	Book1			= "Ich hörte, dass der Spion immer ein Buch mit niedergeschriebenen Geheimnissen am Gürtel trägt.",
 	Book2			= "Gerüchten zufolge liest der Spion gerne und trägt immer mindestens ein Buch bei sich.",
+	Book3			= false,
 	Pouch1			= "Ich hörte, dass der Spion immer einen magischen Beutel mit sich herumträgt.",
 	Pouch2			= "Ein Freund behauptet, dass der Spion Gold liebt und einen Gürtelbeutel voll davon hat.",
 	Pouch3			= "Ich hörte, dass der Gürtelbeutel des Spions mit ausgefallenem Garn gesäumt wurde.",
 	Pouch4			= "Mir ist zu Ohren gekommen, dass der Gürtelbeutel des Spions mit Gold gefüllt ist, um besonders extravagant zu erscheinen.",
-	Found			= "Na, na, wir wollen doch nicht voreilig sein", -- Na, na, wir wollen doch nicht voreilig sein, Tielle. Wieso folgt Ihr mir nicht, damit wir in etwas privaterer Umgebung darüber sprechen können...
+	Pouch5			= false,
+	Pouch6			= false,
+	Pouch7			= false,
+	Found			= "Wieso folgt Ihr mir nicht, damit wir in etwas privaterer Umgebung darüber sprechen können...", -- Na, na, wir wollen doch nicht voreilig sein, НИК. Wieso folgt Ihr mir nicht, damit wir in etwas privaterer Umgebung darüber sprechen können...
 	--
 	Gloves			= "Handschuhe/Wears gloves",
 	NoGloves		= "keine Handschuhe/No gloves",
@@ -424,7 +431,6 @@ L:SetMiscLocalization({
 	Book			= "Buch/Book",
 	Pouch			= "Beutel/Pouch"
 })
-
 
 -----------------------
 -- <<<The Maw of Souls>>> --
@@ -682,9 +688,9 @@ L:SetGeneralLocalization({
 })
 
 L:SetOptionLocalization({
-	timerRoleplay = "Отсчет времени до начала представления \"Das schöne Biest\"",
-	timerRoleplay2 = "Отсчет времени до начала представления \"Westfall Story\"",
-	timerRoleplay3 = "Отсчет времени до начала представления \"Wikket\"",
+	timerRoleplay = "Countdown zum Beginn der Show \"Das schöne Biest\"",
+	timerRoleplay2 = "Countdown zum Beginn der Show \"Westfall Story\"",
+	timerRoleplay3 = "Countdown zum Beginn der Show \"Wikket\"",
 	timerRoleplay4 = DBM_CORE_OPTION_TIMER_DOOR_OPENING,
 	OperaActivation = DBM_CORE_GENERIC_TIMER_ROLE_PLAY
 })
@@ -785,4 +791,13 @@ L:SetMiscLocalization({
 	RP1 = "Die Schattenwache verstärkt ihre Truppen in der Nähe des Tempels.",
 	RP2 = "Ich spüre große Verzweiflung innerhalb der Gemäuer. L'ura...",
 	RP3 = "Dieses Chaos... diese Qualen. Etwas Derartiges habe ich noch nie gespürt."
+})
+
+----------
+--Мифик+--
+----------
+L = DBM:GetModLocalization("MAffix")
+
+L:SetGeneralLocalization({
+	name = "M+ Affixe"
 })

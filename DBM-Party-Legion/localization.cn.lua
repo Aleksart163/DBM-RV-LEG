@@ -51,15 +51,6 @@ L:SetMiscLocalization({
 	RP1 = "这下……我明白了……"
 })
 
-----------
---Мифик+--
-----------
-L = DBM:GetModLocalization("MAffix")
-
-L:SetGeneralLocalization({
-	name = "神话+ 钥匙"
-})
-
 -----------------------
 -- <<<Darkheart Thicket>>> --
 -----------------------
@@ -335,10 +326,15 @@ L:SetMiscLocalization({ --神坑
 	Gloves2		= "我听说密探都会小心隐藏自己的双手。",
 	Gloves3		= "我听说那个密探总是带着手套。",
 	Gloves4		= "有人说那个密探带着手套，以掩盖手上明显的疤痕。",
+	Gloves5		= false,
+	Gloves6		= false,
 	NoGloves1	= "有传言说那个密探从来不戴手套。",
 	NoGloves2	= "你知道吗……我在后头的房间里发现了一双多余的手套。那个密探现在可能就赤着双手在这附近转悠呢。",
 	NoGloves3	= "我听说那个密探不喜欢戴手套。",
 	NoGloves4	= "我听说那个密探会尽量不戴手套，以防在快速行动时受到阻碍。",
+	NoGloves5	= false,
+	NoGloves6	= false,
+	NoGloves7	= false,
 	Cape1		= "有人提到那个密探之前是穿着斗篷来的。",
 	Cape2		= "我听说那个密探喜欢穿斗篷。",
 	NoCape1		= "我听说那个密探讨厌斗篷，所以没有穿。",
@@ -354,46 +350,57 @@ L:SetMiscLocalization({ --神坑
 	Female2		= "我听说有个女人一直打听贵族区的情况……",
 	Female3		= "有人说我们的新客人不是男性。",
 	Female4		= "他们说那个密探已经来了，而且她是个大美人。",
+	Female5		= false,
 	Male1		= "我在别处听说那个密探不是女性。",
 	Male2		= "我听说那个密探已经来了，而且他很英俊。",
 	Male3		= "有个客人说她看见他和大魔导师一起走进了庄园。",
 	Male4		= "有个乐师说，他一直在打听这一带的消息。",
+	Male5		= false,
+	Male6		= false,
 	ShortSleeve1= "我听说密探喜欢穿短袖服装，以免妨碍双臂的活动。",
 	ShortSleeve2= "有人告诉我那个密探讨厌长袖的衣服。",
 	ShortSleeve3= "我的一个朋友说，她看到了密探穿的衣服，是一件短袖上衣。",
 	ShortSleeve4= "我听说那个密探喜欢清凉的空气，所以今晚没有穿长袖衣服。",
+	ShortSleeve5= false,
 	LongSleeve1 = "我听说那个密探今天穿着长袖外套。",
 	LongSleeve2 = "有人说，那个密探今晚穿了一件长袖的衣服。",
 	LongSleeve3 = "上半夜的时候，我正巧瞥见那个密探穿着长袖衣服。",
 	LongSleeve4 = "我的一个朋友说那个密探穿着长袖衣服。",
+	LongSleeve5 = false,
 	Potions1	= "我听说那个密探随身带着药水，这是为什么呢？",
 	Potions2	= "可别说是我告诉你的……那个密探伪装成了炼金师，腰带上挂着药水。",
 	Potions3	= "我敢肯定，那个密探的腰带上挂着药水。",
 	Potions4	= "我听说那个密探买了一些药水……以防万一。",
+	Potions5	= false,
+	Potions6	= false,
 	NoPotions1	= "我听说那个密探根本没带任何药水。",
 	NoPotions2	= "有个乐师告诉我，她看到那个密探扔掉了身上的最后一瓶药水，已经没有药水了。",
 	Book1		= "我听说那个密探的腰带上，总是挂着一本写满机密的书。",
 	Book2		= "据说那个密探喜欢读书，而且总是随身携带至少一本书。",
+	Book3		= false,
 	Pouch1		= "我听说那个密探总是带着一个魔法袋。",
 	Pouch2		= "一个朋友说，那个密探喜欢黄金，所以在腰包里装满了金币。",
 	Pouch3		= "我听说那个密探的腰包里装满了摆阔用的金币。",
 	Pouch4		= "我听说那个密探的腰包上绣着精美的丝线。",
+	Pouch5		= false,
+	Pouch6		= false,
+	Pouch7		= false,
 	Found		= "喂喂，别急着下结论", -- 喂喂，别急着下结论，НИК。我们为什么不找个私密空间好好谈谈这个问题呢……
 	--
-	Gloves		= "手套",
-	NoGloves	= "没手套",
-	Cape		= "斗篷",
-	Nocape		= "没斗篷",
-	LightVest	= "浅色上衣",
-	DarkVest	= "深色上衣",
-	Female		= "女性",
-	Male		= "男性",
-	ShortSleeve = "短袖",
-	LongSleeve	= "长袖",
-	Potions		= "腰上药水",
-	NoPotions	= "没有药水",
-	Book		= "带书",
-	Pouch		= "挂腰包"
+	Gloves		= "手套/Wears gloves",
+	NoGloves	= "没手套/No gloves",
+	Cape		= "斗篷/Wearing a cape",
+	Nocape		= "没斗篷/No cape",
+	LightVest	= "浅色上衣/Light vest",
+	DarkVest	= "深色上衣/Dark vest",
+	Female		= "女性/Female",
+	Male		= "男性/Male",
+	ShortSleeve = "短袖/Short sleeves",
+	LongSleeve	= "长袖/Long sleeves",
+	Potions		= "腰上药水/Potions",
+	NoPotions	= "没有药水/No potions",
+	Book		= "带书/Book",
+	Pouch		= "挂腰包/Pouch"
 })
 
 -----------------------
@@ -750,4 +757,13 @@ L:SetMiscLocalization({
 	RP1 = "影卫就盘踞在附近的神殿里。",
 	RP2 = "我感觉里面散发出强烈的绝望。鲁拉……",
 	RP3 = "如此混乱……如此痛苦。我从未体验过这种感受。"
+})
+
+----------
+--Мифик+--
+----------
+L = DBM:GetModLocalization("MAffix")
+
+L:SetGeneralLocalization({
+	name = "神话+词缀"
 })

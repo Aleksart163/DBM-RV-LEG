@@ -159,7 +159,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		else
 			warnImprisoningBubble:CombinedShow(0.5, args.destName)
 			specWarnImprisoningBubble2:CombinedShow(0.5, args.destName)
-			specWarnImprisoningBubble2:Play("dispelnow")
+			specWarnImprisoningBubble2:ScheduleVoice(0.5, "dispelnow")
 		end
 		if self.Options.SetIconOnImprisoningBubble then
 			self:SetIcon(args.destName, 7, 12)

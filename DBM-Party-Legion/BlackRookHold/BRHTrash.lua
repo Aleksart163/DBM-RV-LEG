@@ -75,8 +75,10 @@ function mod:ShootTarget(targetname, uId) --Выстрел ✔
 	if not targetname then return end
 	if self:AntiSpam(2, targetname) then
 		if targetname == UnitName("player") then
-			specWarnShoot:Show()
-			specWarnShoot:Play("watchstep")
+			if self:IsHard() then
+				specWarnShoot:Show()
+				specWarnShoot:Play("watchstep")
+			end
 		end
 	end
 end

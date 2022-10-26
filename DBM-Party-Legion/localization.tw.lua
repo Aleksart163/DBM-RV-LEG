@@ -51,15 +51,6 @@ L:SetMiscLocalization({
 	RP1 = "我現在…看見了…"
 })
 
-----------
---Мифик+--
-----------
-L = DBM:GetModLocalization("MAffix")
-
-L:SetGeneralLocalization({
-	name = "Mythic+ keys"
-})
-
 -----------------------
 -- <<<Darkheart Thicket>>> --
 -----------------------
@@ -336,10 +327,15 @@ L:SetMiscLocalization({
 	Gloves2			= "聽說那個間諜習慣把手藏起來。",
 	Gloves3			= "我聽說那個間諜總是戴著手套。",
 	Gloves4			= "有人說那位間諜總是穿著手套，因為手上有明顯的疤痕。",
+	Gloves5			= false,
+	Gloves6			= false,
 	NoGloves1		= "有人說那個間諜從來不戴手套。",
 	NoGloves2		= "你知道嗎…我剛在後房發現多的手套。那個間諜現在一定光著手。",
 	NoGloves3		= "我聽到的是那個間諜根本不喜歡戴手套。",
 	NoGloves4		= "聽說那名間諜盡量不戴手套，因為總有需要動作靈活的時候。",
+	NoGloves5		= false,
+	NoGloves6		= false,
+	NoGloves7		= false,
 	Cape1			= "剛剛有人說，間諜稍早進來時還穿著斗篷。",
 	Cape2			= "聽說這個間諜很喜歡穿斗篷。",
 	NoCape1			= "我剛聽說這個間諜討厭斗篷，所以絕對不穿斗篷。",
@@ -355,30 +351,41 @@ L:SetMiscLocalization({
 	Female2			= "聽說有個女人一直在打探這個地區的事情…",
 	Female3			= "有人說間諜是女的。",
 	Female4			= "有人看到她和艾莉珊德一起走進來。",
+	Female5			= false,
 	Male1			= "我剛聽人家說間諜是男的。",
 	Male2			= "我聽說間諜混進來了，而且長得很帥。",
 	Male3			= "剛剛有人說看到他和大博學者一起走進去。",
 	Male4			= "有個樂手說他一直在問關於這個地區的問題。",
+	Male5			= false,
+	Male6			= false,
 	ShortSleeve1	= "我剛聽說那個間諜今晚穿短袖，這樣動作比較靈活。",
 	ShortSleeve2	= "有人說那個間諜討厭長袖衣服。",
 	ShortSleeve3	= "我朋友剛剛告訴我，她看到了，間諜沒穿長袖。",
 	ShortSleeve4	= "聽說那個間諜喜歡今晚涼爽的天氣，所以不穿長袖。",
+	ShortSleeve5	= false,
 	LongSleeve1		= "聽說今晚那個間諜穿了長袖衣服。",
 	LongSleeve2		= "剛剛有人說，間諜今晚為了能遮住手臂，才穿長袖的。",
 	LongSleeve3		= "我剛剛碰巧看到那個間諜今晚穿著長袖衣服。",
 	LongSleeve4		= "我朋友跟我說，那位間諜穿著長袖。",
+	LongSleeve5 	= false,
 	Potions1		= "聽說那個間諜帶了藥水…以防萬一。",
 	Potions2		= "別說是我講的…那個間諜現在偽裝成鍊金師了，腰帶上繫著藥水瓶。",
 	Potions3		= "聽說有間諜帶了藥水過來耶，不知道為什麼？",
 	Potions4		= "我非常肯定那個間諜在腰帶上繫了藥水。",
+	Potions5		= false,
+	Potions6		= false,
 	NoPotions1		= "我聽說那個間諜什麼藥水都沒帶。",
 	NoPotions2		= "有個樂手告訴我，她看到間諜把最後一瓶藥水丟了，所以現在身上應該沒有藥水。",
 	Book1			= "我聽說那個間諜在腰帶上掛著一本書，裡頭寫滿了各種秘密。",
 	Book2			= "聽說那個間諜是喜歡讀書的人，不管到哪裡都會帶著一本書。",
+	Book3			= false,
 	Pouch1			= "我聽說那位間諜總是帶著一個魔法小包。",
 	Pouch2			= "我朋友說間諜喜歡黃金，所以腰帶上的隨身包裝滿黃金。",
 	Pouch3			= "聽說間諜喜歡炫富，腰上的錢包裝滿金幣。",
 	Pouch4			= "我聽說那名間諜的腰帶上有個口袋，口袋的刺繡非常精緻。",
+	Pouch5			= false,
+	Pouch6			= false,
+	Pouch7			= false,
 	Found			= "喂喂，", --族說：喂喂，НИК。別太快下定論。我們何不找一個可以說話的地方好好談談呢…
 	--
 	Gloves		= "手套/Wears gloves",
@@ -750,4 +757,13 @@ L:SetMiscLocalization({
 	RP1 = "影衛已經開始在神殿附近聚集了。",
 	RP2 = "我感覺到裡面傳來深深的絕望。路拉…",
 	RP3 = "這些混沌…還有苦難。我之前從來沒有這樣的感受。"
+})
+
+----------
+--Мифик+--
+----------
+L = DBM:GetModLocalization("MAffix")
+
+L:SetGeneralLocalization({
+	name = "傳奇+ 詞綴"
 })

@@ -51,15 +51,6 @@ L:SetMiscLocalization({
 	RP1 = "Ora... Ora capisco..."
 })
 
-----------
---Мифик+--
-----------
-L = DBM:GetModLocalization("MAffix")
-
-L:SetGeneralLocalization({
-	name = "Mythic+ keys"
-})
-
 -----------------------
 -- <<<Darkheart Thicket>>> --
 -----------------------
@@ -339,10 +330,15 @@ L:SetMiscLocalization({
 	Gloves2			= "Voci dicono che la spia porti sempre i guanti.",
 	Gloves3			= "Qualcuno dice che la spia porta sempre dei guanti per nascondere delle cicatrici.",
 	Gloves4			= "Ho sentito che la spia tiene sempre accuratamente nascoste le sue mani.",
+	Gloves5			= false,
+	Gloves6			= false,
 	NoGloves1		= "Sai... ho trovato un altro paio di guanti nella stanza sul retro. È probabile che la spia sia qui in giro con le mani scoperte.",
 	NoGloves2		= "Voci dicono che la spia non porti mai i guanti.",
 	NoGloves3		= "Ho sentito che alla spia non piacciono i guanti.",
 	NoGloves4		= "Ho sentito che la spia non porta mai i guanti, in caso abbia bisogno di agire in fretta.",
+	NoGloves5		= false,
+	NoGloves6		= false,
+	NoGloves7		= false,
 	Cape1			= "Ho sentito che la spia adora indossare mantelli.",
 	Cape2			= "Qualcuno diceva che la spia è arrivata presto e indossava un mantello.",
 	NoCape1			= "Ho sentito che la spia odia i mantelli e si rifiuta di indossarne uno.",
@@ -358,46 +354,57 @@ L:SetMiscLocalization({
 	Female2			= "Dicono che la spia sia qui e sia incredibilmente bella.",
 	Female3			= "Ho sentito che una donna ha fatto un sacco di domande sul distretto...",
 	Female4			= "Un ospite l'ha vista arrivare prima assieme a Elisande.",
+	Female5			= false,
 	Male1			= "Una delle musiciste dice che non ha smesso di farle domande a proposito del distretto.",
 	Male2			= "Un ospite dice di averlo visto entrare nella villa a fianco della Gran Magistra.",
 	Male3			= "Ho sentito che la spia è qui, pare sia davvero bellissimo.",
 	Male4			= "Ho sentito in giro che la spia non è una donna.",
+	Male5			= false,
+	Male6			= false,
 	ShortSleeve1	= "Ho sentito che la spia ama l'aria fresca e porta le maniche corte, stasera.",
 	ShortSleeve2	= "Mi hanno detto che la spia odia le maniche lunghe.",
 	ShortSleeve3	= "Ho sentito che la spia porta le maniche corte, per essere più libera per ogni evenienza.",
 	ShortSleeve4	= "Un mio amico dice che l'abito indossato dalla spia è a maniche corte.",
+	ShortSleeve5	= false,
 	LongSleeve1 	= "Qualcuno dice che la spia stia nascondendo le sue braccia con delle maniche lunghe, stasera.",
 	LongSleeve2 	= "Un mio amico dice che la spia ha le maniche lunghe.",
 	LongSleeve3 	= "Ho sentito che la spia porta un abito con le maniche lunghe, stasera.",
 	LongSleeve4 	= "Ho visto per un attimo la spia all'inizio della serata, aveva le maniche lunghe.",
+	LongSleeve5 	= false,
 	Potions1		= "Io non ti ho detto nulla, ma... la spia si è travestita da alchimista e porta delle pozioni legate alla cintura.",
 	Potions2		= "Ho sentito che la spia ha portato con sé alcune pozioni... se può servire.",
 	Potions3		= "Ho sentito che la spia ha portato con sé delle pozioni... mi chiedo perché.",
 	Potions4		= "Sono quasi sicuro che la spia abbia delle pozioni alla cintura.",
+	Potions5		= false,
+	Potions6		= false,
 	NoPotions1		= "Un musicante mi ha detto di aver visto la spia buttare via la sua ultima pozione. Probabilmente non ne ha altre.",
 	NoPotions2		= "Ho sentito che la spia non ha pozioni con sé.",
 	Book1			= "Ho sentito che la spia ha sempre un libro pieno di segreti legato alla cintura.",
 	Book2			= "Voci dicono che la spia ami leggere e porti sempre con sé almeno un libro.",
+	Book3			= false,
 	Pouch1			= "Ho sentito che la borsa da cintura della spia è piena di oro per sembrare stravagante.",
 	Pouch2			= "Un amico mi ha detto che la spia ama l'oro e ne ha una borsa piena.",
 	Pouch3			= "Ho sentito che la borsa da cintura della spia è ricamata con un filo stravagante.",
 	Pouch4			= "Ho sentito che la spia si porta sempre dietro una borsa magica.",
+	Pouch5			= false,
+	Pouch6			= false,
+	Pouch7			= false,
 	Found			= "Su, su, non perdiamo la calma", -- Su, su, non perdiamo la calma, Няшмен. Perché non mi segui, così possiamo parlare più tranquillamente...
 	--
-	Gloves		= "gloves",
-	NoGloves	= "no gloves",
-	Cape		= "cape",
-	Nocape		= "no cape",
-	LightVest	= "light vest",
-	DarkVest	= "dark vest",
-	Female		= "female",
-	Male		= "male",
-	ShortSleeve = "short sleeves",
-	LongSleeve	= "long sleeves",
-	Potions		= "potions",
-	NoPotions	= "no potions",
-	Book		= "book",
-	Pouch		= "pouch"
+	Gloves		= "Wears gloves/Носит перчатки",
+	NoGloves	= "No gloves/Без перчаток",
+	Cape		= "Wearing a cape/Носит плащ",
+	Nocape		= "No cape/Без плаща",
+	LightVest	= "Light vest/Светлый жилет",
+	DarkVest	= "Dark vest/Темный жилет",
+	Female		= "Female/Женщина",
+	Male		= "Male/Мужчина",
+	ShortSleeve = "Short sleeves/Короткие рукава",
+	LongSleeve	= "Long sleeves/Длинные рукава",
+	Potions		= "Potions/Зелья",
+	NoPotions	= "No potions/Нет зелий",
+	Book		= "Book/Книга",
+	Pouch		= "Pouch/Кошель"
 })
 
 
@@ -768,4 +775,13 @@ L:SetMiscLocalization({
 	RP1 = "La Guardia dell'Ombra sta aumentando la sua presenza nei pressi del Tempio.",
 	RP2 = "Percepisco una grande disperazione emanare dall'interno. L'ura...",
 	RP3 = "Quanto caos... quanta angoscia. Non ho mai sentito nulla del genere prima d'ora."
+})
+
+----------
+--Мифик+--
+----------
+L = DBM:GetModLocalization("MAffix")
+
+L:SetGeneralLocalization({
+	name = "M+ Affissi"
 })

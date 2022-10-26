@@ -51,15 +51,6 @@ L:SetMiscLocalization({
 	RP1 = "Agora... agora eu vejo..."
 })
 
-----------
---Мифик+--
-----------
-L = DBM:GetModLocalization("MAffix")
-
-L:SetGeneralLocalization({
-	name = "Mítico+ chaves"
-})
-
 -----------------------
 -- <<<Darkheart Thicket>>> --
 -----------------------
@@ -768,4 +759,13 @@ L:SetMiscLocalization({
 	RP1 = "A Guarda Sombria vem fortalecendo sua presença perto do templo.",
 	RP2 = "Sinto um desespero imenso emanando lá de dentro. L'ura...",
 	RP3 = "Quanto caos... quanta angústia. Eu nunca senti nada igual."
+})
+
+----------
+--Мифик+--
+----------
+L = DBM:GetModLocalization("MAffix")
+
+L:SetGeneralLocalization({
+	name = "M+ Afixos"
 })
