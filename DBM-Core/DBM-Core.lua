@@ -1368,6 +1368,11 @@ do
 				"CHAT_MSG_MONSTER_EMOTE",
 				"CHAT_MSG_MONSTER_SAY",
 				"CHAT_MSG_RAID_BOSS_EMOTE",
+				"CHAT_MSG_PARTY",
+				"CHAT_MSG_PARTY_LEADER",
+				"CHAT_MSG_RAID",
+				"CHAT_MSG_RAID_LEADER",
+				"CHAT_MSG_GUILD",
 				"RAID_BOSS_EMOTE",
 				"RAID_BOSS_WHISPER",
 				"PLAYER_ENTERING_WORLD",
@@ -1455,7 +1460,54 @@ do
 	end
 end
 
---Волосали
+local function OnEvent(self, event, msg) --Прошляпанное очко Мурчаля Прошляпенко ✔
+	if DBM.Options.AutoKeyLink then
+		if event == "CHAT_MSG_PARTY" or event == "CHAT_MSG_PARTY_LEADER" then
+			if msg == "!keys" then
+				proshlyapMurchalya(true)
+			end
+		elseif event == "CHAT_MSG_RAID" or event == "CHAT_MSG_RAID_LEADER" then
+			if msg == "!keys" then
+				proshlyapMurchalya(true, true)
+			end
+		elseif event == "CHAT_MSG_GUILD" then
+			if msg == "!keys" then
+				proshlyapMurchalya(true, true, true)
+			end
+		end
+	end
+end
+
+local f = CreateFrame("Frame")
+f:RegisterEvent("CHAT_MSG_PARTY")
+f:RegisterEvent("CHAT_MSG_PARTY_LEADER")
+f:RegisterEvent("CHAT_MSG_RAID")
+f:RegisterEvent("CHAT_MSG_RAID_LEADER")
+f:RegisterEvent("CHAT_MSG_GUILD")
+
+f:SetScript("OnEvent", OnEvent)
+
+function proshlyapMurchalya(force, raid, guild)
+	for bag = 0, NUM_BAG_SLOTS do
+		local numSlots = GetContainerNumSlots(bag)
+		local ochkoMurchalya = nil
+		for slot = 1, numSlots do
+			if GetContainerItemID(bag, slot) == 138019 then
+				ochkoMurchalya = GetContainerItemLink(bag, slot)
+				if force then
+					if guild then
+						SendChatMessage(ochkoMurchalya, "GUILD")
+					elseif raid then
+						SendChatMessage(ochkoMurchalya, "RAID")
+					else
+						SendChatMessage(ochkoMurchalya, "PARTY")
+					end
+				end
+			end
+		end
+	end
+end
+
 --------------------------
 --  OnUpdate/Scheduler  --
 --------------------------
