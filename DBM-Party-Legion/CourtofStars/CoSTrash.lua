@@ -565,105 +565,23 @@ do
 		if not guid then return end
 		local cid = self:GetCIDFromGUID(guid)
 	
-		-- Disguise NPC
+		--Ли'лет Лунарх
 		if cid == 106468 then
 			if select('#', GetGossipOptions()) > 0 then
 				SelectGossipOption(1)
 				CloseGossip()
 			end
 		end
-		
-		if cid == 105249 then --Закуски ночной тени (Расы - панды, профы - кулинарка 800)
+		--105249 Закуски ночной тени (Расы - панды, профы - кулинарка 800), 105340 Теневой цветок (классы - друиды, профы - травничество 800), 105117 Настой священной ночи (классы - роги, профы - алхимка 100+)
+		--106110 Промокший свиток (классы - шаман, профы - кожевничество, начертание по 100+), 106024 Магический светильник (расы - эльфы, классы - маг, профы - наложение чар 100+)
+		--106018 Рыночные товары (классы - воин, разбойник, профы - кожевничество 100+), 106113 Статуя ночнорожденного в натуральную величину (профы - горное дело и ювелирное 100+), 105831 Инфернальный фолиант (классы - дх, жрец, паладин)
+		--105157 Проводник магической энергии (расы - гном, гоблин, профы - инженерия 100+), 105160 Сфера Скверны, 106108 Отвар из звездной розы, 105215 Выброшенный хлам, 106112 Раненый ночнорожденный
+		if cid == 105249 or cid == 105340 or cid == 105117 or cid == 106110 or cid == 106018 or cid == 106113 or cid == 105831 or cid == 105157 or cid == 105160 or cid == 106108 or cid == 105215 or cid == 106112 then
 			if select('#', GetGossipOptions()) > 0 then
 				SelectGossipOption(1)
 				CloseGossip()
 			end
-		end
-		
-		if cid == 105340 then --Теневой цветок (классы - друиды, профы - травничество 800)
-			if select('#', GetGossipOptions()) > 0 then
-				SelectGossipOption(1)
-				CloseGossip()
-			end
-		end
-		
-		if cid == 105117 then --Настой священной ночи (классы - роги, профы - алхимка 100+)
-			if select('#', GetGossipOptions()) > 0 then
-				SelectGossipOption(1)
-				CloseGossip()
-			end
-		end
-		
-		if cid == 106110 then --Промокший свиток (классы - шаман, профы - кожевничество, начертание по 100+)
-			if select('#', GetGossipOptions()) > 0 then
-				SelectGossipOption(1)
-				CloseGossip()
-			end
-		end
-		
-		if cid == 106024 then --Магический светильник (расы - эльфы, классы - маг, профы - наложение чар 100+)
-			if select('#', GetGossipOptions()) > 0 then
-				SelectGossipOption(1)
-				CloseGossip()
-			end
-		end
-		
-		if cid == 106018 then --Рыночные товары (классы - воин, разбойник, профы - кожевничество 100+)
-			if select('#', GetGossipOptions()) > 0 then
-				SelectGossipOption(1)
-				CloseGossip()
-			end
-		end
-		
-		if cid == 106113 then --Статуя ночнорожденного в натуральную величину (профы - горное дело и ювелирное 100+)
-			if select('#', GetGossipOptions()) > 0 then
-				SelectGossipOption(1)
-				CloseGossip()
-			end
-		end
-		
-		if cid == 105831 then --Инфернальный фолиант (классы - дх, жрец, паладин)
-			if select('#', GetGossipOptions()) > 0 then
-				SelectGossipOption(1)
-				CloseGossip()
-			end
-		end
-		
-		if cid == 105157 then --Проводник магической энергии (расы - гном, гоблин, профы - инженерия 100+)
-			if select('#', GetGossipOptions()) > 0 then
-				SelectGossipOption(1)
-				CloseGossip()
-			end
-		end
-		
-		if cid == 105160 then --Сфера Скверны
-			if select('#', GetGossipOptions()) > 0 then
-				SelectGossipOption(1)
-				CloseGossip()
-			end
-		end
-		
-		if cid == 106108 then --Отвар из звездной розы
-			if select('#', GetGossipOptions()) > 0 then
-				SelectGossipOption(1)
-				CloseGossip()
-			end
-		end
-		
-		if cid == 105215 then --Выброшенный хлам
-			if select('#', GetGossipOptions()) > 0 then
-				SelectGossipOption(1)
-				CloseGossip()
-			end
-		end
-		
-		if cid == 106112 then --Раненый ночнорожденный
-			if select('#', GetGossipOptions()) > 0 then
-				SelectGossipOption(1)
-				CloseGossip()
-			end
-		end
-		
+		end		
 		-- Suspicious noble
 		if cid == 107486 then --Болтливый сплетник
 			if select('#', GetGossipOptions()) > 0 then

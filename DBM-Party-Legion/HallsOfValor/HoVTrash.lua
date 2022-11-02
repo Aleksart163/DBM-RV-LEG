@@ -243,22 +243,7 @@ function mod:GOSSIP_SHOW()
 	if not guid then return end
 	local cid = self:GetCIDFromGUID(guid)
 	if mod.Options.BossActivation then --Прошляпанное очко Мурчаля Прошляпенко ✔
-		if cid == 97081 then --Король Бьорн
-			if select('#', GetGossipOptions()) > 0 then
-				SelectGossipOption(1)
-				CloseGossip()
-			end
-		elseif cid == 95843 then --Король Галдор
-			if select('#', GetGossipOptions()) > 0 then
-				SelectGossipOption(1)
-				CloseGossip()
-			end
-		elseif cid == 97083 then --Король Ранульф
-			if select('#', GetGossipOptions()) > 0 then
-				SelectGossipOption(1)
-				CloseGossip()
-			end
-		elseif cid == 97084 then --Король Тор
+		if cid == 97081 or cid == 95843 or cid == 97083 or cid == 97084 then --Король Бьорн, Король Галдор, Король Ранульф, Король Тор
 			if select('#', GetGossipOptions()) > 0 then
 				SelectGossipOption(1)
 				CloseGossip()

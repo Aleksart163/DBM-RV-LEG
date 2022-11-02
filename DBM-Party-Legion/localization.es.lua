@@ -916,9 +916,9 @@ L:SetTimerLocalization({
 })
 
 L:SetMiscLocalization({
-	Beauty = "Buenas noches damas y caballeros. Orgullosamente les damos la bienvenida a la presentación programada para esta noche.",
+	Beauty = "Buenas noches damas y caballeros. Orgullosamente les damos la bienvenida a la presentación programada para esta noche.", --
 	Westfall = "¡Damas y caballeros, bienvenidos a la presentación estelar de esta tarde!", --
-	Wikket = "Прошляпанное очко Мурчаля", --не забыть перевести
+	Wikket = "Bienvenidos, señoras y señores, a nuestro... ¡UFF!", --
 	Medivh1 = "He dejado muchos fragmentos de mí mismo por toda esta torre...", --
 	speedRun = "La brisa fría de una presencia oscura colma el aire..."
 })
