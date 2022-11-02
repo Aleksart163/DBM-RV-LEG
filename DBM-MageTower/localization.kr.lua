@@ -80,6 +80,18 @@ L:SetGeneralLocalization({
 	name =	"눈동자가 어둠에 물들기 전에"
 })
 
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+})
+
+L:SetMiscLocalization({
+	Xylem = "안 돼... 옳지 않아!" --
+})
+
 ------------------------
 -- Mage Tower: Timers --
 ------------------------
@@ -99,8 +111,9 @@ L:SetTimerLocalization({
 
 L:SetMiscLocalization({
 	Kruul = "오만하고 멍청한 것들! 나에게는 수천 개의 세계에서 얻은 영혼의 힘이 흘러넘친다!", --
-	Twins1 = "라이스트, 네가 아제로스를 뒤흔들게 할 수는 없어. 그만두지 않으면 널 쓰러뜨리겠다!", --
-	ErdrisThorn1 = "보고만 있지 않을 거야! 내 마을을 지켜야 해!", --
-	Agatha1 = "지금도 내 세이야드는 의지가 약한 마법사들을 유혹하고 있다. 네 동맹은 제 발로 군단에 굴복할 것이다!", --
-	Sigryn1 = "이 벽 뒤에 영영 숨을 수 있을 것 같으냐, 오딘!" --
+	Twins = "라이스트, 네가 아제로스를 뒤흔들게 할 수는 없어. 그만두지 않으면 널 쓰러뜨리겠다!", --
+	ErdrisThorn = "보고만 있지 않을 거야! 내 마을을 지켜야 해!", --
+	Agatha = "지금도 내 세이야드는 의지가 약한 마법사들을 유혹하고 있다. 네 동맹은 제 발로 군단에 굴복할 것이다!", --
+	Sigryn = "이 벽 뒤에 영영 숨을 수 있을 것 같으냐, 오딘!", --
+	Xylem = "집중의 눈동자를 내가 통제하는 한, 아제로스의 지맥에 흐르는 비전 마력은 모두 위대한 이 나에게로 흘러 들어온다!" -- 너무 늦었다!
 })

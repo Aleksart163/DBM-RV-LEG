@@ -80,6 +80,18 @@ L:SetGeneralLocalization({
 	name =	"Ein Auge zudrücken"
 })
 
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+})
+
+L:SetMiscLocalization({
+	Xylem = "Nein... das darf nicht passieren!" --
+})
+
 ------------------------
 -- Mage Tower: Timers --
 ------------------------
@@ -99,9 +111,9 @@ L:SetTimerLocalization({
 
 L:SetMiscLocalization({
 	Kruul = "Arrogantes Pack! Ich trage die Seelen von tausend unterworfenen Welten in mir!", --
-	Twins1 = "Ich kann nicht zulassen, dass du deine Macht auf Azeroth entfesselst, Raest. Wenn du nicht einhältst, bin ich gezwungen, dich zu vernichten!", --
-	ErdrisThorn1 = "Nie im Leben ziehe ich mich zurück! Wir müssen den Angriffen auf mein Dorf ein Ende setzen!", --
-	Agatha1 = "Meine Sayaad bringen Eure schwachen Magier bereits in Versuchung. Eure Verbündeten werden sich widerstandslos der Legion beugen.", --
-	Sigryn1 = "Ihr könnt Euch nicht ewig hinter diesen Mauern verstecken, Odyn!" --
---	Sigryn2 = "What's this? The outsider has come to stop me? I owe you much, but I cannot allow you to impede my quest for justice!"
+	Twins = "Ich kann nicht zulassen, dass du deine Macht auf Azeroth entfesselst, Raest. Wenn du nicht einhältst, bin ich gezwungen, dich zu vernichten!", --
+	ErdrisThorn = "Nie im Leben ziehe ich mich zurück! Wir müssen den Angriffen auf mein Dorf ein Ende setzen!", --
+	Agatha = "Meine Sayaad bringen Eure schwachen Magier bereits in Versuchung. Eure Verbündeten werden sich widerstandslos der Legion beugen.", --
+	Sigryn = "Ihr könnt Euch nicht ewig hinter diesen Mauern verstecken, Odyn!", --
+	Xylem = "Ihr seid zu spät! Mit der fokussierenden Iris kann ich die arkane Energie der Leylinien von Azeroth direkt in mein hochehrwürdiges Selbst kanalisieren!" --
 })

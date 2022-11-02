@@ -4,7 +4,8 @@ local L		= mod:GetLocalizedStrings()
 mod:SetRevision(("$Revision: 101 $"):sub(12, -3))
 mod:SetZone()--Healer (1710), Tank (1698), DPS (1703-The God-Queen's Fury), DPS (Fel Totem Fall)
 
-mod.noStatistics = true
+mod.soloChallenge = true
+mod.onlyNormal = true
 
 mod:RegisterEvents(
 	"SPELL_AURA_APPLIED 235984 237188",
@@ -13,12 +14,6 @@ mod:RegisterEvents(
 --	"UNIT_SPELLCAST_SUCCEEDED boss1 boss2 boss3 boss4 boss5",--need all 5?
 --	"SCENARIO_UPDATE"
 )
-mod.noStatistics = true
---Notes:
---TODO, all. mapids, mob iDs, win event to stop timers (currently only death event stops them)
---Healer
--- Need ignite soul equiv name/ID.
--- Need fear name/Id
 
 local warnArcaneBlitz			= mod:NewStackAnnounce(235833, 2)
 

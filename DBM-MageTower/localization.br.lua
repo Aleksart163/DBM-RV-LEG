@@ -10,7 +10,7 @@ local L
 L= DBM:GetModLocalization("Kruul")
 
 L:SetGeneralLocalization({
-	name = "O retorno do grão-lorde"
+	name = "O retorno do grão-lorde" --
 })
 
 ------------------------
@@ -19,7 +19,7 @@ L:SetGeneralLocalization({
 L= DBM:GetModLocalization("ErdrisThorn")
 
 L:SetGeneralLocalization({
-	name = "O fim do perigo reanimado"
+	name = "O fim do perigo reanimado" --
 -- "Ergam-se, meus soldados!" (активация босса)
 -- Seu espírito forte resiste à magia vil! (эмоция когда окружили)
 })
@@ -30,7 +30,7 @@ L:SetGeneralLocalization({
 L= DBM:GetModLocalization("FelTotem")
 
 L:SetGeneralLocalization({
-	name = "Queda do Totem Vil"
+	name = "Queda do Totem Vil" --
 })
 
 ------------------------
@@ -39,7 +39,7 @@ L:SetGeneralLocalization({
 L= DBM:GetModLocalization("ImpossibleFoe")
 
 L:SetGeneralLocalization({
-	name = "Inimigo impossível"
+	name = "Inimigo impossível" --
 })
 
 L:SetMiscLocalization({
@@ -65,7 +65,7 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization("Twins")
 
 L:SetGeneralLocalization({
-	name = "Dando jeito nos gêmeos"
+	name = "Dando jeito nos gêmeos" --
 })
 
 L:SetMiscLocalization({
@@ -80,6 +80,18 @@ L= DBM:GetModLocalization("Xylem")
 
 L:SetGeneralLocalization({
 	name =	"Fechando o olho"
+})
+
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+})
+
+L:SetMiscLocalization({
+	Xylem = "Não... não é possível!" --
 })
 
 ------------------------
@@ -101,8 +113,9 @@ L:SetTimerLocalization({
 
 L:SetMiscLocalization({
 	Kruul = "Tolos arrogantes! Eu me fortaleci com as almas de mil mundos conquistados!", --
-	Twins1 = "Não permitirei que você use seu poder contra Azeroth, Raest. Se você não se render, serei obrigado a destruí-lo!", --
-	ErdrisThorn1 = "Eu não fico para trás de jeito nenhum! Os ataques à minha cidade têm que acabar!", --
-	Agatha1 = "Neste exato momento, meus sayaads estão seduzindo os seus magos patéticos. Seus aliados vão se render à Legião!", --
-	Sigryn1 = "Você não pode se esconder atrás dessas muralhas para sempre, Odyn!" --
+	Twins = "Não permitirei que você use seu poder contra Azeroth, Raest. Se você não se render, serei obrigado a destruí-lo!", --
+	ErdrisThorn = "Eu não fico para trás de jeito nenhum! Os ataques à minha cidade têm que acabar!", --
+	Agatha = "Neste exato momento, meus sayaads estão seduzindo os seus magos patéticos. Seus aliados vão se render à Legião!", --
+	Sigryn = "Você não pode se esconder atrás dessas muralhas para sempre, Odyn!", --
+	Xylem = "Com a Íris Focalizadora, mandarei a energia arcana das linhas de meridiano de Azeroth para dentro do meu corpo!" -- Tarde demais, caçadora!
 })

@@ -8,7 +8,6 @@ mod:SetBossHPInfoToHighest()
 
 mod.soloChallenge = true
 mod.onlyNormal = true
-mod.noStatistics = true
 
 mod:RegisterCombat("combat")
 

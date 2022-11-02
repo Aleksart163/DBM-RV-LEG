@@ -1,8 +1,8 @@
-﻿if GetLocale() ~= "zhCN" then return end
+if GetLocale() ~= "itIT" then return end
 
 local L
 
---Прошляпанное очко Мурчаля ✔
+--Прошляпанное очко Мурчаля ✔✔
 
 ------------------------
 -- Mage Tower: TANK --
@@ -10,7 +10,7 @@ local L
 L= DBM:GetModLocalization("Kruul")
 
 L:SetGeneralLocalization({
-	name =	"돌아온 대군주"
+	name =	"Il ritorno del Gran Signore" --
 })
 
 ------------------------
@@ -19,7 +19,7 @@ L:SetGeneralLocalization({
 L= DBM:GetModLocalization("ErdrisThorn")
 
 L:SetGeneralLocalization({
-	name =	"되살아난 위협의 끝"
+	name =	"Fine del Pericolo Risorto" --
 })
 
 ------------------------
@@ -28,7 +28,7 @@ L:SetGeneralLocalization({
 L= DBM:GetModLocalization("FelTotem")
 
 L:SetGeneralLocalization({
-	name =	"지옥토템의 몰락"
+	name =	"La caduta dei Totem Vile" --
 })
 
 ------------------------
@@ -37,11 +37,11 @@ L:SetGeneralLocalization({
 L= DBM:GetModLocalization("ImpossibleFoe")
 
 L:SetGeneralLocalization({
-	name =	"말도 안 되게 강력한 적"
+	name =	"Un nemico impossibile" --
 })
 
 L:SetMiscLocalization({
-	impServants = "击杀小鬼仆从，别让他们为阿加莎补充能量！" --
+	impServants = "Uccidi gli Imp Servitori prima che potenzino Agatha!" --
 })
 
 ------------------------
@@ -50,11 +50,11 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization("Queen")
 
 L:SetGeneralLocalization({
-	name =	"여신왕의 분노"
+	name =	"Furia della Dea-Sovrana" --
 })
 
 L:SetMiscLocalization({
-	MurchalProshlyapRP = "我……我在做什么？这不对！" --
+	MurchalProshlyapRP = "Cosa... Cosa sto facendo? Questo non è giusto!" --
 })
 
 ------------------------
@@ -63,12 +63,12 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization("Twins")
 
 L:SetGeneralLocalization({
-	name =	"쌍둥이의 싸움 막기"
+	name =	"Contrastare i Gemelli" --
 })
 
 L:SetMiscLocalization({
-	TwinsRP1 = "废物！让开，看我是怎么做的，兄弟。", --
-	TwinsRP2 = "我又得帮你收拾烂摊子了，兄弟！" --
+	TwinsRP1 = "Inutile! Fatti da parte e lascia fare a me, fratello.", --
+	TwinsRP2 = "Ancora una volta mi tocca rimediare ai tuoi disastri, fratello!" --
 })
 
 ------------------------
@@ -77,7 +77,7 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization("Xylem")
 
 L:SetGeneralLocalization({
-	name =	"눈동자가 어둠에 물들기 전에"
+	name =	"Chiudere l'occhio" --
 })
 
 L:SetOptionLocalization({
@@ -89,7 +89,7 @@ L:SetTimerLocalization({
 })
 
 L:SetMiscLocalization({
-	Xylem = "不……这不对！" --
+	Xylem = "No... non può essere!" --
 })
 
 ------------------------
@@ -98,7 +98,7 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization("Timers")
 
 L:SetGeneralLocalization({
-	name = "战斗开始计时器"
+	name = "Combat start timers"
 })
 
 L:SetOptionLocalization({
@@ -110,10 +110,10 @@ L:SetTimerLocalization({
 })
 
 L:SetMiscLocalization({
-	Kruul = "傲慢的蠢货！我掌握着千万世界的灵魂之力！", --
-	Twins = "我不能让你祸害艾泽拉斯，莱斯特。如果你不投降，我只能毁掉你了！", --
-	ErdrisThorn = "我不回去！我要阻止对镇子的攻击！", --
-	Agatha = "此刻，我的萨亚德正在诱惑软弱的法师。你的盟友会自愿倒向军团！", --
-	Sigryn = "你别想永远躲在高墙后面，奥丁！", --
-	Xylem = "掌握了聚焦之虹，我就能直接从艾泽拉斯的魔网中抽取奥术能量来强化自身的法力！" -- 你太迟了，猎人！
+	Kruul = "Stolti arroganti! Io brandisco il potere di migliaia di mondi conquistati!", --
+	Twins = "Non posso permetterti di scatenare il tuo potere su Azeroth, Raest. Se non ti arrendi, sarò costretto ad ucciderti.", --
+	ErdrisThorn = "Non ci penso nemmeno ad andarmene! Devo fermare gli attacchi al mio villaggio!", --
+	Agatha = "Proprio in questo momento le mie Sayaad stanno corrompendo i vostri deboli Maghi. I tuoi alleati si arrenderanno alla Legione!", --
+	Sigryn = "Non puoi nasconderti dietro queste mura per sempre, Odyn!", --
+	Xylem = "Con l'Iride Focalizzante nelle mie mani, posso convogliare l'energia arcana delle linee di faglia di Azeroth direttamente nel mio magnifico corpo!" -- Arrivi tardi!
 })

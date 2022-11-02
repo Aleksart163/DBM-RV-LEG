@@ -9,7 +9,6 @@ mod:SetBossHPInfoToHighest()
 
 mod.soloChallenge = true
 mod.onlyNormal = true
-mod.noStatistics = true
 
 mod:RegisterCombat("combat")
 
@@ -57,7 +56,7 @@ local timerBladeStormCD			= mod:NewCDCountTimer(13.4, 237857, nil, nil, nil, 2) 
 --Руновидец Фальяр
 local timerRunicDetonationCD	= mod:NewCDCountTimer(13.4, 237914, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Руническая детонация
 local timerKnowledgeCD			= mod:NewCDCountTimer(13.4, 237952, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Знание предков
-local timerKnowledge			= mod:NewCastTimer(20, 237952, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Знание предков
+--local timerKnowledge			= mod:NewCastTimer(20, 237952, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Знание предков
 
 local countdownBloodFather		= mod:NewCountdown(15, 237945, nil, nil, 5) --Кровь отца
 local countdownBerserkersRage	= mod:NewCountdown(15, 237947, nil, nil, 5) --Ярость берсерка
@@ -142,7 +141,7 @@ function mod:SPELL_CAST_START(args)
 			timerKnowledgeCD:Start(timer, self.vb.knowledgeCast+1)
 			countdownKnowledge:Start(timer)
 		end
-		timerKnowledge:Start()
+	--	timerKnowledge:Start()
 		countdownKnowledge2:Start()
 	end
 end
@@ -173,7 +172,7 @@ function mod:SPELL_AURA_REMOVED(args)
 	if spellId == 237945 then --Кровь отца
 		timerBloodFather:Cancel()
 	elseif spellId == 237949 then --Знание предков
-		timerKnowledge:Cancel()
+	--	timerKnowledge:Cancel()
 		countdownKnowledge2:Cancel()
 	end
 end

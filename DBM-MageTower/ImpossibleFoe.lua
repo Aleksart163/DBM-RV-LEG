@@ -7,7 +7,6 @@ mod:SetZone()
 
 mod.soloChallenge = true
 mod.onlyNormal = true
-mod.noStatistics = true
 
 mod:RegisterCombat("combat")
 
