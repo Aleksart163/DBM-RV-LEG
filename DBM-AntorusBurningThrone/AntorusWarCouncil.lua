@@ -187,7 +187,7 @@ function mod:SPELL_CAST_START(args)
 			timerEntropicMineCD:Stop() --Энтропическая мина
 			timerExploitWeaknessCD:Stop() --Обнаружить слабое место
 			countdownExploitWeakness:Cancel() --Обнаружить слабое место
-			timerFusilladeCD:Start(19, 1) --Шквальный огонь
+			timerFusilladeCD:Start(19, self.vb.FusilladeCount+1) --Шквальный огонь
 			countdownFusillade:Start(19) --Шквальный огонь
 			timerExploitWeaknessCD:Start(11) --Обнаружить слабое место
 			countdownExploitWeakness:Start(11) --Обнаружить слабое место
@@ -223,7 +223,7 @@ function mod:SPELL_CAST_START(args)
 			timerEntropicMineCD:Stop() --Энтропическая мина
 			timerExploitWeaknessCD:Stop() --Обнаружить слабое место
 			countdownExploitWeakness:Cancel() --Обнаружить слабое место
-			timerFusilladeCD:Start(19, 1) --Шквальный огонь
+			timerFusilladeCD:Start(19, self.vb.FusilladeCount+1) --Шквальный огонь
 			countdownFusillade:Start(19) --Шквальный огонь
 			timerExploitWeaknessCD:Start(11) --Обнаружить слабое место
 			countdownExploitWeakness:Start(11) --Обнаружить слабое место

@@ -8,7 +8,7 @@ mod:SetZone()
 --mod:SetBossHPInfoToHighest()
 mod:SetUsedIcons(8, 4, 3)
 mod:SetHotfixNoticeRev(17238)
-mod.respawnTime = 29
+mod.respawnTime = 30
 
 mod:RegisterCombat("combat")
 --mod:RegisterCombat("combat_yell", L.YellPullVarimathras)

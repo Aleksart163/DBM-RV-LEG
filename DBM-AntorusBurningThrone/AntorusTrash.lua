@@ -16,6 +16,7 @@ mod:RegisterEvents(
 	"SPELL_PERIODIC_DAMAGE 246199",
 	"SPELL_PERIODIC_MISSED 246199",
 	"CHAT_MSG_MONSTER_YELL",
+	"GOSSIP_SHOW",
 	"UNIT_DIED"
 )
 
@@ -71,6 +72,7 @@ mod:AddSetIconOption("SetIconOnSoulburn", 253600, true, false, {8, 7, 6, 5, 4}) 
 mod:AddSetIconOption("SetIconOnDemolish", 252760, true, false, {8, 7, 6}) --Разрушение
 mod:AddSetIconOption("SetIconOnDecimation", 246687, true, false, {5, 4, 3, 2, 1}) --Децимация
 mod:AddRangeFrameOption(10, 249297) --Пламя пересоздания
+mod:AddBoolOption("BossActivation", true)
 
 mod.vb.demolishIcon = 6
 mod.vb.decimationIcon = 1
@@ -287,6 +289,20 @@ end
 function mod:CHAT_MSG_MONSTER_YELL(msg)
 	if msg == L.RPImonar then
 		self:SendSync("RPImonar")
+	end
+end
+
+function mod:GOSSIP_SHOW()
+	local guid = UnitGUID("npc")
+	if not guid then return end
+	local cid = self:GetCIDFromGUID(guid)
+	if mod.Options.BossActivation then
+		if cid == 127963 or cid == 125720 or cid == 128303 or cid == 128304 or cid == 128169 or cid == 122500 then
+			if GetNumGossipOptions() == 1 then
+				SelectGossipOption(1)
+				CloseGossip()
+			end
+		end
 	end
 end
 

@@ -266,6 +266,8 @@ L.BigBrotherAnnounceToRaid	= "Anunciar resultados do Big Brother para a raid"
 L.Area_Invite				= "Opções de convite"
 L.AutoAcceptFriendInvite	= "Aceitar convites de amigos automaticamente"
 L.AutoAcceptGuildInvite		= "Aceitar convites de membros da guilda automaticamente"
+L.Area_Key					= "Opções Chaves míticas+"
+L.AutoKeyLink				= "Vincule sua Chaves míticas+ ao bate-papo"
 L.Area_Advanced				= "Opções avançadas"
 L.FakeBW					= "Fingir ser BigWigs em checagens de versão ao invés de ser DBM ( útil para guildas que forçam o uso de BigWigs )"
 

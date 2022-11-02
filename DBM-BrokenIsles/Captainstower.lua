@@ -2,12 +2,9 @@ local mod	= DBM:NewMod("Captainstower", "DBM-BrokenIsles", nil, 822)
 local L		= mod:GetLocalizedStrings()
 
 mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
---mod:SetCreatureID(104290, 104289, 103757, 104294, 103653, 104292) 
 mod:SetZone()
---mod:SetMinSyncRevision(17622)
-mod.isTrashMod = true
 
---mod:RegisterCombat("combat")
+mod.noStatistics = true
 
 mod:RegisterEvents(
 	"SPELL_CAST_START 203342 205425 204238 203884",

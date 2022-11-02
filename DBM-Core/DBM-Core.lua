@@ -44,9 +44,9 @@
 ----------------------------------------------------------------
 --
 DBM = {
-	Revision = tonumber(("$Revision: 17682 $"):sub(12, -3)), --прошляпанное очко мурчаля ✔
-	DisplayVersion = "7.3.40 Right Version",
-	ReleaseRevision = 17681
+	Revision = tonumber(("$Revision: 17683 $"):sub(12, -3)), --прошляпанное очко мурчаля ✔
+	DisplayVersion = "7.3.41 Right Version",
+	ReleaseRevision = 17682
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -763,7 +763,7 @@ do
 				return
 			end
 			if spellId and not DBM:GetSpellInfo(spellId) then
-				DBM:AddMsg("DBM RegisterEvents Error: "..spellId.." spell id does not exist!")
+			--	DBM:AddMsg("DBM RegisterEvents Error: "..spellId.." spell id does not exist!")
 				return
 			end
 			if not registeredSpellIds[event] then
@@ -1460,7 +1460,7 @@ do
 	end
 end
 
-local function OnEvent(self, event, msg) --Прошляпанное очко Мурчаля Прошляпенко ✔
+local function Proshlyap(self, event, msg) --Прошляпанное очко Мурчаля Прошляпенко ✔
 	if DBM.Options.AutoKeyLink then
 		if event == "CHAT_MSG_PARTY" or event == "CHAT_MSG_PARTY_LEADER" then
 			if msg == "!keys" then
@@ -1485,7 +1485,7 @@ f:RegisterEvent("CHAT_MSG_RAID")
 f:RegisterEvent("CHAT_MSG_RAID_LEADER")
 f:RegisterEvent("CHAT_MSG_GUILD")
 
-f:SetScript("OnEvent", OnEvent)
+f:SetScript("OnEvent", Proshlyap)
 
 function proshlyapMurchalya(force, raid, guild)
 	for bag = 0, NUM_BAG_SLOTS do
@@ -7833,8 +7833,7 @@ do
 		["MagicDispeller"] = true--from ENEMY, not debuffs on players. use "Healer" for ally magic dispels. ALL healers can do that.
 		["MagicDispeller2"] = true--диспел с союзников от дебаффов. Хилеры и другие спеки
 		["HasInterrupt"] = true,--Has an interrupt that is 24 seconds or less CD that is BASELINE (not a talent)
-		["HasInterrupt2"] = true, --пока хз, не помню зачем сделал
-		["Dhdd"] = true, --Перекрывать
+		["Dhdd"] = true, --Перекрывать всякую хуйню типо очка Мурчаля
 		["HasImmunity"] = true,--Has an immunity that can prevent or remove a spell effect (not just one that reduces damage like turtle or dispursion)
 	}]]
 
@@ -7849,7 +7848,6 @@ do
 			["MagicDispeller"] = true,
 			["HasInterrupt"] = true,
 			["HasImmunity"] = true,
-			["HasInterrupt2"] = true,
 		},
 		[65] = {	--Холи пал
 			["Healer"] = true,
@@ -7860,7 +7858,6 @@ do
 			["RemovePoison"] = true,
 			["RemoveDisease"] = true,
 			["HasImmunity"] = true,
-			["HasInterrupt2"] = true, --Молот правосудия
 			["MagicDispeller2"] = true,
 		},
 		[66] = {	--Прото пал
@@ -7872,7 +7869,6 @@ do
 			["RemoveDisease"] = true,
 			["HasInterrupt"] = true,
 			["HasImmunity"] = true,
-			["HasInterrupt2"] = true, --Молот правосудия
 		},
 		[70] = {	--Ретри пал
 			["Dps"] = true,
@@ -7883,7 +7879,6 @@ do
 			["RemovePoison"] = true,
 			["RemoveDisease"] = true,
 			["HasInterrupt"] = true,
-			["HasInterrupt2"] = true, --Молот правосудия
 		},
 		[71] = {	--Армс вар
 			["Dps"] = true,
@@ -7892,14 +7887,12 @@ do
 			["RaidCooldown"] = true,--Rallying Cry
 			["Physical"] = true,
 			["HasInterrupt"] = true,
-			["HasInterrupt2"] = true, --Ударная волна, Удар громовержца
 		},
 		[73] = {	--Прото вар
 			["Tank"] = true,
 			["Melee"] = true,
 			["Physical"] = true,
 			["HasInterrupt"] = true,
-			["HasInterrupt2"] = true, --Ударная волна, Удар громовержца
 			--["RaidCooldown"] = true,--Rallying Cry (in 8.x)
 		},
 		[102] = {	--Сова
@@ -7911,7 +7904,6 @@ do
 			["CasterDps"] = true,
 			["RemoveCurse"] = true,
 			["RemovePoison"] = true,
-			["HasInterrupt2"] = false, --Мощное оглушение и Тайфун (если взяты талантом)
 		},
 		[103] = {	--Ферал
 			["Dps"] = true,
@@ -7921,7 +7913,6 @@ do
 			["RemoveCurse"] = true,
 			["RemovePoison"] = true,
 			["HasInterrupt"] = true,
-			["HasInterrupt2"] = true, --Калечение, Мощное оглушение
 		},
 		[104] = {	--Медведь
 			["Tank"] = true,
@@ -7930,7 +7921,6 @@ do
 			["RemoveCurse"] = true,
 			["RemovePoison"] = true,
 			["HasInterrupt"] = true,
-			["HasInterrupt2"] = true, --Парализующий рык, Мощное оглушение
 		},
 		[105] = {	--Дерево
 			["Healer"] = true,
@@ -7941,14 +7931,12 @@ do
 			["RemoveCurse"] = true,
 			["RemovePoison"] = true,
 			["MagicDispeller2"] = true,
-			["HasInterrupt2"] = false, --Мощное оглушение и Тайфун (если взяты талантом)
 		},
 		[250] = {	--Блад дк
 			["Tank"] = true,
 			["Melee"] = true,
 			["Physical"] = true,
 			["HasInterrupt"] = true,
-			["HasInterrupt2"] = true, --Асфиксия, Хватка смерти
 		},
 		[251] = {	--Фрост дк
 			["Dps"] = true,
@@ -7956,7 +7944,6 @@ do
 			["MeleeDps"] = true,
 			["Physical"] = true,
 			["HasInterrupt"] = true,
-			["HasInterrupt2"] = true, --Хватка смерти, Ослепляющая наледь, Асфиксия
 		},
 		[253] = {	--Бистмастер хант
 			["Dps"] = true,
@@ -7964,7 +7951,6 @@ do
 			["RangedDps"] = true,
 			["Physical"] = true,
 			["HasInterrupt"] = true,
-			["HasInterrupt2"] = true, --(бист) Замораживающая ловушка, (мм) Взрывной выстрел, Замораживающая ловушка, Укус виверны
 		},
 		[255] = {	--Сурв хант
 			["Dps"] = true,
@@ -7972,7 +7958,6 @@ do
 			["MeleeDps"] = true,
 			["Physical"] = true,
 			["HasInterrupt"] = true,
-			["HasInterrupt2"] = true, --Замораживающая ловушка, Бомба-липучка
 		},
 		[256] = {	--ДЦ
 			["Healer"] = true,
@@ -7984,7 +7969,6 @@ do
 			["RemoveDisease"] = true,
 			["MagicDispeller"] = true,
 			["MagicDispeller2"] = true,
-			["HasInterrupt2"] = true, --(дц) Ментальный крик, Сковывание нежити, Сияющая мощь, (холи) Сковывание нежити, Слово Света: Наказание, Сияющая мощь, Порицание
 		},
 		[258] = {	--ШП
 			["Dps"] = true,
@@ -7995,7 +7979,6 @@ do
 			["CasterDps"] = true,
 			["MagicDispeller"] = true,
 			["MagicDispeller2"] = true,
-			["HasInterrupt2"] = true, --Сковывание нежити, Мыслебомба, Ментальный крик
 		},
 		[259] = {	--Ликвидация крыса
 			["Dps"] = true,
@@ -8004,7 +7987,6 @@ do
 			["Physical"] = true,
 			["HasInterrupt"] = true,
 			["HasImmunity"] = true,
-			["HasInterrupt2"] = true,
 		},
 		[262] = {	--Элем шаман
 			["Dps"] = true,
@@ -8016,7 +7998,6 @@ do
 			["RemoveCurse"] = true,
 			["MagicDispeller"] = true,
 			["HasInterrupt"] = true,
-			["HasInterrupt2"] = true,
 		},
 		[263] = {	--Энх шаман
 			["Dps"] = true,
@@ -8028,7 +8009,6 @@ do
 			["RemoveCurse"] = true,
 			["MagicDispeller"] = true,
 			["HasInterrupt"] = true,
-			["HasInterrupt2"] = true,
 		},
 		[264] = {	--Рестор шаман
 			["Healer"] = true,
@@ -8039,7 +8019,6 @@ do
 			["RemoveCurse"] = true,
 			["MagicDispeller"] = true,
 			["HasInterrupt"] = true,
-			["HasInterrupt2"] = true,
 			["MagicDispeller2"] = true,
 		},
 		[265] = {	--Афли лок
@@ -8059,7 +8038,6 @@ do
 			["RemovePoison"] = true,
 			["RemoveDisease"] = true,
 			["HasInterrupt"] = true,
-			["HasInterrupt2"] = true,
 		},
 		[269] = {	--ТСВ монк
 			["Dps"] = true,
@@ -8069,7 +8047,6 @@ do
 			["RemovePoison"] = true,
 			["RemoveDisease"] = true,
 			["HasInterrupt"] = true,
-			["HasInterrupt2"] = true,
 		},
 		[270] = {	--ТТ монк
 			["Healer"] = true,
@@ -8080,7 +8057,6 @@ do
 			["RaidCooldown"] = true,--Revival
 			["RemovePoison"] = true,
 			["RemoveDisease"] = true,
-			["HasInterrupt2"] = true,
 			["MagicDispeller2"] = true,
 		},
 		[577] = {	--Дх дд
@@ -8089,7 +8065,6 @@ do
 			["MeleeDps"] = true,
 			["Physical"] = true,
 			["HasInterrupt"] = true,
-			["HasInterrupt2"] = true,
 			["Dhdd"] = true,
 		},
 		[581] = {	--Дх танк

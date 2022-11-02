@@ -16,8 +16,8 @@ mod:RegisterCombat("combat")
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 244057 244056 249113",
 	"SPELL_CAST_SUCCESS 244072 251445 245098 244086",
-	"SPELL_AURA_APPLIED 244768 248815 254429 248819 244054 244055 251356 251447 251448",
-	"SPELL_AURA_REMOVED 244768 248815 254429 248819 251356 244054 244055",
+	"SPELL_AURA_APPLIED 244768 248815 254429 248819 244054 244055 251356 251447 251448 244071",
+	"SPELL_AURA_REMOVED 244768 248815 254429 248819 251356 244054 244055 244071",
 --	"SPELL_PERIODIC_DAMAGE",
 --	"SPELL_PERIODIC_MISSED",
 	"UNIT_SPELLCAST_SUCCEEDED boss1 boss2"
@@ -34,7 +34,8 @@ local warnDesolateGaze					= mod:NewTargetAnnounce(244768, 3) --Опустоша
 local warnEnflamedCorruption			= mod:NewSpellAnnounce(244057, 3) --Возгорание порчи
 local warnMoltenTouch					= mod:NewSpellAnnounce(244072, 2) --Касание магмы
 --Shatug
-local warnWeightofDarkness				= mod:NewTargetAnnounce(254429, 3) --Бремя тьмы
+local warnWeightofDarkness				= mod:NewTargetAnnounce(254429, 2) --Бремя тьмы
+local warnWeightofDarkness3				= mod:NewTargetAnnounce(244071, 3) --Бремя тьмы
 local warnSiphonCorruption				= mod:NewSpellAnnounce(244056, 3) --Вытягивание порчи
 --General/Mythic
 local warnFocusingPower					= mod:NewSpellAnnounce(251356, 2) --Фокусирование силы
@@ -55,7 +56,7 @@ local specWarnSiphoned					= mod:NewSpecialWarningYouShare(248819, nil, nil, nil
 --Mythic
 local specWarnFlameTouched				= mod:NewSpecialWarningYouPos(244054, nil, nil, nil, 3, 5) --Касание пламени
 local specWarnShadowtouched				= mod:NewSpecialWarningYouPos(244055, nil, nil, nil, 3, 5) --Касание тьмы
-local specWarnDarkReconstitution		= mod:NewSpecialWarningSwitch(249113, "-Healer", nil, nil, 3, 3) --Темное восстановление
+local specWarnDarkReconstitution		= mod:NewSpecialWarningSwitch(249113, "Dps|Tank", nil, nil, 3, 3) --Темное восстановление
 
 --General/Mythic
 local timerFocusingPower				= mod:NewCastTimer(15, 251356, nil, nil, nil, 6) --Фокусирование силы
@@ -67,7 +68,7 @@ local timerEnflamedCorruptionCD			= mod:NewCDTimer(95.9, 244057, nil, nil, nil, 
 local timerDesolateGazeCD				= mod:NewCDTimer(95.9, 244768, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Опустошающий взгляд
 mod:AddTimerLine(Shatug)
 local timerCorruptingMawCD				= mod:NewCDTimer(11, 251447, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Заразная пасть
-local timerComsumingSphereCD			= mod:NewCDTimer(77, 244131, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Поглощаяющая сфера
+local timerComsumingSphereCD			= mod:NewCDTimer(77, 244131, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON..DBM_CORE_MYTHIC_ICON) --Поглощаяющая сфера
 local timerWeightOfDarknessCD			= mod:NewCDTimer(77, 254429, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Бремя тьмы
 local timerSiphonCorruptionCD			= mod:NewCDTimer(77, 244056, nil, nil, nil, 7) --Вытягивание порчи
 
@@ -224,12 +225,12 @@ function mod:SPELL_CAST_START(args)
 		countdownDarkReconstitution:Start()
 		local cid = self:GetCIDFromGUID(args.sourceGUID)
 		if cid == 122477 then --Фарг
-			if args:IsPlayer() and FlameTouched then
+			if FlameTouched then
 				specWarnDarkReconstitution:Show()
 				specWarnDarkReconstitution:Play("killmob")
 			end
 		elseif cid == 122135 then --Шатуг
-			if args:IsPlayer() and Shadowtouched then
+			if Shadowtouched then
 				specWarnDarkReconstitution:Show()
 				specWarnDarkReconstitution:Play("killmob")
 			end
@@ -244,7 +245,11 @@ function mod:SPELL_CAST_SUCCESS(args)
 	--	warnMoltenTouch:Play("watchstep")
 		specWarnMoltenTouch:Show()
 		specWarnMoltenTouch:Play("watchstep")
-		timerMoltenTouchCD:Start(self.vb.longTimer)
+		if self:IsMythic() then
+			timerMoltenTouchCD:Start(88.8)
+		elseif self:IsHeroic() then
+			timerMoltenTouchCD:Start(98)
+		end
 --[[	elseif spellId == 251445 then
 		warnBurningMaw:Show(args.destName)
 		if self:IsMythic() then
@@ -311,6 +316,11 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 		if self.Options.SetIconOnWeightofDarkness2 then
 			self:SetIcon(args.destName, self.vb.WeightDarkIcon)
+		end
+	elseif spellId == 244071 then --Бремя тьмы
+		warnWeightofDarkness3:CombinedShow(0.3, args.destName)
+		if args:IsPlayer() then
+			yellWeightOfDarkness:Yell()
 		end
 	elseif spellId == 244054 then --Касание пламени
 		if args:IsPlayer() then

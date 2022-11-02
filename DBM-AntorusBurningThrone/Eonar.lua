@@ -43,7 +43,7 @@ local specWarnSpearofDoom				= mod:NewSpecialWarningDodge(248789, nil, nil, nil,
 local specWarnRainofFel					= mod:NewSpecialWarningYouMoveAway(248332, nil, nil, 2, 1, 2) --Дождь Скверны
 --Adds
 local specWarnSwing						= mod:NewSpecialWarningDodge(250701, "Melee", nil, nil, 1, 2) --Размах Скверны
-local specWarnArtilleryStrike			= mod:NewSpecialWarningInterrupt(246305, "HasInterrupt", nil, nil, 1, 3) --Артиллерийский удар
+local specWarnArtilleryStrike			= mod:NewSpecialWarningInterrupt(246305, "-Healer", nil, nil, 1, 3) --Артиллерийский удар
 --local yellBurstingDreadflame			= mod:NewPosYell(238430, DBM_CORE_AUTO_YELL_CUSTOM_POSITION)
 --local specWarnMalignantAnguish		= mod:NewSpecialWarningInterrupt(236597, "HasInterrupt")
 --local specWarnGTFO					= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 2)
@@ -122,7 +122,7 @@ local lfrDestructors2 = {21.2, 43.8, 39.0, 51.1, 37.0, 53.0, 43.6, 45.2, 43.2}--
 --local normalDestructors = {17, 46.2, 32, 52.4, 93.7, 40.9, 50.2, 55.4, 49.2}--Live, Dec 01. Old 17, 39.4, 28, 44.2, 92.4, 41.3, 50, 53.4, 48.1
 local normalDestructors = {15.7, 35.3, 41, 102, 133.5, 99.6}--Live, Dec 01. Old 17, 39.4, 28, 44.2, 92.4, 41.3, 50, 53.4, 48.1
 local normalObfuscators = {79, 146.5, 94.7, 100} --переправленные сервером, всё ок
-local normalBats = {159, 124, 79, 105} --переправленные сервером (почти такие же как в героике)
+local normalBats = {158, 125, 80, 106} --переправленные сервером (почти такие же как в героике)
 --Дождь Скверны героик-------------------------------------------------------------------------------------------------------------
 --local heroicRainOfFelTimers = {9.3, 43, 10, 43, 20, 19, 20, 29.2, 45, 25, 99}--Live, Dec 26
 --local heroicRainOfFelTimers = {14, 37.5, 21.5, 28, 29, 43.5, 32, 31.5, 25, 34, 45} --у 1 +4.7сек, у 2 -5.5сек, у 3 +11.5 сек, у 4 -15сек, у 5 +9сек, у 6 +24.5сек, у 7 +12сек, у 8 +2.3сек, у 9 -20сек, у 10 +9сек, у 11 -54сек
@@ -141,7 +141,7 @@ local heroicPurifiers = {116.5, 67.3, 29.6} --у 1 -8.5сек, у 2 +1.2 сек,
 -----------------------------------------------------------------------------------------------------------------------------------
 --Мыши героик----------------------------------------------------------------------------------------------------------------------
 --local heroicBats = {170, 125, 105, 105}
-local heroicBats = {159, 124, 79, 105} --у 1 -10сек, у 2 -3сек, у 3 -20сек
+local heroicBats = {158, 125, 80, 106} --у 1 -10сек, у 2 -3сек, у 3 -20сек
 --Копье Рока героик----------------------------------------------------------------------------------------------------------------
 --local heroicSpearofDoomTimers = {35, 59.2, 64.3, 40, 84.7, 34.1, 65.2}--Live, Nov 29
 local heroicSpearofDoomTimers = {34, 60, 60, 60, 60, 60, 60} -- ВСЕ ГОТОВО у 1 -1сек, у 2 +0.8 сек, у 3 -4.3сек, у 4 +20сек, у 5 -25сек, у 6+ 26сек, у 7 хз, НО СКОРЕЕ ВСЕГО -5сек
@@ -334,14 +334,14 @@ function mod:OnCombatStart(delay)
 			timerSpearofDoomCD:Start(34-delay, 1) --Копье Рока
 			timerObfuscatorCD:Start(77.6, DBM_CORE_TOP) --маскировщик, подправил
 			timerPurifierCD:Start(116.5, DBM_CORE_MIDDLE) --очиститель, подправил
-			timerBatsCD:Start(159, 1) --мыши, подправил
+			timerBatsCD:Start(158, 1) --мыши, подправил
 			self:Schedule(159, startBatsStuff, self) --мыши, подправил
 		else--Normal
 			timerDestructorCD:Start(13, DBM_CORE_MIDDLE) --Разрушитель, было 7
 			self:Schedule(27, checkForDeadDestructor, self)
 			timerObfuscatorCD:Start(79, DBM_CORE_TOP) --маскировщик, подправил
 			timerBatsCD:Start(159, 1) --мыши, подправил
-			self:Schedule(159, startBatsStuff, self)
+			self:Schedule(158, startBatsStuff, self)
 		--	timerRainofFelCD:Start(30-delay, 1)
 		end
 	else
@@ -382,9 +382,11 @@ function mod:SPELL_CAST_START(args)
 			timerFinalDoomCD:Start(timer, self.vb.finalDoomCast+1)
 			countdownFinalDoom:Start(timer)
 		end
-	elseif spellId == 250701 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Размах скверны
-		specWarnSwing:Show()
-		specWarnSwing:Play("watchstep")
+	elseif spellId == 250701 then --Размах скверны
+		if self:CheckTargetFilter(args.sourceGUID) then
+			specWarnSwing:Show()
+			specWarnSwing:Play("watchstep")
+		end
 	elseif spellId == 246305 then --Артиллерийский удар
 		if self:CheckTargetFilter(args.sourceGUID) then
 			specWarnArtilleryStrike:Show()

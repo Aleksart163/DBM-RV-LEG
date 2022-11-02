@@ -5,8 +5,10 @@ mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 mod:SetZone()
 mod:SetMinSyncRevision(17650)
 
+mod.noStatistics = true
+
 mod:RegisterEvents(
-	"SPELL_CAST_START 221424 222676 189157 214095 218245 218250 223101 223104 219060 206762 203671 222596 216808 216837 218885 223659 223630 207002 206995 206972 216981 216970 219108",
+	"SPELL_CAST_START 221424 222676 189157 214095 218245 218250 223101 223104 219060 206762 203671 222596 216808 216837 218885 223659 223630 207002 206995 206972 216981 216970 219108 218875 218871 218435 218427",
 	"SPELL_CAST_SUCCESS 221422 223094 216881 218969",
 	"SPELL_AURA_APPLIED 221422 221425 222676 218250 223094 219102 219087 206795 219060 223630 206972 219661 219646",
 	"SPELL_AURA_APPLIED_DOSE 221425",
@@ -29,6 +31,7 @@ local warnHorrificVisage		= mod:NewSpellAnnounce(216881, 2) --Ужасающий
 local warnRemnantofLight		= mod:NewTargetAnnounce(216837, 3) --Частица Света
 local warnFelFissure			= mod:NewTargetAnnounce(218885, 3) --Разлом скверны
 local warnDepthCharge			= mod:NewTargetAnnounce(207002, 3) --Глубинная бомба
+
 --Аода Сухой Лепесток
 local specWarnRapidShot			= mod:NewSpecialWarningDefensive(219661, nil, nil, nil, 2, 3) --Быстрострел
 local specWarnShieldofDarkness 	= mod:NewSpecialWarningDispel(219646, "MagicDispeller", nil, nil, 1, 3) --Щит Тьмы
@@ -39,6 +42,12 @@ local specWarnExposedCore		= mod:NewSpecialWarningMoreDamage(219102, "-Healer", 
 local specWarnOverdrive			= mod:NewSpecialWarningDefensive(219087, nil, nil, nil, 2, 3) --Форсаж
 local specWarnProtectiveShell	= mod:NewSpecialWarningInterrupt(219060, "-Healer", nil, nil, 1, 2) --Защитная раковина
 local specWarnProtectiveShell2 = mod:NewSpecialWarningDispel(219060, "MagicDispeller", nil, nil, 3, 2) --Защитная раковина
+--Шепчущая
+local specWarnWhisperingCurse	= mod:NewSpecialWarningInterrupt2(218875, nil, nil, nil, 1, 2) --Шепчущее проклятие
+local specWarnLostWail			= mod:NewSpecialWarningInterrupt(218871, "-Healer", nil, nil, 1, 2) --Вой заблудшей души
+--Валакар Жаждущий
+local specWarnViolentDischarge		= mod:NewSpecialWarningInterrupt2(218435, nil, nil, nil, 2, 3) --Бурный разряд
+local specWarnSiphonMagic			= mod:NewSpecialWarningInterrupt(218427, "-Healer", nil, nil, 1, 3) --Похитить магию
 --
 local specWarnElemRes			= mod:NewSpecialWarningDodge(216970, nil, nil, nil, 2, 3) --Стихийный резонанс
 local specWarnCrysShards		= mod:NewSpecialWarningDodge(216981, nil, nil, nil, 2, 3) --Осколки кристалла
@@ -52,13 +61,13 @@ local specWarnFelFissure		= mod:NewSpecialWarningDodge(218885, nil, nil, nil, 2,
 local specWarnFelFissure2		= mod:NewSpecialWarningYouMove(218960, nil, nil, nil, 1, 5) --Разлом скверны
 local specWarnWickedLeap		= mod:NewSpecialWarningDodge(216808, nil, nil, nil, 2, 5) --Жестокий прыжок
 local specWarnHorrificVisage	= mod:NewSpecialWarningLookAway(216881, nil, nil, nil, 3, 5) --Ужасающий лик
-local specWarnRemnantofLight	= mod:NewSpecialWarningInterrupt2(216837, "HasInterrupt2", nil, nil, 2, 5) --Частица Света
+local specWarnRemnantofLight	= mod:NewSpecialWarningInterrupt2(216837, nil, nil, nil, 2, 5) --Частица Света
 local specWarnClubSlam			= mod:NewSpecialWarningYouDefensive(203671, nil, nil, nil, 3, 5) --Мощный удар дубиной
 local specWarnClubSlam2			= mod:NewSpecialWarningDodge(203671, nil, nil, nil, 2, 5) --Мощный удар дубиной
 local specWarnCrushingBite		= mod:NewSpecialWarningYouDefensive(206795, nil, nil, nil, 2, 5) --Дробящий укус
 local specWarnFearsomeShriek	= mod:NewSpecialWarningInterrupt(206762, "-Healer", nil, nil, 1, 2) --Пугающий визг
 local specWarnWebWrap			= mod:NewSpecialWarningSwitch(223094, "-Healer", nil, nil, 3, 2) --Кокон
-local specWarnFertilize			= mod:NewSpecialWarningInterrupt2(223104, "HasInterrupt2", nil, nil, 3, 2) --Удобрение
+local specWarnFertilize			= mod:NewSpecialWarningInterrupt2(223104, nil, nil, nil, 3, 2) --Удобрение
 local specWarnEnchantedVenom	= mod:NewSpecialWarningInterrupt(223101, "-Healer", nil, nil, 1, 2) --Зачарованный яд
 local specWarnDeathWail			= mod:NewSpecialWarningRun(189157, "Melee", nil, nil, 4, 5) --Вой смерти
 local specWarnArcticTorrent		= mod:NewSpecialWarningDodge(218245, nil, nil, nil, 2, 3) --Арктический поток
@@ -67,9 +76,9 @@ local specWarnFlrglDrglDrglGrgl2 = mod:NewSpecialWarningDodge(218250, nil, nil, 
 local specWarnBladeBarrage		= mod:NewSpecialWarningDodge(222596, "Ranged", nil, nil, 2, 3) --Залп клинков
 local specWarnBladeBarrage2		= mod:NewSpecialWarningRun(222596, "Melee", nil, nil, 4, 5) --Залп клинков
 local specWarnFlrglDrglDrglGrgl	= mod:NewSpecialWarningInterrupt(218250, "-Healer", nil, nil, 3, 5) --Флргл Дргл Дргл Гргл
-local specWarnFear				= mod:NewSpecialWarningInterrupt(221424, "HasInterrupt", nil, nil, 3, 5) --Страх
-local specWarnArcaneResonance	= mod:NewSpecialWarningInterrupt2(214095, "HasInterrupt2", nil, nil, 3, 5) --Резонанс
-local specWarnImpale			= mod:NewSpecialWarningInterrupt(222676, "HasInterrupt", nil, nil, 3, 5) --Прокалывание
+local specWarnFear				= mod:NewSpecialWarningInterrupt(221424, "-Healer", nil, nil, 3, 5) --Страх
+local specWarnArcaneResonance	= mod:NewSpecialWarningInterrupt2(214095, nil, nil, nil, 3, 5) --Резонанс
+local specWarnImpale			= mod:NewSpecialWarningInterrupt(222676, "-Healer", nil, nil, 3, 5) --Прокалывание
 local specWarnViciousBite		= mod:NewSpecialWarningYouDefensive(221422, nil, nil, nil, 2, 5) --Яростный укус
 local specWarnCrushArmor		= mod:NewSpecialWarningStack(221425, nil, 3, nil, nil, 3, 5) --Сокрушение доспеха
 
@@ -210,7 +219,7 @@ function mod:SPELL_CAST_START(args)
 	if spellId == 221424 and self:CheckTargetFilter(args.sourceGUID) then --Страх
 		specWarnFear:Show()
 		specWarnFear:Play("kickcast")
-	elseif spellId == 222676 and self:CheckTargetFilter(args.sourceGUID) then --Прокалывание
+	elseif spellId == 222676 then --Прокалывание
 		specWarnImpale:Show()
 		specWarnImpale:Play("kickcast")
 		timerImpaleCD:Start()
@@ -228,20 +237,27 @@ function mod:SPELL_CAST_START(args)
 		timerFlrglDrglDrglGrglCD:Start()
 	elseif spellId == 218250 then --Флргл Дргл Дргл Гргл
 		specWarnFlrglDrglDrglGrgl:Show()
+		specWarnFlrglDrglDrglGrgl:Play("kickcast")
 	elseif spellId == 222596 then --Залп клинков
 		specWarnBladeBarrage:Show()
+		specWarnBladeBarrage:Play("watchstep")
 		specWarnBladeBarrage2:Show()
+		specWarnBladeBarrage2:Play("justrun")
 		timerBladeBarrageCD:Start()
-	elseif spellId == 223101 and self:CheckTargetFilter(args.sourceGUID) then --Обстрел порчей
+	elseif spellId == 223101 then --Обстрел порчей
 		specWarnEnchantedVenom:Show()
+		specWarnEnchantedVenom:Play("kickcast")
 	elseif spellId == 223104 then --Удобрение
 		specWarnFertilize:Show()
+		specWarnFertilize:Play("kickcast")
 		timerFertilizeCD:Start()
 	elseif spellId == 219060 then --Защитная раковина
 		specWarnProtectiveShell:Show()
+		specWarnProtectiveShell:Play("kickcast")
 		timerProtectiveShellCD:Start()
-	elseif spellId == 219060 and self:CheckTargetFilter(args.sourceGUID) then --Пугающий визг
+	elseif spellId == 219060 then --Пугающий визг
 		specWarnFearsomeShriek:Show()
+		specWarnFearsomeShriek:Play("kickcast")
 		timerFearsomeShriekCD:Start()
 	elseif spellId == 203671 then --Мощный удар дубиной
 		self:BossTargetScanner(args.sourceGUID, "ClubSlamTarget", 0.1, 2)
@@ -257,8 +273,10 @@ function mod:SPELL_CAST_START(args)
 		timerFelFissureCD:Start()
 	elseif spellId == 223659 then --Миродробитель
 		specWarnWorldBreaker:Show()
+		specWarnWorldBreaker:Play("watchstep")
 	elseif spellId == 223630 then --Раскалывание душ
 		specWarnSoulCleave:Show()
+		specWarnSoulCleave:Play("watchstep")
 	elseif spellId == 207002 then --Глубинная бомба
 		self:BossTargetScanner(args.sourceGUID, "DepthChargeTarget", 0.1, 2)
 		timerDepthChargeCD:Start()
@@ -269,11 +287,27 @@ function mod:SPELL_CAST_START(args)
 		specWarnTidalEruption:Play("watchstep")
 		timerTidalEruptionCD:Start()
 	elseif spellId == 216981 then --Осколки кристалла
-		timerCrysShardsCD:Start()
 		specWarnCrysShards:Show()
+		specWarnCrysShards:Play("watchstep")
+		timerCrysShardsCD:Start()
 	elseif spellId == 219108 then --Плач забытого
 		specWarnCryoftheForgotten:Show()
 		specWarnCryoftheForgotten:Play("kickcast")
+	elseif spellId == 218875 then --Шепчущее проклятие
+		specWarnWhisperingCurse:Show()
+		specWarnWhisperingCurse:Play("kickcast")
+	elseif spellId == 218871 then --Вой заблудшей души
+		specWarnLostWail:Show()
+		specWarnLostWail:Play("kickcast")
+	elseif spellId == 218435 then --Бурный разряд
+		specWarnViolentDischarge:Show()
+		specWarnViolentDischarge:Play("kickcast")
+	elseif spellId == 218427 then --Похитить магию
+		local cid = self:GetCIDFromGUID(args.sourceGUID)
+		if cid == 109575 then
+			specWarnSiphonMagic:Show()
+			specWarnSiphonMagic:Play("kickcast")
+		end
 	end
 end
 
@@ -300,6 +334,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerViciousBite:Start(args.destName)
 		if args:IsPlayer() then
 			specWarnViciousBite:Show()
+			specWarnViciousBite:Play("defensive")
 		end
 	elseif spellId == 221425 then --Сокрушение доспеха
 		local amount = args.amount or 1
@@ -308,6 +343,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if amount >= 3 then
 			if args:IsPlayer() then
 				specWarnCrushArmor:Show(args.amount)
+				specWarnCrushArmor:Play("stackhigh")
 			end
 		end
 	elseif spellId == 222676 then --Прокалывание
@@ -322,6 +358,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			yellWebWrap:Yell()
 		else
 			specWarnWebWrap:Show()
+			specWarnWebWrap:Play("killmob")
 		end
 	elseif spellId == 219102 then --Уязвимое место
 		specWarnExposedCore:Show()

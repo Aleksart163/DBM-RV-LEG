@@ -223,7 +223,8 @@ L:SetGeneralLocalization({
 })
 
 L:SetOptionLocalization({
-	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT,
+	BossActivation = DBM_CORE_GENERIC_TIMER_ROLE_PLAY
 })
 
 L:SetTimerLocalization({
