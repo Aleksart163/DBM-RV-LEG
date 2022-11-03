@@ -1460,7 +1460,7 @@ do
 	end
 end
 
-local function Proshlyap(self, event, msg) --Прошляпанное очко Мурчаля Прошляпенко ✔
+local function Proshlyap(self, event, msg) --Прошляпанное очко Мурчаля Прошляпенко ✔✔✔
 	if DBM.Options.AutoKeyLink then
 		if event == "CHAT_MSG_PARTY" or event == "CHAT_MSG_PARTY_LEADER" then
 			if msg == "!keys" then
@@ -1487,7 +1487,7 @@ f:RegisterEvent("CHAT_MSG_GUILD")
 
 f:SetScript("OnEvent", Proshlyap)
 
-function proshlyapMurchalya(force, raid, guild)
+function proshlyapMurchalya(force, raid, guild) --Прошляпанное очко Кристасса ✔✔✔
 	for bag = 0, NUM_BAG_SLOTS do
 		local numSlots = GetContainerNumSlots(bag)
 		local ochkoMurchalya = nil
