@@ -44,9 +44,9 @@
 ----------------------------------------------------------------
 --
 DBM = {
-	Revision = tonumber(("$Revision: 17683 $"):sub(12, -3)), --прошляпанное очко мурчаля ✔
+	Revision = tonumber(("$Revision: 17684 $"):sub(12, -3)), --прошляпанное очко Мурчаля ✔
 	DisplayVersion = "7.3.41 Right Version",
-	ReleaseRevision = 17682
+	ReleaseRevision = 17683
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -393,6 +393,7 @@ local checkBossHealth
 local checkCustomBossHealth
 local fireEvent
 local playerName = UnitName("player")
+local DbmRV = "[DBM RV] "
 local playerLevel = UnitLevel("player")
 local playerRealm = GetRealmName()
 local connectedServers = GetAutoCompleteRealms()
@@ -1373,6 +1374,7 @@ do
 				"CHAT_MSG_RAID",
 				"CHAT_MSG_RAID_LEADER",
 				"CHAT_MSG_GUILD",
+				"CONFIRM_SUMMON",
 				"RAID_BOSS_EMOTE",
 				"RAID_BOSS_WHISPER",
 				"PLAYER_ENTERING_WORLD",
@@ -1460,7 +1462,7 @@ do
 	end
 end
 
-local function Proshlyap(self, event, msg) --Прошляпанное очко Мурчаля Прошляпенко ✔✔✔
+local function proshlyapKristassa(self, event, msg) --Прошляпанное очко Кристасса ✔✔✔
 	if DBM.Options.AutoKeyLink then
 		if event == "CHAT_MSG_PARTY" or event == "CHAT_MSG_PARTY_LEADER" then
 			if msg == "!keys" then
@@ -1485,9 +1487,9 @@ f:RegisterEvent("CHAT_MSG_RAID")
 f:RegisterEvent("CHAT_MSG_RAID_LEADER")
 f:RegisterEvent("CHAT_MSG_GUILD")
 
-f:SetScript("OnEvent", Proshlyap)
+f:SetScript("OnEvent", proshlyapKristassa)
 
-function proshlyapMurchalya(force, raid, guild) --Прошляпанное очко Кристасса ✔✔✔
+function proshlyapMurchalya(force, raid, guild) --Прошляпанное очко Мурчаля Прошляпенко ✔✔✔
 	for bag = 0, NUM_BAG_SLOTS do
 		local numSlots = GetContainerNumSlots(bag)
 		local ochkoMurchalya = nil
@@ -1496,17 +1498,34 @@ function proshlyapMurchalya(force, raid, guild) --Прошляпанное оч�
 				ochkoMurchalya = GetContainerItemLink(bag, slot)
 				if force then
 					if guild then
-						SendChatMessage(ochkoMurchalya, "GUILD")
+						SendChatMessage(DbmRV.. ochkoMurchalya, "GUILD")
 					elseif raid then
-						SendChatMessage(ochkoMurchalya, "RAID")
+						SendChatMessage(DbmRV.. ochkoMurchalya, "RAID")
 					else
-						SendChatMessage(ochkoMurchalya, "PARTY")
+						SendChatMessage(DbmRV.. ochkoMurchalya, "PARTY")
 					end
 				end
 			end
 		end
 	end
 end
+--[[
+local function Proshlyap2(self, event)
+	if event == "CONFIRM_SUMMON" then
+		if IsInRaid('player') then
+		--	SendChatMessage(playerName.." тебя сумонят. Не будь мудаком как Мурчаль, установи DBM адаптированный под ушош https://github.com/Aleksart163/DBM-for-Uwow и прими сум от " .. GetSummonConfirmSummoner(),"RAID")
+			SendChatMessage(playerName.. DBM_SUMMON1 ..GetSummonConfirmSummoner(),"RAID")
+		else
+		--	SendChatMessage(playerName.." тебя сумонят. Не будь мудаком как Мурчаль, установи DBM адаптированный под ушош https://github.com/Aleksart163/DBM-for-Uwow и прими сум от " .. GetSummonConfirmSummoner(),"PARTY")
+			SendChatMessage(playerName.. DBM_SUMMON1 ..GetSummonConfirmSummoner(),"PARTY")
+		end
+	end
+end
+
+local f = CreateFrame("Frame")
+f:RegisterEvent("CONFIRM_SUMMON")
+
+f:SetScript("OnEvent", Proshlyap2)]]
 
 --------------------------
 --  OnUpdate/Scheduler  --
@@ -9903,7 +9922,7 @@ do
 			if announceType == "target" or announceType == "targetcount" or announceType == "close" or announceType == "reflect" then
 				catType = "announceother"
 			--Directly affects you 
-			elseif announceType == "targetint" or announceType == "targetrun" or announceType == "targetsoak" or announceType == "targethelp" or announceType == "targetdodge" or announceType == "keepdist" or announceType == "you" or announceType == "yourun" or announceType == "yourunning" or announceType == "closemoveaway" or announceType == "youfind" or announceType == "youclose" or announceType == "youshare" or announceType == "youdefensive" or announceType == "youmoveaway" or announceType == "youmove" or announceType == "youcount" or announceType == "youpos" or announceType == "move" or announceType == "dodge" or announceType == "moveaway" or announceType == "run" or announceType == "stack" or announceType == "moveto" or announceType == "soakpos" or announceType == "youmoveawaypos" or announceType == "youfades" or announceType == "youdontmove" or announceType == "cast" then
+			elseif announceType == "soonlookaway" or announceType == "targetint" or announceType == "targetrun" or announceType == "targetsoak" or announceType == "targethelp" or announceType == "targetdodge" or announceType == "keepdist" or announceType == "you" or announceType == "yourun" or announceType == "yourunning" or announceType == "closemoveaway" or announceType == "youfind" or announceType == "youclose" or announceType == "youshare" or announceType == "youdefensive" or announceType == "youmoveaway" or announceType == "youmove" or announceType == "youcount" or announceType == "youpos" or announceType == "move" or announceType == "dodge" or announceType == "moveaway" or announceType == "run" or announceType == "stack" or announceType == "moveto" or announceType == "soakpos" or announceType == "youmoveawaypos" or announceType == "youfades" or announceType == "youdontmove" or announceType == "cast" then
 				catType = "announcepersonal"
 			--Things you have to do to fulfil your role
 			elseif announceType == "taunt" or announceType == "moredamage" or announceType == "defensive" or announceType == "interrupt2" or announceType == "dispel" or announceType == "interrupt" or announceType == "interruptcount" or announceType == "switch" or announceType == "switchcount" or announceType == "youmoredamage" then
@@ -9938,6 +9957,10 @@ do
 
 	function bossModPrototype:NewSpecialWarningSoon(text, optionDefault, ...)
 		return newSpecialWarning(self, "soon", text, nil, optionDefault, ...)
+	end
+
+	function bossModPrototype:NewSpecialWarningSoonLookAway(text, optionDefault, ...)
+		return newSpecialWarning(self, "soonlookaway", text, nil, optionDefault, ...)
 	end
 
 	function bossModPrototype:NewSpecialWarningDispel(text, optionDefault, ...)

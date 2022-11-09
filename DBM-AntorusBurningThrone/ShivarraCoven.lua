@@ -298,22 +298,22 @@ function mod:SPELL_CAST_SUCCESS(args)
 		countdownTitans:Start()
 		if spellId == 250335 then--Machinations of Aman'Thul
 			timerMachinationsofAmanThulCD:Start()
-			warnAmantul:Schedule(70)
+			warnAmantul:Schedule(75)
 			specWarnAmantul:Schedule(85)
 			specWarnAmantul:ScheduleVoice(85, "killmob")
 		elseif spellId == 250333 then--Flames of Khaz'goroth
 			timerFlamesofKhazgorothCD:Start()
-			warnKazgagot:Schedule(70)
+			warnKazgagot:Schedule(75)
 			specWarnKazgagot:Schedule(85)
 			specWarnKazgagot:ScheduleVoice(85, "watchstep")
 		elseif spellId == 250334 then--Spectral Army of Norgannon
 			timerSpectralArmyofNorgannonCD:Start()
-			warnNorgannon:Schedule(70)
+			warnNorgannon:Schedule(75)
 			specWarnNorgannon:Schedule(85)
 			specWarnNorgannon:ScheduleVoice(85, "watchstep")
 		elseif spellId == 249793 then--Fury of Golganneth
 			timerFuryofGolgannethCD:Start()
-			warnGolgannet:Schedule(70)
+			warnGolgannet:Schedule(75)
 			specWarnGolgannet:Schedule(85)
 			specWarnGolgannet:ScheduleVoice(85, "watchstep")
 		end

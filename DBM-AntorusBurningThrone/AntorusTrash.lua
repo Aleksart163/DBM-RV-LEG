@@ -297,7 +297,8 @@ function mod:GOSSIP_SHOW()
 	if not guid then return end
 	local cid = self:GetCIDFromGUID(guid)
 	if mod.Options.BossActivation then
-		if cid == 127963 or cid == 125720 or cid == 128303 or cid == 128304 or cid == 128169 or cid == 122500 then
+		--127963 Экзоскелет озаренных, 125720 Маяк озаренных, 128303 Маяк озаренных, 128304 Маяк озаренных, 128169 Магни Бронзобород, 122500 Сущность Эонар, 127856 Экзоскелет озаренных
+		if cid == 127963 or cid == 127856 or cid == 125720 or cid == 128303 or cid == 128304 or cid == 122500 or cid == 128169 then
 			if GetNumGossipOptions() == 1 then
 				SelectGossipOption(1)
 				CloseGossip()

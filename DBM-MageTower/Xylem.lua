@@ -38,11 +38,12 @@ local specWarnDrawPower				= mod:NewSpecialWarningInterrupt(231522, nil, nil, ni
 --Phase 2
 local specWarnSeeds					= mod:NewSpecialWarningYouRun(233248, nil, nil, nil, 4, 3) --Семя Тьмы
 local specWarnSeeds2				= mod:NewSpecialWarningSwitch(233248, nil, nil, nil, 1, 3) --Семя Тьмы
+local specWarnSeeds3				= mod:NewSpecialWarningTarget(233248, nil, nil, nil, 3, 3) --Семя Тьмы
 
 mod:AddTimerLine(SCENARIO_STAGE:format(1))
 local timerRazorIceCD				= mod:NewCDTimer(25.5, 232661, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Ледяной сталагмит 25.5-38.9 (other casts can delay it a lot)
 --Transition
---local timerArcaneAnnihilationCD		= mod:NewNextTimer(5, 234728, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON..DBM_CORE_DEADLY_ICON) --Волшебная аннигиляция
+local timerArcaneAnnihilationCD		= mod:NewCDTimer(90, 234728, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON..DBM_CORE_DEADLY_ICON) --Волшебная аннигиляция
 local timerShadowBarrageCD			= mod:NewCDTimer(40.0, 231443, nil, nil, nil, 2) --Залп Тени Actually used both phases
 --Фаза тайн.магии
 local timerDrawPowerCD				= mod:NewCDTimer(18.2, 231522, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON) --Похищение энергии
@@ -55,6 +56,7 @@ local timerRoleplay					= mod:NewTimer(30, "timerRoleplay", "Interface\\Icons\\a
 local yellSeeds2					= mod:NewFadesYell(233248, nil, nil, nil, "YELL") --Семя Тьмы
 
 local countdownPull					= mod:NewCountdown(15, 212702, nil, nil, 5)
+local countdownSeeds				= mod:NewCountdown(50, 233248, nil, nil, 5) --Семя Тьмы
 
 mod.vb.phase = 1
 mod.vb.razorIceCount = 0
@@ -73,6 +75,7 @@ function mod:OnCombatStart(delay)
 	self.vb.arcaneBarrageCount = 0
 	self.vb.frostboltCount = 0
 	timerRazorIceCD:Start(10-delay) --Ледяной сталагмит+++
+	timerArcaneAnnihilationCD:Start(90-delay) --Волшебная аннигиляция+++
 --	DBM:AddMsg("Данный босс содержит оригинальные таймеры/анонсы и т.д. с офы Легиона за 2018 год, поэтому могут работать на данном сервере плохо. Следите за обновлениями для корректной работы модуля.")
 end
 
@@ -89,12 +92,16 @@ function mod:SPELL_CAST_START(args)
 		self.vb.arcaneBarrageCount = 0
 		if self.vb.frostboltCount == 1 then
 			warnFrostPhase:Show()
+			timerShadowBarrageCD:Cancel()
+			timerRazorIceCD:Start(10)
 		end
 	elseif spellId == 232673 then --Чародейский обстрел
 		self.vb.arcaneBarrageCount = self.vb.arcaneBarrageCount + 1
 		self.vb.frostboltCount = 0
 		if self.vb.arcaneBarrageCount == 1 then
 			warnArcanePhase:Show()
+			timerRazorIceCD:Cancel()
+			timerShadowBarrageCD:Start(10)
 		end
 	end
 end
@@ -125,19 +132,30 @@ function mod:SPELL_AURA_APPLIED(args)
 		else
 			timerShadowBarrageCD:Start()
 		end
-	elseif spellId == 233248 and args:IsPlayer() then --Семя Тьмы
-		specWarnSeeds:Show()
-		specWarnSeeds:Play("runout")
+	elseif spellId == 233248 then --Семя Тьмы
 		timerSeedsCD:Start()
-		yellSeeds2:Countdown(8, 3)
+		countdownSeeds:Start()
+		if args:IsPlayer() then
+			specWarnSeeds:Show()
+			specWarnSeeds:Play("justrun")
+			yellSeeds2:Countdown(8, 3)
+		elseif args:IsPet() then
+			specWarnSeeds3:Show(args.destName)
+			specWarnSeeds3:Play("justrun")
+		end
 	end
 end
 
 function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
-	if spellId == 233248 and args:IsPlayer() then --Семя Тьмы
-		specWarnSeeds2:Show()
-		specWarnSeeds2:Play("killmob")
+	if spellId == 233248 then --Семя Тьмы
+		if args:IsPlayer() then
+			specWarnSeeds2:Show()
+			specWarnSeeds2:Play("killmob")
+		elseif args:IsPet() then
+			specWarnSeeds2:Show()
+			specWarnSeeds2:Play("killmob")
+		end
 	end
 end
 
@@ -146,11 +164,12 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 		self.vb.phase = 2
 		warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase))
 		timerRazorIceCD:Cancel()
-		timerArcaneAnnihilationCD:Cancel()
+	--	timerArcaneAnnihilationCD:Cancel()
 		timerShadowBarrageCD:Cancel()
 		timerRoleplay:Start(21)
 		countdownPull:Start(21)
 		timerSeedsCD:Start(30.5)
+		countdownSeeds:Start(30.5)
 	end
 end
 

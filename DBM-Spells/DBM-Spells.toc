@@ -14,7 +14,6 @@
 ## LoadOnDemand: 1
 ## RequiredDeps: DBM-Core
 ## SavedVariables: DBMSpells_AllSavedVars
-## SavedVariablesPerCharacter: DBMSpells_SavedStats
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: OTHER
 ## X-DBM-Mod-Category: LEG

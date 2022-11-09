@@ -1,7 +1,8 @@
 if GetLocale() ~= "deDE" then return end
+
 local L
 
---Тут будет ещё 1 прошляпанное очко Мурчаля ✔
+--Прошляпанное очко Мурчаля ✔✔
 
 -----------------
 -- Raid-zauber --
@@ -20,13 +21,15 @@ L:SetOptionLocalization({
 	YellOnSoulstone = "Melden Sie, wenn jemand verwendet $spell:20707",
 	YellOnRitualofSummoning = "Melden Sie, wenn jemand verwendet $spell:698",
 	YellOnSpiritCauldron = "Melden Sie, wenn jemand verwendet $spell:188036",
-	YellOnLavish = "Melden Sie, wenn jemand verwendet $spell:201352 oder ein ähnliches"
+	YellOnLavish = "Melden Sie, wenn jemand verwendet $spell:201352 oder ein ähnliches",
+	YellOnRepair = "Melden Sie, wenn jemand verwendet $spell:199109 oder ein ähnliches",
+	YellOnPylon = "Melden Sie, wenn jemand verwendet $spell:199115"
 })
 
 L:SetMiscLocalization{
-	HeroismYell = "[DBM RV] %s nutzt %s!",
-	PortalYell = "[DBM RV] %s öffnet %s!",
-	SoulwellYell = "[DBM RV] %s richtet ein %s!",
-	SoulstoneYell = "[DBM RV] %s wendet %s auf %s!",
-	SummoningYell = "[DBM RV] %s nutzt %s!"
+	HeroismYell = "%s %s nutzt %s!",
+	PortalYell = "%s %s öffnet %s!",
+	SoulwellYell = "%s %s richtet ein %s!",
+	SoulstoneYell = "%s %s wendet %s auf %s!",
+	SummoningYell = "%s %s nutzt %s!"
 }
