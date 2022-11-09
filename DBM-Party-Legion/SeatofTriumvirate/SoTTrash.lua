@@ -48,6 +48,8 @@ local yellSupField2					= mod:NewFadesYell(249081, nil, nil, nil, "YELL") --По
 
 mod:AddBoolOption("AlleriaActivation", true)
 
+mod.vb.wardens = 3
+
 function mod:SPELL_CAST_START(args)
 	if not self.Options.Enabled then return end
 	local spellId = args.spellId
@@ -135,7 +137,7 @@ function mod:SPELL_AURA_REMOVED(args)
 end
 
 function mod:GOSSIP_SHOW()
-	local guid = UnitGUID("target")
+	local guid = UnitGUID("npc")
 	if not guid then return end
 	local cid = self:GetCIDFromGUID(guid)
 	if mod.Options.AlleriaActivation then

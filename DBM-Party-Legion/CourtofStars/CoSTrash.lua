@@ -101,6 +101,7 @@ mod:AddBoolOption("YellOnTinkering", true) --Конструирование (о�
 mod:AddBoolOption("YellOnDefacing", true) --Осквернение (отвлечение)
 mod:AddBoolOption("SpyHelper", true)
 
+local DbmRV = "[DBM RV] "
 local eating = DBM:GetSpellInfo(208585) --Поглощение пищи
 local siphoningMagic = DBM:GetSpellInfo(208427) --Похищение магии
 local purifying = DBM:GetSpellInfo(209767) --Очищение
@@ -238,132 +239,132 @@ function mod:SPELL_CAST_SUCCESS(args)
 		warnEating:Show(args.sourceName)
 		if self.Options.YellOnEating then
 			if IsInRaid() then
-				SendChatMessage(L.EatingYell:format(args.sourceName, eating), "RAID")
+				SendChatMessage(L.EatingYell:format(DbmRV, args.sourceName, eating), "RAID")
 			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
-				SendChatMessage(L.EatingYell:format(args.sourceName, eating), "INSTANCE_CHAT")
+				SendChatMessage(L.EatingYell:format(DbmRV, args.sourceName, eating), "INSTANCE_CHAT")
 			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
-				SendChatMessage(L.EatingYell:format(args.sourceName, eating), "PARTY")
+				SendChatMessage(L.EatingYell:format(DbmRV, args.sourceName, eating), "PARTY")
 			end
 		end
 	elseif spellId == 208427 then --Похищение магии
 		warnSiphoningMagic:Show(args.sourceName)
 		if self.Options.YellOnSiphoningMagic then
 			if IsInRaid() then
-				SendChatMessage(L.SiphoningMagic:format(args.sourceName, siphoningMagic), "RAID")
+				SendChatMessage(L.SiphoningMagic:format(DbmRV, args.sourceName, siphoningMagic), "RAID")
 			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
-				SendChatMessage(L.SiphoningMagic:format(args.sourceName, siphoningMagic), "INSTANCE_CHAT")
+				SendChatMessage(L.SiphoningMagic:format(DbmRV, args.sourceName, siphoningMagic), "INSTANCE_CHAT")
 			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
-				SendChatMessage(L.SiphoningMagic:format(args.sourceName, siphoningMagic), "PARTY")
+				SendChatMessage(L.SiphoningMagic:format(DbmRV, args.sourceName, siphoningMagic), "PARTY")
 			end
 		end
 	elseif spellId == 209767 then --Очищение
 		warnPurifying:Show(args.sourceName)
 		if self.Options.YellOnPurifying then
 			if IsInRaid() then
-				SendChatMessage(L.PurifyingYell:format(args.sourceName, purifying), "RAID")
+				SendChatMessage(L.PurifyingYell:format(DbmRV, args.sourceName, purifying), "RAID")
 			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
-				SendChatMessage(L.PurifyingYell:format(args.sourceName, purifying), "INSTANCE_CHAT")
+				SendChatMessage(L.PurifyingYell:format(DbmRV, args.sourceName, purifying), "INSTANCE_CHAT")
 			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
-				SendChatMessage(L.PurifyingYell:format(args.sourceName, purifying), "PARTY")
+				SendChatMessage(L.PurifyingYell:format(DbmRV, args.sourceName, purifying), "PARTY")
 			end
 		end
 	elseif spellId == 208334 then --Иссушение
 		warnDraining:Show(args.sourceName)
 		if self.Options.YellOnDraining then
 			if IsInRaid() then
-				SendChatMessage(L.DrainingYell:format(args.sourceName, draining), "RAID")
+				SendChatMessage(L.DrainingYell:format(DbmRV, args.sourceName, draining), "RAID")
 			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
-				SendChatMessage(L.DrainingYell:format(args.sourceName, draining), "INSTANCE_CHAT")
+				SendChatMessage(L.DrainingYell:format(DbmRV, args.sourceName, draining), "INSTANCE_CHAT")
 			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
-				SendChatMessage(L.DrainingYell:format(args.sourceName, draining), "PARTY")
+				SendChatMessage(L.DrainingYell:format(DbmRV, args.sourceName, draining), "PARTY")
 			end
 		end
 	elseif spellId == 210872 then --Текст пробуждения
 		warnInvokingText:Show(args.sourceName)
 		if self.Options.YellOnInvokingText then
 			if IsInRaid() then
-				SendChatMessage(L.InvokingTextYell:format(args.sourceName, invokingText), "RAID")
+				SendChatMessage(L.InvokingTextYell:format(DbmRV, args.sourceName, invokingText), "RAID")
 			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
-				SendChatMessage(L.InvokingTextYell:format(args.sourceName, invokingText), "INSTANCE_CHAT")
+				SendChatMessage(L.InvokingTextYell:format(DbmRV, args.sourceName, invokingText), "INSTANCE_CHAT")
 			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
-				SendChatMessage(L.InvokingTextYell:format(args.sourceName, invokingText), "PARTY")
+				SendChatMessage(L.InvokingTextYell:format(DbmRV, args.sourceName, invokingText), "PARTY")
 			end
 		end
 	elseif spellId == 210307 then --Выпивание
 		warnDrinking:Show(args.sourceName)
 		if self.Options.YellOnDrinking then
 			if IsInRaid() then
-				SendChatMessage(L.DrinkingYell:format(args.sourceName, drinking), "RAID")
+				SendChatMessage(L.DrinkingYell:format(DbmRV, args.sourceName, drinking), "RAID")
 			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
-				SendChatMessage(L.DrinkingYell:format(args.sourceName, drinking), "INSTANCE_CHAT")
+				SendChatMessage(L.DrinkingYell:format(DbmRV, args.sourceName, drinking), "INSTANCE_CHAT")
 			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
-				SendChatMessage(L.DrinkingYell:format(args.sourceName, drinking), "PARTY")
+				SendChatMessage(L.DrinkingYell:format(DbmRV, args.sourceName, drinking), "PARTY")
 			end
 		end
 	elseif spellId == 208939 then --Высвобождение спор
 		warnReleaseSpores:Show(args.sourceName)
 		if self.Options.YellOnReleaseSpores then
 			if IsInRaid() then
-				SendChatMessage(L.ReleaseSporesYell:format(args.sourceName, releaseSpores), "RAID")
+				SendChatMessage(L.ReleaseSporesYell:format(DbmRV, args.sourceName, releaseSpores), "RAID")
 			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
-				SendChatMessage(L.ReleaseSporesYell:format(args.sourceName, releaseSpores), "INSTANCE_CHAT")
+				SendChatMessage(L.ReleaseSporesYell:format(DbmRV, args.sourceName, releaseSpores), "INSTANCE_CHAT")
 			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
-				SendChatMessage(L.ReleaseSporesYell:format(args.sourceName, releaseSpores), "PARTY")
+				SendChatMessage(L.ReleaseSporesYell:format(DbmRV, args.sourceName, releaseSpores), "PARTY")
 			end
 		end
 	elseif spellId == 208370 then --Отключение
 		warnShuttingDown:Show(args.sourceName)
 		if self.Options.YellOnShuttingDown then
 			if IsInRaid() then
-				SendChatMessage(L.ShuttingDownYell:format(args.sourceName, shuttingDown), "RAID")
+				SendChatMessage(L.ShuttingDownYell:format(DbmRV, args.sourceName, shuttingDown), "RAID")
 			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
-				SendChatMessage(L.ShuttingDownYell:format(args.sourceName, shuttingDown), "INSTANCE_CHAT")
+				SendChatMessage(L.ShuttingDownYell:format(DbmRV, args.sourceName, shuttingDown), "INSTANCE_CHAT")
 			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
-				SendChatMessage(L.ShuttingDownYell:format(args.sourceName, shuttingDown), "PARTY")
+				SendChatMessage(L.ShuttingDownYell:format(DbmRV, args.sourceName, shuttingDown), "PARTY")
 			end
 		end
 	elseif spellId == 210925 then --Лечение
 		warnTreating:Show(args.sourceName)
 		if self.Options.YellOnTreating then
 			if IsInRaid() then
-				SendChatMessage(L.TreatingYell:format(args.sourceName, treating), "RAID")
+				SendChatMessage(L.TreatingYell:format(DbmRV, args.sourceName, treating), "RAID")
 			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
-				SendChatMessage(L.TreatingYell:format(args.sourceName, treating), "INSTANCE_CHAT")
+				SendChatMessage(L.TreatingYell:format(DbmRV, args.sourceName, treating), "INSTANCE_CHAT")
 			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
-				SendChatMessage(L.TreatingYell:format(args.sourceName, treating), "PARTY")
+				SendChatMessage(L.TreatingYell:format(DbmRV, args.sourceName, treating), "PARTY")
 			end
 		end
 	elseif spellId == 210217 then --Воровство
 		warnPilfering:Show(args.sourceName)
 		if self.Options.YellOnPilfering then
 			if IsInRaid() then
-				SendChatMessage(L.PilferingYell:format(args.sourceName, pilfering), "RAID")
+				SendChatMessage(L.PilferingYell:format(DbmRV, args.sourceName, pilfering), "RAID")
 			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
-				SendChatMessage(L.PilferingYell:format(args.sourceName, pilfering), "INSTANCE_CHAT")
+				SendChatMessage(L.PilferingYell:format(DbmRV, args.sourceName, pilfering), "INSTANCE_CHAT")
 			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
-				SendChatMessage(L.PilferingYell:format(args.sourceName, pilfering), "PARTY")
+				SendChatMessage(L.PilferingYell:format(DbmRV, args.sourceName, pilfering), "PARTY")
 			end
 		end
 	elseif spellId == 210922 then --Конструирование
 		warnTinkering:Show(args.sourceName)
 		if self.Options.YellOnTinkering then
 			if IsInRaid() then
-				SendChatMessage(L.TinkeringYell:format(args.sourceName, tinkering), "RAID")
+				SendChatMessage(L.TinkeringYell:format(DbmRV, args.sourceName, tinkering), "RAID")
 			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
-				SendChatMessage(L.TinkeringYell:format(args.sourceName, tinkering), "INSTANCE_CHAT")
+				SendChatMessage(L.TinkeringYell:format(DbmRV, args.sourceName, tinkering), "INSTANCE_CHAT")
 			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
-				SendChatMessage(L.TinkeringYell:format(args.sourceName, tinkering), "PARTY")
+				SendChatMessage(L.TinkeringYell:format(DbmRV, args.sourceName, tinkering), "PARTY")
 			end
 		end
 	elseif spellId == 210330 then --Осквернение
 		warnDefacing:Show(args.sourceName)
 		if self.Options.YellOnDefacing then
 			if IsInRaid() then
-				SendChatMessage(L.DefacingYell:format(args.sourceName, defacing), "RAID")
+				SendChatMessage(L.DefacingYell:format(DbmRV, args.sourceName, defacing), "RAID")
 			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
-				SendChatMessage(L.DefacingYell:format(args.sourceName, defacing), "INSTANCE_CHAT")
+				SendChatMessage(L.DefacingYell:format(DbmRV, args.sourceName, defacing), "INSTANCE_CHAT")
 			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
-				SendChatMessage(L.DefacingYell:format(args.sourceName, defacing), "PARTY")
+				SendChatMessage(L.DefacingYell:format(DbmRV, args.sourceName, defacing), "PARTY")
 			end
 		end
 	end
@@ -561,22 +562,15 @@ do
 
 	function mod:GOSSIP_SHOW()
 		if not self.Options.SpyHelper then return end
-		local guid = UnitGUID("target")
+		local guid = UnitGUID("npc")
 		if not guid then return end
 		local cid = self:GetCIDFromGUID(guid)
-	
-		--Ли'лет Лунарх
-		if cid == 106468 then
-			if select('#', GetGossipOptions()) > 0 then
-				SelectGossipOption(1)
-				CloseGossip()
-			end
-		end
+		--105729 Сигнальный фонарь, 106468 Ли'лет Лунарх
 		--105249 Закуски ночной тени (Расы - панды, профы - кулинарка 800), 105340 Теневой цветок (классы - друиды, профы - травничество 800), 105117 Настой священной ночи (классы - роги, профы - алхимка 100+)
 		--106110 Промокший свиток (классы - шаман, профы - кожевничество, начертание по 100+), 106024 Магический светильник (расы - эльфы, классы - маг, профы - наложение чар 100+)
 		--106018 Рыночные товары (классы - воин, разбойник, профы - кожевничество 100+), 106113 Статуя ночнорожденного в натуральную величину (профы - горное дело и ювелирное 100+), 105831 Инфернальный фолиант (классы - дх, жрец, паладин)
 		--105157 Проводник магической энергии (расы - гном, гоблин, профы - инженерия 100+), 105160 Сфера Скверны, 106108 Отвар из звездной розы, 105215 Выброшенный хлам, 106112 Раненый ночнорожденный
-		if cid == 105249 or cid == 105340 or cid == 105117 or cid == 106110 or cid == 106018 or cid == 106113 or cid == 105831 or cid == 105157 or cid == 105160 or cid == 106108 or cid == 105215 or cid == 106112 then
+		if cid == 105729 or cid == 106468 or cid == 105249 or cid == 105340 or cid == 105117 or cid == 106110 or cid == 106018 or cid == 106113 or cid == 105831 or cid == 105157 or cid == 105160 or cid == 106108 or cid == 105215 or cid == 106112 then
 			if select('#', GetGossipOptions()) > 0 then
 				SelectGossipOption(1)
 				CloseGossip()

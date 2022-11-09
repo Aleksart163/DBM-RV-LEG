@@ -277,7 +277,6 @@ function mod:SPELL_AURA_REMOVED(args)
 	end
 end
 
---Assumed event. don't know if it's actually CHAT_MSG_MONSTER_EMOTE
 function mod:CHAT_MSG_MONSTER_EMOTE(msg)
 	if msg == L.speedRun then
 		self:SendSync("KaraSpeed")
@@ -315,7 +314,7 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 end
 
 function mod:GOSSIP_SHOW()
-	local guid = UnitGUID("target")
+	local guid = UnitGUID("npc")
 	if not guid then return end
 	local cid = self:GetCIDFromGUID(guid)
 	if mod.Options.OperaActivation then
@@ -336,25 +335,7 @@ function mod:UNIT_DIED(args)
 		king = true
 		timerRoyalty:Cancel()
 		timerMovePieceCD:Cancel()
-	elseif cid == 115395 then --Ферзь
-		if not king then
-			timerRoyalty:Start()
-		else
-			timerRoyalty:Cancel()
-		end
-	elseif cid == 115406 then --конь
-		if not king then
-			timerRoyalty:Start()
-		else
-			timerRoyalty:Cancel()
-		end
-	elseif cid == 115401 then --слон
-		if not king then
-			timerRoyalty:Start()
-		else
-			timerRoyalty:Cancel()
-		end
-	elseif cid == 115407 then --ладья
+	elseif cid == 115395 or cid == 115406 or cid == 115401 or cid == 115407 then --Ферзь, Конь, Слон, Ладья
 		if not king then
 			timerRoyalty:Start()
 		else

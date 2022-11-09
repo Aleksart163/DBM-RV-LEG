@@ -239,7 +239,7 @@ function mod:SPELL_AURA_REMOVED(args)
 end
 
 function mod:GOSSIP_SHOW()
-	local guid = UnitGUID("target")
+	local guid = UnitGUID("npc")
 	if not guid then return end
 	local cid = self:GetCIDFromGUID(guid)
 	if mod.Options.BossActivation then --Прошляпанное очко Мурчаля Прошляпенко ✔
