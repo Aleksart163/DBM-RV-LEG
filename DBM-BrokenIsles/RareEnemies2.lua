@@ -104,7 +104,6 @@ local yellCarrionSwarm				= mod:NewYell(240105, nil, nil, nil, "YELL") --Тем�
 local yellBrinyBubble				= mod:NewYellHelp(216456, nil, nil, nil, "YELL") --Соленый пузырь
 local yellGlitteringBlast			= mod:NewYell(219200, nil, nil, nil, "YELL") --Сияющий взрыв
 
-
 function mod:hatefulSmashTarget(targetname, uId) --прошляпанное очко Мурчаля Прошляпенко ✔
 	if not targetname then return end
 	if targetname == UnitName("player") then
@@ -337,7 +336,7 @@ function mod:SPELL_AURA_REMOVED(args)
 end
 
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
-	if spellId == 217136 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
+	if spellId == 217136 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then --Огненная бомба
 		specWarnFlameBomb2:Show()
 		specWarnFlameBomb2:Play("runaway")
 	end

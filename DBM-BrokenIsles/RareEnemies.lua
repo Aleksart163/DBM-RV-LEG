@@ -8,14 +8,15 @@ mod:SetMinSyncRevision(17650)
 mod.noStatistics = true
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 221424 222676 189157 214095 218245 218250 223101 223104 219060 206762 203671 222596 216808 216837 218885 223659 223630 207002 206995 206972 216981 216970 219108 218875 218871 218435 218427",
+	"SPELL_CAST_START 221424 222676 189157 214095 218245 218250 223101 223104 219060 206762 203671 222596 216808 216837 218885 223659 223630 207002 206995 206972 216981 216970 219108 218875 218871 218435 218427 214500 222442 222446 222279",
 	"SPELL_CAST_SUCCESS 221422 223094 216881 218969",
 	"SPELL_AURA_APPLIED 221422 221425 222676 218250 223094 219102 219087 206795 219060 223630 206972 219661 219646",
 	"SPELL_AURA_APPLIED_DOSE 221425",
 	"SPELL_AURA_REMOVED 221422 221425",
-	"SPELL_PERIODIC_DAMAGE 218960",
-	"SPELL_PERIODIC_MISSED 218960",
+	"SPELL_PERIODIC_DAMAGE 218960 222444",
+	"SPELL_PERIODIC_MISSED 218960 222444",
 	"CHAT_MSG_MONSTER_SAY",
+	"GOSSIP_SHOW",
 	"UNIT_DIED"
 )
 --Для https://ru.wowhead.com/npc=126889/соролис-нелюбимец-судьбы на Аргусе
@@ -26,12 +27,18 @@ local warnImpale				= mod:NewTargetAnnounce(222676, 4) --Прокалывани�
 local warnArcticTorrent			= mod:NewTargetAnnounce(218245, 4) --Арктический поток
 local warnWebWrap				= mod:NewTargetAnnounce(223094, 3) --Кокон
 local warnClubSlam				= mod:NewTargetAnnounce(203671, 4) --Мощный удар дубиной
-local warnWickedLeap			= mod:NewTargetAnnounce(216808, 3) --Жестокий прыжок
 local warnHorrificVisage		= mod:NewSpellAnnounce(216881, 2) --Ужасающий лик
 local warnRemnantofLight		= mod:NewTargetAnnounce(216837, 3) --Частица Света
 local warnFelFissure			= mod:NewTargetAnnounce(218885, 3) --Разлом скверны
 local warnDepthCharge			= mod:NewTargetAnnounce(207002, 3) --Глубинная бомба
-
+local warnCinderwingsGaze		= mod:NewTargetAnnounce(222446, 2) --Взор Пеплокрыла
+--Углекрыл
+local specWarnCinderwingsGaze	= mod:NewSpecialWarningInterrupt2(222446, nil, nil, nil, 3, 3) --Взор Пеплокрыла
+local specWarnTaintedSpew		= mod:NewSpecialWarningDodge(222279, nil, nil, nil, 2, 2) --Выброс порчи
+--Картакс
+local specWarnHellfireandBrimstone	= mod:NewSpecialWarningInterrupt2(214500, nil, nil, nil, 3, 3) --Адское пламя и сера
+local specWarnInferno			= mod:NewSpecialWarningDodge(222442, nil, nil, nil, 2, 2) --Преисподняя
+local specWarnInferno2			= mod:NewSpecialWarningYouMove(222444, nil, nil, nil, 1, 2) --Преисподняя
 --Аода Сухой Лепесток
 local specWarnRapidShot			= mod:NewSpecialWarningDefensive(219661, nil, nil, nil, 2, 3) --Быстрострел
 local specWarnShieldofDarkness 	= mod:NewSpecialWarningDispel(219646, "MagicDispeller", nil, nil, 1, 3) --Щит Тьмы
@@ -46,8 +53,8 @@ local specWarnProtectiveShell2 = mod:NewSpecialWarningDispel(219060, "MagicDispe
 local specWarnWhisperingCurse	= mod:NewSpecialWarningInterrupt2(218875, nil, nil, nil, 1, 2) --Шепчущее проклятие
 local specWarnLostWail			= mod:NewSpecialWarningInterrupt(218871, "-Healer", nil, nil, 1, 2) --Вой заблудшей души
 --Валакар Жаждущий
-local specWarnViolentDischarge		= mod:NewSpecialWarningInterrupt2(218435, nil, nil, nil, 2, 3) --Бурный разряд
-local specWarnSiphonMagic			= mod:NewSpecialWarningInterrupt(218427, "-Healer", nil, nil, 1, 3) --Похитить магию
+local specWarnViolentDischarge	= mod:NewSpecialWarningInterrupt2(218435, nil, nil, nil, 2, 3) --Бурный разряд
+local specWarnSiphonMagic		= mod:NewSpecialWarningInterrupt(218427, "-Healer", nil, nil, 1, 3) --Похитить магию
 --
 local specWarnElemRes			= mod:NewSpecialWarningDodge(216970, nil, nil, nil, 2, 3) --Стихийный резонанс
 local specWarnCrysShards		= mod:NewSpecialWarningDodge(216981, nil, nil, nil, 2, 3) --Осколки кристалла
@@ -60,7 +67,8 @@ local specWarnWorldBreaker		= mod:NewSpecialWarningDodge(223659, nil, nil, nil, 
 local specWarnFelFissure		= mod:NewSpecialWarningDodge(218885, nil, nil, nil, 2, 5) --Разлом скверны
 local specWarnFelFissure2		= mod:NewSpecialWarningYouMove(218960, nil, nil, nil, 1, 5) --Разлом скверны
 local specWarnWickedLeap		= mod:NewSpecialWarningDodge(216808, nil, nil, nil, 2, 5) --Жестокий прыжок
-local specWarnHorrificVisage	= mod:NewSpecialWarningLookAway(216881, nil, nil, nil, 3, 5) --Ужасающий лик
+local specWarnWickedLeap2		= mod:NewSpecialWarningTargetDodge(216808, nil, nil, nil, 2, 5) --Жестокий прыжок
+local specWarnHorrificVisage	= mod:NewSpecialWarningSoonLookAway(216881, nil, nil, nil, 3, 5) --Ужасающий лик
 local specWarnRemnantofLight	= mod:NewSpecialWarningInterrupt2(216837, nil, nil, nil, 2, 5) --Частица Света
 local specWarnClubSlam			= mod:NewSpecialWarningYouDefensive(203671, nil, nil, nil, 3, 5) --Мощный удар дубиной
 local specWarnClubSlam2			= mod:NewSpecialWarningDodge(203671, nil, nil, nil, 2, 5) --Мощный удар дубиной
@@ -100,9 +108,9 @@ local timerTidalEruptionCD		= mod:NewCDTimer(19, 206995, nil, nil, nil, 2, nil) 
 local timerFelFissureCD			= mod:NewCDTimer(20, 218885, nil, nil, nil, 3, nil) --Разлом скверны
 local timerFelMeteorCD			= mod:NewCDTimer(15, 218969, nil, nil, nil, 2, nil) --Метеорит скверны
 --Лагерта
-local timerWickedLeapCD			= mod:NewCDTimer(35, 216808, nil, nil, nil, 3, nil) --Жестокий прыжок
-local timerHorrificVisageCD		= mod:NewCDTimer(35, 216881, nil, nil, nil, 3, nil) --Ужасающий лик
-local timerRemnantofLightCD		= mod:NewCDTimer(35, 216837, nil, nil, nil, 3, nil) --Частица Света
+local timerWickedLeapCD			= mod:NewCDTimer(35, 216808, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Жестокий прыжок
+local timerHorrificVisageCD		= mod:NewCDTimer(35, 216881, nil, nil, nil, 7, nil) --Ужасающий лик
+local timerRemnantofLightCD		= mod:NewCDTimer(35, 216837, nil, nil, nil, 7, nil) --Частица Света
 --Яростная китовая акула
 local timerViciousBite			= mod:NewTargetTimer(15, 221422, nil, nil, nil, 5, nil) --Яростный укус
 local timerViciousBiteCD		= mod:NewCDTimer(30, 221422, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON) --Яростный укус
@@ -116,6 +124,7 @@ local timerFlrglDrglDrglGrglCD	= mod:NewCDTimer(20, 218250, nil, nil, nil, 2, ni
 
 local timerRoleplay				= mod:NewTimer(30, "timerRoleplay", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7) --Ролевая игра
 
+local yellCinderwingsGaze		= mod:NewYell(222446, nil, nil, nil, "YELL") --Взор Пеплокрыла
 local yellDepthCharge			= mod:NewYell(207002, nil, nil, nil, "YELL") --Глубинная бомба
 local yellFelFissure			= mod:NewYell(218885, nil, nil, nil, "YELL") --Разлом скверны
 local yellWickedLeap			= mod:NewYell(216808, nil, nil, nil, "YELL") --Жестокий прыжок
@@ -125,6 +134,15 @@ local yellWebWrap				= mod:NewYell(223094, nil, nil, nil, "YELL") --Кокон
 local yellImpale				= mod:NewYell(222676, nil, nil, nil, "YELL") --Прокалывание
 local yellImpaleFades			= mod:NewFadesYell(222676, nil, nil, nil, "YELL") --Прокалывание
 local yellArcticTorrent			= mod:NewYell(218245, nil, nil, nil, "YELL") --Арктический поток
+
+function mod:cinderwingsGazeTarget(targetname, uId) --прошляпанное очко Мурчаля Прошляпенко ✔
+	if not targetname then return end
+	if targetname == UnitName("player") then
+		yellCinderwingsGaze:Yell()
+	else
+		warnCinderwingsGaze:Show(targetname)
+	end
+end
 
 function mod:ArcticTorrentTarget(targetname, uId)
 	if not targetname then return end
@@ -152,33 +170,32 @@ function mod:ClubSlamTarget(targetname, uId)
 	end
 end
 
-function mod:WickedLeapTarget(targetname, uId)
+function mod:WickedLeapTarget(targetname, uId) --Жестокий прыжок
 	if not targetname then return end
 	if targetname == UnitName("player") then
 		specWarnWickedLeap:Show()
 		specWarnWickedLeap:Play("watchstep")
 		yellWickedLeap:Yell()
 	else
-		warnWickedLeap:Show(targetname)
-		specWarnWickedLeap:Show()
-		specWarnWickedLeap:Play("watchstep")
+		specWarnWickedLeap2:Show(targetname)
+		specWarnWickedLeap2:Play("watchstep")
 	end
 end
 
-function mod:RemnantofLightTarget(targetname, uId)
+function mod:RemnantofLightTarget(targetname, uId) --Частица Света
 	if not targetname then return end
 	if targetname == UnitName("player") then
 		specWarnRemnantofLight:Show()
 		specWarnRemnantofLight:Play("kickcast")
-		specWarnHorrificVisage:Schedule(3)
-		specWarnHorrificVisage:ScheduleVoice(3, "watchstep")
+		specWarnHorrificVisage:Schedule(5)
+		specWarnHorrificVisage:ScheduleVoice(5, "watchstep")
 		yellRemnantofLight:Yell()
 	else
 		warnRemnantofLight:Show(targetname)
 		specWarnRemnantofLight:Show()
 		specWarnRemnantofLight:Play("kickcast")
-		specWarnHorrificVisage:Schedule(3)
-		specWarnHorrificVisage:ScheduleVoice(3, "watchstep")
+		specWarnHorrificVisage:Schedule(5)
+		specWarnHorrificVisage:ScheduleVoice(5, "watchstep")
 	end
 end
 
@@ -265,7 +282,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 216808 then --Жестокий прыжок
 		self:BossTargetScanner(args.sourceGUID, "WickedLeapTarget", 0.1, 2)
 		timerWickedLeapCD:Start()
-	elseif spellId == 216808 then --Частица Света
+	elseif spellId == 216837 then --Частица Света
 		self:BossTargetScanner(args.sourceGUID, "RemnantofLightTarget", 0.1, 2)
 		timerRemnantofLightCD:Start()
 	elseif spellId == 218885 then --Разлом скверны
@@ -308,6 +325,22 @@ function mod:SPELL_CAST_START(args)
 			specWarnSiphonMagic:Show()
 			specWarnSiphonMagic:Play("kickcast")
 		end
+	elseif spellId == 214500 and self:CheckTargetFilter(args.sourceGUID) then --Адское пламя и сера
+		local cid = self:GetCIDFromGUID(args.sourceGUID)
+		if cid == 111731 then
+			specWarnHellfireandBrimstone:Show()
+			specWarnHellfireandBrimstone:Play("kickcast")
+		end
+	elseif spellId == 222442 and self:CheckTargetFilter(args.sourceGUID) then --Преисподняя
+		specWarnInferno:Show()
+		specWarnInferno:Play("watchstep")
+	elseif spellId == 222279 and self:CheckTargetFilter(args.sourceGUID) then --Выброс порчи
+		specWarnTaintedSpew:Show()
+		specWarnTaintedSpew:Play("watchstep")
+	elseif spellId == 222446 and self:CheckTargetFilter(args.sourceGUID) then --Взор Пеплокрыла
+		self:BossTargetScanner(args.sourceGUID, "cinderwingsGazeTarget", 0.1, 2)
+		specWarnCinderwingsGaze:Show()
+		specWarnCinderwingsGaze:Play("kickcast")
 	end
 end
 
@@ -323,6 +356,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	elseif spellId == 216881 then --Ужасающий лик
 		warnHorrificVisage:Show()
 		timerHorrificVisageCD:Start()
+		DBM:AddMsg("Босс фиряет, когда стоишь спиной? Это ошибка у разработчиков сервера - будем ждать починки.")
 	elseif spellId == 218969 then --Метеорит скверны
 		timerFelMeteorCD:Start()
 	end
@@ -411,6 +445,9 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spell
 	if spellId == 218960 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
 		specWarnFelFissure2:Show()
 		specWarnFelFissure2:Play("runaway")
+	elseif spellId == 222444 and destGUID == UnitGUID("player") and self:AntiSpam(2, 2) then --Преисподняя
+		specWarnInferno2:Show()
+		specWarnInferno2:Play("runaway")
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
@@ -453,4 +490,15 @@ function mod:UNIT_DIED(args)
 		timerElementalResonanceCD:Cancel()
 	end
 end
---
+
+function mod:GOSSIP_SHOW()
+	local guid = UnitGUID("npc")
+	if not guid then return end
+	local cid = self:GetCIDFromGUID(guid)
+	if cid == 97215 then -- Повелитель зверей Пао'лек
+		if select('#', GetGossipOptions()) > 0 then
+			SelectGossipOption(1)
+			CloseGossip()
+		end
+	end
+end
