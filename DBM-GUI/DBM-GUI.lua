@@ -3318,7 +3318,7 @@ local function CreateOptionsMenu()
 		DBM_GUI_OptionsFrameRevision:SetText("Dungeon Boss Master "..DBM.DisplayVersion.." (r"..DBM.Revision..")")
 	end
 	if L.TranslationBy then
-		DBM_GUI_OptionsFrameTranslation:SetText(L.TranslationByPrefix .. L.TranslationBy)
+		DBM_GUI_OptionsFrameTranslation:SetText(L.TranslationByPrefix .. L.TranslationBy .. "\n" .. L.Credits)
 	end
 	DBM_GUI_OptionsFrameWebsite:SetText(L.Website)
 	local frame = CreateFrame("Frame", nil, DBM_GUI_OptionsFrame)

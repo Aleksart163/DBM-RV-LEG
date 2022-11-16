@@ -1,18 +1,13 @@
--- Diablohu(diablohudream@gmail.com) 
--- yleaf(yaroot@gmail.com)
--- sunlcy@NGA
--- Mini Dragon(projecteurs@gmail.com)
--- Last update: 2018/07/10
-
 if GetLocale() ~= "zhCN" then return end
-if not DBM_GUI_Translations then DBM_GUI_Translations = {} end
 
+if not DBM_GUI_Translations then DBM_GUI_Translations = {} end
 local L = DBM_GUI_Translations
 
 L.MainFrame 				= "Dungeon Boss Master"
 
 L.TranslationByPrefix		= "Adaptation for uwow.biz - "
 L.TranslationBy 			= "Aleksart163 (Tielle х100)"
+L.Credits		 			= "特别感谢: Danzo (Qfastrun x100)" --right?
 L.Website					= "Discord for communication on issues: Aleksart163#1671 and site for updating: |cFF73C2FBhttps://github.com/Aleksart163/DBM-for-Uwow|r"
 L.WebsiteButton				= "Update"
 

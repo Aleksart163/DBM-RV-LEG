@@ -1,4 +1,5 @@
 if GetLocale() ~= "frFR" then return end
+
 if not DBM_GUI_Translations then DBM_GUI_Translations = {} end
 local L = DBM_GUI_Translations
 
@@ -6,6 +7,7 @@ L.MainFrame = "Dungeon Boss Master"
 
 L.TranslationByPrefix		= "Adaptation for uwow.biz - "
 L.TranslationBy 			= "Aleksart163 (Tielle х100)"
+L.Credits		 			= "Un merci spécial: Danzo (Qfastrun x100)"
 L.Website					= "Discord for communication on issues: Aleksart163#1671 and site for updating: |cFF73C2FBhttps://github.com/Aleksart163/DBM-for-Uwow|r"
 L.WebsiteButton				= "Update"
 

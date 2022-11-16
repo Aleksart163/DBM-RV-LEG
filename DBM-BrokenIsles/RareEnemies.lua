@@ -8,9 +8,9 @@ mod:SetMinSyncRevision(17650)
 mod.noStatistics = true
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 221424 222676 189157 214095 218245 218250 223101 223104 219060 206762 203671 222596 216808 216837 218885 223659 223630 207002 206995 206972 216981 216970 219108 218875 218871 218435 218427 214500 222442 222446 222279",
+	"SPELL_CAST_START 221424 222676 189157 214095 218245 218250 223101 223104 219060 206762 203671 222596 216808 216837 218885 223659 223630 207002 206995 206972 216981 216970 219108 218875 218871 218435 218427 214500 222442 222446 222279 218855",
 	"SPELL_CAST_SUCCESS 221422 223094 216881 218969",
-	"SPELL_AURA_APPLIED 221422 221425 222676 218250 223094 219102 219087 206795 219060 223630 206972 219661 219646",
+	"SPELL_AURA_APPLIED 221422 221425 222676 218250 223094 219102 219087 206795 219060 223630 206972 219661 219646 37587 222631",
 	"SPELL_AURA_APPLIED_DOSE 221425",
 	"SPELL_AURA_REMOVED 221422 221425",
 	"SPELL_PERIODIC_DAMAGE 218960 222444",
@@ -32,6 +32,9 @@ local warnRemnantofLight		= mod:NewTargetAnnounce(216837, 3) --Частица С
 local warnFelFissure			= mod:NewTargetAnnounce(218885, 3) --Разлом скверны
 local warnDepthCharge			= mod:NewTargetAnnounce(207002, 3) --Глубинная бомба
 local warnCinderwingsGaze		= mod:NewTargetAnnounce(222446, 2) --Взор Пеплокрыла
+--Грозовое Крыло
+local specWarnTempestRush		= mod:NewSpecialWarningDodge(218855, nil, nil, nil, 2, 2) --Стремительность урагана
+local specWarnWildWrath			= mod:NewSpecialWarningTarget(37587, nil, nil, nil, 2, 2) --Звериный гнев
 --Углекрыл
 local specWarnCinderwingsGaze	= mod:NewSpecialWarningInterrupt2(222446, nil, nil, nil, 3, 3) --Взор Пеплокрыла
 local specWarnTaintedSpew		= mod:NewSpecialWarningDodge(222279, nil, nil, nil, 2, 2) --Выброс порчи
@@ -81,8 +84,8 @@ local specWarnDeathWail			= mod:NewSpecialWarningRun(189157, "Melee", nil, nil, 
 local specWarnArcticTorrent		= mod:NewSpecialWarningDodge(218245, nil, nil, nil, 2, 3) --Арктический поток
 local specWarnDeathWail2		= mod:NewSpecialWarningDodge(189157, "Ranged", nil, nil, 2, 3) --Вой смерти
 local specWarnFlrglDrglDrglGrgl2 = mod:NewSpecialWarningDodge(218250, nil, nil, nil, 2, 3) --Флргл Дргл Дргл Гргл
-local specWarnBladeBarrage		= mod:NewSpecialWarningDodge(222596, "Ranged", nil, nil, 2, 3) --Залп клинков
-local specWarnBladeBarrage2		= mod:NewSpecialWarningRun(222596, "Melee", nil, nil, 4, 5) --Залп клинков
+local specWarnBladeBarrage		= mod:NewSpecialWarningInterrupt2(222596, nil, nil, nil, 2, 3) --Залп клинков
+local specWarnChaosPyre			= mod:NewSpecialWarningYouMove(222631, nil, nil, nil, 1, 2) --Погребальный костер Хаоса
 local specWarnFlrglDrglDrglGrgl	= mod:NewSpecialWarningInterrupt(218250, "-Healer", nil, nil, 3, 5) --Флргл Дргл Дргл Гргл
 local specWarnFear				= mod:NewSpecialWarningInterrupt(221424, "-Healer", nil, nil, 3, 5) --Страх
 local specWarnArcaneResonance	= mod:NewSpecialWarningInterrupt2(214095, nil, nil, nil, 3, 5) --Резонанс
@@ -257,9 +260,7 @@ function mod:SPELL_CAST_START(args)
 		specWarnFlrglDrglDrglGrgl:Play("kickcast")
 	elseif spellId == 222596 then --Залп клинков
 		specWarnBladeBarrage:Show()
-		specWarnBladeBarrage:Play("watchstep")
-		specWarnBladeBarrage2:Show()
-		specWarnBladeBarrage2:Play("justrun")
+		specWarnBladeBarrage:Play("kickcast")
 		timerBladeBarrageCD:Start()
 	elseif spellId == 223101 then --Обстрел порчей
 		specWarnEnchantedVenom:Show()
@@ -341,6 +342,9 @@ function mod:SPELL_CAST_START(args)
 		self:BossTargetScanner(args.sourceGUID, "cinderwingsGazeTarget", 0.1, 2)
 		specWarnCinderwingsGaze:Show()
 		specWarnCinderwingsGaze:Play("kickcast")
+	elseif spellId == 218855 then --Стремительность урагана
+		specWarnTempestRush:Show()
+		specWarnTempestRush:Play("watchstep")
 	end
 end
 
@@ -422,6 +426,12 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 219646 then --Щит Тьмы
 		specWarnShieldofDarkness:Show(args.destName)
 		specWarnShieldofDarkness:Play("dispelnow")
+	elseif spellId == 37587 then --Звериный гнев
+		specWarnWildWrath:Show(args.destName)
+		specWarnHullBreach:Play("watchstep")
+	elseif spellId == 222631 then --Погребальный костер Хаоса
+		specWarnChaosPyre:Show()
+		specWarnChaosPyre:Play("runout")
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED

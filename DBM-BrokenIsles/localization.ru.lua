@@ -125,7 +125,3 @@ L:SetOptionLocalization({
 L:SetTimerLocalization({
 	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
 })
-
-L:SetMiscLocalization({
---	PullSkulvrax = "Я... еще жива..."
-})
