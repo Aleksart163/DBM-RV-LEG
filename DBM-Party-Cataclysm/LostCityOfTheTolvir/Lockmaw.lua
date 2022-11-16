@@ -1,8 +1,6 @@
 local mod	= DBM:NewMod(118, "DBM-Party-Cataclysm", 1, 69)
 local L		= mod:GetLocalizedStrings()
 
---mod.statTypes = "normal,heroic,timewalker"
-
 mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 mod:SetCreatureID(43614)
 --mod:SetEncounterID(1054)--Disabled because it's likely not correct since him and augh are split.
@@ -16,15 +14,17 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_SUCCESS 81642"
 )
 
-local warnScentBlood	= mod:NewTargetNoFilterAnnounce(81690, 3)
-local warnPoison		= mod:NewTargetNoFilterAnnounce(81630, 3, nil, "RemovePoison", 2)
-local warnDustFlail		= mod:NewSpellAnnounce(81642, 3)
-local warnEnrage		= mod:NewSpellAnnounce(81706, 4)
+local warnScentBlood		= mod:NewTargetAnnounce(81690, 3) --Запах крови
+local warnPoison			= mod:NewTargetNoFilterAnnounce(81630, 3, nil, "RemovePoison", 2) --Вязкий яд
+local warnDustFlail			= mod:NewSpellAnnounce(81642, 3) --Пыльное молотилово
+local warnEnrage			= mod:NewSpellAnnounce(81706, 4) --Ядовитое бешенство
 
-local yellScentBlood	= mod:NewYell(81690)
+local specWarnScentBlood	= mod:NewSpecialWarningYou(81690, nil, nil, nil, 1, 2) --Запах крови
 
-local timerScentBlood	= mod:NewTargetTimer(30, 81690, nil, nil, nil, 3)
-local timerDustFlail	= mod:NewBuffActiveTimer(5, 81642, nil, nil, nil, 3)
+local timerScentBlood		= mod:NewTargetTimer(30, 81690, nil, nil, nil, 3) --Запах крови
+local timerDustFlail		= mod:NewBuffActiveTimer(5, 81642, nil, nil, nil, 3) --Пыльное молотилово
+
+local yellScentBlood		= mod:NewYell(81690, nil, nil, nil, "YELL") --Запах крови
 
 mod:AddBoolOption("RangeFrame")
 
@@ -43,9 +43,11 @@ end
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 81690 then
-		warnScentBlood:Show(args.destName)
-		timerScentBlood:Start(args.destName)
+		warnScentBlood:CombinedShow(0.5, args.destName)
 		if args:IsPlayer() then
+			specWarnScentBlood:Show()
+			specWarnScentBlood:Play("targetyou")
+			timerScentBlood:Start(args.destName)
 			yellScentBlood:Yell()
 		end
 	elseif spellId == 81630 then

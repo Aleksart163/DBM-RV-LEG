@@ -19,7 +19,7 @@
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: PARTY
 ## X-DBM-Mod-Category: CATA
-## X-DBM-StatTypes: normal,heroic
+## X-DBM-Mod-Has-TimeWalker : 1
 ## X-DBM-Mod-SubCategoriesID: 755, 670, 643, 725, 657, 938
 ## X-DBM-Mod-Name: Dungeons (Cata)
 ## X-DBM-Mod-Name-ruRU: Групповые подземелья (Cata)

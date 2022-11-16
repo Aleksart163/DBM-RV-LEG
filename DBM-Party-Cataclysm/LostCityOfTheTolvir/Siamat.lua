@@ -1,8 +1,6 @@
 local mod	= DBM:NewMod(122, "DBM-Party-Cataclysm", 1, 69)
 local L		= mod:GetLocalizedStrings()
 
---mod.statTypes = "normal,heroic,timewalker"
-
 mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 mod:SetCreatureID(44819)
 mod:SetEncounterID(1055)

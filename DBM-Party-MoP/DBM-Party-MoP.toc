@@ -19,7 +19,7 @@
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: PARTY
 ## X-DBM-Mod-Category: MOP
-## X-DBM-StatTypes: normal,heroic
+## X-DBM-Mod-Has-TimeWalker : 1
 ## X-DBM-Mod-SubCategoriesID: 960, 961, 959, 962, 994, 1011
 ## X-DBM-Mod-Name: Dungeons (MoP)
 ## X-DBM-Mod-Name-ruRU: Групповые подземелья (MoP)

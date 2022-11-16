@@ -19,7 +19,7 @@
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: PARTY
 ## X-DBM-Mod-Category: BC
-## X-DBM-StatTypes: normal,heroic
+## X-DBM-Mod-Has-TimeWalker : 1
 ## X-DBM-Mod-SubCategoriesID: 540, 547, 552, 557, 585, 269
 ## X-DBM-Mod-Name: Dungeons (TBC)
 ## X-DBM-Mod-Name-ruRU: Групповые подземелья (TBC)

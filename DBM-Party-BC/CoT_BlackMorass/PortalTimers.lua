@@ -1,8 +1,6 @@
 local mod	= DBM:NewMod("PT", "DBM-Party-BC", 6)
 local L		= mod:GetLocalizedStrings()
 
---mod.statTypes = "normal,heroic,timewalker"
-
 mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 
 mod:RegisterEvents(
