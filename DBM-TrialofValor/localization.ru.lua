@@ -18,7 +18,7 @@ L= DBM:GetModLocalization(1830)
 L= DBM:GetModLocalization(1829)
 
 L:SetTimerLocalization({
-	OrbsTimerText = "След. Сфера (%d-%s)"
+	OrbsTimerText = "~ Сфера (%d-%s)"
 })
 
 L:SetMiscLocalization({

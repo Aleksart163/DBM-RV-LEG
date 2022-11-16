@@ -28,7 +28,7 @@ L= DBM:GetModLocalization(1903)
 L= DBM:GetModLocalization(1861)
 
 L:SetOptionLocalization({
-	TauntOnPainSuccess	= "Синхронизирует таймеры и предупреждение о таунте, чтобы $spell:230214 кастовалось успешно при старте (для некоторых мифических страт, где вы специально позволяете Бремени тикать один раз, в противном случае НЕ рекомендуется использовать эту опцию)"
+	TauntOnPainSuccess = "Синхронизирует таймеры и предупреждение о таунте, чтобы $spell:230214 кастовалось успешно при старте (для некоторых мифических страт, где вы специально позволяете Бремени тикать один раз, в противном случае НЕ рекомендуется использовать эту опцию)"
 })
 
 ------------------
@@ -37,7 +37,7 @@ L:SetOptionLocalization({
 L= DBM:GetModLocalization(1896)
 
 L:SetOptionLocalization({
-	IgnoreTemplarOn3Tank	= "Игнорировать Оживленных Храмовников во время $spell:236513 (информационное окно/анонсы/таблички с именами) при использовании 3 и более танков (не меняйте это в середине боя, это нарушит подсчеты)"
+	IgnoreTemplarOn3Tank = "Игнорировать Оживленных Храмовников во время $spell:236513 (информационное окно/анонсы/таблички с именами) при использовании 3 и более танков (не меняйте это в середине боя, это нарушит подсчеты)"
 })
 
 -------------------
@@ -55,7 +55,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	FallenAvatarDialog	= "Когда-то эта оболочка была наполнена мощью самого Саргераса. Но нашей главной целью всегда был храм - с его помощью мы испепелим ваш мир!"
+	FallenAvatarDialog = "Когда-то эта оболочка была наполнена мощью самого Саргераса. Но нашей главной целью всегда был храм - с его помощью мы испепелим ваш мир!"
 })
 
 --------------
@@ -64,15 +64,15 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(1898)
 
 L:SetWarningLocalization({
-	warnSingularitySoon		= "Разрывающая Сингулярность на %ds"
+	warnSingularitySoon = "Разрывающая Сингулярность на %ds"
 })
 
 L:SetOptionLocalization({
-	warnSingularitySoon		= DBM_CORE_AUTO_ANNOUNCE_OPTIONS.soon:format(235059)
+	warnSingularitySoon = DBM_CORE_AUTO_ANNOUNCE_OPTIONS.soon:format(235059)
 })
 
 L:SetMiscLocalization({
-	Obelisklasers	= "Лазеры обелиска"
+	Obelisklasers = "Лазеры обелиска"
 })
 
 -------------
@@ -81,5 +81,5 @@ L:SetMiscLocalization({
 L = DBM:GetModLocalization("TombSargTrash")
 
 L:SetGeneralLocalization({
-	name =	"Трэш Гробницы Саргераса"
+	name = "Трэш Гробницы Саргераса"
 })
