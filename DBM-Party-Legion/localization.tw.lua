@@ -169,6 +169,10 @@ L= DBM:GetModLocalization(1488)
 -----------------------
 L= DBM:GetModLocalization(1489)
 
+L:SetMiscLocalization({
+	Proshlyapen = "夠了！我…我認輸！你們確實是奇特的生物。我會遵守承諾，給你們應得的獎勵。" --
+})
+
 -----------------------
 --Halls of Valor Trash
 -----------------------
@@ -424,6 +428,7 @@ L= DBM:GetModLocalization(1512)
 L= DBM:GetModLocalization(1663)
 
 L:SetMiscLocalization({
+	Proshlyaping = "以為這樣就贏了嗎？這不過是場暴風雨…沒有人能抵擋大海。" --
 --	TaintofSeaYell = "%s спадает с %s. Берегись!"
 })
 

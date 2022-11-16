@@ -13,10 +13,12 @@ mod:RegisterEvents(
 	"SPELL_AURA_APPLIED_DOSE 245748",
 	"SPELL_AURA_REMOVED 249081 245748",
 	"CHAT_MSG_MONSTER_SAY",
-	"GOSSIP_SHOW"
+	"GOSSIP_SHOW",
+	"UNIT_DIED"
 )
 
 --Престол триумвирата трэш
+local warnWardenDie					= mod:NewAnnounce("WarningWardensDie", 2, 254727)
 local warnCorruptingTouch			= mod:NewStackAnnounce(245748, 4, nil, nil, 2) --Оскверняющее прикосновение
 local warnCorruptingVoid			= mod:NewTargetAnnounce(245510, 3) --Оскверняющая Бездна
 local warnSupField					= mod:NewTargetAnnounce(249081, 3) --Подавляющее поле
@@ -167,5 +169,16 @@ function mod:OnSync(msg, GUID)
 		timerRoleplay:Start(32.5)
 	elseif msg == "RP3" then
 		timerRoleplay2:Start(31.7)
+	end
+end
+
+function mod:UNIT_DIED(args)
+	local cid = self:GetCIDFromGUID(args.destGUID)
+	if cid == 122571 then
+		self.vb.wardens = self.vb.wardens - 1
+		warnWardenDie:Show(self.vb.wardens)
+		if self.vb.wardens == 0 then
+			self.vb.wardens = 3
+		end
 	end
 end

@@ -203,6 +203,16 @@ L= DBM:GetModLocalization(1488)
 ----------
 L= DBM:GetModLocalization(1489)
 
+if GetLocale() == "esES" then
+L:SetMiscLocalization({
+	Proshlyapen = "¡Ya basta! ¡Me rindo! Sois criaturas extraordinarias, sin duda. Como prometí, tendréis una recompensa." --
+})
+else
+L:SetMiscLocalization({
+	Proshlyapen = "¡Suficiente! ¡Yo... me retiro! Son criaturas extraordinarias. Como lo prometí, tendrán su justa recompensa." --
+})
+end
+
 ----------------------
 -- Enemigos menores --
 ----------------------
@@ -607,9 +617,17 @@ L= DBM:GetModLocalization(1512)
 -----------
 L= DBM:GetModLocalization(1663)
 
+if GetLocale() == "esES" then
 L:SetMiscLocalization({
+	Proshlyaping = "¿Creéis que habéis ganado? Habéis sobrevivido a la tormenta... pero no se puede detener al mar.", --
 	TaintofSeaYell = "%s desaparece con %s. Cuidado!"
 })
+else
+L:SetMiscLocalization({
+	Proshlyaping = "¿Creen haber ganado? Apenas sobrevivieron a la tormenta... Los mares son imparables.", --
+	TaintofSeaYell = "%s desaparece con %s. Cuidado!"
+})
+end
 
 ----------------------
 -- Enemigos menores --

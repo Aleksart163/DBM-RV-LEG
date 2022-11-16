@@ -168,6 +168,10 @@ L= DBM:GetModLocalization(1488)
 -----------------------
 L= DBM:GetModLocalization(1489)
 
+L:SetMiscLocalization({
+	Proshlyapen = "Chega! Eu... me rendo! Vocês são criaturas realmente incríveis. Como prometido, vocês terão sua justa recompensa." --
+})
+
 -----------------------
 --Halls of Valor Trash
 -----------------------
@@ -412,7 +416,8 @@ L= DBM:GetModLocalization(1512)
 L= DBM:GetModLocalization(1663)
 
 L:SetMiscLocalization({
---	TaintofSeaYell = "%s спадает с %s. Берегись!"
+	Proshlyaping = "Vocês acham que venceram? Apenas sobreviveram à tempestade... Os mares são implacáveis.", --
+	TaintofSeaYell = "%s desaparece com %s. CUIDADO!"
 })
 
 -----------------------

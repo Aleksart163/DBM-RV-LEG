@@ -172,6 +172,10 @@ L= DBM:GetModLocalization(1488)
 -----------------------
 L= DBM:GetModLocalization(1489)
 
+L:SetMiscLocalization({
+	Proshlyapen = "Assez ! Je… J’abandonne ! Vous êtes de remarquables créatures. Comme promis, voici votre juste récompense." --
+})
+
 -----------------------
 --Halls of Valor Trash
 -----------------------
@@ -426,6 +430,11 @@ L= DBM:GetModLocalization(1512)
 -- Helya --
 -----------------------
 L= DBM:GetModLocalization(1663)
+
+L:SetMiscLocalization({
+	Proshlyaping = "Vous croyez avoir gagné ? Vous n’avez fait que survivre à la tempête… Les océans sont inexorables.", --
+	TaintofSeaYell = "%s se dissipe avec %s. ATTENTION !"
+})
 
 -----------------------
 --Maw of Souls Trash

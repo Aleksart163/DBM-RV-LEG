@@ -18,6 +18,7 @@ mod:RegisterEvents(
 )
 
 --Квартал звезд трэш
+local warnMinionDie					= mod:NewAnnounce("WarningMinionDie", 2, 245910)
 local warnPhase2					= mod:NewAnnounce("warnSpy", 1, 248732) --Шпион обнаружен , nil, nil, true
 local warnDrainMagic				= mod:NewCastAnnounce(209485, 4) --Похищение магии
 local warnCripple					= mod:NewTargetAnnounce(214690, 3) --Увечье
@@ -114,6 +115,8 @@ local treating = DBM:GetSpellInfo(210925) --Лечение
 local pilfering = DBM:GetSpellInfo(210217) --Воровство
 local tinkering = DBM:GetSpellInfo(210922) --Конструирование
 local defacing = DBM:GetSpellInfo(210330) --Осквернение
+
+mod.vb.wardens = 3
 
 function mod:CarrionSwarmTarget(targetname, uId) --Темная стая ✔
 	if not targetname then return end
@@ -570,7 +573,7 @@ do
 		--106110 Промокший свиток (классы - шаман, профы - кожевничество, начертание по 100+), 106024 Магический светильник (расы - эльфы, классы - маг, профы - наложение чар 100+)
 		--106018 Рыночные товары (классы - воин, разбойник, профы - кожевничество 100+), 106113 Статуя ночнорожденного в натуральную величину (профы - горное дело и ювелирное 100+), 105831 Инфернальный фолиант (классы - дх, жрец, паладин)
 		--105157 Проводник магической энергии (расы - гном, гоблин, профы - инженерия 100+), 105160 Сфера Скверны, 106108 Отвар из звездной розы, 105215 Выброшенный хлам, 106112 Раненый ночнорожденный
-		if cid == 105729 or cid == 106468 or cid == 105249 or cid == 105340 or cid == 105117 or cid == 106110 or cid == 106018 or cid == 106113 or cid == 105831 or cid == 105157 or cid == 105160 or cid == 106108 or cid == 105215 or cid == 106112 then
+		if cid == 106024 or cid == 105729 or cid == 106468 or cid == 105249 or cid == 105340 or cid == 105117 or cid == 106110 or cid == 106018 or cid == 106113 or cid == 105831 or cid == 105157 or cid == 105160 or cid == 106108 or cid == 105215 or cid == 106112 then
 			if select('#', GetGossipOptions()) > 0 then
 				SelectGossipOption(1)
 				CloseGossip()
@@ -630,10 +633,16 @@ function mod:UNIT_DIED(args)
 		timerFelDetonationCD:Cancel()
 		countdownFelDetonation:Cancel()
 	elseif cid == 104275 then --Имаку'туя
+		self.vb.wardens = 2
+		warnMinionDie:Show(self.vb.wardens)
 		timerWhirlingBladesCD:Cancel()
 	elseif cid == 104274 then --Баалгар Бдительный
+		self.vb.wardens = 1
+		warnMinionDie:Show(self.vb.wardens)
 		timerDisintegrationBeamCD:Cancel()
 	elseif cid == 104273 then --Джазшариу
+		self.vb.wardens = 0
+		warnMinionDie:Show(self.vb.wardens)
 		timerShockwaveCD:Cancel()
 	elseif cid == 108151 or cid == 107435 then --Герент Зловещий
 		timerCrippleCD:Cancel()

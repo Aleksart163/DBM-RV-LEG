@@ -172,6 +172,10 @@ L= DBM:GetModLocalization(1488)
 --------
 L= DBM:GetModLocalization(1489)
 
+L:SetMiscLocalization({
+	Proshlyapen = "Довольно! Победа за вами! Вы удивительные создания. И вас ждет достойная награда."
+})
+
 -------------
 --Трэш-мобы--
 -------------
@@ -315,10 +319,12 @@ L:SetGeneralLocalization({
 })
 
 L:SetWarningLocalization({
+	WarningMinionDie = "Прислужник убит. Осталось: %s",
 	warnSpy = "Шпион обнаружен"
 })
 
 L:SetOptionLocalization({
+	WarningMinionDie = "Предупреждение о смерти прислужников",
 	YellOnEating = "Сообщать, когда кто-то применяет заклинание $spell:208585",
 	YellOnSiphoningMagic = "Сообщать, когда кто-то применяет заклинание $spell:208427",
 	YellOnPurifying = "Сообщать, когда кто-то применяет заклинание $spell:209767",
@@ -456,6 +462,7 @@ L= DBM:GetModLocalization(1512)
 L= DBM:GetModLocalization(1663)
 
 L:SetMiscLocalization({
+	Proshlyaping = "Думаете, вы победили? Вы лишь пережили шторм! Море нельзя остановить.",
 	TaintofSeaYell = "%s спадает с %s. Берегись!"
 })
 
@@ -540,18 +547,18 @@ L:SetWarningLocalization({
 })
 
 L:SetTimerLocalization({
-	TimerPortal			= "Восст. Портал"
+	TimerPortal			= "~ Портал"
 })
 
 L:SetOptionLocalization({
 	WarningPortalNow		= "Предупреждение о новом портале",
 	WarningPortalSoon		= "Предупреждать заранее о новом портале",
 	WarningBossNow			= "Предупреждать о прибытии босса",
-	TimerPortal				= "Отсчет вермени до след. портала (после босса)"
+	TimerPortal				= "Отсчет времени до след. портала (после босса)"
 })
 
 L:SetMiscLocalization({
-	Malgath		= "Лорд  Малгат"
+	Malgath		= "Лорд Малгат"
 })
 
 --------------------------
@@ -796,7 +803,12 @@ L:SetGeneralLocalization({
 	name = "Трэш Престола Триумвирата"
 })
 
+L:SetWarningLocalization({
+	WarningWardensDie = "Страж прорыва убит. Осталось: %s"
+})
+
 L:SetOptionLocalization({
+	WarningWardensDie = "Предупреждение о смерти Страж прорыва",
 	timerRoleplay = DBM_CORE_OPTION_TIMER_DOOR_OPENING,
 	timerRoleplay2 = DBM_CORE_OPTION_TIMER_COMBAT,
 	AlleriaActivation = DBM_CORE_GENERIC_TIMER_ROLE_PLAY

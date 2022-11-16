@@ -14,6 +14,7 @@ mod:RegisterEventsInCombat(
 --	"SPELL_CAST_SUCCESS 197262",
 	"SPELL_AURA_APPLIED 196947 197262",
 	"SPELL_AURA_REMOVED 196947 197262",
+	"CHAT_MSG_MONSTER_YELL",
 	"CHAT_MSG_RAID_BOSS_EMOTE",
 	"UNIT_SPELLCAST_SUCCEEDED boss1",
 	"UNIT_HEALTH boss1"
@@ -33,7 +34,7 @@ local specWarnSubmerged					= mod:NewSpecialWarningDodge(196947, nil, nil, nil, 
 local specWarnSubmergedOver				= mod:NewSpecialWarningEnd(196947, nil, nil, nil, 1, 2) --Погружение
 local specWarnTaintofSeaOver			= mod:NewSpecialWarningEnd(197262, nil, nil, nil, 1, 2) --Морская порча
 local specWarnBreath					= mod:NewSpecialWarningDodge(227233, nil, nil, nil, 3, 5) --Оскверняющий рев
-local specWarnTorrent					= mod:NewSpecialWarningInterrupt(198495, "HasInterrupt", nil, nil, 1, 2) --Стремительный поток
+local specWarnTorrent					= mod:NewSpecialWarningInterrupt(198495, "-Healer", nil, nil, 1, 2) --Стремительный поток
 
 local timerBrackwaterBarrageCD			= mod:NewCDTimer(15, 202088, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Обстрел солоноватой водой
 local timerTaintofSeaCD					= mod:NewCDTimer(12, 197262, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON) --Морская порча
@@ -153,7 +154,7 @@ function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
 	if spellId == 196947 then --Погружение
 		self.vb.submerged = self.vb.submerged + 1
-		timerTorrentCD:Start(11) --было 5
+	--	timerTorrentCD:Start(11) --было 5
 		timerSubmerged2:Start()
 		countdownSubmerged:Start()
 		warnSubmerged2:Schedule(69.5)
@@ -173,6 +174,12 @@ function mod:SPELL_AURA_REMOVED(args)
 		if self.Options.SetIconOnTaintofSea then
 			self:SetIcon(args.destName, 0)
 		end
+	end
+end
+
+function mod:CHAT_MSG_MONSTER_YELL(msg)
+	if msg == L.Proshlyaping then
+		DBM:EndCombat(self)
 	end
 end
 

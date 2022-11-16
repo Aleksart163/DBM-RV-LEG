@@ -171,6 +171,10 @@ L= DBM:GetModLocalization(1488)
 -----------------------
 L= DBM:GetModLocalization(1489)
 
+L:SetMiscLocalization({
+	Proshlyapen = "Enough! I... I yield! You are truly remarkable creatures. As promised, you will have your just reward."
+})
+
 -----------------------
 --Halls of Valor Trash
 -----------------------
@@ -314,10 +318,12 @@ L:SetGeneralLocalization({
 })
 
 L:SetWarningLocalization({
+	WarningMinionDie = "The minion is killed. Left: %s",
 	warnSpy = "Spy detected"
 })
 
 L:SetOptionLocalization({
+	WarningMinionDie = "Warning about the death of the minions",
 	YellOnEating = "Report when you cast a spell $spell:208585",
 	YellOnSiphoningMagic = "Report when you cast a spell $spell:208427",
 	YellOnPurifying = "Report when you cast a spell $spell:209767",
@@ -455,6 +461,7 @@ L= DBM:GetModLocalization(1512)
 L= DBM:GetModLocalization(1663)
 
 L:SetMiscLocalization({
+	Proshlyaping = "Do you think you have won? You have merely survived the storm... The seas are unstoppable.", --
 	TaintofSeaYell = "%s disappears with %s. BEWARE!"
 })
 
@@ -795,7 +802,12 @@ L:SetGeneralLocalization({
 	name =	"Seat of Triumvirate Trash"
 })
 
+L:SetWarningLocalization({
+	WarningWardensDie = "Rift Warden is killed. Left: %s"
+})
+
 L:SetOptionLocalization({
+	WarningWardensDie = "Warning of murder Rift Warden",
 	timerRoleplay = DBM_CORE_OPTION_TIMER_DOOR_OPENING,
 	timerRoleplay2 = DBM_CORE_OPTION_TIMER_COMBAT,
 	AlleriaActivation = DBM_CORE_GENERIC_TIMER_ROLE_PLAY

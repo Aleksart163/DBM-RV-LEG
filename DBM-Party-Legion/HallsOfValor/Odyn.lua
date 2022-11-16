@@ -9,15 +9,16 @@ mod:SetUsedIcons(8, 6, 4, 3, 2, 1)
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
-	"SPELL_AURA_APPLIED 197963 197964 197965 197966 197967 198190",
-	"SPELL_AURA_REMOVED 197963 197964 197965 197966 197967",
 	"SPELL_CAST_START 198263 198077 198750",
 	"SPELL_CAST_SUCCESS 197961",
+	"SPELL_AURA_APPLIED 197963 197964 197965 197966 197967 198190",
+	"SPELL_AURA_REMOVED 197963 197964 197965 197966 197967",
+	"CHAT_MSG_MONSTER_SAY",
 	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
 
 --Один https://ru.wowhead.com/npc=114263/один/эпохальный-журнал-сражений#abilities;mode:
-local warnUnworthy					= mod:NewTargetAnnounce(198190, 1) --Недостойность
+local warnUnworthy					= mod:NewTargetAnnounce(198190, 3) --Недостойность
 local warnSpear						= mod:NewSpellAnnounce(198072, 2) --Копье света
 local warnSurge						= mod:NewSpellAnnounce(198750, 4) --Импульс
 
@@ -75,9 +76,57 @@ function mod:OnCombatStart(delay) --Прошляпанное очко мурча
 		timerShatterSpearsCD:Start(40-delay) --Расколотые копья+++
 		timerRunicBrandCD:Start(44.5-delay, 1) --Руническое клеймо+++
 		countdownRunicBrand:Start(44.5-delay) --Руническое клеймо+++
-		timerAddCD:Start(18-delay) --Призыв закаленного бурей воина+++
-		specWarnAdd:Schedule(19-delay) --Призыв закаленного бурей воина+++
-		specWarnAdd:ScheduleVoice(19-delay, "killmob") --Призыв закаленного бурей воина+++
+		specWarnSpear:Schedule(8-delay) --Копье света+++
+		specWarnSpear:ScheduleVoice(8-delay, "watchstep") --Копье света+++
+		specWarnSpear:Schedule(16-delay) --Копье света+++
+		specWarnSpear:ScheduleVoice(16-delay, "watchstep") --Копье света+++
+	end
+end
+
+function mod:SPELL_CAST_START(args)
+	local spellId = args.spellId
+	if spellId == 198263 then --Светозарная буря
+		self.vb.tempestCount = self.vb.tempestCount + 1
+		specWarnTempest:Show(self.vb.tempestCount)
+		specWarnTempest:Play("runout")
+		timerTempestCast:Start()
+		countdownTempest2:Start()
+		timerTempestCD:Start(nil, self.vb.tempestCount+1)
+		countdownTempest:Start()
+		specWarnSpear:Schedule(10) -- 1
+		specWarnSpear:ScheduleVoice(10, "watchstep")
+		specWarnSpear:Schedule(41) -- 2
+		specWarnSpear:ScheduleVoice(41, "watchstep")
+		specWarnSpear:Schedule(49) -- 3
+		specWarnSpear:ScheduleVoice(49, "watchstep")
+		if not self:IsNormal() then
+			timerAddCD:Start(50)
+			specWarnAdd:Schedule(51)
+			specWarnAdd:ScheduleVoice(51, "killmob")
+		end
+	elseif spellId == 198077 then
+		specWarnShatterSpears:Show()
+		specWarnShatterSpears:Play("watchorb")
+		timerShatterSpearsCD:Start()
+	elseif spellId == 198750 then --Импульс
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnSurge:Show()
+			specWarnSurge:Play("kickcast")
+		else
+			warnSurge:Show()
+			warnSurge:Play("kickcast")
+		end
+		if self.Options.SetIconOnSurge then
+			self:SetIcon(args.sourceGUID, 8, 15)
+		end
+	end
+end
+
+function mod:SPELL_CAST_SUCCESS(args)
+	if args.spellId == 197961 then
+		self.vb.brandCount = self.vb.brandCount + 1
+		timerRunicBrandCD:Start(nil, self.vb.tempestCount+1)
+		countdownRunicBrand:Start()
 	end
 end
 
@@ -119,7 +168,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			self:SetIcon(args.destName, 4, 12)
 		end
 	elseif spellId == 198190 then --Недостойность
-		warnUnworthy:CombinedShow(1, args.destName)
+		warnUnworthy:CombinedShow(0.5, args.destName)
 		if args:IsPlayer() then
 			specWarnUnworthy:Show()
 			specWarnUnworthy:Play("targetyou")
@@ -157,48 +206,9 @@ function mod:SPELL_AURA_REMOVED(args)
 	end
 end
 
-function mod:SPELL_CAST_START(args)
-	local spellId = args.spellId
-	if spellId == 198263 then --Светозарная буря
-		self.vb.tempestCount = self.vb.tempestCount + 1
-		specWarnTempest:Show(self.vb.tempestCount)
-		specWarnTempest:Play("runout")
-		timerTempestCast:Start()
-		countdownTempest2:Start()
-		timerTempestCD:Start(nil, self.vb.tempestCount+1)
-		countdownTempest:Start()
-		timerAddCD:Start(50)
-		specWarnSpear:Schedule(10) -- 1
-		specWarnSpear:ScheduleVoice(10, "watchstep")
-		specWarnSpear:Schedule(41) -- 2
-		specWarnSpear:ScheduleVoice(41, "watchstep")
-		specWarnSpear:Schedule(49) -- 3
-		specWarnSpear:ScheduleVoice(49, "watchstep")
-		specWarnAdd:Schedule(51)
-		specWarnAdd:ScheduleVoice(51, "killmob")
-	elseif spellId == 198077 then
-		specWarnShatterSpears:Show()
-		specWarnShatterSpears:Play("watchorb")
-		timerShatterSpearsCD:Start()
-	elseif spellId == 198750 then --Импульс
-		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
-			specWarnSurge:Show()
-			specWarnSurge:Play("kickcast")
-		else
-			warnSurge:Show()
-			warnSurge:Play("kickcast")
-		end
-		if self.Options.SetIconOnSurge then
-			self:SetIcon(args.sourceGUID, 8, 15)
-		end
-	end
-end
-
-function mod:SPELL_CAST_SUCCESS(args)
-	if args.spellId == 197961 then
-		self.vb.brandCount = self.vb.brandCount + 1
-		timerRunicBrandCD:Start(nil, self.vb.tempestCount+1)
-		countdownRunicBrand:Start()
+function mod:CHAT_MSG_MONSTER_SAY(msg)
+	if msg == L.Proshlyapen then
+		DBM:EndCombat(self)
 	end
 end
 

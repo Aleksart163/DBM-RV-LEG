@@ -196,8 +196,8 @@ function mod:SPELL_AURA_APPLIED(args)
 	if args.spellId == 215430 then --Громовой удар
 		warnThunderstrike:CombinedShow(0.5, args.destName)
 		timerThunderstrike:Start(args.destName)
-		if self:IsHard() then
-			if args:IsPlayer() and self:AntiSpam(2, 1) then
+		if not self:IsNormal() then
+			if args:IsPlayer() then
 				specWarnThunderstrike:Show()
 				specWarnThunderstrike:Play("runout")
 				yellThunderstrike:Yell()
