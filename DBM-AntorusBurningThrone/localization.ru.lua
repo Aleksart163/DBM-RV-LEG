@@ -20,7 +20,6 @@ L:SetOptionLocalization({
 --Военный совет Анторуса--
 --------------------------
 L= DBM:GetModLocalization(1997)
-
 --[[
 L:SetMiscLocalization({
 	YellPullCouncil	= "От меня ещё никто не уходил живым."
@@ -34,13 +33,12 @@ L= DBM:GetModLocalization(1985)
 L:SetOptionLocalization({
 	ShowAllPlatforms = "Показать все анонсы независимо от местоположения платформы игрока"
 })
-
 --[[
 L:SetMiscLocalization({
 	YellPullHasabel = "Ха! Так это и есть лучшие из защитников Азерота?",
 	YellPullHasabel2 = "Ваш поход закончится здесь.",
-	YellPullHasabel3 = "Легион сокрушает всех своих врагов!",
---	YellPullHasabel4 = "Нам покорились все миры. Ваш – следующий."
+	YellPullHasabel3 = "Легион сокрушает всех своих врагов!"
+	YellPullHasabel4 = "Нам покорились все миры. Ваш – следующий."
 })]]
 
 ------------------------------
@@ -49,10 +47,10 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(2025)
 
 L:SetTimerLocalization({
-	timerObfuscator		= "След. Маскировщик (%s)",
-	timerDestructor 	= "След. Разрушитель (%s)",
-	timerPurifier 		= "След. Очиститель (%s)",
-	timerBats	 		= "След. Птицы (%s)"
+	timerObfuscator		= "~ Маскировщик (%s)",
+	timerDestructor 	= "~ Разрушитель (%s)",
+	timerPurifier 		= "~ Очиститель (%s)",
+	timerBats	 		= "~ Птицы (%s)"
 })
 
 L:SetOptionLocalization({
@@ -63,14 +61,13 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
---	YellPullEonar = "Герои! Демоны пытаются захватить мою сущность для своего повелителя.",
 	Obfuscators = "Маскировщик",
 	Destructors = "Разрушитель",
 	Purifiers 	= "Очиститель",
 	Bats 		= "Птицы",
 	EonarHealth	= "Здоровье Эонар",
 	EonarPower	= "Сила Эонар",
-	NextLoc		= "След:"
+	NextLoc		= "~"
 })
 
 --------------------
@@ -102,7 +99,6 @@ L:SetOptionLocalization({
 	InfoFrame =	"Показать информационное табло для обзора боя",
 	UseAddTime = "Всегда показывать таймеры, когда босс выходит из фазы инициализации, вместо того, чтобы скрывать их. (Если таймеры отключены, они возобновятся, когда босс снова станет активным, но могут оставить мало предупреждений, если до окончания действия таймеров осталось 1-2 секунды)."
 })
-
 --[[
 L:SetMiscLocalization({
 	YellPullKingaroth = "За работу!",
@@ -114,7 +110,6 @@ L:SetMiscLocalization({
 --Вариматрас--
 --------------
 L= DBM:GetModLocalization(1983)
-
 --[[
 L:SetMiscLocalization({
 	YellPullVarimathras = "Идите сюда и познайте страдания!",
@@ -154,7 +149,6 @@ L:SetOptionLocalization({
 	Five				= "Чередование 5 человек",
 	IgnoreFirstKick		= "При использовании этой опции первое прерывание исключается из чередования (требуется права лидера рейда)"
 })
-
 --[[
 L:SetMiscLocalization({
 	YellPullCoven		= "Сейчас ваша плоть зашипит на огне."
@@ -192,7 +186,7 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(2031)
 
 L:SetTimerLocalization({
-	timerSargSentenceCD	= "Восс. Приговор (%s)"
+	timerSargSentenceCD	= "~ Приговор (%s)"
 })
 
 L:SetOptionLocalization({

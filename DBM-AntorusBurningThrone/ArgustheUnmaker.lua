@@ -9,14 +9,14 @@ mod:SetBossHPInfoToHighest()--Because of heal on mythic
 mod:SetUsedIcons(1, 2, 3, 4, 5, 6, 7, 8)
 mod:SetHotfixNoticeRev(16993)
 mod:SetMinSyncRevision(16895)
-mod.respawnTime = 29
+mod.respawnTime = 30
 
 mod:RegisterCombat("combat")
 --mod:RegisterCombat("combat_yell", L.YellPullArgus)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 248165 248317 257296 255594 257645 252516 256542 255648 257619 256544",
-	"SPELL_CAST_SUCCESS 248499 258039 258838 252729 252616 256388 258029",
+	"SPELL_CAST_SUCCESS 248499 258039 258838 252729 252616 256388 258029 251570",
 	"SPELL_AURA_APPLIED 248499 248396 250669 251570 255199 253021 255496 255496 255478 252729 252616 255433 255430 255429 255425 255422 255419 255418 258647 258646 257869 257931 257966 258838 256388 257299",
 	"SPELL_AURA_APPLIED_DOSE 248499 258039 258838 257299",
 	"SPELL_AURA_REMOVED 250669 251570 255199 253021 255496 255496 255478 255433 255430 255429 255425 255422 255419 255418 248499 258039 257966 258647 258646 258838 248396 257869",
@@ -51,6 +51,7 @@ local warnSargFear					= mod:NewTargetAnnounce(257931, 3) --Страх пере�
 --Stage Two: The Protector Redeemed
 local warnSoulburst					= mod:NewTargetAnnounce(250669, 2) --Взрывная душа
 local warnSoulbomb					= mod:NewTargetNoFilterAnnounce(251570, 4) --Бомба души
+local warnSoulbomb2					= mod:NewEndTargetAnnounce(251570, 4) --Бомба души
 local warnAvatarofAggra				= mod:NewTargetNoFilterAnnounce(255199, 1) --Аватара Агграмара
 --Stage Three: The Arcane Masters
 local warnCosmicRay					= mod:NewTargetAnnounce(252729, 3) --Космический луч
@@ -113,7 +114,7 @@ local timerSargGazeCD				= mod:NewCDCountTimer(35.2, 258068, nil, nil, nil, 3, n
 --Stage Two: The Protector Redeemed
 mod:AddTimerLine(SCENARIO_STAGE:format(2))
 local timerSoulBombCD				= mod:NewNextTimer(42, 251570, nil, nil, nil, 3, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Бомба души
-local timerSoulBomb					= mod:NewTargetTimer(16, 251570, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON..DBM_CORE_MYTHIC_ICON) --Бомба души (в гере 16, в других проверить)
+local timerSoulBomb					= mod:NewTargetTimer(15, 251570, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON..DBM_CORE_MYTHIC_ICON) --Бомба души (в гере 15, в других проверить)
 local timerSoulBurstCD				= mod:NewNextCountTimer("d42", 250669, nil, nil, nil, 3) --Взрывная душа
 local timerEdgeofObliterationCD		= mod:NewCDCountTimer(34, 255826, nil, nil, nil, 2) --Коса разрушения
 local timerAvatarofAggraCD			= mod:NewCDTimer(59.9, 255199, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON) --Аватара Агграмара
@@ -122,7 +123,7 @@ mod:AddTimerLine(SCENARIO_STAGE:format(3))
 local timerCosmicRayCD				= mod:NewCDTimer(19.9, 252729, nil, nil, nil, 3) --Космический луч All adds seem to cast it at same time, so one timer for all
 local timerCosmicBeaconCD			= mod:NewCDTimer(19.9, 252616, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON) --Космический маяк All adds seem to cast it at same time, so one timer for all
 local timerDiscsofNorg				= mod:NewCastTimer(12, 252516, nil, nil, nil, 6) --Диски Норганнона
-local timerAddsCD					= mod:NewAddsTimer(14, 252516, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON) --треш
+local timerAddsCD					= mod:NewAddsTimer(14, 253021, nil, nil, nil, 1, nil, DBM_CORE_TANK_ICON..DBM_CORE_DAMAGE_ICON) --треш
 mod:AddTimerLine(ENCOUNTER_JOURNAL_SECTION_FLAG12)--Mythic 3
 local timerSoulrendingScytheCD		= mod:NewCDTimer(8.5, 258838, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Рассекающая коса
 local timerSargSentenceCD			= mod:NewTimer(35.2, "timerSargSentenceCD", 257966, nil, nil, 3, DBM_CORE_HEROIC_ICON) --Приговор Саргераса
@@ -158,6 +159,7 @@ local countdownSweapingScythe		= mod:NewCountdown("Alt5", 248499, false, nil, 3)
 local countdownSargGaze				= mod:NewCountdown(35, 258068, nil, nil, 5)
 --Stage Two: The Protector Redeemed
 local countdownSoulbomb				= mod:NewCountdown("AltTwo50", 251570, nil, nil, 5) --Бомба души
+local countdownSoulbomb2			= mod:NewCountdownFades("AltTwo15", 251570, nil, nil, 5) --Бомба души
 --Stage Three: Mythic
 local countdownSoulScythe			= mod:NewCountdown("Alt5", 258838, "Tank", nil, 3) --Рассекающая коса
 --Stage Four
@@ -440,7 +442,7 @@ function mod:SPELL_CAST_START(args)
 		timerSweepingScytheCD:Stop()
 		countdownSweapingScythe:Cancel()
 		timerSkyandSeaCD:Stop()
-		timerNextPhase:Start(16)
+		timerNextPhase:Start(15)
 		timerSweepingScytheCD:Start(16.8, 1)
 		countdownSweapingScythe:Start(16.8)
 		timerAvatarofAggraCD:Start(24)
@@ -545,6 +547,8 @@ function mod:SPELL_CAST_SUCCESS(args)
 		local timer = apocModuleTimers[self.vb.moduleCount+1] or 46.6
 		timerReorgModuleCD:Start(timer, self.vb.moduleCount+1)
 		countdownApocModule:Start(timer)
+	elseif spellId == 251570 then --Бомба души
+		countdownSoulbomb2:Start()
 	end
 end
 
@@ -812,7 +816,9 @@ function mod:SPELL_AURA_REMOVED(args)
 			self:SetIcon(args.destName, 0)
 		end
 	elseif spellId == 251570 then --Бомба души
+		warnSoulbomb2:Show(args.destName)
 		timerSoulBomb:Cancel(args.destName)
+		countdownSoulbomb2:Cancel()
 		if args:IsPlayer() then
 			self:Unschedule(delayedBoonCheck)
 			yellSoulbombFades:Cancel()
@@ -1027,6 +1033,17 @@ function mod:UNIT_HEALTH(uId)
 	elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 124828 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.46 then --скоро фаза 3
 		warned_preP3 = true
 		warnPrePhase3:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase+1))
+	elseif self.vb.phase == 2 and warned_preP3 and self:GetUnitCreatureId(uId) == 124828 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.41 then --фаза 3
+		timerSweepingScytheCD:Stop()
+		countdownSweapingScythe:Cancel()
+		timerTorturedRageCD:Stop()
+		timerSoulBombCD:Stop()
+		countdownSoulbomb:Cancel()
+		timerSoulBurstCD:Stop()
+		timerEdgeofObliterationCD:Stop()
+		timerAvatarofAggraCD:Stop()
+		timerSargGazeCD:Stop()
+		countdownSargGaze:Cancel()
 	end
 end
 

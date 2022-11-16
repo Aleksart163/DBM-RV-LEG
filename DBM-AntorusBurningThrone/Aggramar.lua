@@ -7,7 +7,7 @@ mod:SetEncounterID(2063)
 mod:SetZone()
 mod:SetUsedIcons(5, 4, 3, 2, 1)
 mod:SetHotfixNoticeRev(16964)
-mod.respawnTime = 25
+mod.respawnTime = 30
 
 mod:RegisterCombat("combat")
 --mod:RegisterCombat("combat_yell", L.YellPullAggramar)
@@ -565,7 +565,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			comboDebugCounter = comboDebugCounter + 1
 			comboDebug[comboDebugCounter] = "Phase changed aborted a combo before it finished"
 		end
-		warnPhase:Play("phasechange")
+	--	warnPhase:Play("phasechange")
 		self.vb.wakeOfFlameCount = 0
 		self.vb.techActive = false
 		timerScorchingBlazeCD:Stop()

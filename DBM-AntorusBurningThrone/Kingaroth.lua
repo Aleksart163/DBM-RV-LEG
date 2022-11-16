@@ -12,9 +12,7 @@ mod:SetMinSyncRevision(16975)
 mod.respawnTime = 29
 
 mod:RegisterCombat("combat")
---mod:RegisterCombat("combat_yell", L.YellPullKingaroth)
---mod:RegisterCombat("combat_yell", L.YellPullKingaroth2)
---mod:RegisterCombat("combat_yell", L.YellPullKingaroth3)
+--mod:RegisterCombat("yell", L.YellPullKingaroth, L.YellPullKingaroth2, L.YellPullKingaroth3)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 244312 254926 245807 252758 246692 246833 246516 257978 254919",
@@ -33,7 +31,7 @@ mod:RegisterEventsInCombat(
 local warnShatteringStrike				= mod:NewSpellAnnounce(248375, 2) --Разбивающий удар
 local warnDiabolicBomb					= mod:NewSpellAnnounce(246779, 3, nil, nil, nil, nil, nil, 2) --Демоническая бомба
 local warnReverberatingStrike			= mod:NewTargetAnnounce(254926, 3) --Гулкий удар
-local warnWarnInitializing				= mod:NewSpellAnnounce(246504, 3) --Инициализация
+local warnWarnInitializing				= mod:NewSpellAnnounce(246504, 3, nil, "Healer") --Инициализация
 --Reavers (or empowered boss from reaver deaths)
 local warnDecimation					= mod:NewTargetAnnounce(246687, 4) --Децимация (на 5 игроков)
 local warnDemolish						= mod:NewTargetAnnounce(246692, 4) --Разрушение (на 3 игрока)

@@ -11,7 +11,7 @@ mod:SetHotfixNoticeRev(16963)
 mod.respawnTime = 28
 
 mod:RegisterCombat("combat")
---mod:RegisterCombat("combat_yell", L.YellPullCoven)
+--mod:RegisterCombat("yell", L.YellPullCoven)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 245627 252861 253650 250648 250095 245303",

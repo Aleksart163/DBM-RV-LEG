@@ -44,9 +44,9 @@
 ----------------------------------------------------------------
 --
 DBM = {
-	Revision = tonumber(("$Revision: 17684 $"):sub(12, -3)), --прошляпанное очко Мурчаля ✔
+	Revision = tonumber(("$Revision: 17685 $"):sub(12, -3)), --прошляпанное очко Мурчаля ✔
 	DisplayVersion = "7.3.41 Right Version",
-	ReleaseRevision = 17683
+	ReleaseRevision = 17684
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -546,6 +546,24 @@ local function sendSync(prefix, msg)
 	msg = msg or ""
 	if IsInGroup(LE_PARTY_CATEGORY_INSTANCE) and IsInInstance() then--For BGs, LFR and LFG (we also check IsInInstance() so if you're in queue but fighting something outside like a world boss, it'll sync in "RAID" instead)
 		SendAddonMessage("D4", prefix .. "\t" .. msg, "INSTANCE_CHAT")
+		SendAddonMessage("D4", prefix .. "\t" .. msg, "WHISPER", playerName)
+	else
+		if IsInRaid() then
+			SendAddonMessage("D4", prefix .. "\t" .. msg, "RAID")
+			SendAddonMessage("D4", prefix .. "\t" .. msg, "WHISPER", playerName)
+		elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
+			SendAddonMessage("D4", prefix .. "\t" .. msg, "PARTY")
+			SendAddonMessage("D4", prefix .. "\t" .. msg, "WHISPER", playerName)
+		else--for solo raid
+			SendAddonMessage("D4", prefix .. "\t" .. msg, "WHISPER", playerName)
+		end
+	end
+end
+--[[
+local function sendSync(prefix, msg)
+	msg = msg or ""
+	if IsInGroup(LE_PARTY_CATEGORY_INSTANCE) and IsInInstance() then--For BGs, LFR and LFG (we also check IsInInstance() so if you're in queue but fighting something outside like a world boss, it'll sync in "RAID" instead)
+		SendAddonMessage("D4", prefix .. "\t" .. msg, "INSTANCE_CHAT")
 	else
 		if IsInRaid() then
 			SendAddonMessage("D4", prefix .. "\t" .. msg, "RAID")
@@ -555,7 +573,7 @@ local function sendSync(prefix, msg)
 			SendAddonMessage("D4", prefix .. "\t" .. msg, "WHISPER", playerName)
 		end
 	end
-end
+end]]
 
 --Custom sync function that should only be used for user generated sync messages
 local function sendLoggedSync(prefix, msg)
@@ -764,7 +782,9 @@ do
 				return
 			end
 			if spellId and not DBM:GetSpellInfo(spellId) then
-			--	DBM:AddMsg("DBM RegisterEvents Error: "..spellId.." spell id does not exist!")
+				if DBM.Option.DebugMode then
+					DBM:AddMsg("DBM RegisterEvents Error: "..spellId.." spell id does not exist!")
+				end
 				return
 			end
 			if not registeredSpellIds[event] then
@@ -1509,14 +1529,12 @@ function proshlyapMurchalya(force, raid, guild) --Прошляпанное оч�
 		end
 	end
 end
---[[
+--[[ Волосали
 local function Proshlyap2(self, event)
 	if event == "CONFIRM_SUMMON" then
 		if IsInRaid('player') then
-		--	SendChatMessage(playerName.." тебя сумонят. Не будь мудаком как Мурчаль, установи DBM адаптированный под ушош https://github.com/Aleksart163/DBM-for-Uwow и прими сум от " .. GetSummonConfirmSummoner(),"RAID")
 			SendChatMessage(playerName.. DBM_SUMMON1 ..GetSummonConfirmSummoner(),"RAID")
 		else
-		--	SendChatMessage(playerName.." тебя сумонят. Не будь мудаком как Мурчаль, установи DBM адаптированный под ушош https://github.com/Aleksart163/DBM-for-Uwow и прими сум от " .. GetSummonConfirmSummoner(),"PARTY")
 			SendChatMessage(playerName.. DBM_SUMMON1 ..GetSummonConfirmSummoner(),"PARTY")
 		end
 	end
@@ -4119,7 +4137,12 @@ do
 				dbmRevision = tonumber(dbmRevision or 0) or 0
 				modHFRevision = tonumber(modHFRevision or 0) or 0
 				startHp = tonumber(startHp or -1) or -1
-				if dbmRevision < 10481 then return end
+                if dbmRevision ~= DBM.Revision then
+                if DBM.Options.DebugMode then
+                    DBM:AddMsg("StartCombat (rejected) called for " .. mod.combatInfo.name .. " by: SYNC from - " .. sender .. ".")
+                end
+                return
+                end
 				if mod and delay and (not mod.zones or mod.zones[LastInstanceMapID]) and (not mod.minSyncRevision or modRevision >= mod.minSyncRevision) then
 					DBM:StartCombat(mod, delay + lag, "SYNC from - "..sender, true, startHp)
 					if (mod.revision < modHFRevision) and (mod.revision > 1000) then--mod.revision because we want to compare to OUR revision not senders
@@ -5393,6 +5416,8 @@ do
 
 	function DBM:INSTANCE_ENCOUNTER_ENGAGE_UNIT()
 		if timerRequestInProgress then return end--do not start ieeu combat if timer request is progressing. (not to break Timer Recovery stuff)
+		if LastInstanceMapID == 1712 or LastInstanceMapID == 1651 then return end
+	--	if LastInstanceMapID == 1651 then return end
 		if dbmIsEnabled and combatInfo[LastInstanceMapID] then
 			self:Debug("INSTANCE_ENCOUNTER_ENGAGE_UNIT event fired for zoneId"..LastInstanceMapID, 3)
 			for i, v in ipairs(combatInfo[LastInstanceMapID]) do

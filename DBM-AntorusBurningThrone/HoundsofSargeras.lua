@@ -8,10 +8,9 @@ mod:SetZone()
 mod:SetBossHPInfoToHighest()
 mod:SetUsedIcons(5, 4, 3, 2, 1)
 mod:SetHotfixNoticeRev(16949)
-mod.respawnTime = 29--Guessed, it's not 4 anymore
+mod.respawnTime = 30
 
 mod:RegisterCombat("combat")
---mod:RegisterCombat("yell", L.YellPullHounds)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 244057 244056 249113",

@@ -57,7 +57,7 @@ local specWarnPsychicAssault			= mod:NewSpecialWarningMove(244172, nil, nil, nil
 local specWarnAssumeCommand				= mod:NewSpecialWarningSwitch(245227, "Dps|Tank", nil, nil, 1, 2) --Принять командование
 --In Pod
 ----Admiral Svirax
-local specWarnFusillade					= mod:NewSpecialWarningMoveTo(244625, nil, nil, nil, 1, 5) --Шквальный огонь
+local specWarnFusillade					= mod:NewSpecialWarningMoveTo(244625, nil, nil, nil, 2, 5) --Шквальный огонь
 ----Chief Engineer Ishkar
 --local specWarnEntropicMine				= mod:NewSpecialWarningDodge(245161, nil, nil, nil, 1, 2)
 ----General Erodus
@@ -83,7 +83,7 @@ mod:AddTimerLine(Ishkar)
 local timerEntropicMineCD				= mod:NewCDTimer(10, 245161, nil, nil, nil, 3) --Энтропическая мина
 --General Erodus
 mod:AddTimerLine(Erodus)
-local timerSummonReinforcementsCD		= mod:NewNextTimer(8.4, 245546, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON) --Вызов подкрепления
+local timerSummonReinforcementsCD		= mod:NewNextTimer(8.4, 245546, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON..DBM_CORE_TANK_ICON) --Вызов подкрепления
 
 local yellDemonicCharge					= mod:NewYell(253040, nil, nil, nil, "YELL") --Демонический рывок
 local yellShockGrenade					= mod:NewYell(244737, nil, nil, nil, "YELL") --Шоковая граната
@@ -160,9 +160,9 @@ function mod:SPELL_CAST_START(args)
 		self.vb.FusilladeCount = self.vb.FusilladeCount + 1
 		specWarnFusillade:Show(felShield)
 		specWarnFusillade:Play("findshield")
-		timerFusilladeCD:Start(nil, self.vb.FusilladeCount+1)
+		timerFusilladeCD:Start(25.5, self.vb.FusilladeCount+1) --точно под героик
 		if not self:IsLFR() then
-			countdownFusillade:Start(29.3)
+			countdownFusillade:Start(25.5) --точно под героик
 		end
 	elseif spellId == 246505 then
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
@@ -363,7 +363,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	elseif spellId == 245546 then--Summon Reinforcements (major adds)
 		specWarnSummonReinforcements:Show()
 		specWarnSummonReinforcements:Play("killmob")
-		timerSummonReinforcementsCD:Start(35)
+		timerSummonReinforcementsCD:Start(34) --точно под героик
 	--	countdownReinforcements:Start(35)
 		if self.Options.SetIconOnAdds then
 			self:ScanForMobs(122890, 0, self.vb.lastIcon, 1, 0.1, 12, "SetIconOnAdds")
