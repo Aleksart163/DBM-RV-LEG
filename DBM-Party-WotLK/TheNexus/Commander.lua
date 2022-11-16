@@ -1,8 +1,6 @@
 local mod = DBM:NewMod("Commander", "DBM-Party-WotLK", 4)
 local L = mod:GetLocalizedStrings()
 
---mod.statTypes = "normal,heroic,timewalker"
-
 mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 --mod:SetEncounterID(519)--FIXME in 7.1
 

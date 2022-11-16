@@ -19,7 +19,7 @@
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: PARTY
 ## X-DBM-Mod-Category: WotLK
-## X-DBM-StatTypes: normal,heroic
+## X-DBM-Mod-Has-TimeWalker : 1
 ## X-DBM-Mod-SubCategoriesID: 619, 604, 602, 576, 575, 658
 ## X-DBM-Mod-Name: Dungeons (WotLK)
 ## X-DBM-Mod-Name-ruRU: Групповые подземелья (WotLK)

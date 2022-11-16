@@ -1,8 +1,6 @@
 local mod	= DBM:NewMod(583, "DBM-Party-WotLK", 1, 271)
 local L		= mod:GetLocalizedStrings()
 
---mod.statTypes = "heroic,timewalker"
-
 mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 mod:SetCreatureID(30258)
 mod:SetEncounterID(262, 1989)
