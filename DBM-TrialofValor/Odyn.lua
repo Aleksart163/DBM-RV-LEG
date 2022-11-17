@@ -300,7 +300,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 228012 then --Рог доблести
 		self.vb.hornCasting = true
 		self.vb.hornCast = self.vb.hornCast + 1
-		if self:CheckTargetFilter(args.sourceGUID) then
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnHornOfValor2:Show()
 			specWarnHornOfValor2:Play("justrun")
 		else

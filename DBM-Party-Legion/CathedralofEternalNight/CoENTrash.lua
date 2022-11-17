@@ -81,21 +81,21 @@ function mod:SPELL_CAST_START(args)
 		specWarnBlindingGlare:Show()
 		specWarnBlindingGlare:Play("turnaway")
 	elseif spellId == 237391 then --Манящий аромат
-		if self:CheckTargetFilter(args.sourceGUID) then
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnAlluringAroma:Show()
 			specWarnAlluringAroma:Play("kickcast")
 		else
 			warnAlluringAroma:Show()
 			warnAlluringAroma:Play("kickcast")
 		end
-	elseif spellId == 238543 and self:CheckTargetFilter(args.sourceGUID) then
+	elseif spellId == 238543 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
 		specWarnDemonicMending:Show(args.sourceName)
 		specWarnDemonicMending:Play("kickcast")
-	elseif spellId == 242724 and self:CheckTargetFilter(args.sourceGUID) then
+	elseif spellId == 242724 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
 		specWarnDreadScream:Show(args.sourceName)
 		specWarnDreadScream:Play("kickcast")
 	elseif spellId == 241598 then --Стена Тьмы
-		if self:CheckTargetFilter(args.sourceGUID) then
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnShadowWall:Show()
 			specWarnShadowWall:Play("kickcast")
 		else
@@ -121,7 +121,7 @@ function mod:SPELL_CAST_START(args)
 		specWarnFelGlare:Play("watchstep")
 	elseif spellId == 237558 then --Омоложение Скверной
 		if not self:IsNormal() then
-			if self:CheckTargetFilter(args.sourceGUID) then
+			if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 				specWarnFelRejuvenation:Show()
 				specWarnFelRejuvenation:Play("kickcast")
 			else

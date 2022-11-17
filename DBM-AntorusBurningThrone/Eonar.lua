@@ -383,12 +383,12 @@ function mod:SPELL_CAST_START(args)
 			countdownFinalDoom:Start(timer)
 		end
 	elseif spellId == 250701 then --Размах скверны
-		if self:CheckTargetFilter(args.sourceGUID) then
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnSwing:Show()
 			specWarnSwing:Play("watchstep")
 		end
 	elseif spellId == 246305 then --Артиллерийский удар
-		if self:CheckTargetFilter(args.sourceGUID) then
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnArtilleryStrike:Show()
 			specWarnArtilleryStrike:Play("kickcast")
 		end
