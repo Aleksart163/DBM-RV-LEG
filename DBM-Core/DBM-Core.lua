@@ -5413,15 +5413,16 @@ do
 			i = i + 1
 		until not bossGUID
 	end
-
+	
 	function DBM:INSTANCE_ENCOUNTER_ENGAGE_UNIT()
-		if timerRequestInProgress then return end--do not start ieeu combat if timer request is progressing. (not to break Timer Recovery stuff)
-		if LastInstanceMapID == 1712 or LastInstanceMapID == 1651 then return end
+		if timerRequestInProgress then return end --do not start ieeu combat if timer request is progressing. (not to break Timer Recovery stuff)
 		if dbmIsEnabled and combatInfo[LastInstanceMapID] then
-			self:Debug("INSTANCE_ENCOUNTER_ENGAGE_UNIT event fired for zoneId"..LastInstanceMapID, 3)
 			for i, v in ipairs(combatInfo[LastInstanceMapID]) do
-				if v.type:find("combat") and isBossEngaged(v.multiMobPullDetection or v.mob) then
-					self:StartCombat(v.mod, 0, "IEEU")
+				if not v.noIEEUDetection then
+					self:Debug("INSTANCE_ENCOUNTER_ENGAGE_UNIT event fired for zoneId" .. LastInstanceMapID, 3)
+					if v.type:find("combat") and isBossEngaged(v.multiMobPullDetection or v.mob) then
+						self:StartCombat(v.mod, 0, "IEEU")
+					end
 				end
 			end
 		end
@@ -11221,6 +11222,9 @@ function bossModPrototype:RegisterCombat(cType, ...)
 	if self.noESDetection then
 		info.noESDetection = self.noESDetection
 	end
+	if self.noIEEUDetection then
+		info.noIEEUDetection = self.noIEEUDetection
+	end
 	if self.noEEDetection then
 		info.noEEDetection = self.noEEDetection
 	end
@@ -11313,6 +11317,13 @@ function bossModPrototype:DisableESCombatDetection()
 	self.noESDetection = true
 	if self.combatInfo then
 		self.combatInfo.noESDetection = true
+	end
+end
+
+function bossModPrototype:DisableIEEUCombatDetection()
+	self.noIEEUDetection = true
+	if self.combatInfo then
+		self.combatInfo.noIEEUDetection = true
 	end
 end
 

@@ -5,6 +5,7 @@ mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 mod:SetCreatureID(114329, 114522, 114330, 114328)
 mod:SetEncounterID(1957)--Shared (so not used for encounter START since it'd fire 3 mods)
 mod:DisableESCombatDetection()--However, with ES disabled, EncounterID can be used for BOSS_KILL/ENCOUNTER_END
+mod:DisableIEEUCombatDetection()
 mod:SetZone()
 mod:SetUsedIcons(8, 7)
 --mod:SetHotfixNoticeRev(14922)

@@ -9,6 +9,7 @@ mod:SetZone()
 mod:SetUsedIcons(8, 7, 6, 5, 4)
 mod:SetHotfixNoticeRev(16960)
 mod.respawnTime = 30
+mod:DisableIEEUCombatDetection()
 
 mod:RegisterCombat("combat")
 --mod:RegisterCombat("combat_yell", L.YellPullEonar)

@@ -10,6 +10,7 @@ mod:SetUsedIcons(1, 2, 3, 4, 5, 6, 7, 8)
 mod:SetHotfixNoticeRev(16993)
 mod:SetMinSyncRevision(16895)
 mod.respawnTime = 30
+mod:DisableIEEUCombatDetection()
 
 mod:RegisterCombat("combat")
 --mod:RegisterCombat("combat_yell", L.YellPullArgus)

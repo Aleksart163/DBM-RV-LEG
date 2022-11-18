@@ -10,6 +10,7 @@ mod:SetUsedIcons(3, 2, 1)
 mod:SetHotfixNoticeRev(16945)
 mod:SetMinSyncRevision(16975)
 mod.respawnTime = 29
+mod:DisableIEEUCombatDetection()
 
 mod:RegisterCombat("combat")
 --mod:RegisterCombat("yell", L.YellPullKingaroth, L.YellPullKingaroth2, L.YellPullKingaroth3)

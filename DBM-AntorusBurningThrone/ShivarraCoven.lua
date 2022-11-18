@@ -9,6 +9,7 @@ mod:SetBossHPInfoToHighest()
 mod:SetUsedIcons(8, 7, 6, 5, 4, 3, 2, 1)
 mod:SetHotfixNoticeRev(16963)
 mod.respawnTime = 28
+mod:DisableIEEUCombatDetection()
 
 mod:RegisterCombat("combat")
 --mod:RegisterCombat("yell", L.YellPullCoven)

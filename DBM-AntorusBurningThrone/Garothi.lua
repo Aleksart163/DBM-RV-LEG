@@ -10,6 +10,7 @@ mod:SetUsedIcons(8, 6, 5, 4, 3, 2, 1)
 mod:SetHotfixNoticeRev(16962)
 mod:SetMinSyncRevision(16962)
 mod.respawnTime = 29
+mod:DisableIEEUCombatDetection()
 mod:DisableRegenDetection()--Prevent false combat when fighting trash
 
 mod:RegisterCombat("combat")

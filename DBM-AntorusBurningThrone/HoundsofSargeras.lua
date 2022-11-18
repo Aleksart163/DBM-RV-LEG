@@ -9,6 +9,7 @@ mod:SetBossHPInfoToHighest()
 mod:SetUsedIcons(5, 4, 3, 2, 1)
 mod:SetHotfixNoticeRev(16949)
 mod.respawnTime = 30
+mod:DisableIEEUCombatDetection()
 
 mod:RegisterCombat("combat")
 
