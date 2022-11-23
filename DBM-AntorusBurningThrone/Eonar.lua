@@ -8,10 +8,10 @@ mod:SetZone()
 --mod:SetBossHPInfoToHighest()
 mod:SetUsedIcons(8, 7, 6, 5, 4)
 mod:SetHotfixNoticeRev(16960)
+mod:DisableIEEUCombatDetection()
 mod.respawnTime = 30
 
 mod:RegisterCombat("combat")
---mod:RegisterCombat("combat_yell", L.YellPullEonar)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 249121 250701 246305",
@@ -42,21 +42,16 @@ local specWarnSpearofDoom				= mod:NewSpecialWarningDodge(248789, nil, nil, nil,
 --local yellSpearofDoom					= mod:NewYell(248789) --Копье Рока
 local specWarnRainofFel					= mod:NewSpecialWarningYouMoveAway(248332, nil, nil, 2, 1, 2) --Дождь Скверны
 --Adds
-local specWarnSwing						= mod:NewSpecialWarningDodge(250701, "Melee", nil, nil, 1, 2) --Размах Скверны
-local specWarnArtilleryStrike			= mod:NewSpecialWarningInterrupt(246305, "-Healer", nil, nil, 1, 3) --Артиллерийский удар
---local yellBurstingDreadflame			= mod:NewPosYell(238430, DBM_CORE_AUTO_YELL_CUSTOM_POSITION)
---local specWarnMalignantAnguish		= mod:NewSpecialWarningInterrupt(236597, "HasInterrupt")
---local specWarnGTFO					= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 2)
+local specWarnSwing						= mod:NewSpecialWarningDodge(250701, nil, nil, nil, 1, 2) --Размах Скверны
+local specWarnArtilleryStrike			= mod:NewSpecialWarningInterrupt(246305, "HasInterrupt", nil, nil, 1, 3) --Артиллерийский удар
 --Mythic
 local specWarnFinalDoom					= mod:NewSpecialWarningParaxisCount(249121, nil, nil, nil, 1, 2) --Всеобщая погибель
 local specWarnArcaneBuildup				= mod:NewSpecialWarningYouMoveAway(250171, nil, nil, nil, 4, 2) --Волшебный вихрь
 local specWarnBurningEmbers				= mod:NewSpecialWarningYouMoveAway(250691, nil, nil, nil, 4, 2) --Раскаленные угли
 local specWarnFoulSteps					= mod:NewSpecialWarningStack(250140, nil, 12, nil, nil, 1, 6) --Гнусные приемы Fine tune
-
 --The Paraxis
 mod:AddTimerLine(GENERAL)
 local timerSpearofDoomCD				= mod:NewCDCountTimer(55, 248789, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Копье Рока 55-69
---local timerRainofFelCD					= mod:NewCDCountTimer(61, 248332, nil, nil, nil, 3) --Дождь Скверны
 mod:AddTimerLine(DBM_ADDS)
 local timerDestructorCD					= mod:NewTimer(90, "timerDestructor", 254769, nil, nil, 1, DBM_CORE_TANK_ICON..DBM_CORE_DAMAGE_ICON) --Разрушитель
 local timerObfuscatorCD					= mod:NewTimer(90, "timerObfuscator", 246753, nil, nil, 1, DBM_CORE_DAMAGE_ICON) --Маскировщик
@@ -82,7 +77,6 @@ local yellArcaneBuildupFades			= mod:NewFadesYell(250171, nil, nil, nil, "YELL")
 local yellBurningEmbers					= mod:NewYell(250691, nil, nil, nil, "YELL") --Раскаленные угли
 local yellBurningEmbersFades			= mod:NewFadesYell(250691, nil, nil, nil, "YELL") --Раскаленные угли
 --The Paraxis
---local countdownRainofFel				= mod:NewCountdown("Alt60", 248332) --Дождь Скверны Not accurate enough yet. not until timer correction is added to handle speed of raids dps affecting sequence
 --Mythic
 local countdownFinalDoom				= mod:NewCountdown(90, 249121, nil, nil, 5) --Всеобщая погибель
 local countdownFinalDoom2				= mod:NewCountdownFades(50, 249121, nil, nil, 5) --Всеобщая погибель
@@ -383,12 +377,12 @@ function mod:SPELL_CAST_START(args)
 			countdownFinalDoom:Start(timer)
 		end
 	elseif spellId == 250701 then --Размах скверны
-		if self:CheckTargetFilter(args.sourceGUID) then
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnSwing:Show()
 			specWarnSwing:Play("watchstep")
 		end
 	elseif spellId == 246305 then --Артиллерийский удар
-		if self:CheckTargetFilter(args.sourceGUID) then
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnArtilleryStrike:Show()
 			specWarnArtilleryStrike:Play("kickcast")
 		end

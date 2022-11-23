@@ -9,10 +9,10 @@ mod:SetBossHPInfoToHighest()--Because of heal on mythic
 mod:SetUsedIcons(1, 2, 3, 4, 5, 6, 7, 8)
 mod:SetHotfixNoticeRev(16993)
 mod:SetMinSyncRevision(16895)
+mod:DisableIEEUCombatDetection()
 mod.respawnTime = 30
 
 mod:RegisterCombat("combat")
---mod:RegisterCombat("combat_yell", L.YellPullArgus)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 248165 248317 257296 255594 257645 252516 256542 255648 257619 256544",
@@ -31,9 +31,6 @@ mod:RegisterEventsInCombat(
 
 --Аргус Порабощенный https://ru.wowhead.com/npc=124828/аргус-порабощенный/эпохальный-журнал-сражений
 local warnPhase						= mod:NewPhaseChangeAnnounce(1) --Фаза
---local warnPhase1					= mod:NewAnnounce("Phase1", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 2
---local warnPhase2					= mod:NewAnnounce("Phase3", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 3
---local warnPhase3					= mod:NewAnnounce("Phase5", 1, "Interface\\Icons\\Spell_Nature_WispSplode") --Скоро фаза 4
 local warnPrePhase2					= mod:NewPrePhaseAnnounce(2, 1)
 local warnPrePhase3					= mod:NewPrePhaseAnnounce(3, 1)
 local warnPrePhase4					= mod:NewPrePhaseAnnounce(4, 1)
@@ -99,7 +96,7 @@ local specWarnEmberofRage			= mod:NewSpecialWarningDodge(257299, nil, nil, nil, 
 local specWarnEmberofRage2			= mod:NewSpecialWarningStack(257299, nil, 1, nil, nil, 1, 3) --Глыбы ярости
 local specWarnDeadlyScythe			= mod:NewSpecialWarningStack(258039, nil, 3, nil, nil, 1, 2) --Смертоносная коса
 local specWarnDeadlyScytheTaunt		= mod:NewSpecialWarningTaunt(258039, nil, nil, nil, 1, 2) --Смертоносная коса
-local specWarnReorgModule			= mod:NewSpecialWarningSwitch(256389, "RangedDps", nil, nil, 3, 2) --Модуль пересозидания
+local specWarnReorgModule			= mod:NewSpecialWarningSwitch(256389, "RangedDps", nil, nil, 3, 6) --Модуль пересозидания
 
 local timerNextPhase				= mod:NewPhaseTimer(74)
 --Stage One: Storm and Sky
@@ -786,11 +783,15 @@ function mod:SPELL_AURA_APPLIED(args)
 			yellSargSentenceFades:Countdown(30, 3)
 			fearCheck(self)
 		end
-	elseif spellId == 256388 and self:AntiSpam(3, 2) then --Процесс инициализации (новый в об и гер)
+	elseif spellId == 256388 and self:AntiSpam(2, 2) then --Процесс инициализации (новый в об и гер)
 		self.vb.moduleCount = self.vb.moduleCount + 1
 		warnReorgModule:Show()
-		specWarnReorgModule:Schedule(46.5)
-		specWarnReorgModule:ScheduleVoice(46.5, "killmob")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnReorgModule:Show()
+			specWarnReorgModule:Play("killmob")
+		--	specWarnReorgModule:Schedule(46.5)
+		--	specWarnReorgModule:ScheduleVoice(46.5, "killmob")
+		end
 		timerReorgModuleCD:Start(46.5, self.vb.moduleCount+1)
 		countdownReorgModule:Start(46.5)
 --[[	elseif spellId == 257299 then --Глыбы ярости ( не идёт, слишком дохуя)
@@ -927,14 +928,14 @@ function mod:SPELL_INTERRUPT(args)
 				countdownSweapingScythe:Start(5)
 				timerReorgModuleCD:Start(13, 1)
 				countdownReorgModule:Start(13)
-				specWarnReorgModule:Schedule(13)
-				specWarnReorgModule:ScheduleVoice(13, "killmob")
+			--	specWarnReorgModule:Schedule(13)
+			--	specWarnReorgModule:ScheduleVoice(13, "killmob")
 			else -- под героик всё норм
 				timerDeadlyScytheCD:Start(5) --Смертоносная коса
 				timerReorgModuleCD:Start(13, 1)
 				countdownReorgModule:Start(13)
-				specWarnReorgModule:Schedule(13)
-				specWarnReorgModule:ScheduleVoice(13, "killmob")
+			--	specWarnReorgModule:Schedule(13)
+			--	specWarnReorgModule:ScheduleVoice(13, "killmob")
 			end
 --[[			local currentPowerPercent = UnitPower("boss1")/UnitPowerMax("boss1")
 			local remainingPercent

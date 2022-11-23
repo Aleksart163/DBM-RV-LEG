@@ -8,10 +8,10 @@ mod:SetZone()
 mod:SetBossHPInfoToHighest()
 mod:SetUsedIcons(8, 7, 6, 2, 1)
 mod:SetHotfixNoticeRev(16939)
+mod:DisableIEEUCombatDetection()
 mod.respawnTime = 30
 
 mod:RegisterCombat("combat")
---mod:RegisterCombat("combat_say", L.YellPullCouncil)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 244625 246505 253040 245227",
@@ -27,12 +27,6 @@ mod:RegisterEventsInCombat(
 local Svirax = DBM:EJ_GetSectionInfo(16126)
 local Ishkar = DBM:EJ_GetSectionInfo(16128)
 local Erodus = DBM:EJ_GetSectionInfo(16130)
---TODO, boss health was reporting unknown in streams, verify/fix boss CIDs
---[[
-(ability.id = 244625 or ability.id = 253040 or ability.id = 245227 or ability.id = 125012 or ability.id = 125014 or ability.id = 126258) and type = "begincast"
- or (ability.id = 244722 or ability.id = 244892) and type = "cast" or (ability.id = 245174 or ability.id = 244947) and type = "summon"
- or ability.id = 253015
---]]
 --General
 local warnOutofPod						= mod:NewTargetAnnounce("ej16098", 2, 244141) --Вне капсулы
 local warnExploitWeakness				= mod:NewStackAnnounce(244892, 2, nil, "Tank|Healer") --Обнаружить слабое место
@@ -109,6 +103,7 @@ mod.vb.FusilladeCount = 0
 mod.vb.lastIcon = 1
 mod.vb.ShockGrenadeIcon = 8
 
+--[[
 function mod:DemonicChargeTarget(targetname, uId)
 	if not targetname then return end
 	if targetname == UnitName("player") then
@@ -123,7 +118,7 @@ function mod:DemonicChargeTarget(targetname, uId)
 	else
 		warnDemonicCharge:Show(targetname)
 	end
-end
+end]]
 
 function mod:OnCombatStart(delay)
 	self.vb.FusilladeCount = 0
@@ -135,7 +130,7 @@ function mod:OnCombatStart(delay)
 	timerSummonReinforcementsCD:Start(8-delay)
 --	countdownReinforcements:Start(8-delay)
 	timerAssumeCommandCD:Start(90-delay) --Принять командование
---	countdownAssumeCommand:Start(90-delay)
+	countdownAssumeCommand:Start(90-delay)
 	if self:IsMythic() then
 		timerShockGrenadeCD:Start(14-delay) --Шоковая граната -1сек 
 		timerEntropicMineCD:Start(15-delay) --Энтропическая мина
@@ -169,8 +164,8 @@ function mod:SPELL_CAST_START(args)
 			specWarnPyroblast:Show(args.sourceName)
 			specWarnPyroblast:Play("kickcast")
 		end
-	elseif spellId == 253040 then
-		self:BossTargetScanner(args.sourceGUID, "DemonicChargeTarget", 0.2, 9)
+--[[	elseif spellId == 253040 then
+		self:BossTargetScanner(args.sourceGUID, "DemonicChargeTarget", 0.2, 9)]]
 	elseif spellId == 245227 then --Принять командование (начало каста)
 		specWarnAssumeCommand:Show()
 		specWarnAssumeCommand:Play("targetchange")
@@ -247,6 +242,17 @@ function mod:SPELL_CAST_SUCCESS(args)
 	elseif spellId == 245227 then--Assume Command
 		timerAssumeCommandCD:Start(90)
 		countdownAssumeCommand:Start(90)
+	elseif spellId == 253037 then
+		if args:IsPlayer() then
+			specWarnDemonicChargeYou:Show()
+			specWarnDemonicChargeYou:Play("runaway")
+			yellDemonicCharge:Yell()
+		elseif self:CheckNearby(10, args.destName) then
+			specWarnDemonicCharge:Show(args.destName)
+			specWarnDemonicCharge:Play("watchstep")
+		else
+			warnDemonicCharge:Show(args.destName)
+		end
 	end
 end
 

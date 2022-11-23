@@ -6,6 +6,7 @@ mod:SetZone()
 mod:SetMinSyncRevision(17650)
 
 mod.noStatistics = true
+mod.isTrashMod = true
 
 mod:RegisterEvents(
 	"SPELL_CAST_START 223637 223693 239513 240095 195493 217857 238586 233220 240105 240115 240126 216504 219200 240015 240009 186612 212549 222326 222318 224703 219293 207460 217562 207344 219554 207729 207734 217167 217111",
@@ -34,21 +35,21 @@ local specWarnBestialChoke			= mod:NewSpecialWarningYouDefensive(217002, nil, ni
 --Стражница душ Альдора
 local specWarnSoulHarvest			= mod:NewSpecialWarningInterrupt2(217167, nil, nil, nil, 2, 3) --Жатва душ
 --Осквернилия
-local specWarnMuckInfusion			= mod:NewSpecialWarningInterrupt(207734, "-Healer", nil, nil, 3, 3) --Сила навоза
-local specWarnSickeningBolt			= mod:NewSpecialWarningInterrupt(207729, "-Healer", nil, nil, 1, 2) --Тошнотворная стрела
+local specWarnMuckInfusion			= mod:NewSpecialWarningInterrupt(207734, "HasInterrupt", nil, nil, 3, 3) --Сила навоза
+local specWarnSickeningBolt			= mod:NewSpecialWarningInterrupt(207729, "HasInterrupt", nil, nil, 1, 2) --Тошнотворная стрела
 --Илдис
 local specWarnTormentingFoliage		= mod:NewSpecialWarningDodge(219554, nil, nil, nil, 2, 3) --Истязающие заросли
 --Ормагрогг
-local specWarnEssenceTheft			= mod:NewSpecialWarningInterrupt(207344, "-Healer", nil, nil, 1, 2) --Похищение сущности
+local specWarnEssenceTheft			= mod:NewSpecialWarningInterrupt(207344, "HasInterrupt", nil, nil, 1, 2) --Похищение сущности
 --Мелисандра
 local specWarnVolatileTempest		= mod:NewSpecialWarningInterrupt2(217562, nil, nil, nil, 2, 3) --Нестабильная буря
 --Косумот Алчущий
-local specWarnShadowBoltVolley		= mod:NewSpecialWarningInterrupt(222318, "-Healer", nil, nil, 3, 3) --Залп стрел Тьмы
+local specWarnShadowBoltVolley		= mod:NewSpecialWarningInterrupt(222318, "HasInterrupt", nil, nil, 3, 3) --Залп стрел Тьмы
 local specWarnGluttonousShadows		= mod:NewSpecialWarningDodge(222326, nil, nil, nil, 2, 3) --Прожорливые тени
 local specWarnVoidFissures			= mod:NewSpecialWarningSwitch(206946, "-Healer", nil, nil, 1, 2) --Разломы Бездны
 --Мортиферос
 local specWarnDecayingCarrion		= mod:NewSpecialWarningInterrupt2(186612, nil, nil, nil, 2, 3) --Разлагающаяся мертвечина
-local specWarnTerrifyingRoar		= mod:NewSpecialWarningInterrupt(212549, "-Healer", nil, nil, 1, 2) --Ужасающий рев
+local specWarnTerrifyingRoar		= mod:NewSpecialWarningInterrupt(212549, "HasInterrupt", nil, nil, 1, 2) --Ужасающий рев
 local specWarnCripplingGloom		= mod:NewSpecialWarningYou(186620, nil, nil, nil, 1, 2) --Калечащий мрак
 --Главный казначей Джабрилл
 local specWarnGlitteringBlast		= mod:NewSpecialWarningYouMoveAway(219200, nil, nil, nil, 4, 2) --Сияющий взрыв
@@ -60,17 +61,17 @@ local specWarnCrushingWave			= mod:NewSpecialWarningDodge(216504, nil, nil, nil,
 local specWarnBrinyBubble			= mod:NewSpecialWarningYou(216456, nil, nil, nil, 1, 2) --Соленый пузырь
 local specWarnBrinyBubble2			= mod:NewSpecialWarningSwitch(216456, "-Healer", nil, nil, 1, 2) --Соленый пузырь
 --Руновидец Сигвид
-local specWarnShatteredRune			= mod:NewSpecialWarningInterrupt(195493, "-Healer", nil, nil, 1, 2) --Расколотая руна
+local specWarnShatteredRune			= mod:NewSpecialWarningInterrupt(195493, "HasInterrupt", nil, nil, 1, 2) --Расколотая руна
 local specWarnUnraveltheRunes		= mod:NewSpecialWarningInterrupt2(217857, nil, nil, nil, 2, 3) --Расплетение рун
 --Аз'жатар
-local specWarnDeafeningRoar			= mod:NewSpecialWarningInterrupt(224703, "-Healer", nil, nil, 1, 2) --Оглушающий рев
+local specWarnDeafeningRoar			= mod:NewSpecialWarningInterrupt(224703, "HasInterrupt", nil, nil, 1, 2) --Оглушающий рев
 --Потокий
 local specWarnFreezingMist			= mod:NewSpecialWarningInterrupt2(222532, nil, nil, nil, 1, 2) --Леденящий туман
 --Шалас'аман
-local specWarnTerrifyingRoar2		= mod:NewSpecialWarningInterrupt(219293, "-Healer", nil, nil, 1, 2) --Ужасающий рев
-local specWarnSowNightmareSeeds		= mod:NewSpecialWarningInterrupt(207460, "-Healer", nil, nil, 2, 2) --Посев зерен кошмарника
+local specWarnTerrifyingRoar2		= mod:NewSpecialWarningInterrupt(219293, "HasInterrupt", nil, nil, 1, 2) --Ужасающий рев
+local specWarnSowNightmareSeeds		= mod:NewSpecialWarningInterrupt(207460, "HasInterrupt", nil, nil, 2, 2) --Посев зерен кошмарника
 --Гигантский инфернал
-local specWarnBlazingHellfire		= mod:NewSpecialWarningInterrupt(205259, "-Healer", nil, nil, 3, 3) --Слепящее адское пламя
+local specWarnBlazingHellfire		= mod:NewSpecialWarningInterrupt(205259, "HasInterrupt", nil, nil, 3, 3) --Слепящее адское пламя
 --Агмозул
 local specWarnHatefulSmash			= mod:NewSpecialWarningYouMoveAway(238586, nil, nil, nil, 4, 2) --Полный ненависти удар
 local specWarnHatefulSmash2			= mod:NewSpecialWarningTargetDodge(238586, nil, nil, nil, 2, 3) --Полный ненависти удар
@@ -80,18 +81,18 @@ local specWarnTrueChaos				= mod:NewSpecialWarningInterrupt2(223693, nil, nil, n
 local specWarnCoreofDepravity		= mod:NewSpecialWarningYouMoveAway(223447, nil, nil, nil, 4, 2) --Сердце порочности
 --Аркутаз
 local specWarnRainofFire			= mod:NewSpecialWarningDodge(240095, nil, nil, nil, 1, 2) --Огненный ливень
-local specWarnFireball				= mod:NewSpecialWarningInterrupt(239513, "-Healer", nil, nil, 1, 2) --Огненный шар
+local specWarnFireball				= mod:NewSpecialWarningInterrupt(239513, "HasInterrupt", nil, nil, 1, 2) --Огненный шар
 --Тар'гокк
 local specWarnThunderingStomp		= mod:NewSpecialWarningDodge(240126, nil, nil, nil, 2, 2) --Грохочущий топот
 --Призывательница Скверны Талезра
 local specWarnFelshardMeteors		= mod:NewSpecialWarningDodge(233213, nil, nil, nil, 2, 3) --Метеориты из осколков Скверны
-local specWarnIncineratingBlast		= mod:NewSpecialWarningInterrupt(233220, "-Healer", nil, nil, 1, 2) --Опаляющий взрыв
+local specWarnIncineratingBlast		= mod:NewSpecialWarningInterrupt(233220, "HasInterrupt", nil, nil, 1, 2) --Опаляющий взрыв
 --Поработитель Вал'рек
 local specWarnCarrionSwarm			= mod:NewSpecialWarningYouMoveAway(240105, nil, nil, nil, 4, 2) --Темная стая
 local specWarnCarrionSwarm2			= mod:NewSpecialWarningTargetDodge(240105, nil, nil, nil, 2, 3) --Темная стая
-local specWarnPlagueVolley			= mod:NewSpecialWarningInterrupt(240115, "-Healer", nil, nil, 1, 2) --Чумной залп
+local specWarnPlagueVolley			= mod:NewSpecialWarningInterrupt(240115, "HasInterrupt", nil, nil, 1, 2) --Чумной залп
 --Командир Зартак
-local specWarnShadowCrash			= mod:NewSpecialWarningInterrupt(240015, "-Healer", nil, nil, 1, 2) --Темное сокрушение
+local specWarnShadowCrash			= mod:NewSpecialWarningInterrupt(240015, "HasInterrupt", nil, nil, 1, 2) --Темное сокрушение
 local specWarnHowlfromBeyond		= mod:NewSpecialWarningInterrupt2(240009, nil, nil, nil, 2, 3) --Потусторонний вой
 
 local timerBlazingHellfireCD		= mod:NewCDTimer(16, 205259, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Слепящее адское пламя
@@ -186,28 +187,36 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 195493 then --Расколотая руна
 		local cid = self:GetCIDFromGUID(args.sourceGUID)
 		if cid == 109318 then
-			specWarnShatteredRune:Show()
-			specWarnShatteredRune:Play("kickcast")
+			if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+				specWarnShatteredRune:Show()
+				specWarnShatteredRune:Play("kickcast")
+			end
 		end
 	elseif spellId == 217857 then --Расплетение рун
 		specWarnUnraveltheRunes:Show()
 		specWarnUnraveltheRunes:Play("kickcast")
 	elseif spellId == 233220 then --Опаляющий взрыв
-		specWarnIncineratingBlast:Show()
-		specWarnIncineratingBlast:Play("kickcast")
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnIncineratingBlast:Show()
+			specWarnIncineratingBlast:Play("kickcast")
+		end
 	elseif spellId == 240105 then --Темная стая
 		self:BossTargetScanner(args.sourceGUID, "carrionSwarmTarget", 0.1, 2)
 	elseif spellId == 240115 then --Чумной залп
-		specWarnPlagueVolley:Show()
-		specWarnPlagueVolley:Play("kickcast")
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnPlagueVolley:Show()
+			specWarnPlagueVolley:Play("kickcast")
+		end
 	elseif spellId == 216504 then --Сокрушительная волна
 		specWarnCrushingWave:Show()
 		specWarnCrushingWave:Play("watchstep")
 	elseif spellId == 219200 then --Сияющий взрыв
 		self:BossTargetScanner(args.sourceGUID, "glitteringBlastTarget", 0.1, 2)
 	elseif spellId == 240015 then --Темное сокрушение
-		specWarnShadowCrash:Show()
-		specWarnShadowCrash:Play("kickcast")
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnShadowCrash:Show()
+			specWarnShadowCrash:Play("kickcast")
+		end
 	elseif spellId == 240009 then --Потусторонний вой
 		specWarnHowlfromBeyond:Show()
 		specWarnHowlfromBeyond:Play("kickcast")
@@ -215,38 +224,54 @@ function mod:SPELL_CAST_START(args)
 		specWarnDecayingCarrion:Show()
 		specWarnDecayingCarrion:Play("kickcast")
 	elseif spellId == 212549 then --Ужасающий рев
-		specWarnTerrifyingRoar:Show()
-		specWarnTerrifyingRoar:Play("kickcast")
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnTerrifyingRoar:Show()
+			specWarnTerrifyingRoar:Play("kickcast")
+		end
 	elseif spellId == 222326 then --Прожорливые тени
 		specWarnGluttonousShadows:Show()
 		specWarnGluttonousShadows:Play("watchstep")
 	elseif spellId == 222318 then --Залп стрел Тьмы
-		specWarnShadowBoltVolley:Show()
-		specWarnShadowBoltVolley:Play("kickcast")
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnShadowBoltVolley:Show()
+			specWarnShadowBoltVolley:Play("kickcast")
+		end
 	elseif spellId == 224703 then --Оглушающий рев
-		specWarnDeafeningRoar:Show()
-		specWarnDeafeningRoar:Play("kickcast")
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnDeafeningRoar:Show()
+			specWarnDeafeningRoar:Play("kickcast")
+		end
 	elseif spellId == 219293 then --Ужасающий рев
-		specWarnTerrifyingRoar2:Show()
-		specWarnTerrifyingRoar2:Play("kickcast")
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnTerrifyingRoar2:Show()
+			specWarnTerrifyingRoar2:Play("kickcast")
+		end
 	elseif spellId == 207460 then --Посев зерен кошмарника
-		specWarnSowNightmareSeeds:Show()
-		specWarnSowNightmareSeeds:Play("kickcast")
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnSowNightmareSeeds:Show()
+			specWarnSowNightmareSeeds:Play("kickcast")
+		end
 	elseif spellId == 217562 then --Нестабильная буря
 		specWarnVolatileTempest:Show()
 		specWarnVolatileTempest:Play("kickcast")
 	elseif spellId == 207344 then --Похищение сущности
-		specWarnEssenceTheft:Show()
-		specWarnEssenceTheft:Play("kickcast")
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnEssenceTheft:Show()
+			specWarnEssenceTheft:Play("kickcast")
+		end
 	elseif spellId == 219554 then --Истязающие заросли
 		specWarnTormentingFoliage:Show()
 		specWarnTormentingFoliage:Play("watchstep")
 	elseif spellId == 207734 then --Сила навоза
-		specWarnMuckInfusion:Show()
-		specWarnMuckInfusion:Play("kickcast")
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnMuckInfusion:Show()
+			specWarnMuckInfusion:Play("kickcast")
+		end
 	elseif spellId == 207729 then --Тошнотворная стрела
-		specWarnSickeningBolt:Show()
-		specWarnSickeningBolt:Play("kickcast")
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnSickeningBolt:Show()
+			specWarnSickeningBolt:Play("kickcast")
+		end
 	elseif spellId == 217167 then --Жатва душ
 		specWarnSoulHarvest:Show()
 		specWarnSoulHarvest:Play("kickcast")

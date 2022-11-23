@@ -44,9 +44,9 @@
 ----------------------------------------------------------------
 --
 DBM = {
-	Revision = tonumber(("$Revision: 17685 $"):sub(12, -3)), --прошляпанное очко Мурчаля ✔
+	Revision = tonumber(("$Revision: 17686 $"):sub(12, -3)), --прошляпанное очко Мурчаля ✔
 	DisplayVersion = "7.3.41 Right Version",
-	ReleaseRevision = 17684
+	ReleaseRevision = 17685
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -138,7 +138,7 @@ DBM.DefaultOptions = {
 	CustomSounds = 0,
 	ShowBigBrotherOnCombatStart = false,
 	FilterTankSpec = true,
-	FilterInterrupt2 = "TandFandBossCooldown",
+	FilterInterrupt2 = "TandFandAllCooldown",
 	FilterInterruptNoteName = false,
 	FilterDispel = true,
 	--FilterSelfHud = true,
@@ -782,7 +782,7 @@ do
 				return
 			end
 			if spellId and not DBM:GetSpellInfo(spellId) then
-				if DBM.Option.DebugMode then
+				if DBM.Options.DebugMode then
 					DBM:AddMsg("DBM RegisterEvents Error: "..spellId.." spell id does not exist!")
 				end
 				return
@@ -3656,7 +3656,7 @@ function DBM:LFG_PROPOSAL_SUCCEEDED()
 	fireEvent("DBM_TimerStop", "DBMLFGTimer")
 end
 
-function DBM:READY_CHECK()
+function DBM:READY_CHECK() --рейд чек, рч
 	if self.Options.RLReadyCheckSound then--readycheck sound, if ora3 not installed (bad to have 2 mods do it)
 		self:FlashClientIcon()
 		if not BINDING_HEADER_oRA3 then
@@ -3664,7 +3664,8 @@ function DBM:READY_CHECK()
 		end
 	end
 	self:TransitionToDungeonBGM(false, true)
-	self:Schedule(4, self.TransitionToDungeonBGM, self)
+--	self:Schedule(4, self.TransitionToDungeonBGM, self)
+	self:Schedule(2, self.TransitionToDungeonBGM, self)
 end
 
 function DBM:PLAYER_SPECIALIZATION_CHANGED()
@@ -5415,6 +5416,20 @@ do
 	end
 
 	function DBM:INSTANCE_ENCOUNTER_ENGAGE_UNIT()
+		if timerRequestInProgress then return end --do not start ieeu combat if timer request is progressing. (not to break Timer Recovery stuff)
+		if dbmIsEnabled and combatInfo[LastInstanceMapID] then
+			for i, v in ipairs(combatInfo[LastInstanceMapID]) do
+				if not v.noIEEUDetection then
+					self:Debug("INSTANCE_ENCOUNTER_ENGAGE_UNIT event fired for zoneId" .. LastInstanceMapID, 3)
+					if v.type:find("combat") and isBossEngaged(v.multiMobPullDetection or v.mob) then
+						self:StartCombat(v.mod, 0, "IEEU")
+					end
+				end
+			end
+		end
+	end
+	
+--[[	function DBM:INSTANCE_ENCOUNTER_ENGAGE_UNIT()
 		if timerRequestInProgress then return end--do not start ieeu combat if timer request is progressing. (not to break Timer Recovery stuff)
 		if LastInstanceMapID == 1712 or LastInstanceMapID == 1651 then return end
 		if dbmIsEnabled and combatInfo[LastInstanceMapID] then
@@ -5425,7 +5440,7 @@ do
 				end
 			end
 		end
-	end
+	end]]
 	
 	function DBM:UNIT_TARGETABLE_CHANGED(uId)
 		if self.Options.DebugLevel > 2 or (Transcriptor and Transcriptor:IsLogging()) then
@@ -5442,6 +5457,7 @@ do
 
 	function DBM:ENCOUNTER_START(encounterID, name, difficulty, size)
 		self:Debug("ENCOUNTER_START event fired: "..encounterID.." "..name.." "..difficulty.." "..size)
+	--	if encounterID == 1957 then return end
 		if dbmIsEnabled then
 			if not self.Options.DontShowReminders then
 				self:CheckAvailableMods()
@@ -7466,19 +7482,87 @@ function bossModPrototype:IsValidWarning(sourceGUID)
 	return false
 end
 
---Skip param is used when CheckInterruptFilter is actually being used for a simpe target/focus check and nothing more.
---checkCooldown should never be passed with skip or COUNT interrupt warnings. It should be passed with any other interrupt filter
-function bossModPrototype:CheckInterruptFilter(sourceGUID, skip, checkCooldown)
+--[[do
+	local interruptSpells = { --На всякий, если старый будет косячить
+		[1766] = true,--Крыса (Пинок)
+		[2139] = true,--Маг (Антимагия)
+		[6552] = true,--Воин (Зуботычина)
+		[15487] = true,--Прист (Безмолвие)
+		[19647] = true,--Пет лока (Запрет чар)--
+		[47528] = true,--ДК (Заморозка разума)
+		[57994] = true,--Шаман (Пронизывающий ветер)
+		[78675] = true,--Друид (Столп солнечного света)
+		[96231] = true,--Паладин (Укор)
+		[106839] = true,--Друид (Лобовая атака)
+		[116705] = true,--Монах (Рука-копье)
+		[147362] = true,--Хант (Встречный выстрел)--
+		[171138] = true,--Пет лока (Замок мира теней)--
+		[183752] = true,--ДХ (Похищение магии)
+		[187707] = true,--Хант (Намордник)--
+	}
+	--onlyTandF param is used when CheckInterruptFilter is actually being used for a simpe target/focus check and nothing more.
+	--checkCooldown should always be passed true except for special rotations like count warnings when you should be alerted it's your turn even if you dropped ball and put it on CD at wrong time
+	--ignoreTandF is passed usually when interrupt is on a main boss or event that is global to entire raid and should always be alerted regardless of targetting.
+	function bossModPrototype:CheckInterruptFilter(sourceGUID, checkOnlyTandF, checkCooldown, ignoreTandF)
+		--Just return true if interrupt filtering is disabled (and it's actually for an interrupt)
+		if DBM.Options.FilterInterrupt2 == "None" and not checkOnlyTandF then return true end
+
+		local unitID = (UnitGUID("target") == sourceGUID) and "target" or not isClassic and (UnitGUID("focus") == sourceGUID) and "focus"
+
+		--Just return true if target or focus is ONLY requirement (not an interrupt check) and we already confirmed T and F
+		if unitID and checkOnlyTandF then return true end--checkOnlyTandF means this isn't an interrupt check at all, skip all the rest and return true if we met TandF rquirement
+
+		--TandF required in all checks except "None" or if ignoreTandF is passed
+		--Just return false if source isn't our target or focus, no need to do further checks
+		if not ignoreTandF and not unitID then
+			return false
+		end
+
+		--Check if cooldown check is actually required
+		local cooldownRequired = checkCooldown--First set to default value defined by arg
+		if cooldownRequired and ((DBM.Options.FilterInterrupt2 == "onlyTandF") or self.isTrashMod and (DBM.Options.FilterInterrupt2 == "TandFandBossCooldown")) then
+			cooldownRequired = false
+		end
+
+		local InterruptAvailable = true--We want to default to true versus false, since some interrupts don't require CD checks
+		if cooldownRequired then
+			for spellID, _ in pairs(interruptSpells) do
+				--For an inverse check, don't need to check if it's known, if it's on cooldown it's known
+				--This is possible since no class has 2 interrupt spells (well, actual interrupt spells)
+				if (GetSpellCooldown(spellID)) ~= 0 then--Spell is on cooldown
+					InterruptAvailable = false
+				end
+			end
+		end
+		if InterruptAvailable then
+			--Check if it's casting something that's not interruptable at the moment
+			--needed for torghast since many mobs can have interrupt immunity with same spellIds as other mobs that can be interrupted
+			if isRetail and unitID then
+				if UnitCastingInfo(unitID) then
+					local _, _, _, _, _, _, _, notInterruptible = UnitCastingInfo(unitID)
+					if notInterruptible then return false end
+				elseif UnitChannelInfo(unitID) then
+					local _, _, _, _, _, _, notInterruptible = UnitChannelInfo(unitID)
+					if notInterruptible then return false end
+				end
+			end
+			return true
+		end
+		return false
+	end
+end]]
+
+function bossModPrototype:CheckInterruptFilter(sourceGUID, skip, checkCooldown) --интеррапт, кик каста
 	if DBM.Options.FilterInterrupt2 == "None" and not skip then return true end--use doesn't want to use interrupt filter, always return true
-	--Pummel, Mind Freeze, Counterspell, Kick, Skull Bash, Rebuke, Silence, Wind Shear
 	local InterruptAvailable = true
 	local requireCooldown = checkCooldown
 	if (DBM.Options.FilterInterrupt2 == "onlyTandF") or self.isTrashMod and (DBM.Options.FilterInterrupt2 == "TandFandBossCooldown") then
 		requireCooldown = false
 	end
---	if requireCooldown and ((GetSpellCooldown(6552)) ~= 0 or (GetSpellCooldown(31935)) ~= 0 or (GetSpellCooldown(96231)) ~= 0 or (GetSpellCooldown(147362)) ~= 0 or (GetSpellCooldown(187707)) ~= 0 or (GetSpellCooldown(1766)) ~= 0 or (GetSpellCooldown(15487)) ~= 0 or (GetSpellCooldown(57994)) ~= 0 or (GetSpellCooldown(2139)) ~= 0 or (GetSpellCooldown(19647)) ~= 0 or (GetSpellCooldown(171138)) ~= 0 or (GetSpellCooldown(116705)) ~= 0 or (GetSpellCooldown(78675)) ~= 0 or (GetSpellCooldown(106839)) ~= 0 or (GetSpellCooldown(183752)) ~= 0 or (GetSpellCooldown(47528)) ~= 0) then
-	if requireCooldown and ((GetSpellCooldown(6552)) ~= 0 or (GetSpellCooldown(31935)) ~= 0 or (GetSpellCooldown(96231)) ~= 0 or (GetSpellCooldown(147362)) ~= 0 or (GetSpellCooldown(187707)) ~= 0 or (GetSpellCooldown(1766)) ~= 0 or (GetSpellCooldown(15487)) ~= 0 or (GetSpellCooldown(57994)) ~= 0 or (GetSpellCooldown(2139)) ~= 0 or (GetSpellCooldown(19647)) ~= 0 or (GetSpellCooldown(171138)) ~= 0 or (GetSpellCooldown(116705)) ~= 0 or (GetSpellCooldown(78675)) ~= 0 or (GetSpellCooldown(106839)) ~= 0 or (GetSpellCooldown(47528)) ~= 0) then
-		InterruptAvailable = false --Зуботычина, Щит мстителя, Укор, Встречный выстрел, Намордник, Пинок, Безмолвие, Пронизывающий ветер, Антимагия, Запрет чар, Замок мира теней, Рука-копье, Столп солнечного света, Лобовая атака, Поглощение магии, Заморозка разума
+	--Зуботычина, Укор, Встречный выстрел, Намордник, Пинок, Безмолвие, Пронизывающий ветер, Антимагия, Запрет чар, Замок мира теней, Рука-копье, Столп солнечного света, Лобовая атака, Заморозка разума, Прерывание(Похищение магии)
+	if requireCooldown and ((GetSpellCooldown(6552)) ~= 0 or (GetSpellCooldown(96231)) ~= 0 or (GetSpellCooldown(147362)) ~= 0 or (GetSpellCooldown(187707)) ~= 0 or (GetSpellCooldown(1766)) ~= 0 or (GetSpellCooldown(15487)) ~= 0 or (GetSpellCooldown(57994)) ~= 0 or (GetSpellCooldown(2139)) ~= 0 or (GetSpellCooldown(19647)) ~= 0 or (GetSpellCooldown(171138)) ~= 0 or (GetSpellCooldown(116705)) ~= 0 or (GetSpellCooldown(78675)) ~= 0 or (GetSpellCooldown(106839)) ~= 0 or (GetSpellCooldown(47528)) ~= 0 or (GetSpellCooldown(183752)) ~= 0) then
+--	if requireCooldown and ((GetSpellCooldown(171138)) ~= 0) then
+		InterruptAvailable = false
 	end
 	if InterruptAvailable and (UnitGUID("target") == sourceGUID or UnitGUID("focus") == sourceGUID) then
 		return true
@@ -7486,12 +7570,21 @@ function bossModPrototype:CheckInterruptFilter(sourceGUID, skip, checkCooldown)
 	return false
 end
 
-function bossModPrototype:CheckTargetFilter(sourceGUID)
-	if (UnitGUID("target") == sourceGUID) then
+--[[function bossModPrototype:CheckInterruptFilter2(sourceGUID, skip, checkCooldown)
+	if DBM.Options.FilterInterrupt2 == "None" and not skip then return true end
+	local InterruptAvailable = true
+	local requireCooldown = checkCooldown
+	if (DBM.Options.FilterInterrupt2 == "onlyTandF") or self.isTrashMod and (DBM.Options.FilterInterrupt2 == "TandFandBossCooldown") then
+		requireCooldown = false
+	end
+	if requireCooldown and ((GetSpellCooldown(47482)) ~= 0 or (GetSpellCooldown(6552)) ~= 0 or (GetSpellCooldown(96231)) ~= 0 or (GetSpellCooldown(147362)) ~= 0 or (GetSpellCooldown(187707)) ~= 0 or (GetSpellCooldown(1766)) ~= 0 or (GetSpellCooldown(15487)) ~= 0 or (GetSpellCooldown(57994)) ~= 0 or (GetSpellCooldown(2139)) ~= 0 or (GetSpellCooldown(19647)) ~= 0 or (GetSpellCooldown(171138)) ~= 0 or (GetSpellCooldown(116705)) ~= 0 or (GetSpellCooldown(78675)) ~= 0 or (GetSpellCooldown(106839)) ~= 0 or (GetSpellCooldown(47528)) ~= 0 or (GetSpellCooldown(183752)) ~= 0) then
+		InterruptAvailable = false
+	end
+	if InterruptAvailable then
 		return true
 	end
 	return false
-end
+end]]
 
 function bossModPrototype:CheckDispelFilter()
 	if not DBM.Options.FilterDispel then return true end
@@ -7947,6 +8040,7 @@ do
 			["CasterDps"] = true,
 			["RemoveCurse"] = true,
 			["RemovePoison"] = true,
+			["HasInterrupt"] = true,
 		},
 		[103] = {	--Ферал
 			["Dps"] = true,
@@ -8022,6 +8116,7 @@ do
 			["CasterDps"] = true,
 			["MagicDispeller"] = true,
 			["MagicDispeller2"] = true,
+			["HasInterrupt"] = true,
 		},
 		[259] = {	--Ликвидация крыса
 			["Dps"] = true,
@@ -11221,6 +11316,9 @@ function bossModPrototype:RegisterCombat(cType, ...)
 	if self.noESDetection then
 		info.noESDetection = self.noESDetection
 	end
+	if self.noIEEUDetection then
+		info.noIEEUDetection = self.noIEEUDetection
+	end
 	if self.noEEDetection then
 		info.noEEDetection = self.noEEDetection
 	end
@@ -11306,6 +11404,13 @@ function bossModPrototype:SetEncounterID(...)
 		if self.combatInfo then
 			self.combatInfo.multiEncounterPullDetection = self.multiEncounterPullDetection
 		end
+	end
+end
+
+function bossModPrototype:DisableIEEUCombatDetection()
+	self.noIEEUDetection = true
+	if self.combatInfo then
+		self.combatInfo.noIEEUDetection = true
 	end
 end
 

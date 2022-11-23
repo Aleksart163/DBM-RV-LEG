@@ -149,7 +149,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self.Options.SetIconOnCloudofConfuse then
 			self:SetIcon(args.destName, 8, 10)
 		end
-	elseif spellId == 253600 then
+	elseif spellId == 253600 then --Горящая душа
 		self.vb.soulburnIcon = self.vb.soulburnIcon - 1
 		warnSoulburn:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then

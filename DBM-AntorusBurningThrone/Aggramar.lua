@@ -7,10 +7,10 @@ mod:SetEncounterID(2063)
 mod:SetZone()
 mod:SetUsedIcons(5, 4, 3, 2, 1)
 mod:SetHotfixNoticeRev(16964)
+mod:DisableIEEUCombatDetection()
 mod.respawnTime = 30
 
 mod:RegisterCombat("combat")
---mod:RegisterCombat("combat_yell", L.YellPullAggramar)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 244693 245458 245463 245301 255058 255061 255059",
@@ -435,7 +435,7 @@ function mod:SPELL_CAST_START(args)
 		if self.Options.InfoFrame then
 			DBM.InfoFrame:Update()
 		end
-	elseif spellId == 245463 or spellId == 255058 then
+	elseif spellId == 245463 or spellId == 255058 and not UnitIsDeadOrGhost("player") then
 		self.vb.comboCount = self.vb.comboCount + 1
 		if self:IsMythic() then
 			if not self.vb.firstCombo then
@@ -754,9 +754,11 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 		if self.Options.InfoFrame then
 			DBM.InfoFrame:Hide()
 		end
-	elseif spellId == 245983 or spellId == 246037 then--Flare
-		specWarnFlare:Show()
-		specWarnFlare:Play("watchstep")
+	elseif spellId == 245983 or spellId == 246037 then --Вспышка
+		if not UnitIsDeadOrGhost("player") then
+			specWarnFlare:Show()
+			specWarnFlare:Play("watchstep")
+		end
 		if not self:IsMythic() then
 			timerFlareCD:Start()
 			--No countdown on non mythic on purpose

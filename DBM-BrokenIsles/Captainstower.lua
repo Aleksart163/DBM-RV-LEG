@@ -5,6 +5,7 @@ mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 mod:SetZone()
 
 mod.noStatistics = true
+mod.isTrashMod = true
 
 mod:RegisterEvents(
 	"SPELL_CAST_START 203342 205425 204238 203884",
@@ -18,9 +19,9 @@ mod:RegisterEvents(
 --local warnYaksam				= mod:NewCastAnnounce(223373, 3) --Отрыжка
 --local warnJetsam				= mod:NewTargetAnnounce(220295, 2) --Мусор
 
-local specWarnSmokeBomb			= mod:NewSpecialWarningInterrupt(203342, "-Healer", nil, nil, 1, 5) --Дымовая шашка
-local specWarnWailingArrow		= mod:NewSpecialWarningInterrupt(205425, "SpellCaster", nil, nil, 3, 5) --Стенающая стрела
-local specWarnHealingTouch		= mod:NewSpecialWarningInterrupt(203884, nil, nil, nil, 3, 5) --Целительное прикосновение
+local specWarnSmokeBomb			= mod:NewSpecialWarningInterrupt(203342, "HasInterrupt", nil, nil, 1, 3) --Дымовая шашка
+local specWarnWailingArrow		= mod:NewSpecialWarningInterrupt(205425, "SpellCaster", nil, nil, 3, 3) --Стенающая стрела
+local specWarnHealingTouch		= mod:NewSpecialWarningInterrupt(203884, "HasInterrupt", nil, nil, 1, 3) --Целительное прикосновение
 local specWarnArcaneOrb			= mod:NewSpecialWarningDodge(204238, nil, nil, nil, 2, 5) --Чародейская сфера
 --local specWarnPowerWordBarrier	= mod:NewSpecialWarningMove(204760, nil, nil, nil, 1, 2) --Барьер
 
@@ -35,10 +36,15 @@ function mod:SPELL_CAST_START(args)
 	if spellId == 203342 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Дымовая шашка
 		specWarnSmokeBomb:Show()
 		specWarnSmokeBomb:Play("kickcast")
-	elseif spellId == 205425 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Стенающая стрела
-		timerWailingArrowCD:Start()
-		specWarnWailingArrow:Show()
-		specWarnWailingArrow:Play("kickcast")
+	elseif spellId == 205425 then --Стенающая стрела
+		local cid = self:GetCIDFromGUID(args.sourceGUID)
+		if cid == 104289 then
+			timerWailingArrowCD:Start()
+		end
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnWailingArrow:Show()
+			specWarnWailingArrow:Play("kickcast")
+		end
 	elseif spellId == 204238 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Чародейская сфера
 		specWarnArcaneOrb:Show()
 	elseif spellId == 203884 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Целительное прикосновение

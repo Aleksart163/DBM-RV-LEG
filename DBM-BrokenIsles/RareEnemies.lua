@@ -6,6 +6,7 @@ mod:SetZone()
 mod:SetMinSyncRevision(17650)
 
 mod.noStatistics = true
+mod.isTrashMod = true
 
 mod:RegisterEvents(
 	"SPELL_CAST_START 221424 222676 189157 214095 218245 218250 223101 223104 219060 206762 203671 222596 216808 216837 218885 223659 223630 207002 206995 206972 216981 216970 219108 218875 218871 218435 218427 214500 222442 222446 222279 218855",
@@ -236,7 +237,7 @@ end
 
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
-	if spellId == 221424 and self:CheckTargetFilter(args.sourceGUID) then --Страх
+	if spellId == 221424 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Страх
 		specWarnFear:Show()
 		specWarnFear:Play("kickcast")
 	elseif spellId == 222676 then --Прокалывание
@@ -326,22 +327,24 @@ function mod:SPELL_CAST_START(args)
 			specWarnSiphonMagic:Show()
 			specWarnSiphonMagic:Play("kickcast")
 		end
-	elseif spellId == 214500 and self:CheckTargetFilter(args.sourceGUID) then --Адское пламя и сера
+	elseif spellId == 214500 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Адское пламя и сера
 		local cid = self:GetCIDFromGUID(args.sourceGUID)
 		if cid == 111731 then
 			specWarnHellfireandBrimstone:Show()
 			specWarnHellfireandBrimstone:Play("kickcast")
 		end
-	elseif spellId == 222442 and self:CheckTargetFilter(args.sourceGUID) then --Преисподняя
+	elseif spellId == 222442 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Преисподняя
 		specWarnInferno:Show()
 		specWarnInferno:Play("watchstep")
-	elseif spellId == 222279 and self:CheckTargetFilter(args.sourceGUID) then --Выброс порчи
+	elseif spellId == 222279 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Выброс порчи
 		specWarnTaintedSpew:Show()
 		specWarnTaintedSpew:Play("watchstep")
-	elseif spellId == 222446 and self:CheckTargetFilter(args.sourceGUID) then --Взор Пеплокрыла
+	elseif spellId == 222446 then --Взор Пеплокрыла
 		self:BossTargetScanner(args.sourceGUID, "cinderwingsGazeTarget", 0.1, 2)
-		specWarnCinderwingsGaze:Show()
-		specWarnCinderwingsGaze:Play("kickcast")
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnCinderwingsGaze:Show()
+			specWarnCinderwingsGaze:Play("kickcast")
+		end
 	elseif spellId == 218855 then --Стремительность урагана
 		specWarnTempestRush:Show()
 		specWarnTempestRush:Play("watchstep")
