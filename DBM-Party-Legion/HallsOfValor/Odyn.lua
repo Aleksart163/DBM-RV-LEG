@@ -20,7 +20,6 @@ mod:RegisterEventsInCombat(
 --Один https://ru.wowhead.com/npc=114263/один/эпохальный-журнал-сражений#abilities;mode:
 local warnUnworthy					= mod:NewTargetAnnounce(198190, 3) --Недостойность
 local warnSpear						= mod:NewSpellAnnounce(198072, 2) --Копье света
-local warnSurge						= mod:NewSpellAnnounce(198750, 4) --Импульс
 
 local specWarnTempest				= mod:NewSpecialWarningRun(198263, nil, nil, nil, 4, 5) --Светозарная буря
 local specWarnShatterSpears			= mod:NewSpecialWarningDodge(198077, nil, nil, nil, 2, 2) --Расколотые копья
@@ -113,8 +112,8 @@ function mod:SPELL_CAST_START(args)
 			specWarnSurge:Show()
 			specWarnSurge:Play("kickcast")
 		else
-			warnSurge:Show()
-			warnSurge:Play("kickcast")
+			specWarnSurge:Show()
+			specWarnSurge:Play("kickcast")
 		end
 		if self.Options.SetIconOnSurge then
 			self:SetIcon(args.sourceGUID, 8, 15)

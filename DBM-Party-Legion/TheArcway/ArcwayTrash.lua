@@ -32,7 +32,7 @@ local specWarnSearingWound			= mod:NewSpecialWarningYou(211756, nil, nil, nil, 1
 local specWarnArcaneSlicer			= mod:NewSpecialWarningDodge(211217, nil, nil, nil, 2, 3) --Чародейский рассекатель
 local specWarnEyeVortex				= mod:NewSpecialWarningInterrupt(211007, "HasInterrupt", nil, nil, 1, 2) --Око урагана
 local specWarnTorment				= mod:NewSpecialWarningInterrupt(226269, "HasInterrupt", nil, nil, 1, 2) --Мучение
-local specWarnPhaseBreach			= mod:NewSpecialWarningInterrupt(211115, "HasInterrupt", nil, nil, 3, 5) --Фазовый прорыв
+local specWarnPhaseBreach			= mod:NewSpecialWarningInterrupt(211115, "HasInterrupt", nil, nil, 3, 6) --Фазовый прорыв
 local specWarnArgusPortal			= mod:NewSpecialWarningInterrupt(211757, "HasInterrupt", nil, nil, 1, 2) --Портал на Аргус
 local specWarnArcaneReconstitution	= mod:NewSpecialWarningInterrupt(226206, "HasInterrupt", nil, nil, 1, 2) --Чародейское воссоздание
 local specWarnArcanicBane			= mod:NewSpecialWarningInterrupt(210645, "HasInterrupt", nil, nil, 1, 2) --Чародейская погибель
@@ -50,7 +50,7 @@ local timerSearingWound				= mod:NewTargetTimer(10, 211756, nil, nil, nil, 3, ni
 function mod:SPELL_CAST_START(args)
 	if not self.Options.Enabled then return end
 	local spellId = args.spellId
-	if spellId == 211757 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
+	if spellId == 211757 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Портал на Аргус
 		specWarnArgusPortal:Show()
 		specWarnArgusPortal:Play("kickcast")
 	elseif spellId == 226206 then --Чародейское воссоздание
@@ -68,10 +68,12 @@ function mod:SPELL_CAST_START(args)
 		else
 			warnPhaseBreach:Show()
 			warnPhaseBreach:Play("kickcast")
+			specWarnPhaseBreach:Show()
+			specWarnPhaseBreach:Play("kickcast")
 		end
 	elseif spellId == 211771 and self:AntiSpam(2, 1) then --Предсказания рока
-	--	warnPropheciesofDoom:Show()
 		specWarnPropheciesofDoom:Show()
+		specWarnPropheciesofDoom:Play("defensive")
 	elseif spellId == 193938 and self:AntiSpam(5, 1) then --Взрыв слизнюка
 		warnOozeExplosion:Show()
 		specWarnOozeExplosion:Show()
@@ -86,10 +88,13 @@ function mod:SPELL_CAST_START(args)
 		specWarnArcaneSlicer:Play("shockwave")
 	elseif spellId == 211917 then --Буря Скверны
 		specWarnFelstorm:Show()
+		specWarnFelstorm:Play("watchstep")
 		timerFelstormCD:Start()
 	elseif spellId == 211875 then --Вихрь клинков
 		specWarnBladestorm2:Show()
+		specWarnBladestorm2:Play("watchstep")
 		specWarnBladestorm:Show()
+		specWarnBladestorm:Play("justrun")
 		timerBladestormCD:Start()
 	elseif spellId == 210645 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Чародейская погибель
 		specWarnArcanicBane:Show()

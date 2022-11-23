@@ -58,14 +58,14 @@ function mod:SPELL_CAST_START(args)
 	if spellId == 248304 then
 		warnWildSummon:Show()
 	elseif spellId == 245585 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
-		specWarnVoidDiffusion:Show(args.sourceName)
+		specWarnVoidDiffusion:Show()
 		specWarnVoidDiffusion:Play("kickcast")
 	elseif spellId == 245727 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
-		specWarnConsumeEssence:Show(args.sourceName)
+		specWarnConsumeEssence:Show()
 		specWarnConsumeEssence:Play("kickcast")
 	elseif spellId == 248133 then --Стигийский заряд
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
-			specWarnStygianBlast:Show(args.sourceName)
+			specWarnStygianBlast:Show()
 			specWarnStygianBlast:Play("kickcast")
 		else
 			warnStygianBlast:Show()

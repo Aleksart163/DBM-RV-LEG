@@ -29,12 +29,12 @@ local warnSubmerged2					= mod:NewPreWarnAnnounce(196947, 5, 1) --Погруже
 local specWarnTaintofSea				= mod:NewSpecialWarningYou(197262, nil, nil, nil, 1, 3) --Морская порча
 local specWarnTaintofSea2				= mod:NewSpecialWarningDispel(197262, "MagicDispeller2", nil, nil, 1, 3) --Морская порча
 local specWarnDestructorTentacle		= mod:NewSpecialWarningSwitch("ej12364", "Tank|Dps") --Щупальце разрушения
-local specWarnBrackwaterBarrage			= mod:NewSpecialWarningDodge(202088, nil, nil, nil, 3, 5) --Обстрел солоноватой водой Tank stays with destructor tentacle no matter what
+local specWarnBrackwaterBarrage			= mod:NewSpecialWarningDodge(202088, nil, nil, nil, 3, 6) --Обстрел солоноватой водой Tank stays with destructor tentacle no matter what
 local specWarnSubmerged					= mod:NewSpecialWarningDodge(196947, nil, nil, nil, 1, 2) --Погружение
 local specWarnSubmergedOver				= mod:NewSpecialWarningEnd(196947, nil, nil, nil, 1, 2) --Погружение
 local specWarnTaintofSeaOver			= mod:NewSpecialWarningEnd(197262, nil, nil, nil, 1, 2) --Морская порча
-local specWarnBreath					= mod:NewSpecialWarningDodge(227233, nil, nil, nil, 3, 5) --Оскверняющий рев
-local specWarnTorrent					= mod:NewSpecialWarningInterrupt(198495, "-Healer", nil, nil, 1, 2) --Стремительный поток
+local specWarnBreath					= mod:NewSpecialWarningDodge(227233, nil, nil, nil, 3, 6) --Оскверняющий рев
+local specWarnTorrent					= mod:NewSpecialWarningInterrupt(198495, "HasInterrupt", nil, nil, 1, 2) --Стремительный поток
 
 local timerBrackwaterBarrageCD			= mod:NewCDTimer(15, 202088, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Обстрел солоноватой водой
 local timerTaintofSeaCD					= mod:NewCDTimer(12, 197262, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON) --Морская порча
@@ -92,9 +92,11 @@ function mod:SPELL_CAST_START(args)
 			countdownBrackwaterBarrage:Start(22)
 		end
 	elseif spellId == 198495 then --Стремительный поток
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnTorrent:Show()
+			specWarnTorrent:Play("kickcast")
+		end
 		timerTorrentCD:Start()
-		specWarnTorrent:Show()
-		specWarnTorrent:Play("kickcast")
 	end
 end
 

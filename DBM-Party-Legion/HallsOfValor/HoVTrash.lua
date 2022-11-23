@@ -132,9 +132,11 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 199726 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
 		specWarnUnrulyYell:Show()
 		specWarnUnrulyYell:Play("kickcast")
-	elseif spellId == 192288 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Опаляющий свет
-		specWarnSearingLight:Show()
-		specWarnSearingLight:Play("kickcast")
+	elseif spellId == 192288 then --Опаляющий свет
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnSearingLight:Show()
+			specWarnSearingLight:Play("kickcast")
+		end
 		timerSearingLightCD:Start()
 	elseif spellId == 199382 then
 		timerEnragingRoarCD:Start()

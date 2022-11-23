@@ -33,7 +33,7 @@ local specWarnArcaneBomb2		= mod:NewSpecialWarningDispel(192706, "MagicDispeller
 local specWarnArcaneBomb3		= mod:NewSpecialWarningEnd(192706, nil, nil, nil, 1, 2) --Чародейская бомба
 local specWarnStorm				= mod:NewSpecialWarningInterrupt(196870, "HasInterrupt", nil, nil, 1, 2) --Буря
 local specWarnRejuvWaters		= mod:NewSpecialWarningInterrupt(195046, "HasInterrupt", nil, nil, 1, 2) --Живительная вода
-local specWarnUndertow			= mod:NewSpecialWarningMoveAway(195284, "-Tank", nil, nil, 4, 5) --Водоворот
+local specWarnUndertow			= mod:NewSpecialWarningInterrupt(195284, "HasInterrupt", nil, nil, 1, 2) --Водоворот
 local specWarnSpraySand			= mod:NewSpecialWarningDodge(196127, "Melee", nil, nil, 1, 2) --Струя песка
 local specWarnSandstorm			= mod:NewSpecialWarningYou(196144, nil, nil, nil, 1, 2) --Песчаная буря
 
@@ -77,11 +77,9 @@ function mod:SPELL_CAST_START(args)
 		specWarnRejuvWaters:Show()
 		specWarnRejuvWaters:Play("kickcast")
 	elseif spellId == 195284 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Водоворот
-		if self:IsHard() then
-			specWarnUndertow:Show()
-			specWarnUndertow:Play("runout")
-			timerUndertow:Start()
-		end
+		specWarnUndertow:Show()
+		specWarnUndertow:Play("kickcast")
+		timerUndertow:Start()
 	elseif spellId == 197105 then --Превращение в рыбу
 		self:BossTargetScanner(args.sourceGUID, "PolymorphTarget", 0.1, 2)
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then

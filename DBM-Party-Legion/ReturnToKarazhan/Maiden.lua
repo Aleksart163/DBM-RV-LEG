@@ -101,9 +101,11 @@ end
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 227800 then
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnHolyShock:Show()
+			specWarnHolyShock:Play("kickcast")
+		end
 		timerHolyShockCD:Start()
-		specWarnHolyShock:Show(args.sourceName)
-		specWarnHolyShock:Play("kickcast")
 	elseif spellId == 227508 then --Всеобщее покаяние
 		specWarnRepentance:Show(sacredGround)
 		timerRepentanceCD:Start()

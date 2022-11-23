@@ -7,7 +7,7 @@ mod:SetZone()
 mod.isTrashMod = true
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 239232 237391 238543 236737 242724 242760 239320 239266 241598 239235 239201 237558 237565",
+	"SPELL_CAST_START 239232 237391 238543 236737 242724 242760 239320 239266 241598 239235 239201 237558 237565 238653",
 	"SPELL_AURA_APPLIED 238688 239161 237325 237583 237391 236954",
 	"SPELL_AURA_APPLIED_DOSE 236954",
 	"SPELL_AURA_REMOVED 237391 236954",
@@ -20,7 +20,6 @@ mod:RegisterEvents(
 local warnFelStrike				= mod:NewTargetAnnounce(236737, 3) --Удар Скверны
 local warnShadowWall			= mod:NewSpellAnnounce(241598, 3) --Стена Тьмы
 local warnFelRejuvenation		= mod:NewCastAnnounce(237558, 3) --Омоложение Скверной
---local warnBlisteringRain		= mod:NewCastAnnounce(237565, 4) --Обжигающий дождь
 local warnAlluringAroma			= mod:NewCastAnnounce(237391, 4) --Манящий аромат
 local warnSinisterFangs			= mod:NewStackAnnounce(236954, 4, nil, nil, 2) --Зловещие клыки
 local warnAlluringAroma2		= mod:NewTargetAnnounce(237391, 2) --Манящий аромат
@@ -30,16 +29,16 @@ local specWarnSinisterFangs		= mod:NewSpecialWarningStack(236954, nil, 2, nil, n
 local specWarnSinisterFangs2	= mod:NewSpecialWarningDispel(236954, "RemovePoison", nil, nil, 1, 3) --Зловещие клыки
 local specWarnAlluringAroma2	= mod:NewSpecialWarningDispel(237391, "MagicDispeller2", nil, nil, 1, 3) --Манящий аромат
 local specWarnFelRejuvenation	= mod:NewSpecialWarningInterrupt(237558, "HasInterrupt", nil, nil, 3, 2) --Омоложение Скверной
-local specWarnBlisteringRain	= mod:NewSpecialWarningInterrupt(237565, "HasInterrupt", nil, nil, 3, 3) --Обжигающий дождь
+local specWarnBlisteringRain	= mod:NewSpecialWarningInterrupt(237565, "HasInterrupt", nil, nil, 3, 6) --Обжигающий дождь
 local specWarnFelGlare			= mod:NewSpecialWarningDodge(239201, "Melee", nil, nil, 2, 2) --Взор Скверны
 local specWarnFocusedDestruction = mod:NewSpecialWarningDefensive(239235, nil, nil, nil, 3, 5) --Направленное разрушение
 local specWarnBurningCelerity	= mod:NewSpecialWarningYouMove(237583, nil, nil, nil, 1, 2) --Пылающая стремительность
 local specWarnShadowWall		= mod:NewSpecialWarningInterrupt(241598, nil, nil, nil, 1, 2) --Стена Тьмы
 local specWarnToxicPollen		= mod:NewSpecialWarningYouMove(237325, nil, nil, nil, 1, 2) --Ядовитая пыльца
 local specWarnFelStrike			= mod:NewSpecialWarningDodge(236737, nil, nil, nil, 1, 2) --Удар Скверны
-local specWarnAlluringAroma		= mod:NewSpecialWarningInterrupt(237391, nil, nil, nil, 1, 2) --Манящий аромат
-local specWarnDemonicMending	= mod:NewSpecialWarningInterrupt(238543, nil, nil, nil, 1, 2) --Демоническое лечение
-local specWarnDreadScream		= mod:NewSpecialWarningInterrupt(242724, nil, nil, nil, 1, 2) --Жуткий крик
+local specWarnAlluringAroma		= mod:NewSpecialWarningInterrupt(237391, "HasInterrupt", nil, nil, 1, 2) --Манящий аромат
+local specWarnDemonicMending	= mod:NewSpecialWarningInterrupt(238543, "HasInterrupt", nil, nil, 3, 2) --Демоническое лечение
+local specWarnDreadScream		= mod:NewSpecialWarningInterrupt(242724, "HasInterrupt", nil, nil, 3, 2) --Жуткий крик
 local specWarnBlindingGlare		= mod:NewSpecialWarningLookAway(239232, nil, nil, nil, 3, 5) --Ослепляющий взгляд
 local specWarnLumberingCrash	= mod:NewSpecialWarningRun(242760, "Melee", nil, nil, 4, 3) --Сокрушение древа
 local specWarnLumberingCrash2	= mod:NewSpecialWarningDodge(242760, "Ranged", nil, nil, 2, 2) --Сокрушение древа
@@ -81,21 +80,26 @@ function mod:SPELL_CAST_START(args)
 		specWarnBlindingGlare:Show()
 		specWarnBlindingGlare:Play("turnaway")
 	elseif spellId == 237391 then --Манящий аромат
-		if self:CheckTargetFilter(args.sourceGUID) then
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnAlluringAroma:Show()
 			specWarnAlluringAroma:Play("kickcast")
 		else
 			warnAlluringAroma:Show()
 			warnAlluringAroma:Play("kickcast")
 		end
-	elseif spellId == 238543 and self:CheckTargetFilter(args.sourceGUID) then
-		specWarnDemonicMending:Show(args.sourceName)
+	elseif spellId == 238543 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Демоническое лечение
+		specWarnDemonicMending:Show()
 		specWarnDemonicMending:Play("kickcast")
-	elseif spellId == 242724 and self:CheckTargetFilter(args.sourceGUID) then
-		specWarnDreadScream:Show(args.sourceName)
-		specWarnDreadScream:Play("kickcast")
+	elseif spellId == 242724 then --Жуткий крик
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnDreadScream:Show()
+			specWarnDreadScream:Play("kickcast")
+		else
+			specWarnDreadScream:Show()
+			specWarnDreadScream:Play("kickcast")
+		end
 	elseif spellId == 241598 then --Стена Тьмы
-		if self:CheckTargetFilter(args.sourceGUID) then
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnShadowWall:Show()
 			specWarnShadowWall:Play("kickcast")
 		else
@@ -121,7 +125,7 @@ function mod:SPELL_CAST_START(args)
 		specWarnFelGlare:Play("watchstep")
 	elseif spellId == 237558 then --Омоложение Скверной
 		if not self:IsNormal() then
-			if self:CheckTargetFilter(args.sourceGUID) then
+			if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 				specWarnFelRejuvenation:Show()
 				specWarnFelRejuvenation:Play("kickcast")
 			else
@@ -130,11 +134,13 @@ function mod:SPELL_CAST_START(args)
 			end
 		end
 	elseif spellId == 237565 then --Обжигающий дождь
-	--	warnBlisteringRain:Show()
 		if self:IsHard() then
 			specWarnBlisteringRain:Show()
 			specWarnBlisteringRain:Play("kickcast")
 		end
+	elseif spellId == 238653 then --Теневая волна
+		specWarnShadowWave:Show()
+		specWarnShadowWave:Play("shockwave")
 	end
 end
 
@@ -190,22 +196,6 @@ function mod:SPELL_AURA_REMOVED(args)
 		timerSinisterFangs:Cancel(args.destName)
 	end
 end
-
-function mod:UNIT_SPELLCAST_START(uId, _, bfaSpellId, _, legacySpellId)
-	local spellId = legacySpellId or bfaSpellId
-	if spellId == 238653 then
-		specWarnShadowWave:Show()
-		specWarnShadowWave:Play("shockwave")
-	--	self:SendSync("ShadowWave")
-	end
-end
---[[
-function mod:OnSync(msg)
-	if msg == "ShadowWave" then
-		specWarnShadowWave:Show()
-		specWarnShadowWave:Play("shockwave")
-	end
-end]]
 
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
 	if spellId == 213124 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then

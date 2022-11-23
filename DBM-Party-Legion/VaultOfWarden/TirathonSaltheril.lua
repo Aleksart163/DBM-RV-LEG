@@ -103,8 +103,13 @@ function mod:SPELL_CAST_START(args)
 		end
 	elseif spellId == 191823 then --Яростный взрыв
 		warnFuriousBlast:Show()
-		specWarnFuriousBlast:Show()
-		specWarnFuriousBlast:Play("kickcast")
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnFuriousBlast:Show()
+			specWarnFuriousBlast:Play("kickcast")
+		else
+			specWarnFuriousBlast:Show()
+			specWarnFuriousBlast:Play("kickcast")
+		end
 		if self:IsHard() then
 			if self.vb.phase == 3 then
 				timerFuriousBlastCD:Start(30.5)

@@ -59,10 +59,15 @@ end
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 244751 then --Пронизывающая тьма (фир)
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnHowlingDark:Show()
+			specWarnHowlingDark:Play("kickcast")
+		else
+			warnHowlingDark:Show()
+			specWarnHowlingDark:Show()
+			specWarnHowlingDark:Play("kickcast")
+		end
 		timerHowlingDarkCD:Start()
-		warnHowlingDark:Show()
-		specWarnHowlingDark:Show()
-		specWarnHowlingDark:Play("kickcast")
 	elseif spellId == 248736 and self:AntiSpam(3, 1) then --Вечные сумерки начало каста
 		timerUmbralTentaclesCD:Stop()
 		timerEntropicForceCD:Stop()
@@ -100,6 +105,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		if self.vb.guardsActive == 0 then
 			warnDarkBulwark:Show()
 			specWarnEternalTwilight:Show()
+			specWarnEternalTwilight:Play("kickcast")
 		end
 	end
 end

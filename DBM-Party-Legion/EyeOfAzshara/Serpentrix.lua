@@ -34,8 +34,8 @@ local specWarnToxicWound2			= mod:NewSpecialWarningEnd(191855, nil, nil, nil, 1,
 local specWarnToxicWound3			= mod:NewSpecialWarningCloseMoveAway(191855, nil, nil, nil, 1, 2) --Отравленная рана
 local specWarnSubmerge				= mod:NewSpecialWarningSwitch(191873, nil, nil, nil, 1, 2) --Погружение
 local specWarnToxicPool				= mod:NewSpecialWarningYouMove(191858, nil, nil, nil, 1, 2) --Ядовитая лужа
-local specWarnBlazingNova			= mod:NewSpecialWarningInterrupt(192003, nil, nil, nil, 1, 2) --Вспышка пламени
-local specWarnArcaneBlast			= mod:NewSpecialWarningInterrupt(192005, nil, nil, nil, 1, 2) --Чародейская вспышка
+local specWarnBlazingNova			= mod:NewSpecialWarningInterrupt(192003, "HasInterrupt", nil, nil, 1, 2) --Вспышка пламени
+local specWarnArcaneBlast			= mod:NewSpecialWarningInterrupt(192005, "HasInterrupt", nil, nil, 1, 2) --Чародейская вспышка
 local specWarnRampage				= mod:NewSpecialWarningInterrupt(191848, "HasInterrupt", nil, nil, 3, 5) --Буйство
 
 local yellToxicWound				= mod:NewYell(191855, nil, nil, nil, "YELL") --Отравленная рана
@@ -118,15 +118,19 @@ end
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 192003 and self:CheckInterruptFilter(args.sourceGUID, false, true) then--Blazing Nova
-		specWarnBlazingNova:Show(args.sourceName)
+		specWarnBlazingNova:Show()
 		specWarnBlazingNova:Play("kickcast")
 	elseif spellId == 192005 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
-		specWarnArcaneBlast:Show(args.sourceName)
+		specWarnArcaneBlast:Show()
 		specWarnArcaneBlast:Play("kickcast")
-	elseif spellId == 191848 then
-		warnRampage:Show()
-		specWarnRampage:Show(args.sourceName)
-		specWarnRampage:Play("kickcast")
+	elseif spellId == 191848 then --Буйство
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnRampage:Show()
+			specWarnRampage:Play("kickcast")
+		else
+			warnRampage:Show()
+			warnRampage:Play("kickcast")
+		end
 	elseif spellId == 192050 then --Ядовитый плевок
 		specWarnPoisonSpit:Show()
 		specWarnPoisonSpit:Play("watchstep")

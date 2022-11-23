@@ -84,12 +84,13 @@ function mod:SPELL_CAST_START(args)
 			timerServitorCD:Start()
 		end
 	elseif spellId == 194266 then --Хватка Бездны
+		warnVoidSnap:Show()
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
-			specWarnVoidSnap:Show(args.sourceName)
+			specWarnVoidSnap:Show()
 			specWarnVoidSnap:Play("kickcast")
 		else
-			warnVoidSnap:Show()
-			warnVoidSnap:Play("kickcast")
+			specWarnVoidSnap:Show()
+			specWarnVoidSnap:Play("kickcast")
 		end
 	elseif spellId == 194216 then --Космическая коса
 		specWarnScythe:Show()

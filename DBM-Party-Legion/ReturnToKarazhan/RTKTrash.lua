@@ -125,8 +125,8 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 227966 and self:AntiSpam(3, 2) then
 		specWarnFlashlight:Show()
 		specWarnFlashlight:Play("turnaway")
-	elseif spellId == 228254 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
-		specWarnSoulLeech2:Show(args.sourceName)
+	elseif spellId == 228254 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Поглощение души
+		specWarnSoulLeech2:Show()
 		specWarnSoulLeech2:Play("kickcast")
 	elseif spellId == 228280 then --Клятва верности
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then

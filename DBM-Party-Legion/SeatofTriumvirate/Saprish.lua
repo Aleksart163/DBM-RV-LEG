@@ -65,8 +65,13 @@ function mod:SPELL_CAST_START(args)
 		specWarnRavagingDarkness:Play("watchstep")
 		timerRavagingDarknessCD:Start()
 	elseif spellId == 248831 then --Ужасный визг
-		specWarnDreadScreech:Show()
-		specWarnDreadScreech:Play("kickcast")
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnDreadScreech:Show()
+			specWarnDreadScreech:Play("kickcast")
+		else
+			specWarnDreadScreech:Show()
+			specWarnDreadScreech:Play("kickcast")
+		end
 		timerScreechCD:Start() 
 	end
 end

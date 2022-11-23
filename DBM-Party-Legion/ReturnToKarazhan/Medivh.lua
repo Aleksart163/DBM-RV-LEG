@@ -29,9 +29,9 @@ local warnFlameWreathTargets		= mod:NewTargetAnnounce(228269, 4) --Венец п
 
 local specWarnArcaneMissiles		= mod:NewSpecialWarningDefensive(227628, "Tank", nil, nil, 2, 2) --Пронзающие стрелы
 local specWarnArcaneMissiles2		= mod:NewSpecialWarningStack(227644, nil, 3, nil, nil, 3, 5) --Пронзающие стрелы
-local specWarnFrostbite				= mod:NewSpecialWarningInterrupt(227592, "HasInterrupt", nil, nil, 3, 2) --Обморожение
+local specWarnFrostbite				= mod:NewSpecialWarningInterrupt(227592, "HasInterrupt", nil, nil, 3, 6) --Обморожение
 local specWarnInfernoBolt			= mod:NewSpecialWarningInterrupt(227615, "HasInterrupt", nil, nil, 1, 2) --Инфернальная стрела
-local specWarnArcaneBolt			= mod:NewSpecialWarningInterrupt(228991, "HasInterrupt", nil, nil, 1, 2) --Чародейская стрела
+local specWarnArcaneBolt			= mod:NewSpecialWarningInterrupt(228991, "HasInterrupt", nil, nil, 3, 6) --Чародейская стрела
 local specWarnInfernoBoltMoveTo		= mod:NewSpecialWarningMoveTo(227615, nil, nil, nil, 1, 2) --Инфернальная стрела
 local specWarnInfernoBoltMoveAway	= mod:NewSpecialWarningMoveAway(227615, nil, nil, nil, 1, 2) --Инфернальная стрела
 local specWarnInfernoBoltNear		= mod:NewSpecialWarningClose(227615, nil, nil, nil, 1, 2) --Инфернальная стрела

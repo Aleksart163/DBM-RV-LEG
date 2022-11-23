@@ -42,7 +42,7 @@ local specWarnAnguishedSouls2	= mod:NewSpecialWarningDodge(202606, nil, nil, nil
 local specWarnTorment			= mod:NewSpecialWarningYouClose(202615, nil, nil, nil, 3, 2) --Мучение
 local specWarnTorment2			= mod:NewSpecialWarningYouDefensive(202615, nil, nil, nil, 2, 5) --Мучение
 local specWarnDoubleStrike		= mod:NewSpecialWarningYouDefensive(193607, nil, nil, nil, 2, 2) --Двойной удар
-local specWarnUnleashedFury		= mod:NewSpecialWarningInterrupt(196799, "-Healer", nil, nil, 2, 2) --Высвобождение ярости
+local specWarnUnleashedFury		= mod:NewSpecialWarningInterrupt(196799, "HasInterrupt", nil, nil, 2, 2) --Высвобождение ярости
 local specWarnNightmares		= mod:NewSpecialWarningInterrupt(193069, "HasInterrupt", nil, nil, 3, 2) --Кошмары
 local specWarnMeteor			= mod:NewSpecialWarningShare(196249, nil, nil, nil, 1, 2) --Метеор
 --Разъяренный анимус
@@ -81,15 +81,21 @@ end
 function mod:SPELL_CAST_START(args)
 	if not self.Options.Enabled then return end
 	local spellId = args.spellId
-	if spellId == 196799 and self:AntiSpam(4, 1) then
-		specWarnUnleashedFury:Show()
-		specWarnUnleashedFury:Play("aesoon")
-	elseif spellId == 193069 then
+	if spellId == 196799 and self:AntiSpam(3, 1) then
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnUnleashedFury:Show()
+			specWarnUnleashedFury:Play("aesoon")
+		else
+			specWarnUnleashedFury:Show()
+			specWarnUnleashedFury:Play("aesoon")
+		end
+	elseif spellId == 193069 then --Кошмары
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnNightmares:Show(args.sourceName)
 			specWarnNightmares:Play("kickcast")
 		else
 			warnNightmares2:Show()
+			warnNightmares2:Play("kickcast")
 		end
 	elseif spellId == 196249 then
 		specWarnMeteor:Show()
