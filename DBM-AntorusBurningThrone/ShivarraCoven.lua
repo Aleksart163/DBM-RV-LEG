@@ -8,10 +8,10 @@ mod:SetZone()
 mod:SetBossHPInfoToHighest()
 mod:SetUsedIcons(8, 7, 6, 5, 4, 3, 2, 1)
 mod:SetHotfixNoticeRev(16963)
+mod:DisableIEEUCombatDetection()
 mod.respawnTime = 28
 
 mod:RegisterCombat("combat")
---mod:RegisterCombat("yell", L.YellPullCoven)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 245627 252861 253650 250648 250095 245303",
@@ -31,14 +31,6 @@ local Asara = DBM:EJ_GetSectionInfo(15968)
 local Diima = DBM:EJ_GetSectionInfo(15969)
 local Thuraya = DBM:EJ_GetSectionInfo(16398)
 local torment = DBM:EJ_GetSectionInfo(16138)
-
---TODO, verify timerBossIncoming on all difficulties
---TODO, transcribe/video and tweak some timers for activation especially timerStormofDarknessCD which had some timer refreshed debug
---[[
-(ability.id = 245627 or ability.id = 252861 or ability.id = 253650 or ability.id = 250095 or ability.id = 250648) and type = "begincast"
- or (ability.id = 244899 or ability.id = 245518 or ability.id = 253520 or ability.id = 245532 or ability.id = 250335 or ability.id = 250333 or ability.id = 250334 or ability.id = 249793 or ability.id = 250757 or ability.id = 246329) and type = "cast"
- or ability.id = 250757 and type = "applydebuff"
---]]
 --All
 local warnActivated						= mod:NewTargetAnnounce(118212, 4, 78740, nil, nil, nil, nil, nil, true) --Активация
 local warnAmantul						= mod:NewSoonAnnounce(250335, 2) --Мучения Амантула

@@ -9,11 +9,11 @@ mod:SetZone()
 mod:SetUsedIcons(8, 6, 5, 4, 3, 2, 1)
 mod:SetHotfixNoticeRev(16962)
 mod:SetMinSyncRevision(16962)
+mod:DisableIEEUCombatDetection()
 mod.respawnTime = 29
 mod:DisableRegenDetection()--Prevent false combat when fighting trash
 
 mod:RegisterCombat("combat")
---mod:RegisterCombat("combat_yell", L.YellPullGarothi)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 244969 240277 246663",

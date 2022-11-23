@@ -8,10 +8,10 @@ mod:SetZone()
 --mod:SetBossHPInfoToHighest()
 mod:SetUsedIcons(8, 4, 3)
 mod:SetHotfixNoticeRev(17238)
+mod:DisableIEEUCombatDetection()
 mod.respawnTime = 30
 
 mod:RegisterCombat("combat")
---mod:RegisterCombat("yell", L.YellPullVarimathras, L.YellPullVarimathras2)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_SUCCESS 243960 244093 243999 257644 244042",
@@ -21,12 +21,6 @@ mod:RegisterEventsInCombat(
 	"SPELL_PERIODIC_MISSED 244005 248740"
 )
 
---TODO, on phase changes most ability CDs extended by 2+ seconds, but NOT ALWAYS so difficult to hard code a rule for it right now
---[[
-(ability.id = 243960 or ability.id = 244093 or ability.id = 243999 or ability.id = 244042 or ability.id = 257644) and type = "cast"
- or (ability.id = 243968 or ability.id = 243977 or ability.id = 243980 or ability.id = 243973) and type = "applydebuff" and target.name = "Omegal"
- or ability.id = 26662
---]]
 --Torments of the Shivarra
 local warnTormentofFlames				= mod:NewSpellAnnounce(243967, 2, nil, nil, nil, nil, nil, 2) --Пытка огнем
 local warnTormentofFrost				= mod:NewSpellAnnounce(243976, 2, nil, nil, nil, nil, nil, 2) --Пытка холодом

@@ -8,12 +8,10 @@ mod:SetZone()
 --mod:SetBossHPInfoToHighest()
 mod:SetUsedIcons(8, 7, 6, 5, 4, 3, 2, 1)
 mod:SetHotfixNoticeRev(16961)
+mod:DisableIEEUCombatDetection()
 mod.respawnTime = 30
 
 mod:RegisterCombat("combat")
---mod:RegisterCombat("combat_yell", L.YellPullImonar)
---mod:RegisterCombat("combat_yell", L.YellPullImonar2)
---mod:RegisterCombat("combat_yell", L.YellPullImonar3)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 247376 247923 248068 248070 248254",

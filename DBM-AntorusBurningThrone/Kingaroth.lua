@@ -9,10 +9,10 @@ mod:SetZone()
 mod:SetUsedIcons(3, 2, 1)
 mod:SetHotfixNoticeRev(16945)
 mod:SetMinSyncRevision(16975)
+mod:DisableIEEUCombatDetection()
 mod.respawnTime = 29
 
 mod:RegisterCombat("combat")
---mod:RegisterCombat("yell", L.YellPullKingaroth, L.YellPullKingaroth2, L.YellPullKingaroth3)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 244312 254926 245807 252758 246692 246833 246516 257978 254919",
