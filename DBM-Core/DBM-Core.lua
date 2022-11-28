@@ -7556,12 +7556,16 @@ function bossModPrototype:CheckInterruptFilter(sourceGUID, skip, checkCooldown) 
 	if DBM.Options.FilterInterrupt2 == "None" and not skip then return true end--use doesn't want to use interrupt filter, always return true
 	local InterruptAvailable = true
 	local requireCooldown = checkCooldown
+	local current_pet = DBM:GetCIDFromGUID(UnitGUID("pet"))
 	if (DBM.Options.FilterInterrupt2 == "onlyTandF") or self.isTrashMod and (DBM.Options.FilterInterrupt2 == "TandFandBossCooldown") then
 		requireCooldown = false
 	end
 	--Зуботычина, Укор, Встречный выстрел, Намордник, Пинок, Безмолвие, Пронизывающий ветер, Антимагия, Запрет чар, Замок мира теней, Рука-копье, Столп солнечного света, Лобовая атака, Заморозка разума, Прерывание(Похищение магии)
 	if requireCooldown and ((GetSpellCooldown(6552)) ~= 0 or (GetSpellCooldown(96231)) ~= 0 or (GetSpellCooldown(147362)) ~= 0 or (GetSpellCooldown(187707)) ~= 0 or (GetSpellCooldown(1766)) ~= 0 or (GetSpellCooldown(15487)) ~= 0 or (GetSpellCooldown(57994)) ~= 0 or (GetSpellCooldown(2139)) ~= 0 or (GetSpellCooldown(19647)) ~= 0 or (GetSpellCooldown(171138)) ~= 0 or (GetSpellCooldown(116705)) ~= 0 or (GetSpellCooldown(78675)) ~= 0 or (GetSpellCooldown(106839)) ~= 0 or (GetSpellCooldown(47528)) ~= 0 or (GetSpellCooldown(183752)) ~= 0) then
 --	if requireCooldown and ((GetSpellCooldown(171138)) ~= 0) then
+		InterruptAvailable = false
+	end
+	if requireCooldown and playerClass == "WARLOCK" and current_pet ~= 78158 then
 		InterruptAvailable = false
 	end
 	if InterruptAvailable and (UnitGUID("target") == sourceGUID or UnitGUID("focus") == sourceGUID) then
