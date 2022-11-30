@@ -36,8 +36,6 @@ local warnSiphonCorruption				= mod:NewSpellAnnounce(244056, 3) --Вытягив
 --General/Mythic
 local warnFocusingPower					= mod:NewSpellAnnounce(251356, 2) --Фокусирование силы
 local warnDarkReconstitution			= mod:NewTargetSourceAnnounce(249113, 3) --Темное восстановление
-local warnWeightOfDarkness2				= mod:NewPreWarnAnnounce(254429, 5, 1) --Бремя тьмы
-local warnDesolateGaze2					= mod:NewPreWarnAnnounce(244768, 5, 1) --Опустошающий взгляд
 
 --F'harg
 local specWarnMoltenTouch				= mod:NewSpecialWarningDodge(244072, nil, nil, nil, 2, 2) --Касание магмы

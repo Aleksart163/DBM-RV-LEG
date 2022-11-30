@@ -2986,17 +2986,17 @@ local function CreateOptionsMenu()
 		local VPUrlArea1		= spokenAlertsPanel:CreateArea(L.Area_GetVEM, nil, 28, true)
 		local VPDownloadUrl1	= VPUrlArea1:CreateText(L.VEMDownload, 405, nil, nil, "LEFT")
 		VPDownloadUrl1:SetPoint("TOPLEFT", VPUrlArea1.frame, "TOPLEFT", 10, -7)
-		VPUrlArea1.frame:SetScript("OnMouseUp", function(...) DBM:ShowUpdateReminder(nil, nil, L.Area_GetVEM, "https://wow.curseforge.com/projects/dbm-voicepack-vem") end)
+		VPUrlArea1.frame:SetScript("OnMouseUp", function(...) DBM:ShowUpdateReminder(nil, nil, L.Area_GetVEM, "https://www.curseforge.com/wow/addons/search?category=&search=vem") end)
 		
 		local VPUrlArea2		= spokenAlertsPanel:CreateArea(L.Area_BrowseOtherVP, nil, 28, true)
 		local VPDownloadUrl2	= VPUrlArea2:CreateText(L.BrowseOtherVPs, 405, nil, nil, "LEFT")
 		VPDownloadUrl2:SetPoint("TOPLEFT", VPUrlArea2.frame, "TOPLEFT", 10, -7)
-		VPUrlArea2.frame:SetScript("OnMouseUp", function(...) DBM:ShowUpdateReminder(nil, nil, L.Area_BrowseOtherVP, "https://wow.curseforge.com/search?search=dbm+voice") end)
+		VPUrlArea2.frame:SetScript("OnMouseUp", function(...) DBM:ShowUpdateReminder(nil, nil, L.Area_BrowseOtherVP, "https://www.curseforge.com/wow/addons/search?search=dbm+voice") end)
 		
 		local VPUrlArea3		= spokenAlertsPanel:CreateArea(L.Area_BrowseOtherCT, nil, 28, true)
 		local VPDownloadUrl3	= VPUrlArea3:CreateText(L.BrowseOtherCTs, 405, nil, nil, "LEFT")
 		VPDownloadUrl3:SetPoint("TOPLEFT", VPUrlArea3.frame, "TOPLEFT", 10, -7)
-		VPUrlArea3.frame:SetScript("OnMouseUp", function(...) DBM:ShowUpdateReminder(nil, nil, L.Area_BrowseOtherCT, "https://wow.curseforge.com/search?search=dbm+count+pack") end)
+		VPUrlArea3.frame:SetScript("OnMouseUp", function(...) DBM:ShowUpdateReminder(nil, nil, L.Area_BrowseOtherCT, "https://www.curseforge.com/wow/addons/search?category=&search=dbm+count") end)
 		
 		spokenAlertsPanel:SetMyOwnHeight()
 	end
