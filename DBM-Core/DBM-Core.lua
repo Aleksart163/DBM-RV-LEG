@@ -7556,16 +7556,38 @@ function bossModPrototype:CheckInterruptFilter(sourceGUID, skip, checkCooldown) 
 	if DBM.Options.FilterInterrupt2 == "None" and not skip then return true end--use doesn't want to use interrupt filter, always return true
 	local InterruptAvailable = true
 	local requireCooldown = checkCooldown
-	local current_pet = DBM:GetCIDFromGUID(UnitGUID("pet"))
+	local interruptSpells = {
+		[1766] = true,--Крыса (Пинок)
+		[2139] = true,--Маг (Антимагия)
+		[6552] = true,--Воин (Зуботычина)
+		[15487] = true,--Прист (Безмолвие)
+		--[19647] = true,--Пет лока (Запрет чар)
+		[47528] = true,--ДК (Заморозка разума)
+		[57994] = true,--Шаман (Пронизывающий ветер)
+		[78675] = true,--Друид (Столп солнечного света)
+		[96231] = true,--Паладин (Укор)
+		[106839] = true,--Друид (Лобовая атака)
+		[116705] = true,--Монах (Рука-копье)
+		[147362] = true,--Хант (Встречный выстрел)
+		--[171138] = true,--Пет лока (Замок мира теней)
+		[183752] = true,--ДХ (Похищение магии)
+		[187707] = true,--Хант (Намордник)
+	}
+	local currentPet = DBM:GetCIDFromGUID(UnitGUID("pet"))
 	if (DBM.Options.FilterInterrupt2 == "onlyTandF") or self.isTrashMod and (DBM.Options.FilterInterrupt2 == "TandFandBossCooldown") then
 		requireCooldown = false
 	end
-	--Зуботычина, Укор, Встречный выстрел, Намордник, Пинок, Безмолвие, Пронизывающий ветер, Антимагия, Запрет чар, Замок мира теней, Рука-копье, Столп солнечного света, Лобовая атака, Заморозка разума, Прерывание(Похищение магии)
-	if requireCooldown and ((GetSpellCooldown(6552)) ~= 0 or (GetSpellCooldown(96231)) ~= 0 or (GetSpellCooldown(147362)) ~= 0 or (GetSpellCooldown(187707)) ~= 0 or (GetSpellCooldown(1766)) ~= 0 or (GetSpellCooldown(15487)) ~= 0 or (GetSpellCooldown(57994)) ~= 0 or (GetSpellCooldown(2139)) ~= 0 or (GetSpellCooldown(19647)) ~= 0 or (GetSpellCooldown(171138)) ~= 0 or (GetSpellCooldown(116705)) ~= 0 or (GetSpellCooldown(78675)) ~= 0 or (GetSpellCooldown(106839)) ~= 0 or (GetSpellCooldown(47528)) ~= 0 or (GetSpellCooldown(183752)) ~= 0) then
-		InterruptAvailable = false
-	end
-	if requireCooldown and playerClass == "WARLOCK" and current_pet ~= 78158 then --417
-		InterruptAvailable = false
+	if requireCooldown then
+		for spellID, _ in pairs(interruptSpells) do
+			if GetSpellCooldown(spellID) ~= 0 then
+				InterruptAvailable = false
+			end
+		end
+		if playerClass == "WARLOCK" then
+			if (currentPet == 78158 and GetSpellCooldown(171138) ~= 0) or (currentPet == 417 and GetSpellCooldown(19647) ~= 0) or (currentPet ~= 78158 and currentPet ~= 417) then
+				InterruptAvailable = false
+			end
+		end
 	end
 	if InterruptAvailable and (UnitGUID("target") == sourceGUID or UnitGUID("focus") == sourceGUID) then
 		return true
