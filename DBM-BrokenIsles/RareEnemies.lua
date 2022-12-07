@@ -11,7 +11,7 @@ mod.isTrashMod = true
 mod:RegisterEvents(
 	"SPELL_CAST_START 221424 222676 189157 214095 218245 218250 223101 223104 219060 206762 203671 222596 216808 216837 218885 223659 223630 207002 206995 206972 216981 216970 219108 218875 218871 218435 218427 214500 222442 222446 222279 218855",
 	"SPELL_CAST_SUCCESS 221422 223094 216881 218969",
-	"SPELL_AURA_APPLIED 221422 221425 222676 218250 223094 219102 219087 206795 219060 223630 206972 219661 219646 37587 222631",
+	"SPELL_AURA_APPLIED 221422 221425 222676 218250 223094 219102 219087 206795 219060 223630 206972 219661 219646 37587 222631 219627",
 	"SPELL_AURA_APPLIED_DOSE 221425",
 	"SPELL_AURA_REMOVED 221422 221425",
 	"SPELL_PERIODIC_DAMAGE 218960 222444",
@@ -44,6 +44,8 @@ local specWarnHellfireandBrimstone	= mod:NewSpecialWarningInterrupt2(214500, nil
 local specWarnInferno			= mod:NewSpecialWarningDodge(222442, nil, nil, nil, 2, 2) --Преисподняя
 local specWarnInferno2			= mod:NewSpecialWarningYouMove(222444, nil, nil, nil, 1, 2) --Преисподняя
 --Аода Сухой Лепесток
+local specWarnCorruptionSpear	= mod:NewSpecialWarningYouMoveAway(219627, nil, nil, nil, 1, 2) --Копье взрывной порчи
+local specWarnCorruptionSpear2	= mod:NewSpecialWarningTargetDodge(219627, nil, nil, nil, 2, 2) --Копье взрывной порчи
 local specWarnRapidShot			= mod:NewSpecialWarningDefensive(219661, nil, nil, nil, 2, 3) --Быстрострел
 local specWarnShieldofDarkness 	= mod:NewSpecialWarningDispel(219646, "MagicDispeller", nil, nil, 1, 3) --Щит Тьмы
 --Нилаатрия Позабытая
@@ -435,6 +437,14 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 222631 then --Погребальный костер Хаоса
 		specWarnChaosPyre:Show()
 		specWarnChaosPyre:Play("runout")
+	elseif spellId == 219627 then --Копье взрывной порчи
+		if args:IsPlayer() then
+			specWarnCorruptionSpear:Show()
+			specWarnCorruptionSpear:Play("runout")
+		else
+			specWarnCorruptionSpear2:Show(args.destName)
+			specWarnCorruptionSpear2:Play("watchstep")
+		end
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED

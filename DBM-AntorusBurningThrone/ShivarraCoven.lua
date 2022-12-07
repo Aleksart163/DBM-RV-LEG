@@ -311,35 +311,35 @@ function mod:SPELL_CAST_SUCCESS(args)
 		end
 		if self:IsMythic() then
 			if self.vb.shivarrsCount == 1 then --свалила Дима
-				timerDiimaCD:Start(191)
+				timerDiimaCD:Start(190.5)
 			elseif self.vb.shivarrsCount == 2 then --свалила Зурайя
-				timerThurayaCD:Start(191)
+				timerThurayaCD:Start(190.5)
 			elseif self.vb.shivarrsCount == 5 then --свалила Нура
-				timerNouraCD:Start(191)
+				timerNouraCD:Start(190.5)
 			elseif self.vb.shivarrsCount == 6 then --свалила Азара
-				timerAsaraCD:Start(191)
+				timerAsaraCD:Start(190.5)
 			elseif self.vb.shivarrsCount == 9 then --свалила Дима
-				timerDiimaCD:Start(191)
+				timerDiimaCD:Start(190.5)
 			elseif self.vb.shivarrsCount == 10 then --свалила Зурайя
-				timerThurayaCD:Start(191)
+				timerThurayaCD:Start(190.5)
 			elseif self.vb.shivarrsCount == 13 then --свалила Нура
-				timerNouraCD:Start(191)
+				timerNouraCD:Start(190.5)
 			elseif self.vb.shivarrsCount == 14 then --свалила Азара
-				timerAsaraCD:Start(191)
+				timerAsaraCD:Start(190.5)
 			end
 		else
 			if self.vb.shivarrsCount == 1 then --свалила Дима
-				timerDiimaCD:Start(191)
+				timerDiimaCD:Start(190.5)
 			elseif self.vb.shivarrsCount == 3 then --свалила Нура
-				timerNouraCD:Start(191)
+				timerNouraCD:Start(190.5)
 			elseif self.vb.shivarrsCount == 5 then --свалила Азара
-				timerAsaraCD:Start(191)
+				timerAsaraCD:Start(190.5)
 			elseif self.vb.shivarrsCount == 7 then --свалила Дима
-				timerDiimaCD:Start(191)
+				timerDiimaCD:Start(190.5)
 			elseif self.vb.shivarrsCount == 9 then --свалила Нура
-				timerNouraCD:Start(191)
+				timerNouraCD:Start(190.5)
 			elseif self.vb.shivarrsCount == 11 then --свалила Азара
-				timerAsaraCD:Start(191)
+				timerAsaraCD:Start(190.5)
 			end
 		end
 	elseif spellId == 246329 then --Теневые клинки

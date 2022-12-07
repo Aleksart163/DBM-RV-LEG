@@ -43,7 +43,7 @@ local specWarnSpearofDoom				= mod:NewSpecialWarningDodge(248789, nil, nil, nil,
 local specWarnRainofFel					= mod:NewSpecialWarningYouMoveAway(248332, nil, nil, 2, 1, 2) --Дождь Скверны
 --Adds
 local specWarnSwing						= mod:NewSpecialWarningDodge(250701, nil, nil, nil, 1, 2) --Размах Скверны
-local specWarnArtilleryStrike			= mod:NewSpecialWarningInterrupt(246305, "HasInterrupt", nil, nil, 1, 3) --Артиллерийский удар
+local specWarnArtilleryStrike			= mod:NewSpecialWarningInterrupt(246305, "HasInterrupt", nil, nil, 3, 3) --Артиллерийский удар
 --Mythic
 local specWarnFinalDoom					= mod:NewSpecialWarningParaxisCount(249121, nil, nil, nil, 1, 2) --Всеобщая погибель
 local specWarnArcaneBuildup				= mod:NewSpecialWarningYouMoveAway(250171, nil, nil, nil, 4, 2) --Волшебный вихрь
