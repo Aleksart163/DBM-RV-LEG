@@ -136,6 +136,15 @@ L = DBM:GetModLocalization(643)
 -------------------
 L = DBM:GetModLocalization(644)
 
+-------------
+--Трэш-мобы--
+-------------
+L = DBM:GetModLocalization("UPTrash")
+
+L:SetGeneralLocalization({
+	name = "Cime d’Utgarde Trash"
+})
+
 -------------------------
 --  Svala Sorrowgrave  --
 -------------------------

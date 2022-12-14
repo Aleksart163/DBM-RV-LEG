@@ -137,6 +137,15 @@ L:SetMiscLocalization({
 -------------------
 L = DBM:GetModLocalization(644)
 
+-------------
+--Трэш-мобы--
+-------------
+L = DBM:GetModLocalization("UPTrash")
+
+L:SetGeneralLocalization({
+	name = "우트가드 첨탑 일반몹"
+})
+
 -------------------------
 --  Svala Sorrowgrave  --
 -------------------------

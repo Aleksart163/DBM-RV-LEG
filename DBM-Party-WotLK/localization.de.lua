@@ -137,6 +137,15 @@ L:SetMiscLocalization({
 -------------------
 L = DBM:GetModLocalization(644)
 
+-------------
+--Трэш-мобы--
+-------------
+L = DBM:GetModLocalization("UPTrash")
+
+L:SetGeneralLocalization({
+	name = "Trash des Turm Utgarde"
+})
+
 -------------------------
 --  Svala Sorrowgrave  --
 -------------------------

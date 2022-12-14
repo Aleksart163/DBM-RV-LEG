@@ -70,6 +70,7 @@ UtgardePinnacle\SvalaSorrowgrave.lua
 UtgardePinnacle\GortokPalehoof.lua
 UtgardePinnacle\SkadiTheRuthless.lua
 UtgardePinnacle\Ymiron.lua
+UtgardePinnacle\UPTrash.lua
 PitofSaron\Ick.lua
 PitofSaron\ForgemasterGarfrost.lua
 PitofSaron\ScourgelordTyrannus.lua

@@ -173,7 +173,16 @@ L:SetMiscLocalization({
 --Король Имирон--
 -----------------
 L = DBM:GetModLocalization(644)
-	
+
+-------------
+--Трэш-мобы--
+-------------
+L = DBM:GetModLocalization("UPTrash")
+
+L:SetGeneralLocalization({
+	name = "Трэш Вершина Утгард"
+})
+
 --------------
 --Яма Сарона--
 --------------
