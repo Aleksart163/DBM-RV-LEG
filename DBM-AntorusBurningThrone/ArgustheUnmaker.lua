@@ -79,7 +79,7 @@ local specWarnSargFear				= mod:NewSpecialWarningMoveTo(257931, nil, nil, nil, 3
 local specWarnGTFO					= mod:NewSpecialWarningYouMove(248167, nil, nil, nil, 1, 2)
 --Stage Two: The Protector Redeemed
 local specWarnSoulburst				= mod:NewSpecialWarningYouMoveAway(250669, nil, nil, nil, 1, 2) --Взрывная душа
-local specWarnSoulbomb				= mod:NewSpecialWarningYouMoveAway(251570, nil, nil, nil, 3, 5) --Бомба души 
+local specWarnSoulbomb				= mod:NewSpecialWarningYouMoveAway(251570, nil, nil, nil, 3, 6) --Бомба души 
 local specWarnSoulbombMoveTo		= mod:NewSpecialWarningMoveTo(251570, nil, nil, nil, 1, 2) --Бомба души
 local specWarnEdgeofObliteration	= mod:NewSpecialWarningDodge(255826, nil, nil, nil, 2, 2) --Коса разрушения
 local specWarnAvatarofAggra			= mod:NewSpecialWarningYou(255199, nil, nil, nil, 1, 2) --Аватара Агграмара
@@ -129,7 +129,7 @@ local timerEdgeofAnniCD				= mod:NewCDTimer(5.5, 258834, nil, nil, nil, 3, nil, 
 mod:AddTimerLine(SCENARIO_STAGE:format(4))
 local timerDeadlyScytheCD			= mod:NewCDTimer(5.5, 258039, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Смертоносная коса
 local timerReorgModuleCD			= mod:NewCDCountTimer(48, 256389, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON..DBM_CORE_MYTHIC_ICON) --Модуль пересозидания
-local timerReapSoul					= mod:NewCastTimer(13, 256542, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Жатва душ
+local timerReapSoul					= mod:NewCastTimer(13.5, 256542, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Жатва душ
 local timerEndofAllThings			= mod:NewCastTimer(15, 256544, nil, nil, nil, 2, nil, DBM_CORE_INTERRUPT_ICON..DBM_CORE_DEADLY_ICON) --Конец всего сущего
 
 local yellGiftofSky					= mod:NewYell(258646, L.SkyText, nil, nil, "YELL") --Дар небес
@@ -142,7 +142,7 @@ local yellSargRage					= mod:NewShortYell(257869, 6612, nil, nil, "YELL") --Яр
 local yellSargFear					= mod:NewShortYell(257931, 5782, nil, nil, "YELL") --Страх перед Саргерасом
 local yellSargFearCombo				= mod:NewComboYell(257931, 5782, nil, nil, "YELL") --Страх перед Саргерасом
 local yellSoulbomb					= mod:NewPosYell(251570, DBM_CORE_AUTO_YELL_CUSTOM_POSITION, nil, nil, "YELL") --Бомба души
-local yellSoulbombFades				= mod:NewIconFadesYell(251570, 155188) --Бомба души
+local yellSoulbombFades				= mod:NewIconFadesYell(251570, 155188, nil, nil, "YELL") --Бомба души
 local yellSoulburst					= mod:NewPosYell(250669, DBM_CORE_AUTO_YELL_CUSTOM_POSITION, nil, nil, "YELL") --Взрывная душа
 local yellSoulburstFades			= mod:NewIconFadesYell(250669, nil, nil, nil, "YELL") --Взрывная душа
 local yellSargSentence				= mod:NewYell(257966, L.Sentence, nil, nil, "YELL") --Приговор Саргераса
@@ -643,7 +643,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 		self.vb.soulBurstIcon = self.vb.soulBurstIcon + 4--Icons 3 and 7 used to match BW
 	elseif spellId == 251570 then --Бомба души
-		timerSoulBomb:Start(args.destName)
+		timerSoulBomb:Start(self:IsMythic() and 12 or 15, args.destName)
 		if args:IsPlayer() then
 			specWarnSoulbomb:Show()
 			specWarnSoulbomb:Play("targetyou")--Would be better if bombrun was "bomb on you" and not "bomb on you, run". Since Don't want to give misinformation, generic it is
@@ -711,7 +711,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnSkyandSea:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
 			specWarnGiftofSea:Show()
-			specWarnGiftofSea:Play("targetyou")
+			specWarnGiftofSea:Play("runout")
 			yellGiftofSea:Yell(playerName)
 			yellGiftofSea2:Countdown(5, 3)
 		end
@@ -722,7 +722,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnSkyandSea:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
 			specWarnGiftofSky:Show()
-			specWarnGiftofSky:Play("targetyou")
+			specWarnGiftofSky:Play("runout")
 			yellGiftofSky:Yell(playerName)
 			yellGiftofSky2:Countdown(5, 3)
 		end

@@ -44,9 +44,9 @@
 ----------------------------------------------------------------
 --
 DBM = {
-	Revision = tonumber(("$Revision: 17687 $"):sub(12, -3)), --прошляпанное очко Мурчаля ✔
+	Revision = tonumber(("$Revision: 17688 $"):sub(12, -3)), --прошляпанное очко Мурчаля ✔
 	DisplayVersion = "7.3.41 Right Version",
-	ReleaseRevision = 17686
+	ReleaseRevision = 17687
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -7562,6 +7562,7 @@ function bossModPrototype:CheckInterruptFilter(sourceGUID, skip, checkCooldown) 
 		[6552] = true,--Воин (Зуботычина)
 		[15487] = true,--Прист (Безмолвие)
 	--	[19647] = true,--Пет лока (Запрет чар)
+	--	[47482] = true,--пет дк (Прыжок)
 		[47528] = true,--ДК (Заморозка разума)
 		[57994] = true,--Шаман (Пронизывающий ветер)
 		[78675] = true,--Друид (Столп солнечного света)

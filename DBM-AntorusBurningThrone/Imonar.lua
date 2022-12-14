@@ -65,12 +65,13 @@ local specWarnEmpPulseGrenade2			= mod:NewSpecialWarning("PulseGrenade", nil, ni
 
 --Stage One: Attack Force
 local timerShocklanceCD					= mod:NewCDTimer(4, 247367, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Копье-шокер 4-5.1
-local timerSleepCanisterCD				= mod:NewCDTimer(11.3, 247552, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON) --Склянка с усыпляющим газом 11.3-13.4
-local timerPulseGrenadeCD				= mod:NewCDTimer(17, 247376, nil, nil, nil, 3) --Импульсная граната 17?
+local timerSleepCanisterCD				= mod:NewCDTimer(11, 247552, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON) --Склянка с усыпляющим газом 11.3-13.4
+local timerPulseGrenadeCD				= mod:NewCDTimer(17, 247376, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Импульсная граната 17?
 --Stage Two: Contract to Kill
 local timerSeverCD						= mod:NewCDTimer(7.2, 247687, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Рассечение
 local timerChargedBlastsCD				= mod:NewCDTimer(18.2, 247716, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Направленные взрывы
-local timerShrapnalBlastCD				= mod:NewCDCountTimer(13.3, 247923, nil, nil, nil, 3, nil, DBM_CORE_TANK_ICON) --Заряд шрапнели
+local timerShrapnalBlastCD				= mod:NewCDCountTimer(18, 247923, nil, nil, nil, 3, nil, DBM_CORE_TANK_ICON) --Заряд шрапнели (точно под гер на 2 фазе)
+local timerShrapnalBlast2CD				= mod:NewCDCountTimer(18, 248070, nil, nil, nil, 7) --Усиленный заряд шрапнели
 --Stage Three/Five: The Perfect Weapon
 
 --Intermission: On Deadly Ground
@@ -175,10 +176,10 @@ function mod:OnCombatStart(delay)
 		countdownPulseGrenade:Start(14.5-delay)
 		berserkTimer:Start(480-delay)--8min
 	else
-		timerShocklanceCD:Start(4.2-delay)
-		timerSleepCanisterCD:Start(7-delay)
-		timerPulseGrenadeCD:Start(14.2-delay)--14.2
-		countdownPulseGrenade:Start(14.2-delay)
+		timerShocklanceCD:Start(4-delay) --Копье-шокер (точно под гер)
+		timerSleepCanisterCD:Start(6-delay) --Склянка с усыпляющим газом (точно под гер)
+		timerPulseGrenadeCD:Start(15.2-delay) --Импульсная граната (точно под гер)
+		countdownPulseGrenade:Start(15.2-delay) --Импульсная граната
 		berserkTimer:Start(-delay)
 	end
 end
@@ -201,13 +202,13 @@ function mod:SPELL_CAST_START(args)
 			specWarnPulseGrenade:Play("watchstep")
 			timerPulseGrenadeCD:Start()
 			countdownPulseGrenade:Start()
-		else--Empowered
+		else --Усиленная импульсная граната
 			if self.vb.phase == 5 then--Only happens on mythic and only phase where empowered isn't long cd
 				timerPulseGrenadeCD:Start(13.3)
 				countdownPulseGrenade:Start(13.3)
 			else
-				timerPulseGrenadeCD:Start(25.5)
-				countdownPulseGrenade:Start(25.5)
+				timerPulseGrenadeCD:Start(26) --точно под героик (под обычку возможно 25.5)
+				countdownPulseGrenade:Start(26) --точно под героик (под обычку возможно 25.5)
 			end
 		end
 	elseif spellId == 247923 or spellId == 248070 then
@@ -227,10 +228,19 @@ function mod:SPELL_CAST_START(args)
 					timerShrapnalBlastCD:Start(timer, self.vb.shrapnalCast+1)
 				end
 			end
-		elseif spellId == 248070 then--Empowered (p3)
-			timerShrapnalBlastCD:Start(17, self.vb.shrapnalCast+1)--17-23
-		else
-			timerShrapnalBlastCD:Start(nil, self.vb.shrapnalCast+1)--13
+		end
+		if self:IsHeroic() then
+			if spellId == 248070 then --Усиленный Заряд шрапнели (фаза 3)
+				timerShrapnalBlast2CD:Start(22, self.vb.shrapnalCast+1)--17-23
+			else --Заряд шрапнели (фаза 2)
+				timerShrapnalBlastCD:Start(nil, self.vb.shrapnalCast+1) --в гере 18сек (фаза 2)
+			end
+		elseif self:IsNormal() or self:IsLFR() then
+			if spellId == 248070 then --Усиленный Заряд шрапнели (фаза 3)
+				timerShrapnalBlast2CD:Start(17, self.vb.shrapnalCast+1)--17-23
+			else --Заряд шрапнели (фаза 2)
+				timerShrapnalBlastCD:Start(nil, self.vb.shrapnalCast+1)
+			end
 		end
 	elseif spellId == 248254 then
 		if self:IsMythic() and self.vb.phase < 4 then
@@ -396,10 +406,10 @@ function mod:SPELL_AURA_REMOVED(args)
 		if self.vb.phase == 2 then
 			warnPhase:Play("ptwo")
 			warned_preP2 = true
-			timerSeverCD:Start(6.6)--6.6-8.2
-			timerChargedBlastsCD:Start(8.4)
-			countdownChargedBlasts:Start(8.4)
-			timerShrapnalBlastCD:Start(12, 1)
+			timerSeverCD:Start(7) --Рассечение (точно под гер)
+			timerChargedBlastsCD:Start(8) --Направленные взрывы (точно под гер)
+			countdownChargedBlasts:Start(8) --Направленные взрывы
+			timerShrapnalBlastCD:Start(13, 1) --Заряд шрапнели (точно под гер)
 		elseif self.vb.phase == 3 then
 			warnPhase:Play("pthree")
 			warned_preP4 = true
@@ -408,12 +418,12 @@ function mod:SPELL_AURA_REMOVED(args)
 				timerSleepCanisterCD:Start(7.9)
 				timerPulseGrenadeCD:Start(12.6)--Empowered
 				countdownPulseGrenade:Start(12.6)
-				timerShrapnalBlastCD:Start(13.9, 1)--Empowered
+				timerShrapnalBlast2CD:Start(13.9, 1)--Empowered
 			else
-				timerShocklanceCD:Start(5)--Empowered
-				timerPulseGrenadeCD:Start(6.3)--Empowered
+				timerShocklanceCD:Start(5) --Копье-шокер (точно под гер)
+				timerPulseGrenadeCD:Start(6) --Импульсная граната (точно под гер)
 				countdownPulseGrenade:Start(6.3)
-				timerShrapnalBlastCD:Start(15.4, 1)--Empowered
+				timerShrapnalBlast2CD:Start(16, 1) --Усиленный Заряд шрапнели (точно под гер)
 			end
 		elseif self.vb.phase == 4 then--Mythic Only
 			warnPhase:Play("pfour")
@@ -421,7 +431,7 @@ function mod:SPELL_AURA_REMOVED(args)
 			timerSeverCD:Start(7.5)
 			timerChargedBlastsCD:Start(9)
 			timerSleepCanisterCD:Start(12.5)
-			timerShrapnalBlastCD:Start(12.7, 1)--Empowered
+			timerShrapnalBlast2CD:Start(12.7, 1) --Усиленный Заряд шрапнели
 		elseif self.vb.phase == 5 then--Mythic Only (Identical to non mythic 3?)
 			warnPhase:Play("pfive")
 			warned_preP8 = true
@@ -429,7 +439,7 @@ function mod:SPELL_AURA_REMOVED(args)
 			timerPulseGrenadeCD:Start(7)--Empowered
 			countdownPulseGrenade:Start(7)
 			timerSleepCanisterCD:Start(12.9)
-			timerShrapnalBlastCD:Start(15.5, 1)--Empowered
+			timerShrapnalBlast2CD:Start(15.5, 1) --Усиленный Заряд шрапнели
 		end
 	elseif spellId == 250006 then
 		self.vb.empoweredPulseActive = self.vb.empoweredPulseActive - 1

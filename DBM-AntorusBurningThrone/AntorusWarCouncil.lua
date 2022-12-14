@@ -44,7 +44,7 @@ local warnShockGrenade					= mod:NewTargetAnnounce(244737, 4, nil, true, 2) --Ш
 
 --General
 --local specWarnGTFO					= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 2)
-local specWarnExploitWeakness			= mod:NewSpecialWarningStack(244892, nil, 3, nil, nil, 3, 5) --Обнаружить слабое место
+local specWarnExploitWeakness			= mod:NewSpecialWarningStack(244892, nil, 3, nil, nil, 3, 6) --Обнаружить слабое место
 local specWarnExploitWeaknesslf			= mod:NewSpecialWarningTaunt(244892, "Tank", nil, nil, 3, 5) --Обнаружить слабое место
 local specWarnPsychicAssaultStack		= mod:NewSpecialWarningStack(244172, nil, 10, nil, nil, 1, 6) --Псионная атака
 local specWarnPsychicAssault			= mod:NewSpecialWarningMove(244172, nil, nil, nil, 3, 2) --Псионная атака Two diff warnings cause we want to upgrade to high priority at 19+ stacks
@@ -67,10 +67,13 @@ local specWarnShockGrenade				= mod:NewSpecialWarningYouMoveAway(244737, nil, ni
 mod:AddTimerLine(GENERAL)
 local timerExploitWeaknessCD			= mod:NewCDTimer(8.5, 244892, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Обнаружить слабое место
 local timerShockGrenadeCD				= mod:NewCDTimer(12, 244722, nil, nil, nil, 3, nil, DBM_CORE_MYTHIC_ICON..DBM_CORE_DEADLY_ICON) --Шоковая граната
-local timerAssumeCommandCD				= mod:NewNextTimer(90, 245227, nil, nil, nil, 6) --Принять командование
+local timerSviraxCD						= mod:NewCDTimer(90, "ej16126", nil, nil, nil, 6, 245227, DBM_CORE_TANK_ICON..DBM_CORE_DAMAGE_ICON) --Адмирал Свиракс
+local timerIshkarCD						= mod:NewCDTimer(90, "ej16128", nil, nil, nil, 6, 245227, DBM_CORE_TANK_ICON..DBM_CORE_DAMAGE_ICON) --Главный инженер Ишкар
+local timerErodusCD						= mod:NewCDTimer(90, "ej16130", nil, nil, nil, 6, 245227, DBM_CORE_TANK_ICON..DBM_CORE_DAMAGE_ICON) --Генерал Эрод
 --In Pod
 --Admiral Svirax
 mod:AddTimerLine(Svirax)
+local timerFusillade					= mod:NewCastTimer(11.5, 244625, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Шквальный огонь
 local timerFusilladeCD					= mod:NewNextCountTimer(29.3, 244625, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Шквальный огонь
 ----Chief Engineer Ishkar
 mod:AddTimerLine(Ishkar)
@@ -86,7 +89,7 @@ local yellShockGrenadeFades				= mod:NewShortFadesYell(244737, nil, nil, nil, "Y
 --local berserkTimer						= mod:NewBerserkTimer(600)
 
 --General
-local countdownAssumeCommand			= mod:NewCountdown(50, 245227, nil, nil, 5) --Принять командование
+local countdownAssumeCommand			= mod:NewCountdown(90, 245227, nil, nil, 5) --Принять командование
 local countdownExploitWeakness			= mod:NewCountdown("Alt8", 244892, "Tank", nil, 5) --Обнаружить слабое место
 --In Pod
 ----Admiral Svirax
@@ -129,7 +132,7 @@ function mod:OnCombatStart(delay)
 	--Out of Pod
 	timerSummonReinforcementsCD:Start(8-delay)
 --	countdownReinforcements:Start(8-delay)
-	timerAssumeCommandCD:Start(90-delay) --Принять командование
+	timerIshkarCD:Start(90-delay) --Главный инженер Ишкар
 	countdownAssumeCommand:Start(90-delay)
 	if self:IsMythic() then
 		timerShockGrenadeCD:Start(14-delay) --Шоковая граната -1сек 
@@ -151,10 +154,11 @@ end
 
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
-	if spellId == 244625 then
+	if spellId == 244625 then --Шквальный огонь
 		self.vb.FusilladeCount = self.vb.FusilladeCount + 1
 		specWarnFusillade:Show(felShield)
 		specWarnFusillade:Play("findshield")
+		timerFusillade:Start()
 		timerFusilladeCD:Start(25.5, self.vb.FusilladeCount+1) --точно под героик
 		if not self:IsLFR() then
 			countdownFusillade:Start(25.5) --точно под героик
@@ -239,8 +243,15 @@ function mod:SPELL_CAST_SUCCESS(args)
 	elseif spellId == 244892 then --Обнаружить слабое место (под героик точно 8 сек)
 		timerExploitWeaknessCD:Start(8)
 		countdownExploitWeakness:Start(8)
-	elseif spellId == 245227 then--Assume Command
-		timerAssumeCommandCD:Start(90)
+	elseif spellId == 245227 then --Принять командование
+		local cid = self:GetCIDFromGUID(args.sourceGUID) --тот, кто кастует
+		if cid == 122367 then --Адмирал Свиракс
+			timerErodusCD:Start() --таймер до Генерал Эрод
+		elseif cid == 122369 then --Главный инженер Ишкар
+			timerSviraxCD:Start() --таймер до Адмирал Свиракс
+		elseif cid == 122333 then --Генерал Эрод
+			timerIshkarCD:Start() --таймер до Главный инженер Ишкар
+		end
 		countdownAssumeCommand:Start(90)
 	elseif spellId == 253037 then
 		if args:IsPlayer() then

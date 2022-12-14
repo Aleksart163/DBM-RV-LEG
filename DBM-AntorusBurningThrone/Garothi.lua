@@ -298,12 +298,12 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	--	specWarnSurgingFel:Cancel()
 		warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase))
 		if self.vb.phase == 2 and not self:IsMythic() then
-			if spellId == 245515 then--decimator-cannon-eject
-				timerAnnihilationCD:Start(22)
-				countdownChooseCannon:Start(22)
-			else--245527 (annihilator-cannon-eject)
-				timerDecimationCD:Start(22)
-				countdownChooseCannon:Start(22)
+			if spellId == 245515 then --(когда уничтожен Дециматор)
+				timerAnnihilationCD:Start(21.5)
+				countdownChooseCannon:Start(21.5)
+			else--245527 (когда уничтожен Аннигилятор)
+				timerDecimationCD:Start(21.5)
+				countdownChooseCannon:Start(21.5)
 			end
 		elseif self:IsMythic() then
 			if self.vb.lastCannon == 1 then--Annihilator Cannon

@@ -35,12 +35,11 @@ local warnWarnInitializing				= mod:NewSpellAnnounce(246504, 3, nil, "Healer") -
 --Reavers (or empowered boss from reaver deaths)
 local warnDecimation					= mod:NewTargetAnnounce(246687, 4) --Децимация (на 5 игроков)
 local warnDemolish						= mod:NewTargetAnnounce(246692, 4) --Разрушение (на 3 игрока)
-local warnForgingStrike					= mod:NewStackAnnounce(244312, 2, nil, "Tank|Healer") --Прессование
+
 --Stage: Deployment
 --local specWarnGTFO					= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 2)
 local specWarnForgingStrike				= mod:NewSpecialWarningDefensive(244312, nil, nil, nil, 1, 2) --Прессование
-local specWarnForgingStrike2			= mod:NewSpecialWarningStack(244312, nil, 2, nil, nil, 3, 6) --Прессование
-local specWarnForgingStrikeOther		= mod:NewSpecialWarningTaunt(244312, nil, nil, nil, 3, 3) --Прессование
+local specWarnForgingStrikeOther		= mod:NewSpecialWarningTaunt(244312, nil, nil, nil, 1, 2) --Прессование
 local specWarnReverberatingStrike		= mod:NewSpecialWarningYou(254926, nil, nil, nil, 1, 2) --Гулкий удар
 local specWarnReverberatingStrikeNear	= mod:NewSpecialWarningClose(254926, nil, nil, nil, 1, 2) --Гулкий удар
 local specWarnRuiner					= mod:NewSpecialWarningDodge(246840, nil, nil, nil, 3, 5) --Разрушитель
@@ -311,27 +310,15 @@ function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 254919 or spellId == 257978 then--Always swap after each cast
 		local uId = DBM:GetRaidUnitId(args.destName)
-		if uId and self:IsTanking(uId) then
-			local amount = args.amount or 1
-			if amount >= 2 then
-				if args:IsPlayer() then
-					specWarnForgingStrike2:Show(amount)
-					specWarnForgingStrike2:Play("stackhigh")
-				else
-					local _, _, _, _, _, _, expireTime = DBM:UnitDebuff("player", spellId)
-					local remaining
-					if expireTime then
-						remaining = expireTime-GetTime()
-					end
-					if not UnitIsDeadOrGhost("player") and (not remaining or remaining and remaining < 14) then
-						specWarnForgingStrikeOther:Show(args.destName)
-						specWarnForgingStrikeOther:Play("tauntboss")
-					else
-						warnForgingStrike:Show(args.destName, amount)
-					end
-				end
-			else
-				warnForgingStrike:Show(args.destName, amount)
+		if uId and self:IsTanking(uId) and not args:IsPlayer() then
+			local _, _, _, _, _, _, expireTime = DBM:UnitDebuff("player", spellId)
+			local remaining
+			if expireTime then
+				remaining = expireTime-GetTime()
+			end
+			if not UnitIsDeadOrGhost("player") and (not remaining or remaining and remaining < 14) then
+				specWarnForgingStrikeOther:Show(args.destName)
+				specWarnForgingStrikeOther:Play("changemt")
 			end
 		end
 	elseif spellId == 246687 then --Децимация elseif spellId == 246687 or spellId == 249680 then
