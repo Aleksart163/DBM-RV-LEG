@@ -34,7 +34,7 @@ local specWarnDancingBlade3			= mod:NewSpecialWarningCloseMoveAway(193235, nil, 
 local timerDancingBladeCD			= mod:NewCDTimer(12.5, 193235, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Танцующий клинок 10-15 
 local timerHornCD					= mod:NewCDCountTimer(45, 191284, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Рог доблести
 local timerSweepCD					= mod:NewCDTimer(15.5, 193092, nil, "Melee", nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Кровопролитный круговой удар
---local timerSweep					= mod:NewTargetTimer(4, 193092, nil, "Tank|Healer", nil, 3, nil, DBM_CORE_TANK_ICON..DBM_CORE_HEALER_ICON) --Кровопролитный круговой удар
+--local timerSweep					= mod:NewTargetTimer(4, 193092, nil, nil, nil, 3, nil, DBM_CORE_TANK_ICON..DBM_CORE_HEALER_ICON) --Кровопролитный круговой удар
 local timerBreath					= mod:NewCDTimer(5, 188404, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Дыхание бури
 
 local yellDancingBlade				= mod:NewYell(193235, nil, nil, nil, "YELL") --Танцующий клинок

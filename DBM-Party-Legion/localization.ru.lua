@@ -80,7 +80,7 @@ L= DBM:GetModLocalization(1656)
 L= DBM:GetModLocalization(1657)
 
 L:SetMiscLocalization{
-	ParanoiaYell = "%s на %s. УЁБЫВАЙТЕ от меня!" --Бегите
+	ParanoiaYell = "%s на %s. БЕГИТЕ от меня!" --Бегите
 }
 
 L:SetMiscLocalization({
@@ -658,7 +658,7 @@ L= DBM:GetModLocalization(1827)
 L= DBM:GetModLocalization(1835)
 
 L:SetMiscLocalization({
-	SharedSufferingYell = "%s на %s. УЁБЫВАЙТЕ от меня!",
+	SharedSufferingYell = "%s на %s. БЕГИТЕ от меня!",
 	Perephase1 = "Что ж, сразимся лицом к лицу!",
 	Perephase2 = "Вперед, Полночь, к победе!"
 })
