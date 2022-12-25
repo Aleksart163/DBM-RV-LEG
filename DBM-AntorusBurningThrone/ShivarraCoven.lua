@@ -44,15 +44,15 @@ local warnChilledBlood2					= mod:NewTargetAnnounce(129148, 3) --Замороз�
 local warnFlashFreeze					= mod:NewStackAnnounce(245518, 2, nil, "Tank") --Морозная вспышка
 --Thu'raya, Mother of the Cosmos (Mythic)
 local warnCosmicGlare					= mod:NewTargetAnnounce(250757, 3) --Космический отблеск
+--Мучения
 local specWarnAmantul2					= mod:NewSpecialWarningSoon(250335, nil, nil, nil, 1, 2) --Мучения Амантула
 local specWarnNorgannon2				= mod:NewSpecialWarningSoon(250334, nil, nil, nil, 1, 2) --Мучения Норганнона
 local specWarnGolgannet2				= mod:NewSpecialWarningSoon(249793, nil, nil, nil, 1, 2) --Мучения Голганнета
 local specWarnKazgagot2					= mod:NewSpecialWarningSoon(250333, nil, nil, nil, 1, 2) --Мучения Казгарота
---Мучения
-local specWarnAmantul					= mod:NewSpecialWarning("Amantul", "-Healer", nil, nil, 3, 5) --Мучения Амантула
-local specWarnNorgannon					= mod:NewSpecialWarning("Norgannon", nil, nil, nil, 3, 5) --Мучения Норганнона
-local specWarnGolgannet					= mod:NewSpecialWarning("Golgannet", nil, nil, nil, 3, 5) --Мучения Голганнета
-local specWarnKazgagot					= mod:NewSpecialWarning("Kazgagot", nil, nil, nil, 3, 5) --Мучения Казгарота
+local specWarnAmantul					= mod:NewSpecialWarning("Amantul", "-Healer", nil, nil, 3, 6) --Мучения Амантула
+local specWarnNorgannon					= mod:NewSpecialWarning("Norgannon", nil, nil, nil, 3, 6) --Мучения Норганнона
+local specWarnGolgannet					= mod:NewSpecialWarning("Golgannet", nil, nil, nil, 3, 6) --Мучения Голганнета
+local specWarnKazgagot					= mod:NewSpecialWarning("Kazgagot", nil, nil, nil, 3, 6) --Мучения Казгарота
 --General
 local specWarnGTFO						= mod:NewSpecialWarningYouMove(245634, nil, nil, nil, 1, 2) --Вращающийся меч
 local specWarnGTFO2						= mod:NewSpecialWarningYouMove(253020, nil, nil, nil, 1, 2) --Буря тьмы
@@ -69,7 +69,7 @@ local specWarnFlashfreeze				= mod:NewSpecialWarningStack(245518, nil, 2, nil, n
 local specWarnFlashfreezeOther			= mod:NewSpecialWarningTaunt(245518, nil, nil, nil, 1, 2) --Морозная вспышка
 local specWarnChilledBlood				= mod:NewSpecialWarningTarget(245586, "Healer", nil, nil, 1, 2) --Студеная кровь
 local specWarnChilledBlood2				= mod:NewSpecialWarningYou(245586, nil, nil, nil, 2, 2) --Студеная кровь
-local specWarnOrbofFrost				= mod:NewSpecialWarningDodge(253650, nil, nil, nil, 1, 2)
+local specWarnOrbofFrost				= mod:NewSpecialWarningDodge(253650, nil, nil, nil, 1, 2) --Сфера льда
 --Thu'raya, Mother of the Cosmos (Mythic)
 local specWarnTouchoftheCosmos			= mod:NewSpecialWarningInterruptCount(250648, "HasInterrupt", nil, nil, 1, 2) --Прикосновение космоса
 local specWarnCosmicGlare				= mod:NewSpecialWarningYou(250757, nil, nil, nil, 1, 2) --Космический отблеск
@@ -240,8 +240,10 @@ function mod:SPELL_CAST_START(args)
 		end
 	elseif spellId == 252861 then --Буря тьмы
 		self.vb.stormCount = self.vb.stormCount + 1
-		specWarnStormofDarkness:Show(self.vb.stormCount)
-		specWarnStormofDarkness:Play("findshelter")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnStormofDarkness:Show()
+			specWarnStormofDarkness:Play("findshelter")
+		end
 		if self:IsHeroic() or self:IsMythic() then --смотрится норм под героик
 			timerStormofDarknessCD:Start(58, self.vb.stormCount+1)
 			countdownStormofDarkness:Start(58)
@@ -250,8 +252,10 @@ function mod:SPELL_CAST_START(args)
 			countdownStormofDarkness:Start(56.8)
 		end
 	elseif spellId == 253650 then
-		specWarnOrbofFrost:Show()
-		specWarnOrbofFrost:Play("161411")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnOrbofFrost:Show()
+			specWarnOrbofFrost:Play("161411")
+		end
 		timerOrbofFrostCD:Start()
 	elseif spellId == 250095 and self:AntiSpam(3, 1) then
 		timerMachinationsofAman:Start()
@@ -291,23 +295,31 @@ function mod:SPELL_CAST_SUCCESS(args)
 		if spellId == 250335 then --Махинации Амантула
 			timerMachinationsofAmanThulCD:Start()
 			specWarnAmantul2:Schedule(80)
-			specWarnAmantul:Schedule(85)
-			specWarnAmantul:ScheduleVoice(85, "killmob")
+			if not UnitIsDeadOrGhost("player") then
+				specWarnAmantul:Schedule(85)
+				specWarnAmantul:ScheduleVoice(85, "mobkill")
+			end
 		elseif spellId == 250333 then --Пламя Казгарота
 			timerFlamesofKhazgorothCD:Start()
 			specWarnKazgagot2:Schedule(80)
-			specWarnKazgagot:Schedule(85)
-			specWarnKazgagot:ScheduleVoice(85, "watchstep")
+			if not UnitIsDeadOrGhost("player") then
+				specWarnKazgagot:Schedule(85)
+				specWarnKazgagot:ScheduleVoice(85, "watchstep")
+			end
 		elseif spellId == 250334 then --Призрачная армия Норганнона
 			timerSpectralArmyofNorgannonCD:Start()
 			specWarnNorgannon2:Schedule(80)
-			specWarnNorgannon:Schedule(85)
-			specWarnNorgannon:ScheduleVoice(85, "watchstep")
+			if not UnitIsDeadOrGhost("player") then
+				specWarnNorgannon:Schedule(85)
+				specWarnNorgannon:ScheduleVoice(85, "watchstep")\
+			end
 		elseif spellId == 249793 then --Ярость Голганнета
 			timerFuryofGolgannethCD:Start()
 			specWarnGolgannet2:Schedule(80)
-			specWarnGolgannet:Schedule(85)
-			specWarnGolgannet:ScheduleVoice(85, "watchstep")
+			if not UnitIsDeadOrGhost("player") then
+				specWarnGolgannet:Schedule(85)
+				specWarnGolgannet:ScheduleVoice(85, "watchstep")
+			end
 		end
 		if self:IsMythic() then
 			if self.vb.shivarrsCount == 1 then --свалила Дима
@@ -343,8 +355,10 @@ function mod:SPELL_CAST_SUCCESS(args)
 			end
 		end
 	elseif spellId == 246329 then --Теневые клинки
-		specWarnShadowBlades:Show()
-		specWarnShadowBlades:Play("watchwave")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnShadowBlades:Show()
+			specWarnShadowBlades:Play("watchwave")
+		end
 		timerShadowBladesCD:Start()
 	end
 end
@@ -527,15 +541,15 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 		specWarnTormentofTitans:Show()
 		if spellId == 259068 then--Torment of Aman'Thul
 			self.vb.MachinationsLeft = 4
-			specWarnTormentofTitans:Play("killmob")
+			specWarnTormentofTitans:Play("mobkill")
 		elseif spellId == 259066 then--Torment of Khaz'goroth
 			specWarnTormentofTitans:Play("runtoedge")
-			specWarnTormentofTitans:ScheduleVoice(1, "killmob")
+			specWarnTormentofTitans:ScheduleVoice(1, "mobkill")
 		elseif spellId == 259069 then--Torment of Norgannon
 			specWarnTormentofTitans:Play("watchstep")
 		elseif spellId == 259070 then--Torment of Golganneth
 			specWarnTormentofTitans:Play("scatter")
-			specWarnTormentofTitans:ScheduleVoice(1, "killmob")
+			specWarnTormentofTitans:ScheduleVoice(1, "mobkill")
 		end
 		if not titanCount[name] then
 			titanCount[name] = 1

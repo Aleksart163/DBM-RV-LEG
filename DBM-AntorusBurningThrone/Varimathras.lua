@@ -40,8 +40,8 @@ local specWarnMisery					= mod:NewSpecialWarningYou(243961, nil, nil, nil, 1, 2)
 local specWarnMiseryTaunt				= mod:NewSpecialWarningTaunt(243961, nil, nil, nil, 1, 2) --Страдания
 local specWarnDarkFissure				= mod:NewSpecialWarningDodge(243999, nil, nil, nil, 2, 2) --Темный разлом
 local specWarnMarkedPrey				= mod:NewSpecialWarningYou(244042, nil, nil, 2, 1, 2) --Метка жертвы
-local specWarnNecroticEmbrace			= mod:NewSpecialWarningYouMoveAway(244094, nil, nil, nil, 3, 5) --Некротические объятия
-local specWarnNecroticEmbrace3			= mod:NewSpecialWarningYouMoveAwayPos(244094, nil, nil, 3, 3, 5) --Некротические объятия
+local specWarnNecroticEmbrace			= mod:NewSpecialWarningYouMoveAway(244094, nil, nil, nil, 3, 6) --Некротические объятия
+local specWarnNecroticEmbrace3			= mod:NewSpecialWarningYouMoveAwayPos(244094, nil, nil, 3, 3, 6) --Некротические объятия
 local specWarnNecroticEmbrace4			= mod:NewSpecialWarningEnd(244094, nil, nil, nil, 1, 2) --Некротические объятия
 --local specWarnNecroticEmbrace2			= mod:NewSpecialWarningCloseMoveAway(244094, nil, nil, nil, 2, 5) --Некротические объятия
 local specWarnEchoesOfDoom				= mod:NewSpecialWarningYou(248732, nil, nil, nil, 1, 2) --Отголоски гибели
@@ -131,8 +131,10 @@ function mod:SPELL_CAST_SUCCESS(args)
 			countdownNecroticEmbrace:Start(30.3)
 		end
 	elseif spellId == 243999 then --Темный разлом
-		specWarnDarkFissure:Show()
-		specWarnDarkFissure:Play("watchstep")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnDarkFissure:Show()
+			specWarnDarkFissure:Play("watchstep")
+		end
 		if self:IsHeroic() then
 			timerDarkFissureCD:Start(30.7)
 		elseif self:IsMythic() then

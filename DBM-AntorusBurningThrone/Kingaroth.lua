@@ -43,7 +43,7 @@ local specWarnForgingStrike2			= mod:NewSpecialWarningStack(244312, nil, 2, nil,
 local specWarnForgingStrikeOther		= mod:NewSpecialWarningTaunt(244312, nil, nil, nil, 3, 3) --Прессование
 local specWarnReverberatingStrike		= mod:NewSpecialWarningYou(254926, nil, nil, nil, 1, 2) --Гулкий удар
 local specWarnReverberatingStrikeNear	= mod:NewSpecialWarningClose(254926, nil, nil, nil, 1, 2) --Гулкий удар
-local specWarnRuiner					= mod:NewSpecialWarningDodge(246840, nil, nil, nil, 3, 5) --Разрушитель
+local specWarnRuiner					= mod:NewSpecialWarningDodge(246840, nil, nil, nil, 3, 6) --Разрушитель
 --Stage: Construction
 local specWarnInitializing				= mod:NewSpecialWarningSwitch(246504, "-Healer", nil, nil, 1, 2) --Инициализация
 --Reavers (or empowered boss from reaver deaths)
@@ -240,17 +240,21 @@ function mod:SPELL_CAST_START(args)
 			timerReverberatingStrikeCD:Start(28, self.vb.reverbStrikeCast+1)--More work needed
 		end
 	elseif spellId == 245807 then --Аннигиляция
-		specWarnAnnihilation:Show()
-		specWarnAnnihilation:Play("helpsoak")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnAnnihilation:Show()
+			specWarnAnnihilation:Play("helpsoak")
+		end
 	elseif spellId == 252758 or spellId == 246692 then
 		table.wipe(DemolishTargets)
 	elseif spellId == 246833 then --Разрушитель
 		self.vb.ruinerCast = self.vb.ruinerCast + 1
 		timerForgingStrikeCD:Cancel()
 		countdownForgingStrike:Cancel()
-		specWarnRuiner:Show()
-		specWarnRuiner:Play("farfromline")
-		specWarnRuiner:ScheduleVoice(1.5, "keepmove")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnRuiner:Show()
+			specWarnRuiner:Play("farfromline")
+			specWarnRuiner:ScheduleVoice(1.5, "keepmove")
+		end
 		timerRuiner:Start(3)
 		timerRuiner:Schedule(3)
 		timerRuinerCD:Start(nil, self.vb.ruinerCast+1)--28-30 depending on difficulty
@@ -280,8 +284,10 @@ function mod:SPELL_CAST_START(args)
 		--timerDiabolicBombCD:Stop()
 		--timerShatteringStrikeCD:Stop()
 		warnWarnInitializing:Show()
-		specWarnInitializing:Show()
-		specWarnInitializing:Play("killmob")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnInitializing:Show()
+			specWarnInitializing:Play("mobkill")
+		end
 		if self:IsLFR() then
 			timerInitializing:Start(42.3)
 		elseif self:IsMythic() then
@@ -445,8 +451,10 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 		--specWarnDecimation:Play("scatter")
 		timerDecimationCD:Start(nil, UnitGUID(uId))
 	elseif spellId == 246657 and self:AntiSpam(2, 1) then--Annihilation
-		specWarnAnnihilation:Show()
-		specWarnAnnihilation:Play("helpsoak")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnAnnihilation:Show()
+			specWarnAnnihilation:Play("helpsoak")
+		end
 		timerAnnihilationCD:Start(nil, UnitGUID(uId))
 	elseif spellId == 248375 and self:AntiSpam(5, 2) then--Shattering Strike
 		warnShatteringStrike:Show()

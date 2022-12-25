@@ -446,20 +446,26 @@ function mod:SPELL_CAST_START(args)
 		end
 		self.vb.rendCount = self.vb.rendCount + 1
 		if not FlameRend then --анонс когда делить урон
-			specWarnFlameRend:Show(self.vb.rendCount)
+			if not UnitIsDeadOrGhost("player") then
+				specWarnFlameRend:Show(self.vb.rendCount)
+			end
 		else
 			specWarnFlameRend2:Show()
 		end
 		if spellId == 255058 then--Empowered/Mythic Version
 			if self.vb.rendCount == 1 then
-			--	warnFlameRend1:Show()
-				specWarnFlameRend:Play("shareone")
+				if not UnitIsDeadOrGhost("player") then
+					specWarnFlameRend:Play("shareone")
+				end
 			else
-			--	warnFlameRend2:Show()
-				specWarnFlameRend:Play("sharetwo")
+				if not UnitIsDeadOrGhost("player") then
+					specWarnFlameRend:Play("sharetwo")
+				end
 			end
 		else
-			specWarnFlameRend:Play("gathershare")
+			if not UnitIsDeadOrGhost("player") then
+				specWarnFlameRend:Play("gathershare")
+			end
 		end
 		if self.vb.rendCount == 1 and not self:IsMythic() and not self:IsLFR() then
 			if self:IsNormal() then

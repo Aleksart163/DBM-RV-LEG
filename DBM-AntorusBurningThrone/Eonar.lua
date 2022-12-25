@@ -43,7 +43,7 @@ local specWarnSpearofDoom				= mod:NewSpecialWarningDodge(248789, nil, nil, nil,
 local specWarnRainofFel					= mod:NewSpecialWarningYouMoveAway(248332, nil, nil, 2, 1, 2) --Дождь Скверны
 --Adds
 local specWarnSwing						= mod:NewSpecialWarningDodge(250701, nil, nil, nil, 1, 2) --Размах Скверны
-local specWarnArtilleryStrike			= mod:NewSpecialWarningInterrupt(246305, "HasInterrupt", nil, nil, 3, 3) --Артиллерийский удар
+local specWarnArtilleryStrike			= mod:NewSpecialWarningInterrupt(246305, "HasInterrupt", nil, nil, 3, 5) --Артиллерийский удар
 --Mythic
 local specWarnFinalDoom					= mod:NewSpecialWarningParaxisCount(249121, nil, nil, nil, 1, 2) --Всеобщая погибель
 local specWarnArcaneBuildup				= mod:NewSpecialWarningYouMoveAway(250171, nil, nil, nil, 4, 2) --Волшебный вихрь
@@ -581,8 +581,10 @@ mod.SPELL_MISSED = mod.SPELL_DAMAGE
 function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, npc, _, _, target)
 	if msg:find("spell:248861") then
 		self.vb.spearCast = self.vb.spearCast + 1
-		specWarnSpearofDoom:Show()
-		specWarnSpearofDoom:Play("watchstep")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnSpearofDoom:Show()
+			specWarnSpearofDoom:Play("watchstep")
+		end
 		local timer = self:IsHeroic() and heroicSpearofDoomTimers[self.vb.spearCast+1] or self:IsMythic() and mythicSpearofDoomTimers[self.vb.spearCast+1]
 		if timer then
 			timerSpearofDoomCD:Start(timer, self.vb.spearCast+1)

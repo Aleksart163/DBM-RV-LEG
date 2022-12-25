@@ -67,9 +67,9 @@ local specWarnShockGrenade				= mod:NewSpecialWarningYouMoveAway(244737, nil, ni
 mod:AddTimerLine(GENERAL)
 local timerExploitWeaknessCD			= mod:NewCDTimer(8.5, 244892, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Обнаружить слабое место
 local timerShockGrenadeCD				= mod:NewCDTimer(12, 244722, nil, nil, nil, 3, nil, DBM_CORE_MYTHIC_ICON..DBM_CORE_DEADLY_ICON) --Шоковая граната
-local timerSviraxCD						= mod:NewCDTimer(90, "ej16126", nil, nil, nil, 6, 245227, DBM_CORE_TANK_ICON..DBM_CORE_DAMAGE_ICON) --Адмирал Свиракс
-local timerIshkarCD						= mod:NewCDTimer(90, "ej16128", nil, nil, nil, 6, 245227, DBM_CORE_TANK_ICON..DBM_CORE_DAMAGE_ICON) --Главный инженер Ишкар
-local timerErodusCD						= mod:NewCDTimer(90, "ej16130", nil, nil, nil, 6, 245227, DBM_CORE_TANK_ICON..DBM_CORE_DAMAGE_ICON) --Генерал Эрод
+local timerSviraxCD						= mod:NewCDTimer(93, "ej16126", nil, nil, nil, 6, 245227, DBM_CORE_TANK_ICON..DBM_CORE_DAMAGE_ICON) --Адмирал Свиракс
+local timerIshkarCD						= mod:NewCDTimer(93, "ej16128", nil, nil, nil, 6, 245227, DBM_CORE_TANK_ICON..DBM_CORE_DAMAGE_ICON) --Главный инженер Ишкар
+local timerErodusCD						= mod:NewCDTimer(93, "ej16130", nil, nil, nil, 6, 245227, DBM_CORE_TANK_ICON..DBM_CORE_DAMAGE_ICON) --Генерал Эрод
 --In Pod
 --Admiral Svirax
 mod:AddTimerLine(Svirax)
@@ -156,9 +156,15 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 244625 then --Шквальный огонь
 		self.vb.FusilladeCount = self.vb.FusilladeCount + 1
-		specWarnFusillade:Show(felShield)
-		specWarnFusillade:Play("findshield")
-		timerFusillade:Start()
+		if not UnitIsDeadOrGhost("player") then
+			specWarnFusillade:Show(felShield)
+			specWarnFusillade:Play("findshield")
+		end
+		if self:IsNormal() then
+			timerFusillade:Start(7)
+		elseif self:IsHeroic() then
+			timerFusillade:Start()
+		end
 		timerFusilladeCD:Start(25.5, self.vb.FusilladeCount+1) --точно под героик
 		if not self:IsLFR() then
 			countdownFusillade:Start(25.5) --точно под героик
@@ -171,8 +177,10 @@ function mod:SPELL_CAST_START(args)
 --[[	elseif spellId == 253040 then
 		self:BossTargetScanner(args.sourceGUID, "DemonicChargeTarget", 0.2, 9)]]
 	elseif spellId == 245227 then --Принять командование (начало каста)
-		specWarnAssumeCommand:Show()
-		specWarnAssumeCommand:Play("targetchange")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnAssumeCommand:Show()
+			specWarnAssumeCommand:Play("targetchange")
+		end
 		timerExploitWeaknessCD:Stop()
 		countdownExploitWeakness:Cancel()
 		timerExploitWeaknessCD:Start(8)--8-14 (basically depends how fast you get there) If you heroic leap and are super fast. it's cast pretty much instantly on mob activation
@@ -377,9 +385,11 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 			timerFusilladeCD:Stop()
 			countdownFusillade:Cancel()
 		end
-	elseif spellId == 245546 then--Summon Reinforcements (major adds)
-		specWarnSummonReinforcements:Show()
-		specWarnSummonReinforcements:Play("killmob")
+	elseif spellId == 245546 then --Вызов подкрепления
+		if not UnitIsDeadOrGhost("player") then
+			specWarnSummonReinforcements:Show()
+			specWarnSummonReinforcements:Play("mobkill")
+		end
 		timerSummonReinforcementsCD:Start(34) --точно под героик
 	--	countdownReinforcements:Start(35)
 		if self.Options.SetIconOnAdds then

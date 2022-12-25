@@ -2,7 +2,7 @@ local mod	= DBM:NewMod(1987, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
 mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
-mod:SetCreatureID(122477, 122135)--122477 F'harg, 122135 Shatug
+mod:SetCreatureID(122477, 122135) --122477 Ф'арг, 122135 Шатуг
 mod:SetEncounterID(2074)
 mod:SetZone()
 mod:SetBossHPInfoToHighest()
@@ -46,9 +46,9 @@ local specWarnEnflamed2					= mod:NewSpecialWarningSoon(244057, nil, nil, nil, 1
 --Shatug
 local specWarnComsumingSphere			= mod:NewSpecialWarningDodge(244131, nil, nil, nil, 2, 2) --Поглощаяющая сфера
 local specWarnComsumingSphere2			= mod:NewSpecialWarningSoon(244131, nil, nil, nil, 1, 2) --Поглощаяющая сфера
-local specWarnWeightOfDarkness			= mod:NewSpecialWarningYouShare(254429, nil, nil, nil, 3, 5) --Бремя тьмы
+local specWarnWeightOfDarkness			= mod:NewSpecialWarningYouShare(254429, nil, nil, nil, 3, 6) --Бремя тьмы
 local specWarnWeightOfDarkness2			= mod:NewSpecialWarningSoon(254429, nil, nil, nil, 1, 2) --Бремя тьмы
-local specWarnSiphoned					= mod:NewSpecialWarningYouShare(248819, nil, nil, nil, 3, 5) --Вытягивание
+local specWarnSiphoned					= mod:NewSpecialWarningYouShare(248819, nil, nil, nil, 3, 6) --Вытягивание
 local specWarnSiphoned2					= mod:NewSpecialWarningSoon(244056, nil, nil, nil, 1, 2) --Вытягивание
 --Mythic
 local specWarnFlameTouched				= mod:NewSpecialWarningYouPos(244054, nil, nil, nil, 3, 5) --Касание пламени
@@ -210,8 +210,10 @@ function mod:SPELL_CAST_START(args)
 			specWarnSiphoned2:Schedule(69) --Вытягивание порчи+++
 			timerComsumingSphereCD:Start(26) --Поглощаяющая сфера+++
 			specWarnComsumingSphere2:Schedule(16) --Поглощаяющая сфера+++
-			specWarnComsumingSphere:Schedule(26) --Поглощаяющая сфера+++
-			specWarnComsumingSphere:ScheduleVoice(26, "watchorb") --Поглощаяющая сфера+++
+			if not UnitIsDeadOrGhost("player") then
+				specWarnComsumingSphere:Schedule(26) --Поглощаяющая сфера+++
+				specWarnComsumingSphere:ScheduleVoice(26, "watchorb") --Поглощаяющая сфера+++
+			end
 			timerWeightOfDarknessCD:Start(52) --Бремя тьмы+++ (уже пофиксил с нового видео за 27 число)
 			specWarnWeightOfDarkness2:Schedule(42) --Бремя тьмы
 			timerCorruptingMawCD:Start(10)
@@ -221,8 +223,10 @@ function mod:SPELL_CAST_START(args)
 			specWarnSiphoned2:Schedule(62) --Вытягивание порчи+++
 			timerComsumingSphereCD:Start(24) --Поглощаяющая сфера
 			specWarnComsumingSphere2:Schedule(14) --Поглощаяющая сфера+++
-			specWarnComsumingSphere:Schedule(24) --Поглощаяющая сфера
-			specWarnComsumingSphere:ScheduleVoice(24, "watchorb") --Поглощаяющая сфера
+			if not UnitIsDeadOrGhost("player") then
+				specWarnComsumingSphere:Schedule(24) --Поглощаяющая сфера
+				specWarnComsumingSphere:ScheduleVoice(24, "watchorb") --Поглощаяющая сфера
+			end
 			timerWeightOfDarknessCD:Start(47) --Бремя тьмы вроде точно
 			specWarnWeightOfDarkness2:Schedule(37) --Бремя тьмы
 			timerCorruptingMawCD:Start(16)
@@ -231,8 +235,10 @@ function mod:SPELL_CAST_START(args)
 			specWarnSiphoned2:Schedule(75) --Вытягивание порчи+++
 			timerComsumingSphereCD:Start(28) --Поглощаяющая сфера+++
 			specWarnComsumingSphere2:Schedule(18) --Поглощаяющая сфера+++
-			specWarnComsumingSphere:Schedule(28) --Поглощаяющая сфера+++
-			specWarnComsumingSphere:ScheduleVoice(28, "watchorb") --Поглощаяющая сфера+++
+			if not UnitIsDeadOrGhost("player") then
+				specWarnComsumingSphere:Schedule(28) --Поглощаяющая сфера+++
+				specWarnComsumingSphere:ScheduleVoice(28, "watchorb") --Поглощаяющая сфера+++
+			end
 		end
 	elseif spellId == 249113 then --Темное восстановление
 		warnDarkReconstitution:Show(args.sourceName)
@@ -241,13 +247,17 @@ function mod:SPELL_CAST_START(args)
 		local cid = self:GetCIDFromGUID(args.sourceGUID)
 		if cid == 122477 then --Фарг
 			if FlameTouched then
-				specWarnDarkReconstitution:Show()
-				specWarnDarkReconstitution:Play("killmob")
+				if not UnitIsDeadOrGhost("player") then
+					specWarnDarkReconstitution:Show()
+					specWarnDarkReconstitution:Play("mobkill")
+				end
 			end
 		elseif cid == 122135 then --Шатуг
 			if Shadowtouched then
-				specWarnDarkReconstitution:Show()
-				specWarnDarkReconstitution:Play("killmob")
+				if not UnitIsDeadOrGhost("player") then
+					specWarnDarkReconstitution:Show()
+					specWarnDarkReconstitution:Play("mobkill")
+				end
 			end
 		end
 	end
@@ -258,8 +268,10 @@ function mod:SPELL_CAST_SUCCESS(args)
 	if spellId == 244086 and self:AntiSpam(3, 1) then --Касание магмы (244072 изначальный) 
 	--	warnMoltenTouch:Show()
 	--	warnMoltenTouch:Play("watchstep")
-		specWarnMoltenTouch:Show()
-		specWarnMoltenTouch:Play("watchstep")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnMoltenTouch:Show()
+			specWarnMoltenTouch:Play("watchstep")
+		end
 		if self:IsMythic() then
 			timerMoltenTouchCD:Start(88.8)
 		elseif self:IsHeroic() then

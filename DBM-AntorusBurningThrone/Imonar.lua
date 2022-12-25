@@ -198,8 +198,10 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 247376 or spellId == 248068 then
 		if spellId == 247376 then--Non Empowered
-			specWarnPulseGrenade:Show()
-			specWarnPulseGrenade:Play("watchstep")
+			if not UnitIsDeadOrGhost("player") then
+				specWarnPulseGrenade:Show()
+				specWarnPulseGrenade:Play("watchstep")
+			end
 			timerPulseGrenadeCD:Start()
 			countdownPulseGrenade:Start()
 		else --Усиленная импульсная граната
@@ -213,8 +215,10 @@ function mod:SPELL_CAST_START(args)
 		end
 	elseif spellId == 247923 or spellId == 248070 then
 		self.vb.shrapnalCast = self.vb.shrapnalCast + 1
-		specWarnShrapnalBlast:Show()
-		specWarnShrapnalBlast:Play("watchstep")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnShrapnalBlast:Show()
+			specWarnShrapnalBlast:Play("watchstep")
+		end
 		if self:IsMythic() then
 			if self.vb.phase == 2 then
 				timerShrapnalBlastCD:Start(16.4, self.vb.shrapnalCast+1)
@@ -270,8 +274,10 @@ function mod:SPELL_CAST_SUCCESS(args)
 	elseif spellId == 247687 then
 		timerSeverCD:Start()
 	elseif spellId == 248254 then
-		specWarnChargedBlastsUnknown:Show()
-		specWarnChargedBlastsUnknown:Play("farfromline")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnChargedBlastsUnknown:Show()
+			specWarnChargedBlastsUnknown:Play("farfromline")
+		end
 	end
 end
 

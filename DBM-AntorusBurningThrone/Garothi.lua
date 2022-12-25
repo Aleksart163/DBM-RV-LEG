@@ -44,8 +44,8 @@ local specWarnFelBombardment			= mod:NewSpecialWarningYouMoveAway(246220, nil, n
 local specWarnFelBombardment2			= mod:NewSpecialWarningYou(246220, nil, nil, nil, 1, 2) --Обстрел скверны
 local specWarnFelBombardmentTaunt		= mod:NewSpecialWarningTaunt(246220, nil, nil, nil, 3, 5) --Обстрел скверны
 local specWarnApocDrive					= mod:NewSpecialWarningSwitch(244152, "-Healer", nil, nil, 1, 2) --Реактор апокалипсиса
-local specWarnEradication				= mod:NewSpecialWarningRun(244969, nil, nil, nil, 4, 5) --Искоренение
-local specWarnEradication2				= mod:NewSpecialWarningDefensive(244969, nil, nil, nil, 3, 5) --Искоренение
+local specWarnEradication				= mod:NewSpecialWarningRun(244969, nil, nil, nil, 4, 6) --Искоренение
+local specWarnEradication2				= mod:NewSpecialWarningDefensive(244969, nil, nil, nil, 3, 6) --Искоренение
 --local specWarnGTFO					= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 2)
 --Decimator
 local specWarnDecimation				= mod:NewSpecialWarningYouMoveAway(244410, nil, nil, nil, 4, 5) --Децимация
@@ -140,16 +140,23 @@ end
 
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
-	if spellId == 244969 and self:AntiSpam(5, 1) then --Искоренение
-		specWarnEradication:Show()
-		specWarnEradication:Play("justrun")
+	if spellId == 244969 and self:AntiSpam(3, 1) then --Искоренение
+		if not UnitIsDeadOrGhost("player") then
+			specWarnEradication:Show()
+			specWarnEradication:Play("justrun")
+		end
 		if self:IsMythic() then
-			specWarnEradication:ScheduleVoice(1.5, "keepmove")
-			specWarnEradication2:Schedule(2.5)
+			if not UnitIsDeadOrGhost("player") then
+				specWarnEradication2:Schedule(2.5)
+				specWarnEradication2:ScheduleVoice(2.5, "defensive")
+			end
 			timerEradicationCast:Start(5.5)
 			countdownChooseCannon:Start(5.5)
 		else
-			specWarnEradication2:Schedule(2.5)
+			if not UnitIsDeadOrGhost("player") then
+				specWarnEradication2:Schedule(2.5)
+				specWarnEradication2:ScheduleVoice(2.5, "defensive")
+			end
 			timerEradicationCast:Start(5.5)
 			countdownChooseCannon:Start(5.5)
 		end
@@ -162,17 +169,25 @@ function mod:SPELL_CAST_START(args)
 		countdownFelBombardment:Cancel()
 		countdownChooseCannon:Cancel()
 		timerAnnihilationCD:Stop()
-		specWarnApocDrive:Show()
-		specWarnApocDrive:Play("targetchange")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnApocDrive:Show()
+			specWarnApocDrive:Play("targetchange")
+		end
 		timerApocDriveCast:Start()
 		if self:IsHeroic() then
 			timerSurgingFelCD:Start(10.5)
 			timerSurgingFelCast:Schedule(10.5) --в других сложностях возможны другие цифры
-			specWarnSurgingFel:Schedule(10.5)
+			if not UnitIsDeadOrGhost("player") then
+				specWarnSurgingFel:Schedule(10.5)
+				specWarnSurgingFel:ScheduleVoice(10.5, "watchstep")
+			end
 		elseif self:IsMythic() then
 			timerSurgingFelCD:Start(5.5)
 			timerSurgingFelCast:Schedule(5.5)
-			specWarnSurgingFel:Schedule(5.5)
+			if not UnitIsDeadOrGhost("player") then
+				specWarnSurgingFel:Schedule(5.5)
+				specWarnSurgingFel:ScheduleVoice(5.5, "watchstep")
+			end
 		end
 	end
 end
@@ -204,11 +219,17 @@ function mod:SPELL_CAST_SUCCESS(args)
 	elseif spellId == 246663 then --Всплеск скверны
 		if self:IsHeroic() then
 			timerSurgingFelCD:Start()
-			specWarnSurgingFel:Schedule(6.5)
 			timerSurgingFelCast:Schedule(6.5)
+			if not UnitIsDeadOrGhost("player") then
+				specWarnSurgingFel:Schedule(6.5)
+				specWarnSurgingFel:ScheduleVoice(6.5, "watchstep")
+			end
 		elseif self:IsMythic() then
 		--	timerSurgingFelCD:Start(1)
-			specWarnSurgingFel:Schedule(1)
+			if not UnitIsDeadOrGhost("player") then
+				specWarnSurgingFel:Schedule(1)
+				specWarnSurgingFel:ScheduleVoice(1, "watchstep")
+			end
 			timerSurgingFelCast:Schedule(1)
 		end
 	elseif spellId == 244969 then --Искоренение
@@ -254,9 +275,11 @@ function mod:SPELL_AURA_APPLIED(args)
 			if spellId ~= 246919 then
 				yellDecimationFades:Countdown(5, 3)
 			end
-		elseif self:AntiSpam(5, 1) then
-			specWarnDecimation2:Schedule(4.5)
-			specWarnDecimation2:ScheduleVoice(4.5, "watchstep")
+		elseif self:AntiSpam(3, 2) then
+			if not UnitIsDeadOrGhost("player") then
+				specWarnDecimation2:Schedule(4.5)
+				specWarnDecimation2:ScheduleVoice(4.5, "watchstep")
+			end
 		end
 		if self.Options.SetIconOnDecimation then
 			self:SetIcon(args.destName, self.vb.deciminationActive)
