@@ -311,7 +311,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 			specWarnNorgannon2:Schedule(80)
 			if not UnitIsDeadOrGhost("player") then
 				specWarnNorgannon:Schedule(85)
-				specWarnNorgannon:ScheduleVoice(85, "watchstep")\
+				specWarnNorgannon:ScheduleVoice(85, "watchstep")
 			end
 		elseif spellId == 249793 then --Ярость Голганнета
 			timerFuryofGolgannethCD:Start()
