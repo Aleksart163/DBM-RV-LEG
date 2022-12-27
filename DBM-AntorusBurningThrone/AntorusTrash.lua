@@ -46,6 +46,7 @@ local specWarnCloudofConfuse			= mod:NewSpecialWarningYouMoveAway(254122, nil, n
 local specWarnCloudofConfuse2			= mod:NewSpecialWarningCloseMoveAway(254122, nil, nil, nil, 2, 3) --Облако растерянности
 local specWarnFlamesofReorig			= mod:NewSpecialWarningYouMoveAway(249297, nil, nil, nil, 3, 5) --Пламя пересоздания
 local specWarnSoulburn					= mod:NewSpecialWarningYouMoveAway(253600, nil, nil, nil, 3, 5) --Горящая душа
+local specWarnSoulburn3					= mod:NewSpecialWarningYouDispel(253600, "MagicDispeller2", nil, nil, 1, 3) --Горящая душа
 local specWarnSoulburn2					= mod:NewSpecialWarningDispel(253600, "MagicDispeller2", nil, nil, 1, 3) --Горящая душа
 local specWarnAnnihilation				= mod:NewSpecialWarningSoak(245807, nil, nil, nil, 2, 2) --Аннигиляция
 --local specWarnShadowBoltVolley		= mod:NewSpecialWarningInterrupt(243171, "HasInterrupt", nil, nil, 1, 2)
@@ -82,28 +83,37 @@ function mod:SPELL_CAST_START(args)
 	if not self.Options.Enabled then return end
 	local spellId = args.spellId
 	if spellId == 246209 then
-		specWarnPunishingFlame:Show()
-		specWarnPunishingFlame:Play("justrun")
-		specWarnPunishingFlame2:Show()
-		specWarnPunishingFlame2:Play("justrun")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnPunishingFlame:Show()
+			specWarnPunishingFlame:Play("justrun")
+			specWarnPunishingFlame2:Show()
+			specWarnPunishingFlame2:Play("justrun")
+		end
 		if self:IsHeroic() then
 			timerPunishingFlameCD:Start()
 		else
 			timerPunishingFlameCD:Start()
 		end
-	elseif spellId == 245807 and self:AntiSpam(5, 1) then
-		specWarnAnnihilation:Show()
-		specWarnAnnihilation:Play("helpsoak")
+	elseif spellId == 245807 and self:AntiSpam(3, 1) then
+		if not UnitIsDeadOrGhost("player") then
+			specWarnAnnihilation:Show()
+			specWarnAnnihilation:Play("helpsoak")
+		end
 	elseif spellId == 246444 then --Обжигающий удар
-		specWarnSearingSlash:Show()
+		if not UnitIsDeadOrGhost("player") then
+			specWarnSearingSlash:Show()
+			specWarnSearingSlash:Play("watchstep")
+		end
 		if self:IsHeroic() then
 			timerSearingSlashCD:Start(33.5)
 		else
 			timerSearingSlashCD:Start()
 		end
 	elseif spellId == 254500 then --Ужасающий прыжок
-		specWarnFearsomeLeap:Show()
-		specWarnFearsomeLeap:Play("watchstep")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnFearsomeLeap:Show()
+			specWarnFearsomeLeap:Play("watchstep")
+		end
 	end
 end
 
@@ -152,14 +162,23 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 253600 then --Горящая душа
 		self.vb.soulburnIcon = self.vb.soulburnIcon - 1
 		warnSoulburn:CombinedShow(0.3, args.destName)
-		if args:IsPlayer() then
+		if args:IsPlayer() and not self:IsMagicDispeller2() then
 			specWarnSoulburn:Show()
 			specWarnSoulburn:Play("runout")
 			yellSoulburn:Yell()
 			yellSoulburn2:Countdown(6, 3)
-		else
-			specWarnSoulburn2:CombinedShow(0.3, args.destName)
-			specWarnSoulburn2:Play("dispelnow")
+		elseif args:IsPlayer() and self:IsMagicDispeller2() then
+			specWarnSoulburn:Show()
+			specWarnSoulburn:Play("runout")
+			specWarnSoulburn3:Schedule(2)
+			specWarnSoulburn3:ScheduleVoice(2, "dispelnow")
+			yellSoulburn:Yell()
+			yellSoulburn2:Countdown(6, 3)
+		elseif self:IsMagicDispeller2() then
+			if not UnitIsDeadOrGhost("player") then
+				specWarnSoulburn2:CombinedShow(2, args.destName)
+				specWarnSoulburn2:ScheduleVoice(2, "dispelnow")
+			end
 		end
 		if self.Options.SetIconOnSoulburn then
 			self:SetIcon(args.destName, self.vb.soulburnIcon)
@@ -192,8 +211,9 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnDecimation:Play("runout")
 			yellDecimation:Yell()
 			yellDecimationFades:Countdown(5, 3)
-		elseif self:AntiSpam(5, 1) then
+		elseif self:AntiSpam(5, 3) then
 			specWarnDecimation2:Schedule(6)
+			specWarnDecimation2:ScheduleVoice(6, "watchstep")
 		end
 		if self.Options.SetIconOnDecimation then
 			self:SetIcon(args.destName, self.vb.decimationIcon)
@@ -202,8 +222,10 @@ function mod:SPELL_AURA_APPLIED(args)
 			self.vb.decimationIcon = 1
 		end
 	elseif spellId == 254509 then --Вихрь клинков
-		specWarnBladestorm:Show()
-		specWarnBladestorm:Play("watchstep")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnBladestorm:Show()
+			specWarnBladestorm:Play("watchstep")
+		end
 	elseif spellId == 257920 then --Факел Скверны
 		local amount = args.amount or 1
 		if args:IsPlayer() and not self:IsTank() then
@@ -273,7 +295,7 @@ function mod:SPELL_AURA_REMOVED(args)
 end
 
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
-	if spellId == 246199 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
+	if spellId == 246199 and destGUID == UnitGUID("player") and self:AntiSpam(2, 4) then
 		specWarnBurningWinds:Show()
 		specWarnBurningWinds:Play("runaway")
 	end

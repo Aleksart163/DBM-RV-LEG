@@ -393,8 +393,10 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 244693 and self:AntiSpam(4, 1) then--Antispam because boss recasts itif target dies while casting
 		self.vb.wakeOfFlameCount = self.vb.wakeOfFlameCount + 1
-		specWarnWakeofFlame:Show()
-		specWarnWakeofFlame:Play("watchwave")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnWakeofFlame:Show()
+			specWarnWakeofFlame:Play("watchwave")
+		end
 		local techTimer = timerTaeshalachTechCD:GetRemaining(self.vb.techCount+1)
 		if techTimer == 0 or techTimer > 24 then
 			timerWakeofFlameCD:Start()
@@ -403,8 +405,10 @@ function mod:SPELL_CAST_START(args)
 		self:BossTargetScanner(args.sourceGUID, "WakeTarget", 0.1, 12, true, nil, nil, nil, true)
 	elseif spellId == 245458 or spellId == 255059 then --Сокрушитель
 		self.vb.comboCount = self.vb.comboCount + 1
-		specWarnFoeBreaker:Show()
-		specWarnFoeBreaker:Play("watchstep")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnFoeBreaker:Show()
+			specWarnFoeBreaker:Play("watchstep")
+		end
 		if self:IsMythic() then
 			if not self.vb.firstCombo then
 				self.vb.firstCombo = "Foe"
@@ -484,8 +488,10 @@ function mod:SPELL_CAST_START(args)
 				self.vb.secondCombo = "Tempest"
 			end
 		end
-		specWarnSearingTempest:Show()
-		specWarnSearingTempest:Play("runout")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnSearingTempest:Show()
+			specWarnSearingTempest:Play("runout")
+		end
 		if self.Options.InfoFrame then
 			DBM.InfoFrame:Update()
 		end

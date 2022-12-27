@@ -64,7 +64,7 @@ local warnReorgModule				= mod:NewSpellAnnounce(256389, 3, nil, "-Ranged") --М�
 local warnGiftOfLifebinder			= mod:NewCastAnnounce(257619, 1) --Дар Хранительницы жизни
 local warnDeadlyScythe				= mod:NewStackAnnounce(258039, 2, nil, "Tank|Healer") --Смертоносная коса
 
-local specWarnEndofAllThings		= mod:NewSpecialWarningInterrupt(256544, "HasInterrupt", nil, nil, 3, 5) --Конец всего сущего
+local specWarnEndofAllThings		= mod:NewSpecialWarningInterrupt(256544, "HasInterrupt", nil, nil, 3, 6) --Конец всего сущего
 --Stage One: Storm and Sky
 local specWarnSweepingScythe		= mod:NewSpecialWarningStack(248499, nil, 3, nil, nil, 3, 6) --Сметающая коса
 local specWarnSweepingScytheTaunt	= mod:NewSpecialWarningTaunt(248499, "Tank", nil, nil, 3, 2) --Сметающая коса
@@ -87,7 +87,7 @@ local specWarnAvatarofAggra			= mod:NewSpecialWarningYou(255199, nil, nil, nil, 
 local specWarnCosmicRay				= mod:NewSpecialWarningYouMoveAway(252729, nil, nil, nil, 1, 2) --Космический луч
 --Stage Three Mythic
 local specWarnSargSentence			= mod:NewSpecialWarningYou(257966, nil, nil, nil, 1, 2) --Приговор Саргераса
-local specWarnApocModule			= mod:NewSpecialWarningSwitchCount(258029, "Dps", nil, nil, 3, 2) --Процесс инициализации (мифик)
+local specWarnApocModule			= mod:NewSpecialWarningSwitchCount(258029, "Dps", nil, nil, 3, 3) --Процесс инициализации (мифик)
 local specWarnEdgeofAnni			= mod:NewSpecialWarningDodge(258834, nil, nil, nil, 2, 2) --Грань аннигиляции
 local specWarnSoulrendingScythe		= mod:NewSpecialWarningStack(258838, nil, 2, nil, nil, 3, 2) --Рассекающая коса
 local specWarnSoulrendingScytheTaunt= mod:NewSpecialWarningTaunt(258838, nil, nil, nil, 1, 2) --Рассекающая коса
@@ -391,8 +391,10 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 248165 then
 		self.vb.coneCount = self.vb.coneCount + 1
-		specWarnConeofDeath:Show()
-		specWarnConeofDeath:Play("shockwave")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnConeofDeath:Show()
+			specWarnConeofDeath:Play("shockwave")
+		end
 		timerConeofDeathCD:Start(nil, self.vb.coneCount+1)
 	elseif spellId == 256544 then --Конец всего сущего
 		warnEndofAllThings:Show(args.sourceName)
@@ -523,8 +525,10 @@ function mod:SPELL_CAST_SUCCESS(args)
 		countdownSoulScythe:Start(8.5)
 	elseif spellId == 255826 then
 		self.vb.EdgeofObliteration = self.vb.EdgeofObliteration + 1
-		specWarnEdgeofObliteration:Show()
-		specWarnEdgeofObliteration:Play("watchstep")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnEdgeofObliteration:Show()
+			specWarnEdgeofObliteration:Play("watchstep")
+		end
 		timerEdgeofObliterationCD:Start(nil, self.vb.EdgeofObliteration+1)
 	elseif spellId == 252729 and self:AntiSpam(5, 3) then
 		timerCosmicRayCD:Start()
@@ -539,8 +543,10 @@ function mod:SPELL_CAST_SUCCESS(args)
 		countdownReorgModule:Start()]]
 	elseif spellId == 258029 and self:AntiSpam(5, 7) then --Процесс инициализации (мифик)
 		self.vb.moduleCount = self.vb.moduleCount + 1
-		specWarnApocModule:Show(self.vb.moduleCount)
-		specWarnApocModule:Play("killmob")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnApocModule:Show(self.vb.moduleCount)
+			specWarnApocModule:Play("mobkill")
+		end
 		local timer = apocModuleTimers[self.vb.moduleCount+1] or 46.6
 		timerReorgModuleCD:Start(timer, self.vb.moduleCount+1)
 		countdownApocModule:Start(timer)
@@ -788,7 +794,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnReorgModule:Show()
 		if not UnitIsDeadOrGhost("player") then
 			specWarnReorgModule:Show()
-			specWarnReorgModule:Play("killmob")
+			specWarnReorgModule:Play("mobkill")
 		--	specWarnReorgModule:Schedule(46.5)
 		--	specWarnReorgModule:ScheduleVoice(46.5, "killmob")
 		end
@@ -993,8 +999,10 @@ end
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	local spellId = legacySpellId or bfaSpellId
 	if spellId == 257300 and self:AntiSpam(5, 1) then--Ember of Rage
-		specWarnEmberofRage:Show()
-		specWarnEmberofRage:Play("watchstep")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnEmberofRage:Show()
+			specWarnEmberofRage:Play("watchstep")
+		end
 	elseif spellId == 34098 and self.vb.phase == 2 then--ClearAllDebuffs (12 before Tempoeral Blast)
 		self:Unschedule(ToggleRangeFinder)
 		self.vb.phase = 3
