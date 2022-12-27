@@ -259,6 +259,7 @@ DBM_CORE_AUTO_TIMER_OPTIONS.nextsource	= "Exibir cronógrafo para o próximo $sp
 DBM_CORE_AUTO_TIMER_OPTIONS.achievement	= "Exibir cronógrafo para %s"
 
 -- Auto-generated Warning Localizations
+DBM_CORE_AUTO_ANNOUNCE_TEXTS.you 			= "%s em você"
 DBM_CORE_AUTO_ANNOUNCE_TEXTS.target			= "%s em >%%s<"
 DBM_CORE_AUTO_ANNOUNCE_TEXTS.targetcount	= "%s (%%s) em >%%s<"
 DBM_CORE_AUTO_ANNOUNCE_TEXTS.spell			= "%s"
@@ -272,6 +273,7 @@ DBM_CORE_AUTO_ANNOUNCE_TEXTS.count			= "%s (%%s)"
 DBM_CORE_AUTO_ANNOUNCE_TEXTS.stack			= "%s em >%%s< (%%d)"
 
 local prewarnOption = "Exibir aviso antecipado para $spell:%s"
+DBM_CORE_AUTO_ANNOUNCE_OPTIONS.you 			= "Anunciar quando $spell:%s em você"
 DBM_CORE_AUTO_ANNOUNCE_OPTIONS.target		= "Anunciar alvos de $spell:%s"
 DBM_CORE_AUTO_ANNOUNCE_OPTIONS.targetcount	= "Anunciar alvos de $spell:%s"
 DBM_CORE_AUTO_ANNOUNCE_OPTIONS.spell		= "Exibir aviso para $spell:%s"
@@ -285,10 +287,32 @@ DBM_CORE_AUTO_ANNOUNCE_OPTIONS.count		= "Exibir aviso para $spell:%s"
 DBM_CORE_AUTO_ANNOUNCE_OPTIONS.stack		= "Anunciar empilhamento de $spell:%s"
 
 -- Auto-generated Special Warning Localizations
+DBM_CORE_AUTO_SPEC_WARN_TEXTS.spell		= "%s!"
+DBM_CORE_AUTO_SPEC_WARN_TEXTS.ends		= "%s termina"
+DBM_CORE_AUTO_SPEC_WARN_TEXTS.dispel	= "%s em >%%s< - remova agora"
+DBM_CORE_AUTO_SPEC_WARN_TEXTS.interrupt	= "%s - interrompa >%%s<"
+DBM_CORE_AUTO_SPEC_WARN_TEXTS.interruptcount = "%s - interrompa >%%s< (%%d)"
+DBM_CORE_AUTO_SPEC_WARN_TEXTS.you		= "%s em você"
+DBM_CORE_AUTO_SPEC_WARN_TEXTS.youdispel = "%s em você - remova agora"
+DBM_CORE_AUTO_SPEC_WARN_TEXTS.youcount	= "%s (%%s) em você"
+DBM_CORE_AUTO_SPEC_WARN_TEXTS.target	= "%s em >%%s<"
+DBM_CORE_AUTO_SPEC_WARN_TEXTS.close		= "%s em >%%s< perto de você"
+DBM_CORE_AUTO_SPEC_WARN_TEXTS.move		= "%s - saia de perto"
+DBM_CORE_AUTO_SPEC_WARN_TEXTS.dodge 	= DBM_CORE_AUTO_SPEC_WARN_TEXTS.move--FIXME (this is a temp until localized properly as a dodge warning)
+DBM_CORE_AUTO_SPEC_WARN_TEXTS.jump		= "%s - salte"
+DBM_CORE_AUTO_SPEC_WARN_TEXTS.run		= "%s - corra para longe"
+DBM_CORE_AUTO_SPEC_WARN_TEXTS.cast		= "%s - pare de lançar"
+DBM_CORE_AUTO_SPEC_WARN_TEXTS.stack		= "%s (%%d)"
+DBM_CORE_AUTO_SPEC_WARN_TEXTS.switch	= "%s - mude de alvo"
+DBM_CORE_AUTO_SPEC_WARN_TEXTS.switchcount = "%s - mude de alvo (%%s)"
+DBM_CORE_AUTO_SPEC_WARN_TEXTS.baitmur	= "байти Мурчаля на прошляп очка на %s (%%s)"
+
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.spell 		= "Exibir aviso especial para $spell:%s"
+DBM_CORE_AUTO_SPEC_WARN_OPTIONS.ends 		= "Exibir aviso especial sobre o fim $spell:%s"
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.dispel 		= "Exibir aviso especial para remover/roubar $spell:%s"
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.interrupt	= "Exibir aviso especial para interromper $spell:%s"
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.you 		= "Exibir aviso especial quando você é afetado por $spell:%s"
+DBM_CORE_AUTO_SPEC_WARN_OPTIONS.youdispel 	= "Exibir aviso especial para dissipar feitiços quando em você $spell:%s"
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.youcount 	= DBM_CORE_AUTO_SPEC_WARN_OPTIONS.you--FIXME, Translate needed
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.target 		= "Exibir aviso especial quando alguém é afetador por $spell:%s"
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.close 		= "Exibir aviso especial quando alguém próximo de você é afetado por $spell:%s"
@@ -300,24 +324,6 @@ DBM_CORE_AUTO_SPEC_WARN_OPTIONS.stack 		= "Exibir aviso especial para pilha >=%d
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.switch		= "Exibir aviso especial para mudar de alvo para $spell:%s"
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.switchcount = DBM_CORE_AUTO_SPEC_WARN_OPTIONS.switch--FIXME, Translate needed
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.interruptcount = DBM_CORE_AUTO_SPEC_WARN_OPTIONS.interrupt--FIXME, Translate needed
-
-DBM_CORE_AUTO_SPEC_WARN_TEXTS.spell		= "%s!"
-DBM_CORE_AUTO_SPEC_WARN_TEXTS.dispel	= "%s em >%%s< - remova agora"
-DBM_CORE_AUTO_SPEC_WARN_TEXTS.interrupt	= "%s - interrompa >%%s<"
-DBM_CORE_AUTO_SPEC_WARN_TEXTS.interruptcount	= "%s - interrompa >%%s< (%%d)"
-DBM_CORE_AUTO_SPEC_WARN_TEXTS.you		= "%s em você"
-DBM_CORE_AUTO_SPEC_WARN_TEXTS.youcount	= "%s (%%s) em você"
-DBM_CORE_AUTO_SPEC_WARN_TEXTS.target	= "%s em >%%s<"
-DBM_CORE_AUTO_SPEC_WARN_TEXTS.close		= "%s em >%%s< perto de você"
-DBM_CORE_AUTO_SPEC_WARN_TEXTS.move		= "%s - saia de perto"
-DBM_CORE_AUTO_SPEC_WARN_TEXTS.dodge 	= DBM_CORE_AUTO_SPEC_WARN_TEXTS.move--FIXME (this is a temp until localized properly as a dodge warning)
-DBM_CORE_AUTO_SPEC_WARN_TEXTS.jump		= "%s - salte"
-DBM_CORE_AUTO_SPEC_WARN_TEXTS.run		= "%s - corra para longe"
-DBM_CORE_AUTO_SPEC_WARN_TEXTS.cast		= "%s - pare de lançar"
-DBM_CORE_AUTO_SPEC_WARN_TEXTS.stack		= "%s (%%d)"
-DBM_CORE_AUTO_SPEC_WARN_TEXTS.switch	= "%s - mude de alvo"
-DBM_CORE_AUTO_SPEC_WARN_TEXTS.switchcount	= "%s - mude de alvo (%%s)"
-
 
 DBM_CORE_AUTO_ICONS_OPTION_TEXT		= "Colocar ícones nos alvos de $spell:%s"
 DBM_CORE_AUTO_ICONS_OPTION_TEXT2	= "Set icons on $spell:%s"
