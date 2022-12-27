@@ -7,11 +7,12 @@ mod:SetMinSyncRevision(17650)
 
 mod.noStatistics = true
 mod.isTrashMod = true
+--https://ru.wowhead.com/npc=126889/соролис-нелюбимец-судьбы на Аргусе
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 221424 222676 189157 214095 218245 218250 223101 223104 219060 206762 203671 222596 216808 216837 218885 223659 223630 207002 206995 206972 216981 216970 219108 218875 218871 218435 218427 214500 222442 222446 222279 218855 224743 225254 222483",
-	"SPELL_CAST_SUCCESS 221422 223094 216881 218969 224745 222504 222483",
-	"SPELL_AURA_APPLIED 221422 221425 222676 218250 223094 219102 219087 206795 219060 223630 206972 219661 219646 37587 222631 219627 224743 225254",
+	"SPELL_CAST_START 221424 222676 189157 214095 218245 218250 223101 223104 219060 206762 203671 222596 216808 216837 218885 223659 223630 207002 206995 206972 216981 216970 219108 218875 218871 218435 218427 214500 222442 222446 222279 218855 224743 225254 222483 207084 207056 216143 216276 218385 219121 219109 207199 225243",
+	"SPELL_CAST_SUCCESS 221422 223094 216881 218969 224745 222504 222483 216150 218407",
+	"SPELL_AURA_APPLIED 221422 221425 222676 218250 223094 219102 219087 206795 219060 223630 206972 219661 219646 37587 222631 219627 224743 225254 207199 225243",
 	"SPELL_AURA_APPLIED_DOSE 221425",
 	"SPELL_AURA_REMOVED 221422 221425",
 	"SPELL_PERIODIC_DAMAGE 218960 222444",
@@ -20,7 +21,6 @@ mod:RegisterEvents(
 	"GOSSIP_SHOW",
 	"UNIT_DIED"
 )
---Для https://ru.wowhead.com/npc=126889/соролис-нелюбимец-судьбы на Аргусе
 
 --прошляпанное очко Мурчаля Прошляпенко ✔✔✔
 local warnCrushArmor			= mod:NewStackAnnounce(221425, 1) --Сокрушение доспеха
@@ -33,6 +33,29 @@ local warnRemnantofLight		= mod:NewTargetAnnounce(216837, 3) --Частица С
 local warnFelFissure			= mod:NewTargetAnnounce(218885, 3) --Разлом скверны
 local warnDepthCharge			= mod:NewTargetAnnounce(207002, 3) --Глубинная бомба
 local warnCinderwingsGaze		= mod:NewTargetAnnounce(222446, 2) --Взор Пеплокрыла
+--Марблуб Громадный
+local specWarnShakeOff			= mod:NewSpecialWarningInterrupt2(219109, nil, nil, nil, 2, 2) --Стряхивание
+local specWarnEnragedRoar		= mod:NewSpecialWarningInterrupt(219121, "HasInterrupt", nil, nil, 1, 2) --Яростный рев
+--Фьордан https://www.wowhead.com/ru/npc=109584/фьордан#abilities
+--Магистр Злисса https://www.wowhead.com/ru/npc=112757/магистр-злисса#abilities
+local specWarnArcaneBarrier		= mod:NewSpecialWarningInterrupt(207199, "HasInterrupt", nil, nil, 1, 2) --Барьер Чар
+local specWarnArcaneBarrier2 	= mod:NewSpecialWarningDispel(207199, "MagicDispeller", nil, nil, 1, 3) --Барьер Чар
+local specWarnNetherSuppression	= mod:NewSpecialWarningYou(225243, nil, nil, nil, 1, 2) --Подавление Пустоты
+local specWarnNetherSuppression2 = mod:NewSpecialWarningInterrupt2(225243, nil, nil, nil, 1, 2) --Подавление Пустоты
+--Ральф Костолом https://www.wowhead.com/ru/npc=109317/ральф-костолом#abilities
+--Литерон
+local specWarnShatteredEarth	= mod:NewSpecialWarningDodge(218407, nil, nil, nil, 2, 3) --Расколовшаяся земля
+local specWarnBiteFrenzy		= mod:NewSpecialWarningYouDefensive(218385, nil, nil, nil, 3, 3) --Бешеный укус
+local specWarnBiteFrenzy2		= mod:NewSpecialWarningTargetDodge(218385, nil, nil, nil, 2, 2) --Бешеный укус
+--Охотница Эстрид
+local specWarnCommandCharge		= mod:NewSpecialWarningInterrupt(216276, "HasInterrupt", nil, nil, 1, 2) --Команда: Вперед!
+local specWarnBearTrap			= mod:NewSpecialWarningTargetDodge(216143, nil, nil, nil, 2, 2) --Капкан на медведя
+local specWarnBearTrap2			= mod:NewSpecialWarningYouMove(216143, nil, nil, nil, 3, 3) --Капкан на медведя
+local specWarnBarrage			= mod:NewSpecialWarningInterrupt2(216150, nil, nil, nil, 2, 2) --Шквал
+--Мават'аки
+local specWarnWhistlingWinds	= mod:NewSpecialWarningTargetDodge(207056, nil, nil, nil, 2, 2) --Свистящие ветра
+local specWarnWhistlingWinds2	= mod:NewSpecialWarningYouMove(207056, nil, nil, nil, 2, 2) --Свистящие ветра
+local specWarnBlizzard			= mod:NewSpecialWarningInterrupt(207084, "HasInterrupt", nil, nil, 1, 2) --Снежная буря
 --Морской король Волноросс
 local specWarnSeaQuake			= mod:NewSpecialWarningInterrupt2(222483, nil, nil, nil, 3, 5) --Сотрясение моря
 local specWarnCalloftheSeas		= mod:NewSpecialWarningSwitch(222504, nil, nil, nil, 1, 2) --Зов морей
@@ -104,7 +127,7 @@ local specWarnArcaneResonance	= mod:NewSpecialWarningInterrupt2(214095, nil, nil
 local specWarnImpale			= mod:NewSpecialWarningInterrupt(222676, "HasInterrupt", nil, nil, 3, 5) --Прокалывание
 local specWarnViciousBite		= mod:NewSpecialWarningYouDefensive(221422, nil, nil, nil, 2, 5) --Яростный укус
 local specWarnCrushArmor		= mod:NewSpecialWarningStack(221425, nil, 3, nil, nil, 3, 5) --Сокрушение доспеха
-
+--Морской король Волноросс
 local timerSeaQuakeCD			= mod:NewCDTimer(21.5, 222483, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Сотрясение моря
 
 local timerClubSlamCD			= mod:NewCDTimer(20, 203671, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Мощный удар дубиной
@@ -141,6 +164,8 @@ local timerFlrglDrglDrglGrglCD	= mod:NewCDTimer(20, 218250, nil, nil, nil, 2, ni
 
 local timerRoleplay				= mod:NewTimer(30, "timerRoleplay", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7) --Ролевая игра
 
+local yellBearTrap				= mod:NewYell(216143, nil, nil, nil, "YELL") --Капкан на медведя
+local yellWhistlingWinds		= mod:NewYell(207056, nil, nil, nil, "YELL") --Свистящие ветра
 local yellCinderwingsGaze		= mod:NewYell(222446, nil, nil, nil, "YELL") --Взор Пеплокрыла
 local yellDepthCharge			= mod:NewYell(207002, nil, nil, nil, "YELL") --Глубинная бомба
 local yellFelFissure			= mod:NewYell(218885, nil, nil, nil, "YELL") --Разлом скверны
@@ -151,6 +176,41 @@ local yellWebWrap				= mod:NewYell(223094, nil, nil, nil, "YELL") --Кокон
 local yellImpale				= mod:NewYell(222676, nil, nil, nil, "YELL") --Прокалывание
 local yellImpaleFades			= mod:NewFadesYell(222676, nil, nil, nil, "YELL") --Прокалывание
 local yellArcticTorrent			= mod:NewYell(218245, nil, nil, nil, "YELL") --Арктический поток
+
+function mod:BiteFrenzyTarget(targetname, uId) --прошляпанное очко Мурчаля Прошляпенко ✔
+	if not targetname then return end
+	if targetname == UnitName("player") then
+		specWarnBiteFrenzy:Show()
+		specWarnBiteFrenzy:Play("defensive")
+	else
+		specWarnBiteFrenzy2:Show(targetname)
+		specWarnBiteFrenzy2:Play("watchstep")
+	end
+end
+
+function mod:bearTrapTarget(targetname, uId) --прошляпанное очко Мурчаля Прошляпенко ✔
+	if not targetname then return end
+	if targetname == UnitName("player") then
+		specWarnBearTrap2:Show()
+		specWarnBearTrap2:Play("runout")
+		yellBearTrap:Yell()
+	else
+		specWarnBearTrap:Show(targetname)
+		specWarnBearTrap:Play("watchstep")
+	end
+end
+
+function mod:whistlingWindsTarget(targetname, uId) --прошляпанное очко Мурчаля Прошляпенко ✔
+	if not targetname then return end
+	if targetname == UnitName("player") then
+		specWarnWhistlingWinds2:Show()
+		specWarnWhistlingWinds2:Play("targetyou")
+		yellWhistlingWinds:Yell()
+	else
+		specWarnWhistlingWinds:Show(targetname)
+		specWarnWhistlingWinds:Play("watchstep")
+	end
+end
 
 function mod:cinderwingsGazeTarget(targetname, uId) --прошляпанное очко Мурчаля Прошляпенко ✔
 	if not targetname then return end
@@ -395,6 +455,38 @@ function mod:SPELL_CAST_START(args)
 		specWarnSeaQuake:Show()
 		specWarnSeaQuake:Play("kickcast")
 		timerSeaQuakeCD:Start()
+	elseif spellId == 207084 then --Снежная буря
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnBlizzard:Show()
+			specWarnBlizzard:Play("kickcast")
+		end
+	elseif spellId == 207056 then --Свистящие ветра
+		self:BossTargetScanner(args.sourceGUID, "whistlingWindsTarget", 0.1, 2)
+	elseif spellId == 216143 then --Капкан на медведя
+		self:BossTargetScanner(args.sourceGUID, "bearTrapTarget", 0.1, 2)
+	elseif spellId == 216276 then --Команда: Вперед!
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnCommandCharge:Show()
+			specWarnCommandCharge:Play("kickcast")
+		end
+	elseif spellId == 218385 then --Бешеный укус
+		self:BossTargetScanner(args.sourceGUID, "BiteFrenzyTarget", 0.1, 2)
+	elseif spellId == 219121 then --Яростный рев
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnEnragedRoar:Show()
+			specWarnEnragedRoar:Play("kickcast")
+		end
+	elseif spellId == 219109 then --Стряхивание
+		specWarnShakeOff:Show()
+		specWarnShakeOff:Play("kickcast")
+	elseif spellId == 207199 then --Барьер Чар
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnArcaneBarrier:Show()
+			specWarnArcaneBarrier:Play("kickcast")
+		end
+	elseif spellId == 225243 then --Подавление Пустоты
+		specWarnNetherSuppression2:Show()
+		specWarnNetherSuppression2:Play("kickcast")
 	end
 end
 
@@ -422,6 +514,12 @@ function mod:SPELL_CAST_SUCCESS(args)
 	elseif spellId == 222483 then --Сотрясение моря
 		specWarnSeaQuake:Show()
 		specWarnSeaQuake:Play("kickcast")
+	elseif spellId == 216150 then --Шквал
+		specWarnBarrage:Show()
+		specWarnBarrage:Play("kickcast")
+	elseif spellId == 218407 then --Расколовшаяся земля
+		specWarnShatteredEarth:Show()
+		specWarnShatteredEarth:Play("watchstep")
 	end
 end
 
@@ -508,6 +606,14 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnMassSlow2:Show()
 			specWarnMassSlow2:Play("targetyou")
+		end
+	elseif spellId == 207199 then --Барьер Чар
+		specWarnArcaneBarrier2:Show(args.destName)
+		specWarnArcaneBarrier2:Play("dispelnow")
+	elseif spellId == 225243 then --Подавление Пустоты
+		if args:IsPlayer() then
+			specWarnNetherSuppression:Show()
+			specWarnNetherSuppression:Play("targetyou")
 		end
 	end
 end
