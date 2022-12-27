@@ -9,14 +9,17 @@ mod:SetZone()
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_START 193211 193364 193977 193460 193566"
+	"SPELL_CAST_START 193211 193364 193977 193460 193566",
+	"SPELL_CAST_SUCCESS 193460",
+	"SPELL_AURA_APPLIED 193364"
 )
 
 --Имирон, падший король https://ru.wowhead.com/npc=96756/имирон-падший-король/эпохальный-журнал-сражений
 local warnBane						= mod:NewSpellAnnounce(193460, 3) --Погибель
+local warnScreams					= mod:NewTargetAnnounce(193364, 2) --Крики мертвых
 
 local specWarnBane					= mod:NewSpecialWarningDodge(193460, nil, nil, nil, 2, 2) --Погибель
-local specWarnDarkSlash				= mod:NewSpecialWarningDefensive(193211, "Tank", nil, nil, 3, 3) --Черная рана
+local specWarnDarkSlash				= mod:NewSpecialWarningDefensive(193211, "Tank", nil, nil, 3, 6) --Черная рана
 local specWarnScreams				= mod:NewSpecialWarningRun(193364, "Melee", nil, nil, 4, 3) --Крики мертвых
 local specWarnScreams2				= mod:NewSpecialWarningDodge(193364, "-Melee", nil, nil, 2, 3) --Крики мертвых
 local specWarnWinds					= mod:NewSpecialWarningDefensive(193977, nil, nil, nil, 2, 3) --Ветра Нордскола
@@ -52,26 +55,29 @@ function mod:SPELL_CAST_START(args)
 			countdownDarkSlash:Start()
 		end
 	elseif spellId == 193364 then
-		specWarnScreams:Show()
-		specWarnScreams:Play("runout")
-		specWarnScreams2:Show()
-		specWarnScreams2:Play("watchstep")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnScreams:Show()
+			specWarnScreams:Play("runout")
+			specWarnScreams2:Show()
+			specWarnScreams2:Play("watchstep")
+		end
 		if self:IsHard() then
 			timerScreamsCD:Start(31.5)
 		else
 			timerScreamsCD:Start()
 		end
 	elseif spellId == 193977 then
-		specWarnWinds:Show()
-		specWarnWinds:Play("carefly")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnWinds:Show()
+			specWarnWinds:Play("carefly")
+		end
 		if self:IsHard() then
 			timerWindsCD:Start(29.5)
 		else
 			timerWindsCD:Start()
 		end
-	elseif spellId == 193460 then
+	elseif spellId == 193460 then --Погибель
 		warnBane:Show()
-		specWarnBane:Show()
 		if self:IsHard() then
 			timerBaneCD:Start(64)
 		else
@@ -82,7 +88,27 @@ function mod:SPELL_CAST_START(args)
 			countdownAriseFallen:Start()
 		end
 	elseif spellId == 193566 then
-		specAriseFallen:Show()
-		specAriseFallen:Play("mobkill")
+		if not UnitIsDeadOrGhost("player") then
+			specAriseFallen:Show()
+			specAriseFallen:Play("mobkill")
+		end
 	end
 end
+
+function mod:SPELL_CAST_SUCCESS(args)
+	local spellId = args.spellId
+	if spellId == 193460 then --Погибель
+		if not UnitIsDeadOrGhost("player") then
+			specWarnBane:Show()
+			specWarnBane:Play("watchstep")
+		end
+	end
+end
+
+function mod:SPELL_AURA_APPLIED(args)
+	local spellId = args.spellId
+	if spellId == 193364 then --Крики мертвых
+		warnScreams:CombinedShow(0.3, args.destName)
+	end
+end
+		

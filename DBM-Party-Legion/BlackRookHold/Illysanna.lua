@@ -106,8 +106,10 @@ function mod:SPELL_CAST_START(args)
 		timerBrutalGlaiveCD:Start()
 		self:BossTargetScanner(args.sourceGUID, "BrutalGlaiveTarget", 0.1, 2)
 	elseif spellId == 197974 then
-		specWarnBonebreakingStrike:Show()
-		specWarnBonebreakingStrike:Play("shockwave")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnBonebreakingStrike:Show()
+			specWarnBonebreakingStrike:Play("shockwave")
+		end
 	elseif spellId == 197797 then --Чародейская бомбардировка
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnArcaneBlitz:Show()
@@ -188,8 +190,10 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	local spellId = legacySpellId or bfaSpellId
 	if spellId == 197622 then --Прыжок на фазу 2
 		self.vb.phase = self.vb.phase + 1
-		specWarnSummonAdds:Show()
-		specWarnSummonAdds:Play("killmob")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnSummonAdds:Show()
+			specWarnSummonAdds:Play("mobkill")
+		end
 		timerBrutalGlaiveCD:Stop()
 		timerVengefulShearCD:Stop()
 		timerDarkRushCD:Stop()

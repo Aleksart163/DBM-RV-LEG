@@ -35,7 +35,7 @@ local specWarnHiddenStarted			= mod:NewSpecialWarningSpell(192750, nil, nil, nil
 local specWarnHiddenOver			= mod:NewSpecialWarningEnd(192750, nil, nil, nil, 1, 2) --Пелена тьмы
 local specWarnCreepingDoom			= mod:NewSpecialWarningDodge(197422, nil, nil, nil, 2, 5) --Ползучая гибель
 local specWarnVengeance				= mod:NewSpecialWarningMoveTo(205004, nil, nil, nil, 3, 6) --Отмщение
-local specWarnVengeance2			= mod:NewSpecialWarningSwitch(205004, "-Healer", nil, nil, 3, 5) --Отмщение
+local specWarnVengeance2			= mod:NewSpecialWarningSwitch(205004, "-Healer", nil, nil, 3, 6) --Отмщение
 
 --local timerDetonation				= mod:NewTargetTimer(10, 197541, nil, nil, nil, 3, nil, DBM_CORE_HEALER_ICON) --Мгновенный взрыв
 local timerKickCD					= mod:NewCDTimer(16, 197251, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON) --Сбивающий с ног удар 16-42
@@ -73,9 +73,11 @@ function mod:SPELL_CAST_START(args)
 		specWarnKick:Play("carefly")
 		timerKickCD:Start()
 	elseif spellId == 197422 then --первая Ползучая гибель
-		specWarnCreepingDoom:Show()
-		specWarnCreepingDoom:Play("stilldanger")
-		specWarnCreepingDoom:ScheduleVoice(2, "keepmove")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnCreepingDoom:Show()
+			specWarnCreepingDoom:Play("stilldanger")
+			specWarnCreepingDoom:ScheduleVoice(2, "keepmove")
+		end
 		timerKickCD:Stop()
 		timerDeepeningShadowsCD:Stop()
 		timerCreepingDoom:Start()
@@ -84,9 +86,11 @@ function mod:SPELL_CAST_START(args)
 		warnCreepingDoom2:Schedule(69.5)
 	elseif spellId == 213685 then --вторая Ползучая гибель
 		warnCreepingDoom:Show()
-		specWarnCreepingDoom:Show()
-		specWarnCreepingDoom:Play("stilldanger")
-		specWarnCreepingDoom:ScheduleVoice(2, "keepmove")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnCreepingDoom:Show()
+			specWarnCreepingDoom:Play("stilldanger")
+			specWarnCreepingDoom:ScheduleVoice(2, "keepmove")
+		end
 		timerCreepingDoom:Start(20)
 		countdownCreepingDoom2:Start(20)
 		timerCreepingDoomCD:Start(64.5)
@@ -109,7 +113,10 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnVengeance:Show(args.spellName)
 			specWarnVengeance:Play(205004)
 		else
-			specWarnVengeance2:Show()
+			if not UnitIsDeadOrGhost("player") then
+				specWarnVengeance2:Show()
+				specWarnVengeance2:Play("justrun")
+			end
 		end
 		timerVengeanceCD:Start()
 	elseif spellId == 197541 then
@@ -128,8 +135,10 @@ end
 function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
 	if spellId == 206567 then
-		specWarnHiddenOver:Show()
-		specWarnHiddenOver:Play("phasechange")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnHiddenOver:Show()
+			specWarnHiddenOver:Play("end")
+		end
 		--timerVengeanceCD:Start(14)
 		timerKickCD:Start(15.5)--15-20
 		timerDeepeningShadowsCD:Start(20)--20-25
@@ -146,7 +155,10 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	if spellId == 203416 then--Shadowstep. Faster than 206567 applied
 		timerDeepeningShadowsCD:Stop()
 		timerKickCD:Stop()
-		specWarnHiddenStarted:Show()
+		if not UnitIsDeadOrGhost("player") then
+			specWarnHiddenStarted:Show()
+		--	specWarnHiddenStarted:Play("end")
+		end
 	end
 end
 

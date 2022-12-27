@@ -23,8 +23,8 @@ local warnBurningHatred				= mod:NewTargetAnnounce(200154, 3) --Пламенна
 local specWarnMoltenCrash			= mod:NewSpecialWarningDefensive(200732, "Tank", nil, nil, 3, 3) --Магматический удар
 local specWarnLandSlide				= mod:NewSpecialWarningSpell(200700, "Tank", nil, nil, 1, 2) --Оползень
 local specWarnMagmaSculptor			= mod:NewSpecialWarningSwitch(200637, "Dps", nil, nil, 1, 2) --Ваятель магмы
-local specWarnMagmaWave				= mod:NewSpecialWarningMoveTo(200404, "-Tank", nil, nil, 4, 5) --Магматическая волна
-local specWarnMagmaWave2			= mod:NewSpecialWarningDefensive(200404, "Tank", nil, nil, 3, 5) --Магматическая волна
+local specWarnMagmaWave				= mod:NewSpecialWarningMoveTo(200404, "-Tank", nil, nil, 4, 6) --Магматическая волна
+local specWarnMagmaWave2			= mod:NewSpecialWarningDefensive(200404, "Tank", nil, nil, 3, 6) --Магматическая волна
 local specWarnBurningHatred			= mod:NewSpecialWarningYouRun(200154, nil, nil, nil, 4, 3) --Пламенная ненависть
 
 local timerMoltenCrashCD			= mod:NewCDTimer(16.5, 200732, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Магматический удар 16.5-23
@@ -79,8 +79,10 @@ function mod:SPELL_CAST_START(args)
 			timerCrystalSpikesCD:Start()
 		end
 	elseif spellId == 200637 then --Ваятель магмы
-		specWarnMagmaSculptor:Show()
-		specWarnMagmaSculptor:Play("killbigmob")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnMagmaSculptor:Show()
+			specWarnMagmaSculptor:Play("killbigmob")
+		end
 		if self:IsHard() then
 			timerMagmaSculptorCD:Start(71.5)
 		else
@@ -95,8 +97,10 @@ function mod:SPELL_CAST_START(args)
 			timerLandSlideCD:Start()
 		end
 	elseif spellId == 200404 and self:AntiSpam(3, 1) then --Магматическая волна
-		specWarnMagmaWave:Show(shelterName)
-		specWarnMagmaWave:Play("findshelter")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnMagmaWave:Show(shelterName)
+			specWarnMagmaWave:Play("findshelter")
+		end
 		specWarnMagmaWave2:Show()
 		specWarnMagmaWave2:Play("defensive")
 		countdownMagmaWave2:Start()

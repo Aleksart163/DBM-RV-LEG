@@ -22,7 +22,7 @@ local warnRazorShards				= mod:NewSpellAnnounce(188169, 4) --Бритвенно-
 local warnRazorShards2				= mod:NewSoonAnnounce(188169, 3, nil, nil) --Бритвенно-острые осколки
 
 local specWarnShatter				= mod:NewSpecialWarningDefensive(188114, nil, nil, nil, 2, 3) --Дробление
-local specWarnRazorShards			= mod:NewSpecialWarningYouMove(188169, "Tank", nil, nil, 3, 3) --Бритвенно-острые осколки
+local specWarnRazorShards			= mod:NewSpecialWarningYouMove(188169, "Tank", nil, nil, 3, 6) --Бритвенно-острые осколки
 local specWarnRazorShards2			= mod:NewSpecialWarningDodge(188169, "-Tank", nil, nil, 2, 2) --Бритвенно-острые осколки
 local specWarnGas					= mod:NewSpecialWarningYouMove(192800, nil, nil, nil, 1, 2) --Удушающая пыль
 --local specWarnCrystallineGround		= mod:NewSpecialWarningYouDontMove(215898, nil, nil, nil, 1, 2) --Кристализованная земля
@@ -49,10 +49,12 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 188169 then --Бритвенно-острые осколки
 		warnRazorShards:Show()
-		specWarnRazorShards:Show()
-		specWarnRazorShards:Play("shockwave")
-		specWarnRazorShards2:Show()
-		specWarnRazorShards2:Play("shockwave")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnRazorShards:Show()
+			specWarnRazorShards:Play("shockwave")
+			specWarnRazorShards2:Show()
+			specWarnRazorShards2:Play("shockwave")
+		end
 		if self:IsHard() then
 			timerRazorShardsCD:Start(29)
 			warnRazorShards2:Schedule(24)
@@ -62,8 +64,10 @@ function mod:SPELL_CAST_START(args)
 		end
 	elseif spellId == 188114 then --Дробление
 		warnShatter:Show()
-		specWarnShatter:Show()
-		specWarnShatter:Play("defensive")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnShatter:Show()
+			specWarnShatter:Play("defensive")
+		end
 		if self:IsHard() then
 			timerShatterCD:Start(24.7)
 			countdownShatter:Start(24.7)

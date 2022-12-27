@@ -20,9 +20,9 @@ local warnCurseofWitch				= mod:NewTargetAnnounce(193698, 4) --Прокляти�
 local warnStaticNova				= mod:NewPreWarnAnnounce(193597, 5, 1) --Кольцо молний
 local warnFocusedLightning			= mod:NewSoonAnnounce(193611, 1) --Средоточие молний
 
-local specWarnStaticNova			= mod:NewSpecialWarningStandSand(193597, nil, nil, nil, 3, 5) --Кольцо молний
+local specWarnStaticNova			= mod:NewSpecialWarningStandSand(193597, nil, nil, nil, 3, 6) --Кольцо молний
 --local specWarnFocusedLightning		= mod:NewSpecialWarningMoveTo(193611, nil, nil, nil, 4, 5) --Средоточие молний
-local specWarnFocusedLightning2		= mod:NewSpecialWarningMoveAway(193611, nil, nil, nil, 3, 5) --Средоточие молний
+local specWarnFocusedLightning2		= mod:NewSpecialWarningMoveAway(193611, nil, nil, nil, 3, 6) --Средоточие молний
 local specWarnAdds					= mod:NewSpecialWarningSwitch(193682, "-Healer", nil, nil, 2, 2) --Призыв шторма
 local specWarnCurseofWitch			= mod:NewSpecialWarningYouLookAway2(193698, nil, nil, nil, 1, 2) --Проклятие ведьмы
 
@@ -69,12 +69,16 @@ end
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 193682 then --Призыв шторма
-		specWarnAdds:Show()
-		specWarnAdds:Play("mobsoon")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnAdds:Show()
+			specWarnAdds:Play("mobsoon")
+		end
 		timerAddsCD:Start()
 	elseif spellId == 193597 then --Кольцо молний
-		specWarnStaticNova:Show()
-		specWarnStaticNova:Play("findshelter")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnStaticNova:Show()
+			specWarnStaticNova:Play("findshelter")
+		end
 		warnStaticNova:Schedule(30)
 		warnFocusedLightning:Schedule(8)
 		timerStaticNovaCD:Start()
@@ -86,8 +90,10 @@ function mod:SPELL_CAST_START(args)
 		countdownFocusedLightning:Start()
 	elseif spellId == 193611 then --Средоточие молний
 		self.vb.focusedlightningCount = self.vb.focusedlightningCount + 1
-		specWarnFocusedLightning2:Show()
-		specWarnFocusedLightning2:Play("defensive")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnFocusedLightning2:Show()
+			specWarnFocusedLightning2:Play("defensive")
+		end
 --[[		if self.vb.focusedlightningCount == 1 then
 			specWarnFocusedLightning2:Show()
 			specWarnFocusedLightning2:Play("defensive")
@@ -104,10 +110,11 @@ function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 193698 then --Проклятие ведьмы
 		self.vb.curseofwitchIcon = self.vb.curseofwitchIcon - 1
-		warnCurseofWitch:CombinedShow(0.1, args.destName)
+		warnCurseofWitch:CombinedShow(0.3, args.destName)
 		timerCurseofWitch:Start()
 		if args:IsPlayer() then
 			specWarnCurseofWitch:Schedule(3.5)
+			specWarnCurseofWitch:ScheduleVoice(3.5, "turnaway")
 			yellCurseofWitch:Yell()
 			yellCurseofWitch2:Countdown(6, 3)
 		end

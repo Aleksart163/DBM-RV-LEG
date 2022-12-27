@@ -190,10 +190,12 @@ end
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 192158 or spellId == 192307 then --Освящение
-		specWarnSanctify:Show()
-		specWarnSanctify:Play("watchorb")
-		specWarnSanctify2:Show()
-		specWarnSanctify2:Play("watchorb")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnSanctify:Show()
+			specWarnSanctify:Play("watchorb")
+			specWarnSanctify2:Show()
+			specWarnSanctify2:Play("watchorb")
+		end
 		if spellId == 192307 then
 			timerSpecialCD:Start()
 			countdownSpecial:Cancel()
@@ -208,8 +210,10 @@ function mod:SPELL_CAST_START(args)
 		timerShieldOfLightCD:Start()
 		countdownShieldOfLight:Start()
 	elseif spellId == 200901 then --Око шторма
-		specWarnEyeofStorm:Show(eyeShortName)
-		specWarnEyeofStorm:Play("findshelter")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnEyeofStorm:Show(eyeShortName)
+			specWarnEyeofStorm:Play("findshelter")
+		end
 		if self.vb.phase == 2 then
 			timerSpecialCD:Start()
 			countdownSpecial:Cancel()
@@ -227,8 +231,10 @@ end
 function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
 	if spellId == 200901 then --Око шторма
-		specWarnEyeofStorm2:Show()
-		specWarnEyeofStorm2:Play("defensive")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnEyeofStorm2:Show()
+			specWarnEyeofStorm2:Play("defensive")
+		end
 	end
 end
 

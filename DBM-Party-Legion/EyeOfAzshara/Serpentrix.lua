@@ -132,8 +132,10 @@ function mod:SPELL_CAST_START(args)
 			warnRampage:Play("kickcast")
 		end
 	elseif spellId == 192050 then --Ядовитый плевок
-		specWarnPoisonSpit:Show()
-		specWarnPoisonSpit:Play("watchstep")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnPoisonSpit:Show()
+			specWarnPoisonSpit:Play("watchstep")
+		end
 	end
 end
 
@@ -155,8 +157,10 @@ mod.SPELL_MISSED = mod.SPELL_DAMAGE
 
 function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)
 	if msg:find("spell:191873") then
-		specWarnSubmerge:Show()
-		specWarnSubmerge:Play("phasechange")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnSubmerge:Show()
+			specWarnSubmerge:Play("phasechange")
+		end
 		timerToxicWoundCD:Cancel()
 	end
 end

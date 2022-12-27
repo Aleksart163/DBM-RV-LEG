@@ -89,21 +89,25 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 227568 then
 		warnLegSweep:Show()
-		specWarnLegSweep:Show()
-		specWarnLegSweep:Play("runout")
-		specWarnLegSweep2:Show()
-		specWarnLegSweep2:Play("watchstep")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnLegSweep:Show()
+			specWarnLegSweep:Play("runout")
+			specWarnLegSweep2:Show()
+			specWarnLegSweep2:Play("watchstep")
+		end
 		if self:IsHard() then
 			timerLegSweepCD:Start()
 		else
 			timerLegSweepCD:Start()
 		end
 	elseif spellId == 227420 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
-		specWarnBubbleBlast:Show(args.sourceName)
+		specWarnBubbleBlast:Show()
 		specWarnBubbleBlast:Play("kickcast")
 	elseif spellId == 227783 then --Ураганная волна
-		specWarnWashAway:Show()
-		specWarnWashAway:Play("watchwave")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnWashAway:Show()
+			specWarnWashAway:Play("watchwave")
+		end
 		timerWashAwayCD:Start()
 		countdownWashAway:Start()
 	end
@@ -183,7 +187,10 @@ end]]
 function mod:CHAT_MSG_MONSTER_YELL(msg)
 	if msg == L.Tonny then
 	--	self:SendSync("Tonny")
-		specWarnFlameGale:Show()
+		if not UnitIsDeadOrGhost("player") then
+			specWarnFlameGale:Show()
+			specWarnFlameGale:Play("watchstep")
+		end
 		if self:IsHard() then
 			timerFlameGaleCD:Start()
 			countdownFlameGale:Start()

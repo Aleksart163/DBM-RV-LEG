@@ -34,7 +34,7 @@ local specWarnForceBomb				= mod:NewSpecialWarningDodge(202974, nil, nil, nil, 2
 local specWarnBlast					= mod:NewSpecialWarningInterrupt(203176, "HasInterrupt", nil, 2, 1, 2) --Ускоряющий взрыв
 local specWarnBlastStacks			= mod:NewSpecialWarningDispel(203176, "MagicDispeller", nil, nil, 1, 2) --Ускоряющий взрыв
 local specWarnTimeLock				= mod:NewSpecialWarningInterrupt(203957, "HasInterrupt", nil, nil, 1, 2) --Временное ограничение
-local specWarnUnstableMana			= mod:NewSpecialWarningYouMoveAway(220871, nil, nil, nil, 3, 5) --Нестабильная мана
+local specWarnUnstableMana			= mod:NewSpecialWarningYouMoveAway(220871, nil, nil, nil, 3, 6) --Нестабильная мана
 local specWarnUnstableMana2			= mod:NewSpecialWarningCloseMoveAway(220871, nil, nil, nil, 2, 2) --Нестабильная мана
 
 local timerUnstableMana				= mod:NewTargetTimer(8, 220871, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Нестабильная мана
@@ -71,8 +71,10 @@ function mod:SPELL_AURA_APPLIED(args)
 	if spellId == 203957 then --Временное ограничение
 		warnTimeLock:Show(args.destName)
 		if self:AntiSpam(3, 2) then
-			specWarnTimeLock:Show()
-			specWarnTimeLock:Play("kickcast")
+			if not UnitIsDeadOrGhost("player") then
+				specWarnTimeLock:Show()
+				specWarnTimeLock:Play("kickcast")
+			end
 		end
 	elseif spellId == 220871 then --Нестабильная мана
 		timerUnstableMana:Start(args.destName)
@@ -96,8 +98,10 @@ function mod:SPELL_AURA_APPLIED(args)
 		local amount = args.amount or 1
 		if amount >= 2 then
 			warnBlast:Show(args.destName, amount)
-			specWarnBlastStacks:Show(args.destName)
-			specWarnBlastStacks:Play("dispelboss")
+			if not UnitIsDeadOrGhost("player") then
+				specWarnBlastStacks:Show(args.destName)
+				specWarnBlastStacks:Play("dispelboss")
+			end
 		end
 	end
 end
@@ -106,8 +110,10 @@ mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 202974 then
-		specWarnForceBomb:Show()
-		specWarnForceBomb:Play("157349")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnForceBomb:Show()
+			specWarnForceBomb:Play("157349")
+		end
 		if self:IsHard() then
 			if self.vb.phase == 1 then
 				timerForceBombD:Start(45)

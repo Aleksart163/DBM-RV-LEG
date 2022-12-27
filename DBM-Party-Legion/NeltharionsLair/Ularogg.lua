@@ -22,7 +22,7 @@ local warnStanceofMountain			= mod:NewSpellAnnounce(198564, 2) --Горная с
 local warnStanceofMountain2			= mod:NewSoonAnnounce(198564, 1) --Горная стойка
 
 local specWarnSunder				= mod:NewSpecialWarningYouDefensive(198496, "Tank", nil, 2, 3, 2) --Раскол
-local specWarnStrikeofMountain		= mod:NewSpecialWarningDodge(198428, nil, nil, nil, 2, 2) --Удар горы
+local specWarnStrikeofMountain		= mod:NewSpecialWarningDodge(198428, nil, nil, nil, 2, 3) --Удар горы
 
 local timerSunderCD					= mod:NewCDTimer(8.4, 198496, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Раскол +++
 local timerStrikeCD					= mod:NewCDTimer(17.5, 198428, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Удар горы
@@ -66,8 +66,10 @@ end
 function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
 	if spellId == 198428 then --Удар горы
-		specWarnStrikeofMountain:Show()
-		specWarnStrikeofMountain:Play("targetyou")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnStrikeofMountain:Show()
+			specWarnStrikeofMountain:Play("watchstep")
+		end
 	end
 end
 

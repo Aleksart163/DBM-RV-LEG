@@ -78,8 +78,10 @@ function mod:SPELL_CAST_START(args)
 		timerAddsCD:Start()
 		countdownEternalTwilight:Start()
 	elseif spellId == 246324 then
-		specWarnEntropicForce:Show()
-		specWarnEntropicForce:Play("keepmove")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnEntropicForce:Show()
+			specWarnEntropicForce:Play("keepmove")
+		end
 	end
 end
 
@@ -104,8 +106,10 @@ function mod:SPELL_AURA_REMOVED(args)
 		self.vb.guardsActive = self.vb.guardsActive - 1
 		if self.vb.guardsActive == 0 then
 			warnDarkBulwark:Show()
-			specWarnEternalTwilight:Show()
-			specWarnEternalTwilight:Play("kickcast")
+			if not UnitIsDeadOrGhost("player") then
+				specWarnEternalTwilight:Show()
+				specWarnEternalTwilight:Play("kickcast")
+			end
 		end
 	end
 end
@@ -114,11 +118,16 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	local spellId = legacySpellId or bfaSpellId
 	if spellId == 245038 then
 		warnTentacles:Show()
-		specWarnTentacles:Show()
+		if not UnitIsDeadOrGhost("player") then
+			specWarnTentacles:Show()
+			specWarnTentacles:Play("mobkill")
+		end
 		timerUmbralTentaclesCD:Start()
 	elseif spellId == 249336 then--or 249335
-		specWarnAdds:Show()
-		specWarnAdds:Play("killmob")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnAdds:Show()
+			specWarnAdds:Play("mobkill")
+		end
 	end
 end
 

@@ -23,10 +23,10 @@ local warnFelblazeRush				= mod:NewTargetAnnounce(193659, 4) --Рывок пла
 local warnClaimAegis				= mod:NewSpellAnnounce(194112, 2) --Захватить Эгиду Агграмара!
 local warnRagnarok					= mod:NewPreWarnAnnounce(193826, 5, 1) --Рагнарек
 
-local specWarnFelblazeRush			= mod:NewSpecialWarningYouMoveAway(193659, nil, nil, nil, 3, 5) --Рывок пламени Скверны
+local specWarnFelblazeRush			= mod:NewSpecialWarningYouMoveAway(193659, nil, nil, nil, 3, 6) --Рывок пламени Скверны
 local specWarnSavageBlade			= mod:NewSpecialWarningDefensive(193668, "Tank", nil, nil, 1, 3) --Свирепый клинок
-local specWarnRagnarok				= mod:NewSpecialWarningMoveTo(193826, "-Tank", nil, nil, 3, 5) --Рагнарек
-local specWarnRagnarok2				= mod:NewSpecialWarningUseItem(193826, nil, nil, nil, 3, 5) --Рагнарек
+local specWarnRagnarok				= mod:NewSpecialWarningMoveTo(193826, "-Tank", nil, nil, 3, 6) --Рагнарек
+local specWarnRagnarok2				= mod:NewSpecialWarningUseItem(193826, nil, nil, nil, 3, 6) --Рагнарек
 local specWarnFlames				= mod:NewSpecialWarningYouMove(193702, nil, nil, nil, 1, 3) --Инфернальное пламя
 
 local timerSpecialCD				= mod:NewCDSpecialTimer(13.5)
@@ -124,10 +124,12 @@ function mod:SPELL_CAST_START(args)
 		firstrush = false
 		if ExtraActionBarFrame:IsShown() then
 			specWarnRagnarok2:Show(shield)
-			specWarnRagnarok2:Play("findshield")
+			specWarnRagnarok2:Play("useitem")
 		else
-			specWarnRagnarok:Show(shield)
-			specWarnRagnarok:Play("findshield")
+			if not UnitIsDeadOrGhost("player") then
+				specWarnRagnarok:Show(shield)
+				specWarnRagnarok:Play("findshield")
+			end
 		end
 		timerRushCD:Cancel()
 		countdownRush:Cancel()

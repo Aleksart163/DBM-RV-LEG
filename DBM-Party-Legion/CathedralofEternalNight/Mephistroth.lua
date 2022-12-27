@@ -87,13 +87,17 @@ function mod:SPELL_CAST_START(args)
 	if spellId == 233155 then
 		specWarnCarrionSwarm:Show()
 		specWarnCarrionSwarm:Play("shockwave")
-		specWarnCarrionSwarm3:Show()
-		specWarnCarrionSwarm3:Play("watchstep")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnCarrionSwarm3:Show()
+			specWarnCarrionSwarm3:Play("watchstep")
+		end
 		timerCarrionSwarmCD:Start()
 	elseif spellId == 233206 then--Shadow Fade
 		warnShadowFade:Show()
-		specWarnShadowFade:Schedule(6)
-		specWarnShadowFade:ScheduleVoice(6, "killmob")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnShadowFade:Schedule(6)
+			specWarnShadowFade:ScheduleVoice(6, "mobkill")
+		end
 		timerCarrionSwarmCD:Stop()
 		timerDarkSolitudeCD:Stop()
 		timerDemonicUpheavalCD:Stop()
@@ -102,8 +106,10 @@ function mod:SPELL_CAST_START(args)
 			DBM.RangeCheck:Hide()
 		end
 	elseif spellId == 234817 then
-	--	warnDarkSolitude:Show()
-		specWarnDarkSolitude:Show(8)
+		if not UnitIsDeadOrGhost("player") then
+			specWarnDarkSolitude:Show(8)
+			specWarnDarkSolitude:Play("watchstep")
+		end
 		timerDarkSolitudeCD:Start()
 		if self.Options.InfoFrame then
 			DBM.InfoFrame:SetHeader(darkSolitude)

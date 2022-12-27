@@ -106,8 +106,12 @@ end
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 237276 then --Сокрушающая дубина
-		specWarnPulvCrudgel:Show()
-		specWarnPulvCrudgel2:Show()
+		if not UnitIsDeadOrGhost("player") then
+			specWarnPulvCrudgel:Show()
+			specWarnPulvCrudgel:Play("justrun")
+			specWarnPulvCrudgel2:Show()
+			specWarnPulvCrudgel2:Play("watchstep")
+		end
 		timerPulvCrudgelCD:Start()
 	end
 end

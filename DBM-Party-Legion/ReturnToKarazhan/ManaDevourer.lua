@@ -24,13 +24,13 @@ mod:RegisterEventsInCombat(
 )
 
 --Пожиратель маны https://ru.wowhead.com/npc=116494/пожиратель-маны/эпохальный-журнал-сражений
-local warnEnergyDischarge			= mod:NewPreWarnAnnounce(227457, 5, 1) --Энергетический разряд
 local warnEnergyDischarge2			= mod:NewSpellAnnounce(227457, 4) --Энергетический разряд
 local warnEnergyVoid				= mod:NewSpellAnnounce(227523, 1) --Энергетическая пустота
 
+local specWarnEnergyDischarge		= mod:NewSpecialWarningSoon(227457, nil, nil, nil, 1, 5) --Энергетический разряд
 local specWarnUnstableMana			= mod:NewSpecialWarningStack(227502, nil, 1, nil, nil, 1, 3) --Нестабильная мана
 local specWarnEnergyVoid			= mod:NewSpecialWarningYouMove(227524, nil, nil, nil, 1, 2) --Энергетическая пустота
-local specWarnDecimatingEssence		= mod:NewSpecialWarningDefensive(227507, nil, nil, nil, 3, 5) --Истребляющая сущность
+local specWarnDecimatingEssence		= mod:NewSpecialWarningDefensive(227507, nil, nil, nil, 3, 6) --Истребляющая сущность
 local specWarnCoalescePower			= mod:NewSpecialWarningMoveTo(227297, "Tank", nil, nil, 1, 2) --Слияние энергии
 local specWarnCoalescePower2		= mod:NewSpecialWarningDodge(227297, "-Tank", nil, nil, 1, 2) --Слияние энергии
 local specWarnArcaneBomb			= mod:NewSpecialWarningDodge(227618, nil, nil, nil, 2, 2) --Чародейская бомба
@@ -51,7 +51,8 @@ function mod:OnCombatStart(delay)
 	timerEnergyVoidCD:Start(14.5-delay)
 	timerCoalescePowerCD:Start(30-delay)
 	countdownCoalescePower:Start(30-delay)
-	warnEnergyDischarge:Schedule(17-delay) --Энергетический разряд
+	specWarnEnergyDischarge:Schedule(17-delay) --Энергетический разряд
+	specWarnEnergyDischarge:ScheduleVoice(17-delay, "aesoon")
 	timerEnergyDischargeCD:Start(22-delay) --Энергетический разряд
 	countdownEnergyDischarge:Start(22-delay) --Энергетический разряд
 	if self.Options.InfoFrame then
@@ -69,19 +70,26 @@ end
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 227507 then --Истребляющая сущность
-		specWarnDecimatingEssence:Show()
-		specWarnDecimatingEssence:Play("aesoon")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnDecimatingEssence:Show()
+			specWarnDecimatingEssence:Play("aesoon")
+		end
 	end
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
 	if spellId == 227618 then
-		specWarnArcaneBomb:Show()
-		specWarnArcaneBomb:Play("watchstep")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnArcaneBomb:Show()
+			specWarnArcaneBomb:Play("watchstep")
+		end
 	elseif spellId == 227523 then
 		warnEnergyVoid:Show()
-		specWarnEnergyVoid2:Show()
+		if not UnitIsDeadOrGhost("player") then
+			specWarnEnergyVoid2:Show()
+			specWarnEnergyVoid2:Play("watchstep")
+		end
 		timerEnergyVoidCD:Start()
 	end
 end
@@ -91,22 +99,24 @@ function mod:SPELL_AURA_APPLIED(args)
 	if spellId == 227297 then
 		specWarnCoalescePower:Show(looseMana)
 		specWarnCoalescePower:Play("helpsoak")
-		specWarnCoalescePower2:Show()
-		specWarnCoalescePower2:Play("watchstep")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnCoalescePower2:Show()
+			specWarnCoalescePower2:Play("watchstep")
+		end
 		timerCoalescePowerCD:Start()
 		countdownCoalescePower:Start()
 	elseif spellId == 227502 then --Нестабильная мана
 		local amount = args.amount or 1
-		if self:IsHeroic() then
-			if args:IsPlayer() then
-				if amount >= 3 then
+		if self:IsMythic() then
+			if args:IsPlayer() and not self:IsTank() then
+				if amount >= 1 then
 					specWarnUnstableMana:Show(amount)
 					specWarnUnstableMana:Play("stackhigh")
 				end
 			end
 		else
-			if args:IsPlayer() and not self:IsTank() then
-				if amount >= 1 then
+			if args:IsPlayer() then
+				if amount >= 2 then
 					specWarnUnstableMana:Show(amount)
 					specWarnUnstableMana:Play("stackhigh")
 				end
@@ -130,8 +140,8 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	local spellId = legacySpellId or bfaSpellId
 	if spellId == 227457 then --Энергетический разряд
 		warnEnergyDischarge2:Show()
-		warnEnergyDischarge:Schedule(22)
-		warnEnergyDischarge:ScheduleVoice(22, "aesoon")
+		specWarnEnergyDischarge:Schedule(22)
+		specWarnEnergyDischarge:ScheduleVoice(22, "aesoon")
 		timerEnergyDischargeCD:Start()
 		countdownEnergyDischarge:Start()
 	end

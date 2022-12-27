@@ -22,12 +22,15 @@ local warnCurseofIsolation				= mod:NewTargetAnnounce(225568, 3) --Прокля�
 local warnPoisonSpear					= mod:NewTargetAnnounce(198904, 3) --Отравленное копье
 local warnUnnervingScreech				= mod:NewCastAnnounce(200630, 4) --Ошеломляющий визг
 
+local specWarnCurseofIsolation2			= mod:NewSpecialWarningYou(225568, nil, nil, nil, 2, 3) --Проклятие уединения
+local specWarnCurseofIsolation3			= mod:NewSpecialWarningYouDispel(225568, "RemoveCurse", nil, nil, 2, 3) --Проклятие уединения
+local specWarnCurseofIsolation			= mod:NewSpecialWarningDispel(225568, "RemoveCurse", nil, nil, 1, 3) --Проклятие уединения
+local specWarnPoisonSpear2				= mod:NewSpecialWarningYou(198904, nil, nil, nil, 2, 3) --Отравленное копье
+local specWarnPoisonSpear3				= mod:NewSpecialWarningYouDispel(198904, "RemovePoison", nil, nil, 2, 3) --Отравленное копье
+local specWarnPoisonSpear				= mod:NewSpecialWarningDispel(198904, "RemovePoison", nil, nil, 1, 3) --Отравленное копье
+--
 local specWarnVileMushroom				= mod:NewSpecialWarningDodge(198910, nil, nil, nil, 2, 2) --Злогриб
 local specWarnBloodBomb					= mod:NewSpecialWarningDodge(201272, nil, nil, nil, 2, 2) --Кровавая бомба
-local specWarnCurseofIsolation			= mod:NewSpecialWarningDispel(225568, "RemoveCurse", nil, nil, 1, 3) --Проклятие уединения
-local specWarnPoisonSpear				= mod:NewSpecialWarningDispel(198904, "RemovePoison", nil, nil, 1, 3) --Отравленное копье
-local specWarnCurseofIsolation2			= mod:NewSpecialWarningYou(225568, nil, nil, nil, 2, 3) --Проклятие уединения
-local specWarnPoisonSpear2				= mod:NewSpecialWarningYou(198904, nil, nil, nil, 2, 3) --Отравленное копье
 local specWarnBloodAssault				= mod:NewSpecialWarningDodge(201226, nil, nil, nil, 2, 2) --Кровавая атака
 local specWarnMaddeningRoar				= mod:NewSpecialWarningDefensive(200580, nil, nil, nil, 3, 5) --Безумный рев
 local specWarnRottingEarth				= mod:NewSpecialWarningYouMove(200822, nil, nil, nil, 1, 2) --Гниющая земля
@@ -38,6 +41,7 @@ local timerCurseofIsolation				= mod:NewTargetTimer(12, 225568, nil, "Tank|Remov
 local timerVileMushroomCD				= mod:NewCDTimer(14, 198910, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Злогриб
 
 local yellCurseofIsolation				= mod:NewYell(225568, nil, nil, nil, "YELL") --Проклятие уединения
+local yellPoisonSpear					= mod:NewYell(198904, nil, nil, nil, "YELL") --Отравленное копье
 
 function mod:SPELL_CAST_START(args)
 	if not self.Options.Enabled then return end
@@ -52,7 +56,7 @@ function mod:SPELL_CAST_START(args)
 			specWarnMaddeningRoar:Show()
 			specWarnMaddeningRoar:Play("defensive")
 		end
-	elseif spellId == 200630 and self:AntiSpam(2, 1) then --Ошеломляющий визг
+	elseif spellId == 200630 then --Ошеломляющий визг
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnUnnervingScreech:Show()
 			specWarnUnnervingScreech:Play("kickcast")
@@ -65,7 +69,7 @@ end
 
 function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
-	if spellId == 201272 and self:AntiSpam(2, 1) then --Кровавая бомба
+	if spellId == 201272 and self:AntiSpam(2, 3) then --Кровавая бомба
 		if not self:IsNormal() then
 			specWarnBloodBomb:Show()
 			specWarnBloodBomb:Play("watchstep")
@@ -75,7 +79,7 @@ end
 
 function mod:SPELL_SUMMON(args)
 	local spellId = args.spellId
-	if spellId == 198910 and self:AntiSpam(3, 1) then --Злогриб
+	if spellId == 198910 and self:AntiSpam(3, 4) then --Злогриб
 		if not self:IsNormal() then
 			specWarnVileMushroom:Show()
 			specWarnVileMushroom:Play("watchstep")
@@ -86,7 +90,7 @@ end
 
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
-	if spellId == 204243 and self:AntiSpam(3, 1) then --Истязающий глаз
+	if spellId == 204243 and self:AntiSpam(2, 5) then --Истязающий глаз
 		if not self:IsNormal() then
 			specWarnTormentingEye:Show()
 			specWarnTormentingEye:Play("kickcast")
@@ -94,35 +98,57 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 225568 then --Проклятие уединения
 		warnCurseofIsolation:CombinedShow(0.5, args.destName)
 		timerCurseofIsolation:Start(args.destName)
-		if self:IsHard() then
-			if args:IsPlayer() and self:IsTank() then
+		if self:IsHeroic() then
+			if args:IsPlayer() and not self:IsCurseDispeller() then
 				specWarnCurseofIsolation2:Show()
 				specWarnCurseofIsolation2:Play("watchstep")
 				yellCurseofIsolation:Yell()
-			elseif args:IsPlayer() and not self:IsTank() then
+			elseif args:IsPlayer() and self:IsCurseDispeller() then
+				specWarnCurseofIsolation3:Show()
+				specWarnCurseofIsolation3:Play("dispelnow")
+				yellCurseofIsolation:Yell()
+			end
+		elseif self:IsMythic() then
+			if args:IsPlayer() and not self:IsCurseDispeller() then
 				specWarnCurseofIsolation2:Show()
 				specWarnCurseofIsolation2:Play("watchstep")
 				yellCurseofIsolation:Yell()
-			else
-				specWarnCurseofIsolation:CombinedShow(0.5, args.destName)
-				specWarnCurseofIsolation:ScheduleVoice(0.5, "dispelnow")
+			elseif args:IsPlayer() and self:IsCurseDispeller() then
+				specWarnCurseofIsolation3:Show()
+				specWarnCurseofIsolation3:Play("dispelnow")
+				yellCurseofIsolation:Yell()
+			elseif self:IsCurseDispeller() then
+				if not UnitIsDeadOrGhost("player") then
+					specWarnCurseofIsolation:CombinedShow(0.5, args.destName)
+					specWarnCurseofIsolation:ScheduleVoice(0.5, "dispelnow")
+				end
 			end
 		end
 	elseif spellId == 198904 then --Отравленное копье
 		warnPoisonSpear:CombinedShow(0.5, args.destName)
-		if not self:IsNormal() then
-			if self:IsHeroic() then
-				if args:IsPlayer() then
-					specWarnPoisonSpear2:Show()
-					specWarnPoisonSpear2:Play("defensive")
-				end
-			elseif self:IsHard() then
-				if args:IsPlayer() then
-					specWarnPoisonSpear2:Show()
-					specWarnPoisonSpear2:Play("defensive")
-				else
+		if self:IsHeroic() then
+			if args:IsPlayer() and not self:IsPoisonDispeller() then
+				specWarnPoisonSpear2:Show()
+				specWarnPoisonSpear2:Play("defensive")
+				yellPoisonSpear:Yell()
+			elseif args:IsPlayer() and self:IsPoisonDispeller() then
+				specWarnPoisonSpear3:Show()
+				specWarnPoisonSpear3:Play("dispelnow")
+				yellPoisonSpear:Yell()
+			end
+		elseif self:IsMythic() then
+			if args:IsPlayer() and not self:IsPoisonDispeller() then
+				specWarnPoisonSpear2:Show()
+				specWarnPoisonSpear2:Play("defensive")
+				yellPoisonSpear:Yell()
+			elseif args:IsPlayer() and self:IsPoisonDispeller() then
+				specWarnPoisonSpear3:Show()
+				specWarnPoisonSpear3:Play("dispelnow")
+				yellPoisonSpear:Yell()
+			elseif self:IsPoisonDispeller() then
+				if not UnitIsDeadOrGhost("player") then
 					specWarnPoisonSpear:CombinedShow(0.5, args.destName)
-					specWarnPoisonSpear:Play("dispelnow")
+					specWarnPoisonSpear:ScheduleVoice(0.5, "dispelnow")
 				end
 			end
 		end
@@ -137,7 +163,7 @@ function mod:SPELL_AURA_REMOVED(args)
 end
 
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
-	if spellId == 200822 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
+	if spellId == 200822 and destGUID == UnitGUID("player") and self:AntiSpam(2, 6) then
 		if not self:IsNormal() then
 			specWarnRottingEarth:Show()
 			specWarnRottingEarth:Play("runaway")

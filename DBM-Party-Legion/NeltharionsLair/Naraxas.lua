@@ -27,7 +27,7 @@ local warnRavenous					= mod:NewStackAnnounce(199246, 4) --Хищность
 
 local specWarnAdds					= mod:NewSpecialWarningSwitch(199817, "Dps", nil, nil, 1, 2) --Призыв прислужников
 local specWarnFixate				= mod:NewSpecialWarningYou(209906) --Самопожертвование фанатика
-local specWarnSpikedTongue			= mod:NewSpecialWarningYouRun(199176, nil, nil, nil, 4, 5) --Шипастый язык
+local specWarnSpikedTongue			= mod:NewSpecialWarningYouRun(199176, nil, nil, nil, 4, 6) --Шипастый язык
 --local specWarnRancidMaw			= mod:NewSpecialWarningMove(188494)--Needs confirmation this is pool damage and not constant fight aoe damage
 
 local timerSpikedTongueCD			= mod:NewNextTimer(55, 199176, nil, "Tank|Healer", nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Шипастый язык
@@ -122,8 +122,10 @@ mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	local spellId = legacySpellId or bfaSpellId
 	if spellId == 199817 then --Призыв прислужников
-		specWarnAdds:Schedule(1)
-		specWarnAdds:ScheduleVoice(1, "mobsoon")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnAdds:Schedule(1)
+			specWarnAdds:ScheduleVoice(1, "mobsoon")
+		end
 		if self:IsHard() then
 			timerAddsCD:Start(75)
 		else

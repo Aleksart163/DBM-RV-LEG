@@ -78,22 +78,26 @@ end
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 236543 then
-		specWarnFelsoulCleave:Show()
-		specWarnFelsoulCleave:Play("shockwave")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnFelsoulCleave:Show()
+			specWarnFelsoulCleave:Play("shockwave")
+		end
 		if self:IsHard() then
 			timerFelsoulCleaveCD:Start()
 		else
 			timerFelsoulCleaveCD:Start(20)
 		end
 	elseif spellId == 234107 then
-		specWarnChaoticEnergy:Show(shield)
-		specWarnChaoticEnergy:Play("findshield")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnChaoticEnergy:Show(shield)
+			specWarnChaoticEnergy:Play("findshield")
+		end
 		countdownChaosEnergy2:Start(5)
 	elseif spellId == 241622 then
 		if self:AntiSpam(2, 1) then
 			warnApproachingDoom:Show()
 			specWarnAdds:Show()
-			specWarnAdds:Play("killmob")
+			specWarnAdds:Play("mobkill")
 		end
 		timerApproachingDoom:Start(nil, args.sourceGUID)
 	end
@@ -133,7 +137,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	local spellId = legacySpellId or bfaSpellId
 	if spellId == 235822 or spellId == 235862 then--Start Wave 01/Start Wave 02
 		specWarnAdds:Show()
-		specWarnAdds:Play("killmob")
+		specWarnAdds:Play("mobkill")
 	end
 end
 

@@ -28,11 +28,13 @@ local warnParanoia					= mod:NewTargetAnnounce(200289, 3) --Усугубляющ
 local warnFeedontheWeak				= mod:NewTargetAnnounce(200238, 4) --Пожирание слабых
 local warnNightmareBolt				= mod:NewTargetAnnounce(200185, 4) --Кошмарная стрела
 
+local specWarnFesteringRip2			= mod:NewSpecialWarningYou(200182, nil, nil, nil, 2, 3) --Гноящаяся рана
+local specWarnFesteringRip3			= mod:NewSpecialWarningYouDispel(200182, "MagicDispeller2", nil, nil, 3, 3) --Гноящаяся рана
+local specWarnFesteringRip			= mod:NewSpecialWarningDispel(200182, "MagicDispeller2", nil, nil, 3, 3) --Гноящаяся рана
+--
 local specWarnNightmareBolt			= mod:NewSpecialWarningYouDefensive(200185, nil, nil, nil, 3, 5) --Кошмарная стрела
 local specWarnApocNightmare2		= mod:NewSpecialWarningDefensive(200050, nil, nil, nil, 3, 5) --Апокалиптический Кошмар
 local specWarnFeedontheWeak			= mod:NewSpecialWarningYouDefensive(200238, nil, nil, nil, 3, 5) --Пожирание слабых
-local specWarnFesteringRip			= mod:NewSpecialWarningDispel(200182, "MagicDispeller2", nil, nil, 1, 3) --Гноящаяся рана
-local specWarnFesteringRip2			= mod:NewSpecialWarningYou(200182, nil, nil, nil, 1, 3) --Гноящаяся рана
 local specWarnNightmare				= mod:NewSpecialWarningYouShare(200243, nil, nil, nil, 1, 3) --Кошмар наяву
 local specWarnParanoia				= mod:NewSpecialWarningYouMoveAway(200289, nil, nil, nil, 3, 5) --Усугубляющаяся паранойя
 local specWarnParanoia2				= mod:NewSpecialWarningCloseMoveAway(200289, nil, nil, nil, 1, 5) --Усугубляющаяся паранойя
@@ -46,6 +48,7 @@ local timerParanoiaCD				= mod:NewCDTimer(18, 200359, nil, nil, nil, 3, nil, DBM
 local timerParanoia					= mod:NewTargetTimer(20, 200289, nil, nil, nil, 7) --Усугубляющаяся паранойя
 local timerApocNightmare			= mod:NewCastTimer(5, 200050, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Апокалиптический Кошмар
 
+local yellFesteringRip				= mod:NewYell(200182, nil, nil, nil, "YELL") --Гноящаяся рана
 local yellNightmareBolt				= mod:NewYell(200185, nil, nil, nil, "YELL") --Кошмарная стрела
 local yellFeedontheWeak				= mod:NewYell(200238, nil, nil, nil, "YELL") --Пожирание слабых
 local yellNightmare					= mod:NewYell(200243, nil, nil, nil, "YELL") --Кошмар наяву
@@ -168,13 +171,30 @@ end
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 200182 then --Гноящаяся рана
-		if self:IsHard() then
-			if args:IsPlayer() then
+		if self:IsMythic() then
+			if args:IsPlayer() and not self:IsMagicDispeller2() then
 				specWarnFesteringRip2:Show()
 				specWarnFesteringRip2:Play("targetyou")
-			else
-				specWarnFesteringRip:Show(args.destName)
-				specWarnFesteringRip:Play("dispelnow")
+				yellFesteringRip:Yell()
+			elseif args:IsPlayer() and self:IsMagicDispeller2() then
+				specWarnFesteringRip3:Show()
+				specWarnFesteringRip3:Play("dispelnow")
+				yellFesteringRip:Yell()
+			elseif self:IsMagicDispeller2() then
+				if not UnitIsDeadOrGhost("player") then
+					specWarnFesteringRip:Show(args.destName)
+					specWarnFesteringRip:Play("dispelnow")
+				end
+			end
+		else
+			if args:IsPlayer() and not self:IsMagicDispeller2() then
+				specWarnFesteringRip2:Show()
+				specWarnFesteringRip2:Play("targetyou")
+				yellFesteringRip:Yell()
+			elseif args:IsPlayer() and self:IsMagicDispeller2() then
+				specWarnFesteringRip3:Show()
+				specWarnFesteringRip3:Play("dispelnow")
+				yellFesteringRip:Yell()
 			end
 		end
 	elseif spellId == 200243 then --Кошмар наяву
@@ -260,14 +280,18 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 		warnApocNightmare:Show()
 		timerApocNightmare:Start()
 		countdownApocNightmare:Start()
-		specWarnApocNightmare2:Show()
-		specWarnApocNightmare2:Play("defensive")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnApocNightmare2:Show()
+			specWarnApocNightmare2:Play("defensive")
+		end
 	elseif msg == L.XavApoc2 then
 		warnApocNightmare:Show()
 		timerApocNightmare:Start()
 		countdownApocNightmare:Start()
-		specWarnApocNightmare2:Show()
-		specWarnApocNightmare2:Play("defensive")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnApocNightmare2:Show()
+			specWarnApocNightmare2:Play("defensive")
+		end
 	end
 end
 

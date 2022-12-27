@@ -44,10 +44,11 @@ local warnDefacing					= mod:NewTargetSourceAnnounce(210330, 1) --Оскверн
 local warnTinkering					= mod:NewTargetSourceAnnounce(210922, 1) --Конструирование (выброшенный хлам)
 
 --local specWarnSuppress2				= mod:NewSpecialWarningYou(209413, nil, nil, nil, 1, 2) --Подавление
+local specWarnCripple2				= mod:NewSpecialWarningYou(214690, nil, nil, nil, 1, 3) --Увечье
+local specWarnCripple3				= mod:NewSpecialWarningYouDispel(214690, "MagicDispeller2", nil, nil, 1, 3) --Увечье
+local specWarnCripple				= mod:NewSpecialWarningDispel(214690, "MagicDispeller2", nil, nil, 1, 2) --Увечье
 local specWarnShadowBoltVolley		= mod:NewSpecialWarningDodge(214692, "-Tank", nil, nil, 2, 3) --Залп стрел Тьмы
 local specWarnCarrionSwarm			= mod:NewSpecialWarningDodge(214688, nil, nil, nil, 2, 2) --Темная стая
-local specWarnCripple				= mod:NewSpecialWarningDispel(214690, "MagicDispeller2", nil, nil, 1, 2) --Увечье
-local specWarnCripple2				= mod:NewSpecialWarningYou(214690, nil, nil, nil, 1, 2) --Увечье
 local specWarnFelDetonation			= mod:NewSpecialWarningDodge(211464, nil, nil, nil, 2, 3) --Взрыв Скверны
 local specWarnDisintegrationBeam	= mod:NewSpecialWarningYouDefensive(207980, nil, nil, nil, 3, 6) --Луч дезинтеграции
 local specWarnShockwave				= mod:NewSpecialWarningDodge(207979, "Melee", nil, nil, 2, 3) --Ударная волна
@@ -63,7 +64,6 @@ local specWarnSuppress				= mod:NewSpecialWarningInterrupt(209413, "HasInterrupt
 local specWarnBewitch				= mod:NewSpecialWarningInterrupt(211470, "HasInterrupt", nil, nil, 1, 2)
 local specWarnChargingStation		= mod:NewSpecialWarningInterrupt(225100, "HasInterrupt", nil, nil, 1, 2)
 local specWarnSearingGlare			= mod:NewSpecialWarningInterrupt(211299, "HasInterrupt", nil, nil, 1, 2)
---local specWarnFelDetonation			= mod:NewSpecialWarningSpell(211464, false, nil, 2, 2, 2)
 local specWarnSealMagic				= mod:NewSpecialWarningRun(209404, false, nil, 2, 4, 2)
 local specWarnDisruptingEnergy		= mod:NewSpecialWarningMove(209512, nil, nil, nil, 1, 2)
 local specWarnWhirlingBlades		= mod:NewSpecialWarningRun(209378, "Melee", nil, nil, 4, 3) --Крутящиеся клинки
@@ -154,10 +154,10 @@ end
 function mod:SPELL_CAST_START(args)
 	if not self.Options.Enabled then return end
 	local spellId = args.spellId
-	if spellId == 209027 and self:AntiSpam(3, 1) then
+	if spellId == 209027 and self:AntiSpam(3, 5) then
 		specWarnQuellingStrike:Show()
 		specWarnQuellingStrike:Play("shockwave")
-	elseif spellId == 212031 and self:AntiSpam(3, 2) then
+	elseif spellId == 212031 and self:AntiSpam(3, 6) then
 		specWarnChargedBlast:Show()
 		specWarnChargedBlast:Play("shockwave")
 	elseif spellId == 209485 then --Похищение магии
@@ -188,40 +188,49 @@ function mod:SPELL_CAST_START(args)
 		specWarnSearingGlare:Play("kickcast")
 	elseif spellId == 211464 then
 		warnFelDetonation:Show()
-		specWarnFelDetonation:Show()
-		specWarnFelDetonation:Play("aesoon")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnFelDetonation:Show()
+			specWarnFelDetonation:Play("aesoon")
+		end
 		timerFelDetonationCD:Start()
 		countdownFelDetonation:Start()
 	elseif spellId == 209404 then
 		specWarnSealMagic:Show()
 		specWarnSealMagic:Play("runout")
-	elseif spellId == 209495 and self:AntiSpam(2, 2) then --Удар с размаху
+	elseif spellId == 209495 and self:AntiSpam(2, 7) then --Удар с размаху
 		--Don't want to move too early, just be moving already as cast is finishing
 		specWarnChargedSmash:Schedule(1.2)
 		specWarnChargedSmash:ScheduleVoice(1.2, "chargemove")
 	elseif spellId == 209378 then
-		specWarnWhirlingBlades:Show()
-		specWarnWhirlingBlades:Play("runout")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnWhirlingBlades:Show()
+			specWarnWhirlingBlades:Play("runout")
+		end
 		timerWhirlingBladesCD:Start()
 	elseif spellId == 207980 then --Луч дезинтеграции
 		self:BossTargetScanner(args.sourceGUID, "DisintegrationBeamTarget", 0.1, 2)
 		timerDisintegrationBeamCD:Start()
 	elseif spellId == 207979 then --Ударная волна
-		specWarnShockwave:Show()
+		if not UnitIsDeadOrGhost("player") then
+			specWarnShockwave:Show()
+			specWarnShockwave:Play("watchstep")
+		end
 		timerShockwaveCD:Start()
 	elseif spellId == 214692 then --Залп стрел Тьмы
 		warnShadowBoltVolley:Show()
 		timerShadowBoltVolleyCD:Start()
 		if self:IsHard() then
-			specWarnShadowBoltVolley:Show()
-			specWarnShadowBoltVolley:Play("watchstep")
+			if not UnitIsDeadOrGhost("player") then
+				specWarnShadowBoltVolley:Show()
+				specWarnShadowBoltVolley:Play("watchstep")
+			end
 		end
 		self:ResetGossipState()
 	elseif spellId == 214688 then --Темная стая
 		self:BossTargetScanner(args.sourceGUID, "CarrionSwarmTarget", 0.1, 2)
 	elseif spellId == 214690 then --Увечье
 		timerCrippleCD:Start()
-	elseif spellId == 212773 and self:AntiSpam(2, 1) then --Подчинение
+	elseif spellId == 212773 and self:AntiSpam(2, 8) then --Подчинение
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnSubdue:Show(args.sourceName)
 			specWarnSubdue:Play("kickcast")
@@ -385,36 +394,42 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 214690 then --Увечье
 		warnCripple:Show(args.destName)
 		timerCripple:Start(args.destName)
-		if self:IsHard() then
-			if args:IsPlayer() then
+		if self:IsMythic() then
+			if args:IsPlayer() and not self:IsMagicDispeller2() then
 				specWarnCripple2:Show()
+				specWarnCripple2:Play("targetyou")
 				yellCripple:Yell()
-			else
-				specWarnCripple:Show(args.destName)
-				specWarnCripple:Play("dispelnow")
+			elseif args:IsPlayer() and self:IsMagicDispeller2() then
+				specWarnCripple3:Show()
+				specWarnCripple3:Play("dispelnow")
+				yellCripple:Yell()
+			elseif self:IsMagicDispeller2() then
+				if not UnitIsDeadOrGhost("player") then
+					specWarnCripple:Show(args.destName)
+					specWarnCripple:Play("dispelnow")
+				end
 			end
 		else
-			if args:IsPlayer() then
+			if args:IsPlayer() and not self:IsMagicDispeller2() then
 				specWarnCripple2:Show()
+				specWarnCripple2:Play("targetyou")
+				yellCripple:Yell()
+			elseif args:IsPlayer() and self:IsMagicDispeller2() then
+				specWarnCripple3:Show()
+				specWarnCripple3:Play("dispelnow")
 				yellCripple:Yell()
 			end
 		end
 	elseif spellId == 212773 then --Подчинение
-		warnSubdue:CombinedShow(0.3, args.destName)
-		if self:IsHard() then
-			if args:IsPlayer() then
-				yellSubdue:Yell()
-			else
+		if args:IsPlayer() then
+			yellSubdue:Yell()
+		elseif self:IsMagicDispeller2() then
+			if not UnitIsDeadOrGhost("player") then
 				specWarnSubdue2:CombinedShow(0.3, args.destName)
 				specWarnSubdue2:Play("dispelnow")
 			end
 		else
-			if args:IsPlayer() then
-				yellSubdue:Yell()
-			else
-				specWarnSubdue2:CombinedShow(0.3, args.destName)
-				specWarnSubdue2:Play("dispelnow")
-			end
+			warnSubdue:CombinedShow(0.3, args.destName)
 		end
 	end
 end

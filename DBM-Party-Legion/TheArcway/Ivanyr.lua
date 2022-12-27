@@ -26,12 +26,12 @@ local warnOverchargeMana			= mod:NewSoonAnnounce(196392, 1) --Перезаряд
 local warnVolatileMagic				= mod:NewTargetAnnounce(196562, 3) --Нестабильная магия
 local warnNetherLink				= mod:NewTargetAnnounce(196805, 4) --Оковы Пустоты
 
-local specWarnVolatileMagic			= mod:NewSpecialWarningYouMoveAway(196562, nil, nil, nil, 3, 5) --Нестабильная магия
+local specWarnVolatileMagic			= mod:NewSpecialWarningYouMoveAway(196562, nil, nil, nil, 3, 6) --Нестабильная магия
 local specWarnVolatileMagic2		= mod:NewSpecialWarningCloseMoveAway(196562, nil, nil, nil, 2, 2) --Нестабильная магия
 
 local specWarnNetherLink			= mod:NewSpecialWarningYouRunning(196805, nil, nil, nil, 1, 2) --Оковы Пустоты дебаф
 local specWarnNetherLinkGTFO		= mod:NewSpecialWarningYouMove(196805, nil, nil, nil, 1, 2) --Оковы Пустоты лужа
-local specWarnOverchargeMana		= mod:NewSpecialWarningInterrupt(196392, "HasInterrupt", nil, nil, 1, 2) --Перезарядка маны
+local specWarnOverchargeMana		= mod:NewSpecialWarningInterrupt(196392, "HasInterrupt", nil, nil, 3, 2) --Перезарядка маны
 
 local timerVolatileMagicCD			= mod:NewCDTimer(35.5, 196562, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Нестабильная магия Review, Might be health based? or just really variable
 local timerNetherLinkCD				= mod:NewCDTimer(38, 196804, nil, nil, nil, 3) --Оковы Пустоты
@@ -126,8 +126,10 @@ function mod:SPELL_CAST_SUCCESS(args)
 	elseif spellId == 196804 then
 		timerNetherLinkCD:Start()
 	elseif spellId == 196392 then --Перезарядка маны
-		specWarnOverchargeMana:Show()
-		specWarnOverchargeMana:Play("kickcast")
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnOverchargeMana:Show()
+			specWarnOverchargeMana:Play("kickcast")
+		end
 		timerOverchargeManaCD:Start()
 		countdownOverchargeMana:Start()
 		warnOverchargeMana:Schedule(36.5)

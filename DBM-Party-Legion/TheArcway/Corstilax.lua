@@ -26,7 +26,7 @@ local warnSupression				= mod:NewTargetAnnounce(196070, 4) --Протокол п
 local specWarnCleansing2			= mod:NewSpecialWarningRun(196115, nil, nil, nil, 4, 5) --Очищающая сила
 local specWarnDestabilizedOrb2		= mod:NewSpecialWarningYouMove(220500, nil, nil, nil, 1, 2) --Дестабилизированная сфера аура
 local specWarnDestabilizedOrb		= mod:NewSpecialWarningDodge(220481, nil, nil, nil, 2, 2) --Дестабилизированная сфера
-local specWarnSupression			= mod:NewSpecialWarningYouRun(196070, nil, nil, nil, 4, 5) --Протокол подавления
+local specWarnSupression			= mod:NewSpecialWarningYouRun(196070, nil, nil, nil, 4, 6) --Протокол подавления
 local specWarnSupression2			= mod:NewSpecialWarningCloseMoveAway(196070, nil, nil, nil, 2, 2) --Протокол подавления
 local specWarnQuarantine			= mod:NewSpecialWarningTargetHelp(195804, nil, nil, nil, 1, 2) --Карантин
 local specWarnCleansing				= mod:NewSpecialWarningSpell(196115, nil, nil, nil, 2, 2) --Очищающая сила
@@ -66,16 +66,21 @@ function mod:SPELL_CAST_START(args)
 	if spellId == 196070 then
 		timerSupressionCD:Start()
 	elseif spellId == 196115 then
-		specWarnCleansing:Show()
-		specWarnCleansing:Play("aesoon")
-		specWarnCleansing2:Schedule(6)
+		if not UnitIsDeadOrGhost("player") then
+			specWarnCleansing:Show()
+			specWarnCleansing:Play("aesoon")
+			specWarnCleansing2:Schedule(6)
+			specWarnCleansing2:ScheduleVoice(6, "justrun")
+		end
 		timerCleansingCD:Start()
 		countdownCleansing:Start()
 		countdownCleansing2:Start()
 		timerCleansing:Start()
 	elseif spellId == 220481 then --Дестабилизированная сфера
-		specWarnDestabilizedOrb:Show()
-		specWarnDestabilizedOrb:Play("watchstep")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnDestabilizedOrb:Show()
+			specWarnDestabilizedOrb:Play("watchstep")
+		end
 		timerDestabilizedOrbCD:Start()
 	end
 end
@@ -100,8 +105,10 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			yellQuarantine:Yell()
 		else
-			specWarnQuarantine:Show(args.destName)
-			specWarnQuarantine:Play("readyrescue")
+			if not UnitIsDeadOrGhost("player") then
+				specWarnQuarantine:Show(args.destName)
+				specWarnQuarantine:Play("readyrescue")
+			end
 		end
 		if self.Options.SetIconOnQuarantine then
 			self:SetIcon(args.destName, 7)

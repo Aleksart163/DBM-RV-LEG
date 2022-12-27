@@ -91,13 +91,17 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 191284 then --Рог доблести
 		self.vb.hornCount = self.vb.hornCount + 1
-		specWarnHorn:Show()
-		specWarnHorn:Play("defensive")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnHorn:Show()
+			specWarnHorn:Play("defensive")
+		end
 		timerDancingBladeCD:Cancel()
-		specWarnHornOfValor:Schedule(2)
-		specWarnHornOfValor:ScheduleVoice(2, "breathsoon")
-		specWarnHornOfValor2:Schedule(9)
-		specWarnHornOfValor2:ScheduleVoice(9, "watchstep")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnHornOfValor:Schedule(2)
+			specWarnHornOfValor:ScheduleVoice(2, "breathsoon")
+			specWarnHornOfValor2:Schedule(9)
+			specWarnHornOfValor2:ScheduleVoice(9, "watchstep")
+		end
 		timerBreath:Start(9)
 		timerBreath:Schedule(9)
 		timerBreath:Schedule(14)

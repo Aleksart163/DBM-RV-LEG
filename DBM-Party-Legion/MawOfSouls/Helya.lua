@@ -26,8 +26,9 @@ local warnPhase2						= mod:NewPrePhaseAnnounce(2, 1, 196947)
 local warnTaintofSea					= mod:NewTargetAnnounce(197262, 3) --Морская порча
 local warnSubmerged2					= mod:NewPreWarnAnnounce(196947, 5, 1) --Погружение
 
-local specWarnTaintofSea				= mod:NewSpecialWarningYou(197262, nil, nil, nil, 1, 3) --Морская порча
-local specWarnTaintofSea2				= mod:NewSpecialWarningDispel(197262, "MagicDispeller2", nil, nil, 1, 3) --Морская порча
+local specWarnTaintofSea				= mod:NewSpecialWarningYou(197262, nil, nil, nil, 1, 6) --Морская порча
+local specWarnTaintofSea3				= mod:NewSpecialWarningYouDispel(197262, "MagicDispeller2", nil, nil, 1, 6) --Морская порча
+local specWarnTaintofSea2				= mod:NewSpecialWarningDispel(197262, "MagicDispeller2", nil, nil, 3, 6) --Морская порча
 local specWarnDestructorTentacle		= mod:NewSpecialWarningSwitch("ej12364", "Tank|Dps") --Щупальце разрушения
 local specWarnBrackwaterBarrage			= mod:NewSpecialWarningDodge(202088, nil, nil, nil, 3, 6) --Обстрел солоноватой водой Tank stays with destructor tentacle no matter what
 local specWarnSubmerged					= mod:NewSpecialWarningDodge(196947, nil, nil, nil, 1, 2) --Погружение
@@ -80,13 +81,17 @@ end
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 227233 then --Оскверняющий рев
-		specWarnBreath:Show()
-		specWarnBreath:Play("breathsoon")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnBreath:Show()
+			specWarnBreath:Play("breathsoon")
+		end
 		timerBreathCD:Start()
 		countdownBreath:Start()
 	elseif spellId == 202088 then --Обстрел солоноватой водой
-		specWarnBrackwaterBarrage:Show()
-		specWarnBrackwaterBarrage:Play("breathsoon")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnBrackwaterBarrage:Show()
+			specWarnBrackwaterBarrage:Play("watchstep")
+		end
 		if not self:IsNormal() then
 			timerBrackwaterBarrageCD:Start(22)
 			countdownBrackwaterBarrage:Start(22)
@@ -109,7 +114,10 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerTorrentCD:Stop()
 		timerBreathCD:Cancel()
 		countdownBreath:Cancel()
-		specWarnSubmerged:Show()
+		if not UnitIsDeadOrGhost("player") then
+			specWarnSubmerged:Show()
+			specWarnSubmerged:Play("watchstep")
+		end
 		timerSubmerged:Start()
 		countdownBrackwaterBarrage:Cancel()
 		countdownSubmerged:Start(15)
@@ -119,23 +127,31 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif spellId == 197262 then --Морская порча
 		self.vb.taintofseaIcon = self.vb.taintofseaIcon - 1
-		if self:IsHard() then
-			if args:IsPlayer() then
+		warnTaintofSea:Show(args.destName)
+		if self:IsMythic() then
+			if args:IsPlayer() and not self:IsMagicDispeller2() then
 				specWarnTaintofSea:Show()
 				specWarnTaintofSea:Play("targetyou")
 				yellTaintofSea:Yell()
-			else
-				warnTaintofSea:Show(args.destName)
-				specWarnTaintofSea2:Show(args.destName)
-				specWarnTaintofSea2:Play("dispelnow")
+			elseif args:IsPlayer() and self:IsMagicDispeller2() then
+				specWarnTaintofSea3:Show()
+				specWarnTaintofSea3:Play("dispelnow")
+				yellTaintofSea:Yell()
+			elseif self:IsMagicDispeller2() then
+				if not UnitIsDeadOrGhost("player") then
+					specWarnTaintofSea2:Show(args.destName)
+					specWarnTaintofSea2:Play("dispelnow")
+				end
 			end
 		else
-			if args:IsPlayer() then
+			if args:IsPlayer() and not self:IsMagicDispeller2() then
 				specWarnTaintofSea:Show()
 				specWarnTaintofSea:Play("targetyou")
 				yellTaintofSea:Yell()
-			else
-				warnTaintofSea:Show(args.destName)
+			elseif args:IsPlayer() and self:IsMagicDispeller2() then
+				specWarnTaintofSea3:Show()
+				specWarnTaintofSea3:Play("dispelnow")
+				yellTaintofSea:Yell()
 			end
 		end
 		if self.vb.phase == 1 then
@@ -187,8 +203,10 @@ end
 
 function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)
 	if msg:find("inv_misc_monsterhorn_03") then
-		specWarnDestructorTentacle:Show()
-		specWarnDestructorTentacle:Play("killmob")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnDestructorTentacle:Show()
+			specWarnDestructorTentacle:Play("mobkill")
+		end
 	end
 end
 

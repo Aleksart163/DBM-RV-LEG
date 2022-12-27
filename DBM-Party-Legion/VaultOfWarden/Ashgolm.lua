@@ -26,7 +26,7 @@ local warnCountermeasure			= mod:NewSoonAnnounce(195189, 2, 235297) --Систе
 
 local specWarnProshlyap				= mod:NewSpecialWarningReady(195189, nil, nil, nil, 1, 3) --Система безопасности
 local specWarnFiredUp2				= mod:NewSpecialWarningYou(215478, nil, nil, nil, 3, 5) --Обгорание
-local specWarnFiredUp				= mod:NewSpecialWarningDefensive(195187, nil, nil, nil, 3, 5) --Взрыв
+local specWarnFiredUp				= mod:NewSpecialWarningDefensive(195187, nil, nil, nil, 3, 6) --Взрыв
 local specWarnLava					= mod:NewSpecialWarningStack(192519, nil, 2, nil, nil, 1, 2) --Лава
 local specWarnBrittle				= mod:NewSpecialWarningMoreDamage(192517, "-Healer", nil, nil, 1, 2) --Ломкость
 local specWarnLavaWreath			= mod:NewSpecialWarningDodge(192631, nil, nil, nil, 2, 2) --Лавовое кольцо
@@ -76,8 +76,10 @@ function mod:SPELL_CAST_START(args)
 		specWarnFissure:Play("shockwave")
 		timerFissureCD:Start()
 	elseif spellId == 192631 then --Лавовое кольцо
-		specWarnLavaWreath:Show()
-		specWarnLavaWreath:Play("watchstep")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnLavaWreath:Show()
+			specWarnLavaWreath:Play("watchstep")
+		end
 		timerLavaWreathCD:Start()
 	elseif spellId == 192621 then --Пирокласт
 		warnVolcano:Show()
@@ -89,7 +91,10 @@ function mod:SPELL_CAST_START(args)
 		end
 	elseif spellId == 195187 and self:AntiSpam(3, 1) then --Взрыв
 		warnFiredUp:Show()
-		specWarnFiredUp:Schedule(2)
+		if not UnitIsDeadOrGhost("player") then
+			specWarnFiredUp:Schedule(2)
+			specWarnFiredUp:ScheduleVoice(2, "defensive")
+		end
 		timerFiredUp:Start()
 	end
 end
@@ -98,7 +103,9 @@ function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 192517 and args:GetSrcCreatureID() == 95886 then --Ломкость
 		self.vb.countermeasure = self.vb.countermeasure + 1
-		specWarnBrittle:Show()
+		if not UnitIsDeadOrGhost("player") then
+			specWarnBrittle:Show()
+		end
 		timerBrittle:Start()
 		countdownBrittle:Start()
 		if not self:IsNormal() then

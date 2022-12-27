@@ -22,8 +22,8 @@ local warnFragment				= mod:NewTargetAnnounce(194327, 3) --Разделение
 local warnVoidSnap				= mod:NewCastAnnounce(194266, 4) --Хватка Бездны
 
 local specWarnNetherRip			= mod:NewSpecialWarningYouMove(194235, nil, nil, nil, 1, 2) --Разрыв пустоты
-local specWarnFragment			= mod:NewSpecialWarningSwitch(194327, "Dps", nil, nil, 1, 2) --Разделение
-local specWarnFragment2			= mod:NewSpecialWarningYouDefensive(194327, nil, nil, nil, 3, 2) --Разделение
+local specWarnFragment			= mod:NewSpecialWarningSwitch(194327, "-Healer", nil, nil, 1, 2) --Разделение
+local specWarnFragment2			= mod:NewSpecialWarningYouDefensive(194327, nil, nil, nil, 3, 5) --Разделение
 local specWarnServitor			= mod:NewSpecialWarningSwitch(194231, "-Healer", nil, nil, 1, 2) --Призыв скованного прислужника
 local specWarnVoidSnap			= mod:NewSpecialWarningInterrupt(194266, "HasInterrupt", nil, nil, 1, 2) --Хватка Бездны
 local specWarnScythe			= mod:NewSpecialWarningDodge(194216, nil, nil, nil, 2, 3) --Космическая коса
@@ -33,7 +33,7 @@ local timerServitorCD			= mod:NewCDTimer(23, 194231, nil, nil, nil, 1, nil, DBM_
 
 local yellFragment				= mod:NewYell(194327, nil, nil, nil, "YELL") --Разделение
 
-function mod:FragmentTarget(targetname, uId) --Прошляпанное очко пелии (✔)
+function mod:FragmentTarget(targetname, uId) --Прошляпанное очко Прошляпенко (Мурчаля) (✔✔✔)
 	if not targetname then return end
 	if targetname == UnitName("player") then
 		specWarnFragment2:Show()
@@ -58,9 +58,10 @@ end
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 194327 then --Разделение
-	--	warnFragment:Show(args.destName)
-		specWarnFragment:Show()
-		specWarnFragment:Play("mobkill")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnFragment:Show()
+			specWarnFragment:Play("mobkill")
+		end
 	end
 end
 
@@ -76,8 +77,10 @@ end
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 194231 then --Призыв скованного прислужника
-		specWarnServitor:Show()
-		specWarnServitor:Play("bigmob")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnServitor:Show()
+			specWarnServitor:Play("bigmob")
+		end
 		if self:IsHard() then
 			timerServitorCD:Start(28)
 		else
@@ -93,8 +96,10 @@ function mod:SPELL_CAST_START(args)
 			specWarnVoidSnap:Play("kickcast")
 		end
 	elseif spellId == 194216 then --Космическая коса
-		specWarnScythe:Show()
-		specWarnScythe:Play("shockwave")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnScythe:Show()
+			specWarnScythe:Play("shockwave")
+		end
 	elseif spellId == 194325 then --Разделение
 		self:BossTargetScanner(args.sourceGUID, "FragmentTarget", 0.1, 2)
 	end

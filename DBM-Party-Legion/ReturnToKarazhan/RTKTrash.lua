@@ -37,12 +37,16 @@ local warnAllured					= mod:NewStackAnnounce(228576, 3, nil, nil, 2) --Собл�
 
 local specWarnRoyalSlash			= mod:NewSpecialWarningDodge(229429, "Melee", nil, nil, 2, 2) --Удар короля сплеча
 
+local specWarnBrittleBones2			= mod:NewSpecialWarningYouDefensive(230297, nil, nil, nil, 3, 6) --Ослабление костей
+local specWarnBrittleBones3			= mod:NewSpecialWarningYouDispel(230297, "RemoveCurse", nil, nil, 3, 6) --Ослабление костей
+local specWarnBrittleBones			= mod:NewSpecialWarningDispel(230297, "RemoveCurse", nil, nil, 3, 6) --Ослабление костей
+--
+local specWarnCursedTouch			= mod:NewSpecialWarningYou(228241, nil, nil, nil, 2, 2) --Проклятое прикосновение
+local specWarnCursedTouch3			= mod:NewSpecialWarningYouDispel(228241, "RemoveCurse", nil, nil, 2, 2) --Проклятое прикосновение
+local specWarnCursedTouch2			= mod:NewSpecialWarningDispel(228241, "RemoveCurse", nil, nil, 3, 2) --Проклятое прикосновение
+--
 local specWarnAllured				= mod:NewSpecialWarningStack(228576, nil, 80, nil, nil, 1, 3) --Соблазнение
-local specWarnBrittleBones			= mod:NewSpecialWarningDispel(230297, "RemoveCurse", nil, nil, 1, 3) --Ослабление костей
-local specWarnBrittleBones2			= mod:NewSpecialWarningYou(230297, nil, nil, nil, 1, 3) --Ослабление костей
 local specWarnMightySwing			= mod:NewSpecialWarningDodge(229608, "Melee", nil, nil, 2, 2) --Могучий удар
-local specWarnCursedTouch			= mod:NewSpecialWarningYou(228241, nil, nil, nil, 1, 2) --Проклятое прикосновение
-local specWarnCursedTouch2			= mod:NewSpecialWarningDispel(228241, "RemoveCurse", nil, nil, 1, 2) --Проклятое прикосновение
 local specWarnReinvigorated			= mod:NewSpecialWarningYouMoreDamage(230087, nil, nil, nil, 1, 2) --Восполнение сил
 local specWarnReinvigorated2		= mod:NewSpecialWarningEnd(230087, nil, nil, nil, 1, 2) --Восполнение сил
 local specWarnForceBlade			= mod:NewSpecialWarningYouDefensive(230050, nil, nil, nil, 3, 5) --Силовой клинок
@@ -61,8 +65,8 @@ local specWarnOathofFealty			= mod:NewSpecialWarningInterrupt(228280, "HasInterr
 local specWarnOathofFealty2			= mod:NewSpecialWarningDispel(228280, "MagicDispeller2", nil, nil, 1, 2) --Клятва верности
 
 local specWarnBurningBrand			= mod:NewSpecialWarningYouMoveAway(228610, nil, nil, nil, 3, 3) --Горящее клеймо
-local specWarnLeechLife				= mod:NewSpecialWarningDispel(228606, "Healer", nil, nil, 1, 2)
-local specWarnCurseofDoom			= mod:NewSpecialWarningDispel(229716, "Healer", nil, nil, 1, 2)
+local specWarnLeechLife				= mod:NewSpecialWarningDispel(229706, "MagicDispeller2", nil, nil, 1, 2) --Высасывание жизни
+local specWarnCurseofDoom			= mod:NewSpecialWarningDispel(229716, "MagicDispeller2", nil, nil, 1, 2) --Проклятие рока
 local specWarnRoyalty				= mod:NewSpecialWarningSwitch(229489, "-Healer", nil, nil, 1, 2) --Царственность
 local specWarnFlashlight			= mod:NewSpecialWarningLookAway(227966, nil, nil, nil, 3, 3) --Фонарь
 
@@ -123,8 +127,10 @@ function mod:SPELL_CAST_START(args)
 		specWarnFinalCurtain:Show()
 		specWarnFinalCurtain:Play("runout")
 	elseif spellId == 227966 and self:AntiSpam(3, 2) then
-		specWarnFlashlight:Show()
-		specWarnFlashlight:Play("turnaway")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnFlashlight:Show()
+			specWarnFlashlight:Play("turnaway")
+		end
 	elseif spellId == 228254 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Поглощение души
 		specWarnSoulLeech2:Show()
 		specWarnSoulLeech2:Play("kickcast")
@@ -166,13 +172,28 @@ function mod:SPELL_AURA_APPLIED(args)
 			yellVolatileCharge2:Countdown(5, 3)
 		end
 	elseif spellId == 228241 then --Проклятое прикосновение
-		warnCursedTouch:CombinedShow(0.5, args.destName)
-		if args:IsPlayer() then
-			specWarnCursedTouch:Show()
-			specWarnCursedTouch:Play("defensive")
+		warnCursedTouch:CombinedShow(0.3, args.destName)
+		if self:IsMythic() then
+			if args:IsPlayer() and not self:IsCurseDispeller() then
+				specWarnCursedTouch:Show()
+				specWarnCursedTouch:Play("defensive")
+			elseif args:IsPlayer() and self:IsCurseDispeller() then
+				specWarnCursedTouch3:Show()
+				specWarnCursedTouch3:Play("dispelnow")
+			elseif self:IsCurseDispeller() then
+				if not UnitIsDeadOrGhost("player") then
+					specWarnCursedTouch2:CombinedShow(0.3, args.destName)
+					specWarnCursedTouch2:ScheduleVoice(0.3, "dispelnow")
+				end
+			end
 		else
-			specWarnCursedTouch2:CombinedShow(0.5, args.destName)
-			specWarnCursedTouch2:Play("dispelnow")
+			if args:IsPlayer() and not self:IsCurseDispeller() then
+				specWarnCursedTouch:Show()
+				specWarnCursedTouch:Play("defensive")
+			elseif args:IsPlayer() and self:IsCurseDispeller() then
+				specWarnCursedTouch3:Show()
+				specWarnCursedTouch3:Play("dispelnow")
+			end
 		end
 	elseif spellId == 228610 and self:AntiSpam(3, 1) then --Горящее клеймо
 		if args:IsPlayer() then
@@ -210,8 +231,10 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 228280 then --Клятва верности
 		warnOathofFealty2:CombinedShow(0.5, args.destName)
 		timerOathofFealty:Start(args.destName)
-		specWarnOathofFealty2:Show(args.destName)
-		specWarnOathofFealty2:Play("dispelnow")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnOathofFealty2:Show(args.destName)
+			specWarnOathofFealty2:Play("dispelnow")
+		end
 	elseif spellId == 230087 then --Восполнение сил
 		timerReinvigorated:Start(args.destName)
 		if args:IsPlayer() then
@@ -228,18 +251,30 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerRoyalty:Cancel()
 	elseif spellId == 230297 then --Ослабление костей
 		warnBrittleBones:CombinedShow(0.5, args.destName)
-		if self:IsHard() then
-			if args:IsPlayer() and self:IsTank() then
+		if self:IsMythic() then
+			if args:IsPlayer() and not self:IsCurseDispeller() then
 				specWarnBrittleBones2:Show()
-				specWarnBrittleBones2:Play("watchstep")
+				specWarnBrittleBones2:Play("defensive")
 				yellBrittleBones:Yell()
-			elseif args:IsPlayer() and not self:IsTank() then
+			elseif args:IsPlayer() and self:IsCurseDispeller() then
+				specWarnBrittleBones3:Show()
+				specWarnBrittleBones3:Play("defensive")
+				yellBrittleBones:Yell()
+			elseif self:IsCurseDispeller() then
+				if not UnitIsDeadOrGhost("player") then
+					specWarnBrittleBones:CombinedShow(0.5, args.destName)
+					specWarnBrittleBones:ScheduleVoice(0.5, "dispelnow")
+				end
+			end
+		else
+			if args:IsPlayer() and not self:IsCurseDispeller() then
 				specWarnBrittleBones2:Show()
-				specWarnBrittleBones2:Play("watchstep")
+				specWarnBrittleBones2:Play("defensive")
 				yellBrittleBones:Yell()
-			else
-				specWarnBrittleBones:CombinedShow(0.5, args.destName)
-				specWarnBrittleBones:ScheduleVoice(0.5, "dispelnow")
+			elseif args:IsPlayer() and self:IsCurseDispeller() then
+				specWarnBrittleBones3:Show()
+				specWarnBrittleBones3:Play("defensive")
+				yellBrittleBones:Yell()
 			end
 		end
 	elseif spellId == 228576 and args:IsDestTypePlayer() then --Соблазнение
@@ -260,7 +295,10 @@ function mod:SPELL_AURA_REMOVED(args)
 	if not self.Options.Enabled then return end
 	local spellId = args.spellId
 	if spellId == 229489 then --Царственность
-		specWarnRoyalty:Show(args.destName)
+		if not UnitIsDeadOrGhost("player") then
+			specWarnRoyalty:Show(args.destName)
+			specWarnRoyalty:Play("killbigmob")
+		end
 		timerRoyalty:Start()
 	elseif spellId == 228280 then --Клятва верности
 		timerOathofFealty:Cancel(args.destName)

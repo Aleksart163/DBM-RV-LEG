@@ -28,7 +28,7 @@ local warnFlameWreath				= mod:NewCastAnnounce(228269, 4) --Венец плам�
 local warnFlameWreathTargets		= mod:NewTargetAnnounce(228269, 4) --Венец пламени
 
 local specWarnArcaneMissiles		= mod:NewSpecialWarningDefensive(227628, "Tank", nil, nil, 2, 2) --Пронзающие стрелы
-local specWarnArcaneMissiles2		= mod:NewSpecialWarningStack(227644, nil, 3, nil, nil, 3, 5) --Пронзающие стрелы
+local specWarnArcaneMissiles2		= mod:NewSpecialWarningStack(227644, nil, 2, nil, nil, 3, 6) --Пронзающие стрелы
 local specWarnFrostbite				= mod:NewSpecialWarningInterrupt(227592, "HasInterrupt", nil, nil, 3, 6) --Обморожение
 local specWarnInfernoBolt			= mod:NewSpecialWarningInterrupt(227615, "HasInterrupt", nil, nil, 1, 2) --Инфернальная стрела
 local specWarnArcaneBolt			= mod:NewSpecialWarningInterrupt(228991, "HasInterrupt", nil, nil, 3, 6) --Чародейская стрела
@@ -79,20 +79,26 @@ function mod:SPELL_CAST_START(args)
 		specWarnArcaneBolt:Show()
 		specWarnArcaneBolt:Play("kickcast")
 	elseif spellId == 227779 then --Бесконечная зима
-		specWarnCeaselessWinter:Show()
-		specWarnCeaselessWinter:Play("keepjump")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnCeaselessWinter:Show()
+			specWarnCeaselessWinter:Play("keepjump")
+		end
 		timerSpecialCD:Start(32.5)
 		countdownSpecial:Start(32.5)
 	elseif spellId == 228269 then --Венец пламени
 		warnFlameWreath:Show()
-		specWarnFlameWreath2:Show()
-		specWarnFlameWreath2:Play("stopmove")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnFlameWreath2:Show()
+			specWarnFlameWreath2:Play("stopmove")
+		end
 		timerSpecialCD:Start(31.5)
 		countdownSpecial:Start(31.5)
 	elseif spellId == 228334 then --Проекция Хранителя
 		self.vb.imagesActive = true
-		specWarnGuardiansImage:Show()
-		specWarnGuardiansImage:Play("killmob")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnGuardiansImage:Show()
+			specWarnGuardiansImage:Play("mobkill")
+		end
 	end
 end
 
@@ -134,14 +140,14 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self:IsNormal() or self:IsHeroic() then --обычка и героик
 			if amount >= 3 then
 				if args:IsPlayer() then
-					specWarnArcaneMissiles2:Show(args.amount)
+					specWarnArcaneMissiles2:Show(amount)
 					specWarnArcaneMissiles2:Play("stackhigh")
 				end
 			end
-		elseif self:IsHard() then --миф и миф+
+		elseif self:IsMythic() then --миф и миф+
 			if amount >= 2 then
 				if args:IsPlayer() then
-					specWarnArcaneMissiles2:Show(args.amount)
+					specWarnArcaneMissiles2:Show(amount)
 					specWarnArcaneMissiles2:Play("stackhigh")
 				end
 			end

@@ -26,8 +26,8 @@ local warnMetamorphosis3			= mod:NewPreWarnAnnounce(192504, 5, 1) --Метамо
 local warnFuriousBlast				= mod:NewCastAnnounce(191823, 4) --Яростный взрыв
 
 local specWarnHatred				= mod:NewSpecialWarningDodge(190830, nil, nil, nil, 2, 2) --Ненависть
-local specWarnDarkStrikes			= mod:NewSpecialWarningDefensive(204151, "Tank", nil, nil, 3, 3) --Удары Тьмы
-local specWarnFuriousBlast			= mod:NewSpecialWarningInterrupt(191823, "Tank|Dps", nil, nil, 3, 5) --Яростный взрыв
+local specWarnDarkStrikes			= mod:NewSpecialWarningYouDefensive(204151, "Tank", nil, nil, 3, 6) --Удары Тьмы
+local specWarnFuriousBlast			= mod:NewSpecialWarningInterrupt(191823, "HasInterrupt", nil, nil, 3, 6) --Яростный взрыв
 local specWarnFelMortar				= mod:NewSpecialWarningDodge(202913, nil, nil, nil, 2, 2) --Залп Скверны
 local specWarnFelMortarGTFO			= mod:NewSpecialWarningYouMove(191853, nil, nil, nil, 1, 2) --Яростное пламя
 
@@ -122,8 +122,10 @@ function mod:SPELL_CAST_START(args)
 			end
 		end
 	elseif spellId == 202913 then --Залп Скверны
-		specWarnFelMortar:Show()
-		specWarnFelMortar:Play("watchstep")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnFelMortar:Show()
+			specWarnFelMortar:Play("watchstep")
+		end
 		timerFelMortarCD:Start()
 	end
 end
@@ -142,8 +144,10 @@ mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	local spellId = legacySpellId or bfaSpellId
 	if spellId == 190830 then --Ненависть
-		specWarnHatred:Show()
-		specWarnHatred:Play("watchstep")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnHatred:Show()
+			specWarnHatred:Play("watchstep")
+		end
 		timerHatredCD:Start()
 	end
 end

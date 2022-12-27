@@ -138,8 +138,10 @@ function mod:SPELL_CAST_START(args)
 		timerLeapCD:Start(25)
 		timerClawFrenzyCD:Start(17.7)
 	elseif spellId == 196543 then --Пугающий вой
-		specWarnHowl:Show()
-		specWarnHowl:Play("stopcast")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnHowl:Show()
+			specWarnHowl:Play("stopcast")
+		end
 		timerHowlCD:Start()
 	elseif spellId == 197558 then --Хищный прыжок
 		timerClawFrenzyCD:Cancel()
@@ -167,8 +169,10 @@ function mod:SPELL_CAST_SUCCESS(args)
 		timerClawFrenzyCD:Start()
 	elseif spellId == 196543 then --Пугающий вой
 		if self.vb.phase == 2 then
-			specWarnWolves:Show()
-			specWarnWolves:Play("switch")
+			if not UnitIsDeadOrGhost("player") then
+				specWarnWolves:Show()
+				specWarnWolves:Play("mobkill")
+			end
 		end
 	end
 end

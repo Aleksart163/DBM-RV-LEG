@@ -10,7 +10,7 @@ mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 247795 245164 249009 247878",
-	"SPELL_CAST_SUCCESS 247930",
+	"SPELL_CAST_SUCCESS 247930 245164",
 	"SPELL_AURA_APPLIED 247816 248535 247915",
 	"SPELL_AURA_APPLIED_DOSE 247915",
 	"SPELL_AURA_REMOVED 247816",
@@ -62,16 +62,18 @@ end
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 247795 then
-		specWarnCalltoVoid:Schedule(1.5)
-		specWarnCalltoVoid:Play("killmob")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnCalltoVoid:Schedule(1.5)
+			specWarnCalltoVoid:ScheduleVoice(1.5, "mobkill")
+		end
 		--timerCalltoVoidCD:Start()
-	elseif spellId == 245164 and self:AntiSpam(3, 1) then
-		specWarnFragmentOfDespair:Schedule(1.5)
-		specWarnFragmentOfDespair:Play("helpsoak")
+	elseif spellId == 245164 and self:AntiSpam(2, 2) then
 		timerFragmentOfDespairCD:Start()
 	elseif spellId == 249009 then
-		specWarnGrandShift:Show()
-		specWarnGrandShift:Play("watchstep")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnGrandShift:Show()
+			specWarnGrandShift:Play("watchstep")
+		end
 		timerGrandShiftCD:Start()
 		countdownGrandShift:Start()
 	elseif spellId == 247878 then --Вытягивание Бездны
@@ -92,6 +94,11 @@ function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
 	if spellId == 247930 then
 		timerUmbralCadenceCD:Start()
+	elseif spellId == 245164 and self:AntiSpam(2, 3) then --Частица отчаяния
+		if not UnitIsDeadOrGhost("player") then
+			specWarnFragmentOfDespair:Show()
+			specWarnFragmentOfDespair:Play("helpsoak")
+		end
 	end
 end
 
@@ -100,7 +107,9 @@ function mod:SPELL_AURA_APPLIED(args)
 	if spellId == 247816 then --Отдача
 		self.vb.backlash = self.vb.backlash + 1
 		warnBacklash:Show(args.destName)
-		specWarnBacklash:Show()
+		if not UnitIsDeadOrGhost("player") then
+			specWarnBacklash:Show()
+		end
 		timerBacklash:Start()
 		countdownBacklash2:Start()
 		if self.vb.backlash == 1 then

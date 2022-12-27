@@ -32,7 +32,7 @@ local specWarnNullPalm					= mod:NewSpecialWarningDodge(246134, nil, nil, nil, 2
 local specWarnCoalescedVoid				= mod:NewSpecialWarningSwitch(244602, "Dps", nil, nil, 1, 2) --Сгустившаяся Бездна
 local specWarnUmbraShift				= mod:NewSpecialWarning("UmbraShift", nil, nil, nil, 1, 2) --Теневой рывок
 local specWarnFixate					= mod:NewSpecialWarningYouRun(244657, nil, nil, nil, 4, 5) --Сосредоточение внимания
-local specWarnFixate2					= mod:NewSpecialWarningDodge(244653, nil, nil, nil, 2, 2) --Сосредоточение внимания
+--local specWarnFixate2					= mod:NewSpecialWarningDodge(244653, nil, nil, nil, 2, 2) --Сосредоточение внимания
 local specWarnVoidTear					= mod:NewSpecialWarningMoreDamage(244621, "-Healer", nil, nil, 3, 2) --Прорыв Бездны
 local specWarnVoidTear2					= mod:NewSpecialWarningEnd(244621, nil, nil, nil, 1, 2) --Прорыв Бездны
 local specWarnVoidTear3					= mod:NewSpecialWarningReady(244621, nil, nil, nil, 1, 2) --Прорыв Бездны
@@ -77,8 +77,10 @@ end
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 246134 then
-		specWarnNullPalm:Show()
-		specWarnNullPalm:Play("shockwave")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnNullPalm:Show()
+			specWarnNullPalm:Play("shockwave")
+		end
 	--	timerNullPalmCD:Start()
 	elseif spellId == 244579 then
 		timerDeciminateCD:Start()
@@ -90,8 +92,10 @@ end
 function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
 	if spellId == 246139 then --Сгустившаяся Бездна 244602
-		specWarnCoalescedVoid:Show()
-		specWarnCoalescedVoid:Play("killmob")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnCoalescedVoid:Show()
+			specWarnCoalescedVoid:Play("mobkill")
+		end
 	end
 end
 
@@ -114,7 +118,9 @@ function mod:SPELL_AURA_APPLIED(args)
 	--	UmbraShift = false
 		self.vb.aberrations = 0
 		warnVoidTear:Show(args.destName)
-		specWarnVoidTear:Show()
+		if not UnitIsDeadOrGhost("player") then
+			specWarnVoidTear:Show()
+		end
 		timerVoidTear:Start()
 		timerNullPalmCD:Stop()
 		timerDeciminateCD:Stop()

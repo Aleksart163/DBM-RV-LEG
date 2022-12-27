@@ -37,16 +37,16 @@ local warnDinnerBell2				= mod:NewTargetAnnounce(227987, 4) --Звонок к о
 
 --Люминор
 local specWarnBurningBlaze			= mod:NewSpecialWarningYouMove(228193, nil, nil, nil, 1, 2) --Жаркое пламя
-local specWarnHeatWave				= mod:NewSpecialWarningInterrupt(228025, "-Healer", nil, nil, 3, 3) --Волна жара
+local specWarnHeatWave				= mod:NewSpecialWarningInterrupt(228025, "HasInterrupt", nil, nil, 3, 6) --Волна жара
 --Мадам Чугунок
 local specWarnDrenched				= mod:NewSpecialWarningYou(228013, nil, nil, nil, 1, 2) --Брызги супа
 --local specWarnDrenched				= mod:NewSpecialWarningMoveTo(228013, nil, nil, nil, 1, 2) --Брызги супа
-local specWarnLeftovers				= mod:NewSpecialWarningInterrupt(228019, "-Healer", nil, nil, 2, 3) --Объедки
+local specWarnLeftovers				= mod:NewSpecialWarningInterrupt(228019, "HasInterrupt", nil, nil, 2, 3) --Объедки
 --Метелка
 local specWarnSevereDusting			= mod:NewSpecialWarningYouRun(228221, nil, nil, nil, 4, 2) --Жесткая уборка
 local specWarnSultryheat			= mod:NewSpecialWarningDispel(228225, "MagicDispeller", nil, nil, 1, 2) --Распаляющий жар
 --Коглстон
-local specWarnDentArmor				= mod:NewSpecialWarningYouDefensive(227985, nil, nil, nil, 3, 3) --Сминание доспеха
+local specWarnDentArmor				= mod:NewSpecialWarningYouDefensive(227985, nil, nil, nil, 3, 6) --Сминание доспеха
 local specWarnDinnerBell			= mod:NewSpecialWarningInterrupt(227987, "HasInterrupt", nil, nil, 1, 2) --Звонок к обеду!
 local specWarnDinnerBell2			= mod:NewSpecialWarningDispel(227987, "MagicDispeller", nil, nil, 3, 3) --Звонок к обеду!
 
@@ -89,8 +89,10 @@ end
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 228025 then --Волна жара
-		specWarnHeatWave:Show()
-		specWarnHeatWave:Play("kickcast")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnHeatWave:Show()
+			specWarnHeatWave:Play("kickcast")
+		end
 		if self:IsHard() then
 			timerHeatWaveCD:Start(30)
 			countdownHeatWave:Start(30)
@@ -99,8 +101,10 @@ function mod:SPELL_CAST_START(args)
 			countdownHeatWave:Start()
 		end
 	elseif spellId == 228019 then --Объедки
-		specWarnLeftovers:Show()
-		specWarnLeftovers:Play("kickcast")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnLeftovers:Show()
+			specWarnLeftovers:Play("kickcast")
+		end
 		if self:IsHard() then
 			timerLeftoversCD:Start(18)
 		else
@@ -146,8 +150,10 @@ function mod:SPELL_AURA_APPLIED(args)
 			self:SetIcon(args.destName, 7)
 		end
 	elseif spellId == 228225 and not args:IsDestTypePlayer() then
-		specWarnSultryheat:Show(args.destName)
-		specWarnSultryheat:Play("dispelnow")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnSultryheat:Show(args.destName)
+			specWarnSultryheat:Play("dispelnow")
+		end
 	elseif spellId == 227985 then --Сминание доспеха
 		timerDentArmor:Start(args.destName)
 		if args:IsPlayer() then
@@ -161,10 +167,12 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif spellId == 227987 then --Звонок к обеду!
 		local cid = self:GetCIDFromGUID(args.destGUID)
-		if cid == 114328 then --Карлсон и прошляпанное очко Мурчаля
+		if cid == 114328 then --Карлсон и прошляпанное очко Мурчаля Прошляпенко
 			warnDinnerBell2:Show(args.destName)
-			specWarnDinnerBell2:Show(args.destName)
-			specWarnDinnerBell2:Play("dispelnow")
+			if not UnitIsDeadOrGhost("player") then
+				specWarnDinnerBell2:Show(args.destName)
+				specWarnDinnerBell2:Play("dispelnow")
+			end
 		end
 	end
 end

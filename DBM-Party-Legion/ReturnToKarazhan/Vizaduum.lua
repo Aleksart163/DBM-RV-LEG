@@ -5,7 +5,7 @@ mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
 mod:SetCreatureID(114790)
 mod:SetEncounterID(2017)
 mod:SetZone()
-mod:SetUsedIcons(1, 2, 3)
+mod:SetUsedIcons(1, 2, 3, 8)
 --mod:SetHotfixNoticeRev(14922)
 --mod.respawnTime = 30
 
@@ -37,13 +37,17 @@ local warnFelBeam					= mod:NewTargetAnnounce(229242, 4) --Приказ: луч 
 local warnDisintegrate				= mod:NewSpellAnnounce(229151, 4) --Расщепление
 local warnBombardment				= mod:NewSpellAnnounce(229284, 3) --Приказ: бомбардировка
 
-local specWarnChaoticShadows		= mod:NewSpecialWarningYou(229159, nil, nil, nil, 1, 2) --Тени Хаоса
-local specWarnChaoticShadows2		= mod:NewSpecialWarningYouMoveAway(229159, nil, nil, nil, 3, 5) --Тени Хаоса
+local specWarnChaoticShadows		= mod:NewSpecialWarningYou(229159, nil, nil, nil, 1, 3) --Тени Хаоса
+local specWarnChaoticShadows2		= mod:NewSpecialWarningYouMoveAway(229159, nil, nil, nil, 3, 6) --Тени Хаоса
+--
+local specWarnBurningBlast4			= mod:NewSpecialWarningStack(229083, nil, 1, nil, nil, 3, 6) --Выброс пламени
+local specWarnBurningBlast3			= mod:NewSpecialWarningYouDispel(229083, "MagicDispeller2", nil, nil, 3, 3) --Выброс пламени
 local specWarnBurningBlast			= mod:NewSpecialWarningInterruptCount(229083, "HasInterrupt", nil, nil, 1, 2) --Выброс пламени
 local specWarnBurningBlast2			= mod:NewSpecialWarningDispel(229083, "MagicDispeller2", nil, nil, 3, 3) --Выброс пламени
 --local specWarnBombardment			= mod:NewSpecialWarningDodge(229284, nil, nil, nil, 2, 2) --Приказ: бомбардировка
 local specWarnDisintegrate			= mod:NewSpecialWarningDodge(229151, nil, nil, nil, 2, 2) --Расщепление
-local specWarnFelBeam				= mod:NewSpecialWarningYouMoveAway(229242, nil, nil, nil, 4, 5) --Приказ: луч Скверны
+local specWarnFelBeam				= mod:NewSpecialWarningYouMoveAway(229242, nil, nil, nil, 4, 6) --Приказ: луч Скверны
+local specWarnFelBeam2				= mod:NewSpecialWarningTargetDodge(229242, nil, nil, nil, 2, 3) --Приказ: луч Скверны
 --Все фазы
 mod:AddTimerLine(GENERAL)
 local timerChaoticShadowsCD			= mod:NewCDTimer(30, 229159, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON..DBM_CORE_DEADLY_ICON) --Тени Хаоса
@@ -59,6 +63,7 @@ local timerShadowPhlegmCD			= mod:NewCDTimer(5, 230066, nil, nil, nil, 7) --Фл
 local timerStabilizeRiftCD			= mod:NewCDTimer(25, 230084, nil, nil, nil, 1, nil, DBM_CORE_INTERRUPT_ICON) --Стабилизация разлома
 local timerStabilizeRift			= mod:NewCastTimer(29.7, 230084, nil, nil, nil, 1, nil, DBM_CORE_INTERRUPT_ICON..DBM_CORE_DAMAGE_ICON) --Стабилизация разлома
 
+local yellBurningBlast				= mod:NewYell(229083, nil, nil, nil, "YELL") --Выброс пламени
 local yellFelBeam					= mod:NewYell(229242, nil, nil, nil, "YELL") --Приказ: луч Скверны
 local yellChaoticShadows			= mod:NewPosYell(229159, DBM_CORE_AUTO_YELL_CUSTOM_POSITION, nil, nil, "YELL") --Тени Хаоса
 local yellChaoticShadows2			= mod:NewFadesYell(229159, nil, nil, nil, "YELL") --Тени Хаоса
@@ -72,6 +77,7 @@ local countdownStabilizeRift		= mod:NewCountdownFades(29.7, 230084, nil, nil, 5)
 
 --local countdownFocusedGazeCD		= mod:NewCountdown(40, 198006)
 
+mod:AddSetIconOption("SetIconOnBurningBlast", 229083, true, false, {8}) --Выброс пламени
 mod:AddSetIconOption("SetIconOnShadows", 229159, true, false, {3, 2, 1}) --Тени Хаоса
 mod:AddRangeFrameOption(6, 230066) --Флегма тьмы
 --mod:AddInfoFrameOption(198108, false)
@@ -127,8 +133,10 @@ function mod:SPELL_CAST_START(args)
 			warnDisintegrate:Show()
 			timerDisintegrateCD:Start(4)
 		else
-			specWarnDisintegrate:Show()
-			specWarnDisintegrate:Play("watchstep")
+			if not UnitIsDeadOrGhost("player") then
+				specWarnDisintegrate:Show()
+				specWarnDisintegrate:Play("watchstep")
+			end
 			timerDisintegrateCD:Start()
 		end
 	elseif spellId == 229083 then --Выброс пламени
@@ -204,7 +212,8 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnChaoticShadows:Show()
 			specWarnChaoticShadows:Play("runout")
-			specWarnChaoticShadows2:Schedule(5)
+			specWarnChaoticShadows2:Schedule(4.5)
+			specWarnChaoticShadows2:ScheduleVoice(4.5, "runaway")
 			yellChaoticShadows:Yell(count, args.spellName, count)
 			yellChaoticShadows2:Countdown(10, 3)
 		end
@@ -219,8 +228,13 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnFelBeam:Show()
 			specWarnFelBeam:Play("justrun")
-			specWarnFelBeam:ScheduleVoice(1, "keepmove")
+			specWarnFelBeam:ScheduleVoice(2, "keepmove")
 			yellFelBeam:Yell()
+		elseif self:CheckNearby(20, args.destName) then
+			if not UnitIsDeadOrGhost("player") then
+				specWarnFelBeam2:Show(args.destName)
+				specWarnFelBeam2:Play("watchstep")
+			end
 		else
 			warnFelBeam:Show(args.destName)
 		end
@@ -234,14 +248,37 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif spellId == 229083 then --Выброс пламени
 		local amount = args.amount or 1
-		if not self:IsNormal() then
-			if not args:IsPlayer() then
-				specWarnBurningBlast2:Show(args.destName)
-				specWarnBurningBlast2:Play("dispelnow")
+		warnBurningBlast:Show(args.destName, amount)
+		if amount >= 1 then
+			if self:IsMythic() then
+				if args:IsPlayer() and not self:IsMagicDispeller2() then
+					specWarnBurningBlast4:Show()
+					specWarnBurningBlast4:Play("targetyou")
+					yellBurningBlast:Yell()
+				elseif args:IsPlayer() and self:IsMagicDispeller2() then
+					specWarnBurningBlast3:Show()
+					specWarnBurningBlast3:Play("dispelnow")
+					yellBurningBlast:Yell()
+				elseif self:IsMagicDispeller2() then
+					if not UnitIsDeadOrGhost("player") then
+						specWarnBurningBlast2:Show(args.destName)
+						specWarnBurningBlast2:Play("dispelnow")
+					end
+				end
+			else
+				if args:IsPlayer() and not self:IsMagicDispeller2() then
+					specWarnBurningBlast4:Show()
+					specWarnBurningBlast4:Play("targetyou")
+					yellBurningBlast:Yell()
+				elseif args:IsPlayer() and self:IsMagicDispeller2() then
+					specWarnBurningBlast3:Show()
+					specWarnBurningBlast3:Play("dispelnow")
+					yellBurningBlast:Yell()
+				end
 			end
 		end
-		if amount >= 2 then
-			warnBurningBlast:Show(args.destName, amount)
+		if self.Options.SetIconOnBurningBlast then
+			self:SetIcon(args.destName, 8, 8)
 		end
 	end
 end
@@ -260,6 +297,10 @@ function mod:SPELL_AURA_REMOVED(args)
 	elseif spellId == 230084 then --Стабилизация разлома
 		timerStabilizeRift:Cancel()
 		countdownStabilizeRift:Cancel()
+	elseif spellId == 229083 then --Выброс пламени
+		if self.Options.SetIconOnBurningBlast then
+			self:SetIcon(args.destName, 0)
+		end
 	end
 end
 
@@ -291,7 +332,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 end
 
 function mod:UNIT_HEALTH(uId)
-	if self:IsHard() then --миф и миф+
+	if self:IsHard() then --гер, миф и миф+
 		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 114790 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.68 then
 			warned_preP1 = true
 			warnPhase2:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase+1))

@@ -35,9 +35,9 @@ local specWarnWhirlingBlade2		= mod:NewSpecialWarningYouRun(198641, nil, nil, ni
 local specWarnDarkblast				= mod:NewSpecialWarningDodge(198820, nil, nil, nil, 3, 5) --Темный взрыв
 local specWarnGuile					= mod:NewSpecialWarningDodge(199193, nil, nil, nil, 3, 5) --Хитроумие повелителя ужаса
 local specWarnGuileEnded			= mod:NewSpecialWarningEnd(199193, nil, nil, nil, 1, 2) --Хитроумие повелителя ужаса
-local specWarnSwarm					= mod:NewSpecialWarningYou(201733, nil, nil, nil, 3, 3) --Жалящий рой
+local specWarnSwarm					= mod:NewSpecialWarningYou(201733, nil, nil, nil, 3, 6) --Жалящий рой
 local specWarnSwarm2				= mod:NewSpecialWarningSwitch(201733, "-Healer", nil, nil, 1, 2) --Жалящий рой
-local specWarnShadowBolt			= mod:NewSpecialWarningDefensive(202019, nil, nil, nil, 3, 5) --Залп стрел Тьмы
+local specWarnShadowBolt			= mod:NewSpecialWarningDefensive(202019, nil, nil, nil, 3, 6) --Залп стрел Тьмы
 
 local timerDarkBlastCD				= mod:NewCDTimer(18, 198820, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Темный взрыв
 local timerUnerringShearCD			= mod:NewCDTimer(12, 198635, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Неумолимый удар
@@ -91,7 +91,7 @@ function mod:SwarmTarget(targetname, uId) --Жалящий рой ✔
 		yellSwarm:Yell()
 	elseif self:CheckNearby(20, targetname) then
 		specWarnSwarm2:Schedule(1.5)
-		specWarnSwarm2:ScheduleVoice(1.5, "killmob")
+		specWarnSwarm2:ScheduleVoice(1.5, "mobkill")
 	else
 		warnSwarm:Show(targetname)
 	end
@@ -117,10 +117,12 @@ end
 
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
-	if spellId == 198820 and self:AntiSpam(2, 2) then
+	if spellId == 198820 and self:AntiSpam(3, 2) then
 		if self.vb.phase == 1 then
-			specWarnDarkblast:Show()
-			specWarnDarkblast:Play("watchstep")
+			if not UnitIsDeadOrGhost("player") then
+				specWarnDarkblast:Show()
+				specWarnDarkblast:Play("watchstep")
+			end
 			timerDarkBlastCD:Start()
 			countdownDarkblast:Start()
 		end
@@ -132,9 +134,11 @@ function mod:SPELL_CAST_START(args)
 		timerCloudCD:Stop()
 		timerSwarmCD:Stop()
 		timerShadowBoltVolleyCD:Stop()
-		specWarnGuile:Show()
-		specWarnGuile:Play("watchstep")
-		specWarnGuile:ScheduleVoice(1.5, "keepmove")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnGuile:Show()
+			specWarnGuile:Play("watchstep")
+			specWarnGuile:ScheduleVoice(1.5, "keepmove")
+		end
 		specWarnGuileEnded:Schedule(20)
 		timerGuile:Start()
 		countdownGuile2:Start()
@@ -151,8 +155,10 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 202019 then
 		self.vb.shadowboltCount = self.vb.shadowboltCount + 1
 		if self.vb.shadowboltCount == 1 then
-			specWarnShadowBolt:Show()
-			specWarnShadowBolt:Play("defensive")
+			if not UnitIsDeadOrGhost("player") then
+				specWarnShadowBolt:Show()
+				specWarnShadowBolt:Play("defensive")
+			end
 		end
 		--timerShadowBoltVolleyCD:Start()--Not known, and probably not important
 	elseif spellId == 198641 then --Крутящийся клинок

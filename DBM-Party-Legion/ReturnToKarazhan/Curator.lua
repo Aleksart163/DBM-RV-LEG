@@ -33,8 +33,8 @@ local warnEvo2						= mod:NewPreWarnAnnounce(227254, 3, 4) --Прилив сил
 local specWarnPowerDischarge2		= mod:NewSpecialWarningDodge(227279, nil, nil, nil, 2, 2) --Разряд энергии
 local specWarnAdds					= mod:NewSpecialWarningSwitch(227267, "-Healer", nil, nil, 1, 2) --Призыв нестабильной энергии
 local specWarnPowerDischarge		= mod:NewSpecialWarningYouMove(227465, nil, nil, nil, 1, 2) --Разряд энергии
-local specWarnEvo					= mod:NewSpecialWarningMoreDamage(227254, "-Healer", nil, nil, 3, 2) --Прилив сил
-local specWarnEvo2					= mod:NewSpecialWarningDefensive(227254, nil, nil, nil, 3, 3) --Прилив сил
+local specWarnEvo					= mod:NewSpecialWarningMoreDamage(227254, "-Healer", nil, nil, 3, 3) --Прилив сил
+local specWarnEvo2					= mod:NewSpecialWarningDefensive(227254, nil, nil, nil, 3, 6) --Прилив сил
 
 local timerSummonAddCD				= mod:NewNextTimer(9.5, 227267, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON) --Призыв нестабильной энергии
 local timerPowerDischargeCD			= mod:NewCDTimer(14, 227279, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Разряд энергии
@@ -49,8 +49,10 @@ local powerDischarges = {14, 14, 14, 45.2, 14, 14, 45.2, 14, 14, 45.2, 14, 14, 4
 
 local function startPowerDischarge(self)
 	self.vb.powerDischargeCast = self.vb.powerDischargeCast + 1
-	specWarnPowerDischarge2:Show()
-	specWarnPowerDischarge2:Play("watchstep")
+	if not UnitIsDeadOrGhost("player") then
+		specWarnPowerDischarge2:Show()
+		specWarnPowerDischarge2:Play("watchstep")
+	end
 	local timer = self:IsHard() and powerDischarges[self.vb.powerDischargeCast+1] or self:IsHeroic() and powerDischarges[self.vb.powerDischargeCast+1]
 	if timer then
 		timerPowerDischargeCD:Start(timer, self.vb.powerDischargeCast+1)
@@ -82,8 +84,10 @@ function mod:SPELL_SUMMON(args)
 	local spellId = args.spellId
 	if spellId == 227267 then --Призыв нестабильной энергии
 		warnAdds:Show()
-		specWarnAdds:Show()
-		specWarnAdds:Play("switch")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnAdds:Show()
+			specWarnAdds:Play("switch")
+		end
 		timerSummonAddCD:Start()
 	end
 end

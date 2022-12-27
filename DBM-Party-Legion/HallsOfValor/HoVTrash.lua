@@ -141,33 +141,39 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 199382 then
 		timerEnragingRoarCD:Start()
 	elseif spellId == 200901 then --Око шторма
-		specWarnEyeofStorm:Show(eyeShortName)
-		specWarnEyeofStorm:Play("findshelter")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnEyeofStorm:Show(eyeShortName)
+			specWarnEyeofStorm:Play("findshelter")
+		end
 		timerEyeofStormCD:Start()
 		countdownEyeofStorm:Start()
 	elseif spellId == 192158 then --Освящение
-		specWarnSanctify2:Show()
-		specWarnSanctify2:Play("watchorb")
-		specWarnSanctify:Show()
-		specWarnSanctify:Play("watchorb")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnSanctify2:Show()
+			specWarnSanctify2:Play("watchorb")
+			specWarnSanctify:Show()
+			specWarnSanctify:Play("watchorb")
+		end
 		timerSanctifyCD:Start()
 		countdownSanctify:Start()
-	elseif spellId == 210875 and self:AntiSpam(1, 1) then --Пульсирующий заряд
+	elseif spellId == 210875 and self:AntiSpam(2, 1) then --Пульсирующий заряд
 		warnChargedPulse:Show()
 		specWarnChargedPulse:Show()
 		specWarnChargedPulse:Play("justrun")
 		specWarnChargedPulse2:Show()
 		specWarnChargedPulse2:Play("watchstep")
-	elseif spellId == 199652 and self:AntiSpam(2, 1) then --Рассечение
+	elseif spellId == 199652 and self:AntiSpam(2, 2) then --Рассечение
 		specWarnSever:Show()
 		specWarnSever:Play("defensive")
-	elseif spellId == 200969 and self:AntiSpam(3, 1) then --Зов предков
-		specWarnCallAncestor:Show()
-		specWarnCallAncestor:Play("switch")
+	elseif spellId == 200969 and self:AntiSpam(3, 3) then --Зов предков
+		if not UnitIsDeadOrGhost("player") then
+			specWarnCallAncestor:Show()
+			specWarnCallAncestor:Play("mobkill")
+		end
 	elseif spellId == 198888 then --Грозовое дыхание
 		specWarnLightningBreath:Show()
 		specWarnLightningBreath:Play("watchstep")
-	elseif spellId == 198931 and self:AntiSpam(2, 1) then --Исцеляющий свет
+	elseif spellId == 198931 and self:AntiSpam(2, 4) then --Исцеляющий свет
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnHealingLight:Show()
 			specWarnHealingLight:Play("kickcast")
@@ -188,8 +194,10 @@ function mod:SPELL_CAST_SUCCESS(args)
 		specWarnEnragingRoar:Show()
 		specWarnEnragingRoar:Play("defensive")
 	elseif spellId == 200901 then --Око шторма
-		specWarnEyeofStorm2:Show()
-		specWarnEyeofStorm2:Play("defensive")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnEyeofStorm2:Show()
+			specWarnEyeofStorm2:Play("defensive")
+		end
 	end
 end
 

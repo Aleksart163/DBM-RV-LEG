@@ -53,11 +53,15 @@ function mod:SPELL_CAST_START(args)
 		self.vb.focusedCount = self.vb.focusedCount + 1
 		timerGazeCD:Stop()
 		timerFocused:Start()
-		specWarnFocused:Show()
-		specWarnFocused:Play("specialsoon")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnFocused:Show()
+			specWarnFocused:Play("specialsoon")
+		end
 	elseif spellId == 194942 then --Подавляющий взгляд
-		specWarnGaze:Show()
-		specWarnGaze:Play("watchstep")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnGaze:Show()
+			specWarnGaze:Play("watchstep")
+		end
 		timerGazeCD:Start()
 	end
 end
@@ -74,7 +78,9 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 194333 then --Облучение
 		timerBeamed:Start(args.destName)
 		timerFocused:Stop()
-		specWarnBeamed:Show()
+		if not UnitIsDeadOrGhost("player") then
+			specWarnBeamed:Show()
+		end
 		timerFocusedCD:Start()
 		countdownFocused:Start()
 		warnFocused:Schedule(50)

@@ -67,8 +67,10 @@ end
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 207261 then
-		specWarnResonantSlash:Show()
-		specWarnResonantSlash:Play("watchstep")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnResonantSlash:Show()
+			specWarnResonantSlash:Play("watchstep")
+		end
 		if self.vb.phase == 2 then
 			timerResonantSlashCD:Start(10)
 		else
@@ -85,8 +87,10 @@ function mod:SPELL_CAST_START(args)
 		timerStreetsweeperCD:Start(9)
 		timerResonantSlashCD:Start(13.5)
 	elseif spellId == 207806 then
-		specWarnBeacon:Show()
-		specWarnBeacon:Play("mobsoon")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnBeacon:Show()
+			specWarnBeacon:Play("mobsoon")
+		end
 		timerStreetsweeperCD:Stop()
 		timerStreetsweeperCD:Start(9)
 	elseif spellId == 215204 and self:AntiSpam(2, 1) then --Помеха
@@ -105,8 +109,10 @@ end
 function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
 	if spellId == 207278 then --Чародейская изоляция
-		specWarnArcaneLockdown:Show()
-		specWarnArcaneLockdown:Play("keepjump")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnArcaneLockdown:Show()
+			specWarnArcaneLockdown:Play("keepjump")
+		end
 		if self:IsHard() then
 			timerArcaneLockdownCD:Start(26)
 		else
@@ -124,7 +130,8 @@ function mod:SPELL_AURA_APPLIED(args)
 	if spellId == 215204 then --Помеха
 		self.vb.hinderIcon = self.vb.hinderIcon - 1
 		warnHinder2:CombinedShow(0.3, args.destName)
-		specWarnHinder2:Show(args.destName)
+		specWarnHinder2:CombinedShow(0.3, args.destName)
+		specWarnHinder2:ScheduleVoice(0.3, "dispelnow")
 		if self.Options.SetIconOnHinder then
 			self:SetIcon(args.destName, self.vb.hinderIcon)
 		end

@@ -27,8 +27,8 @@ local specWarnTimberSmash			= mod:NewSpecialWarningDefensive(235751, "Tank", nil
 local specWarnChokingVine			= mod:NewSpecialWarningYouRun(238598, nil, nil, nil, 4, 2) --Удушающие лозы
 local specWarnSucculentSecretion	= mod:NewSpecialWarningYouMove(240065, nil, nil, nil, 1, 2) --Выброс сока
 local specWarnFulminatingLashers	= mod:NewSpecialWarningSwitch(236527, "Dps", nil, nil, 1, 2) --Гремучие плеточники
-local specWarnSucculentLashers		= mod:NewSpecialWarningSwitch(236639, "-Healer", nil, nil, 1, 2) --Сочные плеточники
-local specWarnFixate				= mod:NewSpecialWarningRun(238674, nil, nil, nil, 4, 2) --Сосредоточение внимания
+local specWarnSucculentLashers		= mod:NewSpecialWarningSwitch(236639, "Dps", nil, nil, 1, 2) --Сочные плеточники
+local specWarnFixate				= mod:NewSpecialWarningRun(238674, nil, nil, nil, 4, 3) --Сосредоточение внимания
 
 local timerTimberSmashCD			= mod:NewCDTimer(21.7, 235751, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Удар бревном
 local timerChokingVinesCD			= mod:NewCDTimer(30, 238598, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Удушающие лозы
@@ -75,16 +75,20 @@ end
 function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
 	if spellId == 236527 then --Гремучие плеточники
-		specWarnFulminatingLashers:Show()
-		specWarnFulminatingLashers:Play("killmob")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnFulminatingLashers:Show()
+			specWarnFulminatingLashers:Play("mobkill")
+		end
 		if self:IsHard() then
 			timerFulminatingLashersCD:Start(40)
 		else
 			timerFulminatingLashersCD:Start()
 		end
 	elseif spellId == 236639 then --Сочные плеточники
-		specWarnSucculentLashers:Show()
-		specWarnSucculentLashers:Play("killmob")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnSucculentLashers:Show()
+			specWarnSucculentLashers:Play("mobkill")
+		end
 		if self:IsHard() then
 			timerSucculentLashersCD:Start(40)
 		else

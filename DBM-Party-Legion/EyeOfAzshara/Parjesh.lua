@@ -25,11 +25,11 @@ local warnMotivated					= mod:NewStackAnnounce(197495, 3) --Мотивация
 local warnImpalingSpear				= mod:NewTargetAnnounce(192094, 4) --Пронзающее копье
 local warnThrowSpear				= mod:NewTargetAnnounce(192131, 3) --Бросок копья
 
-local specWarnImpalingSpear			= mod:NewSpecialWarningMoveTo(192094, nil, nil, nil, 3, 5) --Пронзающее копье
+local specWarnImpalingSpear			= mod:NewSpecialWarningMoveTo(192094, nil, nil, nil, 3, 6) --Пронзающее копье
 local specWarnImpalingSpear2		= mod:NewSpecialWarningTargetDodge(192094, nil, nil, nil, 2, 2) --Пронзающее копье
-local specWarnThrowSpear			= mod:NewSpecialWarningYouDefensive(192131, nil, nil, nil, 3, 3) --Бросок копья
+local specWarnThrowSpear			= mod:NewSpecialWarningYouDefensive(192131, nil, nil, nil, 3, 6) --Бросок копья
 local specWarnQuicksand				= mod:NewSpecialWarningYouMove(192053, nil, nil, nil, 1, 2) --Зыбучие пески
-local specWarnReinforcements		= mod:NewSpecialWarningSwitch(196563, "-Healer", nil, nil, 1, 2) --Вызов подкрепления
+local specWarnReinforcements		= mod:NewSpecialWarningSwitch(196563, "Dps|Tank", nil, nil, 1, 2) --Вызов подкрепления
 local specWarnCrashingwave			= mod:NewSpecialWarningDodge(191900, "-Tank", nil, nil, 2, 2) --Сокрушительная волна
 local specWarnCrashingwave2			= mod:NewSpecialWarningYouDefensive(191900, "Tank", nil, nil, 2, 2) --Сокрушительная волна
 local specWarnRestoration			= mod:NewSpecialWarningInterrupt(197502, "HasInterrupt", nil, nil, 1, 2) --Исцеление
@@ -83,8 +83,10 @@ function mod:SPELL_AURA_APPLIED(args)
 			yellImpalingSpear2:Countdown(5, 3)
 		else
 			warnImpalingSpear:Show(args.destName)
-			specWarnImpalingSpear2:Show(args.destName)
-			specWarnImpalingSpear2:Play("watchstep")
+			if not UnitIsDeadOrGhost("player") then
+				specWarnImpalingSpear2:Show(args.destName)
+				specWarnImpalingSpear2:Play("watchstep")
+			end
 		end
 		if self.Options.SetIconOnImpalingSpear then
 			self:SetIcon(args.destName, 8, 5)
@@ -118,24 +120,34 @@ mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 192073 and self:IsNormal() then--Caster mob
-		specWarnReinforcements:Show()
-		specWarnReinforcements:Play("bigmobsoon")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnReinforcements:Show()
+			specWarnReinforcements:Play("bigmobsoon")
+		end
 		timerHatecoilCD:Start(20)
 	elseif spellId == 192072 and self:IsNormal() then--Melee mob
-		specWarnReinforcements:Show()
-		specWarnReinforcements:Play("bigmobsoon")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnReinforcements:Show()
+			specWarnReinforcements:Play("bigmobsoon")
+		end
 		timerHatecoilCD:Start(33)
 	elseif spellId == 196563 then--Both of them (heroic+)
-		specWarnReinforcements:Show()
-		specWarnReinforcements:Play("bigmobsoon")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnReinforcements:Show()
+			specWarnReinforcements:Play("bigmobsoon")
+		end
 		timerHatecoilCD:Start()
 	elseif spellId == 197502 then
 		warnRestoration:Show()
-		specWarnRestoration:Show()
-		specWarnRestoration:Play("kickcast")
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnRestoration:Show()
+			specWarnRestoration:Play("kickcast")
+		end
 	elseif spellId == 191900 then --Сокрушительная волна
-		specWarnCrashingwave:Show()
-		specWarnCrashingwave:Play("watchstep")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnCrashingwave:Show()
+			specWarnCrashingwave:Play("watchstep")
+		end
 		specWarnCrashingwave2:Show()
 		specWarnCrashingwave2:Play("defensive")
 		timerCrashingwaveCD:Start()

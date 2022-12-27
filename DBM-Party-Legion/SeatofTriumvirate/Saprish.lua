@@ -26,7 +26,7 @@ local warnVoidTrap						= mod:NewSpellAnnounce(246026, 3, nil, nil, nil, nil, ni
 --local specWarnOverloadTrap				= mod:NewSpecialWarningDodge(247206, nil, nil, nil, 2, 2) --Заряженные ловушки
 local specWarnUmbralFlanking			= mod:NewSpecialWarningYouMoveAway(247245, nil, nil, nil, 1, 2) --Призрачный удар
 local specWarnRavagingDarkness			= mod:NewSpecialWarningDodge(245802, nil, nil, nil, 2, 3) --Опустошающая тьма
-local specWarnDreadScreech				= mod:NewSpecialWarningInterrupt(248831, "HasInterrupt", nil, nil, 3, 5) --Ужасный визг
+local specWarnDreadScreech				= mod:NewSpecialWarningInterrupt(248831, "HasInterrupt", nil, nil, 3, 6) --Ужасный визг
 
 local timerVoidTrapCD					= mod:NewCDTimer(16, 247175, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Ловушка Бездны +++
 --local timerOverloadTrapCD				= mod:NewCDTimer(20.6, 247206, nil, nil, nil, 3) --Заряженные ловушки
@@ -61,8 +61,10 @@ end
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 245802 then
-		specWarnRavagingDarkness:Show()
-		specWarnRavagingDarkness:Play("watchstep")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnRavagingDarkness:Show()
+			specWarnRavagingDarkness:Play("watchstep")
+		end
 		timerRavagingDarknessCD:Start()
 	elseif spellId == 248831 then --Ужасный визг
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then

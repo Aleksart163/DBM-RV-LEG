@@ -27,6 +27,7 @@ local warnAlluringAroma2		= mod:NewTargetAnnounce(237391, 2) --Манящий а
 local specWarnVenomousPool		= mod:NewSpecialWarningYouMove(213124, nil, nil, nil, 1, 2) --Ядовитая лужа
 local specWarnSinisterFangs		= mod:NewSpecialWarningStack(236954, nil, 2, nil, nil, 1, 3) --Зловещие клыки
 local specWarnSinisterFangs2	= mod:NewSpecialWarningDispel(236954, "RemovePoison", nil, nil, 1, 3) --Зловещие клыки
+local specWarnSinisterFangs3	= mod:NewSpecialWarningYouDispel(236954, "RemovePoison", nil, nil, 1, 3) --Зловещие клыки
 local specWarnAlluringAroma2	= mod:NewSpecialWarningDispel(237391, "MagicDispeller2", nil, nil, 1, 3) --Манящий аромат
 local specWarnFelRejuvenation	= mod:NewSpecialWarningInterrupt(237558, "HasInterrupt", nil, nil, 3, 2) --Омоложение Скверной
 local specWarnBlisteringRain	= mod:NewSpecialWarningInterrupt(237565, "HasInterrupt", nil, nil, 3, 6) --Обжигающий дождь
@@ -164,23 +165,32 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerAlluringAroma:Start(args.destName)
 		if args:IsPlayer() then
 			yellAlluringAroma:Yell()
-		else
-			specWarnAlluringAroma2:Show(args.destName)
-			specWarnAlluringAroma2:Play("dispelnow")
+		elseif self:IsMagicDispeller2() then
+			if not UnitIsDeadOrGhost("player") then
+				specWarnAlluringAroma2:Show(args.destName)
+				specWarnAlluringAroma2:Play("dispelnow")
+			end
 		end
 	elseif spellId == 236954 then --Зловещие клыки
 		local amount = args.amount or 1
 		if self:IsHard() then
 			timerSinisterFangs:Start(args.destName)
 			if amount >= 2 and amount % 2 == 0 then
-				if args:IsPlayer() then
+				if args:IsPlayer() and not self:IsPoisonDispeller() then
 					specWarnSinisterFangs:Show(amount)
 					specWarnSinisterFangs:Play("stackhigh")
 					yellSinisterFangs:Yell()
+				elseif args:IsPlayer() and self:IsPoisonDispeller() then
+					specWarnSinisterFangs3:Show()
+					specWarnSinisterFangs3:Play("dispelnow")
+					yellSinisterFangs:Yell()
+				elseif self:IsPoisonDispeller() then
+					if not UnitIsDeadOrGhost("player") then
+						specWarnSinisterFangs2:Show(args.destName)
+						specWarnSinisterFangs2:Play("dispelnow")
+					end
 				else
 					warnSinisterFangs:Show(args.destName, amount)
-					specWarnSinisterFangs2:Show(args.destName)
-					specWarnSinisterFangs2:Play("dispelnow")
 				end
 			end
 		end

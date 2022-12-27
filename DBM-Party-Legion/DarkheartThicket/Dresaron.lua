@@ -22,7 +22,7 @@ local warnRoar						= mod:NewSpellAnnounce(199389, 3) --Сотрясающий �
 local warnRoar2						= mod:NewPreWarnAnnounce(199389, 5, 1) --Сотрясающий землю рык
 local warnDownDraft					= mod:NewPreWarnAnnounce(199345, 5, 1) --Нисходящий поток
 
-local specWarnDownDraft				= mod:NewSpecialWarningMoveBoss(199345, nil, nil, nil, 4, 3) --Нисходящий поток
+local specWarnDownDraft				= mod:NewSpecialWarningMoveBoss(199345, nil, nil, nil, 4, 6) --Нисходящий поток
 local specWarnBreath				= mod:NewSpecialWarningDodge(199332, nil, nil, nil, 2, 2) --Дыхание порчи
 local specWarnFallingRocks			= mod:NewSpecialWarningYouMove(199460, nil, nil, nil, 1, 2) --Каменная осыпь
 
@@ -56,8 +56,10 @@ function mod:SPELL_CAST_START(args)
 		warnRoar2:Schedule(25)
 		timerEarthShakerCD:Start(30)
 	elseif spellId == 199345 then --Нисходящий поток
-		specWarnDownDraft:Show()
-		specWarnDownDraft:Play("keepmove")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnDownDraft:Show()
+			specWarnDownDraft:Play("keepmove")
+		end
 		if self:IsHard() then
 			timerBreathCD:Stop()
 			timerDownDraftCD:Start(30)
@@ -92,8 +94,10 @@ mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	local spellId = legacySpellId or bfaSpellId
 	if spellId == 199332 then --Дыхание порчи
-		specWarnBreath:Show()
-		specWarnBreath:Play("breathsoon")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnBreath:Show()
+			specWarnBreath:Play("breathsoon")
+		end
 		timerBreathCD:Start()
 	end
 end

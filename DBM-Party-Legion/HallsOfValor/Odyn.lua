@@ -30,7 +30,7 @@ local specWarnRunicBrand3			= mod:NewSpecialWarningYouMoveToPos(197965, nil, nil
 local specWarnRunicBrand4			= mod:NewSpecialWarningYouMoveToPos(197966, nil, nil, nil, 4, 5) --Руническое клеймо синяя
 local specWarnRunicBrand5			= mod:NewSpecialWarningYouMoveToPos(197967, nil, nil, nil, 4, 5) --Руническое клеймо зеленая
 local specWarnAdd					= mod:NewSpecialWarningSwitch(201221, "-Healer", nil, nil, 1, 2) --Призыв закаленного бурей воина
-local specWarnSurge					= mod:NewSpecialWarningInterrupt(198750, "HasInterrupt", nil, nil, 1, 2) --Импульс
+local specWarnSurge					= mod:NewSpecialWarningInterrupt(198750, "HasInterrupt", nil, nil, 1, 3) --Импульс
 local specWarnUnworthy				= mod:NewSpecialWarningYou(198190, nil, nil, nil, 1, 2) --Недостойность
 
 --local timerSpearCD					= mod:NewCDTimer(8, 198077, nil, nil, nil, 3)--More data needed
@@ -68,7 +68,7 @@ function mod:OnCombatStart(delay) --Прошляпанное очко мурча
 		specWarnSpear:Schedule(16-delay) --Копье света+++
 		specWarnSpear:ScheduleVoice(16-delay, "watchstep") --Копье света+++
 		specWarnAdd:Schedule(19-delay) --Призыв закаленного бурей воина+++
-		specWarnAdd:ScheduleVoice(19-delay, "killmob") --Призыв закаленного бурей воина+++
+		specWarnAdd:ScheduleVoice(19-delay, "mobkill") --Призыв закаленного бурей воина+++
 	else
 		timerTempestCD:Start(24-delay, 1) --Светозарная буря+++
 		countdownTempest:Start(24-delay) --Светозарная буря+++
@@ -86,8 +86,10 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 198263 then --Светозарная буря
 		self.vb.tempestCount = self.vb.tempestCount + 1
-		specWarnTempest:Show(self.vb.tempestCount)
-		specWarnTempest:Play("runout")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnTempest:Show(self.vb.tempestCount)
+			specWarnTempest:Play("runout")
+		end
 		timerTempestCast:Start()
 		countdownTempest2:Start()
 		timerTempestCD:Start(nil, self.vb.tempestCount+1)
@@ -101,11 +103,13 @@ function mod:SPELL_CAST_START(args)
 		if not self:IsNormal() then
 			timerAddCD:Start(50)
 			specWarnAdd:Schedule(51)
-			specWarnAdd:ScheduleVoice(51, "killmob")
+			specWarnAdd:ScheduleVoice(51, "mobkill")
 		end
 	elseif spellId == 198077 then
-		specWarnShatterSpears:Show()
-		specWarnShatterSpears:Play("watchorb")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnShatterSpears:Show()
+			specWarnShatterSpears:Play("watchorb")
+		end
 		timerShatterSpearsCD:Start()
 	elseif spellId == 198750 then --Импульс
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then

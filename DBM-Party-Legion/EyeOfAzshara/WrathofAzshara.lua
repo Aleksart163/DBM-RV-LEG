@@ -24,10 +24,11 @@ local warnRagingStorms				= mod:NewCastAnnounce(192696, 4) --Бушующий ш
 local warnCrushingDepths			= mod:NewTargetAnnounce(197365, 4) --Морская пучина
 
 local specWarnArcaneBomb			= mod:NewSpecialWarningYouMoveAway(192706, nil, nil, nil, 3, 3) --Чародейская бомба
-local specWarnArcaneBomb2			= mod:NewSpecialWarningDispel(192706, "MagicDispeller2", nil, nil, 1, 3) --Чародейская бомба
+local specWarnArcaneBomb4			= mod:NewSpecialWarningYouDispel(192706, nil, nil, nil, 3, 3) --Чародейская бомба
+local specWarnArcaneBomb2			= mod:NewSpecialWarningDispel(192706, "MagicDispeller2", nil, nil, 3, 3) --Чародейская бомба
 local specWarnArcaneBomb3			= mod:NewSpecialWarningEnd(192706, nil, nil, nil, 1, 2) --Чародейская бомба
 local specWarnCrushingDepths		= mod:NewSpecialWarningYouClose(197365, nil, nil, nil, 2, 2) --Морская пучина
-local specWarnCrushingDepths2		= mod:NewSpecialWarningYouShare(197365, nil, nil, nil, 3, 5) --Морская пучина
+local specWarnCrushingDepths2		= mod:NewSpecialWarningYouShare(197365, nil, nil, nil, 3, 6) --Морская пучина
 local specWarnMassiveDeluge			= mod:NewSpecialWarningDodge(192617, nil, nil, nil, 2, 2) --Потоп
 
 local timerCrushingDepthsCD			= mod:NewCDTimer(34, 197365, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Морская пучина
@@ -98,8 +99,6 @@ function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 192706 then --Чародейская бомба
 		timerArcaneBomb:Start(args.destName)
-	--	specWarnArcaneBomb2:Schedule(3, args.destName)
-	--	specWarnArcaneBomb2:ScheduleVoice(3, "dispelnow")
 		if self.Options.RangeFrame then
 			DBM.RangeCheck:Show(10)
 		end
@@ -153,15 +152,26 @@ end
 function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, _, _, _, targetname)
 	if msg:find("spell:192708") then --Чародейская бомба
 		timerArcaneBombCD:Start()
-		if targetname == UnitName("player") then
+		if targetname == UnitName("player") and not self:IsMagicDispeller2() then
 			specWarnArcaneBomb:Show()
 			specWarnArcaneBomb:Play("runout")
 			yellArcaneBomb:Yell()
 			yellArcaneBombFades:Countdown(15, 3)
+		elseif targetname == UnitName("player") and self:IsMagicDispeller2() then
+			warnArcaneBomb:Show(targetname)
+			specWarnArcaneBomb:Show()
+			specWarnArcaneBomb:Play("runout")
+			specWarnArcaneBomb4:Schedule(5)
+			specWarnArcaneBomb4:ScheduleVoice(5, "dispelnow")
+			yellArcaneBomb:Yell()
+			yellArcaneBombFades:Countdown(15, 3)
+		elseif self:IsMagicDispeller2() then
+			if not UnitIsDeadOrGhost("player") then
+				specWarnArcaneBomb2:Schedule(5, targetname)
+				specWarnArcaneBomb2:ScheduleVoice(5, "dispelnow")
+			end
 		else
 			warnArcaneBomb:Show(targetname)
-			specWarnArcaneBomb2:Schedule(3, targetname)
-			specWarnArcaneBomb2:ScheduleVoice(3, "dispelnow")
 		end
 	end
 end

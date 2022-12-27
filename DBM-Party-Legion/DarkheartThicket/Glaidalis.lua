@@ -59,10 +59,15 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 198379 then
 		self.vb.rampage = self.vb.rampage + 1
-		specWarnRampage:Show(self.vb.rampage)
-		specWarnRampage:Play("defensive")
-		specWarnRampage2:Show()
-		specWarnRampage2:Play("watchstep")
+		if self:IsTank() then
+			specWarnRampage:Show(self.vb.rampage)
+			specWarnRampage:Play("defensive")
+		else
+			if not UnitIsDeadOrGhost("player") then
+				specWarnRampage2:Show()
+				specWarnRampage2:Play("watchstep")
+			end
+		end
 		timerRampageCD:Start()
 		countdownRampage:Start()
 		if self.vb.rampage == 1 then

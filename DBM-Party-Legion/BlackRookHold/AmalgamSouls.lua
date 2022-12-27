@@ -24,7 +24,7 @@ local warnSwirlingScythe			= mod:NewTargetAnnounce(195254, 2) --Вращающа
 local warnSoulEchoes				= mod:NewTargetAnnounce(194966, 2) --Эхо души
 local warnCallSouls					= mod:NewSpellAnnounce(196078, 3) --Вызов душ
 
-local specWarnSoulBurst				= mod:NewSpecialWarningDefensive(196587, nil, nil, nil, 3, 5) --Взрыв души
+local specWarnSoulBurst				= mod:NewSpecialWarningDefensive(196587, nil, nil, nil, 3, 6) --Взрыв души
 local specWarnCallSouls				= mod:NewSpecialWarningSwitch(196078, "Dps|Tank", nil, nil, 1, 2) --Вызов душ
 local specWarnReapSoul				= mod:NewSpecialWarningDodge(194956, "Dps|Healer", nil, nil, 2, 2) --Жатва душ
 local specWarnReapSoul2				= mod:NewSpecialWarningYouMove(194956, "Tank", nil, nil, 3, 5) --Жатва душ
@@ -141,10 +141,12 @@ function mod:SPELL_CAST_START(args)
 		timerSoulEchoesCD:Start()
 		self:BossTargetScanner(98542, "SoulTarget", 0.1, 20, true, nil, nil, nil, true)--Always filter tank, because if scan fails debuff will be used.
 	elseif spellId == 194956 then --Жатва душ
-		specWarnReapSoul2:Show()
-		specWarnReapSoul2:Play("shockwave")
-		specWarnReapSoul:Show()
-		specWarnReapSoul:Play("shockwave")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnReapSoul2:Show()
+			specWarnReapSoul2:Play("shockwave")
+			specWarnReapSoul:Show()
+			specWarnReapSoul:Play("shockwave")
+		end
 		timerReapSoulCD:Start()
 		countdownReapSoul:Start()
 		countdownReapSoul2:Start()
@@ -152,7 +154,10 @@ function mod:SPELL_CAST_START(args)
 		self.vb.phase = 2
 		warned_preP2 = true
 		warnCallSouls:Show()
-		specWarnCallSouls:Schedule(2.5)
+		if not UnitIsDeadOrGhost("player") then
+			specWarnCallSouls:Schedule(2.5)
+			specWarnCallSouls:ScheduleVoice(2.5, "mobkill")
+		end
 		timerSwirlingScytheCD:Stop()
 		timerSoulEchoesCD:Stop()
 		timerReapSoulCD:Stop()
@@ -160,8 +165,10 @@ function mod:SPELL_CAST_START(args)
 		timerSoulBurstCD:Start()
 	elseif spellId == 196587 then --Взрыв души
 		if not self:IsNormal() then
-			specWarnSoulBurst:Show()
-			specWarnSoulBurst:Play("defensive")
+			if not UnitIsDeadOrGhost("player") then
+				specWarnSoulBurst:Show()
+				specWarnSoulBurst:Play("defensive")
+			end
 		end
 		timerSwirlingScytheCD:Start(8)
 		timerSoulEchoesCD:Start(15.2)

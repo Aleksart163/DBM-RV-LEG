@@ -22,11 +22,11 @@ local warnTeleport				= mod:NewSpellAnnounce(200898, 2) --Телепортаци
 local warnTeleport2				= mod:NewSoonAnnounce(200898, 1) --Телепортация
 
 local specWarnFleshtoStone		= mod:NewSpecialWarningStack(203685, nil, 7, nil, nil, 1, 3) --Из плоти в камень
-local specWarnFleshtoStone2		= mod:NewSpecialWarningDispel(203685, "MagicDispeller2", nil, nil, 1, 2) --Из плоти в камень
+local specWarnFleshtoStone2		= mod:NewSpecialWarningDispel(203685, "MagicDispeller2", nil, nil, 3, 3) --Из плоти в камень
 local specWarnSapSoul			= mod:NewSpecialWarningInterrupt(200905, "HasInterrupt", nil, nil, 1, 2) --Опустошение души
 local specWarnSapSoulHard		= mod:NewSpecialWarningCast(200905, nil, nil, nil, 1, 2) --Опустошение души
 local specWarnFear				= mod:NewSpecialWarningSpell(201488, nil, nil, nil, 2, 2) --Пугающий вопль
-local specWarnStare				= mod:NewSpecialWarningYouLook(212564, nil, nil, nil, 3, 5) --Пытливый взгляд
+local specWarnStare				= mod:NewSpecialWarningYouLook(212564, nil, nil, nil, 3, 6) --Пытливый взгляд
 
 local timerSapSoulCD			= mod:NewCDTimer(21.5, 200905, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON) --Опустошение души
 local timerTormOrbCD			= mod:NewNextTimer(15, 212567, nil, nil, nil, 7) --Призыв сферы истязания
@@ -61,8 +61,10 @@ end
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 201488 then
-		specWarnFear:Show()
-		specWarnFear:Play("fearsoon")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnFear:Show()
+			specWarnFear:Play("fearsoon")
+		end
 	elseif spellId == 200898 then --Телепортация
 		warnTeleport:Show()
 		if timerSapSoulCD:GetTime() < 6 then
@@ -76,13 +78,17 @@ function mod:SPELL_CAST_SUCCESS(args)
 	if args.spellId == 200905 or spellId == 206303 then
 		countSapSoul:Cancel()--Just in case
 		if self:IsHard() then--Mythic and mythic + only
-			specWarnSapSoulHard:Show()
-			specWarnSapSoulHard:Play("stopcast")
+			if not UnitIsDeadOrGhost("player") then
+				specWarnSapSoulHard:Show()
+				specWarnSapSoulHard:Play("stopcast")
+			end
 			timerSapSoulCD:Start(15.4)
 			countSapSoul:Start(15.4)
 		else--Everything else
-			specWarnSapSoul:Show()
-			specWarnSapSoul:Play("kickcast")
+			if not UnitIsDeadOrGhost("player") then
+				specWarnSapSoul:Show()
+				specWarnSapSoul:Play("kickcast")
+			end
 			timerSapSoulCD:Start()
 			countSapSoul:Start()
 		end
@@ -91,9 +97,11 @@ end
 
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
-	if spellId == 212564 and args:IsPlayer() and self:AntiSpam(4, 1) then --Пытливый взгляд
-		specWarnStare:Show(L.lookSphere)
-		specWarnStare:Play("targetyou")
+	if spellId == 212564 and self:AntiSpam(3, 1) then --Пытливый взгляд
+		if args:IsPlayer() then
+			specWarnStare:Show(L.lookSphere)
+			specWarnStare:Play("turnaway")
+		end
 	elseif spellId == 203685 and args:IsDestTypePlayer() then --Из плоти в камень
 		local amount = args.amount or 1
 		if amount >= 7 then
@@ -101,8 +109,10 @@ function mod:SPELL_AURA_APPLIED(args)
 				specWarnFleshtoStone:Show(amount)
 				specWarnFleshtoStone:Play("stackhigh")
 			else
-				specWarnFleshtoStone2:CombinedShow(0.5, args.destName)
-				specWarnFleshtoStone2:Play("dispelnow")
+				if not UnitIsDeadOrGhost("player") then
+					specWarnFleshtoStone2:CombinedShow(0.5, args.destName)
+					specWarnFleshtoStone2:ScheduleVoice(0.5, "dispelnow")
+				end
 			end
 		end
 	end	

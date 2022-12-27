@@ -119,8 +119,10 @@ function mod:SPELL_CAST_START(args)
 		end]]
 	elseif spellId == 227339 and self:AntiSpam(2, 1) then --Мезэр
 		self.vb.mezairCast = self.vb.mezairCast + 1
-		specWarnMezair:Show()
-		specWarnMezair:Play("chargemove")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnMezair:Show()
+			specWarnMezair:Play("chargemove")
+		end
 --[[		if self.vb.mezairCast == 1 and warned_preP2 and perephase and firstperephase then -- через 3.5 сек как Ловчий спустился
 			perephase = false
 			self.vb.mountedstrikeCast = 0
@@ -159,8 +161,10 @@ function mod:SPELL_CAST_START(args)
 			end
 		else
 			if self:IsNormal() or self:IsHeroic() then
-				specWarnSharedSuffering:Show(targetName)
-				specWarnSharedSuffering:Play("gathershare")
+				if not UnitIsDeadOrGhost("player") then
+					specWarnSharedSuffering:Show(targetName)
+					specWarnSharedSuffering:Play("gathershare")
+				end
 			elseif self:IsHard() then
 				specWarnSharedSuffering3:Show()
 				specWarnSharedSuffering3:Play("runaway")
@@ -223,6 +227,7 @@ function mod:SPELL_AURA_REMOVED(args)
 	if spellId == 227404 then --Незримое присутствие
 		if args:IsPlayer() then
 			specWarnPresence2:Show()
+			specWarnPresence2:Play("end")
 		end
 	end
 end

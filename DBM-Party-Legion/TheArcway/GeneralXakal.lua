@@ -24,7 +24,7 @@ local specWarnWakeofShadows			= mod:NewSpecialWarningYouMove(220443, nil, nil, n
 local specWarnBat					= mod:NewSpecialWarningSwitch("ej12489", "-Healer", nil, nil, 1, 2) --Треш
 local specWarnFissure				= mod:NewSpecialWarningDodge(197776, nil, nil, nil, 2, 2) --Разлом Скверны
 local specWarnSlash					= mod:NewSpecialWarningDodge(212030, nil, nil, nil, 2, 2) --Темное рассечение
-local specWarnSlam					= mod:NewSpecialWarningDefensive(197810, nil, nil, nil, 3, 5) --Злодейский мощный удар
+local specWarnSlam					= mod:NewSpecialWarningDefensive(197810, nil, nil, nil, 3, 6) --Злодейский мощный удар
 
 local timerBatCD					= mod:NewNextTimer(31, "ej12489", nil, nil, nil, 1, 183219, DBM_CORE_TANK_ICON..DBM_CORE_DAMAGE_ICON) --Треш 31.1
 --Both 13 unless delayed by other interactions. Seems similar to archimondes timer code with a hard ICD mechanic.
@@ -37,8 +37,10 @@ local countdownSlam					= mod:NewCountdown(47, 197810, nil, nil, 5) --Злоде
 mod.vb.batCount = 0
 
 local function blizzardHatesBossMods(self)
-	specWarnBat:Show()
-	specWarnBat:Play("mobsoon")
+	if not UnitIsDeadOrGhost("player") then
+		specWarnBat:Show()
+		specWarnBat:Play("mobsoon")
+	end
 	if not self:IsNormal() then
 		timerBatCD:Start(30.7)
 		self:Schedule(30.7, blizzardHatesBossMods, self)
@@ -70,18 +72,24 @@ end
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 197776 then
-		specWarnFissure:Show()
-		specWarnFissure:Play("watchstep")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnFissure:Show()
+			specWarnFissure:Play("watchstep")
+		end
 		timerFissureCD:Start()
 		--updateAlltimers(6)
 	elseif spellId == 212030 then
-		specWarnSlash:Show()
-		specWarnSlash:Play("watchwave")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnSlash:Show()
+			specWarnSlash:Play("watchwave")
+		end
 		timerSlashCD:Start()
 		--updateAlltimers(6)
 	elseif spellId == 197810 then
-		specWarnSlam:Show()
-		specWarnSlam:Play("carefly")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnSlam:Show()
+			specWarnSlam:Play("defensive")
+		end
 		timerSlamCD:Start()
 		countdownSlam:Start()
 		warnSlam:Schedule(42)

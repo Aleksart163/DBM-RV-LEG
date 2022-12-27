@@ -32,9 +32,9 @@ local specWarnStomp					= mod:NewSpecialWarningDefensive(198073, nil, nil, nil, 
 local specWarnHatefulGaze			= mod:NewSpecialWarningYouDefensive(198079, nil, nil, nil, 3, 5) --Ненавидящий взгляд
 local specWarnHatefulGaze2			= mod:NewSpecialWarningYouMoveAway(198079, nil, nil, nil, 4, 3) --Ненавидящий взгляд
 local specWarnHatefulGaze3			= mod:NewSpecialWarningCloseMoveAway(198079, nil, nil, nil, 2, 3) --Ненавидящий взгляд
-local specWarnHatefulGaze4			= mod:NewSpecialWarningTargetSoak(198079, "Tank|Dhdd", nil, nil, 1, 3) --Ненавидящий взгляд
+local specWarnHatefulGaze4			= mod:NewSpecialWarningTargetSoak(198079, "Tank|Dhdd", nil, nil, 3, 3) --Ненавидящий взгляд
 local specWarnBrutalHaymakerSoon	= mod:NewSpecialWarningSoon(198245, "Tank|Healer", nil, nil, 2, 2) --Жестокий удар кулаком Face fuck soon
-local specWarnBrutalHaymaker		= mod:NewSpecialWarningDefensive(198245, "Tank", nil, nil, 3, 2) --Жестокий удар кулаком Incoming face fuck
+local specWarnBrutalHaymaker		= mod:NewSpecialWarningDefensive(198245, "Tank", nil, nil, 3, 6) --Жестокий удар кулаком Incoming face fuck
 
 local timerStompCD					= mod:NewCDTimer(17, 198073, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Сотрясающий землю топот +++
 local timerHatefulGazeCD			= mod:NewCDTimer(25.5, 198079, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON..DBM_CORE_MYTHIC_ICON) --Ненавидящий взгляд +++
@@ -177,8 +177,10 @@ end
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 198073 then
-		specWarnStomp:Show()
-		specWarnStomp:Play("carefly")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnStomp:Show()
+			specWarnStomp:Play("carefly")
+		end
 		if self:IsHard() then
 			timerStompCD:Start(25.5)
 		else

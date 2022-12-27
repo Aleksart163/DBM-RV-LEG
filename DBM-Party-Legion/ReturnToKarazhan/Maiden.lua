@@ -16,7 +16,7 @@ mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 227800 227508 227823 227789 227809",
-	"SPELL_AURA_APPLIED 227817",
+	"SPELL_AURA_APPLIED 227817 227800",
 	"SPELL_AURA_REMOVED 227817",
 	"SPELL_INTERRUPT",
 	"RAID_BOSS_WHISPER"
@@ -27,11 +27,12 @@ local warnSacredGround				= mod:NewTargetAnnounce(227789, 3) --Священна�
 local warnHolyBolt					= mod:NewTargetAnnounce(227809, 3) --Священная молния
 local warnHolyWrath					= mod:NewCastAnnounce(227823, 4) --Гнев небес
 
+local specWarnHolyShock2			= mod:NewSpecialWarningStack(227800, nil, 1, nil, nil, 3, 6) --Шок небес
 local specWarnHolyBolt				= mod:NewSpecialWarningYouMoveAway(227809, nil, nil, nil, 2, 3) --Священная молния
 local specWarnSacredGround			= mod:NewSpecialWarningYouMoveAway(227789, nil, nil, nil, 4, 2) --Священная земля
-local specWarnHolyShock				= mod:NewSpecialWarningInterrupt(227800, "HasInterrupt", nil, nil, 1, 2) --Шок небес
-local specWarnRepentance			= mod:NewSpecialWarningMoveTo(227508, nil, nil, nil, 4, 5) --Всеобщее покаяние
-local specWarnHolyWrath				= mod:NewSpecialWarningInterrupt(227823, "HasInterrupt", nil, nil, 3, 5) --Гнев небес
+local specWarnHolyShock				= mod:NewSpecialWarningInterrupt(227800, "HasInterrupt", nil, nil, 1, 3) --Шок небес
+local specWarnRepentance			= mod:NewSpecialWarningMoveTo(227508, nil, nil, nil, 4, 6) --Всеобщее покаяние
+local specWarnHolyWrath				= mod:NewSpecialWarningInterrupt(227823, "HasInterrupt", nil, nil, 3, 6) --Гнев небес
 
 local timerHolyBoltCD				= mod:NewCDTimer(13.5, 227809, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Священная молния
 local timerSacredGroundCD			= mod:NewCDTimer(23, 227789, nil, nil, nil, 3) --Священная земля 19-35 (delayed by bulwarks and what nots) +++
@@ -107,7 +108,10 @@ function mod:SPELL_CAST_START(args)
 		end
 		timerHolyShockCD:Start()
 	elseif spellId == 227508 then --Всеобщее покаяние
-		specWarnRepentance:Show(sacredGround)
+		if not UnitIsDeadOrGhost("player") then
+			specWarnRepentance:Show(sacredGround)
+			specWarnRepentance:Play("justrun")
+		end
 		timerRepentanceCD:Start()
 		countdownHolyWrath:Start(51)
 		timerHolyBoltCD:Stop()
@@ -135,6 +139,14 @@ function mod:SPELL_AURA_APPLIED(args)
 			DBM.InfoFrame:SetHeader(args.spellName)
 			DBM.InfoFrame:Show(2, "enemyabsorb", nil, 4680000)
 		end
+	elseif spellId == 227800 then --Шок небес
+		local amount = args.amount or 1
+		if amount >= 1 then
+			if args:IsPlayer() then
+				specWarnHolyShock2:Show(amount)
+				specWarnHolyShock2:Play("stackhigh")
+			end
+		end
 	end
 end
 
@@ -142,8 +154,10 @@ function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
 	if spellId == 227817 then
 		if UnitCastingInfo("boss1") then
-			specWarnHolyWrath:Show(L.name)
-			specWarnHolyWrath:Play("kickcast")
+			if not UnitIsDeadOrGhost("player") then
+				specWarnHolyWrath:Show(L.name)
+				specWarnHolyWrath:Play("kickcast")
+			end
 		end
 		if self.Options.InfoFrame then
 			DBM.InfoFrame:Hide()

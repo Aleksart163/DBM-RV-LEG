@@ -37,10 +37,11 @@ local warnHealingStream				= mod:NewCastAnnounce(227578, 4) --Исцеляющи
 --Lady Keira Berrybuck
 local warnEmpoweredArms				= mod:NewTargetAnnounce(227616, 4) --Усиление оружия
 --Мороуз
-local specWarnGarrote				= mod:NewSpecialWarningStack(227742, nil, 1, nil, nil, 1, 3) --Гаррота
+local specWarnGarrote				= mod:NewSpecialWarningStack(227742, nil, 2, nil, nil, 1, 3) --Гаррота
 local specWarnVanish				= mod:NewSpecialWarningYou(227736, nil, nil, nil, 1, 2) --Исчезновение
-local specWarnCoatCheck				= mod:NewSpecialWarningYouDefensive(227832, nil, nil, nil, 3, 3) --Дресс-код
-local specWarnCoatCheckHealer		= mod:NewSpecialWarningDispel(227832, "MagicDispeller2", nil, nil, 3, 3) --Дресс-код
+local specWarnCoatCheck				= mod:NewSpecialWarningYouDefensive(227832, nil, nil, nil, 3, 6) --Дресс-код
+local specWarnCoatCheckHealer2		= mod:NewSpecialWarningYouDispel(227832, "MagicDispeller2", nil, nil, 3, 6) --Дресс-код
+local specWarnCoatCheckHealer		= mod:NewSpecialWarningDispel(227832, "MagicDispeller2", nil, nil, 3, 6) --Дресс-код
 --Лорд Криспин Ференс
 local specWarnWillBreaker			= mod:NewSpecialWarningDodge(227672, "Tank", nil, nil, 1, 2) --Сокрушитель воли
 --Lady Lady Catriona Von'Indi
@@ -48,10 +49,10 @@ local specWarnHealingStream			= mod:NewSpecialWarningInterrupt(227578, "HasInter
 --Baroness Dorothea Millstipe
 local specWarnManaDrain				= mod:NewSpecialWarningInterrupt(227545, "HasInterrupt", nil, nil, 1, 2) --Похищение маны
 --Lady Keira Berrybuck
-local specWarnEmpoweredArms			= mod:NewSpecialWarningDispel(227616, "MagicDispeller", nil, nil, 3, 3) --Усиление оружия
-local specWarnEmpoweredArms2		= mod:NewSpecialWarningDefensive(227616, "Tank", nil, nil, 3, 3) --Усиление оружия
+local specWarnEmpoweredArms			= mod:NewSpecialWarningDispel(227616, "MagicDispeller", nil, nil, 3, 6) --Усиление оружия
+local specWarnEmpoweredArms2		= mod:NewSpecialWarningDefensive(227616, "Tank", nil, nil, 3, 6) --Усиление оружия
 --Moroes
-local timerCoatCheckCD				= mod:NewNextTimer(27.3, 227832, nil, "Tank|Healer", nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_MAGIC_ICON) --Дресс-код
+local timerCoatCheckCD				= mod:NewNextTimer(27.3, 227832, nil, "Tank|MagicDispeller2", nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_MAGIC_ICON) --Дресс-код
 local timerVanishCD					= mod:NewNextTimer(19, 227736, nil, nil, nil, 3) --Исчезновение
 --Lady Lady Catriona Von'Indi
 local timerHealingStreamCD			= mod:NewCDTimer(40, 227578, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON) --Исцеляющий поток
@@ -181,26 +182,33 @@ function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 227832 then --Дресс-код
 		timerCoatCheckCD:Start()
-		if args:IsPlayer() then
+		if args:IsPlayer() and not self:IsMagicDispeller2() then
 			specWarnCoatCheck:Show()
 			specWarnCoatCheck:Play("defensive")
-		else
-			specWarnCoatCheckHealer:Show(args.destName)
-			specWarnCoatCheckHealer:Play("dispelnow")
+		elseif args:IsPlayer() and self:IsMagicDispeller2() then
+			specWarnCoatCheckHealer2:Show()
+			specWarnCoatCheckHealer2:Play("dispelnow")
+		elseif self:IsMagicDispeller2() then
+			if not UnitIsDeadOrGhost("player") then
+				specWarnCoatCheckHealer:Show(args.destName)
+				specWarnCoatCheckHealer:Play("dispelnow")
+			end
 		end
 	elseif spellId == 227616 then --Усиление оружия
 		warnEmpoweredArms:Show(args.destName)
 		if args:IsPlayer() and self:IsTank() then
 			specWarnEmpoweredArms2:Show()
 			specWarnEmpoweredArms2:Play("defensive")
-		else
-			specWarnEmpoweredArms:Show(args.destName)
-			specWarnEmpoweredArms:Play("dispelnow")
+		elseif self:IsMagicDispeller() then
+			if not UnitIsDeadOrGhost("player") then
+				specWarnEmpoweredArms:Show(args.destName)
+				specWarnEmpoweredArms:Play("dispelnow")
+			end
 		end
 	elseif spellId == 227742 then --Гаррота
 		local amount = args.amount or 1
 		if args:IsPlayer() then
-			if amount >= 1 then
+			if amount >= 2 then
 				specWarnGarrote:Show(amount)
 				specWarnGarrote:Play("stackhigh")
 			end

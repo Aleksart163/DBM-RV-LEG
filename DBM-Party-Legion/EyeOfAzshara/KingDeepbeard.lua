@@ -27,7 +27,6 @@ local specWarnQuake2				= mod:NewSpecialWarningYouMove(193152, nil, nil, nil, 2,
 local specWarnGroundSlam			= mod:NewSpecialWarningDodge(193093, "Melee", nil, nil, 1, 3) --Удар по земле
 local specWarnBubbles2				= mod:NewSpecialWarningYou(193018, nil, nil, nil, 3, 3) --Пузырь газа
 local specWarnBubbles3				= mod:NewSpecialWarningEnd(193018, nil, nil, nil, 1, 2) --Пузырь газа
---local specWarnCallSeas				= mod:NewSpecialWarningDodge(193051, nil, nil, nil, 2, 2) --Зов морей
 
 local timerQuakeCD					= mod:NewCDTimer(21.8, 193152, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Землетрясение 21-25 +++
 local timerQuake2					= mod:NewCastTimer(4, 193171, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON..DBM_CORE_MYTHIC_ICON) --Повторный толчок
@@ -77,8 +76,10 @@ end
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 193152 then --Землетрясение
-		specWarnQuake:Show()
-		specWarnQuake:Play("range5")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnQuake:Show()
+			specWarnQuake:Play("range5")
+		end
 		if self:IsHard() then
 			timerQuakeCD:Start(24)
 			countdownQuake:Start(24)
@@ -90,8 +91,10 @@ function mod:SPELL_CAST_START(args)
 			DBM.RangeCheck:Show(5, nil, nil, nil, nil, 5.5)
 		end
 	elseif spellId == 193093 then --Удар по земле
-		specWarnGroundSlam:Show()
-		specWarnGroundSlam:Play("shockwave")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnGroundSlam:Show()
+			specWarnGroundSlam:Play("watchstep")
+		end
 		timerGroundSlamCD:Start()
 	elseif spellId == 193018 then --Пузырь газа
 		timerBubblesCD:Start()
@@ -105,8 +108,10 @@ function mod:SPELL_CAST_SUCCESS(args)
 		warnCallSeas:Play("watchstep")
 		timerCallSeasCD:Start()
 	elseif spellId == 193152 then --Землетрясение
-		specWarnQuake2:Schedule(1)
-		specWarnQuake2:ScheduleVoice(1, "runout")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnQuake2:Schedule(0.5)
+			specWarnQuake2:ScheduleVoice(0.5, "runout")
+		end
 		timerQuake2:Start()
 	end
 end

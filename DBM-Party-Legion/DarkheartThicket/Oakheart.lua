@@ -13,16 +13,16 @@ mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED 204611"
 )
 --Дубосерд https://ru.wowhead.com/npc=103344/дубосерд/эпохальный-журнал-сражений
-local warnShatteredEarth			= mod:NewSpellAnnounce(204666, 3) --Расколовшаяся земля
+local warnShatteredEarth			= mod:NewSpellAnnounce(204666, 3, nil, "Tank") --Расколовшаяся земля
 local warnThrowTarget				= mod:NewTargetAnnounce(204658, 2) --Сокрушительная хватка
 
-local specWarnUproot				= mod:NewSpecialWarningSwitch(212786, "-Healer", nil, nil, 1, 2) --Пересадка
-local specWarnThrow2				= mod:NewSpecialWarningYouDefensive(204611, "Tank", nil, nil, 3, 5) --Сокрушительная хватка
+local specWarnUproot				= mod:NewSpecialWarningSwitch(212786, "Dps|Tank", nil, nil, 1, 2) --Пересадка
+local specWarnThrow2				= mod:NewSpecialWarningYouDefensive(204611, "Tank", nil, nil, 3, 6) --Сокрушительная хватка
 local specWarnThrow					= mod:NewSpecialWarningYouMoveAway(204658, nil, nil, nil, 4, 5) --Сокрушительная хватка
 local specWarnThrow3				= mod:NewSpecialWarningCloseMoveAway(204658, "-Tank", nil, nil, 2, 2) --Сокрушительная хватка
 local specWarnShatteredEarth		= mod:NewSpecialWarningDefensive(204666, "-Tank", nil, nil, 2, 2) --Расколовшаяся земля
 local specWarnRoots					= mod:NewSpecialWarningDodge(204574, nil, nil, nil, 2, 2) --Корни-душители
-local specWarnBreath				= mod:NewSpecialWarningYouDefensive(204667, "Tank", nil, nil, 3, 5) --Дыхание Кошмара
+local specWarnBreath				= mod:NewSpecialWarningYouDefensive(204667, nil, nil, nil, 3, 6) --Дыхание Кошмара
 local specWarnBreath2				= mod:NewSpecialWarningDodge(204667, "-Tank", nil, nil, 2, 2) --Дыхание Кошмара
 --Доделать кд спеллов + добавить пересадку
 local timerUprootCD					= mod:NewCDTimer(36, 212786, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON) --Пересадка
@@ -79,25 +79,37 @@ function mod:SPELL_CAST_START(args)
 		self:BossTargetScanner(103344, "ThrowTarget", 0.1, 12, true, nil, nil, nil, true)
 	elseif spellId == 204666 then
 		warnShatteredEarth:Show()
-		specWarnShatteredEarth:Show()
+		if not UnitIsDeadOrGhost("player") then
+			specWarnShatteredEarth:Show()
+			specWarnShatteredEarth:Play("defensive")
+		end
 		timerShatteredEarthCD:Start()
 	elseif spellId == 204574 then
-		specWarnRoots:Show()
-		specWarnRoots:Play("watchstep")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnRoots:Show()
+			specWarnRoots:Play("watchstep")
+		end
 		if self:IsHard() then
 			timerRootsCD:Start(25)
 		else
 			timerRootsCD:Start()
 		end
 	elseif spellId == 204667 then
-		specWarnBreath:Show()
-		specWarnBreath:Play("defensive")
-		specWarnBreath2:Show()
-		specWarnBreath2:Play("defensive")
+		if self:IsTank() then
+			specWarnBreath:Show()
+			specWarnBreath:Play("defensive")
+		else
+			if not UnitIsDeadOrGhost("player") then
+				specWarnBreath2:Show()
+				specWarnBreath2:Play("watchstep")
+			end
+		end
 		timerBreathCD:Start()
 	elseif spellId == 212786 then --Пересадка
-		specWarnUproot:Show()
-		specWarnUproot:Play("switch")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnUproot:Show()
+			specWarnUproot:Play("mobkill")
+		end
 		timerUprootCD:Start()
 	elseif spellId == 204611 then --Сокрушительная хватка
 		timerThrowCD:Start()
