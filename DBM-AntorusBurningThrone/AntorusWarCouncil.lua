@@ -132,7 +132,7 @@ function mod:OnCombatStart(delay)
 	--Out of Pod
 	timerSummonReinforcementsCD:Start(8-delay)
 --	countdownReinforcements:Start(8-delay)
-	timerIshkarCD:Start(90-delay) --Главный инженер Ишкар
+	timerIshkarCD:Start(-delay) --Главный инженер Ишкар
 	countdownAssumeCommand:Start(90-delay)
 	if self:IsMythic() then
 		timerShockGrenadeCD:Start(14-delay) --Шоковая граната -1сек 
@@ -142,7 +142,7 @@ function mod:OnCombatStart(delay)
 		timerEntropicMineCD:Start(15-delay) --Энтропическая мина+++
 		timerExploitWeaknessCD:Start(8.5-delay) --Обнаружить слабое место+++
 	else
-		timerEntropicMineCD:Start(5.1-delay)
+		timerEntropicMineCD:Start(15-delay) --Энтропическая мина+++
 	end
 end
 
