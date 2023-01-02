@@ -679,8 +679,8 @@ function mod:UNIT_DIED(args)
 		timerHullBreachCD:Cancel()
 		timerTidalEruptionCD:Cancel()
 	elseif cid == 109113 then --Камнепад оползающий https://ru.wowhead.com/npc=109113/камнепад-оползающий
-		timerCrystalShardsCD:Cancel()
-		timerElementalResonanceCD:Cancel()
+		timerCrysShardsCD:Cancel()
+		timerElemResCD:Cancel()
 	elseif cid == 111434 then --Морской король Волноросс https://www.wowhead.com/ru/npc=111434/морской-король-волноросс#abilities
 		timerSeaQuakeCD:Cancel()
 	end
