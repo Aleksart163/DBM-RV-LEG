@@ -97,8 +97,8 @@ end
 
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
-	if spellId == 212564 and self:AntiSpam(3, 1) then --Пытливый взгляд
-		if args:IsPlayer() then
+	if spellId == 212564 then --Пытливый взгляд
+		if args:IsPlayer() and self:AntiSpam(2.5, 1) then
 			specWarnStare:Show(L.lookSphere)
 			specWarnStare:Play("turnaway")
 		end

@@ -132,7 +132,7 @@ end
 
 
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
-	if spellId == 191853 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
+	if spellId == 191853 and destGUID == UnitGUID("player") and self:AntiSpam(2, 2) then
 		if not self:IsNormal() then
 			specWarnFelMortarGTFO:Show()
 			specWarnFelMortarGTFO:Play("runaway")
