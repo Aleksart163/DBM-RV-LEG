@@ -879,8 +879,10 @@ function mod:SPELL_AURA_REMOVED(args)
 		local uId = DBM:GetRaidUnitId(args.destName)
 		if uId and self:IsTanking(uId) then
 			if not args:IsPlayer() then--Removed from tank that's not you (only time it's removed is on death)
-				specWarnDeadlyScytheTaunt:Show(args.destName)
-				specWarnDeadlyScytheTaunt:Play("tauntboss")
+				if self.vb.phase < 3 then
+					specWarnDeadlyScytheTaunt:Show(args.destName)
+					specWarnDeadlyScytheTaunt:Play("tauntboss")
+				end
 			end
 		end
 	elseif spellId == 258838 then--Mythic

@@ -2,7 +2,7 @@ local mod	= DBM:NewMod(2025, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
 mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
-mod:SetCreatureID(122500, 124445)
+mod:SetCreatureID(124445) -- +122500
 mod:SetEncounterID(2075)
 mod:SetZone()
 --mod:SetBossHPInfoToHighest()
@@ -68,7 +68,7 @@ local timerArcaneSingularity2			= mod:NewCastTimer(3, 250171, nil, nil, nil, 7) 
 local timerBurningEmbers				= mod:NewNextTimer(30, 250691, nil, nil, nil, 7) --Раскаленные угли
 local timerBurningEmbers2				= mod:NewCastTimer(3, 250691, nil, nil, nil, 7) --Раскаленные угли
 
-local berserkTimer						= mod:NewBerserkTimer(600)
+--local berserkTimer						= mod:NewBerserkTimer(600)
 
 local yellRainofFel						= mod:NewYell(248332, nil, nil, nil, "YELL") --Дождь Скверны
 local yellRainofFelFades				= mod:NewShortFadesYell(248332, nil, nil, nil, "YELL") --Дождь Скверны
@@ -108,7 +108,6 @@ mod.vb.targetedIcon = 1
 mod.vb.burningembersIcon = 8
 --local normalRainOfFelTimers = {}--PTR, recheck
 --local burningembersTargets = {}
---local mythicSpearofDoomTimers = {}
 --ЛФР треш
 local lfrDestructors = {21.5, 51.9, 50.3, 64.3, 107.2, 58.2, 44.1, 46.2, 44.2}--4 Life Force LFR Version
 local lfrDestructors2 = {21.2, 43.8, 39.0, 51.1, 37.0, 53.0, 43.6, 45.2, 43.2}--3 Life force LFR version
@@ -162,7 +161,7 @@ local mythicPurifiers = {66, 83, 60, 137.7} --у 3 -6.9сек
 local mythicBats = {189, 76, 103.5, 84} --
 -----------------------------------------------------------------------------------------------------------------------------------
 --Копье Рока мифик--
-local mythicSpearofDoomTimers = {34, 96.5, 135.5, 74.5, 116, 34.1, 65.2} --у 1 -1сек, у 2 +37.3 сек, у 3 +71.2 сек, у 4 +34.5 сек, у 5 +31.3 сек - далее хз
+--local mythicSpearofDoomTimers = {34, 95, 125.5, 90.5, 105, 34.1, 65.2} --
 -------------------------------------------------------------------------------------------------------------------------------------------------------------
 --Всеобщая погибель----------------------------------------------------------------------------------------------------------------
 --local finalDoomTimers = {59.3, 120, 94, 104.6, 99.6}--Live, Dec 5
@@ -307,7 +306,7 @@ function mod:OnCombatStart(delay)
 	self.vb.finalDoomCast = 0
 	self.vb.targetedIcon = 1
 	self.vb.burningembersIcon = 8
-	berserkTimer:Start(-delay)
+--	berserkTimer:Start(-delay)
 	if not self:IsLFR() then
 		self.vb.lifeRequired = 4
 		if self:IsMythic() then
@@ -585,7 +584,7 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, npc, _, _, target)
 			specWarnSpearofDoom:Show()
 			specWarnSpearofDoom:Play("watchstep")
 		end
-		local timer = self:IsHeroic() and heroicSpearofDoomTimers[self.vb.spearCast+1] or self:IsMythic() and mythicSpearofDoomTimers[self.vb.spearCast+1]
+		local timer = self:IsHeroic() and heroicSpearofDoomTimers[self.vb.spearCast+1]
 		if timer then
 			timerSpearofDoomCD:Start(timer, self.vb.spearCast+1)
 		end

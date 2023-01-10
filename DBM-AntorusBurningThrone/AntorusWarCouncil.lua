@@ -73,7 +73,7 @@ local timerErodusCD						= mod:NewCDTimer(93, "ej16130", nil, nil, nil, 6, 24522
 --In Pod
 --Admiral Svirax
 mod:AddTimerLine(Svirax)
-local timerFusillade					= mod:NewCastTimer(11.5, 244625, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Шквальный огонь
+local timerFusillade					= mod:NewCastTimer(7, 244625, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Шквальный огонь
 local timerFusilladeCD					= mod:NewNextCountTimer(29.3, 244625, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Шквальный огонь
 ----Chief Engineer Ishkar
 mod:AddTimerLine(Ishkar)
@@ -132,7 +132,7 @@ function mod:OnCombatStart(delay)
 	--Out of Pod
 	timerSummonReinforcementsCD:Start(8-delay)
 --	countdownReinforcements:Start(8-delay)
-	timerIshkarCD:Start(90-delay) --Главный инженер Ишкар
+	timerIshkarCD:Start(-delay) --Главный инженер Ишкар
 	countdownAssumeCommand:Start(90-delay)
 	if self:IsMythic() then
 		timerShockGrenadeCD:Start(14-delay) --Шоковая граната -1сек 
@@ -142,7 +142,7 @@ function mod:OnCombatStart(delay)
 		timerEntropicMineCD:Start(15-delay) --Энтропическая мина+++
 		timerExploitWeaknessCD:Start(8.5-delay) --Обнаружить слабое место+++
 	else
-		timerEntropicMineCD:Start(5.1-delay)
+		timerEntropicMineCD:Start(15-delay) --Энтропическая мина+++
 	end
 end
 
@@ -160,11 +160,7 @@ function mod:SPELL_CAST_START(args)
 			specWarnFusillade:Show(felShield)
 			specWarnFusillade:Play("findshield")
 		end
-		if self:IsNormal() then
-			timerFusillade:Start(7)
-		elseif self:IsHeroic() then
-			timerFusillade:Start()
-		end
+		timerFusillade:Start()
 		timerFusilladeCD:Start(25.5, self.vb.FusilladeCount+1) --точно под героик
 		if not self:IsLFR() then
 			countdownFusillade:Start(25.5) --точно под героик

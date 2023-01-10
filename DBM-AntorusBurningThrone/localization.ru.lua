@@ -200,7 +200,7 @@ L:SetMiscLocalization({
 	Blight		= "Чума на %s!",
 	Burst		= "Взрыв на мне!",
 	Sentence	= "Приговор на %s!",
-	Bomb		= "БОМБА на мне!"
+	Bomb		= "БОМБА НА МНЕ!"
 })
 
 -------------

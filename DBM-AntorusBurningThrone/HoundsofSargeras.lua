@@ -16,7 +16,7 @@ mod:RegisterCombat("combat")
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 244057 244056 249113",
 	"SPELL_CAST_SUCCESS 244072 251445 245098 244086",
-	"SPELL_AURA_APPLIED 244768 248815 254429 248819 244054 244055 251356 251447 251448 244071",
+	"SPELL_AURA_APPLIED 244768 248815 254429 248819 244054 244055 251356 251447 251448 244071 244072",
 	"SPELL_AURA_REMOVED 244768 248815 254429 248819 251356 244054 244055 244071",
 --	"SPELL_PERIODIC_DAMAGE",
 --	"SPELL_PERIODIC_MISSED",
@@ -28,7 +28,7 @@ local Shatug = DBM:EJ_GetSectionInfo(15836)
 --F'harg
 local warnDesolateGaze					= mod:NewTargetAnnounce(244768, 3) --Опустошающий взгляд
 local warnEnflamedCorruption			= mod:NewSpellAnnounce(244057, 3) --Возгорание порчи
-local warnMoltenTouch					= mod:NewSpellAnnounce(244072, 2) --Касание магмы
+local warnMoltenTouch					= mod:NewTargetAnnounce(244072, 2) --Касание магмы
 --Shatug
 local warnWeightofDarkness				= mod:NewTargetAnnounce(254429, 2) --Бремя тьмы
 local warnWeightofDarkness3				= mod:NewTargetAnnounce(244071, 3) --Бремя тьмы
@@ -70,6 +70,7 @@ local timerWeightOfDarknessCD			= mod:NewCDTimer(77, 254429, nil, nil, nil, 3, n
 local timerSiphonCorruptionCD			= mod:NewCDTimer(77, 244056, nil, nil, nil, 7) --Вытягивание порчи
 
 local yellTouched						= mod:NewPosYell(244054, DBM_CORE_AUTO_YELL_CUSTOM_POSITION) --Касание пламени и тьмы
+local yellMoltenTouch					= mod:NewYell(244072, nil, nil, nil, "YELL") --Касание магмы
 local yellWeightOfDarkness				= mod:NewYell(254429, nil, nil, nil, "YELL") --Бремя тьмы
 local yellWeightOfDarknessFades			= mod:NewShortFadesYell(254429, nil, nil, nil, "YELL") --Бремя тьмы
 local yellEnflamed						= mod:NewShortFadesYell(248815, nil, nil, nil, "YELL") --Возгорание
@@ -265,9 +266,7 @@ end
 
 function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
-	if spellId == 244086 and self:AntiSpam(3, 1) then --Касание магмы (244072 изначальный) 
-	--	warnMoltenTouch:Show()
-	--	warnMoltenTouch:Play("watchstep")
+	if spellId == 244086 and self:AntiSpam(3, 2) then --Касание магмы (244072 изначальный) 
 		if not UnitIsDeadOrGhost("player") then
 			specWarnMoltenTouch:Show()
 			specWarnMoltenTouch:Play("watchstep")
@@ -374,6 +373,11 @@ function mod:SPELL_AURA_APPLIED(args)
 			timerCorruptingMawCD:Start(10.5)
 		else
 			timerCorruptingMawCD:Start() --Под нормал точно 11
+		end
+	elseif spellId == 244072 then --Касание магмы
+		warnMoltenTouch:CombinedShow(0.3, args.destName)
+		if args:IsPlayer() then
+			yellMoltenTouch:Yell()
 		end
 	end
 end

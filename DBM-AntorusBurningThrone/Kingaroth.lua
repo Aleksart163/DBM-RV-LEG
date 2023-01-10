@@ -38,7 +38,7 @@ local warnDemolish						= mod:NewTargetAnnounce(246692, 4) --Разрушени�
 local warnForgingStrike					= mod:NewStackAnnounce(244312, 2, nil, "Tank|Healer") --Прессование
 --Stage: Deployment
 --local specWarnGTFO					= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 2)
-local specWarnForgingStrike				= mod:NewSpecialWarningDefensive(244312, nil, nil, nil, 1, 2) --Прессование
+local specWarnForgingStrike				= mod:NewSpecialWarningDefensive(244312, nil, nil, nil, 1, 3) --Прессование
 local specWarnForgingStrike2			= mod:NewSpecialWarningStack(244312, nil, 2, nil, nil, 3, 6) --Прессование
 local specWarnForgingStrikeOther		= mod:NewSpecialWarningTaunt(244312, nil, nil, nil, 3, 3) --Прессование
 local specWarnReverberatingStrike		= mod:NewSpecialWarningYou(254926, nil, nil, nil, 1, 2) --Гулкий удар
@@ -98,13 +98,21 @@ mod.vb.bombTimeLeft = 0
 local DemolishTargets = {}
 local playerName = DBM:GetMyPlayerInfo()
 
+function mod:ForgingStrikeTarget(targetname, uId) --прошляпанное очко Мурчаля Прошляпенко ✔
+	if not targetname then return end
+	if targetname == UnitName("player") then
+		specWarnForgingStrike:Show()
+		specWarnForgingStrike:Play("defensive")
+	end
+end
+		
 function mod:ReverberatingTarget(targetname, uId)
 	if not targetname then return end
 	if targetname == UnitName("player") then
 		specWarnReverberatingStrike:Show()
 		specWarnReverberatingStrike:Play("targetyou")
 		yellReverberatingStrike:Yell()
-	elseif self:CheckNearby(5, targetname) then
+	elseif self:CheckNearby(7, targetname) then
 		specWarnReverberatingStrikeNear:Show(targetname)
 		specWarnReverberatingStrikeNear:Play("runaway")
 	else
@@ -188,7 +196,7 @@ function mod:OnCombatStart(delay)
 		timerReverberatingStrikeCD:Start(14-delay, 1)--14-15
 	elseif self:IsMythic() then
 		timerDiabolicBombCD:Start(14.5-delay) --Демоническая бомба было 11
-		timerForgingStrikeCD:Start(7-delay, 1) --Прессование было 6
+		timerForgingStrikeCD:Start(6-delay, 1) --Прессование было
 		countdownForgingStrike:Start(7-delay) --Прессование было 6
 		timerApocProtocolCD:Start(35-delay, 1) --Протокол Апокалипсис было 31.8
 		countdownApocProtocol:Start(35) --Протокол Апокалипсис было 31.8
@@ -220,21 +228,22 @@ end
 
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
-	if spellId == 244312 or spellId == 257978 or spellId == 254919 then
+	if spellId == 244312 or spellId == 257978 or spellId == 254919 then --Прессование
 		self.vb.forgingStrikeCast = self.vb.forgingStrikeCast + 1
-		if self:IsTanking("player", "boss1", nil, true) then
-			specWarnForgingStrike:Show()
-			specWarnForgingStrike:Play("defensive")
-		end
+		self:BossTargetScanner(args.sourceGUID, "ForgingStrikeTarget", 0.1, 2)
 		--1.5, 27.6, 30.1
-		if self:IsHeroic() then
+		if self:IsMythic() then
+			timerForgingStrikeCD:Start(14, self.vb.forgingStrikeCast+1)
+			countdownForgingStrike:Start(14)
+		elseif self:IsHeroic() then
 			timerForgingStrikeCD:Start(14.4, self.vb.forgingStrikeCast+1)
+			countdownForgingStrike:Start(14.4)
 		else
 			timerForgingStrikeCD:Start(14.6, self.vb.forgingStrikeCast+1)
+			countdownForgingStrike:Start(14.6)
 		end
-		countdownForgingStrike:Start(14.6)
-	elseif spellId == 254926 or spellId == 257997 then
-		self:BossTargetScanner(args.sourceGUID, "ReverberatingTarget", 0.1, 9)
+	elseif spellId == 254926 or spellId == 257997 then --Гулкий удар
+		self:BossTargetScanner(args.sourceGUID, "ReverberatingTarget", 0.1, 2)
 		if self:AntiSpam(5, 3) then--Sometimes stutter casts
 			self.vb.reverbStrikeCast = self.vb.reverbStrikeCast + 1
 			timerReverberatingStrikeCD:Start(28, self.vb.reverbStrikeCast+1)--More work needed
@@ -260,7 +269,7 @@ function mod:SPELL_CAST_START(args)
 		timerRuinerCD:Start(nil, self.vb.ruinerCast+1)--28-30 depending on difficulty
 		countdownRuiner:Start(30)
 		timerForgingStrikeCD:Start(10, self.vb.forgingStrikeCast+1)
-		countdownForgingStrike:Start()
+		countdownForgingStrike:Start(10)
 	elseif spellId == 246516 and self:IsInCombat() then --Протокол Апокалипсис
 		self.vb.ruinerTimeLeft = timerRuinerCD:GetRemaining(self.vb.ruinerCast+1)
 		self.vb.reverbTimeLeft = timerReverberatingStrikeCD:GetRemaining(self.vb.reverbStrikeCast+1)

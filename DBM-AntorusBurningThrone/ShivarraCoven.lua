@@ -98,7 +98,7 @@ local timerCosmicGlareCD				= mod:NewCDTimer(15, 250757, nil, nil, nil, 3, nil, 
 --Torment of the Titans
 mod:AddTimerLine(torment)
 --Activations timers
-local timerMachinationsofAmanThulCD		= mod:NewCastTimer(90, 250335, nil, nil, nil, 6, nil, DBM_CORE_DEADLY_ICON) --Махинации Амантула
+local timerMachinationsofAmanThulCD		= mod:NewCastTimer(90, 250335, nil, nil, nil, 6, nil, DBM_CORE_HEALER_ICON..DBM_CORE_DEADLY_ICON) --Махинации Амантула
 local timerFlamesofKhazgorothCD			= mod:NewCastTimer(90, 250333, nil, nil, nil, 6, nil, DBM_CORE_DEADLY_ICON) --Пламя Казгарота
 local timerSpectralArmyofNorgannonCD	= mod:NewCastTimer(90, 250334, nil, nil, nil, 6, nil, DBM_CORE_DEADLY_ICON) --Армия Норганнона
 local timerFuryofGolgannethCD			= mod:NewCastTimer(90, 249793, nil, nil, nil, 6, nil, DBM_CORE_DEADLY_ICON) --Мучения Голганнета

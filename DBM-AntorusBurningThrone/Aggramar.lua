@@ -108,6 +108,14 @@ local comboDebug = {}
 local comboDebugCounter = 0
 local unitTracked = {}
 
+function mod:FoeBreakerTarget(targetname, uId) --прошляпанное очко Мурчаля Прошляпенко ✔
+	if not targetname then return end
+	if targetname == UnitName("player") then
+		specWarnFoeBreakerDefensive:Show()
+		specWarnFoeBreakerDefensive:Play("defensive")
+	end
+end
+
 local comboUsed = {
 	[1] = false,--L.Foe, L.Tempest, L.Rend, L.Foe, L.Rend
 	[2] = false,--L.Foe, L.Rend, L.Tempest, L.Foe, L.Rend
@@ -405,6 +413,7 @@ function mod:SPELL_CAST_START(args)
 		self:BossTargetScanner(args.sourceGUID, "WakeTarget", 0.1, 12, true, nil, nil, nil, true)
 	elseif spellId == 245458 or spellId == 255059 then --Сокрушитель
 		self.vb.comboCount = self.vb.comboCount + 1
+		self:BossTargetScanner(args.sourceGUID, "FoeBreakerTarget", 0.1, 2)
 		if not UnitIsDeadOrGhost("player") then
 			specWarnFoeBreaker:Show()
 			specWarnFoeBreaker:Play("watchstep")
@@ -418,10 +427,7 @@ function mod:SPELL_CAST_START(args)
 		end
 		self.vb.foeCount = self.vb.foeCount + 1
 		if self:IsTank() then
-			if self:IsTanking("player", "boss1", nil, true) then
-				specWarnFoeBreakerDefensive:Show()
-				specWarnFoeBreakerDefensive:Play("defensive")
-			elseif (self.vb.foeCount == 2) and not DBM:UnitDebuff("player", 245458, 255059) then
+			if (self.vb.foeCount == 2) and not DBM:UnitDebuff("player", 245458, 255059) then
 				if self.Options.ignoreThreeTank and self:GetNumAliveTanks() >= 3 then return end
 				if self:AntiSpam(2, 6) then--Second cast and you didn't take first and didn't get a flame rend taunt warning in last 2 seconds
 					specWarnFoeBreakerTaunt:Show(BOSS)
