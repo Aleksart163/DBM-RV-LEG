@@ -203,7 +203,7 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)
 end
 
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
-	if spellId == 238691 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
+	if spellId == 238691 and destGUID == UnitGUID("player") and self:AntiSpam(2, 2) then
 		specWarnSpearofVengeance:Show()
 		specWarnSpearofVengeance:Play("runaway")
 	end
