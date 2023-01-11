@@ -16,7 +16,7 @@ mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 248165 248317 257296 255594 257645 252516 256542 255648 257619 256544",
-	"SPELL_CAST_SUCCESS 248499 258039 258838 252729 252616 256388 258029 251570",
+	"SPELL_CAST_SUCCESS 248499 258039 258838 252729 252616 256388 258029 251570 257619",
 	"SPELL_AURA_APPLIED 248499 248396 250669 251570 255199 253021 255496 255496 255478 252729 252616 255433 255430 255429 255425 255422 255419 255418 258647 258646 257869 257931 257966 258838 256388 257299",
 	"SPELL_AURA_APPLIED_DOSE 248499 258039 258838 257299",
 	"SPELL_AURA_REMOVED 250669 251570 255199 253021 255496 255496 255478 255433 255430 255429 255425 255422 255419 255418 248499 258039 257966 258647 258646 258838 248396 257869",
@@ -129,7 +129,7 @@ local timerEdgeofAnniCD				= mod:NewCDTimer(5.5, 258834, nil, nil, nil, 3, nil, 
 mod:AddTimerLine(SCENARIO_STAGE:format(4))
 local timerDeadlyScytheCD			= mod:NewCDTimer(5.5, 258039, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Смертоносная коса
 local timerReorgModuleCD			= mod:NewCDCountTimer(48, 256389, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON..DBM_CORE_MYTHIC_ICON) --Модуль пересозидания
-local timerReapSoul					= mod:NewCastTimer(13.5, 256542, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Жатва душ
+local timerReapSoul					= mod:NewCastTimer(14, 256542, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Жатва душ
 local timerEndofAllThings			= mod:NewCastTimer(15, 256544, nil, nil, nil, 2, nil, DBM_CORE_INTERRUPT_ICON..DBM_CORE_DEADLY_ICON) --Конец всего сущего
 
 local yellGiftofSky					= mod:NewYell(258646, L.SkyText, nil, nil, "YELL") --Дар небес
@@ -491,7 +491,6 @@ function mod:SPELL_CAST_START(args)
 		if not self:IsMythic() then
 			self.vb.phase = 4
 			warned_preP6 = true
-			warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(4))
 			if self.Options.InfoFrame then
 				DBM.InfoFrame:Show(6, "function", updateInfoFrame, false, false)
 			end
@@ -552,6 +551,10 @@ function mod:SPELL_CAST_SUCCESS(args)
 		countdownApocModule:Start(timer)
 	elseif spellId == 251570 then --Бомба души
 		countdownSoulbomb2:Start()
+	elseif spellId == 257619 then --Дар Хранительницы жизни
+		if not self:IsMythic() then
+			warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(4))
+		end
 	end
 end
 
@@ -630,7 +633,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			yellSoulblightFades:Countdown(8, 3)
 			fearCheck(self)
 		end
-	elseif spellId == 250669 then
+	elseif spellId == 250669 then --Взрывная душа
 		warnSoulburst:CombinedShow(0.3, args.destName)--2 Targets
 		if self.vb.soulBurstIcon > 7 then
 			self.vb.soulBurstIcon = 3
@@ -654,8 +657,8 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnSoulbomb:Show()
 			specWarnSoulbomb:Play("targetyou")--Would be better if bombrun was "bomb on you" and not "bomb on you, run". Since Don't want to give misinformation, generic it is
 			self:Schedule(self:IsMythic() and 5 or 8, delayedBoonCheck, self)
-			yellSoulbomb:Yell(2, L.Bomb, 2)
-			yellSoulbombFades:Countdown(self:IsMythic() and 12 or 15, 4, 2)
+			yellSoulbomb:Yell(8, L.Bomb, 8)
+			yellSoulbombFades:Countdown(self:IsMythic() and 12 or 15, 3, 8)
 			fearCheck(self)
 		elseif playerAvatar then
 			specWarnSoulbombMoveTo:Show(args.destName)
