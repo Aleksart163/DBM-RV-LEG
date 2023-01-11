@@ -12,6 +12,7 @@ mod:DisableIEEUCombatDetection()
 --mod.respawnTime = 30
 
 mod:RegisterCombat("combat")
+--mod:RegisterCombat("combat_yell", L.YellPullEonar)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 249121 250701 246305",
