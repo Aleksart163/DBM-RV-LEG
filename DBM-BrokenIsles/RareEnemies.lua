@@ -7,16 +7,15 @@ mod:SetMinSyncRevision(17650)
 
 mod.noStatistics = true
 mod.isTrashMod = true
---https://ru.wowhead.com/npc=126889/соролис-нелюбимец-судьбы на Аргусе
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 221424 222676 189157 214095 218245 218250 223101 223104 219060 206762 203671 222596 216808 216837 218885 223659 223630 207002 206995 206972 216981 216970 219108 218875 218871 218435 218427 214500 222442 222446 222279 218855 224743 225254 222483 207084 207056 216143 216276 218385 219121 219109 207199 225243",
-	"SPELL_CAST_SUCCESS 221422 223094 216881 218969 224745 222504 222483 216150 218407",
-	"SPELL_AURA_APPLIED 221422 221425 222676 218250 223094 219102 219087 206795 219060 223630 206972 219661 219646 37587 222631 219627 224743 225254 207199 225243",
+	"SPELL_CAST_START 221424 222676 189157 214095 218245 218250 223101 223104 219060 206762 203671 222596 216808 216837 218885 223659 223630 207002 206995 206972 216981 216970 219108 218875 218871 218435 218427 214500 222442 222446 222279 218855 224743 225254 222483 207084 207056 216143 216276 218385 219121 219109 207199 225243 217140 224659",
+	"SPELL_CAST_SUCCESS 221422 223094 216881 218969 224745 222504 222483 216150 218407 224659",
+	"SPELL_AURA_APPLIED 221422 221425 222676 218250 223094 219102 219087 206795 219060 223630 206972 219661 219646 37587 222631 219627 224743 225254 207199 225243 217140 225222",
 	"SPELL_AURA_APPLIED_DOSE 221425",
 	"SPELL_AURA_REMOVED 221422 221425",
-	"SPELL_PERIODIC_DAMAGE 218960 222444",
-	"SPELL_PERIODIC_MISSED 218960 222444",
+	"SPELL_PERIODIC_DAMAGE 218960 222444 217130",
+	"SPELL_PERIODIC_MISSED 218960 222444 217130",
 	"CHAT_MSG_MONSTER_SAY",
 	"GOSSIP_SHOW",
 	"UNIT_DIED"
@@ -33,16 +32,25 @@ local warnRemnantofLight		= mod:NewTargetAnnounce(216837, 3) --Частица С
 local warnFelFissure			= mod:NewTargetAnnounce(218885, 3) --Разлом скверны
 local warnDepthCharge			= mod:NewTargetAnnounce(207002, 3) --Глубинная бомба
 local warnCinderwingsGaze		= mod:NewTargetAnnounce(222446, 2) --Взор Пеплокрыла
+--Фьордан https://www.wowhead.com/ru/npc=109584/фьордан
+--Ральф Костолом https://www.wowhead.com/ru/npc=109317/ральф-костолом
+--Мастер косы Силь'раман
+local specWarnCalloftheBrood	= mod:NewSpecialWarningInterrupt(224659, "HasInterrupt", nil, nil, 1, 2) --Призыв выводка
+local specWarnCalloftheBrood2	= mod:NewSpecialWarningSwitch(224659, "-Healer", nil, nil, 1, 2) --Призыв выводка
+local specWarnWickedSlice		= mod:NewSpecialWarningYou(225222, nil, nil, nil, 2, 3) --Жестокое рассечение
+--Капитан Дарган
+local specWarnSoulofMist		= mod:NewSpecialWarningInterrupt(217140, "HasInterrupt", nil, nil, 1, 2) --Душа тумана
+local specWarnSoulofMist2	 	= mod:NewSpecialWarningDispel(217140, "MagicDispeller", nil, nil, 1, 3) --Душа тумана
+local specWarnSoulofMist3		= mod:NewSpecialWarningReflect(217140, "-MagicDispeller", nil, nil, 1, 2) --Душа тумана
+local specWarnCreepingMist		= mod:NewSpecialWarningYouMove(217130, nil, nil, nil, 1, 2) --Ползучий туман
 --Марблуб Громадный
 local specWarnShakeOff			= mod:NewSpecialWarningInterrupt2(219109, nil, nil, nil, 2, 2) --Стряхивание
 local specWarnEnragedRoar		= mod:NewSpecialWarningInterrupt(219121, "HasInterrupt", nil, nil, 1, 2) --Яростный рев
---Фьордан https://www.wowhead.com/ru/npc=109584/фьордан#abilities
---Магистр Злисса https://www.wowhead.com/ru/npc=112757/магистр-злисса#abilities
+--Магистр Злисса
 local specWarnArcaneBarrier		= mod:NewSpecialWarningInterrupt(207199, "HasInterrupt", nil, nil, 1, 2) --Барьер Чар
 local specWarnArcaneBarrier2 	= mod:NewSpecialWarningDispel(207199, "MagicDispeller", nil, nil, 1, 3) --Барьер Чар
 local specWarnNetherSuppression	= mod:NewSpecialWarningYou(225243, nil, nil, nil, 1, 2) --Подавление Пустоты
 local specWarnNetherSuppression2 = mod:NewSpecialWarningInterrupt2(225243, nil, nil, nil, 1, 2) --Подавление Пустоты
---Ральф Костолом https://www.wowhead.com/ru/npc=109317/ральф-костолом#abilities
 --Литерон
 local specWarnShatteredEarth	= mod:NewSpecialWarningDodge(218407, nil, nil, nil, 2, 3) --Расколовшаяся земля
 local specWarnBiteFrenzy		= mod:NewSpecialWarningYouDefensive(218385, nil, nil, nil, 3, 3) --Бешеный укус
@@ -58,11 +66,11 @@ local specWarnWhistlingWinds2	= mod:NewSpecialWarningYouMove(207056, nil, nil, n
 local specWarnBlizzard			= mod:NewSpecialWarningInterrupt(207084, "HasInterrupt", nil, nil, 1, 2) --Снежная буря
 --Морской король Волноросс
 local specWarnSeaQuake			= mod:NewSpecialWarningInterrupt2(222483, nil, nil, nil, 3, 5) --Сотрясение моря
-local specWarnCalloftheSeas		= mod:NewSpecialWarningSwitch(222504, nil, nil, nil, 1, 2) --Зов морей
+local specWarnCalloftheSeas		= mod:NewSpecialWarningSwitch(222504, "-Healer", nil, nil, 1, 2) --Зов морей
 --Ревизор Изиэль
 local specWarnMassSlow			= mod:NewSpecialWarningInterrupt(225254, "HasInterrupt", nil, nil, 1, 2) --Массовое замедление
 local specWarnMassSlow2			= mod:NewSpecialWarningYou(225254, nil, nil, nil, 1, 3) --Массовое замедление
-local specWarnLivingLedgers		= mod:NewSpecialWarningSwitch(224745, nil, nil, nil, 1, 2) --Живые гроссбухи
+local specWarnLivingLedgers		= mod:NewSpecialWarningSwitch(224745, "-Healer", nil, nil, 1, 2) --Живые гроссбухи
 local specWarnAnalyze			= mod:NewSpecialWarningInterrupt(224743, "HasInterrupt", nil, nil, 1, 2) --Анализ
 local specWarnAnalyze2			= mod:NewSpecialWarningYou(224743, nil, nil, nil, 2, 3) --Анализ
 --Грозовое Крыло
@@ -487,6 +495,16 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 225243 then --Подавление Пустоты
 		specWarnNetherSuppression2:Show()
 		specWarnNetherSuppression2:Play("kickcast")
+	elseif spellId == 217140 then --Душа тумана
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnSoulofMist:Show()
+			specWarnSoulofMist:Play("kickcast")
+		end
+	elseif spellId == 224659 then --Призыв выводка
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnCalloftheBrood:Show()
+			specWarnCalloftheBrood:Play("kickcast")
+		end
 	end
 end
 
@@ -507,10 +525,10 @@ function mod:SPELL_CAST_SUCCESS(args)
 		timerFelMeteorCD:Start()
 	elseif spellId == 224745 then --Живые гроссбухи
 		specWarnLivingLedgers:Show()
-		specWarnLivingLedgers:Play("killmob")
+		specWarnLivingLedgers:Play("mobkill")
 	elseif spellId == 222504 then --Зов морей
 		specWarnCalloftheSeas:Show()
-		specWarnCalloftheSeas:Play("killmob")
+		specWarnCalloftheSeas:Play("mobkill")
 	elseif spellId == 222483 then --Сотрясение моря
 		specWarnSeaQuake:Show()
 		specWarnSeaQuake:Play("kickcast")
@@ -520,6 +538,9 @@ function mod:SPELL_CAST_SUCCESS(args)
 	elseif spellId == 218407 then --Расколовшаяся земля
 		specWarnShatteredEarth:Show()
 		specWarnShatteredEarth:Play("watchstep")
+	elseif spellId == 224659 then --Призыв выводка
+		specWarnCalloftheBrood2:Show()
+		specWarnCalloftheBrood2:Play("mobkill")
 	end
 end
 
@@ -553,7 +574,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			yellWebWrap:Yell()
 		else
 			specWarnWebWrap:Show()
-			specWarnWebWrap:Play("killmob")
+			specWarnWebWrap:Play("mobkill")
 		end
 	elseif spellId == 219102 then --Уязвимое место
 		specWarnExposedCore:Show()
@@ -615,6 +636,19 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnNetherSuppression:Show()
 			specWarnNetherSuppression:Play("targetyou")
 		end
+	elseif spellId == 217140 then --Душа тумана
+		if self:IsMagicDispeller() then
+			specWarnSoulofMist2:Show(args.destName)
+			specWarnSoulofMist2:Play("dispelnow")
+		else
+			specWarnSoulofMist3:Show(args.destName)
+			specWarnSoulofMist3:Play("stopattack")
+		end
+	elseif spellId == 225222 then --Жестокое рассечение
+		if args:IsPlayer() then
+			specWarnWickedSlice:Show()
+			specWarnWickedSlice:Play("defensive")
+		end
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
@@ -641,6 +675,9 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spell
 	elseif spellId == 222444 and destGUID == UnitGUID("player") and self:AntiSpam(2, 2) then --Преисподняя
 		specWarnInferno2:Show()
 		specWarnInferno2:Play("runaway")
+	elseif spellId == 217130 and destGUID == UnitGUID("player") and self:AntiSpam(2, 3) then --Ползучий туман
+		specWarnCreepingMist:Show()
+		specWarnCreepingMist:Play("runaway")
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE

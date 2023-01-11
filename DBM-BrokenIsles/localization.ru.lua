@@ -94,7 +94,7 @@ L:SetGeneralLocalization({
 L = DBM:GetModLocalization("RareEnemies")
 
 L:SetGeneralLocalization({
-	name = "Очень опасные враги 1"
+	name = "Очень опасные враги"
 })
 
 L:SetOptionLocalization({
@@ -124,4 +124,13 @@ L:SetOptionLocalization({
 
 L:SetTimerLocalization({
 	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+})
+
+------------------
+--rare enemies 3--
+------------------
+L = DBM:GetModLocalization("RareEnemies3")
+
+L:SetGeneralLocalization({
+	name = "Очень опасные враги Аргуса"
 })

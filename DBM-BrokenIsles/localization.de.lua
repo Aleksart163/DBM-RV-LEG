@@ -129,3 +129,12 @@ L:SetTimerLocalization({
 L:SetMiscLocalization({
 --	PullSkulvrax = "Ich... habe den Fall überlebt."
 })
+
+------------------
+--rare enemies 3--
+------------------
+L = DBM:GetModLocalization("RareEnemies3")
+
+L:SetGeneralLocalization({
+	name = "Sehr gefährliche Feinde auf Argus"
+})

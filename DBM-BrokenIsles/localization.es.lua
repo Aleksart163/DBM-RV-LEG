@@ -114,6 +114,7 @@ L:SetMiscLocalization({
 	PullSkulvrax = "Sobreviví... a la caída."
 })
 end
+
 ------------------
 --rare enemies 2--
 ------------------
@@ -133,4 +134,13 @@ L:SetTimerLocalization({
 
 L:SetMiscLocalization({
 --	PullSkulvrax = "I... survived the fall."
+})
+
+------------------
+--rare enemies 3--
+------------------
+L = DBM:GetModLocalization("RareEnemies3")
+
+L:SetGeneralLocalization({
+	name = "Enemigos muy peligrosos en Argus"
 })
