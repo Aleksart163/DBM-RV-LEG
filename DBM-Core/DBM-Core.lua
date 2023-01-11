@@ -44,9 +44,9 @@
 ----------------------------------------------------------------
 --
 DBM = {
-	Revision = tonumber(("$Revision: 17689 $"):sub(12, -3)), --прошляпанное очко Мурчаля ✔
+	Revision = tonumber(("$Revision: 17690 $"):sub(12, -3)), --прошляпанное очко Мурчаля ✔
 	DisplayVersion = "7.3.42 Right Version",
-	ReleaseRevision = 17688
+	ReleaseRevision = 17689
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -104,7 +104,7 @@ DBM.DefaultOptions = {
 	VoiceOverSpecW2 = "DefaultOnly",
 	AlwaysPlayVoice = false,
 	EventSoundVictory2 = "Alarak Victory", --музыка при победе в бою
-	EventSoundWipe = "Bwonsamdi: Impressive death", --музыка при поражении в бою
+	EventSoundWipe = "Alarak: Shameful death", --музыка при поражении в бою
 	EventSoundEngage = "Alarak: Krisol thok aran", --музыка при вступлении в бой
 	EventSoundMusic = "FNaF Security breach", --музыка во время боя с боссом +++
 	EventSoundDungeonBGM = "Nightsong Extended", --музыка в подземелье и рейдах +++
@@ -302,6 +302,7 @@ DBM.Victory = {
 	{text = "None", value = "None"},
 }
 DBM.Defeat = {
+	{text = "Alarak: Shameful death", value = "Interface\\AddOns\\DBM-Core\\sounds\\Custom\\Alarak_Shameful_Death.ogg", length=5},
 	{text = "Bwonsamdi: Impressive death", value = "Interface\\AddOns\\DBM-Core\\sounds\\Custom\\Bwonsamdi_Impressive_Death.ogg", length=5},
 	{text = "Alizabal: Incompetent Raiders", value = "Sound\\Creature\\ALIZABAL\\VO_BH_ALIZABAL_RESET_01.ogg", length=4},
 	{text = "Kologarn: You Fail", value = "Sound\\Creature\\Kologarn\\UR_Kologarn_Slay02.ogg", length=4},
@@ -5457,7 +5458,6 @@ do
 
 	function DBM:ENCOUNTER_START(encounterID, name, difficulty, size)
 		self:Debug("ENCOUNTER_START event fired: "..encounterID.." "..name.." "..difficulty.." "..size)
-	--	if encounterID == 1957 then return end
 		if dbmIsEnabled then
 			if not self.Options.DontShowReminders then
 				self:CheckAvailableMods()
@@ -7561,7 +7561,6 @@ function bossModPrototype:CheckInterruptFilter(sourceGUID, skip, checkCooldown) 
 		[2139] = true,--Маг (Антимагия)
 		[6552] = true,--Воин (Зуботычина)
 		[15487] = true,--Прист (Безмолвие)
-	--	[19647] = true,--Пет лока (Запрет чар)
 	--	[47482] = true,--пет дк (Прыжок)
 		[47528] = true,--ДК (Заморозка разума)
 		[57994] = true,--Шаман (Пронизывающий ветер)
@@ -7570,7 +7569,6 @@ function bossModPrototype:CheckInterruptFilter(sourceGUID, skip, checkCooldown) 
 		[106839] = true,--Друид (Лобовая атака)
 		[116705] = true,--Монах (Рука-копье)
 		[147362] = true,--Хант (Встречный выстрел)
-	--	[171138] = true,--Пет лока (Замок мира теней)
 		[183752] = true,--ДХ (Похищение магии)
 		[187707] = true,--Хант (Намордник)
 	}
@@ -7585,7 +7583,7 @@ function bossModPrototype:CheckInterruptFilter(sourceGUID, skip, checkCooldown) 
 			end
 		end
 		if playerClass == "WARLOCK" then
-			if (currentPet == 78158 and GetSpellCooldown(171138) ~= 0) or (currentPet == 417 and GetSpellCooldown(19647) ~= 0) or (currentPet ~= 78158 and currentPet ~= 417) then
+			if (currentPet == 78158 and GetSpellCooldown(171138) ~= 0) or (currentPet == 417 and GetSpellCooldown(19647) ~= 0) or (currentPet ~= 78158 and currentPet ~= 417) then --171138 пет лока (Замок мира теней), 19647 пет лока (Запрет чар)
 				InterruptAvailable = false
 			end
 		end
@@ -7598,62 +7596,49 @@ end
 
 --[[
 do
-	--lazyCheck mostly for migration, doesn't distinquish dispel types
 	local lazyCheck = {
-		[88423] = true,--Druid: Nature's Cure (Dps: Magic only. Healer: Magic, Curse, Poison)
-		[2782] = true,--Druid: Remove Corruption (Curse and Poison)
-		[115450] = true,--Monk: Detox (Healer) (Magic, Poison, and Disease)
-		[218164] = true,--Monk: Detox (non Healer) (Poison and Disease)
-		[527] = true,--Priest: Purify (Magic and Disease)
-		[213634] = true,--Priest: Purify Disease (Disease)
-		[4987] = true,--Paladin: Cleanse ( Dps/Healer: Magic. Healer Only: Poison, Disease)
-		[51886] = true,--Shaman: Cleanse Spirit (Curse)
-		[77130] = true,--Shaman: Purify Spirit (Magic and Curse)
-		[475] = true,--Mage: Remove Curse (Curse)
-		[89808] = true,--Warlock: Singe Magic (Magic)
-		[360823] = true,--Evoker: Naturalize (Magic and Poison)
-		[374251] = true,--Evoker: Cauterizing Flame (Bleed, Poison, Curse, and Disease)
-		[365585] = true,--Evoker: Expunge (Poison)
+		[527] = true, --Прист Очищение (хил) (магия и болезни) +++
+		[2782] = true, --Друид Снятие порчи (дд и танк) (проклятья, яды) +++
+		[4987] = true, --Паладин Очищение (хил) (магия, яды и болезни) +++
+		[51886] = true, --Шаман Очищение духа (проклятия)
+		[77130] = true, --Шаман Возрождение духа (магия и проклятия)
+		[88423] = true, --Друид Природный целитель (хил) (магия, проклятия и яды)
+		[89808] = true, --Варлок Опаляющая магия (магия)
+		[115450] = true, --Монах Детоксикация (хил) (магия, яды и болезни)
+		[213634] = true, --Прист Очищение от болезни (дд) (болезни) +++
+		[213644] = true, --Паладин Очищение от токсинов (дд и танк) (яды и болезни)
+		[218164] = true, --Монах Детоксикация (не хил) (яды и болезни)
 	}
-	--Obviously only checks spells releventt for the dispel type
 	local typeCheck = {
 		["magic"] = {
-			[88423] = true,--Druid: Nature's Cure (Dps: Magic only. Healer: Magic, Curse, Poison)
-			[115450] = true,--Monk: Detox (Healer) (Magic, Poison, and Disease)
-			[527] = true,--Priest: Purify (Magic and Disease)
-			[4987] = true,--Paladin: Cleanse ( Dps/Healer: Magic. Healer Only: Poison, Disease)
-			[77130] = true,--Shaman: Purify Spirit (Magic and Curse)
-			[89808] = true,--Warlock: Singe Magic (Magic)
-			[360823] = true,--Evoker: Naturalize (Magic and Poison)
+			[527] = true, --Прист Очищение (хил) (магия и болезни)
+			[4987] = DBM:IsHealer() and true, --Паладин Очищение (хил) (магия, яды и болезни)
+			[77130] = true, --Шаман Возрождение духа (магия и проклятия)
+			[88423] = DBM:IsHealer() and true, --Друид Природный целитель (хил) (магия, проклятия и яды)
+			[89808] = true, --Варлок Опаляющая магия (магия)
+			[115450] = true, --Монах Детоксикация (хил) (магия, яды и болезни)
 		},
 		["curse"] = {
-			[88423] = DBM:IsHealer() and true,--Druid: Nature's Cure (Dps: Magic only. Healer: Magic, Curse, Poison)
-			[2782] = true,--Druid: Remove Corruption (Curse and Poison)
-			[51886] = true,--Shaman: Cleanse Spirit (Curse)
-			[77130] = true,--Shaman: Purify Spirit (Magic and Curse)
-			[475] = true,--Mage: Remove Curse (Curse)
-			[374251] = true,--Evoker: Cauterizing Flame (Bleed, Poison, Curse, and Disease)
+			[2782] = true, --Друид Снятие порчи (дд и танк) (проклятья, яды)
+			[51886] = true, --Шаман Очищение духа (проклятия)
+			[77130] = true, --Шаман Возрождение духа (магия и проклятия)
+			[88423] = DBM:IsHealer() and true, --Друид Природный целитель (хил) (магия, проклятия и яды)
 		},
 		["poison"] = {
-			[88423] = DBM:IsHealer() and true,--Druid: Nature's Cure (Dps: Magic only. Healer: Magic, Curse, Poison)
-			[2782] = true,--Druid: Remove Corruption (Curse and Poison)
-			[115450] = true,--Monk: Detox (Healer) (Magic, Poison, and Disease)
-			[218164] = true,--Monk: Detox (non Healer) (Poison and Disease)
-			[4987] = DBM:IsHealer() and true,--Paladin: Cleanse ( Dps/Healer: Magic. Healer Only: Poison, Disease)
-			[360823] = true,--Evoker: Naturalize (Magic and Poison)
-			[374251] = true,--Evoker: Cauterizing Flame (Bleed, Poison, Curse, and Disease)
-			[365585] = true,--Evoker: Expunge (Poison)
+			[2782] = true, --Друид Снятие порчи (дд и танк) (проклятья, яды)
+			[4987] = DBM:IsHealer() and true, --Паладин Очищение (хил) (магия, яды и болезни)
+			[88423] = DBM:IsHealer() and true, --Друид Природный целитель (хил) (магия, проклятия и яды)
+			[115450] = true, --Монах Детоксикация (хил) (магия, яды и болезни)
+			[213644] = true, --Паладин Очищение от токсинов (дд и танк) (яды и болезни)
+			[218164] = true, --Монах Детоксикация (не хил) (яды и болезни)
 		},
 		["disease"] = {
-			[115450] = true,--Monk: Detox (Healer) (Magic, Poison, and Disease)
-			[218164] = true,--Monk: Detox (non Healer) (Poison and Disease)
-			[527] = true,--Priest: Purify (Magic and Disease)
-			[213634] = true,--Priest: Purify Disease (Disease)
-			[4987] = DBM:IsHealer() and true,--Paladin: Cleanse ( Dps/Healer: Magic. Healer Only: Poison, Disease)
-			[374251] = true,--Evoker: Cauterizing Flame (Bleed, Poison, Curse, and Disease)
-		},
-		["bleed"] = {
-			[374251] = true,--Evoker: Cauterizing Flame (Bleed, Poison, Curse, and Disease)
+			[527] = true, --Прист Очищение (хил) (магия и болезни)
+			[4987] = DBM:IsHealer() and true, --Паладин Очищение (хил) (магия, яды и болезни)
+			[115450] = true, --Монах Детоксикация (хил) (магия, яды и болезни)
+			[213634] = true, --Прист Очищение от болезни (дд) (болезни)
+			[213644] = true, --Паладин Очищение от токсинов (дд и танк) (яды и болезни)
+			[218164] = true, --Монах Детоксикация (не хил) (яды и болезни)
 		},
 	}
 	local lastCheck, lastReturn = 0, true
@@ -7699,7 +7684,7 @@ do
 	end
 end]]
 
-function bossModPrototype:CheckDispelFilter()
+function bossModPrototype:CheckDispelFilter(checkCooldown)
 	if not DBM.Options.FilterDispel then return true end
 	--Druid: Nature's Cure (88423), Remove Corruption (2782), Monk: Detox (115450), Priest: Purify (527), Plaadin: Cleanse (4987), Shaman: Cleanse Spirit (51886), Purify Spirit (77130), Mage: Remove Curse (475)
 	--start, duration, enable = GetSpellCooldown
@@ -10195,13 +10180,13 @@ do
 		if obj.option then
 			local catType = "announce"--Default to General announce
 			--Directly affects another target (boss or player) that you need to know about
-			if announceType == "target" or announceType == "targetcount" or announceType == "close" or announceType == "reflect" then
+			if announceType == "target" or announceType == "targetcount" or announceType == "close" then
 				catType = "announceother"
 			--Directly affects you 
 			elseif announceType == "soonlookaway" or announceType == "targetint" or announceType == "targetrun" or announceType == "targetsoak" or announceType == "keepdist" or announceType == "you" or announceType == "yourun" or announceType == "yourunning" or announceType == "closemoveaway" or announceType == "youfind" or announceType == "youclose" or announceType == "youshare" or announceType == "youdefensive" or announceType == "youmoveaway" or announceType == "youmove" or announceType == "youcount" or announceType == "youpos" or announceType == "move" or announceType == "dodge" or announceType == "moveaway" or announceType == "run" or announceType == "stack" or announceType == "moveto" or announceType == "soakpos" or announceType == "youmoveawaypos" or announceType == "youfades" or announceType == "youdontmove" or announceType == "cast" then
 				catType = "announcepersonal"
 			--Things you have to do to fulfil your role
-			elseif announceType == "taunt" or announceType == "youdispel" or announceType == "moredamage" or announceType == "defensive" or announceType == "interrupt2" or announceType == "dispel" or announceType == "interrupt" or announceType == "interruptcount" or announceType == "switch" or announceType == "switchcount" or announceType == "youmoredamage" then
+			elseif announceType == "reflect" or announceType == "taunt" or announceType == "youdispel" or announceType == "moredamage" or announceType == "defensive" or announceType == "interrupt2" or announceType == "dispel" or announceType == "interrupt" or announceType == "interruptcount" or announceType == "switch" or announceType == "switchcount" or announceType == "youmoredamage" then
 				catType = "announcerole"
 			end
 			self:AddSpecialWarningOption(obj.option, optionDefault, runSound, catType)

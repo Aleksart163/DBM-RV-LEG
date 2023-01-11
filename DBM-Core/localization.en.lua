@@ -606,7 +606,7 @@ DBM_CORE_AUTO_READY_CHECK_OPTION_TEXT	= "Play ready check sound when boss is pul
 
 -- New special warnings
 DBM_CORE_MOVE_WARNING_BAR			= "Announce movable"
-DBM_CORE_MOVE_WARNING_MESSAGE		= "Thanks for using Dungeon Boss Master"
+DBM_CORE_MOVE_WARNING_MESSAGE		= "Thanks for using DBM Right Version"
 DBM_CORE_MOVE_SPECIAL_WARNING_BAR	= "Special warning movable"
 DBM_CORE_MOVE_SPECIAL_WARNING_TEXT	= "Special Warning"
 
