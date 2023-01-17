@@ -193,7 +193,7 @@ function mod:SPELL_AURA_APPLIED(args)
 					if not self:IsTank() then
 						specWarnNecroticEmbrace3:Play("mm"..icon)
 					else
-						specWarnNecroticEmbrace3:Play("targetyou")
+						specWarnNecroticEmbrace3:Play("runaway")
 					end
 					yellNecroticEmbrace:Yell(self.vb.totalEmbrace, icon, icon)
 					yellNecroticEmbraceFades:Countdown(6, 3, icon)
@@ -210,7 +210,7 @@ function mod:SPELL_AURA_APPLIED(args)
 					playerAffected = true
 					specWarnNecroticEmbrace:Show()
 					if not self:IsTank() then
-						specWarnNecroticEmbrace:Play("targetyou")
+						specWarnNecroticEmbrace:Play("runaway")
 					end
 					yellNecroticEmbrace2:Yell()
 					yellNecroticEmbrace3:Countdown(6, 3)
@@ -224,7 +224,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif spellId == 248732 and self:AntiSpam(2, 1) then --Отголоски гибели
 		warnEchoesofDoom:CombinedShow(0.5, args.destName)--In case multiple shadows up
-		if args:IsPlayer() and self:AntiSpam(3, 1) then
+		if args:IsPlayer() and self:AntiSpam(3, 3) then
 			specWarnEchoesOfDoom:Show()
 			specWarnEchoesOfDoom:Play("targetyou")
 			yellEchoesOfDoom:Yell()
@@ -263,7 +263,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		end
 	elseif spellId == 244094 then
 		self.vb.totalEmbrace = self.vb.totalEmbrace - 1
-		if args:IsPlayer() and self:AntiSpam(3, 1) then
+		if args:IsPlayer() and self:AntiSpam(3, 4) then
 			playerAffected = false
 			specWarnNecroticEmbrace4:Show()
 			yellNecroticEmbraceFades:Cancel()
@@ -279,10 +279,10 @@ end
 
 --Dark Fissure & Echoes of Doom
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
-	if spellId == 244005 and destGUID == UnitGUID("player") and self:AntiSpam(2, 4) then
+	if spellId == 244005 and destGUID == UnitGUID("player") and self:AntiSpam(2, 5) then
 		specWarnGTFO:Show()
 		specWarnGTFO:Play("runaway")
-	elseif spellId == 248740 and destGUID == UnitGUID("player") and self:AntiSpam(3, 1) then
+	elseif spellId == 248740 and destGUID == UnitGUID("player") and self:AntiSpam(3, 6) then
 		specWarnGTFO2:Show()
 		specWarnGTFO2:Play("runaway")
 	end

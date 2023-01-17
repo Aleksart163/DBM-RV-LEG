@@ -61,6 +61,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
+	YellPullEonar = "Герои! Демоны пытаются захватить мою сущность для своего повелителя.",
 	Obfuscators = "Маскировщик",
 	Destructors = "Разрушитель",
 	Purifiers 	= "Очиститель",
@@ -68,10 +69,6 @@ L:SetMiscLocalization({
 	EonarHealth	= "Здоровье Эонар",
 	EonarPower	= "Сила Эонар",
 	NextLoc		= "~"
-})
-
-L:SetMiscLocalization({
-	YellPullEonar = "Герои! Демоны пытаются захватить мою сущность для своего повелителя."
 })
 
 --------------------

@@ -38,7 +38,7 @@ local warnXorothPortal2					= mod:NewSoonAnnounce(244318, 1) --Усиленны�
 local warnRancoraPortal2				= mod:NewSoonAnnounce(246082, 1) --Усиленный портал Ранкора
 local warnNathrezaPortal2				= mod:NewSoonAnnounce(246157, 1) --Усиленный портал Натреза
 --Platform: Nexus
-local warnRealityTear					= mod:NewStackAnnounce(244016, 1, nil, "Tank|Healer") --Разрыв реальности
+local warnRealityTear					= mod:NewStackAnnounce(244016, 2, nil, "Tank|Healer") --Разрыв реальности
 --Platform: Xoroth
 local warnXorothPortal					= mod:NewSpellAnnounce(244318, 2, nil, nil, nil, nil, nil, 7) --Усиленный портал Зорот
 local warnAegisofFlames					= mod:NewTargetAnnounce(244383, 3, nil, nil, nil, nil, nil, nil, true) --Пламенная эгида
@@ -307,29 +307,27 @@ function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 244016 then
 		local uId = DBM:GetRaidUnitId(args.destName)
---		if self:IsTanking(uId) then
-			local amount = args.amount or 1
-			if amount >= 3 then
-				if args:IsPlayer() then--At this point the other tank SHOULD be clear.
-					specWarnRealityTear:Show(amount)
-					specWarnRealityTear:Play("stackhigh")
-				else--Taunt as soon as stacks are clear, regardless of stack count.
-					local _, _, _, _, _, _, expireTime = DBM:UnitDebuff("player", spellId)
-					local remaining
-					if expireTime then
-						remaining = expireTime-GetTime()
-					end
-					if not UnitIsDeadOrGhost("player") and (not remaining or remaining and remaining < 12) then
-						specWarnRealityTearOther:Show(args.destName)
-						specWarnRealityTearOther:Play("tauntboss")
-					else
-						warnRealityTear:Show(args.destName, amount)
-					end
+		local amount = args.amount or 1
+		if amount >= 3 then
+			if args:IsPlayer() then--At this point the other tank SHOULD be clear.
+				specWarnRealityTear:Show(amount)
+				specWarnRealityTear:Play("stackhigh")
+			else--Taunt as soon as stacks are clear, regardless of stack count.
+				local _, _, _, _, _, _, expireTime = DBM:UnitDebuff("player", spellId)
+				local remaining
+				if expireTime then
+					remaining = expireTime-GetTime()
 				end
-			else
-				warnRealityTear:Show(args.destName, amount)
+				if not UnitIsDeadOrGhost("player") and (not remaining or remaining and remaining < 12) then
+					specWarnRealityTearOther:Show(args.destName)
+					specWarnRealityTearOther:Play("tauntboss")
+				else
+					warnRealityTear:Show(args.destName, amount)
+				end
 			end
---		end
+		else
+			warnRealityTear:Show(args.destName, amount)
+		end
 	elseif spellId == 244383 and self:AntiSpam(2, args.destName) then--Aegis of Flames
 		self.vb.shieldsActive = true
 		warnAegisofFlames:Show(args.destName)

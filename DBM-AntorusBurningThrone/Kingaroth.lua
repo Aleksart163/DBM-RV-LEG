@@ -17,8 +17,8 @@ mod:RegisterCombat("combat")
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 244312 254926 245807 252758 246692 246833 246516 257978 254919",
 	"SPELL_CAST_SUCCESS 252758 246692 248214",
-	"SPELL_AURA_APPLIED 254919 257978 246687 249680 246698 252760",
-	"SPELL_AURA_APPLIED_DOSE 254919 257978",
+	"SPELL_AURA_APPLIED 254919 257978 246687 249680 246698 252760 249740",
+	"SPELL_AURA_APPLIED_DOSE 254919 257978 249740",
 	"SPELL_AURA_REMOVED 246687 249680 246516 246698 252760",
 --	"SPELL_PERIODIC_DAMAGE",
 --	"SPELL_PERIODIC_MISSED",
@@ -28,12 +28,14 @@ mod:RegisterEventsInCombat(
 )
 
 --Stage: Deployment
+local warnOvercharge					= mod:NewStackAnnounce(249740, 4) --Перегрузка
 local warnShatteringStrike				= mod:NewSpellAnnounce(248375, 2) --Разбивающий удар
 local warnDiabolicBomb					= mod:NewSpellAnnounce(246779, 3, nil, nil, nil, nil, nil, 2) --Демоническая бомба
 local warnReverberatingStrike			= mod:NewTargetAnnounce(254926, 3) --Гулкий удар
 local warnWarnInitializing				= mod:NewSpellAnnounce(246504, 3, nil, "Healer") --Инициализация
 --Reavers (or empowered boss from reaver deaths)
-local warnDecimation					= mod:NewTargetAnnounce(246687, 4) --Децимация (на 5 игроков)
+local warnDecimation					= mod:NewTargetAnnounce(246687, 3) --Децимация (на 5 игроков)
+local warnDecimation2					= mod:NewTargetAnnounce(249680, 3) --Резонансное истребление (на 5 игрока)
 local warnDemolish						= mod:NewTargetAnnounce(246692, 4) --Разрушение (на 3 игрока)
 local warnForgingStrike					= mod:NewStackAnnounce(244312, 2, nil, "Tank|Healer") --Прессование
 --Stage: Deployment
@@ -54,7 +56,7 @@ local specWarnDemolishOther				= mod:NewSpecialWarningMoveTo(246692, nil, nil, n
 
 --Stage: Deployment
 mod:AddTimerLine(BOSS)
-local timerForgingStrikeCD				= mod:NewCDTimer(14.3, 244312, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Прессование+
+local timerForgingStrikeCD				= mod:NewCDTimer(14.3, 244312, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Прессование+
 local timerReverberatingStrikeCD		= mod:NewCDCountTimer(30, 254926, nil, nil, nil, 3) --Гулкий удар+
 local timerDiabolicBombCD				= mod:NewCDTimer(20, 246779, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON..DBM_CORE_HEALER_ICON) --Демоническая бомба+
 local timerRuiner						= mod:NewCastTimer(6, 246840, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Разрушитель+
@@ -64,7 +66,7 @@ local timerApocProtocolCD				= mod:NewCDCountTimer(77.5, 246516, nil, nil, nil, 
 local timerApocProtocol					= mod:NewCastTimer(42.3, 246516, nil, nil, nil, 6, nil, DBM_CORE_HEALER_ICON) --Протокол Апокалипсис
 --Stage: Construction
 mod:AddTimerLine(DBM_ADDS)
-local timerInitializing					= mod:NewCastTimer(30, 246504, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON) --Инициализация
+local timerInitializing					= mod:NewCastTimer(30, 246504, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON..DBM_CORE_TANK_ICON) --Инициализация
 local timerDecimationCD					= mod:NewCDTimer(10.9, 246687, nil, nil, nil, 3) --Децимация
 local timerAnnihilationCD				= mod:NewCDTimer(15.4, 245807, nil, nil, nil, 3) --Аннигиляция
 local timerDemolishCD					= mod:NewCDTimer(15.8, 246692, nil, nil, nil, 3) --Разрушение
@@ -324,37 +326,43 @@ end
 
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
-	if spellId == 254919 or spellId == 257978 then--Always swap after each cast
-		local uId = DBM:GetRaidUnitId(args.destName)
-		if uId and self:IsTanking(uId) then
-			local amount = args.amount or 1
-			if amount >= 2 then
-				if args:IsPlayer() then
-					specWarnForgingStrike2:Show(amount)
-					specWarnForgingStrike2:Play("stackhigh")
-				else
-					local _, _, _, _, _, _, expireTime = DBM:UnitDebuff("player", spellId)
-					local remaining
-					if expireTime then
-						remaining = expireTime-GetTime()
-					end
-					if not UnitIsDeadOrGhost("player") and (not remaining or remaining and remaining < 14) then
-						specWarnForgingStrikeOther:Show(args.destName)
-						specWarnForgingStrikeOther:Play("tauntboss")
-					else
-						warnForgingStrike:Show(args.destName, amount)
-					end
-				end
+	if spellId == 254919 or spellId == 257978 then --Прессование
+	--	local uId = DBM:GetRaidUnitId(args.destName)
+	--	if uId and self:IsTanking(uId) then
+		local amount = args.amount or 1
+		if amount >= 2 then
+			if args:IsPlayer() then
+				specWarnForgingStrike2:Show(amount)
+				specWarnForgingStrike2:Play("stackhigh")
 			else
-				warnForgingStrike:Show(args.destName, amount)
+				local _, _, _, _, _, _, expireTime = DBM:UnitDebuff("player", spellId)
+				local remaining
+				if expireTime then
+					remaining = expireTime-GetTime()
+				end
+				if not UnitIsDeadOrGhost("player") and (not remaining or remaining and remaining < 14) then
+					specWarnForgingStrikeOther:Show(args.destName)
+					specWarnForgingStrikeOther:Play("tauntboss")
+				else
+					warnForgingStrike:Show(args.destName, amount)
+				end
 			end
+		else
+			warnForgingStrike:Show(args.destName, amount)
 		end
-	elseif spellId == 246687 then --Децимация elseif spellId == 246687 or spellId == 249680 then
+	elseif spellId == 246687 then --Децимация 1 (от моба)
 		warnDecimation:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
 			specWarnDecimation:Show()
-			specWarnDecimation:Play("runout")
-			yellDecimation:Countdown(6, 3)
+			specWarnDecimation:Play("runaway")
+			yellDecimation:Countdown(5.5, 3)
+		end
+	elseif spellId == 249680 then --Децимация 2 (от босса) 4.5 сек +5
+		warnDecimation2:CombinedShow(0.3, args.destName)
+		if args:IsPlayer() then
+			specWarnDecimation:Schedule(4.5)
+			specWarnDecimation:ScheduleVoice(4.5, "runaway")
+			yellDecimation:Countdown(10, 3)
 		end
 	elseif spellId == 246698 or spellId == 252760 then
 		if not tContains(DemolishTargets, args.destName) then
@@ -378,13 +386,18 @@ function mod:SPELL_AURA_APPLIED(args)
 				DBM.InfoFrame:Update()
 			end
 		end
+	elseif spellId == 249740 then --Перегрузка
+		local amount = args.amount or 1
+		if amount >= 1 then
+			warnOvercharge:Show(args.destName, amount)
+		end
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 
 function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
-	if spellId == 246687 then --Децимация elseif spellId == 246687 or spellId == 249680 then
+	if spellId == 246687 then
 		if args:IsPlayer() then
 			yellDecimation:Cancel()
 		end

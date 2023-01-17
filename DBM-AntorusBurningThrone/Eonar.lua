@@ -2,7 +2,7 @@ local mod	= DBM:NewMod(2025, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
 mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
-mod:SetCreatureID(124445) -- +122500
+mod:SetCreatureID(124445)
 mod:SetEncounterID(2075)
 mod:SetZone()
 --mod:SetBossHPInfoToHighest()
@@ -11,12 +11,12 @@ mod:SetHotfixNoticeRev(16960)
 mod:DisableIEEUCombatDetection()
 --mod.respawnTime = 30
 
-mod:RegisterCombat("combat")
---mod:RegisterCombat("combat_yell", L.YellPullEonar)
+--mod:RegisterCombat("combat")
+mod:RegisterCombat("combat_yell", L.YellPullEonar)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 249121 250701 246305",
-	"SPELL_CAST_SUCCESS 254769 250048", --246753
+	"SPELL_CAST_SUCCESS 250048", --254769, 246753
 	"SPELL_AURA_APPLIED 250074 250555 249016 248332 250073 250693 250691 250140 246753 249017 249015",
 	"SPELL_AURA_APPLIED_DOSE 250140",
 	"SPELL_AURA_REMOVED 250074 250555 249016 248332 250693 250691",
@@ -312,7 +312,7 @@ function mod:OnCombatStart(delay)
 		self.vb.lifeRequired = 4
 		if self:IsMythic() then
 		--	timerRainofFelCD:Start(14-delay, 1) --Дождь Скверны
-			timerSpearofDoomCD:Start(34-delay, 1) --Копье Рока
+		--	timerSpearofDoomCD:Start(34-delay, 1) --Копье Рока
 			timerDestructorCD:Start(17, DBM_CORE_MIDDLE) --Разрушитель
 			self:Schedule(30, checkForDeadDestructor, self, 5)
 			timerObfuscatorCD:Start(43, DBM_CORE_BOTTOM) --маскировщик, подправил

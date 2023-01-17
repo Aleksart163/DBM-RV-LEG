@@ -65,6 +65,7 @@ local specWarnFulminatingPulse			= mod:NewSpecialWarningYouMoveAway(253520, nil,
 local specWarnShadowBlades				= mod:NewSpecialWarningDodge(246329, nil, nil, nil, 2, 2) --Теневые клинки
 local specWarnStormofDarkness			= mod:NewSpecialWarningIcePud(252861, nil, nil, nil, 2, 3) --Буря тьмы
 --Diima, Mother of Gloom
+local specWarnChilledBlood3				= mod:NewSpecialWarningYou(129148, nil, nil, nil, 1, 2) --Заморозка
 local specWarnFlashfreeze				= mod:NewSpecialWarningStack(245518, nil, 2, nil, nil, 1, 6) --Морозная вспышка
 local specWarnFlashfreezeOther			= mod:NewSpecialWarningTaunt(245518, nil, nil, nil, 1, 2) --Морозная вспышка
 local specWarnChilledBlood				= mod:NewSpecialWarningTarget(245586, "Healer", nil, nil, 1, 2) --Студеная кровь
@@ -81,8 +82,8 @@ local timerBossIncoming					= mod:NewTimer(61, "timerBossIncoming", nil, nil, ni
 --Noura, Mother of Flames
 mod:AddTimerLine(Noura)
 local timerFieryStrikeCD				= mod:NewCDTimer(10.5, 244899, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Пламенный удар
-local timerWhirlingSaberCD				= mod:NewNextTimer(35.1, 245627, nil, nil, nil, 3) --Вращающийся меч 35-45
-local timerFulminatingPulseCD			= mod:NewNextTimer(40.1, 253520, nil, nil, nil, 3) --Гремучий импульс
+local timerWhirlingSaberCD				= mod:NewNextTimer(35.1, 245627, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Вращающийся меч 35-45
+local timerFulminatingPulseCD			= mod:NewNextTimer(40.1, 253520, nil, nil, nil, 3, nil, DBM_CORE_HEALER_ICON..DBM_CORE_DEADLY_ICON) --Гремучий импульс
 --Asara, Mother of Night
 mod:AddTimerLine(Asara)
 local timerShadowBladesCD				= mod:NewCDTimer(28, 246329, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Теневые клинки
@@ -472,6 +473,10 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif spellId == 256356 then --Заморозка
 		warnChilledBlood2:CombinedShow(0.3, args.destName)
+		if args:IsPlayer() then
+			specWarnChilledBlood3:Show()
+			specWarnChilledBlood3:Play("targetyou")
+		end
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED

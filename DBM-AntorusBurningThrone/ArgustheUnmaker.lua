@@ -36,6 +36,7 @@ local warnPrePhase3					= mod:NewPrePhaseAnnounce(3, 1)
 local warnPrePhase4					= mod:NewPrePhaseAnnounce(4, 1)
 local warnReapSoul					= mod:NewTargetSourceAnnounce(256542, 4) --Жатва душ
 local warnEndofAllThings			= mod:NewTargetSourceAnnounce(256544, 4) --Конец всего сущего
+local warnSkyandSea2				= mod:NewTargetSourceAnnounce(255594, 1) --Небо и море
 --Stage One: Storm and Sky
 local warnTorturedRage				= mod:NewCountAnnounce(257296, 2) --Ярость порабощенного
 local warnSweepingScythe			= mod:NewStackAnnounce(248499, 2, nil, "Tank|Healer") --Сметающая коса
@@ -73,7 +74,7 @@ local specWarnSoulblight			= mod:NewSpecialWarningYouMoveAway(248396, nil, nil, 
 local specWarnGiftofSea				= mod:NewSpecialWarningYouMoveAway(258647, nil, nil, nil, 3, 5) --Дар моря
 local specWarnGiftofSky				= mod:NewSpecialWarningYouMoveAway(258646, nil, nil, nil, 3, 5) --Дар небес
 --Mythic P1
-local specWarnSargGaze				= mod:NewSpecialWarningPreWarn(258068, nil, 5, nil, nil, 1, 2)
+local specWarnSargGaze				= mod:NewSpecialWarningPreWarn(258068, nil, 5, nil, nil, 1, 2) --Пристальный взгляд Саргераса
 local specWarnSargRage				= mod:NewSpecialWarningYouMoveAway(257869, nil, nil, nil, 3, 2) --Ярость Саргераса
 local specWarnSargFear				= mod:NewSpecialWarningMoveTo(257931, nil, nil, nil, 3, 2) --Страх перед Саргерасом
 local specWarnGTFO					= mod:NewSpecialWarningYouMove(248167, nil, nil, nil, 1, 2)
@@ -105,9 +106,9 @@ local timerSweepingScytheCD			= mod:NewCDCountTimer(5.6, 248499, nil, "Tank", ni
 local timerConeofDeathCD			= mod:NewCDCountTimer(21, 248165, nil, nil, nil, 3) --Конус смерти (под героик норм)
 local timerBlightOrbCD				= mod:NewCDCountTimer(25, 248317, nil, nil, nil, 3) --Чумная сфера (под героик норм)
 local timerTorturedRageCD			= mod:NewCDCountTimer(13, 257296, nil, nil, nil, 2, nil, DBM_CORE_HEALER_ICON) --Ярость порабощенного 13-16
-local timerSkyandSeaCD				= mod:NewCDCountTimer(24.9, 255594, nil, nil, nil, 5) --Небо и море 24.9-27.8
+local timerSkyandSeaCD				= mod:NewCDCountTimer(24.9, 255594, nil, nil, nil, 7) --Небо и море 24.9-27.8
 mod:AddTimerLine(ENCOUNTER_JOURNAL_SECTION_FLAG12)--Mythic Stage 1
-local timerSargGazeCD				= mod:NewCDCountTimer(35.2, 258068, nil, nil, nil, 3, nil, DBM_CORE_HEROIC_ICON)
+local timerSargGazeCD				= mod:NewCDCountTimer(35.2, 258068, nil, nil, nil, 3, nil, DBM_CORE_MYTHIC_ICON) --Пристальный взгляд Саргераса
 --Stage Two: The Protector Redeemed
 mod:AddTimerLine(SCENARIO_STAGE:format(2))
 local timerSoulBombCD				= mod:NewNextTimer(42, 251570, nil, nil, nil, 3, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Бомба души
@@ -153,7 +154,8 @@ local berserkTimer					= mod:NewBerserkTimer(600)
 
 --Stage One: Storm and Sky
 local countdownSweapingScythe		= mod:NewCountdown("Alt5", 248499, false, nil, 3) --Сметающая коса Off by default since it'd be almost non stop, so users can elect into this one
-local countdownSargGaze				= mod:NewCountdown(35, 258068, nil, nil, 5)
+local countdownSargGaze				= mod:NewCountdown(35, 258068, nil, nil, 5) --Пристальный взгляд Саргераса
+local countdownSkyandSea			= mod:NewCountdown("AltTwo24.9", 255594, nil, nil, 3) --Небо и море
 --Stage Two: The Protector Redeemed
 local countdownSoulbomb				= mod:NewCountdown("AltTwo50", 251570, nil, nil, 5) --Бомба души
 local countdownSoulbomb2			= mod:NewCountdownFades("AltTwo15", 251570, nil, nil, 5) --Бомба души
@@ -348,22 +350,27 @@ function mod:OnCombatStart(delay)
 	timerSweepingScytheCD:Start(5.5-delay, 1)
 	countdownSweapingScythe:Start(5.5)
 	timerTorturedRageCD:Start(12-delay, 1)
-	timerConeofDeathCD:Start(30.3-delay, 1)
 	timerBlightOrbCD:Start(35.2-delay, 1)
 	if self:IsMythic() then
-		timerSargGazeCD:Start(8.2-delay, 1)
-		countdownSargGaze:Start(8.2)
-		self:Schedule(6.2, ToggleRangeFinder, self)--Call Show 5 seconds Before NEXT rages get applied (2 seconds before cast + 3 sec cast time)
+		timerSweepingScytheCD:Start(6-delay, 1) --Смертоносная коса+++
+		timerSargGazeCD:Start(8.5-delay, 1) --Пристальный взгляд Саргераса+++
+		countdownSargGaze:Start(8.5) --Пристальный взгляд Саргераса+++
+		self:Schedule(6, ToggleRangeFinder, self)--Call Show 5 seconds Before NEXT rages get applied (2 seconds before cast + 3 sec cast time)
 		berserkTimer:Start(660-delay)
-		timerSkyandSeaCD:Start(10.1-delay, 1)
-		timerConeofDeathCD:Start(30.3-delay, 1)
+		timerSkyandSeaCD:Start(11-delay, 1) --Небо и море+++
+		countdownSkyandSea:Start(11-delay)
+		timerConeofDeathCD:Start(31-delay, 1) --Конус смерти+++
 	elseif self:IsHeroic() then
+		timerSweepingScytheCD:Start(5.5-delay, 1) --Смертоносная коса
 		berserkTimer:Start(720-delay)
-		timerSkyandSeaCD:Start(11.5-delay, 1)
+		timerSkyandSeaCD:Start(11.5-delay, 1) --Небо и море+++
+		countdownSkyandSea:Start(11.5-delay)
 		timerConeofDeathCD:Start(31-delay, 1)
 	else
+		timerSweepingScytheCD:Start(5.5-delay, 1) --Смертоносная коса
 		berserkTimer:Start(720-delay)
-		timerSkyandSeaCD:Start(10.1-delay, 1)
+		timerSkyandSeaCD:Start(10.1-delay, 1) --Небо и море+++
+		countdownSkyandSea:Start(10.1-delay) --Небо и море+++
 		timerConeofDeathCD:Start(30.3-delay, 1)
 	end
 	if self.Options.InfoFrame then
@@ -419,13 +426,19 @@ function mod:SPELL_CAST_START(args)
 		else
 			timerTorturedRageCD:Start(nil, self.vb.TorturedRage+1)
 		end
-	elseif spellId == 255594 then
+	elseif spellId == 255594 then --Небо и море
 		self.vb.SkyandSeaCount = self.vb.SkyandSeaCount + 1
 		if self:IsHeroic() then
 			timerSkyandSeaCD:Start(26, self.vb.SkyandSeaCount+1)
+			countdownSkyandSea:Start(26)
+		elseif self:IsMythic() then
+			timerSkyandSeaCD:Start(26, self.vb.SkyandSeaCount+1)
+			countdownSkyandSea:Start(26)
 		else
 			timerSkyandSeaCD:Start(nil, self.vb.SkyandSeaCount+1)
+			countdownSkyandSea:Start()
 		end
+		warnSkyandSea2:Show(args.sourceName)
 	elseif spellId == 252516 then
 		warnDiscsofNorg:Show()
 		timerDiscsofNorg:Start()
@@ -441,6 +454,7 @@ function mod:SPELL_CAST_START(args)
 		timerSweepingScytheCD:Stop()
 		countdownSweapingScythe:Cancel()
 		timerSkyandSeaCD:Stop()
+		countdownSkyandSea:Cancel()
 		timerNextPhase:Start(15)
 		timerSweepingScytheCD:Start(16.8, 1)
 		countdownSweapingScythe:Start(16.8)

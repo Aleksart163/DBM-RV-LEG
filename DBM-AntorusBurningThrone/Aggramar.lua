@@ -617,7 +617,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 244912 then --Извержение пламени
 		local amount = args.amount or 1
 		if args:IsPlayer() then
-			if amount >= 2 and self:AntiSpam(2, 1) then
+			if amount >= 2 and self:AntiSpam(2, 3) then
 				specWarnBlazingEruption:Show(args.amount)
 				specWarnBlazingEruption:Play("stackhigh")
 			end

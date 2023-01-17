@@ -1,5 +1,11 @@
 if GetLocale() ~= "esES" and GetLocale() ~= "esMX" then return end
+
 local L
+--------------------------------------------WARNING---------------------------------------------------
+--Do you want to help translate this module to your native language? Write to the author of this addon
+--Aleksart163#1671 (discord)
+--/w Tielle or /w Куплиняшка (in the game)
+--------------------------------------------WARNING---------------------------------------------------
 
 -------------------------
 -- Rompemundos garothi --
@@ -11,10 +17,11 @@ L:SetTimerLocalization({
 
 L:SetOptionLocalization({
 })
-
+--[[
 L:SetMiscLocalization({
 	YellPullGarothi = "Enemigos detectados. Nivel de amenaza: mínimo."
 })
+--]]
 
 ---------------------------------
 -- Canes manáfagos de Sargeras --
@@ -29,10 +36,11 @@ L:SetOptionLocalization({
 -- Alto Mando antoran --
 ------------------------
 L= DBM:GetModLocalization(1997)
-
+--[[
 L:SetMiscLocalization({
 	YellPullCouncil	= "Que os quede claro: no saldréis con vida de esta batalla."
 })
+--]]
 
 ----------------------------------
 -- Eonar, la Patrona de la Vida --
@@ -53,8 +61,9 @@ L:SetOptionLocalization({
 	timerBats	 		=	DBM_CORE_AUTO_TIMER_OPTIONS["cdcount"]:format("ej17039")
 })
 
+if GetLocale() == "esES" then
 L:SetMiscLocalization({
-	YellPullEonar = "¡Campeones! ¡Las fuerzas de la Legión buscan capturar mi esencia para su maestro infernal!",
+	YellPullEonar = "¡Campeones! ¡Las fuerzas de la Legión buscan capturar mi esencia para su maestro infernal!", --
 	Obfuscators =	"Ofuscador",
 	Destructors =	"Destructor",
 	Purifiers 	=	"Purificador",
@@ -63,6 +72,18 @@ L:SetMiscLocalization({
 	EonarPower	= 	"Energía de Eonar",
 	NextLoc		=	"Siguiente:"
 })
+else
+L:SetMiscLocalization({
+	YellPullEonar = "¡Campeones! ¡Las fuerzas de la Legión quieren capturar mi esencia para su amo infernal!", --
+	Obfuscators =	"Ofuscador",
+	Destructors =	"Destructor",
+	Purifiers 	=	"Purificador",
+	Bats 		=	"Murciélagos",
+	EonarHealth	= 	"Salud de Eonar",
+	EonarPower	= 	"Energía de Eonar",
+	NextLoc		=	"Siguiente:"
+})
+end
 
 ---------------------------------
 -- Vigilante de portal Hasabel --
@@ -86,7 +107,7 @@ L:SetOptionLocalization({
 L= DBM:GetModLocalization(2009)
 
 L:SetMiscLocalization({
-	DispelMe =		"¡Disipadme!"
+	DispelMe = "¡Disipadme!"
 })
 
 ----------------
@@ -110,7 +131,7 @@ L= DBM:GetModLocalization(1983)
 L= DBM:GetModLocalization(1986)
 
 L:SetTimerLocalization({ -- mantener distancia 2m entre jugadore 2 метра дистанции
-	timerBossIncoming		= DBM_INCOMING
+	timerBossIncoming = DBM_INCOMING
 })
 
 L:SetOptionLocalization({
@@ -127,10 +148,6 @@ L:SetOptionLocalization({
 	IgnoreFirstKick		= "Excluir la primera interrupción de la rotación (requiere ser líder de banda)"
 })
 
-L:SetMiscLocalization({
-	YellPullCoven		= "Сейчас ваша плоть зашипит на огне." --¡Quiero veros arder!
-})
---Nadie huye de las sombras.
 --------------
 -- Aggramar --
 --------------
@@ -141,7 +158,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	YellPullAggramar = "¡Arderéis!",
+--	YellPullAggramar = "¡Arderéis!",
 	Foe			=	"Doma",
 	Rend		=	"Desgarro",
 	Tempest 	=	"Tempestad",
@@ -162,7 +179,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	YellPullArgus = "¡Muerte! ¡Muerte y dolor!",
+--	YellPullArgus = "¡Muerte! ¡Muerte y dolor!",
 	SeaText		=	"{rt6} Celeridad/Versatilidad",
 	SkyText		=	"{rt5} Crítico/Maestría",
 	Blight		=	"Añublo",
@@ -178,4 +195,17 @@ L = DBM:GetModLocalization("AntorusTrash")
 
 L:SetGeneralLocalization({
 	name =	"Enemigos menores"
+})
+--need translate
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT,
+	BossActivation = DBM_CORE_GENERIC_TIMER_ROLE_PLAY
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+})
+
+L:SetMiscLocalization({
+	RPImonar = "Halt!"
 })

@@ -1,5 +1,11 @@
 if GetLocale() ~= "koKR" then return end
+
 local L
+--------------------------------------------WARNING---------------------------------------------------
+--Do you want to help translate this module to your native language? Write to the author of this addon
+--Aleksart163#1671 (discord)
+--/w Tielle or /w Куплиняшка (in the game)
+--------------------------------------------WARNING---------------------------------------------------
 
 ---------------------------
 -- Garothi Worldbreaker --
@@ -42,13 +48,14 @@ L:SetTimerLocalization({
 })
 
 L:SetMiscLocalization({
-	Obfuscators =	"혼란자",
-	Destructors =	"파괴자",
-	Purifiers 	=	"정화자",
-	Bats 		=	"박쥐",
-	EonarHealth	= 	"이오나 생명력",
-	EonarPower	= 	"이오나 기력",
-	NextLoc		=	"다음 위치:"
+	YellPullEonar = "용사들이여! 군단의 병력이 나의 정수를 차지해 지옥불 주인에게 갖다 바치려 한다!", --
+	Obfuscators = "혼란자",
+	Destructors = "파괴자",
+	Purifiers 	= "정화자",
+	Bats 		= "박쥐",
+	EonarHealth	= "이오나 생명력",
+	EonarPower	= "이오나 기력",
+	NextLoc		= "다음 위치:"
 })
 
 ---------------------------
@@ -129,12 +136,12 @@ L:SetTimerLocalization({
 })
 
 L:SetMiscLocalization({
-	SeaText		=	"{rt6} 가속/유연",
-	SkyText		=	"{rt5} 치명/특화",
-	Blight		=	"역병",
-	Burst		=   	"분출",
-	Sentence	=	"선고",
-	Bomb		=	"폭탄"
+	SeaText		= "가속/유연",
+	SkyText		= "치명/특화",
+	Blight		= "역병",
+	Burst		= "분출",
+	Sentence	= "선고",
+	Bomb		= "폭탄"
 })
 
 -------------
@@ -143,5 +150,18 @@ L:SetMiscLocalization({
 L = DBM:GetModLocalization("AntorusTrash")
 
 L:SetGeneralLocalization({
-	name =	"안토러스 일반몹"
+	name = "안토러스 일반몹"
+})
+--need translate
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT,
+	BossActivation = DBM_CORE_GENERIC_TIMER_ROLE_PLAY
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+})
+
+L:SetMiscLocalization({
+	RPImonar = "Halt!"
 })

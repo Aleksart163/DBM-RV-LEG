@@ -67,9 +67,9 @@ local specWarnShockGrenade				= mod:NewSpecialWarningYouMoveAway(244737, nil, ni
 mod:AddTimerLine(GENERAL)
 local timerExploitWeaknessCD			= mod:NewCDTimer(8.5, 244892, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Обнаружить слабое место
 local timerShockGrenadeCD				= mod:NewCDTimer(12, 244722, nil, nil, nil, 3, nil, DBM_CORE_MYTHIC_ICON..DBM_CORE_DEADLY_ICON) --Шоковая граната
-local timerSviraxCD						= mod:NewCDTimer(93, "ej16126", nil, nil, nil, 6, 245227, DBM_CORE_TANK_ICON..DBM_CORE_DAMAGE_ICON) --Адмирал Свиракс
-local timerIshkarCD						= mod:NewCDTimer(93, "ej16128", nil, nil, nil, 6, 245227, DBM_CORE_TANK_ICON..DBM_CORE_DAMAGE_ICON) --Главный инженер Ишкар
-local timerErodusCD						= mod:NewCDTimer(93, "ej16130", nil, nil, nil, 6, 245227, DBM_CORE_TANK_ICON..DBM_CORE_DAMAGE_ICON) --Генерал Эрод
+local timerSviraxCD						= mod:NewCDTimer(93, "ej16100", nil, nil, nil, 6, 245227, DBM_CORE_TANK_ICON..DBM_CORE_DAMAGE_ICON) --Адмирал Свиракс
+local timerIshkarCD						= mod:NewCDTimer(93, "ej16116", nil, nil, nil, 6, 245227, DBM_CORE_TANK_ICON..DBM_CORE_DAMAGE_ICON) --Главный инженер Ишкар
+local timerErodusCD						= mod:NewCDTimer(93, "ej16118", nil, nil, nil, 6, 245227, DBM_CORE_TANK_ICON..DBM_CORE_DAMAGE_ICON) --Генерал Эрод
 --In Pod
 --Admiral Svirax
 mod:AddTimerLine(Svirax)
@@ -106,7 +106,6 @@ mod.vb.FusilladeCount = 0
 mod.vb.lastIcon = 1
 mod.vb.ShockGrenadeIcon = 8
 
---[[
 function mod:DemonicChargeTarget(targetname, uId)
 	if not targetname then return end
 	if targetname == UnitName("player") then
@@ -115,13 +114,13 @@ function mod:DemonicChargeTarget(targetname, uId)
 			specWarnDemonicChargeYou:Play("runaway")
 			yellDemonicCharge:Yell()
 		end
-	elseif self:AntiSpam(3.5, 2) and self:CheckNearby(10, targetname) then --AntiSpam(3.5, 2)
+	elseif self:AntiSpam(3.5, 2) and self:CheckNearby(10, targetname) then
 		specWarnDemonicCharge:Show(targetname)
 		specWarnDemonicCharge:Play("watchstep")
 	else
 		warnDemonicCharge:Show(targetname)
 	end
-end]]
+end
 
 function mod:OnCombatStart(delay)
 	self.vb.FusilladeCount = 0
@@ -170,8 +169,8 @@ function mod:SPELL_CAST_START(args)
 			specWarnPyroblast:Show(args.sourceName)
 			specWarnPyroblast:Play("kickcast")
 		end
---[[	elseif spellId == 253040 then
-		self:BossTargetScanner(args.sourceGUID, "DemonicChargeTarget", 0.2, 9)]]
+	elseif spellId == 253040 then
+		self:BossTargetScanner(args.sourceGUID, "DemonicChargeTarget", 0.2, 9)
 	elseif spellId == 245227 then --Принять командование (начало каста)
 		if not UnitIsDeadOrGhost("player") then
 			specWarnAssumeCommand:Show()
@@ -257,7 +256,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 			timerIshkarCD:Start() --таймер до Главный инженер Ишкар
 		end
 		countdownAssumeCommand:Start(90)
-	elseif spellId == 253037 then
+--[[	elseif spellId == 253037 then
 		if args:IsPlayer() then
 			specWarnDemonicChargeYou:Show()
 			specWarnDemonicChargeYou:Play("runaway")
@@ -267,7 +266,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 			specWarnDemonicCharge:Play("watchstep")
 		else
 			warnDemonicCharge:Show(args.destName)
-		end
+		end]]
 	end
 end
 

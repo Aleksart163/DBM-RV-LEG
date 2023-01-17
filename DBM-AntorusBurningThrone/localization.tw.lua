@@ -1,5 +1,11 @@
 if GetLocale() ~= "zhTW" then return end
+
 local L
+--------------------------------------------WARNING---------------------------------------------------
+--Do you want to help translate this module to your native language? Write to the author of this addon
+--Aleksart163#1671 (discord)
+--/w Tielle or /w Куплиняшка (in the game)
+--------------------------------------------WARNING---------------------------------------------------
 
 ---------------------------
 -- Garothi Worldbreaker --
@@ -12,7 +18,7 @@ L= DBM:GetModLocalization(1992)
 L= DBM:GetModLocalization(1987)
 
 L:SetOptionLocalization({
-	SequenceTimers =	"在英雄/傳奇難度下序列的冷卻計時器關閉先前的技能施放而不是當前的技能，以減少計時器雜亂，這犧牲計時器的準確性。(快1-2秒)"
+	SequenceTimers = "在英雄/傳奇難度下序列的冷卻計時器關閉先前的技能施放而不是當前的技能，以減少計時器雜亂，這犧牲計時器的準確性。(快1-2秒)"
 })
 
 ---------------------------
@@ -26,20 +32,21 @@ L= DBM:GetModLocalization(1997)
 L= DBM:GetModLocalization(2025)
 
 L:SetTimerLocalization({
-	timerObfuscator		=	"下一次匿蹤者(%s)",
-	timerDestructor 	=	"下一次毀滅者(%s)",
-	timerPurifier 		=	"下一次淨化者(%s)",
-	timerBats	 		=	"下一次風掣魔蝠(%s)"
+	timerObfuscator		= "下一次匿蹤者(%s)",
+	timerDestructor 	= "下一次毀滅者(%s)",
+	timerPurifier 		= "下一次淨化者(%s)",
+	timerBats	 		= "下一次風掣魔蝠(%s)"
 })
 
 L:SetMiscLocalization({
-	Obfuscators =	"匿蹤者",
-	Destructors =	"毀滅者",
-	Purifiers 	=	"淨化者",
-	Bats 		=	"風掣魔蝠",
-	EonarHealth	= 	"伊歐娜體力",
-	EonarPower	= 	"伊歐娜能量",
-	NextLoc		=	"下一次:"
+	YellPullEonar = "勇士們！燃燒軍團的惡魔想奪走我的生命精華，交給它們的主人！", --
+	Obfuscators = "匿蹤者",
+	Destructors = "毀滅者",
+	Purifiers 	= "淨化者",
+	Bats 		= "風掣魔蝠",
+	EonarHealth	= "伊歐娜體力",
+	EonarPower	= "伊歐娜能量",
+	NextLoc		= "下一次:"
 })
 
 ---------------------------
@@ -57,7 +64,7 @@ L:SetOptionLocalization({
 L= DBM:GetModLocalization(2009)
 
 L:SetMiscLocalization({
-	DispelMe =		"快驅散我！"
+	DispelMe = "快驅散我！"
 })
 
 ---------------------------
@@ -135,4 +142,17 @@ L = DBM:GetModLocalization("AntorusTrash")
 
 L:SetGeneralLocalization({
 	name =	"安托洛斯小怪"
+})
+--need translate
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT,
+	BossActivation = DBM_CORE_GENERIC_TIMER_ROLE_PLAY
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+})
+
+L:SetMiscLocalization({
+	RPImonar = "Halt!"
 })

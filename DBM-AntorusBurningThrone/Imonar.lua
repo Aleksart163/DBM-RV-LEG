@@ -284,54 +284,48 @@ end
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 247367 or spellId == 250255 then --Копье-шокер
-		local uId = DBM:GetRaidUnitId(args.destName)
-		if self:IsTanking(uId) then
-			local amount = args.amount or 1
-			if spellId == 247367 and amount >= 3 then
-				if args:IsPlayer() then
-					specWarnShocklance2:Show(amount)
-					specWarnShocklance2:Play("stackhigh")
-				else
-					local _, _, _, _, _, _, expireTime = DBM:UnitDebuff("player", spellId)
-					local remaining
-					if expireTime then
-						remaining = expireTime-GetTime()
-					end
-					if not UnitIsDeadOrGhost("player") and (not remaining or remaining and remaining < 4) then
-						specWarnShocklance:Show(args.destName)
-						specWarnShocklance:Play("tauntboss")
-					else
-						warnShocklance:Show(args.destName, amount)
-					end
-				end
+		local amount = args.amount or 1
+		if spellId == 247367 and amount >= 3 then
+			if args:IsPlayer() then
+				specWarnShocklance2:Show(amount)
+				specWarnShocklance2:Play("stackhigh")
 			else
-				warnShocklance:Show(args.destName, amount)
+				local _, _, _, _, _, _, expireTime = DBM:UnitDebuff("player", spellId)
+				local remaining
+				if expireTime then
+					remaining = expireTime-GetTime()
+				end
+				if not UnitIsDeadOrGhost("player") and (not remaining or remaining and remaining < 4) then
+					specWarnShocklance:Show(args.destName)
+					specWarnShocklance:Play("tauntboss")
+				else
+					warnShocklance:Show(args.destName, amount)
+				end
 			end
+		else
+			warnShocklance:Show(args.destName, amount)
 		end
 	elseif spellId == 247687 then --Рассечение
-		local uId = DBM:GetRaidUnitId(args.destName)
-		if self:IsTanking(uId) then
-			local amount = args.amount or 1
-			if amount >= 2 then
-				if args:IsPlayer() then
-					specWarnSever2:Show(amount)
-					specWarnSever2:Play("stackhigh")
-				else
-					local _, _, _, _, _, _, expireTime = DBM:UnitDebuff("player", spellId)
-					local remaining
-					if expireTime then
-						remaining = expireTime-GetTime()
-					end
-					if not UnitIsDeadOrGhost("player") and (not remaining or remaining and remaining < 7) then
-						specWarnSever:Show(args.destName)
-						specWarnSever:Play("tauntboss")
-					else
-						warnSever:Show(args.destName, amount)
-					end
-				end
+		local amount = args.amount or 1
+		if amount >= 2 then
+			if args:IsPlayer() then
+				specWarnSever2:Show(amount)
+				specWarnSever2:Play("stackhigh")
 			else
-				warnSever:Show(args.destName, amount)
+				local _, _, _, _, _, _, expireTime = DBM:UnitDebuff("player", spellId)
+				local remaining
+				if expireTime then
+					remaining = expireTime-GetTime()
+				end
+				if not UnitIsDeadOrGhost("player") and (not remaining or remaining and remaining < 7) then
+					specWarnSever:Show(args.destName)
+					specWarnSever:Play("tauntboss")
+				else
+					warnSever:Show(args.destName, amount)
+				end
 			end
+		else
+			warnSever:Show(args.destName, amount)
 		end
 	elseif spellId == 255029 then--Sleep Canister Stun Effect
 		if args:IsPlayer() then
@@ -383,7 +377,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				specWarnShocked:Show(amount)
 				specWarnShocked:Play("stackhigh")
 			end
-		elseif amount >= 5 and self:IsTank() then
+		elseif amount >= 4 and self:IsTank() then
 			if args:IsPlayer() then
 				specWarnShocked:Show(amount)
 				specWarnShocked:Play("stackhigh")

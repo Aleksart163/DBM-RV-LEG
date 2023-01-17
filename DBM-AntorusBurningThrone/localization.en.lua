@@ -49,7 +49,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
---	YellPullEonar = "Champions! The forces of the Legion seek to capture my essense for their infernal master!",
+	YellPullEonar = "Champions! The forces of the Legion seek to capture my essense for their infernal master!",
 	Obfuscators = "Obfuscator",
 	Destructors = "Destructor",
 	Purifiers 	= "Purifier",
@@ -205,8 +205,8 @@ L:SetOptionLocalization({
 
 L:SetMiscLocalization({
 --	YellPullArgus = "Death! Death and pain!",
-	SeaText		= "{rt6} Haste/Vers on %s",
-	SkyText		= "{rt5} Crit/Mast on %s",
+	SeaText		= "Haste/Vers on %s",
+	SkyText		= "Crit/Mast on %s",
 	Blight		= "Blight on %s",
 	Burst		= "Burst on me!",
 	Sentence	= "Sentence on %s",

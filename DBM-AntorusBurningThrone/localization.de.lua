@@ -1,6 +1,11 @@
 if GetLocale() ~= "deDE" then return end
 
 local L
+--------------------------------------------WARNING---------------------------------------------------
+--Do you want to help translate this module to your native language? Write to the author of this addon
+--Aleksart163#1671 (discord)
+--/w Tielle or /w Куплиняшка (in the game)
+--------------------------------------------WARNING---------------------------------------------------
 
 ---------------------------
 -- Garothi Worldbreaker --
@@ -14,7 +19,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	YellPullGarothi = "Feindliche Kombattanten registriert. Bedrohung nominal."
+--	YellPullGarothi = "Feindliche Kombattanten registriert. Bedrohung nominal."
 })
 
 ---------------------------
@@ -32,7 +37,7 @@ L:SetOptionLocalization({
 L= DBM:GetModLocalization(1997)
 
 L:SetMiscLocalization({
-	YellPullCouncil	= "Von dieser Begegnung werdet Ihr nicht mehr erzählen können."
+--	YellPullCouncil	= "Von dieser Begegnung werdet Ihr nicht mehr erzählen können."
 })
 
 ---------------------------
@@ -41,21 +46,21 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(2025)
 
 L:SetTimerLocalization({
-	timerObfuscator		=	"Nächster Verdunkler (%s)",
-	timerDestructor 	=	"Nächster Zerstörer (%s)",
-	timerPurifier 		=	"Nächster Läuterer (%s)",
-	timerBats	 		=	"Nächste Fledermäuse (%s)"
+	timerObfuscator		= "Nächster Verdunkler (%s)",
+	timerDestructor 	= "Nächster Zerstörer (%s)",
+	timerPurifier 		= "Nächster Läuterer (%s)",
+	timerBats	 		= "Nächste Fledermäuse (%s)"
 })
 
 L:SetMiscLocalization({
 	YellPullEonar = "Champions! Die Streitmacht der Legion versucht, meine Essenz für ihren infernalen Meister zu stehlen!",
-	Obfuscators =	"Verdunkler",
-	Destructors =	"Zerstörer",
-	Purifiers 	=	"Läuterer",
-	Bats 		=	"Fledermäuse",
-	EonarHealth	= 	"Eonar Leben",
-	EonarPower	= 	"Eonar Energie",
-	NextLoc		=	"Nächste:"
+	Obfuscators = "Verdunkler",
+	Destructors = "Zerstörer",
+	Purifiers 	= "Läuterer",
+	Bats 		= "Fledermäuse",
+	EonarHealth	= "Eonar Leben",
+	EonarPower	= "Eonar Energie",
+	NextLoc		= "Nächste:"
 })
 
 ---------------------------
@@ -66,13 +71,14 @@ L= DBM:GetModLocalization(1985)
 L:SetOptionLocalization({
 	ShowAllPlatforms =	"Zeige alle Ansagen unabhängig von der Spielerplattform"
 })
-
+--[[
 L:SetMiscLocalization({
 	YellPullHasabel = "Mehr konntet Ihr nicht aufbringen? Ha. Jämmerlich.",
 	YellPullHasabel2 = "Euer Krieg endet hier.",
 	YellPullHasabel3 = "Die Legion vernichtet jeden, der sich ihr widersetzt!"
 --	YellPullHasabel4 = "Нам покорились все миры. Ваш – следующий."
 })
+--]]
 
 ---------------------------
 -- Imonar the Soulhunter --
@@ -80,10 +86,10 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(2009)
 --https://diealdor.fandom.com/wiki/Antorus,_der_Brennende_Thron#Imonar
 L:SetMiscLocalization({
-	DispelMe = "Reinige mich!",
-	YellPullImonar = "Eure Knochen werden mich reich machen.",
-	YellPullImonar2 = "Eure Köpfe werden mein Trophäenzimmer zieren.",
-	YellPullImonar3 = "Ich denke, ein paar Teile von Euch behalte ich als Trophäen."
+--	YellPullImonar = "Eure Knochen werden mich reich machen.",
+--	YellPullImonar2 = "Eure Köpfe werden mein Trophäenzimmer zieren.",
+--	YellPullImonar3 = "Ich denke, ein paar Teile von Euch behalte ich als Trophäen.",
+	DispelMe = "Reinige mich!"
 })
 --Eure Knochen werden mich reich machen.
 ---------------------------
@@ -95,22 +101,24 @@ L:SetOptionLocalization({
 	InfoFrame =	"Zeige Infofenster für Kampfübersicht",
 	UseAddTime = "Zeige, während der Boss sich in der Bauphase befindet, weiterhin die Timer zur Anzeige was als Nächstes kommt, anstatt sie zu verstecken (falls deaktiviert, werden die korrekten Timer fortgesetzt, wenn der Boss wieder aktiv wird, bieten aber ggf. nur eine geringe Vorwarnzeit, falls Fähigkeiten in 1-2 Sekunden wieder verfügbar sein sollten)"
 })
-
+--[[
 L:SetMiscLocalization({
-	YellPullKingaroth = "An die Arbeit.", --прошляпанное очко кондибобра
+	YellPullKingaroth = "An die Arbeit.",
 	YellPullKingaroth2 = "Ihr plant wirklich, mit diesen armseligen Waffen meine Maschinen zu bezwingen?",
 	YellPullKingaroth3 = "Euch demontiere ich im Handumdrehen."
 })
---CiznHWgehbA
+--]]
+
 ---------------------------
 -- Varimathras --
 ---------------------------
 L= DBM:GetModLocalization(1983)
-
+--[[
 L:SetMiscLocalization({
 	YellPullVarimathras = "Dann kommt. Vergelten wir Schmerz mit Schmerz!",
 	YellPullVarimathras2 = "Zieht Eure Klingen! Ich werde Euch wahre Qualen zeigen!"
 })
+--]]
 
 ---------------------------
 -- The Coven of Shivarra --
@@ -134,10 +142,11 @@ L:SetOptionLocalization({
 	Five				= "5-Personen-Rotation",
 	IgnoreFirstKick		= "Allererste Unterbrechung bei der Rotation nicht berücksichtigen (nur als Schlachtzugsleiter)"
 })
-
+--[[
 L:SetMiscLocalization({
 	YellPullCoven		= "Ich möchte Eure Glieder schmoren sehen!" --на всякий случай потом погуглить и проверить
 })
+--]]
 
 ---------------------------
 -- Aggramar --
@@ -149,7 +158,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	YellPullAggramar = "Ihr... werdet... brennen!", -- или Die Flammen werden Euch verzehren!
+--	YellPullAggramar = "Ihr... werdet... brennen!", -- или Die Flammen werden Euch verzehren!
 	Foe			=	"Brecher",
 	Rend		=	"Schnitt",
 	Tempest 	=	"Sturm",
@@ -166,7 +175,7 @@ L:SetTimerLocalization({
 })
 
 L:SetMiscLocalization({
-	YellPullArgus = "Tod! Tod und Schmerz!", --привет прошляпанному очку пелии
+--	YellPullArgus = "Tod! Tod und Schmerz!", --привет прошляпанному очку пелии
 	SeaText		=	"{rt6} Tempo/Viels",
 	SkyText		=	"{rt5} Krit/Meist",
 	Blight		=	"Seuche",
@@ -182,4 +191,17 @@ L = DBM:GetModLocalization("AntorusTrash")
 
 L:SetGeneralLocalization({
 	name =	"Trash des Antorus"
+})
+
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT,
+	BossActivation = DBM_CORE_GENERIC_TIMER_ROLE_PLAY
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+})
+
+L:SetMiscLocalization({
+	RPImonar = "Halt!"
 })

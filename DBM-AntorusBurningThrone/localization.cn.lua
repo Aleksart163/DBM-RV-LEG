@@ -1,6 +1,11 @@
 if GetLocale() ~= "zhCN" then return end
 
 local L
+--------------------------------------------WARNING---------------------------------------------------
+--Do you want to help translate this module to your native language? Write to the author of this addon
+--Aleksart163#1671 (discord)
+--/w Tielle or /w Куплиняшка (in the game)
+--------------------------------------------WARNING---------------------------------------------------
 
 ---------------------------
 -- Garothi Worldbreaker --
@@ -43,6 +48,7 @@ L:SetTimerLocalization({
 })
 
 L:SetMiscLocalization({
+	YellPullEonar = "勇士们！军团想为他们那可怕的主人来捕获我的精华！",
 	Obfuscators =	"邪能干扰器", --需要T
 	Destructors =	"注邪毁灭者", --减速
 	Purifiers	=	"邪能净化者",
