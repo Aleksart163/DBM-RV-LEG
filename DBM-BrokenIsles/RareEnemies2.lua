@@ -151,37 +151,37 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 223637 then --Разлом Скверны
 		local cid = self:GetCIDFromGUID(args.sourceGUID)
-		if (cid == 117066 or cid == 117420 or cid == 118017 or cid == 117060 or cid == 117059 or cid == 118016 or cid == 120310 or cid == 118013 or cid == 117061) then -- 117061 навязанный разрабами
+		if cid == 117066 or cid == 117420 or cid == 118017 or cid == 117060 or cid == 117059 or cid == 118016 or cid == 120310 or cid == 118013 or cid == 117061 then -- 117061 навязанный разрабами
 			specWarnFelFissure:Show()
 			specWarnFelFissure:Play("watchstep")
 		end
 	elseif spellId == 223693 then --Истинный Хаос
 		local cid = self:GetCIDFromGUID(args.sourceGUID)
-		if (cid == 117066 or cid == 117420 or cid == 118017 or cid == 117060 or cid == 117059 or cid == 118016 or cid == 120310 or cid == 118013 or cid == 117061) then -- 117061 навязанный разрабами
+		if cid == 117066 or cid == 117420 or cid == 118017 or cid == 117060 or cid == 117059 or cid == 118016 or cid == 120310 or cid == 118013 or cid == 117061 then -- 117061 навязанный разрабами
 			specWarnTrueChaos:Show()
 			specWarnTrueChaos:Play("kickcast")
 		end
 	elseif spellId == 239513 then --Огненный шар
 		local cid = self:GetCIDFromGUID(args.sourceGUID)
-		if (cid == 117065 or cid == 117969 or cid == 120126 or cid == 117991 or cid == 117067 or cid == 117970 or cid == 117973) then --
+		if cid == 117065 or cid == 117969 or cid == 120126 or cid == 117991 or cid == 117067 or cid == 117970 or cid == 117973 then --
 			specWarnFireball:Show()
 			specWarnFireball:Play("kickcast")
 		end
 	elseif spellId == 240095 then --Огненный ливень
 		local cid = self:GetCIDFromGUID(args.sourceGUID)
-		if (cid == 117065 or cid == 117039 or cid == 117969 or cid == 117040 or cid == 117991 or cid == 117067 or cid == 117035 or cid == 117970 or cid == 118006 or cid == 117038 or cid == 117973 or cid == 117036) then --
+		if cid == 117065 or cid == 117039 or cid == 117969 or cid == 117040 or cid == 117991 or cid == 117067 or cid == 117035 or cid == 117970 or cid == 118006 or cid == 117038 or cid == 117973 or cid == 117036 then --
 			specWarnRainofFire:Show()
 			specWarnRainofFire:Play("watchstep")
 		end
 	elseif spellId == 240126 then --Грохочущий топот
 		local cid = self:GetCIDFromGUID(args.sourceGUID)
-		if (cid == 117040 or cid == 117035 or cid == 118006 or cid == 117038 or cid == 117036) then --
+		if cid == 117040 or cid == 117035 or cid == 118006 or cid == 117038 or cid == 117036 then --
 			specWarnThunderingStomp:Show()
 			specWarnThunderingStomp:Play("watchstep")
 		end
 	elseif spellId == 238586 then --Полный ненависти удар
 		local cid = self:GetCIDFromGUID(args.sourceGUID)
-		if (cid == 117039 or cid == 116955 or cid == 117048 or cid == 117049 or cid == 117964 or cid == 117047 or cid == 117959 or cid == 117962 or cid == 117053 or cid == 117967) then --
+		if cid == 117039 or cid == 116955 or cid == 117048 or cid == 117049 or cid == 117964 or cid == 117047 or cid == 117959 or cid == 117962 or cid == 117053 or cid == 117967 then --
 			self:BossTargetScanner(args.sourceGUID, "hatefulSmashTarget", 0.1, 2)
 		end
 	elseif spellId == 195493 then --Расколотая руна
@@ -285,7 +285,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
 	if spellId == 205259 then --Слепящее адское пламя
 		local cid = self:GetCIDFromGUID(args.sourceGUID)
-		if (cid == 117055 or cid == 117054) then
+		if cid == 117055 or cid == 117054 then
 			specWarnBlazingHellfire:Show()
 			specWarnBlazingHellfire:Play("kickcast")
 			timerBlazingHellfireCD:Start()

@@ -123,20 +123,3 @@ L:SetOptionLocalization({
 L:SetTimerLocalization({
 	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
 })
-
-------------------
---rare enemies 3--
-------------------
-L = DBM:GetModLocalization("RareEnemies3")
-
-L:SetGeneralLocalization({
-	name = "Very dangerous enemies on Argus"
-})
-
-L:SetWarningLocalization({
-	Proshlyap = "Тут будет новый прошляп очка Мурчаля"
-})
-
-L:SetOptionLocalization({
-	Proshlyap = "Спец-предупреждение при прошляпе очка Мурчаля"
-})

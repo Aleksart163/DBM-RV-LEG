@@ -125,12 +125,3 @@ L:SetOptionLocalization({
 L:SetTimerLocalization({
 	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
 })
-
-------------------
---rare enemies 3--
-------------------
-L = DBM:GetModLocalization("RareEnemies3")
-
-L:SetGeneralLocalization({
-	name = "阿格斯上非常危险的敌人" --right?
-})

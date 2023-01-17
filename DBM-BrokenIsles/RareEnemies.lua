@@ -347,9 +347,12 @@ function mod:SPELL_CAST_START(args)
 			specWarnFlrglDrglDrglGrgl:Play("kickcast")
 		end
 	elseif spellId == 222596 then --Залп клинков
-		specWarnBladeBarrage:Show()
-		specWarnBladeBarrage:Play("kickcast")
-		timerBladeBarrageCD:Start()
+		local cid = self:GetCIDFromGUID(args.sourceGUID)
+		if (cid == 103975 or cid == 111939) then
+			specWarnBladeBarrage:Show()
+			specWarnBladeBarrage:Play("kickcast")
+			timerBladeBarrageCD:Start()
+		end
 	elseif spellId == 223101 then --Зачарованный яд
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnEnchantedVenom:Show()
@@ -577,7 +580,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnWebWrap:Play("mobkill")
 		end
 	elseif spellId == 219102 then --Уязвимое место
-		specWarnExposedCore:Show()
+		specWarnExposedCore:Show(args.destName)
 		timerExposedCoreCD:Start()
 	elseif spellId == 219087 then --Форсаж
 		self:BossTargetScanner(args.sourceGUID, "OverdriveTarget", 0.1, 2)

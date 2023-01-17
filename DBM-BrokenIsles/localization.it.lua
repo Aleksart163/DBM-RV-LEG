@@ -125,16 +125,3 @@ L:SetOptionLocalization({
 L:SetTimerLocalization({
 	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
 })
-
-L:SetMiscLocalization({
---	PullSkulvrax = "I... survived the fall."
-})
-
-------------------
---rare enemies 3--
-------------------
-L = DBM:GetModLocalization("RareEnemies3")
-
-L:SetGeneralLocalization({
-	name = "Nemici molto pericolosi su Argus"
-})
