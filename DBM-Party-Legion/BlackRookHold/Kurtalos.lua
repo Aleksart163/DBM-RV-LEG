@@ -13,7 +13,7 @@ mod:RegisterCombat("combat")
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 198820 199143 199193 202019 198641 201733",
 	"SPELL_CAST_SUCCESS 198635 201733",
-	"SPELL_AURA_APPLIED 201733",
+	"SPELL_AURA_APPLIED 201733 199368",
 	"SPELL_AURA_REMOVED 199193 201733",
 	"CHAT_MSG_MONSTER_SAY",
 	"UNIT_HEALTH",
@@ -38,6 +38,7 @@ local specWarnGuileEnded			= mod:NewSpecialWarningEnd(199193, nil, nil, nil, 1, 
 local specWarnSwarm					= mod:NewSpecialWarningYou(201733, nil, nil, nil, 3, 6) --Жалящий рой
 local specWarnSwarm2				= mod:NewSpecialWarningSwitch(201733, "-Healer", nil, nil, 1, 2) --Жалящий рой
 local specWarnShadowBolt			= mod:NewSpecialWarningDefensive(202019, nil, nil, nil, 3, 6) --Залп стрел Тьмы
+local specWarnLegacyRavencrest		= mod:NewSpecialWarningYou(199368, nil, nil, nil, 1, 2) --Наследие Гребня Ворона
 
 local timerDarkBlastCD				= mod:NewCDTimer(18, 198820, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Темный взрыв
 local timerUnerringShearCD			= mod:NewCDTimer(12, 198635, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Неумолимый удар
@@ -184,6 +185,11 @@ function mod:SPELL_AURA_APPLIED(args)
 	if spellId == 201733 then --Жалящий рой
 		if self.Options.SetIconOnSwarm then
 			self:SetIcon(args.destName, 8)
+		end
+	elseif spellId == 199368 then --Наследие Гребня Ворона
+		if args:IsPlayer() then
+			specWarnLegacyRavencrest:Show()
+			specWarnLegacyRavencrest:Play("targetyou")
 		end
 	end
 end

@@ -22,7 +22,7 @@ local warnRadiationLevel			= mod:NewStackAnnounce(195034, 4, nil, nil, 2) --Ур
 local warnFocused					= mod:NewSoonAnnounce(194289, 1) --Фокусировка
 
 local specWarnGaze					= mod:NewSpecialWarningDodge(194942, nil, nil, nil, 2, 2) --Подавляющий взгляд
-local specWarnBeamed				= mod:NewSpecialWarningMoreDamage(194333, "-Healer", nil, nil, 1, 2) --Облучение
+local specWarnBeamed				= mod:NewSpecialWarningMoreDamage(194333, "-Healer", nil, nil, 3, 2) --Облучение
 local specWarnFocused				= mod:NewSpecialWarningSwitch(194289, nil, nil, nil, 2, 2) --Фокусировка
 local specWarnGazeGTFO				= mod:NewSpecialWarningYouMove(194945, nil, nil, nil, 1, 2) --Подавляющий взгляд
 
@@ -79,7 +79,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerBeamed:Start(args.destName)
 		timerFocused:Stop()
 		if not UnitIsDeadOrGhost("player") then
-			specWarnBeamed:Show()
+			specWarnBeamed:Show(args.destName)
 		end
 		timerFocusedCD:Start()
 		countdownFocused:Start()

@@ -64,7 +64,7 @@ end
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 243113 then --Темная ярость
-		specWarnDarkFury:Show()
+		specWarnDarkFury:Show(args.destName)
 		specWarnDarkFury:Play("attackshield")
 		if self.vb.phase == 2 then
 			timerDarkFuryCD:Start(68)

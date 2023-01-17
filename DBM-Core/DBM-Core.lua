@@ -44,9 +44,9 @@
 ----------------------------------------------------------------
 --
 DBM = {
-	Revision = tonumber(("$Revision: 17690 $"):sub(12, -3)), --прошляпанное очко Мурчаля ✔
+	Revision = tonumber(("$Revision: 17691 $"):sub(12, -3)), --прошляпанное очко Мурчаля ✔
 	DisplayVersion = "7.3.42 Right Version",
-	ReleaseRevision = 17689
+	ReleaseRevision = 17690
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -8060,10 +8060,10 @@ do
 		["SpellCaster"] = true,--Has channeled casts, can be interrupted/spell locked by roars, etc, include healers. Use CasterDps if dealing with reflect
 		["CasterDps"] = true,--Ranged dps that uses spells, relevant for spell reflect type abilities that only reflect spells but not ranged physical such as hunters
 		["RaidCooldown"] = true,
-		["RemovePoison"] = true,--from ally
+		["PoisonDispeller"] = true,--from ally
 		["RemoveDisease"] = true,--from ally
 		["RemoveEnrage"] = true,--Unused, no one can remove enrage anymore, returning in classic/8.x!
-		["RemoveCurse"] = true,--from ally
+		["CurseDispeller"] = true,--from ally
 		["MagicDispeller"] = true--диспел с врагов от бафов, все кроме хиллеров. from ENEMY, not debuffs on players. use "Healer" for ally magic dispels. ALL healers can do that.
 		["MagicDispeller2"] = true--диспел с союзников от дебаффов. Хилеры и другие спеки
 		["HasInterrupt"] = true,--Has an interrupt that is 24 seconds or less CD that is BASELINE (not a talent)
@@ -8089,7 +8089,7 @@ do
 			["ManaUser"] = true,
 			["SpellCaster"] = true,
 			["RaidCooldown"] = true,--Devotion Aura
-			["RemovePoison"] = true,
+			["PoisonDispeller"] = true,
 			["RemoveDisease"] = true,
 			["HasImmunity"] = true,
 			["MagicDispeller2"] = true,
@@ -8099,7 +8099,7 @@ do
 			["Melee"] = true,
 			["ManaUser"] = true,
 			["Physical"] = true,
-			["RemovePoison"] = true,
+			["PoisonDispeller"] = true,
 			["RemoveDisease"] = true,
 			["HasInterrupt"] = true,
 			["HasImmunity"] = true,
@@ -8110,7 +8110,7 @@ do
 			["MeleeDps"] = true,
 			["ManaUser"] = true,
 			["Physical"] = true,
-			["RemovePoison"] = true,
+			["PoisonDispeller"] = true,
 			["RemoveDisease"] = true,
 			["HasInterrupt"] = true,
 		},
@@ -8136,8 +8136,8 @@ do
 			["ManaUser"] = true,
 			["SpellCaster"] = true,
 			["CasterDps"] = true,
-			["RemoveCurse"] = true,
-			["RemovePoison"] = true,
+			["CurseDispeller"] = true,
+			["PoisonDispeller"] = true,
 			["HasInterrupt"] = true,
 		},
 		[103] = {	--Ферал
@@ -8145,16 +8145,16 @@ do
 			["Melee"] = true,
 			["MeleeDps"] = true,
 			["Physical"] = true,
-			["RemoveCurse"] = true,
-			["RemovePoison"] = true,
+			["CurseDispeller"] = true,
+			["PoisonDispeller"] = true,
 			["HasInterrupt"] = true,
 		},
 		[104] = {	--Медведь
 			["Tank"] = true,
 			["Melee"] = true,
 			["Physical"] = true,
-			["RemoveCurse"] = true,
-			["RemovePoison"] = true,
+			["CurseDispeller"] = true,
+			["PoisonDispeller"] = true,
 			["HasInterrupt"] = true,
 		},
 		[105] = {	--Дерево
@@ -8163,8 +8163,8 @@ do
 			["ManaUser"] = true,
 			["SpellCaster"] = true,
 			["RaidCooldown"] = true,--Tranquility
-			["RemoveCurse"] = true,
-			["RemovePoison"] = true,
+			["CurseDispeller"] = true,
+			["PoisonDispeller"] = true,
 			["MagicDispeller2"] = true,
 		},
 		[250] = {	--Блад дк
@@ -8231,7 +8231,7 @@ do
 			["ManaUser"] = true,
 			["SpellCaster"] = true,
 			["CasterDps"] = true,
-			["RemoveCurse"] = true,
+			["CurseDispeller"] = true,
 			["MagicDispeller"] = true,
 			["HasInterrupt"] = true,
 		},
@@ -8242,7 +8242,7 @@ do
 			["ManaUser"] = true,
 			["SpellCaster"] = true,
 			["Physical"] = true,
-			["RemoveCurse"] = true,
+			["CurseDispeller"] = true,
 			["MagicDispeller"] = true,
 			["HasInterrupt"] = true,
 		},
@@ -8252,7 +8252,7 @@ do
 			["ManaUser"] = true,
 			["SpellCaster"] = true,
 			["RaidCooldown"] = true,--Spirit Link Totem
-			["RemoveCurse"] = true,
+			["CurseDispeller"] = true,
 			["MagicDispeller"] = true,
 			["HasInterrupt"] = true,
 			["MagicDispeller2"] = true,
@@ -8271,7 +8271,7 @@ do
 			["Tank"] = true,
 			["Melee"] = true,
 			["Physical"] = true,
-			["RemovePoison"] = true,
+			["PoisonDispeller"] = true,
 			["RemoveDisease"] = true,
 			["HasInterrupt"] = true,
 		},
@@ -8280,7 +8280,7 @@ do
 			["Melee"] = true,
 			["MeleeDps"] = true,
 			["Physical"] = true,
-			["RemovePoison"] = true,
+			["PoisonDispeller"] = true,
 			["RemoveDisease"] = true,
 			["HasInterrupt"] = true,
 		},
@@ -8291,7 +8291,7 @@ do
 			["ManaUser"] = true,
 			["SpellCaster"] = true,
 			["RaidCooldown"] = true,--Revival
-			["RemovePoison"] = true,
+			["PoisonDispeller"] = true,
 			["RemoveDisease"] = true,
 			["MagicDispeller2"] = true,
 		},
@@ -8461,7 +8461,7 @@ do
 		if not currentSpecID then
 			DBM:SetCurrentSpecInfo()
 		end
-		if specRoleTable[currentSpecID]["RemovePoison"] then
+		if specRoleTable[currentSpecID]["PoisonDispeller"] then
 			return true
 		else
 			return false
@@ -8483,7 +8483,7 @@ do
 		if not currentSpecID then
 			DBM:SetCurrentSpecInfo()
 		end
-		if specRoleTable[currentSpecID]["RemoveCurse"] then
+		if specRoleTable[currentSpecID]["CurseDispeller"] then
 			return true
 		else
 			return false

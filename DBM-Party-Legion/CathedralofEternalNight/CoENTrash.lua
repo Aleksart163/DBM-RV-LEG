@@ -26,8 +26,8 @@ local warnAlluringAroma2		= mod:NewTargetAnnounce(237391, 2) --Манящий а
 
 local specWarnVenomousPool		= mod:NewSpecialWarningYouMove(213124, nil, nil, nil, 1, 2) --Ядовитая лужа
 local specWarnSinisterFangs		= mod:NewSpecialWarningStack(236954, nil, 2, nil, nil, 1, 3) --Зловещие клыки
-local specWarnSinisterFangs2	= mod:NewSpecialWarningDispel(236954, "RemovePoison", nil, nil, 1, 3) --Зловещие клыки
-local specWarnSinisterFangs3	= mod:NewSpecialWarningYouDispel(236954, "RemovePoison", nil, nil, 1, 3) --Зловещие клыки
+local specWarnSinisterFangs2	= mod:NewSpecialWarningDispel(236954, "PoisonDispeller", nil, nil, 1, 3) --Зловещие клыки
+local specWarnSinisterFangs3	= mod:NewSpecialWarningYouDispel(236954, "PoisonDispeller", nil, nil, 1, 3) --Зловещие клыки
 local specWarnAlluringAroma2	= mod:NewSpecialWarningDispel(237391, "MagicDispeller2", nil, nil, 1, 3) --Манящий аромат
 local specWarnFelRejuvenation	= mod:NewSpecialWarningInterrupt(237558, "HasInterrupt", nil, nil, 3, 2) --Омоложение Скверной
 local specWarnBlisteringRain	= mod:NewSpecialWarningInterrupt(237565, "HasInterrupt", nil, nil, 3, 6) --Обжигающий дождь
@@ -49,7 +49,7 @@ local specWarnTomeSilence		= mod:NewSpecialWarningSwitch(239161, "-Healer", nil,
 local specWarnFelblazeOrb		= mod:NewSpecialWarningDodge(239320, nil, nil, nil, 1, 2) --Сфера пламени Скверны
 local specWarnVenomStorm		= mod:NewSpecialWarningDodge(239266, nil, nil, nil, 2, 2) --Ядовитая буря
 
-local timerSinisterFangs		= mod:NewTargetTimer(15, 236954, nil, "Tank|RemovePoison", nil, 3, nil, DBM_CORE_POISON_ICON..DBM_CORE_HEALER_ICON) --Зловещие клыки
+local timerSinisterFangs		= mod:NewTargetTimer(15, 236954, nil, "Tank|PoisonDispeller", nil, 3, nil, DBM_CORE_POISON_ICON..DBM_CORE_HEALER_ICON) --Зловещие клыки
 local timerAlluringAroma		= mod:NewTargetTimer(8, 237391, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON) --Манящий аромат
 
 local yellSinisterFangs			= mod:NewYell(236954, nil, nil, nil, "YELL") --Зловещие клыки

@@ -794,6 +794,10 @@ L= DBM:GetModLocalization(1981)
 ---------
 L= DBM:GetModLocalization(1982)
 
+L:SetWarningLocalization({
+	WarningWardensDie = "Стражей порталов осталось: %s"
+})
+
 -------------
 --Трэш-мобы--
 -------------

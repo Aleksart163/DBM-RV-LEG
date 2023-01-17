@@ -18,13 +18,14 @@ mod:RegisterEventsInCombat(
 --	"CHAT_MSG_MONSTER_YELL",
 	"SPELL_PERIODIC_DAMAGE 245242",
 	"SPELL_PERIODIC_MISSED 245242",
---	"UNIT_DIED",
+	"UNIT_DIED",
 	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
 
 --Л'ура https://ru.wowhead.com/npc=122314/лура/эпохальный-журнал-сражений
+local warnWardenDie						= mod:NewAnnounce("WarningWardensDie", 2, 254727)
 local warnBacklash						= mod:NewTargetAnnounce(247816, 1, nil, "Healer") --Отдача
-local warnNaarusLamen					= mod:NewTargetAnnounce(248535, 2) --Стенания наару
+local warnNaarusLamen					= mod:NewTargetAnnounce(248535, 3) --Стенания наару
 local warnGrowingDarkness				= mod:NewStackAnnounce(247915, 4, nil, nil, 2) --Разрастающийся мрак
 
 local specWarnRemnantofAnguish			= mod:NewSpecialWarningYouMove(245242, nil, nil, nil, 1, 2) --Отголосок страдания
@@ -47,11 +48,15 @@ local countdownGrandShift				= mod:NewCountdown(14.5, 249009, nil, nil, 5) --М�
 mod.vb.phase = 1
 mod.vb.wardens = 0
 mod.vb.backlash = 0
+mod.vb.wardensDie = 1
+mod.vb.calltoVoid = 0
 
 function mod:OnCombatStart(delay)
 	self.vb.phase = 1
 	self.vb.wardens = 0
 	self.vb.backlash = 0
+	self.vb.wardensDie = 1
+	self.vb.calltoVoid = 0
 	if not self:IsNormal() then
 		timerFragmentOfDespairCD:Start(11)
 	else
@@ -61,12 +66,15 @@ end
 
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
-	if spellId == 247795 then
+	if spellId == 247795 then --Воззвание к Бездне
+		self.vb.calltoVoid = self.vb.calltoVoid + 1
 		if not UnitIsDeadOrGhost("player") then
 			specWarnCalltoVoid:Schedule(1.5)
 			specWarnCalltoVoid:ScheduleVoice(1.5, "mobkill")
 		end
-		--timerCalltoVoidCD:Start()
+		if self.vb.calltoVoid >= 1 then
+			warnWardenDie:Show(self.vb.wardensDie)
+		end
 	elseif spellId == 245164 and self:AntiSpam(2, 2) then
 		timerFragmentOfDespairCD:Start()
 	elseif spellId == 249009 then
@@ -108,7 +116,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		self.vb.backlash = self.vb.backlash + 1
 		warnBacklash:Show(args.destName)
 		if not UnitIsDeadOrGhost("player") then
-			specWarnBacklash:Show()
+			specWarnBacklash:Show(args.destName)
 		end
 		timerBacklash:Start()
 		countdownBacklash2:Start()
@@ -149,3 +157,14 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spell
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
+
+function mod:UNIT_DIED(args)
+	local cid = self:GetCIDFromGUID(args.destGUID)
+	if cid == 124745 then
+		self.vb.wardensDie = self.vb.wardensDie - 1
+		warnWardenDie:Show(self.vb.wardensDie)
+		if self.vb.wardensDie == 0 then
+			self.vb.wardensDie = 2
+		end
+	end
+end

@@ -38,12 +38,12 @@ local warnAllured					= mod:NewStackAnnounce(228576, 3, nil, nil, 2) --Собл�
 local specWarnRoyalSlash			= mod:NewSpecialWarningDodge(229429, "Melee", nil, nil, 2, 2) --Удар короля сплеча
 
 local specWarnBrittleBones2			= mod:NewSpecialWarningYouDefensive(230297, nil, nil, nil, 3, 6) --Ослабление костей
-local specWarnBrittleBones3			= mod:NewSpecialWarningYouDispel(230297, "RemoveCurse", nil, nil, 3, 6) --Ослабление костей
-local specWarnBrittleBones			= mod:NewSpecialWarningDispel(230297, "RemoveCurse", nil, nil, 3, 6) --Ослабление костей
+local specWarnBrittleBones3			= mod:NewSpecialWarningYouDispel(230297, "CurseDispeller", nil, nil, 3, 6) --Ослабление костей
+local specWarnBrittleBones			= mod:NewSpecialWarningDispel(230297, "CurseDispeller", nil, nil, 3, 6) --Ослабление костей
 --
 local specWarnCursedTouch			= mod:NewSpecialWarningYou(228241, nil, nil, nil, 2, 2) --Проклятое прикосновение
-local specWarnCursedTouch3			= mod:NewSpecialWarningYouDispel(228241, "RemoveCurse", nil, nil, 2, 2) --Проклятое прикосновение
-local specWarnCursedTouch2			= mod:NewSpecialWarningDispel(228241, "RemoveCurse", nil, nil, 3, 2) --Проклятое прикосновение
+local specWarnCursedTouch3			= mod:NewSpecialWarningYouDispel(228241, "CurseDispeller", nil, nil, 2, 2) --Проклятое прикосновение
+local specWarnCursedTouch2			= mod:NewSpecialWarningDispel(228241, "CurseDispeller", nil, nil, 3, 2) --Проклятое прикосновение
 --
 local specWarnAllured				= mod:NewSpecialWarningStack(228576, nil, 80, nil, nil, 1, 3) --Соблазнение
 local specWarnMightySwing			= mod:NewSpecialWarningDodge(229608, "Melee", nil, nil, 2, 2) --Могучий удар

@@ -30,7 +30,7 @@
 ## X-DBM-Mod-Name-koKR: 마법사 탑
 ## X-DBM-Mod-Name-zhCN: 法师塔
 ## X-DBM-Mod-Name-zhTW: 法师塔
-## X-DBM-Mod-Sort: 509
+## X-DBM-Mod-Sort: 510
 ## X-DBM-Mod-MapID: 1148, 1698, 1710, 1703, 1702, 1684, 1673, 1616
 ## X-DBM-Mod-LoadCID: 117871
 ## X-DBM-Mod-MinCoreRevision: 17650

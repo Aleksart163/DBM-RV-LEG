@@ -27,7 +27,7 @@
 ## X-DBM-Mod-Name-ptBR: Outro
 ## X-DBM-Mod-Name-zhCN: 其他
 ## X-DBM-Mod-Name-zhTW: 其他
-## X-DBM-Mod-Sort: 520
+## X-DBM-Mod-Sort: 511
 ## X-DBM-Mod-MapID: 1712, 1676, 1530, 1648, 1520, 1779, 1501, 1466, 1456, 1477, 1458, 1516, 1571, 1492, 1544, 1493, 1651, 1677, 1753
 ## X-DBM-Mod-MinCoreRevision: 17650
 

@@ -793,6 +793,10 @@ L= DBM:GetModLocalization(1981)
 -----------------------
 L= DBM:GetModLocalization(1982)
 
+L:SetWarningLocalization({
+	WarningWardensDie = "Rift Warden left: %s"
+})
+
 -----------------------
 --Seat of Triumvirate Trash
 -----------------------

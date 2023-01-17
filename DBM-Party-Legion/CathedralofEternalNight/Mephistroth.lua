@@ -26,22 +26,24 @@ local warnShadowFade2				= mod:NewPreWarnAnnounce(233206, 5, 1) --Уход во 
 
 local specWarnDarkSolitude			= mod:NewSpecialWarningKeepDist(234817, nil, nil, nil, 1, 2) --Темное одиночество
 local specWarnShadowFadeEnded		= mod:NewSpecialWarningEnd(233206, nil, nil, nil, 1, 2) --Уход во тьму
-local specWarnShadowFade			= mod:NewSpecialWarningSwitch(233206, "Dps", nil, nil, 1, 2) --Уход во тьму
-local specWarnCarrionSwarm			= mod:NewSpecialWarningYouDefensive(233155, "Tank", nil, nil, 3, 5) --Темная стая
-local specWarnCarrionSwarm2			= mod:NewSpecialWarningYouMove(233177, nil, nil, nil, 1, 2) --Темная стая
-local specWarnCarrionSwarm3			= mod:NewSpecialWarningDodge(233155, "MeleeDps", nil, nil, 2, 3) --Темная стая
+local specWarnShadowFade			= mod:NewSpecialWarningSwitch(233206, "-Healer", nil, nil, 1, 2) --Уход во тьму
+local specWarnCarrionSwarm			= mod:NewSpecialWarningYouDefensive(233155, nil, nil, nil, 3, 6) --Темная стая
+local specWarnCarrionSwarm2			= mod:NewSpecialWarningDodge(233155, nil, nil, nil, 2, 3) --Темная стая
+local specWarnCarrionSwarm3			= mod:NewSpecialWarningYouMove(233177, nil, nil, nil, 1, 2) --Темная стая
 local specWarnDemonicUpheaval		= mod:NewSpecialWarningYouMoveAway(233963, nil, nil, nil, 4, 5) --Демоническое извержение
 local specWarnDemonicUpheaval2		= mod:NewSpecialWarningEnd(233963, nil, nil, nil, 1, 2) --Демоническое извержение
 
 local timerDarkSolitudeCD			= mod:NewCDTimer(8.5, 234817, nil, nil, nil, 3, nil, DBM_CORE_HEALER_ICON..DBM_CORE_DEADLY_ICON) --Темное одиночество
 local timerCarrionSwarmCD			= mod:NewCDTimer(18, 233155, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Темная стая
 local timerDemonicUpheavalCD		= mod:NewCDTimer(26.5, 233196, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Демоническое извержение 32-35
-local timerShadowFadeCD				= mod:NewCDTimer(80, 233206, nil, nil, nil, 6) --Уход во тьму
+local timerShadowFadeCD				= mod:NewCDTimer(77, 233206, nil, nil, nil, 6, nil, DBM_CORE_HEALER_ICON) --Уход во тьму (3 сек каст)
+local timerShadowFade				= mod:NewCastTimer(3, 233206, nil, nil, nil, 6) --Уход во тьму
 
+local yellCarrionSwarm				= mod:NewYell(233155, nil, nil, nil, "YELL") --Темная стая
 local yellDemonicUpheaval			= mod:NewYell(233963, nil, nil, nil, "YELL") --Демоническое извержение
 local yellDemonicUpheaval2			= mod:NewFadesYell(233963, nil, nil, nil, "YELL") --Демоническое извержение
 
-local countdownShadowFade			= mod:NewCountdown(80, 233206, nil, nil, 5) --Уход во тьму
+local countdownShadowFade			= mod:NewCountdown(77, 233206, nil, nil, 5) --Уход во тьму
 local countdownDemonicUpheaval		= mod:NewCountdownFades("Alt26.5", 233196, nil, nil, 5) --Демоническое извержение
 
 mod:AddRangeFrameOption(8, 234817) --Темное одиночество 5 yards probably too small, next lowest range on crap api is 8
@@ -51,6 +53,19 @@ local demonicUpheaval, darkSolitude = DBM:GetSpellInfo(233963), DBM:GetSpellInfo
 local demonicUpheavalTable = {}
 local addsTable = {}
 
+function mod:CarrionSwarmTarget(targetname, uId) --прошляпанное очко Мурчаля Прошляпенко ✔
+	if not targetname then return end
+	if targetname == UnitName("player") then
+		specWarnCarrionSwarm:Show()
+		specWarnCarrionSwarm:Play("defensive")
+		yellCarrionSwarm:Yell()
+	else
+		if not UnitIsDeadOrGhost("player") then
+			specWarnCarrionSwarm2:Show()
+			specWarnCarrionSwarm2:Play("watchstep")
+		end
+	end
+end
 
 function mod:OnCombatStart(delay)
 	table.wipe(addsTable)
@@ -84,15 +99,10 @@ end
 
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
-	if spellId == 233155 then
-		specWarnCarrionSwarm:Show()
-		specWarnCarrionSwarm:Play("shockwave")
-		if not UnitIsDeadOrGhost("player") then
-			specWarnCarrionSwarm3:Show()
-			specWarnCarrionSwarm3:Play("watchstep")
-		end
+	if spellId == 233155 then --Темная стая
+		self:BossTargetScanner(args.sourceGUID, "CarrionSwarmTarget", 0.1, 2)
 		timerCarrionSwarmCD:Start()
-	elseif spellId == 233206 then--Shadow Fade
+	elseif spellId == 233206 then --Уход во тьму
 		warnShadowFade:Show()
 		if not UnitIsDeadOrGhost("player") then
 			specWarnShadowFade:Schedule(6)
@@ -102,6 +112,7 @@ function mod:SPELL_CAST_START(args)
 		timerDarkSolitudeCD:Stop()
 		timerDemonicUpheavalCD:Stop()
 		countdownDemonicUpheaval:Cancel()
+		timerShadowFade:Start()
 		if self.Options.RangeFrame then
 			DBM.RangeCheck:Hide()
 		end
@@ -174,8 +185,8 @@ end
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
 	if spellId == 233177 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
 		if self:IsHard() then
-			specWarnCarrionSwarm2:Show()
-			specWarnCarrionSwarm2:Play("runaway")
+			specWarnCarrionSwarm3:Show()
+			specWarnCarrionSwarm3:Play("runaway")
 		end
 	end
 end

@@ -11,7 +11,7 @@ mod:RegisterCombat("combat")
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 198263 198077 198750",
 	"SPELL_CAST_SUCCESS 197961",
-	"SPELL_AURA_APPLIED 197963 197964 197965 197966 197967 198190",
+	"SPELL_AURA_APPLIED 197963 197964 197965 197966 197967 198190 197996",
 	"SPELL_AURA_REMOVED 197963 197964 197965 197966 197967",
 	"CHAT_MSG_MONSTER_SAY",
 	"UNIT_SPELLCAST_SUCCEEDED boss1"
@@ -32,6 +32,7 @@ local specWarnRunicBrand5			= mod:NewSpecialWarningYouMoveToPos(197967, nil, nil
 local specWarnAdd					= mod:NewSpecialWarningSwitch(201221, "-Healer", nil, nil, 1, 2) --Призыв закаленного бурей воина
 local specWarnSurge					= mod:NewSpecialWarningInterrupt(198750, "HasInterrupt", nil, nil, 1, 3) --Импульс
 local specWarnUnworthy				= mod:NewSpecialWarningYou(198190, nil, nil, nil, 1, 2) --Недостойность
+local specWarnBranded				= mod:NewSpecialWarningYouMoreDamage(197996, nil, nil, nil, 3, 2) --Клеймо
 
 --local timerSpearCD					= mod:NewCDTimer(8, 198077, nil, nil, nil, 3)--More data needed
 local timerTempestCD				= mod:NewCDCountTimer(56, 198263, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Светозарная буря
@@ -175,6 +176,11 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnUnworthy:Show()
 			specWarnUnworthy:Play("targetyou")
+		end
+	elseif spellId == 197996 then --Клеймо
+		if args:IsPlayer() then
+			specWarnBranded:Show()
+			specWarnBranded:Play("targetyou")
 		end
 	end
 end

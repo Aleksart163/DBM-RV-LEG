@@ -23,11 +23,11 @@ local warnPoisonSpear					= mod:NewTargetAnnounce(198904, 3) --Отравлен�
 local warnUnnervingScreech				= mod:NewCastAnnounce(200630, 4) --Ошеломляющий визг
 
 local specWarnCurseofIsolation2			= mod:NewSpecialWarningYou(225568, nil, nil, nil, 2, 3) --Проклятие уединения
-local specWarnCurseofIsolation3			= mod:NewSpecialWarningYouDispel(225568, "RemoveCurse", nil, nil, 2, 3) --Проклятие уединения
-local specWarnCurseofIsolation			= mod:NewSpecialWarningDispel(225568, "RemoveCurse", nil, nil, 1, 3) --Проклятие уединения
+local specWarnCurseofIsolation3			= mod:NewSpecialWarningYouDispel(225568, "CurseDispeller", nil, nil, 2, 3) --Проклятие уединения
+local specWarnCurseofIsolation			= mod:NewSpecialWarningDispel(225568, "CurseDispeller", nil, nil, 1, 3) --Проклятие уединения
 local specWarnPoisonSpear2				= mod:NewSpecialWarningYou(198904, nil, nil, nil, 2, 3) --Отравленное копье
-local specWarnPoisonSpear3				= mod:NewSpecialWarningYouDispel(198904, "RemovePoison", nil, nil, 2, 3) --Отравленное копье
-local specWarnPoisonSpear				= mod:NewSpecialWarningDispel(198904, "RemovePoison", nil, nil, 1, 3) --Отравленное копье
+local specWarnPoisonSpear3				= mod:NewSpecialWarningYouDispel(198904, "PoisonDispeller", nil, nil, 2, 3) --Отравленное копье
+local specWarnPoisonSpear				= mod:NewSpecialWarningDispel(198904, "PoisonDispeller", nil, nil, 1, 3) --Отравленное копье
 --
 local specWarnVileMushroom				= mod:NewSpecialWarningDodge(198910, nil, nil, nil, 2, 2) --Злогриб
 local specWarnBloodBomb					= mod:NewSpecialWarningDodge(201272, nil, nil, nil, 2, 2) --Кровавая бомба
@@ -37,7 +37,7 @@ local specWarnRottingEarth				= mod:NewSpecialWarningYouMove(200822, nil, nil, n
 local specWarnTormentingEye				= mod:NewSpecialWarningInterrupt(204243, "HasInterrupt", nil, nil, 1, 2) --Истязающий глаз
 local specWarnUnnervingScreech			= mod:NewSpecialWarningInterrupt(200630, "HasInterrupt", nil, nil, 1, 2) --Ошеломляющий визг
 
-local timerCurseofIsolation				= mod:NewTargetTimer(12, 225568, nil, "Tank|RemoveCurse", nil, 3, nil, DBM_CORE_CURSE_ICON..DBM_CORE_HEALER_ICON) --Проклятие уединения
+local timerCurseofIsolation				= mod:NewTargetTimer(12, 225568, nil, "Tank|CurseDispeller", nil, 3, nil, DBM_CORE_CURSE_ICON..DBM_CORE_HEALER_ICON) --Проклятие уединения
 local timerVileMushroomCD				= mod:NewCDTimer(14, 198910, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Злогриб
 
 local yellCurseofIsolation				= mod:NewYell(225568, nil, nil, nil, "YELL") --Проклятие уединения

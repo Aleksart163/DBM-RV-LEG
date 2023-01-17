@@ -28,7 +28,7 @@ local specWarnProshlyap				= mod:NewSpecialWarningReady(195189, nil, nil, nil, 1
 local specWarnFiredUp2				= mod:NewSpecialWarningYou(215478, nil, nil, nil, 3, 5) --Обгорание
 local specWarnFiredUp				= mod:NewSpecialWarningDefensive(195187, nil, nil, nil, 3, 6) --Взрыв
 local specWarnLava					= mod:NewSpecialWarningStack(192519, nil, 2, nil, nil, 1, 2) --Лава
-local specWarnBrittle				= mod:NewSpecialWarningMoreDamage(192517, "-Healer", nil, nil, 1, 2) --Ломкость
+local specWarnBrittle				= mod:NewSpecialWarningMoreDamage(192517, "-Healer", nil, nil, 3, 2) --Ломкость
 local specWarnLavaWreath			= mod:NewSpecialWarningDodge(192631, nil, nil, nil, 2, 2) --Лавовое кольцо
 local specWarnFissure				= mod:NewSpecialWarningSpell(192522, "Tank", nil, nil, 1, 2) --Разлом Not dogable, just so we aim it correctly
 
@@ -104,7 +104,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	if spellId == 192517 and args:GetSrcCreatureID() == 95886 then --Ломкость
 		self.vb.countermeasure = self.vb.countermeasure + 1
 		if not UnitIsDeadOrGhost("player") then
-			specWarnBrittle:Show()
+			specWarnBrittle:Show(args.destName)
 		end
 		timerBrittle:Start()
 		countdownBrittle:Start()
