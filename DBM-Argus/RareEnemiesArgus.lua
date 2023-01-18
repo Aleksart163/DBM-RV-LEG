@@ -127,7 +127,7 @@ local specWarnSunderingCrash			= mod:NewSpecialWarningDodge(251276, nil, nil, ni
 local specWarnSunderingCrash2			= mod:NewSpecialWarningCloseMoveAway(251276, nil, nil, nil, 2, 2) --Раскалывающий натиск
 --Командир Эндаксий
 local specWarnBrutishSlam				= mod:NewSpecialWarningDodge(251246, nil, nil, nil, 2, 2) --Жестокий мощный удар
-local specWarnOverpoweringFlurry		= mod:NewSpecialWarningInterrupt2(250963, nil, nil, nil, 2, 2) --Подавляющий шквал
+local specWarnOverpoweringFlurry		= mod:NewSpecialWarningDodge(250963, nil, nil, nil, 1, 2) --Подавляющий шквал
 --Вагат Обманутый
 local specWarnShadowBolt				= mod:NewSpecialWarningInterrupt(252065, "HasInterrupt", nil, nil, 1, 3) --Стрела Тьмы
 local specWarnCripplingBurst			= mod:NewSpecialWarningInterrupt(252057, "HasInterrupt", nil, nil, 1, 3) --Калечащий порыв
@@ -401,7 +401,7 @@ function mod:SPELL_CAST_START(args)
 		specWarnPoisonNova:Play("kickcast")
 	elseif spellId == 250963 then --Подавляющий шквал
 		specWarnOverpoweringFlurry:Show()
-		specWarnOverpoweringFlurry:Play("kickcast")
+		specWarnOverpoweringFlurry:Play("watchstep")
 	elseif spellId == 251246 then --Жестокий мощный удар
 		specWarnBrutishSlam:Show()
 		specWarnBrutishSlam:Play("watchstep")
