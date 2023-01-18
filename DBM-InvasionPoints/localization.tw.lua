@@ -8,7 +8,7 @@ local L
 L= DBM:GetModLocalization(2012)
 
 L:SetMiscLocalization({
-	Pull = "你注定會死！"
+	Pull = "你注定會死！" --
 })
 
 -----------------------
@@ -53,5 +53,5 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(2015)
 
 L:SetMiscLocalization({
-	Pull = "魔火會燒盡所有世界！"
+	Pull = "魔火會燒盡所有世界！" --
 })

@@ -53,5 +53,5 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(2015)
 
 L:SetMiscLocalization({
-	Pull = "온 세계가 지옥불에 탈 것이다!"
+	Pull = "온 세계가 지옥불에 탈 것이다!" --
 })

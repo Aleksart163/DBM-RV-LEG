@@ -8,7 +8,7 @@ local L
 L= DBM:GetModLocalization(2012)
 
 L:SetMiscLocalization({
-	Pull = "La mort est votre seul destin !"
+	Pull = "La mort est votre seul destin !" --
 })
 
 -----------------------
@@ -53,5 +53,5 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(2015)
 
 L:SetMiscLocalization({
-	Pull = "All worlds will burn in felfire!"
+	Pull = "Tous les mondes seront ravagés par le gangrefeu !" --
 })

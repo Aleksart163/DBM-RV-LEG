@@ -6,7 +6,7 @@ local L
 L= DBM:GetModLocalization(2012)
 
 L:SetMiscLocalization({
-	Pull = "Your fate is only death!"
+	Pull = "Your fate is only death!" --
 })
 
 -----------------------
@@ -51,5 +51,5 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(2015)
 
 L:SetMiscLocalization({
-	Pull = "All worlds will burn in felfire!"
+	Pull = "All worlds will burn in felfire!" --
 })

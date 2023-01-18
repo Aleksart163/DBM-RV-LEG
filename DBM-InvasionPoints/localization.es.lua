@@ -84,10 +84,10 @@ L= DBM:GetModLocalization(2015)
 
 if GetLocale() == "esES" then
 L:SetMiscLocalization({
-	Pull = "¡Todos los mundos arderán en fuego vil!"
+	Pull = "¡Todos los mundos arderán en fuego vil!" --
 })
 else
 L:SetMiscLocalization({
-	Pull = "¡Todos los mundos arderán en fuego vil!"
+	Pull = "¡Todos los mundos arderán en fuego vil!" --
 })
 end
