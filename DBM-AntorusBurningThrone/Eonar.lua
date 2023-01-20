@@ -208,7 +208,7 @@ do
 			local currentPower = UnitPower("boss1", 10) or 0
 			local currentHealth = (UnitHealth("boss1")/UnitHealthMax("boss1") * 100) or 100
 			addLine(L.EonarHealth, math.floor(currentHealth).."%")
-			addLine(L.EonarPower, currentPower)
+			addLine(L.EonarPower, currentPower.."%")
 		end
 		local cid2 = mod:GetUnitCreatureId("boss2") or 0
 		if cid2 == 122500 then--Filter Paraxus
