@@ -14,6 +14,6 @@ L:SetGeneralLocalization({
 })
 
 L:SetMiscLocalization{
-	MurchalProshlyap = "就快來了！",
-	MurchalProshlyap2 = "來了！快躲起來！"
+	MurchalOchkenProshlyapen = "就快來了！",
+	MurchalOchkenProshlyapen2 = "來了！快躲起來！"
 }

@@ -15,7 +15,7 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(2013)
 
 L:SetMiscLocalization({
-	Pull = "I see the weakness in your soul!"
+	Pull = "I see the weakness in your soul!" --
 })
 
 -----------------------
@@ -33,7 +33,7 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(2011)
 
 L:SetMiscLocalization({
-	Pull = "New playthings? How irresistible!"
+	Pull = "New playthings? How irresistible!" --
 })
 
 -----------------------
@@ -53,3 +53,16 @@ L= DBM:GetModLocalization(2015)
 L:SetMiscLocalization({
 	Pull = "All worlds will burn in felfire!" --
 })
+
+-----------
+-- Trash --
+-----------
+L= DBM:GetModLocalization("InvasionPointsTrash")
+
+L:SetGeneralLocalization({
+	name = "Invasion Points Trash"
+})
+
+L:SetMiscLocalization{
+	MurchalOchkenProshlyapen = "Get to a Brazier!" --Get to a Brazier! [Flash Freeze]is coming!
+}

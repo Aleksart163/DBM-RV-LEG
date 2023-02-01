@@ -17,7 +17,7 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(2013)
 
 L:SetMiscLocalization({
-	Pull = "I see the weakness in your soul!"
+	Pull = "Vedo debolezza nella tua anima!" --
 })
 
 -----------------------
@@ -35,7 +35,7 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(2011)
 
 L:SetMiscLocalization({
-	Pull = "New playthings? How irresistible!"
+	Pull = "Nuovi giocattoli? Irresistibili!" --
 })
 
 -----------------------
@@ -55,3 +55,16 @@ L= DBM:GetModLocalization(2015)
 L:SetMiscLocalization({
 	Pull = "Tutti i mondi bruceranno nel vilfuoco!" --
 })
+
+-----------
+-- Trash --
+-----------
+L= DBM:GetModLocalization("InvasionPointsTrash")
+
+L:SetGeneralLocalization({
+	name = "Punti di Invasione Spazzatura"
+})
+
+L:SetMiscLocalization{
+	MurchalOchkenProshlyapen = "Raggiungi un braciere!" --Raggiungi un braciere! Sta per apparire una [Prigione di Ghiaccio]!
+}

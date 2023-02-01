@@ -173,7 +173,7 @@ L= DBM:GetModLocalization(1488)
 L= DBM:GetModLocalization(1489)
 
 L:SetMiscLocalization({
-	Proshlyapen = "Genug! Ich... gebe auf! Ihr seid wahrhaft bemerkenswerte Kreaturen. Nun, wie versprochen – Eure gerechte Belohnung."
+	OchkenMurchalProshlyapen = "Genug! Ich... gebe auf! Ihr seid wahrhaft bemerkenswerte Kreaturen. Nun, wie versprochen – Eure gerechte Belohnung."
 })
 
 -----------------------

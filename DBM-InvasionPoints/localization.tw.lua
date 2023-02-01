@@ -17,7 +17,7 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(2013)
 
 L:SetMiscLocalization({
-	Pull = "我看到你靈魂的弱點了！"
+	Pull = "我看到你靈魂的弱點了！" --
 })
 
 -----------------------
@@ -35,7 +35,7 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(2011)
 
 L:SetMiscLocalization({
-	Pull = "新的玩具嗎？真是難以抗拒啊！"
+	Pull = "新的玩具嗎？真是難以抗拒啊！" --
 })
 
 -----------------------
@@ -55,3 +55,16 @@ L= DBM:GetModLocalization(2015)
 L:SetMiscLocalization({
 	Pull = "魔火會燒盡所有世界！" --
 })
+
+-----------
+-- Trash --
+-----------
+L= DBM:GetModLocalization("InvasionPointsTrash")
+
+L:SetGeneralLocalization({
+	name = "侵略點小怪"
+})
+
+L:SetMiscLocalization{
+	MurchalOchkenProshlyapen = "快靠近火盆！" --快靠近火盆！[閃霜]來了！
+}

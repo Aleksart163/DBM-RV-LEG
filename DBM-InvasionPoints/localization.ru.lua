@@ -17,7 +17,7 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(2013)
 
 L:SetMiscLocalization({
-	Pull = "Я чувствую слабость в ваших душах!"
+	Pull = "Я чувствую слабость в ваших душах!" --
 })
 
 -------------
@@ -35,7 +35,7 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(2011)
 
 L:SetMiscLocalization({
-	Pull = "Новые игрушки? Как мило!"
+	Pull = "Новые игрушки? Как мило!" --
 })
 
 -------------------
@@ -55,3 +55,16 @@ L= DBM:GetModLocalization(2015)
 L:SetMiscLocalization({
 	Pull = "Все миры сгорят в огне Скверны!" --
 })
+
+-----------
+-- Trash --
+-----------
+L= DBM:GetModLocalization("InvasionPointsTrash")
+
+L:SetGeneralLocalization({
+	name = "Трэш Точек вторжения"
+})
+
+L:SetMiscLocalization{
+	MurchalOchkenProshlyapen = "Подойдите к жаровне!" --а лучше к очку Мурчаля
+}

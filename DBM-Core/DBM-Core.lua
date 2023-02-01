@@ -44,9 +44,9 @@
 ----------------------------------------------------------------
 --
 DBM = {
-	Revision = tonumber(("$Revision: 17691 $"):sub(12, -3)), --прошляпанное очко Мурчаля ✔
-	DisplayVersion = "7.3.42 Right Version",
-	ReleaseRevision = 17690
+	Revision = tonumber(("$Revision: 17700 $"):sub(12, -3)), --прошляпанное очко Мурчаля ✔
+	DisplayVersion = "7.3.43 Right Version",
+	ReleaseRevision = 17699
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -5416,7 +5416,7 @@ do
 		until not bossGUID
 	end
 
-	function DBM:INSTANCE_ENCOUNTER_ENGAGE_UNIT()
+	function DBM:INSTANCE_ENCOUNTER_ENGAGE_UNIT() --Волосали
 		if timerRequestInProgress then return end --do not start ieeu combat if timer request is progressing. (not to break Timer Recovery stuff)
 		if dbmIsEnabled and combatInfo[LastInstanceMapID] then
 			for i, v in ipairs(combatInfo[LastInstanceMapID]) do
@@ -5430,19 +5430,6 @@ do
 		end
 	end
 	
---[[	function DBM:INSTANCE_ENCOUNTER_ENGAGE_UNIT()
-		if timerRequestInProgress then return end--do not start ieeu combat if timer request is progressing. (not to break Timer Recovery stuff)
-		if LastInstanceMapID == 1712 or LastInstanceMapID == 1651 then return end
-		if dbmIsEnabled and combatInfo[LastInstanceMapID] then
-			self:Debug("INSTANCE_ENCOUNTER_ENGAGE_UNIT event fired for zoneId"..LastInstanceMapID, 3)
-			for i, v in ipairs(combatInfo[LastInstanceMapID]) do
-				if v.type:find("combat") and isBossEngaged(v.multiMobPullDetection or v.mob) then
-					self:StartCombat(v.mod, 0, "IEEU")
-				end
-			end
-		end
-	end]]
-	
 	function DBM:UNIT_TARGETABLE_CHANGED(uId)
 		if self.Options.DebugLevel > 2 or (Transcriptor and Transcriptor:IsLogging()) then
 			local active = UnitExists(uId) and "true" or "false"
@@ -5455,8 +5442,8 @@ do
 		local spellName = self:GetSpellInfo(spellId)
 		self:Debug("UNIT_SPELLCAST_SUCCEEDED fired: "..UnitName(uId).."'s "..spellName.."("..spellId..")", 3)
 	end
-
-	function DBM:ENCOUNTER_START(encounterID, name, difficulty, size)
+	
+	function DBM:ENCOUNTER_START(encounterID, name, difficulty, size) --Волосали
 		self:Debug("ENCOUNTER_START event fired: "..encounterID.." "..name.." "..difficulty.." "..size)
 		if dbmIsEnabled then
 			if not self.Options.DontShowReminders then
@@ -5465,17 +5452,24 @@ do
 			if combatInfo[LastInstanceMapID] then
 				for i, v in ipairs(combatInfo[LastInstanceMapID]) do
 					if not v.noESDetection then
-						if v.multiEncounterPullDetection then
-							for _, eId in ipairs(v.multiEncounterPullDetection) do
-								if encounterID == eId then
-									self:StartCombat(v.mod, 0, "ENCOUNTER_START")
-									return
-								end
-							end
-						elseif encounterID == v.eId then
-							self:StartCombat(v.mod, 0, "ENCOUNTER_START")
-							return
-						end
+                        if v.multiEncounterPullDetection then
+                            for _, eId in ipairs(v.multiEncounterPullDetection) do
+                                self:Debug("[multi pull] encounterID: " .. encounterID)
+                                self:Debug("[multi pull] eId: " .. eId)
+                                if encounterID == eId then
+                                    self:StartCombat(v.mod, 0, "ENCOUNTER_START")
+                                    return
+                                end
+                            end
+                        elseif encounterID == v.eId then
+                            self:Debug("encounterID: " .. encounterID)
+                            self:Debug("v.eId: " .. v.eId)
+                            self:StartCombat(v.mod, 0, "ENCOUNTER_START")
+                            return
+                        else
+                            self:Debug("[fail] encounterID: " .. encounterID)
+                            self:Debug("[fail] v.eId: " .. v.eId)
+                        end
 					end
 				end
 			end

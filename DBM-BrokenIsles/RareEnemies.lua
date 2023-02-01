@@ -9,9 +9,9 @@ mod.noStatistics = true
 mod.isTrashMod = true
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 221424 222676 189157 214095 218245 218250 223101 223104 219060 206762 203671 222596 216808 216837 218885 223659 223630 207002 206995 206972 216981 216970 219108 218875 218871 218435 218427 214500 222442 222446 222279 218855 224743 225254 222483 207084 207056 216143 216276 218385 219121 219109 207199 225243 217140 224659",
+	"SPELL_CAST_START 221424 222676 189157 214095 218245 218250 223101 223104 219060 206762 203671 222596 216808 216837 218885 223659 223630 207002 206995 206972 216981 216970 219108 218875 218871 218435 218427 214500 222442 222446 222279 218855 224743 225254 222483 207084 207056 216143 216276 218385 219121 219109 207199 225243 217140 224659 219190 217516 217582",
 	"SPELL_CAST_SUCCESS 221422 223094 216881 218969 224745 222504 222483 216150 218407 224659",
-	"SPELL_AURA_APPLIED 221422 221425 222676 218250 223094 219102 219087 206795 219060 223630 206972 219661 219646 37587 222631 219627 224743 225254 207199 225243 217140 225222",
+	"SPELL_AURA_APPLIED 221422 221425 222676 218250 223094 219102 219087 206795 219060 223630 206972 219661 219646 37587 222631 219627 224743 225254 207199 225243 217140 225222 219171 219182",
 	"SPELL_AURA_APPLIED_DOSE 221425",
 	"SPELL_AURA_REMOVED 221422 221425",
 	"SPELL_PERIODIC_DAMAGE 218960 222444 217130",
@@ -33,7 +33,14 @@ local warnFelFissure			= mod:NewTargetAnnounce(218885, 3) --Разлом скв�
 local warnDepthCharge			= mod:NewTargetAnnounce(207002, 3) --Глубинная бомба
 local warnCinderwingsGaze		= mod:NewTargetAnnounce(222446, 2) --Взор Пеплокрыла
 --Фьордан https://www.wowhead.com/ru/npc=109584/фьордан
---Ральф Костолом https://www.wowhead.com/ru/npc=109317/ральф-костолом
+--Ральф Костолом
+local specWarnBrackishBlade		= mod:NewSpecialWarningYouRun(217582, nil, nil, nil, 2, 3) --Соленый клинок
+local specWarnBrackishBlade2	= mod:NewSpecialWarningCloseMoveAway(217582, nil, nil, nil, 2, 3) --Соленый клинок
+local specWarnBonesnapper		= mod:NewSpecialWarningInterrupt2(217516, nil, nil, nil, 1, 2) --Костегрыз
+--Волнохват
+local specWarnClawSlam			= mod:NewSpecialWarningInterrupt2(219190, nil, nil, nil, 2, 2) --Удар когтем
+local specWarnArterialSlash		= mod:NewSpecialWarningYou(219182, nil, nil, nil, 2, 3) --Удар по артерии
+local specWarnSpikedCarapace	= mod:NewSpecialWarningReflect(219171, nil, nil, nil, 3, 3) --Шипастый панцирь
 --Мастер косы Силь'раман
 local specWarnCalloftheBrood	= mod:NewSpecialWarningInterrupt(224659, "HasInterrupt", nil, nil, 1, 2) --Призыв выводка
 local specWarnCalloftheBrood2	= mod:NewSpecialWarningSwitch(224659, "-Healer", nil, nil, 1, 2) --Призыв выводка
@@ -172,6 +179,7 @@ local timerFlrglDrglDrglGrglCD	= mod:NewCDTimer(20, 218250, nil, nil, nil, 2, ni
 
 local timerRoleplay				= mod:NewTimer(30, "timerRoleplay", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7) --Ролевая игра
 
+local yellBrackishBlade			= mod:NewYell(217582, nil, nil, nil, "YELL") --Соленый клинок
 local yellBearTrap				= mod:NewYell(216143, nil, nil, nil, "YELL") --Капкан на медведя
 local yellWhistlingWinds		= mod:NewYell(207056, nil, nil, nil, "YELL") --Свистящие ветра
 local yellCinderwingsGaze		= mod:NewYell(222446, nil, nil, nil, "YELL") --Взор Пеплокрыла
@@ -184,6 +192,18 @@ local yellWebWrap				= mod:NewYell(223094, nil, nil, nil, "YELL") --Кокон
 local yellImpale				= mod:NewYell(222676, nil, nil, nil, "YELL") --Прокалывание
 local yellImpaleFades			= mod:NewFadesYell(222676, nil, nil, nil, "YELL") --Прокалывание
 local yellArcticTorrent			= mod:NewYell(218245, nil, nil, nil, "YELL") --Арктический поток
+
+function mod:BrackishBladeTarget(targetname, uId) --прошляпанное очко Мурчаля Прошляпенко ✔
+	if not targetname then return end
+	if targetname == UnitName("player") then
+		specWarnBrackishBlade:Show()
+		specWarnBrackishBlade:Play("runout")
+		yellBrackishBlade:Yell()
+	elseif self:CheckNearby(10, targetname) then
+		specWarnBrackishBlade2:Show(targetname)
+		specWarnBrackishBlade2:Play("runaway")
+	end
+end
 
 function mod:BiteFrenzyTarget(targetname, uId) --прошляпанное очко Мурчаля Прошляпенко ✔
 	if not targetname then return end
@@ -508,6 +528,11 @@ function mod:SPELL_CAST_START(args)
 			specWarnCalloftheBrood:Show()
 			specWarnCalloftheBrood:Play("kickcast")
 		end
+	elseif spellId == 219190 then --Удар когтем
+		specWarnClawSlam:Show()
+		specWarnClawSlam:Play("watchstep")
+	elseif spellId == 217582 then --Соленый клинок
+		self:BossTargetScanner(args.sourceGUID, "BrackishBladeTarget", 0.1, 2)
 	end
 end
 
@@ -651,6 +676,14 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnWickedSlice:Show()
 			specWarnWickedSlice:Play("defensive")
+		end
+	elseif spellId == 219171 then --Шипастый панцирь
+		specWarnSpikedCarapace:Show(args.destName)
+		specWarnSpikedCarapace:Play("stopattack")
+	elseif spellId == 219182 then --Удар по артерии
+		if args:IsPlayer() then
+			specWarnArterialSlash:Show()
+			specWarnArterialSlash:Play("defensive")
 		end
 	end
 end

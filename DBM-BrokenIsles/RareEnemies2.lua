@@ -370,7 +370,7 @@ mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
 
 function mod:UNIT_DIED(args)
 	local cid = self:GetCIDFromGUID(args.destGUID)
-	if (cid == 117055 or cid == 117054) then
+	if cid == 117055 or cid == 117054 then
 		timerBlazingHellfireCD:Cancel()
 	end
 end

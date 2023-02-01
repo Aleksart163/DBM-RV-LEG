@@ -17,7 +17,7 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(2013)
 
 L:SetMiscLocalization({
-	Pull = "I see the weakness in your soul!"
+	Pull = "我看到了你灵魂中的弱点！" --
 })
 
 -----------------------
@@ -35,7 +35,7 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(2011)
 
 L:SetMiscLocalization({
-	Pull = "New playthings? How irresistible!"
+	Pull = "新玩具？真迷人！" --
 })
 
 -----------------------
@@ -55,3 +55,16 @@ L= DBM:GetModLocalization(2015)
 L:SetMiscLocalization({
 	Pull = "所有的世界都将在邪火中燃烧！" --
 })
+
+-----------
+-- Trash --
+-----------
+L= DBM:GetModLocalization("InvasionPointsTrash")
+
+L:SetGeneralLocalization({
+	name = "侵入点小怪"
+})
+
+L:SetMiscLocalization{
+	MurchalOchkenProshlyapen = "快靠近火盆！" --快靠近火盆！[快速冻结]即将爆发！
+}

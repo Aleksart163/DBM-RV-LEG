@@ -96,6 +96,14 @@ L= DBM:GetModLocalization(1983)
 ---------------------------
 L= DBM:GetModLocalization(1986)
 
+L:SetTimerLocalization({
+	timerBossIncoming = DBM_INCOMING,
+	timerAmanThul = "아만툴",
+	timerKhazgoroth = "불길",
+	timerNorgannon = "메즈",
+	timerGolganneth = "산개"
+})
+
 L:SetOptionLocalization({
 	timerBossIncoming		= "다음 보스 교대 타이머 바 보기",
 	TauntBehavior		= "탱커 교대 도발 알림 설정",
@@ -107,7 +115,11 @@ L:SetOptionLocalization({
 	Three				= "3인 로테이션 ",--Default
 	Four				= "4인 로테이션 ",
 	Five				= "5인 로테이션 ",
-	IgnoreFirstKick		= "이 옵션을 켜면 맨 처음 차단은 로테이션에서 제외됩니다 (공대장 권한 필요)"
+	IgnoreFirstKick		= "이 옵션을 켜면 맨 처음 차단은 로테이션에서 제외됩니다 (공대장 권한 필요)",
+	timerAmanThul 		= "$spell:250335 시전 타이머 바 보기",
+	timerKhazgoroth 	= "$spell:250333 시전 타이머 바 보기",
+	timerNorgannon 		= "$spell:250334 시전 타이머 바 보기",
+	timerGolganneth 	= "$spell:249793 시전 타이머 바 보기"
 })
 
 ---------------------------

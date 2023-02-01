@@ -50,7 +50,7 @@ local specWarnSearedSkin				= mod:NewSpecialWarningYouMove(254183, nil, nil, nil
 local specWarnShocked					= mod:NewSpecialWarningStack(250224, nil, 2, nil, nil, 3, 5) --Шок
 local specWarnShocklance				= mod:NewSpecialWarningTaunt(247367, nil, nil, nil, 3, 5) --Копье-шокер
 local specWarnShocklance2				= mod:NewSpecialWarningStack(247367, nil, 3, nil, nil, 3, 3) --Копье-шокер
-local specWarnSleepCanister				= mod:NewSpecialWarningYouMoveAway(247552, nil, nil, nil, 3, 5) --Склянка с усыпляющим газом
+local specWarnSleepCanister				= mod:NewSpecialWarningYouMoveAway(247552, nil, nil, nil, 3, 6) --Склянка с усыпляющим газом
 local specWarnSleepCanisterNear			= mod:NewSpecialWarningCloseMoveAway(247552, nil, nil, nil, 1, 2) --Склянка с усыпляющим газом
 local specWarnPulseGrenade				= mod:NewSpecialWarningDodge(247376, nil, nil, nil, 1, 2) --Импульсная граната
 --Stage Two: Contract to Kill
@@ -59,8 +59,9 @@ local specWarnSever2					= mod:NewSpecialWarningStack(247687, nil, 2, nil, nil, 
 local specWarnChargedBlastsUnknown		= mod:NewSpecialWarningDodge(247716, nil, nil, nil, 2, 2) --Направленные взрывы
 local specWarnShrapnalBlast				= mod:NewSpecialWarningDodge(247923, nil, nil, nil, 1, 2) --Заряд шрапнели
 --Stage Three/Five: The Perfect Weapon
-local specWarnEmpPulseGrenade			= mod:NewSpecialWarningYouMoveAway(250006, nil, nil, nil, 4, 5) --Усиленная импульсная граната
+local specWarnEmpPulseGrenade			= mod:NewSpecialWarningYouMoveAway(250006, nil, nil, nil, 4, 6) --Усиленная импульсная граната
 local specWarnEmpPulseGrenade2			= mod:NewSpecialWarning("PulseGrenade", nil, nil, nil, 1, 3) --Усиленная импульсная граната
+local specWarnEmpPulseGrenade3			= mod:NewSpecialWarningEnd(250006, nil, nil, nil, 1, 2) --Усиленная импульсная граната
 --Intermission: On Deadly Ground
 
 --Stage One: Attack Force
@@ -78,6 +79,7 @@ local timerShrapnalBlast2CD				= mod:NewCDCountTimer(18, 248070, nil, nil, nil, 
 local yellSleepCanisterStun				= mod:NewYell(255029, L.DispelMe, nil, nil, "YELL") --Склянка с усыпляющим газом Auto yell when safe to dispel (no players within 10 yards)
 local yellStasisTrap					= mod:NewYell(247641, L.DispelMe, nil, nil, "YELL") --Стазисная ловушка
 local yellEmpPulseGrenade				= mod:NewYell(250006, nil, nil, nil, "YELL") --Усиленная импульсная граната
+local yellEmpPulseGrenade2				= mod:NewFadesYell(250006, nil, nil, nil, "YELL") --Усиленная импульсная граната
 local yellSleepCanister					= mod:NewPosYell(247552, DBM_CORE_AUTO_YELL_CUSTOM_POSITION, nil, nil, "YELL") --Склянка с усыпляющим газом
 local yellSleepCanister2				= mod:NewYell(255029, nil, nil, nil, "YELL") --Усыпляющий газ
 
@@ -342,7 +344,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			playerSleepDebuff = false
 			updateRangeFrame(self)
 		end
-	elseif spellId == 250006 then
+	elseif spellId == 250006 then --Усиленная импульсная граната
 		self.vb.empoweredPulseActive = self.vb.empoweredPulseActive + 1
 		warnEmpoweredPulseGrenade:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
@@ -350,6 +352,11 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnEmpPulseGrenade:Play("range5")
 			specWarnEmpPulseGrenade2:Schedule(7)
 			yellEmpPulseGrenade:Yell()
+			if self:IsMythic() then
+				yellEmpPulseGrenade2:Countdown(75, 5)
+			elseif self:IsHeroic() then
+				yellEmpPulseGrenade2:Countdown(45.5, 5)
+			end
 		end
 		updateRangeFrame(self)
 		if not tContains(empoweredPulseTargets, args.destName) then
@@ -441,10 +448,15 @@ function mod:SPELL_AURA_REMOVED(args)
 			timerSleepCanisterCD:Start(12) --Склянка с усыпляющим газом+++
 			timerShrapnalBlast2CD:Start(15.5, 1) --Усиленный Заряд шрапнели
 		end
-	elseif spellId == 250006 then
+	elseif spellId == 250006 then --Усиленная импульсная граната
 		self.vb.empoweredPulseActive = self.vb.empoweredPulseActive - 1
 		tDeleteItem(empoweredPulseTargets, args.destName)
 		updateRangeFrame(self)
+		if args:IsPlayer() then
+			specWarnEmpPulseGrenade3:Show()
+			specWarnEmpPulseGrenade3:Play("end")
+			yellEmpPulseGrenade2:Cancel()
+		end
 		if self.Options.SetIconOnEmpPulse2 then
 			self:SetIcon(args.destName, 0)
 		end
@@ -481,7 +493,7 @@ do
 		if msg:find("spell:254244") then
 			targetName = Ambiguate(targetName, "none")
 			if self:AntiSpam(4, targetName) then
-				warnSleepCanister:CombinedShow(0.3, targetName)
+				warnSleepCanister:CombinedShow(0.5, targetName)
 				if targetName == playerName then
 					local icon = self.vb.sleepCanisterIcon
 					yellSleepCanister:Yell(icon, sleepCanister, icon)

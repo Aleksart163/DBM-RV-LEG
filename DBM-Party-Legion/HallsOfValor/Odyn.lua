@@ -216,7 +216,7 @@ function mod:SPELL_AURA_REMOVED(args)
 end
 
 function mod:CHAT_MSG_MONSTER_SAY(msg)
-	if msg == L.Proshlyapen then
+	if msg == L.OchkenMurchalProshlyapen then
 		DBM:EndCombat(self)
 	end
 end

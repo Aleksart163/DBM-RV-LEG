@@ -1,5 +1,5 @@
 ## Interface: 70300
-## X-Min-Interface: 70000
+## X-Min-Interface: 70300
 ## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Argus|r
 ## Title-ruRU:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Аргус|r
 ## Title-deDE:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Argus|r
@@ -17,9 +17,9 @@
 ## SavedVariables: DBMArgus_AllSavedVars
 ## SavedVariablesPerCharacter: DBMArgus_SavedStats
 ## X-DBM-Mod: 1
+## X-DBM-Mod-Type: OTHER
 ## X-DBM-Mod-Category: LEG
 ## X-DBM-Mod-Has-Single-Format: 1
-## X-DBM-Mod-World-Boss: 1
 ## X-DBM-Mod-Sort: 507
 ## X-DBM-Mod-MapID: 1669
 ## X-DBM-Mod-LoadCID: 126889, 125498, 126864, 126815, 126898, 126885, 126887, 127288, 127084, 127090, 127670, 127671, 125824, 126419, 125820, 125479, 126908, 125497, 126865, 126869, 126867, 126040, 127376, 127300, 126199, 127118, 122912, 124804, 126912, 126910, 124440, 126899, 126900, 126862, 122838, 122999, 126946, 126208, 126115, 126338, 125388, 122911, 124775, 127291, 122947, 122958, 126254, 127096, 127097, 123464, 120393, 123689, 126866, 126852, 126913, 126860, 126896, 126868

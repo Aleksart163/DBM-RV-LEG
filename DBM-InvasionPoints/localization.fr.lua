@@ -17,7 +17,7 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(2013)
 
 L:SetMiscLocalization({
-	Pull = "I see the weakness in your soul!"
+	Pull = "Je vois la faiblesse dans votre âme !" --
 })
 
 -----------------------
@@ -35,7 +35,7 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(2011)
 
 L:SetMiscLocalization({
-	Pull = "New playthings? How irresistible!"
+	Pull = "De nouveaux jouets ? Je ne peux pas résister !" --
 })
 
 -----------------------
@@ -55,3 +55,16 @@ L= DBM:GetModLocalization(2015)
 L:SetMiscLocalization({
 	Pull = "Tous les mondes seront ravagés par le gangrefeu !" --
 })
+
+-----------
+-- Trash --
+-----------
+L= DBM:GetModLocalization("InvasionPointsTrash")
+
+L:SetGeneralLocalization({
+	name = "Sites d’invasion Trash"
+})
+
+L:SetMiscLocalization{
+	MurchalOchkenProshlyapen = "Approchez-vous d’un brasero !" --Approchez-vous d’un brasero ! [Gel instantané] va frapper !
+}

@@ -99,10 +99,14 @@ local timerCosmicGlareCD				= mod:NewCDTimer(15, 250757, nil, nil, nil, 3, nil, 
 --Torment of the Titans
 mod:AddTimerLine(torment)
 --Activations timers
-local timerMachinationsofAmanThulCD		= mod:NewCastTimer(90, 250335, nil, nil, nil, 6, nil, DBM_CORE_HEALER_ICON..DBM_CORE_DEADLY_ICON) --Махинации Амантула
-local timerFlamesofKhazgorothCD			= mod:NewCastTimer(90, 250333, nil, nil, nil, 6, nil, DBM_CORE_DEADLY_ICON) --Пламя Казгарота
-local timerSpectralArmyofNorgannonCD	= mod:NewCastTimer(90, 250334, nil, nil, nil, 6, nil, DBM_CORE_DEADLY_ICON) --Армия Норганнона
-local timerFuryofGolgannethCD			= mod:NewCastTimer(90, 249793, nil, nil, nil, 6, nil, DBM_CORE_DEADLY_ICON) --Мучения Голганнета
+--local timerMachinationsofAmanThulCD		= mod:NewCastTimer(90, 250335, nil, nil, nil, 6, nil, DBM_CORE_HEALER_ICON..DBM_CORE_DEADLY_ICON) --Махинации Амантула
+--local timerFlamesofKhazgorothCD			= mod:NewCastTimer(90, 250333, nil, nil, nil, 6, nil, DBM_CORE_DEADLY_ICON) --Пламя Казгарота
+--local timerSpectralArmyofNorgannonCD	= mod:NewCastTimer(90, 250334, nil, nil, nil, 6, nil, DBM_CORE_DEADLY_ICON) --Армия Норганнона
+--local timerFuryofGolgannethCD			= mod:NewCastTimer(90, 249793, nil, nil, nil, 6, nil, DBM_CORE_DEADLY_ICON) --Мучения Голганнета
+local timerMachinationsofAmanThulCD		= mod:NewTimer(90, "timerAmanThul", 250335, nil, nil, 6, DBM_CORE_HEALER_ICON..DBM_CORE_DEADLY_ICON) --Махинации Амантула
+local timerFlamesofKhazgorothCD			= mod:NewTimer(90, "timerKhazgoroth", 250333, nil, nil, 6, DBM_CORE_DEADLY_ICON) --Пламя Казгарота
+local timerSpectralArmyofNorgannonCD	= mod:NewTimer(90, "timerNorgannon", 250334, nil, nil, 6, DBM_CORE_DEADLY_ICON) --Армия Норганнона
+local timerFuryofGolgannethCD			= mod:NewTimer(90, "timerGolganneth", 249793, nil, nil, 6, DBM_CORE_DEADLY_ICON) --Мучения Голганнета
 --Шиварры
 local timerDiimaCD						= mod:NewCDTimer(194.5, "ej15969", nil, nil, nil, 6, 253189, DBM_CORE_TANK_ICON) --Дима
 local timerNouraCD						= mod:NewCDTimer(194.5, "ej15967", nil, nil, nil, 6, 253189, DBM_CORE_TANK_ICON) --Нура

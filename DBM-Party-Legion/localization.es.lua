@@ -205,11 +205,11 @@ L= DBM:GetModLocalization(1489)
 
 if GetLocale() == "esES" then
 L:SetMiscLocalization({
-	Proshlyapen = "¡Ya basta! ¡Me rindo! Sois criaturas extraordinarias, sin duda. Como prometí, tendréis una recompensa." --
+	OchkenMurchalProshlyapen = "¡Ya basta! ¡Me rindo! Sois criaturas extraordinarias, sin duda. Como prometí, tendréis una recompensa." --
 })
 else
 L:SetMiscLocalization({
-	Proshlyapen = "¡Suficiente! ¡Yo... me retiro! Son criaturas extraordinarias. Como lo prometí, tendrán su justa recompensa." --
+	OchkenMurchalProshlyapen = "¡Suficiente! ¡Yo... me retiro! Son criaturas extraordinarias. Como lo prometí, tendrán su justa recompensa." --
 })
 end
 

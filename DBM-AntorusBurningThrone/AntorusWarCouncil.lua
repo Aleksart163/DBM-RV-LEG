@@ -94,6 +94,7 @@ local countdownExploitWeakness			= mod:NewCountdown("Alt8", 244892, "Tank", nil,
 --In Pod
 ----Admiral Svirax
 local countdownFusillade				= mod:NewCountdown("AltTwo30", 244625, nil, nil, 3) --Шквальный огонь
+local countdownFusillade2				= mod:NewCountdownFades("AltTwo7", 244625, nil, nil, 5) --Шквальный огонь
 ----General Erodus
 --local countdownReinforcements			= mod:NewCountdown(25, 245546) --Вызов подкрепления
 
@@ -160,6 +161,7 @@ function mod:SPELL_CAST_START(args)
 			specWarnFusillade:Play("findshield")
 		end
 		timerFusillade:Start()
+		countdownFusillade2:Start()
 		timerFusilladeCD:Start(25.5, self.vb.FusilladeCount+1) --точно под героик
 		if not self:IsLFR() then
 			countdownFusillade:Start(25.5) --точно под героик

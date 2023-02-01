@@ -170,7 +170,7 @@ L= DBM:GetModLocalization(1488)
 L= DBM:GetModLocalization(1489)
 
 L:SetMiscLocalization({
-	Proshlyapen = "夠了！我…我認輸！你們確實是奇特的生物。我會遵守承諾，給你們應得的獎勵。" --
+	OchkenMurchalProshlyapen = "夠了！我…我認輸！你們確實是奇特的生物。我會遵守承諾，給你們應得的獎勵。" --
 })
 
 -----------------------

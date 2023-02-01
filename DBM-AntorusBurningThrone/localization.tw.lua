@@ -87,6 +87,14 @@ L= DBM:GetModLocalization(1983)
 ---------------------------
 L= DBM:GetModLocalization(1986)
 
+L:SetTimerLocalization({
+	timerBossIncoming = DBM_INCOMING,
+	timerAmanThul = "阿曼蘇爾",
+	timerKhazgoroth = "噴火",
+	timerNorgannon = "大軍",
+	timerGolganneth = "閃電鍊"
+})
+
 L:SetOptionLocalization({
 	timerBossIncoming	= "為下一次交換首領顯示計時器",
 	TauntBehavior		= "為坦克換坦設置嘲諷行為",
@@ -98,7 +106,11 @@ L:SetOptionLocalization({
 	Three				= "三人輪替",--Default
 	Four				= "四人輪替",
 	Five				= "五人輪替",
-	IgnoreFirstKick		= "開啟此選項，頭一次中斷會被排除在輪替之外(需要團隊隊長)"
+	IgnoreFirstKick		= "開啟此選項，頭一次中斷會被排除在輪替之外(需要團隊隊長)",
+	timerAmanThul 		= "為$spell:250335顯示施法計時器",
+	timerKhazgoroth 	= "為$spell:250333顯示施法計時器",
+	timerNorgannon 		= "為$spell:250334顯示施法計時器",
+	timerGolganneth 	= "為$spell:249793顯示施法計時器"
 })
 
 ---------------------------

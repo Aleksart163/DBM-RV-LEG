@@ -17,7 +17,7 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(2013)
 
 L:SetMiscLocalization({
-	Pull = "I see the weakness in your soul!"
+	Pull = "Ich sehe die Schwäche in Eurer Seele!" --
 })
 
 -----------------------
@@ -35,7 +35,7 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(2011)
 
 L:SetMiscLocalization({
-	Pull = "New playthings? How irresistible!"
+	Pull = "Neues Spielzeug? Wie verlockend!" --
 })
 
 -----------------------
@@ -55,3 +55,16 @@ L= DBM:GetModLocalization(2015)
 L:SetMiscLocalization({
 	Pull = "Alle Welten werden im Teufelsfeuer brennen!" --
 })
+
+-----------
+-- Trash --
+-----------
+L= DBM:GetModLocalization("InvasionPointsTrash")
+
+L:SetGeneralLocalization({
+	name = "Трэш Точек вторжения"
+})
+
+L:SetMiscLocalization{
+	MurchalOchkenProshlyapen = "Schnell zu einer Kohlenpfanne!" --Schnell zu einer Kohlenpfanne! [Blitzeis] kommt!
+}

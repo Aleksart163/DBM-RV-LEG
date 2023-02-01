@@ -129,9 +129,20 @@ L= DBM:GetModLocalization(1983)
 -- Aquelarre shivarra --
 ------------------------
 L= DBM:GetModLocalization(1986)
+--[[
+L:SetWarningLocalization({
+	Amantul = "Мучения Аман`тула через 5 сек - переключитесь",
+	Norgannon = "Мучения Норганнона через 5 сек - бегите в центр",
+	Golgannet = "Мучения Голганнета через 5 сек - держите радиус 2м",
+	Kazgagot = "Мучения Каз`горота через 5 сек - уйдите с центра"
+})]]
 
-L:SetTimerLocalization({ -- mantener distancia 2m entre jugadore 2 метра дистанции
-	timerBossIncoming = DBM_INCOMING
+L:SetTimerLocalization({
+	timerBossIncoming = DBM_INCOMING,
+	timerAmanThul = "Tormento de Aman'thul",
+	timerKhazgoroth = "Tormento de Khaz'goroth",
+	timerNorgannon = "Tormento de Norgannon",
+	timerGolganneth = "Tormento de Golganneth"
 })
 
 L:SetOptionLocalization({
@@ -145,7 +156,11 @@ L:SetOptionLocalization({
 	Three				= "Rotación de tres jugadores",--Default
 	Four				= "Rotación de cuatro jugadores",
 	Five				= "Rotación de cinco jugadores",
-	IgnoreFirstKick		= "Excluir la primera interrupción de la rotación (requiere ser líder de banda)"
+	IgnoreFirstKick		= "Excluir la primera interrupción de la rotación (requiere ser líder de banda)",
+	timerAmanThul 		= "Mostrar temporizador para el lanzamiento de $spell:250335",
+	timerKhazgoroth 	= "Mostrar temporizador para el lanzamiento de $spell:250333",
+	timerNorgannon 		= "Mostrar temporizador para el lanzamiento de $spell:250334",
+	timerGolganneth 	= "Mostrar temporizador para el lanzamiento de $spell:249793"
 })
 
 --------------

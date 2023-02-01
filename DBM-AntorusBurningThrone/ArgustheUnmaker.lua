@@ -472,7 +472,7 @@ function mod:SPELL_CAST_START(args)
 			countdownSargGaze:Start(25.7)
 			self:Schedule(23.7, ToggleRangeFinder, self)--Call Show 5 seconds Before NEXT rages get applied (2 seconds before cast + 3 sec cast time)
 		end
-	elseif spellId == 257645 then--Temporal Blast (Stage 3)
+	elseif spellId == 257645 then --Временной взрыв (Фаза 3)
 		timerAvatarofAggraCD:Stop()--Always cancel this here, it's not canceled by argus becoming inactive and can still be cast during argus inactive transition phase
 		if self.vb.phase < 3 then
 			self:Unschedule(ToggleRangeFinder)
@@ -509,7 +509,6 @@ function mod:SPELL_CAST_START(args)
 				DBM.InfoFrame:Show(6, "function", updateInfoFrame, false, false)
 			end
 		end
-		timerCosmicRayCD:Stop()
 		timerCosmicBeaconCD:Stop()
 		timerDiscsofNorg:Stop()
 		timerSargGazeCD:Stop()
@@ -543,8 +542,6 @@ function mod:SPELL_CAST_SUCCESS(args)
 			specWarnEdgeofObliteration:Play("watchstep")
 		end
 		timerEdgeofObliterationCD:Start(nil, self.vb.EdgeofObliteration+1)
-	elseif spellId == 252729 and self:AntiSpam(5, 3) then
-		timerCosmicRayCD:Start()
 	elseif spellId == 252616 and self:AntiSpam(5, 4) then
 	--	warnCosmicBeaconCast:Show()
 		timerCosmicBeaconCD:Start()

@@ -126,7 +126,11 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(1986)
 
 L:SetTimerLocalization({
-	timerBossIncoming		= DBM_INCOMING
+	timerBossIncoming	= DBM_INCOMING,
+	timerAmanThul = "Aman'thul",
+	timerKhazgoroth = "Flammen",
+	timerNorgannon = "Heer",
+	timerGolganneth = "Blitz"
 })
 
 L:SetOptionLocalization({
@@ -140,7 +144,11 @@ L:SetOptionLocalization({
 	Three				= "3-Personen-Rotation",
 	Four				= "4-Personen-Rotation",
 	Five				= "5-Personen-Rotation",
-	IgnoreFirstKick		= "Allererste Unterbrechung bei der Rotation nicht berücksichtigen (nur als Schlachtzugsleiter)"
+	IgnoreFirstKick		= "Allererste Unterbrechung bei der Rotation nicht berücksichtigen (nur als Schlachtzugsleiter)",
+	timerAmanThul 		= "Wirkzeit von $spell:250335 anzeigen",
+	timerKhazgoroth 	= "Wirkzeit von $spell:250333 anzeigen",
+	timerNorgannon 		= "Wirkzeit von $spell:250334 anzeigen",
+	timerGolganneth 	= "Wirkzeit von $spell:249793 anzeigen"
 })
 --[[
 L:SetMiscLocalization({

@@ -13,12 +13,12 @@ L:SetGeneralLocalization({
 
 if GetLocale() == "esES" then --испанский
 L:SetMiscLocalization{
-	MurchalProshlyap = "llegará pronto!",
-	MurchalProshlyap2 = "ha llegado! ¡A cubierto!"
+	MurchalOchkenProshlyapen = "llegará pronto!",
+	MurchalOchkenProshlyapen2 = "ha llegado! ¡A cubierto!"
 }
 else --мексиканский
 L:SetMiscLocalization{
-	MurchalProshlyap = "llegará pronto!",
-	MurchalProshlyap2 = "ha llegado! ¡Cúbrete!"
+	MurchalOchkenProshlyapen = "llegará pronto!",
+	MurchalOchkenProshlyapen2 = "ha llegado! ¡Cúbrete!"
 }
 end

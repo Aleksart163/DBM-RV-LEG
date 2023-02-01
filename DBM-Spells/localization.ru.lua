@@ -23,7 +23,8 @@ L:SetOptionLocalization({
 	YellOnSpiritCauldron = "Сообщать, когда кто-то ставит $spell:188036",
 	YellOnLavish = "Сообщать, когда кто-то ставит $spell:201352 или аналогичные ему",
 	YellOnRepair = "Сообщать, когда кто-то ставит $spell:199109 или аналогичные ему",
-	YellOnPylon = "Сообщать, когда кто-то ставит $spell:199115"
+	YellOnPylon = "Сообщать, когда кто-то ставит $spell:199115",
+	YellOnBank = "Сообщать, когда кто-то ставит $spell:83958"
 })
 
 L:SetMiscLocalization{

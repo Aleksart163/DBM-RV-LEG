@@ -64,7 +64,7 @@ local yellNecroticEmbrace2				= mod:NewYell(244094, nil, nil, nil, "YELL") --Н�
 local yellNecroticEmbrace				= mod:NewPosYell(244094, nil, nil, nil, "YELL") --Некротические объятия
 local yellNecroticEmbrace3				= mod:NewFadesYell(244094, nil, nil, nil, "YELL") --Некротические объятия
 local yellNecroticEmbraceFades			= mod:NewIconFadesYell(244094, nil, nil, nil, "YELL") --Некротические объятия
-local yellEchoesOfDoom					= mod:NewYell(248732, nil, nil, nil, "YELL") --Отголоски гибели
+--local yellEchoesOfDoom					= mod:NewYell(248732, nil, nil, nil, "YELL") --Отголоски гибели
 
 local berserkTimer						= mod:NewBerserkTimer(390)
 
@@ -227,7 +227,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() and self:AntiSpam(3, 3) then
 			specWarnEchoesOfDoom:Show()
 			specWarnEchoesOfDoom:Play("targetyou")
-			yellEchoesOfDoom:Yell()
+		--	yellEchoesOfDoom:Yell()
 		end
 	elseif spellId == 243968 and self.vb.currentTorment ~= 1 then --Пытка огнем
 		self.vb.currentTorment = 1

@@ -33,7 +33,7 @@ local warnPrePhase3						= mod:NewPrePhaseAnnounce(3, 1)
 --local warnFlameRend1					= mod:NewAnnounce("FlameRend1", 1, 245463) --1ая группа
 --local warnFlameRend2					= mod:NewAnnounce("FlameRend2", 1, 245463) --2ая группа
 --Stage One: Wrath of Aggramar
-local warnTaeshalachReach				= mod:NewStackAnnounce(245990, 2, nil, "Tank") --Гигантский клинок
+local warnTaeshalachReach				= mod:NewStackAnnounce(245990, 2, nil, "Tank|Healer") --Гигантский клинок
 local warnScorchingBlaze				= mod:NewTargetAnnounce(245994, 2) --Обжигающее пламя
 local warnRavenousBlaze					= mod:NewTargetAnnounce(254452, 2) --Хищное пламя
 local warnRavenousBlazeCount			= mod:NewCountAnnounce(254452, 4) --Хищное пламя
@@ -44,7 +44,6 @@ local specWarnFlameRend2				= mod:NewSpecialWarning("FlameRend3", nil, nil, nil,
 local specWarnBlazingEruption			= mod:NewSpecialWarningStack(244912, nil, 2, nil, nil, 1, 5) --Извержение пламени
 --Stage One: Wrath of Aggramar
 local specWarnTaeshalachReach			= mod:NewSpecialWarningStack(245990, nil, 8, nil, nil, 1, 3) --Гигантский клинок
-local specWarnTaeshalachReachOther		= mod:NewSpecialWarningTaunt(245990, nil, nil, nil, 1, 3) --Гигантский клинок
 local specWarnScorchingBlaze			= mod:NewSpecialWarningYouMoveAway(245994, nil, nil, nil, 1, 5) --Обжигающее пламя
 local specWarnScorchingBlazeNear		= mod:NewSpecialWarningCloseMoveAway(245994, nil, nil, nil, 1, 5) --Обжигающее пламя
 local specWarnRavenousBlaze				= mod:NewSpecialWarningYouMoveAway(254452, nil, nil, nil, 4, 5) --Хищное пламя
@@ -525,22 +524,14 @@ end
 
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
-	if spellId == 245990 then
+	if spellId == 245990 then --Гигантский клинок
 		local uId = DBM:GetRaidUnitId(args.destName)
 		if self:IsTanking(uId) then
 			local amount = args.amount or 1
-			if amount >= 8 and self:AntiSpam(3, 2) then--Lasts 12 seconds, asuming 1.5sec swing timer makes 8 stack swap
-				if args:IsPlayer() then--At this point the other tank SHOULD be clear.
+			if args:IsPlayer() then
+				if amount >= 8 and self:AntiSpam(3, 2) then
 					specWarnTaeshalachReach:Show(amount)
 					specWarnTaeshalachReach:Play("stackhigh")
-				else--Taunt as soon as stacks are clear, regardless of stack count.
-					local techTimer = timerTaeshalachTechCD:GetRemaining(self.vb.techCount+1)
-					if not UnitIsDeadOrGhost("player") and not DBM:UnitDebuff("player", args.spellName) and (techTimer == 0 or techTimer >= 4) then
-						specWarnTaeshalachReachOther:Show(args.destName)
-						specWarnTaeshalachReachOther:Play("tauntboss")
-					else
-						warnTaeshalachReach:Show(args.destName, amount)
-					end
 				end
 			else
 				if amount % 4 == 0 then

@@ -97,16 +97,24 @@ L= DBM:GetModLocalization(1983)
 L= DBM:GetModLocalization(1986)
 
 L:SetTimerLocalization({
-	timerBossIncoming		= DBM_INCOMING
+	timerBossIncoming 	= DBM_INCOMING,
+	timerAmanThul 		= "阿曼苏尔",
+	timerKhazgoroth 	= "火焰",
+	timerNorgannon 		= "军团",
+	timerGolganneth 	= "闪电"
 })
 
 L:SetOptionLocalization({
-	SetLighting				= "开战后自动调整光照质量为低, 结束后恢复之前设置(Mac不支持)",
-	timerBossIncoming		= "为下一次Boss交换显示计时条",
-	TauntBehavior			= "设置换坦提示模式",
-	TwoMythicThreeNon		= "M难度下2层换, 其他难度3层换",--Default
-	TwoAlways				= "总是2层换",
-	ThreeAlways				= "总是3层换"
+	SetLighting			= "开战后自动调整光照质量为低, 结束后恢复之前设置(Mac不支持)",
+	timerBossIncoming	= "为下一次Boss交换显示计时条",
+	TauntBehavior		= "设置换坦提示模式",
+	TwoMythicThreeNon	= "M难度下2层换, 其他难度3层换",--Default
+	TwoAlways			= "总是2层换",
+	ThreeAlways			= "总是3层换",
+	timerAmanThul 		= "计时条：$spell:250335施法时间",
+	timerKhazgoroth 	= "计时条：$spell:250333施法时间",
+	timerNorgannon 		= "计时条：$spell:250334施法时间",
+	timerGolganneth 	= "计时条：$spell:249793施法时间"
 })
 
 ---------------------------

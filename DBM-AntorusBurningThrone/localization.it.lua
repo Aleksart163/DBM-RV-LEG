@@ -103,7 +103,11 @@ L:SetWarningLocalization({
 })
 
 L:SetTimerLocalization({
-	timerBossIncoming = DBM_INCOMING
+	timerBossIncoming = DBM_INCOMING,
+	timerAmanThul = "Tormento di Aman'thul",
+	timerKhazgoroth = "Tormento di Khaz'goroth",
+	timerNorgannon = "Tormento di Norgannon",
+	timerGolganneth = "Tormento di Golganneth"
 })
 
 L:SetOptionLocalization({
@@ -121,7 +125,11 @@ L:SetOptionLocalization({
 	Three				= "3 person rotation ",--Default
 	Four				= "4 person rotation ",
 	Five				= "5 person rotation ",
-	IgnoreFirstKick		= "With this option, very first interrupt is excluded in rotation (Requires raid leader)"
+	IgnoreFirstKick		= "With this option, very first interrupt is excluded in rotation (Requires raid leader)",
+	timerAmanThul 		= "Visualizza Timer per il lancio di $spell:250335",
+	timerKhazgoroth 	= "Visualizza Timer per il lancio di $spell:250333",
+	timerNorgannon 		= "Visualizza Timer per il lancio di $spell:250334",
+	timerGolganneth 	= "Visualizza Timer per il lancio di $spell:249793"
 })
 
 ---------------------------

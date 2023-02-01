@@ -169,7 +169,7 @@ L= DBM:GetModLocalization(1488)
 L= DBM:GetModLocalization(1489)
 
 L:SetMiscLocalization({
-	Proshlyapen = "그만! 항복하겠다! 너희는 진정으로 놀라운 생물이구나. 약속한 대로 합당한 보상을 내리겠다." --
+	OchkenMurchalProshlyapen = "그만! 항복하겠다! 너희는 진정으로 놀라운 생물이구나. 약속한 대로 합당한 보상을 내리겠다." --
 })
 
 -----------------------

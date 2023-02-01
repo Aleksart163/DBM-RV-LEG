@@ -114,6 +114,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		timerArcaneBomb:Cancel(args.destName)
 		if args:IsPlayer() then
 			specWarnArcaneBomb3:Show()
+			specWarnArcaneBomb3:Play("end")
 			yellArcaneBombFades:Cancel()
 		end
 		if self.Options.RangeFrame then

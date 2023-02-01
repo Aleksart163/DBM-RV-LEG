@@ -21,7 +21,8 @@ L:SetOptionLocalization({
 	YellOnSpiritCauldron = "Announce when someone puts $spell:188036",
 	YellOnLavish = "Announce when someone puts $spell:201352 or equivalent",
 	YellOnRepair = "Announce when someone puts $spell:199109 or equivalent",
-	YellOnPylon = "Announce when someone puts $spell:199115"
+	YellOnPylon = "Announce when someone puts $spell:199115",
+	YellOnBank = "Announce when someone puts $spell:83958"
 })
 
 L:SetMiscLocalization{

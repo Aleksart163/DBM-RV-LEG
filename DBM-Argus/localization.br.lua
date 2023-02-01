@@ -12,6 +12,6 @@ L:SetGeneralLocalization({
 })
 
 L:SetMiscLocalization{
-	MurchalProshlyap = "chegará logo, logo!",
-	MurchalProshlyap2 = "chegou! Protejam-se!"
+	MurchalOchkenProshlyapen = "chegará logo, logo!",
+	MurchalOchkenProshlyapen2 = "chegou! Protejam-se!"
 }

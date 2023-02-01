@@ -38,7 +38,7 @@ local warnFocusingPower					= mod:NewSpellAnnounce(251356, 2) --Фокусиро
 local warnDarkReconstitution			= mod:NewTargetSourceAnnounce(249113, 3) --Темное восстановление
 
 --F'harg
-local specWarnMoltenTouch				= mod:NewSpecialWarningDodge(244072, nil, nil, nil, 2, 2) --Касание магмы
+local specWarnMoltenTouch				= mod:NewSpecialWarningDodge(244163, nil, nil, nil, 2, 3) --Касание магмы
 local specWarnDesolateGaze				= mod:NewSpecialWarningYouMoveAway(244768, nil, nil, nil, 1, 5) --Опустошающий взгляд
 local specWarnEnflamed					= mod:NewSpecialWarningYouMoveAway(248815, nil, nil, nil, 1, 5) --Возгорание
 local specWarnEnflamed2					= mod:NewSpecialWarningSoon(244057, nil, nil, nil, 1, 2) --Возгорание

@@ -130,7 +130,11 @@ L:SetWarningLocalization({
 })
 
 L:SetTimerLocalization({
-	timerBossIncoming = DBM_INCOMING
+	timerBossIncoming = DBM_INCOMING,
+	timerAmanThul = "Амантул",
+	timerKhazgoroth = "Пламя",
+	timerNorgannon = "Стенка",
+	timerGolganneth = "Молнии"
 })
 
 L:SetOptionLocalization({
@@ -148,7 +152,11 @@ L:SetOptionLocalization({
 	Three				= "Чередование 3 человек",--Default
 	Four				= "Чередование 4 человек",
 	Five				= "Чередование 5 человек",
-	IgnoreFirstKick		= "При использовании этой опции первое прерывание исключается из чередования (требуется права лидера рейда)"
+	IgnoreFirstKick		= "При использовании этой опции первое прерывание исключается из чередования (требуется права лидера рейда)",
+	timerAmanThul 		= "Отсчет времени применения заклинания $spell:250335",
+	timerKhazgoroth 	= "Отсчет времени применения заклинания $spell:250333",
+	timerNorgannon 		= "Отсчет времени применения заклинания $spell:250334",
+	timerGolganneth 	= "Отсчет времени применения заклинания $spell:249793"
 })
 --[[
 L:SetMiscLocalization({
