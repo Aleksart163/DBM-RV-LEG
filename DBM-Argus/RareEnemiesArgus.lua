@@ -19,6 +19,7 @@ mod:RegisterEvents(
 	"SPELL_PERIODIC_DAMAGE 222631 250926 223292",
 	"SPELL_PERIODIC_MISSED 222631 250926 223292",
 	"CHAT_MSG_RAID_BOSS_EMOTE",
+	"LOADING_SCREEN_DISABLED",
 	"UNIT_DIED"
 )
 
@@ -632,6 +633,13 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)
 	elseif strmatch(msg, L.MurchalOchkenProshlyapen2) then
 		specWarnTheParaxis:Show(shield)
 		specWarnTheParaxis:Play("findshield")
+		timerParaxisIncomingCD:Cancel()
+		countdownParaxisIncoming:Cancel()
+	end
+end
+
+function mod:LOADING_SCREEN_DISABLED()
+	if timerParaxisIncomingCD:GetTime() > 1 then
 		timerParaxisIncomingCD:Cancel()
 		countdownParaxisIncoming:Cancel()
 	end
