@@ -64,5 +64,6 @@ L:SetGeneralLocalization({
 })
 
 L:SetMiscLocalization{
-	MurchalOchkenProshlyapen = "Get to a Brazier!" --Get to a Brazier! [Flash Freeze]is coming!
+	MurchalOchkenProshlyapen = "Get to a Brazier!", --Get to a Brazier! [Flash Freeze]is coming!
+	MurchalOchkenProshlyapen2 = "This area is targeted for" --This area is targeted for [Obliteration]!
 }

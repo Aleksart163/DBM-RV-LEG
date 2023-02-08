@@ -66,5 +66,6 @@ L:SetGeneralLocalization({
 })
 
 L:SetMiscLocalization{
-	MurchalOchkenProshlyapen = "Raggiungi un braciere!" --Raggiungi un braciere! Sta per apparire una [Prigione di Ghiaccio]!
+	MurchalOchkenProshlyapen = "Raggiungi un braciere!", --Raggiungi un braciere! Sta per apparire una [Prigione di Ghiaccio]!
+	MurchalOchkenProshlyapen2 = "L'area è stata scelta come bersaglio di" --L'area è stata scelta come bersaglio di [Annientamento]!
 }

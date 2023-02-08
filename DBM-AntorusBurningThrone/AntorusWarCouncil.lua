@@ -6,7 +6,7 @@ mod:SetCreatureID(122369, 122333, 122367)--Chief Engineer Ishkar, General Erodus
 mod:SetEncounterID(2070)
 mod:SetZone()
 mod:SetBossHPInfoToHighest()
-mod:SetUsedIcons(8, 7, 6, 2, 1)
+mod:SetUsedIcons(8, 7, 6, 3, 2, 1)
 mod:SetHotfixNoticeRev(16939)
 mod:DisableIEEUCombatDetection()
 mod.respawnTime = 30
@@ -16,9 +16,9 @@ mod:RegisterCombat("combat")
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 244625 246505 253040 245227",
 	"SPELL_CAST_SUCCESS 244722 244892 245227 253037 245174",
-	"SPELL_AURA_APPLIED 244737 244892 253015 244172",
-	"SPELL_AURA_APPLIED_DOSE 244892 244172",
-	"SPELL_AURA_REMOVED 244737 253015",
+	"SPELL_AURA_APPLIED 244737 244892 253015 244172 257974",
+	"SPELL_AURA_APPLIED_DOSE 244892 244172 257974",
+	"SPELL_AURA_REMOVED 244737 253015 244388",
 --	"SPELL_PERIODIC_DAMAGE",
 --	"SPELL_PERIODIC_MISSED",
 	"UNIT_SPELLCAST_SUCCEEDED boss1 boss2 boss3"
@@ -28,6 +28,8 @@ local Svirax = DBM:EJ_GetSectionInfo(16126)
 local Ishkar = DBM:EJ_GetSectionInfo(16128)
 local Erodus = DBM:EJ_GetSectionInfo(16130)
 --General
+local warnPyroblast						= mod:NewTargetAnnounce(246505, 4) --Огненная глыба
+local warnChaosPulse					= mod:NewTargetAnnounce(257974, 3, nil, "MagicDispeller2") --Хаотический импульс
 local warnOutofPod						= mod:NewTargetAnnounce("ej16098", 2, 244141) --Вне капсулы
 local warnExploitWeakness				= mod:NewStackAnnounce(244892, 2, nil, "Tank|Healer") --Обнаружить слабое место
 local warnPsychicAssault				= mod:NewStackAnnounce(244172, 3, nil, "-Tank", 2) --Псионная атака
@@ -44,6 +46,10 @@ local warnShockGrenade					= mod:NewTargetAnnounce(244737, 4, nil, true, 2) --Ш
 
 --General
 --local specWarnGTFO					= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 2)
+local specWarnPsychicScarring			= mod:NewSpecialWarningEnd(244388, nil, nil, nil, 1, 2) --Псионный шрам
+local specWarnPyroblast					= mod:NewSpecialWarningYou(246505, nil, nil, nil, 2, 6) --Огненная глыба
+local specWarnChaosPulse				= mod:NewSpecialWarningYou(257974, nil, nil, nil, 1, 2) --Хаотический импульс
+local specWarnChaosPulse2				= mod:NewSpecialWarningYouDispel(257974, "MagicDispeller2", nil, nil, 1, 2) --Хаотический импульс
 local specWarnExploitWeakness			= mod:NewSpecialWarningStack(244892, nil, 3, nil, nil, 3, 6) --Обнаружить слабое место
 local specWarnExploitWeaknesslf			= mod:NewSpecialWarningTaunt(244892, "Tank", nil, nil, 3, 5) --Обнаружить слабое место
 local specWarnPsychicAssaultStack		= mod:NewSpecialWarningStack(244172, nil, 10, nil, nil, 1, 6) --Псионная атака
@@ -57,7 +63,7 @@ local specWarnFusillade					= mod:NewSpecialWarningMoveTo(244625, nil, nil, nil,
 ----General Erodus
 local specWarnSummonReinforcements		= mod:NewSpecialWarningSwitch(245546, "Dps|Tank", nil, nil, 1, 2) --Вызов подкрепления
 -------Adds
-local specWarnPyroblast					= mod:NewSpecialWarningInterrupt(246505, "HasInterrupt", nil, nil, 1, 2)
+local specWarnPyroblast2				= mod:NewSpecialWarningInterrupt(246505, "HasInterrupt", nil, nil, 1, 2)
 local specWarnDemonicChargeYou			= mod:NewSpecialWarningYou(253040, nil, nil, nil, 1, 2) --Демонический рывок
 local specWarnDemonicCharge				= mod:NewSpecialWarningClose(253040, nil, nil, nil, 1, 2) --Демонический рывок
 --Out of Pod
@@ -82,6 +88,8 @@ local timerEntropicMineCD				= mod:NewCDTimer(10, 245161, nil, nil, nil, 3) --Э
 mod:AddTimerLine(Erodus)
 local timerSummonReinforcementsCD		= mod:NewNextTimer(8.4, 245546, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON..DBM_CORE_TANK_ICON) --Вызов подкрепления
 
+local yellPyroblast						= mod:NewYell(246505, nil, nil, nil, "YELL") --Огненная глыба
+local yellChaosPulse					= mod:NewYell(257974, nil, nil, nil, "YELL") --Хаотический импульс
 local yellDemonicCharge					= mod:NewYell(253040, nil, nil, nil, "YELL") --Демонический рывок
 local yellShockGrenade					= mod:NewYell(244737, nil, nil, nil, "YELL") --Шоковая граната
 local yellShockGrenadeFades				= mod:NewShortFadesYell(244737, nil, nil, nil, "YELL") --Шоковая граната
@@ -99,6 +107,7 @@ local countdownFusillade2				= mod:NewCountdownFades("AltTwo7", 244625, nil, nil
 --local countdownReinforcements			= mod:NewCountdown(25, 245546) --Вызов подкрепления
 
 mod:AddSetIconOption("SetIconOnShockGrenade", 244737, true, false, {8, 7, 6}) --Шоковая граната
+mod:AddSetIconOption("SetIconOnPyroblast", 246505, true, false, {3}) --Огненная глыба
 mod:AddSetIconOption("SetIconOnAdds", 245546, true, true, {2, 1}) --Вызов подкрепления
 mod:AddRangeFrameOption("8")
 
@@ -106,6 +115,20 @@ local felShield = DBM:GetSpellInfo(244910)
 mod.vb.FusilladeCount = 0
 mod.vb.lastIcon = 1
 mod.vb.ShockGrenadeIcon = 8
+
+function mod:PyroblastTarget(targetname, uId) --прошляпанное очко Мурчаля Прошляпенко ✔
+	if not targetname then return end
+	if targetname == UnitName("player") then
+		specWarnPyroblast:Show()
+		specWarnPyroblast:Play("targetyou")
+		yellPyroblast:Yell()
+	else
+		warnPyroblast:Show(targetname)
+	end
+	if self.Options.SetIconOnPyroblast then
+		self:SetIcon(targetname, 3)
+	end
+end
 
 function mod:DemonicChargeTarget(targetname, uId)
 	if not targetname then return end
@@ -166,10 +189,11 @@ function mod:SPELL_CAST_START(args)
 		if not self:IsLFR() then
 			countdownFusillade:Start(25.5) --точно под героик
 		end
-	elseif spellId == 246505 then
+	elseif spellId == 246505 then --Огненная глыба
+		self:BossTargetScanner(args.sourceGUID, "PyroblastTarget", 0.1, 2)
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
-			specWarnPyroblast:Show(args.sourceName)
-			specWarnPyroblast:Play("kickcast")
+			specWarnPyroblast2:Show(args.sourceName)
+			specWarnPyroblast2:Play("kickcast")
 		end
 	elseif spellId == 253040 then
 		self:BossTargetScanner(args.sourceGUID, "DemonicChargeTarget", 0.2, 9)
@@ -331,6 +355,20 @@ function mod:SPELL_AURA_APPLIED(args)
 				warnPsychicAssault:Show(args.destName, amount)
 			end
 		end
+	elseif spellId == 257974 then --Хаотический импульс
+		local amount = args.amount or 1
+		if amount == 6 then
+			warnChaosPulse:CombinedShow(1, args.destName)
+			if args:IsPlayer() and not self:IsMagicDispeller2() then
+				specWarnChaosPulse:Show()
+				specWarnChaosPulse:Play("stackhigh")
+				yellChaosPulse:Yell()
+			elseif args:IsPlayer() and self:IsMagicDispeller2() then
+				specWarnChaosPulse2:Show()
+				specWarnChaosPulse2:Play("dispelnow")
+				yellChaosPulse:Yell()
+			end
+		end
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
@@ -347,6 +385,11 @@ function mod:SPELL_AURA_REMOVED(args)
 		end
 		if self.Options.SetIconOnShockGrenade then
 			self:SetIcon(args.destName, 0)
+		end
+	elseif spellId == 244388 then --Псионный шрам
+		if args:IsPlayer() then
+			specWarnPsychicScarring:Show()
+			specWarnPsychicScarring:Play("end")
 		end
 	end
 end

@@ -66,5 +66,6 @@ L:SetGeneralLocalization({
 })
 
 L:SetMiscLocalization{
-	MurchalOchkenProshlyapen = "Schnell zu einer Kohlenpfanne!" --Schnell zu einer Kohlenpfanne! [Blitzeis] kommt!
+	MurchalOchkenProshlyapen = "Schnell zu einer Kohlenpfanne!", --Schnell zu einer Kohlenpfanne! [Blitzeis] kommt!
+	MurchalOchkenProshlyapen2 = "Dieses Gebiet wird für eine" --Dieses Gebiet wird für eine [Auslöschung] anvisiert!
 }

@@ -66,5 +66,6 @@ L:SetGeneralLocalization({
 })
 
 L:SetMiscLocalization{
-	MurchalOchkenProshlyapen = "화로로 가십시오!" --화로로 가십시오! 곧 [순간 빙결]이 시전됩니다!
+	MurchalOchkenProshlyapen = "화로로 가십시오!", --화로로 가십시오! 곧 [순간 빙결]이 시전됩니다!
+	MurchalOchkenProshlyapen2 = "의 대상이 되었습니다!" --이 지역은 [소멸 광선]의 대상이 되었습니다!
 }

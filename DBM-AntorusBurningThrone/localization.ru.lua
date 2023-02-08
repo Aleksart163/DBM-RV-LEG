@@ -131,10 +131,10 @@ L:SetWarningLocalization({
 
 L:SetTimerLocalization({
 	timerBossIncoming = DBM_INCOMING,
-	timerAmanThul = "Амантул",
-	timerKhazgoroth = "Пламя",
-	timerNorgannon = "Стенка",
-	timerGolganneth = "Молнии"
+	timerAmanThul = "~ Амантул",
+	timerKhazgoroth = "~ Пламя",
+	timerNorgannon = "~ Стенка",
+	timerGolganneth = "~ Молнии"
 })
 
 L:SetOptionLocalization({

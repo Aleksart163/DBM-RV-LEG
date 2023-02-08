@@ -6,6 +6,7 @@ mod:SetZone()
 
 mod:RegisterEvents(
 	"SPELL_AURA_APPLIED 251709",
+	"SPELL_AURA_REMOVED 251709",
 	"CHAT_MSG_RAID_BOSS_EMOTE"
 )
 
@@ -13,6 +14,7 @@ mod:RegisterEvents(
 
 local warnFrozen						= mod:NewTargetAnnounce(251709, 2) --Заморозка
 
+local specWarnObliterationBeam			= mod:NewSpecialWarningDodge(250249, nil, nil, nil, 2, 2) --Луч уничтожения
 local specWarnFlashFreeze				= mod:NewSpecialWarningMoveTo(64175, nil, nil, nil, 2, 3) --Ледяная вспышка
 local specWarnFrozen					= mod:NewSpecialWarningYou(251709, nil, nil, nil, 1, 3) --Заморозка
 
@@ -39,11 +41,23 @@ function mod:SPELL_AURA_APPLIED(args)
 	end
 end
 
+function mod:SPELL_AURA_REMOVED(args)
+	local spellId = args.spellId
+	if spellId == 251709 then --Заморозка
+		if args:IsPlayer() then
+			timerFrozen:Cancel(args.destName)
+		end
+	end
+end
+
 function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)
 	if strmatch(msg, L.MurchalOchkenProshlyapen) then
 		specWarnFlashFreeze:Show(warmth)
 		specWarnFlashFreeze:Play("justrun")
 		timerFlashFreezeCD:Start()
 		countdownFlashFreeze:Start()
+	elseif strmatch(msg, L.MurchalOchkenProshlyapen2) then
+		specWarnObliterationBeam:Show(shield)
+		specWarnObliterationBeam:Play("watchstep")
 	end
 end

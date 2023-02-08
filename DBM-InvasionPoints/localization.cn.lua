@@ -66,5 +66,6 @@ L:SetGeneralLocalization({
 })
 
 L:SetMiscLocalization{
-	MurchalOchkenProshlyapen = "快靠近火盆！" --快靠近火盆！[快速冻结]即将爆发！
+	MurchalOchkenProshlyapen = "快靠近火盆！", --快靠近火盆！[快速冻结]即将爆发！
+	MurchalOchkenProshlyapen2 = "这个区域已成为" --这个区域已成为[湮灭光束]的目标！
 }

@@ -66,5 +66,6 @@ L:SetGeneralLocalization({
 })
 
 L:SetMiscLocalization{
-	MurchalOchkenProshlyapen = "Approchez-vous d’un brasero !" --Approchez-vous d’un brasero ! [Gel instantané] va frapper !
+	MurchalOchkenProshlyapen = "Approchez-vous d’un brasero !", --Approchez-vous d’un brasero ! [Gel instantané] va frapper !
+	MurchalOchkenProshlyapen2 = "Cette zone est la cible" --Cette zone est la cible d’[Oblitération] !
 }

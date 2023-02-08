@@ -66,5 +66,6 @@ L:SetGeneralLocalization({
 })
 
 L:SetMiscLocalization{
-	MurchalOchkenProshlyapen = "Подойдите к жаровне!" --а лучше к очку Мурчаля
+	MurchalOchkenProshlyapen = "Подойдите к жаровне!", --а лучше к очку Мурчаля
+	MurchalOchkenProshlyapen2 = "Эта область выбрана целью для" --Эта область выбрана целью для [Уничтожения]
 }

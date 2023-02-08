@@ -10,7 +10,7 @@ mod.isTrashMod = true
 mod:RegisterEvents(
 	"SPELL_CAST_START 246209 245807 246444 254500",
 	"SPELL_CAST_SUCCESS 246664",
-	"SPELL_AURA_APPLIED 252760 246692 253600 254122 249297 246199 254948 246698 244399 254509 257920 248757 252797 245770 246687",
+	"SPELL_AURA_APPLIED 252760 246692 253600 254122 249297 246199 254948 246698 244399 254509 257920 248757 252797 245770 246687 254502",
 	"SPELL_AURA_APPLIED_DOSE 257920 248757",
 	"SPELL_AURA_REMOVED 252760 246692 254122 249297 253600 252797 245770 244399 254948 246687",
 	"SPELL_PERIODIC_DAMAGE 246199",
@@ -21,7 +21,8 @@ mod:RegisterEvents(
 )
 
 --АПТ трэш
-local warnDecimation2					= mod:NewTargetAnnounce(246687, 4) --Децимация (доделать)
+local warnFearsomeLeap					= mod:NewTargetAnnounce(254502, 2) --Ужасающий прыжок
+local warnDecimation2					= mod:NewTargetAnnounce(246687, 4) --Децимация
 local warnDemolish						= mod:NewTargetAnnounce(252760, 4) --Разрушение
 local warnCloudofConfuse				= mod:NewTargetAnnounce(254122, 4) --Облако растерянности
 local warnFlamesofReorig				= mod:NewTargetAnnounce(249297, 4, nil, false, 2) --Пламя пересоздания Can be spammy if handled poorly
@@ -56,6 +57,7 @@ local timerPunishingFlameCD				= mod:NewCDTimer(20, 246209, nil, "Melee", nil, 2
 local timerCloudofConfuse				= mod:NewTargetTimer(10, 254122, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON..DBM_CORE_DEADLY_ICON) --Облако растерянности
 local timerRoleplay						= mod:NewTimer(30, "timerRoleplay", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7) --Ролевая игра
 
+local yellFearsomeLeap					= mod:NewYell(254502, nil, nil, nil, "YELL") --Ужасающий прыжок
 local yellDecimation					= mod:NewYell(246687, nil, nil, nil, "YELL") --Децимация
 local yellDecimationFades				= mod:NewShortFadesYell(246687, nil, nil, nil, "YELL") --Децимация
 local yellDemolish						= mod:NewYell(252760, nil, nil, nil, "YELL") --Разрушение
@@ -239,6 +241,11 @@ function mod:SPELL_AURA_APPLIED(args)
 		if amount >= 2 then
 			specWarnPyrogenics:Show(args.destName)
 			specWarnPyrogenics:Play("dispelnow")
+		end
+	elseif spellId == 254502 then --Ужасающий прыжок
+		warnFearsomeLeap:CombinedShow(0.3, args.destName)
+		if args:IsPlayer() then
+			yellFearsomeLeap:Yell()
 		end
 	end
 end

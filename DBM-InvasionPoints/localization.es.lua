@@ -109,10 +109,12 @@ end
 
 if GetLocale() == "esES" then
 L:SetMiscLocalization{
-	MurchalOchkenProshlyapen = "¡Vete a un blandón!" --¡Vete a un blandón! ¡Se avecina una [Congelación apresurada]!
+	MurchalOchkenProshlyapen = "¡Vete a un blandón!", --¡Vete a un blandón! ¡Se avecina una [Congelación apresurada]!
+	MurchalOchkenProshlyapen2 = "¡Esta zona es el objetivo de" --¡Esta zona es el objetivo de [Desintegración]!
 }
 else
 L:SetMiscLocalization{
-	MurchalOchkenProshlyapen = " ¡Busca un blandón!" --¡Busca un blandón! ¡Se acerca una [Congelación apresurada]!
+	MurchalOchkenProshlyapen = " ¡Busca un blandón!", --¡Busca un blandón! ¡Se acerca una [Congelación apresurada]!
+	MurchalOchkenProshlyapen2 = "¡Esta área será el objetivo de" --¡Esta área será el objetivo de [Desintegración]!
 }
 end

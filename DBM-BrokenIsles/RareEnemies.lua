@@ -344,11 +344,14 @@ function mod:SPELL_CAST_START(args)
 			specWarnFear:Play("kickcast")
 		end
 	elseif spellId == 222676 then --Прокалывание
-		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
-			specWarnImpale:Show()
-			specWarnImpale:Play("kickcast")
+		local cid = self:GetCIDFromGUID(args.sourceGUID)
+		if cid == 103975 then
+			if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+				specWarnImpale:Show()
+				specWarnImpale:Play("kickcast")
+			end
+			timerImpaleCD:Start()
 		end
-		timerImpaleCD:Start()
 	elseif spellId == 189157 then --Вой смерти
 		specWarnDeathWail:Show()
 		specWarnDeathWail:Play("justrun")
@@ -368,7 +371,7 @@ function mod:SPELL_CAST_START(args)
 		end
 	elseif spellId == 222596 then --Залп клинков
 		local cid = self:GetCIDFromGUID(args.sourceGUID)
-		if (cid == 103975 or cid == 111939) then
+		if cid == 103975 or cid == 111939 then
 			specWarnBladeBarrage:Show()
 			specWarnBladeBarrage:Play("kickcast")
 			timerBladeBarrageCD:Start()
