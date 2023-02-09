@@ -18,7 +18,7 @@ local warnGrippingHatred	= mod:NewSpellAnnounce(115002, 2)
 local warnHazeofHate		= mod:NewTargetAnnounce(107087, 4)
 local warnRisingHate		= mod:NewCastAnnounce(107356, 4, 5)
 
-local specWarnGrippingHatred= mod:NewSpecialWarningSwitch("ej5817")
+local specWarnGrippingHatred= mod:NewSpecialWarningSwitch("ej5817", "-Healer", nil, nil, 1, 2)
 local specWarnHazeofHate	= mod:NewSpecialWarningYou(107087)
 local specWarnRisingHate	= mod:NewSpecialWarningInterrupt(107356, "-Healer")
 

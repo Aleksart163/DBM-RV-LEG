@@ -13,7 +13,12 @@ L:SetGeneralLocalization({
 	name = "Рейдовые заклинания"
 })
 
+L:SetWarningLocalization({
+	Rebirth = "%s применяет заклинание %s на %s"
+})
+
 L:SetOptionLocalization({
+	Rebirth = "Объявлять (с целью) источник использования заклинания $spell:20484",
 	YellOnHeroism = "Сообщать, когда кто-то применяет заклинание $spell:32182 или аналогичные ему",
 	YellOnResurrect = "Сообщать, когда на кого-то применили $spell:20484 или аналогичные ему",
 	YellOnPortal = "Сообщать, когда кто-то открывает $spell:224871 или аналогичные ему",

@@ -15,22 +15,24 @@ mod:RegisterEventsInCombat(
 )
 
 
-local warnInvokeLightning		= mod:NewSpellAnnounce(106984, 2, nil, false)
 local warnStaticField			= mod:NewAnnounce("warnStaticField", 3, 106923)--Target scanning verified working
 local warnChargingSoul			= mod:NewSpellAnnounce(110945, 3)--Phase 2
 local warnLightningBreath		= mod:NewSpellAnnounce(102573, 3)
 local warnMagneticShroud		= mod:NewSpellAnnounce(107140, 4)
 local warnOverchargedSoul		= mod:NewSpellAnnounce(110852, 3)--Phase 3
 
-local specWarnStaticField		= mod:NewSpecialWarningMove(106923)
-local specWarnStaticFieldNear	= mod:NewSpecialWarningClose(106923)
-local yellStaticField			= mod:NewYell(106923)
-local specWarnMagneticShroud	= mod:NewSpecialWarningSpell(107140)
+local specWarnInvokeLightning	= mod:NewSpecialWarningKeepDist(106984, nil, nil, nil, 2, 2) --Вызов молнии
+local specWarnChargingSoul		= mod:NewSpecialWarningSwitch(110945, "-Healer", nil, nil, 1, 2) --Укрепленная душа
+local specWarnStaticField		= mod:NewSpecialWarningMove(106923, nil, nil, nil, 1, 2) --Статическое поле
+local specWarnStaticFieldNear	= mod:NewSpecialWarningCloseMoveAway(106923, nil, nil, nil, 2, 2) --Статическое поле
+local specWarnMagneticShroud	= mod:NewSpecialWarningRunning(107140, nil, nil, nil, 4, 3) --Магнитный покров
 
 local timerInvokeLightningCD	= mod:NewNextTimer(6, 106984)--Phase 1 ability
 local timerStaticFieldCD		= mod:NewNextTimer(8, 106923, nil, nil, nil, 3)--^^
 local timerLightningBreathCD	= mod:NewCDTimer(6.8, 102573, nil, nil, nil, 5)--6.8-10 ish Phase 2 ability
 local timerMagneticShroudCD		= mod:NewCDTimer(12.5, 107140)--^^
+
+local yellStaticField			= mod:NewYell(106923, nil, nil, nil, "YELL") --Статическое поле
 
 local staticFieldText = DBM:GetSpellInfo(106923)
 -- very poor code. not clean. (to replace %%s -> %s)
@@ -72,7 +74,9 @@ end
 function mod:SPELL_AURA_APPLIED(args)
 	if args.spellId == 110945 then
 		warnChargingSoul:Show()
-		warnInvokeLightning:Cancel()
+		specWarnInvokeLightning:Cancel()
+		specWarnChargingSoul:Show()
+		specWarnChargingSoul:Play("mobkill")
 		timerStaticFieldCD:Cancel()
 		timerLightningBreathCD:Start()
 		timerMagneticShroudCD:Start(20)
@@ -83,7 +87,7 @@ end
 
 function mod:SPELL_AURA_REMOVED(args)
 	if args.spellId == 110945 then
-		warnInvokeLightning:Cancel()
+		specWarnInvokeLightning:Cancel()
 		timerStaticFieldCD:Cancel()
 	end
 end
@@ -93,7 +97,8 @@ function mod:SPELL_CAST_START(args)
 		self:BossTargetScanner(56754, "StaticFieldTarget", 0.05, 20)
 		timerStaticFieldCD:Start()
 	elseif args.spellId == 106984 then
-		warnInvokeLightning:Show()
+		specWarnInvokeLightning:Show(8)
+		specWarnInvokeLightning:Play("watchstep")
 		timerInvokeLightningCD:Start()
 	elseif args.spellId == 102573 then
 		warnLightningBreath:Show()
@@ -101,6 +106,7 @@ function mod:SPELL_CAST_START(args)
 	elseif args.spellId == 107140 then
 		warnMagneticShroud:Show()
 		specWarnMagneticShroud:Show()
+		specWarnMagneticShroud:Play("justrun")
 		timerMagneticShroudCD:Start()
 	end
 end

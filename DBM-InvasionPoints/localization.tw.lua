@@ -44,7 +44,7 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(2010)
 
 L:SetMiscLocalization({
-	Pull = "對…小傢伙，靠近一點！"
+	Pull = "對…小傢伙，靠近一點！" --
 })
 
 -----------------------

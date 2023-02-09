@@ -44,7 +44,7 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(2010)
 
 L:SetMiscLocalization({
-	Pull = "Подходите ближе... малыши!"
+	Pull = "Подходите ближе... малыши!" --
 })
 
 ----------------------------------

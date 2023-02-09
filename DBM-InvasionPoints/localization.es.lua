@@ -69,11 +69,11 @@ L= DBM:GetModLocalization(2010)
 
 if GetLocale() == "esES" then
 L:SetMiscLocalization({
-	Pull = "Sí... ¡Acercaos, pequeñajos!"
+	Pull = "Sí... ¡Acercaos, pequeñajos!" --
 })
 else
 L:SetMiscLocalization({
-	Pull = "Sí... ¡Acercaos, pequeñajos!"
+	Pull = "Sí... ¡Acérquense, pequeños!" --
 })
 end
 

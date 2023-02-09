@@ -44,7 +44,7 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(2010)
 
 L:SetMiscLocalization({
-	Pull = "그래... 가까이 오거라, 귀여운 것들!"
+	Pull = "그래... 가까이 오거라, 귀여운 것들!" --
 })
 
 -----------------------

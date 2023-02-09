@@ -11,7 +11,12 @@ L:SetGeneralLocalization({
 	name = "Raid Spells"
 })
 
+L:SetWarningLocalization({
+	Rebirth = "%s casts a spell %s on %s"
+})
+
 L:SetOptionLocalization({
+	Rebirth = "Announce (with target) the source of a spell to be used $spell:20484",
 	YellOnHeroism = "Announce when someone is casting a spell $spell:32182 or equivalent",
 	YellOnResurrect = "Announce when someone has been subjected to $spell:20484 or equivalent",
 	YellOnPortal = "Announce when someone opens $spell:224871 or equivalent",

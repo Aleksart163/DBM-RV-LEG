@@ -15,7 +15,8 @@ mod:RegisterEvents(
 	"SPELL_RESURRECT 95750 20484 61999"
 )
 
---Прошляпанное очко Мурчаля ✔
+--Прошляпанное очко Мурчаля Прошляпенко✔✔✔
+local warnRebirth					= mod:NewAnnounce("Rebirth", 1, 20484) --Возрождение
 local warnTimeWarp					= mod:NewTargetSourceAnnounce(80353, 1) --Искажение времени
 local warnHeroism					= mod:NewTargetSourceAnnounce(32182, 1) --Героизм
 local warnBloodlust					= mod:NewTargetSourceAnnounce(2825, 1) --Кровожадность
@@ -23,6 +24,9 @@ local warnHysteria					= mod:NewTargetSourceAnnounce(90355, 1) --Древняя 
 local warnNetherwinds				= mod:NewTargetSourceAnnounce(160452, 1) --Ветер пустоты
 local warnDrums						= mod:NewTargetSourceAnnounce(230935, 1) --Барабаны гор
 local warnRitualofSummoning			= mod:NewTargetSourceAnnounce(698, 1) --Ритуал призыва
+local warnLavishSuramar				= mod:NewTargetSourceAnnounce(201352, 1) --Щедрое сурамарское угощение
+local warnHearty					= mod:NewTargetSourceAnnounce(201351, 1) --Обильное угощение
+local warnCauldron					= mod:NewTargetSourceAnnounce(188036, 1) --Котел духов
 local warnSoulstone					= mod:NewTargetAnnounce(20707, 1) --Камень души
 
 local specWarnSoulstone				= mod:NewSpecialWarningYou(20707, nil, nil, nil, 1, 2) --Камень души
@@ -320,7 +324,9 @@ function mod:SPELL_CAST_SUCCESS(args)
 		if self.Options.YellOnSoulwell then
 			if IsInRaid() then
 				SendChatMessage(L.SoulwellYell:format(DbmRV, args.sourceName, soulwell), "RAID")
-			elseif IsInGroup() then
+			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
+				SendChatMessage(L.SoulwellYell:format(DbmRV, args.sourceName, soulwell), "INSTANCE_CHAT")
+			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
 				SendChatMessage(L.SoulwellYell:format(DbmRV, args.sourceName, soulwell), "PARTY")
 			end
 		end
@@ -364,27 +370,30 @@ function mod:SPELL_CREATE(args)
 				SendChatMessage(L.SummoningYell:format(DbmRV, args.sourceName, summoning), "PARTY")
 			end
 		end
-	elseif spellId == 188036 then --Котел духов
+	elseif spellId == 188036 and self:AntiSpam(2.5, 5) then --Котел духов
+		warnCauldron:Show(args.sourceName)
 		if self.Options.YellOnSpiritCauldron then
-			if IsInRaid() and self:AntiSpam(2.5, 5) then
+			if IsInRaid() then
 				SendChatMessage(L.SoulwellYell:format(DbmRV, args.sourceName, cauldron), "RAID")
-			elseif IsInGroup() and self:AntiSpam(2.5, 5) then
+			elseif IsInGroup() then
 				SendChatMessage(L.SoulwellYell:format(DbmRV, args.sourceName, cauldron), "PARTY")
 			end
 		end
-	elseif spellId == 201352 then --Щедрое сурамарское угощение
+	elseif spellId == 201352 and self:AntiSpam(2.5, 6) then --Щедрое сурамарское угощение
+		warnLavishSuramar:Show(args.sourceName)
 		if self.Options.YellOnLavish then
-			if IsInRaid() and self:AntiSpam(2.5, 6) then
+			if IsInRaid() then
 				SendChatMessage(L.SoulwellYell:format(DbmRV, args.sourceName, lavishSuramar), "RAID")
-			elseif IsInGroup() and self:AntiSpam(2.5, 6) then
+			elseif IsInGroup() then
 				SendChatMessage(L.SoulwellYell:format(DbmRV, args.sourceName, lavishSuramar), "PARTY")
 			end
 		end
-	elseif spellId == 201351 then --Обильное угощение
+	elseif spellId == 201351 and self:AntiSpam(2.5, 7) then --Обильное угощение
+		warnHearty:Show(args.sourceName)
 		if self.Options.YellOnLavish then
-			if IsInRaid() and self:AntiSpam(2.5, 7) then
+			if IsInRaid() then
 				SendChatMessage(L.SoulwellYell:format(DbmRV, args.sourceName, hearty), "RAID")
-			elseif IsInGroup() and self:AntiSpam(2.5, 7) then
+			elseif IsInGroup() then
 				SendChatMessage(L.SoulwellYell:format(DbmRV, args.sourceName, hearty), "PARTY")
 			end
 		end
@@ -401,7 +410,7 @@ function mod:SPELL_SUMMON(args)
 				elseif IsInGroup() then
 					SendChatMessage(L.SoulwellYell:format(DbmRV, args.sourceName, jeeves), "PARTY")
 				end
-			elseif spellId == 199109 and self:AntiSpam(2.5, 3) then --Автоматический молот
+			elseif spellId == 199109 and self:AntiSpam(5, 3) then --Автоматический молот
 				if IsInRaid() then
 					SendChatMessage(L.SoulwellYell:format(DbmRV, args.sourceName, autoHammer), "RAID")
 				elseif IsInGroup() then
@@ -423,26 +432,35 @@ end
 function mod:SPELL_RESURRECT(args)
 	local spellId = args.spellId
 	if spellId == 95750 then --Воскрешение камнем души
+		warnRebirth:Show(args.sourceName, rebirth, args.destName)
 		if self.Options.YellOnResurrect then
 			if IsInRaid() then
 				SendChatMessage(L.SoulstoneYell:format(DbmRV, args.sourceName, rebirth, args.destName), "RAID")
-			elseif IsInGroup() then
+			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
+				SendChatMessage(L.SoulstoneYell:format(DbmRV, args.sourceName, rebirth, args.destName), "INSTANCE_CHAT")
+			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
 				SendChatMessage(L.SoulstoneYell:format(DbmRV, args.sourceName, rebirth, args.destName), "PARTY")
 			end
 		end
 	elseif spellId == 20484 then --Возрождение
+		warnRebirth:Show(args.sourceName, rebirth, args.destName)
 		if self.Options.YellOnResurrect then
 			if IsInRaid() then
 				SendChatMessage(L.SoulstoneYell:format(DbmRV, args.sourceName, rebirth, args.destName), "RAID")
-			elseif IsInGroup() then
+			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
+				SendChatMessage(L.SoulstoneYell:format(DbmRV, args.sourceName, rebirth, args.destName), "INSTANCE_CHAT")
+			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
 				SendChatMessage(L.SoulstoneYell:format(DbmRV, args.sourceName, rebirth, args.destName), "PARTY")
 			end
 		end
 	elseif spellId == 61999 then --Воскрешение союзника
+		warnRebirth:Show(args.sourceName, rebirth, args.destName)
 		if self.Options.YellOnResurrect then
 			if IsInRaid() then
 				SendChatMessage(L.SoulstoneYell:format(DbmRV, args.sourceName, rebirth, args.destName), "RAID")
-			elseif IsInGroup() then
+			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
+				SendChatMessage(L.SoulstoneYell:format(DbmRV, args.sourceName, rebirth, args.destName), "INSTANCE_CHAT")
+			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
 				SendChatMessage(L.SoulstoneYell:format(DbmRV, args.sourceName, rebirth, args.destName), "PARTY")
 			end
 		end
