@@ -44,9 +44,9 @@
 ----------------------------------------------------------------
 --
 DBM = {
-	Revision = tonumber(("$Revision: 17701 $"):sub(12, -3)), --прошляпанное очко Мурчаля ✔
+	Revision = tonumber(("$Revision: 17702 $"):sub(12, -3)), --прошляпанное очко Мурчаля ✔
 	DisplayVersion = "7.3.43 Right Version",
-	ReleaseRevision = 17700
+	ReleaseRevision = 17701
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -6969,10 +6969,10 @@ end
 
 do
 	local testMod
-	local testWarning1, testWarning2, testWarning3
+	local testWarning1, testWarning2, testWarning3, testWarning4, testWarning5
 	local testTimer1, testTimer2, testTimer3, testTimer4, testTimer5, testTimer6, testTimer7, testTimer8
 	local testCount1, testCount2
-	local testSpecialWarning1, testSpecialWarning2, testSpecialWarning3
+	local testSpecialWarning1, testSpecialWarning2, testSpecialWarning3, testSpecialWarning4, testSpecialWarning5, testSpecialWarning6
 	function DBM:DemoMode()
 		if not testMod then
 			testMod = self:NewMod("TestMod")
@@ -6980,6 +6980,7 @@ do
 			testWarning1 = testMod:NewAnnounce("%s", 1, "Interface\\Icons\\Spell_Nature_WispSplode")
 			testWarning2 = testMod:NewAnnounce("%s", 2, "Interface\\Icons\\Spell_Shadow_ShadesOfDarkness")
 			testWarning3 = testMod:NewAnnounce("%s", 3, "Interface\\Icons\\Spell_Fire_SelfDestruct")
+			testWarning4 = testMod:NewAnnounce("%s", 2, "Interface\\Icons\\Spell_Shadow_Demoniccirclesummon")
 			testTimer1 = testMod:NewTimer(20, "%s", "Interface\\Icons\\Spell_Nature_WispSplode", nil, nil)
 			testTimer2 = testMod:NewTimer(20, "%s ", "Interface\\ICONS\\INV_Misc_Head_Orc_01.blp", nil, nil, 1, DBM_CORE_DAMAGE_ICON)
 			testTimer3 = testMod:NewTimer(20, "%s  ", "Interface\\Icons\\Spell_Shadow_ShadesOfDarkness", nil, nil, 3, DBM_CORE_MAGIC_ICON)
@@ -6992,42 +6993,97 @@ do
 			testCount2 = testMod:NewCountdown(0, 0, nil, nil, nil, true, true)
 			testSpecialWarning1 = testMod:NewSpecialWarning("%s", nil, nil, nil, 1, 2)
 			testSpecialWarning2 = testMod:NewSpecialWarning(" %s ", nil, nil, nil, 2, 2)
-			testSpecialWarning3 = testMod:NewSpecialWarning("  %s  ", nil, nil, nil, 3, 2) -- hack: non auto-generated special warnings need distinct names (we could go ahead and give them proper names with proper localization entries, but this is much easier)
+			testSpecialWarning3 = testMod:NewSpecialWarning("  %s  ", nil, nil, nil, 3, 6) -- hack: non auto-generated special warnings need distinct names (we could go ahead and give them proper names with proper localization entries, but this is much easier)
+			testSpecialWarning4 = testMod:NewSpecialWarning("   %s   ", nil, nil, nil, 1, 2)
+			testSpecialWarning5 = testMod:NewSpecialWarning("    %s    ", nil, nil, nil, 1, 2)
+			testSpecialWarning6 = testMod:NewSpecialWarning("     %s     ", nil, nil, nil, 4, 5)
 		end
-		testTimer1:Start(10, "Test Bar")
-		testTimer2:Start(30, "Adds")
-		testTimer3:Start(43, "Evil Debuff")
-		testTimer4:Start(20, "Important Interrupt")
-		testTimer5:Start(60, "Boom!")
-		testTimer6:Start(35, "Handle your Role")
-		testTimer7:Start(50, "Next Stage")
-		testTimer8:Start(55, "Custom User Bar")
+		if (LOCALE_ruRU) then -- need your localization? /w Куплиняшка or /w Selendiss
+		-- only ru
+			testTimer1:Start(5, "Тест бар")
+			testTimer2:Start(15, "Треш-мобы")
+			testTimer3:Start(25, "Злой дебафф")
+			testTimer4:Start(10, "Прерывание спелла")
+			testTimer5:Start(45, "АОЕ по рейду")
+			testTimer6:Start(20, "Специально для роли")
+			testTimer7:Start(30, "Следующая фаза")
+			testTimer8:Start(35, "Важно к вниманию")
+		else --others
+			testTimer1:Start(5, "Test Bar")
+			testTimer2:Start(15, "Adds")
+			testTimer3:Start(25, "Evil Debuff")
+			testTimer4:Start(10, "Important Interrupt")
+			testTimer5:Start(45, "Boom!")
+			testTimer6:Start(20, "Handle your Role")
+			testTimer7:Start(30, "Next Stage")
+			testTimer8:Start(35, "important to attention")
+		end
 		testCount1:Cancel()
-		testCount1:Start(43)
+		testCount1:Start(25)
 		testCount2:Cancel()
-		testCount2:Start(60)
+		testCount2:Start(45)
 		testWarning1:Cancel()
 		testWarning2:Cancel()
 		testWarning3:Cancel()
+		testWarning4:Cancel()
 		testSpecialWarning1:Cancel()
 		testSpecialWarning1:CancelVoice()
 		testSpecialWarning2:Cancel()
 		testSpecialWarning2:CancelVoice()
 		testSpecialWarning3:Cancel()
 		testSpecialWarning3:CancelVoice()
-		testWarning1:Show("Test-mode started...")
-		testWarning1:Schedule(62, "Test-mode finished!")
-		testWarning3:Schedule(50, "Boom in 10 sec!")
-		testWarning3:Schedule(20, "Pew Pew Laser Owl!")
-		testWarning2:Schedule(38, "Evil Spell in 5 sec!")
-		testWarning2:Schedule(43, "Evil Spell!")
-		testWarning1:Schedule(10, "Test bar expired!")
-		testSpecialWarning1:Schedule(20, "Pew Pew Laser Owl")
-		testSpecialWarning1:ScheduleVoice(20, "runaway")
-		testSpecialWarning2:Schedule(43, "Fear!")
-		testSpecialWarning2:ScheduleVoice(43, "fearsoon")
-		testSpecialWarning3:Schedule(60, "Boom!")
-		testSpecialWarning3:ScheduleVoice(60, "defensive")
+		testSpecialWarning4:Cancel()
+		testSpecialWarning4:CancelVoice()
+		testSpecialWarning5:Cancel()
+		testSpecialWarning5:CancelVoice()
+		testSpecialWarning6:Cancel()
+		testSpecialWarning6:CancelVoice()
+		if (LOCALE_ruRU) then --need your localization? /w Куплиняшка or /w Selendiss
+		-- only ru
+			testWarning1:Show("Начался тест-мод...")
+			testWarning1:Schedule(48, "Тест-мод окончен!")
+			testWarning1:Schedule(30, "Фаза 2")
+			testWarning3:Schedule(38, "Взрыв через 7 сек!")
+			testWarning3:Schedule(10, "Прошляпанное очко Мурчаля!")
+			testWarning4:Schedule(15, "Вызов подкрепления!")
+			testWarning2:Schedule(20, "Злой спелл через 5 сек!")
+			testWarning2:Schedule(25, "Злой спелл!")
+			testWarning1:Schedule(5, "Тест бара окончен!")
+			testSpecialWarning1:Schedule(10, "Прошляпанное очко Мурчаля - прервите каст!")
+			testSpecialWarning1:ScheduleVoice(10, "kickcast")
+			testSpecialWarning2:Schedule(25, "Страх! - отвернитесь")
+			testSpecialWarning2:ScheduleVoice(25, "fearsoon")
+			testSpecialWarning3:Schedule(45, "АОЕ по рейду! - защититесь")
+			testSpecialWarning3:ScheduleVoice(45, "defensive")
+			testSpecialWarning4:Schedule(15, "Вызов подкрепления - переключитесь")
+			testSpecialWarning4:ScheduleVoice(15, "mobkill")
+			testSpecialWarning5:Schedule(20, "Обстрел Скверны - затаунти")
+			testSpecialWarning5:ScheduleVoice(20, "tauntboss")
+			testSpecialWarning6:Schedule(35, "Очко Мурчаля на вас - отбегите от других")
+			testSpecialWarning6:ScheduleVoice(35, "runaway")
+		else --others
+			testWarning1:Show("Test-mode started...")
+			testWarning1:Schedule(48, "Test-mode finished!")
+			testWarning1:Schedule(30, "Stage 2")
+			testWarning3:Schedule(38, "Boom in 7 sec!")
+			testWarning3:Schedule(10, "Proshlyap Murchal's point")
+			testWarning4:Schedule(15, "Summon Reinforcements!")
+			testWarning2:Schedule(20, "Evil Spell in 5 sec!")
+			testWarning2:Schedule(25, "Evil Spell!")
+			testWarning1:Schedule(5, "Test bar expired!")
+			testSpecialWarning1:Schedule(10, "Murchal's point - stop casting")
+			testSpecialWarning1:ScheduleVoice(10, "kickcast")
+			testSpecialWarning2:Schedule(25, "Fear! - look away")
+			testSpecialWarning2:ScheduleVoice(25, "fearsoon")
+			testSpecialWarning3:Schedule(45, "Boom! - defensive")
+			testSpecialWarning3:ScheduleVoice(45, "defensive")
+			testSpecialWarning4:Schedule(15, "Summon Reinforcements - switch targets")
+			testSpecialWarning4:ScheduleVoice(15, "mobkill")
+			testSpecialWarning5:Schedule(20, "Fel Bombardment - taunt now")
+			testSpecialWarning5:ScheduleVoice(20, "tauntboss")
+			testSpecialWarning6:Schedule(35, "Necrotic Embrace on you - move away from others")
+			testSpecialWarning6:ScheduleVoice(35, "runaway")
+		end
 	end
 end
 
