@@ -15,7 +15,7 @@ mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 244625 246505 253040 245227 244907",
-	"SPELL_CAST_SUCCESS 244722 244892 245227 253037 245174",
+	"SPELL_CAST_SUCCESS 244722 244892 245227 253037 245174 244625",
 	"SPELL_AURA_APPLIED 244737 244892 253015 244172 257974",
 	"SPELL_AURA_APPLIED_DOSE 244892 244172 257974",
 	"SPELL_AURA_REMOVED 244737 253015 244388",
@@ -30,7 +30,7 @@ local Erodus = DBM:EJ_GetSectionInfo(16130)
 --General
 local warnActivateFelshield				= mod:NewTargetSourceAnnounce(244907, 1) --Активация щита Скверны
 local warnPyroblast						= mod:NewTargetAnnounce(246505, 4) --Огненная глыба
-local warnChaosPulse					= mod:NewTargetAnnounce(257974, 3, nil, "MagicDispeller2") --Хаотический импульс
+--local warnChaosPulse					= mod:NewTargetAnnounce(257974, 3, nil, "MagicDispeller2") --Хаотический импульс
 local warnOutofPod						= mod:NewTargetAnnounce("ej16098", 2, 244141) --Вне капсулы
 local warnExploitWeakness				= mod:NewStackAnnounce(244892, 2, nil, "Tank|Healer") --Обнаружить слабое место
 local warnPsychicAssault				= mod:NewStackAnnounce(244172, 3, nil, "-Tank", 2) --Псионная атака
@@ -42,6 +42,7 @@ local warnEntropicMine					= mod:NewSpellAnnounce(245161, 2) --Энтропич�
 local warnDemonicCharge					= mod:NewTargetAnnounce(253040, 2, nil, "Ranged", 2) --Демонический рывок
 --Out of Pod
 ----Admiral Svirax
+local warnFusillade						= mod:NewTargetSourceCountAnnounce(244625, 4) --Шквальный огонь
 local warnShockGrenade					= mod:NewTargetAnnounce(244737, 4, nil, true, 2) --Шоковая граната
 ----Chief Engineer Ishkar
 
@@ -296,6 +297,8 @@ function mod:SPELL_CAST_SUCCESS(args)
 		else
 			warnDemonicCharge:Show(args.destName)
 		end]]
+	elseif spellId == 244625 then --Шквальный огонь
+		warnFusillade:Show(args.sourceName, self.vb.FusilladeCount)
 	end
 end
 
@@ -361,7 +364,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 257974 then --Хаотический импульс
 		local amount = args.amount or 1
 		if amount == 6 then
-			warnChaosPulse:CombinedShow(1, args.destName)
+		--	warnChaosPulse:CombinedShow(1, args.destName)
 			if args:IsPlayer() and not self:IsMagicDispeller2() then
 				specWarnChaosPulse:Show()
 				specWarnChaosPulse:Play("stackhigh")
