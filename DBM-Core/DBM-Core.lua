@@ -9314,6 +9314,10 @@ do
 		return newAnnounce(self, "targetsource", spellId, color or 1, ...)
 	end
 	
+	function bossModPrototype:NewTargetSourceAnnounce2(spellId, color, ...)
+		return newAnnounce(self, "targetsource2", spellId, color or 1, ...)
+	end
+	
 	function bossModPrototype:NewTargetSourceCountAnnounce(spellId, color, ...)
 		return newAnnounce(self, "targetsourcecount", spellId, color or 1, ...)
 	end

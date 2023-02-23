@@ -297,6 +297,9 @@ DBM_CORE_ACHIEVEMENT_TIMER_SPEED_KILL = "成就"
 
 DBM_CORE_AUTO_ANNOUNCE_TEXTS.you			= "你中了%s"
 DBM_CORE_AUTO_ANNOUNCE_TEXTS.target			= "%s:>%%s<"
+DBM_CORE_AUTO_ANNOUNCE_TEXTS.targetsource  	= ">%%s< 施放 %s"
+DBM_CORE_AUTO_ANNOUNCE_TEXTS.targetsource2  = ">%%s< 施放 %s 在 >%%s<"
+DBM_CORE_AUTO_ANNOUNCE_TEXTS.targetsourcecount = ">%%s< 施放 %s (%%s)"
 DBM_CORE_AUTO_ANNOUNCE_TEXTS.targetcount	= "%s (%%s):>%%s<"
 DBM_CORE_AUTO_ANNOUNCE_TEXTS.spell			= "%s"
 DBM_CORE_AUTO_ANNOUNCE_TEXTS.ends 			= "%s結束"
@@ -313,6 +316,9 @@ DBM_CORE_AUTO_ANNOUNCE_TEXTS.stack			= ">%%s<中了%s (%%d)"
 
 DBM_CORE_AUTO_ANNOUNCE_OPTIONS.you			= "提示當你中了$spell:%s"
 DBM_CORE_AUTO_ANNOUNCE_OPTIONS.target		= "提示$spell:%s的目標"
+DBM_CORE_AUTO_ANNOUNCE_OPTIONS.targetsource	= "提示：$spell:%s的目標(包含來源)"
+DBM_CORE_AUTO_ANNOUNCE_OPTIONS.targetsource2 = "提示：$spell:%s的目標(with target)" --need translate
+DBM_CORE_AUTO_ANNOUNCE_OPTIONS.targetsourcecount = "提示：$spell:%s的目標(with count)" --need translate
 DBM_CORE_AUTO_ANNOUNCE_OPTIONS.targetcount	= "提示$spell:%s的目標(次數)"
 DBM_CORE_AUTO_ANNOUNCE_OPTIONS.spell		= "為$spell:%s顯示警告"
 DBM_CORE_AUTO_ANNOUNCE_OPTIONS.ends			= "為$spell:%s結束顯示警告"

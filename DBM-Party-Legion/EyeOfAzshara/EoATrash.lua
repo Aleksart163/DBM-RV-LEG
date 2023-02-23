@@ -61,7 +61,7 @@ mod:AddSetIconOption("SetIconOnImprisoningBubble", 195253, true, false, {7}) --�
 mod:AddSetIconOption("SetIconOnPolymorph", 197105, true, false, {6}) --Превращение в рыбу
 mod:AddRangeFrameOption(10, 192706) --Чародейская бомба
 
-function mod:PolymorphTarget(targetname, uId) --Превращение в рыбу (✔)
+function mod:PolymorphTarget(targetname, uId) --Превращение в рыбу Мурчаля Прошляпенко ✔
 	if not targetname then return end
 	if targetname == UnitName("player") then
 		yellPolymorph:Yell()

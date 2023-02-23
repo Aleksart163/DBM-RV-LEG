@@ -2,8 +2,8 @@ local mod	= DBM:NewMod("Spells", "DBM-Spells")
 local L		= mod:GetLocalizedStrings()
 
 mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
-mod:SetZone()
---mod:SetZone(1712, 1676, 1530, 1648, 1520, 1779, 1501, 1466, 1456, 1477, 1458, 1516, 1571, 1492, 1544, 1493, 1651, 1677, 1753)
+--mod:SetZone()
+mod:SetZone(1712, 1676, 1530, 1648, 1520, 1779, 1501, 1466, 1456, 1477, 1458, 1516, 1571, 1492, 1544, 1493, 1651, 1677, 1753)
 
 mod.noStatistics = true
 
@@ -16,7 +16,6 @@ mod:RegisterEvents(
 )
 
 --Прошляпанное очко Мурчаля Прошляпенко✔✔✔
-local warnRebirth					= mod:NewAnnounce("Rebirth", 1, 20484) --Возрождение
 local warnTimeWarp					= mod:NewTargetSourceAnnounce(80353, 1) --Искажение времени
 local warnHeroism					= mod:NewTargetSourceAnnounce(32182, 1) --Героизм
 local warnBloodlust					= mod:NewTargetSourceAnnounce(2825, 1) --Кровожадность
@@ -28,6 +27,7 @@ local warnLavishSuramar				= mod:NewTargetSourceAnnounce(201352, 1) --Щедро
 local warnHearty					= mod:NewTargetSourceAnnounce(201351, 1) --Обильное угощение
 local warnCauldron					= mod:NewTargetSourceAnnounce(188036, 1) --Котел духов
 local warnSoulstone					= mod:NewTargetAnnounce(20707, 1) --Камень души
+local warnRebirth					= mod:NewTargetSourceAnnounce2(20484, 1) --Возрождение
 
 local specWarnSoulstone				= mod:NewSpecialWarningYou(20707, nil, nil, nil, 1, 2) --Камень души
 
@@ -432,7 +432,7 @@ end
 function mod:SPELL_RESURRECT(args)
 	local spellId = args.spellId
 	if spellId == 95750 then --Воскрешение камнем души
-		warnRebirth:Show(args.sourceName, rebirth, args.destName)
+		warnRebirth:Show(args.sourceName, args.destName)
 		if self.Options.YellOnResurrect then
 			if IsInRaid() then
 				SendChatMessage(L.SoulstoneYell:format(DbmRV, args.sourceName, rebirth, args.destName), "RAID")
@@ -443,7 +443,7 @@ function mod:SPELL_RESURRECT(args)
 			end
 		end
 	elseif spellId == 20484 then --Возрождение
-		warnRebirth:Show(args.sourceName, rebirth, args.destName)
+		warnRebirth:Show(args.sourceName, args.destName)
 		if self.Options.YellOnResurrect then
 			if IsInRaid() then
 				SendChatMessage(L.SoulstoneYell:format(DbmRV, args.sourceName, rebirth, args.destName), "RAID")
@@ -454,7 +454,7 @@ function mod:SPELL_RESURRECT(args)
 			end
 		end
 	elseif spellId == 61999 then --Воскрешение союзника
-		warnRebirth:Show(args.sourceName, rebirth, args.destName)
+		warnRebirth:Show(args.sourceName, args.destName)
 		if self.Options.YellOnResurrect then
 			if IsInRaid() then
 				SendChatMessage(L.SoulstoneYell:format(DbmRV, args.sourceName, rebirth, args.destName), "RAID")
