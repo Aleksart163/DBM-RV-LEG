@@ -14,7 +14,7 @@ mod.respawnTime = 30
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_START 244625 246505 253040 245227",
+	"SPELL_CAST_START 244625 246505 253040 245227 244907",
 	"SPELL_CAST_SUCCESS 244722 244892 245227 253037 245174",
 	"SPELL_AURA_APPLIED 244737 244892 253015 244172 257974",
 	"SPELL_AURA_APPLIED_DOSE 244892 244172 257974",
@@ -28,6 +28,7 @@ local Svirax = DBM:EJ_GetSectionInfo(16126)
 local Ishkar = DBM:EJ_GetSectionInfo(16128)
 local Erodus = DBM:EJ_GetSectionInfo(16130)
 --General
+local warnActivateFelshield				= mod:NewTargetSourceAnnounce(244907, 1) --Активация щита Скверны
 local warnPyroblast						= mod:NewTargetAnnounce(246505, 4) --Огненная глыба
 local warnChaosPulse					= mod:NewTargetAnnounce(257974, 3, nil, "MagicDispeller2") --Хаотический импульс
 local warnOutofPod						= mod:NewTargetAnnounce("ej16098", 2, 244141) --Вне капсулы
@@ -262,6 +263,8 @@ function mod:SPELL_CAST_START(args)
 				timerSummonReinforcementsCD:Start(19) --Вызов подкрепления
 			end
 		end
+	elseif spellId == 244907 then --Активация щита Скверны
+		warnActivateFelshield:Show(args.sourceName)
 	end
 end
 
