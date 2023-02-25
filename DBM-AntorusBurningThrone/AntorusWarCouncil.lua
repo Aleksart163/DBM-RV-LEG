@@ -65,7 +65,7 @@ local specWarnFusillade					= mod:NewSpecialWarningMoveTo(244625, nil, nil, nil,
 ----General Erodus
 local specWarnSummonReinforcements		= mod:NewSpecialWarningSwitch(245546, "Dps|Tank", nil, nil, 1, 2) --Вызов подкрепления
 -------Adds
-local specWarnPyroblast2				= mod:NewSpecialWarningInterrupt(246505, "HasInterrupt", nil, nil, 1, 2)
+local specWarnPyroblast2				= mod:NewSpecialWarningInterrupt(246505, "HasInterrupt", nil, nil, 1, 2) --Огненная глыба
 local specWarnDemonicChargeYou			= mod:NewSpecialWarningYou(253040, nil, nil, nil, 1, 2) --Демонический рывок
 local specWarnDemonicCharge				= mod:NewSpecialWarningClose(253040, nil, nil, nil, 1, 2) --Демонический рывок
 --Out of Pod
@@ -128,7 +128,7 @@ function mod:PyroblastTarget(targetname, uId) --прошляпанное очк�
 		warnPyroblast:Show(targetname)
 	end
 	if self.Options.SetIconOnPyroblast then
-		self:SetIcon(targetname, 3)
+		self:SetIcon(targetname, 3, 9)
 	end
 end
 

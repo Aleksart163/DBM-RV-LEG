@@ -34,34 +34,34 @@ local Xoroth = DBM:EJ_GetSectionInfo(15800)
 local Rancora = DBM:EJ_GetSectionInfo(15801)
 local Nathreza = DBM:EJ_GetSectionInfo(15802)
 
-local warnXorothPortal2					= mod:NewSoonAnnounce(244318, 1) --Усиленный портал Зорот
-local warnRancoraPortal2				= mod:NewSoonAnnounce(246082, 1) --Усиленный портал Ранкора
-local warnNathrezaPortal2				= mod:NewSoonAnnounce(246157, 1) --Усиленный портал Натреза
+local warnXorothPortal2					= mod:NewSoonAnnounce(244320, 1) --Усиленный портал Зорот
+local warnRancoraPortal2				= mod:NewSoonAnnounce(246084, 1) --Усиленный портал Ранкора
+local warnNathrezaPortal2				= mod:NewSoonAnnounce(246159, 1) --Усиленный портал Натреза
 --Platform: Nexus
 local warnRealityTear					= mod:NewStackAnnounce(244016, 2, nil, "Tank|Healer") --Разрыв реальности
 --Platform: Xoroth
-local warnXorothPortal					= mod:NewSpellAnnounce(244318, 2, nil, nil, nil, nil, nil, 7) --Усиленный портал Зорот
+local warnXorothPortal					= mod:NewSpellAnnounce(244318, 2, nil, "-MeleeDps", nil, nil, nil, 7) --Усиленный портал Зорот
 local warnAegisofFlames					= mod:NewTargetAnnounce(244383, 3, nil, nil, nil, nil, nil, nil, true) --Пламенная эгида
 local warnAegisofFlamesEnded			= mod:NewEndAnnounce(244383, 1) --Пламенная эгида
 local warnEverburningFlames				= mod:NewTargetAnnounce(244613, 2, nil, false) --Неугасающее пламя
 --Platform: Rancora
-local warnRancoraPortal					= mod:NewSpellAnnounce(246082, 2, nil, nil, nil, nil, nil, 7) --Усиленный портал Ранкора
+local warnRancoraPortal					= mod:NewSpellAnnounce(246082, 2, nil, "-MeleeDps", nil, nil, nil, 7) --Усиленный портал Ранкора
 local warnCausticSlime					= mod:NewTargetAnnounce(244849, 2, nil, false) --Едкая слизь
 --Platform: Nathreza
-local warnNathrezaPortal				= mod:NewSpellAnnounce(246157, 2, nil, nil, nil, nil, nil, 7) --Усиленный портал Натреза
+local warnNathrezaPortal				= mod:NewSpellAnnounce(246157, 2, nil, "-MeleeDps", nil, nil, nil, 7) --Усиленный портал Натреза
 local warnDelusions						= mod:NewTargetAnnounce(245050, 2, nil, "Healer") --Заблуждения
 local warnCloyingShadows				= mod:NewTargetAnnounce(245118, 2, nil, false) --Надоедливые тени
 local warnHungeringGloom				= mod:NewTargetAnnounce(245075, 2, nil, false) --Алчущий сумрак
 
-local specWarnXorothPortal				= mod:NewSpecialWarningMoveTo(244073, "MeleeDps", nil, nil, 3, 6) --портал Зорот
-local specWarnRancoraPortal				= mod:NewSpecialWarningMoveTo(244136, "MeleeDps", nil, nil, 3, 6) --портал Ранкора
-local specWarnNathrezaPortal			= mod:NewSpecialWarningMoveTo(244146, "MeleeDps", nil, nil, 3, 6) --портал Натреза
+local specWarnXorothPortal				= mod:NewSpecialWarningMoveTo(244320, "MeleeDps", nil, nil, 3, 6) --портал Зорот
+local specWarnRancoraPortal				= mod:NewSpecialWarningMoveTo(246084, "MeleeDps", nil, nil, 3, 6) --портал Ранкора
+local specWarnNathrezaPortal			= mod:NewSpecialWarningMoveTo(246159, "MeleeDps", nil, nil, 3, 6) --портал Натреза
 --Platform: Nexus
 local specWarnRealityTear				= mod:NewSpecialWarningStack(244016, nil, 3, nil, nil, 3, 5) --Разрыв реальности
 local specWarnRealityTearOther			= mod:NewSpecialWarningTaunt(244016, nil, nil, nil, 3, 5) --Разрыв реальности
 local specWarnTransportPortal			= mod:NewSpecialWarningSwitch(244677, "-Healer", nil, 2, 1, 2) --Транспортный портал
 local specWarnCollapsingWorld			= mod:NewSpecialWarningDodgeCount(243983, nil, nil, nil, 2, 3) --Гибнущий мир
-local specWarnFelstormBarrage			= mod:NewSpecialWarningDodge(244000, nil, nil, nil, 2, 3) --Шквальный обстрел Скверны
+local specWarnFelstormBarrage			= mod:NewSpecialWarningDodge(244000, nil, nil, nil, 2, 5) --Шквальный обстрел Скверны
 local specWarnFieryDetonation			= mod:NewSpecialWarningInterrupt(244709, "HasInterrupt", nil, 2, 1, 2) --Огненный подрыв
 local specWarnHowlingShadows			= mod:NewSpecialWarningInterrupt(245504, "HasInterrupt", nil, nil, 1, 2) --Воющие тени
 --local specWarnGTFO					= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 2)
@@ -305,7 +305,7 @@ end
 
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
-	if spellId == 244016 then
+	if spellId == 244016 then --Разрыв реальности
 		local uId = DBM:GetRaidUnitId(args.destName)
 		local amount = args.amount or 1
 		if amount >= 3 then

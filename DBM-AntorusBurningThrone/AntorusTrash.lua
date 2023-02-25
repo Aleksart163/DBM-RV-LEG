@@ -8,7 +8,7 @@ mod:SetUsedIcons(8, 7, 6, 5, 4, 3, 2, 1)
 mod.isTrashMod = true
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 246209 245807 246444 254500",
+	"SPELL_CAST_START 246209 245807 246444 254500 246505",
 	"SPELL_CAST_SUCCESS 246664",
 	"SPELL_AURA_APPLIED 252760 246692 253600 254122 249297 246199 254948 246698 244399 254509 257920 248757 252797 245770 246687 254502",
 	"SPELL_AURA_APPLIED_DOSE 257920 248757",
@@ -21,12 +21,16 @@ mod:RegisterEvents(
 )
 
 --АПТ трэш
+local warnPyroblast						= mod:NewTargetAnnounce(246505, 4) --Огненная глыба
 local warnFearsomeLeap					= mod:NewTargetAnnounce(254502, 2) --Ужасающий прыжок
 local warnDecimation2					= mod:NewTargetAnnounce(246687, 4) --Децимация
 local warnDemolish						= mod:NewTargetAnnounce(252760, 4) --Разрушение
 local warnCloudofConfuse				= mod:NewTargetAnnounce(254122, 4) --Облако растерянности
 local warnFlamesofReorig				= mod:NewTargetAnnounce(249297, 4, nil, false, 2) --Пламя пересоздания Can be spammy if handled poorly
 local warnSoulburn						= mod:NewTargetAnnounce(253600, 3) --Горящая душа
+
+local specWarnPyroblast					= mod:NewSpecialWarningYou(246505, nil, nil, nil, 2, 6) --Огненная глыба
+local specWarnPyroblast2				= mod:NewSpecialWarningInterrupt(246505, "HasInterrupt", nil, nil, 1, 2) --Огненная глыба
 --Крушитель Кин'гарота
 local specWarnDecimation				= mod:NewSpecialWarningYouMoveAway(246687, nil, nil, nil, 4, 3) --Децимация
 local specWarnDecimation2				= mod:NewSpecialWarningDodge(246687, "-Tank", nil, nil, 2, 2) --Децимация
@@ -57,6 +61,7 @@ local timerPunishingFlameCD				= mod:NewCDTimer(20, 246209, nil, "Melee", nil, 2
 local timerCloudofConfuse				= mod:NewTargetTimer(10, 254122, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON..DBM_CORE_DEADLY_ICON) --Облако растерянности
 local timerRoleplay						= mod:NewTimer(30, "timerRoleplay", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7) --Ролевая игра
 
+local yellPyroblast						= mod:NewYell(246505, nil, nil, nil, "YELL") --Огненная глыба
 local yellFearsomeLeap					= mod:NewYell(254502, nil, nil, nil, "YELL") --Ужасающий прыжок
 local yellDecimation					= mod:NewYell(246687, nil, nil, nil, "YELL") --Децимация
 local yellDecimationFades				= mod:NewShortFadesYell(246687, nil, nil, nil, "YELL") --Децимация
@@ -69,6 +74,7 @@ local yellFlamesofReorig2				= mod:NewFadesYell(249297, nil, nil, nil, "YELL") -
 local yellSoulburn						= mod:NewYell(253600, nil, nil, nil, "YELL") --Горящая душа
 local yellSoulburn2						= mod:NewFadesYell(253600, nil, nil, nil, "YELL") --Горящая душа
 
+mod:AddSetIconOption("SetIconOnPyroblast", 246505, true, false, {8}) --Огненная глыба
 mod:AddSetIconOption("SetIconOnCloudofConfuse", 254122, true, false, {8}) --Облако растерянности
 mod:AddSetIconOption("SetIconOnFlamesofReorig", 249297, true, false, {3}) --Пламя пересоздания
 mod:AddSetIconOption("SetIconOnSoulburn", 253600, true, false, {8, 7, 6, 5, 4}) --Горящая душа
@@ -80,6 +86,20 @@ mod:AddBoolOption("BossActivation", true)
 mod.vb.demolishIcon = 6
 mod.vb.decimationIcon = 1
 mod.vb.soulburnIcon = 8
+
+function mod:PyroblastTarget(targetname, uId) --прошляпанное очко Мурчаля Прошляпенко ✔
+	if not targetname then return end
+	if targetname == UnitName("player") then
+		specWarnPyroblast:Show()
+		specWarnPyroblast:Play("targetyou")
+		yellPyroblast:Yell()
+	else
+		warnPyroblast:Show(targetname)
+	end
+	if self.Options.SetIconOnPyroblast then
+		self:SetIcon(targetname, 8, 9)
+	end
+end
 
 function mod:SPELL_CAST_START(args)
 	if not self.Options.Enabled then return end
@@ -95,6 +115,12 @@ function mod:SPELL_CAST_START(args)
 			timerPunishingFlameCD:Start()
 		else
 			timerPunishingFlameCD:Start()
+		end
+	elseif spellId == 246505 then --Огненная глыба
+		self:BossTargetScanner(args.sourceGUID, "PyroblastTarget", 0.1, 2)
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnPyroblast2:Show(args.sourceName)
+			specWarnPyroblast2:Play("kickcast")
 		end
 	elseif spellId == 245807 and self:AntiSpam(3, 1) then
 		if not UnitIsDeadOrGhost("player") then

@@ -60,7 +60,7 @@ local specWarnChargedBlastsUnknown		= mod:NewSpecialWarningDodge(247716, nil, ni
 local specWarnShrapnalBlast				= mod:NewSpecialWarningDodge(247923, nil, nil, nil, 1, 2) --Заряд шрапнели
 --Stage Three/Five: The Perfect Weapon
 local specWarnEmpPulseGrenade			= mod:NewSpecialWarningYouMoveAway(250006, nil, nil, nil, 4, 6) --Усиленная импульсная граната
-local specWarnEmpPulseGrenade2			= mod:NewSpecialWarning("PulseGrenade", nil, nil, nil, 1, 3) --Усиленная импульсная граната
+local specWarnEmpPulseGrenade2			= mod:NewSpecialWarning("PulseGrenade", nil, nil, nil, 1, 5) --Усиленная импульсная граната
 local specWarnEmpPulseGrenade3			= mod:NewSpecialWarningEnd(250006, nil, nil, nil, 1, 2) --Усиленная импульсная граната
 --Intermission: On Deadly Ground
 
