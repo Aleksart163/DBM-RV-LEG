@@ -44,9 +44,9 @@
 ----------------------------------------------------------------
 --
 DBM = {
-	Revision = tonumber(("$Revision: 17702 $"):sub(12, -3)), --прошляпанное очко Мурчаля ✔
-	DisplayVersion = "7.3.43 Right Version",
-	ReleaseRevision = 17701
+	Revision = tonumber(("$Revision: 17703 $"):sub(12, -3)), --прошляпанное очко Мурчаля (Прошляпенко) ✔✔✔
+	DisplayVersion = "7.3.44 Right Version",
+	ReleaseRevision = 17702
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -174,7 +174,7 @@ DBM.DefaultOptions = {
 	InfoFrameY = -75,
 	InfoFrameShowSelf = false,
 	InfoFrameLines = 0,
-	WarningDuration2 = 1.5,
+	WarningDuration2 = 2,
 	WarningPoint = "CENTER",
 	WarningX = 0,
 	WarningY = 260,
@@ -182,7 +182,7 @@ DBM.DefaultOptions = {
 	WarningFontSize = 20,
 	WarningFontStyle = "None",
 	WarningFontShadow = true,
-	SpecialWarningDuration2 = 1.5,
+	SpecialWarningDuration2 = 2,
 	SpecialWarningPoint = "CENTER",
 	SpecialWarningX = 0,
 	SpecialWarningY = 75,

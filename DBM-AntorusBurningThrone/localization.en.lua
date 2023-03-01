@@ -131,25 +131,26 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(1986)
 
 L:SetWarningLocalization({
-	Amantul = "Torment of Aman'Thul in 5 sec - switch target",
-	Norgannon = "Torment of Norgannon in 5 sec - run to the center",
-	Golgannet = "Torment of Golganneth in 5 sec - keep a distance of 2m",
-	Kazgagot = "Torment of Khaz'goroth in 5 sec - leave the center"
+	Amantul 			= "Torment of Aman'Thul in 5 sec - switch target",
+	Norgannon 			= "Torment of Norgannon in 5 sec - run to the center",
+	Golgannet 			= "Torment of Golganneth in 5 sec - keep a distance of 2m",
+	Kazgagot 			= "Torment of Khaz'goroth in 5 sec - leave the center"
 })
 
 L:SetTimerLocalization({
-	timerBossIncoming = DBM_INCOMING,
-	timerAmanThul = "Aman'Thul",
-	timerKhazgoroth = "Flames",
-	timerNorgannon = "Army",
-	timerGolganneth = "Lightning"
+	timerBossIncoming 	= DBM_INCOMING,
+	timerAmanThul 		= "Aman'Thul",
+	timerKhazgoroth 	= "Flames",
+	timerNorgannon 		= "Army",
+	timerGolganneth 	= "Lightning"
 })
 
 L:SetOptionLocalization({
-	Amantul = "Show special warning 5 seconds before appearing $spell:252479",
-	Norgannon = "Show special warning 5 seconds before appearing $spell:244740",
-	Golgannet = "Show special warning 5 seconds before appearing $spell:244756",
-	Kazgagot = "Show special warning 5 seconds before appearing $spell:244733",
+	ShowProshlyapMurchal = "Show announcements for $journal:16138 (Requires raid leader)",
+	Amantul 			= "Show special warning 5 seconds before appearing $spell:252479",
+	Norgannon 			= "Show special warning 5 seconds before appearing $spell:244740",
+	Golgannet 			= "Show special warning 5 seconds before appearing $spell:244756",
+	Kazgagot 			= "Show special warning 5 seconds before appearing $spell:244733",
 	timerBossIncoming	= "Show timer for next boss swap",
 	TauntBehavior		= "Set taunt behavior for tank swaps",
 	TwoMythicThreeNon	= "Swap at 2 stacks on mythic, 3 stacks on other difficulties",--Default
@@ -167,10 +168,14 @@ L:SetOptionLocalization({
 	timerGolganneth 	= "Show timer for $spell:249793 cast"
 })
 
---[[
+
 L:SetMiscLocalization({
-	YellPullCoven = "I can't wait to hear your flesh sizzle."
-})]]
+	ProshlyapMurchal4	= "ARMY - RUN TO THE CENTER",
+	ProshlyapMurchal3	= "LIGHTNING - KEEP A DISTANCE OF 2m",
+	ProshlyapMurchal2	= "FLAMES - LEAVE THE CENTER",
+	ProshlyapMurchal1	= "AMAN'THUL - SWITCH TARGET",
+	YellPullCoven 		= "I can't wait to hear your flesh sizzle."
+})
 
 ---------------------------
 -- Aggramar --

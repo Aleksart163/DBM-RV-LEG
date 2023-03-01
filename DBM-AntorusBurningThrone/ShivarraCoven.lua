@@ -75,7 +75,7 @@ local specWarnOrbofFrost				= mod:NewSpecialWarningDodge(253650, nil, nil, nil, 
 local specWarnTouchoftheCosmos			= mod:NewSpecialWarningInterruptCount(250648, "HasInterrupt", nil, nil, 1, 2) --Прикосновение космоса
 local specWarnCosmicGlare				= mod:NewSpecialWarningYou(250757, nil, nil, nil, 1, 2) --Космический отблеск
 --Torment of the Titans
-local specWarnTormentofTitans			= mod:NewSpecialWarningSpell("ej16138", nil, nil, nil, 1, 7)
+local specWarnTormentofTitans			= mod:NewSpecialWarningSpell("ej16138", nil, nil, nil, 1, 6) --Мучения Титанов
 
 --General
 local timerBossIncoming					= mod:NewTimer(61, "timerBossIncoming", nil, nil, nil, 1)
@@ -136,6 +136,7 @@ mod:AddInfoFrameOption(245586, true) --Студеная кровь
 mod:AddNamePlateOption("NPAuraOnVisageofTitan", 249863)
 mod:AddBoolOption("SetLighting", true)
 mod:AddBoolOption("IgnoreFirstKick", false)
+mod:AddBoolOption("ShowProshlyapMurchal", true)
 mod:AddMiscLine(DBM_CORE_OPTION_CATEGORY_DROPDOWNS)
 mod:AddDropdownOption("InterruptBehavior", {"Three", "Four", "Five"}, "Three", "misc")
 mod:AddDropdownOption("TauntBehavior", {"TwoMythicThreeNon", "TwoAlways", "ThreeAlways"}, "TwoMythicThreeNon", "misc")
@@ -153,6 +154,30 @@ mod.vb.interruptBehavior = "Three"
 mod.vb.ignoreFirstInterrupt = false
 mod.vb.firstCastHappend = false
 local CVAR1, CVAR2 = nil, nil
+
+local function ProshlyapM1(self) --прошляпанное очко Мурчаля Прошляпенко ✔
+	if self.Options.ShowProshlyapMurchal then
+		SendChatMessage(L.ProshlyapMurchal1, "RAID_WARNING")
+	end
+end
+
+local function ProshlyapM2(self)
+	if self.Options.ShowProshlyapMurchal then
+		SendChatMessage(L.ProshlyapMurchal2, "RAID_WARNING")
+	end
+end
+
+local function ProshlyapM3(self)
+	if self.Options.ShowProshlyapMurchal then
+		SendChatMessage(L.ProshlyapMurchal3, "RAID_WARNING")
+	end
+end
+
+local function ProshlyapM4(self)
+	if self.Options.ShowProshlyapMurchal then
+		SendChatMessage(L.ProshlyapMurchal4, "RAID_WARNING")
+	end
+end
 
 function mod:OnCombatStart(delay)
 	self.vb.shivarrsCount = 0
@@ -299,32 +324,76 @@ function mod:SPELL_CAST_SUCCESS(args)
 		countdownTitans:Start()
 		if spellId == 250335 then --Махинации Амантула
 			timerMachinationsofAmanThulCD:Start()
-			specWarnAmantul2:Schedule(80)
+			specWarnAmantul2:Schedule(75)
 			if not UnitIsDeadOrGhost("player") then
 				specWarnAmantul:Schedule(85)
-				specWarnAmantul:ScheduleVoice(85, "mobkill")
+				specWarnAmantul:ScheduleVoice(85, "runtoedge")
+				specWarnTormentofTitans:Schedule(90)
+				specWarnTormentofTitans:ScheduleVoice(90, "mobkill")
 			end
+			self:Schedule(85, ProshlyapM1, self)
+			self:Schedule(85.5, ProshlyapM1, self)
+			self:Schedule(86, ProshlyapM1, self)
+			self:Schedule(86.5, ProshlyapM1, self)
+			self:Schedule(87, ProshlyapM1, self)
+			self:Schedule(87.5, ProshlyapM1, self)
+			self:Schedule(88, ProshlyapM1, self)
+			self:Schedule(88.5, ProshlyapM1, self)
+			self:Schedule(89, ProshlyapM1, self)
 		elseif spellId == 250333 then --Пламя Казгарота
 			timerFlamesofKhazgorothCD:Start()
-			specWarnKazgagot2:Schedule(80)
+			specWarnKazgagot2:Schedule(75)
 			if not UnitIsDeadOrGhost("player") then
 				specWarnKazgagot:Schedule(85)
-				specWarnKazgagot:ScheduleVoice(85, "watchstep")
+				specWarnKazgagot:ScheduleVoice(85, "runtoedge")
+				specWarnTormentofTitans:Schedule(90)
+				specWarnTormentofTitans:ScheduleVoice(90, "mobkill")
 			end
-		elseif spellId == 250334 then --Призрачная армия Норганнона
-			timerSpectralArmyofNorgannonCD:Start()
-			specWarnNorgannon2:Schedule(80)
-			if not UnitIsDeadOrGhost("player") then
-				specWarnNorgannon:Schedule(85)
-				specWarnNorgannon:ScheduleVoice(85, "watchstep")
-			end
+			self:Schedule(85, ProshlyapM2, self)
+			self:Schedule(85.5, ProshlyapM2, self)
+			self:Schedule(86, ProshlyapM2, self)
+			self:Schedule(86.5, ProshlyapM2, self)
+			self:Schedule(87, ProshlyapM2, self)
+			self:Schedule(87.5, ProshlyapM2, self)
+			self:Schedule(88, ProshlyapM2, self)
+			self:Schedule(88.5, ProshlyapM2, self)
+			self:Schedule(89, ProshlyapM2, self)
 		elseif spellId == 249793 then --Ярость Голганнета
 			timerFuryofGolgannethCD:Start()
-			specWarnGolgannet2:Schedule(80)
+			specWarnGolgannet2:Schedule(75)
 			if not UnitIsDeadOrGhost("player") then
 				specWarnGolgannet:Schedule(85)
-				specWarnGolgannet:ScheduleVoice(85, "watchstep")
+				specWarnGolgannet:ScheduleVoice(85, "scatter")
+				specWarnTormentofTitans:Schedule(90)
+				specWarnTormentofTitans:ScheduleVoice(90, "mobkill")
 			end
+			self:Schedule(85, ProshlyapM3, self)
+			self:Schedule(85.5, ProshlyapM3, self)
+			self:Schedule(86, ProshlyapM3, self)
+			self:Schedule(86.5, ProshlyapM3, self)
+			self:Schedule(87, ProshlyapM3, self)
+			self:Schedule(87.5, ProshlyapM3, self)
+			self:Schedule(88, ProshlyapM3, self)
+			self:Schedule(88.5, ProshlyapM3, self)
+			self:Schedule(89, ProshlyapM3, self)
+		elseif spellId == 250334 then --Призрачная армия Норганнона
+			timerSpectralArmyofNorgannonCD:Start()
+			specWarnNorgannon2:Schedule(75)
+			if not UnitIsDeadOrGhost("player") then
+				specWarnNorgannon:Schedule(85)
+				specWarnNorgannon:ScheduleVoice(85, "frontcenter")
+				specWarnTormentofTitans:Schedule(90)
+				specWarnTormentofTitans:ScheduleVoice(90, "watchstep")
+			end
+			self:Schedule(85, ProshlyapM4, self)
+			self:Schedule(85.5, ProshlyapM4, self)
+			self:Schedule(86, ProshlyapM4, self)
+			self:Schedule(86.5, ProshlyapM4, self)
+			self:Schedule(87, ProshlyapM4, self)
+			self:Schedule(87.5, ProshlyapM4, self)
+			self:Schedule(88, ProshlyapM4, self)
+			self:Schedule(88.5, ProshlyapM4, self)
+			self:Schedule(89, ProshlyapM4, self)
 		end
 		if self:IsMythic() then
 			if self.vb.shivarrsCount == 1 then --свалила Дима
@@ -547,7 +616,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	if spellId == 259068 or spellId == 259066 or spellId == 259069 or spellId == 259070 then
 		local name = UnitName(uId)
 		name = string.split(",", name)--Strip title
-		specWarnTormentofTitans:Show()
+	--[[	specWarnTormentofTitans:Show()
 		if spellId == 259068 then--Torment of Aman'Thul
 			self.vb.MachinationsLeft = 4
 			specWarnTormentofTitans:Play("mobkill")
@@ -559,7 +628,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 		elseif spellId == 259070 then--Torment of Golganneth
 			specWarnTormentofTitans:Play("scatter")
 			specWarnTormentofTitans:ScheduleVoice(1, "mobkill")
-		end
+		end]]
 		if not titanCount[name] then
 			titanCount[name] = 1
 		elseif titanCount[name] then
