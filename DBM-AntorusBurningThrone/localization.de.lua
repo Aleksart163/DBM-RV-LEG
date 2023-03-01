@@ -125,15 +125,23 @@ L:SetMiscLocalization({
 ---------------------------
 L= DBM:GetModLocalization(1986)
 
+L:SetWarningLocalization({
+	Amantul 			= "Pein von Aman'thul nach 5 sek - Ziel wechseln",
+	Norgannon 			= "Pein von Norgannon nach 5 sek - lauf in die Mitte",
+	Golgannet 			= "Pein von Golganneth nach 5 sek - haltet radius 2m",
+	Kazgagot 			= "Pein von Khaz'goroth nach 5 sek - geh von der Mitte weg"
+})
+
 L:SetTimerLocalization({
 	timerBossIncoming	= DBM_INCOMING,
-	timerAmanThul = "Aman'thul",
-	timerKhazgoroth = "Flammen",
-	timerNorgannon = "Heer",
-	timerGolganneth = "Blitz"
+	timerAmanThul 		= "Aman'thul",
+	timerKhazgoroth 	= "Flammen",
+	timerNorgannon 		= "Heer",
+	timerGolganneth 	= "Blitz"
 })
 
 L:SetOptionLocalization({
+	ShowProshlyapMurchal = "Spezialwarnung zum $journal:16138 (nur als Schlachtzugsleiter)",
 	timerBossIncoming	= "Zeige Zeit bis nächsten Bosswechsel",
 	TauntBehavior		= "Setze Spottverhalten für Tankwechsel",
 	TwoMythicThreeNon	= "Wechsel bei 2 Stacks (mythisch) bzw. 3 Stacks (andere Schwierigkeitsgrade)",
@@ -150,11 +158,15 @@ L:SetOptionLocalization({
 	timerNorgannon 		= "Wirkzeit von $spell:250334 anzeigen",
 	timerGolganneth 	= "Wirkzeit von $spell:249793 anzeigen"
 })
---[[
+
 L:SetMiscLocalization({
+	ProshlyapMurchal4	= "Heer - ALLES IN DIE MITTE",
+	ProshlyapMurchal3	= "Blitz - RADIUS 2 METER",
+	ProshlyapMurchal2	= "Flammen - ALLE SIND AUS DEM ZENTRUM VERSCHWUNDEN",
+	ProshlyapMurchal1	= "Aman'thul - ZIEL WECHSELN",
 	YellPullCoven		= "Ich möchte Eure Glieder schmoren sehen!" --на всякий случай потом погуглить и проверить
 })
---]]
+--
 
 ---------------------------
 -- Aggramar --
