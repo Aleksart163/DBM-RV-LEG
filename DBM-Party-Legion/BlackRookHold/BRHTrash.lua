@@ -8,7 +8,7 @@ mod:SetZone()
 mod.isTrashMod = true
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 200261 221634 221688 225573 214003 221132 220918 200248 221363 221380 200343 193633 200291",
+	"SPELL_CAST_START 200261 221634 221688 225573 214003 221132 220918 200248 221363 221380 200343 193633 200291 227913",
 	"SPELL_AURA_APPLIED 194966 221132 221363 225909",
 	"SPELL_AURA_APPLIED_DOSE 225909",
 	"SPELL_AURA_REMOVED 194966 221132 221363",
@@ -46,6 +46,7 @@ local specWarnCoupdeGrace			= mod:NewSpecialWarningDefensive(214003, "Tank", nil
 local specWarnBonebreakingStrike	= mod:NewSpecialWarningDodge(200261, "Melee", nil, nil, 2, 2) --Костедробильный удар
 local specWarnSoulEchos				= mod:NewSpecialWarningYouMoveAway(194966, nil, nil, nil, 3, 2) --Эхо души
 local specWarnArrowBarrage			= mod:NewSpecialWarningDodge(200343, nil, nil, nil, 2, 2) --Залп стрел
+local specWarnFelfrenzy				= mod:NewSpecialWarningInterrupt(227913, "HasInterrupt", nil, nil, 1, 2) --Неистовство Скверны
 --Braxas the Fleshcarver
 local specWarnWhirlOfFlame			= mod:NewSpecialWarningDodge(221634, nil, nil, nil, 2, 2) --Вихрь пламени
 local specWarnOverDetonation		= mod:NewSpecialWarningRun(221688, nil, nil, nil, 4, 2) --Мощная детонация
@@ -147,6 +148,9 @@ function mod:SPELL_CAST_START(args)
 		self:BossTargetScanner(args.sourceGUID, "ShootTarget", 0.1, 2)
 	elseif spellId == 200291 and self:AntiSpam(2, 1) then --Танец с кинжалами
 		warnKnifeDance:Show()
+	elseif spellId == 227913 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Неистовство Скверны
+		specWarnFelfrenzy:Show()
+		specWarnFelfrenzy:Play("kickcast")
 	end
 end
 

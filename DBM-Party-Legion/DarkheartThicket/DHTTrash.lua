@@ -8,7 +8,7 @@ mod:SetZone()
 mod.isTrashMod = true
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 201226 200580 200630",
+	"SPELL_CAST_START 201226 200580 200630 200768",
 	"SPELL_CAST_SUCCESS 201272",
 	"SPELL_SUMMON 198910",
 	"SPELL_AURA_APPLIED 204243 225568 198904",
@@ -22,6 +22,7 @@ local warnCurseofIsolation				= mod:NewTargetAnnounce(225568, 3) --Прокля�
 local warnPoisonSpear					= mod:NewTargetAnnounce(198904, 3) --Отравленное копье
 local warnUnnervingScreech				= mod:NewCastAnnounce(200630, 4) --Ошеломляющий визг
 
+local specWarnPropellingCharge			= mod:NewSpecialWarningDodge(200768, nil, nil, nil, 2, 3) --Рывок вперед
 local specWarnCurseofIsolation2			= mod:NewSpecialWarningYou(225568, nil, nil, nil, 2, 3) --Проклятие уединения
 local specWarnCurseofIsolation3			= mod:NewSpecialWarningYouDispel(225568, "CurseDispeller", nil, nil, 2, 3) --Проклятие уединения
 local specWarnCurseofIsolation			= mod:NewSpecialWarningDispel(225568, "CurseDispeller", nil, nil, 1, 3) --Проклятие уединения
@@ -64,6 +65,9 @@ function mod:SPELL_CAST_START(args)
 			warnUnnervingScreech:Show()
 			warnUnnervingScreech:Play("kickcast")
 		end
+	elseif spellId == 200768 and self:AntiSpam(1.5, 7) then --Рывок вперед
+		specWarnPropellingCharge:Show()
+		specWarnPropellingCharge:Play("watchstep")
 	end
 end
 
@@ -79,11 +83,13 @@ end
 
 function mod:SPELL_SUMMON(args)
 	local spellId = args.spellId
-	if spellId == 198910 and self:AntiSpam(3, 4) then --Злогриб
+	if spellId == 198910 then --Злогриб
 		if not self:IsNormal() then
-			specWarnVileMushroom:Show()
-			specWarnVileMushroom:Play("watchstep")
-			timerVileMushroomCD:Start()
+			if self:AntiSpam(2, 4) then
+				specWarnVileMushroom:Show()
+				specWarnVileMushroom:Play("watchstep")
+			end
+			timerVileMushroomCD:Start(args.sourceGUID)
 		end
 	end
 end

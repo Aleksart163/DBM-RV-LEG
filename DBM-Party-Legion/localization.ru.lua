@@ -144,7 +144,13 @@ L:SetGeneralLocalization({
 ------------
 L= DBM:GetModLocalization(1485)
 
+L:SetOptionLocalization({
+	ShowProshlyapMurchal = "Показать прошляп Мурчаля"
+})
+
 L:SetMiscLocalization({
+	ProshlyapMurchal3 = "Прошляп Мурчаля через 10 сек",
+	ProshlyapMurchal2 = "Прошляп Мурчаля через 5 сек",
 	proshlyapMurchal = "Славная битва! Теперь ваш путь свободен."
 })
 
