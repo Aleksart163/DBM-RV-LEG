@@ -36,12 +36,10 @@ local warnPrePhase3					= mod:NewPrePhaseAnnounce(3, 1)
 local warnPrePhase4					= mod:NewPrePhaseAnnounce(4, 1)
 local warnReapSoul					= mod:NewTargetSourceAnnounce(256542, 4) --Жатва душ
 local warnEndofAllThings			= mod:NewTargetSourceAnnounce(256544, 4) --Конец всего сущего
-local warnSkyandSea2				= mod:NewTargetSourceAnnounce(255594, 1) --Небо и море
 --Stage One: Storm and Sky
 local warnTorturedRage				= mod:NewCountAnnounce(257296, 2) --Ярость порабощенного
 local warnSweepingScythe			= mod:NewStackAnnounce(248499, 2, nil, "Tank|Healer") --Сметающая коса
 local warnBlightOrb					= mod:NewCountAnnounce(248317, 2) --Чумная сфера
-local warnSoulblight				= mod:NewTargetAnnounce(248396, 2, nil, false, 2) --Изнуряющая чума
 local warnSkyandSea					= mod:NewTargetAnnounce(255594, 1) --Небо и море
 --Stage one Mythic
 local warnSargRage					= mod:NewTargetAnnounce(257869, 3) --Ярость Саргераса
@@ -57,11 +55,10 @@ local warnCosmicRay					= mod:NewTargetAnnounce(252729, 3) --Космическ�
 local warnCosmicBeacon				= mod:NewTargetAnnounce(252616, 2) --Космический маяк
 local warnDiscsofNorg				= mod:NewCastAnnounce(252516, 1) --Диски Норганнона
 --Stage Three Mythic
-local warnSargSentence				= mod:NewTargetAnnounce(257966, 3) --Приговор Саргераса
+local warnSargSentence				= mod:NewTargetAnnounce(257966, 4) --Приговор Саргераса
 local warnEdgeofAnni				= mod:NewCountAnnounce(258834, 4) --Грань аннигиляции
 local warnSoulRendingScythe			= mod:NewStackAnnounce(258838, 2, nil, "Tank|Healer") --Рассекающая коса
 --Stage Four: The Gift of Life, The Forge of Loss (Non Mythic)
-local warnReorgModule				= mod:NewSpellAnnounce(256389, 3, nil, "-Ranged") --Модуль пересозидания
 local warnGiftOfLifebinder			= mod:NewCastAnnounce(257619, 1) --Дар Хранительницы жизни
 local warnDeadlyScythe				= mod:NewStackAnnounce(258039, 2, nil, "Tank|Healer") --Смертоносная коса
 
@@ -74,9 +71,9 @@ local specWarnSoulblight			= mod:NewSpecialWarningYouMoveAway(248396, nil, nil, 
 local specWarnGiftofSea				= mod:NewSpecialWarningYouMoveAway(258647, nil, nil, nil, 3, 5) --Дар моря
 local specWarnGiftofSky				= mod:NewSpecialWarningYouMoveAway(258646, nil, nil, nil, 3, 5) --Дар небес
 --Mythic P1
-local specWarnSargGaze				= mod:NewSpecialWarningPreWarn(258068, nil, 5, nil, nil, 1, 2) --Пристальный взгляд Саргераса
-local specWarnSargRage				= mod:NewSpecialWarningYouMoveAway(257869, nil, nil, nil, 3, 2) --Ярость Саргераса
-local specWarnSargFear				= mod:NewSpecialWarningMoveTo(257931, nil, nil, nil, 3, 2) --Страх перед Саргерасом
+local specWarnSargGaze				= mod:NewSpecialWarningPreWarn(258068, nil, 5, nil, nil, 3, 6) --Пристальный взгляд Саргераса
+local specWarnSargRage				= mod:NewSpecialWarningMoveAway(257869, nil, nil, nil, 3, 6) --Ярость Саргераса
+local specWarnSargFear				= mod:NewSpecialWarningShare(257931, nil, nil, nil, 3, 6) --Страх перед Саргерасом
 local specWarnGTFO					= mod:NewSpecialWarningYouMove(248167, nil, nil, nil, 1, 2)
 --Stage Two: The Protector Redeemed
 local specWarnSoulburst				= mod:NewSpecialWarningYouMoveAway(250669, nil, nil, nil, 1, 2) --Взрывная душа
@@ -87,14 +84,13 @@ local specWarnAvatarofAggra			= mod:NewSpecialWarningYou(255199, nil, nil, nil, 
 --Stage Three: The Arcane Masters
 local specWarnCosmicRay				= mod:NewSpecialWarningYouMoveAway(252729, nil, nil, nil, 1, 2) --Космический луч
 --Stage Three Mythic
-local specWarnSargSentence			= mod:NewSpecialWarningYou(257966, nil, nil, nil, 1, 2) --Приговор Саргераса
+local specWarnSargSentence			= mod:NewSpecialWarningYouDontMove(257966, nil, nil, nil, 3, 6) --Приговор Саргераса
 local specWarnApocModule			= mod:NewSpecialWarningSwitchCount(258029, "Dps", nil, nil, 3, 3) --Процесс инициализации (мифик)
 local specWarnEdgeofAnni			= mod:NewSpecialWarningDodge(258834, nil, nil, nil, 2, 2) --Грань аннигиляции
 local specWarnSoulrendingScythe		= mod:NewSpecialWarningStack(258838, nil, 2, nil, nil, 3, 2) --Рассекающая коса
 local specWarnSoulrendingScytheTaunt= mod:NewSpecialWarningTaunt(258838, nil, nil, nil, 1, 2) --Рассекающая коса
 --Stage Four: The Gift of Life, The Forge of Loss (Non Mythic)
 local specWarnEmberofRage			= mod:NewSpecialWarningDodge(257299, nil, nil, nil, 2, 2) --Глыбы ярости
-local specWarnEmberofRage2			= mod:NewSpecialWarningStack(257299, nil, 1, nil, nil, 1, 3) --Глыбы ярости
 local specWarnDeadlyScythe			= mod:NewSpecialWarningStack(258039, nil, 3, nil, nil, 1, 2) --Смертоносная коса
 local specWarnDeadlyScytheTaunt		= mod:NewSpecialWarningTaunt(258039, nil, nil, nil, 1, 2) --Смертоносная коса
 local specWarnReorgModule			= mod:NewSpecialWarningSwitch(256389, "RangedDps", nil, nil, 3, 6) --Модуль пересозидания
@@ -108,7 +104,7 @@ local timerBlightOrbCD				= mod:NewCDCountTimer(25, 248317, nil, nil, nil, 3) --
 local timerTorturedRageCD			= mod:NewCDCountTimer(13, 257296, nil, nil, nil, 2, nil, DBM_CORE_HEALER_ICON) --Ярость порабощенного 13-16
 local timerSkyandSeaCD				= mod:NewCDCountTimer(24.9, 255594, nil, nil, nil, 7) --Небо и море 24.9-27.8
 mod:AddTimerLine(ENCOUNTER_JOURNAL_SECTION_FLAG12)--Mythic Stage 1
-local timerSargGazeCD				= mod:NewCDCountTimer(35.2, 258068, nil, nil, nil, 3, nil, DBM_CORE_MYTHIC_ICON) --Пристальный взгляд Саргераса
+local timerSargGazeCD				= mod:NewCDCountTimer(35, 258068, nil, nil, nil, 3, nil, DBM_CORE_MYTHIC_ICON) --Пристальный взгляд Саргераса
 --Stage Two: The Protector Redeemed
 mod:AddTimerLine(SCENARIO_STAGE:format(2))
 local timerSoulBombCD				= mod:NewNextTimer(42, 251570, nil, nil, nil, 3, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Бомба души
@@ -138,20 +134,21 @@ local yellGiftofSky2				= mod:NewFadesYell(258646, nil, nil, nil, "YELL") --Да
 local yellGiftofSea					= mod:NewYell(258647, L.SeaText, nil, nil, "YELL") --Дар моря
 local yellGiftofSea2				= mod:NewFadesYell(258647, nil, nil, nil, "YELL") --Дар моря
 local yellSoulblightFades			= mod:NewShortFadesYell(248396, nil, nil, nil, "YELL") --Изнуряющая чума
-local yellSoulblight				= mod:NewYell(248396, L.Blight, nil, nil, "YELL") --Изнуряющая чума
-local yellSargRage					= mod:NewShortYell(257869, 6612, nil, nil, "YELL") --Ярость Саргераса
-local yellSargFear					= mod:NewShortYell(257931, 5782, nil, nil, "YELL") --Страх перед Саргерасом
+local yellSoulblight				= mod:NewYell(248396, L.Blight2, nil, nil, "YELL") --Изнуряющая чума
+local yellSargRage					= mod:NewYell(257869, L.Rage, nil, nil, "YELL") --Ярость Саргераса
+local yellSargFear					= mod:NewYell(257931, L.Fear, nil, nil, "YELL") --Страх перед Саргерасом
+local yellSargRage2					= mod:NewFadesYell(257869, nil, nil, nil, "YELL") --Ярость Саргераса (32.5 сек с страхом)
+local yellSargFear2					= mod:NewFadesYell(257931, nil, nil, nil, "YELL") --Страх перед Саргерасом
 local yellSargFearCombo				= mod:NewComboYell(257931, 5782, nil, nil, "YELL") --Страх перед Саргерасом
 local yellSoulbomb					= mod:NewPosYell(251570, DBM_CORE_AUTO_YELL_CUSTOM_POSITION, nil, nil, "YELL") --Бомба души
 local yellSoulbombFades				= mod:NewIconFadesYell(251570, 155188, nil, nil, "YELL") --Бомба души
 local yellSoulburst					= mod:NewPosYell(250669, DBM_CORE_AUTO_YELL_CUSTOM_POSITION, nil, nil, "YELL") --Взрывная душа
 local yellSoulburstFades			= mod:NewIconFadesYell(250669, nil, nil, nil, "YELL") --Взрывная душа
-local yellSargSentence				= mod:NewYell(257966, L.Sentence, nil, nil, "YELL") --Приговор Саргераса
+local yellSargSentence				= mod:NewYell(257966, L.Sentence2, nil, nil, "YELL") --Приговор Саргераса
 local yellSargSentenceFades			= mod:NewShortFadesYell(257966, nil, nil, nil, "YELL") --Приговор Саргераса
 local yellCosmicRay					= mod:NewYell(252729, nil, nil, nil, "YELL") --Космический луч
 
 local berserkTimer					= mod:NewBerserkTimer(600)
-
 --Stage One: Storm and Sky
 local countdownSweapingScythe		= mod:NewCountdown("Alt5", 248499, false, nil, 3) --Сметающая коса Off by default since it'd be almost non stop, so users can elect into this one
 local countdownSargGaze				= mod:NewCountdown(35, 258068, nil, nil, 5) --Пристальный взгляд Саргераса
@@ -167,17 +164,16 @@ local countdownReorgModule			= mod:NewCountdown("Alt48", 256389, "RangedDps", ni
 local countdownApocModule			= mod:NewCountdown("Alt48", 258029, "Dps", nil, 5)
 local countdownEndofAllThings		= mod:NewCountdown(15, 256544, nil, nil, 5) --Конец всего сущего
 
-mod:AddSetIconOption("SetIconOnSoulBomb", 251570, true, false, {8}) --Бомба души
-mod:AddSetIconOption("SetIconOnSoulBurst", 250669, true, false, {7, 3}) --Взрывная душа
-mod:AddSetIconOption("SetIconGift", 255594, true, false, {6, 5}) --Небо и море 5 and 6
-mod:AddSetIconOption("SetIconOnAvatar", 255199, true, false, {4}) --Аватара Агграмара 4
-mod:AddSetIconOption("SetIconOnVulnerability", 252516, true, false, {7, 6, 5, 4, 3, 2, 1}) --дебаффы кураторов 1-7
 mod:AddInfoFrameOption(nil, true)--Change to EJ entry since spell not localized
 mod:AddRangeFrameOption(5, 257869) --Ярость Саргераса
 mod:AddNamePlateOption("NPAuraOnInevitability", 253021)
 mod:AddNamePlateOption("NPAuraOnCosmosSword", 255496)
 mod:AddNamePlateOption("NPAuraOnEternalBlades", 255478)
 mod:AddNamePlateOption("NPAuraOnVulnerability", 255418)
+mod:AddSetIconOption("SetIconOnSoulBomb", 251570, true, false, {8}) --Бомба души
+mod:AddSetIconOption("SetIconOnSoulBurst", 250669, true, false, {7, 3}) --Взрывная душа
+mod:AddSetIconOption("SetIconGift", 255594, true, false, {6, 5}) --Небо и море 5 and 6
+mod:AddSetIconOption("SetIconOnAvatar", 255199, true, false, {4}) --Аватара Агграмара 4
 
 local playerAvatar = false
 mod.vb.phase = 1
@@ -262,19 +258,6 @@ local function startAnnihilationStuff(self, quiet)
 	end
 end
 
---[[
-local function checkForMissingSentence(self)
-	self:Unschedule(checkForMissingSentence)
-	self.vb.sentenceCount = self.vb.sentenceCount + 1
-	local timer = sargSentenceTimers[self.vb.sentenceCount+1]
-	if timer then
-		timerSargSentenceCD:Start(timer-10, self.vb.sentenceCount+1)--Timer minus 10 or next expected sentence cast
-		self:Schedule(timer, checkForMissingSentence, self)--10 seconds after expected sentence cast
-	end
-	DBM:Debug("checkForMissingSentence ran, which means all sentence immuned", 2)
-end
---]]
-
 local function delayedBoonCheck(self)
 	specWarnSoulbombMoveTo:Show(DBM_CORE_ROOM_EDGE)
 	specWarnSoulbombMoveTo:Play("bombnow")--Detonate Soon makes more sense than "run to edge" which is still too assumptive
@@ -350,7 +333,7 @@ function mod:OnCombatStart(delay)
 	timerSweepingScytheCD:Start(5.5-delay, 1)
 	countdownSweapingScythe:Start(5.5)
 	timerTorturedRageCD:Start(12-delay, 1)
-	timerBlightOrbCD:Start(35.2-delay, 1)
+	timerBlightOrbCD:Start(35-delay, 1) --Чумная сфера+++
 	if self:IsMythic() then
 		timerSweepingScytheCD:Start(6-delay, 1) --Смертоносная коса+++
 		timerSargGazeCD:Start(8.5-delay, 1) --Пристальный взгляд Саргераса+++
@@ -410,7 +393,6 @@ function mod:SPELL_CAST_START(args)
 		specWarnEndofAllThings:ScheduleVoice(12, "kickcast")
 		timerEndofAllThings:Start(15)
 		countdownEndofAllThings:Start(15)
-	--	self:SendSync("EndofAllThings")
 	elseif spellId == 248317 then
 		self.vb.blightOrbCount = self.vb.blightOrbCount + 1
 		warnBlightOrb:Show(self.vb.blightOrbCount)
@@ -432,17 +414,16 @@ function mod:SPELL_CAST_START(args)
 			timerSkyandSeaCD:Start(26, self.vb.SkyandSeaCount+1)
 			countdownSkyandSea:Start(26)
 		elseif self:IsMythic() then
-			timerSkyandSeaCD:Start(26, self.vb.SkyandSeaCount+1)
-			countdownSkyandSea:Start(26)
+			timerSkyandSeaCD:Start(25.5, self.vb.SkyandSeaCount+1)
+			countdownSkyandSea:Start(25.5)
 		else
 			timerSkyandSeaCD:Start(nil, self.vb.SkyandSeaCount+1)
 			countdownSkyandSea:Start()
 		end
-		warnSkyandSea2:Show(args.sourceName)
 	elseif spellId == 252516 then
 		warnDiscsofNorg:Show()
 		timerDiscsofNorg:Start()
-	elseif spellId == 255648 then--Golganneth's Wrath
+	elseif spellId == 255648 then --Ярость Голганнета (фаза 2)
 		self.vb.phase = 2
 		self.vb.scytheCastCount = 0
 		self.vb.firstscytheSwap = false
@@ -542,15 +523,6 @@ function mod:SPELL_CAST_SUCCESS(args)
 			specWarnEdgeofObliteration:Play("watchstep")
 		end
 		timerEdgeofObliterationCD:Start(nil, self.vb.EdgeofObliteration+1)
-	elseif spellId == 252616 and self:AntiSpam(5, 4) then
-	--	warnCosmicBeaconCast:Show()
-		timerCosmicBeaconCD:Start()
---[[	elseif spellId == 256388 and self:AntiSpam(5, 8) then --Процесс инициализации (старый в об и гер)
-		self.vb.moduleCount = self.vb.moduleCount + 1
-		specWarnReorgModule:Show(self.vb.moduleCount)
-		specWarnReorgModule:Play("killmob")
-		timerReorgModuleCD:Start(nil, self.vb.moduleCount+1)
-		countdownReorgModule:Start()]]
 	elseif spellId == 258029 and self:AntiSpam(5, 7) then --Процесс инициализации (мифик)
 		self.vb.moduleCount = self.vb.moduleCount + 1
 		if not UnitIsDeadOrGhost("player") then
@@ -575,7 +547,6 @@ function mod:SPELL_AURA_APPLIED(args)
 		local uId = DBM:GetRaidUnitId(args.destName)
 		if uId and self:IsTanking(uId) then
 			local amount = args.amount or 1
-			--tankStacks[args.destName] = amount
 			if not tContains(tankStacks, args.destName) then
 				table.insert(tankStacks, args.destName)
 			end
@@ -605,7 +576,6 @@ function mod:SPELL_AURA_APPLIED(args)
 		local uId = DBM:GetRaidUnitId(args.destName)
 		if uId and self:IsTanking(uId) then
 			local amount = args.amount or 1
-			--tankStacks[args.destName] = amount
 			if not tContains(tankStacks, args.destName) then
 				table.insert(tankStacks, args.destName)
 			end
@@ -622,7 +592,6 @@ function mod:SPELL_AURA_APPLIED(args)
 		local uId = DBM:GetRaidUnitId(args.destName)
 		if uId and self:IsTanking(uId) then
 			local amount = args.amount or 1
-			--tankStacks[args.destName] = amount
 			if not tContains(tankStacks, args.destName) then
 				table.insert(tankStacks, args.destName)
 			end
@@ -636,7 +605,6 @@ function mod:SPELL_AURA_APPLIED(args)
 			end
 		end
 	elseif spellId == 248396 then
-		warnSoulblight:Show(args.destName)
 		if args:IsPlayer() then
 			specWarnSoulblight:Show()
 			specWarnSoulblight:Play("runout")
@@ -654,7 +622,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnSoulburst:Show()
 			specWarnSoulburst:Play("targetyou")
 			specWarnSoulburst:ScheduleVoice(self:IsMythic() and 7 or 10, "bombnow")
-			yellSoulburst:Yell(icon, L.Burst, icon)
+			yellSoulburst:Yell(icon, L.Burst2, icon)
 			yellSoulburstFades:Countdown(self:IsMythic() and 12 or 15, 4, icon)
 			fearCheck(self)
 		end
@@ -668,7 +636,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnSoulbomb:Show()
 			specWarnSoulbomb:Play("targetyou")--Would be better if bombrun was "bomb on you" and not "bomb on you, run". Since Don't want to give misinformation, generic it is
 			self:Schedule(self:IsMythic() and 5 or 8, delayedBoonCheck, self)
-			yellSoulbomb:Yell(8, L.Bomb, 8)
+			yellSoulbomb:Yell(8, L.Bomb2, 8)
 			yellSoulbombFades:Countdown(self:IsMythic() and 12 or 15, 3, 8)
 			fearCheck(self)
 		elseif playerAvatar then
@@ -717,17 +685,17 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self.Options.NPAuraOnEternalBlades then
 			DBM.Nameplate:Show(true, args.destGUID, spellId, nil, 40)
 		end
-	elseif spellId == 252729 then
+	elseif spellId == 252729 then --Космический луч
 		if args:IsPlayer() then
 			specWarnCosmicRay:Show()
 			specWarnCosmicRay:Play("targetyou")
 			yellCosmicRay:Yell()
 		else
-			warnCosmicRay:CombinedShow(0.3, args.destName)
+			warnCosmicRay:CombinedShow(0.5, args.destName)
 		end
 	elseif spellId == 252616 then
-		warnCosmicBeacon:CombinedShow(0.3, args.destName)
-	elseif spellId == 258647 then--Gift of Sea
+		warnCosmicBeacon:CombinedShow(0.5, args.destName)
+	elseif spellId == 258647 then --Дар моря
 		warnSkyandSea:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
 			specWarnGiftofSea:Show()
@@ -738,7 +706,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self.Options.SetIconGift then
 			self:SetIcon(args.destName, 6)
 		end
-	elseif spellId == 258646 then--Gift of Sky
+	elseif spellId == 258646 then --Дар небес
 		warnSkyandSea:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
 			specWarnGiftofSky:Show()
@@ -749,50 +717,29 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self.Options.SetIconGift then
 			self:SetIcon(args.destName, 5)
 		end
-	elseif spellId == 255433 or spellId == 255430 or spellId == 255429 or spellId == 255425 or spellId == 255422 or spellId == 255419 or spellId == 255418 then--Vulnerability
-		if self.Options.NPAuraOnVulnerability then
-			DBM.Nameplate:Show(true, args.destGUID, spellId)
-		end
-		if self.Options.SetIconOnVulnerability then
-			if spellId == 255433 then --Тайная
-				self:SetIcon(args.destName, 4)
-			elseif spellId == 255430 then --Тьма
-				self:SetIcon(args.destName, 3)
-			elseif spellId == 255429 then --Огонь
-				self:SetIcon(args.destName, 2)
-			elseif spellId == 255425 then --Лед
-				self:SetIcon(args.destName, 5)
-			elseif spellId == 255422 then --Природа
-				self:SetIcon(args.destName, 6)
-			elseif spellId == 255419 then --Свет
-				self:SetIcon(args.destName, 7)
-			elseif spellId == 255418 then --Физ.урон
-				self:SetIcon(args.destName, 1)
-			end
-		end
-	elseif spellId == 257869 then
+	elseif spellId == 257869 then --Ярость Саргераса
 		warnSargRage:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
 			specWarnSargRage:Show()
 			specWarnSargRage:Play("scatter")
 			yellSargRage:Yell()
+			yellSargRage2:Countdown(32.5, 3)
 		end
-	elseif spellId == 257931 then
+	elseif spellId == 257931 then --Страх перед Саргерасом
 		warnSargFear:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
-			specWarnSargFear:Show(DBM_ALLY)
+			specWarnSargFear:Show()
 			specWarnSargFear:Play("gathershare")
 			yellSargFear:Yell()
+			yellSargFear2:Countdown(32.5, 3)
 			fearCheck(self)
 		end
-	elseif spellId == 257966 then--Sentence of Sargeras
+	elseif spellId == 257966 then --Приговор Саргераса
 		if self:AntiSpam(5, 6) then
-			--self:Unschedule(checkForMissingSentence)
 			self.vb.sentenceCount = self.vb.sentenceCount + 1
 			local timer = sargSentenceTimers[self.vb.sentenceCount+1]
 			if timer then
 				timerSargSentenceCD:Start(timer, self.vb.sentenceCount+1)
-				--self:Schedule(timer+10, checkForMissingSentence, self)--Check for missing sentence event 10 seconds after expected to recover timer if all immuned
 			end
 		end
 		warnSargSentence:CombinedShow(0.3, args.destName)
@@ -803,25 +750,14 @@ function mod:SPELL_AURA_APPLIED(args)
 			yellSargSentenceFades:Countdown(30, 3)
 			fearCheck(self)
 		end
-	elseif spellId == 256388 and self:AntiSpam(2, 2) then --Процесс инициализации (новый в об и гер)
+	elseif spellId == 256388 and self:AntiSpam(2, 2) then --Процесс инициализации (новый в об и гер) Schedule(46.5), ScheduleVoice(46.5, "killmob")
 		self.vb.moduleCount = self.vb.moduleCount + 1
-		warnReorgModule:Show()
 		if not UnitIsDeadOrGhost("player") then
 			specWarnReorgModule:Show()
 			specWarnReorgModule:Play("mobkill")
-		--	specWarnReorgModule:Schedule(46.5)
-		--	specWarnReorgModule:ScheduleVoice(46.5, "killmob")
 		end
 		timerReorgModuleCD:Start(46.5, self.vb.moduleCount+1)
 		countdownReorgModule:Start(46.5)
---[[	elseif spellId == 257299 then --Глыбы ярости ( не идёт, слишком дохуя)
-		local amount = args.amount or 1
-		if amount >= 1 then
-			if args:IsPlayer() then
-				specWarnEmberofRage2:Show(amount)
-				specWarnEmberofRage2:Play("stackhigh")
-			end
-		end]]
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
@@ -854,14 +790,14 @@ function mod:SPELL_AURA_REMOVED(args)
 		if self.Options.SetIconOnAvatar then
 			self:SetIcon(args.destName, 0)
 		end
-	elseif spellId == 258647 then--Gift of Sea
+	elseif spellId == 258647 then --Дар моря
 		if args:IsPlayer() then
 			yellGiftofSea2:Cancel()
 		end
 		if self.Options.SetIconGift then
 			self:SetIcon(args.destName, 0)
 		end
-	elseif spellId == 258646 then--Gift of Sky
+	elseif spellId == 258646 then --Дар небес
 		if args:IsPlayer() then
 			yellGiftofSky2:Cancel()
 		end
@@ -885,10 +821,8 @@ function mod:SPELL_AURA_REMOVED(args)
 			DBM.Nameplate:Hide(true, args.destGUID, spellId)
 		end
 	elseif spellId == 248499 then
-		--tankStacks[args.destName] = nil
 		tDeleteItem(tankStacks, args.destName)
 	elseif spellId == 258039 then--Heroic
-		--tankStacks[args.destName] = nil
 		tDeleteItem(tankStacks, args.destName)
 		local uId = DBM:GetRaidUnitId(args.destName)
 		if uId and self:IsTanking(uId) then
@@ -900,7 +834,6 @@ function mod:SPELL_AURA_REMOVED(args)
 			end
 		end
 	elseif spellId == 258838 then--Mythic
-		--tankStacks[args.destName] = nil
 		tDeleteItem(tankStacks, args.destName)
 		local uId = DBM:GetRaidUnitId(args.destName)
 		if uId and self:IsTanking(uId) then
@@ -915,8 +848,9 @@ function mod:SPELL_AURA_REMOVED(args)
 		end
 	elseif spellId == 248396 and args:IsPlayer() then
 		yellSoulblightFades:Cancel()
-	elseif spellId == 257869 then
+	elseif spellId == 257869 then --Ярость Саргераса
 		if args:IsPlayer() and self.Options.RangeFrame and not self.vb.rangeCheckNoTouchy then
+			yellSargRage2:Cancel()
 			DBM.RangeCheck:Hide()
 		end
 	end
@@ -984,11 +918,8 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spell
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
 
---"<47.47 22:23:32> [UNIT_SPELLCAST_SUCCEEDED] Argus the Unmaker(Sharmonk) [[boss1:Sargeras' Gaze::3-3769-1712-19636-258068-0047AD517B:258068]]", -- [96]
---"<47.64 22:23:32> [CHAT_MSG_RAID_BOSS_EMOTE] |TInterface\\Icons\\Sha_Ability_Rogue_BloodyEye_nightmare:20|t|cFFFF0000|Hspell:258068|h[Sargeras' Gaze]|h|r is cast upon the battle...#Argus the Unmaker#####0#0##0#22#nil#0#false#false#false#false"
---"<50.46 22:23:35> [CLEU] SPELL_AURA_APPLIED##nil#Player-1313-093344FD#Mehlas#257869#Sargeras' Rage#DEBUFF#nil", -- [137]
 function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)
-	if msg:find("spell:258068") then
+	if msg:find("spell:258068") then --Пристальный взгляд Саргераса
 		self.vb.gazeCount = self.vb.gazeCount + 1
 		if self.vb.phase == 2 then
 			timerSargGazeCD:Start(59.7, self.vb.gazeCount+1)
@@ -1003,11 +934,11 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)
 				self:Schedule(timer-2, ToggleRangeFinder, self)--Call Show 5 seconds Before NEXT rages get applied (2 seconds before cast + 3 sec cast time)
 			end
 		else--Stage 1
-			timerSargGazeCD:Start(35.2, self.vb.gazeCount+1)
-			countdownSargGaze:Start(35.2)
+			timerSargGazeCD:Start(35, self.vb.gazeCount+1)
+			countdownSargGaze:Start(35)
 			self:Unschedule(ToggleRangeFinder)
 			self:Schedule(5, ToggleRangeFinder, self, true)--Call hide 2 seconds after rages go out, function will check player for debuff and decide
-			self:Schedule(33.2, ToggleRangeFinder, self)--Call Show 5 seconds Before NEXT rages get applied (2 seconds before cast + 3 sec cast time)
+			self:Schedule(32.5, ToggleRangeFinder, self)--Call Show 5 seconds Before NEXT rages get applied (2 seconds before cast + 3 sec cast time)
 		end
 	end
 end
@@ -1042,8 +973,6 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	end
 end
 
---RL can run this macro to auto release everyone in raid any time they hit it
---/run DBM:GetModByName("2031"):SendSync("Release")
 function mod:OnSync(msg, sender)
 	if not self:IsInCombat() then return end
 	if msg == "Release" and DBM:GetRaidRank(sender) == 2 then
@@ -1082,15 +1011,3 @@ function mod:UNIT_DIED(args)
 		end
 	end
 end
-
---[[
-function mod:OnSync(msg)
-	if msg == "EndofAllThings" then -- под обычку таймер норм где 19.8 сек каста
-		warnEndofAllThings:Show(args.sourceName)
-		warnEndofAllThings:Play("kickcast")
-		specWarnEndofAllThings:Schedule(12)
-		specWarnEndofAllThings:ScheduleVoice(12, "kickcast")
-		timerEndofAllThings:Start(15)
-		countdownEndofAllThings:Start(15)
-	end
-end]]

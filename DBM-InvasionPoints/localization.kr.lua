@@ -26,7 +26,7 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(2014)
 
 L:SetMiscLocalization({
-	Pull = "와라, 조그만 놈들아. 내 손에 죽어라!"
+	Pull = "와라, 조그만 놈들아. 내 손에 죽어라!" --
 })
 
 -----------------------
@@ -67,5 +67,6 @@ L:SetGeneralLocalization({
 
 L:SetMiscLocalization{
 	MurchalOchkenProshlyapen = "화로로 가십시오!", --화로로 가십시오! 곧 [순간 빙결]이 시전됩니다!
-	MurchalOchkenProshlyapen2 = "의 대상이 되었습니다!" --이 지역은 [소멸 광선]의 대상이 되었습니다!
+	MurchalOchkenProshlyapen2 = "의 대상이 되었습니다!", --이 지역은 [소멸 광선]의 대상이 되었습니다!
+	MurchalOchkenProshlyapen3 = "소타나토르의 도끼가" --소타나토르의 도끼가 [파괴의 물결]을 내뿜습니다!
 }

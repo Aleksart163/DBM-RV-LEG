@@ -26,7 +26,7 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(2014)
 
 L:SetMiscLocalization({
-	Pull = "Come, small ones. Die by my hand!"
+	Pull = "来吧，小东西！死在我手里吧！" --
 })
 
 -----------------------
@@ -67,5 +67,6 @@ L:SetGeneralLocalization({
 
 L:SetMiscLocalization{
 	MurchalOchkenProshlyapen = "快靠近火盆！", --快靠近火盆！[快速冻结]即将爆发！
-	MurchalOchkenProshlyapen2 = "这个区域已成为" --这个区域已成为[湮灭光束]的目标！
+	MurchalOchkenProshlyapen2 = "这个区域已成为", --这个区域已成为[湮灭光束]的目标！
+	MurchalOchkenProshlyapen3 = "索塔纳索尔的斧头释放出了" --索塔纳索尔的斧头释放出了[毁灭之力]!
 }

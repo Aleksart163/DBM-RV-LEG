@@ -153,7 +153,9 @@ L:SetMiscLocalization({
 	Blight		= "역병",
 	Burst		= "분출",
 	Sentence	= "선고",
-	Bomb		= "폭탄"
+	Bomb		= "폭탄",
+	Rage		= "분노",
+	Fear		= "공포"
 })
 
 -------------

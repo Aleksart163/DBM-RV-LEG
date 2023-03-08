@@ -37,13 +37,13 @@ local warnSiphonCorruption				= mod:NewSpellAnnounce(244056, 3) --Вытягив
 local warnFocusingPower					= mod:NewSpellAnnounce(251356, 2) --Фокусирование силы
 local warnDarkReconstitution			= mod:NewTargetSourceAnnounce(249113, 3) --Темное восстановление
 
---F'harg
+--Фарг
 local specWarnMoltenTouch				= mod:NewSpecialWarningDodge(244163, nil, nil, nil, 2, 3) --Касание магмы
 local specWarnDesolateGaze				= mod:NewSpecialWarningYouMoveAway(244768, nil, nil, nil, 1, 5) --Опустошающий взгляд
 local specWarnEnflamed					= mod:NewSpecialWarningYouMoveAway(248815, nil, nil, nil, 1, 5) --Возгорание
 local specWarnEnflamed2					= mod:NewSpecialWarningSoon(244057, nil, nil, nil, 1, 2) --Возгорание
 --local specWarnGTFO					= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 2)
---Shatug
+--Шатуг
 local specWarnComsumingSphere			= mod:NewSpecialWarningDodge(244131, nil, nil, nil, 2, 2) --Поглощаяющая сфера
 local specWarnComsumingSphere2			= mod:NewSpecialWarningSoon(244131, nil, nil, nil, 1, 2) --Поглощаяющая сфера
 local specWarnWeightOfDarkness			= mod:NewSpecialWarningYouShare(254429, nil, nil, nil, 3, 6) --Бремя тьмы
@@ -81,14 +81,16 @@ local yellSiphonedFades					= mod:NewShortFadesYell(248819, nil, nil, nil, "YELL
 
 local berserkTimer						= mod:NewBerserkTimer(600)
 
---F'harg
-local countdownBurningMaw				= mod:NewCountdown("Alt10", 251448, "Tank", nil, 3) --Пылающая пасть
---Shatug
-local countdownCorruptingMaw			= mod:NewCountdown("Alt10", 251447, "Tank", nil, 3) --Заразная пасть
+--Шатуг
+local countdownSiphonCorruption			= mod:NewCountdown(77, 244056, nil, nil, 5) --Вытягивание порчи
+local countdownWeightOfDarkness			= mod:NewCountdown("Alt77", 254429, nil, nil, 5) --Бремя тьмы
+local countdownCorruptingMaw			= mod:NewCountdown("AltTwo10", 251447, "Tank", nil, 3) --Заразная пасть
+--Фарг
+local countdownBurningMaw				= mod:NewCountdown("AltTwo10", 251448, "Tank", nil, 3) --Пылающая пасть
 
 local countdownDarkReconstitution		= mod:NewCountdownFades(15, 249113, nil, nil, 5) --Темное восстановление
 
-mod:AddSetIconOption("SetIconOnWeightofDarkness2", 254429, true, false, {5, 4, 3, 2, 1}) --Бремя тьмы
+mod:AddSetIconOption("SetIconOnWeightofDarkness", 254429, true, false, {5, 4, 3, 2, 1}) --Бремя тьмы
 --mod:AddInfoFrameOption(239154, true)
 mod:AddRangeFrameOption("5/8")
 
@@ -117,18 +119,20 @@ local function UpdateAllTimers(self)
 	if timerComsumingSphereCD:GetTime() > 0 then
 		specWarnComsumingSphere2:Cancel()
 		specWarnComsumingSphere:Cancel()
-		specWarnComsumingSphere2:Schedule(10)
+	--	specWarnComsumingSphere2:Schedule(10)
 		timerComsumingSphereCD:AddTime(15) --Поглощаяющая сфера
 	end
 	if timerWeightOfDarknessCD:GetTime() > 0 then
 		specWarnWeightOfDarkness2:Cancel()
-		specWarnWeightOfDarkness2:Schedule(10)
+	--	specWarnWeightOfDarkness2:Schedule(10)
 		timerWeightOfDarknessCD:AddTime(15) --Бремя тьмы
+		countdownWeightOfDarkness:AddTime(15) --Бремя тьмы
 	end
 	if timerSiphonCorruptionCD:GetTime() > 0 then
 		specWarnSiphoned2:Cancel()
-		specWarnSiphoned2:Schedule(10)
+	--	specWarnSiphoned2:Schedule(10)
 		timerSiphonCorruptionCD:AddTime(15) --Вытягивание порчи
+		countdownSiphonCorruption:AddTime(15) --Вытягивание порчи
 	end
 end
 
@@ -149,6 +153,7 @@ function mod:OnCombatStart(delay)
 		self.vb.mediumTimer = 71.4--71.4-73
 		timerMoltenTouchCD:Start(21.5-delay) --Касание магмы+++
 		timerSiphonCorruptionCD:Start(25.5-delay) --Вытягивание порчи+++
+		countdownSiphonCorruption:Start(25.5-delay) --Вытягивание порчи+++
 		specWarnSiphoned2:Schedule(15.5) --Вытягивание порчи+++
 		timerEnflamedCorruptionCD:Start(49.6-delay) --Возгорание порчи +1.2 сек
 		specWarnEnflamed2:Schedule(39.6) --Возгорание порчи
@@ -157,6 +162,7 @@ function mod:OnCombatStart(delay)
 		self.vb.mediumTimer = 77
 		timerMoltenTouchCD:Start(22-delay) --Касание магмы+++
 		timerSiphonCorruptionCD:Start(26.2-delay) --Вытягивание порчи+++
+		countdownSiphonCorruption:Start(26.2-delay) --Вытягивание порчи+++
 		specWarnSiphoned2:Schedule(16.2) --Вытягивание порчи+++
 		timerEnflamedCorruptionCD:Start(52.6-delay) --Возгорание порчи+++
 		specWarnEnflamed2:Schedule(42.6) --Возгорание порчи
@@ -166,6 +172,7 @@ function mod:OnCombatStart(delay)
 		--Molten touch not even cast
 		if not self:IsLFR() then
 			timerSiphonCorruptionCD:Start(27.4-delay) --Вытягивание порчи+++
+			countdownSiphonCorruption:Start(27.4-delay) --Вытягивание порчи+++
 			specWarnSiphoned2:Schedule(17.4) --Вытягивание порчи+++
 			timerEnflamedCorruptionCD:Start(55.6-delay) --Возгорание порчи+++
 			specWarnEnflamed2:Schedule(45.6) --Возгорание порчи
@@ -208,6 +215,7 @@ function mod:SPELL_CAST_START(args)
 		if self:IsHeroic() then
 			timerCorruptingMawCD:Stop()
 			timerSiphonCorruptionCD:Start(79) --Вытягивание порчи+++
+			countdownSiphonCorruption:Start(77) --Вытягивание порчи+++
 			specWarnSiphoned2:Schedule(69) --Вытягивание порчи+++
 			timerComsumingSphereCD:Start(26) --Поглощаяющая сфера+++
 			specWarnComsumingSphere2:Schedule(16) --Поглощаяющая сфера+++
@@ -215,12 +223,14 @@ function mod:SPELL_CAST_START(args)
 				specWarnComsumingSphere:Schedule(26) --Поглощаяющая сфера+++
 				specWarnComsumingSphere:ScheduleVoice(26, "watchorb") --Поглощаяющая сфера+++
 			end
-			timerWeightOfDarknessCD:Start(52) --Бремя тьмы+++ (уже пофиксил с нового видео за 27 число)
+			timerWeightOfDarknessCD:Start(52) --Бремя тьмы+++
+			countdownWeightOfDarkness:Start(52) --Бремя тьмы+++
 			specWarnWeightOfDarkness2:Schedule(42) --Бремя тьмы
 			timerCorruptingMawCD:Start(10)
 		elseif self:IsMythic() then
 			timerCorruptingMawCD:Stop()
 			timerSiphonCorruptionCD:Start(72) --Вытягивание порчи+++
+			countdownSiphonCorruption:Start(72) --Вытягивание порчи+++
 			specWarnSiphoned2:Schedule(62) --Вытягивание порчи+++
 			timerComsumingSphereCD:Start(24) --Поглощаяющая сфера
 			specWarnComsumingSphere2:Schedule(14) --Поглощаяющая сфера+++
@@ -229,10 +239,12 @@ function mod:SPELL_CAST_START(args)
 				specWarnComsumingSphere:ScheduleVoice(24, "watchorb") --Поглощаяющая сфера
 			end
 			timerWeightOfDarknessCD:Start(47) --Бремя тьмы вроде точно
+			countdownWeightOfDarkness:Start(47) --Бремя тьмы+++
 			specWarnWeightOfDarkness2:Schedule(37) --Бремя тьмы
 			timerCorruptingMawCD:Start(16)
 		else --обычка и лфр
 			timerSiphonCorruptionCD:Start(85) --Вытягивание порчи+++
+			countdownSiphonCorruption:Start(85) --Вытягивание порчи+++
 			specWarnSiphoned2:Schedule(75) --Вытягивание порчи+++
 			timerComsumingSphereCD:Start(28) --Поглощаяющая сфера+++
 			specWarnComsumingSphere2:Schedule(18) --Поглощаяющая сфера+++
@@ -340,7 +352,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			yellWeightOfDarkness:Yell()
 			yellWeightOfDarknessFades:Countdown(5, 3)
 		end
-		if self.Options.SetIconOnWeightofDarkness2 then
+		if self.Options.SetIconOnWeightofDarkness then
 			self:SetIcon(args.destName, self.vb.WeightDarkIcon)
 		end
 	elseif spellId == 244071 then --Бремя тьмы
@@ -399,7 +411,7 @@ function mod:SPELL_AURA_REMOVED(args)
 			end
 		end
 	elseif spellId == 254429 then
-		if self.Options.SetIconOnWeightofDarkness2 then
+		if self.Options.SetIconOnWeightofDarkness then
 			self:SetIcon(args.destName, 0)
 		end
 		if args:IsPlayer() then
@@ -415,22 +427,6 @@ function mod:SPELL_AURA_REMOVED(args)
 		end
 	end
 end
-
---[[
-function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
-	if spellId == 228007 and destGUID == UnitGUID("player") and self:AntiSpam(2, 4) then
-		specWarnGTFO:Show()
-		specWarnGTFO:Play("runaway")
-	end
-end
-mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
-
-function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, npc, _, _, target)
-	if msg:find("spell:238502") then
-
-	end
-end
---]]
 
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	local spellId = legacySpellId or bfaSpellId

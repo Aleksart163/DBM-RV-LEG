@@ -26,7 +26,7 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(2014)
 
 L:SetMiscLocalization({
-	Pull = "Идите сюда, малыши! Пора умирать!"
+	Pull = "Идите сюда, малыши! Пора умирать!" --
 })
 
 ----------------------
@@ -67,5 +67,6 @@ L:SetGeneralLocalization({
 
 L:SetMiscLocalization{
 	MurchalOchkenProshlyapen = "Подойдите к жаровне!", --а лучше к очку Мурчаля
-	MurchalOchkenProshlyapen2 = "Эта область выбрана целью для" --Эта область выбрана целью для [Уничтожения]
+	MurchalOchkenProshlyapen2 = "Эта область выбрана целью для", --Эта область выбрана целью для [Уничтожения]
+	MurchalOchkenProshlyapen3 = "Топор Сотанатора порождает серию" --Топор Сотанатора порождает серию [волн разрушения]!
 }

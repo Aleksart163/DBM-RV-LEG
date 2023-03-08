@@ -220,10 +220,16 @@ L:SetMiscLocalization({
 --	YellPullArgus = "Death! Death and pain!",
 	SeaText		= "Haste/Vers on %s",
 	SkyText		= "Crit/Mast on %s",
-	Blight		= "Blight on %s",
-	Burst		= "Burst on me!",
-	Sentence	= "Sentence on %s",
-	Bomb		= "BOMB ON ME!"
+	Blight		= "Blight",
+	Burst		= "Burst",
+	Sentence	= "Sentence",
+	Bomb		= "BOMB",
+	Blight2		= "Blight on %s!",
+	Burst2		= "Burst on me!",
+	Sentence2	= "Sentence on %s!",
+	Bomb2		= "BOMB ON ME!",
+	Rage		= "RAGE",
+	Fear		= "FEAR"
 })
 
 -------------

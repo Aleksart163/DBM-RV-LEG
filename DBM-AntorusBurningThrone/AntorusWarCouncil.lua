@@ -15,7 +15,8 @@ mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 244625 246505 253040 245227 244907",
-	"SPELL_CAST_SUCCESS 244722 244892 245227 253037 245174 244625",
+	"SPELL_CAST_SUCCESS 244722 244892 245227 253037 245174 244625 244907",
+	"SPELL_CAST_FAILED 244907",
 	"SPELL_AURA_APPLIED 244737 244892 253015 244172 257974",
 	"SPELL_AURA_APPLIED_DOSE 244892 244172 257974",
 	"SPELL_AURA_REMOVED 244737 253015 244388",
@@ -48,6 +49,7 @@ local warnShockGrenade					= mod:NewTargetAnnounce(244737, 4, nil, true, 2) --Ш
 
 --General
 --local specWarnGTFO					= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 2)
+local specWarnActivateFelshield			= mod:NewSpecialWarningCast(244910, nil, nil, nil, 3, 5) --Активация щита Скверны
 local specWarnPsychicScarring			= mod:NewSpecialWarningEnd(244388, nil, nil, nil, 1, 2) --Псионный шрам
 local specWarnPyroblast					= mod:NewSpecialWarningYou(246505, nil, nil, nil, 2, 6) --Огненная глыба
 local specWarnChaosPulse				= mod:NewSpecialWarningYou(257974, nil, nil, nil, 1, 2) --Хаотический импульс
@@ -113,6 +115,7 @@ mod:AddSetIconOption("SetIconOnPyroblast", 246505, true, false, {3}) --Огне�
 mod:AddSetIconOption("SetIconOnAdds", 245546, true, true, {2, 1}) --Вызов подкрепления
 mod:AddRangeFrameOption("8")
 
+--local OchkoMurchalya = nil
 local felShield = DBM:GetSpellInfo(244910)
 mod.vb.FusilladeCount = 0
 mod.vb.lastIcon = 1
@@ -125,7 +128,7 @@ function mod:PyroblastTarget(targetname, uId) --прошляпанное очк�
 		specWarnPyroblast:Play("targetyou")
 		yellPyroblast:Yell()
 	else
-		warnPyroblast:Show(targetname)
+		warnPyroblast:CombinedShow(1, targetname)
 	end
 	if self.Options.SetIconOnPyroblast then
 		self:SetIcon(targetname, 3, 9)
@@ -149,6 +152,7 @@ function mod:DemonicChargeTarget(targetname, uId)
 end
 
 function mod:OnCombatStart(delay)
+--	OchkoMurchalya = false
 	self.vb.FusilladeCount = 0
 	self.vb.lastIcon = 1
 	self.vb.ShockGrenadeIcon = 8
@@ -194,7 +198,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 246505 then --Огненная глыба
 		self:BossTargetScanner(args.sourceGUID, "PyroblastTarget", 0.1, 2)
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
-			specWarnPyroblast2:Show(args.sourceName)
+			specWarnPyroblast2:Show()
 			specWarnPyroblast2:Play("kickcast")
 		end
 	elseif spellId == 253040 then
@@ -266,6 +270,14 @@ function mod:SPELL_CAST_START(args)
 		end
 	elseif spellId == 244907 then --Активация щита Скверны
 		warnActivateFelshield:Show(args.sourceName)
+--[[		if not args:IsPlayer() then
+			OchkoMurchalya = true
+		elseif args:IsPlayer() then
+			if OchkoMurchalya then
+				specWarnActivateFelshield:Show()
+				specWarnActivateFelshield:Play("stopcast")
+			end]]
+		end
 	end
 end
 
@@ -301,6 +313,15 @@ function mod:SPELL_CAST_SUCCESS(args)
 		warnFusillade:Show(args.sourceName, self.vb.FusilladeCount)
 	end
 end
+--[[
+function mod:SPELL_CAST_FAILED(args)
+	local spellId = args.spellId
+	if spellId == 244907 then --Активация щита Скверны
+		if not args:IsPlayer(args.sourceGUID) then
+			OchkoMurchalya = false
+		end
+	end
+end]]
 
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId

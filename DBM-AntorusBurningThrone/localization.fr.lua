@@ -165,12 +165,18 @@ L:SetTimerLocalization({
 })
 
 L:SetMiscLocalization({
-	SeaText		= "Haste/Vers on %s",
-	SkyText		= "Crit/Mast on %s",
-	Blight		= "Blight on %s",
-	Burst		= "Burst on me!",
-	Sentence	= "Sentence on %s",
-	Bomb		= "BOMB ON ME!"
+	SeaText		= "Haste/Vers sur %s",
+	SkyText		= "Crit/Mast sur %s",
+	Blight		= "Fléau",
+	Burst		= "Explosion",
+	Sentence	= "Condamnation",
+	Bomb		= "BOMBE",
+	Blight2		= "Fléau sur %s!",
+	Burst2		= "Explosion sur moi!",
+	Sentence2	= "Condamnation sur %s!",
+	Bomb2		= "BOMBE SUR MOI!",
+	Rage		= "RAGE",
+	Fear		= "PEUR"
 })
 
 -------------

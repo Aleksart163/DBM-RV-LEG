@@ -39,11 +39,11 @@ L= DBM:GetModLocalization(2014)
 
 if GetLocale() == "esES" then
 L:SetMiscLocalization({
-	Pull = "Venid, renacuajos. ¡Morid a mis manos!"
+	Pull = "Venid, renacuajos. ¡Morid a mis manos!" --
 })
 else
 L:SetMiscLocalization({
-	Pull = "Venid, renacuajos. ¡Morid a mis manos!"
+	Pull = "Vengan, pequeños. ¡Mueran a mis pies!" --
 })
 end
 
@@ -110,11 +110,13 @@ end
 if GetLocale() == "esES" then
 L:SetMiscLocalization{
 	MurchalOchkenProshlyapen = "¡Vete a un blandón!", --¡Vete a un blandón! ¡Se avecina una [Congelación apresurada]!
-	MurchalOchkenProshlyapen2 = "¡Esta zona es el objetivo de" --¡Esta zona es el objetivo de [Desintegración]!
+	MurchalOchkenProshlyapen2 = "¡Esta zona es el objetivo de", --¡Esta zona es el objetivo de [Desintegración]!
+	MurchalOchkenProshlyapen3 = "¡El hacha de Sotanathor lanza" --¡El hacha de Sotanathor lanza [Estelas de destrucción]! --
 }
 else
 L:SetMiscLocalization{
 	MurchalOchkenProshlyapen = " ¡Busca un blandón!", --¡Busca un blandón! ¡Se acerca una [Congelación apresurada]!
-	MurchalOchkenProshlyapen2 = "¡Esta área será el objetivo de" --¡Esta área será el objetivo de [Desintegración]!
+	MurchalOchkenProshlyapen2 = "¡Esta área será el objetivo de", --¡Esta área será el objetivo de [Desintegración]!
+	MurchalOchkenProshlyapen3 = "¡El hacha de Sotanathor lanza" --¡El hacha de Sotanathor lanza [Estelas de destrucción]! --
 }
 end

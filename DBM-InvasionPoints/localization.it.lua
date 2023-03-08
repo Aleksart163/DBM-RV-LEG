@@ -26,7 +26,7 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(2014)
 
 L:SetMiscLocalization({
-	Pull = "Come, small ones. Die by my hand!"
+	Pull = "Venite, piccoletti. Morite per mano mia!" --
 })
 
 -----------------------
@@ -67,5 +67,6 @@ L:SetGeneralLocalization({
 
 L:SetMiscLocalization{
 	MurchalOchkenProshlyapen = "Raggiungi un braciere!", --Raggiungi un braciere! Sta per apparire una [Prigione di Ghiaccio]!
-	MurchalOchkenProshlyapen2 = "L'area è stata scelta come bersaglio di" --L'area è stata scelta come bersaglio di [Annientamento]!
+	MurchalOchkenProshlyapen2 = "L'area è stata scelta come bersaglio di", --L'area è stata scelta come bersaglio di [Annientamento]!
+	MurchalOchkenProshlyapen3 = "L'ascia di Sotanathor emette delle" --L'ascia di Sotanathor emette delle [Scie di Distruzione]!
 }

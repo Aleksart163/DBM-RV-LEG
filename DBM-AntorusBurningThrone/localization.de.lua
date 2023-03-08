@@ -195,13 +195,19 @@ L:SetTimerLocalization({
 })
 
 L:SetMiscLocalization({
---	YellPullArgus = "Tod! Tod und Schmerz!", --привет прошляпанному очку пелии
-	SeaText		=	"{rt6} Tempo/Viels",
-	SkyText		=	"{rt5} Krit/Meist",
-	Blight		=	"Seuche",
-	Burst		=	"Explosion",
-	Sentence	=	"Urteil",
-	Bomb		=	"Bombe"
+--	YellPullArgus = "Tod! Tod und Schmerz!",
+	SeaText		= "Tempo/Viels auf %s",
+	SkyText		= "Krit/Meist auf %s",
+	Blight		= "SEUCHE",
+	Burst		= "EXPLOSION",
+	Sentence	= "URTEIL",
+	Bomb		= "BOMBE",
+	Blight2		= "SEUCHE auf %s!",
+	Burst2		= "Explosion ist auf mir!",
+	Sentence2	= "Urteil auf %s!",
+	Bomb2		= "Bombe IST AUF MIR!",
+	Rage		= "WUT",
+	Fear		= "FURCHT"
 })
 
 -------------

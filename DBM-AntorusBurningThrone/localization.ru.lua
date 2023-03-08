@@ -211,10 +211,16 @@ L:SetMiscLocalization({
 --	YellPullArgus = "Смерть! Смерть и боль!",
 	SeaText		= "Хаста/Верса на %s",
 	SkyText		= "Крит/Маст на %s",
-	Blight		= "Чума на %s!",
-	Burst		= "Взрыв на мне!",
-	Sentence	= "Приговор на %s!",
-	Bomb		= "БОМБА НА МНЕ!"
+	Blight		= "Чума",
+	Burst		= "Взрыв",
+	Sentence	= "Приговор",
+	Bomb		= "БОМБА",
+	Blight2		= "Чума на %s!",
+	Burst2		= "Взрыв на мне!",
+	Sentence2	= "Приговор на %s!",
+	Bomb2		= "БОМБА НА МНЕ!",
+	Rage		= "ЯРОСТЬ",
+	Fear		= "СТРАХ"
 })
 
 -------------

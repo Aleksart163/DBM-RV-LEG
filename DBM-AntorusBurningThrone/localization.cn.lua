@@ -139,10 +139,12 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(2031)
 
 L:SetMiscLocalization({
-	SeaText =		"{rt6} 急速/全能",
-	SkyText =		"{rt5} 暴击/精通",
-	Blight	=		"灵魂凋零宝珠",
-	Burst	=		"灵魂炸弹"
+	SeaText = "{rt6} 急速/全能",
+	SkyText = "{rt5} 暴击/精通",
+	Blight	= "灵魂凋零宝珠",
+	Burst	= "灵魂炸弹",
+	Rage	= "狂怒",
+	Fear	= "恐惧"
 })
 
 -------------

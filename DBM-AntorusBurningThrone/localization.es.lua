@@ -195,12 +195,18 @@ L:SetOptionLocalization({
 
 L:SetMiscLocalization({
 --	YellPullArgus = "¡Muerte! ¡Muerte y dolor!",
-	SeaText		=	"{rt6} Celeridad/Versatilidad",
-	SkyText		=	"{rt5} Crítico/Maestría",
-	Blight		=	"Añublo",
-	Burst		=	"Ráfaga",
-	Sentence	=	"Sentencia",
-	Bomb		=	"Bomba"
+	SeaText		= "Celeridad/Versatilidad en %s",
+	SkyText		= "Crítico/Maestría en %s",
+	Blight		= "Añublo",
+	Burst		= "Ráfaga",
+	Sentence	= "Sentencia",
+	Bomb		= "Bomba",
+	Blight2		= "Añublo en %s!",
+	Burst2		= "Ráfaga en mí!",
+	Sentence2	= "Sentencia en %s!",
+	Bomb2		= "BOMBA EN MÍ",
+	Rage		= "IRA",
+	Fear		= "MIEDO"
 })
 
 ----------------------

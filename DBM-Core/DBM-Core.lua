@@ -43,11 +43,73 @@
 -------------------------------
 ----------------------------------------------------------------
 --
+if (LOCALE_ruRU) then --прошляпанное очко Мурчаля (Прошляпенко) ✔✔✔
 DBM = {
-	Revision = tonumber(("$Revision: 17703 $"):sub(12, -3)), --прошляпанное очко Мурчаля (Прошляпенко) ✔✔✔
-	DisplayVersion = "7.3.44 Right Version",
-	ReleaseRevision = 17702
+	Revision = tonumber(("$Revision: 17704 $"):sub(12, -3)),
+	DisplayVersion = "7.3.44 Right Version RU",
+	ReleaseRevision = 17703
 }
+elseif (LOCALE_enUS) then
+DBM = {
+	Revision = tonumber(("$Revision: 17704 $"):sub(12, -3)),
+	DisplayVersion = "7.3.44 Right Version US",
+	ReleaseRevision = 17703
+}
+elseif (LOCALE_deDE) then
+DBM = {
+	Revision = tonumber(("$Revision: 17704 $"):sub(12, -3)),
+	DisplayVersion = "7.3.44 Right Version DE",
+	ReleaseRevision = 17703
+}
+elseif (LOCALE_esES) then
+DBM = {
+	Revision = tonumber(("$Revision: 17704 $"):sub(12, -3)),
+	DisplayVersion = "7.3.44 Right Version ES",
+	ReleaseRevision = 17703
+}
+elseif (LOCALE_esMX) then
+DBM = {
+	Revision = tonumber(("$Revision: 17704 $"):sub(12, -3)),
+	DisplayVersion = "7.3.44 Right Version MX",
+	ReleaseRevision = 17703
+}
+elseif (LOCALE_frFR) then
+DBM = {
+	Revision = tonumber(("$Revision: 17704 $"):sub(12, -3)),
+	DisplayVersion = "7.3.44 Right Version FR",
+	ReleaseRevision = 17703
+}
+elseif (LOCALE_itIT) then
+DBM = {
+	Revision = tonumber(("$Revision: 17704 $"):sub(12, -3)),
+	DisplayVersion = "7.3.44 Right Version IT",
+	ReleaseRevision = 17703
+}
+elseif (LOCALE_ptBR) then
+DBM = {
+	Revision = tonumber(("$Revision: 17704 $"):sub(12, -3)),
+	DisplayVersion = "7.3.44 Right Version BR",
+	ReleaseRevision = 17703
+}
+elseif (LOCALE_koKR) then
+DBM = {
+	Revision = tonumber(("$Revision: 17704 $"):sub(12, -3)),
+	DisplayVersion = "7.3.44 Right Version KR",
+	ReleaseRevision = 17703
+}
+elseif (LOCALE_zhCN) then
+DBM = {
+	Revision = tonumber(("$Revision: 17704 $"):sub(12, -3)),
+	DisplayVersion = "7.3.44 Right Version CN",
+	ReleaseRevision = 17703
+}
+elseif (LOCALE_zhTW) then
+DBM = {
+	Revision = tonumber(("$Revision: 17704 $"):sub(12, -3)),
+	DisplayVersion = "7.3.44 Right Version TW",
+	ReleaseRevision = 17703
+}
+end
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
 if not DBM.Revision then
@@ -5468,7 +5530,7 @@ do
                             return
                         else
                             self:Debug("[fail] encounterID: " .. encounterID)
-                            self:Debug("[fail] v.eId: " .. v.eId)
+						--	self:Debug("[fail] v.eId: " .. v.eId)
                         end
 					end
 				end
@@ -6976,7 +7038,11 @@ do
 	function DBM:DemoMode()
 		if not testMod then
 			testMod = self:NewMod("TestMod")
-			self:GetModLocalization("TestMod"):SetGeneralLocalization{ name = "Test Mod" }
+			if (LOCALE_ruRU) then
+				self:GetModLocalization("TestMod"):SetGeneralLocalization{ name = "Тест мод" }
+			else
+				self:GetModLocalization("TestMod"):SetGeneralLocalization{ name = "Test Mod" }
+			end
 			testWarning1 = testMod:NewAnnounce("%s", 1, "Interface\\Icons\\Spell_Nature_WispSplode")
 			testWarning2 = testMod:NewAnnounce("%s", 2, "Interface\\Icons\\Spell_Shadow_ShadesOfDarkness")
 			testWarning3 = testMod:NewAnnounce("%s", 3, "Interface\\Icons\\Spell_Fire_SelfDestruct")

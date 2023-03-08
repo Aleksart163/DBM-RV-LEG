@@ -67,5 +67,6 @@ L:SetGeneralLocalization({
 
 L:SetMiscLocalization{
 	MurchalOchkenProshlyapen = "Pegue um Braseiro!", --Pegue um Braseiro! Lá vem o [Congelamento Instantâneo]!
-	MurchalOchkenProshlyapen2 = "A área foi marcada para sofrer uma" --A área foi marcada para sofrer uma [Obliteração]!
+	MurchalOchkenProshlyapen2 = "A área foi marcada para sofrer uma", --A área foi marcada para sofrer uma [Obliteração]!
+	MurchalOchkenProshlyapen3 = "O machado de Sotanathor emite" --O machado de Sotanathor emite [Rastro de Destruição]!
 }

@@ -26,7 +26,7 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(2014)
 
 L:SetMiscLocalization({
-	Pull = "Come, small ones. Die by my hand!"
+	Pull = "Approchez, vulnérables créatures. Je vais vous tuer de mes propres mains !" --
 })
 
 -----------------------
@@ -67,5 +67,6 @@ L:SetGeneralLocalization({
 
 L:SetMiscLocalization{
 	MurchalOchkenProshlyapen = "Approchez-vous d’un brasero !", --Approchez-vous d’un brasero ! [Gel instantané] va frapper !
-	MurchalOchkenProshlyapen2 = "Cette zone est la cible" --Cette zone est la cible d’[Oblitération] !
+	MurchalOchkenProshlyapen2 = "Cette zone est la cible", --Cette zone est la cible d’[Oblitération] !
+	MurchalOchkenProshlyapen3 = "La hache de Sotanathor envoie des" --La hache de Sotanathor envoie des [Sillages de destruction] !
 }

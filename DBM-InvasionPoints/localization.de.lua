@@ -26,7 +26,7 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(2014)
 
 L:SetMiscLocalization({
-	Pull = "Come, small ones. Die by my hand!"
+	Pull = "Kommt, kleine Wesen. Sterbt durch meine Hand!" --
 })
 
 -----------------------
@@ -67,5 +67,6 @@ L:SetGeneralLocalization({
 
 L:SetMiscLocalization{
 	MurchalOchkenProshlyapen = "Schnell zu einer Kohlenpfanne!", --Schnell zu einer Kohlenpfanne! [Blitzeis] kommt!
-	MurchalOchkenProshlyapen2 = "Dieses Gebiet wird für eine" --Dieses Gebiet wird für eine [Auslöschung] anvisiert!
+	MurchalOchkenProshlyapen2 = "Dieses Gebiet wird für eine", --Dieses Gebiet wird für eine [Auslöschung] anvisiert!
+	MurchalOchkenProshlyapen3 = "Sotanathors Axt stößt" --Sotanathors Axt stößt [Wellen der Zerstörung] aus!
 }
