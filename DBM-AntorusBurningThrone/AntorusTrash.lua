@@ -74,7 +74,6 @@ local yellFlamesofReorig2				= mod:NewFadesYell(249297, nil, nil, nil, "YELL") -
 local yellSoulburn						= mod:NewYell(253600, nil, nil, nil, "YELL") --Горящая душа
 local yellSoulburn2						= mod:NewFadesYell(253600, nil, nil, nil, "YELL") --Горящая душа
 
-mod:AddSetIconOption("SetIconOnPyroblast", 246505, true, false, {8}) --Огненная глыба
 mod:AddSetIconOption("SetIconOnCloudofConfuse", 254122, true, false, {8}) --Облако растерянности
 mod:AddSetIconOption("SetIconOnFlamesofReorig", 249297, true, false, {3}) --Пламя пересоздания
 mod:AddSetIconOption("SetIconOnSoulburn", 253600, true, false, {8, 7, 6, 5, 4}) --Горящая душа
@@ -94,10 +93,7 @@ function mod:PyroblastTarget(targetname, uId) --прошляпанное очк�
 		specWarnPyroblast:Play("targetyou")
 		yellPyroblast:Yell()
 	else
-		warnPyroblast:Show(targetname)
-	end
-	if self.Options.SetIconOnPyroblast then
-		self:SetIcon(targetname, 8, 9)
+		warnPyroblast:CombinedShow(1, targetname)
 	end
 end
 
