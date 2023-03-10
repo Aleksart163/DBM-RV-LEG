@@ -276,8 +276,8 @@ function mod:SPELL_CAST_START(args)
 			if OchkoMurchalya then
 				specWarnActivateFelshield:Show()
 				specWarnActivateFelshield:Play("stopcast")
-			end]]
-		end
+			end
+		end]]
 	end
 end
 
