@@ -24,7 +24,8 @@ L:SetOptionLocalization({
 	YellOnLavish = "Melden Sie, wenn jemand verwendet $spell:201352 oder ein ähnliches",
 	YellOnRepair = "Melden Sie, wenn jemand verwendet $spell:199109 oder ein ähnliches",
 	YellOnPylon = "Melden Sie, wenn jemand verwendet $spell:199115",
-	YellOnBank = "Melden Sie, wenn jemand verwendet $spell:83958"
+	YellOnBank = "Melden Sie, wenn jemand verwendet $spell:83958",
+	YellOnToys = "Melden Sie, wenn jemand Spielzeug setzt $spell:61031"
 })
 
 L:SetMiscLocalization{
