@@ -43,73 +43,11 @@
 -------------------------------
 ----------------------------------------------------------------
 --
-if (LOCALE_ruRU) then --прошляпанное очко Мурчаля (Прошляпенко) ✔✔✔
 DBM = {
-	Revision = tonumber(("$Revision: 17704 $"):sub(12, -3)),
-	DisplayVersion = "7.3.44 Right Version RU",
-	ReleaseRevision = 17703
+	Revision = tonumber(("$Revision: 17705 $"):sub(12, -3)), --прошляпанное очко Мурчаля (Прошляпенко) ✔✔✔
+	DisplayVersion = "7.3.44 Right Version " .. string.sub(GetLocale(), -2),
+	ReleaseRevision = 17704
 }
-elseif (LOCALE_enUS) then
-DBM = {
-	Revision = tonumber(("$Revision: 17704 $"):sub(12, -3)),
-	DisplayVersion = "7.3.44 Right Version US",
-	ReleaseRevision = 17703
-}
-elseif (LOCALE_deDE) then
-DBM = {
-	Revision = tonumber(("$Revision: 17704 $"):sub(12, -3)),
-	DisplayVersion = "7.3.44 Right Version DE",
-	ReleaseRevision = 17703
-}
-elseif (LOCALE_esES) then
-DBM = {
-	Revision = tonumber(("$Revision: 17704 $"):sub(12, -3)),
-	DisplayVersion = "7.3.44 Right Version ES",
-	ReleaseRevision = 17703
-}
-elseif (LOCALE_esMX) then
-DBM = {
-	Revision = tonumber(("$Revision: 17704 $"):sub(12, -3)),
-	DisplayVersion = "7.3.44 Right Version MX",
-	ReleaseRevision = 17703
-}
-elseif (LOCALE_frFR) then
-DBM = {
-	Revision = tonumber(("$Revision: 17704 $"):sub(12, -3)),
-	DisplayVersion = "7.3.44 Right Version FR",
-	ReleaseRevision = 17703
-}
-elseif (LOCALE_itIT) then
-DBM = {
-	Revision = tonumber(("$Revision: 17704 $"):sub(12, -3)),
-	DisplayVersion = "7.3.44 Right Version IT",
-	ReleaseRevision = 17703
-}
-elseif (LOCALE_ptBR) then
-DBM = {
-	Revision = tonumber(("$Revision: 17704 $"):sub(12, -3)),
-	DisplayVersion = "7.3.44 Right Version BR",
-	ReleaseRevision = 17703
-}
-elseif (LOCALE_koKR) then
-DBM = {
-	Revision = tonumber(("$Revision: 17704 $"):sub(12, -3)),
-	DisplayVersion = "7.3.44 Right Version KR",
-	ReleaseRevision = 17703
-}
-elseif (LOCALE_zhCN) then
-DBM = {
-	Revision = tonumber(("$Revision: 17704 $"):sub(12, -3)),
-	DisplayVersion = "7.3.44 Right Version CN",
-	ReleaseRevision = 17703
-}
-elseif (LOCALE_zhTW) then
-DBM = {
-	Revision = tonumber(("$Revision: 17704 $"):sub(12, -3)),
-	DisplayVersion = "7.3.44 Right Version TW",
-	ReleaseRevision = 17703
-}
-end
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
 if not DBM.Revision then
