@@ -168,12 +168,11 @@ local mythicBats = {189, 76, 103.5, 84} --
 --local finalDoomTimers = {59.3, 120, 94, 104.6, 99.6}--Live, Dec 5
 local finalDoomTimers = {58.8, 126, 98, 106.1, 100} -- ВСЕ ГОТОВО у 1 -0.5 сек, у 2 +6 сек, у 3 +4 секLive, у 4 +1.5 сек, у 5 +0.4
 -----------------------------------------------------------------------------------------------------------------------------------
-local warnedAdds = {} --центр, сверху, снизу
-local addCountToLocationMythic = {
+local warnedAdds = {}
+local addCountToLocationMythic = { --центр, сверху, снизу
 	["Dest"] = {DBM_CORE_MIDDLE, DBM_CORE_TOP, DBM_CORE_BOTTOM, DBM_CORE_MIDDLE, DBM_CORE_TOP, DBM_CORE_MIDDLE},
-	["Obfu"] = {DBM_CORE_BOTTOM, DBM_CORE_MIDDLE, DBM_CORE_TOP, DBM_CORE_BOTTOM, DBM_CORE_UNKNOWN}, --определить откуда выходит 5-ый маскировщик
+	["Obfu"] = {DBM_CORE_BOTTOM, DBM_CORE_MIDDLE, DBM_CORE_TOP, DBM_CORE_BOTTOM, DBM_CORE_BOTTOM},
 	["Pur"] = {DBM_CORE_MIDDLE, DBM_CORE_MIDDLE, DBM_CORE_BOTTOM, DBM_CORE_TOP}
---	["Pur"] = {DBM_CORE_MIDDLE, DBM_CORE_MIDDLE, DBM_CORE_TOP}
 }
 local addCountToLocationHeroic = {
 	["Dest"] = {DBM_CORE_MIDDLE, DBM_CORE_BOTTOM, DBM_CORE_TOP, DBM_CORE_BOTTOM, DBM_CORE_MIDDLE.."/"..DBM_CORE_TOP, DBM_CORE_MIDDLE.."/"..DBM_CORE_TOP},
@@ -181,7 +180,6 @@ local addCountToLocationHeroic = {
 	["Pur"] = {DBM_CORE_MIDDLE, DBM_CORE_BOTTOM, DBM_CORE_MIDDLE}
 }
 local addCountToLocationNormal = {
---	["Dest"] = {DBM_CORE_MIDDLE, DBM_CORE_BOTTOM, DBM_CORE_MIDDLE, DBM_CORE_TOP, DBM_CORE_BOTTOM, DBM_CORE_TOP, DBM_CORE_MIDDLE, DBM_CORE_TOP, DBM_CORE_MIDDLE},
 	["Dest"] = {DBM_CORE_MIDDLE, DBM_CORE_BOTTOM, DBM_CORE_TOP, DBM_CORE_BOTTOM, DBM_CORE_MIDDLE.."/"..DBM_CORE_TOP, DBM_CORE_MIDDLE.."/"..DBM_CORE_TOP},
 	["Obfu"] = {DBM_CORE_TOP, DBM_CORE_MIDDLE, DBM_CORE_BOTTOM, DBM_CORE_BOTTOM} --всё збс
 }

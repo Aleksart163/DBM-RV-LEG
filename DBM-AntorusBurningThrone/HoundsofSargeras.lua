@@ -38,7 +38,7 @@ local warnFocusingPower					= mod:NewSpellAnnounce(251356, 2) --Фокусиро
 local warnDarkReconstitution			= mod:NewTargetSourceAnnounce(249113, 3) --Темное восстановление
 
 --Фарг
-local specWarnMoltenTouch				= mod:NewSpecialWarningDodge(244163, nil, nil, nil, 2, 3) --Касание магмы
+local specWarnMoltenTouch				= mod:NewSpecialWarningDodge(244163, nil, nil, nil, 2, 3) --Жаркая вспышка
 local specWarnDesolateGaze				= mod:NewSpecialWarningYouMoveAway(244768, nil, nil, nil, 1, 5) --Опустошающий взгляд
 local specWarnEnflamed					= mod:NewSpecialWarningYouMoveAway(248815, nil, nil, nil, 1, 5) --Возгорание
 local specWarnEnflamed2					= mod:NewSpecialWarningSoon(244057, nil, nil, nil, 1, 2) --Возгорание
@@ -126,13 +126,13 @@ local function UpdateAllTimers(self)
 		specWarnWeightOfDarkness2:Cancel()
 	--	specWarnWeightOfDarkness2:Schedule(10)
 		timerWeightOfDarknessCD:AddTime(15) --Бремя тьмы
-		countdownWeightOfDarkness:AddTime(15) --Бремя тьмы
+		countdownWeightOfDarkness:Cancel() --Бремя тьмы
 	end
 	if timerSiphonCorruptionCD:GetTime() > 0 then
 		specWarnSiphoned2:Cancel()
 	--	specWarnSiphoned2:Schedule(10)
 		timerSiphonCorruptionCD:AddTime(15) --Вытягивание порчи
-		countdownSiphonCorruption:AddTime(15) --Вытягивание порчи
+		countdownSiphonCorruption:Cancel() --Вытягивание порчи
 	end
 end
 
@@ -145,15 +145,16 @@ function mod:OnCombatStart(delay)
 	berserkTimer:Start(-delay)
 	timerBurningMawCD:Start(9-delay) --Пылающая пасть+++ (под героик точно)
 	timerCorruptingMawCD:Start(11-delay) --Заразная пасть+++ (под героик точно)
-	--Shadow doggo
+	--20.44.18.036
+	--20.43.50.832
 	if self:IsMythic() then
 		FlameTouched = false
 		Shadowtouched = false
 		self.vb.longTimer = 88.3--88.3-89
 		self.vb.mediumTimer = 71.4--71.4-73
-		timerMoltenTouchCD:Start(21.5-delay) --Касание магмы+++
-		timerSiphonCorruptionCD:Start(25.5-delay) --Вытягивание порчи+++
-		countdownSiphonCorruption:Start(25.5-delay) --Вытягивание порчи+++
+		timerMoltenTouchCD:Start(26-delay) --Касание магмы+++
+		timerSiphonCorruptionCD:Start(27.8-delay) --Вытягивание порчи+++
+		countdownSiphonCorruption:Start(27.8-delay) --Вытягивание порчи+++
 		specWarnSiphoned2:Schedule(15.5) --Вытягивание порчи+++
 		timerEnflamedCorruptionCD:Start(49.6-delay) --Возгорание порчи +1.2 сек
 		specWarnEnflamed2:Schedule(39.6) --Возгорание порчи
@@ -201,8 +202,8 @@ function mod:SPELL_CAST_START(args)
 			timerBurningMawCD:Start(10)
 		elseif self:IsMythic() then
 			timerBurningMawCD:Stop()
-			timerEnflamedCorruptionCD:Start(89.5) --Возгорание порчи
-			specWarnEnflamed2:Schedule(79.5) --Возгорание порчи
+			timerEnflamedCorruptionCD:Start(90) --Возгорание порчи+++
+			specWarnEnflamed2:Schedule(80) --Возгорание порчи+++
 			timerDesolateGazeCD:Start(30) --Опустошающий взгляд
 			timerBurningMawCD:Start(16)
 		else --обычка и лфр
@@ -229,18 +230,18 @@ function mod:SPELL_CAST_START(args)
 			timerCorruptingMawCD:Start(10)
 		elseif self:IsMythic() then
 			timerCorruptingMawCD:Stop()
-			timerSiphonCorruptionCD:Start(72) --Вытягивание порчи+++
-			countdownSiphonCorruption:Start(72) --Вытягивание порчи+++
+			timerSiphonCorruptionCD:Start(69) --Вытягивание порчи+++
+			countdownSiphonCorruption:Start(69) --Вытягивание порчи+++
 			specWarnSiphoned2:Schedule(62) --Вытягивание порчи+++
-			timerComsumingSphereCD:Start(24) --Поглощаяющая сфера
-			specWarnComsumingSphere2:Schedule(14) --Поглощаяющая сфера+++
+			timerComsumingSphereCD:Start(21.5) --Поглощаяющая сфера+++
+			specWarnComsumingSphere2:Schedule(11.5) --Поглощаяющая сфера+++
 			if not UnitIsDeadOrGhost("player") then
-				specWarnComsumingSphere:Schedule(24) --Поглощаяющая сфера
-				specWarnComsumingSphere:ScheduleVoice(24, "watchorb") --Поглощаяющая сфера
+				specWarnComsumingSphere:Schedule(21.5) --Поглощаяющая сфера+++
+				specWarnComsumingSphere:ScheduleVoice(21.5, "watchorb") --Поглощаяющая сфера+++
 			end
-			timerWeightOfDarknessCD:Start(47) --Бремя тьмы вроде точно
-			countdownWeightOfDarkness:Start(47) --Бремя тьмы+++
-			specWarnWeightOfDarkness2:Schedule(37) --Бремя тьмы
+			timerWeightOfDarknessCD:Start(44.5) --Бремя тьмы+++
+			countdownWeightOfDarkness:Start(44.5) --Бремя тьмы+++
+			specWarnWeightOfDarkness2:Schedule(33.5) --Бремя тьмы+++
 			timerCorruptingMawCD:Start(16)
 		else --обычка и лфр
 			timerSiphonCorruptionCD:Start(85) --Вытягивание порчи+++

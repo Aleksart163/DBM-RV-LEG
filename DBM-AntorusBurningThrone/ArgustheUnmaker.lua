@@ -17,7 +17,7 @@ mod:RegisterCombat("combat")
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 248165 248317 257296 255594 257645 252516 256542 255648 257619 256544",
 	"SPELL_CAST_SUCCESS 248499 258039 258838 252729 252616 256388 258029 251570 257619",
-	"SPELL_AURA_APPLIED 248499 248396 250669 251570 255199 253021 255496 255496 255478 252729 252616 255433 255430 255429 255425 255422 255419 255418 258647 258646 257869 257931 257966 258838 256388 257299",
+	"SPELL_AURA_APPLIED 248499 248396 250669 251570 255199 253021 255496 255496 255478 252729 252616 255433 255430 255429 255425 255422 255419 255418 258647 258646 257869 257931 257966 258838 256388 257299 258029",
 	"SPELL_AURA_APPLIED_DOSE 248499 258039 258838 257299",
 	"SPELL_AURA_REMOVED 250669 251570 255199 253021 255496 255496 255478 255433 255430 255429 255425 255422 255419 255418 248499 258039 257966 258647 258646 258838 248396 257869",
 	"SPELL_INTERRUPT",
@@ -50,7 +50,6 @@ local warnSoulbomb					= mod:NewTargetNoFilterAnnounce(251570, 4) --Бомба �
 local warnSoulbomb2					= mod:NewEndTargetAnnounce(251570, 4) --Бомба души
 local warnAvatarofAggra				= mod:NewTargetNoFilterAnnounce(255199, 1) --Аватара Агграмара
 --Stage Three: The Arcane Masters
-local warnCosmicRay					= mod:NewTargetAnnounce(252729, 3) --Космический луч
 --local warnCosmicBeaconCast			= mod:NewCastAnnounce(252616, 2) --Космический маяк
 local warnCosmicBeacon				= mod:NewTargetAnnounce(252616, 2) --Космический маяк
 local warnDiscsofNorg				= mod:NewCastAnnounce(252516, 1) --Диски Норганнона
@@ -85,7 +84,6 @@ local specWarnAvatarofAggra			= mod:NewSpecialWarningYou(255199, nil, nil, nil, 
 local specWarnCosmicRay				= mod:NewSpecialWarningYouMoveAway(252729, nil, nil, nil, 1, 2) --Космический луч
 --Stage Three Mythic
 local specWarnSargSentence			= mod:NewSpecialWarningYouDontMove(257966, nil, nil, nil, 3, 6) --Приговор Саргераса
-local specWarnApocModule			= mod:NewSpecialWarningSwitchCount(258029, "Dps", nil, nil, 3, 3) --Процесс инициализации (мифик)
 local specWarnEdgeofAnni			= mod:NewSpecialWarningDodge(258834, nil, nil, nil, 2, 2) --Грань аннигиляции
 local specWarnSoulrendingScythe		= mod:NewSpecialWarningStack(258838, nil, 2, nil, nil, 3, 2) --Рассекающая коса
 local specWarnSoulrendingScytheTaunt= mod:NewSpecialWarningTaunt(258838, nil, nil, nil, 1, 2) --Рассекающая коса
@@ -93,6 +91,7 @@ local specWarnSoulrendingScytheTaunt= mod:NewSpecialWarningTaunt(258838, nil, ni
 local specWarnEmberofRage			= mod:NewSpecialWarningDodge(257299, nil, nil, nil, 2, 2) --Глыбы ярости
 local specWarnDeadlyScythe			= mod:NewSpecialWarningStack(258039, nil, 3, nil, nil, 1, 2) --Смертоносная коса
 local specWarnDeadlyScytheTaunt		= mod:NewSpecialWarningTaunt(258039, nil, nil, nil, 1, 2) --Смертоносная коса
+local specWarnApocModule			= mod:NewSpecialWarningSwitchCount(258007, "Dps", nil, nil, 3, 6) --Модуль апокалипсиса (мифик)
 local specWarnReorgModule			= mod:NewSpecialWarningSwitch(256389, "RangedDps", nil, nil, 3, 6) --Модуль пересозидания
 
 local timerNextPhase				= mod:NewPhaseTimer(74)
@@ -104,10 +103,10 @@ local timerBlightOrbCD				= mod:NewCDCountTimer(25, 248317, nil, nil, nil, 3) --
 local timerTorturedRageCD			= mod:NewCDCountTimer(13, 257296, nil, nil, nil, 2, nil, DBM_CORE_HEALER_ICON) --Ярость порабощенного 13-16
 local timerSkyandSeaCD				= mod:NewCDCountTimer(24.9, 255594, nil, nil, nil, 7) --Небо и море 24.9-27.8
 mod:AddTimerLine(ENCOUNTER_JOURNAL_SECTION_FLAG12)--Mythic Stage 1
-local timerSargGazeCD				= mod:NewCDCountTimer(35, 258068, nil, nil, nil, 3, nil, DBM_CORE_MYTHIC_ICON) --Пристальный взгляд Саргераса
+local timerSargGazeCD				= mod:NewCDCountTimer(35, 258068, nil, nil, nil, 3, nil, DBM_CORE_MYTHIC_ICON..DBM_CORE_DEADLY_ICON) --Пристальный взгляд Саргераса
 --Stage Two: The Protector Redeemed
 mod:AddTimerLine(SCENARIO_STAGE:format(2))
-local timerSoulBombCD				= mod:NewNextTimer(42, 251570, nil, nil, nil, 3, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Бомба души
+local timerSoulBombCD				= mod:NewNextTimer(42, 251570, nil, nil, nil, 3, nil, DBM_CORE_HEALER_ICON..DBM_CORE_DEADLY_ICON) --Бомба души
 local timerSoulBomb					= mod:NewTargetTimer(15, 251570, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON..DBM_CORE_MYTHIC_ICON) --Бомба души (в гере 15, в других проверить)
 local timerSoulBurstCD				= mod:NewNextCountTimer("d42", 250669, nil, nil, nil, 3) --Взрывная душа
 local timerEdgeofObliterationCD		= mod:NewCDCountTimer(34, 255826, nil, nil, nil, 2) --Коса разрушения
@@ -120,7 +119,7 @@ local timerDiscsofNorg				= mod:NewCastTimer(12, 252516, nil, nil, nil, 6) --Д�
 local timerAddsCD					= mod:NewAddsTimer(14, 253021, nil, nil, nil, 1, nil, DBM_CORE_TANK_ICON..DBM_CORE_DAMAGE_ICON) --треш
 mod:AddTimerLine(ENCOUNTER_JOURNAL_SECTION_FLAG12)--Mythic 3
 local timerSoulrendingScytheCD		= mod:NewCDTimer(8.5, 258838, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Рассекающая коса
-local timerSargSentenceCD			= mod:NewTimer(35.2, "timerSargSentenceCD", 257966, nil, nil, 3, DBM_CORE_HEROIC_ICON) --Приговор Саргераса
+local timerSargSentenceCD			= mod:NewTimer(35.2, "timerSargSentenceCD", 257966, nil, nil, 3, DBM_CORE_MYTHIC_ICON..DBM_CORE_DEADLY_ICON) --Приговор Саргераса
 local timerEdgeofAnniCD				= mod:NewCDTimer(5.5, 258834, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Грань аннигиляции
 --Stage Four: The Gift of Life, The Forge of Loss (Non Mythic)
 mod:AddTimerLine(SCENARIO_STAGE:format(4))
@@ -137,8 +136,6 @@ local yellSoulblightFades			= mod:NewShortFadesYell(248396, nil, nil, nil, "YELL
 local yellSoulblight				= mod:NewYell(248396, L.Blight2, nil, nil, "YELL") --Изнуряющая чума
 local yellSargRage					= mod:NewYell(257869, L.Rage, nil, nil, "YELL") --Ярость Саргераса
 local yellSargFear					= mod:NewYell(257931, L.Fear, nil, nil, "YELL") --Страх перед Саргерасом
-local yellSargRage2					= mod:NewFadesYell(257869, nil, nil, nil, "YELL") --Ярость Саргераса (32.5 сек с страхом)
-local yellSargFear2					= mod:NewFadesYell(257931, nil, nil, nil, "YELL") --Страх перед Саргерасом
 local yellSargFearCombo				= mod:NewComboYell(257931, 5782, nil, nil, "YELL") --Страх перед Саргерасом
 local yellSoulbomb					= mod:NewPosYell(251570, DBM_CORE_AUTO_YELL_CUSTOM_POSITION, nil, nil, "YELL") --Бомба души
 local yellSoulbombFades				= mod:NewIconFadesYell(251570, 155188, nil, nil, "YELL") --Бомба души
@@ -199,9 +196,9 @@ local warned_preP6 = false
 local playerName = UnitName("player")
 --P3 Mythic Timers
 local torturedRage = {40, 40, 50, 30, 35, 10, 8, 35, 10, 8, 35}--3 timers from method video not logs, verify by logs to improve accuracy
-local sargSentenceTimers = {53, 56.9, 60, 53, 53}--1 timer from method video not logs, verify by logs to improve accuracy
-local apocModuleTimers = {31, 47, 47, 46.6, 53, 53} --Some variation detected in logs do to delay in combat log between spawn and cast (one timer from method video)
-local sargGazeTimers = {23, 75, 70, 53, 53}--1 timer from method video not logs, verify by logs to improve accuracy
+local sargSentenceTimers = {53, 57, 60, 53, 53}--1 timer from method video not logs, verify by logs to improve accuracy
+local apocModuleTimers = {30.1, 45.5, 45.5, 44, 51.5, 51.5} --новые и точные таймеры Модулей в мифике
+local sargGazeTimers = {20, 75, 70, 53, 53} --новые и точные таймеры взгляда Саргераса
 local edgeofAnni = {5, 5, 90, 5, 45, 5}--All timers from method video (6:05 P3 start, 6:10, 6:15, 7:45, 7:50, 8:35, 8:40)
 --Both of these should be in fearCheck object for efficiency but with uncertainty of async, I don't want to come back and fix this later. Doing it this way ensures without a doubt it'll work by calling on load and again on combatstart
 local tankStacks = {}
@@ -224,18 +221,22 @@ local function fearCheck(self)
 			comboActive = true
 		end
 		if comboActive then
-			self:Schedule(2, fearCheck, self)
+			self:Schedule(1, fearCheck, self)
 		end
 	end
 end
 
-local function ToggleRangeFinder(self, hide)
+local function ToggleRangeFinder(self, hide) --взгляд Саргераса
+	--1 фаза
+	--1ый ок, 2ой ок, 3ий ок, 4-ый +1.5 сек задержка
 	if self:IsTank() or not self.Options.RangeFrame then return end--Tanks don't get rage
 	if not hide then
-		specWarnSargGaze:Show()
-		specWarnSargGaze:Play("range5")
-		DBM.RangeCheck:Show(5)
-		self.vb.rangeCheckNoTouchy = true--Prevent SPELL_AURA_REMOVED of revious rage closing range finder during window we're expecting next rage
+		if not UnitIsDeadOrGhost("player") then
+			specWarnSargGaze:Show()
+			specWarnSargGaze:Play("range5")
+			DBM.RangeCheck:Show(5)
+			self.vb.rangeCheckNoTouchy = true--Prevent SPELL_AURA_REMOVED of revious rage closing range finder during window we're expecting next rage
+		end
 	end
 	if hide and not DBM:UnitDebuff("player", 257869) then
 		DBM.RangeCheck:Hide()
@@ -248,8 +249,10 @@ local function startAnnihilationStuff(self, quiet)
 	if quiet then--Second cast within 5 second period, do a quiet 2nd warn
 		warnEdgeofAnni:Show(self.vb.EdgeofObliteration)
 	else--Special warning
-		specWarnEdgeofAnni:Show(self.vb.EdgeofObliteration)
-		specWarnEdgeofAnni:Play("watchstep")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnEdgeofAnni:Show(self.vb.EdgeofObliteration)
+			specWarnEdgeofAnni:Play("watchstep")
+		end
 	end
 	local timer = edgeofAnni[self.vb.EdgeofObliteration+1]
 	if timer then
@@ -441,17 +444,17 @@ function mod:SPELL_CAST_START(args)
 		countdownSweapingScythe:Start(16.8)
 		timerAvatarofAggraCD:Start(24)
 		timerEdgeofObliterationCD:Start(21, 1)
-		timerSoulBombCD:Start(30.3)
-		countdownSoulbomb:Start(30.3)
-		timerSoulBurstCD:Start(30.3, 1)
+		timerSoulBombCD:Start(31) --Бомба души
+		countdownSoulbomb:Start(31) --Бомба души
+		timerSoulBurstCD:Start(31, 1) --Взрывная душа
 		if self:IsMythic() then
 			self:Unschedule(ToggleRangeFinder)
 			self.vb.gazeCount = 0
 			timerSargGazeCD:Stop()
 			countdownSargGaze:Cancel()
-			timerSargGazeCD:Start(25.7, 1)
-			countdownSargGaze:Start(25.7)
-			self:Schedule(23.7, ToggleRangeFinder, self)--Call Show 5 seconds Before NEXT rages get applied (2 seconds before cast + 3 sec cast time)
+			timerSargGazeCD:Start(32, 1) --Пристальный взгляд Саргераса (было 26.7)
+			countdownSargGaze:Start(32) --Пристальный взгляд Саргераса
+			self:Schedule(29.5, ToggleRangeFinder, self)--Call Show 5 seconds Before NEXT rages get applied (2 seconds before cast + 3 sec cast time)
 		end
 	elseif spellId == 257645 then --Временной взрыв (Фаза 3)
 		timerAvatarofAggraCD:Stop()--Always cancel this here, it's not canceled by argus becoming inactive and can still be cast during argus inactive transition phase
@@ -523,15 +526,6 @@ function mod:SPELL_CAST_SUCCESS(args)
 			specWarnEdgeofObliteration:Play("watchstep")
 		end
 		timerEdgeofObliterationCD:Start(nil, self.vb.EdgeofObliteration+1)
-	elseif spellId == 258029 and self:AntiSpam(5, 7) then --Процесс инициализации (мифик)
-		self.vb.moduleCount = self.vb.moduleCount + 1
-		if not UnitIsDeadOrGhost("player") then
-			specWarnApocModule:Show(self.vb.moduleCount)
-			specWarnApocModule:Play("mobkill")
-		end
-		local timer = apocModuleTimers[self.vb.moduleCount+1] or 46.6
-		timerReorgModuleCD:Start(timer, self.vb.moduleCount+1)
-		countdownApocModule:Start(timer)
 	elseif spellId == 251570 then --Бомба души
 		countdownSoulbomb2:Start()
 	elseif spellId == 257619 then --Дар Хранительницы жизни
@@ -654,10 +648,10 @@ function mod:SPELL_AURA_APPLIED(args)
 			countdownSoulbomb:Start(80)
 			timerSoulBurstCD:Start(80, 1)
 		else
-			timerSoulBurstCD:Start(19.8, 2)
-			timerSoulBombCD:Start(41.3)
-			countdownSoulbomb:Start(41.3)
-			timerSoulBurstCD:Start(41.3, 1)
+			timerSoulBurstCD:Start(20.1, 2) --все отличные таймеры
+			timerSoulBombCD:Start(42)
+			countdownSoulbomb:Start(42)
+			timerSoulBurstCD:Start(42, 1)
 		end
 	elseif spellId == 255199 then
 		if self.vb.phase == 2 then--Sometime gets cast once in p3, don't want to start timer if it does
@@ -690,8 +684,6 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnCosmicRay:Show()
 			specWarnCosmicRay:Play("targetyou")
 			yellCosmicRay:Yell()
-		else
-			warnCosmicRay:CombinedShow(0.5, args.destName)
 		end
 	elseif spellId == 252616 then
 		warnCosmicBeacon:CombinedShow(0.5, args.destName)
@@ -723,7 +715,6 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnSargRage:Show()
 			specWarnSargRage:Play("scatter")
 			yellSargRage:Yell()
-			yellSargRage2:Countdown(32.5, 3)
 		end
 	elseif spellId == 257931 then --Страх перед Саргерасом
 		warnSargFear:CombinedShow(0.3, args.destName)
@@ -731,7 +722,6 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnSargFear:Show()
 			specWarnSargFear:Play("gathershare")
 			yellSargFear:Yell()
-			yellSargFear2:Countdown(32.5, 3)
 			fearCheck(self)
 		end
 	elseif spellId == 257966 then --Приговор Саргераса
@@ -750,14 +740,24 @@ function mod:SPELL_AURA_APPLIED(args)
 			yellSargSentenceFades:Countdown(30, 3)
 			fearCheck(self)
 		end
-	elseif spellId == 256388 and self:AntiSpam(2, 2) then --Процесс инициализации (новый в об и гер) Schedule(46.5), ScheduleVoice(46.5, "killmob")
+	elseif spellId == 256388 or spellId == 258029 then --Процесс инициализации (новый в об и гер) Schedule(46.5), ScheduleVoice(46.5, "killmob")
 		self.vb.moduleCount = self.vb.moduleCount + 1
-		if not UnitIsDeadOrGhost("player") then
-			specWarnReorgModule:Show()
-			specWarnReorgModule:Play("mobkill")
+		if spellId == 258029 then --мифик
+			if not UnitIsDeadOrGhost("player") then
+				specWarnApocModule:Show(self.vb.moduleCount)
+				specWarnApocModule:Play("mobkill")
+			end
+			local timer = apocModuleTimers[self.vb.moduleCount+1] or 46.5
+			timerReorgModuleCD:Start(timer, self.vb.moduleCount+1)
+			countdownApocModule:Start(timer)
+		elseif spellId == 256388 and self:AntiSpam(2, 2) then
+			if not UnitIsDeadOrGhost("player") then
+				specWarnReorgModule:Show()
+				specWarnReorgModule:Play("mobkill")
+			end
+			timerReorgModuleCD:Start(46.5, self.vb.moduleCount+1)
+			countdownReorgModule:Start(46.5)
 		end
-		timerReorgModuleCD:Start(46.5, self.vb.moduleCount+1)
-		countdownReorgModule:Start(46.5)
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
@@ -850,7 +850,6 @@ function mod:SPELL_AURA_REMOVED(args)
 		yellSoulblightFades:Cancel()
 	elseif spellId == 257869 then --Ярость Саргераса
 		if args:IsPlayer() and self.Options.RangeFrame and not self.vb.rangeCheckNoTouchy then
-			yellSargRage2:Cancel()
 			DBM.RangeCheck:Hide()
 		end
 	end
@@ -862,19 +861,19 @@ function mod:SPELL_INTERRUPT(args)
 		specWarnEndofAllThings:Cancel()
 		timerEndofAllThings:Cancel()
 		countdownEndofAllThings:Cancel()
-		if self:IsMythic() then
+		if self:IsMythic() then --Волосали
 			self:Unschedule(ToggleRangeFinder)--Redundant, for good measure
 			self.vb.gazeCount = 0
 			self.vb.EdgeofObliteration = 0
-			timerSoulrendingScytheCD:Start(3.5)
-			countdownSoulScythe:Start(3.5)
-			timerEdgeofAnniCD:Start(5, 1)
-			self:Schedule(5, startAnnihilationStuff, self)
-			timerSargGazeCD:Start(20.2, 1)
-			countdownSargGaze:Start(20.2)
-			self:Schedule(18.2, ToggleRangeFinder, self)--Call Show 5 seconds Before NEXT rages get applied (2 seconds before cast + 3 sec cast time)
-			timerReorgModuleCD:Start(31.3, 1)
-			countdownApocModule:Start(31.3)
+			timerSoulrendingScytheCD:Start(4) --Рассекающая коса+++
+			countdownSoulScythe:Start(4) --Рассекающая коса+++
+			timerEdgeofAnniCD:Start(5, 1) --Грань аннигиляции+++
+			self:Schedule(5, startAnnihilationStuff, self) --Грань аннигиляции
+			timerSargGazeCD:Start(20, 1) --Пристальный взгляд Саргераса
+			countdownSargGaze:Start(20) --Пристальный взгляд Саргераса
+			self:Schedule(17.5, ToggleRangeFinder, self)--Call Show 5 seconds Before NEXT rages get applied (2 seconds before cast + 3 sec cast time)
+			timerReorgModuleCD:Start(30.1, 1)
+			countdownApocModule:Start(30.1)
 			timerTorturedRageCD:Start(40, 1)
 			timerSargSentenceCD:Start(53, 1)
 			--self:Schedule(63, checkForMissingSentence, self)
@@ -931,7 +930,7 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)
 				countdownSargGaze:Start(timer)
 				self:Unschedule(ToggleRangeFinder)
 				self:Schedule(5, ToggleRangeFinder, self, true)--Call hide 2 seconds after rages go out, function will check player for debuff and decide
-				self:Schedule(timer-2, ToggleRangeFinder, self)--Call Show 5 seconds Before NEXT rages get applied (2 seconds before cast + 3 sec cast time)
+				self:Schedule(timer-2.5, ToggleRangeFinder, self)--Call Show 5 seconds Before NEXT rages get applied (2 seconds before cast + 3 sec cast time)
 			end
 		else--Stage 1
 			timerSargGazeCD:Start(35, self.vb.gazeCount+1)
