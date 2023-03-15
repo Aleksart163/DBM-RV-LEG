@@ -407,7 +407,7 @@ function mod:SPELL_CAST_START(args)
 		timerChaosGlareCD:Start()
 	elseif spellId == 203956 then --Взмах землекрушителя
 		local cid = self:GetCIDFromGUID(args.sourceGUID)
-		if cid == 127670 or cid == 127671 or cid == 127090 then
+		if cid == 126164 or cid == 126196 or cid == 127090 then
 			self:BossTargetScanner(args.sourceGUID, "EarthshatteringSlashTarget", 0.1, 2)
 		end
 	elseif spellId == 249854 then --Инфернальная буря
@@ -556,7 +556,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif spellId == 218121 then --Исступление
 		local cid = self:GetCIDFromGUID(args.sourceGUID)
-		if cid == 127670 or cid == 127671 or cid == 127090 then
+		if cid == 126164 or cid == 126196 or cid == 127090 then
 			warnEnrage:Show(args.destName)
 		end
 	elseif spellId == 183270 then --Губительный рев
