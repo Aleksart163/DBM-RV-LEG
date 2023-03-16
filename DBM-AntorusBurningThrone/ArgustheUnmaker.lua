@@ -221,7 +221,7 @@ local function fearCheck(self)
 			comboActive = true
 		end
 		if comboActive then
-			self:Schedule(1, fearCheck, self)
+			self:Schedule(5, fearCheck, self)
 		end
 	end
 end
