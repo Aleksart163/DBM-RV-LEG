@@ -14,6 +14,7 @@ L:SetGeneralLocalization({
 })
 
 L:SetOptionLocalization({
+	YellOnMassRes = "Relatar quando alguém usa o feitiço $spell:212036 ou similar",
 	YellOnHeroism = "Relatar quando alguém usa o feitiço $spell:32182 ou similar",
 	YellOnResurrect = "Relatar quando um feitiço foi usado em alguém $spell:20484 ou similar",
 	YellOnPortal = "Relatar quando alguém abrir $spell:224871 oder ein ähnliches",

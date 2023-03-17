@@ -14,6 +14,7 @@ L:SetGeneralLocalization({
 })
 
 L:SetOptionLocalization({
+	YellOnMassRes = "Avisar, cuando alguien esta usando hechizo $spell:212036 o similar",
 	YellOnHeroism = "Avisar, cuando alguien esta usando hechizo $spell:32182 o similar",
 	YellOnResurrect = "Avisar, cuando y sobre quien han usado $spell:20484 o similar",
 	YellOnPortal = "Avisar, cuando alguien esta abriendo $spell:224871 o similar",

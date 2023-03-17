@@ -8,7 +8,7 @@ mod:SetZone(1712, 1676, 1530, 1648, 1520, 1779, 1501, 1466, 1456, 1477, 1458, 15
 mod.noStatistics = true
 
 mod:RegisterEvents(
---	"SPELL_CAST_START 61994",
+	"SPELL_CAST_START 61994 212040 212056 212036 212048 212051",
 	"SPELL_CAST_SUCCESS 688 691 157757 80353 32182 230935 90355 2825 160452 10059 11416 11419 32266 49360 11417 11418 11420 32267 49361 33691 53142 88345 88346 132620 132626 176246 176244 224871 29893 83958",
 	"SPELL_AURA_APPLIED 20707",
 	"SPELL_SUMMON 67826 199109 199115 195782",
@@ -17,6 +17,12 @@ mod:RegisterEvents(
 )
 
 --Прошляпанное очко Мурчаля Прошляпенко✔✔✔
+local warnMassres1					= mod:NewTargetSourceAnnounce(212040, 1) --Возвращение к жизни (друид)
+local warnMassres2					= mod:NewTargetSourceAnnounce(212056, 1) --Отпущение (пал)
+local warnMassres3					= mod:NewTargetSourceAnnounce(212036, 1) --Массовое воскрешение (прист)
+local warnMassres4					= mod:NewTargetSourceAnnounce(212048, 1) --Древнее видение (шаман)
+local warnMassres5					= mod:NewTargetSourceAnnounce(212051, 1) --Повторное пробуждение (монк)
+
 local warnTimeWarp					= mod:NewTargetSourceAnnounce(80353, 1) --Искажение времени
 local warnHeroism					= mod:NewTargetSourceAnnounce(32182, 1) --Героизм
 local warnBloodlust					= mod:NewTargetSourceAnnounce(2825, 1) --Кровожадность
@@ -33,9 +39,12 @@ local warnRebirth					= mod:NewTargetSourceAnnounce2(20484, 1) --Возрожд�
 
 local specWarnSoulstone				= mod:NewSpecialWarningYou(20707, nil, nil, nil, 1, 2) --Камень души
 
-mod:AddBoolOption("YellOnHeroism", false)
-mod:AddBoolOption("YellOnResurrect", false)
-mod:AddBoolOption("YellOnPortal", false)
+local yellSoulstone					= mod:NewYell(20707, nil, nil, nil, "YELL") --Камень души
+
+mod:AddBoolOption("YellOnMassRes", true) --масс рес
+mod:AddBoolOption("YellOnHeroism", false) --героизм
+mod:AddBoolOption("YellOnResurrect", false) --бр
+mod:AddBoolOption("YellOnPortal", false) --порталы
 mod:AddBoolOption("YellOnSoulwell", false)
 mod:AddBoolOption("YellOnSoulstone", false)
 mod:AddBoolOption("YellOnRitualofSummoning", false)
@@ -44,57 +53,83 @@ mod:AddBoolOption("YellOnLavish", false)
 mod:AddBoolOption("YellOnBank", true)
 mod:AddBoolOption("YellOnRepair", false)
 mod:AddBoolOption("YellOnPylon", true)
-mod:AddBoolOption("YellOnToys", true)
-
-local toyTrain = DBM:GetSpellInfo(61031) --Игрушечная железная дорога
-local moonfeather = DBM:GetSpellInfo(195782) --Игрушечная железная дорога
+mod:AddBoolOption("YellOnToys", true) --игрушки
+--
+local function replaceSpellLinks(id)
+    local spellId = tonumber(id)
+    local spellName = DBM:GetSpellInfo(spellId)
+    if not spellName then
+        spellName = DBM_CORE_UNKNOWN
+        DBM:Debug("Spell ID does not exist: "..spellId)
+    end
+    return ("|cff71d5ff|Hspell:%d:0|h[%s]|h|r"):format(spellId, spellName)
+end
 
 local DbmRV = "[DBM RV] "
-local timeWarp = DBM:GetSpellInfo(80353) --Искажение времени
-local heroism = DBM:GetSpellInfo(32182) --Героизм
-local bloodlust = DBM:GetSpellInfo(2825) --Кровожадность
-local hysteria = DBM:GetSpellInfo(90355) --Древняя истерия
-local winds = DBM:GetSpellInfo(160452) --Ветер пустоты
-local drums = DBM:GetSpellInfo(230935) --Барабаны гор
---
-local rebirth = DBM:GetSpellInfo(20484) --Возрождение
---
-local stormwind = DBM:GetSpellInfo(10059) --Штормград
-local ironforge = DBM:GetSpellInfo(11416) --Стальгорн
-local darnassus = DBM:GetSpellInfo(11419) --Дарнас
-local exodar = DBM:GetSpellInfo(32266) --Экзодар
-local theramore = DBM:GetSpellInfo(49360) --Терамор
-local orgrimmar = DBM:GetSpellInfo(11417) --Оргриммар
-local undercity = DBM:GetSpellInfo(11418) --Подгород
-local thunderBluff = DBM:GetSpellInfo(11420) --Громовой утес
-local silvermoon = DBM:GetSpellInfo(32267) --Луносвет
-local stonard = DBM:GetSpellInfo(49361) --Каменор
-local shattrath = DBM:GetSpellInfo(33691) --Шаттрат
-local dalaran1 = DBM:GetSpellInfo(53142) --Даларан1
-local tolBarad1 = DBM:GetSpellInfo(88345) --Тол Барад (альянс)
-local tolBarad2 = DBM:GetSpellInfo(88346) --Тол Барад (орда)
-local valeEternal1 = DBM:GetSpellInfo(132620) --Вечноцветущий дол (альянс)
-local valeEternal2 = DBM:GetSpellInfo(132626) --Вечноцветущий дол (орда)
-local stormshield = DBM:GetSpellInfo(176246) --Преграда Ветров (альянс)
-local warspear = DBM:GetSpellInfo(176244) --Копье Войны (орда)
-local dalaran2 = DBM:GetSpellInfo(224871) --Даларан2
---
-local soulwell = DBM:GetSpellInfo(58275) --29893 Источник душ
-local soulstone = DBM:GetSpellInfo(20707) --Камень души
-local summoning = DBM:GetSpellInfo(698) --Ритуал призыва
---
-local cauldron = DBM:GetSpellInfo(188036) --Котел духов
---
-local lavishSuramar = DBM:GetSpellInfo(201352) --Щедрое сурамарское угощение
-local hearty = DBM:GetSpellInfo(201351) --Обильное угощение
-local sugar = DBM:GetSpellInfo(185709) --Угощение из засахаренной рыбы
---
-local jeeves = DBM:GetSpellInfo(67826) --Дживс
-local autoHammer = DBM:GetSpellInfo(199109) --Автоматический молот
-local pylon = DBM:GetSpellInfo(199115) --Пилон для обнаружения проблем
---
-local bank = DBM:GetSpellInfo(88306) --83958 Мобильный банк
+--Массрес
+local massres1, massres2, massres3, massres4, massres5 = replaceSpellLinks(212040), replaceSpellLinks(212056), replaceSpellLinks(212036), replaceSpellLinks(212048), replaceSpellLinks(212051)
+--Героизм
+local timeWarp, heroism, bloodlust, hysteria, winds, drums = replaceSpellLinks(80353), replaceSpellLinks(32182), replaceSpellLinks(2825), replaceSpellLinks(90355), replaceSpellLinks(160452), replaceSpellLinks(230935)
+--БР
+local rebirth1, rebirth2, rebirth3 = replaceSpellLinks(20484), replaceSpellLinks(61999), replaceSpellLinks(95750)
+--Порталы Альянса
+local stormwind, ironforge, darnassus, exodar, theramore, tolBarad1, valeEternal1, stormshield = replaceSpellLinks(10059), replaceSpellLinks(11416), replaceSpellLinks(11419), replaceSpellLinks(32266), replaceSpellLinks(49360), replaceSpellLinks(88345), replaceSpellLinks(132620), replaceSpellLinks(176246)
+--Порталы Орды
+local orgrimmar, undercity, thunderBluff, silvermoon, stonard, tolBarad2, valeEternal2, warspear = replaceSpellLinks(11417), replaceSpellLinks(11418), replaceSpellLinks(11420), replaceSpellLinks(32267), replaceSpellLinks(49361), replaceSpellLinks(88346), replaceSpellLinks(132626), replaceSpellLinks(176244)
+--Порталы общие
+local shattrath, dalaran1, dalaran2 = replaceSpellLinks(33691), replaceSpellLinks(53142), replaceSpellLinks(224871)
+--Спеллы лока
+local soulwell, soulstone, summoning = replaceSpellLinks(29893), replaceSpellLinks(20707), replaceSpellLinks(698)
+--Котел духов
+local cauldron = replaceSpellLinks(188036)
+--Еда
+local lavishSuramar, hearty, sugar = replaceSpellLinks(201352), replaceSpellLinks(201351), replaceSpellLinks(185709)
+--Инженерия
+local jeeves, autoHammer, pylon = replaceSpellLinks(67826), replaceSpellLinks(199109), replaceSpellLinks(199115)
+--Мобильный банк
+local bank = replaceSpellLinks(88306) --83958
+--Игрушки
+local toyTrain, moonfeather = replaceSpellLinks(61031), replaceSpellLinks(195782)
 
+function mod:SPELL_CAST_START(args)
+	local spellId = args.spellId
+	if spellId == 212040 or spellId == 212056 or spellId == 212036 or spellId == 212048 or spellId == 212051 then
+		if self.Options.YellOnMassRes then
+			if spellId == 212040 and self:AntiSpam(5, 12) then
+				if IsInRaid() and DBM:GetRaidRank() > 0 then
+					SendChatMessage(L.HeroismYell:format(DbmRV, args.sourceName, massres1), "RAID_WARNING")
+				else
+					warnMassres1:Show(args.sourceName)
+				end
+			elseif spellId == 212056 and self:AntiSpam(5, 12) then
+				if IsInRaid() and DBM:GetRaidRank() > 0 then
+					SendChatMessage(L.HeroismYell:format(DbmRV, args.sourceName, massres2), "RAID_WARNING")
+				else
+					warnMassres2:Show(args.sourceName)
+				end
+			elseif spellId == 212036 and self:AntiSpam(5, 12) then
+				if IsInRaid() and DBM:GetRaidRank() > 0 then
+					SendChatMessage(L.HeroismYell:format(DbmRV, args.sourceName, massres3), "RAID_WARNING")
+				else
+					warnMassres3:Show(args.sourceName)
+				end
+			elseif spellId == 212048 and self:AntiSpam(5, 12) then
+				if IsInRaid() and DBM:GetRaidRank() > 0 then
+					SendChatMessage(L.HeroismYell:format(DbmRV, args.sourceName, massres4), "RAID_WARNING")
+				else
+					warnMassres4:Show(args.sourceName)
+				end
+			elseif spellId == 212051 and self:AntiSpam(5, 12) then
+				if IsInRaid() and DBM:GetRaidRank() > 0 then
+					SendChatMessage(L.HeroismYell:format(DbmRV, args.sourceName, massres5), "RAID_WARNING")
+				else
+					warnMassres5:Show(args.sourceName)
+				end
+			end
+		end
+	end
+end
+	
 function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
 	if spellId == 80353 then --Искажение времени
@@ -355,6 +390,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnSoulstone:Show()
 			specWarnSoulstone:Play("targetyou")
+			yellSoulstone:Yell()
 		end
 		if self.Options.YellOnSoulstone then
 			if IsInRaid() then
@@ -380,7 +416,7 @@ function mod:SPELL_CREATE(args)
 	elseif spellId == 188036 and self:AntiSpam(3, 5) then --Котел духов
 		warnCauldron:Show(args.sourceName)
 		if self.Options.YellOnSpiritCauldron then
-			if DBM:GetRaidRank() > 0 then
+			if IsInRaid() and DBM:GetRaidRank() > 0 then
 				SendChatMessage(L.SoulwellYell:format(DbmRV, args.sourceName, cauldron), "RAID_WARNING")
 			elseif IsInRaid() then
 				SendChatMessage(L.SoulwellYell:format(DbmRV, args.sourceName, cauldron), "RAID")
@@ -473,33 +509,33 @@ function mod:SPELL_RESURRECT(args)
 		warnRebirth:Show(args.sourceName, args.destName)
 		if self.Options.YellOnResurrect then
 			if IsInRaid() then
-				SendChatMessage(L.SoulstoneYell:format(DbmRV, args.sourceName, rebirth, args.destName), "RAID")
+				SendChatMessage(L.SoulstoneYell:format(DbmRV, args.sourceName, rebirth3, args.destName), "RAID")
 			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
-				SendChatMessage(L.SoulstoneYell:format(DbmRV, args.sourceName, rebirth, args.destName), "INSTANCE_CHAT")
+				SendChatMessage(L.SoulstoneYell:format(DbmRV, args.sourceName, rebirth3, args.destName), "INSTANCE_CHAT")
 			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
-				SendChatMessage(L.SoulstoneYell:format(DbmRV, args.sourceName, rebirth, args.destName), "PARTY")
+				SendChatMessage(L.SoulstoneYell:format(DbmRV, args.sourceName, rebirth3, args.destName), "PARTY")
 			end
 		end
 	elseif spellId == 20484 then --Возрождение
 		warnRebirth:Show(args.sourceName, args.destName)
 		if self.Options.YellOnResurrect then
 			if IsInRaid() then
-				SendChatMessage(L.SoulstoneYell:format(DbmRV, args.sourceName, rebirth, args.destName), "RAID")
+				SendChatMessage(L.SoulstoneYell:format(DbmRV, args.sourceName, rebirth1, args.destName), "RAID")
 			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
-				SendChatMessage(L.SoulstoneYell:format(DbmRV, args.sourceName, rebirth, args.destName), "INSTANCE_CHAT")
+				SendChatMessage(L.SoulstoneYell:format(DbmRV, args.sourceName, rebirth1, args.destName), "INSTANCE_CHAT")
 			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
-				SendChatMessage(L.SoulstoneYell:format(DbmRV, args.sourceName, rebirth, args.destName), "PARTY")
+				SendChatMessage(L.SoulstoneYell:format(DbmRV, args.sourceName, rebirth1, args.destName), "PARTY")
 			end
 		end
 	elseif spellId == 61999 then --Воскрешение союзника
 		warnRebirth:Show(args.sourceName, args.destName)
 		if self.Options.YellOnResurrect then
 			if IsInRaid() then
-				SendChatMessage(L.SoulstoneYell:format(DbmRV, args.sourceName, rebirth, args.destName), "RAID")
+				SendChatMessage(L.SoulstoneYell:format(DbmRV, args.sourceName, rebirth2, args.destName), "RAID")
 			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
-				SendChatMessage(L.SoulstoneYell:format(DbmRV, args.sourceName, rebirth, args.destName), "INSTANCE_CHAT")
+				SendChatMessage(L.SoulstoneYell:format(DbmRV, args.sourceName, rebirth2, args.destName), "INSTANCE_CHAT")
 			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
-				SendChatMessage(L.SoulstoneYell:format(DbmRV, args.sourceName, rebirth, args.destName), "PARTY")
+				SendChatMessage(L.SoulstoneYell:format(DbmRV, args.sourceName, rebirth2, args.destName), "PARTY")
 			end
 		end
 	end

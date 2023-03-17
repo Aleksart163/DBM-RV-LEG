@@ -14,6 +14,7 @@ L:SetGeneralLocalization({
 })
 
 L:SetOptionLocalization({
+	YellOnMassRes = "Segnala quando qualcuno lancia l'incantesimo $spell:212036 o simili",
 	YellOnHeroism = "Segnala quando qualcuno lancia l'incantesimo $spell:32182 o simili",
 	YellOnResurrect = "Segnala quando qualcuno è diventato un obiettivo $spell:20484 o simili",
 	YellOnPortal = "Segnala quando qualcuno apre $spell:224871 o simili",
