@@ -16,7 +16,7 @@ mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 249121 250701 246305",
-	"SPELL_CAST_SUCCESS 250048", --254769, 246753
+	"SPELL_CAST_SUCCESS 250048 249121", --254769, 246753
 	"SPELL_AURA_APPLIED 250074 250555 249016 248332 250073 250693 250691 250140 246753 249017 249015",
 	"SPELL_AURA_APPLIED_DOSE 250140",
 	"SPELL_AURA_REMOVED 250074 250555 249016 248332 250693 250691",
@@ -34,13 +34,12 @@ mod:RegisterEventsInCombat(
 --The Paraxis
 local warnRainofFel						= mod:NewTargetAnnounce(248332, 2) --Дождь Скверны
 local warnWarpIn						= mod:NewTargetAnnounce(246888, 3, nil, nil, nil, nil, nil, 2, true) --Прибытие
-local warnLifeForce						= mod:NewCountAnnounce(250048, 1) --Жизненная сила
+local warnLifeForce						= mod:NewTargetSourceCountAnnounce(250048, 1) --Жизненная сила
 local warnPurge							= mod:NewCastAnnounce(249934, 4) --Судный миг
 
 local specWarnFelWake					= mod:NewSpecialWarningYouMove(248795, nil, nil, nil, 1, 2) --Отголосок скверны
 --The Paraxis
 local specWarnSpearofDoom				= mod:NewSpecialWarningDodge(248789, nil, nil, nil, 2, 3) --Копье Рока
---local yellSpearofDoom					= mod:NewYell(248789) --Копье Рока
 local specWarnRainofFel					= mod:NewSpecialWarningYouMoveAway(248332, nil, nil, 2, 1, 2) --Дождь Скверны
 --Adds
 local specWarnSwing						= mod:NewSpecialWarningDodge(250701, nil, nil, nil, 1, 2) --Размах Скверны
@@ -68,8 +67,6 @@ local timerArcaneSingularity			= mod:NewNextTimer(25, 250171, nil, nil, nil, 7) 
 local timerArcaneSingularity2			= mod:NewCastTimer(3, 250171, nil, nil, nil, 7) --Магическая сингулярность
 local timerBurningEmbers				= mod:NewNextTimer(30, 250691, nil, nil, nil, 7) --Раскаленные угли
 local timerBurningEmbers2				= mod:NewCastTimer(3, 250691, nil, nil, nil, 7) --Раскаленные угли
-
---local berserkTimer						= mod:NewBerserkTimer(600)
 
 local yellRainofFel						= mod:NewYell(248332, nil, nil, nil, "YELL") --Дождь Скверны
 local yellRainofFelFades				= mod:NewShortFadesYell(248332, nil, nil, nil, "YELL") --Дождь Скверны
@@ -305,7 +302,6 @@ function mod:OnCombatStart(delay)
 	self.vb.finalDoomCast = 0
 	self.vb.targetedIcon = 1
 	self.vb.burningembersIcon = 8
---	berserkTimer:Start(-delay)
 	if not self:IsLFR() then
 		self.vb.lifeRequired = 4
 		if self:IsMythic() then
@@ -389,41 +385,11 @@ end
 
 function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
---[[	if spellId == 246753 and not warnedAdds[args.sourceGUID] then--Cloak
-		warnedAdds[args.sourceGUID] = true
-		self.vb.obfuscators = self.vb.obfuscators + 1
-		if self:AntiSpam(5, args.sourceName) then
-			warnWarpIn:Show(L.Obfuscators)
-			warnWarpIn:Play("bigmob")
-			self.vb.obfuscatorCast = self.vb.obfuscatorCast + 1
-			local timer = self:IsMythic() and mythicObfuscators[self.vb.obfuscatorCast+1] or self:IsHeroic() and heroicObfuscators[self.vb.obfuscatorCast+1] or self:IsNormal() and normalObfuscators[self.vb.obfuscatorCast+1]
-			if timer then
-				local text = self:IsHeroic() and addCountToLocationHeroic["Obfu"][self.vb.obfuscatorCast+1] or self:IsNormal() and addCountToLocationNormal["Obfu"][self.vb.obfuscatorCast+1] or self:IsMythic() and addCountToLocationMythic["Obfu"][self.vb.obfuscatorCast+1] or self.vb.obfuscatorCast+1
-				timerObfuscatorCD:Start(timer, text)
-			end
-		end
-	if spellId == 254769 and args:GetSrcCreatureID() == 123760 and not warnedAdds[args.sourceGUID] then --Повышенная готовность
-		warnedAdds[args.sourceGUID] = true
-		self:Unschedule(checkForDeadDestructor)
-		self.vb.destructors = self.vb.destructors + 1
-		if self:AntiSpam(5, args.sourceName) then
-			warnWarpIn:Show(L.Destructors)
-			warnWarpIn:Play("bigmob")
-			self.vb.destructorCast = self.vb.destructorCast + 1
-			local timer = self:IsMythic() and mythicDestructors[self.vb.destructorCast+1] or self:IsHeroic() and heroicDestructors[self.vb.destructorCast+1] or self:IsNormal() and normalDestructors[self.vb.destructorCast+1] or self:IsLFR() and lfrDestructors2[self.vb.destructorCast+1]
-			if timer then
-				local text = self:IsHeroic() and addCountToLocationHeroic["Dest"][self.vb.destructorCast+1] or self:IsNormal() and addCountToLocationNormal["Dest"][self.vb.destructorCast+1] or self:IsMythic() and addCountToLocationMythic["Dest"][self.vb.destructorCast+1] or self:IsLFR() and addCountToLocationLFR["Dest"][self.vb.destructorCast+1] or self.vb.destructorCast+1
-				if not self:IsLFR() then--This work around doesn't work in LFR because if dps is slow LFR massively slows down spawns to help out
-					self:Schedule(timer+10, checkForDeadDestructor, self)
-				else
-					timerDestructorCD:Stop()--Because of way LFR works, we need to do timer cleanup if they come earlier than expected
-				end
-				timerDestructorCD:Start(timer-10, text)--High alert fires about 9 seconds after spawn so using it as a trigger has a -10 adjustment
-			end
-		end]]
-	if spellId == 250048 then
+	if spellId == 250048 then --Жизненная сила
 		self.vb.lifeForceCast = self.vb.lifeForceCast + 1
-		warnLifeForce:Show(self.vb.lifeForceCast)
+		warnLifeForce:Show(args.sourceName, self.vb.lifeForceCast)
+	elseif spellId == 249121 then --Всеобщая погибель
+		DBM:EndCombat(self, true)
 	end
 end
 

@@ -220,9 +220,6 @@ local function fearCheck(self)
 			yellSargFearCombo:Yell(L.Blight)
 			comboActive = true
 		end
-		if comboActive then
-			self:Schedule(5, fearCheck, self)
-		end
 	end
 end
 
@@ -349,8 +346,8 @@ function mod:OnCombatStart(delay)
 	elseif self:IsHeroic() then
 		timerSweepingScytheCD:Start(5.5-delay, 1) --Смертоносная коса
 		berserkTimer:Start(720-delay)
-		timerSkyandSeaCD:Start(11.5-delay, 1) --Небо и море+++
-		countdownSkyandSea:Start(11.5-delay)
+		timerSkyandSeaCD:Start(11-delay, 1) --Небо и море+++
+		countdownSkyandSea:Start(11-delay) --Небо и море+++
 		timerConeofDeathCD:Start(31-delay, 1)
 	else
 		timerSweepingScytheCD:Start(5.5-delay, 1) --Смертоносная коса
@@ -365,7 +362,6 @@ function mod:OnCombatStart(delay)
 	if self.Options.NPAuraOnInevitability or self.Options.NPAuraOnCosmosSword or self.Options.NPAuraOnEternalBlades or self.Options.NPAuraOnVulnerability then
 		DBM:FireEvent("BossMod_EnableHostileNameplates")
 	end
-	DBM:AddMsg("Закрываешь Аргуса в мифе? Свяжись с автором аддона и помоги починить таймеры на боссе.")
 end
 
 function mod:OnCombatEnd()
@@ -414,8 +410,8 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 255594 then --Небо и море
 		self.vb.SkyandSeaCount = self.vb.SkyandSeaCount + 1
 		if self:IsHeroic() then
-			timerSkyandSeaCD:Start(26, self.vb.SkyandSeaCount+1)
-			countdownSkyandSea:Start(26)
+			timerSkyandSeaCD:Start(25.5, self.vb.SkyandSeaCount+1)
+			countdownSkyandSea:Start(25.5)
 		elseif self:IsMythic() then
 			timerSkyandSeaCD:Start(25.5, self.vb.SkyandSeaCount+1)
 			countdownSkyandSea:Start(25.5)

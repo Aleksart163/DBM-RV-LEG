@@ -5454,20 +5454,20 @@ do
 					if not v.noESDetection then
                         if v.multiEncounterPullDetection then
                             for _, eId in ipairs(v.multiEncounterPullDetection) do
-                                self:Debug("[multi pull] encounterID: " .. encounterID)
-                                self:Debug("[multi pull] eId: " .. eId)
+                                -- self:Debug("[multi pull] encounterID: " .. encounterID)
+                                -- self:Debug("[multi pull] eId: " .. eId)
                                 if encounterID == eId then
                                     self:StartCombat(v.mod, 0, "ENCOUNTER_START")
                                     return
                                 end
                             end
                         elseif encounterID == v.eId then
-                            self:Debug("encounterID: " .. encounterID)
-                            self:Debug("v.eId: " .. v.eId)
+                            -- self:Debug("encounterID: " .. encounterID)
+                            -- self:Debug("v.eId: " .. v.eId)
                             self:StartCombat(v.mod, 0, "ENCOUNTER_START")
                             return
                         else
-                            self:Debug("[fail] encounterID: " .. encounterID)
+                            -- self:Debug("[fail] encounterID: " .. encounterID)
 						--	self:Debug("[fail] v.eId: " .. v.eId)
                         end
 					end
@@ -5707,15 +5707,23 @@ do
 	function DBM:StartCombat(mod, delay, event, synced, syncedStartHp)
 		cSyncSender = {}
 		cSyncReceived = 0
+		self:Debug("[check] StartCombat")
 		if not checkEntry(inCombat, mod) then
+			self:Debug("[check] checkEntry")
 			if not mod.Options.Enabled then return end
 			if not mod.combatInfo then return end
 			if mod.combatInfo.noCombatInVehicle and UnitInVehicle("player") then -- HACK
 				return
 			end
 			--HACK: makes sure that we don't detect a false pull if the event fires again when the boss dies...
-			if mod.lastKillTime and GetTime() - mod.lastKillTime < (mod.reCombatTime or 120) and event ~= "LOADING_SCREEN_DISABLED" then return end
-			if mod.lastWipeTime and GetTime() - mod.lastWipeTime < (event == "ENCOUNTER_START" and 3 or mod.reCombatTime2 or 20) and event ~= "LOADING_SCREEN_DISABLED" then return end
+			if mod.lastKillTime and GetTime() - mod.lastKillTime < (mod.reCombatTime or 120) and event ~= "LOADING_SCREEN_DISABLED" then
+			self:Debug("[check] mod.lastKillTime")
+			return
+			end
+			if mod.lastWipeTime and GetTime() - mod.lastWipeTime < (event == "ENCOUNTER_START" and 3 or mod.reCombatTime2 or 20) and event ~= "LOADING_SCREEN_DISABLED" then
+			self:Debug("[check] mod.lastWipeTime")
+			return
+			end
 			if event then
 				self:Debug("StartCombat called by : "..event..". LastInstanceMapID is "..LastInstanceMapID)
 				if event ~= "ENCOUNTER_START" then
