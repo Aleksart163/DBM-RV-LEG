@@ -338,11 +338,9 @@ end
 
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
-	if spellId == 221424 then --Страх
-		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
-			specWarnFear:Show()
-			specWarnFear:Play("kickcast")
-		end
+	if spellId == 221424 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Страх
+		specWarnFear:Show()
+		specWarnFear:Play("kickcast")
 	elseif spellId == 222676 then --Прокалывание
 		local cid = self:GetCIDFromGUID(args.sourceGUID)
 		if cid == 103975 then
@@ -428,19 +426,15 @@ function mod:SPELL_CAST_START(args)
 		specWarnCrysShards:Show()
 		specWarnCrysShards:Play("watchstep")
 		timerCrysShardsCD:Start()
-	elseif spellId == 219108 then --Плач забытого
-		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
-			specWarnCryoftheForgotten:Show()
-			specWarnCryoftheForgotten:Play("kickcast")
-		end
+	elseif spellId == 219108 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Плач забытого
+		specWarnCryoftheForgotten:Show()
+		specWarnCryoftheForgotten:Play("kickcast")
 	elseif spellId == 218875 then --Шепчущее проклятие
 		specWarnWhisperingCurse:Show()
 		specWarnWhisperingCurse:Play("kickcast")
-	elseif spellId == 218871 then --Вой заблудшей души
-		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
-			specWarnLostWail:Show()
-			specWarnLostWail:Play("kickcast")
-		end
+	elseif spellId == 218871 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Вой заблудшей души
+		specWarnLostWail:Show()
+		specWarnLostWail:Play("kickcast")
 	elseif spellId == 218435 then --Бурный разряд
 		specWarnViolentDischarge:Show()
 		specWarnViolentDischarge:Play("kickcast")
@@ -475,62 +469,46 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 218855 then --Стремительность урагана
 		specWarnTempestRush:Show()
 		specWarnTempestRush:Play("watchstep")
-	elseif spellId == 224743 then --Анализ
-		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
-			specWarnAnalyze:Show()
-			specWarnAnalyze:Play("kickcast")
-		end
-	elseif spellId == 225254 then --Массовое замедление
-		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
-			specWarnMassSlow:Show()
-			specWarnMassSlow:Play("kickcast")
-		end
+	elseif spellId == 224743 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Анализ
+		specWarnAnalyze:Show()
+		specWarnAnalyze:Play("kickcast")
+	elseif spellId == 225254 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Массовое замедление
+		specWarnMassSlow:Show()
+		specWarnMassSlow:Play("kickcast")
 	elseif spellId == 222483 then --Сотрясение моря
 		specWarnSeaQuake:Show()
 		specWarnSeaQuake:Play("kickcast")
 		timerSeaQuakeCD:Start()
-	elseif spellId == 207084 then --Снежная буря
-		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
-			specWarnBlizzard:Show()
-			specWarnBlizzard:Play("kickcast")
-		end
+	elseif spellId == 207084 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Снежная буря
+		specWarnBlizzard:Show()
+		specWarnBlizzard:Play("kickcast")
 	elseif spellId == 207056 then --Свистящие ветра
 		self:BossTargetScanner(args.sourceGUID, "whistlingWindsTarget", 0.1, 2)
 	elseif spellId == 216143 then --Капкан на медведя
 		self:BossTargetScanner(args.sourceGUID, "bearTrapTarget", 0.1, 2)
-	elseif spellId == 216276 then --Команда: Вперед!
-		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
-			specWarnCommandCharge:Show()
-			specWarnCommandCharge:Play("kickcast")
-		end
+	elseif spellId == 216276 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Команда: Вперед!
+		specWarnCommandCharge:Show()
+		specWarnCommandCharge:Play("kickcast")
 	elseif spellId == 218385 then --Бешеный укус
 		self:BossTargetScanner(args.sourceGUID, "BiteFrenzyTarget", 0.1, 2)
-	elseif spellId == 219121 then --Яростный рев
-		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
-			specWarnEnragedRoar:Show()
-			specWarnEnragedRoar:Play("kickcast")
-		end
+	elseif spellId == 219121 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Яростный рев
+		specWarnEnragedRoar:Show()
+		specWarnEnragedRoar:Play("kickcast")
 	elseif spellId == 219109 then --Стряхивание
 		specWarnShakeOff:Show()
 		specWarnShakeOff:Play("kickcast")
-	elseif spellId == 207199 then --Барьер Чар
-		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
-			specWarnArcaneBarrier:Show()
-			specWarnArcaneBarrier:Play("kickcast")
-		end
+	elseif spellId == 207199 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Барьер Чар
+		specWarnArcaneBarrier:Show()
+		specWarnArcaneBarrier:Play("kickcast")
 	elseif spellId == 225243 then --Подавление Пустоты
 		specWarnNetherSuppression2:Show()
 		specWarnNetherSuppression2:Play("kickcast")
-	elseif spellId == 217140 then --Душа тумана
-		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
-			specWarnSoulofMist:Show()
-			specWarnSoulofMist:Play("kickcast")
-		end
-	elseif spellId == 224659 then --Призыв выводка
-		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
-			specWarnCalloftheBrood:Show()
-			specWarnCalloftheBrood:Play("kickcast")
-		end
+	elseif spellId == 217140 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Душа тумана
+		specWarnSoulofMist:Show()
+		specWarnSoulofMist:Play("kickcast")
+	elseif spellId == 224659 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Призыв выводка
+		specWarnCalloftheBrood:Show()
+		specWarnCalloftheBrood:Play("kickcast")
 	elseif spellId == 219190 then --Удар когтем
 		specWarnClawSlam:Show()
 		specWarnClawSlam:Play("watchstep")
@@ -767,6 +745,11 @@ function mod:GOSSIP_SHOW()
 	if not guid then return end
 	local cid = self:GetCIDFromGUID(guid)
 	if cid == 97215 then -- Повелитель зверей Пао'лек
+		if select('#', GetGossipOptions()) > 0 then
+			SelectGossipOption(1)
+			CloseGossip()
+		end
+	elseif cid == 91580 or cid == 91097 or cid == 105913 then -- Тейд Шумакер
 		if select('#', GetGossipOptions()) > 0 then
 			SelectGossipOption(1)
 			CloseGossip()
