@@ -9,7 +9,7 @@ mod.isTrashMod = true
 
 mod:RegisterEvents(
 	"SPELL_CAST_START 196799 193069 196799 196249 193502 193936 161056 202728 196242 191527 191735 194064",
-	"SPELL_AURA_APPLIED 202615 193069 193607 202608 161044 193164 210202",
+	"SPELL_AURA_APPLIED 202615 193069 193607 202608 161044 193164 210202 193997",
 --	"SPELL_AURA_REMOVED",
 	"SPELL_CAST_SUCCESS 202606",
 	"CHAT_MSG_MONSTER_SAY",
@@ -24,7 +24,9 @@ local warnNightmares2			= mod:NewCastAnnounce(193069, 4) --Кошмары
 local warnDoubleStrike			= mod:NewTargetAnnounce(193607, 2) --Двойной удар
 local warnMetamorphosis			= mod:NewSpellAnnounce(193502, 4) --Метаморфоза
 local warnAMotherLove			= mod:NewTargetAnnounce(194064, 3) --Материнская любовь
+local warnPull					= mod:NewTargetAnnounce(193997, 3) --Притяжение
 
+local specWarnPull				= mod:NewSpecialWarningYouRun(193997, nil, nil, nil, 4, 3) --Притяжение
 local specWarnAMotherLove		= mod:NewSpecialWarningYouMoveAway(194064, nil, nil, nil, 4, 3) --Материнская любовь
 local specWarnAMotherLove2		= mod:NewSpecialWarningTargetDodge(194064, nil, nil, nil, 2, 2) --Материнская любовь
 local specWarnDeafeningScreech	= mod:NewSpecialWarningDodge(191735, nil, nil, nil, 1, 2) --Оглушительный визг
@@ -183,6 +185,12 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnFoulStench:Show()
 			specWarnFoulStench:Play("runout")
+		end
+	elseif spellId == 193997 then --Притяжение
+		warnPull:CombinedShow(0.5, args.destName)
+		if args:IsPlayer() then
+			specWarnPull:Show()
+			specWarnPull:Play("justrun")
 		end
 	end
 end

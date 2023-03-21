@@ -8,7 +8,7 @@ mod:SetZone()
 mod.isTrashMod = true
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 211757 226206 211115 211771 193938 226269 211217 211917 211875 210645 210662 210684 211007",
+	"SPELL_CAST_START 211757 226206 211115 211771 193938 226269 211217 211917 211875 210645 210662 210684 211007 226285",
 	"SPELL_AURA_APPLIED 194006 210750 211745 211756",
 	"SPELL_AURA_REMOVED 211756"
 )
@@ -18,6 +18,7 @@ local warnPhaseBreach				= mod:NewCastAnnounce(211115, 4) --Фазовый пр�
 local warnArcaneReconstitution		= mod:NewCastAnnounce(226206, 3) --Чародейское воссоздание
 local warnOozeExplosion				= mod:NewCastAnnounce(193938, 4) --Взрыв слизнюка
 local warnEyeVortex					= mod:NewCastAnnounce(211007, 4) --Око урагана
+local warnDemonicAscension			= mod:NewCastAnnounce(226285, 4) --Демоническое вознесение
 --local warnPropheciesofDoom			= mod:NewSpellAnnounce(211771, 4) --Предсказания рока
 
 local specWarnFelstorm				= mod:NewSpecialWarningDodge(211917, nil, nil, nil, 2, 2) --Буря Скверны
@@ -38,6 +39,7 @@ local specWarnArcaneReconstitution	= mod:NewSpecialWarningInterrupt(226206, "Has
 local specWarnArcanicBane			= mod:NewSpecialWarningInterrupt(210645, "HasInterrupt", nil, nil, 1, 2) --Чародейская погибель
 local specWarnUnstableFlux			= mod:NewSpecialWarningInterrupt(210662, "HasInterrupt", nil, nil, 1, 2) --Нестабильный поток
 local specWarnSiphonEssence			= mod:NewSpecialWarningInterrupt(210684, "HasInterrupt", nil, nil, 1, 2) --Вытягивание сущности
+local specWarnDemonicAscension		= mod:NewSpecialWarningInterrupt(226285, "HasInterrupt", nil, nil, 1, 2) --Демоническое вознесение
 
 local specWarnOozePuddle			= mod:NewSpecialWarningYouMove(194006, nil, nil, nil, 1, 2) --Лужа слизи
 local specWarnColapsingRift			= mod:NewSpecialWarningYouMove(210750, nil, nil, nil, 1, 2) --Смыкающийся разлом
@@ -71,7 +73,7 @@ function mod:SPELL_CAST_START(args)
 			specWarnPhaseBreach:Show()
 			specWarnPhaseBreach:Play("kickcast")
 		end
-	elseif spellId == 211771 and self:AntiSpam(2, 1) then --Предсказания рока
+	elseif spellId == 211771 and self:AntiSpam(2, 2) then --Предсказания рока
 		specWarnPropheciesofDoom:Show()
 		specWarnPropheciesofDoom:Play("defensive")
 	elseif spellId == 193938 and self:AntiSpam(5, 1) then --Взрыв слизнюка
@@ -83,7 +85,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 226269 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
 		specWarnTorment:Show()
 		specWarnTorment:Play("kickcast")
-	elseif spellId == 211217 and self:AntiSpam(2, 1) then --Чародейский рассекатель
+	elseif spellId == 211217 and self:AntiSpam(2, 3) then --Чародейский рассекатель
 		specWarnArcaneSlicer:Show()
 		specWarnArcaneSlicer:Play("shockwave")
 	elseif spellId == 211917 then --Буря Скверны
@@ -113,9 +115,16 @@ function mod:SPELL_CAST_START(args)
 			warnEyeVortex:Show()
 			warnEyeVortex:Play("kickcast")
 		end
+	elseif spellId == 226285 then --Демоническое вознесение
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnDemonicAscension:Show()
+			specWarnDemonicAscension:Play("kickcast")
+		else
+			warnDemonicAscension:Show()
+			warnDemonicAscension:Play("kickcast")
+		end
 	end
 end
-
 function mod:SPELL_AURA_APPLIED(args)
 	if not self.Options.Enabled then return end
 	local spellId = args.spellId
