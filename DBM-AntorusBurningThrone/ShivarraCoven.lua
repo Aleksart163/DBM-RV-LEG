@@ -68,7 +68,6 @@ local specWarnStormofDarkness			= mod:NewSpecialWarningIcePud(252861, nil, nil, 
 local specWarnChilledBlood3				= mod:NewSpecialWarningYou(129148, nil, nil, nil, 1, 2) --Заморозка
 local specWarnFlashfreeze				= mod:NewSpecialWarningStack(245518, nil, 2, nil, nil, 1, 6) --Морозная вспышка
 local specWarnFlashfreezeOther			= mod:NewSpecialWarningTaunt(245518, nil, nil, nil, 1, 2) --Морозная вспышка
-local specWarnChilledBlood				= mod:NewSpecialWarningTarget(245586, "Healer", nil, nil, 1, 2) --Студеная кровь
 local specWarnChilledBlood2				= mod:NewSpecialWarningYou(245586, nil, nil, nil, 2, 2) --Студеная кровь
 local specWarnOrbofFrost				= mod:NewSpecialWarningDodge(253650, nil, nil, nil, 1, 2) --Сфера льда
 --Thu'raya, Mother of the Cosmos (Mythic)
@@ -99,10 +98,6 @@ local timerCosmicGlareCD				= mod:NewCDTimer(15, 250757, nil, nil, nil, 3, nil, 
 --Torment of the Titans
 mod:AddTimerLine(torment)
 --Activations timers
---local timerMachinationsofAmanThulCD		= mod:NewCastTimer(90, 250335, nil, nil, nil, 6, nil, DBM_CORE_HEALER_ICON..DBM_CORE_DEADLY_ICON) --Махинации Амантула
---local timerFlamesofKhazgorothCD			= mod:NewCastTimer(90, 250333, nil, nil, nil, 6, nil, DBM_CORE_DEADLY_ICON) --Пламя Казгарота
---local timerSpectralArmyofNorgannonCD	= mod:NewCastTimer(90, 250334, nil, nil, nil, 6, nil, DBM_CORE_DEADLY_ICON) --Армия Норганнона
---local timerFuryofGolgannethCD			= mod:NewCastTimer(90, 249793, nil, nil, nil, 6, nil, DBM_CORE_DEADLY_ICON) --Мучения Голганнета
 local timerMachinationsofAmanThulCD		= mod:NewTimer(90, "timerAmanThul", 250335, nil, nil, 6, DBM_CORE_HEALER_ICON..DBM_CORE_DEADLY_ICON) --Махинации Амантула
 local timerFlamesofKhazgorothCD			= mod:NewTimer(90, "timerKhazgoroth", 250333, nil, nil, 6, DBM_CORE_DEADLY_ICON) --Пламя Казгарота
 local timerSpectralArmyofNorgannonCD	= mod:NewTimer(90, "timerNorgannon", 250334, nil, nil, 6, DBM_CORE_DEADLY_ICON) --Армия Норганнона
@@ -117,7 +112,7 @@ local timerMachinationsofAman			= mod:NewCastTimer(25, 250095, nil, nil, nil, 5,
 
 local yellFulminatingPulse2				= mod:NewYell(253520, nil, nil, nil, "YELL") --Гремучий импульс
 local yellFulminatingPulse				= mod:NewFadesYell(253520, nil, nil, nil, "YELL") --Гремучий импульс
-local yellFlashfreeze					= mod:NewYell(245518, nil, false, nil, "YELL") --Морозная вспышка
+local yellChilledBlood					= mod:NewYell(245586, nil, nil, nil, "YELL") --Студеная кровь
 local yellCosmicGlare					= mod:NewYell(250757, nil, nil, nil, "YELL") --Космический отблеск
 local yellCosmicGlareFades				= mod:NewShortFadesYell(250757, nil, nil, nil, "YELL") --Космический отблеск
 
@@ -318,7 +313,6 @@ function mod:SPELL_CAST_SUCCESS(args)
 		countdownFulminatingPulse:Start(40.1)
 	elseif spellId == 245532 and self:AntiSpam(3, 2) then
 		timerChilledBloodCD:Start()
-		specWarnChilledBlood:Play("healall")
 	elseif (spellId == 250335 or spellId == 250333 or spellId == 250334 or spellId == 249793) and self:IsInCombat() then --Мучения титанов
 		self.vb.shivarrsCount = self.vb.shivarrsCount + 1
 		countdownTitans:Start()
@@ -539,14 +533,11 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif spellId == 245586 then --Студеная кровь
 		self.vb.chilledCount = self.vb.chilledCount + 1
+		warnChilledBlood:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
 			specWarnChilledBlood2:Show()
 			specWarnChilledBlood2:Play("targetyou")
-		end
-		if self.Options.specwarn245586target then
-			specWarnChilledBlood:CombinedShow(0.3, args.destName)
-		else
-			warnChilledBlood:CombinedShow(0.3, args.destName)
+			yellChilledBlood:Yell()
 		end
 		if self.Options.InfoFrame and not DBM.InfoFrame:IsShown() then
 			DBM.InfoFrame:SetHeader(args.spellName)
