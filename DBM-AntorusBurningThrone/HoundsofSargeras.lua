@@ -230,8 +230,8 @@ function mod:SPELL_CAST_START(args)
 			timerCorruptingMawCD:Start(10)
 		elseif self:IsMythic() then
 			timerCorruptingMawCD:Stop()
-			timerSiphonCorruptionCD:Start(69) --Вытягивание порчи+++
-			countdownSiphonCorruption:Start(69) --Вытягивание порчи+++
+			timerSiphonCorruptionCD:Start(72) --Вытягивание порчи+++
+			countdownSiphonCorruption:Start(72) --Вытягивание порчи+++
 			specWarnSiphoned2:Schedule(59) --Вытягивание порчи+++
 			timerComsumingSphereCD:Start(24) --Поглощаяющая сфера+++
 			specWarnComsumingSphere2:Schedule(14) --Поглощаяющая сфера+++
@@ -239,9 +239,9 @@ function mod:SPELL_CAST_START(args)
 				specWarnComsumingSphere:Schedule(24) --Поглощаяющая сфера+++
 				specWarnComsumingSphere:ScheduleVoice(24, "watchorb") --Поглощаяющая сфера+++
 			end
-			timerWeightOfDarknessCD:Start(44.5) --Бремя тьмы+++
-			countdownWeightOfDarkness:Start(44.5) --Бремя тьмы+++
-			specWarnWeightOfDarkness2:Schedule(33.5) --Бремя тьмы+++
+			timerWeightOfDarknessCD:Start(49) --Бремя тьмы+++
+			countdownWeightOfDarkness:Start(49) --Бремя тьмы+++
+			specWarnWeightOfDarkness2:Schedule(39) --Бремя тьмы+++
 			timerCorruptingMawCD:Start(16)
 		else --обычка и лфр
 			timerSiphonCorruptionCD:Start(85) --Вытягивание порчи+++
