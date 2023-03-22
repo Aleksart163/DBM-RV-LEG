@@ -152,12 +152,12 @@ function mod:OnCombatStart(delay)
 		Shadowtouched = false
 		self.vb.longTimer = 88.3--88.3-89
 		self.vb.mediumTimer = 71.4--71.4-73
-		timerMoltenTouchCD:Start(26-delay) --Касание магмы+++
-		timerSiphonCorruptionCD:Start(27.8-delay) --Вытягивание порчи+++
-		countdownSiphonCorruption:Start(27.8-delay) --Вытягивание порчи+++
-		specWarnSiphoned2:Schedule(15.5) --Вытягивание порчи+++
-		timerEnflamedCorruptionCD:Start(49.6-delay) --Возгорание порчи +1.2 сек
-		specWarnEnflamed2:Schedule(39.6) --Возгорание порчи
+		timerMoltenTouchCD:Start(21.5-delay) --Касание магмы+++
+		timerSiphonCorruptionCD:Start(25.3-delay) --Вытягивание порчи+++
+		countdownSiphonCorruption:Start(25.3-delay) --Вытягивание порчи+++
+		specWarnSiphoned2:Schedule(15.3) --Вытягивание порчи+++
+		timerEnflamedCorruptionCD:Start(49.3-delay) --Возгорание порчи+++
+		specWarnEnflamed2:Schedule(39.3) --Возгорание порчи+++
 	elseif self:IsHeroic() then
 		self.vb.longTimer = 95.9
 		self.vb.mediumTimer = 77
@@ -216,7 +216,7 @@ function mod:SPELL_CAST_START(args)
 		if self:IsHeroic() then
 			timerCorruptingMawCD:Stop()
 			timerSiphonCorruptionCD:Start(79) --Вытягивание порчи+++
-			countdownSiphonCorruption:Start(77) --Вытягивание порчи+++
+			countdownSiphonCorruption:Start(79) --Вытягивание порчи+++
 			specWarnSiphoned2:Schedule(69) --Вытягивание порчи+++
 			timerComsumingSphereCD:Start(26) --Поглощаяющая сфера+++
 			specWarnComsumingSphere2:Schedule(16) --Поглощаяющая сфера+++
@@ -232,12 +232,12 @@ function mod:SPELL_CAST_START(args)
 			timerCorruptingMawCD:Stop()
 			timerSiphonCorruptionCD:Start(69) --Вытягивание порчи+++
 			countdownSiphonCorruption:Start(69) --Вытягивание порчи+++
-			specWarnSiphoned2:Schedule(62) --Вытягивание порчи+++
-			timerComsumingSphereCD:Start(21.5) --Поглощаяющая сфера+++
-			specWarnComsumingSphere2:Schedule(11.5) --Поглощаяющая сфера+++
+			specWarnSiphoned2:Schedule(59) --Вытягивание порчи+++
+			timerComsumingSphereCD:Start(24) --Поглощаяющая сфера+++
+			specWarnComsumingSphere2:Schedule(14) --Поглощаяющая сфера+++
 			if not UnitIsDeadOrGhost("player") then
-				specWarnComsumingSphere:Schedule(21.5) --Поглощаяющая сфера+++
-				specWarnComsumingSphere:ScheduleVoice(21.5, "watchorb") --Поглощаяющая сфера+++
+				specWarnComsumingSphere:Schedule(24) --Поглощаяющая сфера+++
+				specWarnComsumingSphere:ScheduleVoice(24, "watchorb") --Поглощаяющая сфера+++
 			end
 			timerWeightOfDarknessCD:Start(44.5) --Бремя тьмы+++
 			countdownWeightOfDarkness:Start(44.5) --Бремя тьмы+++
