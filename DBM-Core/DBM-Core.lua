@@ -4140,9 +4140,9 @@ do
 				modHFRevision = tonumber(modHFRevision or 0) or 0
 				startHp = tonumber(startHp or -1) or -1
                 if dbmRevision ~= DBM.Revision then
-                if DBM.Options.DebugMode then
-                    DBM:AddMsg("StartCombat (rejected) called for " .. mod.combatInfo.name .. " by: SYNC from - " .. sender .. ".")
-                end
+                -- if DBM.Options.DebugMode then
+                    -- DBM:AddMsg("StartCombat (rejected) called for " .. mod.combatInfo.name .. " by: SYNC from - " .. sender .. ".")
+                -- end
                 return
                 end
 				if mod and delay and (not mod.zones or mod.zones[LastInstanceMapID]) and (not mod.minSyncRevision or modRevision >= mod.minSyncRevision) then
@@ -5707,9 +5707,9 @@ do
 	function DBM:StartCombat(mod, delay, event, synced, syncedStartHp)
 		cSyncSender = {}
 		cSyncReceived = 0
-		self:Debug("[check] StartCombat")
+		-- self:Debug("[check] StartCombat")
 		if not checkEntry(inCombat, mod) then
-			self:Debug("[check] checkEntry")
+			-- self:Debug("[check] checkEntry")
 			if not mod.Options.Enabled then return end
 			if not mod.combatInfo then return end
 			if mod.combatInfo.noCombatInVehicle and UnitInVehicle("player") then -- HACK
@@ -5717,11 +5717,11 @@ do
 			end
 			--HACK: makes sure that we don't detect a false pull if the event fires again when the boss dies...
 			if mod.lastKillTime and GetTime() - mod.lastKillTime < (mod.reCombatTime or 120) and event ~= "LOADING_SCREEN_DISABLED" then
-			self:Debug("[check] mod.lastKillTime")
+			-- self:Debug("[check] mod.lastKillTime")
 			return
 			end
 			if mod.lastWipeTime and GetTime() - mod.lastWipeTime < (event == "ENCOUNTER_START" and 3 or mod.reCombatTime2 or 20) and event ~= "LOADING_SCREEN_DISABLED" then
-			self:Debug("[check] mod.lastWipeTime")
+			-- self:Debug("[check] mod.lastWipeTime")
 			return
 			end
 			if event then
