@@ -658,9 +658,10 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)
 	end
 end
 
+--[[
 function mod:LOADING_SCREEN_DISABLED()
 	if timerParaxisIncomingCD:GetTime() > 1 then
 		timerParaxisIncomingCD:Cancel()
 		countdownParaxisIncoming:Cancel()
 	end
-end
+end]]
