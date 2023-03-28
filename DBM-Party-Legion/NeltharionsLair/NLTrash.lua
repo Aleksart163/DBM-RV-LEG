@@ -8,7 +8,7 @@ mod:SetZone()
 mod.isTrashMod = true
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 183088 193585 226296",
+	"SPELL_CAST_START 183088 193585 226296 202181",
 	"SPELL_AURA_APPLIED 200154 201983 193585",
 	"SPELL_PERIODIC_DAMAGE 226388 183407",
 	"SPELL_PERIODIC_MISSED 226388 183407",
@@ -16,12 +16,15 @@ mod:RegisterEvents(
 )
 
 --Логово Нелтариона трэш
+local warnStoneGaze				= mod:NewTargetAnnounce(202181, 4) --Каменный взгляд
 local warnBurningHatred			= mod:NewTargetAnnounce(200154, 3) --Пламенная ненависть
 local warnFrenzy				= mod:NewTargetAnnounce(201983, 4) --Бешенство
 local warnBound					= mod:NewCastAnnounce(193585, 3) --Скованность
 local warnBound2				= mod:NewTargetAnnounce(193585, 4) --Скованность
 local warnPiercingShards		= mod:NewCastAnnounce(226296, 4) --Острые осколки
 
+local specWarnStoneGaze			= mod:NewSpecialWarningInterrupt(202181, "HasInterrupt", nil, nil, 3, 2) --Каменный взгляд
+local specWarnStoneGaze2		= mod:NewSpecialWarningYou(202181, nil, nil, nil, 2, 6) --Каменный взгляд
 local specWarnBound				= mod:NewSpecialWarningInterrupt(193585, "HasInterrupt", nil, nil, 1, 2) --Скованность
 local specWarnBurningHatred		= mod:NewSpecialWarningYouRun(200154, nil, nil, nil, 4, 2) --Пламенная ненависть
 local specWarnAcidSplatter		= mod:NewSpecialWarningYouMove(183407, nil, nil, nil, 1, 2) --Кислотный всплеск
@@ -31,6 +34,19 @@ local specWarnAvalanche			= mod:NewSpecialWarningDodge(183088, "Tank", nil, nil,
 local timerFrenzy				= mod:NewTargetTimer(8, 201983, nil, "Tank", nil, 3, nil) --Бешенство
 
 local timerRoleplay				= mod:NewTimer(20, "timerRoleplay", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7) --Ролевая игра
+
+local yellStoneGaze				= mod:NewYell(202181, nil, nil, nil, "YELL") --Каменный взгляд
+
+function mod:StoneGazeTarget(targetname, uId) --прошляпанное очко Мурчаля Прошляпенко ✔
+	if not targetname then return end
+	if targetname == UnitName("player") then
+		specWarnStoneGaze2:Show()
+		specWarnStoneGaze2:Play("targetyou")
+		yellStoneGaze:Yell()
+	else
+		warnStoneGaze:CombinedShow(1, targetname)
+	end
+end
 
 function mod:SPELL_CAST_START(args)
 	if not self.Options.Enabled then return end
@@ -49,6 +65,12 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 226296 then
 		warnPiercingShards:Show()
 		warnPiercingShards:Play("watchstep")
+	elseif spellId == 202181 then --Каменный взгляд
+		self:BossTargetScanner(args.sourceGUID, "StoneGazeTarget", 0.1, 2)
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnStoneGaze:Show()
+			specWarnStoneGaze:Play("kickcast")
+		end
 	end
 end
 
