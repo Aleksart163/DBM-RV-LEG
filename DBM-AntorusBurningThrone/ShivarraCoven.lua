@@ -32,7 +32,7 @@ local Diima = DBM:EJ_GetSectionInfo(15969)
 local Thuraya = DBM:EJ_GetSectionInfo(16398)
 local torment = DBM:EJ_GetSectionInfo(16138)
 --All
-local warnActivated						= mod:NewTargetAnnounce(118212, 3, 78740, nil, nil, nil, nil, nil, true) --Активация
+local warnActivated						= mod:NewTargetAnnounce(118212, 2, 78740, nil, nil, nil, nil, nil, true) --Активация
 --Noura, Mother of Flames
 local warnFieryStrike					= mod:NewStackAnnounce(244899, 2, nil, "Tank") --Пламенный удар
 local warnWhirlingSaber					= mod:NewSpellAnnounce(245627, 2) --Вращающийся меч
@@ -150,25 +150,25 @@ mod.vb.ignoreFirstInterrupt = false
 mod.vb.firstCastHappend = false
 local CVAR1, CVAR2 = nil, nil
 
-local function ProshlyapM1(self) --прошляпанное очко Мурчаля Прошляпенко ✔
+local function ProshlyapMurchalya1(self) --прошляпанное очко Мурчаля Прошляпенко ✔
 	if self.Options.ShowProshlyapMurchal then
 		SendChatMessage(L.ProshlyapMurchal1, "RAID_WARNING")
 	end
 end
 
-local function ProshlyapM2(self)
+local function ProshlyapMurchalya2(self)
 	if self.Options.ShowProshlyapMurchal then
 		SendChatMessage(L.ProshlyapMurchal2, "RAID_WARNING")
 	end
 end
 
-local function ProshlyapM3(self)
+local function ProshlyapMurchalya3(self)
 	if self.Options.ShowProshlyapMurchal then
 		SendChatMessage(L.ProshlyapMurchal3, "RAID_WARNING")
 	end
 end
 
-local function ProshlyapM4(self)
+local function ProshlyapMurchalya4(self)
 	if self.Options.ShowProshlyapMurchal then
 		SendChatMessage(L.ProshlyapMurchal4, "RAID_WARNING")
 	end
@@ -326,20 +326,15 @@ function mod:SPELL_CAST_SUCCESS(args)
 				specWarnTormentofTitans:ScheduleVoice(90, "mobkill")
 			end
 			if DBM:GetRaidRank() > 0 then
-				self:Schedule(83, ProshlyapM1, self)
-				self:Schedule(83.5, ProshlyapM1, self)
-				self:Schedule(84, ProshlyapM1, self)
-				self:Schedule(84.5, ProshlyapM1, self)
-				self:Schedule(85, ProshlyapM1, self)
-				self:Schedule(85.5, ProshlyapM1, self)
-				self:Schedule(86, ProshlyapM1, self)
-				self:Schedule(86.5, ProshlyapM1, self)
-				self:Schedule(87, ProshlyapM1, self)
-				self:Schedule(87.5, ProshlyapM1, self)
-				self:Schedule(88, ProshlyapM1, self)
-				self:Schedule(88.5, ProshlyapM1, self)
-				self:Schedule(89, ProshlyapM1, self)
-				self:Schedule(89.5, ProshlyapM1, self)
+				self:Schedule(81, ProshlyapMurchalya1, self)
+				self:Schedule(82, ProshlyapMurchalya1, self)
+				self:Schedule(83, ProshlyapMurchalya1, self)
+				self:Schedule(84, ProshlyapMurchalya1, self)
+				self:Schedule(85, ProshlyapMurchalya1, self)
+				self:Schedule(86, ProshlyapMurchalya1, self)
+				self:Schedule(87, ProshlyapMurchalya1, self)
+				self:Schedule(88, ProshlyapMurchalya1, self)
+				self:Schedule(89, ProshlyapMurchalya1, self)
 			end
 		elseif spellId == 250333 then --Пламя Казгарота
 			timerFlamesofKhazgorothCD:Start()
@@ -351,20 +346,15 @@ function mod:SPELL_CAST_SUCCESS(args)
 				specWarnTormentofTitans:ScheduleVoice(90, "mobkill")
 			end
 			if DBM:GetRaidRank() > 0 then
-				self:Schedule(83, ProshlyapM2, self)
-				self:Schedule(83.5, ProshlyapM2, self)
-				self:Schedule(84, ProshlyapM2, self)
-				self:Schedule(84.5, ProshlyapM2, self)
-				self:Schedule(85, ProshlyapM2, self)
-				self:Schedule(85.5, ProshlyapM2, self)
-				self:Schedule(86, ProshlyapM2, self)
-				self:Schedule(86.5, ProshlyapM2, self)
-				self:Schedule(87, ProshlyapM2, self)
-				self:Schedule(87.5, ProshlyapM2, self)
-				self:Schedule(88, ProshlyapM2, self)
-				self:Schedule(88.5, ProshlyapM2, self)
-				self:Schedule(89, ProshlyapM2, self)
-				self:Schedule(89.5, ProshlyapM2, self)
+				self:Schedule(81, ProshlyapMurchalya2, self)
+				self:Schedule(82, ProshlyapMurchalya2, self)
+				self:Schedule(83, ProshlyapMurchalya2, self)
+				self:Schedule(84, ProshlyapMurchalya2, self)
+				self:Schedule(85, ProshlyapMurchalya2, self)
+				self:Schedule(86, ProshlyapMurchalya2, self)
+				self:Schedule(87, ProshlyapMurchalya2, self)
+				self:Schedule(88, ProshlyapMurchalya2, self)
+				self:Schedule(89, ProshlyapMurchalya2, self)
 			end
 		elseif spellId == 249793 then --Ярость Голганнета
 			timerFuryofGolgannethCD:Start()
@@ -376,20 +366,15 @@ function mod:SPELL_CAST_SUCCESS(args)
 				specWarnTormentofTitans:ScheduleVoice(90, "mobkill")
 			end
 			if DBM:GetRaidRank() > 0 then
-				self:Schedule(83, ProshlyapM3, self)
-				self:Schedule(83.5, ProshlyapM3, self)
-				self:Schedule(84, ProshlyapM3, self)
-				self:Schedule(84.5, ProshlyapM3, self)
-				self:Schedule(85, ProshlyapM3, self)
-				self:Schedule(85.5, ProshlyapM3, self)
-				self:Schedule(86, ProshlyapM3, self)
-				self:Schedule(86.5, ProshlyapM3, self)
-				self:Schedule(87, ProshlyapM3, self)
-				self:Schedule(87.5, ProshlyapM3, self)
-				self:Schedule(88, ProshlyapM3, self)
-				self:Schedule(88.5, ProshlyapM3, self)
-				self:Schedule(89, ProshlyapM3, self)
-				self:Schedule(89.5, ProshlyapM3, self)
+				self:Schedule(81, ProshlyapMurchalya3, self)
+				self:Schedule(82, ProshlyapMurchalya3, self)
+				self:Schedule(83, ProshlyapMurchalya3, self)
+				self:Schedule(84, ProshlyapMurchalya3, self)
+				self:Schedule(85, ProshlyapMurchalya3, self)
+				self:Schedule(86, ProshlyapMurchalya3, self)
+				self:Schedule(87, ProshlyapMurchalya3, self)
+				self:Schedule(88, ProshlyapMurchalya3, self)
+				self:Schedule(89, ProshlyapMurchalya3, self)
 			end
 		elseif spellId == 250334 then --Призрачная армия Норганнона
 			timerSpectralArmyofNorgannonCD:Start()
@@ -401,20 +386,15 @@ function mod:SPELL_CAST_SUCCESS(args)
 				specWarnTormentofTitans:ScheduleVoice(90, "watchstep")
 			end
 			if DBM:GetRaidRank() > 0 then
-				self:Schedule(83, ProshlyapM4, self)
-				self:Schedule(83.5, ProshlyapM4, self)
-				self:Schedule(84, ProshlyapM4, self)
-				self:Schedule(84.5, ProshlyapM4, self)
-				self:Schedule(85, ProshlyapM4, self)
-				self:Schedule(85.5, ProshlyapM4, self)
-				self:Schedule(86, ProshlyapM4, self)
-				self:Schedule(86.5, ProshlyapM4, self)
-				self:Schedule(87, ProshlyapM4, self)
-				self:Schedule(87.5, ProshlyapM4, self)
-				self:Schedule(88, ProshlyapM4, self)
-				self:Schedule(88.5, ProshlyapM4, self)
-				self:Schedule(89, ProshlyapM4, self)
-				self:Schedule(89.5, ProshlyapM4, self)
+				self:Schedule(81, ProshlyapMurchalya4, self)
+				self:Schedule(82, ProshlyapMurchalya4, self)
+				self:Schedule(83, ProshlyapMurchalya4, self)
+				self:Schedule(84, ProshlyapMurchalya4, self)
+				self:Schedule(85, ProshlyapMurchalya4, self)
+				self:Schedule(86, ProshlyapMurchalya4, self)
+				self:Schedule(87, ProshlyapMurchalya4, self)
+				self:Schedule(88, ProshlyapMurchalya4, self)
+				self:Schedule(89, ProshlyapMurchalya4, self)
 			end
 		end
 		if self:IsMythic() then

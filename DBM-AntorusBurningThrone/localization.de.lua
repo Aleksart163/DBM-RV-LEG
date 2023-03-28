@@ -179,10 +179,11 @@ L:SetOptionLocalization({
 
 L:SetMiscLocalization({
 --	YellPullAggramar = "Ihr... werdet... brennen!", -- или Die Flammen werden Euch verzehren!
-	Foe			=	"Brecher",
-	Rend		=	"Schnitt",
-	Tempest 	=	"Sturm",
-	Current		=	"Aktuell:"
+	Blaze		= "Unersättliche Feuersbrunst",
+	Foe			= "Brecher",
+	Rend		= "Schnitt",
+	Tempest 	= "Sturm",
+	Current		= "Aktuell:"
 })
 
 ---------------------------
@@ -205,7 +206,7 @@ L:SetMiscLocalization({
 	Blight2		= "SEUCHE auf %s!",
 	Burst2		= "Explosion ist auf mir!",
 	Sentence2	= "Urteil auf %s!",
-	Bomb2		= "Bombe IST AUF MIR!",
+	Bomb2		= "SEELENBOMBE!",
 	Rage		= "WUT",
 	Fear		= "FURCHT"
 })

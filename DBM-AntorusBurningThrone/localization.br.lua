@@ -149,6 +149,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
+	Blaze		= "Labareda Voraz",
 	Foe			= "Foe",
 	Rend		= "Rend",
 	Tempest 	= "Tempest",
@@ -174,7 +175,7 @@ L:SetMiscLocalization({
 	Blight2		= "Praga em %s!",
 	Burst2		= "Burst em mim!",
 	Sentence2	= "Sentença em %s!",
-	Bomb2		= "Bomba em mim!",
+	Bomb2		= "Bomba Anímica!",
 	Rage		= "RAIVA",
 	Fear		= "MEDO"
 })

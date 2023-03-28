@@ -69,9 +69,9 @@ local yellNecroticEmbraceFades			= mod:NewIconFadesYell(244094, nil, nil, nil, "
 local berserkTimer						= mod:NewBerserkTimer(390)
 
 --The Fallen Nathrezim
-local countdownShadowStrike				= mod:NewCountdown("Alt9", 243960, "Tank", nil, 3) --Теневой удар
-local countdownMarkedPrey				= mod:NewCountdown("AltTwo30", 244042, nil, nil, 5) --Метка жертвы
 local countdownNecroticEmbrace			= mod:NewCountdown(30, 244093, nil, nil, 5) --Некротические объятия
+local countdownMarkedPrey				= mod:NewCountdown("Alt30", 244042, "-Tank", nil, 3) --Метка жертвы
+local countdownShadowStrike				= mod:NewCountdown("AltTwo9", 243960, "Tank", nil, 3) --Теневой удар
 
 mod:AddSetIconOption("SetIconOnMarkedPrey", 244042, true, false, {8}) --Метка жертвы
 mod:AddSetIconOption("SetIconEmbrace", 244094, true, false, {4, 3}) --Некротические объятия
@@ -80,22 +80,25 @@ mod:AddRangeFrameOption("8/10")
 
 mod.vb.currentTorment = 0--Can't antispam, cause it'll just break if someone dies and gets brezzed
 mod.vb.totalEmbrace = 0
+mod.vb.proshlyapMurchalCount = 0
+mod.vb.proshlyapMurchal2Count = 0
 local playerAffected = false
 
 function mod:OnCombatStart(delay)
 	self.vb.currentTorment = 0
 	self.vb.totalEmbrace = 0
+	self.vb.proshlyapMurchalCount = 0
+	self.vb.proshlyapMurchal2Count = 0
 	playerAffected = false
 	timerTormentofFlamesCD:Start(5-delay)
 	timerShadowStrikeCD:Start(9.3-delay)
 	countdownShadowStrike:Start(9.3-delay)
 	timerMarkedPreyCD:Start(25.2-delay)
+	countdownMarkedPrey:Start(25.2-delay)
 	timerDarkFissureCD:Start(15.3-delay)
 	if not self:IsEasy() then
 		timerNecroticEmbraceCD:Start(35-delay)
 		countdownNecroticEmbrace:Start(35-delay)
-	else --только в обычке
-		countdownMarkedPrey:Start(25.2-delay)
 	end
 	if not self:IsLFR() then
 		berserkTimer:Start(310-delay)--Confirmed normal/heroic/mythic
@@ -122,13 +125,16 @@ function mod:SPELL_CAST_SUCCESS(args)
 		warnShadowStrike:Show()
 		timerShadowStrikeCD:Show()
 		countdownShadowStrike:Start(9)
-	elseif spellId == 244093 then--Necrotic Embrace Cast
-		if self:IsHeroic() then
-			timerNecroticEmbraceCD:Start()
-			countdownNecroticEmbrace:Start(30.3)
-		else
-			timerNecroticEmbraceCD:Start()
-			countdownNecroticEmbrace:Start(30.3)
+	elseif spellId == 244093 then --Некротические объятия
+		self.vb.proshlyapMurchalCount = self.vb.proshlyapMurchalCount + 1
+		if self:IsHeroic() or self:IsMythic() then --героик и мифик
+			if self.vb.proshlyapMurchalCount < 4 then
+				timerNecroticEmbraceCD:Start()
+				countdownNecroticEmbrace:Start()
+			elseif self.vb.proshlyapMurchalCount >= 4 then --точно по героику с 4+ некрота
+				timerNecroticEmbraceCD:Start(32.8)
+				countdownNecroticEmbrace:Start(32.8)
+			end
 		end
 	elseif spellId == 243999 then --Темный разлом
 		if not UnitIsDeadOrGhost("player") then
@@ -143,8 +149,17 @@ function mod:SPELL_CAST_SUCCESS(args)
 			timerDarkFissureCD:Start(32)
 		end
 	elseif spellId == 244042 then --Метка жертвы
-		timerMarkedPreyCD:Start(30.5)
-		if self:IsEasy() then
+		self.vb.proshlyapMurchal2Count = self.vb.proshlyapMurchal2Count + 1
+		if self:IsHeroic() or self:IsMythic() then --героик и мифик
+			if self.vb.proshlyapMurchal2Count == 1 then
+				timerMarkedPreyCD:Start(30.5)
+				countdownMarkedPrey:Start(30.5)
+			elseif self.vb.proshlyapMurchal2Count >= 2 then
+				timerMarkedPreyCD:Start(32.3)
+				countdownMarkedPrey:Start(32.3)
+			end
+		else --обычка (возможно нужны правки)
+			timerMarkedPreyCD:Start(30.5)
 			countdownMarkedPrey:Start(30.5)
 		end
 	end
@@ -266,6 +281,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		if args:IsPlayer() and self:AntiSpam(3, 4) then
 			playerAffected = false
 			specWarnNecroticEmbrace4:Show()
+			specWarnNecroticEmbrace4:Play("end")
 			yellNecroticEmbraceFades:Cancel()
 			if self.Options.RangeFrame then
 				DBM.RangeCheck:Show(8)
@@ -279,7 +295,7 @@ end
 
 --Dark Fissure & Echoes of Doom
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
-	if spellId == 244005 and destGUID == UnitGUID("player") and self:AntiSpam(2, 5) then
+	if spellId == 244005 and destGUID == UnitGUID("player") and self:AntiSpam(2.5, 5) then
 		specWarnGTFO:Show()
 		specWarnGTFO:Play("runaway")
 	elseif spellId == 248740 and destGUID == UnitGUID("player") and self:AntiSpam(3, 6) then

@@ -16,7 +16,7 @@ mod.respawnTime = 30
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_START 243983 244709 245504 244607 244915 246805 244689 244000",
+	"SPELL_CAST_START 243983 244709 245504 244607 244915 246805 244689 244000 255805",
 	"SPELL_CAST_SUCCESS 245050 244598 244016",
 	"SPELL_AURA_APPLIED 244016 244383 244613 244949 244849 245050 245118",
 	"SPELL_AURA_APPLIED_DOSE 244016",
@@ -66,6 +66,7 @@ local specWarnFieryDetonation			= mod:NewSpecialWarningInterrupt(244709, "HasInt
 local specWarnHowlingShadows			= mod:NewSpecialWarningInterrupt(245504, "HasInterrupt", nil, nil, 1, 2) --Воющие тени
 --local specWarnGTFO					= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 2)
 --Platform: Xoroth
+local specWarnUnstablePortal			= mod:NewSpecialWarningInterrupt(255805, "HasInterrupt", nil, nil, 3, 5) --Неустойчивый портал
 local specWarnFlamesofXoroth			= mod:NewSpecialWarningInterrupt(244607, "HasInterrupt", nil, nil, 1, 2) --Пламя Зорота
 local specWarnSupernova					= mod:NewSpecialWarningDodge(244598, nil, nil, nil, 2, 2) --Сверхновая
 local specWarnEverburningFlames			= mod:NewSpecialWarningMoveTo(244613, nil, nil, nil, 1) --Неугасающее пламя No voice yet
@@ -285,6 +286,9 @@ function mod:SPELL_CAST_START(args)
 			end
 		end
 		updateAllTimers(self, 9.7)
+	elseif spellId == 255805 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Неустойчивый портал
+		specWarnUnstablePortal:Show()
+		specWarnUnstablePortal:Play("kickcast")
 	end
 end
 

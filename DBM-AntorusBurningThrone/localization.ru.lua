@@ -138,7 +138,7 @@ L:SetTimerLocalization({
 })
 
 L:SetOptionLocalization({
-	ShowProshlyapMurchal = "Показать прошляп Мурчаля об $journal:16138 (требуются права лидера рейда)",
+	ShowProshlyapMurchal = "Спец-предупреждение об $journal:16138 (требуются права лидера рейда)",
 	Amantul 			= "Спец-предупреждение за 5 сек до появления $spell:252479",
 	Norgannon 			= "Спец-предупреждение за 5 сек до появления $spell:244740",
 	Golgannet 			= "Спец-предупреждение за 5 сек до появления $spell:244756",
@@ -188,6 +188,7 @@ L:SetOptionLocalization({
 
 L:SetMiscLocalization({
 --	YellPullAggramar = "Вы сгорите!",
+	Blaze		= "Хищное пламя",
 	Foe			= "Сокрушитель",
 	Rend		= "Пламя",
 	Tempest 	= "Буря",
@@ -212,13 +213,13 @@ L:SetMiscLocalization({
 	SeaText		= "Хаста/Верса на %s",
 	SkyText		= "Крит/Маст на %s",
 	Blight		= "ЧУМА",
-	Burst		= "Взрыв",
-	Sentence	= "Приговор",
+	Burst		= "ВЗРЫВ",
+	Sentence	= "ПРИГОВОР",
 	Bomb		= "БОМБА",
 	Blight2		= "Чума на %s!",
 	Burst2		= "Взрыв на мне!",
 	Sentence2	= "Приговор на %s!",
-	Bomb2		= "БОМБА НА МНЕ!",
+	Bomb2		= "БОМБА ДУШИ!",
 	Rage		= "ЯРОСТЬ",
 	Fear		= "СТРАХ"
 })

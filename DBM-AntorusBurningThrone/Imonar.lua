@@ -70,7 +70,7 @@ local timerSleepCanisterCD				= mod:NewCDTimer(11, 247552, nil, nil, nil, 3, nil
 local timerPulseGrenadeCD				= mod:NewCDTimer(17, 247376, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Импульсная граната 17?
 --Stage Two: Contract to Kill
 local timerSeverCD						= mod:NewCDTimer(7.2, 247687, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Рассечение
-local timerChargedBlastsCD				= mod:NewCDTimer(18.2, 247716, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Направленные взрывы
+local timerChargedBlastsCD				= mod:NewCDTimer(18, 247716, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Направленные взрывы
 local timerShrapnalBlastCD				= mod:NewCDCountTimer(18, 247923, nil, nil, nil, 3, nil, DBM_CORE_TANK_ICON) --Заряд шрапнели (точно под гер на 2 фазе)
 local timerShrapnalBlast2CD				= mod:NewCDCountTimer(18, 248070, nil, nil, nil, 7) --Усиленный заряд шрапнели
 --Stage Three/Five: The Perfect Weapon
@@ -254,7 +254,7 @@ function mod:SPELL_CAST_START(args)
 			countdownChargedBlasts:Start(13.4)
 		else
 			timerChargedBlastsCD:Start()--18.2
-			countdownChargedBlasts:Start(18.2)
+			countdownChargedBlasts:Start(18)
 		end
 	end
 end

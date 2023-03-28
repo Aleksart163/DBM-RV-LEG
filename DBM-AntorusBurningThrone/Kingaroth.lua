@@ -190,7 +190,7 @@ function mod:OnCombatStart(delay)
 	table.wipe(DemolishTargets)
 	berserkTimer:Start(-delay)
 	if self:IsHeroic() then
-		timerDiabolicBombCD:Start(15.5-delay) --Демоническая бомба было 11
+		timerDiabolicBombCD:Start(14-delay) --Демоническая бомба было
 		timerForgingStrikeCD:Start(7-delay, 1) --Прессование было 6
 		countdownForgingStrike:Start(7-delay) --Прессование было 6
 		timerApocProtocolCD:Start(35-delay, 1) --Протокол Апокалипсис было 31.8

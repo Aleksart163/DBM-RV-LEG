@@ -123,10 +123,11 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	Foe			=	"碎敵者",
-	Rend		=	"烈焰撕裂",
-	Tempest 	=	"灼燒風暴",
-	Current		=	"正在施放："
+	Blaze		= "饕餮烈焰",
+	Foe			= "碎敵者",
+	Rend		= "烈焰撕裂",
+	Tempest 	= "灼燒風暴",
+	Current		= "正在施放："
 })
 
 ---------------------------
@@ -139,12 +140,12 @@ L:SetTimerLocalization({
 })
 
 L:SetMiscLocalization({
-	SeaText =	"{rt6}加速臨機",
-	SkyText =	"{rt5}爆擊精通",
-	Blight	=	"靈魂之疫",
-	Burst	=	"靈魂驟發",
-	Sentence	=	"薩格拉斯的判決",
-	Bomb	=	"靈魂炸彈"
+	SeaText = "{rt6}加速臨機",
+	SkyText = "{rt5}爆擊精通",
+	Blight	= "靈魂之疫",
+	Burst	= "靈魂驟發",
+	Sentence = "薩格拉斯的判決",
+	Bomb	= "靈魂炸彈"
 })
 
 -------------

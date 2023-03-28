@@ -174,10 +174,11 @@ L:SetOptionLocalization({
 
 L:SetMiscLocalization({
 --	YellPullAggramar = "¡Arderéis!",
-	Foe			=	"Doma",
-	Rend		=	"Desgarro",
-	Tempest 	=	"Tempestad",
-	Current		=	"Actual:"
+	Blaze		= "Llamarada voraz",
+	Foe			= "Doma",
+	Rend		= "Desgarro",
+	Tempest 	= "Tempestad",
+	Current		= "Actual:"
 })
 
 --------------------------
@@ -204,7 +205,7 @@ L:SetMiscLocalization({
 	Blight2		= "Añublo en %s!",
 	Burst2		= "Ráfaga en mí!",
 	Sentence2	= "Sentencia en %s!",
-	Bomb2		= "BOMBA EN MÍ",
+	Bomb2		= "BOMBA DE ALMAS",
 	Rage		= "IRA",
 	Fear		= "MIEDO"
 })

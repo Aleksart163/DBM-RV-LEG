@@ -43,11 +43,12 @@ local specWarnFlameRend2				= mod:NewSpecialWarning("FlameRend3", nil, nil, nil,
 
 local specWarnBlazingEruption			= mod:NewSpecialWarningStack(244912, nil, 2, nil, nil, 1, 5) --Извержение пламени
 --Stage One: Wrath of Aggramar
-local specWarnTaeshalachReach			= mod:NewSpecialWarningStack(245990, nil, 8, nil, nil, 1, 3) --Гигантский клинок
+local specWarnTaeshalachReach			= mod:NewSpecialWarningStack(245990, nil, 8, nil, nil, 1, 2) --Гигантский клинок
 local specWarnScorchingBlaze			= mod:NewSpecialWarningYouMoveAway(245994, nil, nil, nil, 1, 6) --Обжигающее пламя
 local specWarnScorchingBlazeNear		= mod:NewSpecialWarningCloseMoveAway(245994, nil, nil, nil, 1, 5) --Обжигающее пламя
 local specWarnRavenousBlaze				= mod:NewSpecialWarningYouMoveAway(254452, nil, nil, nil, 4, 6) --Хищное пламя
-local specWarnRavenousBlazeNear			= mod:NewSpecialWarningCloseMoveAway(254452, nil, nil, nil, 2, 5) --Хищное пламя
+local specWarnRavenousBlazeNear			= mod:NewSpecialWarningCloseMoveAway(254452, nil, nil, nil, 2, 6) --Хищное пламя
+local specWarnRavenousBlaze2			= mod:NewSpecialWarningEnd(254452, nil, nil, nil, 1, 2) --Хищное пламя
 local specWarnWakeofFlame				= mod:NewSpecialWarningDodge(244693, nil, nil, nil, 2, 2) --Огненная волна
 local specWarnFoeBreakerTaunt			= mod:NewSpecialWarningTaunt(245458, nil, nil, nil, 3, 3) --Сокрушитель
 local specWarnFoeBreakerDefensive		= mod:NewSpecialWarningDefensive(245458, nil, nil, nil, 3, 3) --Сокрушитель
@@ -70,7 +71,7 @@ local timerWakeofFlameCD				= mod:NewCDTimer(24, 244693, nil, nil, nil, 3, nil, 
 local timerFlareCD						= mod:NewCDTimer(15, 245983, nil, "Ranged", 2, 3, nil, DBM_CORE_DEADLY_ICON) --Вспышка
 
 local yellScorchingBlaze				= mod:NewYell(245994, nil, nil, nil, "YELL") --Обжигающее пламя
-local yellRavenousBlaze					= mod:NewPosYell(254452, nil, nil, nil, "YELL") --Хищное пламя
+local yellRavenousBlaze					= mod:NewPosYell(254452, DBM_CORE_AUTO_YELL_CUSTOM_POSITION, nil, nil, "YELL") --Хищное пламя
 local yellRavenousBlaze2				= mod:NewFadesYell(254452, nil, nil, nil, "YELL") --Хищное пламя
 local yellWakeofFlame					= mod:NewYell(244693, nil, nil, nil, "YELL") --Огненная волна
 
@@ -78,8 +79,8 @@ local berserkTimer						= mod:NewBerserkTimer(600)
 
 --Stages One: Wrath of Aggramar
 local countdownTaeshalachTech			= mod:NewCountdown(59, 244688, nil, nil, 5) --Искусный прием
-local countdownFlare					= mod:NewCountdown("Alt15", 245983, "Ranged", nil, 5) --Вспышка
-local countdownRavenousBlaze			= mod:NewCountdown("AltTwo22", 254452, "Ranged", nil, 3) --Хищное пламя
+local countdownFlare					= mod:NewCountdown("Alt15", 245983, "Ranged", nil, 3) --Вспышка
+local countdownRavenousBlaze			= mod:NewCountdown("AltTwo22", 254452, "Ranged", nil, 5) --Хищное пламя
 --local countdownWakeofFlame				= mod:NewCountdown("AltTwo24", 244693, "-Tank") --Огненная волна
 
 mod:AddSetIconOption("SetIconOnBlaze", 254452, true, false, {8, 7, 6, 5, 4}) --Хищное пламя
@@ -559,14 +560,14 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnRavenousBlaze:Show(self:IconNumToTexture(icon))
 			specWarnRavenousBlaze:Play("scatter")
-			yellRavenousBlaze:Yell(self.vb.blazeIcon, icon, icon)
+			yellRavenousBlaze:Yell(icon, L.Blaze, icon)
 			yellRavenousBlaze2:Countdown(8, 3)
 			warnRavenousBlazeCount:Schedule(2, 1)
 			warnRavenousBlazeCount:Schedule(4, 2)
 			warnRavenousBlazeCount:Schedule(6, 3)
 			warnRavenousBlazeCount:Schedule(8, 4)
 		elseif self:CheckNearby(10, args.destName) then
-			specWarnRavenousBlazeNear:CombinedShow(0.2, args.destName)
+			specWarnRavenousBlazeNear:CombinedShow(0.3, args.destName)
 			specWarnRavenousBlazeNear:Play("runaway")
 		end
 		if self.Options.SetIconOnBlaze then
@@ -673,6 +674,8 @@ function mod:SPELL_AURA_REMOVED(args)
 		end
 	elseif spellId == 254452 then
 		if args:IsPlayer() then
+			specWarnRavenousBlaze2:Show()
+			specWarnRavenousBlaze2:Play("end")
 			warnRavenousBlazeCount:Cancel()
 			yellRavenousBlaze2:Cancel()
 		end
@@ -743,7 +746,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 				timerFlameRendCD:Start(3.5, 1) --Разрывающее пламя (на офе в обычке было 5)
 				timerTempestCD:Start(15) --Опаляющая буря (на офе в обычке было 20 сек)
 			else
-				timerFlameRendCD:Start(4, 1)
+				timerFlameRendCD:Start(3.8, 1)
 				timerTempestCD:Start(15)
 			end
 		end

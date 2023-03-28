@@ -16,7 +16,7 @@ mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 248165 248317 257296 255594 257645 252516 256542 255648 257619 256544",
-	"SPELL_CAST_SUCCESS 248499 258039 258838 252729 252616 256388 258029 251570 257619",
+	"SPELL_CAST_SUCCESS 248499 258039 258838 252729 252616 256388 258029 251570 257619 255826",
 	"SPELL_AURA_APPLIED 248499 248396 250669 251570 255199 253021 255496 255496 255478 252729 252616 255433 255430 255429 255425 255422 255419 255418 258647 258646 257869 257931 257966 258838 256388 257299 258029",
 	"SPELL_AURA_APPLIED_DOSE 248499 258039 258838 257299",
 	"SPELL_AURA_REMOVED 250669 251570 255199 253021 255496 255496 255478 255433 255430 255429 255425 255422 255419 255418 248499 258039 257966 258647 258646 258838 248396 257869",
@@ -107,15 +107,13 @@ local timerSargGazeCD				= mod:NewCDCountTimer(35, 258068, nil, nil, nil, 3, nil
 --Stage Two: The Protector Redeemed
 mod:AddTimerLine(SCENARIO_STAGE:format(2))
 local timerSoulBombCD				= mod:NewNextTimer(42, 251570, nil, nil, nil, 3, nil, DBM_CORE_HEALER_ICON..DBM_CORE_DEADLY_ICON) --Бомба души
-local timerSoulBomb					= mod:NewTargetTimer(15, 251570, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON..DBM_CORE_MYTHIC_ICON) --Бомба души (в гере 15, в других проверить)
+local timerSoulBomb					= mod:NewTargetTimer(15, 251570, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON..DBM_CORE_MYTHIC_ICON) --Бомба души
 local timerSoulBurstCD				= mod:NewNextCountTimer("d42", 250669, nil, nil, nil, 3) --Взрывная душа
-local timerEdgeofObliterationCD		= mod:NewCDCountTimer(34, 255826, nil, nil, nil, 2) --Коса разрушения
+local timerEdgeofObliterationCD		= mod:NewCDCountTimer(34, 255826, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Коса разрушения
 local timerAvatarofAggraCD			= mod:NewCDTimer(59.9, 255199, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON) --Аватара Агграмара
 --Stage Three: The Arcane Masters
 mod:AddTimerLine(SCENARIO_STAGE:format(3))
-local timerCosmicRayCD				= mod:NewCDTimer(19.9, 252729, nil, nil, nil, 3) --Космический луч All adds seem to cast it at same time, so one timer for all
-local timerCosmicBeaconCD			= mod:NewCDTimer(19.9, 252616, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON) --Космический маяк All adds seem to cast it at same time, so one timer for all
-local timerDiscsofNorg				= mod:NewCastTimer(12, 252516, nil, nil, nil, 6) --Диски Норганнона
+local timerDiscsofNorg				= mod:NewCastTimer(12, 252516, nil, nil, nil, 7) --Диски Норганнона
 local timerAddsCD					= mod:NewAddsTimer(14, 253021, nil, nil, nil, 1, nil, DBM_CORE_TANK_ICON..DBM_CORE_DAMAGE_ICON) --треш
 mod:AddTimerLine(ENCOUNTER_JOURNAL_SECTION_FLAG12)--Mythic 3
 local timerSoulrendingScytheCD		= mod:NewCDTimer(8.5, 258838, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Рассекающая коса
@@ -472,8 +470,7 @@ function mod:SPELL_CAST_START(args)
 			if not self:IsMythic() then
 				self.vb.kurators = 7
 				timerAddsCD:Start(14) --точно под гер
-				timerCosmicRayCD:Start(28) --точно под гер
-				timerCosmicBeaconCD:Start(40)
+				countdownSargGaze:Start(14)
 				if self.Options.InfoFrame then
 					DBM.InfoFrame:Hide()
 				end
@@ -489,7 +486,6 @@ function mod:SPELL_CAST_START(args)
 				DBM.InfoFrame:Show(6, "function", updateInfoFrame, false, false)
 			end
 		end
-		timerCosmicBeaconCD:Stop()
 		timerDiscsofNorg:Stop()
 		timerSargGazeCD:Stop()
 		self:Unschedule(ToggleRangeFinder)
@@ -959,8 +955,6 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 		timerSargGazeCD:Stop()
 		countdownSargGaze:Cancel()
 		if not self:IsMythic() then
-			timerCosmicRayCD:Start(42)
-			timerCosmicBeaconCD:Start(52)
 			if self.Options.InfoFrame then
 				DBM.InfoFrame:Hide()
 			end

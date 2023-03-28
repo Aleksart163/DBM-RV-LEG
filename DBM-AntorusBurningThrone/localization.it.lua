@@ -149,6 +149,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
+	Blaze		= "Fiammata Vorace",
 	Foe			= "Foe",
 	Rend		= "Rend",
 	Tempest 	= "Tempest",
@@ -167,10 +168,14 @@ L:SetTimerLocalization({
 L:SetMiscLocalization({
 	SeaText		= "Haste/Vers on %s",
 	SkyText		= "Crit/Mast on %s",
-	Blight		= "Blight on %s",
-	Burst		= "Burst on me!",
-	Sentence	= "Sentence on %s",
-	Bomb		= "BOMB ON ME!",
+	Blight		= "Blight",
+	Burst		= "Burst",
+	Sentence	= "Sentence",
+	Bomb		= "BOMB",
+	Blight2		= "Blight on %s!",
+	Burst2		= "Burst su di me!",
+	Sentence2	= "Sentenza su %s!",
+	Bomb2		= "Bomba dell'Anima!",
 	Rage		= "RABBIA",
 	Fear		= "PAURA"
 })

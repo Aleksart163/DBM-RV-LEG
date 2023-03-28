@@ -127,10 +127,11 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	Foe			=	"破坏者",
-	Rend		=	"烈焰撕裂",
-	Tempest 	=	"灼热风暴",
-	Current		=	"当前:"
+	Blaze		= "饕餮烈焰",
+	Foe			= "破坏者",
+	Rend		= "烈焰撕裂",
+	Tempest 	= "灼热风暴",
+	Current		= "当前:"
 })
 
 ---------------------------
@@ -143,6 +144,8 @@ L:SetMiscLocalization({
 	SkyText = "{rt5} 暴击/精通",
 	Blight	= "灵魂凋零宝珠",
 	Burst	= "灵魂炸弹",
+	Bomb	= "弹",
+	Bomb2	= "灵魂炸弹",
 	Rage	= "狂怒",
 	Fear	= "恐惧"
 })

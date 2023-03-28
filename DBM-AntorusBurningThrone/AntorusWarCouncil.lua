@@ -93,7 +93,7 @@ mod:AddTimerLine(Erodus)
 local timerSummonReinforcementsCD		= mod:NewNextTimer(8.4, 245546, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON..DBM_CORE_TANK_ICON) --Вызов подкрепления
 
 local yellPyroblast						= mod:NewYell(246505, nil, nil, nil, "YELL") --Огненная глыба
-local yellChaosPulse					= mod:NewYell(257974, nil, nil, nil, "YELL") --Хаотический импульс
+--local yellChaosPulse					= mod:NewYell(257974, nil, nil, nil, "YELL") --Хаотический импульс
 local yellDemonicCharge					= mod:NewYell(253040, nil, nil, nil, "YELL") --Демонический рывок
 local yellShockGrenade					= mod:NewYell(244737, nil, nil, nil, "YELL") --Шоковая граната
 local yellShockGrenadeFades				= mod:NewShortFadesYell(244737, nil, nil, nil, "YELL") --Шоковая граната
@@ -102,11 +102,11 @@ local yellShockGrenadeFades				= mod:NewShortFadesYell(244737, nil, nil, nil, "Y
 
 --General
 local countdownAssumeCommand			= mod:NewCountdown(90, 245227, nil, nil, 5) --Принять командование
-local countdownExploitWeakness			= mod:NewCountdown("Alt8", 244892, "Tank", nil, 5) --Обнаружить слабое место
+local countdownExploitWeakness			= mod:NewCountdown("AltTwo8", 244892, "Tank", nil, 5) --Обнаружить слабое место
 --In Pod
 ----Admiral Svirax
-local countdownFusillade				= mod:NewCountdown("AltTwo30", 244625, nil, nil, 3) --Шквальный огонь
-local countdownFusillade2				= mod:NewCountdownFades("AltTwo7", 244625, nil, nil, 5) --Шквальный огонь
+local countdownFusillade				= mod:NewCountdown("Alt30", 244625, nil, nil, 3) --Шквальный огонь
+local countdownFusillade2				= mod:NewCountdownFades("Alt7", 244625, nil, nil, 5) --Шквальный огонь
 ----General Erodus
 --local countdownReinforcements			= mod:NewCountdown(25, 245546) --Вызов подкрепления
 
@@ -389,11 +389,9 @@ function mod:SPELL_AURA_APPLIED(args)
 			if args:IsPlayer() and not self:IsMagicDispeller2() then
 				specWarnChaosPulse:Show()
 				specWarnChaosPulse:Play("stackhigh")
-				yellChaosPulse:Yell()
 			elseif args:IsPlayer() and self:IsMagicDispeller2() then
 				specWarnChaosPulse2:Show()
 				specWarnChaosPulse2:Play("dispelnow")
-				yellChaosPulse:Yell()
 			end
 		end
 	end
