@@ -44,9 +44,9 @@
 ----------------------------------------------------------------
 --
 DBM = {
-	Revision = tonumber(("$Revision: 17706 $"):sub(12, -3)), --прошляпанное очко Мурчаля (Прошляпенко) ✔✔✔
+	Revision = tonumber(("$Revision: 17707 $"):sub(12, -3)), --прошляпанное очко Мурчаля (Прошляпенко) ✔✔✔
 	DisplayVersion = "7.3.44 Right Version " .. string.sub(GetLocale(), -2),
-	ReleaseRevision = 17705
+	ReleaseRevision = 17706
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -5707,9 +5707,9 @@ do
 	function DBM:StartCombat(mod, delay, event, synced, syncedStartHp)
 		cSyncSender = {}
 		cSyncReceived = 0
-		self:Debug("[check] StartCombat")
+		-- self:Debug("[check] StartCombat")
 		if not checkEntry(inCombat, mod) then
-			self:Debug("[check] checkEntry")
+			-- self:Debug("[check] checkEntry")
 			if not mod.Options.Enabled then return end
 			if not mod.combatInfo then return end
 			if mod.combatInfo.noCombatInVehicle and UnitInVehicle("player") then -- HACK
@@ -5717,11 +5717,11 @@ do
 			end
 			--HACK: makes sure that we don't detect a false pull if the event fires again when the boss dies...
 			if mod.lastKillTime and GetTime() - mod.lastKillTime < (mod.reCombatTime or 120) and event ~= "LOADING_SCREEN_DISABLED" then
-			self:Debug("[check] mod.lastKillTime")
+			-- self:Debug("[check] mod.lastKillTime")
 			return
 			end
 			if mod.lastWipeTime and GetTime() - mod.lastWipeTime < (event == "ENCOUNTER_START" and 3 or mod.reCombatTime2 or 20) and event ~= "LOADING_SCREEN_DISABLED" then
-			self:Debug("[check] mod.lastWipeTime")
+			-- self:Debug("[check] mod.lastWipeTime")
 			return
 			end
 			if event then
