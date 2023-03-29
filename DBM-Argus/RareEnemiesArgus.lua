@@ -11,7 +11,7 @@ mod.isTrashMod = true
 --Тут будут новые прошляпы Мурчаля
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 254099 254106 254044 254046 251302 251317 241917 254477 252663 222623 253972 254266 233228 254190 254288 222596 251091 251284 251703 251689 251683 251470 251714 252064 252057 252065 185777 233306 242021 238592 242069 203956 249854 238984 237308 220267 250963 251246 251276 251265 244623 242471 242397 254079 254012 254026 253978 249879",
+	"SPELL_CAST_START 254099 254106 254044 254046 251302 251317 241917 254477 252663 222623 253972 254266 233228 254190 254288 222596 251091 251284 251703 251689 251683 251470 251714 252064 252057 252065 185777 233306 242021 238592 242069 203956 249854 238984 237308 220267 250963 251246 251276 251265 244623 242471 242397 254079 254012 254026 253978 249879 254168 254163",
 	"SPELL_CAST_SUCCESS 252055 223421 242071 203109 254079",
 	"SPELL_AURA_APPLIED 254106 254480 252037 252038 254015 254268 233228 254200 222620 252057 253068 218121 183270 220267 251245 246317 253978 254281 238681",
 	"SPELL_AURA_APPLIED_DOSE 252037 183270 246317",
@@ -31,6 +31,9 @@ local warnHeadCrack					= mod:NewTargetAnnounce(254015, 2) --Трещина в �
 local warnEnrage					= mod:NewTargetAnnounce(218121, 2) --Исступление
 local warnDreadInspiration			= mod:NewTargetAnnounce(251245, 2) --Жуткое воодушевление
 ------------------------------------------------МАК'АРИ------------------------------------------------------------------------
+--Чемпион джед'хин Воруск
+local specWarnIronCharge			= mod:NewSpecialWarningYouMoveAway(254163, nil, nil, nil, 1, 3) --Железный рывок
+local specWarnSeismicStomp			= mod:NewSpecialWarningDodge(254168, nil, nil, nil, 2, 2) --Сотрясающий топот
 --Слизон Последний из Змеев https://www.wowhead.com/ru/npc=126913/слизон-последний-из-змеев
 local specWarnVenomousFangs		 	= mod:NewSpecialWarningYouDispel(254281, "PoisonDispeller", nil, nil, 2, 2) --Отравленные клыки
 --Пастух Кравос
@@ -81,7 +84,6 @@ local specWarnBurrow				= mod:NewSpecialWarningInterrupt(253972, "HasInterrupt",
 --Турек Мерцающий https://www.wowhead.com/ru/npc=126868/турек-мерцающий
 --Каара Бледная https://www.wowhead.com/ru/npc=126860/каара-бледная
 --Баруут Кровожадный https://www.wowhead.com/ru/npc=126862/баруут-кровожадный
---Чемпион джед'хин Воруск https://www.wowhead.com/ru/npc=126899/чемпион-джедхин-воруск
 --Зул'тан Многоликий https://www.wowhead.com/ru/npc=126908/зултан-многоликий
 --Искаженное чудовище https://www.wowhead.com/ru/npc=126815/искаженное-чудовище
 --Сабуул https://www.wowhead.com/ru/npc=126898/сабуул
@@ -182,6 +184,7 @@ local timerParaxisIncomingCD			= mod:NewCDTimer(181.5, 255102, nil, nil, nil, 2,
 
 local countdownParaxisIncoming			= mod:NewCountdown(181.5, 255102, nil, nil, 10) --"Параксий" на подходе
 
+local yellIronCharge					= mod:NewYell(254163, nil, nil, nil, "YELL") --Железный рывок
 local yellVoidExhaust					= mod:NewYell(242397, nil, nil, nil, "YELL") --Извержение Бездны
 local yellEarthshatteringSlash			= mod:NewYell(203956, nil, nil, nil, "YELL") --Взмах землекрушителя
 local yellChaosGlare					= mod:NewYell(242069, nil, nil, nil, "YELL") --Взор Хаоса
@@ -193,6 +196,15 @@ local yellIgnition						= mod:NewYell(254480, nil, nil, nil, "YELL") --Зажи�
 local yellIgnition2						= mod:NewFadesYell(254480, nil, nil, nil, "YELL") --Зажигание
 
 local shield = DBM:GetSpellInfo(252509) --Защита Света
+
+function mod:IronChargeTarget(targetname, uId) --прошляпанное очко Мурчаля Прошляпенко ✔
+	if not targetname then return end
+	if targetname == UnitName("player") then
+		specWarnIronCharge:Show()
+		specWarnIronCharge:Play("targetyou")
+		yellIronCharge:Yell() 
+	end
+end
 
 function mod:VoidExhaustTarget(targetname, uId) --прошляпанное очко Мурчаля Прошляпенко ✔
 	if not targetname then return end
@@ -464,6 +476,11 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 249879 then --Вихрь клинков
 		specWarnBlisteringWave:Show()
 		specWarnBlisteringWave:Play("kickcast")
+	elseif spellId == 254168 then --Сотрясающий топот
+		specWarnSeismicStomp:Show()
+		specWarnSeismicStomp:Play("watchstep")
+	elseif spellId == 254163 then --Железный рывок
+		self:BossTargetScanner(args.sourceGUID, "IronChargeTarget", 0.1, 2)
 	end
 end
 
