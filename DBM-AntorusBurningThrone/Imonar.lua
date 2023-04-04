@@ -77,6 +77,7 @@ local timerShrapnalBlast2CD				= mod:NewCDCountTimer(18, 248070, nil, nil, nil, 
 
 --Intermission: On Deadly Ground
 local yellSleepCanisterStun				= mod:NewYell(255029, L.DispelMe, nil, nil, "YELL") --Склянка с усыпляющим газом Auto yell when safe to dispel (no players within 10 yards)
+local yellSleepCanisterStun2			= mod:NewFadesYell(255029, nil, nil, nil, "YELL") --Склянка с усыпляющим газом
 local yellStasisTrap					= mod:NewYell(247641, L.DispelMe, nil, nil, "YELL") --Стазисная ловушка
 local yellEmpPulseGrenade				= mod:NewYell(250006, nil, nil, nil, "YELL") --Усиленная импульсная граната
 local yellEmpPulseGrenade2				= mod:NewFadesYell(250006, nil, nil, nil, "YELL") --Усиленная импульсная граната
@@ -329,10 +330,11 @@ function mod:SPELL_AURA_APPLIED(args)
 		else
 			warnSever:Show(args.destName, amount)
 		end
-	elseif spellId == 255029 then--Sleep Canister Stun Effect
+	elseif spellId == 255029 then --Склянка с усыпляющим газом (уже наложилась)
 		if args:IsPlayer() then
 			if self:CheckNearby(11) then
 				yellSleepCanisterStun:Yell()
+				yellSleepCanisterStun2:Countdown(20, 3)
 			end
 		elseif self:CheckNearby(10, args.destName) then--Warn nearby again
 			specWarnSleepCanisterNear:CombinedShow(0.3, args.destName)
@@ -464,6 +466,9 @@ function mod:SPELL_AURA_REMOVED(args)
 			DBM.InfoFrame:Update()
 		end
 	elseif spellId == 255029 then
+		if args:IsPlayer() then
+			yellSleepCanisterStun2:Cancel()
+		end
 		if self.Options.SetIconOnSleepCanister then
 			self:SetIcon(args.destName, 0)
 		end
@@ -473,7 +478,7 @@ end
 function mod:RAID_BOSS_WHISPER(msg)
 	if msg:find("spell:254244") then
 		specWarnSleepCanister:Show()
-		specWarnSleepCanister:Play("runout")
+		specWarnSleepCanister:Play("runaway")
 		yellSleepCanister2:Yell()
 		playerSleepDebuff = true
 		updateRangeFrame(self)
