@@ -39,6 +39,7 @@ local warnDecimation					= mod:NewTargetAnnounce(244410, 3) --Децимация
 local warnPhase							= mod:NewPhaseChangeAnnounce(1)
 local warnPrePhase2						= mod:NewPrePhaseAnnounce(2, 1)
 local warnPrePhase3						= mod:NewPrePhaseAnnounce(3, 1)
+local warnApocDrive						= mod:NewSpellAnnounce(244152, 3, nil, "Healer") --Реактор апокалипсиса
 
 local specWarnFelBombardment			= mod:NewSpecialWarningYouMoveAway(246220, nil, nil, nil, 3, 5) --Обстрел скверны
 local specWarnFelBombardment2			= mod:NewSpecialWarningYou(246220, nil, nil, nil, 1, 2) --Обстрел скверны
@@ -74,6 +75,8 @@ local yellDecimationFades				= mod:NewShortFadesYell(244410, nil, nil, nil, "YEL
 local berserkTimer						= mod:NewBerserkTimer(600)
 
 local countdownChooseCannon				= mod:NewCountdown(15, 245124, nil, nil, 5)
+local countdownDecimation				= mod:NewCountdown(15, 244410, nil, nil, 5) --Децимация
+local countdownAnnihilation				= mod:NewCountdown(15, 244761, nil, nil, 5) --Аннигиляция
 local countdownFelBombardment			= mod:NewCountdown("Alt20", 246220, "Tank", nil, 5) --Обстрел скверны
 
 mod:AddSetIconOption("SetIconOnDecimation", 244410, true, false, {6, 5, 4, 3, 2, 1}) --Децимация
@@ -164,6 +167,7 @@ function mod:SPELL_CAST_START(args)
 		timerSurgingFelCast:Cancel()
 		specWarnSurgingFel:Cancel()
 	elseif spellId == 240277 then --Реактор апокалипсиса
+		warnApocDrive:Show()
 		timerDecimationCD:Stop()
 		timerFelBombardmentCD:Stop()
 		countdownFelBombardment:Cancel()
@@ -196,11 +200,21 @@ function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
 	if spellId == 244399 or spellId == 245294 or spellId == 246919 then --Децимация
 		self.vb.lastCannon = 2--Anniilator 1 decimator 2
-		countdownChooseCannon:Start(15.8)
-		if self.vb.phase == 1 or self:IsMythic() then
-			timerAnnihilationCD:Start(15.8)
+		if self.vb.phase == 1 then
+			timerAnnihilationCD:Start(16)
+			countdownAnnihilation:Start(16)
 		elseif self.vb.phase > 1 and not self:IsMythic() then
-			timerDecimationCD:Start(15.8)
+			timerDecimationCD:Start(16)
+			countdownDecimation:Start(16)
+		elseif self.vb.phase == 3 and self:IsMythic() then
+			timerDecimationCD:Start(32)
+			countdownDecimation:Start(32)
+			timerAnnihilationCD:Start(16)
+			countdownAnnihilation:Start(16)
+			specWarnAnnihilation:Schedule(16)
+			specWarnAnnihilation:ScheduleVoice(16, "helpsoak")
+			specWarnAnnihilation:Schedule(22)
+			specWarnAnnihilation:ScheduleVoice(22, "helpsoak")
 		end
 	elseif spellId == 244294 then --Аннигиляция
 		specWarnAnnihilation:Show()
@@ -209,11 +223,12 @@ function mod:SPELL_CAST_SUCCESS(args)
 			DBM:AddMsg("Blizzard fixed haywire Annihilator, tell DBM author")
 		else
 			self.vb.lastCannon = 1--Annihilation 1 Decimation 2
-			countdownChooseCannon:Start(15.8)
 			if self.vb.phase == 1 or self:IsMythic() then
-				timerDecimationCD:Start(15.8)
+				timerDecimationCD:Start(16)
+				countdownDecimation:Start(16)
 			elseif self.vb.phase > 1 and not self:IsMythic() then
-				timerAnnihilationCD:Start(15.8)
+				timerAnnihilationCD:Start(16)
+				countdownAnnihilation:Start(16)
 			end
 		end
 	elseif spellId == 246663 then --Всплеск скверны
@@ -225,12 +240,11 @@ function mod:SPELL_CAST_SUCCESS(args)
 				specWarnSurgingFel:ScheduleVoice(6.5, "watchstep")
 			end
 		elseif self:IsMythic() then
-		--	timerSurgingFelCD:Start(1)
 			if not UnitIsDeadOrGhost("player") then
-				specWarnSurgingFel:Schedule(1)
-				specWarnSurgingFel:ScheduleVoice(1, "watchstep")
+				specWarnSurgingFel:Schedule(1.5)
+				specWarnSurgingFel:ScheduleVoice(1.5, "watchstep")
 			end
-			timerSurgingFelCast:Schedule(1)
+			timerSurgingFelCast:Schedule(1.5)
 		end
 	elseif spellId == 244969 then --Искоренение
 		if self.vb.phase == 2 then

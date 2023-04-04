@@ -20,8 +20,8 @@ mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED 244737 244892 253015 244172 257974",
 	"SPELL_AURA_APPLIED_DOSE 244892 244172 257974",
 	"SPELL_AURA_REMOVED 244737 253015 244388",
---	"SPELL_PERIODIC_DAMAGE",
---	"SPELL_PERIODIC_MISSED",
+	"SPELL_DAMAGE 253039",
+	"SPELL_MISSED 253039",
 	"UNIT_SPELLCAST_SUCCEEDED boss1 boss2 boss3"
 )
 
@@ -48,7 +48,7 @@ local warnShockGrenade					= mod:NewTargetAnnounce(244737, 4, nil, true, 2) --Ш
 ----Chief Engineer Ishkar
 
 --General
---local specWarnGTFO					= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 2)
+local specWarnBladestorm				= mod:NewSpecialWarningYouMove(253039, nil, nil, nil, 1, 2) --Вихрь клинков
 local specWarnActivateFelshield			= mod:NewSpecialWarningCast(244910, nil, nil, nil, 3, 5) --Активация щита Скверны
 local specWarnPsychicScarring			= mod:NewSpecialWarningEnd(244388, nil, nil, nil, 1, 2) --Псионный шрам
 local specWarnPyroblast					= mod:NewSpecialWarningYou(246505, nil, nil, nil, 2, 6) --Огненная глыба
@@ -138,7 +138,7 @@ end
 function mod:DemonicChargeTarget(targetname, uId)
 	if not targetname then return end
 	if targetname == UnitName("player") then
-		if self:AntiSpam(3, 5) then
+		if self:AntiSpam(3, 4) then
 			specWarnDemonicChargeYou:Show()
 			specWarnDemonicChargeYou:Play("runaway")
 			yellDemonicCharge:Yell()
@@ -419,15 +419,13 @@ function mod:SPELL_AURA_REMOVED(args)
 	end
 end
 
---[[
-function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
-	if spellId == 228007 and destGUID == UnitGUID("player") and self:AntiSpam(2, 4) then
-		specWarnGTFO:Show()
-		specWarnGTFO:Play("runaway")
+function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
+	if spellId == 253039 and destGUID == UnitGUID("player") and self:AntiSpam(1, 3) then
+		specWarnBladestorm:Show()
+		specWarnBladestorm:Play("runaway")
 	end
 end
-mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
---]]
+mod.SPELL_MISSED = mod.SPELL_DAMAGE
 
 --"<14.68 23:07:26> [UNIT_SPELLCAST_SUCCEEDED] General Erodus(??) [[boss3:Summon Reinforcements::3-2083-1712-2166-245546-00015E79FE:245546]]", -- [121]
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)

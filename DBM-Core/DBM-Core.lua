@@ -1,52 +1,42 @@
--- ДЛЯ ДУРАЧКОВ, которым нехуй заняться
--- Ниже находится информация с офы Легиона под 2018 год
--- *********************************************************
--- **               Deadly Boss Mods - Core               **
--- **            http://www.deadlybossmods.com            **
--- **        https://www.patreon.com/deadlybossmods       **
--- *********************************************************
+-- ***********************************************************
+-- **              Dungeon Boss Master - Core               **
+-- **      https://github.com/Aleksart163/DBM-for-Uwow      **
+-- ***********************************************************
 -- This addon is written and copyrighted by:
 --    * Paul Emmerich (Tandanu @ EU-Aegwynn) (DBM-Core)
 --    * Martin Verges (Nitram @ EU-Azshara) (DBM-GUI)
 --    * Adam Williams (Omegal @ US-Whisperwind) (Primary boss mod author & DBM maintainer)
+--    * Alex British  (Куплиняшка @ RU-uwow x100) (adaptation to the uwow.biz)
 --
 -- The localizations are written by:
---    * enGB/enUS: Omegal				Twitter @MysticalOS
---    * deDE: Ebmor						http://www.deadlybossmods.com/forum/memberlist.php?mode=viewprofile&u=79
---    * ruRU: TOM_RUS					http://www.curseforge.com/profiles/TOM_RUS/
---    * zhTW: Whyv						ultrashining@gmail.com
---    * koKR: nBlueWiz					everfinale@gmail.com
---    * zhCN: Mini Dragon				projecteurs@gmail.com
---
+--    * enGB/enUS: Aleksart163			Discord Aleksart163#1671
+--    * deDE: Aleksart163				Youtube https://www.youtube.com/channel/UCmy80sh2TnKRs5Meeyze6sg
+--    * ruRU: Aleksart163
 --
 -- Special thanks to:
---    * Arta
---    * Tennberg (a lot of fixes in the enGB/enUS localization)
---    * nBlueWiz (a lot of fixes in the koKR localization as well as boss mod work) Contact: everfinale@gmail.com
---
+--    * Danzo 		(for help in the addon)
+--    * Мурчаль 	(for proshlyap your point)
+--    * Soulburnin  (for proshlyap your point)
 --
 -- The code of this addon is licensed under a Creative Commons Attribution-Noncommercial-Share Alike 3.0 License. (see license.txt)
 -- All included textures and sounds are copyrighted by their respective owners, license information for these media files can be found in the modules that make use of them.
 --
---
---  You are free:
+-- You are free:
 --    * to Share - to copy, distribute, display, and perform the work
 --    * to Remix - to make derivative works
---  Under the following conditions:
---    * Attribution. You must attribute the work in the manner specified by the author or licensor (but not in any way that suggests that they endorse you or your use of the work). (A link to http://www.deadlybossmods.com is sufficient)
+-- Under the following conditions:
+--    * Attribution. You must attribute the work in the manner specified by the author or licensor (but not in any way that suggests that they endorse you or your use of the work). (A link to https://github.com/Aleksart163/DBM-for-Uwow is sufficient)
 --    * Noncommercial. You may not use this work for commercial purposes.
 --    * Share Alike. If you alter, transform, or build upon this work, you may distribute the resulting work only under the same or similar license to this one.
---
 
 -------------------------------
 --  Globals/Default Options  --
 -------------------------------
-----------------------------------------------------------------
---
+
 DBM = {
-	Revision = tonumber(("$Revision: 17707 $"):sub(12, -3)), --прошляпанное очко Мурчаля (Прошляпенко) ✔✔✔
+	Revision = tonumber(("$Revision: 17708 $"):sub(12, -3)), --прошляпанное очко Мурчаля Прошляпенко ✔✔✔
 	DisplayVersion = "7.3.44 Right Version " .. string.sub(GetLocale(), -2),
-	ReleaseRevision = 17706
+	ReleaseRevision = 17707
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -54,7 +44,6 @@ if not DBM.Revision then
 	DBM.Revision = DBM.ReleaseRevision
 end
 --
-----------------------------------------------------------------
 local wowVersionString, wowBuild, _, wowTOC = GetBuildInfo()
 local testBuild = false
 if IsTestBuild() then
@@ -103,9 +92,9 @@ DBM.DefaultOptions = {
 	ChosenVoicePack = "None",
 	VoiceOverSpecW2 = "DefaultOnly",
 	AlwaysPlayVoice = false,
-	EventSoundVictory2 = "Alarak Victory", --музыка при победе в бою
+	EventSoundVictory2 = "Alarak Victory", --музыка при победе в бою и прошляпе очка Мурчаля
 	EventSoundWipe = "Alarak: Shameful death", --музыка при поражении в бою
-	EventSoundEngage = "Alarak: Krisol thok aran", --музыка при вступлении в бой
+	EventSoundEngage = "Alarak: Krisol thok aran", --музыка при вступлении в бой и прошляпе очка Мурчаля
 	EventSoundMusic = "FNaF Security breach", --музыка во время боя с боссом +++
 	EventSoundDungeonBGM = "Nightsong Extended", --музыка в подземелье и рейдах +++
 	EventSoundMusicCombined = false,
@@ -4140,9 +4129,9 @@ do
 				modHFRevision = tonumber(modHFRevision or 0) or 0
 				startHp = tonumber(startHp or -1) or -1
                 if dbmRevision ~= DBM.Revision then
-                -- if DBM.Options.DebugMode then
-                    -- DBM:AddMsg("StartCombat (rejected) called for " .. mod.combatInfo.name .. " by: SYNC from - " .. sender .. ".")
-                -- end
+                if DBM.Options.DebugMode then
+                    DBM:AddMsg("StartCombat (rejected) called for " .. mod.combatInfo.name .. " by: SYNC from - " .. sender .. ".")
+                end
                 return
                 end
 				if mod and delay and (not mod.zones or mod.zones[LastInstanceMapID]) and (not mod.minSyncRevision or modRevision >= mod.minSyncRevision) then

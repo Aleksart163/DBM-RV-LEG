@@ -1,49 +1,33 @@
--- *********************************************************
--- **               Deadly Boss Mods - GUI                **
--- **            http://www.deadlybossmods.com            **
--- *********************************************************
---
+-- ***********************************************************
+-- **              Dungeon Boss Master - GUI	            **
+-- **      https://github.com/Aleksart163/DBM-for-Uwow      **
+-- ***********************************************************
 -- This addon is written and copyrighted by:
 --    * Paul Emmerich (Tandanu @ EU-Aegwynn) (DBM-Core)
 --    * Martin Verges (Nitram @ EU-Azshara) (DBM-GUI)
---    * Adam Williams (Omegal @ US-Whisperwind) (Primary boss mod author) Contact: mysticalosx@gmail.com (Twitter: @MysticalOS)
+--    * Adam Williams (Omegal @ US-Whisperwind) (Primary boss mod author & DBM maintainer)
+--    * Alex British  (Куплиняшка @ RU-uwow x100) (adaptation to the uwow.biz)
 --
 -- The localizations are written by:
---    * enGB/enUS: Tandanu				http://www.deadlybossmods.com
---    * deDE: Tandanu					http://www.deadlybossmods.com
---    * zhCN: Diablohu					http://www.dreamgen.cn | diablohudream@gmail.com
---    * ruRU: Swix						stalker.kgv@gmail.com
---    * ruRU: TOM_RUS
---    * zhTW: Hman						herman_c1@hotmail.com
---    * zhTW: Azael/kc10577				paul.poon.kw@gmail.com
---    * koKR: nBlueWiz					everfinale@gmail.com
---    * esES: Snamor/1nn7erpLaY      	romanscat@hotmail.com
---
--- The ex-translators:
---    * ruRU: BootWin					bootwin@gmail.com
---    * ruRU: Vampik					admin@vampik.ru
+--    * enGB/enUS: Aleksart163			Discord Aleksart163#1671
+--    * deDE: Aleksart163				Youtube https://www.youtube.com/channel/UCmy80sh2TnKRs5Meeyze6sg
+--    * ruRU: Aleksart163
 --
 -- Special thanks to:
---    * Arta
---    * Tennberg (a lot of fixes in the enGB/enUS localization)
---
+--    * Danzo
 --
 -- The code of this addon is licensed under a Creative Commons Attribution-Noncommercial-Share Alike 3.0 License. (see license.txt)
 -- All included textures and sounds are copyrighted by their respective owners, license information for these media files can be found in the modules that make use of them.
 --
---
---  You are free:
+-- You are free:
 --    * to Share - to copy, distribute, display, and perform the work
 --    * to Remix - to make derivative works
---  Under the following conditions:
---    * Attribution. You must attribute the work in the manner specified by the author or licensor (but not in any way that suggests that they endorse you or your use of the work). (A link to http://www.deadlybossmods.com is sufficient)
+-- Under the following conditions:
+--    * Attribution. You must attribute the work in the manner specified by the author or licensor (but not in any way that suggests that they endorse you or your use of the work). (A link to https://github.com/Aleksart163/DBM-for-Uwow is sufficient)
 --    * Noncommercial. You may not use this work for commercial purposes.
 --    * Share Alike. If you alter, transform, or build upon this work, you may distribute the resulting work only under the same or similar license to this one.
---
---
 
-
-local revision =("$Revision: 17669 $"):sub(12, -3)
+local revision =("$Revision: 17708 $"):sub(12, -3)
 local FrameTitle = "DBM_GUI_Option_"	-- all GUI frames get automatically a name FrameTitle..ID
 
 local PanelPrototype = {}
