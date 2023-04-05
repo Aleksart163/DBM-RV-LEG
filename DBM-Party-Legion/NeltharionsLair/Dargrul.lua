@@ -25,6 +25,7 @@ local specWarnLandSlide				= mod:NewSpecialWarningSpell(200700, "Tank", nil, nil
 local specWarnMagmaSculptor			= mod:NewSpecialWarningSwitch(200637, "Dps", nil, nil, 1, 2) --Ваятель магмы
 local specWarnMagmaWave				= mod:NewSpecialWarningMoveTo(200404, "-Tank", nil, nil, 4, 6) --Магматическая волна
 local specWarnMagmaWave2			= mod:NewSpecialWarningDefensive(200404, "Tank", nil, nil, 3, 6) --Магматическая волна
+local specWarnMagmaWave3			= mod:NewSpecialWarningSoon(200404, nil, nil, nil, 1, 2) --Магматическая волна
 local specWarnBurningHatred			= mod:NewSpecialWarningYouRun(200154, nil, nil, nil, 4, 3) --Пламенная ненависть
 
 local timerMoltenCrashCD			= mod:NewCDTimer(16.5, 200732, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Магматический удар 16.5-23
@@ -50,6 +51,8 @@ function mod:OnCombatStart(delay)
 		timerMoltenCrashCD:Start(19-delay) --Магматический удар +++
 		timerCrystalSpikesCD:Start(5.8-delay) --Кристальные шипы +++	
 		timerMagmaWaveCD:Start(66.5-delay) --Магматическая волна +++
+		specWarnMagmaWave3:Schedule(56.5-delay) --Магматическая волна +++
+		specWarnMagmaWave3:ScheduleVoice(56.5-delay, "aesoon") --Магматическая волна +++
 		countdownMagmaWave:Start(66.5-delay) --Магматическая волна +++
 	else
 		timerMagmaSculptorCD:Start(7.3-delay) --Ваятель магмы
@@ -107,6 +110,8 @@ function mod:SPELL_CAST_START(args)
 		if self:IsHard() then
 			timerMagmaWaveCD:Start(61)
 			countdownMagmaWave:Start(61)
+			specWarnMagmaWave3:Schedule(51)
+			specWarnMagmaWave3:ScheduleVoice(51, "aesoon")
 		else
 			timerMagmaWaveCD:Start()
 			countdownMagmaWave:Start()

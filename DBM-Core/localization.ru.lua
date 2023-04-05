@@ -311,7 +311,7 @@ DBM_CORE_ACHIEVEMENT_TIMER_SPEED_KILL = "Достижение"
 -- Auto-generated Warning Localizations
 DBM_CORE_AUTO_ANNOUNCE_TEXTS.you 			= "%s на тебе"
 DBM_CORE_AUTO_ANNOUNCE_TEXTS.target 		= "%s на |3-5(>%%s<)"
-DBM_CORE_AUTO_ANNOUNCE_TEXTS.targetsource  	= ">%%s< применяет заклинание %s"
+DBM_CORE_AUTO_ANNOUNCE_TEXTS.targetsource  	= ">%%s< применяет %s"
 DBM_CORE_AUTO_ANNOUNCE_TEXTS.targetsource2  = ">%%s< применяет %s на >%%s<"
 DBM_CORE_AUTO_ANNOUNCE_TEXTS.targetsourcecount = ">%%s< применяет %s (%%s)"
 DBM_CORE_AUTO_ANNOUNCE_TEXTS.targetcount	= "%s (%%s) на |3-5(>%%s<)"

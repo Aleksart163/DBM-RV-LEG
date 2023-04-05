@@ -361,8 +361,9 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 249121 then
 		self.vb.finalDoomCast = self.vb.finalDoomCast + 1
+		local icon = self.vb.finalDoomCast
 		specWarnFinalDoom:Show(self.vb.finalDoomCast)
-		specWarnFinalDoom:Play("specialsoon")
+		specWarnFinalDoom:Play("group"..icon)
 		timerFinalDoom:Start()
 		countdownFinalDoom2:Start()
 		local timer = finalDoomTimers[self.vb.finalDoomCast+1]

@@ -194,7 +194,8 @@ function mod:OnCombatStart(delay)
 		timerMoltenTouchCD:Start(21.5-delay) --Жаркая вспышка+++
 		timerSiphonCorruptionCD:Start(25.3-delay) --Вытягивание порчи+++
 		countdownSiphonCorruption:Start(25.3-delay) --Вытягивание порчи+++
-		specWarnSiphoned2:Schedule(15.3) --Вытягивание порчи+++
+		specWarnSiphoned2:Schedule(15.3-delay) --Вытягивание порчи+++
+		specWarnSiphoned2:ScheduleVoice(15.3-delay, "aesoon") --Вытягивание порчи+++
 		timerEnflamedCorruptionCD:Start(49.5-delay) --Возгорание порчи+++
 		countdownEnflamedCorruption:Start(49.5-delay) --Возгорание порчи+++
 		specWarnEnflamed2:Schedule(39.5) --Возгорание порчи+++
@@ -204,7 +205,8 @@ function mod:OnCombatStart(delay)
 		timerMoltenTouchCD:Start(21.6-delay) --Жаркая вспышка+++
 		timerSiphonCorruptionCD:Start(26.2-delay) --Вытягивание порчи+++
 		countdownSiphonCorruption:Start(26.2-delay) --Вытягивание порчи+++
-		specWarnSiphoned2:Schedule(16.2) --Вытягивание порчи+++
+		specWarnSiphoned2:Schedule(16.2-delay) --Вытягивание порчи+++
+		specWarnSiphoned2:ScheduleVoice(16.2-delay, "aesoon") --Вытягивание порчи+++
 		timerEnflamedCorruptionCD:Start(52.5-delay) --Возгорание порчи+++
 		countdownEnflamedCorruption:Start(52.5-delay) --Возгорание порчи+++
 		specWarnEnflamed2:Schedule(42.5) --Возгорание порчи+++
@@ -215,7 +217,8 @@ function mod:OnCombatStart(delay)
 		if not self:IsLFR() then
 			timerSiphonCorruptionCD:Start(27.4-delay) --Вытягивание порчи+++
 			countdownSiphonCorruption:Start(27.4-delay) --Вытягивание порчи+++
-			specWarnSiphoned2:Schedule(17.4) --Вытягивание порчи+++
+			specWarnSiphoned2:Schedule(17.4-delay) --Вытягивание порчи+++
+			specWarnSiphoned2:ScheduleVoice(17.4-delay, "aesoon") --Вытягивание порчи+++
 			timerEnflamedCorruptionCD:Start(55.6-delay) --Возгорание порчи+++
 			countdownEnflamedCorruption:Start(55.6-delay) --Возгорание порчи+++
 			specWarnEnflamed2:Schedule(45.6) --Возгорание порчи

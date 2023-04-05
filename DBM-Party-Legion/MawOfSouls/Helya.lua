@@ -25,6 +25,7 @@ local warnPhase							= mod:NewPhaseChangeAnnounce(1)
 local warnPhase2						= mod:NewPrePhaseAnnounce(2, 1, 196947)
 local warnTaintofSea					= mod:NewTargetAnnounce(197262, 3) --Морская порча
 local warnSubmerged2					= mod:NewPreWarnAnnounce(196947, 5, 1) --Погружение
+local warnTorrent						= mod:NewCastAnnounce(198495, 4) --Стремительный поток
 
 local specWarnTaintofSea				= mod:NewSpecialWarningYou(197262, nil, nil, nil, 1, 6) --Морская порча
 local specWarnTaintofSea3				= mod:NewSpecialWarningYouDispel(197262, "MagicDispeller2", nil, nil, 1, 6) --Морская порча
@@ -32,10 +33,11 @@ local specWarnTaintofSea2				= mod:NewSpecialWarningDispel(197262, "MagicDispell
 local specWarnDestructorTentacle		= mod:NewSpecialWarningSwitch("ej12364", "Tank|Dps") --Щупальце разрушения
 local specWarnBrackwaterBarrage			= mod:NewSpecialWarningDodge(202088, nil, nil, nil, 3, 6) --Обстрел солоноватой водой Tank stays with destructor tentacle no matter what
 local specWarnSubmerged					= mod:NewSpecialWarningDodge(196947, nil, nil, nil, 1, 2) --Погружение
+local specWarnSubmerged2				= mod:NewSpecialWarningSoon(196947, nil, nil, nil, 1, 2) --Погружение
 local specWarnSubmergedOver				= mod:NewSpecialWarningEnd(196947, nil, nil, nil, 1, 2) --Погружение
 local specWarnTaintofSeaOver			= mod:NewSpecialWarningEnd(197262, nil, nil, nil, 1, 2) --Морская порча
 local specWarnBreath					= mod:NewSpecialWarningDodge(227233, nil, nil, nil, 3, 6) --Оскверняющий рев
-local specWarnTorrent					= mod:NewSpecialWarningInterrupt(198495, "HasInterrupt", nil, nil, 1, 2) --Стремительный поток
+local specWarnTorrent					= mod:NewSpecialWarningInterrupt(198495, "HasInterrupt", nil, nil, 1, 3) --Стремительный поток
 
 local timerBrackwaterBarrageCD			= mod:NewCDTimer(15, 202088, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Обстрел солоноватой водой
 local timerTaintofSeaCD					= mod:NewCDTimer(12, 197262, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON) --Морская порча
@@ -57,6 +59,7 @@ mod:AddSetIconOption("SetIconOnTaintofSea", 197262, true, false, {8, 7}) --Мо�
 
 mod.vb.phase = 1
 mod.vb.submerged = 0
+mod.vb.breathCount = 0
 mod.vb.taintofseaIcon = 8
 
 local warned_preP1 = false
@@ -67,6 +70,7 @@ local taintofSea = DBM:GetSpellInfo(197262) --Морская порча
 function mod:OnCombatStart(delay)
 	self.vb.phase = 1
 	self.vb.submerged = 0
+	self.vb.breathCount = 0
 	self.vb.taintofseaIcon = 8
 	warned_preP1 = false
 	warned_preP2 = false
@@ -81,12 +85,15 @@ end
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 227233 then --Оскверняющий рев
+		self.vb.breathCount = self.vb.breathCount + 1
 		if not UnitIsDeadOrGhost("player") then
 			specWarnBreath:Show()
 			specWarnBreath:Play("breathsoon")
 		end
-		timerBreathCD:Start()
-		countdownBreath:Start()
+		if self.vb.breathCount < 3 then
+			timerBreathCD:Start()
+			countdownBreath:Start()
+		end
 	elseif spellId == 202088 then --Обстрел солоноватой водой
 		if not UnitIsDeadOrGhost("player") then
 			specWarnBrackwaterBarrage:Show()
@@ -100,6 +107,9 @@ function mod:SPELL_CAST_START(args)
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnTorrent:Show()
 			specWarnTorrent:Play("kickcast")
+		else
+			warnTorrent:Show()
+			warnTorrent:Play("kickcast")
 		end
 		timerTorrentCD:Start()
 	end
@@ -172,10 +182,11 @@ function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
 	if spellId == 196947 then --Погружение
 		self.vb.submerged = self.vb.submerged + 1
-	--	timerTorrentCD:Start(11) --было 5
+		self.vb.breathCount = 0
+		specWarnSubmerged2:Schedule(64.5)
+		warnSubmerged2:Schedule(69.5)
 		timerSubmerged2:Start()
 		countdownSubmerged:Start()
-		warnSubmerged2:Schedule(69.5)
 		specWarnSubmergedOver:Show()
 		timerBreathCD:Start(19)
 		countdownBreath:Start(19)
