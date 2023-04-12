@@ -22,6 +22,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_PERIODIC_DAMAGE 245634 253020",
 	"SPELL_PERIODIC_MISSED 245634 253020",
 	"UNIT_DIED",
+	"UNIT_HEALTH boss1 boss2 boss3 boss4 boss5",
 	"UNIT_TARGETABLE_CHANGED",
 	"UNIT_SPELLCAST_SUCCEEDED boss1 boss2 boss3 boss4 boss5"
 )
@@ -137,6 +138,7 @@ mod:AddDropdownOption("InterruptBehavior", {"Three", "Four", "Five"}, "Three", "
 mod:AddDropdownOption("TauntBehavior", {"TwoMythicThreeNon", "TwoAlways", "ThreeAlways"}, "TwoMythicThreeNon", "misc")
 
 local titanCount = {}
+mod.vb.proshlyapCount = 0
 mod.vb.shivarrsCount = 0
 mod.vb.stormCount = 0
 mod.vb.chilledCount = 0
@@ -150,31 +152,60 @@ mod.vb.ignoreFirstInterrupt = false
 mod.vb.firstCastHappend = false
 local CVAR1, CVAR2 = nil, nil
 
-local function ProshlyapMurchalya1(self) --прошляпанное очко Мурчаля Прошляпенко ✔
+local function ProshlyapMurchalya1(self)
+	self.vb.proshlyapCount = self.vb.proshlyapCount + 1
 	if self.Options.ShowProshlyapMurchal then
 		SendChatMessage(L.ProshlyapMurchal1, "RAID_WARNING")
+	end
+	if self.vb.proshlyapCount < 9 then
+		self:Schedule(1, ProshlyapMurchalya1, self)
+	elseif self.vb.proshlyapCount == 9 then
+		self.vb.proshlyapCount = 0
+		self:Unschedule(ProshlyapMurchalya1)
 	end
 end
 
 local function ProshlyapMurchalya2(self)
+	self.vb.proshlyapCount = self.vb.proshlyapCount + 1
 	if self.Options.ShowProshlyapMurchal then
 		SendChatMessage(L.ProshlyapMurchal2, "RAID_WARNING")
+	end
+	if self.vb.proshlyapCount < 9 then
+		self:Schedule(1, ProshlyapMurchalya2, self)
+	elseif self.vb.proshlyapCount == 9 then
+		self.vb.proshlyapCount = 0
+		self:Unschedule(ProshlyapMurchalya2)
 	end
 end
 
 local function ProshlyapMurchalya3(self)
+	self.vb.proshlyapCount = self.vb.proshlyapCount + 1
 	if self.Options.ShowProshlyapMurchal then
 		SendChatMessage(L.ProshlyapMurchal3, "RAID_WARNING")
+	end
+	if self.vb.proshlyapCount < 9 then
+		self:Schedule(1, ProshlyapMurchalya3, self)
+	elseif self.vb.proshlyapCount == 9 then
+		self.vb.proshlyapCount = 0
+		self:Unschedule(ProshlyapMurchalya3)
 	end
 end
 
 local function ProshlyapMurchalya4(self)
+	self.vb.proshlyapCount = self.vb.proshlyapCount + 1
 	if self.Options.ShowProshlyapMurchal then
 		SendChatMessage(L.ProshlyapMurchal4, "RAID_WARNING")
+	end
+	if self.vb.proshlyapCount < 9 then
+		self:Schedule(1, ProshlyapMurchalya4, self)
+	elseif self.vb.proshlyapCount == 9 then
+		self.vb.proshlyapCount = 0
+		self:Unschedule(ProshlyapMurchalya4)
 	end
 end
 
 function mod:OnCombatStart(delay)
+	self.vb.proshlyapCount = 0
 	self.vb.shivarrsCount = 0
 	self.vb.stormCount = 0
 	self.vb.chilledCount = 0
@@ -327,14 +358,6 @@ function mod:SPELL_CAST_SUCCESS(args)
 			end
 			if DBM:GetRaidRank() > 0 then
 				self:Schedule(81, ProshlyapMurchalya1, self)
-				self:Schedule(82, ProshlyapMurchalya1, self)
-				self:Schedule(83, ProshlyapMurchalya1, self)
-				self:Schedule(84, ProshlyapMurchalya1, self)
-				self:Schedule(85, ProshlyapMurchalya1, self)
-				self:Schedule(86, ProshlyapMurchalya1, self)
-				self:Schedule(87, ProshlyapMurchalya1, self)
-				self:Schedule(88, ProshlyapMurchalya1, self)
-				self:Schedule(89, ProshlyapMurchalya1, self)
 			end
 		elseif spellId == 250333 then --Пламя Казгарота
 			timerFlamesofKhazgorothCD:Start()
@@ -347,14 +370,6 @@ function mod:SPELL_CAST_SUCCESS(args)
 			end
 			if DBM:GetRaidRank() > 0 then
 				self:Schedule(81, ProshlyapMurchalya2, self)
-				self:Schedule(82, ProshlyapMurchalya2, self)
-				self:Schedule(83, ProshlyapMurchalya2, self)
-				self:Schedule(84, ProshlyapMurchalya2, self)
-				self:Schedule(85, ProshlyapMurchalya2, self)
-				self:Schedule(86, ProshlyapMurchalya2, self)
-				self:Schedule(87, ProshlyapMurchalya2, self)
-				self:Schedule(88, ProshlyapMurchalya2, self)
-				self:Schedule(89, ProshlyapMurchalya2, self)
 			end
 		elseif spellId == 249793 then --Ярость Голганнета
 			timerFuryofGolgannethCD:Start()
@@ -367,14 +382,6 @@ function mod:SPELL_CAST_SUCCESS(args)
 			end
 			if DBM:GetRaidRank() > 0 then
 				self:Schedule(81, ProshlyapMurchalya3, self)
-				self:Schedule(82, ProshlyapMurchalya3, self)
-				self:Schedule(83, ProshlyapMurchalya3, self)
-				self:Schedule(84, ProshlyapMurchalya3, self)
-				self:Schedule(85, ProshlyapMurchalya3, self)
-				self:Schedule(86, ProshlyapMurchalya3, self)
-				self:Schedule(87, ProshlyapMurchalya3, self)
-				self:Schedule(88, ProshlyapMurchalya3, self)
-				self:Schedule(89, ProshlyapMurchalya3, self)
 			end
 		elseif spellId == 250334 then --Призрачная армия Норганнона
 			timerSpectralArmyofNorgannonCD:Start()
@@ -387,14 +394,6 @@ function mod:SPELL_CAST_SUCCESS(args)
 			end
 			if DBM:GetRaidRank() > 0 then
 				self:Schedule(81, ProshlyapMurchalya4, self)
-				self:Schedule(82, ProshlyapMurchalya4, self)
-				self:Schedule(83, ProshlyapMurchalya4, self)
-				self:Schedule(84, ProshlyapMurchalya4, self)
-				self:Schedule(85, ProshlyapMurchalya4, self)
-				self:Schedule(86, ProshlyapMurchalya4, self)
-				self:Schedule(87, ProshlyapMurchalya4, self)
-				self:Schedule(88, ProshlyapMurchalya4, self)
-				self:Schedule(89, ProshlyapMurchalya4, self)
 			end
 		end
 		if self:IsMythic() then
@@ -744,5 +743,14 @@ function mod:OnSync(msg, firstInterrupt)
 	end	
 	if firstInterrupt then
 		self.vb.ignoreFirstInterrupt = firstInterrupt == "true" and true or false
+	end
+end
+
+function mod:UNIT_HEALTH(uId)
+	if self:GetUnitCreatureId(uId) == 122468 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.05 then --Нура
+		self:Unschedule(ProshlyapMurchalya1) --Амантул
+	--	self:Unschedule(ProshlyapMurchalya2) --Казгарот
+	--	self:Unschedule(ProshlyapMurchalya3) --Голганнет
+	--	self:Unschedule(ProshlyapMurchalya4) --Норганнон
 	end
 end

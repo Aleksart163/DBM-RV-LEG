@@ -136,11 +136,9 @@ function mod:SPELL_AURA_APPLIED(args)
 			if args:IsPlayer() and not self:IsPoisonDispeller() then
 				specWarnPoisonSpear2:Show()
 				specWarnPoisonSpear2:Play("defensive")
-				yellPoisonSpear:Yell()
 			elseif args:IsPlayer() and self:IsPoisonDispeller() then
 				specWarnPoisonSpear3:Show()
 				specWarnPoisonSpear3:Play("dispelnow")
-				yellPoisonSpear:Yell()
 			end
 		elseif self:IsMythic() then
 			if args:IsPlayer() and not self:IsPoisonDispeller() then

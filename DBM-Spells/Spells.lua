@@ -101,31 +101,31 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 212040 or spellId == 212056 or spellId == 212036 or spellId == 212048 or spellId == 212051 then
 		if self.Options.YellOnMassRes then
-			if spellId == 212040 and self:AntiSpam(7, 12) then --Возвращение к жизни (друид)
+			if spellId == 212040 and self:AntiSpam(10, 12) then --Возвращение к жизни (друид)
 				if IsInRaid() and DBM:GetRaidRank() > 0 then
 					SendChatMessage(L.HeroismYell:format(DbmRV, args.sourceName, massres1), "RAID_WARNING")
 				else
 					warnMassres1:Show(args.sourceName)
 				end
-			elseif spellId == 212056 and self:AntiSpam(7, 12) then --Отпущение (пал)
+			elseif spellId == 212056 and self:AntiSpam(10, 12) then --Отпущение (пал)
 				if IsInRaid() and DBM:GetRaidRank() > 0 then
 					SendChatMessage(L.HeroismYell:format(DbmRV, args.sourceName, massres2), "RAID_WARNING")
 				else
 					warnMassres2:Show(args.sourceName)
 				end
-			elseif spellId == 212036 and self:AntiSpam(7, 12) then --Массовое воскрешение (прист)
+			elseif spellId == 212036 and self:AntiSpam(10, 12) then --Массовое воскрешение (прист)
 				if IsInRaid() and DBM:GetRaidRank() > 0 then
 					SendChatMessage(L.HeroismYell:format(DbmRV, args.sourceName, massres3), "RAID_WARNING")
 				else
 					warnMassres3:Show(args.sourceName)
 				end
-			elseif spellId == 212048 and self:AntiSpam(7, 12) then --Древнее видение (шаман)
+			elseif spellId == 212048 and self:AntiSpam(10, 12) then --Древнее видение (шаман)
 				if IsInRaid() and DBM:GetRaidRank() > 0 then
 					SendChatMessage(L.HeroismYell:format(DbmRV, args.sourceName, massres4), "RAID_WARNING")
 				else
 					warnMassres4:Show(args.sourceName)
 				end
-			elseif spellId == 212051 and self:AntiSpam(7, 12) then --Повторное пробуждение (монк)
+			elseif spellId == 212051 and self:AntiSpam(10, 12) then --Повторное пробуждение (монк)
 				if IsInRaid() and DBM:GetRaidRank() > 0 then
 					SendChatMessage(L.HeroismYell:format(DbmRV, args.sourceName, massres5), "RAID_WARNING")
 				else
@@ -419,7 +419,7 @@ function mod:SPELL_CREATE(args)
 				SendChatMessage(L.SummoningYell:format(DbmRV, args.sourceName, summoning), "PARTY")
 			end
 		end
-	elseif spellId == 188036 and self:AntiSpam(5, 5) then --Котел духов
+	elseif spellId == 188036 and self:AntiSpam(10, 5) then --Котел духов
 		if self.Options.YellOnSpiritCauldron then
 			if IsInRaid() and DBM:GetRaidRank() > 0 then
 				SendChatMessage(L.SoulwellYell:format(DbmRV, args.sourceName, cauldron), "RAID_WARNING")
@@ -431,7 +431,7 @@ function mod:SPELL_CREATE(args)
 				SendChatMessage(L.SoulwellYell:format(DbmRV, args.sourceName, cauldron), "PARTY")
 			end
 		end
-	elseif spellId == 201352 and self:AntiSpam(7, 6) then --Щедрое сурамарское угощение
+	elseif spellId == 201352 and self:AntiSpam(10, 6) then --Щедрое сурамарское угощение
 		if self.Options.YellOnLavish then
 			if IsInRaid() and DBM:GetRaidRank() > 0 then
 				SendChatMessage(L.SoulwellYell:format(DbmRV, args.sourceName, lavishSuramar), "RAID_WARNING")
@@ -443,7 +443,7 @@ function mod:SPELL_CREATE(args)
 				SendChatMessage(L.SoulwellYell:format(DbmRV, args.sourceName, lavishSuramar), "PARTY")
 			end
 		end
-	elseif spellId == 201351 and self:AntiSpam(7, 7) then --Обильное угощение
+	elseif spellId == 201351 and self:AntiSpam(10, 7) then --Обильное угощение
 		warnHearty:Show(args.sourceName)
 		if self.Options.YellOnLavish then
 			if IsInRaid() then
@@ -452,7 +452,7 @@ function mod:SPELL_CREATE(args)
 				SendChatMessage(L.SoulwellYell:format(DbmRV, args.sourceName, hearty), "PARTY")
 			end
 		end
-	elseif spellId == 185709 and self:AntiSpam(7, 9) then --Угощение из засахаренной рыбы
+	elseif spellId == 185709 and self:AntiSpam(10, 9) then --Угощение из засахаренной рыбы
 		warnSugar:Show(args.sourceName)
 		if self.Options.YellOnLavish then
 			if IsInRaid() then
@@ -461,7 +461,7 @@ function mod:SPELL_CREATE(args)
 				SendChatMessage(L.SoulwellYell:format(DbmRV, args.sourceName, sugar), "PARTY")
 			end
 		end
-	elseif spellId == 61031 and self:AntiSpam(5, 10) then --Игрушечная железная дорога
+	elseif spellId == 61031 and self:AntiSpam(10, 10) then --Игрушечная железная дорога
 		if self.Options.YellOnToys then
 			if IsInRaid() then
 				SendChatMessage(L.SoulwellYell:format(DbmRV, args.sourceName, toyTrain), "RAID")
@@ -476,13 +476,13 @@ function mod:SPELL_SUMMON(args)
 	local spellId = args.spellId
 	if spellId == 67826 or spellId == 199109 then --Починка
 		if self.Options.YellOnRepair then
-			if spellId == 67826 and self:AntiSpam(7, 3) then --Дживс 
+			if spellId == 67826 and self:AntiSpam(10, 3) then --Дживс 
 				if IsInRaid() and DBM:GetRaidRank() > 0 then
 					SendChatMessage(L.SoulwellYell:format(DbmRV, args.sourceName, jeeves), "RAID_WARNING")
 				else
 					warnJeeves:Show(args.sourceName)
 				end
-			elseif spellId == 199109 and self:AntiSpam(7, 3) then --Автоматический молот
+			elseif spellId == 199109 and self:AntiSpam(10, 3) then --Автоматический молот
 				if IsInRaid() and DBM:GetRaidRank() > 0 then
 					SendChatMessage(L.SoulwellYell:format(DbmRV, args.sourceName, autoHammer), "RAID_WARNING")
 				else
@@ -490,7 +490,7 @@ function mod:SPELL_SUMMON(args)
 				end
 			end
 		end
-	elseif spellId == 199115 and self:AntiSpam(7, 4) then --Пилон для обнаружения проблем
+	elseif spellId == 199115 and self:AntiSpam(10, 4) then --Пилон для обнаружения проблем
 		if self.Options.YellOnPylon then
 			if IsInRaid() and DBM:GetRaidRank() > 0 then
 				SendChatMessage(L.SoulwellYell:format(DbmRV, args.sourceName, pylon), "RAID_WARNING")

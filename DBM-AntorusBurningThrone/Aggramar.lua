@@ -19,8 +19,8 @@ mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED_DOSE 245990 244912",
 	"SPELL_AURA_REMOVED 244894 244903 247091 254452 247079",
 	"UNIT_DIED",
-	"UNIT_SPELLCAST_SUCCEEDED boss1",
-	"UNIT_HEALTH boss1"
+	"UNIT_HEALTH boss1",
+	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
 
 --Прошляпанное очко мурчаля
@@ -85,11 +85,16 @@ local countdownRavenousBlaze			= mod:NewCountdown("AltTwo22", 254452, "Ranged", 
 
 mod:AddSetIconOption("SetIconOnBlaze", 254452, true, false, {8, 7, 6, 5, 4}) --Хищное пламя
 --mod:AddSetIconOption("SetIconOnAdds", 244903, false, true) --Катализирующее присутствие Both off by default, both conflit with one another
+mod:AddBoolOption("ShowProshlyapMurchal1", true)
+mod:AddBoolOption("ShowProshlyapMurchal2", true)
 mod:AddInfoFrameOption(244688, true) --Искусный прием
 mod:AddRangeFrameOption("6", nil, "Ranged")
 mod:AddNamePlateOption("NPAuraOnPresence", 244903) --Катализирующее присутствие
 mod:AddBoolOption("ignoreThreeTank", true)
 
+mod.vb.embers = 0
+mod.vb.proshlyap1Count = 0
+mod.vb.proshlyap2Count = 0
 mod.vb.phase = 1
 mod.vb.techCount = 0
 mod.vb.foeCount = 0
@@ -110,7 +115,38 @@ local comboDebug = {}
 local comboDebugCounter = 0
 local unitTracked = {}
 
-function mod:FoeBreakerTarget(targetname, uId) --прошляпанное очко Мурчаля Прошляпенко ✔
+local function ProshlyapMurchalya1(self) --прошляпанное очко Мурчаля Прошляпенко [✔]
+	self.vb.proshlyap1Count = self.vb.proshlyap1Count + 1
+	if self.Options.ShowProshlyapMurchal1 then
+		SendChatMessage(L.ProshlyapMurchal1, "RAID_WARNING")
+	end
+	if self.vb.proshlyap1Count < 5 then
+		self:Schedule(1, ProshlyapMurchalya1, self)
+	elseif self.vb.proshlyap1Count == 5 then
+		self.vb.proshlyap1Count = 0
+		self:Unschedule(ProshlyapMurchalya1)
+	end
+end
+
+local function ProshlyapMurchalya2(self)
+	self.vb.proshlyap2Count = self.vb.proshlyap2Count + 1
+	if self.Options.ShowProshlyapMurchal2 then
+		SendChatMessage(L.ProshlyapMurchal2, "RAID_WARNING")
+	end
+	if self.vb.proshlyap2Count < 3 then
+		self:Schedule(1, ProshlyapMurchalya2, self)
+	elseif self.vb.proshlyap2Count == 3 then
+		if self.vb.embers >= 2 then
+			self.vb.proshlyap2Count = 0
+			self:Schedule(30, ProshlyapMurchalya2, self)
+		elseif self.vb.embers == 1 then
+			self.vb.proshlyap2Count = 0
+			self:Unschedule(ProshlyapMurchalya2)
+		end
+	end
+end
+
+function mod:FoeBreakerTarget(targetname, uId)
 	if not targetname then return end
 	if targetname == UnitName("player") then
 		specWarnFoeBreakerDefensive:Show()
@@ -300,6 +336,8 @@ function mod:WakeTarget(targetname, uId)
 end
 
 function mod:OnCombatStart(delay)
+	self.vb.proshlyap1Count = 0
+	self.vb.proshlyap2Count = 0
 	self.vb.phase = 1
 	self.vb.techCount = 0
 	self.vb.foeCount = 0
@@ -314,6 +352,7 @@ function mod:OnCombatStart(delay)
 	self.vb.techActive = false
 	table.wipe(unitTracked)
 	if self:IsMythic() then
+		self.vb.embers = 0
 		comboUsed[1] = false
 		comboUsed[2] = false
 		comboUsed[3] = false
@@ -321,6 +360,9 @@ function mod:OnCombatStart(delay)
 		timerRavenousBlazeCD:Start(4-delay) --Хищное пламя+++
 		countdownRavenousBlaze:Start(4-delay) --Хищное пламя+++
 		timerWakeofFlameCD:Start(11-delay) --Огненная волна+++
+		if DBM:GetRaidRank() > 0 then
+			self:Schedule(10, ProshlyapMurchalya1, self)
+		end
 		timerTaeshalachTechCD:Start(15-delay, 1) --Искусный прием+++
 		countdownTaeshalachTech:Start(15-delay) --Искусный прием+++
 		berserkTimer:Start(540-delay)
@@ -329,12 +371,18 @@ function mod:OnCombatStart(delay)
 	elseif self:IsHeroic() then
 		timerScorchingBlazeCD:Start(5.5-delay) --Обжигающее пламя+++
 		timerWakeofFlameCD:Start(5.8-delay) --Огненная волна+++
+		if DBM:GetRaidRank() > 0 then
+			self:Schedule(31, ProshlyapMurchalya1, self)
+		end
 		timerTaeshalachTechCD:Start(36-delay, 1) --Искусный прием+++
 		countdownTaeshalachTech:Start(36-delay) --Искусный прием+++
 		berserkTimer:Start(-delay)
 	else
 		timerScorchingBlazeCD:Start(5.5-delay) --Обжигающее пламя+++
 		timerWakeofFlameCD:Start(5.8-delay) --Огненная волна+++
+		if DBM:GetRaidRank() > 0 then
+			self:Schedule(31, ProshlyapMurchalya1, self)
+		end
 		timerTaeshalachTechCD:Start(36-delay, 1) --Искусный прием+++
 		countdownTaeshalachTech:Start(36-delay) --Искусный прием+++
 		berserkTimer:Start(-delay)
@@ -448,7 +496,7 @@ function mod:SPELL_CAST_START(args)
 		if self.Options.InfoFrame then
 			DBM.InfoFrame:Update()
 		end
-	elseif spellId == 245463 or spellId == 255058 and not UnitIsDeadOrGhost("player") then
+	elseif spellId == 245463 or spellId == 255058 then --Разрывающее пламя
 		self.vb.comboCount = self.vb.comboCount + 1
 		if self:IsMythic() then
 			if not self.vb.firstCombo then
@@ -579,7 +627,11 @@ function mod:SPELL_AURA_APPLIED(args)
 			comboDebugCounter = comboDebugCounter + 1
 			comboDebug[comboDebugCounter] = "Phase changed aborted a combo before it finished"
 		end
-	--	warnPhase:Play("phasechange")
+		if self:IsMythic() then
+			self.vb.embers = 10
+		else
+			self.vb.embers = 6
+		end
 		self.vb.wakeOfFlameCount = 0
 		self.vb.techActive = false
 		timerScorchingBlazeCD:Stop()
@@ -589,14 +641,15 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerFlareCD:Stop()
 		countdownFlare:Cancel()
 	--	countdownWakeofFlame:Cancel()
-		timerTaeshalachTechCD:Stop()
-		countdownTaeshalachTech:Cancel()
 		timerFoeBreakerCD:Stop()
 		timerFlameRendCD:Stop()
 		timerTempestCD:Stop()
-	--[[	if self.Options.SetIconOnAdds then
-			self:ScheduleMethod(2, "ScanForMobs", 122532, 1, 1, 5, 0.1, 12, "SetIconOnAdds", nil, nil, true)
-		end]]
+		self:Unschedule(ProshlyapMurchalya1)
+		timerTaeshalachTechCD:Stop()
+		countdownTaeshalachTech:Cancel()
+		if DBM:GetRaidRank() > 0 then
+			self:Schedule(3, ProshlyapMurchalya2, self)
+		end
 		if self.Options.RangeFrame and not self:IsTank() then
 			DBM.RangeCheck:Hide()
 		end
@@ -635,7 +688,9 @@ function mod:SPELL_AURA_REMOVED(args)
 		self.vb.secondCombo = nil
 		self.vb.foeCount = 0
 		self.vb.rendCount = 0
-		--timerScorchingBlazeCD:Start(3)--Unknown
+		if DBM:GetRaidRank() > 0 then
+			self:Schedule(31, ProshlyapMurchalya1, self)
+		end
 		if self:IsHeroic() then
 			timerTaeshalachTechCD:Start(36, self.vb.techCount+1)
 			countdownTaeshalachTech:Start(36)
@@ -691,8 +746,12 @@ end
 
 function mod:UNIT_DIED(args)
 	local cid = self:GetCIDFromGUID(args.destGUID)
-	if cid == 122532 then
+	if cid == 122532 then --Уголек Тайшалака
+		self.vb.embers = self.vb.embers - 1
 		DBM.Nameplate:Hide(true, args.destGUID)
+		if self.vb.embers == 1 then
+			self:Unschedule(ProshlyapMurchalya2)
+		end
 	end
 end
 
@@ -749,6 +808,9 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 				timerFlameRendCD:Start(3.8, 1)
 				timerTempestCD:Start(15)
 			end
+		end
+		if DBM:GetRaidRank() > 0 then
+			self:Schedule(53, ProshlyapMurchalya1, self)
 		end
 		warnTaeshalachTech:Show(self.vb.techCount)
 		timerTaeshalachTechCD:Start(nil, self.vb.techCount+1)

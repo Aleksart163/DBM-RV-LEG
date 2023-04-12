@@ -31,7 +31,7 @@ local warnFixate2						= mod:NewCastAnnounce(244653, 4) --Сосредоточе
 local specWarnNullPalm					= mod:NewSpecialWarningDodge(246134, nil, nil, nil, 2, 3) --Длань обнуления
 local specWarnCoalescedVoid				= mod:NewSpecialWarningSwitch(244602, "Dps", nil, nil, 1, 2) --Сгустившаяся Бездна
 local specWarnUmbraShift				= mod:NewSpecialWarning("UmbraShift", nil, nil, nil, 1, 2) --Теневой рывок
-local specWarnFixate					= mod:NewSpecialWarningYouRun(244657, nil, nil, nil, 4, 5) --Сосредоточение внимания
+local specWarnFixate					= mod:NewSpecialWarningYouRun(244657, nil, nil, nil, 4, 6) --Сосредоточение внимания
 --local specWarnFixate2					= mod:NewSpecialWarningDodge(244653, nil, nil, nil, 2, 2) --Сосредоточение внимания
 local specWarnVoidTear					= mod:NewSpecialWarningMoreDamage(244621, "-Healer", nil, nil, 3, 2) --Прорыв Бездны
 local specWarnVoidTear2					= mod:NewSpecialWarningEnd(244621, nil, nil, nil, 1, 2) --Прорыв Бездны
@@ -48,6 +48,7 @@ local yellFixate						= mod:NewYell(244653, nil, nil, nil, "YELL") --Сосре�
 local yellFixate2						= mod:NewFadesYell(244653, nil, nil, nil, "YELL") --Сосредоточение внимания
 
 local countdownUmbraShift				= mod:NewCountdown(60, 244061, nil, nil, 5) --Мир Бездны
+local countdownVoidTear					= mod:NewCountdownFades(20, 244621, nil, nil, 5) --Прорыв Бездны
 
 mod:AddSetIconOption("SetIconOnFixate", 244653, true, false, {7}) --Сосредоточение внимания
 
@@ -121,11 +122,12 @@ function mod:SPELL_AURA_APPLIED(args)
 		if not UnitIsDeadOrGhost("player") then
 			specWarnVoidTear:Show(args.destName)
 		end
-		timerVoidTear:Start()
 		timerNullPalmCD:Stop()
 		timerDeciminateCD:Stop()
 		timerCoalescedVoidCD:Stop()
 		timerUmbraShiftCD:Stop()
+		timerVoidTear:Start() --Прорыв Бездны
+		countdownVoidTear:Start() --Прорыв Бездны
 		timerNullPalmCD:Start(31) --Длань обнуления
 		timerDeciminateCD:Start(38) --Истребление
 		timerCoalescedVoidCD:Start(40) --Сгустившаяся Бездна
@@ -149,6 +151,8 @@ function mod:SPELL_AURA_REMOVED(args)
 		end
 	elseif spellId == 244621 then --Прорыв Бездны
 		specWarnVoidTear2:Show()
+		timerVoidTear:Stop()
+		countdownVoidTear:Cancel()
 	end
 end
 
@@ -189,5 +193,6 @@ end
 function mod:OnSync(msg)
 	if msg == "Phase2" then --Прорыв Бездны
 		specWarnVoidTear3:Show()
+		specWarnVoidTear3:Play("specialsoon")
 	end
 end

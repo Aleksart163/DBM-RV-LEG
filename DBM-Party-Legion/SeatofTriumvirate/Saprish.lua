@@ -14,6 +14,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_SUCCESS 247245 247175",
 	"SPELL_AURA_APPLIED 247245",
 	"SPELL_AURA_REMOVED 247245",
+	"SPELL_INTERRUPT",
 	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
 
@@ -36,7 +37,7 @@ local timerScreechCD					= mod:NewCDTimer(15.8, 248831, nil, nil, nil, 4, nil, D
 
 local yellUmbralFlanking				= mod:NewYell(247245, nil, nil, nil, "YELL") --Призрачный удар
 
---local countdownBreath					= mod:NewCountdown(22, 227233)
+local countdownDreadScreech				= mod:NewCountdownFades(3, 248831, nil, nil, 3) --Ужасный визг
 
 mod:AddSetIconOption("SetIconOnUmbralFlanking", 247245, true, false, {8, 7, 6}) --Призрачный удар
 
@@ -60,7 +61,7 @@ end
 
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
-	if spellId == 245802 then
+	if spellId == 245802 then --Опустошающая тьма
 		if not UnitIsDeadOrGhost("player") then
 			specWarnRavagingDarkness:Show()
 			specWarnRavagingDarkness:Play("watchstep")
@@ -71,27 +72,29 @@ function mod:SPELL_CAST_START(args)
 			specWarnDreadScreech:Show()
 			specWarnDreadScreech:Play("kickcast")
 		else
-			specWarnDreadScreech:Show()
-			specWarnDreadScreech:Play("kickcast")
+			if not UnitIsDeadOrGhost("player") then
+				specWarnDreadScreech:Show()
+				specWarnDreadScreech:Play("kickcast")
+			end
 		end
-		timerScreechCD:Start() 
+		timerScreechCD:Start()
+		countdownDreadScreech:Start()
 	end
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
-	if spellId == 247245 then
+	if spellId == 247245 then --Призрачный удар
 		timerUmbralFlankingCD:Start()
 	elseif spellId == 247175 then --Ловушка Бездны
 		warnVoidTrap:Show()
-		warnVoidTrap:Play("watchstep")
 		timerVoidTrapCD:Start()
 	end
 end
 
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
-	if spellId == 247245 then
+	if spellId == 247245 then --Призрачный удар
 		warnUmbralFlanking:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
 			specWarnUmbralFlanking:Show()
@@ -102,9 +105,6 @@ function mod:SPELL_AURA_APPLIED(args)
 			self:SetIcon(args.destName, self.vb.umbralflankingIcon)
 		end
 		self.vb.umbralflankingIcon = self.vb.umbralflankingIcon - 1
---	elseif spellId == 247145 then
---		specWarnHuntersRush:Show()
---		specWarnHuntersRush:Play("defensive")
 	end
 end
 
@@ -118,24 +118,9 @@ function mod:SPELL_AURA_REMOVED(args)
 		end
 	end
 end
---[[
-function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)
-	if msg:find("inv_misc_monsterhorn_03") then
 
+function mod:SPELL_INTERRUPT(args)
+	if type(args.extraSpellId) == "number" and args.extraSpellId == 248831 then
+		countdownDreadScreech:Cancel()
 	end
 end
---]]
-
---[[function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
-	local spellId = legacySpellId or bfaSpellId
-	if spellId == 247175 then--Void Trap
-		warnVoidTrap:Show()
-		warnVoidTrap:Play("watchstep")
-	--	timerVoidTrapCD:Start()
-	elseif spellId == 247206 then--Overload Trap
-		specWarnOverloadTrap:Show()
-		specWarnOverloadTrap:Play("watchstep")
-		timerOverloadTrapCD:Start()
-	end
-end
-]]

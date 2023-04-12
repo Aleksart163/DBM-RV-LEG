@@ -46,6 +46,7 @@ local specWarnSwing						= mod:NewSpecialWarningDodge(250701, nil, nil, nil, 1, 
 local specWarnArtilleryStrike			= mod:NewSpecialWarningInterrupt(246305, "HasInterrupt", nil, nil, 3, 5) --Артиллерийский удар
 --Mythic
 local specWarnFinalDoom					= mod:NewSpecialWarningParaxisCount(249121, nil, nil, nil, 1, 2) --Всеобщая погибель
+local specWarnFinalDoom2				= mod:NewSpecialWarningSoonParaxisCount(249121, nil, nil, nil, 1, 2) --Всеобщая погибель
 local specWarnArcaneBuildup				= mod:NewSpecialWarningYouMoveAway(250171, nil, nil, nil, 4, 2) --Волшебный вихрь
 local specWarnBurningEmbers				= mod:NewSpecialWarningYouMoveAway(250691, nil, nil, nil, 4, 2) --Раскаленные угли
 local specWarnFoulSteps					= mod:NewSpecialWarningStack(250140, nil, 12, nil, nil, 1, 6) --Гнусные приемы Fine tune
@@ -257,7 +258,7 @@ local function burningembersOnPlayer(self) --Раскаленные угли
 	timerBurningEmbers2:Start()
 	countdownBurningEmbers:Start()
 	yellBurningEmbersFades:Countdown(3)
-	if self:IsHard() then
+	if self:IsMythic() then
 		self:Schedule(30, burningembersOnPlayer, self)
 		timerBurningEmbers:Start(30)
 	end
@@ -269,7 +270,7 @@ local function arcanesingularityOnPlayer(self) --Магическая сингу
 	timerArcaneSingularity2:Start()
 	countdownArcaneSingularity:Start()
 	yellArcaneBuildupFades:Countdown(3)
-	if self:IsHard() then
+	if self:IsMythic() then
 		self:Schedule(25, arcanesingularityOnPlayer, self)
 		timerArcaneSingularity:Start(25)
 	end
@@ -305,8 +306,7 @@ function mod:OnCombatStart(delay)
 	if not self:IsLFR() then
 		self.vb.lifeRequired = 4
 		if self:IsMythic() then
-		--	timerRainofFelCD:Start(14-delay, 1) --Дождь Скверны
-		--	timerSpearofDoomCD:Start(34-delay, 1) --Копье Рока
+			specWarnFinalDoom2:Schedule(43.8-delay, self.vb.finalDoomCast+1)
 			timerDestructorCD:Start(17, DBM_CORE_MIDDLE) --Разрушитель
 			self:Schedule(30, checkForDeadDestructor, self, 5)
 			timerObfuscatorCD:Start(43, DBM_CORE_BOTTOM) --маскировщик, подправил
@@ -359,7 +359,7 @@ end
 
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
-	if spellId == 249121 then
+	if spellId == 249121 then --Всеобщая погибель
 		self.vb.finalDoomCast = self.vb.finalDoomCast + 1
 		local icon = self.vb.finalDoomCast
 		specWarnFinalDoom:Show(self.vb.finalDoomCast)
@@ -368,6 +368,7 @@ function mod:SPELL_CAST_START(args)
 		countdownFinalDoom2:Start()
 		local timer = finalDoomTimers[self.vb.finalDoomCast+1]
 		if timer then
+			specWarnFinalDoom2:Schedule(timer-15, self.vb.finalDoomCast+1)
 			timerFinalDoomCD:Start(timer, self.vb.finalDoomCast+1)
 			countdownFinalDoom:Start(timer)
 		end

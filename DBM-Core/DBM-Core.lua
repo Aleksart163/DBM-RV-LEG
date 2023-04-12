@@ -34,9 +34,9 @@
 -------------------------------
 
 DBM = {
-	Revision = tonumber(("$Revision: 17708 $"):sub(12, -3)), --прошляпанное очко Мурчаля Прошляпенко ✔✔✔
+	Revision = tonumber(("$Revision: 17709 $"):sub(12, -3)), --прошляпанное очко Мурчаля Прошляпенко ✔✔✔
 	DisplayVersion = "7.3.44 Right Version " .. string.sub(GetLocale(), -2),
-	ReleaseRevision = 17707
+	ReleaseRevision = 17708
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -10277,6 +10277,10 @@ do
 
 	function bossModPrototype:NewSpecialWarningSoon(text, optionDefault, ...)
 		return newSpecialWarning(self, "soon", text, nil, optionDefault, ...)
+	end
+	
+	function bossModPrototype:NewSpecialWarningSoonParaxisCount(text, optionDefault, ...)
+		return newSpecialWarning(self, "soonparaxiscount", text, nil, optionDefault, ...)
 	end
 
 	function bossModPrototype:NewSpecialWarningSoonLookAway(text, optionDefault, ...)

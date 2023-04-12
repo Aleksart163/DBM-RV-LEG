@@ -24,9 +24,9 @@ mod:RegisterEventsInCombat(
 	"SPELL_PERIODIC_DAMAGE 248167",
 	"SPELL_PERIODIC_MISSED 248167",
 	"CHAT_MSG_RAID_BOSS_EMOTE",
-	"UNIT_SPELLCAST_SUCCEEDED boss1 boss2 boss3 boss4 boss5",
 	"UNIT_DIED",
-	"UNIT_HEALTH boss1"
+	"UNIT_HEALTH boss1",
+	"UNIT_SPELLCAST_SUCCEEDED boss1 boss2 boss3 boss4 boss5"
 )
 
 --Аргус Порабощенный https://ru.wowhead.com/npc=124828/аргус-порабощенный/эпохальный-журнал-сражений
