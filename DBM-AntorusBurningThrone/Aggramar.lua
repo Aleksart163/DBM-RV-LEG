@@ -56,6 +56,7 @@ local specWarnFoeBreaker				= mod:NewSpecialWarningDodge(245458, "MeleeDps", nil
 local specWarnFlameRend					= mod:NewSpecialWarningRunningCount(245463, nil, nil, nil, 4, 6) --Разрывающее пламя
 local specWarnFlameRendTaunt			= mod:NewSpecialWarningTaunt(245463, nil, nil, nil, 1, 2) --Разрывающее пламя
 local specWarnSearingTempest			= mod:NewSpecialWarningRun(245301, nil, nil, nil, 4, 3) --Опаляющая буря
+local specWarnEmberTaeshalach			= mod:NewSpecialWarningSwitch("ej16686", "Dps", nil, nil, 1, 6) --Уголек Тайшалака
 --Stage Two: Champion of Sargeras
 local specWarnFlare						= mod:NewSpecialWarningDodge(245983, "-Tank", nil, 2, 2, 2) --Вспышка
 
@@ -92,7 +93,7 @@ mod:AddRangeFrameOption("6", nil, "Ranged")
 mod:AddNamePlateOption("NPAuraOnPresence", 244903) --Катализирующее присутствие
 mod:AddBoolOption("ignoreThreeTank", true)
 
-mod.vb.embers = 0
+mod.vb.embers = 6
 mod.vb.proshlyap1Count = 0
 mod.vb.proshlyap2Count = 0
 mod.vb.phase = 1
@@ -128,7 +129,7 @@ local function ProshlyapMurchalya1(self) --прошляпанное очко М�
 	end
 end
 
-local function ProshlyapMurchalya2(self)
+local function ProshlyapMurchalya2(self) --прошляпанное очко Мурчаля Прошляпенко [✔]
 	self.vb.proshlyap2Count = self.vb.proshlyap2Count + 1
 	if self.Options.ShowProshlyapMurchal2 then
 		SendChatMessage(L.ProshlyapMurchal2, "RAID_WARNING")
@@ -336,6 +337,7 @@ function mod:WakeTarget(targetname, uId)
 end
 
 function mod:OnCombatStart(delay)
+	self.vb.embers = 6
 	self.vb.proshlyap1Count = 0
 	self.vb.proshlyap2Count = 0
 	self.vb.phase = 1
@@ -352,7 +354,6 @@ function mod:OnCombatStart(delay)
 	self.vb.techActive = false
 	table.wipe(unitTracked)
 	if self:IsMythic() then
-		self.vb.embers = 0
 		comboUsed[1] = false
 		comboUsed[2] = false
 		comboUsed[3] = false
@@ -627,11 +628,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			comboDebugCounter = comboDebugCounter + 1
 			comboDebug[comboDebugCounter] = "Phase changed aborted a combo before it finished"
 		end
-		if self:IsMythic() then
-			self.vb.embers = 10
-		else
-			self.vb.embers = 6
-		end
+		self.vb.embers = 6
 		self.vb.wakeOfFlameCount = 0
 		self.vb.techActive = false
 		timerScorchingBlazeCD:Stop()
@@ -647,7 +644,12 @@ function mod:SPELL_AURA_APPLIED(args)
 		self:Unschedule(ProshlyapMurchalya1)
 		timerTaeshalachTechCD:Stop()
 		countdownTaeshalachTech:Cancel()
-		if DBM:GetRaidRank() > 0 then
+		if self:IsEasy() then
+			if not UnitIsDeadOrGhost("player") then
+				specWarnEmberTaeshalach:Show()
+				specWarnEmberTaeshalach:Play("mobkill")
+			end
+		elseif self:IsHeroic() and DBM:GetRaidRank() > 0 then
 			self:Schedule(3, ProshlyapMurchalya2, self)
 		end
 		if self.Options.RangeFrame and not self:IsTank() then

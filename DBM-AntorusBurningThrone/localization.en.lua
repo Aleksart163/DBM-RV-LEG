@@ -24,10 +24,10 @@ L:SetOptionLocalization({
 ---------------------------
 L= DBM:GetModLocalization(1997)
 
---[[
 L:SetMiscLocalization({
-	YellPullCouncil = "This is one engagement you will not walk away from."
-})]]
+	FelshieldYell = "I use %s!"
+--	YellPullCouncil = "This is one engagement you will not walk away from."
+})
 
 ---------------------------
 -- Eonar, the Lifebinder --

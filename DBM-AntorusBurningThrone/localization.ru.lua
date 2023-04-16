@@ -20,10 +20,11 @@ L:SetOptionLocalization({
 --Военный совет Анторуса--
 --------------------------
 L= DBM:GetModLocalization(1997)
---[[
+
 L:SetMiscLocalization({
-	YellPullCouncil	= "От меня ещё никто не уходил живым."
-})]]
+	FelshieldYell = "Я юзаю %s!"
+--	YellPullCouncil	= "От меня ещё никто не уходил живым."
+})
 
 ----------------------------------
 --Хранительница порталов Азабель--
