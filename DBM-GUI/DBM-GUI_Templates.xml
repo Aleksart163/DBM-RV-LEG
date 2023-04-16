@@ -385,7 +385,7 @@
 
 	<Frame name="DBM_GUI_OptionsFrame" parent="UIParent" hidden="true" enableMouse="true" frameStrata="DIALOG" movable="true">
 		<Size>
-			<AbsDimension x="800" y="510"/>
+			<AbsDimension x="800" y="518"/>
 		</Size>
 		<Anchors>
 			<Anchor point="CENTER"/>
@@ -435,9 +435,9 @@
 				</FontString>
 				<FontString name="$parentTranslation" inherits="GameFontDisableSmall" text="">
 					<Anchors>
-						<Anchor point="LEFT" relativeTo="$parentRevision" relativePoint="RIGHT">
+						<Anchor point="BOTTOMLEFT" relativeTo="$parent" relativePoint="BOTTOMLEFT">
 							<Offset>
-								<AbsDimension x="20" y="0"/>
+								<AbsDimension x="20" y="31"/>
 							</Offset>
 						</Anchor>
 					</Anchors>
@@ -446,7 +446,7 @@
 					<Anchors>
 						<Anchor point="BOTTOMLEFT" relativeTo="$parentRevision" relativePoint="TOPLEFT">
 							<Offset>
-								<AbsDimension x="0" y="15"/>
+								<AbsDimension x="0" y="26"/>
 							</Offset>
 						</Anchor>
 					</Anchors>
