@@ -1,5 +1,5 @@
 ## Interface: 70300
-## X-Min-Interface: 70000
+## X-Min-Interface: 70300
 ## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Trial of Valor|r
 ## Title-ruRU:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Испытание Доблести|r
 ## Title-deDE:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Die Prüfung der Tapferkeit|r
@@ -22,7 +22,7 @@
 ## X-DBM-Mod-Has-Mythic : 1
 ## X-DBM-Mod-Sort: 504
 ## X-DBM-Mod-MapID: 1648
-## X-DBM-Mod-MinCoreRevision: 17650
+## X-DBM-Mod-MinCoreRevision: 17700
 
 localization.en.lua
 localization.ru.lua

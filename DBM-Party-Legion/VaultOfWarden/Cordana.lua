@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1470, "DBM-Party-Legion", 10, 707)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
 mod:SetCreatureID(95888)
 mod:SetEncounterID(1818)
 mod:SetZone()
@@ -34,6 +34,7 @@ local specWarnDeepeningShadows		= mod:NewSpecialWarningMoveTo(213583, nil, nil, 
 local specWarnHiddenStarted			= mod:NewSpecialWarningSpell(192750, nil, nil, nil, 2, 2) --Пелена тьмы
 local specWarnHiddenOver			= mod:NewSpecialWarningEnd(192750, nil, nil, nil, 1, 2) --Пелена тьмы
 local specWarnCreepingDoom			= mod:NewSpecialWarningDodge(197422, nil, nil, nil, 2, 5) --Ползучая гибель
+local specWarnCreepingDoom2			= mod:NewSpecialWarningEnd(197422, nil, nil, nil, 1, 2) --Ползучая гибель
 local specWarnVengeance				= mod:NewSpecialWarningMoveTo(205004, nil, nil, nil, 3, 6) --Отмщение
 local specWarnVengeance2			= mod:NewSpecialWarningSwitch(205004, "-Healer", nil, nil, 3, 6) --Отмщение
 
@@ -75,8 +76,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 197422 then --первая Ползучая гибель
 		if not UnitIsDeadOrGhost("player") then
 			specWarnCreepingDoom:Show()
-			specWarnCreepingDoom:Play("stilldanger")
-			specWarnCreepingDoom:ScheduleVoice(2, "keepmove")
+			specWarnCreepingDoom:Play("watchstep")
 		end
 		timerKickCD:Stop()
 		timerDeepeningShadowsCD:Stop()
@@ -88,9 +88,10 @@ function mod:SPELL_CAST_START(args)
 		warnCreepingDoom:Show()
 		if not UnitIsDeadOrGhost("player") then
 			specWarnCreepingDoom:Show()
-			specWarnCreepingDoom:Play("stilldanger")
-			specWarnCreepingDoom:ScheduleVoice(2, "keepmove")
+			specWarnCreepingDoom:Play("watchstep")
 		end
+		specWarnCreepingDoom2:Schedule(20)
+		specWarnCreepingDoom2:ScheduleVoice(20, "watchstep")
 		timerCreepingDoom:Start(20)
 		countdownCreepingDoom2:Start(20)
 		timerCreepingDoomCD:Start(64.5)
@@ -143,6 +144,8 @@ function mod:SPELL_AURA_REMOVED(args)
 		timerKickCD:Start(15.5)--15-20
 		timerDeepeningShadowsCD:Start(20)--20-25
 	elseif spellId == 197422 then --Первая ползучая гибель
+		specWarnCreepingDoom2:Show()
+		specWarnCreepingDoom2:Play("end")
 		timerCreepingDoomCD:Start(39.5)
 		timerVengeanceCD:Start(12) --раньше было 14
 		timerDeepeningShadowsCD:Start(12)

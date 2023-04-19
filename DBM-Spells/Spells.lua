@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("Spells", "DBM-Spells")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
 --mod:SetZone()
 mod:SetZone(1712, 1676, 1530, 1648, 1520, 1779, 1501, 1466, 1456, 1477, 1458, 1516, 1571, 1492, 1544, 1493, 1651, 1677, 1753)
 
@@ -12,7 +12,7 @@ mod:RegisterEvents(
 	"SPELL_CAST_SUCCESS 688 691 157757 80353 32182 230935 90355 2825 160452 10059 11416 11419 32266 49360 11417 11418 11420 32267 49361 33691 53142 88345 88346 132620 132626 176246 176244 224871 29893 83958",
 	"SPELL_AURA_APPLIED 20707",
 	"SPELL_SUMMON 67826 199109 199115 195782",
-	"SPELL_CREATE 698 188036 201352 201351 185709 88304 61031",
+	"SPELL_CREATE 698 188036 201352 201351 185709 88304 61031 49844",
 	"SPELL_RESURRECT 95750 20484 61999"
 --	"UNIT_SPELLCAST_SUCCEEDED"
 )
@@ -95,7 +95,7 @@ local jeeves, autoHammer, pylon = replaceSpellLinks(67826), replaceSpellLinks(19
 --Мобильный банк
 local bank = replaceSpellLinks(88306) --83958
 --Игрушки
-local toyTrain, moonfeather, highborne, discoball = replaceSpellLinks(61031), replaceSpellLinks(195782), replaceSpellLinks(73331), replaceSpellLinks(50317)
+local toyTrain, moonfeather, highborne, discoball, direbrews = replaceSpellLinks(61031), replaceSpellLinks(195782), replaceSpellLinks(73331), replaceSpellLinks(50317), replaceSpellLinks(49844)
 
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
@@ -371,11 +371,11 @@ function mod:SPELL_CAST_SUCCESS(args)
 	elseif spellId == 29893 and self:AntiSpam(3, 1) then --Источник душ
 		if self.Options.YellOnSoulwell then
 			if IsInRaid() then
-				SendChatMessage(L.SoulwellYell:format(DbmRV, args.sourceName, soulwell), "RAID")
+				SendChatMessage(L.HeroismYell:format(DbmRV, args.sourceName, soulwell), "RAID")
 			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
-				SendChatMessage(L.SoulwellYell:format(DbmRV, args.sourceName, soulwell), "INSTANCE_CHAT")
+				SendChatMessage(L.HeroismYell:format(DbmRV, args.sourceName, soulwell), "INSTANCE_CHAT")
 			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
-				SendChatMessage(L.SoulwellYell:format(DbmRV, args.sourceName, soulwell), "PARTY")
+				SendChatMessage(L.HeroismYell:format(DbmRV, args.sourceName, soulwell), "PARTY")
 			end
 		end
 	elseif spellId == 83958 and self:AntiSpam(3, 8) then --Мобильный банк
@@ -467,6 +467,14 @@ function mod:SPELL_CREATE(args)
 				SendChatMessage(L.SoulwellYell:format(DbmRV, args.sourceName, toyTrain), "RAID")
 			elseif IsInGroup() then
 				SendChatMessage(L.SoulwellYell:format(DbmRV, args.sourceName, toyTrain), "PARTY")
+			end
+		end
+	elseif spellId == 49844 and self:AntiSpam(10, 12) then --пульт управления Худовара
+		if self.Options.YellOnToys then
+			if IsInRaid() then
+				SendChatMessage(L.SummoningYell:format(DbmRV, args.sourceName, direbrews), "RAID")
+			elseif IsInGroup() then
+				SendChatMessage(L.SummoningYell:format(DbmRV, args.sourceName, direbrews), "PARTY")
 			end
 		end
 	end

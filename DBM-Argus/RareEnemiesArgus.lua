@@ -23,7 +23,7 @@ mod:RegisterEvents(
 	"UNIT_DIED"
 )
 
---прошляпанное очко Мурчаля Прошляпенко ✔✔✔
+--прошляпанное очко Мурчаля Прошляпенко [✔]
 
 local warnMajesticRoar				= mod:NewStackAnnounce(252037, 3) --Величественный рык
 local warnIgnition					= mod:NewTargetAnnounce(254480, 2) --Зажигание
@@ -493,8 +493,11 @@ function mod:SPELL_CAST_SUCCESS(args)
 		specWarnChaoticFelburst:Show()
 		specWarnChaoticFelburst:Play("watchstep")
 	elseif spellId == 242071 then --Бесы!
-		specWarnImps:Show()
-		specWarnImps:Play("mobkill")
+		local cid = self:GetCIDFromGUID(args.sourceGUID)
+		if cid == 126040 then
+			specWarnImps:Show()
+			specWarnImps:Play("mobkill")
+		end
 	elseif spellId == 203109 then --Темное кровопускание
 		specWarnShadowRend:Show()
 		specWarnShadowRend:Play("watchstep")

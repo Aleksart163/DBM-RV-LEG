@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1663, "DBM-Party-Legion", 8, 727)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
 mod:SetCreatureID(96759)
 mod:SetEncounterID(1824)
 mod:SetZone()
@@ -37,7 +37,7 @@ local specWarnSubmerged2				= mod:NewSpecialWarningSoon(196947, nil, nil, nil, 1
 local specWarnSubmergedOver				= mod:NewSpecialWarningEnd(196947, nil, nil, nil, 1, 2) --Погружение
 local specWarnTaintofSeaOver			= mod:NewSpecialWarningEnd(197262, nil, nil, nil, 1, 2) --Морская порча
 local specWarnBreath					= mod:NewSpecialWarningDodge(227233, nil, nil, nil, 3, 6) --Оскверняющий рев
-local specWarnTorrent					= mod:NewSpecialWarningInterrupt(198495, "HasInterrupt", nil, nil, 1, 3) --Стремительный поток
+local specWarnTorrent					= mod:NewSpecialWarningInterruptCount(198495, "HasInterrupt", nil, nil, 1, 3) --Стремительный поток
 
 local timerBrackwaterBarrageCD			= mod:NewCDTimer(15, 202088, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Обстрел солоноватой водой
 local timerTaintofSeaCD					= mod:NewCDTimer(12, 197262, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON) --Морская порча
@@ -58,6 +58,7 @@ local countdownSubmerged				= mod:NewCountdown("Alt74.5", 196947, nil, nil, 5) -
 mod:AddSetIconOption("SetIconOnTaintofSea", 197262, true, false, {8, 7}) --Морская порча
 
 mod.vb.phase = 1
+mod.vb.kickCount = 0
 mod.vb.submerged = 0
 mod.vb.breathCount = 0
 mod.vb.taintofseaIcon = 8
@@ -69,6 +70,7 @@ local taintofSea = DBM:GetSpellInfo(197262) --Морская порча
 
 function mod:OnCombatStart(delay)
 	self.vb.phase = 1
+	self.vb.kickCount = 0
 	self.vb.submerged = 0
 	self.vb.breathCount = 0
 	self.vb.taintofseaIcon = 8
@@ -104,12 +106,14 @@ function mod:SPELL_CAST_START(args)
 			countdownBrackwaterBarrage:Start(22)
 		end
 	elseif spellId == 198495 then --Стремительный поток
-		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
-			specWarnTorrent:Show()
-			specWarnTorrent:Play("kickcast")
-		else
-			warnTorrent:Show()
-			warnTorrent:Play("kickcast")
+		if self.vb.kickCount == 2 then self.vb.kickCount = 0 end
+		self.vb.kickCount = self.vb.kickCount + 1
+		local kickCount = self.vb.kickCount
+		specWarnTorrent:Show(kickCount)
+		if kickCount == 1 then
+			specWarnTorrent:Play("kick1r")
+		elseif kickCount == 2 then
+			specWarnTorrent:Play("kick2r")
 		end
 		timerTorrentCD:Start()
 	end
@@ -182,6 +186,7 @@ function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
 	if spellId == 196947 then --Погружение
 		self.vb.submerged = self.vb.submerged + 1
+		self.vb.kickCount = 0
 		self.vb.breathCount = 0
 		specWarnSubmerged2:Schedule(64.5)
 		warnSubmerged2:Schedule(69.5)

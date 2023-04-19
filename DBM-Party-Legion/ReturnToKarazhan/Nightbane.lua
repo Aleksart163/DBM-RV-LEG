@@ -1,12 +1,12 @@
 local mod	= DBM:NewMod("Nightbane", "DBM-Party-Legion", 11)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17603 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
 mod:SetCreatureID(114895)
 mod:SetEncounterID(2031)
 mod:SetZone()
 mod:SetUsedIcons(1)
-mod:SetHotfixNoticeRev(15430)
+mod:SetHotfixNoticeRev(17650)
 mod.respawnTime = 25
 
 mod.onlyMythic = true--VERIFY how they actually do this
@@ -54,13 +54,13 @@ mod:AddSetIconOption("SetIconOnIgnite", 228796, true, false, {1})
 mod:AddInfoFrameOption(228829, true)
 
 mod.vb.phase = 1
-mod.vb.interruptCount = 0
+mod.vb.kickCount = 0
 
 local charredEarth, burningBones, filteredDebuff = DBM:GetSpellInfo(228808), DBM:GetSpellInfo(228829), DBM:GetSpellInfo(228796)
 
 function mod:OnCombatStart(delay)
 	self.vb.phase = 1
-	self.vb.interruptCount = 0
+	self.vb.kickCount = 0
 	timerBreathCD:Start(8.5-delay)
 	timerCharredEarthCD:Start(15-delay)
 	timerReverbShadowsCD:Start(17-delay)
@@ -96,15 +96,17 @@ function mod:SPELL_CAST_START(args)
 		warnBreath:Show()
 		timerBreathCD:Start()
 	elseif spellId == 229307 then
-		self.vb.interruptCount = self.vb.interruptCount + 1
-		timerReverbShadowsCD:Start()
-		specWarnReverbShadows:Show(args.sourceName, self.vb.interruptCount)
-		if self.vb.interruptCount == 1 then
+		if self.vb.kickCount == 2 then self.vb.kickCount = 0 end
+		self.vb.kickCount = self.vb.kickCount + 1
+		local kickCount = self.vb.kickCount
+		specWarnReverbShadows:Show(kickCount)
+		if kickCount == 1 then
 			specWarnReverbShadows:Play("kick1r")
-		elseif self.vb.interruptCount == 2 then
+		elseif kickCount == 2 then
 			specWarnReverbShadows:Play("kick2r")
-			self.vb.interruptCount = 0
+			self.vb.kickCount = 0
 		end
+		timerReverbShadowsCD:Start()
 	end
 end
 
@@ -160,7 +162,7 @@ function mod:UNIT_DIED(args)
 	local cid = self:GetCIDFromGUID(args.destGUID)
 	if cid == 114903 then--Bonecurse
 		self.vb.phase = 3
-		self.vb.interruptCount = 0
+		self.vb.kickCount = 0
 		warnPhase3:Show()
 		timerBreathCD:Start(12)
 		timerFearCD:Start(20)

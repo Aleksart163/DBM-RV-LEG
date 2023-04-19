@@ -1,13 +1,13 @@
 local mod	= DBM:NewMod(2009, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
 mod:SetCreatureID(124158)--or 124158 or 125692
 mod:SetEncounterID(2082)
 mod:SetZone()
 --mod:SetBossHPInfoToHighest()
 mod:SetUsedIcons(8, 7, 6, 5, 4, 3, 2, 1)
-mod:SetHotfixNoticeRev(16961)
+mod:SetHotfixNoticeRev(17650)
 mod:DisableIEEUCombatDetection()
 mod.respawnTime = 30
 
@@ -56,7 +56,7 @@ local specWarnPulseGrenade				= mod:NewSpecialWarningDodge(247376, nil, nil, nil
 --Stage Two: Contract to Kill
 local specWarnSever						= mod:NewSpecialWarningTaunt(247687, nil, nil, nil, 3, 5) --Рассечение
 local specWarnSever2					= mod:NewSpecialWarningStack(247687, nil, 2, nil, nil, 3, 3) --Рассечение
-local specWarnChargedBlastsUnknown		= mod:NewSpecialWarningDodge(247716, nil, nil, nil, 2, 2) --Направленные взрывы
+local specWarnChargedBlastsUnknown		= mod:NewSpecialWarningDodge(248254, nil, nil, nil, 2, 2) --Направленные взрывы
 local specWarnShrapnalBlast				= mod:NewSpecialWarningDodge(247923, nil, nil, nil, 1, 2) --Заряд шрапнели
 --Stage Three/Five: The Perfect Weapon
 local specWarnEmpPulseGrenade			= mod:NewSpecialWarningYouMoveAway(250006, nil, nil, nil, 4, 6) --Усиленная импульсная граната
@@ -70,7 +70,8 @@ local timerSleepCanisterCD				= mod:NewCDTimer(11, 247552, nil, nil, nil, 3, nil
 local timerPulseGrenadeCD				= mod:NewCDTimer(17, 247376, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Импульсная граната 17?
 --Stage Two: Contract to Kill
 local timerSeverCD						= mod:NewCDTimer(7.2, 247687, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Рассечение
-local timerChargedBlastsCD				= mod:NewCDTimer(18, 247716, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Направленные взрывы
+local timerChargedBlastsCD				= mod:NewCDTimer(18, 248254, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Направленные взрывы
+local timerChargedBlasts				= mod:NewCastTimer(8.5, 248254, nil, nil, nil, 7) --Направленные взрывы
 local timerShrapnalBlastCD				= mod:NewCDCountTimer(18, 247923, nil, nil, nil, 3, nil, DBM_CORE_TANK_ICON) --Заряд шрапнели (точно под гер на 2 фазе)
 local timerShrapnalBlast2CD				= mod:NewCDCountTimer(18, 248070, nil, nil, nil, 7) --Усиленный заряд шрапнели
 --Stage Three/Five: The Perfect Weapon
@@ -89,7 +90,8 @@ local berserkTimer						= mod:NewBerserkTimer(420)
 --Stage One: Attack Force
 local countdownPulseGrenade				= mod:NewCountdown(17, 247376, nil, nil, 5) --Импульсная граната
 --Stage Two: Contract to Kill
-local countdownChargedBlasts			= mod:NewCountdown("AltTwo18", 247716, nil, nil, 5) --Направленные взрывы
+local countdownChargedBlasts			= mod:NewCountdown("AltTwo18", 248254, nil, nil, 5) --Направленные взрывы
+local countdownChargedBlasts2			= mod:NewCountdownFades(8.5, 247716, nil, nil, 5) --Импульсная граната
 
 mod:AddSetIconOption("SetIconOnSleepCanister", 247552, true, false, {3, 2, 1}) --Склянка с усыпляющим газом
 mod:AddSetIconOption("SetIconOnEmpPulse2", 250006, true, false, {8, 7, 6, 5, 4}) --Усиленная импульсная граната
@@ -249,12 +251,13 @@ function mod:SPELL_CAST_START(args)
 				timerShrapnalBlastCD:Start(nil, self.vb.shrapnalCast+1)
 			end
 		end
-	elseif spellId == 248254 then
-		if self:IsMythic() and self.vb.phase < 4 then
-			timerChargedBlastsCD:Start(13.4)
-			countdownChargedBlasts:Start(13.4)
-		else
-			timerChargedBlastsCD:Start()--18.2
+	elseif spellId == 248254 then --Направленные взрывы
+--		if self:IsMythic() and self.vb.phase < 4 then
+		if self:IsMythic() then --по 15 сек на 2 и 4 фазе
+			timerChargedBlastsCD:Start(15)
+			countdownChargedBlasts:Start(15)
+		else--возможно под обычку другие тайминги
+			timerChargedBlastsCD:Start(18)
 			countdownChargedBlasts:Start(18)
 		end
 	end
@@ -276,10 +279,17 @@ function mod:SPELL_CAST_SUCCESS(args)
 		end
 	elseif spellId == 247687 then
 		timerSeverCD:Start()
-	elseif spellId == 248254 then
+	elseif spellId == 248254 then --Направленные взрывы
 		if not UnitIsDeadOrGhost("player") then
 			specWarnChargedBlastsUnknown:Show()
 			specWarnChargedBlastsUnknown:Play("farfromline")
+		end
+		if self:IsMythic() then
+			timerChargedBlasts:Start(7)
+			countdownChargedBlasts2:Start(7)
+		elseif self:IsHeroic() then
+			timerChargedBlasts:Start()
+			countdownChargedBlasts2:Start()
 		end
 	end
 end

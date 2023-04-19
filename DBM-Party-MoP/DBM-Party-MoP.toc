@@ -1,5 +1,5 @@
 ﻿## Interface: 70300
-## X-Min-Interface: 70000
+## X-Min-Interface: 70300
 ## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Dungeons-MoP|r
 ## Title-ruRU:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Групповые подземелья-MoP|r
 ## Title-deDE:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Gruppe-MoP|r
@@ -34,7 +34,7 @@
 ## X-DBM-Mod-Name-zhTW: 隊伍首領 (MoP)
 ## X-DBM-Mod-Sort: 530
 ## X-DBM-Mod-MapID: 960, 961, 959, 962, 994, 1011
-## X-DBM-Mod-MinCoreRevision: 17650
+## X-DBM-Mod-MinCoreRevision: 17700
 
 localization.en.lua
 localization.ru.lua

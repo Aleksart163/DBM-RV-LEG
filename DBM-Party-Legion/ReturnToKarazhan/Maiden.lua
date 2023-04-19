@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1825, "DBM-Party-Legion", 11, 860)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
 mod:SetCreatureID(113971)
 mod:SetEncounterID(1954)
 mod:SetZone()
@@ -28,9 +28,9 @@ local warnHolyBolt					= mod:NewTargetAnnounce(227809, 3) --Священная �
 local warnHolyWrath					= mod:NewCastAnnounce(227823, 4) --Гнев небес
 
 local specWarnHolyShock2			= mod:NewSpecialWarningStack(227800, nil, 1, nil, nil, 3, 6) --Шок небес
-local specWarnHolyBolt				= mod:NewSpecialWarningYouMoveAway(227809, nil, nil, nil, 2, 3) --Священная молния
+local specWarnHolyBolt				= mod:NewSpecialWarningYouMoveAway(227809, nil, nil, nil, 3, 3) --Священная молния
 local specWarnSacredGround			= mod:NewSpecialWarningYouMoveAway(227789, nil, nil, nil, 4, 2) --Священная земля
-local specWarnHolyShock				= mod:NewSpecialWarningInterrupt(227800, "HasInterrupt", nil, nil, 1, 3) --Шок небес
+local specWarnHolyShock				= mod:NewSpecialWarningInterruptCount(227800, "HasInterrupt", nil, nil, 1, 3) --Шок небес
 local specWarnRepentance			= mod:NewSpecialWarningMoveTo(227508, nil, nil, nil, 4, 6) --Всеобщее покаяние
 local specWarnHolyWrath				= mod:NewSpecialWarningInterrupt(227823, "HasInterrupt", nil, nil, 3, 6) --Гнев небес
 
@@ -53,7 +53,9 @@ mod:AddInfoFrameOption(227817, true)
 
 local sacredGround = DBM:GetSpellInfo(227789) --Священная земля
 
-function mod:SacredGroundTarget(targetname, uId)
+mod.vb.kickCount = 0
+
+function mod:SacredGroundTarget(targetname, uId) --Прошляпанное очко Мурчаля [✔]
 	if not targetname then return end
 	if targetname == UnitName("player") then
 		specWarnSacredGround:Show()
@@ -79,6 +81,7 @@ function mod:HolyBoltTarget(targetname, uId)
 end
 
 function mod:OnCombatStart(delay)
+	self.vb.kickCount = 0
 	countdownHolyBolt:Start(8.9-delay) --Священная молния +++
 	timerHolyBoltCD:Start(8.9-delay) --Священная молния +++
 	timerSacredGroundCD:Start(10.9-delay) --Священная земля +++
@@ -102,9 +105,14 @@ end
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 227800 then
-		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
-			specWarnHolyShock:Show()
-			specWarnHolyShock:Play("kickcast")
+		if self.vb.kickCount == 2 then self.vb.kickCount = 0 end
+		self.vb.kickCount = self.vb.kickCount + 1
+		local kickCount = self.vb.kickCount
+		specWarnHolyShock:Show(kickCount)
+		if kickCount == 1 then
+			specWarnHolyShock:Play("kick1r")
+		elseif kickCount == 2 then
+			specWarnHolyShock:Play("kick2r")
 		end
 		timerHolyShockCD:Start()
 	elseif spellId == 227508 then --Всеобщее покаяние
@@ -135,6 +143,7 @@ end
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 227817 then
+		self.vb.kickCount = 0
 		if self.Options.InfoFrame then
 			DBM.InfoFrame:SetHeader(args.spellName)
 			DBM.InfoFrame:Show(2, "enemyabsorb", nil, 4680000)
@@ -171,23 +180,5 @@ function mod:SPELL_INTERRUPT(args)
 		countdownHolyWrath:Cancel()
 		timerSacredGroundCD:Start(4)
 		timerHolyShockCD:Start(8.5)
-	--	timerHolyBoltCD:Start(12.7)
-	--	countdownHolyBolt:Start(12.7)
 	end
 end
-
---[[function mod:RAID_BOSS_WHISPER(msg)
-	if msg:find("spell:227789") then
-		specWarnSacredGround:Show()
-		yellSacredGround:Yell()
-	end
-end
-
-function mod:OnTranscriptorSync(msg, targetName)
-	if msg:find("spell:227789") then
-		targetName = Ambiguate(targetName, "none")
-		if self:AntiSpam(5, targetName) then--Antispam sync by target name, since this doesn't use dbms built in onsync handler.
-			warnSacredGround:Show(targetName)
-		end
-	end
-end]]

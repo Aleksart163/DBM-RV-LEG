@@ -25,7 +25,7 @@ L:SetOptionLocalization({
 L= DBM:GetModLocalization(1997)
 
 L:SetMiscLocalization({
-	FelshieldYell = "I use %s!"
+	FelshieldYell = "I USE %s!"
 --	YellPullCouncil = "This is one engagement you will not walk away from."
 })
 

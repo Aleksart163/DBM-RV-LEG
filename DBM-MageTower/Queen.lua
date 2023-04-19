@@ -1,7 +1,7 @@
 ﻿local mod	= DBM:NewMod("Queen", "DBM-MageTower")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
 mod:SetCreatureID(116484, 116499, 116496) --Сигрин, Ярл Вельбранд, Руновидец Фальяр
 mod:SetEncounterID(2059)
 mod:SetZone()

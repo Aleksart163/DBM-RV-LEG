@@ -1,7 +1,7 @@
 ﻿local mod	= DBM:NewMod("Kruul", "DBM-MageTower", 2)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
 mod:SetCreatureID(117933, 117198) --Инквизитор Варисс, Верховный лорд Круул
 mod:SetZone()
 mod:SetBossHPInfoToHighest()

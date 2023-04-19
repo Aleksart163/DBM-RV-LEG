@@ -1,5 +1,5 @@
 ﻿## Interface: 70300
-## X-Min-Interface: 70000
+## X-Min-Interface: 70300
 ## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Dungeons-Cata|r
 ## Title-ruRU:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Групповые подземелья-Cata|r
 ## Title-deDE:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Gruppe-Cata|r
@@ -34,7 +34,7 @@
 ## X-DBM-Mod-Name-zhTW: 隊伍首領 (Cata)
 ## X-DBM-Mod-Sort: 531
 ## X-DBM-Mod-MapID: 755, 670, 643, 725, 657, 938
-## X-DBM-Mod-MinCoreRevision: 17650
+## X-DBM-Mod-MinCoreRevision: 17700
 
 localization.en.lua
 localization.ru.lua

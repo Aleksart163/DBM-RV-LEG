@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1501, "DBM-Party-Legion", 6, 726)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
 mod:SetCreatureID(98208)
 mod:SetEncounterID(1829)
 mod:SetZone()
@@ -31,7 +31,7 @@ local warnPhase2					= mod:NewPrePhaseAnnounce(2, 1, 220871)
 
 local specWarnTimeSplit				= mod:NewSpecialWarningMove(203833, nil, nil, nil, 1, 2) --Расщепление времени
 local specWarnForceBomb				= mod:NewSpecialWarningDodge(202974, nil, nil, nil, 2, 5) --Силовая бомба
-local specWarnBlast					= mod:NewSpecialWarningInterrupt(203176, "HasInterrupt", nil, 2, 1, 2) --Ускоряющий взрыв
+local specWarnBlast					= mod:NewSpecialWarningInterruptCount(203176, "HasInterrupt", nil, 2, 1, 2) --Ускоряющий взрыв
 local specWarnBlastStacks			= mod:NewSpecialWarningDispel(203176, "MagicDispeller", nil, nil, 1, 2) --Ускоряющий взрыв
 local specWarnTimeLock				= mod:NewSpecialWarningInterrupt(203957, "HasInterrupt", nil, nil, 1, 2) --Временное ограничение
 local specWarnUnstableMana			= mod:NewSpecialWarningYouMoveAway(220871, nil, nil, nil, 3, 6) --Нестабильная мана
@@ -131,7 +131,7 @@ function mod:SPELL_CAST_START(args)
 		if self.vb.interruptCount == 3 then self.vb.interruptCount = 0 end
 		self.vb.interruptCount = self.vb.interruptCount + 1
 		local kickCount = self.vb.interruptCount
-		specWarnBlast:Show()
+		specWarnBlast:Show(kickCount)
 		if kickCount == 1 then
 			specWarnBlast:Play("kick1r")
 		elseif kickCount == 2 then

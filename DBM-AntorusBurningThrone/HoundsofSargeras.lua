@@ -1,13 +1,13 @@
 local mod	= DBM:NewMod(1987, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
 mod:SetCreatureID(122477, 122135) --122477 Ф'арг, 122135 Шатуг
 mod:SetEncounterID(2074)
 mod:SetZone()
 mod:SetBossHPInfoToHighest()
 mod:SetUsedIcons(5, 4, 3, 2, 1)
-mod:SetHotfixNoticeRev(16949)
+mod:SetHotfixNoticeRev(17650)
 mod:DisableIEEUCombatDetection()
 mod.respawnTime = 30
 
@@ -255,8 +255,8 @@ function mod:SPELL_CAST_START(args)
 			timerEnflamedCorruptionCD:Start(90) --Возгорание порчи+++
 			countdownEnflamedCorruption:Start(90) --Возгорание порчи+++
 			specWarnEnflamed2:Schedule(80) --Возгорание порчи+++
-			timerDesolateGazeCD:Start(30) --Опустошающий взгляд
-			countdownDesolateGaze:Start(30) --Опустошающий взгляд
+			timerDesolateGazeCD:Start(29.9) --Опустошающий взгляд
+			countdownDesolateGaze:Start(29.9) --Опустошающий взгляд
 			timerBurningMawCD:Start(16)
 		else --обычка и лфр
 			timerEnflamedCorruption:Start() --Возгорание порчи

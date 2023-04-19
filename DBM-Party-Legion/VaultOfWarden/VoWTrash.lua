@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("VoWTrash", "DBM-Party-Legion", 10)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
 --mod:SetModelID(47785)
 mod:SetZone()
 
@@ -181,10 +181,12 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnGiftoftheDoomsayer:Show(args.destName)
 			specWarnGiftoftheDoomsayer:Play("dispelnow")
 		end
-	elseif spellId == 210202 then --Зловонный смрад
-		if args:IsPlayer() then
-			specWarnFoulStench:Show()
-			specWarnFoulStench:Play("runout")
+	elseif spellId == 210202 and self:AntiSpam(2, 2) then --Зловонный смрад
+		if self:IsMythic() then
+			if args:IsPlayer() then
+				specWarnFoulStench:Show()
+				specWarnFoulStench:Play("runout")
+			end
 		end
 	elseif spellId == 193997 then --Притяжение
 		warnPull:CombinedShow(0.5, args.destName)

@@ -33,7 +33,7 @@
 ## X-DBM-Mod-Sort: 510
 ## X-DBM-Mod-MapID: 1148, 1698, 1710, 1703, 1702, 1684, 1673, 1616
 ## X-DBM-Mod-LoadCID: 117871
-## X-DBM-Mod-MinCoreRevision: 17650
+## X-DBM-Mod-MinCoreRevision: 17700
 
 localization.en.lua
 localization.ru.lua

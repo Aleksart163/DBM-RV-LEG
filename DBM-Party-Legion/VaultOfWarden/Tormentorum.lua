@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1695, "DBM-Party-Legion", 10, 707)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
 mod:SetCreatureID(96015)
 mod:SetEncounterID(1850)
 mod:SetZone()
@@ -11,8 +11,9 @@ mod:RegisterCombat("combat")
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 201488 200898",
 	"SPELL_CAST_SUCCESS 200905 206303",
-	"SPELL_AURA_APPLIED 212564 203685",
+	"SPELL_AURA_APPLIED 212564 203685 202455",
 	"SPELL_AURA_APPLIED_DOSE 203685",
+	"SPELL_AURA_REMOVED 202455",
 	"UNIT_SPELLCAST_SUCCEEDED boss1",
 	"UNIT_HEALTH"
 )
@@ -21,6 +22,8 @@ mod:RegisterEventsInCombat(
 local warnTeleport				= mod:NewSpellAnnounce(200898, 2) --Телепортация
 local warnTeleport2				= mod:NewSoonAnnounce(200898, 1) --Телепортация
 
+local specWarnVoidShield		= mod:NewSpecialWarningReflect(202455, "Dps|Tank", nil, nil, 1, 2) --Щит Бездны
+local specWarnVoidShield2		= mod:NewSpecialWarningEnd(202455, nil, nil, nil, 1, 2) --Щит Бездны
 local specWarnFleshtoStone		= mod:NewSpecialWarningStack(203685, nil, 7, nil, nil, 1, 3) --Из плоти в камень
 local specWarnFleshtoStone2		= mod:NewSpecialWarningDispel(203685, "MagicDispeller2", nil, nil, 3, 3) --Из плоти в камень
 local specWarnSapSoul			= mod:NewSpecialWarningInterrupt(200905, "HasInterrupt", nil, nil, 1, 2) --Опустошение души
@@ -115,9 +118,20 @@ function mod:SPELL_AURA_APPLIED(args)
 				end
 			end
 		end
+	elseif spellId == 202455 then --Щит Бездны
+		specWarnVoidShield:Show(args.destName)
+		specWarnVoidShield:Play("stopattack")
 	end	
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
+
+function mod:SPELL_AURA_REMOVED(args)
+	local spellId = args.spellId
+	if spellId == 202455 then --Щит Бездны
+		specWarnVoidShield2:Show()
+		specWarnVoidShield2:Play("end")
+	end
+end
 
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	local spellId = legacySpellId or bfaSpellId

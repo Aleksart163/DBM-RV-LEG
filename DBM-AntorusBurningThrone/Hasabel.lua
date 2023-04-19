@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1985, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
 mod:SetCreatureID(122104)
 mod:SetEncounterID(2064)
 mod:DisableESCombatDetection()--Remove if blizz fixes clicking portals causing this event to fire (even though boss isn't engaged)
@@ -66,7 +66,7 @@ local specWarnFieryDetonation			= mod:NewSpecialWarningInterrupt(244709, "HasInt
 local specWarnHowlingShadows			= mod:NewSpecialWarningInterrupt(245504, "HasInterrupt", nil, nil, 1, 2) --Воющие тени
 --local specWarnGTFO					= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 2)
 --Platform: Xoroth
-local specWarnUnstablePortal			= mod:NewSpecialWarningInterrupt(255805, "HasInterrupt", nil, nil, 3, 5) --Неустойчивый портал
+local specWarnUnstablePortal			= mod:NewSpecialWarningInterrupt(255805, "HasInterrupt", nil, nil, 3, 6) --Неустойчивый портал
 local specWarnFlamesofXoroth			= mod:NewSpecialWarningInterrupt(244607, "HasInterrupt", nil, nil, 1, 2) --Пламя Зорота
 local specWarnSupernova					= mod:NewSpecialWarningDodge(244598, nil, nil, nil, 2, 2) --Сверхновая
 local specWarnEverburningFlames			= mod:NewSpecialWarningMoveTo(244613, nil, nil, nil, 1) --Неугасающее пламя No voice yet
@@ -77,7 +77,7 @@ local specWarnLeechEssence				= mod:NewSpecialWarningSpell(244915, nil, nil, nil
 local specWarnCausticSlime				= mod:NewSpecialWarningMoveTo(244849, nil, nil, nil, 1) --Едкая слизь No voice yet
 local specWarnCausticSlimeLFR			= mod:NewSpecialWarningMoveAway(244849, nil, nil, nil, 1) --Едкая слизь No voice yet
 --Platform: Nathreza
-local specWarnDelusions					= mod:NewSpecialWarningYou(245050, nil, nil, nil, 1, 2) --Заблуждения
+local specWarnDelusions					= mod:NewSpecialWarningYouDispel(245050, nil, nil, nil, 3, 6) --Заблуждения
 --local specWarnCorrupt					= mod:NewSpecialWarningInterrupt(245040, "HasInterrupt", nil, nil, 1, 2)
 local specWarnCloyingShadows			= mod:NewSpecialWarningYou(245118, nil, nil, nil, 1) --Надоедливые тени No voice yet (you warning for now, since it's secondary debuff you move to fel miasma)
 local specWarnHungeringGloom			= mod:NewSpecialWarningMoveTo(245075, nil, nil, nil, 1) --Алчущий сумрак No voice yet
@@ -388,7 +388,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnDelusions:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
 			specWarnDelusions:Show()
-			specWarnDelusions:Play("targetyou")
+			specWarnDelusions:Play("dispelnow")
 		end
 	end
 end

@@ -1,13 +1,13 @@
 local mod	= DBM:NewMod(1986, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
 mod:SetCreatureID(122468, 122467, 122469)--122468 Noura, 122467 Asara, 122469 Diima, 125436 Thu'raya (mythic only)
 mod:SetEncounterID(2073)
 mod:SetZone()
 mod:SetBossHPInfoToHighest()
 mod:SetUsedIcons(8, 7, 6, 5, 4, 3, 2, 1)
-mod:SetHotfixNoticeRev(16963)
+mod:SetHotfixNoticeRev(17650)
 mod:DisableIEEUCombatDetection()
 mod.respawnTime = 28
 
@@ -118,7 +118,6 @@ local yellCosmicGlare					= mod:NewYell(250757, nil, nil, nil, "YELL") --Кос�
 local yellCosmicGlareFades				= mod:NewShortFadesYell(250757, nil, nil, nil, "YELL") --Космический отблеск
 
 local berserkTimer						= mod:NewBerserkTimer(720) --(под героик точно)
-
 --Noura, Mother of Flames
 local countdownTitans					= mod:NewCountdown(90, "ej16138", nil, nil, 5)
 local countdownFulminatingPulse			= mod:NewCountdown("Alt40", 253520, "Healer", nil, 5)
@@ -152,7 +151,7 @@ mod.vb.ignoreFirstInterrupt = false
 mod.vb.firstCastHappend = false
 local CVAR1, CVAR2 = nil, nil
 
-local function ProshlyapMurchalya1(self)
+local function ProshlyapMurchalya1(self) --прошляпанное очко Мурчаля Прошляпенко [✔]
 	self.vb.proshlyapCount = self.vb.proshlyapCount + 1
 	if self.Options.ShowProshlyapMurchal then
 		SendChatMessage(L.ProshlyapMurchal1, "RAID_WARNING")
@@ -268,7 +267,6 @@ function mod:OnCombatEnd()
 	end
 end
 
---Backup check on leaving combat if OnCombatEnd wasn't successful
 function mod:OnLeavingCombat()
 	if CVAR1 or CVAR2 then
 		SetCVar("graphicsLightingQuality", CVAR1)
@@ -607,8 +605,6 @@ function mod:UNIT_DIED(args)
 	end
 end
 
---"<94.13 21:56:15> [UNIT_SPELLCAST_SUCCEEDED] Diima, Mother of Gloom(??) [[boss3:Torment of Khaz'goroth::3-3779-1712-25990-259066-00119F734F:259066]]", -- [1126]
---"<94.33 21:56:15> [CHAT_MSG_RAID_BOSS_EMOTE] |TInterface\\Icons\\ABILITY_MONK_BREATHOFFIRE:20|tThe Coven prepares to unleash the  |cFFFF0000|Hspell:245671|h[Flames of Khaz'goroth]|h|r!#Diima, Mother of Gloom###
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	local spellId = legacySpellId or bfaSpellId
 	if spellId == 259068 or spellId == 259066 or spellId == 259069 or spellId == 259070 then
@@ -642,10 +638,6 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	end
 end
 
---"<196.23 00:02:34> [UNIT_TARGETABLE_CHANGED] boss3#true#true#true#Diima, Mother of Gloom#Creature-0-2083-1712-12288-122469-0000111E27#elite#2150947263", -- [1436]
---"<196.23 00:02:34> [UNIT_TARGETABLE_CHANGED] nameplate2#false#false#true#Noura, Mother of Flames#Creature-0-2083-1712-12288-122468-0000111E27#elite#2150947229", -- [1437]
---"<196.23 00:02:34> [UNIT_TARGETABLE_CHANGED] boss2#false#false#true#Noura, Mother of Flames#Creature-0-2083-1712-12288-122468-0000111E27#elite#2150947229", -- [1438]
---"<198.19 00:02:36> [UNIT_SPELLCAST_SUCCEEDED] Noura, Mother of Flames(??) [[boss2:Spectral Army of Norgannon::3-2083-1712-12288-250334-000B1120DC:250334]]", -- [1456]
 function mod:UNIT_TARGETABLE_CHANGED(uId)
 	local cid = self:GetUnitCreatureId(uId)
 	if cid == 122468 then--Noura
@@ -749,8 +741,5 @@ end
 function mod:UNIT_HEALTH(uId)
 	if self:GetUnitCreatureId(uId) == 122468 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.05 then --Нура
 		self:Unschedule(ProshlyapMurchalya1) --Амантул
-	--	self:Unschedule(ProshlyapMurchalya2) --Казгарот
-	--	self:Unschedule(ProshlyapMurchalya3) --Голганнет
-	--	self:Unschedule(ProshlyapMurchalya4) --Норганнон
 	end
 end

@@ -22,7 +22,7 @@ L:SetOptionLocalization({
 L= DBM:GetModLocalization(1997)
 
 L:SetMiscLocalization({
-	FelshieldYell = "Я юзаю %s!"
+	FelshieldYell = "Я ЮЗАЮ %s!"
 --	YellPullCouncil	= "От меня ещё никто не уходил живым."
 })
 

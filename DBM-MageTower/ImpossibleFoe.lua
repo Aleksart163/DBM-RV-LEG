@@ -1,7 +1,7 @@
 ﻿local mod	= DBM:NewMod("ImpossibleFoe", "DBM-MageTower")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
 mod:SetCreatureID(115638) --Агата
 mod:SetZone()
 

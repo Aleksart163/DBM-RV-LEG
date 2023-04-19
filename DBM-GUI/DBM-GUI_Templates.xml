@@ -385,7 +385,7 @@
 
 	<Frame name="DBM_GUI_OptionsFrame" parent="UIParent" hidden="true" enableMouse="true" frameStrata="DIALOG" movable="true">
 		<Size>
-			<AbsDimension x="800" y="510"/>
+			<AbsDimension x="900" y="520"/>
 		</Size>
 		<Anchors>
 			<Anchor point="CENTER"/>
@@ -437,7 +437,7 @@
 					<Anchors>
 						<Anchor point="LEFT" relativeTo="$parentRevision" relativePoint="RIGHT">
 							<Offset>
-								<AbsDimension x="20" y="0"/>
+								<AbsDimension x="20" y="15"/>
 							</Offset>
 						</Anchor>
 					</Anchors>
@@ -446,7 +446,7 @@
 					<Anchors>
 						<Anchor point="BOTTOMLEFT" relativeTo="$parentRevision" relativePoint="TOPLEFT">
 							<Offset>
-								<AbsDimension x="0" y="15"/>
+								<AbsDimension x="50" y="25"/>
 							</Offset>
 						</Anchor>
 					</Anchors>

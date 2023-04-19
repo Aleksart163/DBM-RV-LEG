@@ -1,13 +1,13 @@
 local mod	= DBM:NewMod(1997, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
 mod:SetCreatureID(122369, 122333, 122367)--Chief Engineer Ishkar, General Erodus, Admiral Svirax
 mod:SetEncounterID(2070)
 mod:SetZone()
 mod:SetBossHPInfoToHighest()
 mod:SetUsedIcons(8, 7, 6, 3, 2, 1)
-mod:SetHotfixNoticeRev(16939)
+mod:SetHotfixNoticeRev(17650)
 mod:DisableIEEUCombatDetection()
 mod.respawnTime = 30
 
@@ -15,8 +15,8 @@ mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 244625 246505 253040 245227 244907",
-	"SPELL_CAST_SUCCESS 244722 244892 245227 253037 245174 244625 244907",
-	"SPELL_CAST_FAILED 244907",
+	"SPELL_CAST_SUCCESS 244722 244892 245227 253037 245174 244625",
+--	"SPELL_CAST_FAILED 244907",
 	"SPELL_AURA_APPLIED 244737 244892 253015 244172 257974",
 	"SPELL_AURA_APPLIED_DOSE 244892 244172 257974",
 	"SPELL_AURA_REMOVED 244737 253015 244388",
@@ -36,8 +36,6 @@ local warnOutofPod						= mod:NewTargetAnnounce("ej16098", 2, 244141) --Вне �
 local warnExploitWeakness				= mod:NewStackAnnounce(244892, 2, nil, "Tank|Healer") --Обнаружить слабое место
 local warnPsychicAssault				= mod:NewStackAnnounce(244172, 3, nil, "-Tank", 2) --Псионная атака
 --In Pod
-----Chief Engineer Ishkar
-local warnEntropicMine					= mod:NewSpellAnnounce(245161, 2) --Энтропическая мина
 ----General Erodus
 --local warnSummonReinforcements			= mod:NewSpellAnnounce(245546, 2, nil, false, 2)
 local warnDemonicCharge					= mod:NewTargetAnnounce(253040, 2, nil, "Ranged", 2) --Демонический рывок
@@ -92,6 +90,7 @@ local timerEntropicMineCD				= mod:NewCDTimer(10, 245161, nil, nil, nil, 3) --Э
 mod:AddTimerLine(Erodus)
 local timerSummonReinforcementsCD		= mod:NewNextTimer(8.4, 245546, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON..DBM_CORE_TANK_ICON) --Вызов подкрепления
 
+local yellFelshield						= mod:NewYell(244910, L.FelshieldYell, nil, nil, "YELL") --Щит Скверны
 local yellPyroblast						= mod:NewYell(246505, nil, nil, nil, "YELL") --Огненная глыба
 --local yellChaosPulse					= mod:NewYell(257974, nil, nil, nil, "YELL") --Хаотический импульс
 local yellDemonicCharge					= mod:NewYell(253040, nil, nil, nil, "YELL") --Демонический рывок
@@ -116,7 +115,8 @@ mod:AddSetIconOption("SetIconOnAdds", 245546, true, true, {2, 1}) --Вызов �
 mod:AddRangeFrameOption("8")
 
 --local OchkoMurchalya = nil
-local felShield = DBM:GetSpellInfo(244910)
+local felShield = DBM:GetSpellInfo(244910) --Щит Скверны
+
 mod.vb.FusilladeCount = 0
 mod.vb.lastIcon = 1
 mod.vb.ShockGrenadeIcon = 8
@@ -270,14 +270,9 @@ function mod:SPELL_CAST_START(args)
 		end
 	elseif spellId == 244907 then --Активация щита Скверны
 		warnActivateFelshield:Show(args.sourceName)
---[[		if not args:IsPlayer() then
-			OchkoMurchalya = true
-		elseif args:IsPlayer() then
-			if OchkoMurchalya then
-				specWarnActivateFelshield:Show()
-				specWarnActivateFelshield:Play("stopcast")
-			end
-		end]]
+		if args:IsPlayerSource() then
+			yellFelshield:Yell(felShield)
+		end
 	end
 end
 
@@ -313,20 +308,11 @@ function mod:SPELL_CAST_SUCCESS(args)
 		warnFusillade:Show(args.sourceName, self.vb.FusilladeCount)
 	end
 end
---[[
-function mod:SPELL_CAST_FAILED(args)
-	local spellId = args.spellId
-	if spellId == 244907 then --Активация щита Скверны
-		if not args:IsPlayer(args.sourceGUID) then
-			OchkoMurchalya = false
-		end
-	end
-end]]
 
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 244737 then
-		warnShockGrenade:CombinedShow(1, args.destName)
+		warnShockGrenade:CombinedShow(1.5, args.destName)
 		if args:IsPlayer() then
 			specWarnShockGrenade:Show()
 			specWarnShockGrenade:Play("runout")
@@ -431,8 +417,6 @@ mod.SPELL_MISSED = mod.SPELL_DAMAGE
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	local spellId = legacySpellId or bfaSpellId
 	if (spellId == 245161 or spellId == 245304) and self:AntiSpam(5, 1) then
-		warnEntropicMine:Show()
-		--warnEntropicMine:Play("watchstep")
 		timerEntropicMineCD:Start()
 	elseif spellId == 245785 then--Pod Spawn Transition Cosmetic Missile
 		local name = UnitName(uId)

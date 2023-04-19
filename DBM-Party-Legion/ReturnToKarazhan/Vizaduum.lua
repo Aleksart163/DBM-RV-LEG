@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1838, "DBM-Party-Legion", 11, 860)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
 mod:SetCreatureID(114790)
 mod:SetEncounterID(2017)
 mod:SetZone()
@@ -144,7 +144,7 @@ function mod:SPELL_CAST_START(args)
 		if self.vb.kickCount == 2 then self.vb.kickCount = 0 end
 		self.vb.kickCount = self.vb.kickCount + 1
 		local kickCount = self.vb.kickCount
-		specWarnBurningBlast:Show(args.sourceName, kickCount)
+		specWarnBurningBlast:Show(kickCount)
 		if kickCount == 1 then
 			specWarnBurningBlast:Play("kick1r")
 		elseif kickCount == 2 then
@@ -252,7 +252,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if amount >= 1 then
 			if self:IsMythic() then
 				if args:IsPlayer() and not self:IsMagicDispeller2() then
-					specWarnBurningBlast4:Show()
+					specWarnBurningBlast4:Show(amount)
 					specWarnBurningBlast4:Play("targetyou")
 					yellBurningBlast:Yell()
 				elseif args:IsPlayer() and self:IsMagicDispeller2() then
@@ -267,7 +267,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				end
 			else
 				if args:IsPlayer() and not self:IsMagicDispeller2() then
-					specWarnBurningBlast4:Show()
+					specWarnBurningBlast4:Show(amount)
 					specWarnBurningBlast4:Play("targetyou")
 					yellBurningBlast:Yell()
 				elseif args:IsPlayer() and self:IsMagicDispeller2() then

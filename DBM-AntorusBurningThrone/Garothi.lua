@@ -1,14 +1,14 @@
 local mod	= DBM:NewMod(1992, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
 mod:SetCreatureID(122450)
 mod:SetEncounterID(2076)
 mod:SetZone()
 --mod:SetBossHPInfoToHighest()
 mod:SetUsedIcons(8, 6, 5, 4, 3, 2, 1)
-mod:SetHotfixNoticeRev(16962)
-mod:SetMinSyncRevision(16962)
+mod:SetHotfixNoticeRev(17650)
+mod:SetMinSyncRevision(17650)
 mod:DisableIEEUCombatDetection()
 mod.respawnTime = 29
 mod:DisableRegenDetection()--Prevent false combat when fighting trash
@@ -200,7 +200,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
 	if spellId == 244399 or spellId == 245294 or spellId == 246919 then --Децимация
 		self.vb.lastCannon = 2--Anniilator 1 decimator 2
-		if self.vb.phase == 1 then
+		if self.vb.phase == 1 or self:IsMythic() then
 			timerAnnihilationCD:Start(16)
 			countdownAnnihilation:Start(16)
 		elseif self.vb.phase > 1 and not self:IsMythic() then
@@ -213,8 +213,8 @@ function mod:SPELL_CAST_SUCCESS(args)
 			countdownAnnihilation:Start(16)
 			specWarnAnnihilation:Schedule(16)
 			specWarnAnnihilation:ScheduleVoice(16, "helpsoak")
-			specWarnAnnihilation:Schedule(22)
-			specWarnAnnihilation:ScheduleVoice(22, "helpsoak")
+			specWarnAnnihilation:Schedule(23)
+			specWarnAnnihilation:ScheduleVoice(23, "helpsoak")
 		end
 	elseif spellId == 244294 then --Аннигиляция
 		specWarnAnnihilation:Show()
@@ -345,8 +345,12 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 		elseif self:IsMythic() then
 			if self.vb.lastCannon == 1 then--Annihilator Cannon
 				timerDecimationCD:Start(21.5) --было 22
+				countdownDecimation:Start(21.5)
 			else
-				timerAnnihilationCD:Start(22)
+				timerAnnihilationCD:Start(21.5) --прошляп
+				countdownAnnihilation:Start(21.5)
+				specWarnAnnihilation:Schedule(28.5)
+				specWarnAnnihilation:ScheduleVoice(28.5, "helpsoak")
 			end
 			--timerSpecialCD:Start(22)--Random cannon
 		end
@@ -366,11 +370,11 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 			specWarnAnnihilation:Show()
 			specWarnAnnihilation:Play("helpsoak")
 			if self.vb.phase == 1 or self:IsMythic() then
-				timerDecimationCD:Start(15.8)
-				countdownChooseCannon:Start(15.8)
+				timerDecimationCD:Start(16)
+				countdownChooseCannon:Start(16)
 			elseif self.vb.phase > 1 and not self:IsMythic() then
-				timerAnnihilationCD:Start(15.8)
-				countdownChooseCannon:Start(15.8)
+				timerAnnihilationCD:Start(16)
+				countdownChooseCannon:Start(16)
 			end
 		end
 	end

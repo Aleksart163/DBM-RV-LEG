@@ -1,13 +1,13 @@
 local mod	= DBM:NewMod(2025, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
 mod:SetCreatureID(124445)
 mod:SetEncounterID(2075)
 mod:SetZone()
 --mod:SetBossHPInfoToHighest()
 mod:SetUsedIcons(8, 7, 6, 5, 4)
-mod:SetHotfixNoticeRev(16960)
+mod:SetHotfixNoticeRev(17650)
 mod:DisableIEEUCombatDetection()
 --mod.respawnTime = 30
 
@@ -15,8 +15,8 @@ mod:RegisterCombat("combat")
 --mod:RegisterCombat("combat_yell", L.YellPullEonar)
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_START 249121 250701 246305",
-	"SPELL_CAST_SUCCESS 250048 249121", --254769, 246753
+	"SPELL_CAST_START 249121 250701 246305 250048",
+	"SPELL_CAST_SUCCESS 249121", --254769, 246753
 	"SPELL_AURA_APPLIED 250074 250555 249016 248332 250073 250693 250691 250140 246753 249017 249015",
 	"SPELL_AURA_APPLIED_DOSE 250140",
 	"SPELL_AURA_REMOVED 250074 250555 249016 248332 250693 250691",
@@ -62,7 +62,7 @@ local timerBatsCD						= mod:NewTimer(90, "timerBats", 242080, nil, nil, 1, DBM_
 mod:AddTimerLine(ENCOUNTER_JOURNAL_SECTION_FLAG12)
 local timerPurge						= mod:NewCastTimer(30, 249934, nil, nil, nil, 2, nil, DBM_CORE_MYTHIC_ICON..DBM_CORE_DEADLY_ICON) --Судный миг
 local timerFinalDoom					= mod:NewCastTimer(50, 249121, nil, nil, nil, 2, nil, DBM_CORE_MYTHIC_ICON..DBM_CORE_DEADLY_ICON) --Всеобщая погибель
-local timerFinalDoomCD					= mod:NewCDCountTimer(90, 249121, nil, nil, nil, 6, nil, DBM_CORE_MYTHIC_ICON) --Всеобщая погибель
+local timerFinalDoomCD					= mod:NewCDCountTimer(90, 249121, nil, nil, nil, 7) --Всеобщая погибель
 
 local timerArcaneSingularity			= mod:NewNextTimer(25, 250171, nil, nil, nil, 7) --Магическая сингулярность
 local timerArcaneSingularity2			= mod:NewCastTimer(3, 250171, nil, nil, nil, 7) --Магическая сингулярность
@@ -382,15 +382,15 @@ function mod:SPELL_CAST_START(args)
 			specWarnArtilleryStrike:Show()
 			specWarnArtilleryStrike:Play("kickcast")
 		end
+	elseif spellId == 250048 then --Жизненная сила
+		self.vb.lifeForceCast = self.vb.lifeForceCast + 1
+		warnLifeForce:Show(args.sourceName, self.vb.lifeForceCast)
 	end
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
-	if spellId == 250048 then --Жизненная сила
-		self.vb.lifeForceCast = self.vb.lifeForceCast + 1
-		warnLifeForce:Show(args.sourceName, self.vb.lifeForceCast)
-	elseif spellId == 249121 then --Всеобщая погибель
+	if spellId == 249121 then --Всеобщая погибель
 		DBM:EndCombat(self, true)
 	end
 end

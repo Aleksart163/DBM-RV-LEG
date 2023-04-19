@@ -45,7 +45,7 @@
 ## X-DBM-Mod-Name-zhTW: 隊伍首領
 ## X-DBM-Mod-Sort: 509
 ## X-DBM-Mod-MapID: 1501, 1466, 1456, 1477, 1458, 1516, 1571, 1492, 1544, 1493, 1651, 1677, 1753
-## X-DBM-Mod-MinCoreRevision: 17650
+## X-DBM-Mod-MinCoreRevision: 17700
 
 localization.en.lua
 localization.ru.lua
