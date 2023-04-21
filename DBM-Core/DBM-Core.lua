@@ -4129,7 +4129,7 @@ do
 				modHFRevision = tonumber(modHFRevision or 0) or 0
 				startHp = tonumber(startHp or -1) or -1
                 if dbmRevision ~= DBM.Revision then
-                if DBM.Options.DebugMode then
+                if DBM.Options.DebugMode and mod ~= nil then
                     DBM:AddMsg("StartCombat (rejected) called for " .. mod.combatInfo.name .. " by: SYNC from - " .. sender .. ".")
                 end
                 return
