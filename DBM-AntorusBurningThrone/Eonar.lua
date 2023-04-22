@@ -391,6 +391,12 @@ end
 function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
 	if spellId == 249121 then --Всеобщая погибель
+		self:SendSync("OchkoSoulburnin")
+	end
+end
+
+function mod:OnSync(msg)
+	if msg == "OchkoSoulburnin" then
 		DBM:EndCombat(self, true)
 	end
 end
