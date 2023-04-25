@@ -12,8 +12,7 @@ mod:RegisterEvents(
 	"SPELL_AURA_APPLIED_DOSE 236954",
 	"SPELL_AURA_REMOVED 237391 236954",
 	"SPELL_PERIODIC_DAMAGE 213124",
-	"SPELL_PERIODIC_MISSED 213124",
-	"UNIT_SPELLCAST_START"
+	"SPELL_PERIODIC_MISSED 213124"
 )
 
 --Собор вечной ночи трэш и прошляпанное очко Мурчаля Прошляпенко ✔

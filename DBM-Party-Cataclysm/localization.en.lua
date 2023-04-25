@@ -149,6 +149,19 @@ L:SetOptionLocalization({
 -----------
 L= DBM:GetModLocalization(116)
 
+L:SetMiscLocalization({
+	YellProshlyapMurchal = "Al'Akir, your servant calls for aid!"
+})
+
+-------------
+--Треш-мобы--
+-------------
+L = DBM:GetModLocalization("TVPTrash")
+
+L:SetGeneralLocalization({
+	name = "TVP Trash"
+})
+
 ---------------------------
 --  The Throne of Tides  --
 ---------------------------

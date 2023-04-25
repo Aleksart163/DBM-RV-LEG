@@ -24,7 +24,7 @@ local warnMassres3					= mod:NewTargetSourceAnnounce(212036, 1) --Массово
 local warnMassres4					= mod:NewTargetSourceAnnounce(212048, 1) --Древнее видение (шаман)
 local warnMassres5					= mod:NewTargetSourceAnnounce(212051, 1) --Повторное пробуждение (монк)
 
-local warnPylon						= mod:NewTargetSourceAnnounce(199115, 1) --Пилон
+--local warnPylon						= mod:NewTargetSourceAnnounce(199115, 1) --Пилон
 local warnJeeves					= mod:NewTargetSourceAnnounce(67826, 1) --Дживс
 local warnAutoHammer				= mod:NewTargetSourceAnnounce(199109, 1) --Автоматический молот
 
@@ -44,6 +44,7 @@ local warnSoulstone					= mod:NewTargetAnnounce(20707, 1) --Камень душ�
 local warnRebirth					= mod:NewTargetSourceAnnounce2(20484, 1) --Возрождение
 
 local specWarnSoulstone				= mod:NewSpecialWarningYou(20707, nil, nil, nil, 1, 2) --Камень души
+local specWarnRebirth				= mod:NewSpecialWarningYou(20484, nil, nil, nil, 1, 2) --Возрождение
 
 local yellSoulstone					= mod:NewYell(20707, nil, nil, nil, "YELL") --Камень души
 
@@ -58,7 +59,7 @@ mod:AddBoolOption("YellOnSpiritCauldron", true) --котел
 mod:AddBoolOption("YellOnLavish", false)
 mod:AddBoolOption("YellOnBank", true) --банк
 mod:AddBoolOption("YellOnRepair", false) --починка
-mod:AddBoolOption("YellOnPylon", true) --пилон
+--mod:AddBoolOption("YellOnPylon", true) --пилон
 mod:AddBoolOption("YellOnToys", true) --игрушки
 --
 local function replaceSpellLinks(id)
@@ -498,14 +499,14 @@ function mod:SPELL_SUMMON(args)
 				end
 			end
 		end
-	elseif spellId == 199115 and self:AntiSpam(10, 4) then --Пилон для обнаружения проблем
+--[[	elseif spellId == 199115 and self:AntiSpam(10, 4) then --Пилон для обнаружения проблем
 		if self.Options.YellOnPylon then
 			if IsInRaid() and DBM:GetRaidRank() > 0 then
 				SendChatMessage(L.SoulwellYell:format(DbmRV, args.sourceName, pylon), "RAID_WARNING")
 			else
 				warnPylon:Show(args.sourceName)
 			end
-		end
+		end]]
 	elseif spellId == 195782 and self:AntiSpam(5, 11) then --Призыв статуи лунного совуха
 		if self.Options.YellOnToys then
 			if IsInRaid() then
@@ -530,6 +531,10 @@ function mod:SPELL_RESURRECT(args)
 				SendChatMessage(L.SoulstoneYell:format(DbmRV, args.sourceName, rebirth3, args.destName), "PARTY")
 			end
 		end
+		if args:IsPlayer() then
+			specWarnRebirth:Show()
+			specWarnRebirth:Play("targetyou")
+		end
 	elseif spellId == 20484 then --Возрождение
 		warnRebirth:Show(args.sourceName, args.destName)
 		if self.Options.YellOnResurrect then
@@ -541,6 +546,10 @@ function mod:SPELL_RESURRECT(args)
 				SendChatMessage(L.SoulstoneYell:format(DbmRV, args.sourceName, rebirth1, args.destName), "PARTY")
 			end
 		end
+		if args:IsPlayer() then
+			specWarnRebirth:Show()
+			specWarnRebirth:Play("targetyou")
+		end
 	elseif spellId == 61999 then --Воскрешение союзника
 		warnRebirth:Show(args.sourceName, args.destName)
 		if self.Options.YellOnResurrect then
@@ -551,6 +560,10 @@ function mod:SPELL_RESURRECT(args)
 			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
 				SendChatMessage(L.SoulstoneYell:format(DbmRV, args.sourceName, rebirth2, args.destName), "PARTY")
 			end
+		end
+		if args:IsPlayer() then
+			specWarnRebirth:Show()
+			specWarnRebirth:Play("targetyou")
 		end
 	end
 end

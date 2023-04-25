@@ -142,10 +142,27 @@ L:SetMiscLocalization{
 --------------
 L= DBM:GetModLocalization(115)
 
+L:SetOptionLocalization({
+	BreathIcon	= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(88308)
+})
+
 -----------
 -- Asaad --
 -----------
 L= DBM:GetModLocalization(116)
+
+L:SetMiscLocalization({
+	YellProshlyapMurchal = "알아키르여! 당신의 종이 도움을 청합니다!"
+})
+
+-------------
+--Треш-мобы--
+-------------
+L = DBM:GetModLocalization("TVPTrash")
+
+L:SetGeneralLocalization({
+	name = "소용돌이 누각 일반몹"
+})
 
 ---------------------------
 --  The Throne of Tides  --

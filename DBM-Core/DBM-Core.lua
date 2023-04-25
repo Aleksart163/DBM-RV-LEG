@@ -1,7 +1,7 @@
--- ***********************************************************
--- **              Dungeon Boss Master - Core               **
--- **      https://github.com/Aleksart163/DBM-for-Uwow      **
--- ***********************************************************
+-- *****************************************************
+-- **              Dungeon Boss Master - Core         **
+-- **      https://github.com/Aleksart163/DBM-RV      **
+-- *****************************************************
 -- This addon is written and copyrighted by:
 --    * Paul Emmerich (Tandanu @ EU-Aegwynn) (DBM-Core)
 --    * Martin Verges (Nitram @ EU-Azshara) (DBM-GUI)
@@ -25,7 +25,7 @@
 --    * to Share - to copy, distribute, display, and perform the work
 --    * to Remix - to make derivative works
 -- Under the following conditions:
---    * Attribution. You must attribute the work in the manner specified by the author or licensor (but not in any way that suggests that they endorse you or your use of the work). (A link to https://github.com/Aleksart163/DBM-for-Uwow is sufficient)
+--    * Attribution. You must attribute the work in the manner specified by the author or licensor (but not in any way that suggests that they endorse you or your use of the work). (A link to https://github.com/Aleksart163/DBM-RV is sufficient)
 --    * Noncommercial. You may not use this work for commercial purposes.
 --    * Share Alike. If you alter, transform, or build upon this work, you may distribute the resulting work only under the same or similar license to this one.
 
@@ -34,9 +34,9 @@
 -------------------------------
 
 DBM = {
-	Revision = tonumber(("$Revision: 17710 $"):sub(12, -3)), --прошляпанное очко Мурчаля Прошляпенко ✔✔✔
+	Revision = tonumber(("$Revision: 17711 $"):sub(12, -3)), --прошляпанное очко Мурчаля Прошляпенко ✔✔✔
 	DisplayVersion = "7.3.44 Right Version " .. string.sub(GetLocale(), -2),
-	ReleaseRevision = 17709
+	ReleaseRevision = 17710
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -4129,7 +4129,7 @@ do
 				modHFRevision = tonumber(modHFRevision or 0) or 0
 				startHp = tonumber(startHp or -1) or -1
                 if dbmRevision ~= DBM.Revision then
-                if DBM.Options.DebugMode then
+				if DBM.Options.DebugMode and mod ~= nil then
                     DBM:AddMsg("StartCombat (rejected) called for " .. mod.combatInfo.name .. " by: SYNC from - " .. sender .. ".")
                 end
                 return
@@ -5122,7 +5122,7 @@ do
 	end
 
 	function DBM:ShowUpdateReminder(newVersion, newRevision, text, url)
-		urlText = url or DBM_CORE_UPDATEREMINDER_URL or "https://github.com/Aleksart163/DBM-for-Uwow"
+		urlText = url or DBM_CORE_UPDATEREMINDER_URL or "https://github.com/Aleksart163/DBM-RV"
 		if not frame then
 			createFrame()
 		else

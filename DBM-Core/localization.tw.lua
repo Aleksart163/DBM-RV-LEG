@@ -14,6 +14,8 @@ DBM_CORE_LOAD_MOD_EXP_MISMATCH		= "%s不能被讀取因為這是設計給WoW資�
 DBM_CORE_LOAD_MOD_DISABLED			= "%s已安裝但目前停用中。此模組不會載入除非你啟用它。"
 DBM_CORE_LOAD_MOD_DISABLED_PLURAL	= "%s已安裝但目前停用中。這些模組不會載入除非你啟用它們。"
 
+DBM_CORE_UPDATEREMINDER_URL			= "https://github.com/Aleksart163/DBM-RV"
+
 DBM_COPY_URL_DIALOG					= "複製網址"
 
 --Post Patch 7.1

@@ -14,7 +14,7 @@ DBM_CORE_LOAD_MOD_EXP_MISMATCH		= "No se ha podido cargar el módulo de %s porqu
 DBM_CORE_LOAD_MOD_DISABLED			= "%s está instalado pero se encuentra desactivado. Este módulo no se cargará hasta que lo actives."
 DBM_CORE_LOAD_MOD_DISABLED_PLURAL	= "%s están instalados pero se encuentran desactivados. Estos módulos no se cargarán hasta que los actives."
 
-DBM_CORE_UPDATEREMINDER_URL			= "https://github.com/Aleksart163/DBM-for-Uwow"
+DBM_CORE_UPDATEREMINDER_URL			= "https://github.com/Aleksart163/DBM-RV"
 
 DBM_COPY_URL_DIALOG					= "Copiar vínculo"
 
@@ -32,7 +32,7 @@ DBM_CORE_LOOT_SPEC_REMINDER			= "Tu especialización es %s. Tu especialización 
 
 DBM_CORE_BIGWIGS_ICON_CONFLICT		= "DBM ha detectado que tienes habilitados los iconos de banda en BigWigs y DBM. Por favor, desactívalos en uno de los dos addons para evitar conflictos con la configuración de tu líder de banda."
 
-DBM_CORE_MOD_AVAILABLE				= "El módulo de %s está disponible para este contenido. Puedes descargarlo a través de |HDBM:forums|h|cff3588ffhttps://github.com/Aleksart163/DBM-for-Uwow|r."
+DBM_CORE_MOD_AVAILABLE				= "El módulo de %s está disponible para este contenido. Puedes descargarlo a través de |HDBM:forums|h|cff3588ffhttps://github.com/Aleksart163/DBM-RV|r."
 
 DBM_CORE_COMBAT_STARTED				= "Encuentro de %s iniciado. ¡Buena suerte!"
 DBM_CORE_COMBAT_STARTED_IN_PROGRESS	= "Te has unido al encuentro de %s mientras estaba en curso. ¡Buena suerte!"

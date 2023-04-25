@@ -1,7 +1,7 @@
--- ***********************************************************
--- **              Dungeon Boss Master - GUI	            **
--- **      https://github.com/Aleksart163/DBM-for-Uwow      **
--- ***********************************************************
+-- *****************************************************
+-- **              Dungeon Boss Master - GUI	      **
+-- **      https://github.com/Aleksart163/DBM-RV      **
+-- *****************************************************
 -- This addon is written and copyrighted by:
 --    * Paul Emmerich (Tandanu @ EU-Aegwynn) (DBM-Core)
 --    * Martin Verges (Nitram @ EU-Azshara) (DBM-GUI)
@@ -23,7 +23,7 @@
 --    * to Share - to copy, distribute, display, and perform the work
 --    * to Remix - to make derivative works
 -- Under the following conditions:
---    * Attribution. You must attribute the work in the manner specified by the author or licensor (but not in any way that suggests that they endorse you or your use of the work). (A link to https://github.com/Aleksart163/DBM-for-Uwow is sufficient)
+--    * Attribution. You must attribute the work in the manner specified by the author or licensor (but not in any way that suggests that they endorse you or your use of the work). (A link to https://github.com/Aleksart163/DBM-RV is sufficient)
 --    * Noncommercial. You may not use this work for commercial purposes.
 --    * Share Alike. If you alter, transform, or build upon this work, you may distribute the resulting work only under the same or similar license to this one.
 
@@ -3307,7 +3307,7 @@ local function CreateOptionsMenu()
 	DBM_GUI_OptionsFrameWebsite:SetText(L.Website)
 	local frame = CreateFrame("Frame", nil, DBM_GUI_OptionsFrame)
 	frame:SetAllPoints(DBM_GUI_OptionsFrameWebsite)
-	frame:SetScript("OnMouseUp", function(...) DBM:ShowUpdateReminder(nil, nil, DBM_COPY_URL_DIALOG, "https://github.com/Aleksart163/DBM-for-Uwow") end)
+	frame:SetScript("OnMouseUp", function(...) DBM:ShowUpdateReminder(nil, nil, DBM_COPY_URL_DIALOG, "https://github.com/Aleksart163/DBM-RV") end)
 end
 DBM:RegisterOnGuiLoadCallback(CreateOptionsMenu, 1)
 

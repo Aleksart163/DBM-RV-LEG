@@ -14,7 +14,7 @@ DBM_CORE_LOAD_MOD_EXP_MISMATCH		= "%s 模块无法被载入, 因为它是为新�
 DBM_CORE_LOAD_MOD_DISABLED			= "%s 模块已安装但被禁用。该模块不会被载入除非启用它。"
 DBM_CORE_LOAD_MOD_DISABLED_PLURAL	= "%s 模块已安装但被禁用。这些模块不会被载入除非启用它们。"
 
-DBM_CORE_UPDATEREMINDER_URL			= "https://github.com/Aleksart163/DBM-for-Uwow"
+DBM_CORE_UPDATEREMINDER_URL			= "https://github.com/Aleksart163/DBM-RV"
 
 DBM_COPY_URL_DIALOG					= "复制网址"
 
@@ -32,7 +32,7 @@ DBM_CORE_LOOT_SPEC_REMINDER			= "你当前的人物专精为 %s。你当前的�
 
 DBM_CORE_BIGWIGS_ICON_CONFLICT		= "DBM检测到你同时开启了Bigwigs,请关闭自动标记以避免冲突。"
 
-DBM_CORE_MOD_AVAILABLE				= "DBM已经为%s制作了相关模块。你可以在 |HDBM:forums|h|cff3588ffhttps://github.com/Aleksart163/DBM-for-Uwow|r 上找到新版本。"
+DBM_CORE_MOD_AVAILABLE				= "DBM已经为%s制作了相关模块。你可以在 |HDBM:forums|h|cff3588ffhttps://github.com/Aleksart163/DBM-RV|r 上找到新版本。"
 
 DBM_CORE_COMBAT_STARTED				= "%s作战开始，祝你走运 :)"
 DBM_CORE_COMBAT_STARTED_IN_PROGRESS	= "已进行的战斗-%s正在作战。祝你走运 :)"

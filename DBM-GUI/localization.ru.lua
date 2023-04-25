@@ -8,7 +8,7 @@ L.MainFrame = "Dungeon Boss Master"
 L.TranslationByPrefix		= "Адаптация под uwow.biz - "
 L.TranslationBy 			= "Aleksart163 (Куплиняшка х100)"
 L.Credits		 			= "Особая благодарность: Danzo (Qfastrun x100)"
-L.Website					= "Дискорд для связи по вопросам: Aleksart163#1671 и сайт для обновления: |cFF73C2FBhttps://github.com/Aleksart163/DBM-for-Uwow|r"
+L.Website					= "Дискорд для связи по вопросам: Aleksart163#1671 и сайт для обновления: |cFF73C2FBhttps://github.com/Aleksart163/DBM-RV|r"
 L.WebsiteButton				= "Обновление"
 
 L.OTabBosses				= "Боссы"

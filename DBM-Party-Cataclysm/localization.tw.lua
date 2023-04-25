@@ -142,10 +142,27 @@ L:SetMiscLocalization{
 --------------
 L= DBM:GetModLocalization(115)
 
+L:SetOptionLocalization({
+	BreathIcon	= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(88308)
+})
+
 -----------
 -- Asaad --
 -----------
 L= DBM:GetModLocalization(116)
+
+L:SetMiscLocalization({
+	YellProshlyapMurchal = "奧拉基爾，你的僕人需要幫助!"
+})
+
+-------------
+--Треш-мобы--
+-------------
+L = DBM:GetModLocalization("TVPTrash")
+
+L:SetGeneralLocalization({
+	name =	"旋云之巅小怪"
+})
 
 ---------------------------
 --  The Throne of Tides  --

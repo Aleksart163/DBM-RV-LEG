@@ -93,7 +93,7 @@ function mod:SPELL_CAST_START(args)
 		end
 	elseif spellId == 193069 then --Кошмары
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
-			specWarnNightmares:Show(args.sourceName)
+			specWarnNightmares:Show()
 			specWarnNightmares:Play("kickcast")
 		else
 			warnNightmares2:Show()
@@ -168,7 +168,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnAnguishedSouls:Show()
 			specWarnAnguishedSouls:Play("runout")
 		end
-	elseif spellId == 161044 then --Временная аномалия
+	elseif spellId == 161044 and self:AntiSpam(2, 3) then --Временная аномалия
 		if args:IsPlayer() then
 			specWarnTemporalAnomaly:Show()
 			specWarnTemporalAnomaly:Play("runout")

@@ -156,6 +156,19 @@ L:SetOptionLocalization({
 ------------------------
 L= DBM:GetModLocalization(116)
 
+L:SetMiscLocalization({
+	YellProshlyapMurchal = "Ал'акир, твой слуга взывает о помощи!"
+})
+
+-------------
+--Треш-мобы--
+-------------
+L = DBM:GetModLocalization("TVPTrash")
+
+L:SetGeneralLocalization({
+	name = "Трэш ВС"
+})
+
 -----------------
 --Трон Приливов--
 -----------------

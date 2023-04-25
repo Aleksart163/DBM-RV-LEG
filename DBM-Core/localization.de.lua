@@ -14,7 +14,7 @@ DBM_CORE_LOAD_MOD_EXP_MISMATCH		= "%s kann nicht geladen werden, da es für eine
 DBM_CORE_LOAD_MOD_DISABLED			= "%s ist installiert, aber derzeit nicht aktiviert. Dieses Mod wird nicht geladen, falls du es nicht aktivierst."
 DBM_CORE_LOAD_MOD_DISABLED_PLURAL	= "%s sind installiert, aber derzeit nicht aktiviert. Diese Mods werden nicht geladen, falls du sie nicht aktivierst."
 
-DBM_CORE_UPDATEREMINDER_URL			= "https://github.com/Aleksart163/DBM-for-Uwow"
+DBM_CORE_UPDATEREMINDER_URL			= "https://github.com/Aleksart163/DBM-RV"
 
 DBM_COPY_URL_DIALOG					= "Besuchen Sie unsere Website, um sie auf die neueste Version zu aktualisieren."
 

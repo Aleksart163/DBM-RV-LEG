@@ -137,13 +137,8 @@ local function ProshlyapMurchalya2(self) --прошляпанное очко М�
 	if self.vb.proshlyap2Count < 3 then
 		self:Schedule(1, ProshlyapMurchalya2, self)
 	elseif self.vb.proshlyap2Count == 3 then
-		if self.vb.embers >= 2 then
-			self.vb.proshlyap2Count = 0
-			self:Schedule(30, ProshlyapMurchalya2, self)
-		elseif self.vb.embers == 1 then
-			self.vb.proshlyap2Count = 0
-			self:Unschedule(ProshlyapMurchalya2)
-		end
+		self.vb.proshlyap2Count = 0
+		self:Unschedule(ProshlyapMurchalya2)
 	end
 end
 
@@ -751,9 +746,6 @@ function mod:UNIT_DIED(args)
 	if cid == 122532 then --Уголек Тайшалака
 		self.vb.embers = self.vb.embers - 1
 		DBM.Nameplate:Hide(true, args.destGUID)
-		if self.vb.embers == 1 then
-			self:Unschedule(ProshlyapMurchalya2)
-		end
 	end
 end
 

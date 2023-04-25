@@ -147,13 +147,32 @@ L:SetMiscLocalization{
 L= DBM:GetModLocalization(115)
 
 L:SetOptionLocalization({
-	BreathIcon	= DBM_CORE_L.AUTO_ICONS_OPTION_TEXT:format(88308)
+	BreathIcon	= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(88308)
 })
 
 ----------------------------------
 -- Asaad, califa de los Céfiros --
 ----------------------------------
 L= DBM:GetModLocalization(116)
+
+if GetLocale() == "esES" then
+L:SetMiscLocalization({
+	YellProshlyapMurchal = "¡Al'Akir, tu siervo reclama tu ayuda!"
+})
+else
+L:SetMiscLocalization({
+	YellProshlyapMurchal = "¡Al'Akir, tu sirviente te necesita!"
+})
+end
+
+-------------
+--Треш-мобы--
+-------------
+L = DBM:GetModLocalization("TVPTrash")
+
+L:SetGeneralLocalization({
+	name = "Enemigos menores"
+})
 
 ---------------------------
 --  Trono de las Mareas  --

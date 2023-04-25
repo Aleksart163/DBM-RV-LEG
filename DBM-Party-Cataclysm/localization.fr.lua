@@ -119,13 +119,26 @@ L= DBM:GetModLocalization(114)
 L= DBM:GetModLocalization(115)
 
 L:SetOptionLocalization({
-	BreathIcon	= DBM_CORE_L.AUTO_ICONS_OPTION_TEXT:format(88308)
+	BreathIcon	= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(88308)
 })
 
 -----------
 -- Asaad --
 -----------
 L= DBM:GetModLocalization(116)
+
+L:SetMiscLocalization({
+	YellProshlyapMurchal = "Al'Akir, ton serviteur implore ton aide !"
+})
+
+-------------
+--Треш-мобы--
+-------------
+L = DBM:GetModLocalization("TVPTrash")
+
+L:SetGeneralLocalization({
+	name =	"La cime du Vortex Trash"
+})
 
 ---------------------------
 --  The Throne of Tides  --

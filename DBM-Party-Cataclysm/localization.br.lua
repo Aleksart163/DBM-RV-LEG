@@ -143,13 +143,26 @@ L:SetMiscLocalization{
 L= DBM:GetModLocalization(115)
 
 L:SetOptionLocalization({
-	BreathIcon	= DBM_CORE_L.AUTO_ICONS_OPTION_TEXT:format(88308)
+	BreathIcon	= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(88308)
 })
 
 -----------
 -- Asaad --
 -----------
 L= DBM:GetModLocalization(116)
+
+L:SetMiscLocalization({
+	YellProshlyapMurchal = "Al'Akir, seu servo pede ajuda!"
+})
+
+-------------
+--Треш-мобы--
+-------------
+L = DBM:GetModLocalization("TVPTrash")
+
+L:SetGeneralLocalization({
+	name = "Pináculo do Vórtice Trash"
+})
 
 ---------------------------
 --  The Throne of Tides  --

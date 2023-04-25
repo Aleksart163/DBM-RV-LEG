@@ -80,8 +80,8 @@ local timerShrapnalBlast2CD				= mod:NewCDCountTimer(18, 248070, nil, nil, nil, 
 local yellSleepCanisterStun				= mod:NewYell(255029, L.DispelMe, nil, nil, "YELL") --Склянка с усыпляющим газом Auto yell when safe to dispel (no players within 10 yards)
 local yellSleepCanisterStun2			= mod:NewFadesYell(255029, nil, nil, nil, "YELL") --Склянка с усыпляющим газом
 local yellStasisTrap					= mod:NewYell(247641, L.DispelMe, nil, nil, "YELL") --Стазисная ловушка
-local yellEmpPulseGrenade				= mod:NewYell(250006, nil, nil, nil, "YELL") --Усиленная импульсная граната
-local yellEmpPulseGrenade2				= mod:NewFadesYell(250006, nil, nil, nil, "YELL") --Усиленная импульсная граната
+local yellEmpPulseGrenade				= mod:NewYell(247376, nil, nil, nil, "YELL") --Усиленная импульсная граната
+local yellEmpPulseGrenade2				= mod:NewFadesYell(247376, nil, nil, nil, "YELL") --импульсная граната
 local yellSleepCanister					= mod:NewPosYell(247552, DBM_CORE_AUTO_YELL_CUSTOM_POSITION, nil, nil, "YELL") --Склянка с усыпляющим газом
 local yellSleepCanister2				= mod:NewYell(255029, nil, nil, nil, "YELL") --Усыпляющий газ
 
@@ -246,7 +246,7 @@ function mod:SPELL_CAST_START(args)
 			end
 		elseif self:IsNormal() or self:IsLFR() then
 			if spellId == 248070 then --Усиленный Заряд шрапнели (фаза 3)
-				timerShrapnalBlast2CD:Start(17, self.vb.shrapnalCast+1)--17-23
+				timerShrapnalBlast2CD:Start(22, self.vb.shrapnalCast+1)--17-23
 			else --Заряд шрапнели (фаза 2)
 				timerShrapnalBlastCD:Start(nil, self.vb.shrapnalCast+1)
 			end
@@ -285,9 +285,14 @@ function mod:SPELL_CAST_SUCCESS(args)
 			specWarnChargedBlastsUnknown:Play("farfromline")
 		end
 		if self:IsMythic() then
-			timerChargedBlasts:Start(7)
-			countdownChargedBlasts2:Start(7)
-		elseif self:IsHeroic() then
+			if self.vb.phase == 2 then
+				timerChargedBlasts:Start(9)
+				countdownChargedBlasts2:Start(9)
+			else
+				timerChargedBlasts:Start(10)
+				countdownChargedBlasts2:Start(10)
+			end
+		else
 			timerChargedBlasts:Start()
 			countdownChargedBlasts2:Start()
 		end
@@ -344,8 +349,8 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			if self:CheckNearby(11) then
 				yellSleepCanisterStun:Yell()
-				yellSleepCanisterStun2:Countdown(20, 3)
 			end
+			yellSleepCanisterStun2:Countdown(20, 3)
 		elseif self:CheckNearby(10, args.destName) then--Warn nearby again
 			specWarnSleepCanisterNear:CombinedShow(0.3, args.destName)
 			specWarnSleepCanisterNear:Play("runaway")
@@ -368,6 +373,8 @@ function mod:SPELL_AURA_APPLIED(args)
 				yellEmpPulseGrenade2:Countdown(75, 5)
 			elseif self:IsHeroic() then
 				yellEmpPulseGrenade2:Countdown(45.5, 5)
+			elseif self:IsEasy() then
+				yellEmpPulseGrenade2:Countdown(30, 5)
 			end
 		end
 		updateRangeFrame(self)

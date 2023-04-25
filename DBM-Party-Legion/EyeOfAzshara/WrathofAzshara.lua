@@ -63,7 +63,7 @@ function mod:CrushingDepthsTarget(targetname, uId) --Морская пучина
 		specWarnCrushingDepths2:Play("defensive")
 		yellCrushingDepths:Yell()
 		yellCrushingDepthsFades:Countdown(6, 3)
-	elseif self:CheckNearby(40, targetname) then
+	elseif self:CheckNearby(50, targetname) then
 		specWarnCrushingDepths:Show(targetname)
 		specWarnCrushingDepths:Play("gather")
 	else

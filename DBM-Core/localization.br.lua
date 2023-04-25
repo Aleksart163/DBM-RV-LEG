@@ -11,7 +11,7 @@ DBM_CORE_LOAD_GUI_COMBAT			= "A interface gráfica não pode ser carregada em co
 DBM_CORE_BAD_LOAD					= "DBM detectou que a sua mod desta área falhou ao tentar carregar por completo por estar em combate. Use o comando /reloadui assim que sair de combate para corrigir o problema."
 DBM_CORE_LOAD_MOD_VER_MISMATCH		= "%s não foi carregado por não cumprir os requerimentos. Uma atualização da mod é necessária. Obrigado."
 
-DBM_CORE_UPDATEREMINDER_URL			= "https://github.com/Aleksart163/DBM-for-Uwow"
+DBM_CORE_UPDATEREMINDER_URL			= "https://github.com/Aleksart163/DBM-RV"
 
 DBM_CORE_DYNAMIC_DIFFICULTY_CLUMP	= "DBM desabilitou o quadro de alcance dinâmico nesta luta, por falta de informação sobre o numero de jogadores à ficarem amontoados para um grupo desse tamanho."
 
@@ -22,7 +22,7 @@ DBM_CORE_LOOT_SPEC_REMINDER			= "A sua especialização atual é %s. A sua escol
 
 DBM_CORE_BIGWIGS_ICON_CONFLICT		= "DBM detectou que você tem ícones habilitados tanto no BigWigs quanto no DBM. Por favor desabilite um dos dois para evitar conflitos com o líder da raid"
 
-DBM_CORE_MOD_AVAILABLE				= "%s esta disponível para este conteúdo. Esta disponível em |HDBM:forums|h|cff3588ffhttps://github.com/Aleksart163/DBM-for-Uwow|r. Está mensagem só será exibida uma vez."
+DBM_CORE_MOD_AVAILABLE				= "%s esta disponível para este conteúdo. Esta disponível em |HDBM:forums|h|cff3588ffhttps://github.com/Aleksart163/DBM-RV|r. Está mensagem só será exibida uma vez."
 
 DBM_CORE_COMBAT_STARTED				= "%s na mira. Boa sorte e divirta-se! :)"
 

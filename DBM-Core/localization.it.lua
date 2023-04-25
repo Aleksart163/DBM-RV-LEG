@@ -13,7 +13,7 @@ DBM_CORE_COMBAT_ENDED_AT			= "Combattimento contro %s (%s) finito dopo %s."
 DBM_CORE_COMBAT_ENDED_AT_LONG		= "Combattimento contro %s (%s) finito dopo %s. Hai %d sconfitte in questa difficolta'."
 DBM_CORE_COMBAT_STATE_RECOVERED		= "%s e' stato ingaggiato %s fa, recupero dei timer..."
 
-DBM_CORE_UPDATEREMINDER_URL			= "https://github.com/Aleksart163/DBM-for-Uwow"
+DBM_CORE_UPDATEREMINDER_URL			= "https://github.com/Aleksart163/DBM-RV"
 
 DBM_CORE_TIMER_FORMAT_SECS			= "%.2f |4secondo:secondi;"
 DBM_CORE_TIMER_FORMAT_MINS			= "%d |4minuto:minuti;"
