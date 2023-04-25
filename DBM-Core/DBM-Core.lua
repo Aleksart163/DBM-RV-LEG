@@ -4129,9 +4129,9 @@ do
 				modHFRevision = tonumber(modHFRevision or 0) or 0
 				startHp = tonumber(startHp or -1) or -1
                 if dbmRevision ~= DBM.Revision then
-				if DBM.Options.DebugMode and mod ~= nil then
-                    DBM:AddMsg("StartCombat (rejected) called for " .. mod.combatInfo.name .. " by: SYNC from - " .. sender .. ".")
-                end
+                	if DBM.Options.DebugMode and mod ~= nil then
+                    	DBM:AddMsg("StartCombat (rejected) called for " .. mod.combatInfo.name .. " by: SYNC from - " .. sender .. ".")
+                	end
                 return
                 end
 				if mod and delay and (not mod.zones or mod.zones[LastInstanceMapID]) and (not mod.minSyncRevision or modRevision >= mod.minSyncRevision) then
@@ -11690,9 +11690,10 @@ function bossModPrototype:SendSync(event, ...)
 	local str = ("%s\t%s\t%s\t%s"):format(self.id, self.revision or 0, event, arg)
 	local spamId = self.id .. event .. arg -- *not* the same as the sync string, as it doesn't use the revision information
 	local time = GetTime()
+	local checkpremsgevent = string.sub(event, 1, 7) == "premsg_"
 	--Mod syncs are more strict and enforce latency threshold always.
 	--Do not put latency check in main sendSync local function (line 313) though as we still want to get version information, etc from these users.
-	if not modSyncSpam[spamId] or (time - modSyncSpam[spamId]) > 8 then
+	if not modSyncSpam[spamId] or (time - modSyncSpam[spamId]) > 8 or checkpremsgevent then
 		self:ReceiveSync(event, nil, self.revision or 0, tostringall(...))
 		sendSync("M", str)
 	end
@@ -11711,7 +11712,8 @@ end
 function bossModPrototype:ReceiveSync(event, sender, revision, ...)
 	local spamId = self.id .. event .. strjoin("\t", ...)
 	local time = GetTime()
-	if (not modSyncSpam[spamId] or (time - modSyncSpam[spamId]) > self.SyncThreshold) and self.OnSync and (not (self.blockSyncs and sender)) and (not sender or (not self.minSyncRevision or revision >= self.minSyncRevision)) then
+	local checkpremsgevent = string.sub(event, 1, 7) == "premsg_"
+	if (not modSyncSpam[spamId] or (time - modSyncSpam[spamId]) > self.SyncThreshold or checkpremsgevent) and self.OnSync and (not (self.blockSyncs and sender)) and (not sender or (not self.minSyncRevision or revision >= self.minSyncRevision)) then
 		modSyncSpam[spamId] = time
 		-- we have to use the sender as last argument for compatibility reasons (stupid old API...)
 		-- avoid table allocations for frequently used number of arguments
@@ -11724,6 +11726,24 @@ function bossModPrototype:ReceiveSync(event, sender, revision, ...)
 			local tmp = { ... }
 			tmp[#tmp + 1] = sender
 			self:OnSync(event, unpack(tmp))
+		end
+	end
+end
+
+function smartChat(msg, arg)
+	if arg == "rw" and IsInRaid() and DBM:GetRaidRank() > 0 then
+		SendChatMessage(msg, "RAID_WARNING")
+	elseif arg == "say" then
+		SendChatMessage(msg, "SAY")
+	elseif arg == "yell" then
+		SendChatMessage(msg, "YELL")
+	elseif arg == nil then
+		if IsInRaid() then
+			SendChatMessage(msg, "RAID")
+		elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
+			SendChatMessage(msg, "INSTANCE_CHAT")
+		elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
+			SendChatMessage(msg, "PARTY")
 		end
 	end
 end
