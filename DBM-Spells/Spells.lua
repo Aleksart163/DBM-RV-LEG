@@ -641,23 +641,23 @@ end
 
 function mod:SPELL_SUMMON(args)
 	local spellId = args.spellId
-	if spellId == 67826 or spellId == 199109 then --Починка
-		if self.Options.YellOnRepair then
-			if spellId == 67826 and self:AntiSpam(10, "repair") then --Дживс 
-				if IsInRaid() and DBM:GetRaidRank() > 0 then
-					prepareMessage(self, "premsg_Spells_jeeves_rw", args.sourceName)
-				else
-					warnJeeves:Show(args.sourceName)
-				end
-			elseif spellId == 199109 and self:AntiSpam(10, "repair") then --Автоматический молот
-				if IsInRaid() and DBM:GetRaidRank() > 0 then
-					prepareMessage(self, "premsg_Spells_autoHammer_rw", args.sourceName)
-				else
-					warnAutoHammer:Show(args.sourceName)
-				end
+	if self.Options.YellOnRepair then
+		if spellId == 67826 and self:AntiSpam(10, "repair") then --Дживс 
+			if IsInRaid() and DBM:GetRaidRank() > 0 then
+				prepareMessage(self, "premsg_Spells_jeeves_rw", args.sourceName)
+			else
+				warnJeeves:Show(args.sourceName)
+			end
+		elseif spellId == 199109 and self:AntiSpam(10, "repair") then --Автоматический молот
+			if IsInRaid() and DBM:GetRaidRank() > 0 then
+				prepareMessage(self, "premsg_Spells_autoHammer_rw", args.sourceName)
+			else
+				warnAutoHammer:Show(args.sourceName)
 			end
 		end
-	elseif spellId == 199115 and self:AntiSpam(10, "pylon") then --Пилон для обнаружения проблем
+	end
+
+	if spellId == 199115 and self:AntiSpam(10, "pylon") then --Пилон для обнаружения проблем
 		if self.Options.YellOnPylon then
 			if IsInRaid() and DBM:GetRaidRank() > 0 then
 				prepareMessage(self, "premsg_Spells_pylon_rw", args.sourceName)
