@@ -116,14 +116,67 @@ local comboDebug = {}
 local comboDebugCounter = 0
 local unitTracked = {}
 
+-- Синхронизация анонсов ↓
+local premsg_values = {
+	-- test,
+	-- args_sourceName,
+	-- args_destName,
+	FlameRend, Embers
+}
+local playerOnlyName = UnitName("player")
+
+local function sendAnnounce(premsg_values)
+	--[[if premsg_values.args_sourceName == nil then
+		premsg_values.args_sourceName = "Unknown"
+	end
+	if premsg_values.args_destName == nil then
+		premsg_values.args_destName = "Unknown"
+	end]]
+
+	--[[if premsg_values.test == 1 then
+		smartChat("Тестовое сообщение.")
+		smartChat("args_sourceName: " .. premsg_values.args_sourceName)
+		smartChat("args_destName: " .. premsg_values.args_destName)
+		premsg_values.test = 0
+	else]]if premsg_values.FlameRend == 1 then
+		smartChat(L.ProshlyapMurchal1, "rw")
+		premsg_values.FlameRend = 0
+	elseif premsg_values.Embers == 1 then
+		smartChat(L.ProshlyapMurchal2, "rw")
+		premsg_values.Embers = 0
+	end
+
+	-- premsg_values.args_sourceName = nil
+	-- premsg_values.args_destName = nil
+end
+
+local function announceList(premsg_announce, value)
+	--[[if premsg_announce == "premsg_Aggramar_test" then
+		premsg_values.test = value
+	else]]if premsg_announce == "premsg_Aggramar_FlameRend_rw" then
+		premsg_values.FlameRend = value
+	elseif premsg_announce == "premsg_Aggramar_Embers_rw" then
+		premsg_values.Embers = value
+	end
+end
+
+local function prepareMessage(self, premsg_announce, args_sourceName, args_destName)
+	premsg_values.args_sourceName = args_sourceName
+	premsg_values.args_destName = args_destName
+	announceList(premsg_announce, 1)
+	self:SendSync(premsg_announce, playerOnlyName)
+	self:Schedule(1, sendAnnounce, premsg_values)
+end
+-- Синхронизация анонсов ↑
+
 local function ProshlyapMurchalya1(self) --прошляпанное очко Мурчаля Прошляпенко [✔]
 	self.vb.proshlyap1Count = self.vb.proshlyap1Count + 1
 	if self.Options.ShowProshlyapMurchal1 then
-		SendChatMessage(L.ProshlyapMurchal1, "RAID_WARNING")
+		prepareMessage(self, "premsg_Aggramar_FlameRend_rw")
 	end
-	if self.vb.proshlyap1Count < 5 then
+	if self.vb.proshlyap1Count < 3 then
 		self:Schedule(1, ProshlyapMurchalya1, self)
-	elseif self.vb.proshlyap1Count == 5 then
+	elseif self.vb.proshlyap1Count == 3 then
 		self.vb.proshlyap1Count = 0
 		self:Unschedule(ProshlyapMurchalya1)
 	end
@@ -132,7 +185,7 @@ end
 local function ProshlyapMurchalya2(self) --прошляпанное очко Мурчаля Прошляпенко [✔]
 	self.vb.proshlyap2Count = self.vb.proshlyap2Count + 1
 	if self.Options.ShowProshlyapMurchal2 then
-		SendChatMessage(L.ProshlyapMurchal2, "RAID_WARNING")
+		prepareMessage(self, "premsg_Aggramar_Embers_rw")
 	end
 	if self.vb.proshlyap2Count < 3 then
 		self:Schedule(1, ProshlyapMurchalya2, self)
@@ -446,6 +499,9 @@ end
 
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
+	--[[if spellId == 8690 then
+		prepareMessage(self, "premsg_Aggramar_test", args.sourceName, args.destName)
+	end]]
 	if spellId == 244693 and self:AntiSpam(4, 1) then--Antispam because boss recasts itif target dies while casting
 		self.vb.wakeOfFlameCount = self.vb.wakeOfFlameCount + 1
 		if not UnitIsDeadOrGhost("player") then
@@ -880,5 +936,11 @@ function mod:UNIT_HEALTH(uId)
 			warned_preP3 = true
 			warnPrePhase3:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase+1))
 		end
+	end
+end
+
+function mod:OnSync(premsg_announce, sender)
+	if sender < playerOnlyName then
+		announceList(premsg_announce, 0)
 	end
 end
