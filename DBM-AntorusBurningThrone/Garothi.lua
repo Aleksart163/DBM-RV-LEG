@@ -200,21 +200,28 @@ function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
 	if spellId == 244399 or spellId == 245294 or spellId == 246919 then --Децимация
 		self.vb.lastCannon = 2--Anniilator 1 decimator 2
-		if self.vb.phase == 1 or self:IsMythic() then
-			timerAnnihilationCD:Start(16)
-			countdownAnnihilation:Start(16)
-		elseif self.vb.phase > 1 and not self:IsMythic() then
-			timerDecimationCD:Start(16)
-			countdownDecimation:Start(16)
-		elseif self.vb.phase == 3 and self:IsMythic() then
-			timerDecimationCD:Start(32)
-			countdownDecimation:Start(32)
-			timerAnnihilationCD:Start(16)
-			countdownAnnihilation:Start(16)
-			specWarnAnnihilation:Schedule(16)
-			specWarnAnnihilation:ScheduleVoice(16, "helpsoak")
-			specWarnAnnihilation:Schedule(23)
-			specWarnAnnihilation:ScheduleVoice(23, "helpsoak")
+		if not self:IsMythic() then
+			if self.vb.phase == 1 then
+				timerAnnihilationCD:Start(16)
+				countdownAnnihilation:Start(16)
+			else
+				timerDecimationCD:Start(16)
+				countdownDecimation:Start(16)
+			end
+		else
+			if self.vb.phase < 3 then
+				timerAnnihilationCD:Start(16)
+				countdownAnnihilation:Start(16)
+			elseif self.vb.phase == 3 then
+				timerAnnihilationCD:Start(16)
+				countdownAnnihilation:Start(16)
+				timerDecimationCD:Start(32)
+				countdownDecimation:Start(32)
+				specWarnAnnihilation:Schedule(16)
+				specWarnAnnihilation:ScheduleVoice(16, "helpsoak")
+				specWarnAnnihilation:Schedule(23)
+				specWarnAnnihilation:ScheduleVoice(23, "helpsoak")
+			end
 		end
 	elseif spellId == 244294 then --Аннигиляция
 		specWarnAnnihilation:Show()
@@ -349,8 +356,8 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 			else
 				timerAnnihilationCD:Start(21.5) --прошляп
 				countdownAnnihilation:Start(21.5)
-				specWarnAnnihilation:Schedule(28.5)
-				specWarnAnnihilation:ScheduleVoice(28.5, "helpsoak")
+			--	specWarnAnnihilation:Schedule(28.5)
+			--	specWarnAnnihilation:ScheduleVoice(28.5, "helpsoak")
 			end
 			--timerSpecialCD:Start(22)--Random cannon
 		end
