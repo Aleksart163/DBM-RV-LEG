@@ -50,6 +50,7 @@ L:SetOptionLocalization({
 
 L:SetMiscLocalization({
 	YellPullEonar = "Champions! The forces of the Legion seek to capture my essense for their infernal master!",
+	YellKilled = "Victory is nigh, champions! Dispatch their remaining forces. I will see to their vessel myself.",
 	Obfuscators = "Obfuscator",
 	Destructors = "Destructor",
 	Purifiers 	= "Purifier",

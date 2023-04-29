@@ -118,6 +118,123 @@ local defacing = DBM:GetSpellInfo(210330) --Осквернение
 
 mod.vb.wardens = 3
 
+-- Синхронизация анонсов ↓
+local premsg_values = {
+	-- test,
+	args_sourceName,
+	args_destName,
+	hintTranslations_clue,
+	eating, siphoningMagic, purifying, draining, invokingText, drinking,
+	releaseSpores, shuttingDown, treating, pilfering, tinkering, defacing,
+	clues
+}
+local playerOnlyName = UnitName("player")
+
+local function sendAnnounce(premsg_values)
+	if premsg_values.args_sourceName == nil then
+		premsg_values.args_sourceName = "Unknown"
+	end
+	if premsg_values.args_destName == nil then
+		premsg_values.args_destName = "Unknown"
+	end
+	if premsg_values.hintTranslations_clue == nil then
+		premsg_values.hintTranslations_clue = "Unknown"
+	end
+
+	--[[if premsg_values.test == 1 then
+		smartChat("Тестовое сообщение.")
+		smartChat("args_sourceName: " .. premsg_values.args_sourceName)
+		smartChat("args_destName: " .. premsg_values.args_destName)
+		smartChat("hintTranslations_clue: " .. premsg_values.hintTranslations_clue)
+		premsg_values.test = 0
+	else]]if premsg_values.eating == 1 then
+		smartChat(L.EatingYell:format(DbmRV, premsg_values.args_sourceName, eating))
+		premsg_values.eating = 0
+	elseif premsg_values.siphoningMagic == 1 then
+		smartChat(L.SiphoningMagic:format(DbmRV, premsg_values.args_sourceName, siphoningMagic))
+		premsg_values.siphoningMagic = 0
+	elseif premsg_values.purifying == 1 then
+		smartChat(L.PurifyingYell:format(DbmRV, premsg_values.args_sourceName, purifying))
+		premsg_values.purifying = 0
+	elseif premsg_values.draining == 1 then
+		smartChat(L.DrainingYell:format(DbmRV, premsg_values.args_sourceName, draining))
+		premsg_values.draining = 0
+	elseif premsg_values.invokingText == 1 then
+		smartChat(L.InvokingTextYell:format(DbmRV, premsg_values.args_sourceName, invokingText))
+		premsg_values.invokingText = 0
+	elseif premsg_values.drinking == 1 then
+		smartChat(L.DrinkingYell:format(DbmRV, premsg_values.args_sourceName, drinking))
+		premsg_values.drinking = 0
+	elseif premsg_values.releaseSpores == 1 then
+		smartChat(L.ReleaseSporesYell:format(DbmRV, premsg_values.args_sourceName, releaseSpores))
+		premsg_values.releaseSpores = 0
+	elseif premsg_values.shuttingDown == 1 then
+		smartChat(L.ShuttingDownYell:format(DbmRV, premsg_values.args_sourceName, shuttingDown))
+		premsg_values.shuttingDown = 0
+	elseif premsg_values.treating == 1 then
+		smartChat(L.TreatingYell:format(DbmRV, premsg_values.args_sourceName, treating))
+		premsg_values.treating = 0
+	elseif premsg_values.pilfering == 1 then
+		smartChat(L.PilferingYell:format(DbmRV, premsg_values.args_sourceName, pilfering))
+		premsg_values.pilfering = 0
+	elseif premsg_values.tinkering == 1 then
+		smartChat(L.TinkeringYell:format(DbmRV, premsg_values.args_sourceName, tinkering))
+		premsg_values.tinkering = 0
+	elseif premsg_values.defacing == 1 then
+		smartChat(L.DefacingYell:format(DbmRV, premsg_values.args_sourceName, defacing))
+		premsg_values.defacing = 0
+	elseif premsg_values.clues == 1 then
+		smartChat(premsg_values.hintTranslations_clue)
+		premsg_values.clues = 0
+	end
+
+	premsg_values.args_sourceName = nil
+	premsg_values.args_destName = nil
+	premsg_values.hintTranslations_clue = nil
+end
+
+local function announceList(premsg_announce, value)
+	--[[if premsg_announce == "premsg_CoSTrash_test" then
+		premsg_values.test = value
+	else]]if premsg_announce == "premsg_CoSTrash_eating" then
+		premsg_values.eating = value
+	elseif premsg_announce == "premsg_CoSTrash_siphoningMagic" then
+		premsg_values.siphoningMagic = value
+	elseif premsg_announce == "premsg_CoSTrash_purifying" then
+		premsg_values.purifying = value
+	elseif premsg_announce == "premsg_CoSTrash_draining" then
+		premsg_values.draining = value
+	elseif premsg_announce == "premsg_CoSTrash_invokingText" then
+		premsg_values.invokingText = value
+	elseif premsg_announce == "premsg_CoSTrash_drinking" then
+		premsg_values.drinking = value
+	elseif premsg_announce == "premsg_CoSTrash_releaseSpores" then
+		premsg_values.releaseSpores = value
+	elseif premsg_announce == "premsg_CoSTrash_shuttingDown" then
+		premsg_values.shuttingDown = value
+	elseif premsg_announce == "premsg_CoSTrash_treating" then
+		premsg_values.treating = value
+	elseif premsg_announce == "premsg_CoSTrash_pilfering" then
+		premsg_values.pilfering = value
+	elseif premsg_announce == "premsg_CoSTrash_tinkering" then
+		premsg_values.tinkering = value
+	elseif premsg_announce == "premsg_CoSTrash_defacing" then
+		premsg_values.defacing = value
+	elseif premsg_announce == "premsg_CoSTrash_clues" then
+		premsg_values.clues = value
+	end
+end
+
+local function prepareMessage(self, premsg_announce, args_sourceName, args_destName, hintTranslations_clue)
+	premsg_values.args_sourceName = args_sourceName
+	premsg_values.args_destName = args_destName
+	premsg_values.hintTranslations_clue = hintTranslations_clue
+	announceList(premsg_announce, 1)
+	self:SendSync(premsg_announce, playerOnlyName)
+	self:Schedule(1, sendAnnounce, premsg_values)
+end
+-- Синхронизация анонсов ↑
+
 function mod:CarrionSwarmTarget(targetname, uId) --Темная стая ✔
 	if not targetname then return end
 	if targetname == UnitName("player") then
@@ -152,8 +269,11 @@ function mod:DisintegrationBeamTarget(targetname, uId) --Луч дезинтег
 end
 
 function mod:SPELL_CAST_START(args)
-	if not self.Options.Enabled then return end
 	local spellId = args.spellId
+	--[[if spellId == 8690 then
+		prepareMessage(self, "premsg_CoSTrash_test", args.sourceName, args.destName)
+	end]]
+	if not self.Options.Enabled then return end
 	if spellId == 209027 and self:AntiSpam(3, 5) then
 		specWarnQuellingStrike:Show()
 		specWarnQuellingStrike:Play("shockwave")
@@ -250,134 +370,62 @@ function mod:SPELL_CAST_SUCCESS(args)
 	elseif spellId == 208585 then --Поглощение пищи
 		warnEating:Show(args.sourceName)
 		if self.Options.YellOnEating then
-			if IsInRaid() then
-				SendChatMessage(L.EatingYell:format(DbmRV, args.sourceName, eating), "RAID")
-			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
-				SendChatMessage(L.EatingYell:format(DbmRV, args.sourceName, eating), "INSTANCE_CHAT")
-			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
-				SendChatMessage(L.EatingYell:format(DbmRV, args.sourceName, eating), "PARTY")
-			end
+			prepareMessage(self, "premsg_CoSTrash_eating", args.sourceName)
 		end
 	elseif spellId == 208427 then --Похищение магии
 		warnSiphoningMagic:Show(args.sourceName)
 		if self.Options.YellOnSiphoningMagic then
-			if IsInRaid() then
-				SendChatMessage(L.SiphoningMagic:format(DbmRV, args.sourceName, siphoningMagic), "RAID")
-			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
-				SendChatMessage(L.SiphoningMagic:format(DbmRV, args.sourceName, siphoningMagic), "INSTANCE_CHAT")
-			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
-				SendChatMessage(L.SiphoningMagic:format(DbmRV, args.sourceName, siphoningMagic), "PARTY")
-			end
+			prepareMessage(self, "premsg_CoSTrash_siphoningMagic", args.sourceName)
 		end
 	elseif spellId == 209767 then --Очищение
 		warnPurifying:Show(args.sourceName)
 		if self.Options.YellOnPurifying then
-			if IsInRaid() then
-				SendChatMessage(L.PurifyingYell:format(DbmRV, args.sourceName, purifying), "RAID")
-			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
-				SendChatMessage(L.PurifyingYell:format(DbmRV, args.sourceName, purifying), "INSTANCE_CHAT")
-			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
-				SendChatMessage(L.PurifyingYell:format(DbmRV, args.sourceName, purifying), "PARTY")
-			end
+			prepareMessage(self, "premsg_CoSTrash_purifying", args.sourceName)
 		end
 	elseif spellId == 208334 then --Иссушение
 		warnDraining:Show(args.sourceName)
 		if self.Options.YellOnDraining then
-			if IsInRaid() then
-				SendChatMessage(L.DrainingYell:format(DbmRV, args.sourceName, draining), "RAID")
-			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
-				SendChatMessage(L.DrainingYell:format(DbmRV, args.sourceName, draining), "INSTANCE_CHAT")
-			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
-				SendChatMessage(L.DrainingYell:format(DbmRV, args.sourceName, draining), "PARTY")
-			end
+			prepareMessage(self, "premsg_CoSTrash_draining", args.sourceName)
 		end
 	elseif spellId == 210872 then --Текст пробуждения
 		warnInvokingText:Show(args.sourceName)
 		if self.Options.YellOnInvokingText then
-			if IsInRaid() then
-				SendChatMessage(L.InvokingTextYell:format(DbmRV, args.sourceName, invokingText), "RAID")
-			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
-				SendChatMessage(L.InvokingTextYell:format(DbmRV, args.sourceName, invokingText), "INSTANCE_CHAT")
-			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
-				SendChatMessage(L.InvokingTextYell:format(DbmRV, args.sourceName, invokingText), "PARTY")
-			end
+			prepareMessage(self, "premsg_CoSTrash_invokingText", args.sourceName)
 		end
 	elseif spellId == 210307 then --Выпивание
 		warnDrinking:Show(args.sourceName)
 		if self.Options.YellOnDrinking then
-			if IsInRaid() then
-				SendChatMessage(L.DrinkingYell:format(DbmRV, args.sourceName, drinking), "RAID")
-			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
-				SendChatMessage(L.DrinkingYell:format(DbmRV, args.sourceName, drinking), "INSTANCE_CHAT")
-			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
-				SendChatMessage(L.DrinkingYell:format(DbmRV, args.sourceName, drinking), "PARTY")
-			end
+			prepareMessage(self, "premsg_CoSTrash_drinking", args.sourceName)
 		end
 	elseif spellId == 208939 then --Высвобождение спор
 		warnReleaseSpores:Show(args.sourceName)
 		if self.Options.YellOnReleaseSpores then
-			if IsInRaid() then
-				SendChatMessage(L.ReleaseSporesYell:format(DbmRV, args.sourceName, releaseSpores), "RAID")
-			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
-				SendChatMessage(L.ReleaseSporesYell:format(DbmRV, args.sourceName, releaseSpores), "INSTANCE_CHAT")
-			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
-				SendChatMessage(L.ReleaseSporesYell:format(DbmRV, args.sourceName, releaseSpores), "PARTY")
-			end
+			prepareMessage(self, "premsg_CoSTrash_releaseSpores", args.sourceName)
 		end
 	elseif spellId == 208370 then --Отключение
 		warnShuttingDown:Show(args.sourceName)
 		if self.Options.YellOnShuttingDown then
-			if IsInRaid() then
-				SendChatMessage(L.ShuttingDownYell:format(DbmRV, args.sourceName, shuttingDown), "RAID")
-			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
-				SendChatMessage(L.ShuttingDownYell:format(DbmRV, args.sourceName, shuttingDown), "INSTANCE_CHAT")
-			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
-				SendChatMessage(L.ShuttingDownYell:format(DbmRV, args.sourceName, shuttingDown), "PARTY")
-			end
+			prepareMessage(self, "premsg_CoSTrash_shuttingDown", args.sourceName)
 		end
 	elseif spellId == 210925 then --Лечение
 		warnTreating:Show(args.sourceName)
 		if self.Options.YellOnTreating then
-			if IsInRaid() then
-				SendChatMessage(L.TreatingYell:format(DbmRV, args.sourceName, treating), "RAID")
-			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
-				SendChatMessage(L.TreatingYell:format(DbmRV, args.sourceName, treating), "INSTANCE_CHAT")
-			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
-				SendChatMessage(L.TreatingYell:format(DbmRV, args.sourceName, treating), "PARTY")
-			end
+			prepareMessage(self, "premsg_CoSTrash_treating", args.sourceName)
 		end
 	elseif spellId == 210217 then --Воровство
 		warnPilfering:Show(args.sourceName)
 		if self.Options.YellOnPilfering then
-			if IsInRaid() then
-				SendChatMessage(L.PilferingYell:format(DbmRV, args.sourceName, pilfering), "RAID")
-			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
-				SendChatMessage(L.PilferingYell:format(DbmRV, args.sourceName, pilfering), "INSTANCE_CHAT")
-			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
-				SendChatMessage(L.PilferingYell:format(DbmRV, args.sourceName, pilfering), "PARTY")
-			end
+			prepareMessage(self, "premsg_CoSTrash_pilfering", args.sourceName)
 		end
 	elseif spellId == 210922 then --Конструирование
 		warnTinkering:Show(args.sourceName)
 		if self.Options.YellOnTinkering then
-			if IsInRaid() then
-				SendChatMessage(L.TinkeringYell:format(DbmRV, args.sourceName, tinkering), "RAID")
-			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
-				SendChatMessage(L.TinkeringYell:format(DbmRV, args.sourceName, tinkering), "INSTANCE_CHAT")
-			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
-				SendChatMessage(L.TinkeringYell:format(DbmRV, args.sourceName, tinkering), "PARTY")
-			end
+			prepareMessage(self, "premsg_CoSTrash_tinkering", args.sourceName)
 		end
 	elseif spellId == 210330 then --Осквернение
 		warnDefacing:Show(args.sourceName)
 		if self.Options.YellOnDefacing then
-			if IsInRaid() then
-				SendChatMessage(L.DefacingYell:format(DbmRV, args.sourceName, defacing), "RAID")
-			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
-				SendChatMessage(L.DefacingYell:format(DbmRV, args.sourceName, defacing), "INSTANCE_CHAT")
-			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
-				SendChatMessage(L.DefacingYell:format(DbmRV, args.sourceName, defacing), "PARTY")
-			end
+			prepareMessage(self, "premsg_CoSTrash_defacing", args.sourceName)
 		end
 	end
 end
@@ -441,203 +489,171 @@ function mod:SPELL_AURA_REMOVED(args)
 	end
 end
 
-do
-	local hintTranslations = {
-		["gloves"] = L.Gloves,
-		["no gloves"] = L.NoGloves,
-		["cape"] = L.Cape,
-		["no cape"] = L.Nocape,
-		["light vest"] = L.LightVest,
-		["dark vest"] = L.DarkVest,
-		["female"] = L.Female,
-		["male"] = L.Male,
-		["short sleeves"] = L.ShortSleeve,
-		["long sleeves"] = L.LongSleeve,
-		["potions"] = L.Potions,
-		["no potion"] = L.NoPotions,
-		["book"] = L.Book,
-		["pouch"] = L.Pouch
-	}
-	local hints = {}
-	local clues = {
-		[L.Gloves1] = "gloves",
-		[L.Gloves2] = "gloves",
-		[L.Gloves3] = "gloves",
-		[L.Gloves4] = "gloves",
-		[L.Gloves5] = "gloves",
-		[L.Gloves6] = "gloves",
-		
-		[L.NoGloves1] = "no gloves",
-		[L.NoGloves2] = "no gloves",
-		[L.NoGloves3] = "no gloves",
-		[L.NoGloves4] = "no gloves",
-		[L.NoGloves5] = "no gloves",
-		[L.NoGloves6] = "no gloves",
-		[L.NoGloves7] = "no gloves",
-		
-		[L.Cape1] = "cape",
-		[L.Cape2] = "cape",
-		
-		[L.NoCape1] = "no cape",
-		[L.NoCape2] = "no cape",
-		
-		[L.LightVest1] = "light vest",
-		[L.LightVest2] = "light vest",
-		[L.LightVest3] = "light vest",
-		
-		[L.DarkVest1] = "dark vest",
-		[L.DarkVest2] = "dark vest",
-		[L.DarkVest3] = "dark vest",
-		[L.DarkVest4] = "dark vest",
-		
-		[L.Female1] = "female",
-		[L.Female2] = "female",
-		[L.Female3] = "female",
-		[L.Female4] = "female",
-		[L.Female5] = "female",
-		
-		[L.Male1] = "male",
-		[L.Male2] = "male",
-		[L.Male3] = "male",
-		[L.Male4] = "male",
-		[L.Male5] = "male",
-		[L.Male6] = "male",
-		
-		[L.ShortSleeve1] = "short sleeves",
-		[L.ShortSleeve2] = "short sleeves",
-		[L.ShortSleeve3] = "short sleeves",
-		[L.ShortSleeve4] = "short sleeves",
-		[L.ShortSleeve5] = "short sleeves",
-		
-		[L.LongSleeve1] = "long sleeves",
-		[L.LongSleeve2] = "long sleeves",
-		[L.LongSleeve3] = "long sleeves",
-		[L.LongSleeve4] = "long sleeves",
-		[L.LongSleeve5] = "long sleeves",
-		
-		[L.Potions1] = "potions",
-		[L.Potions2] = "potions",
-		[L.Potions3] = "potions",
-		[L.Potions4] = "potions",
-		[L.Potions5] = "potions",
-		[L.Potions6] = "potions",
-		
-		[L.NoPotions1] = "no potion",
-		[L.NoPotions2] = "no potion",
-		
-		[L.Book1] = "book",
-		[L.Book2] = "book",
-		[L.Book3] = "book",
-		
-		[L.Pouch1] = "pouch",
-		[L.Pouch2] = "pouch",
-		[L.Pouch3] = "pouch",
-		[L.Pouch4] = "pouch",
-		[L.Pouch5] = "pouch",
-		[L.Pouch6] = "pouch",
-		[L.Pouch7] = "pouch"
-	}
-	local bwClues = {
-		[1] = "cape",
-		[2] = "no cape",
-		[3] = "pouch",
-		[4] = "potions",
-		[5] = "long sleeves",
- 		[6] = "short sleeves",
- 		[7] = "gloves",
- 		[8] = "no gloves",
- 		[9] = "male",
- 		[10] = "female",
- 		[11] = "light vest",
- 		[12] = "dark vest",
- 		[13] = "no potion",
-		[14] = "book"
-	}
+local hintTranslations = {
+	["gloves"] = L.Gloves,
+	["no gloves"] = L.NoGloves,
+	["cape"] = L.Cape,
+	["no cape"] = L.Nocape,
+	["light vest"] = L.LightVest,
+	["dark vest"] = L.DarkVest,
+	["female"] = L.Female,
+	["male"] = L.Male,
+	["short sleeves"] = L.ShortSleeve,
+	["long sleeves"] = L.LongSleeve,
+	["potions"] = L.Potions,
+	["no potion"] = L.NoPotions,
+	["book"] = L.Book,
+	["pouch"] = L.Pouch
+}
+local hints = {}
+local clues = {
+	[L.Gloves1] = "gloves",
+	[L.Gloves2] = "gloves",
+	[L.Gloves3] = "gloves",
+	[L.Gloves4] = "gloves",
+	[L.Gloves5] = "gloves",
+	[L.Gloves6] = "gloves",
+	
+	[L.NoGloves1] = "no gloves",
+	[L.NoGloves2] = "no gloves",
+	[L.NoGloves3] = "no gloves",
+	[L.NoGloves4] = "no gloves",
+	[L.NoGloves5] = "no gloves",
+	[L.NoGloves6] = "no gloves",
+	[L.NoGloves7] = "no gloves",
+	
+	[L.Cape1] = "cape",
+	[L.Cape2] = "cape",
+	
+	[L.NoCape1] = "no cape",
+	[L.NoCape2] = "no cape",
+	
+	[L.LightVest1] = "light vest",
+	[L.LightVest2] = "light vest",
+	[L.LightVest3] = "light vest",
+	
+	[L.DarkVest1] = "dark vest",
+	[L.DarkVest2] = "dark vest",
+	[L.DarkVest3] = "dark vest",
+	[L.DarkVest4] = "dark vest",
+	
+	[L.Female1] = "female",
+	[L.Female2] = "female",
+	[L.Female3] = "female",
+	[L.Female4] = "female",
+	[L.Female5] = "female",
+	
+	[L.Male1] = "male",
+	[L.Male2] = "male",
+	[L.Male3] = "male",
+	[L.Male4] = "male",
+	[L.Male5] = "male",
+	[L.Male6] = "male",
+	
+	[L.ShortSleeve1] = "short sleeves",
+	[L.ShortSleeve2] = "short sleeves",
+	[L.ShortSleeve3] = "short sleeves",
+	[L.ShortSleeve4] = "short sleeves",
+	[L.ShortSleeve5] = "short sleeves",
+	
+	[L.LongSleeve1] = "long sleeves",
+	[L.LongSleeve2] = "long sleeves",
+	[L.LongSleeve3] = "long sleeves",
+	[L.LongSleeve4] = "long sleeves",
+	[L.LongSleeve5] = "long sleeves",
+	
+	[L.Potions1] = "potions",
+	[L.Potions2] = "potions",
+	[L.Potions3] = "potions",
+	[L.Potions4] = "potions",
+	[L.Potions5] = "potions",
+	[L.Potions6] = "potions",
+	
+	[L.NoPotions1] = "no potion",
+	[L.NoPotions2] = "no potion",
+	
+	[L.Book1] = "book",
+	[L.Book2] = "book",
+	[L.Book3] = "book",
+	
+	[L.Pouch1] = "pouch",
+	[L.Pouch2] = "pouch",
+	[L.Pouch3] = "pouch",
+	[L.Pouch4] = "pouch",
+	[L.Pouch5] = "pouch",
+	[L.Pouch6] = "pouch",
+	[L.Pouch7] = "pouch"
+}
+local bwClues = {
+	[1] = "cape",
+	[2] = "no cape",
+	[3] = "pouch",
+	[4] = "potions",
+	[5] = "long sleeves",
+	[6] = "short sleeves",
+	[7] = "gloves",
+	[8] = "no gloves",
+	[9] = "male",
+	[10] = "female",
+	[11] = "light vest",
+	[12] = "dark vest",
+	[13] = "no potion",
+	[14] = "book"
+}
 
-	local function updateInfoFrame()
-		local lines = {}
-		for hint, j in pairs(hints) do
-			local text = hintTranslations[hint] or hint
-			lines[text] = ""
-		end
-		
-		return lines
+local function updateInfoFrame()
+	local lines = {}
+	for hint, j in pairs(hints) do
+		local text = hintTranslations[hint] or hint
+		lines[text] = ""
 	end
 	
-	--/run DBM:GetModByName("CoSTrash"):ResetGossipState()
-	function mod:ResetGossipState()
-		table.wipe(hints)
-		DBM.InfoFrame:Hide()
-	end
-	
-	function mod:CHAT_MSG_MONSTER_SAY(msg)
-		if msg:find(L.Found) then
-			self:SendSync("Finished")
-		elseif msg == L.proshlyapMurchal then
-			self:SendSync("RolePlayMel")
-		end
-	end
+	return lines
+end
 
-	function mod:GOSSIP_SHOW()
-		if not self.Options.SpyHelper then return end
-		local guid = UnitGUID("npc")
-		if not guid then return end
-		local cid = self:GetCIDFromGUID(guid)
-		--105729 Сигнальный фонарь, 106468 Ли'лет Лунарх
-		--105249 Закуски ночной тени (Расы - панды, профы - кулинарка 800), 105340 Теневой цветок (классы - друиды, профы - травничество 800), 105117 Настой священной ночи (классы - роги, профы - алхимка 100+)
-		--106110 Промокший свиток (классы - шаман, профы - кожевничество, начертание по 100+), 106024 Магический светильник (расы - эльфы, классы - маг, профы - наложение чар 100+)
-		--106018 Рыночные товары (классы - воин, разбойник, профы - кожевничество 100+), 106113 Статуя ночнорожденного в натуральную величину (профы - горное дело и ювелирное 100+), 105831 Инфернальный фолиант (классы - дх, жрец, паладин)
-		--105157 Проводник магической энергии (расы - гном, гоблин, профы - инженерия 100+), 105160 Сфера Скверны, 106108 Отвар из звездной розы, 105215 Выброшенный хлам, 106112 Раненый ночнорожденный
-		if cid == 106024 or cid == 105729 or cid == 106468 or cid == 105249 or cid == 105340 or cid == 105117 or cid == 106110 or cid == 106018 or cid == 106113 or cid == 105831 or cid == 105157 or cid == 105160 or cid == 106108 or cid == 105215 or cid == 106112 then
-			if select('#', GetGossipOptions()) > 0 then
-				SelectGossipOption(1)
+--/run DBM:GetModByName("CoSTrash"):ResetGossipState()
+function mod:ResetGossipState()
+	table.wipe(hints)
+	DBM.InfoFrame:Hide()
+end
+
+function mod:CHAT_MSG_MONSTER_SAY(msg)
+	if msg:find(L.Found) then
+		self:SendSync("Finished")
+	elseif msg == L.proshlyapMurchal then
+		self:SendSync("RolePlayMel")
+	end
+end
+
+function mod:GOSSIP_SHOW()
+	if not self.Options.SpyHelper then return end
+	local guid = UnitGUID("npc")
+	if not guid then return end
+	local cid = self:GetCIDFromGUID(guid)
+	--105729 Сигнальный фонарь, 106468 Ли'лет Лунарх
+	--105249 Закуски ночной тени (Расы - панды, профы - кулинарка 800), 105340 Теневой цветок (классы - друиды, профы - травничество 800), 105117 Настой священной ночи (классы - роги, профы - алхимка 100+)
+	--106110 Промокший свиток (классы - шаман, профы - кожевничество, начертание по 100+), 106024 Магический светильник (расы - эльфы, классы - маг, профы - наложение чар 100+)
+	--106018 Рыночные товары (классы - воин, разбойник, профы - кожевничество 100+), 106113 Статуя ночнорожденного в натуральную величину (профы - горное дело и ювелирное 100+), 105831 Инфернальный фолиант (классы - дх, жрец, паладин)
+	--105157 Проводник магической энергии (расы - гном, гоблин, профы - инженерия 100+), 105160 Сфера Скверны, 106108 Отвар из звездной розы, 105215 Выброшенный хлам, 106112 Раненый ночнорожденный
+	if cid == 106024 or cid == 105729 or cid == 106468 or cid == 105249 or cid == 105340 or cid == 105117 or cid == 106110 or cid == 106018 or cid == 106113 or cid == 105831 or cid == 105157 or cid == 105160 or cid == 106108 or cid == 105215 or cid == 106112 then
+		if select('#', GetGossipOptions()) > 0 then
+			SelectGossipOption(1)
+			CloseGossip()
+		end
+	end		
+	-- Suspicious noble
+	if cid == 107486 then --Болтливый сплетник
+		if select('#', GetGossipOptions()) > 0 then
+			SelectGossipOption(1)
+		else
+			local clue = clues[GetGossipText()]
+			if clue and not hints[clue] then
 				CloseGossip()
+				prepareMessage(self, "premsg_CoSTrash_clues", nil, nil, hintTranslations[clue])
+				hints[clue] = true
+				self:SendSync("CoS", clue)
+				DBM.InfoFrame:Show(5, "function", updateInfoFrame)
 			end
-		end		
-		-- Suspicious noble
-		if cid == 107486 then --Болтливый сплетник
-			if select('#', GetGossipOptions()) > 0 then
-				SelectGossipOption(1)
-			else
-				local clue = clues[GetGossipText()]
-				if clue and not hints[clue] then
-					CloseGossip()
-					if IsInRaid() then
-						SendChatMessage(hintTranslations[clue], "RAID")
-					elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
-						SendChatMessage(hintTranslations[clue], "INSTANCE_CHAT")
-					elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
-						SendChatMessage(hintTranslations[clue], "PARTY")
-					end
-					hints[clue] = true
-					self:SendSync("CoS", clue)
-					DBM.InfoFrame:Show(5, "function", updateInfoFrame)
-				end
-			end
-		end
-	end
-	
-	function mod:OnSync(msg, clue)
-		if not self.Options.SpyHelper then return end
-		if msg == "CoS" and clue then
-			hints[clue] = true
-			DBM.InfoFrame:Show(5, "function", updateInfoFrame)
-		elseif msg == "Finished" then
-			warnPhase2:Show()
-			self:ResetGossipState()
-		--	self:Finish()
-		elseif msg == "RolePlayMel" then
-			timerRoleplay:Start()
-		end
-	end
-	function mod:OnBWSync(msg, extra)
-		if msg ~= "clue" then return end
-		extra = tonumber(extra)
-		if extra and extra > 0 and extra < 15 then
-			DBM:Debug("Recieved BigWigs Comm:"..extra)
-			local bwClue = bwClues[extra]
-			hints[bwClue] = true
-			DBM.InfoFrame:Show(5, "function", updateInfoFrame)
 		end
 	end
 end
@@ -663,5 +679,35 @@ function mod:UNIT_DIED(args)
 		timerCrippleCD:Cancel()
 		timerShadowBoltVolleyCD:Cancel()
 		timerCarrionSwarmCD:Cancel()
+	end
+end
+
+function mod:OnSync(msg, clue)
+	local premsg_announce = msg
+	local sender = clue
+	if sender < playerOnlyName then
+		announceList(premsg_announce, 0)
+	end
+	if not self.Options.SpyHelper then return end
+	if msg == "CoS" and clue then
+		hints[clue] = true
+		DBM.InfoFrame:Show(5, "function", updateInfoFrame)
+	elseif msg == "Finished" then
+		warnPhase2:Show()
+		self:ResetGossipState()
+	--	self:Finish()
+	elseif msg == "RolePlayMel" then
+		timerRoleplay:Start()
+	end
+end
+
+function mod:OnBWSync(msg, extra)
+	if msg ~= "clue" then return end
+	extra = tonumber(extra)
+	if extra and extra > 0 and extra < 15 then
+		DBM:Debug("Recieved BigWigs Comm:"..extra)
+		local bwClue = bwClues[extra]
+		hints[bwClue] = true
+		DBM.InfoFrame:Show(5, "function", updateInfoFrame)
 	end
 end

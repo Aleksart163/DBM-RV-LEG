@@ -13,6 +13,7 @@ mod:DisableIEEUCombatDetection()
 
 mod:RegisterCombat("combat")
 --mod:RegisterCombat("combat_yell", L.YellPullEonar)
+mod:RegisterKill("yell", L.YellKilled) -- Временное решение, вроде если этой фразы не будет, то победу не должно засчитывать ни при каких обстоятельствах. Не уверен как именно работает функция.
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 249121 250701 246305 250048",
@@ -22,10 +23,11 @@ mod:RegisterEventsInCombat(
 	"SPELL_AURA_REMOVED 250074 250555 249016 248332 250693 250691",
 --	"SPELL_DAMAGE 248329",
 --	"SPELL_MISSED 248329",
-	"UNIT_DIED",
 	"CHAT_MSG_RAID_BOSS_EMOTE",
+	"CHAT_MSG_MONSTER_YELL",
 	"SPELL_PERIODIC_DAMAGE 248795",
 	"SPELL_PERIODIC_MISSED 248795",
+	"UNIT_DIED",
 	"UNIT_SPELLCAST_SUCCEEDED boss1 boss2 boss3 boss4 boss5",
 	"UNIT_SPELLCAST_CHANNEL_STOP boss1 boss2 boss3 boss4 boss5",
 	"UNIT_SPELLCAST_STOP boss1 boss2 boss3 boss4 boss5"
@@ -395,12 +397,6 @@ function mod:SPELL_CAST_SUCCESS(args)
 	end
 end
 
-function mod:OnSync(msg)
-	if msg == "OchkoSoulburnin" then
-		DBM:EndCombat(self, true)
-	end
-end
-
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 250073 and not warnedAdds[args.sourceGUID] then --Очиститель (баф очистителя)
@@ -584,3 +580,16 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spell
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
+
+function mod:CHAT_MSG_MONSTER_YELL(msg)
+	if msg:find(L.YellKilled) or msg == L.YellKilled then
+		DBM:EndCombat(self)
+	end
+end
+	
+function mod:OnSync(msg)
+	if msg == "OchkoSoulburnin" then
+		DBM:Debug("Checking synchronization execute")
+		DBM:EndCombat(self, true)
+	end
+end

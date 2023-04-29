@@ -63,6 +63,7 @@ L:SetOptionLocalization({
 
 L:SetMiscLocalization({
 	YellPullEonar = "Герои! Демоны пытаются захватить мою сущность для своего повелителя.",
+	YellKilled = "Герои, победа близка! Добейте демонов, а я возьму на себя их корабль.",
 	Obfuscators = "Маскировщик",
 	Destructors = "Разрушитель",
 	Purifiers 	= "Очиститель",
