@@ -13,6 +13,7 @@ mod:DisableIEEUCombatDetection()
 
 mod:RegisterCombat("combat")
 --mod:RegisterCombat("combat_yell", L.YellPullEonar)
+mod:RegisterKill("yell", L.tut_frazu_nado_propisat) -- Временное решение, вроде если этой фразы не будет, то победу не должно засчитывать ни при каких обстоятельствах. Не уверен как именно работает функция.
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 249121 250701 246305 250048",
