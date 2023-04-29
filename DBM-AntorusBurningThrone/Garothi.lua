@@ -356,8 +356,12 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 			else
 				timerAnnihilationCD:Start(21.5) --прошляп
 				countdownAnnihilation:Start(21.5)
-			--	specWarnAnnihilation:Schedule(28.5)
-			--	specWarnAnnihilation:ScheduleVoice(28.5, "helpsoak")
+				timerDecimationCD:Start(37.5)
+				countdownDecimation:Start(37.5)
+				specWarnAnnihilation:Schedule(21.5)
+				specWarnAnnihilation:ScheduleVoice(21.5, "helpsoak")
+				specWarnAnnihilation:Schedule(28.5)
+				specWarnAnnihilation:ScheduleVoice(28.5, "helpsoak")
 			end
 			--timerSpecialCD:Start(22)--Random cannon
 		end

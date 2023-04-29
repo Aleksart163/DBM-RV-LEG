@@ -508,10 +508,10 @@ function mod:SPELL_CAST_SUCCESS(args)
 		end
 		timerSweepingScytheCD:Start(5.6, self.vb.scytheCastCount+1)
 		countdownSweapingScythe:Start(5.6)
-	elseif spellId == 258039 then
+	elseif spellId == 258039 then --Смертоносная коса
 		timerDeadlyScytheCD:Start()
 		countdownDeadlyScythe:Start(5.5)
-	elseif spellId == 258838 then--Mythic Scythe
+	elseif spellId == 258838 then --Рассекающая коса (мифик)
 		timerSoulrendingScytheCD:Start()
 		countdownSoulScythe:Start(8.5)
 	elseif spellId == 255826 then
@@ -561,7 +561,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				warnSweepingScythe:Show(args.destName, amount)
 			end
 		end
-	elseif spellId == 258039 then--Heroic
+	elseif spellId == 258039 then --Смертоносная коса (героик)
 		local uId = DBM:GetRaidUnitId(args.destName)
 		if uId and self:IsTanking(uId) then
 			local amount = args.amount or 1
@@ -577,7 +577,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				end
 			end
 		end
-	elseif spellId == 258838 then--Mythic
+	elseif spellId == 258838 then --Рассекающая коса (мифик)
 		local uId = DBM:GetRaidUnitId(args.destName)
 		if uId and self:IsTanking(uId) then
 			local amount = args.amount or 1
@@ -838,7 +838,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		end
 	elseif spellId == 248499 then
 		tDeleteItem(tankStacks, args.destName)
-	elseif spellId == 258039 then--Heroic
+	elseif spellId == 258039 then --Смертоносная коса (героик)
 		tDeleteItem(tankStacks, args.destName)
 		local uId = DBM:GetRaidUnitId(args.destName)
 		if uId and self:IsTanking(uId) then
@@ -849,7 +849,7 @@ function mod:SPELL_AURA_REMOVED(args)
 				end
 			end
 		end
-	elseif spellId == 258838 then--Mythic
+	elseif spellId == 258838 then --Рассекающая коса (мифик)
 		tDeleteItem(tankStacks, args.destName)
 		local uId = DBM:GetRaidUnitId(args.destName)
 		if uId and self:IsTanking(uId) then
