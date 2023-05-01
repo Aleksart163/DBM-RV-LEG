@@ -14,7 +14,9 @@
 --    * ruRU: Aleksart163
 --
 -- Special thanks to:
---    * Danzo
+--    * Danzo 		(for help in the addon)
+--    * Мурчаль 	(for proshlyap a point)
+--    * Soulburnin  (for proshlyap a point)
 --
 -- The code of this addon is licensed under a Creative Commons Attribution-Noncommercial-Share Alike 3.0 License. (see license.txt)
 -- All included textures and sounds are copyrighted by their respective owners, license information for these media files can be found in the modules that make use of them.

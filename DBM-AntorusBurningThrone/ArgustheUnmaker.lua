@@ -116,7 +116,7 @@ local timerAddsCD					= mod:NewAddsTimer(14, 253021, nil, nil, nil, 1, nil, DBM_
 --Stage 4
 mod:AddTimerLine(SCENARIO_STAGE:format(4))
 local timerDeadlyScytheCD			= mod:NewCDTimer(5.5, 258039, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Смертоносная коса
-local timerReorgModuleCD			= mod:NewCDCountTimer(48, 256389, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON..DBM_CORE_MYTHIC_ICON) --Модуль пересозидания
+local timerReorgModuleCD			= mod:NewCDTimer(48, 256389, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON..DBM_CORE_MYTHIC_ICON) --Модуль пересозидания
 local timerReapSoul					= mod:NewCastTimer(14, 256542, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Жатва душ
 local timerEndofAllThings			= mod:NewCastTimer(15, 256544, nil, nil, nil, 2, nil, DBM_CORE_INTERRUPT_ICON..DBM_CORE_DEADLY_ICON) --Конец всего сущего
 --Mythic
@@ -186,7 +186,6 @@ mod.vb.EdgeofObliteration = 0
 mod.vb.sentenceCount = 0
 mod.vb.gazeCount = 0
 mod.vb.scytheCastCount = 0
-mod.vb.firstscytheSwap = false
 mod.vb.rangeCheckNoTouchy = false
 local warned_preP1 = false
 local warned_preP2 = false
@@ -323,7 +322,6 @@ function mod:OnCombatStart(delay)
 	self.vb.sentenceCount = 0
 	self.vb.gazeCount = 0
 	self.vb.scytheCastCount = 0
-	self.vb.firstscytheSwap = false
 	self.vb.rangeCheckNoTouchy = false
 	warned_preP1 = false
 	warned_preP2 = false
@@ -426,7 +424,6 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 255648 then --Ярость Голганнета (фаза 2)
 		self.vb.phase = 2
 		self.vb.scytheCastCount = 0
-		self.vb.firstscytheSwap = false
 		warned_preP2 = true
 		warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(2))
 		timerConeofDeathCD:Stop()
@@ -503,9 +500,6 @@ function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
 	if spellId == 248499 then
 		self.vb.scytheCastCount = self.vb.scytheCastCount + 1
-		if self.vb.scytheCastCount == 3 then
-			self.vb.firstscytheSwap = true
-		end
 		timerSweepingScytheCD:Start(5.6, self.vb.scytheCastCount+1)
 		countdownSweapingScythe:Start(5.6)
 	elseif spellId == 258039 then --Смертоносная коса
@@ -532,15 +526,19 @@ end
 
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
-	if spellId == 248499 then--Heroic/non mythic
+	if spellId == 248499 then --Сметающая коса (обычка/героик)
 		local uId = DBM:GetRaidUnitId(args.destName)
 		if uId and self:IsTanking(uId) then
 			local amount = args.amount or 1
 			if not tContains(tankStacks, args.destName) then
 				table.insert(tankStacks, args.destName)
 			end
-			local swapAmount = (self:IsLFR() or not self.vb.firstscytheSwap) and 3 or 2
-			if amount >= swapAmount then
+			if amount == 3 then
+				if args:IsPlayer() then
+					specWarnSweepingScythe:Show(amount)
+					specWarnSweepingScythe:Play("stackhigh")
+				end
+			elseif amount >= 4 then
 				if args:IsPlayer() then
 					specWarnSweepingScythe:Show(amount)
 					specWarnSweepingScythe:Play("stackhigh")
@@ -771,7 +769,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				specWarnReorgModule:Show()
 				specWarnReorgModule:Play("mobkill")
 			end
-			timerReorgModuleCD:Start(46.5, self.vb.moduleCount+1)
+			timerReorgModuleCD:Start(46.5)
 			countdownReorgModule:Start(46.5)
 		end
 	end
@@ -836,7 +834,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		if self.Options.NPAuraOnVulnerability then
 			DBM.Nameplate:Hide(true, args.destGUID, spellId)
 		end
-	elseif spellId == 248499 then
+	elseif spellId == 248499 then --Сметающая коса (обычка)
 		tDeleteItem(tankStacks, args.destName)
 	elseif spellId == 258039 then --Смертоносная коса (героик)
 		tDeleteItem(tankStacks, args.destName)
@@ -897,13 +895,13 @@ function mod:SPELL_INTERRUPT(args)
 			if not self:IsHeroic() then
 				timerSweepingScytheCD:Start(5, 1)
 				countdownSweapingScythe:Start(5)
-				timerReorgModuleCD:Start(13, 1)
+				timerReorgModuleCD:Start(13)
 				countdownReorgModule:Start(13)
 			--	specWarnReorgModule:Schedule(13)
 			--	specWarnReorgModule:ScheduleVoice(13, "killmob")
 			else -- под героик всё норм
 				timerDeadlyScytheCD:Start(5) --Смертоносная коса
-				timerReorgModuleCD:Start(13, 1)
+				timerReorgModuleCD:Start(13)
 				countdownReorgModule:Start(13)
 			--	specWarnReorgModule:Schedule(13)
 			--	specWarnReorgModule:ScheduleVoice(13, "killmob")
