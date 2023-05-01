@@ -6293,11 +6293,17 @@ function DBM:OnMobKill(cId, synced)
 				end
 			end
 			if allMobsDown then
+				if cId == 124445 then
+					self:Debug("[check] OnMobKill (allMobsDown) 124445")
+				end
 				self:EndCombat(v)
 			end
 		elseif cId == v.combatInfo.mob and not v.combatInfo.killMobs and not v.combatInfo.multiMobPullDetection then
 			if not synced then
 				sendSync("K", cId)
+			end
+			if cId == 124445 then
+				self:Debug("[check] cId == v.combatInfo.mob 124445")
 			end
 			self:EndCombat(v)
 		end
