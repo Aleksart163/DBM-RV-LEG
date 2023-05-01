@@ -186,7 +186,6 @@ mod.vb.EdgeofObliteration = 0
 mod.vb.sentenceCount = 0
 mod.vb.gazeCount = 0
 mod.vb.scytheCastCount = 0
-mod.vb.firstscytheSwap = false
 mod.vb.rangeCheckNoTouchy = false
 local warned_preP1 = false
 local warned_preP2 = false
@@ -323,7 +322,6 @@ function mod:OnCombatStart(delay)
 	self.vb.sentenceCount = 0
 	self.vb.gazeCount = 0
 	self.vb.scytheCastCount = 0
-	self.vb.firstscytheSwap = false
 	self.vb.rangeCheckNoTouchy = false
 	warned_preP1 = false
 	warned_preP2 = false
@@ -426,7 +424,6 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 255648 then --Ярость Голганнета (фаза 2)
 		self.vb.phase = 2
 		self.vb.scytheCastCount = 0
-		self.vb.firstscytheSwap = false
 		warned_preP2 = true
 		warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(2))
 		timerConeofDeathCD:Stop()
@@ -503,9 +500,6 @@ function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
 	if spellId == 248499 then
 		self.vb.scytheCastCount = self.vb.scytheCastCount + 1
-		if self.vb.scytheCastCount == 5 then
-			self.vb.firstscytheSwap = true
-		end
 		timerSweepingScytheCD:Start(5.6, self.vb.scytheCastCount+1)
 		countdownSweapingScythe:Start(5.6)
 	elseif spellId == 258039 then --Смертоносная коса
@@ -539,13 +533,12 @@ function mod:SPELL_AURA_APPLIED(args)
 			if not tContains(tankStacks, args.destName) then
 				table.insert(tankStacks, args.destName)
 			end
-			local swapAmount = (self:IsLFR() or not self.vb.firstscytheSwap) and 5 or 4
 			if amount == 3 then
 				if args:IsPlayer() then
 					specWarnSweepingScythe:Show(amount)
 					specWarnSweepingScythe:Play("stackhigh")
 				end
-			elseif amount >= swapAmount then
+			elseif amount >= 4 then
 				if args:IsPlayer() then
 					specWarnSweepingScythe:Show(amount)
 					specWarnSweepingScythe:Play("stackhigh")
