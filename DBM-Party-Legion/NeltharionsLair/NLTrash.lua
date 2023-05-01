@@ -99,7 +99,7 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 	end
 end
 
-function mod:OnSync(msg, GUID)
+function mod:OnSync(msg)
 	if msg == "RP1" then
 		timerRoleplay:Start(20)
 	end

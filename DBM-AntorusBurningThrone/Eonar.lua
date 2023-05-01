@@ -52,7 +52,7 @@ local specWarnFinalDoom					= mod:NewSpecialWarningParaxisCount(249121, nil, nil
 local specWarnFinalDoom2				= mod:NewSpecialWarningSoonParaxisCount(249121, nil, nil, nil, 1, 2) --Всеобщая погибель
 local specWarnArcaneBuildup				= mod:NewSpecialWarningYouMoveAway(250171, nil, nil, nil, 4, 2) --Волшебный вихрь
 local specWarnBurningEmbers				= mod:NewSpecialWarningYouMoveAway(250691, nil, nil, nil, 4, 2) --Раскаленные угли
-local specWarnFoulSteps					= mod:NewSpecialWarningStack(250140, nil, 12, nil, nil, 1, 6) --Гнусные приемы Fine tune
+local specWarnFoulSteps					= mod:NewSpecialWarningStack(250140, nil, 10, nil, nil, 1, 5) --Гнусные приемы Fine tune
 --The Paraxis
 mod:AddTimerLine(GENERAL)
 local timerSpearofDoomCD				= mod:NewCDCountTimer(55, 248789, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Копье Рока 55-69
@@ -492,7 +492,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 250140 then--Foul Steps
 		if args:IsPlayer() then
 			local amount = args.amount or 1
-			if amount >= 12 and amount % 4 == 0 then
+			if amount >= 10 and amount % 5 == 0 then
 				specWarnFoulSteps:Show(amount)
 				specWarnFoulSteps:Play("stackhigh")
 			end
