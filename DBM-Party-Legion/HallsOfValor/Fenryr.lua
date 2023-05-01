@@ -90,19 +90,7 @@ end
 
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
-	if spellId == 196567 then--Stealth (boss retreat)
-		--Stop all timers but not combat
-		for i, v in ipairs(self.timers) do
-			v:Stop()
-		end
-		--Artificially set no wipe to 10 minutes
-		self:SetWipeTime(600)
-		--Scan for Boss to be re-enraged
-		self:RegisterShortTermEvents(
-			"ENCOUNTER_START",
-			"ZONE_CHANGED_NEW_AREA"
-		)
-	elseif spellId == 197556 then --Хищный прыжок
+	if spellId == 197556 then --Хищный прыжок
 		warnLeap:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
 			specWarnLeap:Show()
@@ -178,6 +166,25 @@ function mod:SPELL_CAST_SUCCESS(args)
 	end
 end
 
+function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)
+	if msg:find(L.MurchalProshlyapOchko) then
+			--Stop all timers but not combat
+			for i, v in ipairs(self.timers) do
+				v:Stop()
+			end
+			--Artificially set no wipe to 10 minutes
+			self:SetWipeTime(600)
+			--Scan for Boss to be re-enraged
+			self:RegisterShortTermEvents(
+				"ENCOUNTER_START",
+				"ZONE_CHANGED_NEW_AREA"
+			)
+		--[[timerClawFrenzyCD:Stop()
+		timerHowlCD:Stop()
+		timerLeapCD:Stop()]]
+	end
+end
+
 function mod:ENCOUNTER_START(encounterID)
 	--Re-engaged, kill scans and long wipe time
 	if encounterID == 1807 and self:IsInCombat() then
@@ -234,11 +241,3 @@ function mod:UNIT_HEALTH(uId)
 		end
 	end
 end
-
---[[function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)
-	if msg:find(L.MurchalProshlyapOchko) then
-		timerClawFrenzyCD:Stop()
-		timerHowlCD:Stop()
-		timerLeapCD:Stop()
-	end
-end]]
