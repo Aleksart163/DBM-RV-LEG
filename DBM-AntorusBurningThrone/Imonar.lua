@@ -289,8 +289,8 @@ function mod:SPELL_CAST_SUCCESS(args)
 				timerChargedBlasts:Start(9)
 				countdownChargedBlasts2:Start(9)
 			else
-				timerChargedBlasts:Start(10)
-				countdownChargedBlasts2:Start(10)
+				timerChargedBlasts:Start()
+				countdownChargedBlasts2:Start()
 			end
 		else
 			timerChargedBlasts:Start()

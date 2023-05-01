@@ -15,8 +15,8 @@
 --
 -- Special thanks to:
 --    * Danzo 		(for help in the addon)
---    * Мурчаль 	(for proshlyap your point)
---    * Soulburnin  (for proshlyap your point)
+--    * Мурчаль 	(for proshlyap a point)
+--    * Soulburnin  (for proshlyap a point)
 --
 -- The code of this addon is licensed under a Creative Commons Attribution-Noncommercial-Share Alike 3.0 License. (see license.txt)
 -- All included textures and sounds are copyrighted by their respective owners, license information for these media files can be found in the modules that make use of them.
@@ -34,9 +34,9 @@
 -------------------------------
 
 DBM = {
-	Revision = tonumber(("$Revision: 17711 $"):sub(12, -3)), --прошляпанное очко Мурчаля Прошляпенко ✔✔✔
+	Revision = tonumber(("$Revision: 17712 $"):sub(12, -3)), --прошляпанное очко Мурчаля Прошляпенко ✔✔✔
 	DisplayVersion = "7.3.44 Right Version " .. string.sub(GetLocale(), -2),
-	ReleaseRevision = 17710
+	ReleaseRevision = 17711
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
