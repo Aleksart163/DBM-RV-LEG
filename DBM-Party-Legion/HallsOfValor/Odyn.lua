@@ -6,6 +6,7 @@ mod:SetCreatureID(95676)
 mod:SetEncounterID(1809)
 mod:SetZone()
 mod:SetUsedIcons(8, 6, 4, 3, 2, 1)
+mod:DisableEEKillDetection()
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
@@ -215,11 +216,11 @@ function mod:SPELL_AURA_REMOVED(args)
 	end
 end
 
-function mod:CHAT_MSG_MONSTER_SAY(msg)
+--[[function mod:CHAT_MSG_MONSTER_SAY(msg)
 	if msg == L.OchkenMurchalProshlyapen then
 		DBM:EndCombat(self)
 	end
-end
+end]]
 
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	local spellId = legacySpellId or bfaSpellId

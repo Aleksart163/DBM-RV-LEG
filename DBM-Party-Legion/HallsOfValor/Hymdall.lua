@@ -6,6 +6,7 @@ mod:SetCreatureID(94960)
 mod:SetEncounterID(1805)
 mod:SetZone()
 mod:SetUsedIcons(8)
+mod:DisableEEKillDetection()
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
@@ -171,8 +172,8 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	end
 end
 
-function mod:CHAT_MSG_MONSTER_YELL(msg)
+--[[function mod:CHAT_MSG_MONSTER_YELL(msg)
 	if msg == L.proshlyapMurchal then
 		DBM:EndCombat(self)
 	end
-end
+end]]
