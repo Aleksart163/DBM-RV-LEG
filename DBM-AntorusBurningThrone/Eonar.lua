@@ -14,7 +14,7 @@ mod:DisableEEKillDetection()
 
 mod:RegisterCombat("combat")
 --mod:RegisterCombat("combat_yell", L.YellPullEonar)
-mod:RegisterKill("yell", L.YellKilled)
+--mod:RegisterKill("yell", L.YellKilled)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 249121 250701 246305 250048",
