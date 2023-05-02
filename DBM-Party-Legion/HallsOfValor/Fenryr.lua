@@ -24,7 +24,8 @@ mod:RegisterEventsInCombat(
 --Фенрир https://ru.wowhead.com/npc=99868/фенрир/эпохальный-журнал-сражений#abilities;mode:
 local warnScentofBlood					= mod:NewStackAnnounce(196828, 4, nil, nil, 2) --Запах крови
 local warnPhase							= mod:NewPhaseChangeAnnounce(1)
-local warnPhase2						= mod:NewPrePhaseAnnounce(2, 1, 196838)
+local warnPhase2						= mod:NewPhaseAnnounce(2, 2, nil, nil, nil, nil, nil, 2)
+local warnPrePhase2						= mod:NewPrePhaseAnnounce(2, 1, 196838)
 local warnLeap							= mod:NewTargetAnnounce(197556, 3) --Хищный прыжок
 local warnFixate						= mod:NewTargetAnnounce(196838, 4) --Запах крови
 local warnFixate2						= mod:NewPreWarnAnnounce(196838, 5, 1) --Запах крови
@@ -152,19 +153,7 @@ end
 
 function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
-	if spellId == 196567 then--Stealth (boss retreat)
-		--Stop all timers but not combat
-		for i, v in ipairs(self.timers) do
-			v:Stop()
-		end
-		--Artificially set no wipe to 10 minutes
-		self:SetWipeTime(600)
-		--Scan for Boss to be re-enraged
-		self:RegisterShortTermEvents(
-			"ENCOUNTER_START",
-			"ZONE_CHANGED_NEW_AREA"
-		)
-	elseif spellId == 196512 then --Бешеные когти
+	if spellId == 196512 then --Бешеные когти
 		warnClawFrenzy:Show()
 		timerClawFrenzyCD:Start()
 	elseif spellId == 196543 then --Пугающий вой
@@ -177,13 +166,32 @@ function mod:SPELL_CAST_SUCCESS(args)
 	end
 end
 
+function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)
+	if msg:find(L.MurchalProshlyapOchko) then
+			--Stop all timers but not combat
+			for i, v in ipairs(self.timers) do
+				v:Stop()
+			end
+			--Artificially set no wipe to 10 minutes
+			self:SetWipeTime(600)
+			--Scan for Boss to be re-enraged
+			self:RegisterShortTermEvents(
+				"ENCOUNTER_START",
+				"ZONE_CHANGED_NEW_AREA"
+			)
+		--[[timerClawFrenzyCD:Stop()
+		timerHowlCD:Stop()
+		timerLeapCD:Stop()]]
+	end
+end
+
 function mod:ENCOUNTER_START(encounterID)
 	--Re-engaged, kill scans and long wipe time
 	if encounterID == 1807 and self:IsInCombat() then
 --		self:SetWipeTime(5)
 --		self:UnregisterShortTermEvents()
---		warnPhase2:Show()
---		warnPhase2:Play("ptwo")
+		warnPhase2:Show()
+		warnPhase2:Play("ptwo")
 		--timerWolvesCD:Start(5)
 		--timerHowlCD:Start(5)--2-6, useless timer
 		--timerFixateCD:Start(9.3)--7-20, useless timer
@@ -209,7 +217,7 @@ function mod:UNIT_HEALTH(uId)
 	if not self:IsNormal() then --гер, миф и миф+
 		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 95674 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.71 then
 			warned_preP1 = true
-			warnPhase2:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase+1))
+			warnPrePhase2:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase+1))
 		elseif self.vb.phase == 1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 99868 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.60 then
 			self.vb.phase = 2
 			warned_preP2 = true
@@ -231,13 +239,5 @@ function mod:UNIT_HEALTH(uId)
 			warnFixate2:Schedule(23)
 			timerClawFrenzyCD:Start(12.5)
 		end
-	end
-end
-
-function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)
-	if msg:find(L.MurchalProshlyapOchko) then
-		timerClawFrenzyCD:Stop()
-		timerHowlCD:Stop()
-		timerLeapCD:Stop()
 	end
 end
