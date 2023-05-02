@@ -190,8 +190,8 @@ function mod:ENCOUNTER_START(encounterID)
 	if encounterID == 1807 and self:IsInCombat() then
 --		self:SetWipeTime(5)
 --		self:UnregisterShortTermEvents()
-		warnPhase2:Show()
-		warnPhase2:Play("ptwo")
+--		warnPhase2:Show()
+--		warnPhase2:Play("ptwo")
 		--timerWolvesCD:Start(5)
 		--timerHowlCD:Start(5)--2-6, useless timer
 		--timerFixateCD:Start(9.3)--7-20, useless timer
