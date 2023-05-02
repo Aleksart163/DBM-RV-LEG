@@ -674,7 +674,7 @@ end
 
 function mod:SPELL_RESURRECT(args)
 	local spellId = args.spellId
-	if spellId == 95750 and self:AntiSpam(2, "rebirth3") then --Воскрешение камнем души
+	if spellId == 95750 and self:AntiSpam(2, "rebirth") then --Воскрешение камнем души
 		warnRebirth:Show(args.sourceName, args.destName)
 		if self.Options.YellOnResurrect then
 			prepareMessage(self, "premsg_Spells_rebirth3", args.sourceName, args.destName)
@@ -683,7 +683,7 @@ function mod:SPELL_RESURRECT(args)
 			specWarnRebirth:Show()
 			specWarnRebirth:Play("targetyou")
 		end
-	elseif spellId == 20484 and self:AntiSpam(2, "rebirth1") then --Возрождение
+	elseif spellId == 20484 and self:AntiSpam(2, "rebirth") then --Возрождение
 		warnRebirth:Show(args.sourceName, args.destName)
 		if self.Options.YellOnResurrect then
 			prepareMessage(self, "premsg_Spells_rebirth1", args.sourceName, args.destName)
@@ -692,7 +692,7 @@ function mod:SPELL_RESURRECT(args)
 			specWarnRebirth:Show()
 			specWarnRebirth:Play("targetyou")
 		end
-	elseif spellId == 61999 and self:AntiSpam(2, "rebirth2") then --Воскрешение союзника
+	elseif spellId == 61999 and self:AntiSpam(2, "rebirth") then --Воскрешение союзника
 		warnRebirth:Show(args.sourceName, args.destName)
 		if self.Options.YellOnResurrect then
 			prepareMessage(self, "premsg_Spells_rebirth2", args.sourceName, args.destName)
