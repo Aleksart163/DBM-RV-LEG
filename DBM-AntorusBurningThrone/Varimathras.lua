@@ -95,9 +95,9 @@ local premsg_values = {
 local playerOnlyName = UnitName("player")
 
 local function sendAnnounce(premsg_values)
-	if premsg_values.args_sourceName == nil then
+	--[[if premsg_values.args_sourceName == nil then
 		premsg_values.args_sourceName = "Unknown"
-	end
+	end]]
 	if premsg_values.args_destName == nil then
 		premsg_values.args_destName = "Unknown"
 	end
@@ -107,7 +107,7 @@ local function sendAnnounce(premsg_values)
 		premsg_values.necrotic_rw = 0
 	end
 
-	premsg_values.args_sourceName = nil
+	-- premsg_values.args_sourceName = nil
 	premsg_values.args_destName = nil
 end
 
@@ -118,7 +118,7 @@ local function announceList(premsg_announce, value)
 end
 
 local function prepareMessage(self, premsg_announce, args_sourceName, args_destName)
-	premsg_values.args_sourceName = args_sourceName
+	-- premsg_values.args_sourceName = args_sourceName
 	premsg_values.args_destName = args_destName
 	announceList(premsg_announce, 1)
 	self:SendSync(premsg_announce, playerOnlyName)
@@ -264,7 +264,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		else --героик
 			if self.vb.totalEmbrace == 1 then --волосали2
 				if DBM:GetRaidRank() > 0 and self:AntiSpam(2, "necrotic") then
-					prepareMessage(self, "premsg_Varimathras_neсrotic_rw", nil, args.destName)
+					prepareMessage(self, "premsg_Varimathras_necrotic_rw", nil, args.destName)
 				end
 			end
 			if args:IsPlayer() then
