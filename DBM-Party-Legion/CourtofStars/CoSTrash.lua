@@ -102,7 +102,6 @@ mod:AddBoolOption("YellOnTinkering", true) --Конструирование (о�
 mod:AddBoolOption("YellOnDefacing", true) --Осквернение (отвлечение)
 mod:AddBoolOption("SpyHelper", true)
 
-local DbmRV = "[DBM RV] "
 local eating = DBM:GetSpellInfo(208585) --Поглощение пищи
 local siphoningMagic = DBM:GetSpellInfo(208427) --Похищение магии
 local purifying = DBM:GetSpellInfo(209767) --Очищение

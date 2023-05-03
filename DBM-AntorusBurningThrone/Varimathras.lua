@@ -84,22 +84,11 @@ mod.vb.proshlyapMurchalCount = 0
 mod.vb.proshlyapMurchal2Count = 0
 local playerAffected = false
 
---волосали1
-local function replaceSpellLinks(id)
-    local spellId = tonumber(id)
-    local spellName = DBM:GetSpellInfo(spellId)
-    if not spellName then
-        spellName = DBM_CORE_UNKNOWN
-        DBM:Debug("Spell ID does not exist: "..spellId)
-    end
-    return ("|cff71d5ff|Hspell:%d:0|h[%s]|h|r"):format(spellId, spellName)
-end
-
 local necrotic = replaceSpellLinks(244094) --некротик
 
 -- Синхронизация анонсов ↓
 local premsg_values = {
-	args_sourceName,
+	-- args_sourceName,
 	args_destName,
 	necrotic_rw
 }

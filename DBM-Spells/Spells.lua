@@ -62,17 +62,7 @@ mod:AddBoolOption("YellOnRepair", false) --починка
 mod:AddBoolOption("YellOnPylon", true) --пилон
 mod:AddBoolOption("YellOnToys", true) --игрушки
 --
-local function replaceSpellLinks(id)
-    local spellId = tonumber(id)
-    local spellName = DBM:GetSpellInfo(spellId)
-    if not spellName then
-        spellName = DBM_CORE_UNKNOWN
-        DBM:Debug("Spell ID does not exist: "..spellId)
-    end
-    return ("|cff71d5ff|Hspell:%d:0|h[%s]|h|r"):format(spellId, spellName)
-end
 
-local DbmRV = "[DBM RV] "
 --Массрес
 local massres1, massres2, massres3, massres4, massres5 = replaceSpellLinks(212040), replaceSpellLinks(212056), replaceSpellLinks(212036), replaceSpellLinks(212048), replaceSpellLinks(212051)
 --Героизм

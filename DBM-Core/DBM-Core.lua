@@ -338,7 +338,7 @@ DBM.BattleMusic = {--Filtered list of media assigned to boss/encounter backgroun
 	{text = "Random", value = "Random"},
 	{text = "None", value = "None"},
 }
-
+DbmRV = "[DBM RV] "
 ------------------------
 -- Global Identifiers --
 ------------------------
@@ -383,7 +383,6 @@ local checkBossHealth
 local checkCustomBossHealth
 local fireEvent
 local playerName = UnitName("player")
-local DbmRV = "[DBM RV] "
 local playerLevel = UnitLevel("player")
 local playerRealm = GetRealmName()
 local connectedServers = GetAutoCompleteRealms()
@@ -11734,6 +11733,16 @@ function bossModPrototype:ReceiveSync(event, sender, revision, ...)
 			self:OnSync(event, unpack(tmp))
 		end
 	end
+end
+
+function replaceSpellLinks(id)
+    local spellId = tonumber(id)
+    local spellName = DBM:GetSpellInfo(spellId)
+    if not spellName then
+        spellName = DBM_CORE_UNKNOWN
+        DBM:Debug("Spell ID does not exist: "..spellId)
+    end
+    return ("|cff71d5ff|Hspell:%d:0|h[%s]|h|r"):format(spellId, spellName)
 end
 
 function smartChat(msg, arg)
