@@ -113,11 +113,12 @@ L:SetMiscLocalization({
 --Вариматрас--
 --------------
 L= DBM:GetModLocalization(1983)
---[[
+
 L:SetMiscLocalization({
+	NecroticYell = "%s НА ТЕБЕ %s - ВЫНОСИ",
 	YellPullVarimathras = "Идите сюда и познайте страдания!",
 	YellPullVarimathras2 = "Нападайте! Я покажу вам, что такое боль!"
-})]]
+})
 
 ----------------
 --Ковен шиварр--

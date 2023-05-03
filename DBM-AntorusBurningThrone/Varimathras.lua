@@ -84,6 +84,59 @@ mod.vb.proshlyapMurchalCount = 0
 mod.vb.proshlyapMurchal2Count = 0
 local playerAffected = false
 
+--волосали1
+local function replaceSpellLinks(id)
+    local spellId = tonumber(id)
+    local spellName = DBM:GetSpellInfo(spellId)
+    if not spellName then
+        spellName = DBM_CORE_UNKNOWN
+        DBM:Debug("Spell ID does not exist: "..spellId)
+    end
+    return ("|cff71d5ff|Hspell:%d:0|h[%s]|h|r"):format(spellId, spellName)
+end
+
+local necrotic = replaceSpellLinks(244094) --некротик
+
+-- Синхронизация анонсов ↓
+local premsg_values = {
+	args_sourceName,
+	args_destName,
+	necrotic_rw
+}
+local playerOnlyName = UnitName("player")
+
+local function sendAnnounce(premsg_values)
+	if premsg_values.args_sourceName == nil then
+		premsg_values.args_sourceName = "Unknown"
+	end
+	if premsg_values.args_destName == nil then
+		premsg_values.args_destName = "Unknown"
+	end
+
+	if premsg_values.necrotic_rw == 1 then
+		smartChat(L.NecroticYell:format(premsg_values.args_destName, necrotic), "rw")
+		premsg_values.necrotic_rw = 0
+	end
+
+	premsg_values.args_sourceName = nil
+	premsg_values.args_destName = nil
+end
+
+local function announceList(premsg_announce, value)
+	if premsg_announce == "premsg_Varimathras_necrotic_rw" then
+		premsg_values.necrotic_rw = value
+	end
+end
+
+local function prepareMessage(self, premsg_announce, args_sourceName, args_destName)
+	premsg_values.args_sourceName = args_sourceName
+	premsg_values.args_destName = args_destName
+	announceList(premsg_announce, 1)
+	self:SendSync(premsg_announce, playerOnlyName)
+	self:Schedule(1, sendAnnounce, premsg_values)
+end
+-- Синхронизация анонсов ↑
+
 function mod:OnCombatStart(delay)
 	self.vb.currentTorment = 0
 	self.vb.totalEmbrace = 0
@@ -219,7 +272,12 @@ function mod:SPELL_AURA_APPLIED(args)
 			else
 				warnNecroticEmbrace:CombinedShow(0.5, args.destName)--Combined message because even if it starts on 1, people are gonna fuck it up
 			end
-		else
+		else --героик
+			if self.vb.totalEmbrace == 1 then --волосали2
+				if DBM:GetRaidRank() > 0 and self:AntiSpam(2, "necrotic") then
+					prepareMessage(self, "premsg_Varimathras_neсrotic_rw", nil, args.destName)
+				end
+			end
 			if args:IsPlayer() then
 				if not playerAffected then
 					playerAffected = true
@@ -304,3 +362,9 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
+
+function mod:OnSync(premsg_announce, sender) --волосали3
+	if sender < playerOnlyName then
+		announceList(premsg_announce, 0)
+	end
+end

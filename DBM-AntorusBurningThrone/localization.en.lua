@@ -120,11 +120,11 @@ L:SetMiscLocalization({
 ---------------------------
 L= DBM:GetModLocalization(1983)
 
---[[
 L:SetMiscLocalization({
+	NecroticYell = "%s ON YOU %s - RUN AWAY",
 	YellPullVarimathras = "Draw your blades! I will show you torment!",
 	YellPullVarimathras2 = "Come, then. We will trade pain for pain!"
-})]]
+})
 
 ---------------------------
 -- The Coven of Shivarra --
