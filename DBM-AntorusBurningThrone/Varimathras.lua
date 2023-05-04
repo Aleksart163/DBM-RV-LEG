@@ -288,6 +288,8 @@ function mod:SPELL_AURA_APPLIED(args)
 			if self.vb.totalEmbrace == 1 then --волосали2
 				if DBM:GetRaidRank() > 0 and self:AntiSpam(2, "necrotic") then
 					prepareMessage(self, "premsg_Varimathras_necrotic_rw", nil, args.destName)
+				elseif DBM:GetRaidRank() == 0 and self:AntiSpam(2, "necrotic") then
+					DBM:Debug(L.NecroticYell:format(args.destName, necrotic))
 				end
 			end
 			if args:IsPlayer() then
