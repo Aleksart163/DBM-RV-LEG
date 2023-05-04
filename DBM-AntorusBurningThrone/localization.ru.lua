@@ -114,7 +114,12 @@ L:SetMiscLocalization({
 --------------
 L= DBM:GetModLocalization(1983)
 
+L:SetOptionLocalization({
+	ShowProshlyapSoulburnin = "Спец-предупреждение об $spell:244093 (требуются права лидера рейда)"
+})
+
 L:SetMiscLocalization({
+	ProshlyapSoulburnin = "%s через 5 сек",
 	NecroticYell = "%s НА ТЕБЕ %s - ВЫНОСИ",
 	YellPullVarimathras = "Идите сюда и познайте страдания!",
 	YellPullVarimathras2 = "Нападайте! Я покажу вам, что такое боль!"

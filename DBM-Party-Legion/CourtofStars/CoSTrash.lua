@@ -10,7 +10,7 @@ mod.isTrashMod = true
 mod:RegisterEvents(
 	"SPELL_CAST_START 209027 212031 209485 209410 209413 211470 211464 209404 209495 225100 211299 209378 207980 207979 214692 214688 214690 212773 210253",
 	"SPELL_CAST_SUCCESS 214688 208585 208427 209767 208334 210872 210307 208939 208370 210925 210217 210922 210330",
-	"SPELL_AURA_APPLIED 209033 209512 207981 214690 212773",
+	"SPELL_AURA_APPLIED 209033 209512 207981 214690 212773 209404",
 	"SPELL_AURA_REMOVED 214690",
 	"CHAT_MSG_MONSTER_SAY",
 	"GOSSIP_SHOW",
@@ -28,6 +28,7 @@ local warnFelDetonation				= mod:NewCastAnnounce(211464, 4) --Взрыв Скв�
 local warnSubdue					= mod:NewTargetAnnounce(212773, 4) --Подчинение
 local warnSuppress					= mod:NewTargetAnnounce(209413, 4) --Подавление
 local warnDisintegrationBeam		= mod:NewTargetAnnounce(207980, 4) --Луч дезинтеграции
+local warnSealMagic					= mod:NewTargetAnnounce(209404, 4) --Подавление магии
 local warnSubdue2					= mod:NewCastAnnounce(212773, 3) --Подчинение
 local warnDisableBeacon				= mod:NewTargetSourceAnnounce(210253, 1) --Отключение маяка
 local warnEating					= mod:NewTargetSourceAnnounce(208585, 1) --Поглощение пищи (баф на хп от еды)
@@ -64,7 +65,7 @@ local specWarnSuppress				= mod:NewSpecialWarningInterrupt(209413, "HasInterrupt
 local specWarnBewitch				= mod:NewSpecialWarningInterrupt(211470, "HasInterrupt", nil, nil, 1, 2)
 local specWarnChargingStation		= mod:NewSpecialWarningInterrupt(225100, "HasInterrupt", nil, nil, 1, 2)
 local specWarnSearingGlare			= mod:NewSpecialWarningInterrupt(211299, "HasInterrupt", nil, nil, 1, 2)
-local specWarnSealMagic				= mod:NewSpecialWarningRun(209404, false, nil, 2, 4, 2)
+local specWarnSealMagic				= mod:NewSpecialWarningInterrupt(209404, "HasInterrupt", nil, nil, 1, 2) --Подавление магии
 local specWarnDisruptingEnergy		= mod:NewSpecialWarningMove(209512, nil, nil, nil, 1, 2)
 local specWarnWhirlingBlades		= mod:NewSpecialWarningRun(209378, "Melee", nil, nil, 4, 3) --Крутящиеся клинки
 --Герент Зловещий
@@ -82,6 +83,7 @@ local timerRoleplay					= mod:NewTimer(28, "timerRoleplay", "Interface\\Icons\\S
 
 local countdownFelDetonation		= mod:NewCountdown(12, 211464, nil, nil, 5) --Взрыв Скверны
 
+local yellSealMagic					= mod:NewYell(209404, nil, nil, nil, "YELL") --Подавление магии
 local yellSuppress					= mod:NewYell(209413, nil, nil, nil, "YELL") --Подавление
 local yellSubdue					= mod:NewYell(212773, nil, nil, nil, "YELL") --Подчинение
 local yellDisintegrationBeam		= mod:NewYell(207980, nil, nil, nil, "YELL") --Луч дезинтеграции
@@ -297,13 +299,13 @@ function mod:SPELL_CAST_START(args)
 			specWarnSuppress:Play("kickcast")
 		end
 	elseif spellId == 211470 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
-		specWarnBewitch:Show(args.sourceName)
+		specWarnBewitch:Show()
 		specWarnBewitch:Play("kickcast")
 	elseif spellId == 225100 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
-		specWarnChargingStation:Show(args.sourceName)
+		specWarnChargingStation:Show()
 		specWarnChargingStation:Play("kickcast")
 	elseif spellId == 211299 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
-		specWarnSearingGlare:Show(args.sourceName)
+		specWarnSearingGlare:Show()
 		specWarnSearingGlare:Play("kickcast")
 	elseif spellId == 211464 then
 		warnFelDetonation:Show()
@@ -313,9 +315,9 @@ function mod:SPELL_CAST_START(args)
 		end
 		timerFelDetonationCD:Start()
 		countdownFelDetonation:Start()
-	elseif spellId == 209404 then
+	elseif spellId == 209404 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Подавление магии
 		specWarnSealMagic:Show()
-		specWarnSealMagic:Play("runout")
+		specWarnSealMagic:Play("kickcast")
 	elseif spellId == 209495 and self:AntiSpam(2, 7) then --Удар с размаху
 		--Don't want to move too early, just be moving already as cast is finishing
 		specWarnChargedSmash:Schedule(1.2)
@@ -477,6 +479,11 @@ function mod:SPELL_AURA_APPLIED(args)
 			end
 		else
 			warnSubdue:CombinedShow(0.3, args.destName)
+		end
+	elseif spellId == 209404 then --Подавление магии
+		warnSealMagic:CombinedShow(0.5, args.destName)
+		if args:IsPlayer() then
+			yellSealMagic:Yell()
 		end
 	end
 end

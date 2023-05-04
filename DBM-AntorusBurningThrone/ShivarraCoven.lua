@@ -790,6 +790,12 @@ function mod:UNIT_TARGETABLE_CHANGED(uId)
 	end
 end
 
+function mod:UNIT_HEALTH(uId)
+	if self:GetUnitCreatureId(uId) == 122468 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.05 then --Нура
+		self:Unschedule(ProshlyapMurchalya1) --Амантул
+	end
+end
+
 function mod:OnSync(msg, firstInterrupt)
 	local premsg_announce = msg
 	local sender = firstInterrupt
@@ -806,11 +812,5 @@ function mod:OnSync(msg, firstInterrupt)
 	end	
 	if firstInterrupt then
 		self.vb.ignoreFirstInterrupt = firstInterrupt == "true" and true or false
-	end
-end
-
-function mod:UNIT_HEALTH(uId)
-	if self:GetUnitCreatureId(uId) == 122468 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.05 then --Нура
-		self:Unschedule(ProshlyapMurchalya1) --Амантул
 	end
 end

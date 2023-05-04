@@ -120,7 +120,12 @@ L:SetMiscLocalization({
 ---------------------------
 L= DBM:GetModLocalization(1983)
 
+L:SetOptionLocalization({
+	ShowProshlyapSoulburnin = "Show announcements for $spell:244093 (Requires raid leader)"
+})
+
 L:SetMiscLocalization({
+	ProshlyapSoulburnin = "%s in 5 sec",
 	NecroticYell = "%s ON YOU %s - RUN AWAY",
 	YellPullVarimathras = "Draw your blades! I will show you torment!",
 	YellPullVarimathras2 = "Come, then. We will trade pain for pain!"

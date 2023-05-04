@@ -338,6 +338,7 @@ DBM.BattleMusic = {--Filtered list of media assigned to boss/encounter backgroun
 	{text = "Random", value = "Random"},
 	{text = "None", value = "None"},
 }
+
 DbmRV = "[DBM RV] "
 ------------------------
 -- Global Identifiers --

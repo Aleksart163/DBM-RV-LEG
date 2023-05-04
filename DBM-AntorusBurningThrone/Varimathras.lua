@@ -75,6 +75,7 @@ local countdownShadowStrike				= mod:NewCountdown("AltTwo9", 243960, "Tank", nil
 
 mod:AddSetIconOption("SetIconOnMarkedPrey", 244042, true, false, {8}) --Метка жертвы
 mod:AddSetIconOption("SetIconEmbrace", 244094, true, false, {4, 3}) --Некротические объятия
+mod:AddBoolOption("ShowProshlyapSoulburnin", true)
 --mod:AddInfoFrameOption(239154, true)
 mod:AddRangeFrameOption("8/10")
 
@@ -84,13 +85,15 @@ mod.vb.proshlyapMurchalCount = 0
 mod.vb.proshlyapMurchal2Count = 0
 local playerAffected = false
 
+--волосали1
 local necrotic = replaceSpellLinks(244094) --некротик
 
 -- Синхронизация анонсов ↓
 local premsg_values = {
-	-- args_sourceName,
+	args_sourceName,
 	args_destName,
-	necrotic_rw
+	necrotic_rw,
+	soulburnin_rw
 }
 local playerOnlyName = UnitName("player")
 
@@ -105,6 +108,9 @@ local function sendAnnounce(premsg_values)
 	if premsg_values.necrotic_rw == 1 then
 		smartChat(L.NecroticYell:format(premsg_values.args_destName, necrotic), "rw")
 		premsg_values.necrotic_rw = 0
+	elseif premsg_values.soulburnin_rw == 1 then
+		smartChat(L.ProshlyapSoulburnin:format(necrotic), "rw")
+		premsg_values.soulburnin_rw = 0
 	end
 
 	-- premsg_values.args_sourceName = nil
@@ -114,6 +120,8 @@ end
 local function announceList(premsg_announce, value)
 	if premsg_announce == "premsg_Varimathras_necrotic_rw" then
 		premsg_values.necrotic_rw = value
+	elseif premsg_announce == "premsg_Varimathras_Soulburnin_rw" then
+		premsg_values.soulburnin_rw = value
 	end
 end
 
@@ -125,6 +133,12 @@ local function prepareMessage(self, premsg_announce, args_sourceName, args_destN
 	self:Schedule(1, sendAnnounce, premsg_values)
 end
 -- Синхронизация анонсов ↑
+
+local function ProshlyapSoulburnin1(self)
+	if self.Options.ShowProshlyapSoulburnin then
+		prepareMessage(self, "premsg_Varimathras_Soulburnin_rw")
+	end
+end
 
 function mod:OnCombatStart(delay)
 	self.vb.currentTorment = 0
@@ -141,6 +155,9 @@ function mod:OnCombatStart(delay)
 	if not self:IsEasy() then
 		timerNecroticEmbraceCD:Start(35-delay)
 		countdownNecroticEmbrace:Start(35-delay)
+		if DBM:GetRaidRank() > 0 then
+			self:Schedule(30, ProshlyapSoulburnin1, self)
+		end
 	end
 	if not self:IsLFR() then
 		berserkTimer:Start(310-delay)--Confirmed normal/heroic/mythic
@@ -173,9 +190,15 @@ function mod:SPELL_CAST_SUCCESS(args)
 			if self.vb.proshlyapMurchalCount < 4 then
 				timerNecroticEmbraceCD:Start()
 				countdownNecroticEmbrace:Start()
+				if DBM:GetRaidRank() > 0 then
+					self:Schedule(25, ProshlyapSoulburnin1, self)
+				end
 			elseif self.vb.proshlyapMurchalCount >= 4 then --точно по героику с 4+ некрота
 				timerNecroticEmbraceCD:Start(32.8)
 				countdownNecroticEmbrace:Start(32.8)
+				if DBM:GetRaidRank() > 0 then
+					self:Schedule(27.8, ProshlyapSoulburnin1, self)
+				end
 			end
 		end
 	elseif spellId == 243999 then --Темный разлом
