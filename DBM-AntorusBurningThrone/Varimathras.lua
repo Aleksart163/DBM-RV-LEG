@@ -90,7 +90,7 @@ local necrotic = replaceSpellLinks(244094) --некротик
 
 -- Синхронизация анонсов ↓
 local premsg_values = {
-	args_sourceName,
+--	args_sourceName,
 	args_destName,
 	necrotic_rw,
 	soulburnin_rw
