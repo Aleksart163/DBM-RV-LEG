@@ -285,10 +285,11 @@ function mod:SPELL_AURA_APPLIED(args)
 				warnNecroticEmbrace:CombinedShow(0.5, args.destName)--Combined message because even if it starts on 1, people are gonna fuck it up
 			end
 		else --героик
+			DBM:Debug("self.vb.totalEmbrace: " .. self.vb.totalEmbrace)
 			if self.vb.totalEmbrace == 1 then --волосали2
-				if DBM:GetRaidRank() > 0 and self:AntiSpam(2, "necrotic") then
+				--[[if DBM:GetRaidRank() > 0 and self:AntiSpam(2, "necrotic") then
 					prepareMessage(self, "premsg_Varimathras_necrotic_rw", nil, args.destName)
-				elseif DBM:GetRaidRank() == 0 and self:AntiSpam(2, "necrotic") then
+				else]]if --[[DBM:GetRaidRank() == 0 and ]]self:AntiSpam(2, "necrotic") then
 					DBM:Debug(L.NecroticYell:format(args.destName, necrotic))
 				end
 			end
