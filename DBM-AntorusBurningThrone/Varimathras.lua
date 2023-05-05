@@ -285,7 +285,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				warnNecroticEmbrace:CombinedShow(0.5, args.destName)--Combined message because even if it starts on 1, people are gonna fuck it up
 			end
 		else --героик
-			DBM:Debug("self.vb.totalEmbrace: " .. self.vb.totalEmbrace)
+			DBM:Debug("self.vb.totalEmbrace (SPELL_AURA_APPLIED): " .. self.vb.totalEmbrace)
 			if self.vb.totalEmbrace == 1 then --волосали2
 				--[[if DBM:GetRaidRank() > 0 and self:AntiSpam(2, "necrotic") then
 					prepareMessage(self, "premsg_Varimathras_necrotic_rw", nil, args.destName)
@@ -351,6 +351,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		end
 	elseif spellId == 244094 then
 		self.vb.totalEmbrace = self.vb.totalEmbrace - 1
+		DBM:Debug("self.vb.totalEmbrace (SPELL_AURA_REMOVED): " .. self.vb.totalEmbrace)
 		if args:IsPlayer() and self:AntiSpam(3, 4) then
 			playerAffected = false
 			specWarnNecroticEmbrace4:Show()
