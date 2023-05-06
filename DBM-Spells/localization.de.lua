@@ -2,7 +2,7 @@ if GetLocale() ~= "deDE" then return end
 
 local L
 
---Прошляпанное очко Мурчаля ✔✔
+--Прошляпанное очко Мурчаля [✔]
 
 -----------------
 -- Raid-zauber --
@@ -15,6 +15,7 @@ L:SetGeneralLocalization({
 
 L:SetOptionLocalization({
 	YellOnMassRes = "Melden Sie, wenn jemand verwendet $spell:212036 oder ein ähnliches",
+	YellOnManaRegen = "Melden Sie, wenn jemand verwendet $spell:29166 oder ein ähnliches",
 	YellOnHeroism = "Melden Sie, wenn jemand verwendet $spell:32182 oder ein ähnliches",
 	YellOnResurrect = "Melden Sie, wenn jemand verwendet $spell:20484 oder ein ähnliches",
 	YellOnPortal = "Benachrichtigen Sie mich, jemand den öffnet $spell:224871 oder ein ähnliches",

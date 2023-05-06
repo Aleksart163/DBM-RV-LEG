@@ -2,7 +2,7 @@ if GetLocale() ~= "frFR" then return end
 
 local L
 
---Прошляпанное очко Мурчаля ✔✔
+--Прошляпанное очко Мурчаля [✔]
 
 -------------------
 -- Sorts de RAID --
@@ -15,6 +15,7 @@ L:SetGeneralLocalization({
 
 L:SetOptionLocalization({
 	YellOnMassRes = "Signaler quand quelqu'un applique un sort $spell:212036 ou similaire",
+	YellOnManaRegen = "Signaler quand quelqu'un applique un sort $spell:29166 ou similaire",
 	YellOnHeroism = "Signaler quand quelqu'un applique un sort $spell:32182 ou similaire",
 	YellOnResurrect = "Signaler quand quelqu'un est devenu la cible d'un sort $spell:20484 ou similaire",
 	YellOnPortal = "Signaler quand quelqu'un ouvre $spell:224871 ou similaire",
