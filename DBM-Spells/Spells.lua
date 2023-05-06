@@ -9,8 +9,9 @@ mod.noStatistics = true
 
 mod:RegisterEvents(
 	"SPELL_CAST_START 61994 212040 212056 212036 212048 212051",
-	"SPELL_CAST_SUCCESS 688 691 157757 80353 32182 230935 90355 2825 160452 10059 11416 11419 32266 49360 11417 11418 11420 32267 49361 33691 53142 88345 88346 132620 132626 176246 176244 224871 29893 83958",
-	"SPELL_AURA_APPLIED 20707",
+	"SPELL_CAST_SUCCESS 688 691 157757 80353 32182 230935 90355 2825 160452 10059 11416 11419 32266 49360 11417 11418 11420 32267 49361 33691 53142 88345 88346 132620 132626 176246 176244 224871 29893 83958 64901",
+	"SPELL_AURA_APPLIED 20707 29166 64901",
+	"SPELL_AURA_REMOVED 29166 64901 197908",
 	"SPELL_SUMMON 67826 199109 199115 195782",
 	"SPELL_CREATE 698 188036 201352 201351 185709 88304 61031 49844",
 	"SPELL_RESURRECT 95750 20484 61999"
@@ -42,27 +43,38 @@ local warnSugar						= mod:NewTargetSourceAnnounce(185709, 1) --Угощение
 local warnCauldron					= mod:NewTargetSourceAnnounce(188036, 1) --Котел духов
 local warnSoulstone					= mod:NewTargetAnnounce(20707, 1) --Камень души
 local warnRebirth					= mod:NewTargetSourceAnnounce2(20484, 1) --Возрождение
+local warnInnervate					= mod:NewTargetSourceAnnounce2(29166, 1) --Озарение
+local warnSymbolHope				= mod:NewTargetSourceAnnounce(64901, 1) --Символ надежды
 
 local specWarnSoulstone				= mod:NewSpecialWarningYou(20707, nil, nil, nil, 1, 2) --Камень души
 local specWarnRebirth 				= mod:NewSpecialWarningYou(20484, nil, nil, nil, 1, 2) --Возрождение
+local specWarnInnervate 			= mod:NewSpecialWarningYou(29166, nil, nil, nil, 1, 2) --Озарение
+local specWarnInnervate2			= mod:NewSpecialWarningEnd(29166, nil, nil, nil, 1, 2) --Озарение
+local specWarnSymbolHope 			= mod:NewSpecialWarningYou(64901, nil, nil, nil, 1, 2) --Символ надежды
+local specWarnSymbolHope2			= mod:NewSpecialWarningEnd(64901, nil, nil, nil, 1, 2) --Символ надежды
+local specWarnManaTea2				= mod:NewSpecialWarningEnd(197908, nil, nil, nil, 1, 2) --Маначай
 
 local yellSoulstone					= mod:NewYell(20707, nil, nil, nil, "YELL") --Камень души
+--local yellInnervate					= mod:NewYell(29166, L.InnervateYell, nil, nil, "YELL") --Озарение
+local yellSymbolHope				= mod:NewYell(64901, L.SymbolHopeYell, nil, nil, "YELL") --Символ надежды
 
 mod:AddBoolOption("YellOnMassRes", true) --масс рес
-mod:AddBoolOption("YellOnHeroism", false) --героизм
-mod:AddBoolOption("YellOnResurrect", false) --бр
-mod:AddBoolOption("YellOnPortal", false) --порталы
-mod:AddBoolOption("YellOnSoulwell", false)
-mod:AddBoolOption("YellOnSoulstone", false)
-mod:AddBoolOption("YellOnRitualofSummoning", false)
+mod:AddBoolOption("YellOnManaRegen", true) --мана реген
+mod:AddBoolOption("YellOnHeroism", true) --героизм
+mod:AddBoolOption("YellOnResurrect", true) --бр
+mod:AddBoolOption("YellOnPortal", true) --порталы
+mod:AddBoolOption("YellOnSoulwell", true)
+mod:AddBoolOption("YellOnSoulstone", true)
+mod:AddBoolOption("YellOnRitualofSummoning", true)
 mod:AddBoolOption("YellOnSpiritCauldron", true) --котел
-mod:AddBoolOption("YellOnLavish", false)
+mod:AddBoolOption("YellOnLavish", true)
 mod:AddBoolOption("YellOnBank", true) --банк
-mod:AddBoolOption("YellOnRepair", false) --починка
+mod:AddBoolOption("YellOnRepair", true) --починка
 mod:AddBoolOption("YellOnPylon", true) --пилон
 mod:AddBoolOption("YellOnToys", true) --игрушки
---
 
+--Реген маны
+local hope, innervate, manatea = replaceSpellLinks(64901), replaceSpellLinks(29166), replaceSpellLinks(197908)
 --Массрес
 local massres1, massres2, massres3, massres4, massres5 = replaceSpellLinks(212040), replaceSpellLinks(212056), replaceSpellLinks(212036), replaceSpellLinks(212048), replaceSpellLinks(212051)
 --Героизм
@@ -88,12 +100,14 @@ local bank = replaceSpellLinks(88306) --83958
 --Игрушки
 local toyTrain, moonfeather, highborne, discoball, direbrews = replaceSpellLinks(61031), replaceSpellLinks(195782), replaceSpellLinks(73331), replaceSpellLinks(50317), replaceSpellLinks(49844)
 
+--local playerName = UnitName("player")
 -- Синхронизация анонсов ↓
 local premsg_values = {
 	-- test,
 	args_sourceName,
 	args_destName,
 	massres1_rw, massres2_rw, massres3_rw, massres4_rw, massres5_rw,
+	hope, innervate,
 	timeWarp, heroism, bloodlust, hysteria, winds, drums,
 	rebirth1, rebirth2, rebirth3,
 	stormwind, ironforge, darnassus, exodar, theramore, tolBarad1, valeEternal1, stormshield,
@@ -136,6 +150,12 @@ local function sendAnnounce(premsg_values)
 	elseif premsg_values.massres5_rw == 1 then
 		smartChat(L.HeroismYell:format(DbmRV, premsg_values.args_sourceName, massres5), "rw")
 		premsg_values.massres5_rw = 0
+	elseif premsg_values.hope == 1 then --Символ надежды
+		smartChat(L.HeroismYell:format(DbmRV, premsg_values.args_sourceName, hope))
+		premsg_values.hope = 0
+	elseif premsg_values.innervate == 1 then --Озарение
+		smartChat(L.SoulstoneYell:format(DbmRV, premsg_values.args_sourceName, innervate, premsg_values.args_destName))
+		premsg_values.innervate = 0
 	elseif premsg_values.timeWarp == 1 then
 		smartChat(L.HeroismYell:format(DbmRV, premsg_values.args_sourceName, timeWarp))
 		premsg_values.timeWarp = 0
@@ -293,6 +313,10 @@ local function announceList(premsg_announce, value)
 		premsg_values.massres4_rw = value
 	elseif premsg_announce == "premsg_Spells_massres5_rw" then
 		premsg_values.massres5_rw = value
+	elseif premsg_announce == "premsg_Spells_hope" then --Символ надежды
+		premsg_values.hope = value
+	elseif premsg_announce == "premsg_Spells_innervate" then --Озарение
+		premsg_values.innervate = value
 	elseif premsg_announce == "premsg_Spells_timeWarp" then
 		premsg_values.timeWarp = value
 	elseif premsg_announce == "premsg_Spells_heroism" then
@@ -436,7 +460,7 @@ function mod:SPELL_CAST_START(args)
 			end
 		end
 end
-	
+
 function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
 	if spellId == 80353 then --Искажение времени
@@ -565,6 +589,14 @@ function mod:SPELL_CAST_SUCCESS(args)
 		if self.Options.YellOnBank then
 			prepareMessage(self, "premsg_Spells_bank", args.sourceName)
 		end
+	elseif spellId == 64901 then --Символ надежды
+		warnSymbolHope:Show(args.sourceName)
+		if args:IsPlayerSource() then
+			yellSymbolHope:Yell(hope)
+		end
+		if self.Options.YellOnManaRegen then
+			prepareMessage(self, "premsg_Spells_hope", args.sourceName)
+		end
 	end
 end
 
@@ -579,6 +611,41 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 		if self.Options.YellOnSoulstone then
 			prepareMessage(self, "premsg_Spells_soulstone", args.sourceName, args.destName)
+		end
+	elseif spellId == 29166 then --Озарение
+		warnInnervate:Show(args.sourceName, args.destName)
+		if args:IsPlayer() and self:IsHealer() then
+			specWarnInnervate:Show()
+			specWarnInnervate:Play("targetyou")
+		--	yellInnervate:Yell(innervate, playerName)
+		end
+		if self.Options.YellOnManaRegen then
+			prepareMessage(self, "premsg_Spells_innervate", args.sourceName, args.destName)
+		end
+	elseif spellId == 64901 then --Символ надежды
+		if args:IsPlayer() and self:IsHealer() then
+			specWarnSymbolHope:Show()
+			specWarnSymbolHope:Play("targetyou")
+		end
+	end
+end
+
+function mod:SPELL_AURA_REMOVED(args)
+	local spellId = args.spellId
+	if spellId == 29166 then --Озарение
+		if args:IsPlayer() and self:IsHealer() then
+			specWarnInnervate2:Show()
+			specWarnInnervate2:Play("end")
+		end
+	elseif spellId == 64901 then --Символ надежды
+		if args:IsPlayer() and self:IsHealer() then
+			specWarnSymbolHope2:Show()
+			specWarnSymbolHope2:Play("end")
+		end
+	elseif spellId == 197908 then --Маначай
+		if args:IsPlayer() and self:IsHealer() then
+			specWarnManaTea2:Show()
+			specWarnManaTea2:Play("end")
 		end
 	end
 end

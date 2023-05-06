@@ -30,6 +30,8 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization{
+	InnervateYell = "%s auf %s!",
+	SymbolHopeYell = "Anwendung %s!",
 	HeroismYell = "%s %s nutzt %s!",
 	PortalYell = "%s %s öffnet %s!",
 	SoulwellYell = "%s %s richtet ein %s!",
