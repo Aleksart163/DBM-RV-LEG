@@ -172,6 +172,8 @@ function mod:SPELL_CAST_START(args)
 		timerFelBombardmentCD:Stop()
 		countdownFelBombardment:Cancel()
 		countdownChooseCannon:Cancel()
+		countdownDecimation:Cancel()
+		countdownAnnihilation:Cancel()
 		timerAnnihilationCD:Stop()
 		if not UnitIsDeadOrGhost("player") then
 			specWarnApocDrive:Show()
