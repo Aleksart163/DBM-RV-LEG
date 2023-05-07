@@ -165,8 +165,8 @@ local function announceList(premsg_announce, value)
 end
 
 local function prepareMessage(self, premsg_announce, args_sourceName, args_destName, scheduleDelay)
-	premsg_values.args_sourceName = args_sourceName
-	premsg_values.args_destName = args_destName
+	-- premsg_values.args_sourceName = args_sourceName
+	-- premsg_values.args_destName = args_destName
 	premsg_values.scheduleDelay = scheduleDelay
 	announceList(premsg_announce, 1)
 	self:SendSync(premsg_announce, playerName)
