@@ -121,6 +121,7 @@ local premsg_values = {
 	-- test,
 	-- args_sourceName,
 	-- args_destName,
+	scheduleDelay,
 	FlameRend, Embers
 }
 local playerOnlyName = UnitName("player")
@@ -139,15 +140,18 @@ local function sendAnnounce(premsg_values)
 		smartChat("args_destName: " .. premsg_values.args_destName)
 		premsg_values.test = 0
 	else]]if premsg_values.FlameRend == 1 then
-		smartChat(L.ProshlyapMurchal1, "rw")
+		-- smartChat(L.ProshlyapMurchal1, "rw")
+		self:Schedule(premsg_values.scheduleDelay, ProshlyapMurchalya1, self)
 		premsg_values.FlameRend = 0
 	elseif premsg_values.Embers == 1 then
-		smartChat(L.ProshlyapMurchal2, "rw")
+		-- smartChat(L.ProshlyapMurchal2, "rw")
+		self:Schedule(premsg_values.scheduleDelay, ProshlyapMurchalya2, self)
 		premsg_values.Embers = 0
 	end
 
 	-- premsg_values.args_sourceName = nil
 	-- premsg_values.args_destName = nil
+	premsg_values.scheduleDelay = nil
 end
 
 local function announceList(premsg_announce, value)
@@ -160,9 +164,10 @@ local function announceList(premsg_announce, value)
 	end
 end
 
-local function prepareMessage(self, premsg_announce, args_sourceName, args_destName)
+local function prepareMessage(self, premsg_announce, args_sourceName, args_destName, scheduleDelay)
 	premsg_values.args_sourceName = args_sourceName
 	premsg_values.args_destName = args_destName
+	premsg_values.scheduleDelay = scheduleDelay
 	announceList(premsg_announce, 1)
 	self:SendSync(premsg_announce, playerOnlyName)
 	self:Schedule(1, sendAnnounce, premsg_values)
@@ -172,7 +177,8 @@ end
 local function ProshlyapMurchalya1(self) --прошляпанное очко Мурчаля Прошляпенко [✔]
 	self.vb.proshlyap1Count = self.vb.proshlyap1Count + 1
 	if self.Options.ShowProshlyapMurchal1 then
-		prepareMessage(self, "premsg_Aggramar_FlameRend_rw")
+		-- prepareMessage(self, "premsg_Aggramar_FlameRend_rw")
+		smartChat(L.ProshlyapMurchal1, "rw")
 	end
 	if self.vb.proshlyap1Count < 3 then
 		self:Schedule(1, ProshlyapMurchalya1, self)
@@ -185,7 +191,8 @@ end
 local function ProshlyapMurchalya2(self) --прошляпанное очко Мурчаля Прошляпенко [✔]
 	self.vb.proshlyap2Count = self.vb.proshlyap2Count + 1
 	if self.Options.ShowProshlyapMurchal2 then
-		prepareMessage(self, "premsg_Aggramar_Embers_rw")
+		-- prepareMessage(self, "premsg_Aggramar_Embers_rw")
+		smartChat(L.ProshlyapMurchal2, "rw")
 	end
 	if self.vb.proshlyap2Count < 3 then
 		self:Schedule(1, ProshlyapMurchalya2, self)
@@ -410,7 +417,8 @@ function mod:OnCombatStart(delay)
 		countdownRavenousBlaze:Start(4-delay) --Хищное пламя+++
 		timerWakeofFlameCD:Start(11-delay) --Огненная волна+++
 		if DBM:GetRaidRank() > 0 then
-			self:Schedule(10, ProshlyapMurchalya1, self)
+			-- self:Schedule(10, ProshlyapMurchalya1, self)
+			prepareMessage(self, "premsg_Aggramar_FlameRend_rw", nil, nil, 9)
 		end
 		timerTaeshalachTechCD:Start(15-delay, 1) --Искусный прием+++
 		countdownTaeshalachTech:Start(15-delay) --Искусный прием+++
@@ -421,7 +429,8 @@ function mod:OnCombatStart(delay)
 		timerScorchingBlazeCD:Start(5.5-delay) --Обжигающее пламя+++
 		timerWakeofFlameCD:Start(5.8-delay) --Огненная волна+++
 		if DBM:GetRaidRank() > 0 then
-			self:Schedule(31, ProshlyapMurchalya1, self)
+			-- self:Schedule(31, ProshlyapMurchalya1, self)
+			prepareMessage(self, "premsg_Aggramar_FlameRend_rw", nil, nil, 30)
 		end
 		timerTaeshalachTechCD:Start(36-delay, 1) --Искусный прием+++
 		countdownTaeshalachTech:Start(36-delay) --Искусный прием+++
@@ -430,7 +439,8 @@ function mod:OnCombatStart(delay)
 		timerScorchingBlazeCD:Start(5.5-delay) --Обжигающее пламя+++
 		timerWakeofFlameCD:Start(5.8-delay) --Огненная волна+++
 		if DBM:GetRaidRank() > 0 then
-			self:Schedule(31, ProshlyapMurchalya1, self)
+			-- self:Schedule(31, ProshlyapMurchalya1, self)
+			prepareMessage(self, "premsg_Aggramar_FlameRend_rw", nil, nil, 30)
 		end
 		timerTaeshalachTechCD:Start(36-delay, 1) --Искусный прием+++
 		countdownTaeshalachTech:Start(36-delay) --Искусный прием+++
@@ -701,7 +711,8 @@ function mod:SPELL_AURA_APPLIED(args)
 				specWarnEmberTaeshalach:Play("mobkill")
 			end
 		elseif self:IsHeroic() and DBM:GetRaidRank() > 0 then
-			self:Schedule(3, ProshlyapMurchalya2, self)
+			-- self:Schedule(3, ProshlyapMurchalya2, self)
+			prepareMessage(self, "premsg_Aggramar_Embers_rw", nil, nil, 2)
 		end
 		if self.Options.RangeFrame and not self:IsTank() then
 			DBM.RangeCheck:Hide()
@@ -742,7 +753,8 @@ function mod:SPELL_AURA_REMOVED(args)
 		self.vb.foeCount = 0
 		self.vb.rendCount = 0
 		if DBM:GetRaidRank() > 0 then
-			self:Schedule(31, ProshlyapMurchalya1, self)
+			-- self:Schedule(31, ProshlyapMurchalya1, self)
+			prepareMessage(self, "premsg_Aggramar_FlameRend_rw", nil, nil, 30)
 		end
 		if self:IsHeroic() then
 			timerTaeshalachTechCD:Start(36, self.vb.techCount+1)
@@ -860,7 +872,8 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 			end
 		end
 		if DBM:GetRaidRank() > 0 then
-			self:Schedule(53, ProshlyapMurchalya1, self)
+			-- self:Schedule(53, ProshlyapMurchalya1, self)
+			prepareMessage(self, "premsg_Aggramar_FlameRend_rw", nil, nil, 52)
 		end
 		warnTaeshalachTech:Show(self.vb.techCount)
 		timerTaeshalachTechCD:Start(nil, self.vb.techCount+1)
