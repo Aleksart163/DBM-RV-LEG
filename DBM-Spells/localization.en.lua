@@ -1,6 +1,6 @@
 local L
 
---Прошляпанное очко Мурчаля ✔✔
+--Прошляпанное очко Мурчаля [✔]
 
 ------------
 -- Spells --
@@ -16,8 +16,8 @@ L:SetWarningLocalization({
 })
 
 L:SetOptionLocalization({
---	Rebirth = "Announce (with target) the source of a spell to be used $spell:20484",
 	YellOnMassRes = "Announce when someone is casting a spell $spell:212036 or equivalent",
+	YellOnManaRegen = "Announce when someone is casting a spell $spell:29166 or equivalent",
 	YellOnHeroism = "Announce when someone is casting a spell $spell:32182 or equivalent",
 	YellOnResurrect = "Announce when someone has been subjected to $spell:20484 or equivalent",
 	YellOnPortal = "Announce when someone opens $spell:224871 or equivalent",
@@ -33,6 +33,8 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization{
+	InnervateYell = "%s on %s!",
+	SymbolHopeYell = "Using %s!",
 	HeroismYell = "%s %s uses %s!",
 	PortalYell = "%s %s opens %s!",
 	SoulwellYell = "%s %s puts %s!",

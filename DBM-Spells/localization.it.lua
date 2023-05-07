@@ -2,7 +2,7 @@ if GetLocale() ~= "itIT" then return end
 
 local L
 
---Прошляпанное очко Мурчаля ✔✔
+--Прошляпанное очко Мурчаля [✔]
 
 ----------------------
 -- Incantesimi RAID --
@@ -15,6 +15,7 @@ L:SetGeneralLocalization({
 
 L:SetOptionLocalization({
 	YellOnMassRes = "Segnala quando qualcuno lancia l'incantesimo $spell:212036 o simili",
+	YellOnManaRegen = "Segnala quando qualcuno lancia l'incantesimo $spell:29166 o simili",
 	YellOnHeroism = "Segnala quando qualcuno lancia l'incantesimo $spell:32182 o simili",
 	YellOnResurrect = "Segnala quando qualcuno è diventato un obiettivo $spell:20484 o simili",
 	YellOnPortal = "Segnala quando qualcuno apre $spell:224871 o simili",
@@ -29,6 +30,8 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization{
+	InnervateYell = "%s su %s!",
+	SymbolHopeYell = "Utilizzo %s!",
 	HeroismYell = "%s %s utilizza %s!",
 	PortalYell = "%s %s apre %s!",
 	SoulwellYell = "%s %s mette %s!",

@@ -2,7 +2,7 @@ if GetLocale() ~= "ruRU" then return end
 
 local L
 
---Прошляпанное очко Мурчаля ✔✔
+--Прошляпанное очко Мурчаля [✔]
 
 ----------------
 -- Заклинания --
@@ -20,6 +20,7 @@ L:SetWarningLocalization({
 L:SetOptionLocalization({
 --	Rebirth = "Объявлять (с целью) источник использования заклинания $spell:20484",
 	YellOnMassRes = "Сообщать, когда кто-то применяет заклинание $spell:212036 или аналогичные ему",
+	YellOnManaRegen = "Сообщать, когда кто-то применяет заклинание $spell:29166 или аналогичные ему",
 	YellOnHeroism = "Сообщать, когда кто-то применяет заклинание $spell:32182 или аналогичные ему",
 	YellOnResurrect = "Сообщать, когда на кого-то применили $spell:20484 или аналогичные ему",
 	YellOnPortal = "Сообщать, когда кто-то открывает $spell:224871 или аналогичные ему",
@@ -35,6 +36,8 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization{
+	InnervateYell = "%s на %s!",
+	SymbolHopeYell = "Использую %s!",
 	HeroismYell = "%s %s использует %s!",
 	PortalYell = "%s %s открывает %s!",
 	SoulwellYell = "%s %s ставит %s!",

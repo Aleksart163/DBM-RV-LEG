@@ -2,7 +2,7 @@ if GetLocale() ~= "ptBR" then return end
 
 local L
 
---Прошляпанное очко Мурчаля ✔✔
+--Прошляпанное очко Мурчаля [✔]
 
 -------------------
 -- Feitiços Raid --
@@ -15,6 +15,7 @@ L:SetGeneralLocalization({
 
 L:SetOptionLocalization({
 	YellOnMassRes = "Relatar quando alguém usa o feitiço $spell:212036 ou similar",
+	YellOnManaRegen = "Relatar quando alguém usa o feitiço $spell:29166 ou similar",
 	YellOnHeroism = "Relatar quando alguém usa o feitiço $spell:32182 ou similar",
 	YellOnResurrect = "Relatar quando um feitiço foi usado em alguém $spell:20484 ou similar",
 	YellOnPortal = "Relatar quando alguém abrir $spell:224871 oder ein ähnliches",
@@ -29,6 +30,8 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization{
+	InnervateYell = "%s em %s!",
+	SymbolHopeYell = "Usando %s!",
 	HeroismYell = "%s %s usa um %s!",
 	PortalYell = "%s %s abre %s!",
 	SoulwellYell = "%s %s puts %s!",

@@ -2,7 +2,7 @@ if GetLocale() ~= "esES" and GetLocale() ~= "esMX" then return end
 
 local L
 
---Прошляпанное очко Мурчаля ✔✔
+--Прошляпанное очко Мурчаля [✔]
 
 ----------------
 -- Заклинания --
@@ -15,6 +15,7 @@ L:SetGeneralLocalization({
 
 L:SetOptionLocalization({
 	YellOnMassRes = "Avisar, cuando alguien esta usando hechizo $spell:212036 o similar",
+	YellOnManaRegen = "Avisar, cuando alguien esta usando hechizo $spell:29166 o similar",
 	YellOnHeroism = "Avisar, cuando alguien esta usando hechizo $spell:32182 o similar",
 	YellOnResurrect = "Avisar, cuando y sobre quien han usado $spell:20484 o similar",
 	YellOnPortal = "Avisar, cuando alguien esta abriendo $spell:224871 o similar",
@@ -29,6 +30,8 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization{
+	InnervateYell = "%s en %s!",
+	SymbolHopeYell = "Aplicación de %s!",
 	HeroismYell = "%s %s usando %s!",
 	PortalYell = "%s %s abriendo %s!",
 	SoulwellYell = "%s %s poniendo %s!",
