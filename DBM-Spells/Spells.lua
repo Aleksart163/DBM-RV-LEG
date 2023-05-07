@@ -100,7 +100,6 @@ local bank = replaceSpellLinks(88306) --83958
 --Игрушки
 local toyTrain, moonfeather, highborne, discoball, direbrews = replaceSpellLinks(61031), replaceSpellLinks(195782), replaceSpellLinks(73331), replaceSpellLinks(50317), replaceSpellLinks(49844)
 
---local playerName = UnitName("player")
 -- Синхронизация анонсов ↓
 local premsg_values = {
 	-- test,
@@ -120,7 +119,7 @@ local premsg_values = {
 	bank,
 	toyTrain, moonfeather, --[[highborne, discoball, ]]direbrews
 }
-local playerOnlyName = UnitName("player")
+-- local playerOnlyName = UnitName("player")
 
 local function sendAnnounce(premsg_values)
 	if premsg_values.args_sourceName == nil then
@@ -416,7 +415,7 @@ local function prepareMessage(self, premsg_announce, args_sourceName, args_destN
 	premsg_values.args_sourceName = args_sourceName
 	premsg_values.args_destName = args_destName
 	announceList(premsg_announce, 1)
-	self:SendSync(premsg_announce, playerOnlyName)
+	self:SendSync(premsg_announce, playerName)
 	self:Schedule(1, sendAnnounce, premsg_values)
 end
 -- Синхронизация анонсов ↑
@@ -799,7 +798,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 end]]
 
 function mod:OnSync(premsg_announce, sender)
-	if sender < playerOnlyName then
+	if sender < playerName then
 		announceList(premsg_announce, 0)
 	end
 end
