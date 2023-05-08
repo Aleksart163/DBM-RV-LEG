@@ -121,7 +121,7 @@ local premsg_values = {
 }
 -- local playerOnlyName = UnitName("player")
 
-local function sendAnnounce(premsg_values)
+local function sendAnnounce(self)
 	if premsg_values.args_sourceName == nil then
 		premsg_values.args_sourceName = "Unknown"
 	end
@@ -416,7 +416,7 @@ local function prepareMessage(self, premsg_announce, args_sourceName, args_destN
 	premsg_values.args_destName = args_destName
 	announceList(premsg_announce, 1)
 	self:SendSync(premsg_announce, playerName)
-	self:Schedule(1, sendAnnounce, premsg_values)
+	self:Schedule(1, sendAnnounce, self)
 end
 -- Синхронизация анонсов ↑
 

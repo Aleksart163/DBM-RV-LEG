@@ -116,6 +116,34 @@ local comboDebug = {}
 local comboDebugCounter = 0
 local unitTracked = {}
 
+local function ProshlyapMurchalya1(self) --прошляпанное очко Мурчаля Прошляпенко [✔]
+	self.vb.proshlyap1Count = self.vb.proshlyap1Count + 1
+	if self.Options.ShowProshlyapMurchal1 then
+		-- prepareMessage(self, "premsg_Aggramar_FlameRend_rw")
+		smartChat(L.ProshlyapMurchal1, "rw")
+	end
+	if self.vb.proshlyap1Count < 3 then
+		self:Schedule(1, ProshlyapMurchalya1, self)
+	elseif self.vb.proshlyap1Count == 3 then
+		self.vb.proshlyap1Count = 0
+		self:Unschedule(ProshlyapMurchalya1)
+	end
+end
+
+local function ProshlyapMurchalya2(self) --прошляпанное очко Мурчаля Прошляпенко [✔]
+	self.vb.proshlyap2Count = self.vb.proshlyap2Count + 1
+	if self.Options.ShowProshlyapMurchal2 then
+		-- prepareMessage(self, "premsg_Aggramar_Embers_rw")
+		smartChat(L.ProshlyapMurchal2, "rw")
+	end
+	if self.vb.proshlyap2Count < 3 then
+		self:Schedule(1, ProshlyapMurchalya2, self)
+	elseif self.vb.proshlyap2Count == 3 then
+		self.vb.proshlyap2Count = 0
+		self:Unschedule(ProshlyapMurchalya2)
+	end
+end
+
 -- Синхронизация анонсов ↓
 local premsg_values = {
 	-- test,
@@ -126,7 +154,7 @@ local premsg_values = {
 }
 -- local playerOnlyName = UnitName("player")
 
-local function sendAnnounce(premsg_values)
+local function sendAnnounce(self)
 	--[[if premsg_values.args_sourceName == nil then
 		premsg_values.args_sourceName = "Unknown"
 	end
@@ -170,37 +198,9 @@ local function prepareMessage(self, premsg_announce, args_sourceName, args_destN
 	premsg_values.scheduleDelay = scheduleDelay
 	announceList(premsg_announce, 1)
 	self:SendSync(premsg_announce, playerName)
-	self:Schedule(1, sendAnnounce, premsg_values)
+	self:Schedule(1, sendAnnounce, self)
 end
 -- Синхронизация анонсов ↑
-
-local function ProshlyapMurchalya1(self) --прошляпанное очко Мурчаля Прошляпенко [✔]
-	self.vb.proshlyap1Count = self.vb.proshlyap1Count + 1
-	if self.Options.ShowProshlyapMurchal1 then
-		-- prepareMessage(self, "premsg_Aggramar_FlameRend_rw")
-		smartChat(L.ProshlyapMurchal1, "rw")
-	end
-	if self.vb.proshlyap1Count < 3 then
-		self:Schedule(1, ProshlyapMurchalya1, self)
-	elseif self.vb.proshlyap1Count == 3 then
-		self.vb.proshlyap1Count = 0
-		self:Unschedule(ProshlyapMurchalya1)
-	end
-end
-
-local function ProshlyapMurchalya2(self) --прошляпанное очко Мурчаля Прошляпенко [✔]
-	self.vb.proshlyap2Count = self.vb.proshlyap2Count + 1
-	if self.Options.ShowProshlyapMurchal2 then
-		-- prepareMessage(self, "premsg_Aggramar_Embers_rw")
-		smartChat(L.ProshlyapMurchal2, "rw")
-	end
-	if self.vb.proshlyap2Count < 3 then
-		self:Schedule(1, ProshlyapMurchalya2, self)
-	elseif self.vb.proshlyap2Count == 3 then
-		self.vb.proshlyap2Count = 0
-		self:Unschedule(ProshlyapMurchalya2)
-	end
-end
 
 function mod:FoeBreakerTarget(targetname, uId)
 	if not targetname then return end

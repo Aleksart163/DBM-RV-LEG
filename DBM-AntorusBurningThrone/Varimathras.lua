@@ -88,6 +88,13 @@ local playerAffected = false
 --волосали1
 local necrotic = replaceSpellLinks(244094) --некротик
 
+local function ProshlyapSoulburnin1(self)
+	if self.Options.ShowProshlyapSoulburnin then
+		-- prepareMessage(self, "premsg_Varimathras_Soulburnin_rw")
+		smartChat(L.ProshlyapSoulburnin:format(necrotic), "rw")
+	end
+end
+
 -- Синхронизация анонсов ↓
 local premsg_values = {
 --	args_sourceName,
@@ -98,7 +105,7 @@ local premsg_values = {
 }
 -- local playerOnlyName = UnitName("player")
 
-local function sendAnnounce(premsg_values)
+local function sendAnnounce(self)
 	--[[if premsg_values.args_sourceName == nil then
 		premsg_values.args_sourceName = "Unknown"
 	end]]
@@ -134,16 +141,9 @@ local function prepareMessage(self, premsg_announce, args_sourceName, args_destN
 	premsg_values.scheduleDelay = scheduleDelay
 	announceList(premsg_announce, 1)
 	self:SendSync(premsg_announce, playerName)
-	self:Schedule(1, sendAnnounce, premsg_values)
+	self:Schedule(1, sendAnnounce, self)
 end
 -- Синхронизация анонсов ↑
-
-local function ProshlyapSoulburnin1(self)
-	if self.Options.ShowProshlyapSoulburnin then
-		-- prepareMessage(self, "premsg_Varimathras_Soulburnin_rw")
-		smartChat(L.ProshlyapSoulburnin:format(necrotic), "rw")
-	end
-end
 
 function mod:OnCombatStart(delay)
 	self.vb.currentTorment = 0
