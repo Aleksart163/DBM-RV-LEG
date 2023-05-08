@@ -151,62 +151,6 @@ mod.vb.ignoreFirstInterrupt = false
 mod.vb.firstCastHappend = false
 local CVAR1, CVAR2 = nil, nil
 
-local function ProshlyapMurchalya1(self) --прошляпанное очко Мурчаля Прошляпенко [✔]
-	self.vb.proshlyapCount = self.vb.proshlyapCount + 1
-	if self.Options.ShowProshlyapMurchal then
-		-- prepareMessage(self, "premsg_ShivarraCoven_AmanThul_rw")
-		smartChat(L.ProshlyapMurchal1, "rw")
-	end
-	if self.vb.proshlyapCount < 3 then
-		self:Schedule(1, ProshlyapMurchalya1, self)
-	elseif self.vb.proshlyapCount == 3 then
-		self.vb.proshlyapCount = 0
-		self:Unschedule(ProshlyapMurchalya1)
-	end
-end
-
-local function ProshlyapMurchalya2(self)
-	self.vb.proshlyapCount = self.vb.proshlyapCount + 1
-	if self.Options.ShowProshlyapMurchal then
-		-- prepareMessage(self, "premsg_ShivarraCoven_Khazgoroth_rw")
-		smartChat(L.ProshlyapMurchal2, "rw")
-	end
-	if self.vb.proshlyapCount < 3 then
-		self:Schedule(1, ProshlyapMurchalya2, self)
-	elseif self.vb.proshlyapCount == 3 then
-		self.vb.proshlyapCount = 0
-		self:Unschedule(ProshlyapMurchalya2)
-	end
-end
-
-local function ProshlyapMurchalya3(self)
-	self.vb.proshlyapCount = self.vb.proshlyapCount + 1
-	if self.Options.ShowProshlyapMurchal then
-		-- prepareMessage(self, "premsg_ShivarraCoven_Golganneth_rw")
-		smartChat(L.ProshlyapMurchal3, "rw")
-	end
-	if self.vb.proshlyapCount < 3 then
-		self:Schedule(1, ProshlyapMurchalya3, self)
-	elseif self.vb.proshlyapCount == 3 then
-		self.vb.proshlyapCount = 0
-		self:Unschedule(ProshlyapMurchalya3)
-	end
-end
-
-local function ProshlyapMurchalya4(self)
-	self.vb.proshlyapCount = self.vb.proshlyapCount + 1
-	if self.Options.ShowProshlyapMurchal then
-		-- prepareMessage(self, "premsg_ShivarraCoven_Norgannon_rw")
-		smartChat(L.ProshlyapMurchal4, "rw")
-	end
-	if self.vb.proshlyapCount < 3 then
-		self:Schedule(1, ProshlyapMurchalya4, self)
-	elseif self.vb.proshlyapCount == 3 then
-		self.vb.proshlyapCount = 0
-		self:Unschedule(ProshlyapMurchalya4)
-	end
-end
-
 -- Синхронизация анонсов ↓
 local premsg_values = {
 	-- test,
@@ -273,6 +217,62 @@ local function prepareMessage(self, premsg_announce, args_sourceName, args_destN
 	self:Schedule(1, sendAnnounce, premsg_values)
 end
 -- Синхронизация анонсов ↑
+
+local function ProshlyapMurchalya1(self) --прошляпанное очко Мурчаля Прошляпенко [✔]
+	self.vb.proshlyapCount = self.vb.proshlyapCount + 1
+	if self.Options.ShowProshlyapMurchal then
+		-- prepareMessage(self, "premsg_ShivarraCoven_AmanThul_rw")
+		smartChat(L.ProshlyapMurchal1, "rw")
+	end
+	if self.vb.proshlyapCount < 3 then
+		self:Schedule(1, ProshlyapMurchalya1, self)
+	elseif self.vb.proshlyapCount == 3 then
+		self.vb.proshlyapCount = 0
+		self:Unschedule(ProshlyapMurchalya1)
+	end
+end
+
+local function ProshlyapMurchalya2(self)
+	self.vb.proshlyapCount = self.vb.proshlyapCount + 1
+	if self.Options.ShowProshlyapMurchal then
+		-- prepareMessage(self, "premsg_ShivarraCoven_Khazgoroth_rw")
+		smartChat(L.ProshlyapMurchal2, "rw")
+	end
+	if self.vb.proshlyapCount < 3 then
+		self:Schedule(1, ProshlyapMurchalya2, self)
+	elseif self.vb.proshlyapCount == 3 then
+		self.vb.proshlyapCount = 0
+		self:Unschedule(ProshlyapMurchalya2)
+	end
+end
+
+local function ProshlyapMurchalya3(self)
+	self.vb.proshlyapCount = self.vb.proshlyapCount + 1
+	if self.Options.ShowProshlyapMurchal then
+		-- prepareMessage(self, "premsg_ShivarraCoven_Golganneth_rw")
+		smartChat(L.ProshlyapMurchal3, "rw")
+	end
+	if self.vb.proshlyapCount < 3 then
+		self:Schedule(1, ProshlyapMurchalya3, self)
+	elseif self.vb.proshlyapCount == 3 then
+		self.vb.proshlyapCount = 0
+		self:Unschedule(ProshlyapMurchalya3)
+	end
+end
+
+local function ProshlyapMurchalya4(self)
+	self.vb.proshlyapCount = self.vb.proshlyapCount + 1
+	if self.Options.ShowProshlyapMurchal then
+		-- prepareMessage(self, "premsg_ShivarraCoven_Norgannon_rw")
+		smartChat(L.ProshlyapMurchal4, "rw")
+	end
+	if self.vb.proshlyapCount < 3 then
+		self:Schedule(1, ProshlyapMurchalya4, self)
+	elseif self.vb.proshlyapCount == 3 then
+		self.vb.proshlyapCount = 0
+		self:Unschedule(ProshlyapMurchalya4)
+	end
+end
 
 function mod:OnCombatStart(delay)
 	self.vb.proshlyapCount = 0
