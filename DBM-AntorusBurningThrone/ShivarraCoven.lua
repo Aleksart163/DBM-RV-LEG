@@ -175,19 +175,19 @@ local function sendAnnounce(premsg_values)
 		premsg_values.test = 0
 	else]]if premsg_values.AmanThul == 1 then
 		-- smartChat(L.ProshlyapMurchal1, "rw")
-		self:Schedule(80, ProshlyapMurchalya1)
+		Schedule(80, ProshlyapMurchalya1, self)
 		premsg_values.AmanThul = 0
 	elseif premsg_values.Khazgoroth == 1 then
 		-- smartChat(L.ProshlyapMurchal2, "rw")
-		self:Schedule(80, ProshlyapMurchalya2)
+		Schedule(80, ProshlyapMurchalya2, self)
 		premsg_values.Khazgoroth = 0
 	elseif premsg_values.Golganneth == 1 then
 		-- smartChat(L.ProshlyapMurchal3, "rw")
-		self:Schedule(80, ProshlyapMurchalya3)
+		Schedule(80, ProshlyapMurchalya3, self)
 		premsg_values.Golganneth = 0
 	elseif premsg_values.Norgannon == 1 then
 		-- smartChat(L.ProshlyapMurchal4, "rw")
-		self:Schedule(80, ProshlyapMurchalya4)
+		Schedule(80, ProshlyapMurchalya4, self)
 		premsg_values.Norgannon = 0
 	end
 
