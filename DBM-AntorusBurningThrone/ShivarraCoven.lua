@@ -216,7 +216,7 @@ local premsg_values = {
 }
 -- local playerOnlyName = UnitName("player")
 
-local function sendAnnounce(self, premsg_values)
+local function sendAnnounce(premsg_values, self)
 	--[[if premsg_values.args_sourceName == nil then
 		premsg_values.args_sourceName = "Unknown"
 	end
