@@ -151,73 +151,6 @@ mod.vb.ignoreFirstInterrupt = false
 mod.vb.firstCastHappend = false
 local CVAR1, CVAR2 = nil, nil
 
--- Синхронизация анонсов ↓
-local premsg_values = {
-	-- test,
-	-- args_sourceName,
-	-- args_destName,
-	AmanThul, Khazgoroth, Golganneth, Norgannon
-}
--- local playerOnlyName = UnitName("player")
-
-local function sendAnnounce(premsg_values)
-	--[[if premsg_values.args_sourceName == nil then
-		premsg_values.args_sourceName = "Unknown"
-	end
-	if premsg_values.args_destName == nil then
-		premsg_values.args_destName = "Unknown"
-	end]]
-
-	--[[if premsg_values.test == 1 then
-		smartChat("Тестовое сообщение.")
-		smartChat("args_sourceName: " .. premsg_values.args_sourceName)
-		smartChat("args_destName: " .. premsg_values.args_destName)
-		premsg_values.test = 0
-	else]]if premsg_values.AmanThul == 1 then
-		-- smartChat(L.ProshlyapMurchal1, "rw")
-		Schedule(80, ProshlyapMurchalya1, self)
-		premsg_values.AmanThul = 0
-	elseif premsg_values.Khazgoroth == 1 then
-		-- smartChat(L.ProshlyapMurchal2, "rw")
-		Schedule(80, ProshlyapMurchalya2, self)
-		premsg_values.Khazgoroth = 0
-	elseif premsg_values.Golganneth == 1 then
-		-- smartChat(L.ProshlyapMurchal3, "rw")
-		Schedule(80, ProshlyapMurchalya3, self)
-		premsg_values.Golganneth = 0
-	elseif premsg_values.Norgannon == 1 then
-		-- smartChat(L.ProshlyapMurchal4, "rw")
-		Schedule(80, ProshlyapMurchalya4, self)
-		premsg_values.Norgannon = 0
-	end
-
-	-- premsg_values.args_sourceName = nil
-	-- premsg_values.args_destName = nil
-end
-
-local function announceList(premsg_announce, value)
-	--[[if premsg_announce == "premsg_ShivarraCoven_test" then
-		premsg_values.test = value
-	else]]if premsg_announce == "premsg_ShivarraCoven_AmanThul_rw" then
-		premsg_values.AmanThul = value
-	elseif premsg_announce == "premsg_ShivarraCoven_Khazgoroth_rw" then
-		premsg_values.Khazgoroth = value
-	elseif premsg_announce == "premsg_ShivarraCoven_Golganneth_rw" then
-		premsg_values.Golganneth = value
-	elseif premsg_announce == "premsg_ShivarraCoven_Norgannon_rw" then
-		premsg_values.Norgannon = value
-	end
-end
-
-local function prepareMessage(self, premsg_announce, args_sourceName, args_destName)
-	premsg_values.args_sourceName = args_sourceName
-	premsg_values.args_destName = args_destName
-	announceList(premsg_announce, 1)
-	self:SendSync(premsg_announce, playerName)
-	self:Schedule(1, sendAnnounce, premsg_values)
-end
--- Синхронизация анонсов ↑
-
 local function ProshlyapMurchalya1(self) --прошляпанное очко Мурчаля Прошляпенко [✔]
 	self.vb.proshlyapCount = self.vb.proshlyapCount + 1
 	if self.Options.ShowProshlyapMurchal then
@@ -273,6 +206,73 @@ local function ProshlyapMurchalya4(self)
 		self:Unschedule(ProshlyapMurchalya4)
 	end
 end
+
+-- Синхронизация анонсов ↓
+local premsg_values = {
+	-- test,
+	-- args_sourceName,
+	-- args_destName,
+	AmanThul, Khazgoroth, Golganneth, Norgannon
+}
+-- local playerOnlyName = UnitName("player")
+
+local function sendAnnounce(premsg_values)
+	--[[if premsg_values.args_sourceName == nil then
+		premsg_values.args_sourceName = "Unknown"
+	end
+	if premsg_values.args_destName == nil then
+		premsg_values.args_destName = "Unknown"
+	end]]
+
+	--[[if premsg_values.test == 1 then
+		smartChat("Тестовое сообщение.")
+		smartChat("args_sourceName: " .. premsg_values.args_sourceName)
+		smartChat("args_destName: " .. premsg_values.args_destName)
+		premsg_values.test = 0
+	else]]if premsg_values.AmanThul == 1 then
+		-- smartChat(L.ProshlyapMurchal1, "rw")
+		self:Schedule(80, ProshlyapMurchalya1, self)
+		premsg_values.AmanThul = 0
+	elseif premsg_values.Khazgoroth == 1 then
+		-- smartChat(L.ProshlyapMurchal2, "rw")
+		self:Schedule(80, ProshlyapMurchalya2, self)
+		premsg_values.Khazgoroth = 0
+	elseif premsg_values.Golganneth == 1 then
+		-- smartChat(L.ProshlyapMurchal3, "rw")
+		self:Schedule(80, ProshlyapMurchalya3, self)
+		premsg_values.Golganneth = 0
+	elseif premsg_values.Norgannon == 1 then
+		-- smartChat(L.ProshlyapMurchal4, "rw")
+		self:Schedule(80, ProshlyapMurchalya4, self)
+		premsg_values.Norgannon = 0
+	end
+
+	-- premsg_values.args_sourceName = nil
+	-- premsg_values.args_destName = nil
+end
+
+local function announceList(premsg_announce, value)
+	--[[if premsg_announce == "premsg_ShivarraCoven_test" then
+		premsg_values.test = value
+	else]]if premsg_announce == "premsg_ShivarraCoven_AmanThul_rw" then
+		premsg_values.AmanThul = value
+	elseif premsg_announce == "premsg_ShivarraCoven_Khazgoroth_rw" then
+		premsg_values.Khazgoroth = value
+	elseif premsg_announce == "premsg_ShivarraCoven_Golganneth_rw" then
+		premsg_values.Golganneth = value
+	elseif premsg_announce == "premsg_ShivarraCoven_Norgannon_rw" then
+		premsg_values.Norgannon = value
+	end
+end
+
+local function prepareMessage(self, premsg_announce, args_sourceName, args_destName)
+	premsg_values.args_sourceName = args_sourceName
+	premsg_values.args_destName = args_destName
+	announceList(premsg_announce, 1)
+	self:SendSync(premsg_announce, playerName)
+	self:Schedule(1, sendAnnounce, premsg_values)
+end
+-- Синхронизация анонсов ↑
 
 function mod:OnCombatStart(delay)
 	self.vb.proshlyapCount = 0
