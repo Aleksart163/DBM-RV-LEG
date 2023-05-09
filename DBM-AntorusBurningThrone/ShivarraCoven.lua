@@ -151,6 +151,62 @@ mod.vb.ignoreFirstInterrupt = false
 mod.vb.firstCastHappend = false
 local CVAR1, CVAR2 = nil, nil
 
+local function ProshlyapMurchalya1(self) --прошляпанное очко Мурчаля Прошляпенко [✔]
+	self.vb.proshlyapCount = self.vb.proshlyapCount + 1
+	if self.Options.ShowProshlyapMurchal then
+		-- prepareMessage(self, "premsg_ShivarraCoven_AmanThul_rw")
+		smartChat(L.ProshlyapMurchal1, "rw")
+	end
+	if self.vb.proshlyapCount < 3 then
+		self:Schedule(1, ProshlyapMurchalya1, self)
+	elseif self.vb.proshlyapCount == 3 then
+		self.vb.proshlyapCount = 0
+		self:Unschedule(ProshlyapMurchalya1)
+	end
+end
+
+local function ProshlyapMurchalya2(self)
+	self.vb.proshlyapCount = self.vb.proshlyapCount + 1
+	if self.Options.ShowProshlyapMurchal then
+		-- prepareMessage(self, "premsg_ShivarraCoven_Khazgoroth_rw")
+		smartChat(L.ProshlyapMurchal2, "rw")
+	end
+	if self.vb.proshlyapCount < 3 then
+		self:Schedule(1, ProshlyapMurchalya2, self)
+	elseif self.vb.proshlyapCount == 3 then
+		self.vb.proshlyapCount = 0
+		self:Unschedule(ProshlyapMurchalya2)
+	end
+end
+
+local function ProshlyapMurchalya3(self)
+	self.vb.proshlyapCount = self.vb.proshlyapCount + 1
+	if self.Options.ShowProshlyapMurchal then
+		-- prepareMessage(self, "premsg_ShivarraCoven_Golganneth_rw")
+		smartChat(L.ProshlyapMurchal3, "rw")
+	end
+	if self.vb.proshlyapCount < 3 then
+		self:Schedule(1, ProshlyapMurchalya3, self)
+	elseif self.vb.proshlyapCount == 3 then
+		self.vb.proshlyapCount = 0
+		self:Unschedule(ProshlyapMurchalya3)
+	end
+end
+
+local function ProshlyapMurchalya4(self)
+	self.vb.proshlyapCount = self.vb.proshlyapCount + 1
+	if self.Options.ShowProshlyapMurchal then
+		-- prepareMessage(self, "premsg_ShivarraCoven_Norgannon_rw")
+		smartChat(L.ProshlyapMurchal4, "rw")
+	end
+	if self.vb.proshlyapCount < 3 then
+		self:Schedule(1, ProshlyapMurchalya4, self)
+	elseif self.vb.proshlyapCount == 3 then
+		self.vb.proshlyapCount = 0
+		self:Unschedule(ProshlyapMurchalya4)
+	end
+end
+
 -- Синхронизация анонсов ↓
 local premsg_values = {
 	-- test,
@@ -158,9 +214,9 @@ local premsg_values = {
 	-- args_destName,
 	AmanThul, Khazgoroth, Golganneth, Norgannon
 }
-local playerOnlyName = UnitName("player")
+-- local playerOnlyName = UnitName("player")
 
-local function sendAnnounce(premsg_values)
+local function sendAnnounce(self)
 	--[[if premsg_values.args_sourceName == nil then
 		premsg_values.args_sourceName = "Unknown"
 	end
@@ -174,16 +230,20 @@ local function sendAnnounce(premsg_values)
 		smartChat("args_destName: " .. premsg_values.args_destName)
 		premsg_values.test = 0
 	else]]if premsg_values.AmanThul == 1 then
-		smartChat(L.ProshlyapMurchal1, "rw")
+		-- smartChat(L.ProshlyapMurchal1, "rw")
+		self:Schedule(80, ProshlyapMurchalya1, self)
 		premsg_values.AmanThul = 0
 	elseif premsg_values.Khazgoroth == 1 then
-		smartChat(L.ProshlyapMurchal2, "rw")
+		-- smartChat(L.ProshlyapMurchal2, "rw")
+		self:Schedule(80, ProshlyapMurchalya2, self)
 		premsg_values.Khazgoroth = 0
 	elseif premsg_values.Golganneth == 1 then
-		smartChat(L.ProshlyapMurchal3, "rw")
+		-- smartChat(L.ProshlyapMurchal3, "rw")
+		self:Schedule(80, ProshlyapMurchalya3, self)
 		premsg_values.Golganneth = 0
 	elseif premsg_values.Norgannon == 1 then
-		smartChat(L.ProshlyapMurchal4, "rw")
+		-- smartChat(L.ProshlyapMurchal4, "rw")
+		self:Schedule(80, ProshlyapMurchalya4, self)
 		premsg_values.Norgannon = 0
 	end
 
@@ -209,62 +269,10 @@ local function prepareMessage(self, premsg_announce, args_sourceName, args_destN
 	premsg_values.args_sourceName = args_sourceName
 	premsg_values.args_destName = args_destName
 	announceList(premsg_announce, 1)
-	self:SendSync(premsg_announce, playerOnlyName)
-	self:Schedule(1, sendAnnounce, premsg_values)
+	self:SendSync(premsg_announce, playerName)
+	self:Schedule(1, sendAnnounce, self)
 end
 -- Синхронизация анонсов ↑
-
-local function ProshlyapMurchalya1(self) --прошляпанное очко Мурчаля Прошляпенко [✔]
-	self.vb.proshlyapCount = self.vb.proshlyapCount + 1
-	if self.Options.ShowProshlyapMurchal then
-		prepareMessage(self, "premsg_ShivarraCoven_AmanThul_rw")
-	end
-	if self.vb.proshlyapCount < 3 then
-		self:Schedule(1, ProshlyapMurchalya1, self)
-	elseif self.vb.proshlyapCount == 3 then
-		self.vb.proshlyapCount = 0
-		self:Unschedule(ProshlyapMurchalya1)
-	end
-end
-
-local function ProshlyapMurchalya2(self)
-	self.vb.proshlyapCount = self.vb.proshlyapCount + 1
-	if self.Options.ShowProshlyapMurchal then
-		prepareMessage(self, "premsg_ShivarraCoven_Khazgoroth_rw")
-	end
-	if self.vb.proshlyapCount < 3 then
-		self:Schedule(1, ProshlyapMurchalya2, self)
-	elseif self.vb.proshlyapCount == 3 then
-		self.vb.proshlyapCount = 0
-		self:Unschedule(ProshlyapMurchalya2)
-	end
-end
-
-local function ProshlyapMurchalya3(self)
-	self.vb.proshlyapCount = self.vb.proshlyapCount + 1
-	if self.Options.ShowProshlyapMurchal then
-		prepareMessage(self, "premsg_ShivarraCoven_Golganneth_rw")
-	end
-	if self.vb.proshlyapCount < 3 then
-		self:Schedule(1, ProshlyapMurchalya3, self)
-	elseif self.vb.proshlyapCount == 3 then
-		self.vb.proshlyapCount = 0
-		self:Unschedule(ProshlyapMurchalya3)
-	end
-end
-
-local function ProshlyapMurchalya4(self)
-	self.vb.proshlyapCount = self.vb.proshlyapCount + 1
-	if self.Options.ShowProshlyapMurchal then
-		prepareMessage(self, "premsg_ShivarraCoven_Norgannon_rw")
-	end
-	if self.vb.proshlyapCount < 3 then
-		self:Schedule(1, ProshlyapMurchalya4, self)
-	elseif self.vb.proshlyapCount == 3 then
-		self.vb.proshlyapCount = 0
-		self:Unschedule(ProshlyapMurchalya4)
-	end
-end
 
 function mod:OnCombatStart(delay)
 	self.vb.proshlyapCount = 0
@@ -421,7 +429,8 @@ function mod:SPELL_CAST_SUCCESS(args)
 				specWarnTormentofTitans:ScheduleVoice(90, "mobkill")
 			end
 			if DBM:GetRaidRank() > 0 then
-				self:Schedule(81, ProshlyapMurchalya1, self)
+				-- self:Schedule(81, ProshlyapMurchalya1, self)
+				prepareMessage(self, "premsg_ShivarraCoven_AmanThul_rw")
 			end
 		elseif spellId == 250333 then --Пламя Казгарота
 			timerFlamesofKhazgorothCD:Start()
@@ -433,7 +442,8 @@ function mod:SPELL_CAST_SUCCESS(args)
 				specWarnTormentofTitans:ScheduleVoice(90, "mobkill")
 			end
 			if DBM:GetRaidRank() > 0 then
-				self:Schedule(81, ProshlyapMurchalya2, self)
+				-- self:Schedule(81, ProshlyapMurchalya2, self)
+				prepareMessage(self, "premsg_ShivarraCoven_Khazgoroth_rw")
 			end
 		elseif spellId == 249793 then --Ярость Голганнета
 			timerFuryofGolgannethCD:Start()
@@ -445,7 +455,8 @@ function mod:SPELL_CAST_SUCCESS(args)
 				specWarnTormentofTitans:ScheduleVoice(90, "mobkill")
 			end
 			if DBM:GetRaidRank() > 0 then
-				self:Schedule(81, ProshlyapMurchalya3, self)
+				-- self:Schedule(81, ProshlyapMurchalya3, self)
+				prepareMessage(self, "premsg_ShivarraCoven_Golganneth_rw")
 			end
 		elseif spellId == 250334 then --Призрачная армия Норганнона
 			timerSpectralArmyofNorgannonCD:Start()
@@ -457,7 +468,8 @@ function mod:SPELL_CAST_SUCCESS(args)
 				specWarnTormentofTitans:ScheduleVoice(90, "watchstep")
 			end
 			if DBM:GetRaidRank() > 0 then
-				self:Schedule(81, ProshlyapMurchalya4, self)
+				-- self:Schedule(81, ProshlyapMurchalya4, self)
+				prepareMessage(self, "premsg_ShivarraCoven_Norgannon_rw")
 			end
 		end
 		if self:IsMythic() then
@@ -799,7 +811,7 @@ end
 function mod:OnSync(msg, firstInterrupt)
 	local premsg_announce = msg
 	local sender = firstInterrupt
-	if sender < playerOnlyName then
+	if sender < playerName then
 		announceList(premsg_announce, 0)
 	end
 	if self:IsLFR() then return end

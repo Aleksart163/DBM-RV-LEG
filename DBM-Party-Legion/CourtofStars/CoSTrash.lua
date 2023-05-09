@@ -129,9 +129,9 @@ local premsg_values = {
 	releaseSpores, shuttingDown, treating, pilfering, tinkering, defacing,
 	clues
 }
-local playerOnlyName = UnitName("player")
+-- local playerOnlyName = UnitName("player")
 
-local function sendAnnounce(premsg_values)
+local function sendAnnounce(self)
 	if premsg_values.args_sourceName == nil then
 		premsg_values.args_sourceName = "Unknown"
 	end
@@ -231,8 +231,8 @@ local function prepareMessage(self, premsg_announce, args_sourceName, args_destN
 	premsg_values.args_destName = args_destName
 	premsg_values.hintTranslations_clue = hintTranslations_clue
 	announceList(premsg_announce, 1)
-	self:SendSync(premsg_announce, playerOnlyName)
-	self:Schedule(1, sendAnnounce, premsg_values)
+	self:SendSync(premsg_announce, playerName)
+	self:Schedule(1, sendAnnounce, self)
 end
 -- Синхронизация анонсов ↑
 
@@ -691,7 +691,7 @@ end
 function mod:OnSync(msg, clue)
 	local premsg_announce = msg
 	local sender = clue
-	if sender < playerOnlyName then
+	if sender < playerName then
 		announceList(premsg_announce, 0)
 	end
 	if not self.Options.SpyHelper then return end

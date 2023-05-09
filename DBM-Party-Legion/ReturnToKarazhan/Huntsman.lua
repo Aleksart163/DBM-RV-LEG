@@ -20,7 +20,8 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_SUCCESS 227636",
 	"UNIT_SPELLCAST_SUCCEEDED boss1 boss2",
 	"CHAT_MSG_MONSTER_YELL",
-	"UNIT_HEALTH"
+	"UNIT_HEALTH",
+	"VEHICLE_ANGLE_UPDATE"
 )
 
 --Ловчий Аттумен https://ru.wowhead.com/npc=114262/ловчий-аттумен/эпохальный-журнал-сражений
@@ -68,6 +69,7 @@ local warned_preP2 = false
 local warned_preP3 = false
 local warned_preP4 = false
 local phase2 = false
+local test = true
 
 --[[
 local function UpdateTimers(self)
@@ -79,6 +81,7 @@ local function UpdateTimers(self)
 end]]
 
 function mod:OnCombatStart(delay)
+	test = true
 	self.vb.phase = 1
 	self.vb.murchalproshlyap = 0
 	self.vb.spectralchargeCast = 0
@@ -226,6 +229,7 @@ function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
 	if spellId == 227404 then --Незримое присутствие
 		if args:IsPlayer() then
+			test = true
 			specWarnPresence2:Show()
 			specWarnPresence2:Play("end")
 		end
@@ -349,3 +353,15 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 --		specWarnSpectralCharge:Schedule(21.5) --Призрачный рывок
 --	end
 end
+
+function mod:VEHICLE_ANGLE_UPDATE()
+	if DBM:UnitDebuff("player", 227404) and test then
+		test = false
+		-- print('test')
+		-- self:SendSync("debuffme", playerName)
+	end
+end
+
+-- function mod:OnSync(msg, sender)
+
+-- end

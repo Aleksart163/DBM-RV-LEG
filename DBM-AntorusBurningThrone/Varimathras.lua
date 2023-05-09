@@ -88,16 +88,24 @@ local playerAffected = false
 --волосали1
 local necrotic = replaceSpellLinks(244094) --некротик
 
+local function ProshlyapSoulburnin1(self)
+	if self.Options.ShowProshlyapSoulburnin then
+		-- prepareMessage(self, "premsg_Varimathras_Soulburnin_rw")
+		smartChat(L.ProshlyapSoulburnin:format(necrotic), "rw")
+	end
+end
+
 -- Синхронизация анонсов ↓
 local premsg_values = {
 --	args_sourceName,
 	args_destName,
+	scheduleDelay,
 	necrotic_rw,
 	soulburnin_rw
 }
-local playerOnlyName = UnitName("player")
+-- local playerOnlyName = UnitName("player")
 
-local function sendAnnounce(premsg_values)
+local function sendAnnounce(self)
 	--[[if premsg_values.args_sourceName == nil then
 		premsg_values.args_sourceName = "Unknown"
 	end]]
@@ -109,12 +117,14 @@ local function sendAnnounce(premsg_values)
 		smartChat(L.NecroticYell:format(premsg_values.args_destName, necrotic), "rw")
 		premsg_values.necrotic_rw = 0
 	elseif premsg_values.soulburnin_rw == 1 then
-		smartChat(L.ProshlyapSoulburnin:format(necrotic), "rw")
+		-- smartChat(L.ProshlyapSoulburnin:format(necrotic), "rw")
+		self:Schedule(premsg_values.scheduleDelay, ProshlyapSoulburnin1, self)
 		premsg_values.soulburnin_rw = 0
 	end
 
 	-- premsg_values.args_sourceName = nil
 	premsg_values.args_destName = nil
+	premsg_values.scheduleDelay = nil
 end
 
 local function announceList(premsg_announce, value)
@@ -125,20 +135,15 @@ local function announceList(premsg_announce, value)
 	end
 end
 
-local function prepareMessage(self, premsg_announce, args_sourceName, args_destName)
+local function prepareMessage(self, premsg_announce, args_sourceName, args_destName, scheduleDelay)
 	-- premsg_values.args_sourceName = args_sourceName
 	premsg_values.args_destName = args_destName
+	premsg_values.scheduleDelay = scheduleDelay
 	announceList(premsg_announce, 1)
-	self:SendSync(premsg_announce, playerOnlyName)
-	self:Schedule(1, sendAnnounce, premsg_values)
+	self:SendSync(premsg_announce, playerName)
+	self:Schedule(1, sendAnnounce, self)
 end
 -- Синхронизация анонсов ↑
-
-local function ProshlyapSoulburnin1(self)
-	if self.Options.ShowProshlyapSoulburnin then
-		prepareMessage(self, "premsg_Varimathras_Soulburnin_rw")
-	end
-end
 
 function mod:OnCombatStart(delay)
 	self.vb.currentTorment = 0
@@ -156,7 +161,8 @@ function mod:OnCombatStart(delay)
 		timerNecroticEmbraceCD:Start(35-delay)
 		countdownNecroticEmbrace:Start(35-delay)
 		if DBM:GetRaidRank() > 0 then
-			self:Schedule(30, ProshlyapSoulburnin1, self)
+			-- self:Schedule(30, ProshlyapSoulburnin1, self)
+			prepareMessage(self, "premsg_Varimathras_Soulburnin_rw", nil, nil, 29)
 		end
 	end
 	if not self:IsLFR() then
@@ -191,13 +197,15 @@ function mod:SPELL_CAST_SUCCESS(args)
 				timerNecroticEmbraceCD:Start()
 				countdownNecroticEmbrace:Start()
 				if DBM:GetRaidRank() > 0 then
-					self:Schedule(25, ProshlyapSoulburnin1, self)
+					-- self:Schedule(25, ProshlyapSoulburnin1, self)
+					prepareMessage(self, "premsg_Varimathras_Soulburnin_rw", nil, nil, 24)
 				end
 			elseif self.vb.proshlyapMurchalCount >= 4 then --точно по героику с 4+ некрота
 				timerNecroticEmbraceCD:Start(32.8)
 				countdownNecroticEmbrace:Start(32.8)
 				if DBM:GetRaidRank() > 0 then
-					self:Schedule(27.8, ProshlyapSoulburnin1, self)
+					-- self:Schedule(27.8, ProshlyapSoulburnin1, self)
+					prepareMessage(self, "premsg_Varimathras_Soulburnin_rw", nil, nil, 26.8)
 				end
 			end
 		end
@@ -287,9 +295,9 @@ function mod:SPELL_AURA_APPLIED(args)
 		else --героик
 			DBM:Debug("self.vb.totalEmbrace (SPELL_AURA_APPLIED): " .. self.vb.totalEmbrace)
 			if self.vb.totalEmbrace == 1 then --волосали2
-				--[[if DBM:GetRaidRank() > 0 and self:AntiSpam(2, "necrotic") then
+				--[[if DBM:GetRaidRank() > 0 and self:AntiSpam(25, "necrotic") then
 					prepareMessage(self, "premsg_Varimathras_necrotic_rw", nil, args.destName)
-				else]]if --[[DBM:GetRaidRank() == 0 and ]]self:AntiSpam(2, "necrotic") then
+				else]]if --[[DBM:GetRaidRank() == 0 and ]]self:AntiSpam(25, "necrotic") then
 					DBM:Debug(L.NecroticYell:format(args.destName, necrotic))
 				end
 			end
@@ -380,7 +388,7 @@ end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
 
 function mod:OnSync(premsg_announce, sender) --волосали3
-	if sender < playerOnlyName then
+	if sender < playerName then
 		announceList(premsg_announce, 0)
 	end
 end

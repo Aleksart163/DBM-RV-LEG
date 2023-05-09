@@ -10,6 +10,7 @@ mod:SetUsedIcons(8, 7, 6, 5, 4)
 mod:SetHotfixNoticeRev(17650)
 mod:DisableIEEUCombatDetection()
 mod:DisableEEKillDetection()
+mod:DisableOnMobKillDetection()
 --mod.respawnTime = 30
 
 mod:RegisterCombat("combat")

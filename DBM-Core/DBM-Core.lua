@@ -6298,13 +6298,13 @@ function DBM:OnMobKill(cId, synced)
 				end
 				self:EndCombat(v)
 			end
-		elseif cId == v.combatInfo.mob and not v.combatInfo.killMobs and not v.combatInfo.multiMobPullDetection then
+		elseif cId == v.combatInfo.mob and not v.combatInfo.killMobs and not v.combatInfo.multiMobPullDetection and not v.noOnMobKillDetection then
 			if not synced then
 				sendSync("K", cId)
 			end
-			if cId == 124445 then
-				self:Debug("[check] cId == v.combatInfo.mob 124445")
-			end
+			-- if cId == 124445 then
+			-- 	self:Debug("[check] cId == v.combatInfo.mob 124445")
+			-- end
 			self:EndCombat(v)
 		end
 	end
@@ -11539,6 +11539,9 @@ function bossModPrototype:RegisterCombat(cType, ...)
 	if self.noEEDetection then
 		info.noEEDetection = self.noEEDetection
 	end
+	if self.noOnMobKillDetection then
+		info.noOnMobKillDetection = self.noOnMobKillDetection
+	end
 	if self.noRegenDetection then
 		info.noRegenDetection = self.noRegenDetection
 	end
@@ -11642,6 +11645,13 @@ function bossModPrototype:DisableEEKillDetection()
 	self.noEEDetection = true
 	if self.combatInfo then
 		self.combatInfo.noEEDetection = true
+	end
+end
+
+function bossModPrototype:DisableOnMobKillDetection()
+	self.noOnMobKillDetection = true
+	if self.combatInfo then
+		self.combatInfo.noOnMobKillDetection = true
 	end
 end
 
