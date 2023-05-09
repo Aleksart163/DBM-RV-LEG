@@ -103,7 +103,7 @@ local premsg_values = {
 	necrotic_rw,
 	soulburnin_rw
 }
--- local playerOnlyName = UnitName("player")
+local playerOnlyName = UnitName("player")
 
 local function sendAnnounce(self)
 	--[[if premsg_values.args_sourceName == nil then
@@ -140,7 +140,7 @@ local function prepareMessage(self, premsg_announce, args_sourceName, args_destN
 	premsg_values.args_destName = args_destName
 	premsg_values.scheduleDelay = scheduleDelay
 	announceList(premsg_announce, 1)
-	self:SendSync(premsg_announce, playerName)
+	self:SendSync(premsg_announce, playerOnlyName)
 	self:Schedule(1, sendAnnounce, self)
 end
 -- Синхронизация анонсов ↑
@@ -388,7 +388,7 @@ end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
 
 function mod:OnSync(premsg_announce, sender) --волосали3
-	if sender < playerName then
+	if sender < playerOnlyName then
 		announceList(premsg_announce, 0)
 	end
 end
