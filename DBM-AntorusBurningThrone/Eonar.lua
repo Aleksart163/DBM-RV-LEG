@@ -68,9 +68,9 @@ local timerFinalDoom					= mod:NewCastTimer(50, 249121, nil, nil, nil, 2, nil, D
 local timerFinalDoomCD					= mod:NewCDCountTimer(90, 249121, nil, nil, nil, 7) --Всеобщая погибель
 
 local timerArcaneSingularity			= mod:NewNextTimer(25, 250171, nil, nil, nil, 7) --Магическая сингулярность
-local timerArcaneSingularity2			= mod:NewCastTimer(3, 250171, nil, nil, nil, 7) --Магическая сингулярность
+local timerArcaneSingularity2			= mod:NewCastTimer(5, 250171, nil, nil, nil, 7) --Магическая сингулярность
 local timerBurningEmbers				= mod:NewNextTimer(30, 250691, nil, nil, nil, 7) --Раскаленные угли
-local timerBurningEmbers2				= mod:NewCastTimer(3, 250691, nil, nil, nil, 7) --Раскаленные угли
+local timerBurningEmbers2				= mod:NewCastTimer(5, 250691, nil, nil, nil, 7) --Раскаленные угли
 
 local yellRainofFel						= mod:NewYell(248332, nil, nil, nil, "YELL") --Дождь Скверны
 local yellRainofFelFades				= mod:NewShortFadesYell(248332, nil, nil, nil, "YELL") --Дождь Скверны
@@ -82,8 +82,8 @@ local yellBurningEmbersFades			= mod:NewFadesYell(250691, nil, nil, nil, "YELL")
 --Mythic
 local countdownFinalDoom				= mod:NewCountdown(90, 249121, nil, nil, 5) --Всеобщая погибель
 local countdownFinalDoom2				= mod:NewCountdownFades(50, 249121, nil, nil, 5) --Всеобщая погибель
-local countdownArcaneSingularity		= mod:NewCountdown("Alt3", 250171, nil, nil) --Магическая сингулярность
-local countdownBurningEmbers			= mod:NewCountdown("Alt3", 250691, nil, nil) --Раскаленные угли
+local countdownArcaneSingularity		= mod:NewCountdown("Alt5", 250171, nil, nil, 5) --Магическая сингулярность
+local countdownBurningEmbers			= mod:NewCountdown("Alt5", 250691, nil, nil, 5) --Раскаленные угли
 
 --mod:AddSetIconOption("SetIconOnFeedbackTargeted2", 249016, false, false, {6, 5, 4, 3, 2, 1})
 mod:AddSetIconOption("SetIconOnBurningEmbers", 249015, true, false, {8, 7, 6, 5, 4})
@@ -254,31 +254,29 @@ local function checkForDeadDestructor(self, forceStart)
 	DBM:Debug("checkForDeadDestructor ran, which means a destructor died before casting high alert, or DBM has a timer error near: "..self.vb.destructorCast, 2)
 end
 
-
-local function burningembersOnPlayer(self) --Раскаленные угли
-	specWarnBurningEmbers:Show()
-	specWarnBurningEmbers:Play("runaway")
-	timerBurningEmbers2:Start()
-	countdownBurningEmbers:Start()
-	yellBurningEmbersFades:Countdown(3)
-	if self:IsMythic() then
-		self:Schedule(30, burningembersOnPlayer, self)
-		timerBurningEmbers:Start(30)
-	end
-end
-
 local function arcanesingularityOnPlayer(self) --Магическая сингулярность
 	specWarnArcaneBuildup:Show()
 	specWarnArcaneBuildup:Play("runaway")
 	timerArcaneSingularity2:Start()
 	countdownArcaneSingularity:Start()
-	yellArcaneBuildupFades:Countdown(3)
+	yellArcaneBuildupFades:Countdown(5, 3)
 	if self:IsMythic() then
 		self:Schedule(25, arcanesingularityOnPlayer, self)
 		timerArcaneSingularity:Start(25)
 	end
 end
 
+local function burningembersOnPlayer(self) --Раскаленные угли
+	specWarnBurningEmbers:Show()
+	specWarnBurningEmbers:Play("runaway")
+	timerBurningEmbers2:Start()
+	countdownBurningEmbers:Start()
+	yellBurningEmbersFades:Countdown(5, 3)
+	if self:IsMythic() then
+		self:Schedule(30, burningembersOnPlayer, self)
+		timerBurningEmbers:Start(30)
+	end
+end
 
 local function startBatsStuff(self)
 	self.vb.batCast = self.vb.batCast + 1
@@ -471,8 +469,8 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif spellId == 249017 then --Магическая сингулярность
 		if args:IsPlayer() then
-			self:Schedule(22, arcanesingularityOnPlayer, self)
-			timerArcaneSingularity:Start(22)
+			self:Schedule(20, arcanesingularityOnPlayer, self)
+			timerArcaneSingularity:Start(20)
 			if self.Options.RangeFrame then
 				DBM.RangeCheck:Show(10)
 			end
@@ -480,8 +478,8 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 249015 then --Раскаленные угли
 		self.vb.burningembersIcon = self.vb.burningembersIcon - 1
 		if args:IsPlayer() then
-			self:Schedule(27, burningembersOnPlayer, self)
-			timerBurningEmbers:Start(27)
+			self:Schedule(25, burningembersOnPlayer, self)
+			timerBurningEmbers:Start(25)
 			if self.Options.RangeFrame then
 				DBM.RangeCheck:Show(8)
 			end
