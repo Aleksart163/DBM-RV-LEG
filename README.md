@@ -1,5 +1,5 @@
 # Быстрое скачивание / Fast download
-<a href="https://github.com/Aleksart163/DBM-RV/archive/refs/heads/main.zip"><img src="https://github.com/Aleksart163/DBM-RV/assets/61109303/75e748a0-2822-496a-aa45-238fd11e730c"/></a>
+<a href="https://github.com/Aleksart163/DBM-RV/archive/refs/heads/main.zip"><img src="https://i.ibb.co/MNH24rc/download.png"/></a>
 
 # Самый рабочий аддон под ключи и рейды на Legion ушоше (ювове) [uwow.biz](https://uwow.biz)
 # DBM Right Version от Aleksart163 (DBM RV)
