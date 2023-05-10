@@ -251,6 +251,7 @@ DBM.DefaultOptions = {
 	AutoAcceptFriendInvite = false,
 	AutoAcceptGuildInvite = false,
 	AutoKeyLink = true,
+	IgnoreRaidAnnounce = false,
 	FakeBWVersion = false,
 	AITimer = true,
 	AutoCorrectTimer = false,

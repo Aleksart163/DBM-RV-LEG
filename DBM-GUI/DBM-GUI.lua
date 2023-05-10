@@ -3189,8 +3189,9 @@ local function CreateOptionsMenu()
 		local AutoAcceptFriendInvite= inviteArea:CreateCheckButton(L.AutoAcceptFriendInvite, true, nil, "AutoAcceptFriendInvite")
 		local AutoAcceptGuildInvite	= inviteArea:CreateCheckButton(L.AutoAcceptGuildInvite, true, nil, "AutoAcceptGuildInvite")
 		
-		local keyArea				= extraFeaturesPanel:CreateArea(L.Area_Key, nil, 50, true)
+		local keyArea				= extraFeaturesPanel:CreateArea(L.Area_Key, nil, 75, true)
 		local AutoKeyLink			= keyArea:CreateCheckButton(L.AutoKeyLink, true, nil, "AutoKeyLink")
+		local IgnoreRaidAnnounce	= keyArea:CreateCheckButton(L.IgnoreRaidAnnounce, true, nil, "IgnoreRaidAnnounce")
 
 		local advancedArea			= extraFeaturesPanel:CreateArea(L.Area_Advanced, nil, 100, true)
 		local FakeBW				= advancedArea:CreateCheckButton(L.FakeBW, true, nil, "FakeBWVersion")

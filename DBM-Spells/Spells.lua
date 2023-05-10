@@ -422,42 +422,42 @@ end
 
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
-	--[[if spellId == 8690 then
-		prepareMessage(self, "premsg_Spells_test", args.sourceName, args.destName)
-	end]]
-		if self.Options.YellOnMassRes then
-			if spellId == 212040 and self:AntiSpam(10, "massres") then --Возвращение к жизни (друид)
-				if IsInRaid() and DBM:GetRaidRank() > 0 then
-					prepareMessage(self, "premsg_Spells_massres1_rw", args.sourceName)
-				else
-					warnMassres1:Show(args.sourceName)
-				end
-			elseif spellId == 212056 and self:AntiSpam(10, "massres") then --Отпущение (пал)
-				if IsInRaid() and DBM:GetRaidRank() > 0 then
-					prepareMessage(self, "premsg_Spells_massres2_rw", args.sourceName)
-				else
-					warnMassres2:Show(args.sourceName)
-				end
-			elseif spellId == 212036 and self:AntiSpam(10, "massres") then --Массовое воскрешение (прист)
-				if IsInRaid() and DBM:GetRaidRank() > 0 then
-					prepareMessage(self, "premsg_Spells_massres3_rw", args.sourceName)
-				else
-					warnMassres3:Show(args.sourceName)
-				end
-			elseif spellId == 212048 and self:AntiSpam(10, "massres") then --Древнее видение (шаман)
-				if IsInRaid() and DBM:GetRaidRank() > 0 then
-					prepareMessage(self, "premsg_Spells_massres4_rw", args.sourceName)
-				else
-					warnMassres4:Show(args.sourceName)
-				end
-			elseif spellId == 212051 and self:AntiSpam(10, "massres") then --Повторное пробуждение (монк)
-				if IsInRaid() and DBM:GetRaidRank() > 0 then
-					prepareMessage(self, "premsg_Spells_massres5_rw", args.sourceName)
-				else
-					warnMassres5:Show(args.sourceName)
-				end
+	if spellId == 212040 and self:AntiSpam(10, "massres") then --Возвращение к жизни (друид)
+		warnMassres1:Show(args.sourceName)
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnMassRes then
+			if IsInRaid() and DBM:GetRaidRank() > 0 then
+				prepareMessage(self, "premsg_Spells_massres1_rw", args.sourceName)
 			end
 		end
+	elseif spellId == 212056 and self:AntiSpam(10, "massres") then --Отпущение (пал)
+		warnMassres2:Show(args.sourceName)
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnMassRes then
+			if IsInRaid() and DBM:GetRaidRank() > 0 then
+				prepareMessage(self, "premsg_Spells_massres2_rw", args.sourceName)
+			end
+		end
+	elseif spellId == 212036 and self:AntiSpam(10, "massres") then --Массовое воскрешение (прист)
+		warnMassres3:Show(args.sourceName)
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnMassRes then
+			if IsInRaid() and DBM:GetRaidRank() > 0 then
+				prepareMessage(self, "premsg_Spells_massres3_rw", args.sourceName)
+			end
+		end
+	elseif spellId == 212048 and self:AntiSpam(10, "massres") then --Древнее видение (шаман)
+		warnMassres4:Show(args.sourceName)
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnMassRes then
+			if IsInRaid() and DBM:GetRaidRank() > 0 then
+				prepareMessage(self, "premsg_Spells_massres4_rw", args.sourceName)
+			end
+		end
+	elseif spellId == 212051 and self:AntiSpam(10, "massres") then --Повторное пробуждение (монк)
+		warnMassres5:Show(args.sourceName)
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnMassRes then
+			if IsInRaid() and DBM:GetRaidRank() > 0 then
+				prepareMessage(self, "premsg_Spells_massres5_rw", args.sourceName)
+			end
+		end
+	end
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
@@ -466,126 +466,126 @@ function mod:SPELL_CAST_SUCCESS(args)
 		if self:AntiSpam(5, "bloodlust") then
 			warnTimeWarp:Show(args.sourceName)
 		end
-		if self.Options.YellOnHeroism then
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnHeroism then
 			prepareMessage(self, "premsg_Spells_timeWarp", args.sourceName)
 		end
 	elseif spellId == 32182 then --Героизм
 		if self:AntiSpam(5, "bloodlust") then
 			warnHeroism:Show(args.sourceName)
 		end
-		if self.Options.YellOnHeroism then
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnHeroism then
 			prepareMessage(self, "premsg_Spells_heroism", args.sourceName)
 		end
 	elseif spellId == 2825 then --Кровожадность
 		if self:AntiSpam(5, "bloodlust") then
 			warnBloodlust:Show(args.sourceName)
 		end
-		if self.Options.YellOnHeroism then
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnHeroism then
 			prepareMessage(self, "premsg_Spells_bloodlust", args.sourceName)
 		end
 	elseif spellId == 90355 then --Древняя истерия (пет ханта)
 		if self:AntiSpam(5, "bloodlust") then
 			warnHysteria:Show(args.sourceName)
 		end
-		if self.Options.YellOnHeroism then
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnHeroism then
 			prepareMessage(self, "premsg_Spells_hysteria", args.sourceName)
 		end
 	elseif spellId == 160452 then --Ветер пустоты (пет ханта)
 		if self:AntiSpam(5, "bloodlust") then
 			warnNetherwinds:Show(args.sourceName)
 		end
-		if self.Options.YellOnHeroism then
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnHeroism then
 			prepareMessage(self, "premsg_Spells_winds", args.sourceName)
 		end
 	elseif spellId == 230935 then --Барабаны гор
 		if self:AntiSpam(5, "bloodlust") then
 			warnDrums:Show(args.sourceName)
 		end
-		if self.Options.YellOnHeroism then
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnHeroism then
 			prepareMessage(self, "premsg_Spells_drums", args.sourceName)
 		end
 	elseif spellId == 10059 then --Штормград
-		if self.Options.YellOnPortal then
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnPortal then
 			prepareMessage(self, "premsg_Spells_stormwind", args.sourceName)
 		end
 	elseif spellId == 11416 then --Стальгорн
-		if self.Options.YellOnPortal then
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnPortal then
 			prepareMessage(self, "premsg_Spells_ironforge", args.sourceName)
 		end
 	elseif spellId == 11419 then --Дарнас
-		if self.Options.YellOnPortal then
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnPortal then
 			prepareMessage(self, "premsg_Spells_darnassus", args.sourceName)
 		end
 	elseif spellId == 32266 then --Экзодар
-		if self.Options.YellOnPortal then
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnPortal then
 			prepareMessage(self, "premsg_Spells_exodar", args.sourceName)
 		end
 	elseif spellId == 49360 then --Терамор
-		if self.Options.YellOnPortal then
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnPortal then
 			prepareMessage(self, "premsg_Spells_theramore", args.sourceName)
 		end
 	elseif spellId == 11417 then --Оргриммар
-		if self.Options.YellOnPortal then
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnPortal then
 			prepareMessage(self, "premsg_Spells_orgrimmar", args.sourceName)
 		end
 	elseif spellId == 11418 then --Подгород
-		if self.Options.YellOnPortal then
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnPortal then
 			prepareMessage(self, "premsg_Spells_undercity", args.sourceName)
 		end
 	elseif spellId == 11420 then --Громовой утес
-		if self.Options.YellOnPortal then
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnPortal then
 			prepareMessage(self, "premsg_Spells_thunderBluff", args.sourceName)
 		end
 	elseif spellId == 32267 then --Луносвет
-		if self.Options.YellOnPortal then
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnPortal then
 			prepareMessage(self, "premsg_Spells_silvermoon", args.sourceName)
 		end
 	elseif spellId == 49361 then --Каменор
-		if self.Options.YellOnPortal then
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnPortal then
 			prepareMessage(self, "premsg_Spells_stonard", args.sourceName)
 		end
 	elseif spellId == 33691 then --Шаттрат
-		if self.Options.YellOnPortal then
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnPortal then
 			prepareMessage(self, "premsg_Spells_shattrath", args.sourceName)
 		end
 	elseif spellId == 53142 then --Даларан1
-		if self.Options.YellOnPortal then
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnPortal then
 			prepareMessage(self, "premsg_Spells_dalaran1", args.sourceName)
 		end
 	elseif spellId == 88345 then --Тол Барад (альянс)
-		if self.Options.YellOnPortal then
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnPortal then
 			prepareMessage(self, "premsg_Spells_tolBarad1", args.sourceName)
 		end
 	elseif spellId == 88346 then --Тол Барад (орда)
-		if self.Options.YellOnPortal then
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnPortal then
 			prepareMessage(self, "premsg_Spells_tolBarad2", args.sourceName)
 		end
 	elseif spellId == 132620 then --Вечноцветущий дол (альянс)
-		if self.Options.YellOnPortal then
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnPortal then
 			prepareMessage(self, "premsg_Spells_valeEternal1", args.sourceName)
 		end
 	elseif spellId == 132626 then --Вечноцветущий дол (орда)
-		if self.Options.YellOnPortal then
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnPortal then
 			prepareMessage(self, "premsg_Spells_valeEternal2", args.sourceName)
 		end
 	elseif spellId == 176246 then --Преграда Ветров (альянс)
-		if self.Options.YellOnPortal then
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnPortal then
 			prepareMessage(self, "premsg_Spells_stormshield", args.sourceName)
 		end
 	elseif spellId == 176244 then --Копье Войны (орда)
-		if self.Options.YellOnPortal then
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnPortal then
 			prepareMessage(self, "premsg_Spells_warspear", args.sourceName)
 		end
 	elseif spellId == 224871 then --Даларан2
-		if self.Options.YellOnPortal then
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnPortal then
 			prepareMessage(self, "premsg_Spells_dalaran2", args.sourceName)
 		end
 	elseif spellId == 29893 and self:AntiSpam(3, "soulwell") then --Источник душ
-		if self.Options.YellOnSoulwell then
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnSoulwell then
 			prepareMessage(self, "premsg_Spells_soulwell", args.sourceName)
 		end
 	elseif spellId == 83958 and self:AntiSpam(3, "bank") then --Мобильный банк
-		if self.Options.YellOnBank then
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnBank then
 			prepareMessage(self, "premsg_Spells_bank", args.sourceName)
 		end
 	elseif spellId == 64901 then --Символ надежды
@@ -593,7 +593,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		if args:IsPlayerSource() then
 			yellSymbolHope:Yell(hope)
 		end
-		if self.Options.YellOnManaRegen then
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnManaRegen then
 			prepareMessage(self, "premsg_Spells_hope", args.sourceName)
 		end
 	end
@@ -608,7 +608,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnSoulstone:Play("targetyou")
 			yellSoulstone:Yell()
 		end
-		if self.Options.YellOnSoulstone then
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnSoulstone then
 			prepareMessage(self, "premsg_Spells_soulstone", args.sourceName, args.destName)
 		end
 	elseif spellId == 29166 then --Озарение
@@ -618,7 +618,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnInnervate:Play("targetyou")
 		--	yellInnervate:Yell(innervate, playerName)
 		end
-		if self.Options.YellOnManaRegen then
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnManaRegen then
 			prepareMessage(self, "premsg_Spells_innervate", args.sourceName, args.destName)
 		end
 	elseif spellId == 64901 then --Символ надежды
@@ -651,45 +651,45 @@ end
 
 function mod:SPELL_CREATE(args)
 	local spellId = args.spellId
-	if spellId == 698 then --Ритуал призыва
+	if spellId == 698 and self:AntiSpam(5, "summoning") then --Ритуал призыва
 		warnRitualofSummoning:Show(args.sourceName)
-		if self.Options.YellOnRitualofSummoning and self:AntiSpam(5, "summoning")  then
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnRitualofSummoning then
 			prepareMessage(self, "premsg_Spells_summoning", args.sourceName)
 		end
 	elseif spellId == 188036 and self:AntiSpam(10, "cauldron") then --Котел духов
-		if self.Options.YellOnSpiritCauldron then
+		warnCauldron:Show(args.sourceName)
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnSpiritCauldron then
 			if IsInRaid() and DBM:GetRaidRank() > 0 then
 				prepareMessage(self, "premsg_Spells_cauldron_rw", args.sourceName)
 			else
-				warnCauldron:Show(args.sourceName)
 				prepareMessage(self, "premsg_Spells_cauldron", args.sourceName)
 			end
 		end
 	elseif spellId == 201352 and self:AntiSpam(10, "lavishSuramar") then --Щедрое сурамарское угощение
-		if self.Options.YellOnLavish then
+		warnLavishSuramar:Show(args.sourceName)
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnLavish then
 			if IsInRaid() and DBM:GetRaidRank() > 0 then
 				prepareMessage(self, "premsg_Spells_lavishSuramar_rw", args.sourceName)
 			else
-				warnLavishSuramar:Show(args.sourceName)
 				prepareMessage(self, "premsg_Spells_lavishSuramar", args.sourceName)
 			end
 		end
 	elseif spellId == 201351 and self:AntiSpam(10, "hearty") then --Обильное угощение
 		warnHearty:Show(args.sourceName)
-		if self.Options.YellOnLavish then
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnLavish then
 			prepareMessage(self, "premsg_Spells_hearty", args.sourceName)
 		end
 	elseif spellId == 185709 and self:AntiSpam(10, "sugar") then --Угощение из засахаренной рыбы
 		warnSugar:Show(args.sourceName)
-		if self.Options.YellOnLavish then
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnLavish then
 			prepareMessage(self, "premsg_Spells_sugar", args.sourceName)
 		end
 	elseif spellId == 61031 and self:AntiSpam(10, "toyTrain") then --Игрушечная железная дорога
-		if self.Options.YellOnToys then
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnToys then
 			prepareMessage(self, "premsg_Spells_toyTrain", args.sourceName)
 		end
 	elseif spellId == 49844 and self:AntiSpam(10, "direbrews") then --пульт управления Худовара
-		if self.Options.YellOnToys then
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnToys then
 			prepareMessage(self, "premsg_Spells_direbrews", args.sourceName)
 		end
 	end
@@ -697,32 +697,29 @@ end
 
 function mod:SPELL_SUMMON(args)
 	local spellId = args.spellId
-	if self.Options.YellOnRepair then
-		if spellId == 67826 and self:AntiSpam(10, "repair") then --Дживс 
+	if spellId == 67826 and self:AntiSpam(10, "jeeves") then --Дживс
+		warnJeeves:Show(args.sourceName)
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnRepair then
 			if IsInRaid() and DBM:GetRaidRank() > 0 then
 				prepareMessage(self, "premsg_Spells_jeeves_rw", args.sourceName)
-			else
-				warnJeeves:Show(args.sourceName)
-			end
-		elseif spellId == 199109 and self:AntiSpam(10, "repair") then --Автоматический молот
-			if IsInRaid() and DBM:GetRaidRank() > 0 then
-				prepareMessage(self, "premsg_Spells_autoHammer_rw", args.sourceName)
-			else
-				warnAutoHammer:Show(args.sourceName)
 			end
 		end
-	end
-
-	if spellId == 199115 and self:AntiSpam(10, "pylon") then --Пилон для обнаружения проблем
-		if self.Options.YellOnPylon then
+	elseif spellId == 199109 and self:AntiSpam(10, "repair") then --Автоматический молот
+		warnAutoHammer:Show(args.sourceName)
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnRepair then
+			if IsInRaid() and DBM:GetRaidRank() > 0 then
+				prepareMessage(self, "premsg_Spells_autoHammer_rw", args.sourceName)
+			end
+		end
+	elseif spellId == 199115 and self:AntiSpam(10, "pylon") then --Пилон для обнаружения проблем
+		warnPylon:Show(args.sourceName)
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnPylon then
 			if IsInRaid() and DBM:GetRaidRank() > 0 then
 				prepareMessage(self, "premsg_Spells_pylon_rw", args.sourceName)
-			else
-				warnPylon:Show(args.sourceName)
 			end
 		end
 	elseif spellId == 195782 and self:AntiSpam(5, "moonfeather") then --Призыв статуи лунного совуха
-		if self.Options.YellOnToys then
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnToys then
 			prepareMessage(self, "premsg_Spells_moonfeather", args.sourceName)
 		end
 	end
@@ -732,7 +729,7 @@ function mod:SPELL_RESURRECT(args)
 	local spellId = args.spellId
 	if spellId == 95750 then --Воскрешение камнем души
 		warnRebirth:Show(args.sourceName, args.destName)
-		if self.Options.YellOnResurrect then
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnResurrect then
 			prepareMessage(self, "premsg_Spells_rebirth3", args.sourceName, args.destName)
 		end
 		if args:IsPlayer() then
@@ -741,7 +738,7 @@ function mod:SPELL_RESURRECT(args)
 		end
 	elseif spellId == 20484 then --Возрождение
 		warnRebirth:Show(args.sourceName, args.destName)
-		if self.Options.YellOnResurrect then
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnResurrect then
 			prepareMessage(self, "premsg_Spells_rebirth1", args.sourceName, args.destName)
 		end
 		if args:IsPlayer() then
@@ -750,7 +747,7 @@ function mod:SPELL_RESURRECT(args)
 		end
 	elseif spellId == 61999 and self:AntiSpam(2.5, "rebirth") then --Воскрешение союзника
 		warnRebirth:Show(args.sourceName, args.destName)
-		if self.Options.YellOnResurrect then
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnResurrect then
 			prepareMessage(self, "premsg_Spells_rebirth2", args.sourceName, args.destName)
 		end
 		if args:IsPlayer() then

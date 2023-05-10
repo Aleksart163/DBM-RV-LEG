@@ -350,8 +350,9 @@ L.Area_Invite				= "Invite Options"
 L.AutoAcceptFriendInvite	= "Automatically accept group invites from friends"
 L.AutoAcceptGuildInvite		= "Automatically accept group invites from guild members"
 --
-L.Area_Key					= "Options Mythic+ keys"
+L.Area_Key					= "Options Mythic+ keys and raids"
 L.AutoKeyLink				= "Link your Mythic+ key to the chat"
+L.IgnoreRaidAnnounce		= "Disable raid announcements in chat (from special module)"
 --
 L.Area_Advanced				= "Advanced Options"
 L.FakeBW					= "Pretend to be BigWigs in version checks instead of DBM (Useful for guilds that force using BigWigs)"
