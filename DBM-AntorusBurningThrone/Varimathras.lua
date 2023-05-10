@@ -89,10 +89,10 @@ local playerAffected = false
 local necrotic = replaceSpellLinks(244094) --некротик
 
 local function ProshlyapSoulburnin1(self)
-	if self.Options.ShowProshlyapSoulburnin then
+	-- if self.Options.ShowProshlyapSoulburnin then
 		-- prepareMessage(self, "premsg_Varimathras_Soulburnin_rw")
 		smartChat(L.ProshlyapSoulburnin:format(necrotic), "rw")
-	end
+	-- end
 end
 
 -- Синхронизация анонсов ↓
@@ -103,7 +103,7 @@ local premsg_values = {
 	necrotic_rw,
 	soulburnin_rw
 }
--- local playerOnlyName = UnitName("player")
+local playerOnlyName = UnitName("player")
 
 local function sendAnnounce(self)
 	--[[if premsg_values.args_sourceName == nil then
@@ -140,7 +140,7 @@ local function prepareMessage(self, premsg_announce, args_sourceName, args_destN
 	premsg_values.args_destName = args_destName
 	premsg_values.scheduleDelay = scheduleDelay
 	announceList(premsg_announce, 1)
-	self:SendSync(premsg_announce, playerName)
+	self:SendSync(premsg_announce, playerOnlyName)
 	self:Schedule(1, sendAnnounce, self)
 end
 -- Синхронизация анонсов ↑
@@ -160,7 +160,7 @@ function mod:OnCombatStart(delay)
 	if not self:IsEasy() then
 		timerNecroticEmbraceCD:Start(35-delay)
 		countdownNecroticEmbrace:Start(35-delay)
-		if DBM:GetRaidRank() > 0 then
+		if self.Options.ShowProshlyapSoulburnin and DBM:GetRaidRank() > 0 then
 			-- self:Schedule(30, ProshlyapSoulburnin1, self)
 			prepareMessage(self, "premsg_Varimathras_Soulburnin_rw", nil, nil, 29)
 		end
@@ -196,14 +196,14 @@ function mod:SPELL_CAST_SUCCESS(args)
 			if self.vb.proshlyapMurchalCount < 4 then
 				timerNecroticEmbraceCD:Start()
 				countdownNecroticEmbrace:Start()
-				if DBM:GetRaidRank() > 0 then
+				if self.Options.ShowProshlyapSoulburnin and DBM:GetRaidRank() > 0 then
 					-- self:Schedule(25, ProshlyapSoulburnin1, self)
 					prepareMessage(self, "premsg_Varimathras_Soulburnin_rw", nil, nil, 24)
 				end
 			elseif self.vb.proshlyapMurchalCount >= 4 then --точно по героику с 4+ некрота
 				timerNecroticEmbraceCD:Start(32.8)
 				countdownNecroticEmbrace:Start(32.8)
-				if DBM:GetRaidRank() > 0 then
+				if self.Options.ShowProshlyapSoulburnin and DBM:GetRaidRank() > 0 then
 					-- self:Schedule(27.8, ProshlyapSoulburnin1, self)
 					prepareMessage(self, "premsg_Varimathras_Soulburnin_rw", nil, nil, 26.8)
 				end
@@ -293,7 +293,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				warnNecroticEmbrace:CombinedShow(0.5, args.destName)--Combined message because even if it starts on 1, people are gonna fuck it up
 			end
 		else --героик
-			DBM:Debug("self.vb.totalEmbrace (SPELL_AURA_APPLIED): " .. self.vb.totalEmbrace)
+			-- DBM:Debug("self.vb.totalEmbrace (SPELL_AURA_APPLIED): " .. self.vb.totalEmbrace)
 			if self.vb.totalEmbrace == 1 then --волосали2
 				--[[if DBM:GetRaidRank() > 0 and self:AntiSpam(25, "necrotic") then
 					prepareMessage(self, "premsg_Varimathras_necrotic_rw", nil, args.destName)
@@ -359,7 +359,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		end
 	elseif spellId == 244094 then
 		self.vb.totalEmbrace = self.vb.totalEmbrace - 1
-		DBM:Debug("self.vb.totalEmbrace (SPELL_AURA_REMOVED): " .. self.vb.totalEmbrace)
+		-- DBM:Debug("self.vb.totalEmbrace (SPELL_AURA_REMOVED): " .. self.vb.totalEmbrace)
 		if args:IsPlayer() and self:AntiSpam(3, 4) then
 			playerAffected = false
 			specWarnNecroticEmbrace4:Show()
@@ -388,7 +388,7 @@ end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
 
 function mod:OnSync(premsg_announce, sender) --волосали3
-	if sender < playerName then
+	if sender < playerOnlyName then
 		announceList(premsg_announce, 0)
 	end
 end

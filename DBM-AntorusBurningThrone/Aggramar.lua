@@ -118,10 +118,10 @@ local unitTracked = {}
 
 local function ProshlyapMurchalya1(self) --прошляпанное очко Мурчаля Прошляпенко [✔]
 	self.vb.proshlyap1Count = self.vb.proshlyap1Count + 1
-	if self.Options.ShowProshlyapMurchal1 then
+	-- if self.Options.ShowProshlyapMurchal1 then
 		-- prepareMessage(self, "premsg_Aggramar_FlameRend_rw")
 		smartChat(L.ProshlyapMurchal1, "rw")
-	end
+	-- end
 	if self.vb.proshlyap1Count < 3 then
 		self:Schedule(1, ProshlyapMurchalya1, self)
 	elseif self.vb.proshlyap1Count == 3 then
@@ -132,10 +132,10 @@ end
 
 local function ProshlyapMurchalya2(self) --прошляпанное очко Мурчаля Прошляпенко [✔]
 	self.vb.proshlyap2Count = self.vb.proshlyap2Count + 1
-	if self.Options.ShowProshlyapMurchal2 then
+	-- if self.Options.ShowProshlyapMurchal2 then
 		-- prepareMessage(self, "premsg_Aggramar_Embers_rw")
 		smartChat(L.ProshlyapMurchal2, "rw")
-	end
+	-- end
 	if self.vb.proshlyap2Count < 3 then
 		self:Schedule(1, ProshlyapMurchalya2, self)
 	elseif self.vb.proshlyap2Count == 3 then
@@ -152,7 +152,7 @@ local premsg_values = {
 	scheduleDelay,
 	FlameRend, Embers
 }
--- local playerOnlyName = UnitName("player")
+local playerOnlyName = UnitName("player")
 
 local function sendAnnounce(self)
 	--[[if premsg_values.args_sourceName == nil then
@@ -197,7 +197,7 @@ local function prepareMessage(self, premsg_announce, args_sourceName, args_destN
 	-- premsg_values.args_destName = args_destName
 	premsg_values.scheduleDelay = scheduleDelay
 	announceList(premsg_announce, 1)
-	self:SendSync(premsg_announce, playerName)
+	self:SendSync(premsg_announce, playerOnlyName)
 	self:Schedule(1, sendAnnounce, self)
 end
 -- Синхронизация анонсов ↑
@@ -416,7 +416,7 @@ function mod:OnCombatStart(delay)
 		timerRavenousBlazeCD:Start(4-delay) --Хищное пламя+++
 		countdownRavenousBlaze:Start(4-delay) --Хищное пламя+++
 		timerWakeofFlameCD:Start(11-delay) --Огненная волна+++
-		if DBM:GetRaidRank() > 0 then
+		if self.Options.ShowProshlyapMurchal1 and DBM:GetRaidRank() > 0 then
 			-- self:Schedule(10, ProshlyapMurchalya1, self)
 			prepareMessage(self, "premsg_Aggramar_FlameRend_rw", nil, nil, 9)
 		end
@@ -428,7 +428,7 @@ function mod:OnCombatStart(delay)
 	elseif self:IsHeroic() then
 		timerScorchingBlazeCD:Start(5.5-delay) --Обжигающее пламя+++
 		timerWakeofFlameCD:Start(5.8-delay) --Огненная волна+++
-		if DBM:GetRaidRank() > 0 then
+		if self.Options.ShowProshlyapMurchal1 and DBM:GetRaidRank() > 0 then
 			-- self:Schedule(31, ProshlyapMurchalya1, self)
 			prepareMessage(self, "premsg_Aggramar_FlameRend_rw", nil, nil, 30)
 		end
@@ -438,7 +438,7 @@ function mod:OnCombatStart(delay)
 	else
 		timerScorchingBlazeCD:Start(5.5-delay) --Обжигающее пламя+++
 		timerWakeofFlameCD:Start(5.8-delay) --Огненная волна+++
-		if DBM:GetRaidRank() > 0 then
+		if self.Options.ShowProshlyapMurchal1 and DBM:GetRaidRank() > 0 then
 			-- self:Schedule(31, ProshlyapMurchalya1, self)
 			prepareMessage(self, "premsg_Aggramar_FlameRend_rw", nil, nil, 30)
 		end
@@ -710,7 +710,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				specWarnEmberTaeshalach:Show()
 				specWarnEmberTaeshalach:Play("mobkill")
 			end
-		elseif self:IsHeroic() and DBM:GetRaidRank() > 0 then
+		elseif self:IsHeroic() and self.Options.ShowProshlyapMurchal2 and DBM:GetRaidRank() > 0 then
 			-- self:Schedule(3, ProshlyapMurchalya2, self)
 			prepareMessage(self, "premsg_Aggramar_Embers_rw", nil, nil, 2)
 		end
@@ -752,7 +752,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		self.vb.secondCombo = nil
 		self.vb.foeCount = 0
 		self.vb.rendCount = 0
-		if DBM:GetRaidRank() > 0 then
+		if self.Options.ShowProshlyapMurchal1 and DBM:GetRaidRank() > 0 then
 			-- self:Schedule(31, ProshlyapMurchalya1, self)
 			prepareMessage(self, "premsg_Aggramar_FlameRend_rw", nil, nil, 30)
 		end
@@ -871,7 +871,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 				timerTempestCD:Start(15)
 			end
 		end
-		if DBM:GetRaidRank() > 0 then
+		if self.Options.ShowProshlyapMurchal1 and DBM:GetRaidRank() > 0 then
 			-- self:Schedule(53, ProshlyapMurchalya1, self)
 			prepareMessage(self, "premsg_Aggramar_FlameRend_rw", nil, nil, 52)
 		end
@@ -953,7 +953,7 @@ function mod:UNIT_HEALTH(uId)
 end
 
 function mod:OnSync(premsg_announce, sender)
-	if sender < playerName then
+	if sender < playerOnlyName then
 		announceList(premsg_announce, 0)
 	end
 end
