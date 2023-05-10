@@ -160,7 +160,7 @@ function mod:OnCombatStart(delay)
 	if not self:IsEasy() then
 		timerNecroticEmbraceCD:Start(35-delay)
 		countdownNecroticEmbrace:Start(35-delay)
-		if self.Options.ShowProshlyapSoulburnin and DBM:GetRaidRank() > 0 then
+		if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapSoulburnin and DBM:GetRaidRank() > 0 then
 			-- self:Schedule(30, ProshlyapSoulburnin1, self)
 			prepareMessage(self, "premsg_Varimathras_Soulburnin_rw", nil, nil, 29)
 		end
@@ -196,14 +196,14 @@ function mod:SPELL_CAST_SUCCESS(args)
 			if self.vb.proshlyapMurchalCount < 4 then
 				timerNecroticEmbraceCD:Start()
 				countdownNecroticEmbrace:Start()
-				if self.Options.ShowProshlyapSoulburnin and DBM:GetRaidRank() > 0 then
+				if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapSoulburnin and DBM:GetRaidRank() > 0 then
 					-- self:Schedule(25, ProshlyapSoulburnin1, self)
 					prepareMessage(self, "premsg_Varimathras_Soulburnin_rw", nil, nil, 24)
 				end
 			elseif self.vb.proshlyapMurchalCount >= 4 then --точно по героику с 4+ некрота
 				timerNecroticEmbraceCD:Start(32.8)
 				countdownNecroticEmbrace:Start(32.8)
-				if self.Options.ShowProshlyapSoulburnin and DBM:GetRaidRank() > 0 then
+				if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapSoulburnin and DBM:GetRaidRank() > 0 then
 					-- self:Schedule(27.8, ProshlyapSoulburnin1, self)
 					prepareMessage(self, "premsg_Varimathras_Soulburnin_rw", nil, nil, 26.8)
 				end

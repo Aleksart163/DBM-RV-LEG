@@ -428,7 +428,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 				specWarnTormentofTitans:Schedule(90)
 				specWarnTormentofTitans:ScheduleVoice(90, "mobkill")
 			end
-			if self.Options.ShowProshlyapMurchal and DBM:GetRaidRank() > 0 then
+			if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapMurchal and DBM:GetRaidRank() > 0 then
 				-- self:Schedule(81, ProshlyapMurchalya1, self)
 				prepareMessage(self, "premsg_ShivarraCoven_AmanThul_rw")
 			end
@@ -441,7 +441,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 				specWarnTormentofTitans:Schedule(90)
 				specWarnTormentofTitans:ScheduleVoice(90, "mobkill")
 			end
-			if self.Options.ShowProshlyapMurchal and DBM:GetRaidRank() > 0 then
+			if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapMurchal and DBM:GetRaidRank() > 0 then
 				-- self:Schedule(81, ProshlyapMurchalya2, self)
 				prepareMessage(self, "premsg_ShivarraCoven_Khazgoroth_rw")
 			end
@@ -454,7 +454,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 				specWarnTormentofTitans:Schedule(90)
 				specWarnTormentofTitans:ScheduleVoice(90, "mobkill")
 			end
-			if self.Options.ShowProshlyapMurchal and DBM:GetRaidRank() > 0 then
+			if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapMurchal and DBM:GetRaidRank() > 0 then
 				-- self:Schedule(81, ProshlyapMurchalya3, self)
 				prepareMessage(self, "premsg_ShivarraCoven_Golganneth_rw")
 			end
@@ -467,7 +467,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 				specWarnTormentofTitans:Schedule(90)
 				specWarnTormentofTitans:ScheduleVoice(90, "watchstep")
 			end
-			if self.Options.ShowProshlyapMurchal and DBM:GetRaidRank() > 0 then
+			if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapMurchal and DBM:GetRaidRank() > 0 then
 				-- self:Schedule(81, ProshlyapMurchalya4, self)
 				prepareMessage(self, "premsg_ShivarraCoven_Norgannon_rw")
 			end

@@ -416,7 +416,7 @@ function mod:OnCombatStart(delay)
 		timerRavenousBlazeCD:Start(4-delay) --Хищное пламя+++
 		countdownRavenousBlaze:Start(4-delay) --Хищное пламя+++
 		timerWakeofFlameCD:Start(11-delay) --Огненная волна+++
-		if self.Options.ShowProshlyapMurchal1 and DBM:GetRaidRank() > 0 then
+		if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapMurchal1 and DBM:GetRaidRank() > 0 then
 			-- self:Schedule(10, ProshlyapMurchalya1, self)
 			prepareMessage(self, "premsg_Aggramar_FlameRend_rw", nil, nil, 9)
 		end
@@ -428,7 +428,7 @@ function mod:OnCombatStart(delay)
 	elseif self:IsHeroic() then
 		timerScorchingBlazeCD:Start(5.5-delay) --Обжигающее пламя+++
 		timerWakeofFlameCD:Start(5.8-delay) --Огненная волна+++
-		if self.Options.ShowProshlyapMurchal1 and DBM:GetRaidRank() > 0 then
+		if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapMurchal1 and DBM:GetRaidRank() > 0 then
 			-- self:Schedule(31, ProshlyapMurchalya1, self)
 			prepareMessage(self, "premsg_Aggramar_FlameRend_rw", nil, nil, 30)
 		end
@@ -438,7 +438,7 @@ function mod:OnCombatStart(delay)
 	else
 		timerScorchingBlazeCD:Start(5.5-delay) --Обжигающее пламя+++
 		timerWakeofFlameCD:Start(5.8-delay) --Огненная волна+++
-		if self.Options.ShowProshlyapMurchal1 and DBM:GetRaidRank() > 0 then
+		if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapMurchal1 and DBM:GetRaidRank() > 0 then
 			-- self:Schedule(31, ProshlyapMurchalya1, self)
 			prepareMessage(self, "premsg_Aggramar_FlameRend_rw", nil, nil, 30)
 		end
@@ -710,9 +710,11 @@ function mod:SPELL_AURA_APPLIED(args)
 				specWarnEmberTaeshalach:Show()
 				specWarnEmberTaeshalach:Play("mobkill")
 			end
-		elseif self:IsHeroic() and self.Options.ShowProshlyapMurchal2 and DBM:GetRaidRank() > 0 then
-			-- self:Schedule(3, ProshlyapMurchalya2, self)
-			prepareMessage(self, "premsg_Aggramar_Embers_rw", nil, nil, 2)
+		elseif self:IsHeroic() then
+			if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapMurchal2 and DBM:GetRaidRank() > 0
+				-- self:Schedule(3, ProshlyapMurchalya2, self)
+				prepareMessage(self, "premsg_Aggramar_Embers_rw", nil, nil, 2)
+			end
 		end
 		if self.Options.RangeFrame and not self:IsTank() then
 			DBM.RangeCheck:Hide()
@@ -752,7 +754,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		self.vb.secondCombo = nil
 		self.vb.foeCount = 0
 		self.vb.rendCount = 0
-		if self.Options.ShowProshlyapMurchal1 and DBM:GetRaidRank() > 0 then
+		if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapMurchal1 and DBM:GetRaidRank() > 0 then
 			-- self:Schedule(31, ProshlyapMurchalya1, self)
 			prepareMessage(self, "premsg_Aggramar_FlameRend_rw", nil, nil, 30)
 		end
@@ -871,7 +873,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 				timerTempestCD:Start(15)
 			end
 		end
-		if self.Options.ShowProshlyapMurchal1 and DBM:GetRaidRank() > 0 then
+		if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapMurchal1 and DBM:GetRaidRank() > 0 then
 			-- self:Schedule(53, ProshlyapMurchalya1, self)
 			prepareMessage(self, "premsg_Aggramar_FlameRend_rw", nil, nil, 52)
 		end

@@ -34,9 +34,9 @@
 -------------------------------
 
 DBM = {
-	Revision = tonumber(("$Revision: 17713 $"):sub(12, -3)), --прошляпанное очко Мурчаля Прошляпенко ✔✔✔
+	Revision = tonumber(("$Revision: 17714 $"):sub(12, -3)), --прошляпанное очко Мурчаля Прошляпенко ✔✔✔
 	DisplayVersion = "7.3.45 Right Version " .. string.sub(GetLocale(), -2),
-	ReleaseRevision = 17712
+	ReleaseRevision = 17713
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -252,6 +252,7 @@ DBM.DefaultOptions = {
 	AutoAcceptGuildInvite = false,
 	AutoKeyLink = true,
 	IgnoreRaidAnnounce = false,
+	IgnoreRaidAnnounce2 = false,
 	FakeBWVersion = false,
 	AITimer = true,
 	AutoCorrectTimer = false,

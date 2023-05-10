@@ -353,6 +353,7 @@ L.AutoAcceptGuildInvite		= "Automatically accept group invites from guild member
 L.Area_Key					= "Options Mythic+ keys and raids"
 L.AutoKeyLink				= "Link your Mythic+ key to the chat"
 L.IgnoreRaidAnnounce		= "Disable raid announcements in chat (from special module)"
+L.IgnoreRaidAnnounce2		= "Disable announcements on bosses in the ABT from the raid leader/assistant"
 --
 L.Area_Advanced				= "Advanced Options"
 L.FakeBW					= "Pretend to be BigWigs in version checks instead of DBM (Useful for guilds that force using BigWigs)"
