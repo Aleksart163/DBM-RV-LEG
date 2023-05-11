@@ -1477,15 +1477,15 @@ end
 local function proshlyapKristassa(self, event, msg) --Прошляпанное очко Кристасса ✔✔✔
 	if DBM.Options.AutoKeyLink then
 		if event == "CHAT_MSG_PARTY" or event == "CHAT_MSG_PARTY_LEADER" then
-			if msg == "!keys" then
+			if string.lower(msg) == "!keys" then
 				proshlyapMurchalya(true)
 			end
 		elseif event == "CHAT_MSG_RAID" or event == "CHAT_MSG_RAID_LEADER" then
-			if msg == "!keys" then
+			if string.lower(msg) == "!keys" then
 				proshlyapMurchalya(true, true)
 			end
 		elseif event == "CHAT_MSG_GUILD" then
-			if msg == "!keys" then
+			if string.lower(msg) == "!keys" then
 				proshlyapMurchalya(true, true, true)
 			end
 		end
@@ -11767,7 +11767,7 @@ function smartChat(msg, arg)
 		SendChatMessage(msg, "SAY")
 	elseif arg == "yell" then
 		SendChatMessage(msg, "YELL")
-	elseif (arg == nil) or (arg == "rw" and DBM:GetRaidRank() == 0) then
+	elseif (arg == nil) or (arg == "rw" and DBM:GetRaidRank() == 0) or (arg == "rw" and not IsInRaid()) then
 		if IsInRaid() then
 			SendChatMessage(msg, "RAID")
 		elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
