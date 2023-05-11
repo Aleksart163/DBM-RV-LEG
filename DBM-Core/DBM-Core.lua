@@ -11767,7 +11767,7 @@ function smartChat(msg, arg)
 		SendChatMessage(msg, "SAY")
 	elseif arg == "yell" then
 		SendChatMessage(msg, "YELL")
-	elseif (arg == nil) or (arg == "rw" and DBM:GetRaidRank() == 0) then
+	elseif (arg == nil) or (arg == "rw" and DBM:GetRaidRank() == 0) or (arg == "rw" and not IsInRaid()) then
 		if IsInRaid() then
 			SendChatMessage(msg, "RAID")
 		elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
