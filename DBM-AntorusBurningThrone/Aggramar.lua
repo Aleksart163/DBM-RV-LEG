@@ -711,7 +711,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				specWarnEmberTaeshalach:Play("mobkill")
 			end
 		elseif self:IsHeroic() then
-			if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapMurchal2 and DBM:GetRaidRank() > 0
+			if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapMurchal2 and DBM:GetRaidRank() > 0 then
 				-- self:Schedule(3, ProshlyapMurchalya2, self)
 				prepareMessage(self, "premsg_Aggramar_Embers_rw", nil, nil, 2)
 			end
