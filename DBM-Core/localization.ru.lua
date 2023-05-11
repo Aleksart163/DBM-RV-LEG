@@ -566,7 +566,8 @@ DBM_CORE_AUTO_COUNTOUT_OPTION_TEXT		= "Звуковой отсчет во вре
 
 DBM_CORE_AUTO_YELL_OPTION_TEXT.shortyell = "Кричать, когда на вас $spell:%s"
 DBM_CORE_AUTO_YELL_OPTION_TEXT.yell		= "Кричать (с именем игрока), когда на вас $spell:%s"
-DBM_CORE_AUTO_YELL_OPTION_TEXT.yellhelp	= "Кричать (с именем игрока и просьбой помощи), когда на вас $spell:%s"
+DBM_CORE_AUTO_YELL_OPTION_TEXT.yellhelp	= "Кричать (с просьбой о помощи), когда на вас $spell:%s"
+DBM_CORE_AUTO_YELL_OPTION_TEXT.yelldispel = "Кричать (с просьбой о помощи), когда на вас $spell:%s"
 DBM_CORE_AUTO_YELL_OPTION_TEXT.count	= "Кричать (со счетчиком), когда на вас $spell:%s"
 DBM_CORE_AUTO_YELL_OPTION_TEXT.fade		= "Кричать (с обратный отсчетом и названием дебаффа), когда $spell:%s с вас спадает"
 DBM_CORE_AUTO_YELL_OPTION_TEXT.shortfade = "Кричать (с обратным отсчетом), когда $spell:%s с вас спадает"
@@ -576,7 +577,8 @@ DBM_CORE_AUTO_YELL_OPTION_TEXT.combo	= "Кричать (с индивидуал�
 
 DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT.shortyell = "%s"
 DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT.yell	= "%s на " .. UnitName("player") .. "!"
-DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT.yellhelp = "%s на " .. UnitName("player") .. "! Помогите мне!"
+DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT.yellhelp = "на мне %s! Помогите мне!"
+DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT.yelldispel = "на мне %s! Диспел мне!"
 DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT.count	= "%s на " .. UnitName("player") .. "! (%%d)"
 DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT.fade	= "%s спадает через %%d"
 DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT.shortfade = "%%d"

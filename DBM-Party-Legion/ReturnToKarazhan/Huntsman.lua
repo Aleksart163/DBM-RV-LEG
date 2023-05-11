@@ -36,17 +36,20 @@ local specWarnMortalStrike			= mod:NewSpecialWarningDefensive(227493, "Tank", ni
 local specWarnSharedSuffering		= mod:NewSpecialWarningMoveTo(228852, nil, nil, nil, 3, 5) --Разделенные муки
 local specWarnSharedSuffering2		= mod:NewSpecialWarningYouDefensive(228852, nil, nil, nil, 3, 5) --Разделенные муки
 local specWarnSharedSuffering3		= mod:NewSpecialWarningRun(228852, "Melee", nil, nil, 3, 5) --Разделенные муки
-local specWarnPresence				= mod:NewSpecialWarningYou(227404, nil, nil, nil, 1, 2) --Незримое присутствие
-local specWarnPresence2				= mod:NewSpecialWarningEnd(227404, nil, nil, nil, 1, 2) --Незримое присутствие
+local specWarnPresence				= mod:NewSpecialWarningYou(227404, nil, nil, nil, 3, 6) --Незримое присутствие
+local specWarnPresence2				= mod:NewSpecialWarningYouDispel(227404, nil, nil, nil, 3, 6) --Незримое присутствие
+local specWarnPresence3				= mod:NewSpecialWarningDispel(227404, nil, nil, nil, 3, 6) --Незримое присутствие
+local specWarnPresence4				= mod:NewSpecialWarningEnd(227404, nil, nil, nil, 1, 2) --Незримое присутствие
 --local specWarnRagnarok				= mod:NewSpecialWarningDefensive(193826, nil, nil, nil, 3, 5) 
 
 local timerSpectralChargeCD			= mod:NewCDTimer(7.5, 227365, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Призрачный рывок
 local timerMightyStompCD			= mod:NewCDTimer(14, 227363, nil, nil, nil, 2, nil, DBM_CORE_INTERRUPT_ICON) --Могучий топот +++
-local timerPresenceCD				= mod:NewCDTimer(55, 227404, nil, "MagicDispeller2", nil, 5, nil, DBM_CORE_HEALER_ICON..DBM_CORE_MAGIC_ICON) --Незримое присутствие
+local timerPresenceCD				= mod:NewCDTimer(55, 227404, nil, nil, nil, 5, nil, DBM_CORE_HEALER_ICON..DBM_CORE_MAGIC_ICON) --Незримое присутствие
 local timerMortalStrikeCD			= mod:NewNextTimer(16, 227493, nil, "Melee", nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Смертельный удар +++
 local timerSharedSufferingCD		= mod:NewNextTimer(18, 228852, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Разделенные муки +++
 
 local yellSharedSuffering			= mod:NewYell(228852, L.SharedSufferingYell, nil, nil, "YELL") --Разделенные муки
+local yellPresence					= mod:NewYellDispel(227404, nil, nil, nil, "YELL") --Незримое присутствие
 
 local countdownSharedSuffering		= mod:NewCountdown(18, 228852, nil, nil, 5) --Разделенные муки
 local countdownSharedSuffering2		= mod:NewCountdownFades("Alt3.8", 228852, nil, nil, 3) --Разделенные муки
@@ -216,8 +219,8 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif spellId == 227404 then --Незримое присутствие
 		if args:IsPlayer() then
-			specWarnPresence:Show()
-			specWarnPresence:Play("targetyou")
+		--	specWarnPresence:Show()
+		--	specWarnPresence:Play("targetyou")
 		end
 		timerMortalStrikeCD:Stop() --Смертельный удар
 		timerSharedSufferingCD:Stop() --Разделенные муки
@@ -230,8 +233,8 @@ function mod:SPELL_AURA_REMOVED(args)
 	if spellId == 227404 then --Незримое присутствие
 		if args:IsPlayer() then
 			test = true
-			specWarnPresence2:Show()
-			specWarnPresence2:Play("end")
+			specWarnPresence4:Show()
+			specWarnPresence4:Play("end")
 		end
 	end
 end
@@ -358,10 +361,22 @@ function mod:VEHICLE_ANGLE_UPDATE()
 	if DBM:UnitDebuff("player", 227404) and test then
 		test = false
 		-- print('test')
-		-- self:SendSync("debuffme", playerName)
+	--	self:SendSync("debuffme", playerName)
+		if self:IsMagicDispeller2() then
+			specWarnPresence2:Show()
+			specWarnPresence2:Play("dispelnow")
+			yellPresence:Yell()
+		elseif not self:IsMagicDispeller2() then
+			specWarnPresence:Show()
+			specWarnPresence:Play("targetyou")
+			yellPresence:Yell()
+		end
 	end
 end
 
--- function mod:OnSync(msg, sender)
-
--- end
+function mod:OnSync(msg, sender)
+	if msg == "debuffme" then
+		specWarnPresence3:Show()
+		specWarnPresence3:Play("dispelnow")
+	end
+end
