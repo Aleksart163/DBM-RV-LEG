@@ -1477,15 +1477,15 @@ end
 local function proshlyapKristassa(self, event, msg) --Прошляпанное очко Кристасса ✔✔✔
 	if DBM.Options.AutoKeyLink then
 		if event == "CHAT_MSG_PARTY" or event == "CHAT_MSG_PARTY_LEADER" then
-			if msg == "!keys" or msg == "!Keys" then
+			if string.lower(msg) == "!keys" then
 				proshlyapMurchalya(true)
 			end
 		elseif event == "CHAT_MSG_RAID" or event == "CHAT_MSG_RAID_LEADER" then
-			if msg == "!keys" or msg == "!Keys" then
+			if string.lower(msg) == "!keys" then
 				proshlyapMurchalya(true, true)
 			end
 		elseif event == "CHAT_MSG_GUILD" then
-			if msg == "!keys" or msg == "!Keys" then
+			if string.lower(msg) == "!keys" then
 				proshlyapMurchalya(true, true, true)
 			end
 		end
