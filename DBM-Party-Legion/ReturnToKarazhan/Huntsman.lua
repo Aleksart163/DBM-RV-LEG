@@ -72,7 +72,7 @@ local warned_preP2 = false
 local warned_preP3 = false
 local warned_preP4 = false
 local phase2 = false
-local test = true
+local intangiblePresenceOnMe = true
 
 --[[
 local function UpdateTimers(self)
@@ -84,7 +84,7 @@ local function UpdateTimers(self)
 end]]
 
 function mod:OnCombatStart(delay)
-	test = true
+	intangiblePresenceOnMe = true
 	self.vb.phase = 1
 	self.vb.murchalproshlyap = 0
 	self.vb.spectralchargeCast = 0
@@ -232,7 +232,7 @@ function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
 	if spellId == 227404 then --Незримое присутствие
 		if args:IsPlayer() then
-			test = true
+			intangiblePresenceOnMe = true
 			specWarnPresence4:Show()
 			specWarnPresence4:Play("end")
 		end
@@ -358,10 +358,9 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 end
 
 function mod:VEHICLE_ANGLE_UPDATE()
-	if DBM:UnitDebuff("player", 227404) and test then
-		test = false
-		-- print('test')
-	--	self:SendSync("debuffme", playerName)
+	if DBM:UnitDebuff("player", 227404) and intangiblePresenceOnMe then
+		intangiblePresenceOnMe = false
+		self:SendSync("intangiblePresenceOnMe", playerName)
 		if self:IsMagicDispeller2() then
 			specWarnPresence2:Show()
 			specWarnPresence2:Play("dispelnow")
@@ -375,7 +374,7 @@ function mod:VEHICLE_ANGLE_UPDATE()
 end
 
 function mod:OnSync(msg, sender)
-	if msg == "debuffme" then
+	if msg == "intangiblePresenceOnMe" then
 		specWarnPresence3:Show()
 		specWarnPresence3:Play("dispelnow")
 	end
