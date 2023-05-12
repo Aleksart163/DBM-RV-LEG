@@ -358,7 +358,7 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 end
 
 function mod:VEHICLE_ANGLE_UPDATE()
-	if DBM:UnitDebuff("player", 227404) and intangiblePresenceOnMe then
+	if DBM:UnitDebuff("player", 227404) and intangiblePresenceOnMe then -- Не всегда срабатывает почему-то, дебафф есть, событие есть, но предупреждения нет. Надо выяснить почему так происходит.
 		intangiblePresenceOnMe = false
 		self:SendSync("intangiblePresenceOnMe", playerName)
 		if self:IsMagicDispeller2() then
@@ -375,7 +375,11 @@ end
 
 function mod:OnSync(msg, sender)
 	if msg == "intangiblePresenceOnMe" then
-		specWarnPresence3:Show()
-		specWarnPresence3:Play("dispelnow")
+		if self:IsMagicDispeller2() then
+			specWarnPresence3:Show(sender)
+			specWarnPresence3:Play("dispelnow")
+		elseif not self:IsMagicDispeller2() then
+			-- Сюда надо добавить обычное предупреждение (не спец) на ком дебафф
+		end
 	end
 end
