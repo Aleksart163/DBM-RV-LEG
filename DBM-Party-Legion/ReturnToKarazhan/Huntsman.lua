@@ -75,6 +75,7 @@ local warned_preP3 = false
 local warned_preP4 = false
 local phase2 = false
 local intangiblePresenceOnMe = true
+local syncEvent = false
 
 --[[
 local function UpdateTimers(self)
@@ -85,8 +86,20 @@ local function UpdateTimers(self)
 	countdownSharedSuffering:Start(18) --Разделенные муки
 end]]
 
+local function checkSyncEvent(self)
+	if not syncEvent then
+		if self:IsMagicDispeller2() then -- Только тут без имени, надо воткнуть другие предупреждения сюда.
+			specWarnPresence3:Show("unknown")
+			specWarnPresence3:Play("dispelnow")
+		elseif not self:IsMagicDispeller2() then -- И сюда тоже.
+			warnPresence:Show("unknown")
+		end
+	end
+end
+
 function mod:OnCombatStart(delay)
 	intangiblePresenceOnMe = true
+	syncEvent = false
 	self.vb.phase = 1
 	self.vb.murchalproshlyap = 0
 	self.vb.spectralchargeCast = 0
@@ -220,6 +233,9 @@ function mod:SPELL_AURA_APPLIED(args)
 			phase2 = false
 		end
 	elseif spellId == 227404 then --Незримое присутствие
+		if self:AntiSpam(2, "intangiblePresence") then
+			self:Schedule(0.5, checkSyncEvent, self)
+		end
 		timerMortalStrikeCD:Stop() --Смертельный удар
 		timerSharedSufferingCD:Stop() --Разделенные муки
 		countdownSharedSuffering:Cancel() --Разделенные муки
@@ -361,6 +377,7 @@ end
 function mod:VEHICLE_ANGLE_UPDATE()
 	if DBM:UnitDebuff("player", 227404) and intangiblePresenceOnMe then
 		intangiblePresenceOnMe = false
+		syncEvent = true
 		if self.Options.SetIconOnPresence then
 			self:SetIcon(playerName, 7)
 		end
@@ -379,6 +396,7 @@ end
 
 function mod:OnSync(msg, sender)
 	if msg == "intangiblePresenceOnMe" and sender ~= playerName then
+		syncEvent = true
 		if self.Options.SetIconOnPresence then
 			self:SetIcon(sender, 7)
 		end
