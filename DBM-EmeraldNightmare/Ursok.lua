@@ -269,7 +269,7 @@ end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE
 
 function mod:UNIT_HEALTH(uId)
-	if phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 100497 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.33 then
+	if phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 100497 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.35 then
 		warned_preP1 = true
 		specWarnPhase1:Show()
 	elseif phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 100497 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.30 then

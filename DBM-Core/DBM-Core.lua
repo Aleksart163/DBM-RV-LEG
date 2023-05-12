@@ -9758,6 +9758,10 @@ do
 		return newYell(self, "yellhelp", ...)
 	end
 	
+	function bossModPrototype:NewYellDispel(...)
+		return newYell(self, "yelldispel", ...)
+	end
+	
 	function bossModPrototype:NewShortYell(...)
 		return newYell(self, "shortyell", ...)
 	end
