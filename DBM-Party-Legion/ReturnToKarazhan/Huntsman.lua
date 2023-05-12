@@ -55,8 +55,8 @@ local yellPresence					= mod:NewYellDispel(227404, nil, nil, nil, "YELL") --Не
 local countdownSharedSuffering		= mod:NewCountdown(18, 228852, nil, nil, 5) --Разделенные муки
 local countdownSharedSuffering2		= mod:NewCountdownFades("Alt3.8", 228852, nil, nil, 3) --Разделенные муки
 
-mod:AddSetIconOption("SetIconOnSharedSuffering", 228852, true, false, {8}) --Разделенные муки
-mod:AddSetIconOption("SetIconOnPresence", 227404, true, false, {7}) --Незримое присутствие
+mod:AddSetIconOption("SetIconOnPresence", 227404, true, false, {8}) --Незримое присутствие
+mod:AddSetIconOption("SetIconOnSharedSuffering", 228852, true, false, {7}) --Разделенные муки
 
 mod.vb.phase = 1
 mod.vb.murchalproshlyap = 0
@@ -64,7 +64,7 @@ mod.vb.spectralchargeCast = 0
 mod.vb.mezairCast = 0
 mod.vb.mountedstrikeCast = 0
 
-local sharedSuffering = DBM:GetSpellInfo(228852)
+local sharedSuffering = replaceSpellLinks(228852)
 local playerName = UnitName("player")
 local perephase = false
 local firsttwophase = false
@@ -154,7 +154,7 @@ function mod:SPELL_CAST_START(args)
 					unitIsPlayer = true
 				end
 				if self.Options.SetIconOnSharedSuffering then
-					self:SetIcon(args.destName, 8, 5)
+					self:SetIcon(args.destName, 7, 5)
 				end
 				break
 			end
@@ -362,7 +362,7 @@ function mod:VEHICLE_ANGLE_UPDATE()
 	if DBM:UnitDebuff("player", 227404) and intangiblePresenceOnMe then
 		intangiblePresenceOnMe = false
 		if self.Options.SetIconOnPresence then
-			self:SetIcon(playerName, 7)
+			self:SetIcon(playerName, 8)
 		end
 		self:SendSync("intangiblePresenceOnMe", playerName)
 		if self:IsMagicDispeller2() then
@@ -380,7 +380,7 @@ end
 function mod:OnSync(msg, sender)
 	if msg == "intangiblePresenceOnMe" and sender ~= playerName then
 		if self.Options.SetIconOnPresence then
-			self:SetIcon(sender, 7)
+			self:SetIcon(sender, 8)
 		end
 		if self:IsMagicDispeller2() then
 			specWarnPresence3:Show(sender)
