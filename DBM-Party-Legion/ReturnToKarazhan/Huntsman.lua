@@ -7,7 +7,7 @@ mod:SetEncounterID(1960)--Verify
 mod:SetZone()
 mod:SetUsedIcons(8)
 --mod:SetHotfixNoticeRev(14922)
---mod.respawnTime = 30
+-- mod.respawnTime = 30
 
 mod.noNormal = true
 
@@ -358,7 +358,7 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 end
 
 function mod:VEHICLE_ANGLE_UPDATE()
-	if DBM:UnitDebuff("player", 227404) and intangiblePresenceOnMe then -- Не всегда срабатывает почему-то, дебафф есть, событие есть, но предупреждения нет. Надо выяснить почему так происходит.
+	if DBM:UnitDebuff("player", 227404) and intangiblePresenceOnMe then
 		intangiblePresenceOnMe = false
 		self:SendSync("intangiblePresenceOnMe", playerName)
 		if self:IsMagicDispeller2() then
