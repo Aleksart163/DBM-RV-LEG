@@ -657,6 +657,14 @@ L= DBM:GetModLocalization(1827)
 ------------------
 L= DBM:GetModLocalization(1835)
 
+L:SetWarningLocalization({
+	Presence = "Незримое присутствие на ком-то - рассей"
+})
+
+L:SetOptionLocalization({
+	Presence = "Спец-предупреждение о рассеивании $spell:227404"
+})
+
 L:SetMiscLocalization({
 	SharedSufferingYell = "%s на %s. БЕГИТЕ от меня!",
 	Perephase1 = "Что ж, сразимся лицом к лицу!",

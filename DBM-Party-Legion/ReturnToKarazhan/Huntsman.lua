@@ -27,7 +27,6 @@ mod:RegisterEventsInCombat(
 --Ловчий Аттумен https://ru.wowhead.com/npc=114262/ловчий-аттумен/эпохальный-журнал-сражений
 local warnPhase						= mod:NewPhaseChangeAnnounce(1)
 local warnPhase2					= mod:NewPrePhaseAnnounce(2, 1)
-local warnPresence					= mod:NewTargetAnnounce(227404, 4)
 
 local specWarnMightyStomp			= mod:NewSpecialWarningCast(227363, "SpellCaster", nil, nil, 1, 3) --Могучий топот
 local specWarnSpectralCharge		= mod:NewSpecialWarningDodge(227365, nil, nil, nil, 2, 2) --Призрачный рывок
@@ -41,6 +40,9 @@ local specWarnPresence				= mod:NewSpecialWarningYou(227404, nil, nil, nil, 3, 6
 local specWarnPresence2				= mod:NewSpecialWarningYouDispel(227404, nil, nil, nil, 3, 6) --Незримое присутствие
 local specWarnPresence3				= mod:NewSpecialWarningDispel(227404, nil, nil, nil, 3, 6) --Незримое присутствие
 local specWarnPresence4				= mod:NewSpecialWarningEnd(227404, nil, nil, nil, 1, 2) --Незримое присутствие
+local specWarnPresence5				= mod:NewSpecialWarning("Presence", nil, nil, nil, 3, 6) --Незримое присутствие
+local specWarnPresence6				= mod:NewSpecialWarningSpell(227404, nil, nil, nil, 1, 2) --Незримое присутствие
+local specWarnPresence7				= mod:NewSpecialWarningTarget(227404, nil, nil, nil, 1, 2) --Незримое присутствие
 --local specWarnRagnarok				= mod:NewSpecialWarningDefensive(193826, nil, nil, nil, 3, 5) 
 
 local timerSpectralChargeCD			= mod:NewCDTimer(7.5, 227365, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Призрачный рывок
@@ -88,11 +90,11 @@ end]]
 
 local function checkSyncEvent(self)
 	if not syncEvent then
-		if self:IsMagicDispeller2() then -- Только тут без имени, надо воткнуть другие предупреждения сюда.
-			specWarnPresence3:Show("unknown")
-			specWarnPresence3:Play("dispelnow")
-		elseif not self:IsMagicDispeller2() then -- И сюда тоже.
-			warnPresence:Show("unknown")
+		if self:IsMagicDispeller2() then
+			specWarnPresence5:Show()
+			specWarnPresence5:Play("dispelnow")
+		elseif not self:IsMagicDispeller2() then
+			specWarnPresence6:Show()
 		end
 	end
 end
@@ -234,7 +236,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif spellId == 227404 then --Незримое присутствие
 		if self:AntiSpam(2, "intangiblePresence") then
-			self:Schedule(0.5, checkSyncEvent, self)
+			self:Schedule(1.5, checkSyncEvent, self)
 		end
 		timerMortalStrikeCD:Stop() --Смертельный удар
 		timerSharedSufferingCD:Stop() --Разделенные муки
@@ -404,7 +406,7 @@ function mod:OnSync(msg, sender)
 			specWarnPresence3:Show(sender)
 			specWarnPresence3:Play("dispelnow")
 		elseif not self:IsMagicDispeller2() then
-			warnPresence:Show(sender)
+			specWarnPresence7:Show(sender)
 		end
 	end
 end
