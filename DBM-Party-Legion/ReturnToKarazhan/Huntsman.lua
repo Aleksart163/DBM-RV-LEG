@@ -5,7 +5,7 @@ mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
 mod:SetCreatureID(114262, 114264)--114264 midnight
 mod:SetEncounterID(1960)--Verify
 mod:SetZone()
-mod:SetUsedIcons(8)
+mod:SetUsedIcons(8, 7)
 --mod:SetHotfixNoticeRev(14922)
 -- mod.respawnTime = 30
 
@@ -27,6 +27,7 @@ mod:RegisterEventsInCombat(
 --Ловчий Аттумен https://ru.wowhead.com/npc=114262/ловчий-аттумен/эпохальный-журнал-сражений
 local warnPhase						= mod:NewPhaseChangeAnnounce(1)
 local warnPhase2					= mod:NewPrePhaseAnnounce(2, 1)
+local warnPresence					= mod:NewTargetAnnounce(227404, 4)
 
 local specWarnMightyStomp			= mod:NewSpecialWarningCast(227363, "SpellCaster", nil, nil, 1, 3) --Могучий топот
 local specWarnSpectralCharge		= mod:NewSpecialWarningDodge(227365, nil, nil, nil, 2, 2) --Призрачный рывок
@@ -55,6 +56,7 @@ local countdownSharedSuffering		= mod:NewCountdown(18, 228852, nil, nil, 5) --Р
 local countdownSharedSuffering2		= mod:NewCountdownFades("Alt3.8", 228852, nil, nil, 3) --Разделенные муки
 
 mod:AddSetIconOption("SetIconOnSharedSuffering", 228852, true, false, {8}) --Разделенные муки
+mod:AddSetIconOption("SetIconOnPresence", 227404, true, false, {7}) --Незримое присутствие
 
 mod.vb.phase = 1
 mod.vb.murchalproshlyap = 0
@@ -218,10 +220,6 @@ function mod:SPELL_AURA_APPLIED(args)
 			phase2 = false
 		end
 	elseif spellId == 227404 then --Незримое присутствие
-		if args:IsPlayer() then
-		--	specWarnPresence:Show()
-		--	specWarnPresence:Play("targetyou")
-		end
 		timerMortalStrikeCD:Stop() --Смертельный удар
 		timerSharedSufferingCD:Stop() --Разделенные муки
 		countdownSharedSuffering:Cancel() --Разделенные муки
@@ -235,6 +233,9 @@ function mod:SPELL_AURA_REMOVED(args)
 			intangiblePresenceOnMe = true
 			specWarnPresence4:Show()
 			specWarnPresence4:Play("end")
+		end
+		if self.Options.SetIconOnPresence then
+			self:SetIcon(args.destName, 0)
 		end
 	end
 end
@@ -360,6 +361,9 @@ end
 function mod:VEHICLE_ANGLE_UPDATE()
 	if DBM:UnitDebuff("player", 227404) and intangiblePresenceOnMe then
 		intangiblePresenceOnMe = false
+		if self.Options.SetIconOnPresence then
+			self:SetIcon(playerName, 7)
+		end
 		self:SendSync("intangiblePresenceOnMe", playerName)
 		if self:IsMagicDispeller2() then
 			specWarnPresence2:Show()
@@ -374,12 +378,15 @@ function mod:VEHICLE_ANGLE_UPDATE()
 end
 
 function mod:OnSync(msg, sender)
-	if msg == "intangiblePresenceOnMe" then
+	if msg == "intangiblePresenceOnMe" and sender ~= playerName then
+		if self.Options.SetIconOnPresence then
+			self:SetIcon(sender, 7)
+		end
 		if self:IsMagicDispeller2() then
 			specWarnPresence3:Show(sender)
 			specWarnPresence3:Play("dispelnow")
 		elseif not self:IsMagicDispeller2() then
-			-- Сюда надо добавить обычное предупреждение (не спец) на ком дебафф
+			warnPresence:Show(sender)
 		end
 	end
 end
