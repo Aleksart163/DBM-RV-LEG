@@ -130,16 +130,14 @@ function mod:SPELL_AURA_APPLIED(args)
 			yellArcaneBomb:Yell()
 			yellArcaneBombFades:Countdown(15, 3)
 		elseif args:IsPlayer() and self:IsMagicDispeller2() then
-			specWarnArcaneBomb:Show()
-			specWarnArcaneBomb:Play("runout")
-			specWarnArcaneBomb4:Schedule(5)
-			specWarnArcaneBomb4:ScheduleVoice(5, "dispelnow")
+			specWarnArcaneBomb4:Show()
+			specWarnArcaneBomb4:Play("dispelnow")
 			yellArcaneBomb:Yell()
 			yellArcaneBombFades:Countdown(15, 3)
 		elseif self:IsMagicDispeller2() then
 			if not UnitIsDeadOrGhost("player") then
-				specWarnArcaneBomb2:Schedule(5, args.destName)
-				specWarnArcaneBomb2:ScheduleVoice(5, "dispelnow")
+				specWarnArcaneBomb2:Show(args.destName)
+				specWarnArcaneBomb2:Play("dispelnow")
 			end
 		end
 		if self.Options.RangeFrame then
@@ -223,7 +221,6 @@ function mod:SPELL_AURA_REMOVED(args)
 		end
 	elseif spellId == 192706 then --Чародейская бомба
 		timerArcaneBomb:Cancel(args.destName)
-		specWarnArcaneBomb2:Cancel()
 		if args:IsPlayer() then
 			specWarnArcaneBomb3:Show()
 			specWarnArcaneBomb3:Play("end")
