@@ -7,6 +7,7 @@ mod:SetEncounterID(1960)--Verify
 mod:SetZone()
 mod:SetUsedIcons(8, 7)
 mod:SetReCombatTime(120, 5)
+mod:EnableIEEUWipeDetection()
 --mod:SetHotfixNoticeRev(14922)
 -- mod.respawnTime = 30
 

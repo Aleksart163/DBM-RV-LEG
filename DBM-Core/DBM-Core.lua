@@ -5415,6 +5415,9 @@ do
 				if not v.noIEEUDetection then
 					if v.type:find("combat") and isBossEngaged(v.multiMobPullDetection or v.mob) then
 						self:StartCombat(v.mod, 0, "IEEU")
+					elseif v.IEEUWipeDetection and not isBossEngaged(v.mob) then
+						self:Debug("Debug Wipe: " .. v.mod.combatInfo.name .. ", cId: " .. v.mob)
+						self:EndCombat(v.mod, true)
 					end
 				end
 			end
@@ -11542,6 +11545,9 @@ function bossModPrototype:RegisterCombat(cType, ...)
 	if self.noIEEUDetection then
 		info.noIEEUDetection = self.noIEEUDetection
 	end
+	if self.IEEUWipeDetection then
+		info.IEEUWipeDetection = self.IEEUWipeDetection
+	end
 	if self.noEEDetection then
 		info.noEEDetection = self.noEEDetection
 	end
@@ -11637,6 +11643,13 @@ function bossModPrototype:DisableIEEUCombatDetection()
 	self.noIEEUDetection = true
 	if self.combatInfo then
 		self.combatInfo.noIEEUDetection = true
+	end
+end
+
+function bossModPrototype:EnableIEEUWipeDetection()
+	self.IEEUWipeDetection = true
+	if self.combatInfo then
+		self.combatInfo.IEEUWipeDetection = true
 	end
 end
 
