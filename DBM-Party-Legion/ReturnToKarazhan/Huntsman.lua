@@ -6,6 +6,7 @@ mod:SetCreatureID(114262, 114264)--114264 midnight
 mod:SetEncounterID(1960)--Verify
 mod:SetZone()
 mod:SetUsedIcons(8, 7)
+mod:SetReCombatTime(120, 5)
 --mod:SetHotfixNoticeRev(14922)
 -- mod.respawnTime = 30
 
