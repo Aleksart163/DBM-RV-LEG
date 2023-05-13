@@ -223,6 +223,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		end
 	elseif spellId == 192706 then --Чародейская бомба
 		timerArcaneBomb:Cancel(args.destName)
+		specWarnArcaneBomb2:Cancel()
 		if args:IsPlayer() then
 			specWarnArcaneBomb3:Show()
 			specWarnArcaneBomb3:Play("end")
