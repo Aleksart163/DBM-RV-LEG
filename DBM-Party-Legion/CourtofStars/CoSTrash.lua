@@ -227,12 +227,14 @@ local function announceList(premsg_announce, value)
 end
 
 local function prepareMessage(self, premsg_announce, args_sourceName, args_destName, hintTranslations_clue)
-	premsg_values.args_sourceName = args_sourceName
-	premsg_values.args_destName = args_destName
-	premsg_values.hintTranslations_clue = hintTranslations_clue
-	announceList(premsg_announce, 1)
-	self:SendSync(premsg_announce, playerOnlyName)
-	self:Schedule(1, sendAnnounce, self)
+	if self:AntiSpam(1, "prepareMessage") then
+		premsg_values.args_sourceName = args_sourceName
+		premsg_values.args_destName = args_destName
+		premsg_values.hintTranslations_clue = hintTranslations_clue
+		announceList(premsg_announce, 1)
+		self:SendSync(premsg_announce, playerOnlyName)
+		self:Schedule(1, sendAnnounce, self)
+	end
 end
 -- Синхронизация анонсов ↑
 
