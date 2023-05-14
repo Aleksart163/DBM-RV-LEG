@@ -5416,7 +5416,7 @@ do
 					if v.type:find("combat") and isBossEngaged(v.multiMobPullDetection or v.mob) then
 						self:StartCombat(v.mod, 0, "IEEU")
 					elseif v.IEEUWipeDetection and not isBossEngaged(v.mob) then
-						self:Debug("Debug Wipe: " .. v.mod.combatInfo.name .. ", cId: " .. v.mob)
+						-- self:Debug("Debug Wipe: " .. v.mod.combatInfo.name .. ", cId: " .. v.mob)
 						self:EndCombat(v.mod, true)
 					end
 				end
