@@ -658,7 +658,7 @@ L= DBM:GetModLocalization(1827)
 L= DBM:GetModLocalization(1835)
 
 L:SetWarningLocalization({
-	Presence = "Незримое присутствие на ком-то - рассей"
+	Presence = "Незримое присутствие на КОМ-ТО - рассей"
 })
 
 L:SetOptionLocalization({
@@ -666,7 +666,8 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	SharedSufferingYell = "%s на %s. БЕГИТЕ от меня!",
+	PresenceYell = "На мне %s! Диспел мне!",
+	SharedSufferingYell = "%s на %s! БЕГИТЕ от меня!",
 	Perephase1 = "Что ж, сразимся лицом к лицу!",
 	Perephase2 = "Вперед, Полночь, к победе!"
 })

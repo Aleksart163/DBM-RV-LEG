@@ -657,7 +657,7 @@ L= DBM:GetModLocalization(1827)
 L= DBM:GetModLocalization(1835)
 
 L:SetWarningLocalization({
-	Presence = "Intangible Presence on someone - dispel now"
+	Presence = "Intangible Presence on SOMEONE - dispel now"
 })
 
 L:SetOptionLocalization({
@@ -665,7 +665,8 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	SharedSufferingYell = "%s on %s. RUN AWAY from me!",
+	PresenceYell = "On me %s! Dispel Me!",
+	SharedSufferingYell = "%s on %s! RUN AWAY from me!",
 	Perephase1 = "Time to face my quarry toe-to-toe!",
 	Perephase2 = "We ride, Midnight! To victory!"
 })
