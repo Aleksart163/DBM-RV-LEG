@@ -9701,7 +9701,8 @@ do
 			if type(spellId) == "string" and spellId:match("ej%d+") then
 				displayText = DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT[yellType]:format(DBM:EJ_GetSectionInfo(string.sub(spellId, 3)) or DBM_CORE_UNKNOWN)
 			else
-				displayText = DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT[yellType]:format(DBM:GetSpellInfo(spellId) or DBM_CORE_UNKNOWN)
+				-- displayText = DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT[yellType]:format(DBM:GetSpellInfo(spellId) or DBM_CORE_UNKNOWN)
+				displayText = DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT[yellType]:format(replaceSpellLinks(spellId) or DBM_CORE_UNKNOWN)
 			end
 		end
 		--Passed spellid as yellText.
