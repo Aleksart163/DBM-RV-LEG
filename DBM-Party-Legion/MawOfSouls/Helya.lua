@@ -66,7 +66,7 @@ mod.vb.taintofseaIcon = 8
 local warned_preP1 = false
 local warned_preP2 = false
 local playerName = UnitName("player")
-local taintofSea = DBM:GetSpellInfo(197262) --Морская порча
+local taintofSea = replaceSpellLinks(197262) --Морская порча
 
 function mod:OnCombatStart(delay)
 	self.vb.phase = 1
