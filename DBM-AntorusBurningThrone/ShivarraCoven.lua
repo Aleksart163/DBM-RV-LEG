@@ -15,7 +15,7 @@ mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 245627 252861 253650 250648 250095 245303",
-	"SPELL_CAST_SUCCESS 244899 253520 245532 250335 250333 250334 249793 245518 246329",
+	"SPELL_CAST_SUCCESS 244899 253520 250335 250333 250334 249793 245518 246329 245586",
 	"SPELL_AURA_APPLIED 244899 253520 245518 245586 250757 249863 256356",
 	"SPELL_AURA_APPLIED_DOSE 244899 245518",
 	"SPELL_AURA_REMOVED 253520 245586 249863 250757",
@@ -91,7 +91,7 @@ local timerStormofDarknessCD			= mod:NewNextCountTimer(56.8, 252861, nil, nil, n
 --Diima, Mother of Gloom
 mod:AddTimerLine(Diima)
 local timerFlashFreezeCD				= mod:NewCDTimer(10.1, 245518, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Морозная вспышка
-local timerChilledBloodCD				= mod:NewNextTimer(25.4, 245586, nil, nil, nil, 5, nil, DBM_CORE_HEALER_ICON) --Студеная кровь
+local timerChilledBloodCD				= mod:NewNextTimer(25.9, 245586, nil, nil, nil, 5, nil, DBM_CORE_HEALER_ICON) --Студеная кровь
 local timerOrbofFrostCD					= mod:NewNextTimer(30, 253650, nil, nil, nil, 3)
 --Thu'raya, Mother of the Cosmos (Mythic)
 mod:AddTimerLine(Thuraya)
@@ -413,11 +413,11 @@ function mod:SPELL_CAST_SUCCESS(args)
 		timerFieryStrikeCD:Start()
 	elseif spellId == 245518 then
 		timerFlashFreezeCD:Start()
-	elseif spellId == 253520 and self:AntiSpam(3, 3) then
-		timerFulminatingPulseCD:Start()
-		countdownFulminatingPulse:Start(40.1)
-	elseif spellId == 245532 and self:AntiSpam(3, 2) then
-		timerChilledBloodCD:Start()
+--	elseif spellId == 253520 and self:AntiSpam(3, 3) then --Гремучий импульс
+--		timerFulminatingPulseCD:Start()
+--		countdownFulminatingPulse:Start(40.1)
+	elseif spellId == 245586 and self:AntiSpam(2, "blood") then --Студеная кровь (раньше было 245532)
+		timerChilledBloodCD:Start() -- 25.9 сек точно под мифик (возможно временами чуть меньше)
 	elseif (spellId == 250335 or spellId == 250333 or spellId == 250334 or spellId == 249793) and self:IsInCombat() then --Мучения титанов
 		self.vb.shivarrsCount = self.vb.shivarrsCount + 1
 		countdownTitans:Start()
@@ -547,7 +547,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				warnFieryStrike:Show(args.destName, amount)
 			end
 		end
-	elseif spellId == 253520 then
+	elseif spellId == 253520 and self:AntiSpam(3, "pulse") then
 		warnFulminatingPulse:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
 			specWarnFulminatingPulse:Show()
@@ -559,6 +559,8 @@ function mod:SPELL_AURA_APPLIED(args)
 			self:SetIcon(args.destName, self.vb.fpIcon)
 		end
 		self.vb.fpIcon = self.vb.fpIcon + 1
+		timerFulminatingPulseCD:Start(40)
+		countdownFulminatingPulse:Start(40)
 	elseif spellId == 245518 then
 		local uId = DBM:GetRaidUnitId(args.destName)
 		if self:IsTanking(uId) then
