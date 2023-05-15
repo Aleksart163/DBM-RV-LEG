@@ -124,7 +124,7 @@ end]]
 
 local function checkSyncEvent(self)
 	if not syncEvent then
-		DBM:AddMsg("Призрак на неизвестном человеке. Такое происходит, когда человек использует старую версию аддона DBM или пользуется BigWigs.")
+		DBM:AddMsg("Призрак на неизвестном человеке. Такое происходит, когда человек использует старую версию аддона DBM или пользуется BigWigs.") -- Нужно перенести в файл локализации и добавить английскую версию.
 		if self:IsMagicDispeller2() then
 			specWarnPresence5:Show()
 			specWarnPresence5:Play("dispelnow")
@@ -239,6 +239,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			phase2 = false
 		end
 	elseif spellId == 227404 then --Незримое присутствие
+		syncEvent = false
 		if self:AntiSpam(2, "intangiblePresence") then
 			self:Schedule(1.5, checkSyncEvent, self)
 		end
