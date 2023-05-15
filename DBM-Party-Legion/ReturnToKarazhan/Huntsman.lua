@@ -55,7 +55,7 @@ local timerMortalStrikeCD			= mod:NewNextTimer(16, 227493, nil, "Melee", nil, 5,
 local timerSharedSufferingCD		= mod:NewNextTimer(18, 228852, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Разделенные муки +++
 
 local yellSharedSuffering			= mod:NewYell(228852, L.SharedSufferingYell, nil, nil, "YELL") --Разделенные муки
-local yellPresence					= mod:NewYell(227404, L.PresenceYell, nil, nil, "YELL") --Незримое присутствие
+local yellPresence					= mod:NewYellDispel(227404, nil, nil, nil, "YELL") --Незримое присутствие
 
 local countdownSharedSuffering		= mod:NewCountdown(18, 228852, nil, nil, 5) --Разделенные муки
 local countdownSharedSuffering2		= mod:NewCountdownFades("Alt3.8", 228852, nil, nil, 3) --Разделенные муки
@@ -69,7 +69,6 @@ mod.vb.spectralchargeCast = 0
 mod.vb.mezairCast = 0
 mod.vb.mountedstrikeCast = 0
 
-local presence = replaceSpellLinks(227404)
 local sharedSuffering = replaceSpellLinks(228852)
 local playerName = UnitName("player")
 local perephase = false
@@ -124,7 +123,7 @@ end]]
 
 local function checkSyncEvent(self)
 	if not syncEvent then
-		DBM:AddMsg("Призрак на неизвестном человеке. Такое происходит, когда человек использует старую версию аддона DBM или пользуется BigWigs.") -- Нужно перенести в файл локализации и добавить английскую версию.
+		DBM:AddMsg(L.Tip1)
 		if self:IsMagicDispeller2() then
 			specWarnPresence5:Show()
 			specWarnPresence5:Play("dispelnow")
@@ -394,11 +393,11 @@ function mod:VEHICLE_ANGLE_UPDATE()
 		if self:IsMagicDispeller2() then
 			specWarnPresence2:Show()
 			specWarnPresence2:Play("dispelnow")
-			yellPresence:Yell(presence)
+			yellPresence:Yell()
 		elseif not self:IsMagicDispeller2() then
 			specWarnPresence:Show()
 			specWarnPresence:Play("targetyou")
-			yellPresence:Yell(presence)
+			yellPresence:Yell()
 		end
 	end
 end

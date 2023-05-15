@@ -73,7 +73,7 @@ local warned_preP1 = false
 local warned_preP2 = false
 
 local playerName = UnitName("player")
-local paranoia = DBM:GetSpellInfo(200289) --Усугубляющаяся паранойя
+local paranoia = replaceSpellLinks(200289) --Усугубляющаяся паранойя
 
 function mod:NightmareBoltTarget(targetname, uId) --Прошляпанное очко Мурчаля ✔
 	if not targetname then return end
