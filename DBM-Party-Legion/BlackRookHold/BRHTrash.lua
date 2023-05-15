@@ -8,8 +8,8 @@ mod:SetZone()
 mod.isTrashMod = true
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 200261 221634 221688 225573 214003 221132 220918 200248 221363 221380 200343 193633 200291 227913",
-	"SPELL_AURA_APPLIED 194966 221132 221363 225909",
+	"SPELL_CAST_START 200261 221634 221688 225573 214003 221132 220918 200248 221363 221380 200343 193633 200291 227913 221830",
+	"SPELL_AURA_APPLIED 194966 221132 221363 225909 221838 221876",
 	"SPELL_AURA_APPLIED_DOSE 225909",
 	"SPELL_AURA_REMOVED 194966 221132 221363",
 	"SPELL_CAST_SUCCESS 200343 200345 220918",
@@ -30,7 +30,12 @@ local warnSoulVenom					= mod:NewStackAnnounce(225909, 4, nil, nil, 2) --Отр�
 local warnDarkMending				= mod:NewCastAnnounce(225573, 3) --Исцеление тьмой
 local warnArcaneBlitz				= mod:NewCastAnnounce(200248, 3) --Чародейская бомбардировка
 local warnKnifeDance				= mod:NewSpellAnnounce(200291, 4) --Танец с кинжалами
+local warnDisorientingGas			= mod:NewTargetAnnounce(221830, 3) --Дезориентирующий газ
+local warnBladeBarrage				= mod:NewTargetAnnounce(221876, 3) --Завеса клинков
 --
+local specWarnBladeBarrage			= mod:NewSpecialWarningYouMoveAway(221876, nil, nil, nil, 4, 2) --Завеса клинков
+local specWarnDisorientingGas		= mod:NewSpecialWarningYouRun(221830, nil, nil, nil, 4, 2) --Дезориентирующий газ
+local specWarnDisorientingGas2		= mod:NewSpecialWarningCloseMoveAway(221830, nil, nil, nil, 2, 3) --Дезориентирующий газ
 local specWarnShoot					= mod:NewSpecialWarningYou(193633, nil, nil, nil, 1, 2) --Выстрел
 local specWarnSoulVenom				= mod:NewSpecialWarningStack(225909, nil, 5, nil, nil, 1, 2) --Отравленная душа
 local specWarnSoulVenom2			= mod:NewSpecialWarningDispel(225909, "MagicDispeller2", nil, nil, 1, 3) --Отравленная душа
@@ -63,6 +68,8 @@ local timerArcaneOvercharge			= mod:NewTargetTimer(6, 221132, nil, nil, nil, 3, 
 
 local timerRoleplay					= mod:NewTimer(24.5, "timerRoleplay", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7) --Ролевая игра
 
+local yellBladeBarrage				= mod:NewYell(221876, nil, nil, nil, "YELL") --Завеса клинков
+local yellDisorientingGas			= mod:NewYell(221838, nil, nil, nil, "YELL") --Дезориентирующий газ
 local yellRupturingPoison			= mod:NewYell(221363, nil, nil, nil, "YELL") --Раздирающий яд
 local yellRupturingPoisonFades		= mod:NewFadesYell(221363, nil, nil, nil, "YELL") --Раздирающий яд
 local yellSoulEchoes				= mod:NewYell(194966, nil, nil, nil, "YELL") --Эхо души
@@ -71,6 +78,31 @@ local yellArcaneOverchargeFades		= mod:NewFadesYell(221132, nil, nil, nil, "YELL
 local yellArrowBarrage				= mod:NewYell(200343, nil, nil, nil, "YELL") --Залп стрел
 
 mod:AddRangeFrameOption(6)
+
+function mod:BladeBarrageTarget(targetname, uId) --Завеса клинков
+	if not targetname then return end
+	if targetname == UnitName("player") then
+		specWarnBladeBarrage:Show()
+		specWarnBladeBarrage:Play("runaway")
+		yellBladeBarrage:Yell()
+	else
+		warnBladeBarrage:Show(targetname)
+	end
+end
+
+function mod:DisorientingGasTarget(targetname, uId) --Дезориентирующий газ ✔
+	if not targetname then return end
+	if targetname == UnitName("player") then
+		specWarnDisorientingGas:Show()
+		specWarnDisorientingGas:Play("runout")
+		yellDisorientingGas:Yell()
+	elseif self:CheckNearby(10, targetname) then
+		specWarnDisorientingGas2:Show(targetname)
+		specWarnDisorientingGas2:Play("runout")
+	else
+		warnDisorientingGas:Show(targetname)
+	end
+end
 
 function mod:ShootTarget(targetname, uId) --Выстрел ✔
 	if not targetname then return end
@@ -151,6 +183,8 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 227913 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Неистовство Скверны
 		specWarnFelfrenzy:Show()
 		specWarnFelfrenzy:Play("kickcast")
+	elseif spellId == 221830 then --Дезориентирующий газ
+		self:BossTargetScanner(args.sourceGUID, "DisorientingGasTarget", 0.1, 2)
 	end
 end
 
@@ -218,6 +252,8 @@ function mod:SPELL_AURA_APPLIED(args)
 				end
 			end
 		end
+	elseif spellId == 221876 then --Завеса клинков
+		self:BossTargetScanner(args.sourceGUID, "BladeBarrageTarget", 0.1, 2)
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
