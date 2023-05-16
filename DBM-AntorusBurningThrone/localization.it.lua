@@ -174,8 +174,8 @@ L:SetMiscLocalization({
 	Bomb		= "BOMB",
 	Blight2		= "Blight on %s!",
 	Burst2		= "Burst su di me!",
-	Sentence2	= "Sentenza su %s!",
-	Bomb2		= "Bomba dell'Anima!",
+--	Sentence2	= "Sentenza su %s!",
+--	Bomb2		= "Bomba dell'Anima!",
 	Rage		= "RABBIA",
 	Fear		= "PAURA"
 })

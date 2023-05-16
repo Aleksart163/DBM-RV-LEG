@@ -145,7 +145,7 @@ L:SetMiscLocalization({
 	Blight	= "灵魂凋零宝珠",
 	Burst	= "灵魂炸弹",
 	Bomb	= "弹",
-	Bomb2	= "灵魂炸弹",
+--	Bomb2	= "灵魂炸弹",
 	Rage	= "狂怒",
 	Fear	= "恐惧"
 })

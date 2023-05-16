@@ -665,7 +665,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	Tip1 = "A ghost has appeared on an unknown person. This happens when the ghost target uses BigWigs, has an old version of the DBM addon, or does not use addons at all.",
+	Tip1 = "A ghost has appeared on an unknown person. This happens when the ghost target uses BigWigs, has an old version of the DBM, or does not use addons at all.",
 	SharedSufferingYell = "%s on %s! RUN AWAY from me!",
 	Perephase1 = "Time to face my quarry toe-to-toe!",
 	Perephase2 = "We ride, Midnight! To victory!"

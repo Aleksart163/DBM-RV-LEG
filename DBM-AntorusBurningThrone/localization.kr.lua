@@ -155,7 +155,7 @@ L:SetMiscLocalization({
 	Burst		= "분출",
 	Sentence	= "선고",
 	Bomb		= "폭탄",
-	Bomb2		= "영혼폭탄!",
+--	Bomb2		= "영혼폭탄!",
 	Rage		= "분노",
 	Fear		= "공포"
 })

@@ -141,7 +141,7 @@ yellSoulbomb						= mod:NewPosYell(251570, DBM_CORE_AUTO_YELL_CUSTOM_POSITION, n
 yellSoulbombFades					= mod:NewIconFadesYell(251570, 155188, nil, nil, "YELL"), --Бомба души
 yellSoulburst						= mod:NewPosYell(250669, DBM_CORE_AUTO_YELL_CUSTOM_POSITION, nil, nil, "YELL"), --Взрывная душа
 yellSoulburstFades					= mod:NewIconFadesYell(250669, nil, nil, nil, "YELL"), --Взрывная душа
-yellSargSentence					= mod:NewYell(257966, L.Sentence2, nil, nil, "YELL"), --Приговор Саргераса
+yellSargSentence					= mod:NewYell(257966, nil, nil, nil, "YELL"), --Приговор Саргераса
 yellSargSentenceFades				= mod:NewShortFadesYell(257966, nil, nil, nil, "YELL"), --Приговор Саргераса
 yellCosmicRay						= mod:NewYell(252729, nil, nil, nil, "YELL") --Космический луч
 }
@@ -173,6 +173,7 @@ mod:AddSetIconOption("SetIconOnSoulBurst", 250669, true, false, {7, 3}) --Взр
 mod:AddSetIconOption("SetIconGift", 255594, true, false, {6, 5}) --Небо и море 5 and 6
 mod:AddSetIconOption("SetIconOnAvatar", 255199, true, false, {4}) --Аватара Агграмара 4
 
+local soulbomb = replaceSpellLinks(251570)
 local playerAvatar = false
 mod.vb.phase = 1
 mod.vb.kurators = 7
@@ -623,7 +624,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnSoulbomb:Show()
 			specWarnSoulbomb:Play("targetyou")--Would be better if bombrun was "bomb on you" and not "bomb on you, run". Since Don't want to give misinformation, generic it is
 			self:Schedule(self:IsMythic() and 5 or 8, delayedBoonCheck, self)
-			yells.yellSoulbomb:Yell(8, L.Bomb2, 8)
+			yells.yellSoulbomb:Yell(8, soulbomb, 8)
 			yells.yellSoulbombFades:Countdown(self:IsMythic() and 12 or 15, 3, 8)
 			fearCheck(self)
 		elseif playerAvatar then
@@ -750,7 +751,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnSargSentence:Show()
 			specWarnSargSentence:Play("targetyou")
-			yells.yellSargSentence:Yell(playerName)
+			yells.yellSargSentence:Yell()
 			yells.yellSargSentenceFades:Countdown(30, 3)
 			fearCheck(self)
 		end
