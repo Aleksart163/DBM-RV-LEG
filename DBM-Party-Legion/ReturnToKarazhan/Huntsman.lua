@@ -239,7 +239,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif spellId == 227404 then --Незримое присутствие
 		syncEvent = false
-		DBM:Debug("SPELL_AURA_APPLIED: " .. GetTime() .. ", syncEvent = false")
+		-- DBM:Debug("SPELL_AURA_APPLIED: " .. GetTime() .. ", syncEvent = false")
 		if self:AntiSpam(2, "intangiblePresence") then
 			self:Schedule(1.5, checkSyncEvent, self)
 		end
@@ -385,7 +385,7 @@ function mod:VEHICLE_ANGLE_UPDATE()
 	if DBM:UnitDebuff("player", 227404) and intangiblePresenceOnMe then
 		intangiblePresenceOnMe = false
 		syncEvent = true
-		DBM:Debug("VEHICLE_ANGLE_UPDATE: " .. GetTime() .. ", syncEvent = true")
+		-- DBM:Debug("VEHICLE_ANGLE_UPDATE: " .. GetTime() .. ", syncEvent = true")
 		if self.Options.SetIconOnPresence then
 			self:SetIcon(playerName, 7)
 		end
@@ -405,7 +405,7 @@ end
 function mod:OnSync(msg, sender)
 	if msg == "intangiblePresenceOnMe" and sender ~= playerName then
 		syncEvent = true
-		DBM:Debug("OnSync: " .. GetTime() .. ", syncEvent = true")
+		-- DBM:Debug("OnSync: " .. GetTime() .. ", syncEvent = true")
 		if self.Options.SetIconOnPresence then
 			self:SetIcon(sender, 7)
 		end
