@@ -175,7 +175,7 @@ end
 function mod:SPELL_CAST_SUCCESS(args)
 	if not self.Options.Enabled then return end
 	local spellId = args.spellId
-	if spellId == 227529 then --Нестабильная энергия
+	if spellId == 227529 and self:AntiSpam(2, "unstable") then --Нестабильная энергия
 		specWarnUnstableEnergy:Show()
 		specWarnUnstableEnergy:Play("watchstep")
 	end
