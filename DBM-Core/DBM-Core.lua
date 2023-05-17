@@ -341,6 +341,11 @@ DBM.BattleMusic = {--Filtered list of media assigned to boss/encounter backgroun
 	{text = "None", value = "None"},
 }
 
+nameplates = ""
+for i = 1, 40 do
+	nameplates = nameplates .. " nameplate" .. i
+end
+
 DbmRV = "[DBM RV] "
 ------------------------
 -- Global Identifiers --

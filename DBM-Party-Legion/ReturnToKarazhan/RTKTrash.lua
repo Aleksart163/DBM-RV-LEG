@@ -19,7 +19,8 @@ mod:RegisterEvents(
 	"CHAT_MSG_MONSTER_SAY",
 	"CHAT_MSG_MONSTER_YELL",
 	"CHAT_MSG_MONSTER_EMOTE",
-	"UNIT_DIED"
+	"UNIT_DIED",
+	"UNIT_SPELLCAST_SUCCEEDED mouseover target focus" .. nameplates
 )
 
 --Каражан треш
@@ -321,20 +322,6 @@ function mod:CHAT_MSG_MONSTER_EMOTE(msg)
 	end
 end
 
-function mod:OnSync(msg)
-	if msg == "KaraSpeed" then
-		timerAchieve:Start()
-	elseif msg == "RPBeauty" then
-		timerRoleplay:Start(52.5)
-	elseif msg == "RPWestfall" then
-		timerRoleplay2:Start(46.5)
-	elseif msg == "RPWikket" then
-		timerRoleplay3:Start(70)
-	elseif msg == "RPMedivh1" then
-		timerRoleplay4:Start(14.7)
-	end
-end
-
 function mod:CHAT_MSG_MONSTER_SAY(msg)
 	if msg == L.Medivh1 then
 		self:SendSync("RPMedivh1")
@@ -379,5 +366,25 @@ function mod:UNIT_DIED(args)
 		else
 			timerRoyalty:Cancel()
 		end
+	end
+end
+
+function mod:UNIT_SPELLCAST_SUCCEEDED(_, _, _, _, spellId)
+	if spellId == 229620 and self:AntiSpam(1, "test") then
+		DBM:Debug('test')
+	end
+end
+
+function mod:OnSync(msg)
+	if msg == "KaraSpeed" then
+		timerAchieve:Start()
+	elseif msg == "RPBeauty" then
+		timerRoleplay:Start(52.5)
+	elseif msg == "RPWestfall" then
+		timerRoleplay2:Start(46.5)
+	elseif msg == "RPWikket" then
+		timerRoleplay3:Start(70)
+	elseif msg == "RPMedivh1" then
+		timerRoleplay4:Start(14.7)
 	end
 end
