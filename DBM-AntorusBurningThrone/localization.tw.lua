@@ -123,7 +123,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	Blaze		= "饕餮烈焰",
+--	Blaze		= "饕餮烈焰",
 	Foe			= "碎敵者",
 	Rend		= "烈焰撕裂",
 	Tempest 	= "灼燒風暴",

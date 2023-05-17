@@ -179,7 +179,7 @@ L:SetOptionLocalization({
 
 L:SetMiscLocalization({
 --	YellPullAggramar = "Ihr... werdet... brennen!", -- или Die Flammen werden Euch verzehren!
-	Blaze		= "Unersättliche Feuersbrunst",
+--	Blaze		= "Unersättliche Feuersbrunst",
 	Foe			= "Brecher",
 	Rend		= "Schnitt",
 	Tempest 	= "Sturm",

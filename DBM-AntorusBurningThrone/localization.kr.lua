@@ -132,7 +132,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	Blaze		= "탐욕의 불길",
+--	Blaze		= "탐욕의 불길",
 	Foe			= "적 해체",
 	Rend		= "분쇄",
 	Tempest 	= "폭풍",

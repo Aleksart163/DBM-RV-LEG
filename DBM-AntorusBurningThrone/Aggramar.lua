@@ -115,6 +115,7 @@ local FlameRend = false
 local comboDebug = {}
 local comboDebugCounter = 0
 local unitTracked = {}
+local ravenousBlaze = replaceSpellLinks(254452)
 
 local function ProshlyapMurchalya1(self) --прошляпанное очко Мурчаля Прошляпенко [✔]
 	self.vb.proshlyap1Count = self.vb.proshlyap1Count + 1
@@ -672,7 +673,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnRavenousBlaze:Show(self:IconNumToTexture(icon))
 			specWarnRavenousBlaze:Play("scatter")
-			yellRavenousBlaze:Yell(icon, L.Blaze, icon)
+			yellRavenousBlaze:Yell(icon, ravenousBlaze, icon)
 			yellRavenousBlaze2:Countdown(8, 3)
 			warnRavenousBlazeCount:Schedule(2, 1)
 			warnRavenousBlazeCount:Schedule(4, 2)

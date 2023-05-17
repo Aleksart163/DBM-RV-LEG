@@ -200,7 +200,7 @@ L:SetMiscLocalization({
 --	YellPullAggramar = "Вы сгорите!",
 	ProshlyapMurchal2	= "КОНТРОЛИМ МОБОВ",
 	ProshlyapMurchal1	= "СБЕЖАЛИСЬ ПОД БОССА",
-	Blaze		= "Хищное пламя",
+--	Blaze		= "Хищное пламя",
 	Foe			= "Сокрушитель",
 	Rend		= "Пламя",
 	Tempest 	= "Буря",

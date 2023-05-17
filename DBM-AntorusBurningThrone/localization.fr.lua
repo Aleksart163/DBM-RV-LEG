@@ -149,7 +149,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	Blaze		= "Brasier vorace",
+--	Blaze		= "Brasier vorace",
 	Foe			= "Foe",
 	Rend		= "Rend",
 	Tempest 	= "Tempest",

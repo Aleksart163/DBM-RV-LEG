@@ -174,7 +174,7 @@ L:SetOptionLocalization({
 
 L:SetMiscLocalization({
 --	YellPullAggramar = "¡Arderéis!",
-	Blaze		= "Llamarada voraz",
+--	Blaze		= "Llamarada voraz",
 	Foe			= "Doma",
 	Rend		= "Desgarro",
 	Tempest 	= "Tempestad",
