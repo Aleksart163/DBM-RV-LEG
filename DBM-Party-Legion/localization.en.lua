@@ -346,18 +346,18 @@ L:SetTimerLocalization({
 })
 
 L:SetMiscLocalization({
-	EatingYell = "%s %s uses %s, now we have more hp!",
-	SiphoningMagic = "%s %s uses %s, now we have more damage!",
-	PurifyingYell = "%s %s uses %s, now we have more protection!",
-	DrainingYell = "%s %s uses %s, now we have more critical damage!",
-	InvokingTextYell = "%s %s uses %s, now we have more speed running!",
-	DrinkingYell = "%s %s uses %s, now we have more mana and hp regen!",
-	ReleaseSporesYell = "%s %s uses %s, now we have more combat speed!",
-	ShuttingDownYell = "%s %s uses %s, now all the Guardian Construct will be turned off!",
-	TreatingYell = "%s %s uses %s and distracting the mini-boss!",
-	PilferingYell = "%s %s uses %s and distracting the mini-boss!",
-	DefacingYell = "%s %s uses %s and distracting the mini-boss!",
-	TinkeringYell = "%s %s uses %s and distracting the mini-boss!",
+	EatingYell = "%s %s uses %s!",
+	SiphoningMagic = "%s %s uses %s!",
+	PurifyingYell = "%s %s uses %s!",
+	DrainingYell = "%s %s uses %s!",
+	InvokingTextYell = "%s %s uses %s!",
+	DrinkingYell = "%s %s uses %s!",
+	ReleaseSporesYell = "%s %s uses %s!",
+	ShuttingDownYell = "%s %s uses %s!",
+	TreatingYell = "%s %s uses %s!",
+	PilferingYell = "%s %s uses %s!",
+	DefacingYell = "%s %s uses %s!",
+	TinkeringYell = "%s %s uses %s!",
 	--
 	proshlyapMurchal = "Must you leave so soon, Grand Magistrix?",
 	Gloves1		= "There's a rumor that the spy always wears gloves.",
@@ -657,7 +657,7 @@ L= DBM:GetModLocalization(1827)
 L= DBM:GetModLocalization(1835)
 
 L:SetWarningLocalization({
-	Presence = "Intangible Presence on someone - dispel now"
+	Presence = "Intangible Presence on SOMEONE - dispel now"
 })
 
 L:SetOptionLocalization({
@@ -665,7 +665,8 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	SharedSufferingYell = "%s on %s. RUN AWAY from me!",
+	Tip1 = "A ghost has appeared on an unknown person. This happens when the ghost target uses BigWigs, has an old version of the DBM, or does not use addons at all.",
+	SharedSufferingYell = "%s on %s! RUN AWAY from me!",
 	Perephase1 = "Time to face my quarry toe-to-toe!",
 	Perephase2 = "We ride, Midnight! To victory!"
 })

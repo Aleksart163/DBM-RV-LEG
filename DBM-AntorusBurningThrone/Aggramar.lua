@@ -115,6 +115,7 @@ local FlameRend = false
 local comboDebug = {}
 local comboDebugCounter = 0
 local unitTracked = {}
+local ravenousBlaze = replaceSpellLinks(254452)
 
 local function ProshlyapMurchalya1(self) --прошляпанное очко Мурчаля Прошляпенко [✔]
 	self.vb.proshlyap1Count = self.vb.proshlyap1Count + 1
@@ -193,12 +194,14 @@ local function announceList(premsg_announce, value)
 end
 
 local function prepareMessage(self, premsg_announce, args_sourceName, args_destName, scheduleDelay)
-	-- premsg_values.args_sourceName = args_sourceName
-	-- premsg_values.args_destName = args_destName
-	premsg_values.scheduleDelay = scheduleDelay
-	announceList(premsg_announce, 1)
-	self:SendSync(premsg_announce, playerOnlyName)
-	self:Schedule(1, sendAnnounce, self)
+	if self:AntiSpam(1, "prepareMessage") then
+		-- premsg_values.args_sourceName = args_sourceName
+		-- premsg_values.args_destName = args_destName
+		premsg_values.scheduleDelay = scheduleDelay
+		announceList(premsg_announce, 1)
+		self:SendSync(premsg_announce, playerOnlyName)
+		self:Schedule(1, sendAnnounce, self)
+	end
 end
 -- Синхронизация анонсов ↑
 
@@ -670,7 +673,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnRavenousBlaze:Show(self:IconNumToTexture(icon))
 			specWarnRavenousBlaze:Play("scatter")
-			yellRavenousBlaze:Yell(icon, L.Blaze, icon)
+			yellRavenousBlaze:Yell(icon, ravenousBlaze, icon)
 			yellRavenousBlaze2:Countdown(8, 3)
 			warnRavenousBlazeCount:Schedule(2, 1)
 			warnRavenousBlazeCount:Schedule(4, 2)

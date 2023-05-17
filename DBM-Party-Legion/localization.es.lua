@@ -836,15 +836,25 @@ L= DBM:GetModLocalization(1827)
 -- Attumen el Montero --
 ------------------------
 L= DBM:GetModLocalization(1835)
---Волосали
+
+L:SetWarningLocalization({
+	Presence = "Presencia intangible sobre Alguien - ¡disipa ahora!"
+})
+
+L:SetOptionLocalization({
+	Presence = "Mostrar aviso especial para disipar $spell:227404"
+})
+
 if GetLocale() == "esES" then
 L:SetMiscLocalization({
+	Tip1 = "La fantasma aparece sobre alguien desconocido. Esto ocurre cuando, el objetivo de la fantasma esta usando BigWigs, tiene la version antigua del DBM, o no esta usando ningun addon",
 	SharedSufferingYell = "%s en %s. ALEJAROS de mi!",
 	Perephase1 = "¡Hora de enfrentarme a mi presa cara a cara!",
 	Perephase2 = "¡Cabalgamos, Medianoche! ¡Hacia la victoria!"
 })
 else
 L:SetMiscLocalization({
+	Tip1 = "La fantasma aparece sobre alguien desconocido. Esto ocurre cuando, el objetivo de la fantasma esta usando Bigwigs, tiene la version antigua del Dbm, o no esta usando ningun addon",
 	SharedSufferingYell = "%s en %s. ALEJAROS de mi!",
 	Perephase1 = "¡Hora de enfrentarme a mi presa cara a cara!", --
 	Perephase2 = "¡Cabalgamos, Medianoche! ¡A la victoria!" --

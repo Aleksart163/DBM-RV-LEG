@@ -4,13 +4,14 @@ local L		= mod:GetLocalizedStrings()
 mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
 --mod:SetModelID(47785)
 mod:SetZone()
-
+mod:SetUsedIcons(8, 7, 6, 5, 4)
 mod.isTrashMod = true
 
 mod:RegisterEvents(
 	"SPELL_CAST_START 211757 226206 211115 211771 193938 226269 211217 211917 211875 210645 210662 210684 211007 226285",
-	"SPELL_AURA_APPLIED 194006 210750 211745 211756",
-	"SPELL_AURA_REMOVED 211756"
+	"SPELL_CAST_SUCCESS 211543",
+	"SPELL_AURA_APPLIED 194006 210750 211745 211756 211543",
+	"SPELL_AURA_REMOVED 211756 211543"
 )
 
 --Катакомбы Сурамара трэш
@@ -19,6 +20,7 @@ local warnArcaneReconstitution		= mod:NewCastAnnounce(226206, 3) --Чароде�
 local warnOozeExplosion				= mod:NewCastAnnounce(193938, 4) --Взрыв слизнюка
 local warnEyeVortex					= mod:NewCastAnnounce(211007, 4) --Око урагана
 local warnDemonicAscension			= mod:NewCastAnnounce(226285, 4) --Демоническое вознесение
+local warnDevour 					= mod:NewTargetAnnounce(211543, 4) --Пожирание
 --local warnPropheciesofDoom			= mod:NewSpellAnnounce(211771, 4) --Предсказания рока
 
 local specWarnFelstorm				= mod:NewSpecialWarningDodge(211917, nil, nil, nil, 2, 2) --Буря Скверны
@@ -48,6 +50,12 @@ local specWarnFelStrike				= mod:NewSpecialWarningYouMove(211745, nil, nil, nil,
 local timerFelstormCD				= mod:NewCDTimer(23.5, 211917, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Буря Скверны
 local timerBladestormCD				= mod:NewCDTimer(23.5, 211875, nil, nil, nil, 3) --Вихрь клинков
 local timerSearingWound				= mod:NewTargetTimer(10, 211756, nil, nil, nil, 3, nil, DBM_CORE_HEALER_ICON..DBM_CORE_DEADLY_ICON) --Жгучая рана
+
+local yellDevour					= mod:NewYellHelp(211543, nil, nil, nil, "YELL") --Пожирание
+
+mod:AddSetIconOption("SetIconOnDevour", 211543, true, false, {8, 7, 6, 5, 4}) --Пожирание
+
+mod.vb.devourIcon = 8
 
 function mod:SPELL_CAST_START(args)
 	if not self.Options.Enabled then return end
@@ -125,6 +133,15 @@ function mod:SPELL_CAST_START(args)
 		end
 	end
 end
+
+--[[
+function mod:SPELL_CAST_SUCCESS(args)
+	if not self.Options.Enabled then return end
+	local spellId = args.spellId
+	if spellId == 211543 then
+	end
+end]]
+
 function mod:SPELL_AURA_APPLIED(args)
 	if not self.Options.Enabled then return end
 	local spellId = args.spellId
@@ -143,6 +160,18 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnSearingWound:Show()
 			specWarnSearingWound:Play("targetyou")
 		end
+	elseif spellId == 211543 then --Пожирание
+		self.vb.devourIcon = self.vb.devourIcon - 1
+		warnDevour:CombinedShow(2, args.destName)
+		if args:IsPlayer() then
+			yellDevour:Yell()
+		end
+		if self.Options.SetIconOnDevour then
+			self:SetIcon(args.destName, self.vb.devourIcon)
+		end
+		if self.vb.devourIcon == 4 then
+			self.vb.devourIcon = 8
+		end
 	end
 end
 
@@ -151,6 +180,10 @@ function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
 	if spellId == 211756 then --Жгучая рана
 		timerSearingWound:Cancel(args.destName)
+	elseif spellId == 211543 then --Пожирание
+		self.vb.devourIcon = self.vb.devourIcon + 1
+		if self.Options.SetIconOnDevour then
+			self:SetIcon(args.destName, 0)
+		end
 	end
 end
-	

@@ -34,9 +34,9 @@
 -------------------------------
 
 DBM = {
-	Revision = tonumber(("$Revision: 17717 $"):sub(12, -3)), --прошляпанное очко Мурчаля Прошляпенко ✔✔✔
+	Revision = tonumber(("$Revision: 17718 $"):sub(12, -3)), --прошляпанное очко Мурчаля Прошляпенко ✔✔✔
 	DisplayVersion = "7.3.45 Right Version " .. string.sub(GetLocale(), -2),
-	ReleaseRevision = 17716
+	ReleaseRevision = 17717
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -5415,6 +5415,9 @@ do
 				if not v.noIEEUDetection then
 					if v.type:find("combat") and isBossEngaged(v.multiMobPullDetection or v.mob) then
 						self:StartCombat(v.mod, 0, "IEEU")
+					elseif v.IEEUWipeDetection and not isBossEngaged(v.mob) then
+						-- self:Debug("Debug Wipe: " .. v.mod.combatInfo.name .. ", cId: " .. v.mob)
+						self:EndCombat(v.mod, true)
 					end
 				end
 			end
@@ -9698,7 +9701,8 @@ do
 			if type(spellId) == "string" and spellId:match("ej%d+") then
 				displayText = DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT[yellType]:format(DBM:EJ_GetSectionInfo(string.sub(spellId, 3)) or DBM_CORE_UNKNOWN)
 			else
-				displayText = DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT[yellType]:format(DBM:GetSpellInfo(spellId) or DBM_CORE_UNKNOWN)
+				-- displayText = DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT[yellType]:format(DBM:GetSpellInfo(spellId) or DBM_CORE_UNKNOWN)
+				displayText = DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT[yellType]:format(replaceSpellLinks(spellId) or DBM_CORE_UNKNOWN)
 			end
 		end
 		--Passed spellid as yellText.
@@ -11542,6 +11546,9 @@ function bossModPrototype:RegisterCombat(cType, ...)
 	if self.noIEEUDetection then
 		info.noIEEUDetection = self.noIEEUDetection
 	end
+	if self.IEEUWipeDetection then
+		info.IEEUWipeDetection = self.IEEUWipeDetection
+	end
 	if self.noEEDetection then
 		info.noEEDetection = self.noEEDetection
 	end
@@ -11637,6 +11644,13 @@ function bossModPrototype:DisableIEEUCombatDetection()
 	self.noIEEUDetection = true
 	if self.combatInfo then
 		self.combatInfo.noIEEUDetection = true
+	end
+end
+
+function bossModPrototype:EnableIEEUWipeDetection()
+	self.IEEUWipeDetection = true
+	if self.combatInfo then
+		self.combatInfo.IEEUWipeDetection = true
 	end
 end
 

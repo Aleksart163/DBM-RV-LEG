@@ -7,6 +7,7 @@ mod:SetEncounterID(1960)--Verify
 mod:SetZone()
 mod:SetUsedIcons(8, 7)
 mod:SetReCombatTime(120, 5)
+mod:EnableIEEUWipeDetection()
 --mod:SetHotfixNoticeRev(14922)
 -- mod.respawnTime = 30
 
@@ -34,9 +35,10 @@ local specWarnSpectralCharge		= mod:NewSpecialWarningDodge(227365, nil, nil, nil
 --On Foot
 local specWarnMezair				= mod:NewSpecialWarningDodge(227339, nil, nil, nil, 1, 3) --Мезэр
 local specWarnMortalStrike			= mod:NewSpecialWarningDefensive(227493, "Tank", nil, nil, 3, 3) --Смертельный удар
-local specWarnSharedSuffering		= mod:NewSpecialWarningMoveTo(228852, nil, nil, nil, 3, 5) --Разделенные муки
-local specWarnSharedSuffering2		= mod:NewSpecialWarningYouDefensive(228852, nil, nil, nil, 3, 5) --Разделенные муки
-local specWarnSharedSuffering3		= mod:NewSpecialWarningRun(228852, "Melee", nil, nil, 3, 5) --Разделенные муки
+local specWarnSharedSuffering		= mod:NewSpecialWarningMoveTo(228852, nil, nil, nil, 3, 6) --Разделенные муки
+local specWarnSharedSuffering2		= mod:NewSpecialWarningYouDefensive(228852, nil, nil, nil, 3, 6) --Разделенные муки
+local specWarnSharedSuffering3		= mod:NewSpecialWarningRun(228852, nil, nil, nil, 3, 6) --Разделенные муки
+local specWarnSharedSuffering4		= mod:NewSpecialWarningDodge(228852, nil, nil, nil, 2, 5) --Разделенные муки
 local specWarnPresence				= mod:NewSpecialWarningYou(227404, nil, nil, nil, 3, 6) --Незримое присутствие
 local specWarnPresence2				= mod:NewSpecialWarningYouDispel(227404, nil, nil, nil, 3, 6) --Незримое присутствие
 local specWarnPresence3				= mod:NewSpecialWarningDispel(227404, nil, nil, nil, 3, 6) --Незримое присутствие
@@ -80,6 +82,36 @@ local phase2 = false
 local intangiblePresenceOnMe = true
 local syncEvent = false
 
+function mod:SharedSufferingTarget(targetname, uId) --прошляпанное очко Мурчаля Прошляпенко [✔]
+	if not targetname then return end
+	if targetname == UnitName("player") then --для танка
+		if self:IsHeroic() then
+			specWarnSharedSuffering2:Show()
+			specWarnSharedSuffering2:Play("defensive")
+			yellSharedSuffering:Yell(sharedSuffering, playerName)
+		elseif self:IsMythic() then
+			specWarnSharedSuffering3:Show()
+			specWarnSharedSuffering3:Play("runaway")
+			yellSharedSuffering:Yell(sharedSuffering, playerName)
+		end
+	else --для других
+		if self:IsHeroic() then
+			if not UnitIsDeadOrGhost("player") then
+				specWarnSharedSuffering:Show(targetName)
+				specWarnSharedSuffering:Play("gathershare")
+			end
+		elseif self:IsMythic() then
+			if not UnitIsDeadOrGhost("player") then
+				specWarnSharedSuffering4:Show()
+				specWarnSharedSuffering4:Play("watchstep")
+			end
+		end
+	end
+	if self.Options.SetIconOnSharedSuffering then
+		self:SetIcon(targetname, 8, 5)
+	end
+end
+
 --[[
 local function UpdateTimers(self)
 	timerPresenceCD:Stop() --Незримое присутствие
@@ -91,11 +123,13 @@ end]]
 
 local function checkSyncEvent(self)
 	if not syncEvent then
+		DBM:AddMsg(L.Tip1)
 		if self:IsMagicDispeller2() then
 			specWarnPresence5:Show()
 			specWarnPresence5:Play("dispelnow")
 		elseif not self:IsMagicDispeller2() then
 			specWarnPresence6:Show()
+			specWarnPresence6:Play("ghostsoon")
 		end
 	end
 end
@@ -161,39 +195,7 @@ function mod:SPELL_CAST_START(args)
 		specWarnMortalStrike:Show()
 		specWarnMortalStrike:Play("defensive")
 	elseif spellId == 228852 then --Разделенные муки
-		local targetName = TANK
-		local unitIsPlayer = false
-		for uId in DBM:GetGroupMembers() do
-			if self:IsTanking(uId) then
-				targetName = UnitName(uId)
-				if UnitIsUnit("player", uId) then
-					unitIsPlayer = true
-				end
-				if self.Options.SetIconOnSharedSuffering then
-					self:SetIcon(args.destName, 8, 5)
-				end
-				break
-			end
-		end
-		if unitIsPlayer then
-			yellSharedSuffering:Yell(sharedSuffering, playerName)
-			if self:IsNormal() or self:IsHeroic() then
-				specWarnSharedSuffering2:Show()
-			elseif self:IsHard() then
-				specWarnSharedSuffering3:Show()
-				specWarnSharedSuffering3:Play("runaway")
-			end
-		else
-			if self:IsNormal() or self:IsHeroic() then
-				if not UnitIsDeadOrGhost("player") then
-					specWarnSharedSuffering:Show(targetName)
-					specWarnSharedSuffering:Play("gathershare")
-				end
-			elseif self:IsHard() then
-				specWarnSharedSuffering3:Show()
-				specWarnSharedSuffering3:Play("runaway")
-			end
-		end
+		self:BossTargetScanner(args.sourceGUID, "SharedSufferingTarget", 0.1, 2)
 		timerSharedSufferingCD:Start()
 		countdownSharedSuffering:Start(18)
 		countdownSharedSuffering2:Start()
@@ -236,6 +238,8 @@ function mod:SPELL_AURA_APPLIED(args)
 			phase2 = false
 		end
 	elseif spellId == 227404 then --Незримое присутствие
+		syncEvent = false
+		-- DBM:Debug("SPELL_AURA_APPLIED: " .. GetTime() .. ", syncEvent = false")
 		if self:AntiSpam(2, "intangiblePresence") then
 			self:Schedule(1.5, checkSyncEvent, self)
 		end
@@ -381,6 +385,7 @@ function mod:VEHICLE_ANGLE_UPDATE()
 	if DBM:UnitDebuff("player", 227404) and intangiblePresenceOnMe then
 		intangiblePresenceOnMe = false
 		syncEvent = true
+		-- DBM:Debug("VEHICLE_ANGLE_UPDATE: " .. GetTime() .. ", syncEvent = true")
 		if self.Options.SetIconOnPresence then
 			self:SetIcon(playerName, 7)
 		end
@@ -400,6 +405,7 @@ end
 function mod:OnSync(msg, sender)
 	if msg == "intangiblePresenceOnMe" and sender ~= playerName then
 		syncEvent = true
+		-- DBM:Debug("OnSync: " .. GetTime() .. ", syncEvent = true")
 		if self.Options.SetIconOnPresence then
 			self:SetIcon(sender, 7)
 		end

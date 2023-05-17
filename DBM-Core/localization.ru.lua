@@ -577,7 +577,7 @@ DBM_CORE_AUTO_YELL_OPTION_TEXT.combo	= "Кричать (с индивидуал�
 
 DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT.shortyell = "%s"
 DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT.yell	= "%s на " .. UnitName("player") .. "!"
-DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT.yellhelp = "На мне %s! Помогите мне!"
+DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT.yellhelp = "На мне %s! Помогите!"
 DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT.yelldispel = "На мне %s! Диспел мне!"
 DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT.count	= "%s на " .. UnitName("player") .. "! (%%d)"
 DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT.fade	= "%s спадает через %%d"

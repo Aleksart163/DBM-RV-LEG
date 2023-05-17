@@ -104,18 +104,18 @@ mod:AddBoolOption("YellOnTinkering", true) --Конструирование (о�
 mod:AddBoolOption("YellOnDefacing", true) --Осквернение (отвлечение)
 mod:AddBoolOption("SpyHelper", true)
 
-local eating = DBM:GetSpellInfo(208585) --Поглощение пищи
-local siphoningMagic = DBM:GetSpellInfo(208427) --Похищение магии
-local purifying = DBM:GetSpellInfo(209767) --Очищение
-local draining = DBM:GetSpellInfo(208334) --Иссушение
-local invokingText = DBM:GetSpellInfo(210872) --Текст пробуждения
-local drinking = DBM:GetSpellInfo(210307) --Выпивание
-local releaseSpores = DBM:GetSpellInfo(208939) --Высвобождение спор
-local shuttingDown = DBM:GetSpellInfo(208370) --Отключение
-local treating = DBM:GetSpellInfo(210925) --Лечение
-local pilfering = DBM:GetSpellInfo(210217) --Воровство
-local tinkering = DBM:GetSpellInfo(210922) --Конструирование
-local defacing = DBM:GetSpellInfo(210330) --Осквернение
+local eating = replaceSpellLinks(208585) --Поглощение пищи
+local siphoningMagic = replaceSpellLinks(208427) --Похищение магии
+local purifying = replaceSpellLinks(209767) --Очищение
+local draining = replaceSpellLinks(208334) --Иссушение
+local invokingText = replaceSpellLinks(210872) --Текст пробуждения
+local drinking = replaceSpellLinks(210307) --Выпивание
+local releaseSpores = replaceSpellLinks(208939) --Высвобождение спор
+local shuttingDown = replaceSpellLinks(208370) --Отключение
+local treating = replaceSpellLinks(210925) --Лечение
+local pilfering = replaceSpellLinks(210217) --Воровство
+local tinkering = replaceSpellLinks(210922) --Конструирование
+local defacing = replaceSpellLinks(210330) --Осквернение
 
 mod.vb.wardens = 3
 
@@ -227,12 +227,14 @@ local function announceList(premsg_announce, value)
 end
 
 local function prepareMessage(self, premsg_announce, args_sourceName, args_destName, hintTranslations_clue)
-	premsg_values.args_sourceName = args_sourceName
-	premsg_values.args_destName = args_destName
-	premsg_values.hintTranslations_clue = hintTranslations_clue
-	announceList(premsg_announce, 1)
-	self:SendSync(premsg_announce, playerOnlyName)
-	self:Schedule(1, sendAnnounce, self)
+	if self:AntiSpam(1, "prepareMessage") then
+		premsg_values.args_sourceName = args_sourceName
+		premsg_values.args_destName = args_destName
+		premsg_values.hintTranslations_clue = hintTranslations_clue
+		announceList(premsg_announce, 1)
+		self:SendSync(premsg_announce, playerOnlyName)
+		self:Schedule(1, sendAnnounce, self)
+	end
 end
 -- Синхронизация анонсов ↑
 

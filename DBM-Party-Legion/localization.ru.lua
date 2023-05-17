@@ -347,18 +347,18 @@ L:SetTimerLocalization({
 })
 
 L:SetMiscLocalization({
-	EatingYell = "%s %s использует %s, теперь у нас больше хп!",
-	SiphoningMagic = "%s %s использует %s, теперь у нас больше урона!",
-	PurifyingYell = "%s %s использует %s, теперь у нас больше защиты!",
-	DrainingYell = "%s %s использует %s, теперь у нас больше крита!",
-	InvokingTextYell = "%s %s использует %s, теперь у нас больше скорости бега!",
-	DrinkingYell = "%s %s использует %s, теперь у нас больше регена хп и маны!",
-	ReleaseSporesYell = "%s %s использует %s, теперь у нас больше скорости боя!",
-	ShuttingDownYell = "%s %s использует %s, теперь все Големы-стражи будут выключены!",
-	TreatingYell = "%s %s использует %s и отвлекает мини-босса!",
-	PilferingYell = "%s %s использует %s и отвлекает мини-босса!",
-	DefacingYell = "%s %s использует %s и отвлекает мини-босса!",
-	TinkeringYell = "%s %s использует %s и отвлекает мини-босса!",
+	EatingYell = "%s %s использует %s!",
+	SiphoningMagic = "%s %s использует %s!",
+	PurifyingYell = "%s %s использует %s!",
+	DrainingYell = "%s %s использует %s!",
+	InvokingTextYell = "%s %s использует %s!",
+	DrinkingYell = "%s %s использует %s!",
+	ReleaseSporesYell = "%s %s использует %s!",
+	ShuttingDownYell = "%s %s использует %s!",
+	TreatingYell = "%s %s использует %s!",
+	PilferingYell = "%s %s использует %s!",
+	DefacingYell = "%s %s использует %s!",
+	TinkeringYell = "%s %s использует %s!",
 	--
 	proshlyapMurchal = "Великий магистр, не слишком ли рано?",
 	Gloves1			= "Ходят слухи, что шпион все время носит перчатки.",
@@ -658,7 +658,7 @@ L= DBM:GetModLocalization(1827)
 L= DBM:GetModLocalization(1835)
 
 L:SetWarningLocalization({
-	Presence = "Незримое присутствие на ком-то - рассей"
+	Presence = "Незримое присутствие на КОМ-ТО - рассей"
 })
 
 L:SetOptionLocalization({
@@ -666,7 +666,8 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	SharedSufferingYell = "%s на %s. БЕГИТЕ от меня!",
+	Tip1 = "Призрак появился на неизвестном человеке. Такое происходит, когда цель призрака пользуется BigWigs, имеет старую версию DBM, или не пользуется аддонами вообще.",
+	SharedSufferingYell = "%s на %s! БЕГИТЕ от меня!",
 	Perephase1 = "Что ж, сразимся лицом к лицу!",
 	Perephase2 = "Вперед, Полночь, к победе!"
 })
