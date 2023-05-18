@@ -390,10 +390,7 @@ end
 
 function mod:UNIT_SPELLCAST_SUCCEEDED(_, _, _, _, spellId)
 	if spellId == 229620 and self:AntiSpam(1, "felbomb") then
-		DBM:Debug('felbomb!')
-		specWarnFelBomb:Show()
-		specWarnFelBomb:Play("bombsoon")
-		timerFelBomb:Start()
+		self:SendSync("felbomb")
 	end
 end
 
@@ -408,5 +405,9 @@ function mod:OnSync(msg)
 		timerRoleplay3:Start(70)
 	elseif msg == "RPMedivh1" then
 		timerRoleplay4:Start(14.7)
+	elseif msg == "felbomb" then
+		specWarnFelBomb:Show()
+		specWarnFelBomb:Play("bombsoon")
+		timerFelBomb:Start()
 	end
 end
