@@ -391,6 +391,8 @@ end
 function mod:UNIT_SPELLCAST_SUCCEEDED(_, _, _, _, spellId)
 	if spellId == 229620 and self:AntiSpam(1, "felbomb") then
 		self:SendSync("felbomb")
+	elseif spellId == 229678 and self:AntiSpam(1, "felbombend") then
+		self:SendSync("felbombend")
 	end
 end
 
@@ -409,5 +411,7 @@ function mod:OnSync(msg)
 		specWarnFelBomb:Show()
 		specWarnFelBomb:Play("bombsoon")
 		timerFelBomb:Start()
+	elseif msg == "felbombend" then
+		timerFelBomb:Cancel()
 	end
 end
