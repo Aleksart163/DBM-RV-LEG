@@ -5415,7 +5415,7 @@ do
 	function DBM:INSTANCE_ENCOUNTER_ENGAGE_UNIT() --Волосали
 		if timerRequestInProgress then return end --do not start ieeu combat if timer request is progressing. (not to break Timer Recovery stuff)
 		if dbmIsEnabled and combatInfo[LastInstanceMapID] then
-			self:Debug("INSTANCE_ENCOUNTER_ENGAGE_UNIT event fired for zoneId" .. LastInstanceMapID, 3)
+			self:Debug("INSTANCE_ENCOUNTER_ENGAGE_UNIT event fired for zoneId" .. LastInstanceMapID) -- default debuglevel 3
 			for i, v in ipairs(combatInfo[LastInstanceMapID]) do
 				if not v.noIEEUDetection then
 					if v.type:find("combat") and isBossEngaged(v.multiMobPullDetection or v.mob) then
