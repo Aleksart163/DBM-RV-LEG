@@ -547,7 +547,9 @@ function mod:SPELL_AURA_APPLIED(args)
 				warnFieryStrike:Show(args.destName, amount)
 			end
 		end
-	elseif spellId == 253520 and self:AntiSpam(3, "pulse") then
+	elseif spellId == 253520 then
+	-- оригинальный эвент сломан разрабами и таймер с кд не выдаёт
+	-- по прошлой версии, вместо 3 цели анонс выдавал лишь 1, вероятно поможет новая
 		warnFulminatingPulse:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
 			specWarnFulminatingPulse:Show()
@@ -559,8 +561,10 @@ function mod:SPELL_AURA_APPLIED(args)
 			self:SetIcon(args.destName, self.vb.fpIcon)
 		end
 		self.vb.fpIcon = self.vb.fpIcon + 1
-		timerFulminatingPulseCD:Start(40)
-		countdownFulminatingPulse:Start(40)
+		if self:AntiSpam(2, "pulse") then
+			timerFulminatingPulseCD:Start(40)
+			countdownFulminatingPulse:Start(40)
+		end
 	elseif spellId == 245518 then
 		local uId = DBM:GetRaidUnitId(args.destName)
 		if self:IsTanking(uId) then
