@@ -40,7 +40,7 @@ local specWarnFlameGale2			= mod:NewSpecialWarningYouMove(227480, nil, nil, nil,
 --Мрргрия
 local specWarnThunderRitual			= mod:NewSpecialWarningYouMoveAway(227777, nil, nil, nil, 4, 3) --Ритуал грома
 local specWarnBubbleBlast			= mod:NewSpecialWarningInterrupt(227420, "HasInterrupt", nil, nil, 1, 2) --Взрыв пузыря
-local specWarnWashAway				= mod:NewSpecialWarningDodge(227783, nil, nil, nil, 1, 2) --Ураганная волна
+local specWarnWashAway				= mod:NewSpecialWarningDodge(227783, nil, nil, nil, 2, 2) --Ураганная волна
 
 --Тонни
 local timerLegSweepCD				= mod:NewCDTimer(20, 227568, nil, "Melee", nil, 2, nil, DBM_CORE_DEADLY_ICON) --Пламенная подсечка +++
