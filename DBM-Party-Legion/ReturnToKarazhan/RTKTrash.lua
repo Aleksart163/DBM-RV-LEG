@@ -49,7 +49,7 @@ local specWarnBrittleBones3			= mod:NewSpecialWarningYouDispel(230297, "CurseDis
 local specWarnBrittleBones			= mod:NewSpecialWarningDispel(230297, "CurseDispeller", nil, nil, 3, 6) --Ослабление костей
 --
 local specWarnCursedTouch			= mod:NewSpecialWarningYou(228241, nil, nil, nil, 2, 2) --Проклятое прикосновение
-local specWarnCursedTouch3			= mod:NewSpecialWarningYouDispel(228241, "CurseDispeller", nil, nil, 2, 2) --Проклятое прикосновение
+local specWarnCursedTouch3			= mod:NewSpecialWarningYouDispel(228241, "CurseDispeller", nil, nil, 3, 2) --Проклятое прикосновение
 local specWarnCursedTouch2			= mod:NewSpecialWarningDispel(228241, "CurseDispeller", nil, nil, 3, 2) --Проклятое прикосновение
 --
 local specWarnAllured				= mod:NewSpecialWarningStack(228576, nil, 80, nil, nil, 1, 3) --Соблазнение
@@ -196,7 +196,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self:IsMythic() then
 			if args:IsPlayer() and not self:IsCurseDispeller() then
 				specWarnCursedTouch:Show()
-				specWarnCursedTouch:Play("defensive")
+				specWarnCursedTouch:Play("targetyou")
 			elseif args:IsPlayer() and self:IsCurseDispeller() then
 				specWarnCursedTouch3:Show()
 				specWarnCursedTouch3:Play("dispelnow")
@@ -209,7 +209,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		else
 			if args:IsPlayer() and not self:IsCurseDispeller() then
 				specWarnCursedTouch:Show()
-				specWarnCursedTouch:Play("defensive")
+				specWarnCursedTouch:Play("targetyou")
 			elseif args:IsPlayer() and self:IsCurseDispeller() then
 				specWarnCursedTouch3:Show()
 				specWarnCursedTouch3:Play("dispelnow")
