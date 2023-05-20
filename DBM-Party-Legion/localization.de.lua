@@ -341,18 +341,7 @@ L:SetTimerLocalization({
 })
 
 L:SetMiscLocalization({
-	EatingYell = "%s %s verwendet %s!",
-	SiphoningMagic = "%s %s verwendet %s!",
-	PurifyingYell = "%s %s verwendet %s!",
-	DrainingYell = "%s %s verwendet %s!",
-	InvokingTextYell = "%s %s verwendet %s!",
-	DrinkingYell = "%s %s verwendet %s!",
-	ReleaseSporesYell = "%s %s verwendet %s!",
-	ShuttingDownYell = "%s %s verwendet %s!",
-	TreatingYell = "%s %s verwendet %s!",
-	PilferingYell = "%s %s verwendet %s!",
-	DefacingYell = "%s %s verwendet %s!",
-	TinkeringYell = "%s %s verwendet %s!",
+	SpellUseYell = "%s %s verwendet %s!",
 	--
 	proshlyapMurchal = "Müsst Ihr schon gehen, Großmagistrix?",
 	Gloves1			= "Einem Gerücht zufolge trägt der Spion immer Handschuhe.",

@@ -149,40 +149,40 @@ local function sendAnnounce(self)
 		smartChat("hintTranslations_clue: " .. premsg_values.hintTranslations_clue)
 		premsg_values.test = 0
 	else]]if premsg_values.eating == 1 then
-		smartChat(L.EatingYell:format(DbmRV, premsg_values.args_sourceName, eating))
+		smartChat(L.SpellUseYell:format(DbmRV, premsg_values.args_sourceName, eating))
 		premsg_values.eating = 0
 	elseif premsg_values.siphoningMagic == 1 then
-		smartChat(L.SiphoningMagic:format(DbmRV, premsg_values.args_sourceName, siphoningMagic))
+		smartChat(L.SpellUseYell:format(DbmRV, premsg_values.args_sourceName, siphoningMagic))
 		premsg_values.siphoningMagic = 0
 	elseif premsg_values.purifying == 1 then
-		smartChat(L.PurifyingYell:format(DbmRV, premsg_values.args_sourceName, purifying))
+		smartChat(L.SpellUseYell:format(DbmRV, premsg_values.args_sourceName, purifying))
 		premsg_values.purifying = 0
 	elseif premsg_values.draining == 1 then
-		smartChat(L.DrainingYell:format(DbmRV, premsg_values.args_sourceName, draining))
+		smartChat(L.SpellUseYell:format(DbmRV, premsg_values.args_sourceName, draining))
 		premsg_values.draining = 0
 	elseif premsg_values.invokingText == 1 then
-		smartChat(L.InvokingTextYell:format(DbmRV, premsg_values.args_sourceName, invokingText))
+		smartChat(L.SpellUseYell:format(DbmRV, premsg_values.args_sourceName, invokingText))
 		premsg_values.invokingText = 0
 	elseif premsg_values.drinking == 1 then
-		smartChat(L.DrinkingYell:format(DbmRV, premsg_values.args_sourceName, drinking))
+		smartChat(L.SpellUseYell:format(DbmRV, premsg_values.args_sourceName, drinking))
 		premsg_values.drinking = 0
 	elseif premsg_values.releaseSpores == 1 then
-		smartChat(L.ReleaseSporesYell:format(DbmRV, premsg_values.args_sourceName, releaseSpores))
+		smartChat(L.SpellUseYell:format(DbmRV, premsg_values.args_sourceName, releaseSpores))
 		premsg_values.releaseSpores = 0
 	elseif premsg_values.shuttingDown == 1 then
-		smartChat(L.ShuttingDownYell:format(DbmRV, premsg_values.args_sourceName, shuttingDown))
+		smartChat(L.SpellUseYell:format(DbmRV, premsg_values.args_sourceName, shuttingDown))
 		premsg_values.shuttingDown = 0
 	elseif premsg_values.treating == 1 then
-		smartChat(L.TreatingYell:format(DbmRV, premsg_values.args_sourceName, treating))
+		smartChat(L.SpellUseYell:format(DbmRV, premsg_values.args_sourceName, treating))
 		premsg_values.treating = 0
 	elseif premsg_values.pilfering == 1 then
-		smartChat(L.PilferingYell:format(DbmRV, premsg_values.args_sourceName, pilfering))
+		smartChat(L.SpellUseYell:format(DbmRV, premsg_values.args_sourceName, pilfering))
 		premsg_values.pilfering = 0
 	elseif premsg_values.tinkering == 1 then
-		smartChat(L.TinkeringYell:format(DbmRV, premsg_values.args_sourceName, tinkering))
+		smartChat(L.SpellUseYell:format(DbmRV, premsg_values.args_sourceName, tinkering))
 		premsg_values.tinkering = 0
 	elseif premsg_values.defacing == 1 then
-		smartChat(L.DefacingYell:format(DbmRV, premsg_values.args_sourceName, defacing))
+		smartChat(L.SpellUseYell:format(DbmRV, premsg_values.args_sourceName, defacing))
 		premsg_values.defacing = 0
 	elseif premsg_values.clues == 1 then
 		smartChat(premsg_values.hintTranslations_clue)
