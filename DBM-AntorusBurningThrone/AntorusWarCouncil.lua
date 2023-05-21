@@ -115,7 +115,7 @@ mod:AddSetIconOption("SetIconOnAdds", 245546, true, true, {2, 1}) --Вызов �
 mod:AddRangeFrameOption("8")
 
 --local OchkoMurchalya = nil
-local felShield = DBM:GetSpellInfo(244910) --Щит Скверны
+local felShield = replaceSpellLinks(244910) --Щит Скверны
 
 mod.vb.FusilladeCount = 0
 mod.vb.lastIcon = 1
