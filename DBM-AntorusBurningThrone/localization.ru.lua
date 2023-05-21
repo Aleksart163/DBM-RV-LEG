@@ -222,8 +222,8 @@ L:SetOptionLocalization({
 
 L:SetMiscLocalization({
 --	YellPullArgus = "Смерть! Смерть и боль!",
-	SeaText		= "Хаста/Верса на %s",
-	SkyText		= "Крит/Маст на %s",
+	SeaText		= "Хаст/Верса на %s",
+	SkyText		= "Крит/Мастери на %s",
 	Blight		= "ЧУМА",
 	Burst		= "ВЗРЫВ",
 	Sentence	= "ПРИГОВОР",

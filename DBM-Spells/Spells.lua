@@ -9,7 +9,7 @@ mod.noStatistics = true
 
 mod:RegisterEvents(
 	"SPELL_CAST_START 61994 212040 212056 212036 212048 212051",
-	"SPELL_CAST_SUCCESS 688 691 157757 80353 32182 230935 90355 2825 160452 10059 11416 11419 32266 49360 11417 11418 11420 32267 49361 33691 53142 88345 88346 132620 132626 176246 176244 224871 29893 83958 64901",
+	"SPELL_CAST_SUCCESS 688 691 157757 80353 32182 230935 90355 2825 160452 10059 11416 11419 32266 49360 11417 11418 11420 32267 49361 33691 53142 88345 88346 132620 132626 176246 176244 224871 29893 83958 64901 21169",
 	"SPELL_AURA_APPLIED 20707 29166 64901",
 	"SPELL_AURA_REMOVED 29166 64901 197908",
 	"SPELL_SUMMON 67826 199109 199115 195782",
@@ -80,7 +80,7 @@ local massres1, massres2, massres3, massres4, massres5 = replaceSpellLinks(21204
 --Героизм
 local timeWarp, heroism, bloodlust, hysteria, winds, drums = replaceSpellLinks(80353), replaceSpellLinks(32182), replaceSpellLinks(2825), replaceSpellLinks(90355), replaceSpellLinks(160452), replaceSpellLinks(230935)
 --БР
-local rebirth1, rebirth2, rebirth3 = replaceSpellLinks(20484), replaceSpellLinks(61999), replaceSpellLinks(95750)
+local rebirth1, rebirth2, rebirth3, rebirth4 = replaceSpellLinks(20484), replaceSpellLinks(61999), replaceSpellLinks(95750), replaceSpellLinks(21169)
 --Порталы Альянса
 local stormwind, ironforge, darnassus, exodar, theramore, tolBarad1, valeEternal1, stormshield = replaceSpellLinks(10059), replaceSpellLinks(11416), replaceSpellLinks(11419), replaceSpellLinks(32266), replaceSpellLinks(49360), replaceSpellLinks(88345), replaceSpellLinks(132620), replaceSpellLinks(176246)
 --Порталы Орды
@@ -108,7 +108,7 @@ local premsg_values = {
 	massres1_rw, massres2_rw, massres3_rw, massres4_rw, massres5_rw,
 	hope, innervate,
 	timeWarp, heroism, bloodlust, hysteria, winds, drums,
-	rebirth1, rebirth2, rebirth3,
+	rebirth1, rebirth2, rebirth3, rebirth4,
 	stormwind, ironforge, darnassus, exodar, theramore, tolBarad1, valeEternal1, stormshield,
 	orgrimmar, undercity, thunderBluff, silvermoon, stonard, tolBarad2, valeEternal2, warspear,
 	shattrath, dalaran1, dalaran2,
@@ -182,6 +182,9 @@ local function sendAnnounce(self)
 	elseif premsg_values.rebirth3 == 1 then
 		smartChat(L.SoulstoneYell:format(DbmRV, premsg_values.args_sourceName, rebirth3, premsg_values.args_destName))
 		premsg_values.rebirth3 = 0
+	elseif premsg_values.rebirth4 == 1 then --Реинкарнация
+		smartChat(L.HeroismYell:format(DbmRV, premsg_values.args_sourceName, rebirth4))
+		premsg_values.rebirth4 = 0
 	elseif premsg_values.stormwind == 1 then
 		smartChat(L.PortalYell:format(DbmRV, premsg_values.args_sourceName, stormwind))
 		premsg_values.stormwind = 0
@@ -334,6 +337,8 @@ local function announceList(premsg_announce, value)
 		premsg_values.rebirth2 = value
 	elseif premsg_announce == "premsg_Spells_rebirth3" then
 		premsg_values.rebirth3 = value
+	elseif premsg_announce == "premsg_Spells_rebirth4" then
+		premsg_values.rebirth4 = value
 	elseif premsg_announce == "premsg_Spells_stormwind" then
 		premsg_values.stormwind = value
 	elseif premsg_announce == "premsg_Spells_ironforge" then
@@ -597,6 +602,10 @@ function mod:SPELL_CAST_SUCCESS(args)
 		end
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnManaRegen then
 			prepareMessage(self, "premsg_Spells_hope", args.sourceName)
+		end
+	elseif spellId == 21169 then --Реинкарнация
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnResurrect then
+			prepareMessage(self, "premsg_Spells_rebirth4", args.sourceName)
 		end
 	end
 end
