@@ -71,7 +71,7 @@ local timerWeightOfDarknessCD			= mod:NewCDTimer(77, 254429, nil, nil, nil, 3, n
 local timerSiphonCorruptionCD			= mod:NewCDTimer(77, 244056, nil, nil, nil, 7) --Вытягивание порчи
 local timerSiphonCorruption				= mod:NewCastTimer(10, 244056, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Вытягивание порчи
 
-local yellTouched						= mod:NewPosYell(244054, DBM_CORE_AUTO_YELL_CUSTOM_POSITION) --Касание пламени и тьмы
+local yellTouched						= mod:NewPosYell(244054, DBM_CORE_AUTO_YELL_CUSTOM_POSITION, nil, nil, "YELL") --Касание пламени и тьмы
 local yellMoltenTouch					= mod:NewYell(244072, nil, nil, nil, "YELL") --Касание магмы
 local yellWeightOfDarkness				= mod:NewYell(254429, nil, nil, nil, "YELL") --Бремя тьмы
 local yellWeightOfDarknessFades			= mod:NewShortFadesYell(254429, nil, nil, nil, "YELL") --Бремя тьмы
@@ -104,6 +104,8 @@ mod.vb.longTimer = 95.9
 mod.vb.mediumTimer = 77
 local FlameTouched = false
 local Shadowtouched = false
+local shadow = replaceSpellLinks(244055) --Касание Тьмы
+local flame = replaceSpellLinks(244054) --Касание пламени
 
 local function UpdateAllTimers(self)
 	countdownBurningMaw:Cancel()
@@ -429,14 +431,14 @@ function mod:SPELL_AURA_APPLIED(args)
 			FlameTouched = true
 			specWarnFlameTouched:Show(self:IconNumToTexture(7))--Red X for flame (more voted on red x than orange circle)
 			specWarnFlameTouched:Play("flameonyou")
-			yellTouched:Yell(7, "", 7)
+			yellTouched:Yell(7, flame, 7)
 		end
 	elseif spellId == 244055 then --Касание тьмы
 		if args:IsPlayer() then
 			Shadowtouched = true
 			specWarnShadowtouched:Show(self:IconNumToTexture(3))--Purple diamond for shadow
 			specWarnShadowtouched:Play("shadowonyou")
-			yellTouched:Yell(3, "", 3)
+			yellTouched:Yell(3, shadow, 3)
 		end
 	elseif spellId == 251448 then --Пылающая пасть
 		if self:IsMythic() then

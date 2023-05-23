@@ -54,7 +54,7 @@ local timerPresenceCD				= mod:NewCDTimer(55, 227404, nil, nil, nil, 5, nil, DBM
 local timerMortalStrikeCD			= mod:NewNextTimer(16, 227493, nil, "Melee", nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Смертельный удар +++
 local timerSharedSufferingCD		= mod:NewNextTimer(18, 228852, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Разделенные муки +++
 
-local yellSharedSuffering			= mod:NewYell(228852, L.SharedSufferingYell, nil, nil, "YELL") --Разделенные муки
+local yellSharedSuffering			= mod:NewYellMoveAway(228852, nil, nil, nil, "YELL") --Разделенные муки
 local yellPresence					= mod:NewYellDispel(227404, nil, nil, nil, "YELL") --Незримое присутствие
 
 local countdownSharedSuffering		= mod:NewCountdown(18, 228852, nil, nil, 5) --Разделенные муки
@@ -88,11 +88,11 @@ function mod:SharedSufferingTarget(targetname, uId) --прошляпанное �
 		if self:IsHeroic() then
 			specWarnSharedSuffering2:Show()
 			specWarnSharedSuffering2:Play("defensive")
-			yellSharedSuffering:Yell(sharedSuffering, playerName)
+			yellSharedSuffering:Yell()
 		elseif self:IsMythic() then
 			specWarnSharedSuffering3:Show()
 			specWarnSharedSuffering3:Play("runaway")
-			yellSharedSuffering:Yell(sharedSuffering, playerName)
+			yellSharedSuffering:Yell()
 		end
 	else --для других
 		if self:IsHeroic() then
