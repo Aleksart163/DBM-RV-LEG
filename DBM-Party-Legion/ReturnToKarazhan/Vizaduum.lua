@@ -92,6 +92,7 @@ local warned_preP2 = false
 local warned_preP3 = false
 local warned_preP4 = false
 local perephase = false
+local chaoticshadows = replaceSpellLinks(229159) --Тени Хаоса
 
 local function breakShadows(self)
 	warnChaoticShadows:Show(table.concat(chaoticShadowsTargets, "<, >"))
@@ -214,7 +215,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnChaoticShadows:Play("runout")
 			specWarnChaoticShadows2:Schedule(4.5)
 			specWarnChaoticShadows2:ScheduleVoice(4.5, "runaway")
-			yellChaoticShadows:Yell(count, args.spellName, count)
+			yellChaoticShadows:Yell(count, chaoticshadows, count)
 			yellChaoticShadows2:Countdown(10, 3)
 		end
 		if self.Options.SetIconOnShadows then
