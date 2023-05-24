@@ -1,35 +1,49 @@
--- *****************************************************
--- **              Dungeon Boss Master - GUI	      **
--- **      https://github.com/Aleksart163/DBM-RV      **
--- *****************************************************
+-- *********************************************************
+-- **               Deadly Boss Mods - GUI                **
+-- **            http://www.deadlybossmods.com            **
+-- *********************************************************
+--
 -- This addon is written and copyrighted by:
 --    * Paul Emmerich (Tandanu @ EU-Aegwynn) (DBM-Core)
 --    * Martin Verges (Nitram @ EU-Azshara) (DBM-GUI)
---    * Adam Williams (Omegal @ US-Whisperwind) (Primary boss mod author & DBM maintainer)
---    * Alex British  (Куплиняшка @ RU-uwow x100) (adaptation to the uwow.biz)
+--    * Adam Williams (Omegal @ US-Whisperwind) (Primary boss mod author) Contact: mysticalosx@gmail.com (Twitter: @MysticalOS)
 --
 -- The localizations are written by:
---    * enGB/enUS: Aleksart163			Discord Aleksart163#1671
---    * deDE: Aleksart163				Youtube https://www.youtube.com/channel/UCmy80sh2TnKRs5Meeyze6sg
---    * ruRU: Aleksart163
+--    * enGB/enUS: Tandanu				http://www.deadlybossmods.com
+--    * deDE: Tandanu					http://www.deadlybossmods.com
+--    * zhCN: Diablohu					http://www.dreamgen.cn | diablohudream@gmail.com
+--    * ruRU: Swix						stalker.kgv@gmail.com
+--    * ruRU: TOM_RUS
+--    * zhTW: Hman						herman_c1@hotmail.com
+--    * zhTW: Azael/kc10577				paul.poon.kw@gmail.com
+--    * koKR: nBlueWiz					everfinale@gmail.com
+--    * esES: Snamor/1nn7erpLaY      	romanscat@hotmail.com
+--
+-- The ex-translators:
+--    * ruRU: BootWin					bootwin@gmail.com
+--    * ruRU: Vampik					admin@vampik.ru
 --
 -- Special thanks to:
---    * Danzo 		(for help in the addon)
---    * Мурчаль 	(for proshlyap a point)
---    * Soulburnin  (for proshlyap a point)
+--    * Arta
+--    * Tennberg (a lot of fixes in the enGB/enUS localization)
+--
 --
 -- The code of this addon is licensed under a Creative Commons Attribution-Noncommercial-Share Alike 3.0 License. (see license.txt)
 -- All included textures and sounds are copyrighted by their respective owners, license information for these media files can be found in the modules that make use of them.
 --
--- You are free:
+--
+--  You are free:
 --    * to Share - to copy, distribute, display, and perform the work
 --    * to Remix - to make derivative works
--- Under the following conditions:
---    * Attribution. You must attribute the work in the manner specified by the author or licensor (but not in any way that suggests that they endorse you or your use of the work). (A link to https://github.com/Aleksart163/DBM-RV is sufficient)
+--  Under the following conditions:
+--    * Attribution. You must attribute the work in the manner specified by the author or licensor (but not in any way that suggests that they endorse you or your use of the work). (A link to http://www.deadlybossmods.com is sufficient)
 --    * Noncommercial. You may not use this work for commercial purposes.
 --    * Share Alike. If you alter, transform, or build upon this work, you may distribute the resulting work only under the same or similar license to this one.
+--
+--
 
-local revision =("$Revision: 17708 $"):sub(12, -3)
+
+local revision =("$Revision: 17608 $"):sub(12, -3)
 local FrameTitle = "DBM_GUI_Option_"	-- all GUI frames get automatically a name FrameTitle..ID
 
 local PanelPrototype = {}
@@ -225,12 +239,18 @@ local function MixinSharedMedia3(mediatype, mediatable)
 	if not soundsRegistered then
 		local LSM = LibStub("LibSharedMedia-3.0")
 		soundsRegistered = true
-		LSM:Register("sound", "Alarak: Krisol thok aran", [[Interface\AddOns\DBM-Core\sounds\Custom\Alarak_battle_start2.ogg]])
-		LSM:Register("sound", "Artanis: En Taro Zeratul", [[Interface\AddOns\DBM-Core\sounds\Custom\Artanis_En_Taro_Zeratul.ogg]])
-		LSM:Register("sound", "Gachi: Battle start", [[Interface\AddOns\DBM-Core\sounds\Custom\Gachi_Start.ogg]])
+		LSM:Register("sound", "Headless Horseman: Laugh", [[Sound\Creature\HeadlessHorseman\Horseman_Laugh_01.ogg]])
+		LSM:Register("sound", "Yogg Saron: Laugh", [[Sound\Creature\YoggSaron\UR_YoggSaron_Slay01.ogg]])
+		LSM:Register("sound", "Loatheb: I see you", [[Sound\Creature\Loathstare\Loa_Naxx_Aggro02.ogg]])
 		LSM:Register("sound", "Lady Malande: Flee", [[Sound\Creature\LadyMalande\BLCKTMPLE_LadyMal_Aggro01.ogg]])
 		LSM:Register("sound", "Milhouse: Light You Up", [[Sound\Creature\MillhouseManastorm\TEMPEST_Millhouse_Pyro01.ogg]])
+		LSM:Register("sound", "Void Reaver: Marked", [[Sound\Creature\VoidReaver\TEMPEST_VoidRvr_Aggro01.ogg]])
+		LSM:Register("sound", "Kaz'rogal: Marked", [[Sound\Creature\KazRogal\CAV_Kaz_Mark02.ogg]])
+		LSM:Register("sound", "C'Thun: You Will Die!", [[Sound\Creature\CThun\CThunYouWillDIe.ogg]])
 		LSM:Register("sound", "Thrall: That's Incredible!", [[Interface\AddOns\DBM-Core\sounds\incredible.ogg]])
+		LSM:Register("sound", "Blakbyrd Alert 1", [[Interface\AddOns\DBM-Core\sounds\BlakbyrdAlerts\Alert1.ogg]])
+		LSM:Register("sound", "Blakbyrd Alert 2", [[Interface\AddOns\DBM-Core\sounds\BlakbyrdAlerts\Alert2.ogg]])
+		LSM:Register("sound", "Blakbyrd Alert 3", [[Interface\AddOns\DBM-Core\sounds\BlakbyrdAlerts\Alert3.ogg]])
 		--Do to terrible coding in LSM formating, it's not possible to do this a nice looking way
 		if DBM.Options.CustomSounds >= 1 then
 			LSM:Register("sound", "DBM: Custom 1", [[Interface\AddOns\DBM-CustomSounds\Custom1.ogg]])
@@ -258,10 +278,7 @@ local function MixinSharedMedia3(mediatype, mediatable)
 		end
 		if DBM.Options.CustomSounds >= 9 then
 			LSM:Register("sound", "DBM: Custom 9", [[Interface\AddOns\DBM-CustomSounds\Custom9.ogg]])
-		end
-		if DBM.Options.CustomSounds >= 10 then
-			LSM:Register("sound", "DBM: Custom 10", [[Interface\AddOns\DBM-CustomSounds\Custom10.ogg]])
-			if DBM.Options.CustomSounds > 10 then DBM.Options.CustomSounds = 10 end
+			if DBM.Options.CustomSounds > 9 then DBM.Options.CustomSounds = 9 end
 		end
 	end
 	-- sort LibSharedMedia keys alphabetically (case-insensitive)
@@ -392,19 +409,18 @@ do
 		{ sound=true, text = "SW 2", value = 2 },
 		{ sound=true, text = "SW 3", value = 3 },
 		{ sound=true, text = "SW 4", value = 4 },
-	--	{ sound=true, text = "SW 5", value = 5 },
 	})
 	
 	--TODO, this should be localized
 	local tcolors = {
-		{ text = L.CBTGeneric, value = 0 },
-		{ text = L.CBTAdd, value = 1 },
-		{ text = L.CBTAOE, value = 2 },
-		{ text = L.CBTTargeted, value = 3 },
-		{ text = L.CBTInterrupt, value = 4 },
-		{ text = L.CBTRole, value = 5 },
-		{ text = L.CBTPhase, value = 6 },
-		{ text = L.CBTImportant, value = 7 },
+		{ text = "Generic", value = 0 },
+		{ text = "Add", value = 1 },
+		{ text = "AOE", value = 2 },
+		{ text = "Targeted", value = 3 },
+		{ text = "Interrupt", value = 4 },
+		{ text = "Role", value = 5 },
+		{ text = "Phase", value = 6 },
+		{ text = "Important (User)", value = 7 },
 	}
 
 	function PanelPrototype:CreateCheckButton(name, autoplace, textleft, dbmvar, dbtvar, mod, modvar, globalvar, isTimer)
@@ -2652,7 +2668,6 @@ local function CreateOptionsMenu()
 			{	text	= "NotPrepared",		value 	= "Sound\\Creature\\Illidan\\BLACK_Illidan_04.ogg", 		sound=true },
 			{	text	= "NotPrepared2",		value 	= "Sound\\Creature\\Illidan_Stormrage\\VO_703_Illidan_Stormrage_03.ogg", 		sound=true },
 			{	text	= "RunAwayLittleGirl",	value 	= "Sound\\Creature\\HoodWolf\\HoodWolfTransformPlayer01.ogg", 		sound=true },
-			{	text	= "RunAwayBitch",		value 	= "Interface\\AddOns\\DBM-Core\\Sounds\\Custom\\RunAwayBitch.ogg", 		sound=true },
 			{	text	= "NightElfBell",		value 	= "Sound\\Doodad\\BellTollNightElf.ogg", 	sound=true }
 		})
 
@@ -2972,17 +2987,17 @@ local function CreateOptionsMenu()
 		local VPUrlArea1		= spokenAlertsPanel:CreateArea(L.Area_GetVEM, nil, 28, true)
 		local VPDownloadUrl1	= VPUrlArea1:CreateText(L.VEMDownload, 405, nil, nil, "LEFT")
 		VPDownloadUrl1:SetPoint("TOPLEFT", VPUrlArea1.frame, "TOPLEFT", 10, -7)
-		VPUrlArea1.frame:SetScript("OnMouseUp", function(...) DBM:ShowUpdateReminder(nil, nil, L.Area_GetVEM, "https://www.curseforge.com/wow/addons/search?category=&search=vem") end)
+		VPUrlArea1.frame:SetScript("OnMouseUp", function(...) DBM:ShowUpdateReminder(nil, nil, L.Area_GetVEM, "https://wow.curseforge.com/projects/dbm-voicepack-vem") end)
 		
 		local VPUrlArea2		= spokenAlertsPanel:CreateArea(L.Area_BrowseOtherVP, nil, 28, true)
 		local VPDownloadUrl2	= VPUrlArea2:CreateText(L.BrowseOtherVPs, 405, nil, nil, "LEFT")
 		VPDownloadUrl2:SetPoint("TOPLEFT", VPUrlArea2.frame, "TOPLEFT", 10, -7)
-		VPUrlArea2.frame:SetScript("OnMouseUp", function(...) DBM:ShowUpdateReminder(nil, nil, L.Area_BrowseOtherVP, "https://www.curseforge.com/wow/addons/search?search=dbm+voice") end)
+		VPUrlArea2.frame:SetScript("OnMouseUp", function(...) DBM:ShowUpdateReminder(nil, nil, L.Area_BrowseOtherVP, "https://wow.curseforge.com/search?search=dbm+voice") end)
 		
 		local VPUrlArea3		= spokenAlertsPanel:CreateArea(L.Area_BrowseOtherCT, nil, 28, true)
 		local VPDownloadUrl3	= VPUrlArea3:CreateText(L.BrowseOtherCTs, 405, nil, nil, "LEFT")
 		VPDownloadUrl3:SetPoint("TOPLEFT", VPUrlArea3.frame, "TOPLEFT", 10, -7)
-		VPUrlArea3.frame:SetScript("OnMouseUp", function(...) DBM:ShowUpdateReminder(nil, nil, L.Area_BrowseOtherCT, "https://www.curseforge.com/wow/addons/search?category=&search=dbm+count") end)
+		VPUrlArea3.frame:SetScript("OnMouseUp", function(...) DBM:ShowUpdateReminder(nil, nil, L.Area_BrowseOtherCT, "https://wow.curseforge.com/search?search=dbm+count+pack") end)
 		
 		spokenAlertsPanel:SetMyOwnHeight()
 	end
@@ -3188,11 +3203,6 @@ local function CreateOptionsMenu()
 		local inviteArea			= extraFeaturesPanel:CreateArea(L.Area_Invite, nil, 100, true)
 		local AutoAcceptFriendInvite= inviteArea:CreateCheckButton(L.AutoAcceptFriendInvite, true, nil, "AutoAcceptFriendInvite")
 		local AutoAcceptGuildInvite	= inviteArea:CreateCheckButton(L.AutoAcceptGuildInvite, true, nil, "AutoAcceptGuildInvite")
-		
-		local keyArea				= extraFeaturesPanel:CreateArea(L.Area_Key, nil, 100, true)
-		local AutoKeyLink			= keyArea:CreateCheckButton(L.AutoKeyLink, true, nil, "AutoKeyLink")
-		local IgnoreRaidAnnounce	= keyArea:CreateCheckButton(L.IgnoreRaidAnnounce, true, nil, "IgnoreRaidAnnounce")
-		local IgnoreRaidAnnounce2	= keyArea:CreateCheckButton(L.IgnoreRaidAnnounce2, true, nil, "IgnoreRaidAnnounce2")
 
 		local advancedArea			= extraFeaturesPanel:CreateArea(L.Area_Advanced, nil, 100, true)
 		local FakeBW				= advancedArea:CreateCheckButton(L.FakeBW, true, nil, "FakeBWVersion")
@@ -3301,17 +3311,17 @@ local function CreateOptionsMenu()
 
 	-- Set Revision // please don't translate this!
 	if DBM.NewerVersion then
-		DBM_GUI_OptionsFrameRevision:SetText("Dungeon Boss Master "..DBM.DisplayVersion.." (r"..DBM.Revision.."). |cffff0000Version "..DBM.NewerVersion.." is available.|r")
+		DBM_GUI_OptionsFrameRevision:SetText("Deadly Boss Mods "..DBM.DisplayVersion.." (r"..DBM.Revision.."). |cffff0000Version "..DBM.NewerVersion.." is available.|r")
 	else	
-		DBM_GUI_OptionsFrameRevision:SetText("Dungeon Boss Master "..DBM.DisplayVersion.." (r"..DBM.Revision..")")
+		DBM_GUI_OptionsFrameRevision:SetText("Deadly Boss Mods "..DBM.DisplayVersion.." (r"..DBM.Revision..")")
 	end
 	if L.TranslationBy then
-		DBM_GUI_OptionsFrameTranslation:SetText(L.TranslationByPrefix .. L.TranslationBy .. "\n" .. L.Credits)
+		DBM_GUI_OptionsFrameTranslation:SetText(L.TranslationByPrefix .. L.TranslationBy)
 	end
 	DBM_GUI_OptionsFrameWebsite:SetText(L.Website)
 	local frame = CreateFrame("Frame", nil, DBM_GUI_OptionsFrame)
 	frame:SetAllPoints(DBM_GUI_OptionsFrameWebsite)
-	frame:SetScript("OnMouseUp", function(...) DBM:ShowUpdateReminder(nil, nil, DBM_COPY_URL_DIALOG, "https://github.com/Aleksart163/DBM-RV") end)
+	frame:SetScript("OnMouseUp", function(...) DBM:ShowUpdateReminder(nil, nil, DBM_COPY_URL_DIALOG, "https://discord.gg/deadlybossmods") end)
 end
 DBM:RegisterOnGuiLoadCallback(CreateOptionsMenu, 1)
 

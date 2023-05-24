@@ -1,49 +1,58 @@
--- *****************************************************
--- **              Dungeon Boss Master - Core         **
--- **      https://github.com/Aleksart163/DBM-RV      **
--- *****************************************************
+-- *********************************************************
+-- **               Deadly Boss Mods - Core               **
+-- **            http://www.deadlybossmods.com            **
+-- **        https://www.patreon.com/deadlybossmods       **
+-- *********************************************************
+--
 -- This addon is written and copyrighted by:
 --    * Paul Emmerich (Tandanu @ EU-Aegwynn) (DBM-Core)
 --    * Martin Verges (Nitram @ EU-Azshara) (DBM-GUI)
 --    * Adam Williams (Omegal @ US-Whisperwind) (Primary boss mod author & DBM maintainer)
---    * Alex British  (Куплиняшка @ RU-uwow x100) (adaptation to the uwow.biz)
 --
 -- The localizations are written by:
---    * enGB/enUS: Aleksart163			Discord Aleksart163#1671
---    * deDE: Aleksart163				Youtube https://www.youtube.com/channel/UCmy80sh2TnKRs5Meeyze6sg
---    * ruRU: Aleksart163
+--    * enGB/enUS: Omegal				Twitter @MysticalOS
+--    * deDE: Ebmor						http://www.deadlybossmods.com/forum/memberlist.php?mode=viewprofile&u=79
+--    * ruRU: TOM_RUS					http://www.curseforge.com/profiles/TOM_RUS/
+--    * zhTW: Whyv						ultrashining@gmail.com
+--    * koKR: nBlueWiz					everfinale@gmail.com
+--    * zhCN: Mini Dragon				projecteurs@gmail.com
+--
 --
 -- Special thanks to:
---    * Danzo 		(for help in the addon)
---    * Мурчаль 	(for proshlyap a point)
---    * Soulburnin  (for proshlyap a point)
+--    * Arta
+--    * Tennberg (a lot of fixes in the enGB/enUS localization)
+--    * nBlueWiz (a lot of fixes in the koKR localization as well as boss mod work) Contact: everfinale@gmail.com
+--
 --
 -- The code of this addon is licensed under a Creative Commons Attribution-Noncommercial-Share Alike 3.0 License. (see license.txt)
 -- All included textures and sounds are copyrighted by their respective owners, license information for these media files can be found in the modules that make use of them.
 --
--- You are free:
+--
+--  You are free:
 --    * to Share - to copy, distribute, display, and perform the work
 --    * to Remix - to make derivative works
--- Under the following conditions:
---    * Attribution. You must attribute the work in the manner specified by the author or licensor (but not in any way that suggests that they endorse you or your use of the work). (A link to https://github.com/Aleksart163/DBM-RV is sufficient)
+--  Under the following conditions:
+--    * Attribution. You must attribute the work in the manner specified by the author or licensor (but not in any way that suggests that they endorse you or your use of the work). (A link to http://www.deadlybossmods.com is sufficient)
 --    * Noncommercial. You may not use this work for commercial purposes.
 --    * Share Alike. If you alter, transform, or build upon this work, you may distribute the resulting work only under the same or similar license to this one.
+--
 
 -------------------------------
 --  Globals/Default Options  --
 -------------------------------
-
 DBM = {
-	Revision = tonumber(("$Revision: 17719 $"):sub(12, -3)), --прошляпанное очко Мурчаля Прошляпенко [✔]
-	DisplayVersion = "7.3.45 Right Version " .. string.sub(GetLocale(), -2),
-	ReleaseRevision = 17718
+	Revision = tonumber(("$Revision: 17622 $"):sub(12, -3)),
+	DisplayVersion = "7.3.32 alpha", -- the string that is shown as version
+	ReleaseRevision = 17598 -- the revision of the latest stable version that is available
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
+-- support for git svn which doesn't support svn keyword expansion
+-- just use the latest release revision
 if not DBM.Revision then
 	DBM.Revision = DBM.ReleaseRevision
 end
---
+
 local wowVersionString, wowBuild, _, wowTOC = GetBuildInfo()
 local testBuild = false
 if IsTestBuild() then
@@ -83,20 +92,20 @@ DBM.DefaultOptions = {
 	SpecialWarningSound = "Sound\\Spells\\PVPFlagTaken.ogg",
 	SpecialWarningSound2 = "Sound\\Creature\\AlgalonTheObserver\\UR_Algalon_BHole01.ogg",
 	SpecialWarningSound3 = "Interface\\AddOns\\DBM-Core\\sounds\\AirHorn.ogg",
-	SpecialWarningSound4 = "Sound\\Creature\\LadyMalande\\BLCKTMPLE_LadyMal_Aggro01.ogg", --"Interface\\AddOns\\DBM-Core\\Sounds\\Custom\\RunAwayBitch.ogg", --"Sound\\Creature\\HoodWolf\\HoodWolfTransformPlayer01.ogg",
---	SpecialWarningSound5 = "Sound\\Creature\\Loathstare\\Loa_Naxx_Aggro02.ogg",
+	SpecialWarningSound4 = "Sound\\Creature\\HoodWolf\\HoodWolfTransformPlayer01.ogg",
+	SpecialWarningSound5 = "Sound\\Creature\\Loathstare\\Loa_Naxx_Aggro02.ogg",
 	ModelSoundValue = "Short",
-	CountdownVoice = "Alarak",
-	CountdownVoice2 = "Artanis",
-	CountdownVoice3v2 = "Kerrigan",
+	CountdownVoice = "Corsica",
+	CountdownVoice2 = "Kolt",
+	CountdownVoice3v2 = "Pewsey",
 	ChosenVoicePack = "None",
 	VoiceOverSpecW2 = "DefaultOnly",
 	AlwaysPlayVoice = false,
-	EventSoundVictory2 = "Alarak Victory", --музыка при победе в бою и прошляпе очка Мурчаля
-	EventSoundWipe = "Alarak: Shameful death", --музыка при поражении в бою
-	EventSoundEngage = "Alarak: Krisol thok aran", --музыка при вступлении в бой и прошляпе очка Мурчаля
-	EventSoundMusic = "FNaF Security breach", --музыка во время боя с боссом +++
-	EventSoundDungeonBGM = "Nightsong Extended", --музыка в подземелье и рейдах +++
+	EventSoundVictory2 = "None",
+	EventSoundWipe = "None",
+	EventSoundEngage = "",
+	EventSoundMusic = "None",
+	EventSoundDungeonBGM = "None",
 	EventSoundMusicCombined = false,
 	EventDungMusicMythicFilter = true,
 	EventMusicMythicFilter = true,
@@ -120,14 +129,14 @@ DBM.DefaultOptions = {
 	DisableStatusWhisper = false,
 	DisableGuildStatus = false,
 	HideBossEmoteFrame2 = true,
-	ShowMinimapButton = true, 
+	ShowMinimapButton = false,
 	ShowFlashFrame = true,
 	SWarningAlphabetical = true,
 	SWarnNameInNote = true,
 	CustomSounds = 0,
 	ShowBigBrotherOnCombatStart = false,
 	FilterTankSpec = true,
-	FilterInterrupt2 = "TandFandAllCooldown",
+	FilterInterrupt2 = "TandFandBossCooldown",
 	FilterInterruptNoteName = false,
 	FilterDispel = true,
 	--FilterSelfHud = true,
@@ -163,7 +172,7 @@ DBM.DefaultOptions = {
 	InfoFrameY = -75,
 	InfoFrameShowSelf = false,
 	InfoFrameLines = 0,
-	WarningDuration2 = 2,
+	WarningDuration2 = 1.5,
 	WarningPoint = "CENTER",
 	WarningX = 0,
 	WarningY = 260,
@@ -171,7 +180,7 @@ DBM.DefaultOptions = {
 	WarningFontSize = 20,
 	WarningFontStyle = "None",
 	WarningFontShadow = true,
-	SpecialWarningDuration2 = 2,
+	SpecialWarningDuration2 = 1.5,
 	SpecialWarningPoint = "CENTER",
 	SpecialWarningX = 0,
 	SpecialWarningY = 75,
@@ -199,7 +208,7 @@ DBM.DefaultOptions = {
 	SpecialWarningFlashRepeat1 = false,
 	SpecialWarningFlashRepeat2 = false,
 	SpecialWarningFlashRepeat3 = true,
-	SpecialWarningFlashRepeat4 = true,
+	SpecialWarningFlashRepeat4 = false,
 	SpecialWarningFlashRepeat5 = true,
 	SpecialWarningFlashRepeatAmount = 2,--Repeat 2 times, mean 3 flashes (first plus 2 repeat)
 	SWarnClassColor = true,
@@ -234,12 +243,11 @@ DBM.DefaultOptions = {
 	LatencyThreshold = 250,
 	BigBrotherAnnounceToRaid = false,
 	SettingsMessageShown = false,
-	ForumsMessageShown = false, --ссылка на форум
+	ForumsMessageShown = false,
 	AlwaysShowSpeedKillTimer2 = false,
 	ShowRespawn = true,
 	ShowQueuePop = true,
 	HelpMessageVersion = 3,
-	HelpMessageShown = false, --помощь в локализации
 	MoviesSeen = {},
 	MovieFilter = "AfterFirst",
 	LastRevision = 0,
@@ -250,9 +258,6 @@ DBM.DefaultOptions = {
 	WorldBossAlert = false,
 	AutoAcceptFriendInvite = false,
 	AutoAcceptGuildInvite = false,
-	AutoKeyLink = true,
-	IgnoreRaidAnnounce = false,
-	IgnoreRaidAnnounce2 = false,
 	FakeBWVersion = false,
 	AITimer = true,
 	AutoCorrectTimer = false,
@@ -265,88 +270,54 @@ DBM.Bars = DBT:New()
 DBM.Mods = {}
 DBM.ModLists = {}
 DBM.Counts = {
-	{text = "Alarak", value = "Alarak", path = "Interface\\AddOns\\DBM-Core\\Sounds\\Alarak\\", max = 5},
-	{text = "Artanis", value = "Artanis", path = "Interface\\AddOns\\DBM-Core\\Sounds\\Artanis\\", max = 5},
-	{text = "Kerrigan", value = "Kerrigan", path = "Interface\\AddOns\\DBM-Core\\Sounds\\Kerrigan\\", max = 5},
-	{text = "Raynor", value = "Raynor", path = "Interface\\AddOns\\DBM-Core\\Sounds\\Raynor\\", max = 5},
-	{text = "Tychus", value = "Tychus", path = "Interface\\AddOns\\DBM-Core\\Sounds\\Tychus\\", max = 5},
-	{text = "Vorazun", value = "Vorazun", path = "Interface\\AddOns\\DBM-Core\\Sounds\\Vorazun\\", max = 5},
-	{text = "Zeratul", value = "Zeratul", path = "Interface\\AddOns\\DBM-Core\\Sounds\\Zeratul\\", max = 5},
-	{text = "Gachi", value = "Gachi", path = "Interface\\AddOns\\DBM-Core\\Sounds\\Gachi\\", max = 5},
-	{text = "Moshne", value = "Mosh", path = "Interface\\AddOns\\DBM-Core\\Sounds\\Mosh\\", max = 5},
-	{text = "Corsica", value = "Corsica", path = "Interface\\AddOns\\DBM-Core\\Sounds\\Corsica\\", max = 10},
-	{text = "Koltrane", value = "Kolt", path = "Interface\\AddOns\\DBM-Core\\Sounds\\Kolt\\", max = 10},
-	{text = "Pewsey", value = "Pewsey", path = "Interface\\AddOns\\DBM-Core\\Sounds\\Pewsey\\", max = 10},
-	{text = "Bear", value = "Bear", path = "Interface\\AddOns\\DBM-Core\\Sounds\\Bear\\", max = 10},
-	{text = "Anshlun", value = "Anshlun", path = "Interface\\AddOns\\DBM-Core\\Sounds\\Anshlun\\", max = 10},
+	{	text	= "Moshne (Male)",	value 	= "Mosh", path = "Interface\\AddOns\\DBM-Core\\Sounds\\Mosh\\", max = 5},
+	{	text	= "Corsica (Female)",value 	= "Corsica", path = "Interface\\AddOns\\DBM-Core\\Sounds\\Corsica\\", max = 10},
+	{	text	= "Koltrane (Male)",value 	= "Kolt", path = "Interface\\AddOns\\DBM-Core\\Sounds\\Kolt\\", max = 10},
+	{	text	= "Pewsey (Male)",value 	= "Pewsey", path = "Interface\\AddOns\\DBM-Core\\Sounds\\Pewsey\\", max = 10},
+	{	text	= "Bear (Male Child)",value = "Bear", path = "Interface\\AddOns\\DBM-Core\\Sounds\\Bear\\", max = 10},
+	{	text	= "Anshlun (ptBR Male)",value = "Anshlun", path = "Interface\\AddOns\\DBM-Core\\Sounds\\Anshlun\\", max = 10},
+	{	text	= "Neryssa (ptBR Female)",value = "Neryssa", path = "Interface\\AddOns\\DBM-Core\\Sounds\\Neryssa\\", max = 10},
 }
 DBM.Victory = {
-	{text = "Alarak Victory", value = "Interface\\AddOns\\DBM-Core\\sounds\\Victory\\Alarak_Win.ogg", length=5},
-	{text = "Artanis Victory", value = "Interface\\AddOns\\DBM-Core\\sounds\\Victory\\Artanis_Win.ogg", length=5},
-	{text = "Kerrigan Victory", value = "Interface\\AddOns\\DBM-Core\\sounds\\Victory\\Kerrigan_Win.ogg", length=5},
-	{text = "Tychus Victory", value = "Interface\\AddOns\\DBM-Core\\sounds\\Victory\\Tychus_Win.ogg", length=5},
-	{text = "Vorazun Victory", value = "Interface\\AddOns\\DBM-Core\\sounds\\Victory\\Vorazun_Win.ogg", length=5},
-	{text = "Gachi Victory", value = "Interface\\AddOns\\DBM-Core\\sounds\\Victory\\Gachi_Win.ogg", length=5},
-	{text = "Blakbyrd: FF Fanfare", value = "Interface\\AddOns\\DBM-Core\\sounds\\Victory\\bbvictory.ogg", length=4},
-	{text = "SMG: FF Fanfare", value = "Interface\\AddOns\\DBM-Core\\sounds\\Victory\\SmoothMcGroove_Fanfare.ogg", length=4},
-	{text = "Random", value = "Random"},
-	{text = "None", value = "None"},
+	{text = "None",value  = "None"},
+	{text = "Random",value  = "Random"},
+	{text = "Blakbyrd: FF Fanfare",value = "Interface\\AddOns\\DBM-Core\\sounds\\Victory\\bbvictory.ogg", length=4},
+	{text = "SMG: FF Fanfare",value = "Interface\\AddOns\\DBM-Core\\sounds\\Victory\\SmoothMcGroove_Fanfare.ogg", length=4},
 }
 DBM.Defeat = {
-	{text = "Alarak: Shameful death", value = "Interface\\AddOns\\DBM-Core\\sounds\\Custom\\Alarak_Shameful_Death.ogg", length=5},
-	{text = "Bwonsamdi: Impressive death", value = "Interface\\AddOns\\DBM-Core\\sounds\\Custom\\Bwonsamdi_Impressive_Death.ogg", length=5},
-	{text = "Alizabal: Incompetent Raiders", value = "Sound\\Creature\\ALIZABAL\\VO_BH_ALIZABAL_RESET_01.ogg", length=4},
-	{text = "Kologarn: You Fail", value = "Sound\\Creature\\Kologarn\\UR_Kologarn_Slay02.ogg", length=4},
-	{text = "Hodir: Tragic", value = "Sound\\Creature\\Hodir\\UR_Hodir_Slay01.ogg", length=4},
-	{text = "Thorim: Failures", value = "Sound\\Creature\\Thorim\\UR_Thorim_P1Wipe01.ogg", length=4},
-	{text = "Valithria: Failures", value = "Sound\\Creature\\ValithriaDreamwalker\\IC_Valithria_Berserk01.ogg", length=4},
-	{text = "Random", value = "Random"},
-	{text = "None", value = "None"},
+	{text = "None",value  = "None"},
+	{text = "Random",value  = "Random"},
+	{text = "Kologarn: You Fail",value = "Sound\\Creature\\Kologarn\\UR_Kologarn_Slay02.ogg", length=4},
+	{text = "Alizabal: Incompetent Raiders",value = "Sound\\Creature\\ALIZABAL\\VO_BH_ALIZABAL_RESET_01.ogg", length=4},
+	{text = "Hodir: Tragic",value = "Sound\\Creature\\Hodir\\UR_Hodir_Slay01.ogg", length=4},
+	{text = "Thorim: Failures",value = "Sound\\Creature\\Thorim\\UR_Thorim_P1Wipe01.ogg", length=4},
+	{text = "Valithria: Failures",value = "Sound\\Creature\\ValithriaDreamwalker\\IC_Valithria_Berserk01.ogg", length=4},
 }
 DBM.Music = {--Contains all music media, period
-	{text = "FNaF Security breach", value = "Interface\\AddOns\\DBM-Core\\sounds\\Custom\\MUS_70_Security.mp3", length=197},
-	{text = "Anduin Part 1 B", value = "sound\\music\\Legion\\MUS_70_AnduinPt1_B.mp3", length=140},
-	{text = "A World Divided", value = "sound\\music\\Legion\\MUS_70_AnduinPt1_C.mp3", length=134}, --1C
-	{text = "Anduin Part 2 B", value = "sound\\music\\Legion\\MUS_70_AnduinPt2_B.mp3", length=111},
-	{text = "Nightsong Extended", value = "Interface\\AddOns\\DBM-Core\\sounds\\Custom\\MUS_70_Nightsong.mp3", length=217},
-	{text = "Invincible", value = "Sound\\Music\\Draenor\\MUS_Invincible.mp3", length=197},
-	{text = "Bronze Jam", value = "Sound\\Music\\ZoneMusic\\IcecrownRaid\\IR_BronzeJam.mp3", length=116},
-	{text = "Ulduar: Titan Orchestra", value = "Sound\\Music\\ZoneMusic\\UlduarRaidInt\\UR_TitanOrchestraIntro.mp3", length=102},
-	{text = "Random", value = "Random"},
-	{text = "None", value = "None"},
+	{text = "None",value  = "None"},
+	{text = "Random",value  = "Random"},
+	{text = "Anduin Part 1 B",value = "sound\\music\\Legion\\MUS_70_AnduinPt1_B.mp3", length=140},
+	{text = "Anduin Part 2 B",value = "sound\\music\\Legion\\MUS_70_AnduinPt2_B.mp3", length=111},
+	{text = "Bronze Jam",value = "Sound\\Music\\ZoneMusic\\IcecrownRaid\\IR_BronzeJam.mp3", length=116},
+	{text = "Invincible",value = "Sound\\Music\\Draenor\\MUS_Invincible.mp3", length=197},
+	{text = "Nightsong",value = "Sound\\Music\\cataclysm\\MUS_NightElves_GU01.mp3", length=160},
+	{text = "Ulduar: Titan Orchestra",value = "Sound\\Music\\ZoneMusic\\UlduarRaidInt\\UR_TitanOrchestraIntro.mp3", length=102},
 }
 DBM.DungeonMusic = {--Filtered list of media assigned to dungeon/raid background music catagory
-	{text = "FNaF Security breach", value = "Interface\\AddOns\\DBM-Core\\sounds\\Custom\\MUS_70_Security.mp3", length=197},
-	{text = "Anduin Part 1 B", value = "sound\\music\\Legion\\MUS_70_AnduinPt1_B.mp3", length=140},
-	{text = "A World Divided", value = "sound\\music\\Legion\\MUS_70_AnduinPt1_C.mp3", length=134}, --1C
---	{text = "Anduin Part 1 D", value = "sound\\music\\Legion\\MUS_70_AnduinPt1_D.mp3", length=88},
---	{text = "Anduin Part 1 E", value = "sound\\music\\Legion\\MUS_70_AnduinPt1_E.mp3", length=68},
-	{text = "Anduin Part 2 B", value = "sound\\music\\Legion\\MUS_70_AnduinPt2_B.mp3", length=111},
---	{text = "Anduin Part 2 C", value = "sound\\music\\Legion\\MUS_70_AnduinPt2_C.mp3", length=52},
-	{text = "Nightsong Extended", value = "Interface\\AddOns\\DBM-Core\\sounds\\Custom\\MUS_70_Nightsong.mp3", length=217},
-	{text = "Invincible", value = "Sound\\Music\\Draenor\\MUS_Invincible.mp3", length=197},
-	{text = "Ulduar: Titan Orchestra", value = "Sound\\Music\\ZoneMusic\\UlduarRaidInt\\UR_TitanOrchestraIntro.mp3", length=102},
-	{text = "Random", value = "Random"},
-	{text = "None", value = "None"},
+	{text = "None",value  = "None"},
+	{text = "Random",value  = "Random"},
+	{text = "Anduin Part 1 B",value = "sound\\music\\Legion\\MUS_70_AnduinPt1_B.mp3", length=140},
+	{text = "Nightsong",value = "Sound\\Music\\cataclysm\\MUS_NightElves_GU01.mp3", length=160},
+	{text = "Ulduar: Titan Orchestra",value = "Sound\\Music\\ZoneMusic\\UlduarRaidInt\\UR_TitanOrchestraIntro.mp3", length=102},
 }
 DBM.BattleMusic = {--Filtered list of media assigned to boss/encounter background music catagory
-	{text = "FNaF Security breach", value = "Interface\\AddOns\\DBM-Core\\sounds\\Custom\\MUS_70_Security.mp3", length=197},
-	{text = "Anduin Part 1 B", value = "sound\\music\\Legion\\MUS_70_AnduinPt1_B.mp3", length=140},
-	{text = "A World Divided", value = "sound\\music\\Legion\\MUS_70_AnduinPt1_C.mp3", length=134}, --1C
-	{text = "Anduin Part 2 B", value = "sound\\music\\Legion\\MUS_70_AnduinPt2_B.mp3", length=111},
-	{text = "Nightsong Extended", value = "Interface\\AddOns\\DBM-Core\\sounds\\Custom\\MUS_70_Nightsong.mp3", length=217},
-	{text = "Invincible", value = "Sound\\Music\\Draenor\\MUS_Invincible.mp3", length=197},
-	{text = "Bronze Jam", value = "Sound\\Music\\ZoneMusic\\IcecrownRaid\\IR_BronzeJam.mp3", length=116},
-	{text = "Random", value = "Random"},
-	{text = "None", value = "None"},
+	{text = "None",value  = "None"},
+	{text = "Random",value  = "Random"},
+	{text = "Anduin Part 2 B",value = "sound\\music\\Legion\\MUS_70_AnduinPt2_B.mp3", length=111},
+	{text = "Bronze Jam",value = "Sound\\Music\\ZoneMusic\\IcecrownRaid\\IR_BronzeJam.mp3", length=116},
+	{text = "Invincible",value = "Sound\\Music\\Draenor\\MUS_Invincible.mp3", length=197},
 }
 
-nameplates = ""
-for i = 1, 40 do
-	nameplates = nameplates .. " nameplate" .. i
-end
-
-DbmRV = "[DBM RV] "
 ------------------------
 -- Global Identifiers --
 ------------------------
@@ -369,8 +340,8 @@ local updateFunctions = {}
 local raid = {}
 local modSyncSpam = {}
 local autoRespondSpam = {}
-local chatPrefix = "<Dungeon Boss Master> "
-local chatPrefixShort = "<DBM RV> "
+local chatPrefix = "<Deadly Boss Mods> "
+local chatPrefixShort = "<DBM> "
 local ver = ("%s (r%d)"):format(DBM.DisplayVersion, DBM.Revision)
 local mainFrame = CreateFrame("Frame", "DBMMainFrame")
 local newerVersionPerson = {}
@@ -485,7 +456,6 @@ local UnitAffectingCombat, InCombatLockdown, IsFalling, IsEncounterInProgress, U
 local UnitGUID, UnitHealth, UnitHealthMax, UnitBuff, UnitDebuff = UnitGUID, UnitHealth, UnitHealthMax, UnitBuff, UnitDebuff
 local UnitExists, UnitIsDead, UnitIsFriend, UnitIsUnit = UnitExists, UnitIsDead, UnitIsFriend, UnitIsUnit
 local GetSpellInfo, EJ_GetSectionInfo, GetSectionIconFlags, GetSpellTexture, GetSpellCooldown = GetSpellInfo, C_EncounterJournal.GetSectionInfo, C_EncounterJournal.GetSectionIconFlags, GetSpellTexture, GetSpellCooldown
-local GetSpellLink = GetSpellLink
 local EJ_GetEncounterInfo, EJ_GetCreatureInfo, GetDungeonInfo = EJ_GetEncounterInfo, EJ_GetCreatureInfo, GetDungeonInfo
 local GetInstanceInfo = GetInstanceInfo
 local GetCurrentMapDungeonLevel, SetMapToCurrentZone, GetPlayerMapAreaID = GetCurrentMapDungeonLevel, SetMapToCurrentZone, GetPlayerMapAreaID
@@ -543,34 +513,16 @@ local function sendSync(prefix, msg)
 	msg = msg or ""
 	if IsInGroup(LE_PARTY_CATEGORY_INSTANCE) and IsInInstance() then--For BGs, LFR and LFG (we also check IsInInstance() so if you're in queue but fighting something outside like a world boss, it'll sync in "RAID" instead)
 		SendAddonMessage("D4", prefix .. "\t" .. msg, "INSTANCE_CHAT")
-		SendAddonMessage("D4", prefix .. "\t" .. msg, "WHISPER", playerName)
 	else
 		if IsInRaid() then
 			SendAddonMessage("D4", prefix .. "\t" .. msg, "RAID")
-			SendAddonMessage("D4", prefix .. "\t" .. msg, "WHISPER", playerName)
 		elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
 			SendAddonMessage("D4", prefix .. "\t" .. msg, "PARTY")
-			SendAddonMessage("D4", prefix .. "\t" .. msg, "WHISPER", playerName)
 		else--for solo raid
 			SendAddonMessage("D4", prefix .. "\t" .. msg, "WHISPER", playerName)
 		end
 	end
 end
---[[
-local function sendSync(prefix, msg)
-	msg = msg or ""
-	if IsInGroup(LE_PARTY_CATEGORY_INSTANCE) and IsInInstance() then--For BGs, LFR and LFG (we also check IsInInstance() so if you're in queue but fighting something outside like a world boss, it'll sync in "RAID" instead)
-		SendAddonMessage("D4", prefix .. "\t" .. msg, "INSTANCE_CHAT")
-	else
-		if IsInRaid() then
-			SendAddonMessage("D4", prefix .. "\t" .. msg, "RAID")
-		elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
-			SendAddonMessage("D4", prefix .. "\t" .. msg, "PARTY")
-		else--for solo raid
-			SendAddonMessage("D4", prefix .. "\t" .. msg, "WHISPER", playerName)
-		end
-	end
-end]]
 
 --Custom sync function that should only be used for user generated sync messages
 local function sendLoggedSync(prefix, msg)
@@ -779,9 +731,7 @@ do
 				return
 			end
 			if spellId and not DBM:GetSpellInfo(spellId) then
-				if DBM.Options.DebugMode then
-					DBM:AddMsg("DBM RegisterEvents Error: "..spellId.." spell id does not exist!")
-				end
+				DBM:AddMsg("DBM RegisterEvents Error: "..spellId.." spell id does not exist!")
 				return
 			end
 			if not registeredSpellIds[event] then
@@ -1386,12 +1336,6 @@ do
 				"CHAT_MSG_MONSTER_EMOTE",
 				"CHAT_MSG_MONSTER_SAY",
 				"CHAT_MSG_RAID_BOSS_EMOTE",
-				"CHAT_MSG_PARTY",
-				"CHAT_MSG_PARTY_LEADER",
-				"CHAT_MSG_RAID",
-				"CHAT_MSG_RAID_LEADER",
-				"CHAT_MSG_GUILD",
-				"CONFIRM_SUMMON",
 				"RAID_BOSS_EMOTE",
 				"RAID_BOSS_WHISPER",
 				"PLAYER_ENTERING_WORLD",
@@ -1479,68 +1423,6 @@ do
 	end
 end
 
-local function proshlyapSoulburnin(self, event, msg) --явно прошляпанное очко Мурчаля
-	if DBM.Options.AutoKeyLink then
-		if event == "CHAT_MSG_PARTY" or event == "CHAT_MSG_PARTY_LEADER" then
-			if string.lower(msg) == "!keys" then
-				proshlyapMurchalya(true)
-			end
-		elseif event == "CHAT_MSG_RAID" or event == "CHAT_MSG_RAID_LEADER" then
-			if string.lower(msg) == "!keys" then
-				proshlyapMurchalya(true, true)
-			end
-		elseif event == "CHAT_MSG_GUILD" then
-			if string.lower(msg) == "!keys" then
-				proshlyapMurchalya(true, true, true)
-			end
-		end
-	end
-end
-
-local f = CreateFrame("Frame")
-f:RegisterEvent("CHAT_MSG_PARTY")
-f:RegisterEvent("CHAT_MSG_PARTY_LEADER")
-f:RegisterEvent("CHAT_MSG_RAID")
-f:RegisterEvent("CHAT_MSG_RAID_LEADER")
-f:RegisterEvent("CHAT_MSG_GUILD")
-
-f:SetScript("OnEvent", proshlyapSoulburnin)
-
-function proshlyapMurchalya(force, raid, guild) --Прошляпанное очко Мурчаля Прошляпенко [✔]
-	for bag = 0, NUM_BAG_SLOTS do
-		local numSlots = GetContainerNumSlots(bag)
-		local proshlyapOchkaMurchalya = nil
-		for slot = 1, numSlots do
-			if GetContainerItemID(bag, slot) == 138019 then
-				proshlyapOchkaMurchalya = GetContainerItemLink(bag, slot)
-				if force then
-					if guild then
-						SendChatMessage(DbmRV.. proshlyapOchkaMurchalya, "GUILD")
-					elseif raid then
-						SendChatMessage(DbmRV.. proshlyapOchkaMurchalya, "RAID")
-					else
-						SendChatMessage(DbmRV.. proshlyapOchkaMurchalya, "PARTY")
-					end
-				end
-			end
-		end
-	end
-end
---[[ Волосали
-local function Proshlyap2(self, event)
-	if event == "CONFIRM_SUMMON" then
-		if IsInRaid('player') then
-			SendChatMessage(playerName.. DBM_SUMMON1 ..GetSummonConfirmSummoner(),"RAID")
-		else
-			SendChatMessage(playerName.. DBM_SUMMON1 ..GetSummonConfirmSummoner(),"PARTY")
-		end
-	end
-end
-
-local f = CreateFrame("Frame")
-f:RegisterEvent("CONFIRM_SUMMON")
-
-f:SetScript("OnEvent", Proshlyap2)]]
 
 --------------------------
 --  OnUpdate/Scheduler  --
@@ -1930,8 +1812,8 @@ do
 		end
 		timer = timer * 60
 		sendSync("BT", timer)
-	end	
-
+	end
+	
 	SLASH_DEADLYBOSSMODS1 = "/dbm"
 	SLASH_DEADLYBOSSMODSRPULL1 = "/rpull"
 	SLASH_DEADLYBOSSMODSDWAY1 = "/dway"--/way not used because DBM would load before TomTom and can't check 
@@ -2226,7 +2108,6 @@ do
 					end
 					local iconString = DBM:IconNumToString(icon):lower()
 					DBMHudMap:RegisterRangeMarkerOnPartyMember(12345, iconString, UnitName(uId), 3.5, hudDuration, 1, 1, 1, 0.5, nil, false):Pulse(0.5, 0.5)
-				--	DBMHudMap:RegisterRangeMarkerOnPartyMember(12345, iconString, targetName, 3.5, hudDuration, 1, 1, 1, 0.5, nil, false):Pulse(0.5, 0.5)
 					success = true
 				else
 					DBM:AddMsg(DBM_CORE_HUD_INVALID_TYPE)
@@ -2436,7 +2317,7 @@ do
 		end
 		local TotalDBM = TotalUsers - NoDBM
 		local TotalBW = TotalUsers - NoBigwigs
-		self:AddMsg("----------------------------------------", false)
+		self:AddMsg("---", false)
 		self:AddMsg(DBM_CORE_VERSIONCHECK_FOOTER:format(TotalDBM, TotalBW), false)
 		self:AddMsg(DBM_CORE_VERSIONCHECK_OUTDATED:format(OldMod, #OutdatedUsers > 0 and tconcat(OutdatedUsers, ", ") or NONE), false)
 		twipe(OutdatedUsers)
@@ -2647,9 +2528,6 @@ do
 			DBM:AddMsg(DBM_CORE_UPDATEREMINDER_DISABLE)
 			return
 		end
---		if self.NewerVersion and showConstantReminder >= 1 then
---			AddMsg(self, DBM_CORE_UPDATEREMINDER_HEADER:format(self.NewerVersion, showRealDate(self.HighestRelease)))
---		end
 		if not IsAddOnLoaded("DBM-GUI") then
 			local enabled = GetAddOnEnableState(playerName, "DBM-GUI")
 			if enabled == 0 then
@@ -2743,8 +2621,7 @@ do
 	button:SetScript("OnLeave", function(self)
 		GameTooltip:Hide()
 	end)
--------------------------------------------------
---
+
 	function DBM:ToggleMinimapButton()
 		self.Options.ShowMinimapButton = not self.Options.ShowMinimapButton
 		if self.Options.ShowMinimapButton then
@@ -2758,7 +2635,7 @@ do
 		return button:Hide()
 	end
 end
---
+
 -------------------------------------------------
 --  Raid/Party Handling and Unit ID Utilities  --
 -------------------------------------------------
@@ -3634,8 +3511,8 @@ end
 
 function DBM:LFG_PROPOSAL_SHOW()
 	if self.Options.ShowQueuePop and not self.Options.DontShowBossTimers then
-		self.Bars:CreateBar(45.5, DBM_LFG_INVITE, "Interface\\Icons\\Spell_Holy_BorrowedTime")
-		fireEvent("DBM_TimerStart", "DBMLFGTimer", DBM_LFG_INVITE, 45.5, "Interface\\Icons\\Spell_Holy_BorrowedTime", "extratimer", nil, 0)
+		self.Bars:CreateBar(40, DBM_LFG_INVITE, "Interface\\Icons\\Spell_Holy_BorrowedTime")
+		fireEvent("DBM_TimerStart", "DBMLFGTimer", DBM_LFG_INVITE, 40, "Interface\\Icons\\Spell_Holy_BorrowedTime", "extratimer", nil, 0)
 	end
 	if self.Options.LFDEnhance then
 		self:FlashClientIcon()
@@ -3653,7 +3530,7 @@ function DBM:LFG_PROPOSAL_SUCCEEDED()
 	fireEvent("DBM_TimerStop", "DBMLFGTimer")
 end
 
-function DBM:READY_CHECK() --рейд чек, рч
+function DBM:READY_CHECK()
 	if self.Options.RLReadyCheckSound then--readycheck sound, if ora3 not installed (bad to have 2 mods do it)
 		self:FlashClientIcon()
 		if not BINDING_HEADER_oRA3 then
@@ -3661,8 +3538,7 @@ function DBM:READY_CHECK() --рейд чек, рч
 		end
 	end
 	self:TransitionToDungeonBGM(false, true)
---	self:Schedule(4, self.TransitionToDungeonBGM, self)
-	self:Schedule(2, self.TransitionToDungeonBGM, self)
+	self:Schedule(4, self.TransitionToDungeonBGM, self)
 end
 
 function DBM:PLAYER_SPECIALIZATION_CHANGED()
@@ -4135,12 +4011,7 @@ do
 				dbmRevision = tonumber(dbmRevision or 0) or 0
 				modHFRevision = tonumber(modHFRevision or 0) or 0
 				startHp = tonumber(startHp or -1) or -1
-                if dbmRevision ~= DBM.Revision then
-                	if DBM.Options.DebugMode and mod ~= nil then
-                    	DBM:AddMsg("StartCombat (rejected) called for " .. mod.combatInfo.name .. " by: SYNC from - " .. sender .. ".")
-                	end
-                return
-                end
+				if dbmRevision < 10481 then return end
 				if mod and delay and (not mod.zones or mod.zones[LastInstanceMapID]) and (not mod.minSyncRevision or modRevision >= mod.minSyncRevision) then
 					DBM:StartCombat(mod, delay + lag, "SYNC from - "..sender, true, startHp)
 					if (mod.revision < modHFRevision) and (mod.revision > 1000) then--mod.revision because we want to compare to OUR revision not senders
@@ -4419,18 +4290,18 @@ do
 					--Disable if revision grossly out of date even if not major patch.
 					if raid[newerVersionPerson[1]] and raid[newerVersionPerson[2]] and raid[newerVersionPerson[3]] then
 						local revDifference = mmin((raid[newerVersionPerson[1]].revision - DBM.Revision), (raid[newerVersionPerson[2]].revision - DBM.Revision), (raid[newerVersionPerson[3]].revision - DBM.Revision))
-						if revDifference > 100 then --WTF? Sorry but your DBM is being turned off until you update. Grossly out of date mods cause fps loss, freezes, lua error spam, or just very bad information, if mod is not up to date with latest changes. All around undesirable experience to put yourself or other raid mates through
+						if revDifference > 100 then
 							if updateNotificationDisplayed < 3 then
 								updateNotificationDisplayed = 3
-								AddMsg(DBM, DBM_CORE_UPDATEREMINDER_DISABLE2)
-							--	DBM:Disable(true)
+								AddMsg(DBM, DBM_CORE_UPDATEREMINDER_DISABLE)
+								DBM:Disable(true)
 							end
 						end
 					--Disable if out of date and it's a major patch.
 					elseif not testBuild and dbmToc < wowTOC then
 						updateNotificationDisplayed = 3
 						AddMsg(DBM, DBM_CORE_UPDATEREMINDER_MAJORPATCH)
-					--	DBM:Disable(true)
+						DBM:Disable(true)
 					end
 				end
 			end
@@ -4443,9 +4314,9 @@ do
 			if #newerRevisionPerson == 2 and raid[newerRevisionPerson[1]] and raid[newerRevisionPerson[2]] then
 				local revDifference = mmin((raid[newerRevisionPerson[1]].revision - DBM.Revision), (raid[newerRevisionPerson[2]].revision - DBM.Revision))
 				if testBuild and revDifference > 5 then
-					updateNotificationDisplayed = 7
-					AddMsg(DBM, DBM_CORE_UPDATEREMINDER_DISABLE2)
-				--	DBM:Disable(true)
+					updateNotificationDisplayed = 3
+					AddMsg(DBM, DBM_CORE_UPDATEREMINDER_DISABLE)
+					DBM:Disable(true)
 				else
 					updateNotificationDisplayed = 2
 					AddMsg(DBM, DBM_CORE_UPDATEREMINDER_HEADER_ALPHA:format(revDifference))
@@ -5129,7 +5000,7 @@ do
 	end
 
 	function DBM:ShowUpdateReminder(newVersion, newRevision, text, url)
-		urlText = url or DBM_CORE_UPDATEREMINDER_URL or "https://github.com/Aleksart163/DBM-RV"
+		urlText = url or DBM_CORE_UPDATEREMINDER_URL or "http://www.deadlybossmods.com"
 		if not frame then
 			createFrame()
 		else
@@ -5412,18 +5283,13 @@ do
 		until not bossGUID
 	end
 
-	function DBM:INSTANCE_ENCOUNTER_ENGAGE_UNIT() --Волосали
-		if timerRequestInProgress then return end --do not start ieeu combat if timer request is progressing. (not to break Timer Recovery stuff)
+	function DBM:INSTANCE_ENCOUNTER_ENGAGE_UNIT()
+		if timerRequestInProgress then return end--do not start ieeu combat if timer request is progressing. (not to break Timer Recovery stuff)
 		if dbmIsEnabled and combatInfo[LastInstanceMapID] then
-			self:Debug("INSTANCE_ENCOUNTER_ENGAGE_UNIT event fired for zoneId" .. LastInstanceMapID) -- default debuglevel 3
+			self:Debug("INSTANCE_ENCOUNTER_ENGAGE_UNIT event fired for zoneId"..LastInstanceMapID, 3)
 			for i, v in ipairs(combatInfo[LastInstanceMapID]) do
-				if not v.noIEEUDetection then
-					if v.type:find("combat") and isBossEngaged(v.multiMobPullDetection or v.mob) then
-						self:StartCombat(v.mod, 0, "IEEU")
-					elseif v.IEEUWipeDetection and not isBossEngaged(v.mob) then
-						-- self:Debug("Debug Wipe: " .. v.mod.combatInfo.name .. ", cId: " .. v.mob)
-						self:EndCombat(v.mod, true)
-					end
+				if v.type:find("combat") and isBossEngaged(v.multiMobPullDetection or v.mob) then
+					self:StartCombat(v.mod, 0, "IEEU")
 				end
 			end
 		end
@@ -5441,8 +5307,8 @@ do
 		local spellName = self:GetSpellInfo(spellId)
 		self:Debug("UNIT_SPELLCAST_SUCCEEDED fired: "..UnitName(uId).."'s "..spellName.."("..spellId..")", 3)
 	end
-	
-	function DBM:ENCOUNTER_START(encounterID, name, difficulty, size) --Волосали
+
+	function DBM:ENCOUNTER_START(encounterID, name, difficulty, size)
 		self:Debug("ENCOUNTER_START event fired: "..encounterID.." "..name.." "..difficulty.." "..size)
 		if dbmIsEnabled then
 			if not self.Options.DontShowReminders then
@@ -5451,24 +5317,17 @@ do
 			if combatInfo[LastInstanceMapID] then
 				for i, v in ipairs(combatInfo[LastInstanceMapID]) do
 					if not v.noESDetection then
-                        if v.multiEncounterPullDetection then
-                            for _, eId in ipairs(v.multiEncounterPullDetection) do
-                                -- self:Debug("[multi pull] encounterID: " .. encounterID)
-                                -- self:Debug("[multi pull] eId: " .. eId)
-                                if encounterID == eId then
-                                    self:StartCombat(v.mod, 0, "ENCOUNTER_START")
-                                    return
-                                end
-                            end
-                        elseif encounterID == v.eId then
-                            -- self:Debug("encounterID: " .. encounterID)
-                            -- self:Debug("v.eId: " .. v.eId)
-                            self:StartCombat(v.mod, 0, "ENCOUNTER_START")
-                            return
-                        else
-                            -- self:Debug("[fail] encounterID: " .. encounterID)
-						--	self:Debug("[fail] v.eId: " .. v.eId)
-                        end
+						if v.multiEncounterPullDetection then
+							for _, eId in ipairs(v.multiEncounterPullDetection) do
+								if encounterID == eId then
+									self:StartCombat(v.mod, 0, "ENCOUNTER_START")
+									return
+								end
+							end
+						elseif encounterID == v.eId then
+							self:StartCombat(v.mod, 0, "ENCOUNTER_START")
+							return
+						end
 					end
 				end
 			end
@@ -5706,23 +5565,15 @@ do
 	function DBM:StartCombat(mod, delay, event, synced, syncedStartHp)
 		cSyncSender = {}
 		cSyncReceived = 0
-		-- self:Debug("[check] StartCombat")
 		if not checkEntry(inCombat, mod) then
-			-- self:Debug("[check] checkEntry")
 			if not mod.Options.Enabled then return end
 			if not mod.combatInfo then return end
 			if mod.combatInfo.noCombatInVehicle and UnitInVehicle("player") then -- HACK
 				return
 			end
 			--HACK: makes sure that we don't detect a false pull if the event fires again when the boss dies...
-			if mod.lastKillTime and GetTime() - mod.lastKillTime < (mod.reCombatTime or 120) and event ~= "LOADING_SCREEN_DISABLED" then
-			-- self:Debug("[check] mod.lastKillTime")
-			return
-			end
-			if mod.lastWipeTime and GetTime() - mod.lastWipeTime < (event == "ENCOUNTER_START" and 3 or mod.reCombatTime2 or 20) and event ~= "LOADING_SCREEN_DISABLED" then
-			-- self:Debug("[check] mod.lastWipeTime")
-			return
-			end
+			if mod.lastKillTime and GetTime() - mod.lastKillTime < (mod.reCombatTime or 120) and event ~= "LOADING_SCREEN_DISABLED" then return end
+			if mod.lastWipeTime and GetTime() - mod.lastWipeTime < (event == "ENCOUNTER_START" and 3 or mod.reCombatTime2 or 20) and event ~= "LOADING_SCREEN_DISABLED" then return end
 			if event then
 				self:Debug("StartCombat called by : "..event..". LastInstanceMapID is "..LastInstanceMapID)
 				if event ~= "ENCOUNTER_START" then
@@ -6039,8 +5890,7 @@ do
 				local hp = mod.highesthealth and mod:GetHighestBossHealth() or mod:GetLowestBossHealth()
 				local wipeHP = mod.CustomHealthUpdate and mod:CustomHealthUpdate() or hp and ("%d%%"):format(hp) or DBM_CORE_UNKNOWN
 				if mod.vb.phase then
-				--	wipeHP = wipeHP.." ("..SCENARIO_STAGE:format(mod.vb.phase)..")"
-					wipeHP = wipeHP.." ("..DBM_PHASE:format(mod.vb.phase)..")"
+					wipeHP = wipeHP.." ("..SCENARIO_STAGE:format(mod.vb.phase)..")"
 				end
 				if mod.numBoss then
 					local bossesKilled = mod.numBoss - mod.vb.bossLeft
@@ -6303,18 +6153,12 @@ function DBM:OnMobKill(cId, synced)
 				end
 			end
 			if allMobsDown then
-				if cId == 124445 then
-					self:Debug("[check] OnMobKill (allMobsDown) 124445")
-				end
 				self:EndCombat(v)
 			end
-		elseif cId == v.combatInfo.mob and not v.combatInfo.killMobs and not v.combatInfo.multiMobPullDetection and not v.noOnMobKillDetection then
+		elseif cId == v.combatInfo.mob and not v.combatInfo.killMobs and not v.combatInfo.multiMobPullDetection then
 			if not synced then
 				sendSync("K", cId)
 			end
-			-- if cId == 124445 then
-			-- 	self:Debug("[check] cId == v.combatInfo.mob 124445")
-			-- end
 			self:EndCombat(v)
 		end
 	end
@@ -6482,9 +6326,7 @@ end
 function DBM:GetSpellInfo(spellId)
 	local name, rank, icon, castingTime, minRange, maxRange, returnedSpellId  = GetSpellInfo(spellId)
 	if not returnedSpellId then--Bad request all together
-		if spellId ~= 0 and spellId ~= 2 then
 		DBM:Debug("|cffff0000Invalid call to GetSpellInfo for spellID: |r"..spellId)
-		end
 		return nil
 	else--Good request, return now
 		return name, rank, icon, castingTime, minRange, maxRange, returnedSpellId
@@ -6734,8 +6576,7 @@ do
 	function DBM:PLAYER_ENTERING_WORLD()
 		if not self.Options.DontShowReminders then
 			C_TimerAfter(25, function() if self.Options.SilentMode then self:AddMsg(DBM_SILENT_REMINDER) end end)
-			C_TimerAfter(30, function() if not self.Options.SettingsMessageShown then self.Options.SettingsMessageShown = true self:AddMsg(DBM_HOW_TO_USE_MOD) end end) --приветствие
-			C_TimerAfter(40, function() if not self.Options.HelpMessageShown then self.Options.HelpMessageShown = true self:AddMsg(DBM_CORE_NEED_SUPPORT) end end) --помощь в локализации
+			C_TimerAfter(30, function() if not self.Options.SettingsMessageShown then self.Options.SettingsMessageShown = true self:AddMsg(DBM_HOW_TO_USE_MOD) end end)
 		end
 		if type(RegisterAddonMessagePrefix) == "function" then
 			if not RegisterAddonMessagePrefix("D4") then -- main prefix for DBM4
@@ -6830,7 +6671,7 @@ do
 			local hp = mod.highesthealth and mod:GetHighestBossHealth() or mod:GetLowestBossHealth()
 			local hpText = mod.CustomHealthUpdate and mod:CustomHealthUpdate() or hp and ("%d%%"):format(hp) or DBM_CORE_UNKNOWN
 			if mod.vb.phase then
-				hpText = hpText.." ("..DBM_PHASE:format(mod.vb.phase)..")"
+				hpText = hpText.." ("..SCENARIO_STAGE:format(mod.vb.phase)..")"
 			end
 			if mod.numBoss then
 				local bossesKilled = mod.numBoss - mod.vb.bossLeft
@@ -6849,7 +6690,7 @@ do
 			local hp = mod.highesthealth and mod:GetHighestBossHealth() or mod:GetLowestBossHealth()
 			local hpText = mod.CustomHealthUpdate and mod:CustomHealthUpdate() or hp and ("%d%%"):format(hp) or DBM_CORE_UNKNOWN
 			if mod.vb.phase then
-				hpText = hpText.." ("..DBM_PHASE:format(mod.vb.phase)..")"
+				hpText = hpText.." ("..SCENARIO_STAGE:format(mod.vb.phase)..")"
 			end
 			if mod.numBoss then
 				local bossesKilled = mod.numBoss - mod.vb.bossLeft
@@ -6984,125 +6825,65 @@ end
 
 do
 	local testMod
-	local testWarning1, testWarning2, testWarning3, testWarning4, testWarning5
+	local testWarning1, testWarning2, testWarning3
 	local testTimer1, testTimer2, testTimer3, testTimer4, testTimer5, testTimer6, testTimer7, testTimer8
 	local testCount1, testCount2
-	local testSpecialWarning1, testSpecialWarning2, testSpecialWarning3, testSpecialWarning4, testSpecialWarning5, testSpecialWarning6
+	local testSpecialWarning1, testSpecialWarning2, testSpecialWarning3
 	function DBM:DemoMode()
 		if not testMod then
 			testMod = self:NewMod("TestMod")
-			if (LOCALE_ruRU) then
-				self:GetModLocalization("TestMod"):SetGeneralLocalization{ name = "Тест мод" }
-			else
-				self:GetModLocalization("TestMod"):SetGeneralLocalization{ name = "Test Mod" }
-			end
+			self:GetModLocalization("TestMod"):SetGeneralLocalization{ name = "Test Mod" }
 			testWarning1 = testMod:NewAnnounce("%s", 1, "Interface\\Icons\\Spell_Nature_WispSplode")
 			testWarning2 = testMod:NewAnnounce("%s", 2, "Interface\\Icons\\Spell_Shadow_ShadesOfDarkness")
 			testWarning3 = testMod:NewAnnounce("%s", 3, "Interface\\Icons\\Spell_Fire_SelfDestruct")
-			testWarning4 = testMod:NewAnnounce("%s", 2, "Interface\\Icons\\Spell_Shadow_Demoniccirclesummon")
 			testTimer1 = testMod:NewTimer(20, "%s", "Interface\\Icons\\Spell_Nature_WispSplode", nil, nil)
-			testTimer2 = testMod:NewTimer(20, "%s ", "Interface\\ICONS\\INV_Misc_Head_Orc_01.blp", nil, nil, 1, DBM_CORE_DAMAGE_ICON)
+			testTimer2 = testMod:NewTimer(20, "%s ", "Interface\\ICONS\\INV_Misc_Head_Orc_01.blp", nil, nil, 1)
 			testTimer3 = testMod:NewTimer(20, "%s  ", "Interface\\Icons\\Spell_Shadow_ShadesOfDarkness", nil, nil, 3, DBM_CORE_MAGIC_ICON)
 			testTimer4 = testMod:NewTimer(20, "%s   ", "Interface\\Icons\\Spell_Nature_WispSplode", nil, nil, 4, DBM_CORE_INTERRUPT_ICON)
 			testTimer5 = testMod:NewTimer(20, "%s    ", "Interface\\Icons\\Spell_Fire_SelfDestruct", nil, nil, 2, DBM_CORE_HEALER_ICON)
 			testTimer6 = testMod:NewTimer(20, "%s     ", "Interface\\Icons\\Spell_Nature_WispSplode", nil, nil, 5, DBM_CORE_TANK_ICON)
-			testTimer7 = testMod:NewTimer(20, "%s      ", "Interface\\Icons\\Spell_Nature_WispSplode", nil, nil, 6, DBM_CORE_MYTHIC_ICON)
+			testTimer7 = testMod:NewTimer(20, "%s      ", "Interface\\Icons\\Spell_Nature_WispSplode", nil, nil, 6)
 			testTimer8 = testMod:NewTimer(20, "%s       ", "Interface\\Icons\\Spell_Nature_WispSplode", nil, nil, 7)
 			testCount1 = testMod:NewCountdown(0, 0, nil, nil, nil, true)
 			testCount2 = testMod:NewCountdown(0, 0, nil, nil, nil, true, true)
 			testSpecialWarning1 = testMod:NewSpecialWarning("%s", nil, nil, nil, 1, 2)
 			testSpecialWarning2 = testMod:NewSpecialWarning(" %s ", nil, nil, nil, 2, 2)
-			testSpecialWarning3 = testMod:NewSpecialWarning("  %s  ", nil, nil, nil, 3, 6) -- hack: non auto-generated special warnings need distinct names (we could go ahead and give them proper names with proper localization entries, but this is much easier)
-			testSpecialWarning4 = testMod:NewSpecialWarning("   %s   ", nil, nil, nil, 1, 2)
-			testSpecialWarning5 = testMod:NewSpecialWarning("    %s    ", nil, nil, nil, 1, 2)
-			testSpecialWarning6 = testMod:NewSpecialWarning("     %s     ", nil, nil, nil, 4, 5)
+			testSpecialWarning3 = testMod:NewSpecialWarning("  %s  ", nil, nil, nil, 3, 2) -- hack: non auto-generated special warnings need distinct names (we could go ahead and give them proper names with proper localization entries, but this is much easier)
 		end
-		if (LOCALE_ruRU) then -- need your localization? /w Куплиняшка or /w Selendiss
-		-- only ru
-			testTimer1:Start(5, "Тест бар")
-			testTimer2:Start(15, "Треш-мобы")
-			testTimer3:Start(25, "Злой дебафф")
-			testTimer4:Start(10, "Прерывание спелла")
-			testTimer5:Start(45, "АОЕ по рейду")
-			testTimer6:Start(20, "Специально для роли")
-			testTimer7:Start(30, "Следующая фаза")
-			testTimer8:Start(35, "Важно к вниманию")
-		else --others
-			testTimer1:Start(5, "Test Bar")
-			testTimer2:Start(15, "Adds")
-			testTimer3:Start(25, "Evil Debuff")
-			testTimer4:Start(10, "Important Interrupt")
-			testTimer5:Start(45, "Boom!")
-			testTimer6:Start(20, "Handle your Role")
-			testTimer7:Start(30, "Next Stage")
-			testTimer8:Start(35, "important to attention")
-		end
+		testTimer1:Start(10, "Test Bar")
+		testTimer2:Start(30, "Adds")
+		testTimer3:Start(43, "Evil Debuff")
+		testTimer4:Start(20, "Important Interrupt")
+		testTimer5:Start(60, "Boom!")
+		testTimer6:Start(35, "Handle your Role")
+		testTimer7:Start(50, "Next Stage")
+		testTimer8:Start(55, "Custom User Bar")
 		testCount1:Cancel()
-		testCount1:Start(25)
+		testCount1:Start(43)
 		testCount2:Cancel()
-		testCount2:Start(45)
+		testCount2:Start(60)
 		testWarning1:Cancel()
 		testWarning2:Cancel()
 		testWarning3:Cancel()
-		testWarning4:Cancel()
 		testSpecialWarning1:Cancel()
 		testSpecialWarning1:CancelVoice()
 		testSpecialWarning2:Cancel()
 		testSpecialWarning2:CancelVoice()
 		testSpecialWarning3:Cancel()
 		testSpecialWarning3:CancelVoice()
-		testSpecialWarning4:Cancel()
-		testSpecialWarning4:CancelVoice()
-		testSpecialWarning5:Cancel()
-		testSpecialWarning5:CancelVoice()
-		testSpecialWarning6:Cancel()
-		testSpecialWarning6:CancelVoice()
-		if (LOCALE_ruRU) then --need your localization? /w Куплиняшка or /w Selendiss
-		-- only ru
-			testWarning1:Show("Начался тест-мод...")
-			testWarning1:Schedule(48, "Тест-мод окончен!")
-			testWarning1:Schedule(30, "Фаза 2")
-			testWarning3:Schedule(38, "Взрыв через 7 сек!")
-			testWarning3:Schedule(10, "Прошляпанное очко Мурчаля!")
-			testWarning4:Schedule(15, "Вызов подкрепления!")
-			testWarning2:Schedule(20, "Злой спелл через 5 сек!")
-			testWarning2:Schedule(25, "Злой спелл!")
-			testWarning1:Schedule(5, "Тест бара окончен!")
-			testSpecialWarning1:Schedule(10, "Прошляпанное очко Мурчаля - прерви каст!")
-			testSpecialWarning1:ScheduleVoice(10, "kickcast")
-			testSpecialWarning2:Schedule(25, "Страх! - отвернись")
-			testSpecialWarning2:ScheduleVoice(25, "fearsoon")
-			testSpecialWarning3:Schedule(45, "АОЕ по рейду! - защитись")
-			testSpecialWarning3:ScheduleVoice(45, "defensive")
-			testSpecialWarning4:Schedule(15, "Вызов подкрепления - переключись")
-			testSpecialWarning4:ScheduleVoice(15, "mobkill")
-			testSpecialWarning5:Schedule(20, "Обстрел Скверны - затаунти")
-			testSpecialWarning5:ScheduleVoice(20, "tauntboss")
-			testSpecialWarning6:Schedule(35, "Очко Мурчаля на тебе - отбеги от других")
-			testSpecialWarning6:ScheduleVoice(35, "runaway")
-		else --others
-			testWarning1:Show("Test-mode started...")
-			testWarning1:Schedule(48, "Test-mode finished!")
-			testWarning1:Schedule(30, "Stage 2")
-			testWarning3:Schedule(38, "Boom in 7 sec!")
-			testWarning3:Schedule(10, "Proshlyap Murchal's point")
-			testWarning4:Schedule(15, "Summon Reinforcements!")
-			testWarning2:Schedule(20, "Evil Spell in 5 sec!")
-			testWarning2:Schedule(25, "Evil Spell!")
-			testWarning1:Schedule(5, "Test bar expired!")
-			testSpecialWarning1:Schedule(10, "Murchal's point - stop casting")
-			testSpecialWarning1:ScheduleVoice(10, "kickcast")
-			testSpecialWarning2:Schedule(25, "Fear! - look away")
-			testSpecialWarning2:ScheduleVoice(25, "fearsoon")
-			testSpecialWarning3:Schedule(45, "Boom! - defensive")
-			testSpecialWarning3:ScheduleVoice(45, "defensive")
-			testSpecialWarning4:Schedule(15, "Summon Reinforcements - switch targets")
-			testSpecialWarning4:ScheduleVoice(15, "mobkill")
-			testSpecialWarning5:Schedule(20, "Fel Bombardment - taunt now")
-			testSpecialWarning5:ScheduleVoice(20, "tauntboss")
-			testSpecialWarning6:Schedule(35, "Necrotic Embrace on you - move away from others")
-			testSpecialWarning6:ScheduleVoice(35, "runaway")
-		end
+		testWarning1:Show("Test-mode started...")
+		testWarning1:Schedule(62, "Test-mode finished!")
+		testWarning3:Schedule(50, "Boom in 10 sec!")
+		testWarning3:Schedule(20, "Pew Pew Laser Owl!")
+		testWarning2:Schedule(38, "Evil Spell in 5 sec!")
+		testWarning2:Schedule(43, "Evil Spell!")
+		testWarning1:Schedule(10, "Test bar expired!")
+		testSpecialWarning1:Schedule(20, "Pew Pew Laser Owl")
+		testSpecialWarning1:ScheduleVoice(20, "runaway")
+		testSpecialWarning2:Schedule(43, "Fear!")
+		testSpecialWarning2:ScheduleVoice(43, "fearsoon")
+		testSpecialWarning3:Schedule(60, "Boom!")
+		testSpecialWarning3:ScheduleVoice(60, "defensive")
 	end
 end
 
@@ -7551,111 +7332,18 @@ function bossModPrototype:IsValidWarning(sourceGUID)
 	return false
 end
 
---[[do
-	local interruptSpells = { --На всякий, если старый будет косячить
-		[1766] = true,--Крыса (Пинок)
-		[2139] = true,--Маг (Антимагия)
-		[6552] = true,--Воин (Зуботычина)
-		[15487] = true,--Прист (Безмолвие)
-		[19647] = true,--Пет лока (Запрет чар)--
-		[47528] = true,--ДК (Заморозка разума)
-		[57994] = true,--Шаман (Пронизывающий ветер)
-		[78675] = true,--Друид (Столп солнечного света)
-		[96231] = true,--Паладин (Укор)
-		[106839] = true,--Друид (Лобовая атака)
-		[116705] = true,--Монах (Рука-копье)
-		[147362] = true,--Хант (Встречный выстрел)--
-		[171138] = true,--Пет лока (Замок мира теней)--
-		[183752] = true,--ДХ (Похищение магии)
-		[187707] = true,--Хант (Намордник)--
-	}
-	--onlyTandF param is used when CheckInterruptFilter is actually being used for a simpe target/focus check and nothing more.
-	--checkCooldown should always be passed true except for special rotations like count warnings when you should be alerted it's your turn even if you dropped ball and put it on CD at wrong time
-	--ignoreTandF is passed usually when interrupt is on a main boss or event that is global to entire raid and should always be alerted regardless of targetting.
-	function bossModPrototype:CheckInterruptFilter(sourceGUID, checkOnlyTandF, checkCooldown, ignoreTandF)
-		--Just return true if interrupt filtering is disabled (and it's actually for an interrupt)
-		if DBM.Options.FilterInterrupt2 == "None" and not checkOnlyTandF then return true end
-
-		local unitID = (UnitGUID("target") == sourceGUID) and "target" or not isClassic and (UnitGUID("focus") == sourceGUID) and "focus"
-
-		--Just return true if target or focus is ONLY requirement (not an interrupt check) and we already confirmed T and F
-		if unitID and checkOnlyTandF then return true end--checkOnlyTandF means this isn't an interrupt check at all, skip all the rest and return true if we met TandF rquirement
-
-		--TandF required in all checks except "None" or if ignoreTandF is passed
-		--Just return false if source isn't our target or focus, no need to do further checks
-		if not ignoreTandF and not unitID then
-			return false
-		end
-
-		--Check if cooldown check is actually required
-		local cooldownRequired = checkCooldown--First set to default value defined by arg
-		if cooldownRequired and ((DBM.Options.FilterInterrupt2 == "onlyTandF") or self.isTrashMod and (DBM.Options.FilterInterrupt2 == "TandFandBossCooldown")) then
-			cooldownRequired = false
-		end
-
-		local InterruptAvailable = true--We want to default to true versus false, since some interrupts don't require CD checks
-		if cooldownRequired then
-			for spellID, _ in pairs(interruptSpells) do
-				--For an inverse check, don't need to check if it's known, if it's on cooldown it's known
-				--This is possible since no class has 2 interrupt spells (well, actual interrupt spells)
-				if (GetSpellCooldown(spellID)) ~= 0 then--Spell is on cooldown
-					InterruptAvailable = false
-				end
-			end
-		end
-		if InterruptAvailable then
-			--Check if it's casting something that's not interruptable at the moment
-			--needed for torghast since many mobs can have interrupt immunity with same spellIds as other mobs that can be interrupted
-			if isRetail and unitID then
-				if UnitCastingInfo(unitID) then
-					local _, _, _, _, _, _, _, notInterruptible = UnitCastingInfo(unitID)
-					if notInterruptible then return false end
-				elseif UnitChannelInfo(unitID) then
-					local _, _, _, _, _, _, notInterruptible = UnitChannelInfo(unitID)
-					if notInterruptible then return false end
-				end
-			end
-			return true
-		end
-		return false
-	end
-end]]
-
-function bossModPrototype:CheckInterruptFilter(sourceGUID, skip, checkCooldown) --интеррапт, кик каста
+--Skip param is used when CheckInterruptFilter is actually being used for a simpe target/focus check and nothing more.
+--checkCooldown should never be passed with skip or COUNT interrupt warnings. It should be passed with any other interrupt filter
+function bossModPrototype:CheckInterruptFilter(sourceGUID, skip, checkCooldown)
 	if DBM.Options.FilterInterrupt2 == "None" and not skip then return true end--use doesn't want to use interrupt filter, always return true
+	--Pummel, Mind Freeze, Counterspell, Kick, Skull Bash, Rebuke, Silence, Wind Shear
 	local InterruptAvailable = true
 	local requireCooldown = checkCooldown
-	local interruptSpells = {
-		[1766] = true,--Крыса (Пинок)
-		[2139] = true,--Маг (Антимагия)
-		[6552] = true,--Воин (Зуботычина)
-		[15487] = true,--Прист (Безмолвие)
-	--	[47482] = true,--пет дк (Прыжок)
-		[47528] = true,--ДК (Заморозка разума)
-		[57994] = true,--Шаман (Пронизывающий ветер)
-		[78675] = true,--Друид (Столп солнечного света)
-		[96231] = true,--Паладин (Укор)
-		[106839] = true,--Друид (Лобовая атака)
-		[116705] = true,--Монах (Рука-копье)
-		[147362] = true,--Хант (Встречный выстрел)
-		[183752] = true,--ДХ (Похищение магии)
-		[187707] = true,--Хант (Намордник)
-	}
-	local currentPet = DBM:GetCIDFromGUID(UnitGUID("pet"))
 	if (DBM.Options.FilterInterrupt2 == "onlyTandF") or self.isTrashMod and (DBM.Options.FilterInterrupt2 == "TandFandBossCooldown") then
 		requireCooldown = false
 	end
-	if requireCooldown then
-		for spellID, _ in pairs(interruptSpells) do
-			if GetSpellCooldown(spellID) ~= 0 then
-				InterruptAvailable = false
-			end
-		end
-		if playerClass == "WARLOCK" then
-			if (currentPet == 78158 and GetSpellCooldown(171138) ~= 0) or (currentPet == 417 and GetSpellCooldown(19647) ~= 0) or (currentPet ~= 78158 and currentPet ~= 417) then --171138 пет лока (Замок мира теней), 19647 пет лока (Запрет чар)
-				InterruptAvailable = false
-			end
-		end
+	if requireCooldown and ((GetSpellCooldown(6552)) ~= 0 or (GetSpellCooldown(47528)) ~= 0 or (GetSpellCooldown(2139)) ~= 0 or (GetSpellCooldown(1766)) ~= 0 or (GetSpellCooldown(106839)) ~= 0 or (GetSpellCooldown(96231)) ~= 0 or (GetSpellCooldown(15487)) ~= 0 or (GetSpellCooldown(57994)) ~= 0) then
+		InterruptAvailable = false--checkCooldown check requested and player has no spell that can interrupt available
 	end
 	if InterruptAvailable and (UnitGUID("target") == sourceGUID or UnitGUID("focus") == sourceGUID) then
 		return true
@@ -7663,97 +7351,7 @@ function bossModPrototype:CheckInterruptFilter(sourceGUID, skip, checkCooldown) 
 	return false
 end
 
---[[
-do
-	local lazyCheck = {
-		[527] = true, --Прист Очищение (хил) (магия и болезни) +++
-		[2782] = true, --Друид Снятие порчи (дд и танк) (проклятья, яды) +++
-		[4987] = true, --Паладин Очищение (хил) (магия, яды и болезни) +++
-		[51886] = true, --Шаман Очищение духа (проклятия)
-		[77130] = true, --Шаман Возрождение духа (магия и проклятия)
-		[88423] = true, --Друид Природный целитель (хил) (магия, проклятия и яды)
-		[89808] = true, --Варлок Опаляющая магия (магия)
-		[115450] = true, --Монах Детоксикация (хил) (магия, яды и болезни)
-		[213634] = true, --Прист Очищение от болезни (дд) (болезни) +++
-		[213644] = true, --Паладин Очищение от токсинов (дд и танк) (яды и болезни)
-		[218164] = true, --Монах Детоксикация (не хил) (яды и болезни)
-	}
-	local typeCheck = {
-		["magic"] = {
-			[527] = true, --Прист Очищение (хил) (магия и болезни)
-			[4987] = DBM:IsHealer() and true, --Паладин Очищение (хил) (магия, яды и болезни)
-			[77130] = true, --Шаман Возрождение духа (магия и проклятия)
-			[88423] = DBM:IsHealer() and true, --Друид Природный целитель (хил) (магия, проклятия и яды)
-			[89808] = true, --Варлок Опаляющая магия (магия)
-			[115450] = true, --Монах Детоксикация (хил) (магия, яды и болезни)
-		},
-		["curse"] = {
-			[2782] = true, --Друид Снятие порчи (дд и танк) (проклятья, яды)
-			[51886] = true, --Шаман Очищение духа (проклятия)
-			[77130] = true, --Шаман Возрождение духа (магия и проклятия)
-			[88423] = DBM:IsHealer() and true, --Друид Природный целитель (хил) (магия, проклятия и яды)
-		},
-		["poison"] = {
-			[2782] = true, --Друид Снятие порчи (дд и танк) (проклятья, яды)
-			[4987] = DBM:IsHealer() and true, --Паладин Очищение (хил) (магия, яды и болезни)
-			[88423] = DBM:IsHealer() and true, --Друид Природный целитель (хил) (магия, проклятия и яды)
-			[115450] = true, --Монах Детоксикация (хил) (магия, яды и болезни)
-			[213644] = true, --Паладин Очищение от токсинов (дд и танк) (яды и болезни)
-			[218164] = true, --Монах Детоксикация (не хил) (яды и болезни)
-		},
-		["disease"] = {
-			[527] = true, --Прист Очищение (хил) (магия и болезни)
-			[4987] = DBM:IsHealer() and true, --Паладин Очищение (хил) (магия, яды и болезни)
-			[115450] = true, --Монах Детоксикация (хил) (магия, яды и болезни)
-			[213634] = true, --Прист Очищение от болезни (дд) (болезни)
-			[213644] = true, --Паладин Очищение от токсинов (дд и танк) (яды и болезни)
-			[218164] = true, --Монах Детоксикация (не хил) (яды и болезни)
-		},
-	}
-	local lastCheck, lastReturn = 0, true
-	function bossModPrototype:CheckDispelFilter(dispelType)
-		if not DBM.Options.FilterDispel then return true end
-		-- Retail - Druid: Nature's Cure (88423), Remove Corruption (2782), Monk: Detox (115450) Monk: Detox (218164), Priest: Purify (527) Priest: Purify Disease (213634), Paladin: Cleanse (4987), Shaman: Cleanse Spirit (51886), Purify Spirit (77130), Mage: Remove Curse (475), Warlock: Singe Magic (89808)
-		-- Classic - Druid: Remove Curse (2782), Priest: Purify (527), Paladin: Cleanse (4987), Mage: Remove Curse (475)
-		--start, duration, enable = GetSpellCooldown
-		--start & duration == 0 if spell not on cd
-		if UnitIsDeadOrGhost("player") then return false end--if dead, can't dispel
-		if GetTime() - lastCheck < 0.1 then--Recently returned status, return same status to save cpu from aggressive api checks caused by CheckDispelFilter running on multiple raid members getting debuffed at once
-			return lastReturn
-		end
-		if dispelType then
-			--Singe magic requires checking if pet is out
-			if dispelType == "magic" and (GetSpellCooldown(89808)) == 0 and (UnitExists("pet") and self:GetCIDFromGUID(UnitGUID("pet")) == 416) then
-				lastCheck = GetTime()
-				lastReturn = true
-				return true
-			end
-			--We cannot do inverse check here because some classes actually have two dispels for same type (such as evoker)
-			--Therefor, we can't go false if only one of them are on cooldown. We have to go true of any of them aren't on CD instead
-			--As such, we have to check if a spell is known in addition to it not being on cooldown
-			for spellID, _ in pairs(typeCheck[dispelType]) do
-				if typeCheck[dispelType][spellID] and IsSpellKnown(spellID) and (GetSpellCooldown(spellID)) == 0 then--Spell is known and not on cooldown
-					lastCheck = GetTime()
-					lastReturn = true
-					return true
-				end
-			end
-		else--use lazy check until all mods are migrated to define type
-			for spellID, _ in pairs(lazyCheck) do
-				if IsSpellKnown(spellID) and (GetSpellCooldown(spellID)) == 0 then--Spell is known and not on cooldown
-					lastCheck = GetTime()
-					lastReturn = true
-					return true
-				end
-			end
-		end
-		lastCheck = GetTime()
-		lastReturn = false
-		return false
-	end
-end]]
-
-function bossModPrototype:CheckDispelFilter(checkCooldown)
+function bossModPrototype:CheckDispelFilter()
 	if not DBM.Options.FilterDispel then return true end
 	--Druid: Nature's Cure (88423), Remove Corruption (2782), Monk: Detox (115450), Priest: Purify (527), Plaadin: Cleanse (4987), Shaman: Cleanse Spirit (51886), Purify Spirit (77130), Mage: Remove Curse (475)
 	--start, duration, enable = GetSpellCooldown
@@ -8129,19 +7727,17 @@ do
 		["SpellCaster"] = true,--Has channeled casts, can be interrupted/spell locked by roars, etc, include healers. Use CasterDps if dealing with reflect
 		["CasterDps"] = true,--Ranged dps that uses spells, relevant for spell reflect type abilities that only reflect spells but not ranged physical such as hunters
 		["RaidCooldown"] = true,
-		["PoisonDispeller"] = true,--from ally
+		["RemovePoison"] = true,--from ally
 		["RemoveDisease"] = true,--from ally
 		["RemoveEnrage"] = true,--Unused, no one can remove enrage anymore, returning in classic/8.x!
-		["CurseDispeller"] = true,--from ally
-		["MagicDispeller"] = true--диспел с врагов от бафов, все кроме хиллеров. from ENEMY, not debuffs on players. use "Healer" for ally magic dispels. ALL healers can do that.
-		["MagicDispeller2"] = true--диспел с союзников от дебаффов. Хилеры и другие спеки
+		["RemoveCurse"] = true,--from ally
+		["MagicDispeller"] = true--from ENEMY, not debuffs on players. use "Healer" for ally magic dispels. ALL healers can do that.
 		["HasInterrupt"] = true,--Has an interrupt that is 24 seconds or less CD that is BASELINE (not a talent)
-		["Dhdd"] = true, --Перекрывать всякую хуйню типо очка Мурчаля
 		["HasImmunity"] = true,--Has an immunity that can prevent or remove a spell effect (not just one that reduces damage like turtle or dispursion)
 	}]]
 
 	local specRoleTable = {
-		[62] = {	--Аркан маг
+		[62] = {	--Arcane Mage
 			["Dps"] = true,
 			["Ranged"] = true,
 			["RangedDps"] = true,
@@ -8152,38 +7748,38 @@ do
 			["HasInterrupt"] = true,
 			["HasImmunity"] = true,
 		},
-		[65] = {	--Холи пал
+		[65] = {	--Holy Paladin
 			["Healer"] = true,
 			["Ranged"] = true,
 			["ManaUser"] = true,
 			["SpellCaster"] = true,
 			["RaidCooldown"] = true,--Devotion Aura
-			["PoisonDispeller"] = true,
+			["RemovePoison"] = true,
 			["RemoveDisease"] = true,
 			["HasImmunity"] = true,
-			["MagicDispeller2"] = true,
 		},
-		[66] = {	--Прото пал
+		[66] = {	--Protection Paladin
 			["Tank"] = true,
 			["Melee"] = true,
 			["ManaUser"] = true,
 			["Physical"] = true,
-			["PoisonDispeller"] = true,
+			["RemovePoison"] = true,
 			["RemoveDisease"] = true,
 			["HasInterrupt"] = true,
 			["HasImmunity"] = true,
 		},
-		[70] = {	--Ретри пал
+		[70] = {	--Retribution Paladin
 			["Dps"] = true,
 			["Melee"] = true,
 			["MeleeDps"] = true,
 			["ManaUser"] = true,
 			["Physical"] = true,
-			["PoisonDispeller"] = true,
+			["RemovePoison"] = true,
 			["RemoveDisease"] = true,
 			["HasInterrupt"] = true,
+			["HasImmunity"] = true,
 		},
-		[71] = {	--Армс вар
+		[71] = {	--Arms Warrior
 			["Dps"] = true,
 			["Melee"] = true,
 			["MeleeDps"] = true,
@@ -8191,79 +7787,77 @@ do
 			["Physical"] = true,
 			["HasInterrupt"] = true,
 		},
-		[73] = {	--Прото вар
+		[73] = {	--Protection Warrior
 			["Tank"] = true,
 			["Melee"] = true,
 			["Physical"] = true,
 			["HasInterrupt"] = true,
 			--["RaidCooldown"] = true,--Rallying Cry (in 8.x)
 		},
-		[102] = {	--Сова
+		[102] = {	--Balance Druid
 			["Dps"] = true,
 			["Ranged"] = true,
 			["RangedDps"] = true,
 			["ManaUser"] = true,
 			["SpellCaster"] = true,
 			["CasterDps"] = true,
-			["CurseDispeller"] = true,
-			["PoisonDispeller"] = true,
-			["HasInterrupt"] = true,
+			["RemoveCurse"] = true,
+			["RemovePoison"] = true,
 		},
-		[103] = {	--Ферал
+		[103] = {	--Feral Druid
 			["Dps"] = true,
 			["Melee"] = true,
 			["MeleeDps"] = true,
 			["Physical"] = true,
-			["CurseDispeller"] = true,
-			["PoisonDispeller"] = true,
+			["RemoveCurse"] = true,
+			["RemovePoison"] = true,
 			["HasInterrupt"] = true,
 		},
-		[104] = {	--Медведь
+		[104] = {	--Guardian Druid
 			["Tank"] = true,
 			["Melee"] = true,
 			["Physical"] = true,
-			["CurseDispeller"] = true,
-			["PoisonDispeller"] = true,
+			["RemoveCurse"] = true,
+			["RemovePoison"] = true,
 			["HasInterrupt"] = true,
 		},
-		[105] = {	--Дерево
+		[105] = {	-- Restoration Druid
 			["Healer"] = true,
 			["Ranged"] = true,
 			["ManaUser"] = true,
 			["SpellCaster"] = true,
 			["RaidCooldown"] = true,--Tranquility
-			["CurseDispeller"] = true,
-			["PoisonDispeller"] = true,
-			["MagicDispeller2"] = true,
+			["RemoveCurse"] = true,
+			["RemovePoison"] = true,
 		},
-		[250] = {	--Блад дк
+		[250] = {	--Blood DK
 			["Tank"] = true,
 			["Melee"] = true,
 			["Physical"] = true,
 			["HasInterrupt"] = true,
 		},
-		[251] = {	--Фрост дк
+		[251] = {	--Frost DK
 			["Dps"] = true,
 			["Melee"] = true,
 			["MeleeDps"] = true,
 			["Physical"] = true,
 			["HasInterrupt"] = true,
 		},
-		[253] = {	--Бистмастер хант
+		[253] = {	--Beastmaster Hunter
 			["Dps"] = true,
 			["Ranged"] = true,
 			["RangedDps"] = true,
 			["Physical"] = true,
 			["HasInterrupt"] = true,
 		},
-		[255] = {	--Сурв хант
+		[255] = {	--Survival Hunter (Legion)
 			["Dps"] = true,
 			["Melee"] = true,
 			["MeleeDps"] = true,
 			["Physical"] = true,
 			["HasInterrupt"] = true,
 		},
-		[256] = {	--ДЦ
+		[256] = {	--Discipline Priest
 			["Healer"] = true,
 			["Ranged"] = true,
 			["ManaUser"] = true,
@@ -8272,9 +7866,8 @@ do
 			["RaidCooldown"] = true,--Power Word: Barrier(Discipline) / Divine Hymn (Holy)
 			["RemoveDisease"] = true,
 			["MagicDispeller"] = true,
-			["MagicDispeller2"] = true,
 		},
-		[258] = {	--ШП
+		[258] = {	--Shadow Priest
 			["Dps"] = true,
 			["Ranged"] = true,
 			["RangedDps"] = true,
@@ -8282,10 +7875,8 @@ do
 			["SpellCaster"] = true,
 			["CasterDps"] = true,
 			["MagicDispeller"] = true,
-			["MagicDispeller2"] = true,
-			["HasInterrupt"] = true,
 		},
-		[259] = {	--Ликвидация крыса
+		[259] = {	--Assassination Rogue
 			["Dps"] = true,
 			["Melee"] = true,
 			["MeleeDps"] = true,
@@ -8293,86 +7884,81 @@ do
 			["HasInterrupt"] = true,
 			["HasImmunity"] = true,
 		},
-		[262] = {	--Элем шаман
+		[262] = {	--Elemental Shaman
 			["Dps"] = true,
 			["Ranged"] = true,
 			["RangedDps"] = true,
 			["ManaUser"] = true,
 			["SpellCaster"] = true,
 			["CasterDps"] = true,
-			["CurseDispeller"] = true,
+			["RemoveCurse"] = true,
 			["MagicDispeller"] = true,
 			["HasInterrupt"] = true,
 		},
-		[263] = {	--Энх шаман
+		[263] = {	--Enhancement Shaman
 			["Dps"] = true,
 			["Melee"] = true,
 			["MeleeDps"] = true,
 			["ManaUser"] = true,
 			["SpellCaster"] = true,
 			["Physical"] = true,
-			["CurseDispeller"] = true,
+			["RemoveCurse"] = true,
 			["MagicDispeller"] = true,
 			["HasInterrupt"] = true,
 		},
-		[264] = {	--Рестор шаман
+		[264] = {	--Restoration Shaman
 			["Healer"] = true,
 			["Ranged"] = true,
 			["ManaUser"] = true,
 			["SpellCaster"] = true,
 			["RaidCooldown"] = true,--Spirit Link Totem
-			["CurseDispeller"] = true,
+			["RemoveCurse"] = true,
 			["MagicDispeller"] = true,
 			["HasInterrupt"] = true,
-			["MagicDispeller2"] = true,
 		},
-		[265] = {	--Афли лок
+		[265] = {	--Affliction Warlock
 			["Dps"] = true,
 			["Ranged"] = true,
 			["RangedDps"] = true,
 			["ManaUser"] = true,
 			["SpellCaster"] = true,
 			["CasterDps"] = true,
-			["MagicDispeller2"] = true,
-			["HasInterrupt"] = true,
 		},
-		[268] = {	--Хмелевар монк
+		[268] = {	--Brewmaster Monk
 			["Tank"] = true,
 			["Melee"] = true,
 			["Physical"] = true,
-			["PoisonDispeller"] = true,
+			["RemovePoison"] = true,
 			["RemoveDisease"] = true,
 			["HasInterrupt"] = true,
 		},
-		[269] = {	--ТСВ монк
+		[269] = {	--Windwalker Monk
 			["Dps"] = true,
 			["Melee"] = true,
 			["MeleeDps"] = true,
 			["Physical"] = true,
-			["PoisonDispeller"] = true,
+			["RemovePoison"] = true,
 			["RemoveDisease"] = true,
 			["HasInterrupt"] = true,
 		},
-		[270] = {	--ТТ монк
+		[270] = {	--Mistweaver Monk
 			["Healer"] = true,
 			["Melee"] = true,
 			["Ranged"] = true,
 			["ManaUser"] = true,
 			["SpellCaster"] = true,
 			["RaidCooldown"] = true,--Revival
-			["PoisonDispeller"] = true,
+			["RemovePoison"] = true,
 			["RemoveDisease"] = true,
-			["MagicDispeller2"] = true,
 		},
-		[577] = {	--Дх дд
+		[577] = {	--Havok Demon Hunter
 			["Dps"] = true,
 			["Melee"] = true,
 			["MeleeDps"] = true,
 			["Physical"] = true,
 			["HasInterrupt"] = true,
-			["Dhdd"] = true,
 		},
-		[581] = {	--Дх танк
+		[581] = {	--Vengeance Demon Hunter
 			["Tank"] = true,
 			["Melee"] = true,
 			["Physical"] = true,
@@ -8504,55 +8090,11 @@ do
 		end
 	end
 	
-	function bossModPrototype:IsMagicDispeller() --магия (баффы)
+	function bossModPrototype:IsMagicDispeller()
 		if not currentSpecID then
 			DBM:SetCurrentSpecInfo()
 		end
 		if specRoleTable[currentSpecID]["MagicDispeller"] then
-			return true
-		else
-			return false
-		end
-	end
-		
-	function bossModPrototype:IsMagicDispeller2() --магия (дебаффы)
-		if not currentSpecID then
-			DBM:SetCurrentSpecInfo()
-		end
-		if specRoleTable[currentSpecID]["MagicDispeller2"] then
-			return true
-		else
-			return false
-		end
-	end
-		
-	function bossModPrototype:IsPoisonDispeller() --яды
-		if not currentSpecID then
-			DBM:SetCurrentSpecInfo()
-		end
-		if specRoleTable[currentSpecID]["PoisonDispeller"] then
-			return true
-		else
-			return false
-		end
-	end
-		
-	function bossModPrototype:IsDiseaseDispeller() --болезни
-		if not currentSpecID then
-			DBM:SetCurrentSpecInfo()
-		end
-		if specRoleTable[currentSpecID]["RemoveDisease"] then
-			return true
-		else
-			return false
-		end
-	end
-		
-	function bossModPrototype:IsCurseDispeller() --проклятья
-		if not currentSpecID then
-			DBM:SetCurrentSpecInfo()
-		end
-		if specRoleTable[currentSpecID]["CurseDispeller"] then
 			return true
 		else
 			return false
@@ -9325,20 +8867,8 @@ do
 		return newAnnounce(self, "target", spellId, color or 3, icon, optionDefault, optionName, castTime, preWarnTime, noSound, true)
 	end
 	
-	function bossModPrototype:NewTargetAnnounce(spellId, color, icon, optionDefault, optionName, castTime, preWarnTime, noSound, noFilter) --function bossModPrototype:NewTargetAnnounce(spellId, color, ...)
-		return newAnnounce(self, "target", spellId, color or 3, icon, optionDefault, optionName, castTime, preWarnTime, noSound, true) --return newAnnounce(self, "target", spellId, color or 3, ...)
-	end
-
-	function bossModPrototype:NewTargetSourceAnnounce(spellId, color, ...)
-		return newAnnounce(self, "targetsource", spellId, color or 1, ...)
-	end
-	
-	function bossModPrototype:NewTargetSourceAnnounce2(spellId, color, ...)
-		return newAnnounce(self, "targetsource2", spellId, color or 1, ...)
-	end
-	
-	function bossModPrototype:NewTargetSourceCountAnnounce(spellId, color, ...)
-		return newAnnounce(self, "targetsourcecount", spellId, color or 1, ...)
+	function bossModPrototype:NewTargetAnnounce(spellId, color, ...)
+		return newAnnounce(self, "target", spellId, color or 3, ...)
 	end
 
 	function bossModPrototype:NewTargetCountAnnounce(spellId, color, ...)
@@ -9402,10 +8932,6 @@ do
 		end
 		return newAnnounce(self, "prewarn", spellId, color or 1, icon, optionDefault, optionName, nil, time, noSound)
 	end
-	
---[[	function bossModPrototype:NewPreWarnAnnounce(spellId, time, color, icon, optionDefault, optionName, noArg, noSound) -- с БФА
-		return newAnnounce(self, "prewarn", spellId, color or 1, icon, optionDefault, optionName, nil, time, noSound)
-	end]]
 
 	function bossModPrototype:NewPhaseAnnounce(stage, color, icon, ...)
 		return newAnnounce(self, "stage", stage, color or 1, icon or "Interface\\Icons\\Spell_Nature_WispSplode", ...)
@@ -9566,15 +9092,15 @@ do
 			if self.alternateVoice == 2 then
 				voice = voice2 or DBM.DefaultOptions.CountdownVoice2
 				maxCount = voice2max or 10
-				path = path2 or "Interface\\AddOns\\DBM-Core\\Sounds\\Artanis\\" --"Interface\\AddOns\\DBM-Core\\Sounds\\Kolt\\"
+				path = path2 or "Interface\\AddOns\\DBM-Core\\Sounds\\Kolt\\"
 			elseif self.alternateVoice == 3 then
 				voice = voice3 or DBM.DefaultOptions.CountdownVoice3v2
 				maxCount = voice3max or 5
-				path = path3 or "Interface\\AddOns\\DBM-Core\\Sounds\\Kerrigan\\" --"Interface\\AddOns\\DBM-Core\\Sounds\\Heroes\\Necromancer\\"
+				path = path3 or "Interface\\AddOns\\DBM-Core\\Sounds\\Heroes\\Necromancer\\"
 			else
 				voice = voice1 or DBM.DefaultOptions.CountdownVoice
 				maxCount = voice1max or 10
-				path = path1 or "Interface\\AddOns\\DBM-Core\\Sounds\\Alarak\\" --"Interface\\AddOns\\DBM-Core\\Sounds\\Corsica\\" 
+				path = path1 or "Interface\\AddOns\\DBM-Core\\Sounds\\Corsica\\"
 			end
 			if not path then--Should not happen but apparently it does somehow
 				DBM:Debug("Voice path failed in countdownProtoType:Start.")
@@ -9706,8 +9232,7 @@ do
 			if type(spellId) == "string" and spellId:match("ej%d+") then
 				displayText = DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT[yellType]:format(DBM:EJ_GetSectionInfo(string.sub(spellId, 3)) or DBM_CORE_UNKNOWN)
 			else
-				-- displayText = DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT[yellType]:format(DBM:GetSpellInfo(spellId) or DBM_CORE_UNKNOWN)
-				displayText = DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT[yellType]:format(replaceSpellLinks(spellId) or DBM_CORE_UNKNOWN)
+				displayText = DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT[yellType]:format(DBM:GetSpellInfo(spellId) or DBM_CORE_UNKNOWN)
 			end
 		end
 		--Passed spellid as yellText.
@@ -9761,18 +9286,6 @@ do
 
 	function bossModPrototype:NewYell(...)
 		return newYell(self, "yell", ...)
-	end
-	
-	function bossModPrototype:NewYellHelp(...)
-		return newYell(self, "yellhelp", ...)
-	end
-	
-	function bossModPrototype:NewYellDispel(...)
-		return newYell(self, "yelldispel", ...)
-	end
-	
-	function bossModPrototype:NewYellMoveAway(...)
-		return newYell(self, "yellmoveaway", ...)
 	end
 	
 	function bossModPrototype:NewShortYell(...)
@@ -9950,6 +9463,7 @@ do
 			else
 				moving = true
 				anchorFrame:Show()
+				DBM:AddSpecialWarning(DBM_CORE_MOVE_SPECIAL_WARNING_TEXT)
 				DBM:AddSpecialWarning(DBM_CORE_MOVE_SPECIAL_WARNING_TEXT)
 				self:Schedule(15, moveEnd, self)
 				self.Bars:CreateBar(15, DBM_CORE_MOVE_SPECIAL_WARNING_BAR)
@@ -10266,13 +9780,13 @@ do
 		if obj.option then
 			local catType = "announce"--Default to General announce
 			--Directly affects another target (boss or player) that you need to know about
-			if announceType == "target" or announceType == "targetcount" or announceType == "close" then
+			if announceType == "target" or announceType == "targetcount" or announceType == "close" or announceType == "reflect" then
 				catType = "announceother"
-			--Directly affects you 
-			elseif announceType == "soonlookaway" or announceType == "targetint" or announceType == "targetrun" or announceType == "targetsoak" or announceType == "keepdist" or announceType == "you" or announceType == "yourun" or announceType == "yourunning" or announceType == "closemoveaway" or announceType == "youfind" or announceType == "youclose" or announceType == "youshare" or announceType == "youdefensive" or announceType == "youmoveaway" or announceType == "youmove" or announceType == "youcount" or announceType == "youpos" or announceType == "move" or announceType == "dodge" or announceType == "moveaway" or announceType == "run" or announceType == "stack" or announceType == "moveto" or announceType == "soakpos" or announceType == "youmoveawaypos" or announceType == "youfades" or announceType == "youdontmove" or announceType == "cast" then
+			--Directly affects you
+			elseif announceType == "you" or announceType == "youcount" or announceType == "youpos" or announceType == "move" or announceType == "dodge" or announceType == "moveaway" or announceType == "run" or announceType == "stack" or announceType == "moveto" or announceType == "soakpos" then
 				catType = "announcepersonal"
 			--Things you have to do to fulfil your role
-			elseif announceType == "reflect" or announceType == "taunt" or announceType == "youdispel" or announceType == "moredamage" or announceType == "defensive" or announceType == "interrupt2" or announceType == "dispel" or announceType == "interrupt" or announceType == "interruptcount" or announceType == "switch" or announceType == "switchcount" or announceType == "youmoredamage" then
+			elseif announceType == "taunt" or announceType == "dispel" or announceType == "interrupt" or announceType == "interruptcount" or announceType == "switch" or announceType == "switchcount" then
 				catType = "announcerole"
 			end
 			self:AddSpecialWarningOption(obj.option, optionDefault, runSound, catType)
@@ -10289,29 +9803,13 @@ do
 	function bossModPrototype:NewSpecialWarningEnd(text, optionDefault, ...)
 		return newSpecialWarning(self, "ends", text, nil, optionDefault, ...)
 	end
-	
-	function bossModPrototype:NewSpecialWarningReady(text, optionDefault, ...)
-		return newSpecialWarning(self, "ready", text, nil, optionDefault, ...)
-	end
 
 	function bossModPrototype:NewSpecialWarningFades(text, optionDefault, ...)
 		return newSpecialWarning(self, "fades", text, nil, optionDefault, ...)
 	end
-	
-	function bossModPrototype:NewSpecialWarningYouFades(text, optionDefault, ...)
-		return newSpecialWarning(self, "youfades", text, nil, optionDefault, ...)
-	end
 
 	function bossModPrototype:NewSpecialWarningSoon(text, optionDefault, ...)
 		return newSpecialWarning(self, "soon", text, nil, optionDefault, ...)
-	end
-	
-	function bossModPrototype:NewSpecialWarningSoonParaxisCount(text, optionDefault, ...)
-		return newSpecialWarning(self, "soonparaxiscount", text, nil, optionDefault, ...)
-	end
-
-	function bossModPrototype:NewSpecialWarningSoonLookAway(text, optionDefault, ...)
-		return newSpecialWarning(self, "soonlookaway", text, nil, optionDefault, ...)
 	end
 
 	function bossModPrototype:NewSpecialWarningDispel(text, optionDefault, ...)
@@ -10322,24 +9820,12 @@ do
 		return newSpecialWarning(self, "interrupt", text, nil, optionDefault, ...)
 	end
 	
-	function bossModPrototype:NewSpecialWarningInterrupt2(text, optionDefault, ...)
-		return newSpecialWarning(self, "interrupt2", text, nil, optionDefault, ...)
-	end
-	
 	function bossModPrototype:NewSpecialWarningInterruptCount(text, optionDefault, ...)
 		return newSpecialWarning(self, "interruptcount", text, nil, optionDefault, ...)
-	end
-	
-	function bossModPrototype:NewSpecialWarningInterruptCount2(text, optionDefault, ...)
-		return newSpecialWarning(self, "interruptcount2", text, nil, optionDefault, ...)
 	end
 
 	function bossModPrototype:NewSpecialWarningYou(text, optionDefault, ...)
 		return newSpecialWarning(self, "you", text, nil, optionDefault, ...)
-	end
-	
-	function bossModPrototype:NewSpecialWarningYouDispel(text, optionDefault, ...)
-		return newSpecialWarning(self, "youdispel", text, nil, optionDefault, ...)
 	end
 	
 	function bossModPrototype:NewSpecialWarningYouCount(text, optionDefault, ...)
@@ -10350,14 +9836,6 @@ do
 		return newSpecialWarning(self, "youpos", text, nil, optionDefault, ...)
 	end
 	
-	function bossModPrototype:NewSpecialWarningSoak(text, optionDefault, ...)
-		return newSpecialWarning(self, "soak", text, nil, optionDefault, ...)
-	end
-
-	function bossModPrototype:NewSpecialWarningSoakCount(text, optionDefault, ...)
-		return newSpecialWarning(self, "soakcount", text, nil, optionDefault, ...)
-	end
-	
 	function bossModPrototype:NewSpecialWarningSoakPos(text, optionDefault, ...)
 		return newSpecialWarning(self, "soakpos", text, nil, optionDefault, ...)
 	end
@@ -10366,80 +9844,24 @@ do
 		return newSpecialWarning(self, "target", text, nil, optionDefault, ...)
 	end
 	
-	function bossModPrototype:NewSpecialWarningTargetHelp(text, optionDefault, ...)
-		return newSpecialWarning(self, "targethelp", text, nil, optionDefault, ...)
-	end
-	
-	function bossModPrototype:NewSpecialWarningTargetDodge(text, optionDefault, ...)
-		return newSpecialWarning(self, "targetdodge", text, nil, optionDefault, ...)
-	end
-
-	function bossModPrototype:NewSpecialWarningTargetSoak(text, optionDefault, ...)
-		return newSpecialWarning(self, "targetsoak", text, nil, optionDefault, ...)
-	end
-	
-	function bossModPrototype:NewSpecialWarningTargetRun(text, optionDefault, ...)
-		return newSpecialWarning(self, "targetrun", text, nil, optionDefault, ...)
-	end
-	
-	function bossModPrototype:NewSpecialWarningTargetInt(text, optionDefault, ...)
-		return newSpecialWarning(self, "targetint", text, nil, optionDefault, ...)
-	end
-	
 	function bossModPrototype:NewSpecialWarningTargetCount(text, optionDefault, ...)
 		return newSpecialWarning(self, "targetcount", text, nil, optionDefault, ...)
 	end
 
-	function bossModPrototype:NewSpecialWarningYouDefensive(text, optionDefault, ...)
-		return newSpecialWarning(self, "youdefensive", text, nil, optionDefault, ...)
-	end
-	
 	function bossModPrototype:NewSpecialWarningDefensive(text, optionDefault, ...)
 		return newSpecialWarning(self, "defensive", text, nil, optionDefault, ...)
-	end
-
-	function bossModPrototype:NewSpecialWarningDefensiveCount(text, optionDefault, ...)
-		return newSpecialWarning(self, "defensivecount", text, nil, optionDefault, ...)
 	end
 
 	function bossModPrototype:NewSpecialWarningTaunt(text, optionDefault, ...)
 		return newSpecialWarning(self, "taunt", text, nil, optionDefault, ...)
 	end
 
-	function bossModPrototype:NewSpecialWarningYouClose(text, optionDefault, ...)
-		return newSpecialWarning(self, "youclose", text, nil, optionDefault, ...)
-	end
-
-	function bossModPrototype:NewSpecialWarningCloseMoveAway(text, optionDefault, ...)
-		return newSpecialWarning(self, "closemoveaway", text, nil, optionDefault, ...)
-	end
-	
 	function bossModPrototype:NewSpecialWarningClose(text, optionDefault, ...)
 		return newSpecialWarning(self, "close", text, nil, optionDefault, ...)
 	end
 
 	function bossModPrototype:NewSpecialWarningMove(text, optionDefault, ...)
 		return newSpecialWarning(self, "move", text, nil, optionDefault, ...)
-	end
-	
-	function bossModPrototype:NewSpecialWarningYouMove(text, optionDefault, ...)
-		return newSpecialWarning(self, "youmove", text, nil, optionDefault, ...)
-	end
-	
-	function bossModPrototype:NewSpecialWarningDontMove(text, optionDefault, ...)
-		return newSpecialWarning(self, "dontmove", text, nil, optionDefault, ...)
-	end
-	
-	function bossModPrototype:NewSpecialWarningYouDontMove(text, optionDefault, ...)
-		return newSpecialWarning(self, "youdontmove", text, nil, optionDefault, ...)
-	end
-	
-	function bossModPrototype:NewSpecialWarningDontStand(text, optionDefault, ...)
-		return newSpecialWarning(self, "dontstand", text, nil, optionDefault, ...)
-	end
-	
-	function bossModPrototype:NewSpecialWarningYouDontStand(text, optionDefault, ...)
-		return newSpecialWarning(self, "youdontstand", text, nil, optionDefault, ...)
 	end
 	
 	function bossModPrototype:NewSpecialWarningGTFO(text, optionDefault, ...)
@@ -10450,48 +9872,16 @@ do
 		return newSpecialWarning(self, "dodge", text, nil, optionDefault, ...)
 	end
 	
-	function bossModPrototype:NewSpecialWarningDodgeCount(text, optionDefault, ...)
-		return newSpecialWarning(self, "dodgecount", text, nil, optionDefault, ...)
-	end
-	
 	function bossModPrototype:NewSpecialWarningDodgeLoc(text, optionDefault, ...)
 		return newSpecialWarning(self, "dodgeloc", text, nil, optionDefault, ...)
-	end
-	
-	function bossModPrototype:NewSpecialWarningYouMoveAway(text, optionDefault, ...)
-		return newSpecialWarning(self, "youmoveaway", text, nil, optionDefault, ...)
-	end
-
-	function bossModPrototype:NewSpecialWarningYouMoveAwayPos(text, optionDefault, ...)
-		return newSpecialWarning(self, "youmoveawaypos", text, nil, optionDefault, ...)
 	end
 	
 	function bossModPrototype:NewSpecialWarningMoveAway(text, optionDefault, ...)
 		return newSpecialWarning(self, "moveaway", text, nil, optionDefault, ...)
 	end
 	
-	function bossModPrototype:NewSpecialWarningMoveBoss(text, optionDefault, ...)
-		return newSpecialWarning(self, "moveboss", text, nil, optionDefault, ...)
-	end
-	
 	function bossModPrototype:NewSpecialWarningMoveTo(text, optionDefault, ...)
 		return newSpecialWarning(self, "moveto", text, nil, optionDefault, ...)
-	end
-	
-	function bossModPrototype:NewSpecialWarningYouMoveToPos(text, optionDefault, ...)
-		return newSpecialWarning(self, "youmovetopos", text, nil, optionDefault, ...)
-	end
-	
-	function bossModPrototype:NewSpecialWarningYouShare(text, optionDefault, ...)
-		return newSpecialWarning(self, "youshare", text, nil, optionDefault, ...)
-	end
-	
-	function bossModPrototype:NewSpecialWarningShare(text, optionDefault, ...)
-		return newSpecialWarning(self, "share", text, nil, optionDefault, ...)
-	end
-	
-	function bossModPrototype:NewSpecialWarningShareCount(text, optionDefault, ...)
-		return newSpecialWarning(self, "sharecount", text, nil, optionDefault, ...)
 	end
 	
 	function bossModPrototype:NewSpecialWarningJump(text, optionDefault, ...)
@@ -10501,22 +9891,6 @@ do
 	function bossModPrototype:NewSpecialWarningRun(text, optionDefault, ...)
 		return newSpecialWarning(self, "run", text, nil, optionDefault, ...)
 	end
-	
-	function bossModPrototype:NewSpecialWarningYouRun(text, optionDefault, ...)
-		return newSpecialWarning(self, "yourun", text, nil, optionDefault, ...)
-	end
-	
-	function bossModPrototype:NewSpecialWarningRunning(text, optionDefault, ...)
-		return newSpecialWarning(self, "running", text, nil, optionDefault, ...)
-	end
-	
-	function bossModPrototype:NewSpecialWarningYouRunning(text, optionDefault, ...)
-		return newSpecialWarning(self, "yourunning", text, nil, optionDefault, ...)
-	end
-	
-	function bossModPrototype:NewSpecialWarningRunningCount(text, optionDefault, ...)
-		return newSpecialWarning(self, "runningcount", text, nil, optionDefault, ...)
-	end
 
 	function bossModPrototype:NewSpecialWarningCast(text, optionDefault, ...)
 		return newSpecialWarning(self, "cast", text, nil, optionDefault, ...)
@@ -10524,18 +9898,6 @@ do
 	
 	function bossModPrototype:NewSpecialWarningLookAway(text, optionDefault, ...)
 		return newSpecialWarning(self, "lookaway", text, nil, optionDefault, ...)
-	end
-	
-	function bossModPrototype:NewSpecialWarningYouLookAway2(text, optionDefault, ...)
-		return newSpecialWarning(self, "youlookaway2", text, nil, optionDefault, ...)
-	end
-	
-	function bossModPrototype:NewSpecialWarningYouLook(text, optionDefault, ...)
-		return newSpecialWarning(self, "youlook", text, nil, optionDefault, ...)
-	end
-	
-	function bossModPrototype:NewSpecialWarningYouFind(text, optionDefault, ...)
-		return newSpecialWarning(self, "youfind", text, nil, optionDefault, ...)
 	end
 
 	function bossModPrototype:NewSpecialWarningReflect(text, optionDefault, ...)
@@ -10567,34 +9929,6 @@ do
 	
 	function bossModPrototype:NewSpecialWarningAddsCustom(text, optionDefault, ...)
 		return newSpecialWarning(self, "Addscustom", text, nil, optionDefault, ...)
-	end
-
-	function bossModPrototype:NewSpecialWarningIcePud(text, optionDefault, ...)
-		return newSpecialWarning(self, "icepud", text, nil, optionDefault, ...)
-	end
-	
-	function bossModPrototype:NewSpecialWarningMoreDamage(text, optionDefault, ...)
-		return newSpecialWarning(self, "moredamage", text, nil, optionDefault, ...)
-	end
-	
-	function bossModPrototype:NewSpecialWarningYouMoreDamage(text, optionDefault, ...)
-		return newSpecialWarning(self, "youmoredamage", text, nil, optionDefault, ...)
-	end
-	
-	function bossModPrototype:NewSpecialWarningParaxisCount(text, optionDefault, ...)
-		return newSpecialWarning(self, "paraxiscount", text, nil, optionDefault, ...)
-	end
-	
-	function bossModPrototype:NewSpecialWarningStandSand(text, optionDefault, ...)
-		return newSpecialWarning(self, "standsand", text, nil, optionDefault, ...)
-	end
-
-	function bossModPrototype:NewSpecialWarningUseItem(text, optionDefault, ...)
-		return newSpecialWarning(self, "useitem", text, nil, optionDefault, ...)
-	end
-	
-	function bossModPrototype:NewSpecialWarningKeepDist(text, optionDefault, ...)
-		return newSpecialWarning(self, "keepdist", text, nil, optionDefault, ...)
 	end
 
 	function bossModPrototype:NewSpecialWarningPreWarn(text, optionDefault, time, ...)
@@ -10992,7 +10326,7 @@ do
 			DBM:Debug("|cffff0000OptionVersion hack depricated, remove it from: |r"..spellId)
 			return
 		end
-		if type(colorType) == "number" and colorType > 7 then
+		if type(colorType) == "number" and colorType > 6 then
 			DBM:Debug("|cffff0000texture is in the colorType arg for: |r"..spellId)
 		end
 		--Use option optionName for optionVersion as well, no reason to split.
@@ -11016,8 +10350,6 @@ do
 			icon = type(texture) == "number" and GetSpellTexture(texture) or texture or type(spellId) == "string" and select(4, DBM:EJ_GetSectionInfo(string.sub(spellId, 3))) ~= "" and select(4, DBM:EJ_GetSectionInfo(string.sub(spellId, 3))) or (type(spellId) == "number" and GetSpellTexture(spellId)) or "Interface\\Icons\\Spell_Nature_WispSplode"
 			if timerType == "stage" then
 				colorType = 6
-			elseif timerType == "nextspecial" or timerType == "cdspecial" then
-				colorType = 7
 			end
 		elseif timerType == "roleplay" then
 			icon = type(texture) == "number" and GetSpellTexture(texture) or texture or type(spellId) == "string" and select(4, DBM:EJ_GetSectionInfo(string.sub(spellId, 3))) ~= "" and select(4, DBM:EJ_GetSectionInfo(string.sub(spellId, 3))) or (type(spellId) == "number" and GetSpellTexture(spellId)) or "Interface\\Icons\\Spell_Holy_BorrowedTime"
@@ -11307,7 +10639,7 @@ function bossModPrototype:AddSpecialWarningOption(name, default, defaultSound, c
 	self:SetOptionCategory(name, cat)
 end
 
-function bossModPrototype:AddSetIconOption(name, spellId, default, isHostile, iconsUsed)
+function bossModPrototype:AddSetIconOption(name, spellId, default, isHostile)
 	self.DefaultOptions[name] = (default == nil) or default
 	if default and type(default) == "string" then
 		default = self:GetRoleFlagValue(default)
@@ -11322,23 +10654,6 @@ function bossModPrototype:AddSetIconOption(name, spellId, default, isHostile, ic
 		self.localization.options[name] = DBM_CORE_AUTO_ICONS_OPTION_TEXT2:format(spellId)
 	else
 		self.localization.options[name] = DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(spellId)
-	end
-	--A table defining used icons by number, insert icon textures to end of option
-	if iconsUsed then --Разняшали
-		self.localization.options[name] = self.localization.options[name].." ("
-		for i=1, #iconsUsed do
-			--Texture ID 137009 if direct calling RaidTargetingIcons stops working one day
-			if 		iconsUsed[i] == 1 then		self.localization.options[name] = self.localization.options[name].."|TInterface\\TargetingFrame\\UI-RaidTargetingIcons.blp:13:13:0:0:64:64:0:16:0:16|t"
-			elseif	iconsUsed[i] == 2 then		self.localization.options[name] = self.localization.options[name].."|TInterface\\TargetingFrame\\UI-RaidTargetingIcons.blp:13:13:0:0:64:64:16:32:0:16|t"
-			elseif	iconsUsed[i] == 3 then		self.localization.options[name] = self.localization.options[name].."|TInterface\\TargetingFrame\\UI-RaidTargetingIcons.blp:13:13:0:0:64:64:32:48:0:16|t"
-			elseif	iconsUsed[i] == 4 then		self.localization.options[name] = self.localization.options[name].."|TInterface\\TargetingFrame\\UI-RaidTargetingIcons.blp:13:13:0:0:64:64:48:64:0:16|t"
-			elseif	iconsUsed[i] == 5 then		self.localization.options[name] = self.localization.options[name].."|TInterface\\TargetingFrame\\UI-RaidTargetingIcons.blp:13:13:0:0:64:64:0:16:16:32|t"
-			elseif	iconsUsed[i] == 6 then		self.localization.options[name] = self.localization.options[name].."|TInterface\\TargetingFrame\\UI-RaidTargetingIcons.blp:13:13:0:0:64:64:16:32:16:32|t"
-			elseif	iconsUsed[i] == 7 then		self.localization.options[name] = self.localization.options[name].."|TInterface\\TargetingFrame\\UI-RaidTargetingIcons.blp:13:13:0:0:64:64:32:48:16:32|t"
-			elseif	iconsUsed[i] == 8 then		self.localization.options[name] = self.localization.options[name].."|TInterface\\TargetingFrame\\UI-RaidTargetingIcons.blp:13:13:0:0:64:64:48:64:16:32|t"
-			end
-		end
-		self.localization.options[name] = self.localization.options[name]..")"
 	end
 end
 
@@ -11552,17 +10867,8 @@ function bossModPrototype:RegisterCombat(cType, ...)
 	if self.noESDetection then
 		info.noESDetection = self.noESDetection
 	end
-	if self.noIEEUDetection then
-		info.noIEEUDetection = self.noIEEUDetection
-	end
-	if self.IEEUWipeDetection then
-		info.IEEUWipeDetection = self.IEEUWipeDetection
-	end
 	if self.noEEDetection then
 		info.noEEDetection = self.noEEDetection
-	end
-	if self.noOnMobKillDetection then
-		info.noOnMobKillDetection = self.noOnMobKillDetection
 	end
 	if self.noRegenDetection then
 		info.noRegenDetection = self.noRegenDetection
@@ -11649,20 +10955,6 @@ function bossModPrototype:SetEncounterID(...)
 	end
 end
 
-function bossModPrototype:DisableIEEUCombatDetection()
-	self.noIEEUDetection = true
-	if self.combatInfo then
-		self.combatInfo.noIEEUDetection = true
-	end
-end
-
-function bossModPrototype:EnableIEEUWipeDetection()
-	self.IEEUWipeDetection = true
-	if self.combatInfo then
-		self.combatInfo.IEEUWipeDetection = true
-	end
-end
-
 function bossModPrototype:DisableESCombatDetection()
 	self.noESDetection = true
 	if self.combatInfo then
@@ -11674,13 +10966,6 @@ function bossModPrototype:DisableEEKillDetection()
 	self.noEEDetection = true
 	if self.combatInfo then
 		self.combatInfo.noEEDetection = true
-	end
-end
-
-function bossModPrototype:DisableOnMobKillDetection()
-	self.noOnMobKillDetection = true
-	if self.combatInfo then
-		self.combatInfo.noOnMobKillDetection = true
 	end
 end
 
@@ -11737,10 +11022,9 @@ function bossModPrototype:SendSync(event, ...)
 	local str = ("%s\t%s\t%s\t%s"):format(self.id, self.revision or 0, event, arg)
 	local spamId = self.id .. event .. arg -- *not* the same as the sync string, as it doesn't use the revision information
 	local time = GetTime()
-	local checkpremsgevent = string.sub(event, 1, 7) == "premsg_"
 	--Mod syncs are more strict and enforce latency threshold always.
 	--Do not put latency check in main sendSync local function (line 313) though as we still want to get version information, etc from these users.
-	if not modSyncSpam[spamId] or (time - modSyncSpam[spamId]) > 8 or checkpremsgevent then
+	if not modSyncSpam[spamId] or (time - modSyncSpam[spamId]) > 8 then
 		self:ReceiveSync(event, nil, self.revision or 0, tostringall(...))
 		sendSync("M", str)
 	end
@@ -11759,8 +11043,7 @@ end
 function bossModPrototype:ReceiveSync(event, sender, revision, ...)
 	local spamId = self.id .. event .. strjoin("\t", ...)
 	local time = GetTime()
-	local checkpremsgevent = string.sub(event, 1, 7) == "premsg_"
-	if (not modSyncSpam[spamId] or (time - modSyncSpam[spamId]) > self.SyncThreshold or checkpremsgevent) and self.OnSync and (not (self.blockSyncs and sender)) and (not sender or (not self.minSyncRevision or revision >= self.minSyncRevision)) then
+	if (not modSyncSpam[spamId] or (time - modSyncSpam[spamId]) > self.SyncThreshold) and self.OnSync and (not (self.blockSyncs and sender)) and (not sender or (not self.minSyncRevision or revision >= self.minSyncRevision)) then
 		modSyncSpam[spamId] = time
 		-- we have to use the sender as last argument for compatibility reasons (stupid old API...)
 		-- avoid table allocations for frequently used number of arguments
@@ -11777,35 +11060,6 @@ function bossModPrototype:ReceiveSync(event, sender, revision, ...)
 	end
 end
 
-function replaceSpellLinks(id)
-    local spellId = tonumber(id)
-    local spellName = DBM:GetSpellInfo(spellId)
-    if not spellName then
-        spellName = DBM_CORE_UNKNOWN
-        DBM:Debug("Spell ID does not exist: "..spellId)
-    end
-    return ("|cff71d5ff|Hspell:%d:0|h[%s]|h|r"):format(spellId, spellName)
-end
-
-function smartChat(msg, arg)
-	if arg == "rw" and IsInRaid() and DBM:GetRaidRank() > 0 then
-		SendChatMessage(msg, "RAID_WARNING")
-	elseif arg == "say" then
-		SendChatMessage(msg, "SAY")
-	elseif arg == "yell" then
-		SendChatMessage(msg, "YELL")
-	elseif (arg == nil) or (arg == "rw" and DBM:GetRaidRank() == 0) or (arg == "rw" and not IsInRaid()) then
-		if IsInRaid() then
-			SendChatMessage(msg, "RAID")
-		elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
-			SendChatMessage(msg, "INSTANCE_CHAT")
-		elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
-			SendChatMessage(msg, "PARTY")
-		end
-	end
-end
-------------------------------------------------------------
---
 function bossModPrototype:SetRevision(revision)
 	revision = tonumber(revision or "")
 	if not revision then
@@ -11822,8 +11076,6 @@ end
 function bossModPrototype:SetHotfixNoticeRev(revision)
 	self.hotfixNoticeRev = revision
 end
---
-------------------------------------------------------------
 
 -----------------
 --  Scheduler  --

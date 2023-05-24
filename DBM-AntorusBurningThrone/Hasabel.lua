@@ -1,22 +1,21 @@
 local mod	= DBM:NewMod(1985, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17603 $"):sub(12, -3))
 mod:SetCreatureID(122104)
 mod:SetEncounterID(2064)
 mod:DisableESCombatDetection()--Remove if blizz fixes clicking portals causing this event to fire (even though boss isn't engaged)
 mod:SetZone()
 --mod:SetBossHPInfoToHighest()
 --mod:SetUsedIcons(1, 2, 3, 4, 5, 6)
-mod:SetHotfixNoticeRev(17650)
-mod:SetMinSyncRevision(17650)
-mod:DisableIEEUCombatDetection()
-mod.respawnTime = 30
+mod:SetHotfixNoticeRev(16950)
+mod:SetMinSyncRevision(16950)
+mod.respawnTime = 35
 
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_START 243983 244709 245504 244607 244915 246805 244689 244000 255805",
+	"SPELL_CAST_START 243983 244709 245504 244607 244915 246805 244689 244000",
 	"SPELL_CAST_SUCCESS 245050 244598 244016",
 	"SPELL_AURA_APPLIED 244016 244383 244613 244949 244849 245050 245118",
 	"SPELL_AURA_APPLIED_DOSE 244016",
@@ -25,8 +24,7 @@ mod:RegisterEventsInCombat(
 --	"SPELL_PERIODIC_DAMAGE",
 --	"SPELL_PERIODIC_MISSED",
 	"UNIT_DIED",
-	"UNIT_SPELLCAST_SUCCEEDED boss1 player",
-	"UNIT_HEALTH boss1 boss2 boss3 boss4 boss5"
+	"UNIT_SPELLCAST_SUCCEEDED boss1 player"
 )
 
 local Nexus = DBM:EJ_GetSectionInfo(15799)
@@ -34,93 +32,89 @@ local Xoroth = DBM:EJ_GetSectionInfo(15800)
 local Rancora = DBM:EJ_GetSectionInfo(15801)
 local Nathreza = DBM:EJ_GetSectionInfo(15802)
 
-local warnXorothPortal2					= mod:NewSoonAnnounce(244320, 1) --Усиленный портал Зорот
-local warnRancoraPortal2				= mod:NewSoonAnnounce(246084, 1) --Усиленный портал Ранкора
-local warnNathrezaPortal2				= mod:NewSoonAnnounce(246159, 1) --Усиленный портал Натреза
+--TODO, interrupt rotation helper for Flames of Xoroth?
+--TODO, find a workable cast ID for corrupt and enable interrupt warning
+--TODO, an overview info frame showing the needs of portal worlds (how many shields up, how much fel miasma, how many fires in dark realm if possible)
+--[[
+(ability.id = 243983 or ability.id = 244689 or ability.id = 244000) and type = "begincast"
+ or ability.id = 244016 and type = "cast"
+ or (ability.id = 245504 or ability.id = 244607 or ability.id = 246316 or ability.id = 244915  or ability.id = 246805) and type = "begincast"
+ or (ability.id = 245050 or ability.id = 244598) and type = "cast"
+ --]]
 --Platform: Nexus
-local warnRealityTear					= mod:NewStackAnnounce(244016, 2, nil, "Tank|Healer") --Разрыв реальности
+local warnRealityTear					= mod:NewStackAnnounce(244016, 2, nil, "Tank")
 --Platform: Xoroth
-local warnXorothPortal					= mod:NewSpellAnnounce(244318, 2, nil, "-MeleeDps", nil, nil, nil, 7) --Усиленный портал Зорот
-local warnAegisofFlames					= mod:NewTargetAnnounce(244383, 3, nil, nil, nil, nil, nil, nil, true) --Пламенная эгида
-local warnAegisofFlamesEnded			= mod:NewEndAnnounce(244383, 1) --Пламенная эгида
-local warnEverburningFlames				= mod:NewTargetAnnounce(244613, 2, nil, false) --Неугасающее пламя
+local warnXorothPortal					= mod:NewSpellAnnounce(244318, 2, nil, nil, nil, nil, nil, 7)
+local warnAegisofFlames					= mod:NewTargetAnnounce(244383, 3, nil, nil, nil, nil, nil, nil, true)
+local warnAegisofFlamesEnded			= mod:NewEndAnnounce(244383, 1)
+local warnEverburningFlames				= mod:NewTargetAnnounce(244613, 2, nil, false)
 --Platform: Rancora
-local warnRancoraPortal					= mod:NewSpellAnnounce(246082, 2, nil, "-MeleeDps", nil, nil, nil, 7) --Усиленный портал Ранкора
-local warnCausticSlime					= mod:NewTargetAnnounce(244849, 2, nil, false) --Едкая слизь
+local warnRancoraPortal					= mod:NewSpellAnnounce(246082, 2, nil, nil, nil, nil, nil, 7)
+local warnCausticSlime					= mod:NewTargetAnnounce(244849, 2, nil, false)
 --Platform: Nathreza
-local warnNathrezaPortal				= mod:NewSpellAnnounce(246157, 2, nil, "-MeleeDps", nil, nil, nil, 7) --Усиленный портал Натреза
-local warnDelusions						= mod:NewTargetAnnounce(245050, 2, nil, "Healer") --Заблуждения
-local warnCloyingShadows				= mod:NewTargetAnnounce(245118, 2, nil, false) --Надоедливые тени
-local warnHungeringGloom				= mod:NewTargetAnnounce(245075, 2, nil, false) --Алчущий сумрак
+local warnNathrezaPortal				= mod:NewSpellAnnounce(246157, 2, nil, nil, nil, nil, nil, 7)
+local warnDelusions						= mod:NewTargetAnnounce(245050, 2, nil, "Healer")
+local warnCloyingShadows				= mod:NewTargetAnnounce(245118, 2, nil, false)
+local warnHungeringGloom				= mod:NewTargetAnnounce(245075, 2, nil, false)
 
-local specWarnXorothPortal				= mod:NewSpecialWarningMoveTo(244320, "MeleeDps", nil, nil, 3, 6) --портал Зорот
-local specWarnRancoraPortal				= mod:NewSpecialWarningMoveTo(246084, "MeleeDps", nil, nil, 3, 6) --портал Ранкора
-local specWarnNathrezaPortal			= mod:NewSpecialWarningMoveTo(246159, "MeleeDps", nil, nil, 3, 6) --портал Натреза
 --Platform: Nexus
-local specWarnRealityTear				= mod:NewSpecialWarningStack(244016, nil, 3, nil, nil, 3, 5) --Разрыв реальности
-local specWarnRealityTearOther			= mod:NewSpecialWarningTaunt(244016, nil, nil, nil, 3, 5) --Разрыв реальности
-local specWarnTransportPortal			= mod:NewSpecialWarningSwitch(244677, "-Healer", nil, 2, 1, 2) --Транспортный портал
-local specWarnCollapsingWorld			= mod:NewSpecialWarningDodgeCount(243983, nil, nil, nil, 2, 3) --Гибнущий мир
-local specWarnFelstormBarrage			= mod:NewSpecialWarningDodge(244000, nil, nil, nil, 2, 5) --Шквальный обстрел Скверны
-local specWarnFieryDetonation			= mod:NewSpecialWarningInterrupt(244709, "HasInterrupt", nil, 2, 1, 2) --Огненный подрыв
-local specWarnHowlingShadows			= mod:NewSpecialWarningInterrupt(245504, "HasInterrupt", nil, nil, 1, 2) --Воющие тени
+local specWarnRealityTear				= mod:NewSpecialWarningStack(244016, nil, 2, nil, nil, 1, 6)
+local specWarnRealityTearOther			= mod:NewSpecialWarningTaunt(244016, nil, nil, nil, 1, 2)
+local specWarnTransportPortal			= mod:NewSpecialWarningSwitch(244677, "-Healer", nil, 2, 1, 2)
+local specWarnCollapsingWorld			= mod:NewSpecialWarningCount(243983, nil, nil, nil, 2, 2)
+local specWarnFelstormBarrage			= mod:NewSpecialWarningDodge(244000, nil, nil, nil, 2, 2)
+local specWarnFieryDetonation			= mod:NewSpecialWarningInterrupt(244709, "HasInterrupt", nil, 2, 1, 2)
+local specWarnHowlingShadows			= mod:NewSpecialWarningInterrupt(245504, "HasInterrupt", nil, nil, 1, 2)
 --local specWarnGTFO					= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 2)
 --Platform: Xoroth
-local specWarnUnstablePortal			= mod:NewSpecialWarningInterrupt(255805, "HasInterrupt", nil, nil, 3, 6) --Неустойчивый портал
-local specWarnFlamesofXoroth			= mod:NewSpecialWarningInterrupt(244607, "HasInterrupt", nil, nil, 1, 2) --Пламя Зорота
-local specWarnSupernova					= mod:NewSpecialWarningDodge(244598, nil, nil, nil, 2, 2) --Сверхновая
-local specWarnEverburningFlames			= mod:NewSpecialWarningMoveTo(244613, nil, nil, nil, 1) --Неугасающее пламя No voice yet
+local specWarnFlamesofXoroth			= mod:NewSpecialWarningInterrupt(244607, "HasInterrupt", nil, nil, 1, 2)
+local specWarnSupernova					= mod:NewSpecialWarningDodge(244598, nil, nil, nil, 2, 2)
+local specWarnEverburningFlames			= mod:NewSpecialWarningMoveTo(244613, nil, nil, nil, 1)--No voice yet
+local yellEverburningFlames				= mod:NewFadesYell(244613)
 --Platform: Rancora
-local specWarnFelSilkWrap				= mod:NewSpecialWarningYou(244949, nil, nil, nil, 1, 2) --Кокон из скверношелка
-local specWarnFelSilkWrapOther			= mod:NewSpecialWarningSwitch(244949, "Dps", nil, nil, 1, 2) --Кокон из скверношелка
-local specWarnLeechEssence				= mod:NewSpecialWarningSpell(244915, nil, nil, nil, 1, 2) --Поглощение сущности Don't know what to do for voice yet til strat divised
-local specWarnCausticSlime				= mod:NewSpecialWarningMoveTo(244849, nil, nil, nil, 1) --Едкая слизь No voice yet
-local specWarnCausticSlimeLFR			= mod:NewSpecialWarningMoveAway(244849, nil, nil, nil, 1) --Едкая слизь No voice yet
+local specWarnFelSilkWrap				= mod:NewSpecialWarningYou(244949, nil, nil, nil, 1, 2)
+local yellFelSilkWrap					= mod:NewYell(244949)
+local specWarnFelSilkWrapOther			= mod:NewSpecialWarningSwitch(244949, "Dps", nil, nil, 1, 2)
+local specWarnLeechEssence				= mod:NewSpecialWarningSpell(244915, nil, nil, nil, 1, 2)--Don't know what to do for voice yet til strat divised
+local specWarnCausticSlime				= mod:NewSpecialWarningMoveTo(244849, nil, nil, nil, 1)--No voice yet
+local specWarnCausticSlimeLFR			= mod:NewSpecialWarningMoveAway(244849, nil, nil, nil, 1)--No voice yet
+local yellCausticSlime					= mod:NewFadesYell(244849)
 --Platform: Nathreza
-local specWarnDelusions					= mod:NewSpecialWarningYouDispel(245050, nil, nil, nil, 3, 6) --Заблуждения
+local specWarnDelusions					= mod:NewSpecialWarningYou(245050, nil, nil, nil, 1, 2)
 --local specWarnCorrupt					= mod:NewSpecialWarningInterrupt(245040, "HasInterrupt", nil, nil, 1, 2)
-local specWarnCloyingShadows			= mod:NewSpecialWarningYou(245118, nil, nil, nil, 1) --Надоедливые тени No voice yet (you warning for now, since it's secondary debuff you move to fel miasma)
-local specWarnHungeringGloom			= mod:NewSpecialWarningMoveTo(245075, nil, nil, nil, 1) --Алчущий сумрак No voice yet
+local specWarnCloyingShadows			= mod:NewSpecialWarningYou(245118, nil, nil, nil, 1)--No voice yet (you warning for now, since it's secondary debuff you move to fel miasma)
+local yellCloyingShadows				= mod:NewFadesYell(245118)
+local specWarnHungeringGloom			= mod:NewSpecialWarningMoveTo(245075, nil, nil, nil, 1)--No voice yet
 
 --Platform: Nexus
 mod:AddTimerLine(Nexus)
-local timerRealityTearCD				= mod:NewCDTimer(12.1, 244016, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Разрыв реальности
-local timerCollapsingWorldCD			= mod:NewCDTimer(32.9, 243983, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Гибнущий мир 32.9-41
-local timerFelstormBarrageCD			= mod:NewCDTimer(32.2, 244000, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Шквальный обстрел Скверны 32.9-41
-local timerTransportPortalCD			= mod:NewCDTimer(41.2, 244677, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON) --Транспортный портал 41.2-60. most of time 42 on nose.
+local timerRealityTearCD				= mod:NewCDTimer(12.1, 244016, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
+local timerCollapsingWorldCD			= mod:NewCDTimer(32.9, 243983, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON)--32.9-41
+local timerFelstormBarrageCD			= mod:NewCDTimer(32.2, 244000, nil, nil, nil, 3)--32.9-41
+local timerTransportPortalCD			= mod:NewCDTimer(41.2, 244677, nil, nil, nil, 1)--41.2-60. most of time 42 on nose.
 --Platform: Xoroth
 mod:AddTimerLine(Xoroth)
 --local timerSupernovaCD					= mod:NewCDTimer(6.1, 244598, nil, nil, nil, 3)
-local timerFlamesofXorothCD				= mod:NewCDTimer(6.9, 244607, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON) --Пламя Зорота
+local timerFlamesofXorothCD				= mod:NewCDTimer(6.9, 244607, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON)
 --Platform: Rancora
 mod:AddTimerLine(Rancora)
-local timerFelSilkWrapCD				= mod:NewCDTimer(16.6, 244949, nil, nil, nil, 3, nil, DBM_CORE_DAMAGE_ICON) --Кокон из скверношелка
+local timerFelSilkWrapCD				= mod:NewCDTimer(16.6, 244949, nil, nil, nil, 3)
 local timerPoisonEssenceCD				= mod:NewCDTimer(9.4, 246316, nil, nil, nil, 2, nil, DBM_CORE_HEALER_ICON)
-local timerLeechEssenceCD				= mod:NewCDTimer(9.4, 244915, nil, nil, nil, 2, nil, DBM_CORE_HEALER_ICON) --Поглощение сущности
+local timerLeechEssenceCD				= mod:NewCDTimer(9.4, 244915, nil, nil, nil, 2, nil, DBM_CORE_HEALER_ICON)
 --Platform: Nathreza
 mod:AddTimerLine(Nathreza)
-local timerDelusionsCD					= mod:NewCDTimer(14.6, 245050, nil, nil, nil, 3, nil, DBM_CORE_HEALER_ICON..DBM_CORE_MAGIC_ICON) --Заблуждения
+local timerDelusionsCD					= mod:NewCDTimer(14.6, 245050, nil, nil, nil, 3, nil, DBM_CORE_HEALER_ICON..DBM_CORE_MAGIC_ICON)
 
-local yellEverburningFlames				= mod:NewFadesYell(244613, nil, nil, nil, "YELL") --Неугасающее пламя
-local yellFelSilkWrap					= mod:NewYell(244949, nil, nil, nil, "YELL") --Кокон из скверношелка
-local yellCausticSlime					= mod:NewFadesYell(244849, nil, nil, nil, "YELL") --Едкая слизь
-local yellCloyingShadows				= mod:NewFadesYell(245118, nil, nil, nil, "YELL") --Надоедливые тени
-
-local berserkTimer						= mod:NewBerserkTimer(600)
+--local berserkTimer					= mod:NewBerserkTimer(600)
 
 --Platform: Nexus
-local countdownCollapsingWorld			= mod:NewCountdown(50, 243983, true, 3, 5) --Гибнущий мир
-local countdownRealityTear				= mod:NewCountdown("Alt12", 244016, false, 2, 3) --Разрыв реальности
-local countdownFelstormBarrage			= mod:NewCountdown("AltTwo32", 244000, nil, nil, 3) --Шквальный обстрел Скверны
+local countdownCollapsingWorld			= mod:NewCountdown(50, 243983, true, 3, 3)
+local countdownRealityTear				= mod:NewCountdown("Alt12", 244016, false, 2, 3)
+local countdownFelstormBarrage			= mod:NewCountdown("AltTwo32", 244000, nil, nil, 3)
 
 mod:AddRangeFrameOption("8/10")
 mod:AddBoolOption("ShowAllPlatforms", false)
 
-local warned_preP1 = false
-local warned_preP2 = false
-local warned_preP3 = false
-
-mod.vb.phase = 0
 mod.vb.shieldsActive = false
 mod.vb.felBarrageCast = 0
 mod.vb.worldCount = 0
@@ -177,29 +171,17 @@ local function updateAllTimers(self, ICD)
 end
 
 function mod:OnCombatStart(delay)
-	self.vb.phase = 0
-	warned_preP1 = false
-	warned_preP2 = false
-	warned_preP3 = false
 	self.vb.shieldsActive = false
 	self.vb.firstPortal = false
 	self.vb.felBarrageCast = 0
 	self.vb.worldCount = 0
 	playerPlatform = 1--Nexus
-	berserkTimer:Start(-delay)
 	timerRealityTearCD:Start(6.2-delay)
 	countdownRealityTear:Start(6.2-delay)
-	if self:IsMythic() then
-		timerCollapsingWorldCD:Start(11-delay) --Гибнущий мир
-		countdownCollapsingWorld:Start(11-delay) --Гибнущий мир
-		timerFelstormBarrageCD:Start(27-delay) --Шквальный обстрел Скверны
-		countdownFelstormBarrage:Start(27-delay) --Шквальный обстрел Скверны
-	else
-		timerCollapsingWorldCD:Start(10.5-delay) --Гибнущий мир
-		countdownCollapsingWorld:Start(10.5-delay) --Гибнущий мир
-		timerFelstormBarrageCD:Start(25.2-delay) --Шквальный обстрел Скверны
-		countdownFelstormBarrage:Start(25.2-delay) --Шквальный обстрел Скверны
-	end
+	timerCollapsingWorldCD:Start(10.5-delay)--Still variable, 10.5-18
+	countdownCollapsingWorld:Start(10.5-delay)
+	timerFelstormBarrageCD:Start(25.2-delay)
+	countdownFelstormBarrage:Start(25.2-delay)
 end
 
 function mod:OnCombatEnd()
@@ -210,85 +192,68 @@ end
 
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
-	if spellId == 243983 then --Гибнущий мир
+	if spellId == 243983 then
 		self.vb.worldCount = self.vb.worldCount + 1
 		if self:IsEasy() then
 			timerCollapsingWorldCD:Start(37.7)--37, but offen delayed by ICD
 			countdownCollapsingWorld:Start(37.8)
 		elseif self:IsMythic() then
-			timerCollapsingWorldCD:Start(28)
-			countdownCollapsingWorld:Start(28)
+			timerCollapsingWorldCD:Start(27.1)
+			countdownCollapsingWorld:Start(27.1)
 		else
 			timerCollapsingWorldCD:Start()
 			countdownCollapsingWorld:Start(31.9)
 		end
 		if self.Options.ShowAllPlatforms or playerPlatform == 1 then--Actually on nexus platform
-			if not UnitIsDeadOrGhost("player") then
-				specWarnCollapsingWorld:Show(self.vb.worldCount)
-				specWarnCollapsingWorld:Play("watchstep")
-			end
+			specWarnCollapsingWorld:Show(self.vb.worldCount)
+			specWarnCollapsingWorld:Play("watchstep")
 		end
 		updateAllTimers(self, 9.7)
 	elseif spellId == 244709 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
-		specWarnFieryDetonation:Show()
+		specWarnFieryDetonation:Show(args.sourceName)
 		specWarnFieryDetonation:Play("kickcast")
 	elseif spellId == 245504 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
-		specWarnHowlingShadows:Show()
+		specWarnHowlingShadows:Show(args.sourceName)
 		specWarnHowlingShadows:Play("kickcast")
 	elseif spellId == 244607 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
-		specWarnFlamesofXoroth:Show()
+		specWarnFlamesofXoroth:Show(args.sourceName)
 		specWarnFlamesofXoroth:Play("kickcast")
-		if self:IsMythic() then
-			timerFlamesofXorothCD:Start(7.5)
-		else
-			timerFlamesofXorothCD:Start()
-		end
+		timerFlamesofXorothCD:Start()
 	elseif spellId == 246316 then--Rancora platform
 		timerPoisonEssenceCD:Start()
 	elseif spellId == 244915 or spellId == 246805 then
 		if self.Options.ShowAllPlatforms or playerPlatform == 3 then--Actually on Rancora platform
+			timerLeechEssenceCD:Start()
 			specWarnLeechEssence:Show()
-			if self:IsMythic() then
-				timerLeechEssenceCD:Start(10)
-			else
-				timerLeechEssenceCD:Start()
-			end
 		end
-	elseif spellId == 244689 then --Транспортный портал
+	elseif spellId == 244689 then
 		if self:IsMythic() then
-			timerTransportPortalCD:Start(40)
+			timerTransportPortalCD:Start(36.5)
 		else
 			timerTransportPortalCD:Start()
 		end
 		if self.Options.ShowAllPlatforms or playerPlatform == 1 then--Actually on nexus platform
-			if not UnitIsDeadOrGhost("player") then
-				specWarnTransportPortal:Show()
-				specWarnTransportPortal:Play("mobkill")
-			end
+			specWarnTransportPortal:Show()
+			specWarnTransportPortal:Play("killmob")
 		end
 		updateAllTimers(self, 8.5)
-	elseif spellId == 244000 then --Шквальный обстрел Скверны
+	elseif spellId == 244000 then--Felstorm Barrage
 		self.vb.felBarrageCast = self.vb.felBarrageCast + 1
 		if self:IsEasy() then
 			timerFelstormBarrageCD:Start(37.8)--37.8-43.8
 			countdownFelstormBarrage:Start(37.8)
 		elseif self:IsMythic() then
-			timerFelstormBarrageCD:Start(28.6)
-			countdownFelstormBarrage:Start(28.6)
+			timerFelstormBarrageCD:Start(27.1)
+			countdownFelstormBarrage:Start(27.1)
 		else
 			timerFelstormBarrageCD:Start()--32.9-41
 			countdownFelstormBarrage:Start(32.2)
 		end
 		if self.Options.ShowAllPlatforms or playerPlatform == 1 then--Actually on nexus platform
-			if not UnitIsDeadOrGhost("player") then
-				specWarnFelstormBarrage:Show()
-				specWarnFelstormBarrage:Play("farfromline")
-			end
+			specWarnFelstormBarrage:Show()
+			specWarnFelstormBarrage:Play("farfromline")
 		end
 		updateAllTimers(self, 9.7)
-	elseif spellId == 255805 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Неустойчивый портал
-		specWarnUnstablePortal:Show()
-		specWarnUnstablePortal:Play("kickcast")
 	end
 end
 
@@ -309,29 +274,31 @@ end
 
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
-	if spellId == 244016 then --Разрыв реальности
+	if spellId == 244016 then
 		local uId = DBM:GetRaidUnitId(args.destName)
-		local amount = args.amount or 1
-		if amount >= 3 then
-			if args:IsPlayer() then--At this point the other tank SHOULD be clear.
-				specWarnRealityTear:Show(amount)
-				specWarnRealityTear:Play("stackhigh")
-			else--Taunt as soon as stacks are clear, regardless of stack count.
-				local _, _, _, _, _, _, expireTime = DBM:UnitDebuff("player", spellId)
-				local remaining
-				if expireTime then
-					remaining = expireTime-GetTime()
+--		if self:IsTanking(uId) then
+			local amount = args.amount or 1
+			if amount >= 2 then
+				if args:IsPlayer() then--At this point the other tank SHOULD be clear.
+					specWarnRealityTear:Show(amount)
+					specWarnRealityTear:Play("stackhigh")
+				else--Taunt as soon as stacks are clear, regardless of stack count.
+					local _, _, _, _, _, _, expireTime = DBM:UnitDebuff("player", spellId)
+					local remaining
+					if expireTime then
+						remaining = expireTime-GetTime()
+					end
+					if not UnitIsDeadOrGhost("player") and (not remaining or remaining and remaining < 12) then
+						specWarnRealityTearOther:Show(args.destName)
+						specWarnRealityTearOther:Play("tauntboss")
+					else
+						warnRealityTear:Show(args.destName, amount)
+					end
 				end
-				if not UnitIsDeadOrGhost("player") and (not remaining or remaining and remaining < 12) then
-					specWarnRealityTearOther:Show(args.destName)
-					specWarnRealityTearOther:Play("tauntboss")
-				else
-					warnRealityTear:Show(args.destName, amount)
-				end
+			else
+				warnRealityTear:Show(args.destName, amount)
 			end
-		else
-			warnRealityTear:Show(args.destName, amount)
-		end
+--		end
 	elseif spellId == 244383 and self:AntiSpam(2, args.destName) then--Aegis of Flames
 		self.vb.shieldsActive = true
 		warnAegisofFlames:Show(args.destName)
@@ -373,14 +340,10 @@ function mod:SPELL_AURA_APPLIED(args)
 			yellFelSilkWrap:Yell()
 		else
 			if self.Options.ShowAllPlatforms or playerPlatform == 3 then--Actually on Rancora platform
+				timerFelSilkWrapCD:Start()
 				specWarnFelSilkWrapOther:Show()
 				if self.Options.SpecWarn244949switch then
 					specWarnFelSilkWrapOther:Play("changetarget")
-				end
-				if self:IsMythic() then
-					timerFelSilkWrapCD:Start(16)
-				else
-					timerFelSilkWrapCD:Start()
 				end
 			end
 		end
@@ -388,7 +351,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnDelusions:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
 			specWarnDelusions:Show()
-			specWarnDelusions:Play("dispelnow")
+			specWarnDelusions:Play("targetyou")
 		end
 	end
 end
@@ -434,68 +397,36 @@ mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
 
 function mod:UNIT_DIED(args)
 	local cid = self:GetCIDFromGUID(args.destGUID)
-	if cid == 124396 then --Вулканар (платформа Зорота)
+	if cid == 124396 then--Baron Vulcanar (Platform: Xoroth)
 		--timerSupernovaCD:Stop()
 		timerFlamesofXorothCD:Stop()
-	elseif cid == 124395 then --Леди Дацидия (платформа Ранкора)
+	elseif cid == 124395 then--Lady Dacidion (Platform: Rancora)
 		timerFelSilkWrapCD:Stop()
 		timerLeechEssenceCD:Stop()--Add appropriate boss filter when mythic add support added
-	elseif cid == 124394 then --Лорд Эйлгар (платформа Натреза)
+	elseif cid == 124394 then--Lord Eilgar (Platform: Nathreza)
 		timerDelusionsCD:Stop()--Add appropriate boss filter when mythic add support added
 	end
 end
 
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	local spellId = legacySpellId or bfaSpellId
-	if spellId == 257939 then --Врата: Зорот
+	if spellId == 257939 then
 		self.vb.firstPortal = true
 		warnXorothPortal:Show()
 		warnXorothPortal:Play("newportal")
-		self.vb.phase = 1
-	--	if args:IsPlayer() and self:IsMeleeDps() then
-		if not UnitIsDeadOrGhost("player") then
-			specWarnXorothPortal:Show(Xoroth)
-			specWarnXorothPortal:Play("justrun")
-		end
-	elseif spellId == 257941 then --Врата: Ранкора
+	elseif spellId == 257941 then
 		warnRancoraPortal:Show()
 		warnRancoraPortal:Play("newportal")
-		self.vb.phase = 2
-	--	if args:IsPlayer() and self:IsMeleeDps() then
-		if not UnitIsDeadOrGhost("player") then
-			specWarnRancoraPortal:Show(Rancora)
-			specWarnRancoraPortal:Play("justrun")
-		end
-	elseif spellId == 257942 then --Врата: Натреза
+	elseif spellId == 257942 then
 		warnNathrezaPortal:Show()
 		warnNathrezaPortal:Play("newportal")
-		self.vb.phase = 3
-	--	if args:IsPlayer() and self:IsMeleeDps() then
-		if not UnitIsDeadOrGhost("player") then
-			specWarnNathrezaPortal:Show(Nathreza)
-			specWarnNathrezaPortal:Play("justrun")
-		end
-	elseif spellId == 244455 then --платформа Зорот
+	elseif spellId == 244455 then--Platform: Xoroth
 		playerPlatform = 2
-	elseif spellId == 244512 then --платформа Ранкора
+	elseif spellId == 244512 then--Platform: Rancora
 		playerPlatform = 3
-	elseif spellId == 244513 then --платформа Натреза
+	elseif spellId == 244513 then--Platform: Nathreza
 		playerPlatform = 4
-	elseif spellId == 244450 then --платформа Нексус
+	elseif spellId == 244450 then--Platform: Nexus
 		playerPlatform = 1
 	end
 end
-
-function mod:UNIT_HEALTH(uId)
-	if self.vb.phase == 0 and not warned_preP1 and self:GetUnitCreatureId(uId) == 122104 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.96 then --скоро фаза 1
-		warned_preP1 = true
-		warnXorothPortal2:Show()
-	elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 122104 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.66 then --скоро фаза 2
-		warned_preP2 = true
-		warnRancoraPortal2:Show()
-	elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 122104 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.36 then --скоро фаза 3
-		warned_preP3 = true
-		warnNathrezaPortal2:Show()
-	end
-end
- 

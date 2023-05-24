@@ -7,15 +7,12 @@ mod:SetZone()
 mod.isTrashMod = true
 
 mod:RegisterEvents(
-	"SPELL_AURA_APPLIED 228845 228371 228395",
-	"CHAT_MSG_MONSTER_SAY"
+	"SPELL_AURA_APPLIED 228845 228371 228395"
 )
 
 local specWarnShatterboneShield		= mod:NewSpecialWarningReflect(228845, nil, nil, nil, 1, 2)
 local specWarnBreathOfDread			= mod:NewSpecialWarningMove(228371, nil, nil, nil, 1, 2)
-local specWarnBindSpirit			= mod:NewSpecialWarningDispel(228395, "MagicDispeller2", nil, nil, 1, 2)
-
-local timerRoleplay					= mod:NewTimer(49.5, "timerRoleplay", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7)
+local specWarnBindSpirit			= mod:NewSpecialWarningDispel(228395, "MagicDispeller", nil, nil, 1, 2)
 
 function mod:SPELL_AURA_APPLIED(args)
 	if not self.Options.Enabled then return end
@@ -27,19 +24,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		specWarnBreathOfDread:Show(args.destName)
 		specWarnBreathOfDread:Play("runaway")
 	elseif spellId == 228395 and self:AntiSpam(2.5, 2) then
-		specWarnBindSpirit:CombinedShow(0.5, args.destName)
+		specWarnBindSpirit:Show(args.destName)
 		specWarnBindSpirit:Play("dispelnow")
-	end
-end
-
-function mod:CHAT_MSG_MONSTER_SAY(msg)
-	if msg == L.RP1 then
-		self:SendSync("RP1")
-	end
-end
-
-function mod:OnSync(msg)
-	if msg == "RP1" then
-		timerRoleplay:Start()
 	end
 end

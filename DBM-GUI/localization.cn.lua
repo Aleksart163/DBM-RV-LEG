@@ -1,15 +1,20 @@
-if GetLocale() ~= "zhCN" then return end
+-- Diablohu(diablohudream@gmail.com) 
+-- yleaf(yaroot@gmail.com)
+-- sunlcy@NGA
+-- Mini Dragon(projecteurs@gmail.com)
+-- Last update: 2018/07/10
 
+if GetLocale() ~= "zhCN" then return end
 if not DBM_GUI_Translations then DBM_GUI_Translations = {} end
+
 local L = DBM_GUI_Translations
 
-L.MainFrame 				= "Dungeon Boss Master"
+L.MainFrame 				= "Deadly Boss Mods"
 
-L.TranslationByPrefix		= "Adaptation for uwow.biz - "
-L.TranslationBy 			= "Aleksart163 (Tielle х100)"
-L.Credits		 			= "特别感谢: Danzo (Qfastrun x100)" --right?
-L.Website					= "Discord for communication on issues: Aleksart163#1671 and site for updating: |cFF73C2FBhttps://github.com/Aleksart163/DBM-for-Uwow|r"
-L.WebsiteButton				= "Update"
+L.TranslationByPrefix		= "翻译:"
+L.TranslationBy 			= "Mini_Dragon(Brilla@金色平原) 原翻译：Diablohu & yleaf & sunlcy"
+L.Website					= "拜访我们的Discord |cFF73C2FBhttps://discord.gg/deadlybossmods|r. 在Twitter上关注 @deadlybossmods 或 @MysticalOS"
+L.WebsiteButton				= "网页"
 
 L.OTabBosses				= "模块"
 L.OTabOptions				= "选项"

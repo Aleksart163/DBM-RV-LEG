@@ -1,7 +1,5 @@
 
-DBM_CORE_NEED_SUPPORT				= "Are you good with programming or languages? If yes, the DBM needs your help in localizing DBM in more languages. Help us out by visiting |HDBM:forums|h|cff3588ffhttps://github.com/Aleksart163/DBM-RV|r.\nFound a bug or wrong timer? Do you think some mod would need an additional warning, timer or special feature?\nVisit the new DBM discussion, bug report and feature request forums at |HDBM:forums|h|cff3588ffhttps://github.com/Aleksart163/DBM-RV|r."
 DBM_HOW_TO_USE_MOD					= "Welcome to DBM. Type /dbm help for a list of supported commands. To access options type /dbm in your chat to begin configuration. Load specific zones manually to configure any boss specific settings to your liking as well. DBM will setup defaults for your spec, but you may want to fine tune these."
---DBM_FORUMS_MESSAGE					= "Found a bug or wrong timer? Do you think some mod would need an additional warning, timer or special feature?\nVisit the new DBM discussion, bug report and feature request forums at |HDBM:forums|h|cff3588ffhttps://github.com/Aleksart163/DBM-for-Legion|r (you can click the link to copy the URL)"
 DBM_SILENT_REMINDER					= "Reminder: DBM is still in silent mode."
 
 DBM_CORE_LOAD_MOD_ERROR				= "Error while loading boss mods for %s: %s"
@@ -15,12 +13,8 @@ DBM_CORE_LOAD_MOD_EXP_MISMATCH		= "%s could not be loaded because it is designed
 DBM_CORE_LOAD_MOD_DISABLED			= "%s is installed but currently disabled. This mod will not be loaded unless you enable it."
 DBM_CORE_LOAD_MOD_DISABLED_PLURAL	= "%s are installed but currently disabled. These mods will not be loaded unless you enable them."
 
-DBM_CORE_UPDATEREMINDER_URL			= "https://github.com/Aleksart163/DBM-RV"
-
 DBM_COPY_URL_DIALOG					= "Copy URL"
 
---Pre Patch 7.1 Notice
-DBM_CORE_NO_RANGE_SOON				= "Warning: Radar will not be available in dungeons in patch 7.1"
 --Post Patch 7.1
 DBM_CORE_NO_RANGE					= "Range Radar can not be used in instances. Legacy text range frame used instead"
 DBM_CORE_NO_ARROW					= "Arrow can not be used in instances"
@@ -35,7 +29,7 @@ DBM_CORE_LOOT_SPEC_REMINDER			= "Your current spec is %s. Your current loot choi
 
 DBM_CORE_BIGWIGS_ICON_CONFLICT		= "DBM has detected that you have raid icons turned on in both BigWigs and DBM. Please disable icons in one of them to avoid conflicts"
 
-DBM_CORE_MOD_AVAILABLE				= "%s is available for this zone/boss. You can find download on |HDBM:forums|h|cff3588ffhttps://github.com/Aleksart163/DBM-RV|r."
+DBM_CORE_MOD_AVAILABLE				= "%s is available for this zone/boss. You can find download on Curse/WoWI or deadlybossmods.com."
 
 DBM_CORE_COMBAT_STARTED				= "%s engaged. Good luck and have fun! :)"
 DBM_CORE_COMBAT_STARTED_IN_PROGRESS	= "Engaged an in progress fight against %s. Good luck and have fun! :)"
@@ -121,11 +115,8 @@ DBM_CORE_GENERIC_WARNING_OTHERS2	= "and %d others"
 DBM_CORE_GENERIC_WARNING_BERSERK	= "Berserk in %s %s"
 DBM_CORE_GENERIC_TIMER_BERSERK		= "Berserk"
 DBM_CORE_OPTION_TIMER_BERSERK		= "Show timer for $spell:26662"
-DBM_CORE_OPTION_TIMER_COMBAT		= "Show timer for combat start"
 DBM_CORE_GENERIC_TIMER_COMBAT		= "Combat starts"
-DBM_CORE_OPTION_TIMER_DOOR_OPENING	= "Show timer for to door opening"
-DBM_CORE_GENERIC_TIMER_DOOR_OPENING	= "Door opening"
-DBM_CORE_GENERIC_TIMER_ROLE_PLAY	= "Activate role-playing or npc in 1 click"
+DBM_CORE_OPTION_TIMER_COMBAT		= "Show timer for combat start"
 DBM_CORE_BAD						= "Bad"
 
 DBM_CORE_OPTION_CATEGORY_TIMERS			= "Bars"
@@ -157,28 +148,27 @@ DBM_CORE_VERSIONCHECK_ENTRY_TWO		= "%s: %s (%s) & %s (%s)"--Two Boss mods
 DBM_CORE_VERSIONCHECK_ENTRY_NO_DBM	= "%s: No boss mod installed"
 DBM_CORE_VERSIONCHECK_FOOTER		= "Found %d player(s) with DBM & %d player(s) with Bigwigs"
 DBM_CORE_VERSIONCHECK_OUTDATED		= "Following %d player(s) have outdated boss mod version: %s"
-DBM_CORE_YOUR_VERSION_OUTDATED      = "WARNING! Your version of Dungeon Boss Master is out-of-date. Please visit " .. DBM_CORE_UPDATEREMINDER_URL .. " to get the latest version (rus and eng)."
+DBM_CORE_YOUR_VERSION_OUTDATED      = "Your version of Deadly Boss Mods is out-of-date. Please visit http://www.deadlybossmods.com to get the latest version."
 DBM_CORE_VOICE_PACK_OUTDATED		= "Your selected DBM voice pack is missing some sounds supported by DBM. Some warning sounds will still play default sounds. Please download a newer version of voice pack or pack contact author for an update that contains missing audio"
 DBM_CORE_VOICE_MISSING				= "You had a DBM voice pack selected that could not be found. Your selection has been reset to 'None'. If this is an error, make sure your voice pack is properly installed and enabled in addons."
 DBM_CORE_VOICE_DISABLED				= "You currently have at least one DBM voice pack installed but none enabled. If you intend to use a voice pack, make sure it's chosen in 'Spoken Alerts', else uninstall unused voice packs to hide this message"
 DBM_CORE_VOICE_COUNT_MISSING		= "Countdown voice %d is set to a voice/count pack that could not be found. It has be reset to default setting: %s."
 DBM_BIG_WIGS						= "BigWigs"
 
-DBM_CORE_UPDATEREMINDER_HEADER			= "Your version of Dungeon Boss Master is out-of-date.\n Version %s (r%d) is available for download here: " .. DBM_CORE_UPDATEREMINDER_URL .. " "
-DBM_CORE_UPDATEREMINDER_HEADER_ALPHA	= "Your ALPHA version of Dungeon Boss Master is out-of-date.\n You are at least %d test versions behind. It is recommended that DBM users that choose ALPHA versions run the latest ALPHA. Otherwise, they should run latest RELEASE version. Out of date ALPHAs have a stricter version check because they are development versions of DBM."
+DBM_CORE_UPDATEREMINDER_HEADER			= "Your version of Deadly Boss Mods is out-of-date.\n Version %s (r%d) is available for download through Curse/Twitch, WoWI, or from deadlybossmods.com"
+DBM_CORE_UPDATEREMINDER_HEADER_ALPHA	= "Your ALPHA version of Deadly Boss Mods is out-of-date.\n You are at least %d test versions behind. It is recommended that DBM users that choose ALPHA versions run the latest ALPHA. Otherwise, they should run latest RELEASE version. Out of date ALPHAs have a stricter version check because they are development versions of DBM."
 DBM_CORE_UPDATEREMINDER_FOOTER			= "Press " .. (IsMacClient() and "Cmd-C" or "Ctrl-C")  ..  " to copy the download link to your clipboard."
 DBM_CORE_UPDATEREMINDER_FOOTER_GENERIC	= "Press " .. (IsMacClient() and "Cmd-C" or "Ctrl-C")  ..  " to copy the link to your clipboard."
-DBM_CORE_UPDATEREMINDER_DISABLE			= "WARNING: Do to your Dungeon Boss Master being too out of date, it has been force disabled and cannot used until updated. This is to ensure old and incompatible code doesn't cause poor play experience for yourself or fellow raid members."
-DBM_CORE_UPDATEREMINDER_DISABLE2		= "WARNING: Due to the fact that someone from the raid is using a rogue version of the addon - yours is considered obsolete and should be disconnected permanently. Do not worry, as this version is the work of the player Aleksart163 - the addon will continue to work, but it is still recommended that you visit " .. DBM_CORE_UPDATEREMINDER_URL .. " to update."
+DBM_CORE_UPDATEREMINDER_DISABLE			= "WARNING: Do to your Deadly Boss Mods being too out of date, it has been force disabled and cannot used until updated. This is to ensure old and incompatible code doesn't cause poor play experience for yourself or fellow raid members."
 DBM_CORE_UPDATEREMINDER_HOTFIX			= "DBM version you are on has known issues during this boss encounter that are corrected if you update to latest release"
 DBM_CORE_UPDATEREMINDER_HOTFIX_ALPHA	= "DBM version you are on has known issues during this boss encounter that are corrected in an upcoming release (or latest alpha version)"
-DBM_CORE_UPDATEREMINDER_MAJORPATCH		= "WARNING: Do to your Dungeon Boss Master being out of date, DBM has been disabled until updated, since this is a major game patch. This is to ensure old and incompatible code doesn't cause poor play experience for yourself or fellow group members. Make sure you download a newer version from " .. DBM_CORE_UPDATEREMINDER_URL .. " as soon as possible."
-DBM_CORE_UPDATEREMINDER_TESTVERSION		= "WARNING: You are using a version of Dungeon Boss Master not intended to be used with this game version. Please make sure you download the appropriate version for your game client from " .. DBM_CORE_UPDATEREMINDER_URL .. "."
-DBM_CORE_VEM							= "WARNING: You are running both Dungeon Boss Master and Voice Encounter Mods. DBM will not run in this configuration and therefore will not be loaded."
+DBM_CORE_UPDATEREMINDER_MAJORPATCH		= "WARNING: Do to your Deadly Boss Mods being out of date, DBM has been disabled until updated, since this is a major game patch. This is to ensure old and incompatible code doesn't cause poor play experience for yourself or fellow group members. Make sure you download a newer version from deadlybossmods.com or curse as soon as possible."
+DBM_CORE_UPDATEREMINDER_TESTVERSION		= "WARNING: You are using a version of Deadly Boss Mods not intended to be used with this game version. Please make sure you download the appropriate version for your game client from deadlybossmods.com or curse."
+DBM_CORE_VEM							= "WARNING: You are running both Deadly Boss Mods and Voice Encounter Mods. DBM will not run in this configuration and therefore will not be loaded."
 DBM_CORE_3RDPROFILES					= "WARNING: DBM-Profiles not compatible with this version of DBM. It must be removed before DBM can proceed, to avoid conflict."
-DBM_CORE_DPMCORE						= "WARNING: DBM PvP mods is discontinued and not compatible with this version of DBM. It must be removed before DBM can proceed, to avoid conflict."
+DBM_CORE_DPMCORE						= "WARNING: Deadly PvP mods is discontinued and not compatible with this version of DBM. It must be removed before DBM can proceed, to avoid conflict."
 DBM_CORE_UPDATE_REQUIRES_RELAUNCH		= "WARNING: This DBM update will not work correctly if you don't fully restart your game client. This update contains new files or .toc file changes that cannot be loaded via ReloadUI. You may encounter broken functionality or errors if you continue without a client restart."
-DBM_CORE_OUT_OF_DATE_NAG				= "Your version of Dungeon Boss Master is out-of-date. It is recommended you update for this fight so you are not missing an important alert or timer or a yell rest of raid is expecting to see from you."
+DBM_CORE_OUT_OF_DATE_NAG				= "Your version of Deadly Boss Mods is out-of-date. It is recommended you update for this fight so you are not missing an important alert or timer or a yell rest of raid is expecting to see from you."
 
 DBM_CORE_MOVABLE_BAR				= "Drag me!"
 
@@ -187,7 +177,7 @@ DBM_PIZZA_SYNC_INFO					= "|Hplayer:%1$s|h[%1$s]|h sent you a DBM timer"
 DBM_PIZZA_CONFIRM_IGNORE			= "Do you really want to ignore DBM timers from %s for this session?"
 DBM_PIZZA_ERROR_USAGE				= "Usage: /dbm [broadcast] timer <time> <text>. <time> must be greater than 1."
 
-DBM_CORE_MINIMAP_TOOLTIP_HEADER		= "Dungeon Boss Master"
+DBM_CORE_MINIMAP_TOOLTIP_HEADER		= "Deadly Boss Mods"
 DBM_CORE_MINIMAP_TOOLTIP_FOOTER		= "Shift+click or right-click to move\nAlt+shift+click for free drag and drop"
 
 DBM_CORE_RANGECHECK_HEADER			= "Range Check (%dyd)"
@@ -217,7 +207,6 @@ DBM_CORE_INFOFRAME_MAIN				= "Main:"--Main power
 DBM_CORE_INFOFRAME_ALT				= "Alt:"--Alternate Power
 
 DBM_LFG_INVITE						= "LFG Invite"
-DBM_PHASE							= "Stage %d"
 
 DBM_CORE_SLASHCMD_HELP				= {
 	"Available slash commands:",
@@ -282,8 +271,6 @@ DBM_CORE_FAR_AWAY					= "Far Away"
 DBM_CORE_BREAK_LOS					= "Break LOS"
 DBM_CORE_SAFE						= "Safe"
 DBM_CORE_SHIELD						= "Shield"
-DBM_CORE_SPHERE						= "the Sphere"
-DBM_CORE_TOTHEBOSS					= "the Boss"
 DBM_INCOMING						= "%s Incoming"
 --Common Locals end
 
@@ -309,9 +296,6 @@ DBM_CORE_ACHIEVEMENT_TIMER_SPEED_KILL = "Achievement"--BATTLE_PET_SOURCE_6
 DBM_CORE_AUTO_ANNOUNCE_TEXTS = {
 	you			= "%s on YOU",
 	target		= "%s on >%%s<",
-	targetsource= ">%%s< casts %s",
-	targetsource2= ">%%s< casts %s on >%%s<",
-	targetsourcecount= ">%%s< casts %s (%%s)",
 	targetcount	= "%s (%%s) on >%%s<",
 	spell		= "%s",
 	ends 		= "%s ended",
@@ -331,9 +315,6 @@ local prewarnOption = "Show pre-warning for $spell:%s"
 DBM_CORE_AUTO_ANNOUNCE_OPTIONS = {
 	you			= "Announce when $spell:%s on you",
 	target		= "Announce $spell:%s targets",
-	targetsource= "Announce the source of the spell's use $spell:%s",
-	targetsource2= "Announce (with target) the source of the spell's use $spell:%s",
-	targetsourcecount= "Announce (with count) the source of the spell's use $spell:%s",
 	targetcount	= "Announce $spell:%s targets (with count)",
 	spell		= "Show warning for $spell:%s",
 	ends		= "Show warning when $spell:%s has ended",
@@ -353,68 +334,30 @@ DBM_CORE_AUTO_ANNOUNCE_OPTIONS = {
 DBM_CORE_AUTO_SPEC_WARN_TEXTS = {
 	spell			= "%s!",
 	ends			= "%s ended",
-	ready			= "%s ready",
 	fades			= "%s faded",
-	youfades		= "%s faded on you",
 	soon			= "%s soon",
-	soonparaxiscount = "%s soon - %%s group",
-	soonlookaway	= "%s soon - look away",
 	prewarn			= "%s in %s",
 	dispel			= "%s on >%%s< - dispel now",
-	interrupt		= "%s - interrupt!",
-	interrupt2		= "%s - interrupt with your control!",
-	interruptcount	= "%s - interrupt! (%%d)",
-	interruptcount2	= "%s! (%%s) - interrupt",
+	interrupt		= "%s - interrupt >%%s<!",
+	interruptcount	= "%s - interrupt >%%s<! (%%d)",
 	you				= "%s on you",
-	youdispel 		= "%s on you - dispel now",
 	youcount		= "%s (%%s) on you",
-	youpos			= "%s (%%s) on you!",
-	soak			= "%s! - close out",
-	soakcount		= "%s (%%s) - close out",
+	youpos			= "%s (Position: %%s) on you",
 	soakpos			= "%s (Soak Position: %%s)",
 	target			= "%s on >%%s<",
-	targethelp		= "%s on >%%s< - help",
-	targetdodge		= "%s on >%%s< - dodge",
-	targetsoak		= "%s on >%%s< - close out",
-	targetrun		= "%s on >%%s< - run away",
-	targetint		= "%s on >%%s< - interrupt!",
 	targetcount		= "%s (%%s) on >%%s< ",
-	youdefensive 	= "%s on you! - defensive",
-	defensive		= "%s! - defensive",
-	defensivecount	= "%s! (%%s) - defensive",
+	defensive		= "%s - defensive",
 	taunt			= "%s on >%%s< - taunt now",
-	youclose		= "%s on >%%s< - share with him the damage",
 	close			= "%s on >%%s< near you",
-	closemoveaway	= "%s on >%%s< - run away",
 	move			= "%s - move away",
-	youmove 		= "%s under you - move away",
-	dontmove 		= "%s! - dont move",
-	youdontmove 	= "%s under you! - dont move",
-	dontstand 		= "%s! - don't stand still",
-	youdontstand 	= "%s on you! - don't stand still",
 	dodge			= "%s - dodge attack",
-	dodgecount		= "%s (%%s) - dodge attack",
 	dodgeloc		= "%s - dodge from %%s",
-	youmoveaway		= "%s on you! - move away from others",
-	youmoveawaypos	= "%s (%%s) on you!",
 	moveaway		= "%s - move away from others",
-	moveboss		= "%s - run to the boss",
 	moveto			= "%s - move to >%%s<",
-	youmovetopos	= "%s (%%s) on you! - move to icon",
-	youshare		= "%s on you! - share the damage",
-	share			= "%s! - share the damage",
-	sharecount		= "%s! (%%s) - share the damage",
 	jump			= "%s - jump",
 	run				= "%s - run away",
-	yourun			= "%s on you! - run away",
-	running			= "%s! - run together",
-	yourunning		= "%s on you! - run together",
-	runningcount	= "%s! (%%s) - run together",
 	cast			= "%s - stop casting",
-	lookaway		= "%s! - look away",
-	youlookaway2	= "%s on you! - look away",
-	youlook			= "%s on you! - look at >%%s<",
-	youfind			= "%s on you! - return your soul",
+	lookaway		= "%s - look away",
 	reflect			= "%s on >%%s< - stop attacking",
 	count			= "%s! (%%s)",
 	stack			= "%%d stacks of %s on you",
@@ -422,82 +365,37 @@ DBM_CORE_AUTO_SPEC_WARN_TEXTS = {
 	switchcount		= "%s - switch targets (%%s)",
 	gtfo			= "%%s under you - move away",
 	Adds			= "Incoming Adds - switch targets",
-	Addscustom		= "Incoming Adds - %%s",
-	icepud 			= "%s! - run into the ice",
-	moredamage		= "%s on >%%s< - more damage",
-	youmoredamage	= "%s on you! - give more damage",
-	paraxiscount	= "%s! - turn of the %%s group",
-	standsand		= "%s! - move to land",
-	useitem			= "%s - use >%%s<",
-	keepdist		= "%s - keep a distance of (%%s)м"
+	Addscustom		= "Incoming Adds - %%s"
 }
 
 -- Auto-generated Special Warning Localizations
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS = {
 	spell 			= "Show special warning for $spell:%s",
 	ends 			= "Show special warning when $spell:%s has ended",
-	ready 			= "Show special warning when $spell:%s ready",
 	fades 			= "Show special warning when $spell:%s has faded",
-	youfades 		= "Show special warning when $spell:%s has faded on you",
 	soon 			= "Show pre-special warning for $spell:%s",
-	soonparaxiscount = "Show pre-special warning (with count) for $spell:%s",
-	soonlookaway 	= "Show pre-special warning to look away for $spell:%s",
 	prewarn 		= "Show pre-special warning %s seconds before $spell:%s",
 	dispel 			= "Show special warning to dispel/spellsteal $spell:%s",
-	interrupt		= "Show special warning \"interrupt\" for $spell:%s",
-	interrupt2		= "Show special warning \"interrupt with your control\" for $spell:%s",
-	interruptcount	= "Show special warning (with count) \"interrupt\" for $spell:%s",
-	interruptcount2	= "Show special warning (with count) \"interrupt\" for $spell:%s",
+	interrupt		= "Show special warning to interrupt $spell:%s",
+	interruptcount	= "Show special warning (with count) to interrupt $spell:%s",
 	you 			= "Show special warning when you are affected by $spell:%s",
-	youdispel		= "Show special warning to dispel when you are affected by $spell:%s",
 	youcount		= "Show special warning (with count) when you are affected by $spell:%s",
 	youpos			= "Show special warning (with position) when you are affected by $spell:%s",
-	soak			= "Show special warning \"close out\" for $spell:%s",
-	soakcount		= "Show special warning (with count) \"close out\" for $spell:%s",
 	soakpos			= "Show special warning (with position) to help soak others affected by $spell:%s",
 	target 			= "Show special warning when someone is affected by $spell:%s",
-	targethelp 		= "Show special warning (with name) \"help\" when someone is affected by $spell:%s",
-	targetdodge 	= "Show special warning (with name) \"dodge\" when someone is affected by $spell:%s",
-	targetsoak	 	= "Show special warning (with name) \"close out\" when someone is affected by $spell:%s",
-	targetrun	 	= "Show special warning (with name) \"run away\" when someone is affected by $spell:%s",
-	targetint	 	= "Show special warning (with name) \"interrupt\" when someone is affected by $spell:%s",
 	targetcount 	= "Show special warning (with count) when someone is affected by $spell:%s",
-	youdefensive	= "Show special warning to use defensive abilites when you are affected by $spell:%s",
 	defensive 		= "Show special warning to use defensive abilites for $spell:%s",
-	defensivecount 	= "Show special warning (with count) to use defensive abilites for $spell:%s",
 	taunt 			= "Show special warning to taunt when other tank affected by $spell:%s",
-	youclose		= "Show special warning \"share the damage with your allies\" when someone close to you is affected by $spell:%s",
 	close 			= "Show special warning when someone close to you is affected by $spell:%s",
-	closemoveaway	= "Show special warning \"run away from your ally\" when someone close to you is affected by $spell:%s",
 	move 			= "Show special warning to move out from $spell:%s",
-	youmove 		= "Show special warning \"move away\" when under you $spell:%s",
-	dontmove 		= "Show special warning \"dont move\" for $spell:%s",
-	youdontmove 	= "Show special warning \"dont move\" when under you $spell:%s",
-	dontstand		= "Show special warning \"don't stand still\" for $spell:%s",
-	youdontstand 	= "Show special warning \"don't stand still\" when you target $spell:%s",
 	dodge 			= "Show special warning to dodge $spell:%s",
-	dodgecount 		= "Show special warning (with count) to dodge $spell:%s",
 	dodgeloc		= "Show special warning (with location) to dodge $spell:%s",
-	youmoveaway		= "Show special warning \"move away from others\" when you are affected by $spell:%s",
-	youmoveawaypos	= "Show special warning \"move away from others\" (with position) when you are affected by $spell:%s",
 	moveaway		= "Show special warning to move away from others for $spell:%s",
-	moveboss		= "Show special warning \"run to the boss\" for $spell:%s",
 	moveto			= "Show special warning to move to someone or some place for $spell:%s",
-	youmovetopos	= "Show special warning \"move to your icon\" (with position) when you are affected by $spell:%s",
-	youshare		= "Show special warning \"share the damage with your allies\" when you are affected by $spell:%s",
-	share			= "Show special warning \"share the damage with your allies\" for $spell:%s",
-	sharecount		= "Show special warning (with count) \"share the damage with your allies\" for $spell:%s",
 	jump			= "Show special warning to move to jump for $spell:%s",
-	run 			= "Show special warning \"run away\" for $spell:%s",
-	yourun 			= "Show special warning \"run away\" when you target $spell:%s",
-	running			= "Show special warning \"run together\" for $spell:%s",
-	yourunning		= "Show special warning \"run together\" when you target $spell:%s",
-	runningcount	= "Show special warning (with count) \"run together\" for $spell:%s",
+	run 			= "Show special warning to run away from $spell:%s",
 	cast 			= "Show special warning to stop casting for $spell:%s",--Spell Interrupt
 	lookaway		= "Show special warning to look away for $spell:%s",
-	youlookaway2 	= "Show special warning \"look away\" when on you $spell:%s",
-	youlook			= "Show special warning \"look at...\" when you target $spell:%s",
-	youfind			= "Show special warning \"return your soul\" when you target $spell:%s",
 	reflect 		= "Show special warning to stop attacking $spell:%s",--Spell Reflect
 	count 			= "Show special warning (with count) for $spell:%s",
 	stack 			= "Show special warning when you are affected by >=%d stacks of $spell:%s",
@@ -505,14 +403,7 @@ DBM_CORE_AUTO_SPEC_WARN_OPTIONS = {
 	switchcount		= "Show special warning (with count) to switch targets for $spell:%s",
 	gtfo 			= "Show special warning to move out bad stuff on ground",
 	Adds			= "Show special warning to switch targets for incoming adds",
-	Addscustom		= "Show special warning for incoming adds",
-	icepud			= "Show special warning \"run into the ice\" during the action $spell:%s",
-	moredamage		= "Show special warning \"more damage\" when someone is affected by $spell:%s",
-	youmoredamage	= "Show special warning \"give more damage\" when on you $spell:%s",
-	paraxiscount	= "Show special warning (with count) \"turn of the ... group\" for $spell:%s",
-	standsand		= "Show special warning \"move to land\" for $spell:%s",
-	useitem 		= "Show special warning \"use\" on whom $spell:%s",
-	keepdist 		= "Show special warning \"keep a distance of N meters\" for $spell:%s"
+	Addscustom		= "Show special warning for incoming adds"
 }
 
 -- Auto-generated Timer Localizations
@@ -576,9 +467,6 @@ DBM_CORE_AUTO_COUNTOUT_OPTION_TEXT		= "Play countout sound for $spell:%s duratio
 DBM_CORE_AUTO_YELL_OPTION_TEXT = {
 	shortyell		= "Yell when you are affected by $spell:%s",
 	yell			= "Yell (with player name) when you are affected by $spell:%s",
-	yellhelp		= "Yell (with ask for help) when you are affected by $spell:%s",
-	yelldispel		= "Yell (with ask for help to dispel) when you are affected by $spell:%s",
-	yellmoveaway	= "Yell (with a \"move away\" warning) when you are affected by $spell:%s",
 	count			= "Yell (with count) when you are affected by $spell:%s",
 	fade			= "Yell (with countdown and spell name) when $spell:%s is fading",
 	shortfade		= "Yell (with countdown) when $spell:%s is fading",
@@ -589,9 +477,6 @@ DBM_CORE_AUTO_YELL_OPTION_TEXT = {
 DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT = {
 	shortyell		= "%s",
 	yell			= "%s on " .. UnitName("player"),
-	yellhelp		= "%s on me! Help!",
-	yelldispel		= "%s on me! Dispel Me!",
-	yellmoveaway	= "%s on me! GO AWAY FROM ME!",
 	count			= "%s on " .. UnitName("player") .. " (%%d)",
 	fade			= "%s fading in %%d",
 	shortfade		= "%%d",
@@ -599,7 +484,6 @@ DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT = {
 	position 		= "%s %%s on {rt%%d}"..UnitName("player").."{rt%%d}",
 	combo			= "%s and %%s"--Spell name (from option, plus spellname given in arg)
 }
-
 DBM_CORE_AUTO_YELL_CUSTOM_POSITION		= "{rt%d}%s{rt%d}"--Doesn't need translating. Has no strings
 DBM_CORE_AUTO_YELL_CUSTOM_POSITION2		= "{rt%d}{rt%d}%s{rt%d}{rt%d}"--Doesn't need translating. Has no strings
 DBM_CORE_AUTO_YELL_CUSTOM_FADE			= "%s faded"
@@ -616,7 +500,7 @@ DBM_CORE_AUTO_READY_CHECK_OPTION_TEXT	= "Play ready check sound when boss is pul
 
 -- New special warnings
 DBM_CORE_MOVE_WARNING_BAR			= "Announce movable"
-DBM_CORE_MOVE_WARNING_MESSAGE		= "Thanks for using DBM Right Version"
+DBM_CORE_MOVE_WARNING_MESSAGE		= "Thanks for using Deadly Boss Mods"
 DBM_CORE_MOVE_SPECIAL_WARNING_BAR	= "Special warning movable"
 DBM_CORE_MOVE_SPECIAL_WARNING_TEXT	= "Special Warning"
 
@@ -672,12 +556,12 @@ DBM_INSTANCE_INFO_RESULTS			= "Instance ID scan results. Note that instances mig
 DBM_INSTANCE_INFO_SHOW_RESULTS		= "Players yet to respond: %s"
 
 DBM_CORE_LAG_CHECKING				= "Checking raid Latency..."
-DBM_CORE_LAG_HEADER					= "Dungeon Boss Master - Latency Results"
+DBM_CORE_LAG_HEADER					= "Deadly Boss Mods - Latency Results"
 DBM_CORE_LAG_ENTRY					= "%s: World delay [%d ms] / Home delay [%d ms]"
 DBM_CORE_LAG_FOOTER					= "No Response: %s"
 
 DBM_CORE_DUR_CHECKING				= "Checking raid Durability..."
-DBM_CORE_DUR_HEADER					= "Dungeon Boss Master - Durability Results"
+DBM_CORE_DUR_HEADER					= "Deadly Boss Mods - Durability Results"
 DBM_CORE_DUR_ENTRY					= "%s: Durability [%d percent] / Gear broken [%s]"
 DBM_CORE_LAG_FOOTER					= "No Response: %s"
 
@@ -693,11 +577,10 @@ DBM_CORE_DAMAGE_ICON_SMALL	= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:12:
 DBM_CORE_HEROIC_ICON		= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:22:22:0:0:255:66:102:118:7:27|t"
 DBM_CORE_DEADLY_ICON		= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:22:22:0:0:255:66:133:153:7:27|t"
 DBM_CORE_IMPORTANT_ICON		= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:20:20:0:0:255:66:168:182:7:27|t"
-DBM_CORE_MYTHIC_ICON		= "|TInterface\\AddOns\\DBM-Core\\textures\\UI-EJ-Icons.blp:22:22:0:0:255:66:133:153:40:58|t"
 
 DBM_CORE_HEROIC_ICON_SMALL	= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:14:14:0:0:255:66:102:118:7:27|t"
 DBM_CORE_DEADLY_ICON_SMALL	= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:14:14:0:0:255:66:133:153:7:27|t"
-DBM_CORE_IMPORTANT_ICON_SMALL = "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:12:12:0:0:255:66:168:182:7:27|t"
+DBM_CORE_IMPORTANT_ICON_SMALL= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:12:12:0:0:255:66:168:182:7:27|t"
 --Type Icons
 DBM_CORE_INTERRUPT_ICON		= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:20:20:0:0:255:66:198:214:7:27|t"
 DBM_CORE_MAGIC_ICON			= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:20:20:0:0:255:66:229:247:7:27|t"

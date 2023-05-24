@@ -1,11 +1,9 @@
 if GetLocale() ~= "esES" and GetLocale() ~= "esMX" then return end
-
 local L
 
 -------------------------
 -- Torreón Grajo Negro --
 -------------------------
-
 -----------------------
 -- Amalgama de almas --
 -----------------------
@@ -26,16 +24,6 @@ L= DBM:GetModLocalization(1664)
 ----------------------------------
 L= DBM:GetModLocalization(1672)
 
-if GetLocale() == "esES" then
-L:SetMiscLocalization({
-	proshlyapMurchal = "¡Basta! Me estoy cansando." --
-})
-else
-L:SetMiscLocalization({
-	proshlyapMurchal = "¡Suficiente! Estoy cansado de esto." --
-})
-end
-
 ----------------------
 -- Enemigos menores --
 ----------------------
@@ -45,28 +33,9 @@ L:SetGeneralLocalization({
 	name =	"Enemigos menores"
 })
 
-L:SetOptionLocalization({
-	timerRoleplay = DBM_CORE_OPTION_TIMER_DOOR_OPENING
-})
-
-L:SetTimerLocalization({
-	timerRoleplay = DBM_CORE_GENERIC_TIMER_DOOR_OPENING
-})
-
-if GetLocale() == "esES" then
-L:SetMiscLocalization({
-	RP1 = "Ahora... Ahora lo veo..." --
-})
-else
-L:SetMiscLocalization({
-	RP1 = "Ahora... ya veo..." --
-})
-end
-
 -----------------------------
 -- Arboleda Corazón Oscuro --
 -----------------------------
-
 -----------------------
 -- Archidruida Glaidalis --
 -----------------------
@@ -76,10 +45,6 @@ L= DBM:GetModLocalization(1654)
 -- Corazón de Roble --
 ----------------------
 L= DBM:GetModLocalization(1655)
-
-L:SetMiscLocalization({
-	ThrowYell = "Lanzamiento en %s!"
-})
 
 --------------
 -- Dresaron --
@@ -91,22 +56,6 @@ L= DBM:GetModLocalization(1656)
 ----------------------
 L= DBM:GetModLocalization(1657)
 
-L:SetMiscLocalization{
-	ParanoiaYell = "%s en %s. ALEJAROS de mi!"
-}
-
-if GetLocale() == "esES" then
-L:SetMiscLocalization({
-	XavApoc = "Os consumiréis, lenta y dolorosamente.",
-	XavApoc2 = "¡Destruiré vuestras débiles mentes!"
-})
-else
-L:SetMiscLocalization({
-	XavApoc = "Te apagarás lenta y dolorosamente.", --
-	XavApoc2 = "¡Quebraré tu mente débil!" --
-})
-end
-
 ----------------------
 -- Enemigos menores --
 ----------------------
@@ -116,10 +65,10 @@ L:SetGeneralLocalization({
 	name =	"Enemigos menores"
 })
 
+
 --------------------
 -- Ojo de Azshara --
 --------------------
-
 --------------------------------
 -- Señor de la guerra Parjesh --
 --------------------------------
@@ -129,6 +78,11 @@ L= DBM:GetModLocalization(1480)
 -- Lady Espiral de Odio --
 --------------------------
 L= DBM:GetModLocalization(1490)
+
+L:SetWarningLocalization({
+	specWarnStaticNova			= "Nova estática - ¡ve a tierra!",
+	specWarnFocusedLightning	= "Relámpago enfocado - ¡ve al agua!"
+})
 
 -----------------------
 -- Rey Barbaprofunda --
@@ -157,21 +111,10 @@ L:SetGeneralLocalization({
 ---------------------
 -- Salas del Valor --
 ---------------------
-
 -----------------------
 -- Hymdall --
 -----------------------
 L= DBM:GetModLocalization(1485)
-
-if GetLocale() == "esES" then
-L:SetMiscLocalization({
-	proshlyapMurchal = "¡Una batalla excelente! El camino está despejado." --
-})
-else
-L:SetMiscLocalization({
-	proshlyapMurchal = "¡Una batalla bien peleada! El camino por delante está abierto." --
-})
-end
 
 -----------------------
 -- Hyrja --
@@ -183,16 +126,6 @@ L= DBM:GetModLocalization(1486)
 ------------
 L= DBM:GetModLocalization(1487)
 
-if GetLocale() == "esES" then
-L:SetMiscLocalization({
-	MurchalProshlyapOchko = "Herido, Fenryr se retira a su guarida." --
-})
-else
-L:SetMiscLocalization({
-	MurchalProshlyapOchko = "Herido, Fenryr se retira a su guarida." --
-})
-end
-
 ----------------------
 -- Rey dios Skovald --
 ----------------------
@@ -203,15 +136,9 @@ L= DBM:GetModLocalization(1488)
 ----------
 L= DBM:GetModLocalization(1489)
 
-if GetLocale() == "esES" then
 L:SetMiscLocalization({
-	OchkenMurchalProshlyapen = "¡Ya basta! ¡Me rindo! Sois criaturas extraordinarias, sin duda. Como prometí, tendréis una recompensa." --
+	tempestModeMessage		=	"Secuencia sin Tempestad radiante: %s. Volviendo a comprobar en 8 segundos."
 })
-else
-L:SetMiscLocalization({
-	OchkenMurchalProshlyapen = "¡Suficiente! ¡Yo... me retiro! Son criaturas extraordinarias. Como lo prometí, tendrán su justa recompensa." --
-})
-end
 
 ----------------------
 -- Enemigos menores --
@@ -222,39 +149,9 @@ L:SetGeneralLocalization({
 	name =	"Enemigos menores"
 })
 
-L:SetOptionLocalization({
-	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT,
-	BossActivation = DBM_CORE_GENERIC_TIMER_ROLE_PLAY
-})
-
-L:SetTimerLocalization({
-	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
-})
-
-if GetLocale() == "esES" then
-L:SetMiscLocalization({
-	RPSolsten = "¡Vuestra presencia mancilla el ritual, mortales!", --
-	RPSolsten2 = "Hyrja... ¡la furia de la tormenta está a tus órdenes!", --
-	RPOlmyr = "¡No impediréis la ascensión de Hyrja!", --
-	RPOlmyr2 = "Hyrja, ¡la Luz brilla eternamente en ti!", --
-	RPSkovald = "¡No! Yo también he demostrado mi valía, Odyn. ¡Soy el rey dios Skovald! Estos mortales no me arrebatarán la égida.", --
-	RPOdyn = "Impresionante. Nunca pensé que encontraría a alguien capaz de igualar la fuerza de los Valarjar... pero aquí estáis." --
-})
-else
-L:SetMiscLocalization({
-	RPSolsten = "¡Ensucian el ritual con su presencia, mortales!", --
-	RPSolsten2 = "Hyrja... ¡la furia de las tormentas está bajo tus órdenes!", --
-	RPOlmyr = "¡No negarás la ascensión de Hyrja!", --
-	RPOlmyr2 = "¡La Luz brilla eternamente en ti, Hyrja!", --
-	RPSkovald = "¡No! Yo también he probado mi valor. ¡Soy El Rey Divino Skovald! ¡Estos mortales no pueden desafiar mi petición por la égida!", --
-	RPOdyn = "¡Qué impresionante! Nunca imaginé conocer a alguien que pudiera igualar la fuerza de Valarjar... y entonces, apareces tú." --
-})
-end
-
 ---------------------------
 -- Guarida de Neltharion --
 ---------------------------
-
 -------------
 -- Rokmora --
 -------------
@@ -284,28 +181,9 @@ L:SetGeneralLocalization({
 	name =	"Enemigos menores"
 })
 
-L:SetOptionLocalization({
-	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
-})
-
-L:SetTimerLocalization({
-	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
-})
-
-if GetLocale() == "esES" then
-L:SetMiscLocalization({
-	RoleP1 = "¿Navarrogg? ¡Traidor! ¿Osas liderar a los intrusos contra nosotros?"
-})
-else
-L:SetMiscLocalization({
-	RoleP1 = "¡¿Navarrogg?! ¡Traidor! ¿Has conducido a estos intruso hasta nosotros?"
-})
-end
-
 -----------------
 -- La Arquería --
 -----------------
-
 ------------
 -- Ivanyr --
 ------------
@@ -321,6 +199,10 @@ L= DBM:GetModLocalization(1498)
 -------------------
 L= DBM:GetModLocalization(1499)
 
+L:SetMiscLocalization({
+	batSpawn		=	"¡Refuerzos, a mí! ¡AHORA!"--Comprobar posibles cambios a la localización
+})
+
 --------------
 -- Nal'tira --
 --------------
@@ -330,16 +212,6 @@ L= DBM:GetModLocalization(1500)
 -- Consejero Vandros --
 -----------------------
 L= DBM:GetModLocalization(1501)
-
-if GetLocale() == "esES" then
-L:SetMiscLocalization({
-	RPVandros = "¡Ya basta! ¡Os estáis descontrolando, pequeñas bestias!"
-})
-else
-L:SetMiscLocalization({
-	RPVandros = "¡Suficiente! ¡Pequeñas bestias incontrolables!"
-})
-end
 
 ----------------------
 -- Enemigos menores --
@@ -353,7 +225,6 @@ L:SetGeneralLocalization({
 ----------------------------
 -- Corte de las Estrellas --
 ----------------------------
-
 ----------------------------------
 -- Capitán de patrulleros Gerdo --
 ----------------------------------
@@ -378,50 +249,20 @@ L:SetGeneralLocalization({
 	name =	"Enemigos menores"
 })
 
-L:SetWarningLocalization({
-	warnSpy = "Se ha encontrado un espía"
-})
-
 L:SetOptionLocalization({
-	YellOnEating = "Avisar, cuando alguien esta usando hechizo $spell:208585",
-	YellOnSiphoningMagic = "Avisar, cuando alguien esta usando hechizo $spell:208427",
-	YellOnPurifying = "Avisar, cuando alguien esta usando hechizo $spell:209767",
-	YellOnDraining = "Avisar, cuando alguien esta usando hechizo $spell:208334",
-	YellOnInvokingText = "Avisar, cuando alguien esta usando hechizo $spell:210872",
-	YellOnDrinking = "Avisar, cuando alguien esta usando hechizo $spell:210307",
-	YellOnReleaseSpores = "Avisar, cuando alguien esta usando hechizo $spell:208939",
-	YellOnShuttingDown = "Avisar, cuando alguien esta usando hechizo $spell:208370",
-	YellOnTreating = "Avisar, cuando alguien esta usando hechizo $spell:210925",
-	YellOnPilfering = "Avisar, cuando alguien esta usando hechizo $spell:210217",
-	YellOnDefacing = "Avisar, cuando alguien esta usando hechizo $spell:210330",
-	YellOnTinkering = "Avisar, cuando alguien esta usando hechizo $spell:210922",
-	warnSpy = "Avisar, cuando se descubre un espía",
-	SpyHelper	= "Ayudar a encontrar al espía",
-	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
-})
-
-L:SetTimerLocalization({
-	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+	SpyHelper	= "Ayudar a encontrar al espía"
 })
 
 if GetLocale() == "esES" then
 L:SetMiscLocalization({
-	SpellUseYell = "%s %s usando %s!",
-	--
-	proshlyapMurchal = "¿Tan pronto nos abandonas, Gran Magistrix?",
 	Gloves1			= "Dicen los rumores que el espía siempre lleva guantes.",
 	Gloves2			= "He oído que el espía siempre lleva las manos enfundadas en guantes.",
 	Gloves3			= "Hay quien dice que el espía lleva guantes para ocultar sus notables cicatrices.",
 	Gloves4			= "He oído que el espía oculta sus manos con cuidado.",
-	Gloves5			= false,
-	Gloves6			= false,
 	NoGloves1		= "Dicen los rumores que el espía nunca lleva guantes.",
 	NoGloves2		= "Me encontré un par de guantes de más en la habitación trasera. Probablemente el espía se pasee por aquí con las manos desnudas.",
 	NoGloves3		= "He oído que al espía no le gusta llevar guantes.",
 	NoGloves4		= "He oído que el espía evita llevar guantes, por si necesita actuar rápido.",
-	NoGloves5		= false,
-	NoGloves6		= false,
-	NoGloves7		= false,
 	Cape1			= "Dicen que al espía le gusta llevar capa.",
 	Cape2			= "Alguien mencionó que el espía llegó antes con una capa.",
 	NoCape1			= "He oído que al espía no le gustan las capas y se niega a llevar una.",
@@ -437,76 +278,56 @@ L:SetMiscLocalization({
 	Female2			= "Hay alguien que dice que nuestro nuevo invitado no es un hombre.",
 	Female3			= "He oído que una mujer no ha parado de hacer preguntas sobre el distrito...",
 	Female4			= "Un invitado las ha visto a ella y a Elisande llegar juntas.",
-	Female5			= false,
 	Male1			= "Uno de los músicos dice que ese tipo no paraba de hacer preguntas sobre el distrito.",
 	Male2			= "Una invitada dice que lo vio entrar en la mansión junto a la Gran Magistrix.",
 	Male3			= "He oído por ahí que el espía no es una mujer.",
 	Male4			= "He oído que el espía está aquí y que es bastante guapo.",
-	Male5			= false,
-	Male6			= false,
 	ShortSleeve1	= "He oído que al espía le gusta el aire fresco y que esta noche no lleva manga larga.",
 	ShortSleeve2	= "Me ha dicho una amiga que ha visto cómo va vestido el espía. No llevaba manga larga.",
 	ShortSleeve3	= "He oído que el espía lleva manga corta para que sus brazos queden libres.",
 	ShortSleeve4	= "Me han dicho que el espía odia llevar manga larga.",
-	ShortSleeve5	= false,
 	LongSleeve1 	= "Al principio de la noche llegué a ver de refilón las mangas largas del espía.",
 	LongSleeve2 	= "Se dice que esta noche el espía cubre sus brazos con mangas largas.",
 	LongSleeve3 	= "He oído que el espía lleva manga larga esta noche.",
 	LongSleeve4 	= "Un amigo me ha dicho que el espía lleva manga larga.",
-	LongSleeve5 	= false,
 	Potions1		= "Algo me dice que el espía lleva pociones en el cinturón.",
 	Potions2		= "No te lo he dicho... pero el espía está disfrazado de alquimista y lleva pociones en el cinturón.",
 	Potions3		= "He oído que el espía ha traído algunas pociones... por si acaso.",
 	Potions4		= "He oído que el espía ha traído pociones. Me pregunto por qué.",
-	Potions5		= false,
-	Potions6		= false,
 	NoPotions1		= "Un músico me ha dicho que ha visto al espía tirar su última poción y que ya no tiene más.",
 	NoPotions2		= "He oído que el espía no lleva encima ninguna poción.",
 	Book1			= "He oído que el espía siempre lleva un libro de secretos escritos en el cinturón.",
 	Book2			= "Dicen los rumores que al espía le encanta leer y que siempre lleva al menos un libro encima.",
-	Book3			= false,
 	Pouch1			= "Dicen que la faltriquera del espía está rematada con hilos de lujo.",
 	Pouch2			= "He oído que el espía siempre lleva una faltriquera mágica.",
 	Pouch3			= "Un amigo me ha dicho que al espía le encanta el oro y que lleva una faltriquera llena.",
 	Pouch4			= "Dicen que la faltriquera del espía está llena de oro para demostrar extravagancia.",
-	Pouch5			= false,
-	Pouch6			= false,
-	Pouch7			= false,
-	Found			= "Bueno, bueno, no nos precipitemos.", --Bueno, bueno, no nos precipitemos. ¿Y si me acompañas para poder discutirlo en un ambiente más privado...?
 	--
-	Gloves		= "guantes/Wears gloves",
-	NoGloves	= "sin guantes/No gloves",
-	Cape		= "capa/Wearing a cape",
-	Nocape		= "sin capa/No cape",
-	LightVest	= "jubón claro/Light vest",
-	DarkVest	= "jubón oscuro/Dark vest",
-	Female		= "mujer/Female",
-	Male		= "hombre/Male",
-	ShortSleeve = "manga corta/Short sleeves",
-	LongSleeve	= "manga larga/Long sleeves",
-	Potions		= "pociones/Potions",
-	NoPotions	= "sin pociones/No potions",
-	Book		= "libro/Book",
-	Pouch		= "faltriquera/Pouch"
+	Gloves		= "guantes",
+	NoGloves	= "sin guantes",
+	Cape		= "capa",
+	Nocape		= "sin capa",
+	LightVest	= "jubón claro",
+	DarkVest	= "jubón oscuro",
+	Female		= "mujer",
+	Male		= "hombre",
+	ShortSleeve = "manga corta",
+	LongSleeve	= "manga larga",
+	Potions		= "pociones",
+	NoPotions	= "sin pociones",
+	Book		= "libro",
+	Pouch		= "faltriquera"
 })
 else--esMX
 L:SetMiscLocalization({
-	SpellUseYell = "%s %s usando %s!",
-	--
-	proshlyapMurchal = "¿Debes irte tan pronto, Gran magistrix?", --
 	Gloves1			= "Oí que el espía siempre usa guantes.",
 	Gloves2			= "Dicen los rumores que el espía siempre usa guantes.",
 	Gloves3			= "Oí que el espía se cubre cuidadosamente las manos.",
 	Gloves4			= "Alguien dijo que el espía usa guantes para cubrir cicatrices evidentes.",
-	Gloves5			= false,
-	Gloves6			= false,
 	NoGloves1		= "Oí que al espía no le gusta usar guantes.",
 	NoGloves2		= "Sabes... encontré otro par de guantes en la sala trasera. Seguro que el espía ande por aquí con las manos descubiertas.",
 	NoGloves3		= "Oí que el espía evita usar guantes, en caso de que tenga que tomar decisiones rápidas.",
 	NoGloves4		= "Hay un rumor de que el espía nunca usa guantes.",
-	NoGloves5		= false,
-	NoGloves6		= false,
-	NoGloves7		= false,
 	Cape1			= "Alguien mencionó que el espía pasó por aquí usando una capa.",
 	Cape2			= "Escuché que al espía le gusta usar capas.",
 	NoCape1			= "Escuché que el espía odia las capas y se rehúsa a usar una.",
@@ -522,64 +343,51 @@ L:SetMiscLocalization({
 	Female2			= "Un invitado la vio a ella y a Elisande llegar juntas hace rato.",
 	Female3			= "Dicen que la espía está aquí y que es impresionante.",
 	Female4			= "Alguien anda diciendo que nuestro nuevo huésped no es hombre.",
-	Female5			= false,
 	Male1			= "Oí por ahí que el espía no es mujer.",
 	Male2			= "Uno de los músicos dijo que no dejaba de preguntar sobre el distrito.",
 	Male3			= "Oí que el espía está aquí y que es muy apuesto.",
 	Male4			= "Un invitado dijo que lo vio entrar a la mansión junto con la gran magistrix.",
-	Male5			= false,
-	Male6			= false,
 	ShortSleeve1	= "Escuché que el espía disfruta del aire fresco y no usará mangas largas esta noche.",
 	ShortSleeve2	= "Alguien me dijo que el espía odia usar mangas largas.",
 	ShortSleeve3	= "Una amiga me contó que vio el atuendo que llevaba puesto el espía. No usaba mangas largas.",
 	ShortSleeve4	= "Tengo entendido que el espía usa mangas cortas para dejar sus brazos al descubierto.",
-	ShortSleeve5	= false,
 	LongSleeve1 	= "Alguien dijo que el espía cubrirá sus brazos con mangas largas esta noche.",
 	LongSleeve2 	= "Un amigo mío mencionó que el espía lleva puestas mangas largas.",
 	LongSleeve3 	= "Oí que el traje del espía es de mangas largas esta noche.",
 	LongSleeve4 	= "Más temprano pude ver las mangas largas del espía.",
-	LongSleeve5 	= false,
 	Potions1		= "Tengo la certeza de que el espía tiene pociones en su cinturón.",
 	Potions2		= "Tengo entendido que el espía trajo consigo algunas pociones... por si acaso.",
 	Potions3		= "No te lo dije... pero el espía se disfraza como un alquimista y lleva pociones en su cinturón.",
 	Potions4		= "Tengo entendido que el espía trajo varias pociones. Me pregunto para qué.",
-	Potions5		= false,
-	Potions6		= false,
 	NoPotions1		= "Un músico me dijo que vio al espía tirar su última poción verde y que ya no le quedan más.",
 	NoPotions2		= "Oí que el espía no tiene pociones.",
 	Book1			= "Oí que el espía siempre lleva un libro de secretos en el cinturón.",
 	Book2			= "Dicen que al espía le encanta leer y siempre lleva al menos un libro.",
-	Book3			= false,
 	Pouch1			= "Escuché que la bolsa del cinturón del espía tiene un bordado de lujo.",
 	Pouch2			= "Oí que la bolsa del cinturón del espía está llena de oro para demostrar su extravagancia.",
 	Pouch3			= "Oí que el espía siempre lleva consigo una bolsa mágica.",
 	Pouch4			= "Un amigo dijo que al espía le encanta el oro y un bolso lleno de él.",
-	Pouch5			= false,
-	Pouch6			= false,
-	Pouch7			= false,
-	Found			= "Mejor sígueme y hablemos de esto en un lugar algo más privado…", --Calma, no nos apuremos, НИК. Mejor sígueme y hablemos de esto en un lugar algo más privado…
-	--
-	Gloves		= "guantes/Wears gloves",
-	NoGloves	= "sin guantes/No gloves",
-	Cape		= "capa/Wearing a cape",
-	Nocape		= "sin capa/No cape",
-	LightVest	= "jubón claro/Light vest",
-	DarkVest	= "jubón oscuro/Dark vest",
-	Female		= "mujer/Female",
-	Male		= "hombre/Male",
-	ShortSleeve = "manga corta/Short sleeves",
-	LongSleeve	= "manga larga/Long sleeves",
-	Potions		= "pociones/Potions",
-	NoPotions	= "sin pociones/No potions",
-	Book		= "libro/Book",
-	Pouch		= "bolsa/Pouch"
+		--
+	Gloves		= "guantes",
+	NoGloves	= "sin guantes",
+	Cape		= "capa",
+	Nocape		= "sin capa",
+	LightVest	= "jubón claro",
+	DarkVest	= "jubón oscuro",
+	Female		= "mujer",
+	Male		= "hombre",
+	ShortSleeve = "manga corta",
+	LongSleeve	= "manga larga",
+	Potions		= "pociones",
+	NoPotions	= "sin pociones",
+	Book		= "libro",
+	Pouch		= "bolsa"
 })
 end
 
 --------------------
 -- Fauce de Almas --
 --------------------
-
 --------------------------
 -- Ymiron, el Rey Caído --
 --------------------------
@@ -595,18 +403,6 @@ L= DBM:GetModLocalization(1512)
 -----------
 L= DBM:GetModLocalization(1663)
 
-if GetLocale() == "esES" then
-L:SetMiscLocalization({
-	Proshlyaping = "¿Creéis que habéis ganado? Habéis sobrevivido a la tormenta... pero no se puede detener al mar.", --
-	TaintofSeaYell = "%s desaparece con %s. Cuidado!"
-})
-else
-L:SetMiscLocalization({
-	Proshlyaping = "¿Creen haber ganado? Apenas sobrevivieron a la tormenta... Los mares son imparables.", --
-	TaintofSeaYell = "%s desaparece con %s. Cuidado!"
-})
-end
-
 ----------------------
 -- Enemigos menores --
 ----------------------
@@ -616,28 +412,9 @@ L:SetGeneralLocalization({
 	name =	"Enemigos menores"
 })
 
-L:SetOptionLocalization({
-	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
-})
-
-L:SetTimerLocalization({
-	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
-})
-
-if GetLocale() == "esES" then
-L:SetMiscLocalization({
-	Helya = "¡Lamentaréis haber entrado en mi reino!"
-})
-else
-L:SetMiscLocalization({
-	Helya = "TODOS lamentarán haber entrado en mi reino." --
-})
-end
-
 -------------------------------
 -- Asalto al Bastión Violeta --
 -------------------------------
-
 ---------------------------
 -- Destripamentes Kaahrj --
 ---------------------------
@@ -711,7 +488,6 @@ L:SetMiscLocalization({
 -----------------------------
 -- Cámara de las Celadoras --
 -----------------------------
-
 ------------------------
 -- Tirathon Saltheril --
 ------------------------
@@ -726,16 +502,6 @@ L= DBM:GetModLocalization(1695)
 -- Ceniz'golm --
 ----------------
 L= DBM:GetModLocalization(1468)
-
-if GetLocale() == "esES" then
-L:SetMiscLocalization({
-	MurchalProshlyapOchko = "Las contramedidas de la sala están activadas." --
-})
-else
-L:SetMiscLocalization({
-	MurchalProshlyapOchko = "Las contramedidas de la habitación están armadas." --
-})
-end
 
 ----------------
 -- Observador --
@@ -756,28 +522,9 @@ L:SetGeneralLocalization({
 	name =	"Enemigos menores"
 })
 
-L:SetTimerLocalization({
-	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
-})
-
-L:SetOptionLocalization({
-	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
-})
-
-if GetLocale() == "esES" then --Прошляпанное очко Мурчаля Прошляпенко (очередной)
-L:SetMiscLocalization({
-	proshlyapMurchalRP = "¡Qué predecibles! Sabía que acabaríais viniendo."
-})
-else
-L:SetMiscLocalization({
-	proshlyapMurchalRP = "¡Pero qué previsible! Sabía que vendrías." --
-})
-end
-
 ------------------------
 -- Regreso a Karazhan --
 ------------------------
-
 ------------------------
 -- Doncella de Virtud --
 ------------------------
@@ -793,18 +540,6 @@ L= DBM:GetModLocalization(1820)
 --------------------------------------------
 L= DBM:GetModLocalization(1826)
 
-if GetLocale() == "esES" then
-L:SetMiscLocalization({
-	Tonny = "¿Nos damos un garbeo?",
-	Phase3 = "¡Somos tú y yo contra el mundo!"
-})
-else
-L:SetMiscLocalization({
-	Tonny = "¿Quieres ir por un paseo?", --
-	Phase3 = "¡Somos tu yo contra el mundo, sí!" --
-})
-end
-
 ------------------------------------
 -- Sala de la Ópera: Bella Bestia --
 ------------------------------------
@@ -814,30 +549,6 @@ L= DBM:GetModLocalization(1827)
 -- Attumen el Montero --
 ------------------------
 L= DBM:GetModLocalization(1835)
-
-L:SetWarningLocalization({
-	Presence = "Presencia intangible sobre Alguien - ¡disipa ahora!"
-})
-
-L:SetOptionLocalization({
-	Presence = "Mostrar aviso especial para disipar $spell:227404"
-})
-
-if GetLocale() == "esES" then
-L:SetMiscLocalization({
-	Tip1 = "La fantasma aparece sobre alguien desconocido. Esto ocurre cuando, el objetivo de la fantasma esta usando BigWigs, tiene la version antigua del DBM, o no esta usando ningun addon",
-	SharedSufferingYell = "%s en %s. ALEJAROS de mi!",
-	Perephase1 = "¡Hora de enfrentarme a mi presa cara a cara!",
-	Perephase2 = "¡Cabalgamos, Medianoche! ¡Hacia la victoria!"
-})
-else
-L:SetMiscLocalization({
-	Tip1 = "La fantasma aparece sobre alguien desconocido. Esto ocurre cuando, el objetivo de la fantasma esta usando Bigwigs, tiene la version antigua del Dbm, o no esta usando ningun addon",
-	SharedSufferingYell = "%s en %s. ALEJAROS de mi!",
-	Perephase1 = "¡Hora de enfrentarme a mi presa cara a cara!", --
-	Perephase2 = "¡Cabalgamos, Medianoche! ¡A la victoria!" --
-})
-end
 
 ------------
 -- Moroes --
@@ -882,58 +593,13 @@ L:SetGeneralLocalization({
 	name =	"Enemigos menores"
 })
 
-if GetLocale() == "esES" then
-L:SetOptionLocalization({
-	timerRoleplay = "Отсчет времени до начала представления \"Bella Bestia\"",
-	timerRoleplay2 = "Отсчет времени до начала представления \"Historia de Poniente\"",
-	timerRoleplay3 = "Отсчет времени до начала представления \"Makaku\"",
-	timerRoleplay4 = DBM_CORE_OPTION_TIMER_DOOR_OPENING,
-	OperaActivation = DBM_CORE_GENERIC_TIMER_ROLE_PLAY
-})
-
-L:SetTimerLocalization({
-	timerRoleplay = "\"Bella Bestia\"",
-	timerRoleplay2 = "\"Historia de Poniente\"",
-	timerRoleplay3 = "\"Makaku\"",
-	timerRoleplay4 = DBM_CORE_GENERIC_TIMER_DOOR_OPENING
-})
-
 L:SetMiscLocalization({
-	Beauty = "Buenas tardes, señoras y señores. ¡Sed bienvenidos a la representación de esta noche!",
-	Westfall = "¡Bienvenidos, señoras y señores, a la representación de esta tarde!",
-	Wikket = "Señoras y señores, bienvenidos a nuestra... ¡AY!",
-	Medivh1 = "He dejado tantos fragmentos de mí mismo por esta torre...",
-	speedRun = "La brisa fría de una presencia oscura colma el aire..."
+	speedRun		=	"La brisa fría de una presencia oscura colma el aire..."
 })
-else
-L:SetOptionLocalization({
-	timerRoleplay = "Отсчет времени до начала представления \"bestia hermosa\"",
-	timerRoleplay2 = "Отсчет времени до начала представления \"Páramos de Poniente\"",
-	timerRoleplay3 = "Отсчет времени до начала представления \"Makaku\"",
-	timerRoleplay4 = DBM_CORE_OPTION_TIMER_DOOR_OPENING,
-	OperaActivation = DBM_CORE_GENERIC_TIMER_ROLE_PLAY
-})
-
-L:SetTimerLocalization({
-	timerRoleplay = "\"bestia hermosa\"",
-	timerRoleplay2 = "\"Páramos de Poniente\"",
-	timerRoleplay3 = "\"Makaku\"",
-	timerRoleplay4 = DBM_CORE_GENERIC_TIMER_DOOR_OPENING
-})
-
-L:SetMiscLocalization({
-	Beauty = "Buenas noches damas y caballeros. Orgullosamente les damos la bienvenida a la presentación programada para esta noche.", --
-	Westfall = "¡Damas y caballeros, bienvenidos a la presentación estelar de esta tarde!", --
-	Wikket = "Bienvenidos, señoras y señores, a nuestro... ¡UFF!", --
-	Medivh1 = "He dejado muchos fragmentos de mí mismo por toda esta torre...", --
-	speedRun = "La brisa fría de una presencia oscura colma el aire..."
-})
-end
 
 ---------------------------------
 -- Catedral de la Noche Eterna --
 ---------------------------------
-
 -------------
 -- Agronox --
 -------------
@@ -943,6 +609,10 @@ L= DBM:GetModLocalization(1905)
 -- Dientizador el Desdeñoso  --
 -------------------------------
 L= DBM:GetModLocalization(1906)
+
+L:SetMiscLocalization({
+	bookCase	=	"las estanterías"
+})
 
 --------------
 -- Domatrax --
@@ -966,7 +636,6 @@ L:SetGeneralLocalization({
 ---------------------------
 -- Trono del Triunvirato --
 ---------------------------
-
 -------------------------
 -- Zuraal el Ascendido --
 -------------------------
@@ -996,35 +665,3 @@ L:SetGeneralLocalization({
 	name =	"Enemigos menores"
 })
 
-L:SetOptionLocalization({
-	timerRoleplay = DBM_CORE_OPTION_TIMER_DOOR_OPENING,
-	timerRoleplay2 = DBM_CORE_OPTION_TIMER_COMBAT,
-	AlleriaActivation = DBM_CORE_GENERIC_TIMER_ROLE_PLAY
-})
-
-L:SetTimerLocalization({
-	timerRoleplay = DBM_CORE_GENERIC_TIMER_DOOR_OPENING,
-	timerRoleplay2 = DBM_CORE_GENERIC_TIMER_COMBAT
-})
-if GetLocale() == "esES" then
-L:SetMiscLocalization({
-	RP1 = "La Guardia de las Sombras está aumentando su presencia cerca del templo.",
-	RP2 = "Percibo una gran desesperación que emana del interior. L'ura...",
-	RP3 = "Cuánto caos y cuánto tormento... Jamás había sentido algo parecido."
-})
-else
-L:SetMiscLocalization({
-	RP1 = "La Guardia de las Sombras está fortaleciendo su posición cerca del templo.", --
-	RP2 = "Percibo una gran desesperación que emana del interior. L'ura...", --
-	RP3 = "Cuánto caos... Cuánta angustia. Nunca antes sentí algo así." --
-})
-end
-
-----------
---Мифик+--
-----------
-L = DBM:GetModLocalization("MAffix")
-
-L:SetGeneralLocalization({
-	name = "Afijos M+"
-})

@@ -1,76 +1,50 @@
 local mod	= DBM:NewMod(1664, "DBM-Party-Legion", 1, 740)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17473 $"):sub(12, -3))
 mod:SetCreatureID(98949)
 mod:SetEncounterID(1834)
 mod:SetZone()
-mod:SetUsedIcons(8, 7, 6, 5, 2, 1)
+mod:SetUsedIcons(1)
 
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_SUCCESS 198079",
-	"SPELL_AURA_APPLIED 198079 224188 198446",
-	"SPELL_AURA_APPLIED_DOSE 224188",
-	"SPELL_AURA_REMOVED 198079 224188",
+	"SPELL_AURA_APPLIED 198079",
+	"SPELL_AURA_REMOVED 198079",
 	"SPELL_CAST_START 198073 198245",
-	"SPELL_PERIODIC_DAMAGE 198501",
-	"SPELL_PERIODIC_MISSED 198501",
+--	"SPELL_PERIODIC_DAMAGE",
+--	"SPELL_PERIODIC_MISSED",
 	"UNIT_POWER_FREQUENT boss1"
 )
 
---Хмуродроб Лютый https://ru.wowhead.com/npc=98949/хмуродроб-лютый/эпохальный-журнал-сражений
-local warnHatefulGaze				= mod:NewTargetAnnounce(198079, 4) --Ненавидящий взгляд
-local warnFelVomit					= mod:NewTargetAnnounce(198446, 3) --Сквернорвота
-local warnHatefulCharge				= mod:NewStackAnnounce(224188, 4) --Рывок ненависти
+--TODO, maye GTFO for fire on ground (and timers and other stuff for it too maybe, seems all over place though).
+local warnHatefulGaze				= mod:NewTargetNoFilterAnnounce(198079, 4)
 
-local specWarnHatefulCharge			= mod:NewSpecialWarningStack(224188, nil, 1, nil, nil, 3, 5) --Рывок ненависти
-local specWarnFelVomitus			= mod:NewSpecialWarningYouMove(198501, nil, nil, nil, 1, 3) --Рвота Скверны
-local specWarnFelVomit				= mod:NewSpecialWarningYouMoveAway(198446, nil, nil, nil, 4, 3) --Сквернорвота
-local specWarnStomp					= mod:NewSpecialWarningDefensive(198073, nil, nil, nil, 2, 3) --Сотрясающий землю топот
-local specWarnHatefulGaze			= mod:NewSpecialWarningYouDefensive(198079, nil, nil, nil, 3, 5) --Ненавидящий взгляд
-local specWarnHatefulGaze2			= mod:NewSpecialWarningYouMoveAway(198079, nil, nil, nil, 4, 3) --Ненавидящий взгляд
-local specWarnHatefulGaze3			= mod:NewSpecialWarningCloseMoveAway(198079, nil, nil, nil, 2, 3) --Ненавидящий взгляд
-local specWarnHatefulGaze4			= mod:NewSpecialWarningTargetSoak(198079, "Tank|Dhdd", nil, nil, 3, 3) --Ненавидящий взгляд
-local specWarnBrutalHaymakerSoon	= mod:NewSpecialWarningSoon(198245, "Tank|Healer", nil, nil, 2, 2) --Жестокий удар кулаком Face fuck soon
-local specWarnBrutalHaymaker		= mod:NewSpecialWarningDefensive(198245, "Tank", nil, nil, 3, 6) --Жестокий удар кулаком Incoming face fuck
+local specWarnStomp					= mod:NewSpecialWarningSpell(198073, nil, nil, nil, 2, 2)
+local specWarnHatefulGaze			= mod:NewSpecialWarningDefensive(198079, nil, nil, nil, 1, 2)
+local yellHatefulGaze				= mod:NewYell(198079)
+local specWarnBrutalHaymakerSoon	= mod:NewSpecialWarningSoon(198245, "Tank|Healer", nil, nil, 1, 2)--Face fuck soon
+local specWarnBrutalHaymaker		= mod:NewSpecialWarningDefensive(198245, "Tank", nil, nil, 3, 2)--Incoming face fuck
 
-local timerStompCD					= mod:NewCDTimer(17, 198073, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Сотрясающий землю топот +++
-local timerHatefulGazeCD			= mod:NewCDTimer(25.5, 198079, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON..DBM_CORE_MYTHIC_ICON) --Ненавидящий взгляд +++
-local timerHatefulGaze				= mod:NewCastTimer(5, 198079, nil, nil, nil, 7) --Ненавидящий взгляд +++
-local timerHatefulCharge			= mod:NewTargetTimer(60, 224188, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Рывок ненависти
+local timerStompCD					= mod:NewCDTimer(17, 198073, nil, nil, nil, 2)--Next timers but delayed by other casts
+local timerHatefulGazeCD			= mod:NewCDTimer(25.5, 198079, nil, nil, nil, 3)--Next timers but delayed by other casts
 
-local yellHatefulGaze				= mod:NewYell(198079, nil, nil, nil, "YELL") --Ненавидящий взгляд
-local yellHatefulGaze2				= mod:NewFadesYell(198079, nil, nil, nil, "YELL") --Ненавидящий взгляд
-local yellFelVomit					= mod:NewYell(198446, nil, nil, nil, "YELL") --Сквернорвота
-local yellFelVomit2					= mod:NewFadesYell(198446, nil, nil, nil, "YELL") --Сквернорвота
-
-local countdownHatefulGaze			= mod:NewCountdown(25.5, 198079, nil, nil, 5) --Ненавидящий взгляд
-local countdownHatefulGaze2			= mod:NewCountdownFades("Alt5", 198079, nil, nil, 5) --Ненавидящий взгляд
-
-mod:AddSetIconOption("SetIconOnHatefulGaze", 198079, true, false, {8}) --Ненавидящий взгляд
-mod:AddSetIconOption("SetIconOnFelVomit", 198446, true, false, {7, 6, 5}) --Сквернорвота
-mod:AddSetIconOption("SetIconOnHatefulCharge", 224188, true, false, {2, 1}) --Рывок ненависти
 mod:AddInfoFrameOption(198080)
-
-mod.vb.hatefulchargeIcon = 1
-mod.vb.felVomitIcon = 7
+mod:AddSetIconOption("SetIconOnHatefulGaze", 198079, true)
 
 local superWarned = false
 
 function mod:OnCombatStart(delay)
-	self.vb.hatefulchargeIcon = 1
-	self.vb.felVomitIcon = 7
 	if not self:IsNormal() then
-		timerHatefulGazeCD:Start(6-delay) --Ненавидящий взгляд
-		countdownHatefulGaze:Start(6-delay) --Ненавидящий взгляд
+		timerHatefulGazeCD:Start(5-delay)
 		if self.Options.InfoFrame then
 			DBM.InfoFrame:SetHeader(DBM:GetSpellInfo(198080))
 			DBM.InfoFrame:Show(5, "reverseplayerbaddebuffbyspellid", 224188)--Must match spellID to filter other debuffs out
 		end
 	end
-	timerStompCD:Start(12-delay) --Сотрясающий землю топот
+	timerStompCD:Start(12-delay)
 end
 
 function mod:OnCombatEnd()
@@ -81,111 +55,40 @@ end
 
 function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
-	if spellId == 198079 then --Ненавидящий взгляд
+	if spellId == 198079 then
 		timerHatefulGazeCD:Start()
-		countdownHatefulGaze:Start()
 	end
 end
 
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
-	if spellId == 198079 then --Ненавидящий взгляд
-		timerHatefulGaze:Start()
-		countdownHatefulGaze2:Start()
+	if spellId == 198079 then
 		if args:IsPlayer() then
-			specWarnHatefulGaze2:Show()
-			specWarnHatefulGaze2:Play("runout")
-			specWarnHatefulGaze:Schedule(3)
-			specWarnHatefulGaze:ScheduleVoice(3, "defensive")
+			specWarnHatefulGaze:Show()
+			specWarnHatefulGaze:Play("targetyou")
 			yellHatefulGaze:Yell()
-			yellHatefulGaze2:Countdown(5, 3)
-		elseif self:CheckNearby(10, args.destName) then
-			warnHatefulGaze:Show(args.destName)
-			specWarnHatefulGaze3:Show(args.destName)
-			specWarnHatefulGaze3:Play("watchstep")
 		else
 			warnHatefulGaze:Show(args.destName)
-			specWarnHatefulGaze4:Show(args.destName)
-			specWarnHatefulGaze4:Play("helpsoak")
 		end
 		if self.Options.SetIconOnHatefulGaze then
-			self:SetIcon(args.destName, 8, 5)
-		end
-	elseif spellId == 224188 then --Рывок ненависти
-		self.vb.hatefulchargeIcon = self.vb.hatefulchargeIcon + 1
-		local amount = args.amount or 1
-		timerHatefulCharge:Start(args.destName)
-		if amount >= 1 and not self:IsTank() then
-			if args:IsPlayer() then
-				specWarnHatefulCharge:Show(amount)
-				specWarnHatefulCharge:Play("stackhigh")
-			else
-				warnHatefulCharge:Show(args.destName, amount)
-			end
-		elseif amount >= 2 and self:IsTank() then
-			if args:IsPlayer() then
-				specWarnHatefulCharge:Show(amount)
-				specWarnHatefulCharge:Play("stackhigh")
-			else
-				warnHatefulCharge:Show(args.destName, amount)
-			end
-		end
-		if self.Options.SetIconOnHatefulCharge then
-			self:SetIcon(args.destName, self.vb.hatefulchargeIcon)
-		end
-	elseif spellId == 198446 then --Сквернорвота
-		self.vb.felVomitIcon = self.vb.felVomitIcon - 1
-		if args:IsPlayer() then
-			specWarnFelVomit:Schedule(3.5)
-			yellFelVomit:Yell()
-			yellFelVomit2:Countdown(6, 3)
-		else
-			warnFelVomit:CombinedShow(0.5, args.destName)
-		end
-		if self.Options.SetIconOnFelVomit then
-			self:SetIcon(args.destName, self.vb.felVomitIcon)
+			self:SetIcon(args.destName, 1)
 		end
 	end
 end
-mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 
 function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
-	if spellId == 198079 then --Ненавидящий взгляд
-		timerHatefulGaze:Cancel()
-		if args:IsPlayer() then
-			specWarnHatefulGaze:Cancel()
-			yellHatefulGaze2:Cancel()
-		end
-	elseif spellId == 224188 then --Рывок ненависти
-		self.vb.hatefulchargeIcon = self.vb.hatefulchargeIcon - 1
-		timerHatefulCharge:Cancel(args.destName)
-		if self.Options.SetIconOnHatefulCharge then
-			self:SetIcon(args.destName, 0)
-		end
-	elseif spellId == 198446 then --Сквернорвота
-		self.vb.felVomitIcon = self.vb.felVomitIcon + 1
-		if args:IsPlayer() then
-			yellFelVomit2:Cancel()
-		end
-		if self.Options.SetIconOnFelVomit then
-			self:SetIcon(args.destName, 0)
-		end
+	if spellId == 198079 and self.Options.SetIconOnHatefulGaze then
+		self:SetIcon(args.destName, 0)
 	end
 end
 
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 198073 then
-		if not UnitIsDeadOrGhost("player") then
-			specWarnStomp:Show()
-			specWarnStomp:Play("carefly")
-		end
-		if self:IsHard() then
-			timerStompCD:Start(25.5)
-		else
-			timerStompCD:Start()
-		end
+		specWarnStomp:Show()
+		timerStompCD:Start()
+		specWarnStomp:Play("carefly")
 	elseif spellId == 198245 and not superWarned then--fallback, only 0.7 seconds warning vs 1.2 if power 100 works, but better than naught.
 		superWarned = true
 		specWarnBrutalHaymaker:Show()
@@ -196,16 +99,6 @@ function mod:SPELL_CAST_START(args)
 		end
 	end
 end
-
-function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
-	if spellId == 198501 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
-		if self:IsHard() then
-			specWarnFelVomitus:Show()
-			specWarnFelVomitus:Play("runaway")
-		end
-	end
-end
-mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
 
 do
 	local warnedSoon = false

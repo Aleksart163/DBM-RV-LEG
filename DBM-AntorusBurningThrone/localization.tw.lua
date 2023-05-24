@@ -1,11 +1,5 @@
 if GetLocale() ~= "zhTW" then return end
-
 local L
---------------------------------------------WARNING---------------------------------------------------
---Do you want to help translate this module to your native language? Write to the author of this addon
---Aleksart163#1671 (discord)
---/w Tielle or /w Куплиняшка (in the game)
---------------------------------------------WARNING---------------------------------------------------
 
 ---------------------------
 -- Garothi Worldbreaker --
@@ -18,7 +12,7 @@ L= DBM:GetModLocalization(1992)
 L= DBM:GetModLocalization(1987)
 
 L:SetOptionLocalization({
-	SequenceTimers = "在英雄/傳奇難度下序列的冷卻計時器關閉先前的技能施放而不是當前的技能，以減少計時器雜亂，這犧牲計時器的準確性。(快1-2秒)"
+	SequenceTimers =	"在英雄/傳奇難度下序列的冷卻計時器關閉先前的技能施放而不是當前的技能，以減少計時器雜亂，這犧牲計時器的準確性。(快1-2秒)"
 })
 
 ---------------------------
@@ -32,21 +26,20 @@ L= DBM:GetModLocalization(1997)
 L= DBM:GetModLocalization(2025)
 
 L:SetTimerLocalization({
-	timerObfuscator		= "下一次匿蹤者(%s)",
-	timerDestructor 	= "下一次毀滅者(%s)",
-	timerPurifier 		= "下一次淨化者(%s)",
-	timerBats	 		= "下一次風掣魔蝠(%s)"
+	timerObfuscator		=	"下一次匿蹤者(%s)",
+	timerDestructor 	=	"下一次毀滅者(%s)",
+	timerPurifier 		=	"下一次淨化者(%s)",
+	timerBats	 		=	"下一次風掣魔蝠(%s)"
 })
 
 L:SetMiscLocalization({
-	YellPullEonar = "勇士們！燃燒軍團的惡魔想奪走我的生命精華，交給它們的主人！", --
-	Obfuscators = "匿蹤者",
-	Destructors = "毀滅者",
-	Purifiers 	= "淨化者",
-	Bats 		= "風掣魔蝠",
-	EonarHealth	= "伊歐娜體力",
-	EonarPower	= "伊歐娜能量",
-	NextLoc		= "下一次:"
+	Obfuscators =	"匿蹤者",
+	Destructors =	"毀滅者",
+	Purifiers 	=	"淨化者",
+	Bats 		=	"風掣魔蝠",
+	EonarHealth	= 	"伊歐娜體力",
+	EonarPower	= 	"伊歐娜能量",
+	NextLoc		=	"下一次:"
 })
 
 ---------------------------
@@ -64,7 +57,7 @@ L:SetOptionLocalization({
 L= DBM:GetModLocalization(2009)
 
 L:SetMiscLocalization({
-	DispelMe = "快驅散我！"
+	DispelMe =		"快驅散我！"
 })
 
 ---------------------------
@@ -87,14 +80,6 @@ L= DBM:GetModLocalization(1983)
 ---------------------------
 L= DBM:GetModLocalization(1986)
 
-L:SetTimerLocalization({
-	timerBossIncoming = DBM_INCOMING,
-	timerAmanThul = "阿曼蘇爾",
-	timerKhazgoroth = "噴火",
-	timerNorgannon = "大軍",
-	timerGolganneth = "閃電鍊"
-})
-
 L:SetOptionLocalization({
 	timerBossIncoming	= "為下一次交換首領顯示計時器",
 	TauntBehavior		= "為坦克換坦設置嘲諷行為",
@@ -106,11 +91,7 @@ L:SetOptionLocalization({
 	Three				= "三人輪替",--Default
 	Four				= "四人輪替",
 	Five				= "五人輪替",
-	IgnoreFirstKick		= "開啟此選項，頭一次中斷會被排除在輪替之外(需要團隊隊長)",
-	timerAmanThul 		= "為$spell:250335顯示施法計時器",
-	timerKhazgoroth 	= "為$spell:250333顯示施法計時器",
-	timerNorgannon 		= "為$spell:250334顯示施法計時器",
-	timerGolganneth 	= "為$spell:249793顯示施法計時器"
+	IgnoreFirstKick		= "開啟此選項，頭一次中斷會被排除在輪替之外(需要團隊隊長)"
 })
 
 ---------------------------
@@ -123,11 +104,10 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
---	Blaze		= "饕餮烈焰",
-	Foe			= "碎敵者",
-	Rend		= "烈焰撕裂",
-	Tempest 	= "灼燒風暴",
-	Current		= "正在施放："
+	Foe			=	"碎敵者",
+	Rend		=	"烈焰撕裂",
+	Tempest 	=	"灼燒風暴",
+	Current		=	"正在施放："
 })
 
 ---------------------------
@@ -140,12 +120,12 @@ L:SetTimerLocalization({
 })
 
 L:SetMiscLocalization({
-	SeaText = "{rt6}加速臨機",
-	SkyText = "{rt5}爆擊精通",
-	Blight	= "靈魂之疫",
-	Burst	= "靈魂驟發",
-	Sentence = "薩格拉斯的判決",
-	Bomb	= "靈魂炸彈"
+	SeaText =	"{rt6}加速臨機",
+	SkyText =	"{rt5}爆擊精通",
+	Blight	=	"靈魂之疫",
+	Burst	=	"靈魂驟發",
+	Sentence	=	"薩格拉斯的判決",
+	Bomb	=	"靈魂炸彈"
 })
 
 -------------
@@ -155,17 +135,4 @@ L = DBM:GetModLocalization("AntorusTrash")
 
 L:SetGeneralLocalization({
 	name =	"安托洛斯小怪"
-})
---need translate
-L:SetOptionLocalization({
-	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT,
-	BossActivation = DBM_CORE_GENERIC_TIMER_ROLE_PLAY
-})
-
-L:SetTimerLocalization({
-	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
-})
-
-L:SetMiscLocalization({
-	RPImonar = "Halt!"
 })

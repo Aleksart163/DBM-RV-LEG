@@ -1,142 +1,75 @@
 local mod	= DBM:NewMod(1665, "DBM-Party-Legion", 5, 767)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17603 $"):sub(12, -3))
 mod:SetCreatureID(91004)
 mod:SetEncounterID(1791)
 mod:SetZone()
-mod:SetHotfixNoticeRev(17650)
+mod:SetHotfixNoticeRev(15186)
+mod:SetUsedIcons(8)
 
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_START 198496 216290 193375 198428",
-	"SPELL_CAST_SUCCESS 216290 198428",
-	"UNIT_DIED",
+	"SPELL_CAST_START 198496 216290 193375",
+	"SPELL_CAST_SUCCESS 216290",
 	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
 
---Уларогг Скаломол https://ru.wowhead.com/npc=91004/уларогг-скаломол/эпохальный-журнал-сражений
-local warnBellowofDeeps				= mod:NewSpellAnnounce(193375, 2) --Рев глубин
-local warnStanceofMountain			= mod:NewSpellAnnounce(198564, 2) --Горная стойка
-local warnStanceofMountain2			= mod:NewSoonAnnounce(198564, 1) --Горная стойка
+local warnStrikeofMountain			= mod:NewTargetAnnounce(216290, 2)
+local warnBellowofDeeps				= mod:NewSpellAnnounce(193375, 2)--Change to special warning if they become important enough to switch to
+local warnStanceofMountain			= mod:NewSpellAnnounce(216249, 2)
 
-local specWarnSunder				= mod:NewSpecialWarningYouDefensive(198496, "Tank", nil, 2, 3, 2) --Раскол
-local specWarnStrikeofMountain		= mod:NewSpecialWarningDodge(198428, nil, nil, nil, 2, 3) --Удар горы
+local specWarnSunder				= mod:NewSpecialWarningDefensive(198496, "Tank", nil, 2, 1, 2)
+local specWarnStrikeofMountain		= mod:NewSpecialWarningDodge(216290, nil, nil, nil, 1, 2)
+local yellStrikeofMountain			= mod:NewYell(216290)
 
-local timerSunderCD					= mod:NewCDTimer(8.4, 198496, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Раскол +++
-local timerStrikeCD					= mod:NewCDTimer(17.5, 198428, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Удар горы
-local timerStanceOfMountainCD		= mod:NewCDTimer(51, 198564, nil, nil, nil, 7) --Горная стойка
-
-local countdownStanceOfMountain		= mod:NewCountdown(51, 198564, nil, nil, 5) --Горная стойка
-
-mod.vb.totemsAlive = 0
-mod.vb.stanceofmountainCast = 0
+local timerSunderCD					= mod:NewCDTimer(7.5, 198496, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
+local timerStrikeCD					= mod:NewCDTimer(15, 216290, nil, nil, nil, 3)
+local timerStanceOfMountainCD		= mod:NewCDTimer(119.5, 216249, nil, nil, nil, 6)
 
 function mod:OnCombatStart(delay)
-	self.vb.stanceofmountainCast = 0
-	if not self:IsNormal() then
-		timerSunderCD:Start(7-delay) --Раскол +++
-		timerStrikeCD:Start(20.5-delay) --Удар горы +++
-		timerStanceOfMountainCD:Start(31-delay) --Горная стойка +++
-		countdownStanceOfMountain:Start(31-delay) --Горная стойка +++
-		warnStanceofMountain2:Schedule(26-delay) --Горная стойка +++
-	else
-		timerSunderCD:Start(7-delay) --Раскол
-		timerStrikeCD:Start(20.5-delay) --Удар горы
-		timerStanceOfMountainCD:Start(31-delay) --Горная стойка +++
-		countdownStanceOfMountain:Start(31-delay) --Горная стойка +++
-		warnStanceofMountain2:Schedule(26-delay) --Горная стойка +++
-	end
+	timerSunderCD:Start(7-delay)
+	timerStrikeCD:Start(15.8-delay)
+	--timerStanceOfMountainCD:Start(26.7-delay)
 end
 
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
-	if spellId == 198496 then --Раскол
+	if spellId == 198496 then
 		specWarnSunder:Show()
 		specWarnSunder:Play("defensive")
 		timerSunderCD:Start()
-	elseif spellId == 198428 then --Удар горы
+	elseif spellId == 216290 then
 		timerStrikeCD:Start()
-	elseif spellId == 193375 then --Рев глубин
+	elseif spellId == 193375 then
 		warnBellowofDeeps:Show()
 	end
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
-	if spellId == 198428 then --Удар горы
-		if not UnitIsDeadOrGhost("player") then
+	if spellId == 216290 then
+		if args:IsPlayer() then
 			specWarnStrikeofMountain:Show()
-			specWarnStrikeofMountain:Play("watchstep")
+			specWarnStrikeofMountain:Play("targetyou")
+			yellStrikeofMountain:Yell()
+		else
+			warnStrikeofMountain:Show(args.destName)
 		end
 	end
 end
 
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	local spellId = legacySpellId or bfaSpellId
-	if spellId == 198509 then --Горная стойка
-		self.vb.stanceofmountainCast = self.vb.stanceofmountainCast + 1
-		if self:IsNormal() then
-			self.vb.totemsAlive = 3
-		else
-			self.vb.totemsAlive = 5
-		end
+	if spellId == 198509 then--Stance of the Mountain
 		warnStanceofMountain:Show()
 		timerSunderCD:Stop()
 		timerStrikeCD:Stop()
-		timerStanceOfMountainCD:Stop()
-	end
-end
-
-function mod:UNIT_DIED(args)
-	local cid = self:GetCIDFromGUID(args.destGUID)
-	if cid == 100818 then
-		self.vb.totemsAlive = self.vb.totemsAlive - 1
-		if self.vb.totemsAlive == 0 then
-			if self.vb.stanceofmountainCast == 1 then
-				if self:IsHard() then
-					warnStanceofMountain2:Schedule(46)
-					timerStanceOfMountainCD:Start(51)
-					countdownStanceOfMountain:Start(51)
-					timerStrikeCD:Start(5)
-					timerSunderCD:Start(10)
-				else
-					warnStanceofMountain2:Schedule(46)
-					timerStanceOfMountainCD:Start(51)
-					countdownStanceOfMountain:Start(51)
-					timerStrikeCD:Start(5)
-					timerSunderCD:Start(10)
-				end
-			elseif self.vb.stanceofmountainCast == 2 then
-				if self:IsHard() then
-					warnStanceofMountain2:Schedule(46)
-					timerStanceOfMountainCD:Start(51)
-					countdownStanceOfMountain:Start(51)
-					timerStrikeCD:Start(11)
-					timerSunderCD:Start(6)
-				else
-					warnStanceofMountain2:Schedule(46)
-					timerStanceOfMountainCD:Start(51)
-					countdownStanceOfMountain:Start(51)
-					timerStrikeCD:Start(11)
-					timerSunderCD:Start(6)
-				end
-			elseif self.vb.stanceofmountainCast == 3 then
-				if self:IsHard() then
-					warnStanceofMountain2:Schedule(46)
-					timerStanceOfMountainCD:Start(51)
-					countdownStanceOfMountain:Start(51)
-					timerStrikeCD:Start(18.5)
-					timerSunderCD:Start(3)
-				else
-					warnStanceofMountain2:Schedule(46)
-					timerStanceOfMountainCD:Start(51)
-					countdownStanceOfMountain:Start(51)
-					timerStrikeCD:Start(18.5)
-					timerSunderCD:Start(3)
-				end
-			end
-		end
+		--timerStanceOfMountainCD:Stop()
+		--timerStanceOfMountainCD:Start()--Only seems to do it once now
+	elseif spellId == 198631 then--Stance of mountain ending
+		timerSunderCD:Start(3)
+		timerStrikeCD:Start(16)
 	end
 end

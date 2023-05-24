@@ -1,85 +1,72 @@
 local mod	= DBM:NewMod(1827, "DBM-Party-Legion", 11, 860)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17603 $"):sub(12, -3))
 mod:SetCreatureID(114329, 114522, 114330, 114328)
 mod:SetEncounterID(1957)--Shared (so not used for encounter START since it'd fire 3 mods)
 mod:DisableESCombatDetection()--However, with ES disabled, EncounterID can be used for BOSS_KILL/ENCOUNTER_END
-mod:DisableIEEUCombatDetection()
 mod:SetZone()
-mod:SetUsedIcons(8, 7)
+mod:SetUsedIcons(1)
 --mod:SetHotfixNoticeRev(14922)
 mod:SetBossHPInfoToHighest()
+--mod.respawnTime = 30
+
 mod.noNormal = true
 
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 228025 228019 227987 232153",
-	"SPELL_AURA_APPLIED 228013 228221 228225 227985 227987",
-	"SPELL_AURA_REMOVED 232156 228221 227987 227985",
+	"SPELL_AURA_APPLIED 228013 228221 228225 227985",
+	"SPELL_AURA_REMOVED 232156 228221",
 	"SPELL_PERIODIC_DAMAGE 228200",
 	"SPELL_PERIODIC_MISSED 228200",
-	"UNIT_HEALTH boss1 boss2 boss3 boss4",
 	"UNIT_DIED"
 )
 
---"Красавица и Зверь" https://ru.wowhead.com/npc=114328/коглстон/эпохальный-журнал-сражений
-local warnPhase						= mod:NewPhaseChangeAnnounce(1)
-local warnPhase2					= mod:NewPrePhaseAnnounce(2, 1, 232153)
---Метелка
-local warnSevereDusting				= mod:NewTargetAnnounce(228221, 3) --Жесткая уборка
---Коглстон
-local warnKaraKazham				= mod:NewSpellAnnounce(232153, 2) --Сим-каражим!
-local warnDentArmor					= mod:NewTargetAnnounce(227985, 4) --Сминание доспеха
-local warnDinnerBell				= mod:NewCastAnnounce(227987, 2) --Звонок к обеду!
-local warnDinnerBell2				= mod:NewTargetAnnounce(227987, 4) --Звонок к обеду!
+--TODO: Timers
+--Babblet
+local warnSevereDusting				= mod:NewTargetAnnounce(228221, 3)
+--Cogglestone
+local warnKaraKazham				= mod:NewSpellAnnounce(232153, 2)
 
---Люминор
-local specWarnBurningBlaze			= mod:NewSpecialWarningYouMove(228193, nil, nil, nil, 1, 2) --Жаркое пламя
-local specWarnHeatWave				= mod:NewSpecialWarningInterrupt(228025, "HasInterrupt", nil, nil, 3, 6) --Волна жара
---Мадам Чугунок
-local specWarnDrenched				= mod:NewSpecialWarningYou(228013, nil, nil, nil, 1, 2) --Брызги супа
---local specWarnDrenched				= mod:NewSpecialWarningMoveTo(228013, nil, nil, nil, 1, 2) --Брызги супа
-local specWarnLeftovers				= mod:NewSpecialWarningInterrupt(228019, "HasInterrupt", nil, nil, 2, 3) --Объедки
---Метелка
-local specWarnSevereDusting			= mod:NewSpecialWarningYouRun(228221, nil, nil, nil, 4, 2) --Жесткая уборка
-local specWarnSultryheat			= mod:NewSpecialWarningDispel(228225, "MagicDispeller", nil, nil, 1, 2) --Распаляющий жар
---Коглстон
-local specWarnDentArmor				= mod:NewSpecialWarningYouDefensive(227985, nil, nil, nil, 3, 6) --Сминание доспеха
-local specWarnDinnerBell			= mod:NewSpecialWarningInterrupt(227987, "HasInterrupt", nil, nil, 1, 2) --Звонок к обеду!
-local specWarnDinnerBell2			= mod:NewSpecialWarningDispel(227987, "MagicDispeller", nil, nil, 3, 3) --Звонок к обеду!
+--Luminore
+local specWarnBurningBlaze			= mod:NewSpecialWarningMove(228193, nil, nil, nil, 1, 2)
+local specWarnHeatWave				= mod:NewSpecialWarningInterrupt(228025, "HasInterrupt", nil, nil, 1, 2)
+--Mrs.Cauldrons
+local specWarnDrenched				= mod:NewSpecialWarningMoveTo(228013, nil, nil, nil, 1)--Voice?
+local specWarnLeftovers				= mod:NewSpecialWarningInterrupt(228019, "HasInterrupt", nil, nil, 1, 2)
+--Babblet
+local specWarnSevereDusting			= mod:NewSpecialWarningRun(228221, nil, nil, nil, 4, 2)
+local specWarnSultryheat			= mod:NewSpecialWarningDispel(228225, "MagicDispeller", nil, nil, 1, 2)
+--Coggleston
+local specWarnDentArmor				= mod:NewSpecialWarningDefensive(227985, nil, nil, nil, 1, 2)
+local specWarnDinnerBell			= mod:NewSpecialWarningInterrupt(227987, "HasInterrupt", nil, nil, 1, 2)
 
---Люминор
-local timerHeatWaveCD				= mod:NewCDTimer(26, 228025, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON..DBM_CORE_DEADLY_ICON) --Волна жара
---Мадам Чугунок
-local timerLeftoversCD				= mod:NewCDTimer(17, 228019, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON..DBM_CORE_DEADLY_ICON) --Объедки
---Метелка
-local timerSevereDustingCD			= mod:NewCDTimer(12, 228221, nil, nil, nil, 3) --Жесткая уборка
---Коглстон
-local timerDentArmor				= mod:NewTargetTimer(8, 227985, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Сминание доспеха
-local timerDinnerBellCD				= mod:NewCDTimer(10.9, 227987, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON..DBM_CORE_DEADLY_ICON) --Звонок к обеду!
-local timerKaraKazhamCD				= mod:NewCDTimer(20, 232153, nil, nil, nil, 1, nil, DBM_CORE_TANK_ICON..DBM_CORE_DAMAGE_ICON) --Сим-каражим!
+--Luminore
+local timerHeatWaveCD				= mod:NewCDTimer(26, 228025, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON)
+--Mrs.Cauldrons
+local timerLeftoversCD				= mod:NewCDTimer(17, 228019, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON)
+--Babblet
+local timerSevereDustingCD			= mod:NewCDTimer(12, 228221, nil, nil, nil, 3)
+--Coggleston
+local timerDentArmorCD				= mod:NewCDTimer(20, 227985, nil, "Tank|Healer", nil, 5)
+local timerDinnerBellCD				= mod:NewCDTimer(10.9, 227987, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON)
 
-local countdownHeatWave				= mod:NewCountdown(26, 228025, nil, nil, 5) --Волна жара
-local countdownKaraKazham			= mod:NewCountdown(20, 232153, nil, nil, 5) --Сим-каражим!
+--local berserkTimer				= mod:NewBerserkTimer(300)
 
-mod:AddSetIconOption("SetIconOnDentArmor", 227985, true, false, {8})
-mod:AddSetIconOption("SetIconOnDusting", 228221, true, false, {7})
+--local countdownFocusedGazeCD		= mod:NewCountdown(40, 198006)
+
+mod:AddSetIconOption("SetIconOnDusting", 228221, true)
+--mod:AddInfoFrameOption(198108, false)
 
 mod.vb.phase = 1
-mod.vb.proshlyap = 0
-
 local burningBlaze = DBM:GetSpellInfo(228193)
-local warned_preP2 = false
 
 function mod:OnCombatStart(delay)
 	self.vb.phase = 1
-	self.vb.proshlyap = 0
-	warned_preP2 = false
-	timerLeftoversCD:Start(9-delay) --Объедки+++
-	timerHeatWaveCD:Start(30-delay) --Волна жара+++
-	countdownHeatWave:Start(30-delay) --Волна жара+++
+	timerLeftoversCD:Start(7.3-delay)
+	timerHeatWaveCD:Start(31.6-delay)
 end
 
 function mod:OnCombatEnd()
@@ -88,56 +75,36 @@ end
 
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
-	if spellId == 228025 then --Волна жара
-		if not UnitIsDeadOrGhost("player") then
-			specWarnHeatWave:Show()
+	if spellId == 228025 then
+		timerHeatWaveCD:Start()
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnHeatWave:Show(args.sourceName)
 			specWarnHeatWave:Play("kickcast")
 		end
-		if self:IsHard() then
-			timerHeatWaveCD:Start(30)
-			countdownHeatWave:Start(30)
-		else
-			timerHeatWaveCD:Start()
-			countdownHeatWave:Start()
-		end
-	elseif spellId == 228019 then --Объедки
-		if not UnitIsDeadOrGhost("player") then
-			specWarnLeftovers:Show()
+	elseif spellId == 228019 then
+		timerLeftoversCD:Start()
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnLeftovers:Show(args.sourceName)
 			specWarnLeftovers:Play("kickcast")
 		end
-		if self:IsHard() then
-			timerLeftoversCD:Start(18)
-		else
-			timerLeftoversCD:Start()
-		end
-	elseif spellId == 227987 then --Звонок к обеду!
+	elseif spellId == 227987 then
+		timerDinnerBellCD:Start()
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
-			specWarnDinnerBell:Show()
+			specWarnDinnerBell:Show(args.sourceName)
 			specWarnDinnerBell:Play("kickcast")
-		else
-			warnDinnerBell:Show()
-			warnDinnerBell:Play("kickcast")
 		end
-		if self:IsHard() then
-			timerDinnerBellCD:Start(20)
-		else
-			timerDinnerBellCD:Start()
-		end
-	elseif spellId == 232153 then --Сим-каражим
+	elseif spellId == 232153 then
 		warnKaraKazham:Show()
-		timerKaraKazhamCD:Start()
-		countdownKaraKazham:Start()
 	end
 end
 
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
-	if spellId == 228013 then --Брызги супа
+	if spellId == 228013 then
 		if args:IsPlayer() then
-			specWarnDrenched:Show()
-			specWarnDrenched:Play("targetyou")
+			specWarnDrenched:Show(burningBlaze)
 		end
-	elseif spellId == 228221 then --Жесткая уборка
+	elseif spellId == 228221 then
 		timerSevereDustingCD:Start()
 		if args:IsPlayer() then
 			specWarnSevereDusting:Show()
@@ -147,48 +114,27 @@ function mod:SPELL_AURA_APPLIED(args)
 			warnSevereDusting:Show(args.destName)
 		end
 		if self.Options.SetIconOnDusting then
-			self:SetIcon(args.destName, 7)
+			self:SetIcon(args.destName, 1)
 		end
 	elseif spellId == 228225 and not args:IsDestTypePlayer() then
-		if not UnitIsDeadOrGhost("player") then
-			specWarnSultryheat:Show(args.destName)
-			specWarnSultryheat:Play("dispelnow")
-		end
-	elseif spellId == 227985 then --Сминание доспеха
-		timerDentArmor:Start(args.destName)
+		specWarnSultryheat:Show(args.destName)
+		specWarnSultryheat:Play("dispelnow")
+	elseif spellId == 227985 then
+		timerDentArmorCD:Start()
 		if args:IsPlayer() then
 			specWarnDentArmor:Show()
 			specWarnDentArmor:Play("defensive")
-		else
-			warnDentArmor:Show(args.destName)
-		end
-		if self.Options.SetIconOnDentArmor then
-			self:SetIcon(args.destName, 8)
-		end
-	elseif spellId == 227987 then --Звонок к обеду!
-		local cid = self:GetCIDFromGUID(args.destGUID)
-		if cid == 114328 then --Карлсон и прошляпанное очко Мурчаля Прошляпенко
-			warnDinnerBell2:Show(args.destName)
-			if not UnitIsDeadOrGhost("player") then
-				specWarnDinnerBell2:Show(args.destName)
-				specWarnDinnerBell2:Play("dispelnow")
-			end
 		end
 	end
 end
 
-	
 function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
-	if spellId == 232156 then --Призрачные слуги
+	if spellId == 232156 then--Spectral Service
 		self.vb.phase = 2
-		warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase))
-		timerKaraKazhamCD:Start(2)
-		countdownKaraKazham:Start(2)
-		timerDinnerBellCD:Start(12)
-	elseif spellId == 228221 and self.Options.SetIconOnDusting then --Жесткая уборка
-		self:SetIcon(args.destName, 0)
-	elseif spellId == 227985 and self.Options.SetIconOnDentArmor then --Сминание доспеха
+		timerDinnerBellCD:Start(8)
+		timerDentArmorCD:Start(15.5)
+	elseif spellId == 228221 and self.Options.SetIconOnDusting then
 		self:SetIcon(args.destName, 0)
 	end
 end
@@ -203,30 +149,22 @@ mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
 
 function mod:UNIT_DIED(args)
 	local cid = self:GetCIDFromGUID(args.destGUID)
-	if cid == 114329 then --Люминор
-		self.vb.proshlyap = self.vb.proshlyap + 1
+	if cid == 114329 then--Luminore
 		timerHeatWaveCD:Stop()
-		countdownHeatWave:Cancel()
-	elseif cid == 114522 then --Мадам Чугунок
-		self.vb.proshlyap = self.vb.proshlyap + 1
+	elseif cid == 114522 then--Mrs.Cauldrons
 		timerLeftoversCD:Stop()
-	elseif cid == 114330 then --Метелка
-		self.vb.proshlyap = self.vb.proshlyap + 1
+	elseif cid == 114330 then--Babblet
 		timerSevereDustingCD:Stop()
+	elseif cid == 114328 then--Coggleston (Needed, pretty sure fight is over here)
+
 	end
 end
 
-function mod:UNIT_HEALTH(uId)
-	if not self:IsNormal() then --гер, миф и миф+
-		if self.vb.phase == 1 and not warned_preP2 and self.vb.proshlyap == 2 and self:GetUnitCreatureId(uId) == 114522 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.20 then --Мадам Чугунок
-			warned_preP2 = true
-			warnPhase2:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase+1))
-		elseif self.vb.phase == 1 and not warned_preP2 and self.vb.proshlyap == 2 and self:GetUnitCreatureId(uId) == 114329 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.20 then --Люминор
-			warned_preP2 = true
-			warnPhase2:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase+1))
-		elseif self.vb.phase == 1 and not warned_preP2 and self.vb.proshlyap == 2 and self:GetUnitCreatureId(uId) == 114330 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.20 then --Метелка
-			warned_preP2 = true
-			warnPhase2:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase+1))
-		end
+--[[
+function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
+	local spellId = legacySpellId or bfaSpellId
+	if spellId == 206341 then
+	
 	end
 end
+--]]

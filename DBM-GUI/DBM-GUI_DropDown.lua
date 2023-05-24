@@ -305,8 +305,7 @@ do
 		elseif vartype and vartype == "DBT" then
 			dropdown:SetScript("OnShow", function() dropdown:SetSelectedValue(DBM.Bars:GetOption(var)) end)
 		elseif vartype then
-		--	dropdown:SetScript("OnShow", function() dropdown:SetSelectedValue(vartype.Options[var]) end)
-			dropdown:SetScript("OnShow", function() dropdown:SetSelectedValue(DBM.Options[var]) end)
+			dropdown:SetScript("OnShow", function() dropdown:SetSelectedValue(vartype.Options[var]) end)
 		end
 
 		return obj

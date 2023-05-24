@@ -3,13 +3,12 @@ if GetLocale() ~= "koKR" then return end
 if not DBM_GUI_Translations then DBM_GUI_Translations = {} end
 local L = DBM_GUI_Translations
 
-L.MainFrame = "Dungeon Boss Master"
+--L.MainFrame = "Deadly Boss Mods"
 
-L.TranslationByPrefix		= "Adaptation for uwow.biz - "
-L.TranslationBy 			= "Aleksart163 (Tielle х100)"
-L.Credits		 			= "특별 감사: Danzo (Qfastrun x100)" --right?
-L.Website					= "Discord for communication on issues: Aleksart163#1671 and site for updating: |cFF73C2FBhttps://github.com/Aleksart163/DBM-for-Uwow|r"
-L.WebsiteButton				= "Update"
+L.TranslationByPrefix		= "번역: "
+L.TranslationBy 			= "Elnarfim"
+L.Website					= "디스코드 채널 |cFF73C2FBhttps://discord.gg/deadlybossmods|r를 방문해 보세요. 트위터 팔로우 @deadlybossmods 또는 @MysticalOS"
+L.WebsiteButton				= "디스코드"
 
 L.OTabBosses	= "보스"
 --L.OTabOptions	= GAMEOPTIONS_MENU

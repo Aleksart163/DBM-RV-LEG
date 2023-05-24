@@ -1,177 +1,101 @@
 local mod	= DBM:NewMod(1983, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17611 $"):sub(12, -3))
 mod:SetCreatureID(122366)
 mod:SetEncounterID(2069)
 mod:SetZone()
 --mod:SetBossHPInfoToHighest()
-mod:SetUsedIcons(8, 4, 3)
-mod:SetHotfixNoticeRev(17650)
-mod:DisableIEEUCombatDetection()
-mod.respawnTime = 30
+mod:SetUsedIcons(1, 3, 4)
+mod:SetHotfixNoticeRev(17238)
+mod.respawnTime = 29
 
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_SUCCESS 243960 244093 243999 257644 244042",
+	"SPELL_CAST_SUCCESS 243960 244093 243999 257644",
 	"SPELL_AURA_APPLIED 243961 244042 244094 248732 243968 243977 243980 243973",
 	"SPELL_AURA_REMOVED 244042 244094",
 	"SPELL_PERIODIC_DAMAGE 244005 248740",
 	"SPELL_PERIODIC_MISSED 244005 248740"
 )
 
+--TODO, on phase changes most ability CDs extended by 2+ seconds, but NOT ALWAYS so difficult to hard code a rule for it right now
+--[[
+(ability.id = 243960 or ability.id = 244093 or ability.id = 243999 or ability.id = 244042 or ability.id = 257644) and type = "cast"
+ or (ability.id = 243968 or ability.id = 243977 or ability.id = 243980 or ability.id = 243973) and type = "applydebuff" and target.name = "Omegal"
+ or ability.id = 26662
+--]]
 --Torments of the Shivarra
-local warnTormentofFlames				= mod:NewSpellAnnounce(243967, 2, nil, nil, nil, nil, nil, 2) --Пытка огнем
-local warnTormentofFrost				= mod:NewSpellAnnounce(243976, 2, nil, nil, nil, nil, nil, 2) --Пытка холодом
-local warnTormentofFel					= mod:NewSpellAnnounce(243979, 2, nil, nil, nil, nil, nil, 2) --Пытка скверной
-local warnTormentofShadows				= mod:NewSpellAnnounce(243974, 2, nil, nil, nil, nil, nil, 2) --Пытка тьмой
+local warnTormentofFlames				= mod:NewSpellAnnounce(243967, 2, nil, nil, nil, nil, nil, 2)
+local warnTormentofFrost				= mod:NewSpellAnnounce(243976, 2, nil, nil, nil, nil, nil, 2)
+local warnTormentofFel					= mod:NewSpellAnnounce(243979, 2, nil, nil, nil, nil, nil, 2)
+local warnTormentofShadows				= mod:NewSpellAnnounce(243974, 2, nil, nil, nil, nil, nil, 2)
 --The Fallen Nathrezim
-local warnShadowStrike					= mod:NewSpellAnnounce(243960, 2, nil, "Tank", 2) --Теневой удар Doesn't need special warning because misery should trigger special warning at same time
-local warnMarkedPrey					= mod:NewTargetAnnounce(244042, 3) --Метка жертвы
-local warnNecroticEmbrace				= mod:NewTargetAnnounce(244094, 4) --Некротические объятия
-local warnEchoesofDoom					= mod:NewTargetAnnounce(248732, 3) --Отголоски гибели
+local warnShadowStrike					= mod:NewSpellAnnounce(243960, 2, nil, "Tank", 2)--Doesn't need special warning because misery should trigger special warning at same time
+local warnMarkedPrey					= mod:NewTargetAnnounce(244042, 3)
+local warnNecroticEmbrace				= mod:NewTargetAnnounce(244094, 4)
+local warnEchoesofDoom					= mod:NewTargetAnnounce(248732, 3)
 
 --Torments of the Shivarra
-local specWarnGTFO						= mod:NewSpecialWarningYouMove(244005, nil, nil, nil, 1, 2) --Темный разлом
-local specWarnGTFO2						= mod:NewSpecialWarningYouMove(248740, nil, nil, nil, 1, 2) --Отголоски гибели
+local specWarnGTFO						= mod:NewSpecialWarningGTFO(244005, nil, nil, nil, 1, 2)
 --The Fallen Nathrezim
-local specWarnMisery					= mod:NewSpecialWarningYou(243961, nil, nil, nil, 1, 2) --Страдания
-local specWarnMiseryTaunt				= mod:NewSpecialWarningTaunt(243961, nil, nil, nil, 1, 2) --Страдания
-local specWarnDarkFissure				= mod:NewSpecialWarningDodge(243999, nil, nil, nil, 2, 2) --Темный разлом
-local specWarnMarkedPrey				= mod:NewSpecialWarningYou(244042, nil, nil, 2, 1, 2) --Метка жертвы
-local specWarnNecroticEmbrace			= mod:NewSpecialWarningYouMoveAway(244094, nil, nil, nil, 3, 6) --Некротические объятия
-local specWarnNecroticEmbrace3			= mod:NewSpecialWarningYouMoveAwayPos(244094, nil, nil, 3, 3, 6) --Некротические объятия
-local specWarnNecroticEmbrace4			= mod:NewSpecialWarningEnd(244094, nil, nil, nil, 1, 2) --Некротические объятия
---local specWarnNecroticEmbrace2			= mod:NewSpecialWarningCloseMoveAway(244094, nil, nil, nil, 2, 5) --Некротические объятия
-local specWarnEchoesOfDoom				= mod:NewSpecialWarningYou(248732, nil, nil, nil, 1, 2) --Отголоски гибели
+local specWarnMisery					= mod:NewSpecialWarningYou(243961, nil, nil, nil, 1, 2)
+local specWarnMiseryTaunt				= mod:NewSpecialWarningTaunt(243961, nil, nil, nil, 1, 2)
+local specWarnDarkFissure				= mod:NewSpecialWarningDodge(243999, nil, nil, nil, 2, 2)
+local specWarnMarkedPrey				= mod:NewSpecialWarningYou(244042, nil, nil, 2, 1, 2)
+local yellMarkedPrey					= mod:NewYell(244042)
+local yellMarkedPreyFades				= mod:NewShortFadesYell(244042)
+local specWarnNecroticEmbrace			= mod:NewSpecialWarningYouPos(244094, nil, nil, 3, 3, 2)
+local yellNecroticEmbrace				= mod:NewPosYell(244094)
+local yellNecroticEmbraceFades			= mod:NewIconFadesYell(244094)
+local specWarnEchoesOfDoom				= mod:NewSpecialWarningYou(248732, nil, nil, nil, 1, 2)
+local yellEchoesOfDoom					= mod:NewYell(248732)
+
 --Torments of the Shivarra
 mod:AddTimerLine(GENERAL)
-local timerTormentofFlamesCD			= mod:NewNextTimer(5, 243967, nil, nil, nil, 6, nil, DBM_CORE_HEALER_ICON) --Пытка огнем
-local timerTormentofFrostCD				= mod:NewNextTimer(61, 243976, nil, nil, nil, 6, nil, DBM_CORE_HEALER_ICON) --Пытка холодом
-local timerTormentofFelCD				= mod:NewNextTimer(61, 243979, nil, nil, nil, 6, nil, DBM_CORE_HEALER_ICON) --Пытка скверной
-local timerTormentofShadowsCD			= mod:NewNextTimer(61, 243974, nil, nil, nil, 6, nil, DBM_CORE_HEALER_ICON) --Пытка тьмой
+local timerTormentofFlamesCD			= mod:NewNextTimer(5, 243967, nil, nil, nil, 6)
+local timerTormentofFrostCD				= mod:NewNextTimer(61, 243976, nil, nil, nil, 6)
+local timerTormentofFelCD				= mod:NewNextTimer(61, 243979, nil, nil, nil, 6)
+local timerTormentofShadowsCD			= mod:NewNextTimer(61, 243974, nil, nil, nil, 6)
 --The Fallen Nathrezim
 mod:AddTimerLine(BOSS)
-local timerShadowStrikeCD				= mod:NewCDTimer(8.5, 243960, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Теневой удар 8.5-14 (most of time it's 9.7 or more, But lowest has to be used
-local timerDarkFissureCD				= mod:NewCDTimer(32, 243999, nil, nil, nil, 2) --Темный разлом 32-33
-local timerMarkedPreyCD					= mod:NewNextTimer(30.5, 244042, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Метка жертвы
-local timerNecroticEmbraceCD			= mod:NewNextTimer(30, 244093, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON..DBM_CORE_MYTHIC_ICON) --Некротические объятия
-
-local yellMarkedPrey					= mod:NewYell(244042, nil, nil, nil, "YELL") --Метка жертвы
-local yellMarkedPreyFades				= mod:NewShortFadesYell(244042, nil, nil, nil, "YELL") --Метка жертвы
-local yellNecroticEmbrace2				= mod:NewYell(244094, nil, nil, nil, "YELL") --Некротические объятия
-local yellNecroticEmbrace				= mod:NewPosYell(244094, nil, nil, nil, "YELL") --Некротические объятия
-local yellNecroticEmbrace3				= mod:NewFadesYell(244094, nil, nil, nil, "YELL") --Некротические объятия
-local yellNecroticEmbraceFades			= mod:NewIconFadesYell(244094, nil, nil, nil, "YELL") --Некротические объятия
---local yellEchoesOfDoom					= mod:NewYell(248732, nil, nil, nil, "YELL") --Отголоски гибели
+local timerShadowStrikeCD				= mod:NewCDTimer(8.5, 243960, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)--8.5-14 (most of time it's 9.7 or more, But lowest has to be used
+local timerDarkFissureCD				= mod:NewCDTimer(32, 243999, nil, nil, nil, 3)--32-33
+local timerMarkedPreyCD					= mod:NewNextTimer(30.3, 244042, nil, nil, nil, 3)
+local timerNecroticEmbraceCD			= mod:NewNextTimer(30, 244093, nil, nil, nil, 3)
 
 local berserkTimer						= mod:NewBerserkTimer(390)
 
 --The Fallen Nathrezim
-local countdownNecroticEmbrace			= mod:NewCountdown(30, 244093, nil, nil, 5) --Некротические объятия
-local countdownMarkedPrey				= mod:NewCountdown("Alt30", 244042, "-Tank", nil, 3) --Метка жертвы
-local countdownShadowStrike				= mod:NewCountdown("AltTwo9", 243960, "Tank", nil, 3) --Теневой удар
+local countdownShadowStrike				= mod:NewCountdown("Alt9", 243960, "Tank", nil, 3)
+local countdownMarkedPrey				= mod:NewCountdown(30, 244042)
+local countdownNecroticEmbrace			= mod:NewCountdown("AltTwo30", 244093)
 
-mod:AddSetIconOption("SetIconOnMarkedPrey", 244042, true, false, {8}) --Метка жертвы
-mod:AddSetIconOption("SetIconEmbrace", 244094, true, false, {4, 3}) --Некротические объятия
-mod:AddBoolOption("ShowProshlyapSoulburnin", true)
+mod:AddSetIconOption("SetIconOnMarkedPrey", 244042, true)
+mod:AddSetIconOption("SetIconEmbrace", 244094, true)
 --mod:AddInfoFrameOption(239154, true)
 mod:AddRangeFrameOption("8/10")
 
 mod.vb.currentTorment = 0--Can't antispam, cause it'll just break if someone dies and gets brezzed
 mod.vb.totalEmbrace = 0
-mod.vb.proshlyapMurchalCount = 0
-mod.vb.proshlyapMurchal2Count = 0
 local playerAffected = false
-
---волосали1
-local necrotic = replaceSpellLinks(244094) --некротик
-
-local function ProshlyapSoulburnin1(self)
-	-- if self.Options.ShowProshlyapSoulburnin then
-		-- prepareMessage(self, "premsg_Varimathras_Soulburnin_rw")
-		smartChat(L.ProshlyapSoulburnin:format(necrotic), "rw")
-	-- end
-end
-
--- Синхронизация анонсов ↓
-local premsg_values = {
---	args_sourceName,
-	args_destName,
-	scheduleDelay,
-	necrotic_rw,
-	soulburnin_rw
-}
-local playerOnlyName = UnitName("player")
-
-local function sendAnnounce(self)
-	--[[if premsg_values.args_sourceName == nil then
-		premsg_values.args_sourceName = "Unknown"
-	end]]
-	if premsg_values.args_destName == nil then
-		premsg_values.args_destName = "Unknown"
-	end
-
-	if premsg_values.necrotic_rw == 1 then
-		smartChat(L.NecroticYell:format(premsg_values.args_destName, necrotic), "rw")
-		premsg_values.necrotic_rw = 0
-	elseif premsg_values.soulburnin_rw == 1 then
-		-- smartChat(L.ProshlyapSoulburnin:format(necrotic), "rw")
-		self:Schedule(premsg_values.scheduleDelay, ProshlyapSoulburnin1, self)
-		premsg_values.soulburnin_rw = 0
-	end
-
-	-- premsg_values.args_sourceName = nil
-	premsg_values.args_destName = nil
-	premsg_values.scheduleDelay = nil
-end
-
-local function announceList(premsg_announce, value)
-	if premsg_announce == "premsg_Varimathras_necrotic_rw" then
-		premsg_values.necrotic_rw = value
-	elseif premsg_announce == "premsg_Varimathras_Soulburnin_rw" then
-		premsg_values.soulburnin_rw = value
-	end
-end
-
-local function prepareMessage(self, premsg_announce, args_sourceName, args_destName, scheduleDelay)
-	if self:AntiSpam(1, "prepareMessage") then
-		-- premsg_values.args_sourceName = args_sourceName
-		premsg_values.args_destName = args_destName
-		premsg_values.scheduleDelay = scheduleDelay
-		announceList(premsg_announce, 1)
-		self:SendSync(premsg_announce, playerOnlyName)
-		self:Schedule(1, sendAnnounce, self)
-	end
-end
--- Синхронизация анонсов ↑
 
 function mod:OnCombatStart(delay)
 	self.vb.currentTorment = 0
 	self.vb.totalEmbrace = 0
-	self.vb.proshlyapMurchalCount = 0
-	self.vb.proshlyapMurchal2Count = 0
 	playerAffected = false
 	timerTormentofFlamesCD:Start(5-delay)
 	timerShadowStrikeCD:Start(9.3-delay)
 	countdownShadowStrike:Start(9.3-delay)
+	timerDarkFissureCD:Start(17.4-delay)--success
 	timerMarkedPreyCD:Start(25.2-delay)
 	countdownMarkedPrey:Start(25.2-delay)
-	timerDarkFissureCD:Start(15.3-delay)
 	if not self:IsEasy() then
 		timerNecroticEmbraceCD:Start(35-delay)
 		countdownNecroticEmbrace:Start(35-delay)
-		if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapSoulburnin and DBM:GetRaidRank() > 0 then
-			-- self:Schedule(30, ProshlyapSoulburnin1, self)
-			prepareMessage(self, "premsg_Varimathras_Soulburnin_rw", nil, nil, 29)
-		end
 	end
-	if not self:IsLFR() then
-		berserkTimer:Start(310-delay)--Confirmed normal/heroic/mythic
-	else
-		berserkTimer:Start(-delay)
-	end
+	berserkTimer:Start(310-delay)--Confirmed normal/heroic/mythic
 	if self.Options.RangeFrame then
 		DBM.RangeCheck:Show(8)
 	end
@@ -192,51 +116,16 @@ function mod:SPELL_CAST_SUCCESS(args)
 		warnShadowStrike:Show()
 		timerShadowStrikeCD:Show()
 		countdownShadowStrike:Start(9)
-	elseif spellId == 244093 then --Некротические объятия
-		self.vb.proshlyapMurchalCount = self.vb.proshlyapMurchalCount + 1
-		if self:IsHeroic() or self:IsMythic() then --героик и мифик
-			if self.vb.proshlyapMurchalCount < 4 then
-				timerNecroticEmbraceCD:Start()
-				countdownNecroticEmbrace:Start()
-				if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapSoulburnin and DBM:GetRaidRank() > 0 then
-					-- self:Schedule(25, ProshlyapSoulburnin1, self)
-					prepareMessage(self, "premsg_Varimathras_Soulburnin_rw", nil, nil, 24)
-				end
-			elseif self.vb.proshlyapMurchalCount >= 4 then --точно по героику с 4+ некрота
-				timerNecroticEmbraceCD:Start(32.8)
-				countdownNecroticEmbrace:Start(32.8)
-				if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapSoulburnin and DBM:GetRaidRank() > 0 then
-					-- self:Schedule(27.8, ProshlyapSoulburnin1, self)
-					prepareMessage(self, "premsg_Varimathras_Soulburnin_rw", nil, nil, 26.8)
-				end
-			end
-		end
-	elseif spellId == 243999 then --Темный разлом
-		if not UnitIsDeadOrGhost("player") then
-			specWarnDarkFissure:Show()
-			specWarnDarkFissure:Play("watchstep")
-		end
-		if self:IsHeroic() then
-			timerDarkFissureCD:Start(30.7)
-		elseif self:IsMythic() then
-			timerDarkFissureCD:Start(30.7)
-		else
-			timerDarkFissureCD:Start(32)
-		end
-	elseif spellId == 244042 then --Метка жертвы
-		self.vb.proshlyapMurchal2Count = self.vb.proshlyapMurchal2Count + 1
-		if self:IsHeroic() or self:IsMythic() then --героик и мифик
-			if self.vb.proshlyapMurchal2Count == 1 then
-				timerMarkedPreyCD:Start(30.5)
-				countdownMarkedPrey:Start(30.5)
-			elseif self.vb.proshlyapMurchal2Count >= 2 then
-				timerMarkedPreyCD:Start(32.3)
-				countdownMarkedPrey:Start(32.3)
-			end
-		else --обычка (возможно нужны правки)
-			timerMarkedPreyCD:Start(30.5)
-			countdownMarkedPrey:Start(30.5)
-		end
+	elseif spellId == 244093 then--Necrotic Embrace Cast
+		timerNecroticEmbraceCD:Start()
+		countdownNecroticEmbrace:Start(30.3)
+	elseif spellId == 243999 then
+		specWarnDarkFissure:Show()
+		specWarnDarkFissure:Play("watchstep")
+		timerDarkFissureCD:Start()
+	elseif spellId == 122366 then
+		timerMarkedPreyCD:Start()
+		countdownMarkedPrey:Start(30.3)
 	end
 end
 
@@ -256,79 +145,48 @@ function mod:SPELL_AURA_APPLIED(args)
 				specWarnMiseryTaunt:Play("tauntboss")
 			end
 		end
-	elseif spellId == 244042 then --Метка жертвы
+	elseif spellId == 244042 then
 		if args:IsPlayer() then
 			specWarnMarkedPrey:Show()
 			specWarnMarkedPrey:Play("targetyou")
 			yellMarkedPrey:Yell()
-			yellMarkedPreyFades:Countdown(5, 3)
+			yellMarkedPreyFades:Countdown(5)
 		else
 			warnMarkedPrey:Show(args.destName)
 		end
-		if self.Options.SetIconOnMarkedPrey then
-			self:SetIcon(args.destName, 8, 7)
-		end
-	elseif spellId == 244094 then --Некротические объятия
+	elseif spellId == 244094 then
 		self.vb.totalEmbrace = self.vb.totalEmbrace + 1
 		if self.vb.totalEmbrace >= 3 then return end--Once it's beyond 2 players, consider it a wipe and throttle messages
 		if self.Options.SetIconEmbrace then
 			self:SetIcon(args.destName, self.vb.totalEmbrace+2)--Should be BW compatible, for most part.
 		end
-		if self:IsMythic() then
-			if args:IsPlayer() then
-				if not playerAffected then
-					playerAffected = true
-					local icon = self.vb.totalEmbrace+2
-					specWarnNecroticEmbrace3:Show(self:IconNumToTexture(icon))
-					if not self:IsTank() then
-						specWarnNecroticEmbrace3:Play("mm"..icon)
-					else
-						specWarnNecroticEmbrace3:Play("runaway")
-					end
-					yellNecroticEmbrace:Yell(self.vb.totalEmbrace, icon, icon)
-					yellNecroticEmbraceFades:Countdown(6, 3, icon)
-					if self.Options.RangeFrame then
-						DBM.RangeCheck:Show(10)
-					end
+		if args:IsPlayer() then
+			if not playerAffected then
+				playerAffected = true
+				local icon = self.vb.totalEmbrace+2
+				specWarnNecroticEmbrace:Show(self:IconNumToTexture(icon))
+				if self:IsMythic() and not self:IsTank() then
+					specWarnNecroticEmbrace:Play("mm"..icon)
+				else
+					specWarnNecroticEmbrace:Play("targetyou")
 				end
-			else
-				warnNecroticEmbrace:CombinedShow(0.5, args.destName)--Combined message because even if it starts on 1, people are gonna fuck it up
-			end
-		else --героик
-			-- DBM:Debug("self.vb.totalEmbrace (SPELL_AURA_APPLIED): " .. self.vb.totalEmbrace)
-			if self.vb.totalEmbrace == 1 then --волосали2
-				if DBM:GetRaidRank() > 0 and self:AntiSpam(25, "necrotic") then
-					-- prepareMessage(self, "premsg_Varimathras_necrotic_rw", nil, args.destName)
-					DBM:Debug(L.NecroticYell:format(args.destName, necrotic))
-				elseif DBM:GetRaidRank() == 0 and self:AntiSpam(25, "necrotic") then
-					DBM:Debug(L.NecroticYell:format(args.destName, necrotic))
+				yellNecroticEmbrace:Yell(self.vb.totalEmbrace, icon, icon)
+				yellNecroticEmbraceFades:Countdown(6, 3, icon)
+				if self.Options.RangeFrame then
+					DBM.RangeCheck:Show(10)
 				end
 			end
-			if args:IsPlayer() then
-				if not playerAffected then
-					playerAffected = true
-					specWarnNecroticEmbrace:Show()
-					if not self:IsTank() then
-						specWarnNecroticEmbrace:Play("runaway")
-					end
-					yellNecroticEmbrace2:Yell()
-					yellNecroticEmbrace3:Countdown(6, 3)
-					if self.Options.RangeFrame then
-						DBM.RangeCheck:Show(10)
-					end
-				end
-			else
-				warnNecroticEmbrace:CombinedShow(0.5, args.destName)--Combined message because even if it starts on 1, people are gonna fuck it up
-			end
+		else
+			warnNecroticEmbrace:CombinedShow(0.5, args.destName)--Combined message because even if it starts on 1, people are gonna fuck it up
 		end
-	elseif spellId == 248732 and self:AntiSpam(2, 1) then --Отголоски гибели
+	elseif spellId == 248732 then
 		warnEchoesofDoom:CombinedShow(0.5, args.destName)--In case multiple shadows up
-		if args:IsPlayer() and self:AntiSpam(3, 3) then
+		if args:IsPlayer() and self:AntiSpam(3, 1) then
 			specWarnEchoesOfDoom:Show()
 			specWarnEchoesOfDoom:Play("targetyou")
-		--	yellEchoesOfDoom:Yell()
+			yellEchoesOfDoom:Yell()
 		end
-	elseif spellId == 243968 and self.vb.currentTorment ~= 1 then --Пытка огнем
+	elseif spellId == 243968 and self.vb.currentTorment ~= 1 then--Flame
 		self.vb.currentTorment = 1
 		warnTormentofFlames:Show()
 		warnTormentofFlames:Play("phasechange")
@@ -337,17 +195,17 @@ function mod:SPELL_AURA_APPLIED(args)
 		else--No frost or fel in normal, LFR assumed
 			timerTormentofShadowsCD:Start(290)
 		end
-	elseif spellId == 243977 and self.vb.currentTorment ~= 2 then --Пытка холодом
+	elseif spellId == 243977 and self.vb.currentTorment ~= 2 then--Frost
 		self.vb.currentTorment = 2
 		warnTormentofFrost:Show()
 		warnTormentofFrost:Play("phasechange")
 		timerTormentofFelCD:Start(99)
-	elseif spellId == 243980 and self.vb.currentTorment ~= 3 then --Пытка скверной
+	elseif spellId == 243980 and self.vb.currentTorment ~= 3 then--Fel
 		self.vb.currentTorment = 3
 		warnTormentofFel:Show()
 		warnTormentofFel:Play("phasechange")
 		timerTormentofShadowsCD:Start(90)
-	elseif spellId == 243973 and self.vb.currentTorment ~= 4 then --Пытка тьмой
+	elseif spellId == 243973 and self.vb.currentTorment ~= 4 then--Shadow
 		self.vb.currentTorment = 4
 		warnTormentofShadows:Show()
 		warnTormentofShadows:Play("phasechange")
@@ -362,11 +220,8 @@ function mod:SPELL_AURA_REMOVED(args)
 		end
 	elseif spellId == 244094 then
 		self.vb.totalEmbrace = self.vb.totalEmbrace - 1
-		-- DBM:Debug("self.vb.totalEmbrace (SPELL_AURA_REMOVED): " .. self.vb.totalEmbrace)
-		if args:IsPlayer() and self:AntiSpam(3, 4) then
+		if args:IsPlayer() then
 			playerAffected = false
-			specWarnNecroticEmbrace4:Show()
-			specWarnNecroticEmbrace4:Play("end")
 			yellNecroticEmbraceFades:Cancel()
 			if self.Options.RangeFrame then
 				DBM.RangeCheck:Show(8)
@@ -380,18 +235,9 @@ end
 
 --Dark Fissure & Echoes of Doom
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
-	if spellId == 244005 and destGUID == UnitGUID("player") and self:AntiSpam(2.5, 5) then
+	if (spellId == 244005 or spellId == 248740) and destGUID == UnitGUID("player") and self:AntiSpam(2, 4) then
 		specWarnGTFO:Show()
 		specWarnGTFO:Play("runaway")
-	elseif spellId == 248740 and destGUID == UnitGUID("player") and self:AntiSpam(3, 6) then
-		specWarnGTFO2:Show()
-		specWarnGTFO2:Play("runaway")
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
-
-function mod:OnSync(premsg_announce, sender) --волосали3
-	if sender < playerOnlyName then
-		announceList(premsg_announce, 0)
-	end
-end

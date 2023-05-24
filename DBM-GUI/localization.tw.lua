@@ -1,15 +1,13 @@
 if GetLocale() ~= "zhTW" then return end
-
 if not DBM_GUI_Translations then DBM_GUI_Translations = {} end
 local L = DBM_GUI_Translations
 
-L.MainFrame	= "Dungeon Boss Master"
+L.MainFrame	= "Deadly Boss Mods"
 
-L.TranslationByPrefix		= "Adaptation for uwow.biz - "
-L.TranslationBy 			= "Aleksart163 (Tielle х100)"
-L.Credits		 			= "特别感谢: Danzo (Qfastrun x100)" --right?
-L.Website					= "Discord for communication on issues: Aleksart163#1671 and site for updating: |cFF73C2FBhttps://github.com/Aleksart163/DBM-for-Uwow|r"
-L.WebsiteButton				= "Update"
+L.TranslationByPrefix		= "翻譯:"
+L.TranslationBy 			= "Imbav@聖光之願"
+L.Website					= "在discord上拜訪我們:|cFF73C2FBhttps://discord.gg/deadlybossmods|r。請在推特上關注@deadlybossmods或@MysticalOS"
+L.WebsiteButton				= "論壇"
 
 L.OTabBosses	= "首領模組"
 L.OTabOptions	= GAMEOPTIONS_MENU

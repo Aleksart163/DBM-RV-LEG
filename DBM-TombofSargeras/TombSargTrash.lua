@@ -31,7 +31,7 @@ local specWarnShadowBoltVolley		= mod:NewSpecialWarningInterrupt(243171, "HasInt
 local specWarnSeverSoul				= mod:NewSpecialWarningRun(239810, "Melee", nil, nil, 4, 2)
 local specWarnElectroShock			= mod:NewSpecialWarningRun(240169, "Melee", nil, nil, 4, 2)
 local specWarnMassiveEruption		= mod:NewSpecialWarningRun(242909, "Melee", nil, nil, 4, 2)
-local specWarnGTFO					= mod:NewSpecialWarningYouMove(240176, nil, nil, nil, 1, 2)
+local specWarnGTFO					= mod:NewSpecialWarningGTFO(240176, nil, nil, nil, 1, 2)
 
 function mod:SPELL_CAST_START(args)
 	if not self.Options.Enabled then return end
@@ -94,7 +94,7 @@ mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 --TODO, add more
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
 	if (spellId == 240176) and destGUID == UnitGUID("player") and self:AntiSpam(2, 4) then
-		specWarnGTFO:Show()
+		specWarnGTFO:Show(spellName)
 		specWarnGTFO:Play("runaway")
 	end
 end

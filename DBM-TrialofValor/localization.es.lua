@@ -40,15 +40,3 @@ L = DBM:GetModLocalization("TrialofValorTrash")
 L:SetGeneralLocalization({
 	name =	"Enemigos menores"
 })
-
-L:SetOptionLocalization({
-	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
-})
-
-L:SetTimerLocalization({
-	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
-})
-
-L:SetMiscLocalization({
-	RP1 = "¡Campeones! Han derramado la sangre de los esbirros de Helya. Llegó la hora de entrar al Helheim y terminar con el reino oscuro de la bruja del mar. Pero primero... ¡un reto final!"
-})

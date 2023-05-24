@@ -14,8 +14,6 @@ DBM_CORE_LOAD_MOD_EXP_MISMATCH		= "No se ha podido cargar el módulo de %s porqu
 DBM_CORE_LOAD_MOD_DISABLED			= "%s está instalado pero se encuentra desactivado. Este módulo no se cargará hasta que lo actives."
 DBM_CORE_LOAD_MOD_DISABLED_PLURAL	= "%s están instalados pero se encuentran desactivados. Estos módulos no se cargarán hasta que los actives."
 
-DBM_CORE_UPDATEREMINDER_URL			= "https://github.com/Aleksart163/DBM-RV"
-
 DBM_COPY_URL_DIALOG					= "Copiar vínculo"
 
 --Post Patch 7.1
@@ -32,7 +30,7 @@ DBM_CORE_LOOT_SPEC_REMINDER			= "Tu especialización es %s. Tu especialización 
 
 DBM_CORE_BIGWIGS_ICON_CONFLICT		= "DBM ha detectado que tienes habilitados los iconos de banda en BigWigs y DBM. Por favor, desactívalos en uno de los dos addons para evitar conflictos con la configuración de tu líder de banda."
 
-DBM_CORE_MOD_AVAILABLE				= "El módulo de %s está disponible para este contenido. Puedes descargarlo a través de |HDBM:forums|h|cff3588ffhttps://github.com/Aleksart163/DBM-RV|r."
+DBM_CORE_MOD_AVAILABLE				= "El módulo de %s está disponible para este contenido. Puedes descargarlo a través de Curse, WoWInterface o deadlybossmods.com."
 
 DBM_CORE_COMBAT_STARTED				= "Encuentro de %s iniciado. ¡Buena suerte!"
 DBM_CORE_COMBAT_STARTED_IN_PROGRESS	= "Te has unido al encuentro de %s mientras estaba en curso. ¡Buena suerte!"
@@ -120,9 +118,6 @@ DBM_CORE_GENERIC_TIMER_BERSERK		= "Rabia"
 DBM_CORE_OPTION_TIMER_BERSERK		= "Mostrar tiempo restante para $spell:26662"
 DBM_CORE_GENERIC_TIMER_COMBAT		= "Comienza el encuentro"
 DBM_CORE_OPTION_TIMER_COMBAT		= "Mostrar temporizador para el inicio del encuentro"
-DBM_CORE_OPTION_TIMER_DOOR_OPENING	= "Cuenta atras hasta abrirse la puerta"
-DBM_CORE_GENERIC_TIMER_DOOR_OPENING	= "La puerta se abre"
-DBM_CORE_GENERIC_TIMER_ROLE_PLAY	= "Pulsar para activar el juego de roles o npc"
 DBM_CORE_BAD						= "Daño"
 
 DBM_CORE_OPTION_CATEGORY_TIMERS			= "Barras"
@@ -148,33 +143,33 @@ DBM_CORE_WHISPER_SCENARIO_END_KILL_STATS	= "¡%s ha completado %s! Tiene %d vict
 DBM_CORE_WHISPER_SCENARIO_END_WIPE			= "%s no ha completado %s."
 DBM_CORE_WHISPER_SCENARIO_END_WIPE_STATS	= "%s no ha completado %s. Lo ha intentado sin éxito %d veces en total en esta dificultad."
 
-DBM_CORE_VERSIONCHECK_HEADER		= "Dungeon Boss Master - Versiones"
+DBM_CORE_VERSIONCHECK_HEADER		= "Deadly Boss Mods - Versiones"
 DBM_CORE_VERSIONCHECK_ENTRY			= "%s: %s (r%d)"--One Boss mod
 DBM_CORE_VERSIONCHECK_ENTRY_TWO		= "%s: %s (r%d) y %s (r%d)"--Two Boss mods
 DBM_CORE_VERSIONCHECK_ENTRY_NO_DBM	= "%s: Sin instalar"
 DBM_CORE_VERSIONCHECK_FOOTER		= "Se ha encontrado %d jugador(es) con DBM y %d jugador(es) con BigWigs."
 DBM_CORE_VERSIONCHECK_OUTDATED		= "Los siguientes %d jugadores tienen una versión desfasada de DBM: %s"
-DBM_CORE_YOUR_VERSION_OUTDATED      = "Tu versión de Dungeon Boss Master está desfasada. Por favor, visita " .. DBM_CORE_UPDATEREMINDER_URL .. " para descargar la última versión."
+DBM_CORE_YOUR_VERSION_OUTDATED      = "Tu versión de Deadly Boss Mods está desfasada. Por favor, visita www.deadlybossmods.com para descargar la última versión."
 DBM_CORE_VOICE_PACK_OUTDATED		= "A este paquete de voces le faltan sonidos compatibles con esta versión de DBM. No se sustituirán los sonidos de avisos especiales que no tengan sustituto. Por favor, descarga una versión más reciente del paquete de voces o contacta con el autor para informarle de los archivos de sonido que faltan."
 DBM_CORE_VOICE_MISSING				= "Tenías seleccionado un paquete de voces que no se ha podido encontrar. Se ha restaurado tu selección a 'Ninguno'. Si crees que se trata de un error, asegúrate de que el paquete de voces se haya instalado correctamente y esté habilitado en la lista de Addons."
 DBM_CORE_VOICE_DISABLED				= "Tienes al menos un paquete de voces de DBM instalado, pero ninguno está activado. Si quieres usar un paquete de voces, asegúrate de que lo has asignado en 'Alertas de voz'. Desinstala los paquetes de voces que tengas sin usar para ocultar este mensaje."
 DBM_CORE_VOICE_COUNT_MISSING		= "La voz de cuenta atrás %d está asignada a un paquete de voces que no se ha podido encontrar. Se ha restaurado a la configuración por defecto."
 DBM_BIG_WIGS						= "BigWigs"
 
-DBM_CORE_UPDATEREMINDER_HEADER			= "Tu versión de Dungeon Boss Master está desfasada.\nPuedes descargar la versión %s (r%d) a través de " .. DBM_CORE_UPDATEREMINDER_URL .. "."
-DBM_CORE_UPDATEREMINDER_HEADER_ALPHA	= "Tu versión alfa de Dungeon Boss Master está desfasada.\nEstás por lo menos %d versiones por detrás. Se recomienda a los usuarios que usen siempre la última versión alfa. De lo contrario, sería más recomendable usar la última versión oficial. Las versiones alfa tienen una comprobación de versión mucho más estricta porque son versiones de desarrollo de DBM."
+DBM_CORE_UPDATEREMINDER_HEADER			= "Tu versión de Deadly Boss Mods está desfasada.\nPuedes descargar la versión %s (r%d) a través de Curse/Twitch, WoWInterface o deadlybossmods.com."
+DBM_CORE_UPDATEREMINDER_HEADER_ALPHA	= "Tu versión alfa de Deadly Boss Mods está desfasada.\nEstás por lo menos %d versiones por detrás. Se recomienda a los usuarios que usen siempre la última versión alfa. De lo contrario, sería más recomendable usar la última versión oficial. Las versiones alfa tienen una comprobación de versión mucho más estricta porque son versiones de desarrollo de DBM."
 DBM_CORE_UPDATEREMINDER_FOOTER			= "Pulsa " .. (IsMacClient() and "Cmd-C" or "Ctrl-C")  ..  " para copiar el enlace de descarga en tu portapapeles."
 DBM_CORE_UPDATEREMINDER_FOOTER_GENERIC	= "Pulsa " .. (IsMacClient() and "Cmd-C" or "Ctrl-C")  ..  " para copiar el enlace en tu portapapeles."
-DBM_CORE_UPDATEREMINDER_DISABLE			= "AVISO: Se ha desactivado Dungeon Boss Master porque tu versión está demasiado desfasada. Con tal de prevenir conflictos con las versiones de otros jugadores, no se podrá volver a activar DBM hasta que lo actualices."
+DBM_CORE_UPDATEREMINDER_DISABLE			= "AVISO: Se ha desactivado Deadly Boss Mods porque tu versión está demasiado desfasada. Con tal de prevenir conflictos con las versiones de otros jugadores, no se podrá volver a activar DBM hasta que lo actualices."
 DBM_CORE_UPDATEREMINDER_HOTFIX			= "Tu versión de DBM actual tiene errores conocidos en este encuentro. Por favor, actualiza a la última versión."
 DBM_CORE_UPDATEREMINDER_HOTFIX_ALPHA	= "Tu versión de DBM actual tiene errores conocidos en este encuentro. Estos errores serán corregidos en la próxima versión (o ya están corregidos en la última versión alfa)."
-DBM_CORE_UPDATEREMINDER_MAJORPATCH		= "AVISO: Se ha desactivado Dungeon Boss Master porque tu versión está demasiado desfasada. Como se trata de un parche de contenido importante, y con tal de prevenir conflictos con las versiones de otros jugadores, no se podrá volver a activar DBM hasta que lo actualices a través de " .. DBM_CORE_UPDATEREMINDER_URL .. "."
-DBM_CORE_UPDATEREMINDER_TESTVERSION		= "AVISO: Estás usando una versión de Dungeon Boss Master que no ha sido diseñada para esta versión del juego. Por favor, asegúrate de descargar la versión apropiada para tu cliente de juego desde " .. DBM_CORE_UPDATEREMINDER_URL .. "."
-DBM_CORE_VEM							= "AVISO: Estás ejecutando Dungeon Boss Master y Voice Encounter Mods a la vez. DBM no funciona correctamente con esta configuración, y por tanto no se ejecutará."
+DBM_CORE_UPDATEREMINDER_MAJORPATCH		= "AVISO: Se ha desactivado Deadly Boss Mods porque tu versión está demasiado desfasada. Como se trata de un parche de contenido importante, y con tal de prevenir conflictos con las versiones de otros jugadores, no se podrá volver a activar DBM hasta que lo actualices."
+DBM_CORE_UPDATEREMINDER_TESTVERSION		= "AVISO: Estás usando una versión de Deadly Boss Mods que no ha sido diseñada para esta versión del juego. Por favor, asegúrate de descargar la versión apropiada para tu cliente de juego desde www.deadlybossmods.com o Curse."
+DBM_CORE_VEM							= "AVISO: Estás ejecutando Deadly Boss Mods y Voice Encounter Mods a la vez. DBM no funciona correctamente con esta configuración, y por tanto no se ejecutará."
 DBM_CORE_3RDPROFILES					= "AVISO: DBM-Profiles no es compatible con esta versión de DBM. Con tal de evitar conflictos, DBM no se ejecutará hasta que borres tu DBM-Profiles actual."
-DBM_CORE_DPMCORE						= "AVISO: Dungeon PvP Mods ya no está en desarrollo y no es compatible con esta versión de DBM. Con tal de evitar conflictos, DBM no se ejecutará hasta que borres Deadly PvP Mods."
+DBM_CORE_DPMCORE						= "AVISO: Deadly PvP Mods ya no está en desarrollo y no es compatible con esta versión de DBM. Con tal de evitar conflictos, DBM no se ejecutará hasta que borres Deadly PvP Mods."
 DBM_CORE_UPDATE_REQUIRES_RELAUNCH		= "AVISO: Esta actualización de DBM no funcionará correctamente hasta que reinicies el juego. Esta versión contiene nuevos archivos o cambios a los archivos .toc que no pueden recargarse mediante /reload. Es muy probable que DBM no funcione correctamente hasta que reinicies el juego."
-DBM_CORE_OUT_OF_DATE_NAG				= "Tu versión de Dungeon Boss Master está desfasada para este encuentro. Se recomienda que actualices DBM para no perderte ningún aviso, temporizador o indicador crucial para tu grupo de banda."
+DBM_CORE_OUT_OF_DATE_NAG				= "Tu versión de Deadly Boss Mods está desfasada para este encuentro. Se recomienda que actualices DBM para no perderte ningún aviso, temporizador o indicador crucial para tu grupo de banda."
 
 DBM_CORE_MOVABLE_BAR				= "¡Muéveme!"
 
@@ -183,7 +178,7 @@ DBM_PIZZA_SYNC_INFO					= "|Hplayer:%1$s|h[%1$s]|h ha compartido un temporizador
 DBM_PIZZA_CONFIRM_IGNORE			= "¿Seguro que quieres ignorar los temporizadores de %s para esta sesión?"
 DBM_PIZZA_ERROR_USAGE				= "Uso: /dbm [broadcast] timer <seg> <texto>. <seg> debe ser mayor que 1."
 
-DBM_CORE_MINIMAP_TOOLTIP_HEADER		= "Dungeon Boss Master"
+DBM_CORE_MINIMAP_TOOLTIP_HEADER		= "Deadly Boss Mods"
 DBM_CORE_MINIMAP_TOOLTIP_FOOTER		= "MAYÚS-Clic izquierdo o Clic derecho para mover este botón.\nAlt-MAYÚS-Clic izquierdo para moverlo libremente."
 
 DBM_CORE_RANGECHECK_HEADER			= "Comprobación de distancia (%d m)"
@@ -301,9 +296,6 @@ DBM_CORE_ACHIEVEMENT_TIMER_SPEED_KILL = "Logro"
 -- Auto-generated Warning Localizations
 DBM_CORE_AUTO_ANNOUNCE_TEXTS.you		= "%s en ti"
 DBM_CORE_AUTO_ANNOUNCE_TEXTS.target		= "%s en >%%s<"
-DBM_CORE_AUTO_ANNOUNCE_TEXTS.targetsource = ">%%s< esta usando hechizo %s"
-DBM_CORE_AUTO_ANNOUNCE_TEXTS.targetsource2  = "%s de >%%s< en >%%s<"
-DBM_CORE_AUTO_ANNOUNCE_TEXTS.targetsourcecount = "%s de >%%s< (%%s)"
 DBM_CORE_AUTO_ANNOUNCE_TEXTS.targetcount= "%s (%%s) en >%%s<"
 DBM_CORE_AUTO_ANNOUNCE_TEXTS.spell		= "%s"
 DBM_CORE_AUTO_ANNOUNCE_TEXTS.ends 		= "%s ha terminado"
@@ -321,9 +313,6 @@ DBM_CORE_AUTO_ANNOUNCE_TEXTS.stack		= "%s en >%%s< (%%d)"
 local prewarnOption = "Mostrar aviso previo para $spell:%s"
 DBM_CORE_AUTO_ANNOUNCE_OPTIONS.you			= "Anunciar que te afecta $spell:%s"
 DBM_CORE_AUTO_ANNOUNCE_OPTIONS.target		= "Anunciar objetivos de $spell:%s"
-DBM_CORE_AUTO_ANNOUNCE_OPTIONS.targetsource	= "Anunciar objetivos de $spell:%s (con fuente)"
-DBM_CORE_AUTO_ANNOUNCE_OPTIONS.targetsource2 = "Anunciar objetivos de $spell:%s (con objetivo)"
-DBM_CORE_AUTO_ANNOUNCE_OPTIONS.targetsourcecount = "Anunciar objetivos de $spell:%s (con contador)"
 DBM_CORE_AUTO_ANNOUNCE_OPTIONS.targetcount	= "Anunciar objetivos de $spell:%s (con contador)"
 DBM_CORE_AUTO_ANNOUNCE_OPTIONS.spell		= "Mostrar aviso para $spell:%s"
 DBM_CORE_AUTO_ANNOUNCE_OPTIONS.ends			= "Mostrar aviso cuando termine $spell:%s"
@@ -494,7 +483,7 @@ DBM_CORE_AUTO_READY_CHECK_OPTION_TEXT	= "Reproducir sonido de comprobación de b
 
 -- New special warnings
 DBM_CORE_MOVE_WARNING_BAR			= "Anuncio desplazable"
-DBM_CORE_MOVE_WARNING_MESSAGE		= "Gracias por usar Dungeon Boss Master"
+DBM_CORE_MOVE_WARNING_MESSAGE		= "Gracias por usar Deadly Boss Mods"
 DBM_CORE_MOVE_SPECIAL_WARNING_BAR	= "Aviso especial desplazable"
 DBM_CORE_MOVE_SPECIAL_WARNING_TEXT	= "Aviso especial"
 
@@ -550,11 +539,11 @@ DBM_INSTANCE_INFO_RESULTS			= "Resultados de la comprobación de registros de es
 DBM_INSTANCE_INFO_SHOW_RESULTS		= "Jugadores que todavía no han respondido: %s"
 
 DBM_CORE_LAG_CHECKING				= "Comprobando latencia de la banda..."
-DBM_CORE_LAG_HEADER					= "Dungeon Boss Master - Resultados de latencia"
+DBM_CORE_LAG_HEADER					= "Deadly Boss Mods - Resultados de latencia"
 DBM_CORE_LAG_ENTRY					= "%s: Latencia de mundo [%d ms] / Latencia de hogar [%d ms]"
 DBM_CORE_LAG_FOOTER					= "Sin respuesta: %s"
 
 DBM_CORE_DUR_CHECKING				= "Comprobando durabilidad de la banda..."
-DBM_CORE_DUR_HEADER					= "Dungeon Boss Master - Resultados de durabilidad"
+DBM_CORE_DUR_HEADER					= "Deadly Boss Mods - Resultados de durabilidad"
 DBM_CORE_DUR_ENTRY					= "%s: Durabilidad [%d%%] / Piezas rotas [%s]"
 DBM_CORE_LAG_FOOTER					= "Sin respuesta: %s"

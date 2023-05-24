@@ -1,3 +1,9 @@
+-- DBM_Core
+-- Diablohu(diablohudream@gmail.com)
+-- yleaf(yaroot@gmail.com)
+-- Mini Dragon(projecteurs@gmail.com)
+-- Last update: 2018/07/12
+
 if GetLocale() ~= "zhCN" then return end
 
 DBM_HOW_TO_USE_MOD					= "欢迎使用DBM。在聊天框输入 /dbm help 以获取可用命令的帮助。输入 /dbm 可打开设置窗口，并对各个Boss模块进行设置，也可以浏览首领击杀记录。DBM 会自动按你的专精做出相应配置，但是你可以进行微调。"
@@ -13,8 +19,6 @@ DBM_CORE_LOAD_MOD_VER_MISMATCH		= "%s 模块无法被载入。DBM核心未达到
 DBM_CORE_LOAD_MOD_EXP_MISMATCH		= "%s 模块无法被载入, 因为它是为新资料片/测试服所设计的. 当新资料片在正式服开放时就能正确加载了."
 DBM_CORE_LOAD_MOD_DISABLED			= "%s 模块已安装但被禁用。该模块不会被载入除非启用它。"
 DBM_CORE_LOAD_MOD_DISABLED_PLURAL	= "%s 模块已安装但被禁用。这些模块不会被载入除非启用它们。"
-
-DBM_CORE_UPDATEREMINDER_URL			= "https://github.com/Aleksart163/DBM-RV"
 
 DBM_COPY_URL_DIALOG					= "复制网址"
 
@@ -32,7 +36,7 @@ DBM_CORE_LOOT_SPEC_REMINDER			= "你当前的人物专精为 %s。你当前的�
 
 DBM_CORE_BIGWIGS_ICON_CONFLICT		= "DBM检测到你同时开启了Bigwigs,请关闭自动标记以避免冲突。"
 
-DBM_CORE_MOD_AVAILABLE				= "DBM已经为%s制作了相关模块。你可以在 |HDBM:forums|h|cff3588ffhttps://github.com/Aleksart163/DBM-RV|r 上找到新版本。"
+DBM_CORE_MOD_AVAILABLE				= "DBM已经为%s制作了相关模块。你可以在 deadlybossmods.com 或Curse上找到新版本。"
 
 DBM_CORE_COMBAT_STARTED				= "%s作战开始，祝你走运 :)"
 DBM_CORE_COMBAT_STARTED_IN_PROGRESS	= "已进行的战斗-%s正在作战。祝你走运 :)"
@@ -145,27 +149,27 @@ DBM_CORE_WHISPER_SCENARIO_END_KILL_STATS	= "%s已在场景战役-%s的战斗中�
 DBM_CORE_WHISPER_SCENARIO_END_WIPE			= "%s在场景战役-%s的战斗中灭团了。"
 DBM_CORE_WHISPER_SCENARIO_END_WIPE_STATS	= "%s在场景战役-%s的战斗中灭团了。该难度下总共失败%d次。"
 
-DBM_CORE_VERSIONCHECK_HEADER		= "Dungeon Boss Masters - 版本检测"
+DBM_CORE_VERSIONCHECK_HEADER		= "DBM - 版本检测"
 DBM_CORE_VERSIONCHECK_ENTRY			= "%s: %s (r%d) %s"--One Boss mod
 DBM_CORE_VERSIONCHECK_ENTRY_TWO		= "%s: %s (r%d) & %s (r%d)"--Two Boss mods
 DBM_CORE_VERSIONCHECK_ENTRY_NO_DBM	= "%s：未安装DBM"
 DBM_CORE_VERSIONCHECK_FOOTER		= "团队中有%d名成员正在使用DBM， %d名成员正在使用Bigwigs"
 DBM_CORE_VERSIONCHECK_OUTDATED		= "下列%d名玩家的DBM版本已经过期:%s"
-DBM_CORE_YOUR_VERSION_OUTDATED		= "你的DBM已经过期。请访问 " .. DBM_CORE_UPDATEREMINDER_URL .. " 下载最新版本。"
+DBM_CORE_YOUR_VERSION_OUTDATED		= "你的DBM已经过期。请访问 http://dev.deadlybossmods.com 下载最新版本。"
 DBM_CORE_VOICE_PACK_OUTDATED		= "你当前使用的DBM语音包已经过期。有些特殊警告的屏蔽（当心，毁灭）已被禁用。请下载最新语音包，或联系语音包作者更新。"
 DBM_CORE_VOICE_MISSING				= "DBM找不到你当前选择的语音包。语音包选项已经被设置成'None'。请确保你的语音包被正确安装和启用。"
 DBM_CORE_VOICE_DISABLED				= "你安装了语音包但是没有启动它。请在选项中的语音报警菜单中开启语音包。如果不需要语音报警请卸载语音包。"
 DBM_CORE_VOICE_COUNT_MISSING		= "在 %d 语音包中找不到倒计时语音。倒计时已恢复为默认值"
 
-DBM_CORE_UPDATEREMINDER_HEADER			= "您的DBM版本已过期。\n您可以在 " .. DBM_CORE_UPDATEREMINDER_URL .. " 下载到新版本：%s（r%d）。如果您使用整合包，请使用更新器更新。"
+DBM_CORE_UPDATEREMINDER_HEADER			= "您的DBM版本已过期。\n您可以在Curse/Twitch, WOWI, 或者deadlybossmods.com下载到新版本：%s（r%d）。如果您使用整合包，请使用更新器更新。"
 DBM_CORE_UPDATEREMINDER_HEADER_ALPHA	= "您正在使用的Alpha DBM 版本已至少落后主干%d个版本。\n 我们建议使用Alpha版本的用户时刻追随主干更新，否则请切换到正式发行版。Alpha版的版本检查会比正式发行版严格。"
 DBM_CORE_UPDATEREMINDER_FOOTER			= "按下 " .. (IsMacClient() and "Cmd-C" or "Ctrl-C")  ..  "复制下载地址到剪切板。"
 DBM_CORE_UPDATEREMINDER_FOOTER_GENERIC	= "按下 " .. (IsMacClient() and "Cmd-C" or "Ctrl-C")  ..  "复制链接到剪切板。"
 DBM_CORE_UPDATEREMINDER_DISABLE			= "警告：你的DBM已经过期太久，它已被强制禁用，直到你更新。这是为了确保它不会导致你或其他团队成员出错。"
 DBM_CORE_UPDATEREMINDER_HOTFIX			= "你的DBM版本会在这首领战斗中有问题。最新版的DBM已经修复了这个问题。"
 DBM_CORE_UPDATEREMINDER_HOTFIX_ALPHA	= "你的DBM版本会在这首领战斗中有问题。最新版的DBM（或Alpha版本）已经修复了这个问题。"
-DBM_CORE_UPDATEREMINDER_MAJORPATCH		= "你的DBM已经过期,它已被禁用,直到你更新.这是为了确保它不会导致你或其他团队成员出错.这次更新是一个非常重要的补丁,请确保你得到的是最新版 " .. DBM_CORE_UPDATEREMINDER_URL .. " 。"
-DBM_CORE_UPDATEREMINDER_TESTVERSION		= "警告：你使用了不正确版本的DBM。请确保DBM版本和游戏版本一致 " .. DBM_CORE_UPDATEREMINDER_URL .. " 。"
+DBM_CORE_UPDATEREMINDER_MAJORPATCH		= "你的DBM已经过期,它已被禁用,直到你更新.这是为了确保它不会导致你或其他团队成员出错.这次更新是一个非常重要的补丁,请确保你得到的是最新版."
+DBM_CORE_UPDATEREMINDER_TESTVERSION		= "警告：你使用了不正确版本的DBM。请确保DBM版本和游戏版本一致。"
 DBM_CORE_VEM							= "你好像在使用VEM。DBM在这种情况下无法被载入。"
 DBM_CORE_3RDPROFILES					= "警告: DBM-Profiles已经无法和本版本DBM兼容。DBM核心已经自带配置文件管理系统，请移除DBM-Profiles避免冲突。"
 DBM_CORE_DPMCORE						= "警告: DBM-PVP已经已经很久没人维护了,并无法兼容。请移除DBM-PVP避免冲突。"
@@ -296,9 +300,6 @@ DBM_CORE_ACHIEVEMENT_TIMER_SPEED_KILL = "成就：限时击杀"
 -- Auto-generated Warning Localizations
 DBM_CORE_AUTO_ANNOUNCE_TEXTS.you				= "你中了%s"
 DBM_CORE_AUTO_ANNOUNCE_TEXTS.target				= "%s -> >%%s<"
-DBM_CORE_AUTO_ANNOUNCE_TEXTS.targetsource  		= ">%%s< 施放 %s"
-DBM_CORE_AUTO_ANNOUNCE_TEXTS.targetsource2  	= ">%%s< 施放 %s 于 >%%s<"
-DBM_CORE_AUTO_ANNOUNCE_TEXTS.targetsourcecount 	= ">%%s< 施放 %s (%%s)"
 DBM_CORE_AUTO_ANNOUNCE_TEXTS.targetcount		= "%s (%%s) -> >%%s<"
 DBM_CORE_AUTO_ANNOUNCE_TEXTS.spell				= "%s"
 DBM_CORE_AUTO_ANNOUNCE_TEXTS.ends 				= "%s 结束"
@@ -316,9 +317,6 @@ DBM_CORE_AUTO_ANNOUNCE_TEXTS.stack				= "%s -> >%%s< (%%d)"
 local prewarnOption			= "预警：$spell:%s"
 DBM_CORE_AUTO_ANNOUNCE_OPTIONS.you				= "警报：中了%s时"
 DBM_CORE_AUTO_ANNOUNCE_OPTIONS.target			= "警报：$spell:%s的目标"
-DBM_CORE_AUTO_ANNOUNCE_OPTIONS.targetsource		= "警报：$spell:%s的目标(带来源)"
-DBM_CORE_AUTO_ANNOUNCE_OPTIONS.targetsource2 	= "警报：$spell:%s的目标(带来目的)" --right?
-DBM_CORE_AUTO_ANNOUNCE_OPTIONS.targetsourcecount = "警报：$spell:%s的目标(带柜台)" --right?
 DBM_CORE_AUTO_ANNOUNCE_OPTIONS.targetcount		= "警报：$spell:%s的目标(带计数)"
 DBM_CORE_AUTO_ANNOUNCE_OPTIONS.spell			= "警报：$spell:%s"
 DBM_CORE_AUTO_ANNOUNCE_OPTIONS.ends				= "警报：$spell:%s结束"
@@ -495,7 +493,7 @@ DBM_CORE_AUTO_READY_CHECK_OPTION_TEXT		= "当首领开打时播放准备检查�
 
 -- New special warnings
 DBM_CORE_MOVE_WARNING_BAR				= "可拖动的团队警报"
-DBM_CORE_MOVE_WARNING_MESSAGE			= "感谢您使用Dungeon Boss Master"
+DBM_CORE_MOVE_WARNING_MESSAGE			= "感谢您使用Deadly Boss Mods"
 DBM_CORE_MOVE_SPECIAL_WARNING_BAR		= "可拖动的特别警报"
 DBM_CORE_MOVE_SPECIAL_WARNING_TEXT		= "特别警报"
 

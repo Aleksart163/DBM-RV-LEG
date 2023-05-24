@@ -1,8 +1,5 @@
 if GetLocale() ~= "zhTW" then return end
-
 local L
-
---Прошляпанное очко Мурчаля ✔
 
 -----------------------
 -- Ana-Mouz --
@@ -78,50 +75,3 @@ L= DBM:GetModLocalization(1756)
 -- Withered J'im --
 -----------------------
 L= DBM:GetModLocalization(1796)
-
-------------------
---Captains of Towers--
-------------------
-L = DBM:GetModLocalization("Captainstower")
-
-L:SetGeneralLocalization({
-	name = "突袭守望高塔"
-})
-
-------------------
---rare enemies 1--
-------------------
-L = DBM:GetModLocalization("RareEnemies")
-
-L:SetGeneralLocalization({
-	name = "非常危险的敌人"
-})
-
-L:SetOptionLocalization({
-	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
-})
-
-L:SetTimerLocalization({
-	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
-})
-
-L:SetMiscLocalization({
-	PullSkulvrax = "我……没有摔死。"
-})
-
-------------------
---rare enemies 2--
-------------------
-L = DBM:GetModLocalization("RareEnemies2")
-
-L:SetGeneralLocalization({
-	name = "非常危险的敌人 2"
-})
-
-L:SetOptionLocalization({
-	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
-})
-
-L:SetTimerLocalization({
-	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
-})

@@ -1,11 +1,5 @@
 if GetLocale() ~= "koKR" then return end
-
 local L
---------------------------------------------WARNING---------------------------------------------------
---Do you want to help translate this module to your native language? Write to the author of this addon
---Aleksart163#1671 (discord)
---/w Tielle or /w Куплиняшка (in the game)
---------------------------------------------WARNING---------------------------------------------------
 
 ---------------------------
 -- Garothi Worldbreaker --
@@ -48,14 +42,13 @@ L:SetTimerLocalization({
 })
 
 L:SetMiscLocalization({
-	YellPullEonar = "용사들이여! 군단의 병력이 나의 정수를 차지해 지옥불 주인에게 갖다 바치려 한다!", --
-	Obfuscators = "혼란자",
-	Destructors = "파괴자",
-	Purifiers 	= "정화자",
-	Bats 		= "박쥐",
-	EonarHealth	= "이오나 생명력",
-	EonarPower	= "이오나 기력",
-	NextLoc		= "다음 위치:"
+	Obfuscators =	"혼란자",
+	Destructors =	"파괴자",
+	Purifiers 	=	"정화자",
+	Bats 		=	"박쥐",
+	EonarHealth	= 	"이오나 생명력",
+	EonarPower	= 	"이오나 기력",
+	NextLoc		=	"다음 위치:"
 })
 
 ---------------------------
@@ -96,14 +89,6 @@ L= DBM:GetModLocalization(1983)
 ---------------------------
 L= DBM:GetModLocalization(1986)
 
-L:SetTimerLocalization({
-	timerBossIncoming = DBM_INCOMING,
-	timerAmanThul = "아만툴",
-	timerKhazgoroth = "불길",
-	timerNorgannon = "메즈",
-	timerGolganneth = "산개"
-})
-
 L:SetOptionLocalization({
 	timerBossIncoming		= "다음 보스 교대 타이머 바 보기",
 	TauntBehavior		= "탱커 교대 도발 알림 설정",
@@ -115,11 +100,7 @@ L:SetOptionLocalization({
 	Three				= "3인 로테이션 ",--Default
 	Four				= "4인 로테이션 ",
 	Five				= "5인 로테이션 ",
-	IgnoreFirstKick		= "이 옵션을 켜면 맨 처음 차단은 로테이션에서 제외됩니다 (공대장 권한 필요)",
-	timerAmanThul 		= "$spell:250335 시전 타이머 바 보기",
-	timerKhazgoroth 	= "$spell:250333 시전 타이머 바 보기",
-	timerNorgannon 		= "$spell:250334 시전 타이머 바 보기",
-	timerGolganneth 	= "$spell:249793 시전 타이머 바 보기"
+	IgnoreFirstKick		= "이 옵션을 켜면 맨 처음 차단은 로테이션에서 제외됩니다 (공대장 권한 필요)"
 })
 
 ---------------------------
@@ -132,11 +113,10 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
---	Blaze		= "탐욕의 불길",
-	Foe			= "적 해체",
-	Rend		= "분쇄",
-	Tempest 	= "폭풍",
-	Current		= "현재 스킬:"
+	Foe			=	"적 해체",
+	Rend		=	"분쇄",
+	Tempest 	=	"폭풍",
+	Current		=	"현재 스킬:"
 })
 
 ---------------------------
@@ -149,15 +129,12 @@ L:SetTimerLocalization({
 })
 
 L:SetMiscLocalization({
-	SeaText		= "가속/유연",
-	SkyText		= "치명/특화",
-	Blight		= "역병",
-	Burst		= "분출",
-	Sentence	= "선고",
-	Bomb		= "폭탄",
---	Bomb2		= "영혼폭탄!",
-	Rage		= "분노",
-	Fear		= "공포"
+	SeaText		=	"{rt6} 가속/유연",
+	SkyText		=	"{rt5} 치명/특화",
+	Blight		=	"역병",
+	Burst		=   	"분출",
+	Sentence	=	"선고",
+	Bomb		=	"폭탄"
 })
 
 -------------
@@ -166,18 +143,5 @@ L:SetMiscLocalization({
 L = DBM:GetModLocalization("AntorusTrash")
 
 L:SetGeneralLocalization({
-	name = "안토러스 일반몹"
-})
---need translate
-L:SetOptionLocalization({
-	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT,
-	BossActivation = DBM_CORE_GENERIC_TIMER_ROLE_PLAY
-})
-
-L:SetTimerLocalization({
-	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
-})
-
-L:SetMiscLocalization({
-	RPImonar = "Halt!"
+	name =	"안토러스 일반몹"
 })

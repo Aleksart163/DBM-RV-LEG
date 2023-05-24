@@ -2,49 +2,36 @@ if GetLocale() ~= "ruRU" then return end
 
 local L
 
---------
---Один--
---------
+---------------
+-- Odyn --
+---------------
 L= DBM:GetModLocalization(1819)
-
---------
---Гарм--
---------
+---------------------------
+-- Guarm --
+---------------------------
 L= DBM:GetModLocalization(1830)
 
----------
---Хелия--
----------
+---------------------------
+-- Helya --
+---------------------------
 L= DBM:GetModLocalization(1829)
 
 L:SetTimerLocalization({
-	OrbsTimerText = "~ Сфера (%d-%s)"
+	OrbsTimerText		= "След. Сфера (%d-%s)"
 })
 
 L:SetMiscLocalization({
-	phaseThree = "Даже не надейтесь, смертные! Один НИКОГДА не обретет свободу!",
-	near = "Возле",
-	far = "Вдалеке",
-	multiple = "множественный"
+	phaseThree =	"Your efforts are for naught, mortals! Odyn will NEVER be free!",
+	near =			"Возле",
+	far =			"Вдалеке",
+	multiple =		"множественный"
 })
 
 -------------
---Треш-мобы--
+--  Trash  --
 -------------
 L = DBM:GetModLocalization("TrialofValorTrash")
 
 L:SetGeneralLocalization({
-	name =	"Трэш Испытания Доблести"
-})
-
-L:SetOptionLocalization({
-	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
-})
-
-L:SetTimerLocalization({
-	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
-})
-
-L:SetMiscLocalization({
-	RP1 = "Герои! Вы пролили кровь слуг Хелии. Пришло время отправиться в Хельхейм и положить конец владычеству ведьмы! Но сперва – последнее испытание!"
+	name =	"Trial of Valor Trash"
 })

@@ -3,13 +3,12 @@ if GetLocale() ~= "esES" and GetLocale() ~= "esMX" then return end
 if not DBM_GUI_Translations then DBM_GUI_Translations = {} end
 local L = DBM_GUI_Translations
 
-L.MainFrame = "Dungeon Boss Master"
+L.MainFrame = "Deadly Boss Mods"
 
-L.TranslationByPrefix		= "Adaptation for uwow.biz - "
-L.TranslationBy 			= "Aleksart163 (Tielle х100)"
-L.Credits		 			= "Gracias especiales: Danzo (Qfastrun x100)"
-L.Website					= "Discord for communication on issues: Aleksart163#1671 and site for updating: |cFF73C2FBhttps://github.com/Aleksart163/DBM-for-Uwow|r"
-L.WebsiteButton				= "Update"
+L.TranslationByPrefix		= "Traducido por "
+L.TranslationBy 	= "Saispai (ordentradus@gmail.com)"
+L.Website					= "Visita nuestro canal de Discord: |cFF73C2FBhttps://discord.gg/deadlybossmods|r."
+L.WebsiteButton				= "Página web"
 
 L.OTabBosses	= "Jefes"
 

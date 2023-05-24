@@ -1,11 +1,11 @@
 local mod	= DBM:NewMod(1500, "DBM-Party-Legion", 6, 726)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17611 $"):sub(12, -3))
 mod:SetCreatureID(98207)
 mod:SetEncounterID(1826)
 mod:SetZone()
-mod:SetUsedIcons(8, 7)
+mod:SetUsedIcons(2, 1)
 
 mod.noNormal = true
 
@@ -21,73 +21,46 @@ mod:RegisterEventsInCombat(
 	"UNIT_SPELLCAST_CHANNEL_START boss1"
 )
 
---Нал'тира https://ru.wowhead.com/npc=98207/налтира/эпохальный-журнал-сражений
-local warnBlink					= mod:NewTargetAnnounce(199811, 4) --Молниеносные удары
-local warnWeb					= mod:NewTargetAnnounce(200284, 3) --Липкие путы
-local warnWeb2					= mod:NewSoonAnnounce(200284, 1) --Липкие путы
+--TODO timers are iffy.
+--TODO, blink scanning should work but may not if logic errors. May be spammy in certain situations such as pets/etc taunting boss
+--["200227-Tangled Web"] = "pull:35.2, 26.6, 21.8",
+local warnBlink					= mod:NewTargetAnnounce(199811, 4)
+local warnWeb					= mod:NewTargetAnnounce(200284, 3)
 
-local specWarnWeb				= mod:NewSpecialWarningYouMoveAway(200284, nil, nil, nil, 4, 3) --Липкие путы
-local specWarnWeb2				= mod:NewSpecialWarningYouFades(200284, nil, nil, nil, 1, 2) --Липкие путы
-local specWarnBlink				= mod:NewSpecialWarningRun(199811, nil, nil, nil, 4, 2) --Молниеносные удары
-local specWarnBlinkNear			= mod:NewSpecialWarningClose(199811, nil, nil, nil, 1, 2) --Молниеносные удары
-local specWarnVenomGTFO			= mod:NewSpecialWarningYouMove(200040, nil, nil, nil, 1, 2) --Яд Пустоты
---кд спеллов не проверял
-local timerBlinkCD				= mod:NewNextTimer(30, 199811, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Молниеносные удары
-local timerWebCD				= mod:NewCDTimer(24, 200227, nil, nil, nil, 7) --Липкие путы 21-26
-local timerVenomCD				= mod:NewCDTimer(29.8, 200024, nil, nil, nil, 3) --Яд Пустоты 30-33
+local specWarnBlink				= mod:NewSpecialWarningRun(199811, nil, nil, nil, 4, 2)
+local yellBlink					= mod:NewYell(199811, nil, false)
+local specWarnBlinkNear			= mod:NewSpecialWarningClose(199811, nil, nil, nil, 1, 2)
+local specWarnVenomGTFO			= mod:NewSpecialWarningMove(200040, nil, nil, nil, 1, 2)
 
-local yellBlink					= mod:NewYell(199811, nil, nil, nil, "YELL") --Молниеносные удары
-local yellWeb					= mod:NewYell(200284, nil, nil, nil, "YELL") --Липкие путы
+local timerBlinkCD				= mod:NewNextTimer(30, 199811, nil, nil, nil, 3)
+local timerWebCD				= mod:NewCDTimer(21.8, 200227, nil, nil, nil, 3)--21-26
+local timerVenomCD				= mod:NewCDTimer(30, 200024, nil, nil, nil, 3)--30-33
 
-local countdownBlink			= mod:NewCountdown(30, 199811, nil, nil, 5) --Молниеносные удары
-
-mod:AddSetIconOption("SetIconOnWeb", 200284, true, false, {8, 7}) --Липкие путы
+mod:AddSetIconOption("SetIconOnWeb", 200284)
 
 mod.vb.blinkCount = 0
-mod.vb.webIcon = 8
 
-function mod:OnCombatStart(delay) --все проверил
+function mod:OnCombatStart(delay)
 	self.vb.blinkCount = 0
-	self.vb.webIcon = 8
-	if not self:IsNormal() then
-		timerBlinkCD:Start(15.6-delay) --Молниеносные удары+++
-		countdownBlink:Start(15.6-delay) --Молниеносные удары+++
-		timerVenomCD:Start(25-delay) --Яд Пустоты+++
-		warnWeb2:Schedule(30-delay) --Липкие путы+++
-		timerWebCD:Start(35-delay) --Липкие путы+++
-	else
-		timerBlinkCD:Start(15-delay) --Молниеносные удары
-		timerVenomCD:Start(25-delay) --Яд Пустоты
-		warnWeb2:Schedule(30-delay) --Липкие путы
-		timerWebCD:Start(35-delay) --Липкие путы
-	end
+	timerBlinkCD:Start(15-delay)
+	timerVenomCD:Start(25-delay)
+	timerWebCD:Start(35-delay)
 end
 
-function mod:SPELL_AURA_APPLIED(args) 
+function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
-	if spellId == 200284 then --Липкие путы
-		self.vb.webIcon = self.vb.webIcon - 1
+	if spellId == 200284 then
 		warnWeb:CombinedShow(0.5, args.destName)
-		if args:IsPlayer() then
-			specWarnWeb:Show()
-			yellWeb:Yell()
-		end
-		if self.Options.SetIconOnWeb then
-			self:SetIcon(args.destName, self.vb.webIcon)
+		if self.Options.SetIconOnWeb and args:IsDestTypePlayer() then
+			self:SetAlphaIcon(0.5, args.destName, 2)
 		end
 	end
 end
 
 function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
-	if spellId == 200284 then --Липкие путы
-		self.vb.webIcon = self.vb.webIcon + 1
-		if args:IsPlayer() then
-			specWarnWeb2:Show()
-		end
-		if self.Options.SetIconOnWeb then
-			self:SetIcon(args.destName, 0)
-		end
+	if spellId == 200284 and self.Options.SetIconOnWeb then
+		self:SetIcon(args.destName, 0)
 	end
 end
 
@@ -95,7 +68,6 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 200227 then
 		timerWebCD:Start()
-		warnWeb2:Schedule(20)
 	elseif spellId == 200024 and self:AntiSpam(5, 3) then
 		timerVenomCD:Start()
 	end
@@ -103,10 +75,8 @@ end
 
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 200040 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
-		if not self:IsNormal() then
-			specWarnVenomGTFO:Show()
-			specWarnVenomGTFO:Play("runaway")
-		end
+		specWarnVenomGTFO:Show()
+		specWarnVenomGTFO:Play("runaway")
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
@@ -115,11 +85,12 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	local spellId = legacySpellId or bfaSpellId
 	if spellId == 199809 then--Blink Strikes begin
 		timerBlinkCD:Start()
-		countdownBlink:Start()
 		self.vb.blinkCount = 0
 	end
 end
 
+--UNIT_SPELLCAST_CHANNEL_STOP method dropped, not because it wasn't returning a valid target, but because DBMs target scanner methods don't work well with pets and fail to announce all strikes because of it
+--This method doesn't require target scanning but is 0.6 seconds slower, but won't have a chance to fail if boss targets stupid things like army or spirit beast.
 function mod:UNIT_SPELLCAST_CHANNEL_START(uId, _, bfaSpellId, _, legacySpellId)
 	local spellId = legacySpellId or bfaSpellId
 	if spellId == 199811 then--Blink Strikes Channel ending
@@ -137,11 +108,6 @@ function mod:UNIT_SPELLCAST_CHANNEL_START(uId, _, bfaSpellId, _, legacySpellId)
 			specWarnBlinkNear:Play("runaway")
 		else
 			warnBlink:Show(targetname)
-		end
-		if self.vb.blinkCount == 2 then
-			timerBlinkCD:Start(24.5)
-			countdownBlink:Start(24.5)
-			self.vb.blinkCount = 0
 		end
 	end
 end

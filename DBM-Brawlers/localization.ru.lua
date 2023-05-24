@@ -2,9 +2,9 @@ if GetLocale() ~= "ruRU" then return end
 
 local L
 
-----------------------
---Бойцовская гильдия--
-----------------------
+--------------
+-- Brawlers --
+--------------
 L= DBM:GetModLocalization("Brawlers")
 
 L:SetGeneralLocalization({
@@ -40,7 +40,7 @@ L:SetMiscLocalization({
 	Rank9			= "9-го ранга",
 	Rank10			= "10-го ранга",
 	Proboskus		= "Ух ты!... Мне тебя жаль, но, похоже, тебе придется сразиться с Носатиком.",--Альянс
-	Proboskus2		= "Ха-ха-ха! Какая у вас плохая удача! Это Носатик! Аххх ха-ха-ха! У меня есть двадцать пять золотых, в которых написано, что ты умрешь в огне!"--Орда
+	Proboskus2		= "Ha ha ha! What bad luck you have! It's Proboskus! Ahhh ha ha ha! I've got twenty five gold that says you die in the fire!"--Орда
 })
 
 ------------

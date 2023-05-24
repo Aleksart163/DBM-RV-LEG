@@ -1,15 +1,13 @@
 if GetLocale() ~= "deDE" then return end
-
 if not DBM_GUI_Translations then DBM_GUI_Translations = {} end
 local L = DBM_GUI_Translations
 
-L.MainFrame = "Dungeon Boss Master"
+L.MainFrame = "Deadly Boss Mods"
 
-L.TranslationByPrefix		= "Adaptation for uwow.biz - "
-L.TranslationBy 			= "Aleksart163 (Tielle х100)"
-L.Credits		 			= "Besonderer Dank geht an: Danzo (Qfastrun x100)"
-L.Website					= "Discord for communication on issues: Aleksart163#1671 and site for updating: |cFF73C2FBhttps://github.com/Aleksart163/DBM-for-Uwow|r"
-L.WebsiteButton				= "Update"
+L.TranslationByPrefix		= "Übersetzt von "
+L.TranslationBy 			= "Ebmor@EU-Malorne"
+L.Website					= "Besuche uns auf Discord: |cFF73C2FBhttps://discord.gg/deadlybossmods|r. Folge auf Twitter: @deadlybossmods oder @MysticalOS"
+L.WebsiteButton				= "Webseite"
 
 L.OTabBosses	= "Bosse"
 L.OTabOptions	= GAMEOPTIONS_MENU
@@ -325,10 +323,6 @@ L.BigBrotherAnnounceToRaid	= "Verkünde Ergebnis der \"BigBrother\"-Buffprüfung
 L.Area_Invite				= "Einstellungen für Einladungen"
 L.AutoAcceptFriendInvite	= "Automatisch Gruppeneinladungen von Freunden akzeptieren"
 L.AutoAcceptGuildInvite		= "Automatisch Gruppeneinladungen von Gildenmitgliedern akzeptieren"
---
-L.Area_Key					= "Einstellungen Mythisch+ Schlüssel" -- Murchal ochken proshlyapen ✔
-L.AutoKeyLink				= "Link deinen Mythisch+ Schlüssel mit dem Chat"
---
 L.Area_Advanced				= "Erweiterte Einstellungen"
 L.FakeBW					= "Bei Versionsprüfungen als \"BigWigs\" ausgeben, statt als DBM (nützlich für Gilden, die die Nutzung von \"BigWigs\" erzwingen)"
 L.AITimer					= "Erzeuge automatisch Timer für unbekannte Kämpfe mit der in DBM eingebauten Timer-KI (nützlich beim erstmaligen Pullen eines Test-Bosses, etwa auf Beta- oder PTR-Servern) Hinweis: Dies funktioniert nicht richtig bei mehreren Gegnern mit derselben Fähigkeit."

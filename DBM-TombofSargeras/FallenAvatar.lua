@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1873, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17603 $"):sub(12, -3))
 mod:SetCreatureID(116939)--Maiden of Valor 120437
 mod:SetEncounterID(2038)
 mod:SetZone()
@@ -96,8 +96,8 @@ local countdownRuptureRealities		= mod:NewCountdown(60, 239132)
 local countdownDarkMark				= mod:NewCountdown("Alt40", 239739, "-Tank", 2)
 local countdownRainofthedDestroyer	= mod:NewCountdown("AltTwo35", 240396)
 
-mod:AddSetIconOption("SetIconOnShadowyBlades", 236571, true, false, {3, 2, 1})
-mod:AddSetIconOption("SetIconOnDarkMark", 239739, true, false, {6, 5, 4}) --неточно
+mod:AddSetIconOption("SetIconOnShadowyBlades", 236571, true)
+mod:AddSetIconOption("SetIconOnDarkMark", 239739, true)
 mod:AddBoolOption("InfoFrame", true)
 mod:AddRangeFrameOption(10, 236571)
 local abilitiesonCD = {

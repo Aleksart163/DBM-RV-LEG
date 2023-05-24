@@ -11,8 +11,6 @@ DBM_CORE_LOAD_GUI_COMBAT			= "A interface gráfica não pode ser carregada em co
 DBM_CORE_BAD_LOAD					= "DBM detectou que a sua mod desta área falhou ao tentar carregar por completo por estar em combate. Use o comando /reloadui assim que sair de combate para corrigir o problema."
 DBM_CORE_LOAD_MOD_VER_MISMATCH		= "%s não foi carregado por não cumprir os requerimentos. Uma atualização da mod é necessária. Obrigado."
 
-DBM_CORE_UPDATEREMINDER_URL			= "https://github.com/Aleksart163/DBM-RV"
-
 DBM_CORE_DYNAMIC_DIFFICULTY_CLUMP	= "DBM desabilitou o quadro de alcance dinâmico nesta luta, por falta de informação sobre o numero de jogadores à ficarem amontoados para um grupo desse tamanho."
 
 DBM_CORE_DYNAMIC_ADD_COUNT			= "DBM desabilitou aviso da contagem de adds nesta luta, por falta de informação da quantidade de adds para um grupo deste tamanho."
@@ -22,7 +20,7 @@ DBM_CORE_LOOT_SPEC_REMINDER			= "A sua especialização atual é %s. A sua escol
 
 DBM_CORE_BIGWIGS_ICON_CONFLICT		= "DBM detectou que você tem ícones habilitados tanto no BigWigs quanto no DBM. Por favor desabilite um dos dois para evitar conflitos com o líder da raid"
 
-DBM_CORE_MOD_AVAILABLE				= "%s esta disponível para este conteúdo. Esta disponível em |HDBM:forums|h|cff3588ffhttps://github.com/Aleksart163/DBM-RV|r. Está mensagem só será exibida uma vez."
+DBM_CORE_MOD_AVAILABLE				= "%s esta disponível para este conteúdo. Esta disponível em |HDBM:forums|h|cff3588ffdeadlybossmods.com|r. Está mensagem só será exibida uma vez."
 
 DBM_CORE_COMBAT_STARTED				= "%s na mira. Boa sorte e divirta-se! :)"
 
@@ -118,26 +116,26 @@ DBM_CORE_WHISPER_SCENARIO_END_KILL_STATS	= "%s foi completado %s! Eles tem um to
 DBM_CORE_WHISPER_SCENARIO_END_WIPE			= "%s não foi completado %s"
 DBM_CORE_WHISPER_SCENARIO_END_WIPE_STATS	= "%s não foi completado %s. Eles tem um total de %d vitórias parciais nesta dificuldade."
 
-DBM_CORE_VERSIONCHECK_HEADER		= "Dungeon Boss Masters - Versões"
+DBM_CORE_VERSIONCHECK_HEADER		= "Deadly Boss Mods - Versões"
 DBM_CORE_VERSIONCHECK_ENTRY			= "%s: %s (%s)"
 DBM_CORE_VERSIONCHECK_ENTRY_TWO		= "%s: %s (%s) & %s (%s)"--Two Boss mods
 DBM_CORE_VERSIONCHECK_ENTRY_NO_DBM	= "%s: DBM não instalado"
 DBM_CORE_VERSIONCHECK_FOOTER		= "Encontrados %d jogadores com DBM & %d jogadores com Bigwigs"
 DBM_CORE_VERSIONCHECK_OUTDATED		= "Os seguintes %d jogadores estão com versões desatualizadas de boss mods: %s"
-DBM_CORE_YOUR_VERSION_OUTDATED      = "Sua versão do Dungeon Boss Master está desatualizada. Por favor, acesse " .. DBM_CORE_UPDATEREMINDER_URL .. " para baixar a versão mais recente."
+DBM_CORE_YOUR_VERSION_OUTDATED      = "Sua versão do Deadly Boss Mods está desatualizada. Por favor, acesse www.deadlybossmods.com para baixar a versão mais recente."
 DBM_CORE_VOICE_PACK_OUTDATED		= "O pacote de vozes do seu DBM pode estar sem alguns dos sons suportados por esta versão do DBM. Filtro de aviso especial sonoro foi desativado. Por favor baixe a versão mais recente do pacote de vozes ou contate o autor para um pacote que contenha os sons aqui referidos."
 DBM_CORE_VOICE_MISSING				= "Você tinha um pacote de vozes DBM selecionado que não pode ser encontrado. Sua seleção foi restaurada para 'Nenhum/None'. Caso seja um erro, certifique-se que o pacote esta instalado corretamente e habilitado em addons."
 DBM_CORE_VOICE_COUNT_MISSING		= "Voz de contagem regressiva %d esta selecionada para um pacote de voz que não pode ser encontrado. Foi restaurada a configuração padrão."
 
-DBM_CORE_UPDATEREMINDER_HEADER		= "Sua versão do Dungeon Boss Master está desatualizada.\n A versão %s (r%d) está disponível para baixar no site da: " .. DBM_CORE_UPDATEREMINDER_URL .. " "
+DBM_CORE_UPDATEREMINDER_HEADER		= "Sua versão do Deadly Boss Mods está desatualizada.\n A versão %s (r%d) está disponível para baixar no site da curse, WoWI ou aqui:"
 DBM_CORE_UPDATEREMINDER_HEADER_ALPHA	= "A sua versão alpha do DBM está desatualizada.\n Você esta pelo menos %d versões de testes para trás. É recomendado que os usuários do DBM utilizem a versão mais recente do alpha ou a mais recente das versões estáveis. Versões alphas desatualizadas podem resultar em faltas de algumas funcionalidades ou totalmente inoperante."
 DBM_CORE_UPDATEREMINDER_FOOTER		= "Pressione Ctrl+C para copiar o link de download para a área de transferência."
 DBM_CORE_UPDATEREMINDER_FOOTER_GENERIC	= "Pressione Ctrl+C para copiar o link de download para a área de transferência."
 DBM_CORE_UPDATEREMINDER_DISABLE			= "AVISO: O seu DBM foi desativado por estar drasticamente desatualizado (pelo menos %d revisões), atualize para utilizar novamente. Isso garante que versões antigas ou códigos incompatíveis não arruínem à experiência de jogo para você ou para os membros da raid."
 DBM_CORE_UPDATEREMINDER_HOTFIX			= "A sua versão do DBM contem temporizadores ou avisos incorretos para este chefe. Isso foi corrigido em uma versão mais recente ( ou alpha caso não exista versão estável mais recente disponível)"
 DBM_CORE_UPDATEREMINDER_HOTFIX_ALPHA	= DBM_CORE_UPDATEREMINDER_HOTFIX--TEMP, FIX ME!
-DBM_CORE_UPDATEREMINDER_MAJORPATCH		= "AVISO: O seu DBM foi desativado por estar drasticamente desatualizado (pelo menos %d revisões), atualize para utilizar novamente. Isso garante que versões antigas ou códigos incompatíveis não arruínem à experiência de jogo para você ou para os membros da raid. Certifique-se de baixar a versão mais recente em " .. DBM_CORE_UPDATEREMINDER_URL .. " ou curse o mais breve possível."
-DBM_CORE_UPDATEREMINDER_TESTVERSION		= "AVISO: Você esta usando uma versão do DBM que não foi criada para esta versão do jogo. Por favor, certifique-se de baixar a versão correta em " .. DBM_CORE_UPDATEREMINDER_URL .. "."
+DBM_CORE_UPDATEREMINDER_MAJORPATCH		= "AVISO: O seu DBM foi desativado por estar drasticamente desatualizado (pelo menos %d revisões), atualize para utilizar novamente. Isso garante que versões antigas ou códigos incompatíveis não arruínem à experiência de jogo para você ou para os membros da raid. Certifique-se de baixar a versão mais recente em deadlybossmods.com ou curse o mais breve possível."
+DBM_CORE_UPDATEREMINDER_TESTVERSION		= "AVISO: Você esta usando uma versão do DBM que não foi criada para esta versão do jogo. Por favor, certifique-se de baixar a versão correta em deadlybossmods.com ou curse."
 DBM_CORE_VEM				= "AVISO: Você esta usando DBM e Voice Encounter Mods. DBM não funcionara corretamente nesta configuração e portanto não será carregada."
 DBM_CORE_3RDPROFILES				= "AVISO: DBM-Profiles não é compatível com esta versão de DBM. Deve ser removida antes de DBM continuar para evitar conflitos."
 DBM_CORE_UPDATE_REQUIRES_RELAUNCH		= "AVISO: Esta versão de DBM não funcionara corretamente até que você recomece o jogo por completo. Esta atualização contem novos arquivos ou mudanças no .toc que não podem ser carregadas via ReloadUI. Você pode encontrar funcionalidades quebradas ou erros caso continue sem recomeçar o jogo por completo."
@@ -259,10 +257,7 @@ DBM_CORE_AUTO_TIMER_OPTIONS.nextsource	= "Exibir cronógrafo para o próximo $sp
 DBM_CORE_AUTO_TIMER_OPTIONS.achievement	= "Exibir cronógrafo para %s"
 
 -- Auto-generated Warning Localizations
-DBM_CORE_AUTO_ANNOUNCE_TEXTS.you 			= "%s em você"
 DBM_CORE_AUTO_ANNOUNCE_TEXTS.target			= "%s em >%%s<"
-DBM_CORE_AUTO_ANNOUNCE_TEXTS.targetsource  	= ">%%s< aplica um feitiço %s"
-DBM_CORE_AUTO_ANNOUNCE_TEXTS.targetsource2  = ">%%s< aplica %s em >%%s<"
 DBM_CORE_AUTO_ANNOUNCE_TEXTS.targetcount	= "%s (%%s) em >%%s<"
 DBM_CORE_AUTO_ANNOUNCE_TEXTS.spell			= "%s"
 DBM_CORE_AUTO_ANNOUNCE_TEXTS.adds			= "%s restantes: %%d"
@@ -275,10 +270,7 @@ DBM_CORE_AUTO_ANNOUNCE_TEXTS.count			= "%s (%%s)"
 DBM_CORE_AUTO_ANNOUNCE_TEXTS.stack			= "%s em >%%s< (%%d)"
 
 local prewarnOption = "Exibir aviso antecipado para $spell:%s"
-DBM_CORE_AUTO_ANNOUNCE_OPTIONS.you 			= "Anunciar quando $spell:%s em você"
 DBM_CORE_AUTO_ANNOUNCE_OPTIONS.target		= "Anunciar alvos de $spell:%s"
-DBM_CORE_AUTO_ANNOUNCE_OPTIONS.targetsource	= "Anunciar alvos de $spell:%s (com fonte)"
-DBM_CORE_AUTO_ANNOUNCE_OPTIONS.targetsource2 = "Anunciar alvos de $spell:%s (para efeito de)"
 DBM_CORE_AUTO_ANNOUNCE_OPTIONS.targetcount	= "Anunciar alvos de $spell:%s"
 DBM_CORE_AUTO_ANNOUNCE_OPTIONS.spell		= "Exibir aviso para $spell:%s"
 DBM_CORE_AUTO_ANNOUNCE_OPTIONS.adds			= "Announce how many $spell:%s remain"
@@ -291,32 +283,10 @@ DBM_CORE_AUTO_ANNOUNCE_OPTIONS.count		= "Exibir aviso para $spell:%s"
 DBM_CORE_AUTO_ANNOUNCE_OPTIONS.stack		= "Anunciar empilhamento de $spell:%s"
 
 -- Auto-generated Special Warning Localizations
-DBM_CORE_AUTO_SPEC_WARN_TEXTS.spell		= "%s!"
-DBM_CORE_AUTO_SPEC_WARN_TEXTS.ends		= "%s termina"
-DBM_CORE_AUTO_SPEC_WARN_TEXTS.dispel	= "%s em >%%s< - remova agora"
-DBM_CORE_AUTO_SPEC_WARN_TEXTS.interrupt	= "%s - interrompa >%%s<"
-DBM_CORE_AUTO_SPEC_WARN_TEXTS.interruptcount = "%s - interrompa >%%s< (%%d)"
-DBM_CORE_AUTO_SPEC_WARN_TEXTS.you		= "%s em você"
-DBM_CORE_AUTO_SPEC_WARN_TEXTS.youdispel = "%s em você - remova agora"
-DBM_CORE_AUTO_SPEC_WARN_TEXTS.youcount	= "%s (%%s) em você"
-DBM_CORE_AUTO_SPEC_WARN_TEXTS.target	= "%s em >%%s<"
-DBM_CORE_AUTO_SPEC_WARN_TEXTS.close		= "%s em >%%s< perto de você"
-DBM_CORE_AUTO_SPEC_WARN_TEXTS.move		= "%s - saia de perto"
-DBM_CORE_AUTO_SPEC_WARN_TEXTS.dodge 	= DBM_CORE_AUTO_SPEC_WARN_TEXTS.move--FIXME (this is a temp until localized properly as a dodge warning)
-DBM_CORE_AUTO_SPEC_WARN_TEXTS.jump		= "%s - salte"
-DBM_CORE_AUTO_SPEC_WARN_TEXTS.run		= "%s - corra para longe"
-DBM_CORE_AUTO_SPEC_WARN_TEXTS.cast		= "%s - pare de lançar"
-DBM_CORE_AUTO_SPEC_WARN_TEXTS.stack		= "%s (%%d)"
-DBM_CORE_AUTO_SPEC_WARN_TEXTS.switch	= "%s - mude de alvo"
-DBM_CORE_AUTO_SPEC_WARN_TEXTS.switchcount = "%s - mude de alvo (%%s)"
-DBM_CORE_AUTO_SPEC_WARN_TEXTS.baitmur	= "байти Мурчаля на прошляп очка на %s (%%s)"
-
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.spell 		= "Exibir aviso especial para $spell:%s"
-DBM_CORE_AUTO_SPEC_WARN_OPTIONS.ends 		= "Exibir aviso especial sobre o fim $spell:%s"
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.dispel 		= "Exibir aviso especial para remover/roubar $spell:%s"
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.interrupt	= "Exibir aviso especial para interromper $spell:%s"
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.you 		= "Exibir aviso especial quando você é afetado por $spell:%s"
-DBM_CORE_AUTO_SPEC_WARN_OPTIONS.youdispel 	= "Exibir aviso especial para dissipar feitiços quando em você $spell:%s"
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.youcount 	= DBM_CORE_AUTO_SPEC_WARN_OPTIONS.you--FIXME, Translate needed
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.target 		= "Exibir aviso especial quando alguém é afetador por $spell:%s"
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.close 		= "Exibir aviso especial quando alguém próximo de você é afetado por $spell:%s"
@@ -329,20 +299,31 @@ DBM_CORE_AUTO_SPEC_WARN_OPTIONS.switch		= "Exibir aviso especial para mudar de a
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.switchcount = DBM_CORE_AUTO_SPEC_WARN_OPTIONS.switch--FIXME, Translate needed
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.interruptcount = DBM_CORE_AUTO_SPEC_WARN_OPTIONS.interrupt--FIXME, Translate needed
 
+DBM_CORE_AUTO_SPEC_WARN_TEXTS.spell		= "%s!"
+DBM_CORE_AUTO_SPEC_WARN_TEXTS.dispel	= "%s em >%%s< - remova agora"
+DBM_CORE_AUTO_SPEC_WARN_TEXTS.interrupt	= "%s - interrompa >%%s<"
+DBM_CORE_AUTO_SPEC_WARN_TEXTS.interruptcount	= "%s - interrompa >%%s< (%%d)"
+DBM_CORE_AUTO_SPEC_WARN_TEXTS.you		= "%s em você"
+DBM_CORE_AUTO_SPEC_WARN_TEXTS.youcount	= "%s (%%s) em você"
+DBM_CORE_AUTO_SPEC_WARN_TEXTS.target	= "%s em >%%s<"
+DBM_CORE_AUTO_SPEC_WARN_TEXTS.close		= "%s em >%%s< perto de você"
+DBM_CORE_AUTO_SPEC_WARN_TEXTS.move		= "%s - saia de perto"
+DBM_CORE_AUTO_SPEC_WARN_TEXTS.dodge 	= DBM_CORE_AUTO_SPEC_WARN_TEXTS.move--FIXME (this is a temp until localized properly as a dodge warning)
+DBM_CORE_AUTO_SPEC_WARN_TEXTS.jump		= "%s - salte"
+DBM_CORE_AUTO_SPEC_WARN_TEXTS.run		= "%s - corra para longe"
+DBM_CORE_AUTO_SPEC_WARN_TEXTS.cast		= "%s - pare de lançar"
+DBM_CORE_AUTO_SPEC_WARN_TEXTS.stack		= "%s (%%d)"
+DBM_CORE_AUTO_SPEC_WARN_TEXTS.switch	= "%s - mude de alvo"
+DBM_CORE_AUTO_SPEC_WARN_TEXTS.switchcount	= "%s - mude de alvo (%%s)"
+
+
 DBM_CORE_AUTO_ICONS_OPTION_TEXT		= "Colocar ícones nos alvos de $spell:%s"
-DBM_CORE_AUTO_ICONS_OPTION_TEXT2	= "Set icons on $spell:%s"
+DBM_CORE_AUTO_ICONS_OPTION_TEXT2		= "Set icons on $spell:%s"
 DBM_CORE_AUTO_SOUND_OPTION_TEXT		= "Tocar som \"Fuja garotinha\" para $spell:%s"
 DBM_CORE_AUTO_COUNTDOWN_OPTION_TEXT	= "Tocar som de contagem regressiva para $spell:%s"
 DBM_CORE_AUTO_COUNTOUT_OPTION_TEXT	= "Tocar som de contagem regressiva para duração de $spell:%s"
 DBM_CORE_AUTO_YELL_OPTION_TEXT.yell		= "Gritar quando você é afetado por $spell:%s"
 DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT.yell	= "%s em " .. UnitName("player") .. "!"
-DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT.yellhelp = "%s em " .. UnitName("player") .. "! Помогите мне!"
-DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT.count	= "%s em " .. UnitName("player") .. "! (%%d)"
-DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT.fade	= "%s desaparece através %%d"
-DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT.shortfade = "%%d"
-DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT.iconfade = "{rt%%2$d}%%1$d"
-DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT.position = "%s %%s em {rt%%d}"..UnitName("player").."{rt%%d}"
-DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT.combo = "%s e %%s"
 
 
 -- New special warnings

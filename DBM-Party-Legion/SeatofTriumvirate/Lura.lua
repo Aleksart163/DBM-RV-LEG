@@ -1,100 +1,59 @@
 local mod	= DBM:NewMod(1982, "DBM-Party-Legion", 13, 945)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
-mod:SetCreatureID(124870) -- или 124729 --124745 Greater Rift Warden
+mod:SetRevision(("$Revision: 17603 $"):sub(12, -3))
+mod:SetCreatureID(124870)--124745 Greater Rift Warden
 mod:SetEncounterID(2068)
 mod:SetZone()
 
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_START 247795 245164 249009 247878",
-	"SPELL_CAST_SUCCESS 247930 245164",
-	"SPELL_AURA_APPLIED 247816 248535 247915",
-	"SPELL_AURA_APPLIED_DOSE 247915",
+	"SPELL_CAST_START 247795 245164 249009",
+	"SPELL_CAST_SUCCESS 247930",
+	"SPELL_AURA_APPLIED 247816 248535",
 	"SPELL_AURA_REMOVED 247816",
 --	"CHAT_MSG_RAID_BOSS_EMOTE",
---	"CHAT_MSG_MONSTER_YELL",
-	"SPELL_PERIODIC_DAMAGE 245242",
-	"SPELL_PERIODIC_MISSED 245242",
-	"UNIT_DIED",
 	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
 
---Л'ура https://ru.wowhead.com/npc=122314/лура/эпохальный-журнал-сражений
-local warnWardenDie						= mod:NewAnnounce("WarningWardensDie", 2, 254727)
-local warnBacklash						= mod:NewTargetAnnounce(247816, 1, nil, "Healer") --Отдача
-local warnNaarusLamen					= mod:NewTargetAnnounce(248535, 3) --Стенания наару
-local warnGrowingDarkness				= mod:NewStackAnnounce(247915, 4, nil, nil, 2) --Разрастающийся мрак
+--TODO, more timer work, with good english mythic or mythic+ transcriptor logs with start/stop properly used
+--TODO, start grand shift timer on phase 2 trigger on mythic/mythic+ only
+--TODO, RP timer
+local warnBacklash						= mod:NewTargetAnnounce(247816, 1)
+local warnNaarusLamen					= mod:NewTargetAnnounce(248535, 2)
 
-local specWarnRemnantofAnguish			= mod:NewSpecialWarningYouMove(245242, nil, nil, nil, 1, 2) --Отголосок страдания
-local specWarnBacklash					= mod:NewSpecialWarningMoreDamage(247816, "-Healer", nil, nil, 3, 2) --Отдача
-local specWarnCalltoVoid				= mod:NewSpecialWarningSwitch(247795, "-Healer", nil, nil, 1, 2) --Воззвание к Бездне
-local specWarnFragmentOfDespair			= mod:NewSpecialWarningSoak(245164, nil, nil, nil, 2, 3) --Частица отчаяния
-local specWarnGrandShift				= mod:NewSpecialWarningDodge(249009, nil, nil, nil, 2, 3) --Масштабный рывок
+local specWarnCalltoVoid				= mod:NewSpecialWarningSwitch(247795, nil, nil, nil, 1, 2)
+local specWarnFragmentOfDespair			= mod:NewSpecialWarningSpell(245164, nil, nil, nil, 1, 2)
+local specWarnGrandShift				= mod:NewSpecialWarningDodge(249009, nil, nil, nil, 2, 2)
 
-local timerCalltoVoidCD					= mod:NewCDTimer(14.5, 247795, nil, nil, nil, 1, nil, DBM_CORE_TANK_ICON..DBM_CORE_DAMAGE_ICON) --Воззвание к Бездне
-local timerGrandShiftCD					= mod:NewCDTimer(14.5, 249009, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON..DBM_CORE_MYTHIC_ICON) --Масштабный рывок +++
-local timerUmbralCadenceCD				= mod:NewCDTimer(10.8, 247930, nil, nil, nil, 2, nil, DBM_CORE_HEALER_ICON) --Каденция Бездны +++
-local timerBacklash						= mod:NewBuffActiveTimer(12, 247816, nil, nil, nil, 6, nil, DBM_CORE_DAMAGE_ICON) --Отдача +++
-local timerBacklashCD					= mod:NewCDTimer(14, 247816, nil, nil, nil, 7) --Отдача +++
-local timerFragmentOfDespairCD			= mod:NewCDTimer(18.5, 245164, nil, nil, nil, 2, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Частица отчаяния
+--local timerCalltoVoidCD					= mod:NewAITimer(12, 247795, nil, nil, nil, 1)
+local timerGrandShiftCD					= mod:NewCDTimer(14.6, 249009, nil, nil, nil, 3, nil, DBM_CORE_HEROIC_ICON)
+local timerUmbralCadenceCD				= mod:NewCDTimer(10.9, 247930, nil, nil, nil, 2, nil, DBM_CORE_HEALER_ICON)
+local timerBacklash						= mod:NewBuffActiveTimer(12.5, 247816, nil, nil, nil, 6)
 
-local countdownBacklash					= mod:NewCountdown(14, 247816, nil, nil, 5) --Отдача
-local countdownBacklash2				= mod:NewCountdownFades("Alt12", 247816, nil, nil, 5) --Отдача
-local countdownGrandShift				= mod:NewCountdown(14.5, 249009, nil, nil, 5) --Масштабный рывок
+--local countdownBreath					= mod:NewCountdown(22, 227233)
 
 mod.vb.phase = 1
-mod.vb.wardens = 0
-mod.vb.backlash = 0
-mod.vb.wardensDie = 1
-mod.vb.calltoVoid = 0
 
 function mod:OnCombatStart(delay)
 	self.vb.phase = 1
-	self.vb.wardens = 0
-	self.vb.backlash = 0
-	self.vb.wardensDie = 1
-	self.vb.calltoVoid = 0
-	if not self:IsNormal() then
-		timerFragmentOfDespairCD:Start(11)
-	else
-		timerFragmentOfDespairCD:Start(11)
-	end
+	--timerCalltoVoidCD:Start(1-delay)--Done instantly
 end
 
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
-	if spellId == 247795 then --Воззвание к Бездне
-		self.vb.calltoVoid = self.vb.calltoVoid + 1
-		if not UnitIsDeadOrGhost("player") then
-			specWarnCalltoVoid:Schedule(1.5)
-			specWarnCalltoVoid:ScheduleVoice(1.5, "mobkill")
-		end
-		if self.vb.calltoVoid >= 1 then
-			warnWardenDie:Show(self.vb.wardensDie)
-		end
-	elseif spellId == 245164 and self:AntiSpam(2, 2) then
-		timerFragmentOfDespairCD:Start()
+	if spellId == 247795 then
+		specWarnCalltoVoid:Show()
+		specWarnCalltoVoid:Play("killmob")
+		--timerCalltoVoidCD:Start()
+	elseif spellId == 245164 and self:AntiSpam(3, 1) then
+		specWarnFragmentOfDespair:Show()
+		specWarnFragmentOfDespair:Play("helpsoak")
 	elseif spellId == 249009 then
-		if not UnitIsDeadOrGhost("player") then
-			specWarnGrandShift:Show()
-			specWarnGrandShift:Play("watchstep")
-		end
+		specWarnGrandShift:Show()
+		specWarnGrandShift:Play("watchstep")
 		timerGrandShiftCD:Start()
-		countdownGrandShift:Start()
-	elseif spellId == 247878 then --Вытягивание Бездны
-		self.vb.wardens = self.vb.wardens + 1
-		if self.vb.wardens == 1 then
-			timerFragmentOfDespairCD:Cancel()
-			countdownBacklash:Start()
-			timerBacklashCD:Start()
-		elseif self.vb.wardens == 3 then
-			timerFragmentOfDespairCD:Cancel()
-			countdownBacklash:Start()
-			timerBacklashCD:Start()
-		end
 	end
 end
 
@@ -102,69 +61,39 @@ function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
 	if spellId == 247930 then
 		timerUmbralCadenceCD:Start()
-	elseif spellId == 245164 and self:AntiSpam(2, 3) then --Частица отчаяния
-		if not UnitIsDeadOrGhost("player") then
-			specWarnFragmentOfDespair:Show()
-			specWarnFragmentOfDespair:Play("helpsoak")
-		end
 	end
 end
 
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
-	if spellId == 247816 then --Отдача
-		self.vb.backlash = self.vb.backlash + 1
+	if spellId == 247816 then--Backlash
 		warnBacklash:Show(args.destName)
-		if not UnitIsDeadOrGhost("player") then
-			specWarnBacklash:Show(args.destName)
-		end
 		timerBacklash:Start()
-		countdownBacklash2:Start()
-		if self.vb.backlash == 1 then
-			timerCalltoVoidCD:Start(13) --Воззвание к Бездне
-			timerFragmentOfDespairCD:Start(23) --Частица отчаяния
-		elseif self.vb.backlash == 2 then
-			timerUmbralCadenceCD:Start(23)
-			if self:IsHard() then
-				timerGrandShiftCD:Start(21) --Масштабный рывок
-				countdownGrandShift:Start(21) --Масштабный рывок
-			end
-		end
+		--Pause Timers?
 	elseif spellId == 248535 then
 		warnNaarusLamen:Show(args.destName)
-	elseif spellId == 247915 then --Разрастающийся мрак
-		local amount = args.amount or 1
-		if amount >= 10 and amount % 5 == 0 then
-			warnGrowingDarkness:Show(args.destName, amount)
-		end
 	end
 end
-mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 
 function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
-	if spellId == 247816 then --Отдача
+	if spellId == 247816 then--Backlash
 		timerBacklash:Stop()
+		--Resume timers?
 	end
 end
 
-function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
-	if spellId == 245242 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
-		if self:IsHard() then
-			specWarnRemnantofAnguish:Show()
-			specWarnRemnantofAnguish:Play("runaway")
-		end
-	end
-end
-mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
+--[[
+function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)
+	if msg:find("inv_misc_monsterhorn_03") then
 
-function mod:UNIT_DIED(args)
-	local cid = self:GetCIDFromGUID(args.destGUID)
-	if cid == 124745 then
-		self.vb.wardensDie = self.vb.wardensDie - 1
-		warnWardenDie:Show(self.vb.wardensDie)
-		if self.vb.wardensDie == 0 then
-			self.vb.wardensDie = 2
-		end
 	end
 end
+
+function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
+	local spellId = legacySpellId or bfaSpellId
+	if spellId == 250011 then--Alleria Describes L'ura Conversation
+
+	end
+end
+--]]

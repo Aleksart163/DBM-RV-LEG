@@ -123,7 +123,7 @@ local countdownFocusedDread			= mod:NewCountdown("AltTwo", 238502)
 local countdownFelclaws				= mod:NewCountdown("Alt25", 239932, "Tank", 2)
 local countdownObelisk				= mod:NewCountdown(12, 239785, nil, nil, 5)
 
-mod:AddSetIconOption("SetIconOnFocusedDread", 238502, true, false, {7}) --Сосредоточенное пламя ужаса
+mod:AddSetIconOption("SetIconOnFocusedDread", 238502, true)
 mod:AddSetIconOption("SetIconOnBurstingDread", 238430, false)
 mod:AddSetIconOption("SetIconOnEruptingReflection", 236710, true)
 mod:AddInfoFrameOption(239154, true)

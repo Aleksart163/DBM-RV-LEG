@@ -2,16 +2,15 @@ DBM_GUI_Translations = {}
 
 local L = DBM_GUI_Translations
 
-L.MainFrame = "Dungeon Boss Master"
+L.MainFrame = "Deadly Boss Mods"
 
-L.TranslationByPrefix		= "Adaptation for uwow.biz - "
-L.TranslationBy 			= "Aleksart163 (Куплиняшка х100)"
-L.Credits		 			= "Special thanks: Danzo (Qfastrun x100)"
-L.Website					= "Discord for communication on issues: Aleksart163#1671 and site for updating: |cFF73C2FBhttps://github.com/Aleksart163/DBM-RV|r"
-L.WebsiteButton				= "Update"
+L.TranslationByPrefix		= "Translated by "
+L.TranslationBy 			= nil -- your name here, localizers!
+L.Website					= "Visit us on discord at |cFF73C2FBhttps://discord.gg/deadlybossmods|r. Follow on twitter @deadlybossmods or @MysticalOS"
+L.WebsiteButton				= "Website"
 
 L.OTabBosses	= "Bosses"
-L.OTabOptions	= "Settings"
+L.OTabOptions	= GAMEOPTIONS_MENU
 
 L.TabCategory_Options	 	= "General Options"
 L.TabCategory_BFA	 		= EXPANSION_NAME7 or "Battle for Azeroth"
@@ -156,19 +155,6 @@ L.Bar7Header				= "User Bar Options"
 L.Bar7ForceLarge			= "Always use large bar"
 L.Bar7CustomInline			= "Use custom '!' inline icon"
 L.Bar7Footer				= "(Dummy Bar won't live update)"
-
---Dropdown Options
-L.CBTGeneric				= "Generic"
-L.CBTAdd					= "Add"
-L.CBTAOE					= "AOE"
-L.CBTTargeted				= "Targeted"
-L.CBTInterrupt				= "Interrupt"
-L.CBTRole					= "Role"
-L.CBTPhase					= "Phase"
-L.CBTImportant				= "Important"
-L.CVoiceOne					= "Count Voice 1"
-L.CVoiceTwo					= "Count Voice 2"
-L.CVoiceThree				= "Count Voice 3"
 
 -- Tab: Timers
 L.AreaTitle_BarColors		= "Bar Colors by timer type"
@@ -333,10 +319,6 @@ L.TimerGeneral 				= "Timer Options"
 L.SKT_Enabled				= "Show record victory timer for current fight if available"
 L.ShowRespawn				= "Show boss respawn timer after a wipe"
 L.ShowQueuePop				= "Show time remaining to accept a queue pop (LFG,BG,etc)"
-L.ChallengeTimerOptions		= "Display the best pass timer for Challenge mode"
-L.ChallengeTimerPersonal	= "Personally"
-L.ChallengeTimerGuild		= "Guild"
-L.ChallengeTimerRealm		= "Server"
 --
 L.Area_AutoLogging			= "Auto Logging Options"
 L.AutologBosses				= "Automatically record boss encounters using blizzard combat log (Use /dbm pull before bosses to start logging early for pre pots and other events.)"
@@ -349,12 +331,6 @@ L.BigBrotherAnnounceToRaid	= "Announce Big Brother results to raid"
 L.Area_Invite				= "Invite Options"
 L.AutoAcceptFriendInvite	= "Automatically accept group invites from friends"
 L.AutoAcceptGuildInvite		= "Automatically accept group invites from guild members"
---
-L.Area_Key					= "Options Mythic+ keys and raids"
-L.AutoKeyLink				= "Link your Mythic+ key to the chat"
-L.IgnoreRaidAnnounce		= "Disable raid announcements in chat (from special module)"
-L.IgnoreRaidAnnounce2		= "Disable announcements on bosses in the ABT from the raid leader/assistant"
---
 L.Area_Advanced				= "Advanced Options"
 L.FakeBW					= "Pretend to be BigWigs in version checks instead of DBM (Useful for guilds that force using BigWigs)"
 L.AITimer					= "Automatically generate timers for never before seen fights using DBM's built in timer AI (Useful for pulling a test boss for the very first time such as beta or PTR). Note: This won't work properly for multiple adds with same ability."
@@ -383,4 +359,3 @@ L.SelectModProfileDelete	= "Delete mod settings for"
 
 -- Misc
 L.FontHeight	= 16
---Волосали

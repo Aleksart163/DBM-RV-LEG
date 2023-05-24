@@ -1,17 +1,13 @@
 ## Interface: 70300
-## X-Min-Interface: 70300
-## Title:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0Dungeons-Leg|r
-## Title-ruRU:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0Групповые подземелья-Leg|r
-## Title-deDE:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0Gruppe-Leg|r
-## Title-esES:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0Mazmorras-Leg|r
-## Title-esMX:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0Mazmorras-Leg|r
-## Title-frFR:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0Donjons de groupe-Leg|r
-## Title-itIT:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0Dungeon di gruppo-Leg|r
-## Title-ptBR:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0Masmorras de grupo-Leg|r
-## Title-koKR:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf05인 던전-Leg|r
-## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf05人小队-Leg|r
-## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0隊伍首領-Leg|r
-## Author: MysticalOS and Aleksart163
+## X-Min-Interface: 70200
+## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Party-Legion|r
+## Title-deDE:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Gruppe-Legion|r
+## Title-frFR:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Groupe-Legion|r
+## Title-ruRU:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Групповые подземелья-Legion|r
+## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0隊伍首領-軍臨天下|r
+## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0队伍首领(军团再临)|r
+## Title-esES:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Mazmorras (Legion)|r
+## Title-koKR:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf05인 던전-군단|r
 ## LoadOnDemand: 1
 ## RequiredDeps: DBM-Core
 ## SavedVariables: DBMPartyLegion_AllSavedVars
@@ -21,43 +17,30 @@
 ## X-DBM-Mod-Category: LEG
 ## X-DBM-Mod-Has-Challenge: 1
 ## X-DBM-Mod-Has-Mythic : 1
-## X-DBM-Mod-SubCategories: Black Rook Hold,Darkheart Thicket,Eye of Azshara,Halls of Valor,Neltharion's Lair,The Arcway,Court of Stars,Maw of Souls,Assault on Violet Hold,Vault of the Wardens,Return to Karazhan,Cathedral of Eternal Night,The Seat of the Triumvirate,Mythic+ keys
-## X-DBM-Mod-SubCategories-ruRU: Крепость Черной Ладьи,Чаща Темного Сердца,Око Азшары,Чертоги Доблести,Логово Нелтариона,Катакомбы Сурамара,Квартал Звезд,Утроба душ,Штурм Аметистовой крепости,Казематы Стражей,Возвращение в Каражан,Собор Вечной Ночи,Престол Триумвирата,Мифик+ ключи
-## X-DBM-Mod-SubCategories-deDE: Die Rabenwehr,Das Finsterherzdickicht,Das Auge Azsharas,Die Hallen der Tapferkeit,Neltharions Hort,Der Arkus,Der Hof der Sterne,Der Seelenschlund,Sturm auf die Violette Festung,Das Verlies der Wächterinnen,Rückkehr nach Karazhan,Die Kathedrale der Ewigen Nacht,Sitz des Triumvirats,Mythisch+ Schlüssel
-## X-DBM-Mod-SubCategories-esES: Torreón Grajo Negro,Arboleda Corazón Oscuro,Ojo de Azshara,Cámaras del Valor,Guarida de Neltharion,La Arquería,Corte de las Estrellas,Fauce de Almas,Asalto al Bastión Violeta,Cámara de las Celadoras,Regreso a Karazhan,Catedral de la Noche Eterna,Trono del Triunvirato,Llaves Mythic+ 
-## X-DBM-Mod-SubCategories-esMX: Fuerte Torre Oscura,Matorral Corazón Oscuro,Ojo de Azshara,Salones del Valor,Guarida de Neltharion,El Arco,Corte de Estrellas,Fauces de almas,Ataque al Bastión Violeta,Bóveda de las Celadoras,Regreso a Karazhan,Catedral de la Noche eterna,Trono del Triunvirato,Piedra+ angular
-## X-DBM-Mod-SubCategories-frFR: Bastion du Freux,Fourré Sombrecœur,L’Œil d’Azshara,Salles des Valeureux,Repaire de Neltharion,L’Arcavia,Cour des Étoiles,La Gueule des âmes,Assaut sur le fort Pourpre,Caveau des Gardiennes,Retour à Karazhan,Cathédrale de la Nuit éternelle,Siège du triumvirat,Mythique+ clés
-## X-DBM-Mod-SubCategories-itIT: Forte Corvonero,Boschetto Cuortetro,Occhio di Azshara,Sale del Valore,Antro di Neltharion,Arcavia,Corte delle Stelle,Fauci delle Anime,Assalto alla Fortezza Violacea,Segrete delle Custodi,Ritorno a Karazhan,Cattedrale della Notte Eterna,Seggio del Triumvirato,Mythic+ keys
-## X-DBM-Mod-SubCategories-ptBR: Castelo Corvo Negro,Bosque Corenegro,Olho de Azshara,Salões da Bravura,Covil de Neltharion,O Arcâneo,Pátio das Estrelas,Gorja das Almas,Ataque ao Castelo Violeta,Câmara das Guardiãs,Retorno a Karazhan,Catedral da Noite Eterna,Sede do Triunvirato,Chaves míticas+ 
-## X-DBM-Mod-SubCategories-koKR: 검은 떼까마귀 요새,어둠심장 숲,아즈샤라의 눈,용맹의 전당,넬타리온의 둥지,비전로,별의 궁정,영혼의 아귀,보랏빛 요새 침공,감시관의 금고,다시 찾은 카라잔,영원한 밤의 대성당,삼두정의 권좌,쐐기돌
-## X-DBM-Mod-SubCategories-zhCN: 黑鸦堡垒,黑心林地,艾萨拉之眼,英灵殿,奈萨里奥的巢穴,魔法回廊,群星庭院,噬魂之喉,突袭紫罗兰监狱,守望者地窟,重返卡拉赞,永夜大教堂,执政团之座,钥石
-## X-DBM-Mod-SubCategories-zhTW: 玄鴉堡,暗心灌木林,艾薩拉之眼,英靈殿,奈薩里奧巢穴,幽暗地道,眾星之廷,靈魂之喉,紫羅蘭堡之襲,看守者鐵獄,重返卡拉贊,永夜聖殿,三傑議會之座,鑰石
-## X-DBM-Mod-Name: Dungeons
-## X-DBM-Mod-Name-ruRU: Групповые подземелья
-## X-DBM-Mod-Name-deDE: Gruppe
-## X-DBM-Mod-Name-esES: Mazmorras
-## X-DBM-Mod-Name-esMX: Mazmorras
-## X-DBM-Mod-Name-frFR: Donjons de groupe
-## X-DBM-Mod-Name-itIT: Dungeon di gruppo
-## X-DBM-Mod-Name-ptBR: Masmorras de grupo
-## X-DBM-Mod-Name-koKR: 던전
-## X-DBM-Mod-Name-zhCN: 5人小队
-## X-DBM-Mod-Name-zhTW: 隊伍首領
-## X-DBM-Mod-Sort: 509
+## X-DBM-Mod-SubCategoriesID: 1501, 1466, 1456, 1477, 1458, 1516, 1571, 1492, 1544, 1493, 1651, 1677, 1753
+## X-DBM-Mod-Name: Party (Legion)
+## X-DBM-Mod-Name-deDE: Gruppe (Legion)
+## X-DBM-Mod-Name-ruRU: Групповые подземелья (Legion)
+## X-DBM-Mod-Name-esES: Mazmorras (Legion)
+## X-DBM-Mod-Name-esMX: Mazmorras (Legion)
+## X-DBM-Mod-Name-ptBR: Masmorras (Legion)
+## X-DBM-Mod-Name-frFR: Groupe (Legion)
+## X-DBM-Mod-Name-zhTW: 隊伍首領 (軍臨天下)
+## X-DBM-Mod-Name-zhCN: 队伍首领(军团再临)
+## X-DBM-Mod-Name-koKR: 5인 던전 (군단)
+## X-DBM-Mod-Sort: 515
 ## X-DBM-Mod-MapID: 1501, 1466, 1456, 1477, 1458, 1516, 1571, 1492, 1544, 1493, 1651, 1677, 1753
-## X-DBM-Mod-MinCoreRevision: 17700
-
+## X-DBM-Mod-MinCoreRevision: 14737
 localization.en.lua
-localization.ru.lua
-localization.de.lua
-localization.es.lua
-localization.fr.lua
-localization.it.lua
-localization.br.lua
-localization.kr.lua
 localization.cn.lua
+localization.de.lua
 localization.tw.lua
-
+localization.es.lua
+localization.kr.lua
+localization.ru.lua
+localization.br.lua
+localization.it.lua
+localization.fr.lua
 BlackRookHold\AmalgamSouls.lua
 BlackRookHold\Illysanna.lua
 BlackRookHold\Smashspite.lua
@@ -87,8 +70,8 @@ NeltharionsLair\Dargrul.lua
 NeltharionsLair\NLTrash.lua
 TheArcway\Ivanyr.lua
 TheArcway\Corstilax.lua
-TheArcway\Naltira.lua
 TheArcway\GeneralXakal.lua
+TheArcway\Naltira.lua
 TheArcway\Vandros.lua
 TheArcway\ArcwayTrash.lua
 CourtofStars\Gerdo.lua
@@ -114,17 +97,17 @@ VaultOfWarden\Ashgolm.lua
 VaultOfWarden\Glazer.lua
 VaultOfWarden\Cordana.lua
 VaultOfWarden\VoWTrash.lua
-ReturnToKarazhan\Huntsman.lua
-ReturnToKarazhan\Moroes.lua
 ReturnToKarazhan\Maiden.lua
 ReturnToKarazhan\OperaWikket.lua
 ReturnToKarazhan\OperaWestfall.lua
 ReturnToKarazhan\OperaBeast.lua
-ReturnToKarazhan\Nightbane.lua
+ReturnToKarazhan\Huntsman.lua
+ReturnToKarazhan\Moroes.lua
 ReturnToKarazhan\Curator.lua
 ReturnToKarazhan\Medivh.lua
 ReturnToKarazhan\ManaDevourer.lua
 ReturnToKarazhan\Vizaduum.lua
+ReturnToKarazhan\Nightbane.lua
 ReturnToKarazhan\RTKTrash.lua
 CathedralofEternalNight\Agronox.lua
 CathedralofEternalNight\Thrashbite.lua
@@ -136,4 +119,3 @@ SeatofTriumvirate\Saprish.lua
 SeatofTriumvirate\ViceroyNezhar.lua
 SeatofTriumvirate\Lura.lua
 SeatofTriumvirate\SoTTrash.lua
-MAffix\MAffix.lua

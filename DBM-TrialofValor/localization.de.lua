@@ -40,15 +40,3 @@ L = DBM:GetModLocalization("TrialofValorTrash")
 L:SetGeneralLocalization({
 	name =	"Trash der Prüfung der Tapferkeit"
 })
-
-L:SetOptionLocalization({
-	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
-})
-
-L:SetTimerLocalization({
-	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
-})
-
-L:SetMiscLocalization({
-	RP1 = "Champions! Ihr habt das Blut von Helyas Schergen vergossen. Es ist Zeit, die Schreckensherrschaft der Meereshexe in Helheim zu beenden. Doch zuerst eine letzte Herausforderung!"
-})

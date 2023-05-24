@@ -14,8 +14,6 @@ DBM_CORE_LOAD_MOD_EXP_MISMATCH		= "%s不能被讀取因為這是設計給WoW資�
 DBM_CORE_LOAD_MOD_DISABLED			= "%s已安裝但目前停用中。此模組不會載入除非你啟用它。"
 DBM_CORE_LOAD_MOD_DISABLED_PLURAL	= "%s已安裝但目前停用中。這些模組不會載入除非你啟用它們。"
 
-DBM_CORE_UPDATEREMINDER_URL			= "https://github.com/Aleksart163/DBM-RV"
-
 DBM_COPY_URL_DIALOG					= "複製網址"
 
 --Post Patch 7.1
@@ -120,9 +118,6 @@ DBM_CORE_GENERIC_TIMER_BERSERK		= "狂暴"
 DBM_CORE_OPTION_TIMER_BERSERK		= "為$spell:26662顯示計時器"
 DBM_CORE_GENERIC_TIMER_COMBAT		= "戰鬥開始"
 DBM_CORE_OPTION_TIMER_COMBAT		= "為戰鬥開始顯示計時器"
-DBM_CORE_OPTION_TIMER_DOOR_OPENING	= "開門前倒計時"
-DBM_CORE_GENERIC_TIMER_DOOR_OPENING	= "正在開門"
-DBM_CORE_GENERIC_TIMER_ROLE_PLAY	= "點擊激活角色扮演"
 DBM_CORE_BAD						= "地板技"
 
 DBM_CORE_OPTION_CATEGORY_TIMERS			= "計時器"
@@ -299,9 +294,6 @@ DBM_CORE_ACHIEVEMENT_TIMER_SPEED_KILL = "成就"
 
 DBM_CORE_AUTO_ANNOUNCE_TEXTS.you			= "你中了%s"
 DBM_CORE_AUTO_ANNOUNCE_TEXTS.target			= "%s:>%%s<"
-DBM_CORE_AUTO_ANNOUNCE_TEXTS.targetsource  	= ">%%s< 施放 %s"
-DBM_CORE_AUTO_ANNOUNCE_TEXTS.targetsource2  = ">%%s< 施放 %s 在 >%%s<"
-DBM_CORE_AUTO_ANNOUNCE_TEXTS.targetsourcecount = ">%%s< 施放 %s (%%s)"
 DBM_CORE_AUTO_ANNOUNCE_TEXTS.targetcount	= "%s (%%s):>%%s<"
 DBM_CORE_AUTO_ANNOUNCE_TEXTS.spell			= "%s"
 DBM_CORE_AUTO_ANNOUNCE_TEXTS.ends 			= "%s結束"
@@ -318,9 +310,6 @@ DBM_CORE_AUTO_ANNOUNCE_TEXTS.stack			= ">%%s<中了%s (%%d)"
 
 DBM_CORE_AUTO_ANNOUNCE_OPTIONS.you			= "提示當你中了$spell:%s"
 DBM_CORE_AUTO_ANNOUNCE_OPTIONS.target		= "提示$spell:%s的目標"
-DBM_CORE_AUTO_ANNOUNCE_OPTIONS.targetsource	= "提示：$spell:%s的目標(包含來源)"
-DBM_CORE_AUTO_ANNOUNCE_OPTIONS.targetsource2 = "提示：$spell:%s的目標(with target)" --need translate
-DBM_CORE_AUTO_ANNOUNCE_OPTIONS.targetsourcecount = "提示：$spell:%s的目標(with count)" --need translate
 DBM_CORE_AUTO_ANNOUNCE_OPTIONS.targetcount	= "提示$spell:%s的目標(次數)"
 DBM_CORE_AUTO_ANNOUNCE_OPTIONS.spell		= "為$spell:%s顯示警告"
 DBM_CORE_AUTO_ANNOUNCE_OPTIONS.ends			= "為$spell:%s結束顯示警告"

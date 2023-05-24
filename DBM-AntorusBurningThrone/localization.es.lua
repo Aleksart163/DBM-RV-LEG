@@ -1,11 +1,5 @@
 if GetLocale() ~= "esES" and GetLocale() ~= "esMX" then return end
-
 local L
---------------------------------------------WARNING---------------------------------------------------
---Do you want to help translate this module to your native language? Write to the author of this addon
---Aleksart163#1671 (discord)
---/w Tielle or /w Куплиняшка (in the game)
---------------------------------------------WARNING---------------------------------------------------
 
 -------------------------
 -- Rompemundos garothi --
@@ -17,11 +11,9 @@ L:SetTimerLocalization({
 
 L:SetOptionLocalization({
 })
---[[
+
 L:SetMiscLocalization({
-	YellPullGarothi = "Enemigos detectados. Nivel de amenaza: mínimo."
 })
---]]
 
 ---------------------------------
 -- Canes manáfagos de Sargeras --
@@ -36,11 +28,6 @@ L:SetOptionLocalization({
 -- Alto Mando antoran --
 ------------------------
 L= DBM:GetModLocalization(1997)
---[[
-L:SetMiscLocalization({
-	YellPullCouncil	= "Que os quede claro: no saldréis con vida de esta batalla."
-})
---]]
 
 ----------------------------------
 -- Eonar, la Patrona de la Vida --
@@ -61,9 +48,7 @@ L:SetOptionLocalization({
 	timerBats	 		=	DBM_CORE_AUTO_TIMER_OPTIONS["cdcount"]:format("ej17039")
 })
 
-if GetLocale() == "esES" then
 L:SetMiscLocalization({
-	YellPullEonar = "¡Campeones! ¡Las fuerzas de la Legión buscan capturar mi esencia para su maestro infernal!", --
 	Obfuscators =	"Ofuscador",
 	Destructors =	"Destructor",
 	Purifiers 	=	"Purificador",
@@ -72,18 +57,6 @@ L:SetMiscLocalization({
 	EonarPower	= 	"Energía de Eonar",
 	NextLoc		=	"Siguiente:"
 })
-else
-L:SetMiscLocalization({
-	YellPullEonar = "¡Campeones! ¡Las fuerzas de la Legión quieren capturar mi esencia para su amo infernal!", --
-	Obfuscators =	"Ofuscador",
-	Destructors =	"Destructor",
-	Purifiers 	=	"Purificador",
-	Bats 		=	"Murciélagos",
-	EonarHealth	= 	"Salud de Eonar",
-	EonarPower	= 	"Energía de Eonar",
-	NextLoc		=	"Siguiente:"
-})
-end
 
 ---------------------------------
 -- Vigilante de portal Hasabel --
@@ -94,12 +67,9 @@ L:SetOptionLocalization({
 	ShowAllPlatforms =	"Mostrar todos los avisos independientemente de tu plataforma actual"
 })
 
---[[L:SetMiscLocalization({
-	YellPullHasabel = "Ха! Так это и есть лучшие из защитников Азерота?",
-	YellPullHasabel2 = "Ваш поход закончится здесь.",
-	YellPullHasabel3 = "Легион сокрушает всех своих врагов!",
-	YellPullHasabel4 = "Нам покорились все миры. Ваш – следующий."
-})]]
+--Xoroth = "¡Admirad Xoroth, un mundo de calor infernal y huesos calcinados!",
+--Rancora = "¡Contemplad Rancora, un horizonte de pozas infectas y muerte por doquier!",
+--Nathreza = "Nathreza... Antaño un mundo de magia y conocimiento, ahora un escabroso lugar del que nadie puede escapar."
 
 --------------------------------
 -- Imonar el Cazador de Almas --
@@ -107,7 +77,7 @@ L:SetOptionLocalization({
 L= DBM:GetModLocalization(2009)
 
 L:SetMiscLocalization({
-	DispelMe = "¡Disipadme!"
+	DispelMe =		"¡Disipadme!"
 })
 
 ----------------
@@ -129,20 +99,9 @@ L= DBM:GetModLocalization(1983)
 -- Aquelarre shivarra --
 ------------------------
 L= DBM:GetModLocalization(1986)
---[[
-L:SetWarningLocalization({
-	Amantul = "Мучения Аман`тула через 5 сек - переключитесь",
-	Norgannon = "Мучения Норганнона через 5 сек - бегите в центр",
-	Golgannet = "Мучения Голганнета через 5 сек - держите радиус 2м",
-	Kazgagot = "Мучения Каз`горота через 5 сек - уйдите с центра"
-})]]
 
 L:SetTimerLocalization({
-	timerBossIncoming = DBM_INCOMING,
-	timerAmanThul = "Tormento de Aman'thul",
-	timerKhazgoroth = "Tormento de Khaz'goroth",
-	timerNorgannon = "Tormento de Norgannon",
-	timerGolganneth = "Tormento de Golganneth"
+	timerBossIncoming		= DBM_INCOMING
 })
 
 L:SetOptionLocalization({
@@ -156,11 +115,7 @@ L:SetOptionLocalization({
 	Three				= "Rotación de tres jugadores",--Default
 	Four				= "Rotación de cuatro jugadores",
 	Five				= "Rotación de cinco jugadores",
-	IgnoreFirstKick		= "Excluir la primera interrupción de la rotación (requiere ser líder de banda)",
-	timerAmanThul 		= "Mostrar temporizador para el lanzamiento de $spell:250335",
-	timerKhazgoroth 	= "Mostrar temporizador para el lanzamiento de $spell:250333",
-	timerNorgannon 		= "Mostrar temporizador para el lanzamiento de $spell:250334",
-	timerGolganneth 	= "Mostrar temporizador para el lanzamiento de $spell:249793"
+	IgnoreFirstKick		= "Excluir la primera interrupción de la rotación (requiere ser líder de banda)"
 })
 
 --------------
@@ -173,12 +128,10 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
---	YellPullAggramar = "¡Arderéis!",
---	Blaze		= "Llamarada voraz",
-	Foe			= "Doma",
-	Rend		= "Desgarro",
-	Tempest 	= "Tempestad",
-	Current		= "Actual:"
+	Foe			=	"Doma",
+	Rend		=	"Desgarro",
+	Tempest 	=	"Tempestad",
+	Current		=	"Actual:"
 })
 
 --------------------------
@@ -195,19 +148,12 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
---	YellPullArgus = "¡Muerte! ¡Muerte y dolor!",
-	SeaText		= "Celeridad/Versatilidad en %s",
-	SkyText		= "Crítico/Maestría en %s",
-	Blight		= "Añublo",
-	Burst		= "Ráfaga",
-	Sentence	= "Sentencia",
-	Bomb		= "Bomba",
-	Blight2		= "Añublo en %s!",
-	Burst2		= "Ráfaga en mí!",
---	Sentence2	= "Sentencia en %s!",
---	Bomb2		= "BOMBA DE ALMAS",
-	Rage		= "IRA",
-	Fear		= "MIEDO"
+	SeaText		=	"{rt6} Celeridad/Versatilidad",
+	SkyText		=	"{rt5} Crítico/Maestría",
+	Blight		=	"Añublo",
+	Burst		=	"Ráfaga",
+	Sentence	=	"Sentencia",
+	Bomb		=	"Bomba"
 })
 
 ----------------------
@@ -217,17 +163,4 @@ L = DBM:GetModLocalization("AntorusTrash")
 
 L:SetGeneralLocalization({
 	name =	"Enemigos menores"
-})
---need translate
-L:SetOptionLocalization({
-	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT,
-	BossActivation = DBM_CORE_GENERIC_TIMER_ROLE_PLAY
-})
-
-L:SetTimerLocalization({
-	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
-})
-
-L:SetMiscLocalization({
-	RPImonar = "Halt!"
 })

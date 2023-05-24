@@ -77,8 +77,8 @@ local berserkTimer					= mod:NewBerserkTimer(720)--482 in log, rounding to 8 eve
 --Atrigan
 local countdownBoneSaw				= mod:NewCountdown(45, 233441)
 
-mod:AddSetIconOption("SetIconOnQuills", 233431, true, false, {5})
-mod:AddSetIconOption("SetIconOnAnguish", 233983, true, false, {3, 2, 1})
+mod:AddSetIconOption("SetIconOnQuills", 233431, true)
+mod:AddSetIconOption("SetIconOnAnguish", 233983, true)
 mod:AddInfoFrameOption(233104, true)
 mod:AddRangeFrameOption(8, 233983)
 

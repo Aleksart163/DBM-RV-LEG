@@ -1,19 +1,37 @@
-if GetLocale() ~= "zhCN" then return end
+-- Mini Dragon(projecteurs@gmail.com)
+-- 夏一可
+-- Blizzard Entertainment
+-- Last update: 2017/07/03
 
+if GetLocale() ~= "zhCN" then return end
 local L
 
---Прошляпанное очко Мурчаля ✔
+-----------------------
+-- Inquisitor Meto --
+-----------------------
+L= DBM:GetModLocalization(2012)
 
-----------------
---rare enemies--
-----------------
-L = DBM:GetModLocalization("RareEnemiesArgus")
+-----------------------
+-- Occularus --
+-----------------------
+L= DBM:GetModLocalization(2013)
 
-L:SetGeneralLocalization({
-	name = "阿格斯上非常危险的敌人" --right?
-})
+-----------------------
+-- Sotanathor --
+-----------------------
+L= DBM:GetModLocalization(2014)
 
-L:SetMiscLocalization{
-	MurchalOchkenProshlyapen = "即将抵达！",
-	MurchalOchkenProshlyapen2 = "到了！快隐蔽！"
-}
+-----------------------
+-- Mistress Alluradel --
+-----------------------
+L= DBM:GetModLocalization(2011)
+
+-----------------------
+-- Matron Folnuna --
+-----------------------
+L= DBM:GetModLocalization(2010)
+
+-----------------------
+-- Pit Lord Vilemus --
+-----------------------
+L= DBM:GetModLocalization(2015)

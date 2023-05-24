@@ -35,7 +35,7 @@ L:SetMiscLocalization({
 	First				= "First",
 	Second				= "Second",
 	Third				= "Third",
-	Adds1				= "Утоли мой голод!",
+	Adds1				= "Underlings! Get in here!",
 	Adds2				= "Show these pretenders how to fight!"
 })
 

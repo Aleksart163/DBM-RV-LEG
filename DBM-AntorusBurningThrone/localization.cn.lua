@@ -1,11 +1,10 @@
-if GetLocale() ~= "zhCN" then return end
+-- Mini Dragon(projecteurs@gmail.com)
+-- 夏一可
+-- Blizzard Entertainment
+-- Last update: 2018/02/14
 
+if GetLocale() ~= "zhCN" then return end
 local L
---------------------------------------------WARNING---------------------------------------------------
---Do you want to help translate this module to your native language? Write to the author of this addon
---Aleksart163#1671 (discord)
---/w Tielle or /w Куплиняшка (in the game)
---------------------------------------------WARNING---------------------------------------------------
 
 ---------------------------
 -- Garothi Worldbreaker --
@@ -48,7 +47,6 @@ L:SetTimerLocalization({
 })
 
 L:SetMiscLocalization({
-	YellPullEonar = "勇士们！军团想为他们那可怕的主人来捕获我的精华！",
 	Obfuscators =	"邪能干扰器", --需要T
 	Destructors =	"注邪毁灭者", --减速
 	Purifiers	=	"邪能净化者",
@@ -97,24 +95,16 @@ L= DBM:GetModLocalization(1983)
 L= DBM:GetModLocalization(1986)
 
 L:SetTimerLocalization({
-	timerBossIncoming 	= DBM_INCOMING,
-	timerAmanThul 		= "阿曼苏尔",
-	timerKhazgoroth 	= "火焰",
-	timerNorgannon 		= "军团",
-	timerGolganneth 	= "闪电"
+	timerBossIncoming		= DBM_INCOMING
 })
 
 L:SetOptionLocalization({
-	SetLighting			= "开战后自动调整光照质量为低, 结束后恢复之前设置(Mac不支持)",
-	timerBossIncoming	= "为下一次Boss交换显示计时条",
-	TauntBehavior		= "设置换坦提示模式",
-	TwoMythicThreeNon	= "M难度下2层换, 其他难度3层换",--Default
-	TwoAlways			= "总是2层换",
-	ThreeAlways			= "总是3层换",
-	timerAmanThul 		= "计时条：$spell:250335施法时间",
-	timerKhazgoroth 	= "计时条：$spell:250333施法时间",
-	timerNorgannon 		= "计时条：$spell:250334施法时间",
-	timerGolganneth 	= "计时条：$spell:249793施法时间"
+	SetLighting				= "开战后自动调整光照质量为低, 结束后恢复之前设置(Mac不支持)",
+	timerBossIncoming		= "为下一次Boss交换显示计时条",
+	TauntBehavior			= "设置换坦提示模式",
+	TwoMythicThreeNon		= "M难度下2层换, 其他难度3层换",--Default
+	TwoAlways				= "总是2层换",
+	ThreeAlways				= "总是3层换"
 })
 
 ---------------------------
@@ -127,11 +117,10 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
---	Blaze		= "饕餮烈焰",
-	Foe			= "破坏者",
-	Rend		= "烈焰撕裂",
-	Tempest 	= "灼热风暴",
-	Current		= "当前:"
+	Foe			=	"破坏者",
+	Rend		=	"烈焰撕裂",
+	Tempest 	=	"灼热风暴",
+	Current		=	"当前:"
 })
 
 ---------------------------
@@ -140,14 +129,10 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(2031)
 
 L:SetMiscLocalization({
-	SeaText = "{rt6} 急速/全能",
-	SkyText = "{rt5} 暴击/精通",
-	Blight	= "灵魂凋零宝珠",
-	Burst	= "灵魂炸弹",
-	Bomb	= "弹",
---	Bomb2	= "灵魂炸弹",
-	Rage	= "狂怒",
-	Fear	= "恐惧"
+	SeaText =		"{rt6} 急速/全能",
+	SkyText =		"{rt5} 暴击/精通",
+	Blight	=		"灵魂凋零宝珠",
+	Burst	=		"灵魂炸弹"
 })
 
 -------------

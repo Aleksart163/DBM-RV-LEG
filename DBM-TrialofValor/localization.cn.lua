@@ -1,5 +1,7 @@
-if GetLocale() ~= "zhCN" then return end
+-- Mini Dragon(projecteurs@gmail.com)
+-- Last update: Dec 22 2016, 4:21 UTC@15592
 
+if GetLocale() ~= "zhCN" then return end
 local L
 ---------------
 -- Odyn --
@@ -42,16 +44,4 @@ L = DBM:GetModLocalization("TrialofValorTrash")
 
 L:SetGeneralLocalization({
 	name =	"勇气的试炼小怪"
-})
-
-L:SetOptionLocalization({
-	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
-})
-
-L:SetTimerLocalization({
-	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
-})
-
-L:SetMiscLocalization({
-	RP1 = "勇士们！海拉的爪牙已经血流成河！该进入冥狱深渊，终结那个女巫的黑暗统治了。但是……还有最后一个挑战！"
 })

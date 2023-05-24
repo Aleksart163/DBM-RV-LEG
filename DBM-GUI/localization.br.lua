@@ -4,13 +4,9 @@ if not DBM_GUI_Translations then DBM_GUI_Translations = {} end
 
 local L = DBM_GUI_Translations
 
-L.MainFrame = "Dungeon Boss Master"
+L.MainFrame = "Deadly Boss Mods"
 
-L.TranslationByPrefix		= "Adaptation for uwow.biz - "
-L.TranslationBy 			= "Aleksart163 (Tielle х100)"
-L.Credits		 			= "Agradecimentos especiais: Danzo (Qfastrun x100)"
-L.Website					= "Discord for communication on issues: Aleksart163#1671 and site for updating: |cFF73C2FBhttps://github.com/Aleksart163/DBM-for-Uwow|r"
-L.WebsiteButton				= "Update"
+L.TranslationBy 			= "GlitterStorm @ Azralon"
 
 L.OTabBosses	= "Chefes"
 L.OTabOptions	= "Opções"
@@ -267,8 +263,6 @@ L.BigBrotherAnnounceToRaid	= "Anunciar resultados do Big Brother para a raid"
 L.Area_Invite				= "Opções de convite"
 L.AutoAcceptFriendInvite	= "Aceitar convites de amigos automaticamente"
 L.AutoAcceptGuildInvite		= "Aceitar convites de membros da guilda automaticamente"
-L.Area_Key					= "Opções Chaves míticas+"
-L.AutoKeyLink				= "Vincule sua Chaves míticas+ ao bate-papo"
 L.Area_Advanced				= "Opções avançadas"
 L.FakeBW					= "Fingir ser BigWigs em checagens de versão ao invés de ser DBM ( útil para guildas que forçam o uso de BigWigs )"
 

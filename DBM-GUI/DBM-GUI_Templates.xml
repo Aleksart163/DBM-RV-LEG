@@ -385,7 +385,7 @@
 
 	<Frame name="DBM_GUI_OptionsFrame" parent="UIParent" hidden="true" enableMouse="true" frameStrata="DIALOG" movable="true">
 		<Size>
-			<AbsDimension x="900" y="520"/>
+			<AbsDimension x="800" y="510"/>
 		</Size>
 		<Anchors>
 			<Anchor point="CENTER"/>
@@ -415,7 +415,7 @@
 						</Anchor>
 					</Anchors>
 				</Texture>
-				<FontString name="$parentHeaderText" inherits="GameFontNormal" text="Dungeon Boss Master">
+				<FontString name="$parentHeaderText" inherits="GameFontNormal" text="Deadly Boss Mods">
 					<Anchors>
 						<Anchor point="TOP" relativeTo="$parentHeader">
 							<Offset>
@@ -437,7 +437,7 @@
 					<Anchors>
 						<Anchor point="LEFT" relativeTo="$parentRevision" relativePoint="RIGHT">
 							<Offset>
-								<AbsDimension x="20" y="15"/>
+								<AbsDimension x="20" y="0"/>
 							</Offset>
 						</Anchor>
 					</Anchors>
@@ -446,7 +446,7 @@
 					<Anchors>
 						<Anchor point="BOTTOMLEFT" relativeTo="$parentRevision" relativePoint="TOPLEFT">
 							<Offset>
-								<AbsDimension x="70" y="25"/>
+								<AbsDimension x="0" y="15"/>
 							</Offset>
 						</Anchor>
 					</Anchors>

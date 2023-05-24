@@ -1,11 +1,9 @@
 if GetLocale() ~= "ptBR" then return end
-
 local L
 
 -----------------------
 -- <<<Black Rook Hold>>> --
 -----------------------
-
 -----------------------
 -- The Amalgam of Souls --
 -----------------------
@@ -26,35 +24,18 @@ L= DBM:GetModLocalization(1664)
 -----------------------
 L= DBM:GetModLocalization(1672)
 
-L:SetMiscLocalization({
-	proshlyapMurchal = "Chega! Estou cansado disso."
-})
-
 -----------------------
 --Black Rook Hold Trash
 -----------------------
 L = DBM:GetModLocalization("BRHTrash")
 
 L:SetGeneralLocalization({
-	name =	"Castelo Corvo Negro Besteira"
-})
-
-L:SetOptionLocalization({
-	timerRoleplay = DBM_CORE_OPTION_TIMER_DOOR_OPENING
-})
-
-L:SetTimerLocalization({
-	timerRoleplay = DBM_CORE_GENERIC_TIMER_DOOR_OPENING
-})
-
-L:SetMiscLocalization({
-	RP1 = "Agora... agora eu vejo..."
+	name =	"Black Rook Hold Trash"
 })
 
 -----------------------
 -- <<<Darkheart Thicket>>> --
 -----------------------
-
 -----------------------
 -- Arch-Druid Glaidalis --
 -----------------------
@@ -75,28 +56,19 @@ L= DBM:GetModLocalization(1656)
 -----------------------
 L= DBM:GetModLocalization(1657)
 
-L:SetMiscLocalization{
-	ParanoiaYell = "%s em %s. FUJAM de mim!"
-}
-
-L:SetMiscLocalization({
-	XavApoc = "Você vai definhar lenta e dolorosamente.",
-	XavApoc2 = "Vou romper sua mente frágil!"
-})
-
 -----------------------
 --Darkheart Thicket Trash
 -----------------------
 L = DBM:GetModLocalization("DHTTrash")
 
 L:SetGeneralLocalization({
-	name =	"Bosque Corenegro Besteira"
+	name =	"Darkheart Thicket Trash"
 })
+
 
 -----------------------
 -- <<<Eye of Azshara>>> --
 -----------------------
-
 -----------------------
 -- Warlord Parjesh --
 -----------------------
@@ -106,6 +78,11 @@ L= DBM:GetModLocalization(1480)
 -- Lady Hatecoil --
 -----------------------
 L= DBM:GetModLocalization(1490)
+
+L:SetWarningLocalization({
+	specWarnStaticNova			= "Static Nova - move to land",
+	specWarnFocusedLightning	= "Focused Lightning - move to water"
+})
 
 -----------------------
 -- King Deepbeard --
@@ -128,21 +105,16 @@ L= DBM:GetModLocalization(1492)
 L = DBM:GetModLocalization("EoATrash")
 
 L:SetGeneralLocalization({
-	name =	"Olho de Azshara Besteira"
+	name =	"Eye of Azshara Trash"
 })
 
 -----------------------
 -- <<<Halls of Valor>>> --
 -----------------------
-
 -----------------------
 -- Hymdall --
 -----------------------
 L= DBM:GetModLocalization(1485)
-
-L:SetMiscLocalization({
-	proshlyapMurchal = "Um bom combate! O caminho adiante está aberto."
-})
 
 -----------------------
 -- Hyrja --
@@ -153,10 +125,6 @@ L= DBM:GetModLocalization(1486)
 -- Fenryr --
 -----------------------
 L= DBM:GetModLocalization(1487)
-
-L:SetMiscLocalization({
-	MurchalProshlyapOchko = "Ferido, Fenryr recua para a sua toca."
-})
 
 -----------------------
 -- God-King Skovald --
@@ -169,7 +137,7 @@ L= DBM:GetModLocalization(1488)
 L= DBM:GetModLocalization(1489)
 
 L:SetMiscLocalization({
-	OchkenMurchalProshlyapen = "Chega! Eu... me rendo! Vocês são criaturas realmente incríveis. Como prometido, vocês terão sua justa recompensa." --
+	tempestModeMessage		=	"Not tempest sequence: %s. Rechecking in 8 seconds."
 })
 
 -----------------------
@@ -178,31 +146,12 @@ L:SetMiscLocalization({
 L = DBM:GetModLocalization("HoVTrash")
 
 L:SetGeneralLocalization({
-	name =	"Salões da Bravura Besteira"
-})
-
-L:SetOptionLocalization({
-	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT,
-	BossActivation = DBM_CORE_GENERIC_TIMER_ROLE_PLAY
-})
-
-L:SetTimerLocalization({
-	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
-})
-
-L:SetMiscLocalization({
-	RPSolsten = "Vocês maculam este ritual com sua presença, mortais!",
-	RPSolsten2 = "Hyrja... a fúria da tempestade está sob seu comando!",
-	RPOlmyr = "Vocês não negarão a ascensão de Hyrja!",
-	RPOlmyr2 = "A Luz brilha eternamente em você, Hyrja!",
-	RPSkovald = "Não! Eu também provei meu valor, Odyn. Eu sou o Deus-Rei Skovald! Esses mortais não ousam desafiar meu direito à égide!",
-	RPOdyn = "Muito impressionante! Eu nunca pensei que encontraria alguém capaz de igualar Valarjar em força... porém, aí estão vocês."
+	name =	"Halls of Valor Trash"
 })
 
 -----------------------
 -- <<<Neltharion's Lair>>> --
 -----------------------
-
 -----------------------
 -- Rokmora --
 -----------------------
@@ -229,25 +178,12 @@ L= DBM:GetModLocalization(1687)
 L = DBM:GetModLocalization("NLTrash")
 
 L:SetGeneralLocalization({
-	name =	"Covil de Neltharion Besteira"
-})
-
-L:SetOptionLocalization({
-	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
-})
-
-L:SetTimerLocalization({
-	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
-})
-
-L:SetMiscLocalization({
-	RoleP1 = "Navarrogg?! Traidor! Você liderou esses intrusos contra nós?!"
+	name =	"Neltharion's Lair Trash"
 })
 
 -----------------------
 -- <<<The Arcway>>> --
 -----------------------
-
 -----------------------
 -- Ivanyr --
 -----------------------
@@ -277,23 +213,18 @@ L= DBM:GetModLocalization(1500)
 -----------------------
 L= DBM:GetModLocalization(1501)
 
-L:SetMiscLocalization({
-	RPVandros = "Chega! Vocês, pestinhas, estão fora de controle!"
-})
-
 -----------------------
 --The Arcway Trash
 -----------------------
 L = DBM:GetModLocalization("ArcwayTrash")
 
 L:SetGeneralLocalization({
-	name =	"O Arcâneo Besteira"
+	name =	"The Arcway Trash"
 })
 
 -----------------------
 -- <<<Court of Stars>>> --
 -----------------------
-
 -----------------------
 -- Patrol Captain Gerdo --
 -----------------------
@@ -315,21 +246,14 @@ L= DBM:GetModLocalization(1720)
 L = DBM:GetModLocalization("CoSTrash")
 
 L:SetGeneralLocalization({
-	name =	"Pátio das Estrelas Besteira"
+	name =	"Court of Stars Trash"
 })
 
 L:SetOptionLocalization({
-	SpyHelper	= "Help identify the spy",
-	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
-})
-
-L:SetTimerLocalization({
-	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+	SpyHelper	= "Help identify the spy"
 })
 
 L:SetMiscLocalization({
-	--
-	proshlyapMurchal = "Precisa sair tão cedo, Grã-Magistra?",
 	Gloves1			= "Alguém disse que o espião usa luvas para esconder cicatrizes.",
 	Gloves2			= "Dizem que o espião fica escondendo as mãos.",
 	Gloves3			= "Corre um boato de que o espião sempre usa luvas.",
@@ -377,7 +301,6 @@ L:SetMiscLocalization({
 	Pouch2			= "Ouvi dizer que a pochete do espião está cheia de ouro para mostrar extravagância.",
 	Pouch3			= "Um amigo disse que o espião ama ouro e uma pochete bem cheia disso.",
 	Pouch4			= "Ouvi dizer que o espião sempre anda com uma bolsa mágica.",
-	Found			= "Ora, ora, não sejamos apressados", -- Ora, ora, não sejamos apressados, НИК. Que tal me seguir e conversar em um local mais reservado...
 	--
 	Gloves		= "gloves",
 	NoGloves	= "no gloves",
@@ -399,7 +322,6 @@ L:SetMiscLocalization({
 -----------------------
 -- <<<The Maw of Souls>>> --
 -----------------------
-
 -----------------------
 -- Ymiron, the Fallen King --
 -----------------------
@@ -415,36 +337,18 @@ L= DBM:GetModLocalization(1512)
 -----------------------
 L= DBM:GetModLocalization(1663)
 
-L:SetMiscLocalization({
-	Proshlyaping = "Vocês acham que venceram? Apenas sobreviveram à tempestade... Os mares são implacáveis.", --
-	TaintofSeaYell = "%s desaparece com %s. CUIDADO!"
-})
-
 -----------------------
 --Maw of Souls Trash
 -----------------------
 L = DBM:GetModLocalization("MawTrash")
 
 L:SetGeneralLocalization({
-	name =	"Gorja das Almas Besteira"
-})
-
-L:SetOptionLocalization({
-	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
-})
-
-L:SetTimerLocalization({
-	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
-})
-
-L:SetMiscLocalization({
-	Helya = "TODOS vocês vão se arrepender de invadir o meu reino."
+	name =	"Maw of Souls Trash"
 })
 
 -----------------------
 -- <<<Assault Violet Hold>>> --
 -----------------------
-
 -----------------------
 -- Mindflayer Kaahrj --
 -----------------------
@@ -491,7 +395,7 @@ L= DBM:GetModLocalization(1711)
 L = DBM:GetModLocalization("AVHTrash")
 
 L:SetGeneralLocalization({
-	name =	"Ataque ao Castelo Violeta Besteira"
+	name =	"Assault Violet Hold Trash"
 })
 
 L:SetWarningLocalization({
@@ -518,7 +422,6 @@ L:SetMiscLocalization({
 -----------------------
 -- <<<Vault of the Wardens>>> --
 -----------------------
-
 -----------------------
 -- Tirathon Saltheril --
 -----------------------
@@ -533,10 +436,6 @@ L= DBM:GetModLocalization(1695)
 -- Ash'golm --
 -----------------------
 L= DBM:GetModLocalization(1468)
-
-L:SetMiscLocalization({
-	MurchalProshlyapOchko = "As medidas de defesa da sala estão armadas."
-})
 
 -----------------------
 -- Glazer --
@@ -554,25 +453,12 @@ L= DBM:GetModLocalization(1470)
 L = DBM:GetModLocalization("VoWTrash")
 
 L:SetGeneralLocalization({
-	name =	"Câmara das Guardiãs Besteira"
-})
-
-L:SetTimerLocalization({
-	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
-})
-
-L:SetOptionLocalization({
-	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
-})
-
-L:SetMiscLocalization({
-	proshlyapMurchalRP = "Totalmente previsível! Eu sabia que você viria." --Прошляпанное очко Мурчаля Прошляпенко
+	name =	"Vault of Wardens Trash"
 })
 
 -----------------------
 -- <<<Return To Karazhan>>> --
 -----------------------
-
 -----------------------
 -- Maiden of Virtue --
 -----------------------
@@ -588,11 +474,6 @@ L= DBM:GetModLocalization(1820)
 -----------------------
 L= DBM:GetModLocalization(1826)
 
-L:SetMiscLocalization({
-	Tonny = "Quer dar uma voltinha?",
-	Phase3 = "Só eu e você contra o mundo, meu bem!"
-})
-
 -----------------------
 -- Opera Hall: Beautiful Beast  --
 -----------------------
@@ -602,12 +483,6 @@ L= DBM:GetModLocalization(1827)
 -- Attumen the Huntsman --
 -----------------------
 L= DBM:GetModLocalization(1835)
-
-L:SetMiscLocalization({
-	SharedSufferingYell = "%s em %s. FUJAM de mim!",
-	Perephase1 = "Hora de enfrentar a presa cara a cara!",
-	Perephase2 = "Venha, Meia-noite! Rumo à vitória!"
-})
 
 -----------------------
 -- Moroes --
@@ -649,36 +524,16 @@ L:SetGeneralLocalization({
 L = DBM:GetModLocalization("RTKTrash")
 
 L:SetGeneralLocalization({
-	name =	"Retorno a Karazhan Besteira"
-})
-
-L:SetOptionLocalization({
-	timerRoleplay = "Отсчет времени до начала представления \"Fera Bela\"",
-	timerRoleplay2 = "Отсчет времени до начала представления \"Amor, Cerrado Amor\"",
-	timerRoleplay3 = "Отсчет времени до начала представления \"Galeroz\"",
-	timerRoleplay4 = DBM_CORE_OPTION_TIMER_DOOR_OPENING,
-	OperaActivation = "Активировать представление в Опере в 1 нажатие"
-})
-
-L:SetTimerLocalization({
-	timerRoleplay = "\"Fera Bela\"",
-	timerRoleplay2 = "\"Amor, Cerrado Amor\"",
-	timerRoleplay3 = "\"Galeroz\"",
-	timerRoleplay4 = DBM_CORE_GENERIC_TIMER_DOOR_OPENING
+	name =	"Return To Karazhan Trash"
 })
 
 L:SetMiscLocalization({
-	Beauty = "Boa noite, senhoras e senhores. Temos o prazer de apresentar o grande espetáculo desta noite.",
-	Westfall = "Senhoras e senhores, sejam bem-vindos à grande apresentação da noite!",
-	Wikket = "Boa noite, senhoras e senhores, sejam bem... AU!",
-	Medivh1 = "Eu deixei tantos fragmentos meus nesta torre...",
-	speedRun = "The strange chill of a dark presence winds through the air..."
+	speedRun		=	"The strange chill of a dark presence winds through the air..."
 })
 
 -----------------------
 -- <<<Cathedral of Eternal Night >>> --
 -----------------------
-
 -----------------------
 -- Agronox --
 -----------------------
@@ -705,72 +560,6 @@ L= DBM:GetModLocalization(1878)
 L = DBM:GetModLocalization("CoENTrash")
 
 L:SetGeneralLocalization({
-	name =	"Catedral da Noite Eterna Besteira"
+	name =	"Cathedral of Eternal Night Trash"--Maybe something shorter?
 })
 
------------------------
--- <<<Seat of Triumvirate >>> --
------------------------
-
------------------------
--- Zuraal --
------------------------
-L= DBM:GetModLocalization(1979)
-
-L:SetWarningLocalization({
-	UmbraShift = "Umbra Shift on you - destroy the enemies"
-})
-
-L:SetOptionLocalization({
-	UmbraShift = "Show special warning \"destroy the enemies\" when you target $spell:244433"
-})
-
------------------------
--- Saprish  --
------------------------
-L= DBM:GetModLocalization(1980)
-
------------------------
--- Viceroy Nezhar --
------------------------
-L= DBM:GetModLocalization(1981)
-
------------------------
--- L'ura  --
------------------------
-L= DBM:GetModLocalization(1982)
-
------------------------
---Seat of Triumvirate Trash
------------------------
-L = DBM:GetModLocalization("SoTTrash")
-
-L:SetGeneralLocalization({
-	name =	"Sede do Triunvirato Besteira"
-})
-
-L:SetOptionLocalization({
-	timerRoleplay = DBM_CORE_OPTION_TIMER_DOOR_OPENING,
-	timerRoleplay2 = DBM_CORE_OPTION_TIMER_COMBAT,
-	AlleriaActivation = DBM_CORE_GENERIC_TIMER_ROLE_PLAY
-})
-
-L:SetTimerLocalization({
-	timerRoleplay = DBM_CORE_GENERIC_TIMER_DOOR_OPENING,
-	timerRoleplay2 = DBM_CORE_GENERIC_TIMER_COMBAT
-})
-
-L:SetMiscLocalization({
-	RP1 = "A Guarda Sombria vem fortalecendo sua presença perto do templo.",
-	RP2 = "Sinto um desespero imenso emanando lá de dentro. L'ura...",
-	RP3 = "Quanto caos... quanta angústia. Eu nunca senti nada igual."
-})
-
-----------
---Мифик+--
-----------
-L = DBM:GetModLocalization("MAffix")
-
-L:SetGeneralLocalization({
-	name = "M+ Afixos"
-})

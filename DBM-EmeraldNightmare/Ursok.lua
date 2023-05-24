@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1667, "DBM-EmeraldNightmare", nil, 768)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17548 $"):sub(12, -3))
 mod:SetCreatureID(100497)
 mod:SetEncounterID(1841)
 mod:SetZone()
@@ -18,8 +18,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED_DOSE 197943",
 	"SPELL_AURA_REMOVED 198006",
 	"SPELL_DAMAGE 205611",
-	"SPELL_MISSED 205611",
-	"UNIT_HEALTH boss1"
+	"SPELL_MISSED 205611"
 )
 
 --(ability.id = 197942 or ability.id = 197969) and type = "begincast" or ability.id = 197943 and type = "cast" or ability.id = 198006 and type = "applydebuff"
@@ -28,12 +27,10 @@ local warnFocusedGaze				= mod:NewTargetCountAnnounce(198006, 3)
 local warnBloodFrenzy				= mod:NewSpellAnnounce(198388, 4)
 local warnOverwhelm					= mod:NewStackAnnounce(197943, 2, nil, "Tank|Healer")
 
-local specWarnPhase1				= mod:NewSpecialWarning("Phase1", nil, nil, nil, 1, 2) --Фаза1
-local specWarnPhase2				= mod:NewSpecialWarning("Phase2", nil, nil, nil, 1, 2) --Фаза2
-
 local specWarnFocusedGaze			= mod:NewSpecialWarningYou(198006, nil, nil, nil, 1, 2)
 local specWarnFocusedGazeOther		= mod:NewSpecialWarningMoveTo(198006, nil, nil, nil, 1, 6)
-local specWarnRoaringCacophony		= mod:NewSpecialWarningShareCount(197969, nil, nil, nil, 2, 2)--Don't know what voice to give it yet, aesoon used for now
+local yellFocusedGaze				= mod:NewPosYell(198006)
+local specWarnRoaringCacophony		= mod:NewSpecialWarningCount(197969, nil, nil, nil, 2, 2)--Don't know what voice to give it yet, aesoon used for now
 local specWarnMiasma				= mod:NewSpecialWarningMove(205611, nil, nil, nil, 1, 2)
 local specWarnRendFlesh				= mod:NewSpecialWarningDefensive(197942, "Tank", nil, nil, 3, 2)
 local specWarnRendFleshOther		= mod:NewSpecialWarningTaunt(197942, nil, nil, nil, 3, 2)
@@ -43,8 +40,6 @@ local timerFocusedGazeCD			= mod:NewNextCountTimer(40, 198006, nil, nil, nil, 3)
 local timerRendFleshCD				= mod:NewNextCountTimer(20, 197942, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
 local timerOverwhelmCD				= mod:NewNextTimer(10, 197943, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
 local timerRoaringCacophonyCD		= mod:NewNextCountTimer(30, 197969, nil, nil, nil, 2, nil, DBM_CORE_HEALER_ICON)
-
-local yellFocusedGaze				= mod:NewPosYell(198006, nil, nil, nil, "YELL")
 
 local berserkTimer					= mod:NewBerserkTimer(300)
 
@@ -61,11 +56,6 @@ mod.vb.roarCount = 0
 mod.vb.chargeCount = 0
 mod.vb.tankCount = 2
 mod.vb.rendCount = 0
-
-local phase = 1
-local warned_preP1 = false
-local warned_preP2 = false
-
 local unbalancedName, focusedGazeName, rendFlesh, overWhelm, momentum = DBM:GetSpellInfo(198108), DBM:GetSpellInfo(198006), DBM:GetSpellInfo(204859), DBM:GetSpellInfo(197943), DBM:GetSpellInfo(198108)
 
 --Doesn't assign a soaker who'll die from it.
@@ -111,12 +101,9 @@ do
 end
 
 function mod:OnCombatStart(delay)
-	phase = 1
 	self.vb.roarCount = 0
 	self.vb.chargeCount = 0
 	self.vb.rendCount = 0
-	warned_preP1 = false
-	warned_preP2 = false
 	self.vb.tankCount = self:GetNumAliveTanks() or 2
 	timerOverwhelmCD:Start(-delay)
 	countdownOverwhelm:Start(-delay)
@@ -267,14 +254,3 @@ function mod:SPELL_DAMAGE(_, _, _, _, destGUID, destName, _, _, spellId)
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE
-
-function mod:UNIT_HEALTH(uId)
-	if phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 100497 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.35 then
-		warned_preP1 = true
-		specWarnPhase1:Show()
-	elseif phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 100497 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.30 then
-		phase = 2
-		warned_preP2 = true
-		specWarnPhase2:Show()
-	end
-end

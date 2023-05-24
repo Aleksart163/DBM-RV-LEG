@@ -14,8 +14,6 @@ DBM_CORE_LOAD_MOD_EXP_MISMATCH		= "지금은 사용할 수 없는 WoW 확장팩�
 DBM_CORE_LOAD_MOD_DISABLED			= "%s|1이;가; 설치는 돼있지만 켜져있질 않습니다. 직접 켜기 전까진 모드가 로딩되지 않습니다."
 DBM_CORE_LOAD_MOD_DISABLED_PLURAL	= "%s|1이;가; 설치는 돼있지만 켜져있질 않습니다. 직접 켜기 전까진 모드들이 로딩되지 않습니다."
 
-DBM_CORE_UPDATEREMINDER_URL			= "https://github.com/Aleksart163/DBM-RV"
-
 DBM_COPY_URL_DIALOG					= "URL 복사"
 
 --Post Patch 7.1

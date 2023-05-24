@@ -1,5 +1,4 @@
 if GetLocale() ~= "koKR" then return end
-
 local L
 
 ---------------
@@ -42,14 +41,3 @@ L:SetGeneralLocalization({
 	name =	"용맹의 시험 일반몹"
 })
 
-L:SetOptionLocalization({
-	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
-})
-
-L:SetTimerLocalization({
-	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
-})
-
-L:SetMiscLocalization({
-	RP1 = "용사들아! 너흰 헬리아의 하수인들의 피를 쏟았다. 이제 헬하임으로 직접 들어가, 그 바다 마녀의 공포 통치를 끝내야 한다. 하지만 그 전에... 최후의 시험이다!"
-})

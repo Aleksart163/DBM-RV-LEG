@@ -15,14 +15,14 @@ mod:RegisterEventsInCombat(
 	"UNIT_SPELLCAST_SUCCEEDED"
 )
 
-local warnYaksam				= mod:NewCastAnnounce(223373, 3) --Отрыжка
-local warnJetsam				= mod:NewTargetAnnounce(220295, 2) --Мусор
+local warnYaksam				= mod:NewCastAnnounce(223373, 3)
+local warnJetsam				= mod:NewTargetAnnounce(220295, 2)
 
-local specWarnGetsam			= mod:NewSpecialWarningDodge(220340, "-Tank", nil, nil, 1, 2) --Мусорка
-local specWarnBreakSam			= mod:NewSpecialWarningSpell(223317, "Melee", nil, nil, 1, 2) --Мусоробой
+local specWarnGetsam			= mod:NewSpecialWarningDodge(220340, "Tank", nil, nil, 1, 2)
+local specWarnBreakSam			= mod:NewSpecialWarningSpell(223317, "Melee", nil, nil, 1, 2)
 
-local timerGetsamCD				= mod:NewCDTimer(53, 220340, nil, nil, nil, 5, nil, DBM_CORE_DEADLY_ICON) --Мусорка
-local timerYaksamCD				= mod:NewCDTimer(50, 223373, nil, nil, nil, 1, nil, DBM_CORE_TANK_ICON) --50-55 Отрыжка
+local timerGetsamCD				= mod:NewCDTimer(53, 220340, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON)
+local timerYaksamCD				= mod:NewCDTimer(50, 223373, nil, nil, nil, 1)--50-55
 
 --mod:AddReadyCheckOption(37460, false)
 
