@@ -2,12 +2,13 @@ local mod	= DBM:NewMod(1826, "DBM-Party-Legion", 11, 860)
 local L		= mod:GetLocalizedStrings()
 
 mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
-mod:SetCreatureID(114261, 114260) --Тонни, Мрргрия
+mod:SetCreatureID(114261, 114260, 114265) --Тонни, Мрргрия, Головорез
 mod:SetEncounterID(1957)--Shared (so not used for encounter START since it'd fire 3 mods)
 mod:DisableESCombatDetection()--However, with ES disabled, EncounterID can be used for BOSS_KILL/ENCOUNTER_END
 mod:DisableIEEUCombatDetection()
 mod:SetZone()
 mod:SetBossHPInfoToHighest()
+mod:SetReCombatTime(120, 5)
 
 mod.noNormal = true
 
@@ -39,7 +40,7 @@ local specWarnFlameGale2			= mod:NewSpecialWarningYouMove(227480, nil, nil, nil,
 --Мрргрия
 local specWarnThunderRitual			= mod:NewSpecialWarningYouMoveAway(227777, nil, nil, nil, 4, 3) --Ритуал грома
 local specWarnBubbleBlast			= mod:NewSpecialWarningInterrupt(227420, "HasInterrupt", nil, nil, 1, 2) --Взрыв пузыря
-local specWarnWashAway				= mod:NewSpecialWarningDodge(227783, nil, nil, nil, 1, 2) --Ураганная волна
+local specWarnWashAway				= mod:NewSpecialWarningDodge(227783, nil, nil, nil, 2, 2) --Ураганная волна
 
 --Тонни
 local timerLegSweepCD				= mod:NewCDTimer(20, 227568, nil, "Melee", nil, 2, nil, DBM_CORE_DEADLY_ICON) --Пламенная подсечка +++

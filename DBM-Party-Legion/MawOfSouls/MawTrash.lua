@@ -29,8 +29,8 @@ local specWarnSixPoundBarrel	= mod:NewSpecialWarningDodge(194442, nil, nil, nil,
 local specWarnSixPoundBarrel2	= mod:NewSpecialWarningTargetDodge(194442, nil, nil, nil, 2, 3) --Шестифунтовая бочка
 local specWarnCurseofHope		= mod:NewSpecialWarningYou(194640, nil, nil, nil, 1, 2) --Проклятая надежда
 local specWarnSoulSiphon		= mod:NewSpecialWarningInterrupt(194657, "HasInterrupt", nil, nil, 1, 2) --Вытягивание души
-local specWarnBrackwaterBlast	= mod:NewSpecialWarningYouDefensive(200208, nil, nil, nil, 3, 5) --Взрыв солоноватой воды
-local specWarnLanternDarkness	= mod:NewSpecialWarningDefensive(192019, nil, nil, nil, 3, 5) --Фонарь Тьмы
+local specWarnBrackwaterBlast	= mod:NewSpecialWarningYouDefensive(200208, nil, nil, nil, 3, 6) --Взрыв солоноватой воды
+local specWarnLanternDarkness	= mod:NewSpecialWarningDefensive(192019, nil, nil, nil, 3, 6) --Фонарь Тьмы
 local specWarnPoisonousSludge	= mod:NewSpecialWarningYouMove(194102, nil, nil, nil, 1, 2) --Ядовитая жижа
 local specWarnBind				= mod:NewSpecialWarningYouDefensive(195279, nil, nil, nil, 2, 5) --Связывание
 local specWarnScream			= mod:NewSpecialWarningInterrupt(198405, "HasInterrupt", nil, nil, 1, 2) --Леденящий душу вопль
@@ -74,18 +74,18 @@ function mod:SPELL_CAST_START(args)
 			warnScream:Show()
 			warnScream:Play("kickcast")
 		end
-	elseif spellId == 195031 and self:AntiSpam(2, 1) then
+	elseif spellId == 195031 and self:AntiSpam(2, "defiantstrike") then
 		if not self:IsNormal() then
 			specWarnDefiantStrike:Show()
-			specWarnDefiantStrike:Play("chargemove")
+			specWarnDefiantStrike:Play("watchstep")
 		end
-	elseif spellId == 195293 and self:AntiSpam(2, 1) then --Истощающий крик
+	elseif spellId == 195293 then --Истощающий крик
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnDebilitatingShout:Show()
 			specWarnDebilitatingShout:Play("kickcast")
 		end
 		timerDebilitatingShoutCD:Start()
-	elseif spellId == 196885 and self:AntiSpam(2, 1) then --Не щадить никого
+	elseif spellId == 196885 and self:AntiSpam(2, "quarter") then --Не щадить никого
 		if not self:IsNormal() then
 			specWarnGiveNoQuarter:Show()
 			specWarnGiveNoQuarter:Play("stilldanger")
@@ -96,17 +96,17 @@ function mod:SPELL_CAST_START(args)
 			specWarnBileBreath:Show()
 			specWarnBileBreath:Play("stilldanger")
 		end
-	elseif spellId == 192019 and self:AntiSpam(3, 1) then --Фонарь Тьмы
+	elseif spellId == 192019 and self:AntiSpam(2, "lantern") then --Фонарь Тьмы
 		timerLanternDarknessCD:Start()
 		if not self:IsNormal() then
 			specWarnLanternDarkness:Show()
 			specWarnLanternDarkness:Play("defensive")
 		end
-	elseif spellId == 199589 and self:AntiSpam(2, 1) then --Водоворот душ
+	elseif spellId == 199589 then --Водоворот душ
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnWhirlpoolSouls:Show(args.sourceName)
 			specWarnWhirlpoolSouls:Play("kickcast")
-		elseif self:AntiSpam(2, 1) then
+		elseif self:AntiSpam(2, "whirlpool") then
 			warnWhirlpoolSouls:Show()
 			warnWhirlpoolSouls:Play("kickcast")
 		end
@@ -135,7 +135,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif spellId == 200208 then --Взрыв солоноватой воды
 		if not self:IsNormal() then
-			if args:IsPlayer() and self:AntiSpam(2, 1) then
+			if args:IsPlayer() and self:AntiSpam(2, "brackwater") then
 				specWarnBrackwaterBlast:Show()
 				specWarnBrackwaterBlast:Play("defensive")
 			end
@@ -147,7 +147,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if not self:IsNormal() then
 			if args:IsPlayer() then
 				specWarnCurseofHope:Show()
-				specWarnBind:Play("targetyou")
+				specWarnCurseofHope:Play("targetyou")
 			end
 		end
 	end
@@ -161,13 +161,12 @@ end]]
 
 function mod:CHAT_MSG_MONSTER_YELL(msg)
 	if msg == L.Helya then
-		timerRoleplay:Start(13)
-	--	self:SendSync("RPHelya")
+		self:SendSync("RPHelya")
 	end
 end
 
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
-	if spellId == 194102 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
+	if spellId == 194102 and destGUID == UnitGUID("player") and self:AntiSpam(2, "poisonous") then
 		if not self:IsNormal() then
 			specWarnPoisonousSludge:Show()
 			specWarnPoisonousSludge:Play("runaway")
@@ -184,5 +183,11 @@ function mod:UNIT_DIED(args)
 		timerBindCD:Cancel()
 	elseif cid == 97182 then
 		timerLanternDarknessCD:Cancel()
+	end
+end
+
+function mod:OnSync(msg)
+	if msg == "RPHelya" then
+		timerRoleplay:Start(13)
 	end
 end

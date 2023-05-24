@@ -34,9 +34,9 @@
 -------------------------------
 
 DBM = {
-	Revision = tonumber(("$Revision: 17718 $"):sub(12, -3)), --прошляпанное очко Мурчаля Прошляпенко ✔✔✔
+	Revision = tonumber(("$Revision: 17719 $"):sub(12, -3)), --прошляпанное очко Мурчаля Прошляпенко [✔]
 	DisplayVersion = "7.3.45 Right Version " .. string.sub(GetLocale(), -2),
-	ReleaseRevision = 17717
+	ReleaseRevision = 17718
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -340,6 +340,11 @@ DBM.BattleMusic = {--Filtered list of media assigned to boss/encounter backgroun
 	{text = "Random", value = "Random"},
 	{text = "None", value = "None"},
 }
+
+nameplates = ""
+for i = 1, 40 do
+	nameplates = nameplates .. " nameplate" .. i
+end
 
 DbmRV = "[DBM RV] "
 ------------------------
@@ -1474,7 +1479,7 @@ do
 	end
 end
 
-local function proshlyapKristassa(self, event, msg) --Прошляпанное очко Кристасса ✔✔✔
+local function proshlyapSoulburnin(self, event, msg) --явно прошляпанное очко Мурчаля
 	if DBM.Options.AutoKeyLink then
 		if event == "CHAT_MSG_PARTY" or event == "CHAT_MSG_PARTY_LEADER" then
 			if string.lower(msg) == "!keys" then
@@ -1499,22 +1504,22 @@ f:RegisterEvent("CHAT_MSG_RAID")
 f:RegisterEvent("CHAT_MSG_RAID_LEADER")
 f:RegisterEvent("CHAT_MSG_GUILD")
 
-f:SetScript("OnEvent", proshlyapKristassa)
+f:SetScript("OnEvent", proshlyapSoulburnin)
 
-function proshlyapMurchalya(force, raid, guild) --Прошляпанное очко Мурчаля Прошляпенко ✔✔✔
+function proshlyapMurchalya(force, raid, guild) --Прошляпанное очко Мурчаля Прошляпенко [✔]
 	for bag = 0, NUM_BAG_SLOTS do
 		local numSlots = GetContainerNumSlots(bag)
-		local ochkoMurchalya = nil
+		local proshlyapOchkaMurchalya = nil
 		for slot = 1, numSlots do
 			if GetContainerItemID(bag, slot) == 138019 then
-				ochkoMurchalya = GetContainerItemLink(bag, slot)
+				proshlyapOchkaMurchalya = GetContainerItemLink(bag, slot)
 				if force then
 					if guild then
-						SendChatMessage(DbmRV.. ochkoMurchalya, "GUILD")
+						SendChatMessage(DbmRV.. proshlyapOchkaMurchalya, "GUILD")
 					elseif raid then
-						SendChatMessage(DbmRV.. ochkoMurchalya, "RAID")
+						SendChatMessage(DbmRV.. proshlyapOchkaMurchalya, "RAID")
 					else
-						SendChatMessage(DbmRV.. ochkoMurchalya, "PARTY")
+						SendChatMessage(DbmRV.. proshlyapOchkaMurchalya, "PARTY")
 					end
 				end
 			end
@@ -5410,7 +5415,7 @@ do
 	function DBM:INSTANCE_ENCOUNTER_ENGAGE_UNIT() --Волосали
 		if timerRequestInProgress then return end --do not start ieeu combat if timer request is progressing. (not to break Timer Recovery stuff)
 		if dbmIsEnabled and combatInfo[LastInstanceMapID] then
-			self:Debug("INSTANCE_ENCOUNTER_ENGAGE_UNIT event fired for zoneId" .. LastInstanceMapID, 3)
+			self:Debug("INSTANCE_ENCOUNTER_ENGAGE_UNIT event fired for zoneId" .. LastInstanceMapID) -- default debuglevel 3
 			for i, v in ipairs(combatInfo[LastInstanceMapID]) do
 				if not v.noIEEUDetection then
 					if v.type:find("combat") and isBossEngaged(v.multiMobPullDetection or v.mob) then
@@ -7063,17 +7068,17 @@ do
 			testWarning2:Schedule(20, "Злой спелл через 5 сек!")
 			testWarning2:Schedule(25, "Злой спелл!")
 			testWarning1:Schedule(5, "Тест бара окончен!")
-			testSpecialWarning1:Schedule(10, "Прошляпанное очко Мурчаля - прервите каст!")
+			testSpecialWarning1:Schedule(10, "Прошляпанное очко Мурчаля - прерви каст!")
 			testSpecialWarning1:ScheduleVoice(10, "kickcast")
-			testSpecialWarning2:Schedule(25, "Страх! - отвернитесь")
+			testSpecialWarning2:Schedule(25, "Страх! - отвернись")
 			testSpecialWarning2:ScheduleVoice(25, "fearsoon")
-			testSpecialWarning3:Schedule(45, "АОЕ по рейду! - защититесь")
+			testSpecialWarning3:Schedule(45, "АОЕ по рейду! - защитись")
 			testSpecialWarning3:ScheduleVoice(45, "defensive")
-			testSpecialWarning4:Schedule(15, "Вызов подкрепления - переключитесь")
+			testSpecialWarning4:Schedule(15, "Вызов подкрепления - переключись")
 			testSpecialWarning4:ScheduleVoice(15, "mobkill")
 			testSpecialWarning5:Schedule(20, "Обстрел Скверны - затаунти")
 			testSpecialWarning5:ScheduleVoice(20, "tauntboss")
-			testSpecialWarning6:Schedule(35, "Очко Мурчаля на вас - отбегите от других")
+			testSpecialWarning6:Schedule(35, "Очко Мурчаля на тебе - отбеги от других")
 			testSpecialWarning6:ScheduleVoice(35, "runaway")
 		else --others
 			testWarning1:Show("Test-mode started...")
@@ -9764,6 +9769,10 @@ do
 	
 	function bossModPrototype:NewYellDispel(...)
 		return newYell(self, "yelldispel", ...)
+	end
+	
+	function bossModPrototype:NewYellMoveAway(...)
+		return newYell(self, "yellmoveaway", ...)
 	end
 	
 	function bossModPrototype:NewShortYell(...)

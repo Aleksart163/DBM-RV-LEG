@@ -1,16 +1,16 @@
 ﻿## Interface: 70300
 ## X-Min-Interface: 70300
-## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Dungeons-MoP|r
-## Title-ruRU:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Групповые подземелья-MoP|r
-## Title-deDE:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Gruppe-MoP|r
-## Title-esES:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Mazmorras-MoP|r
-## Title-esMX:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Mazmorras-MoP|r
-## Title-frFR:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Donjons de groupe-MoP|r
-## Title-itIT:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Dungeon di gruppo-MoP|r
-## Title-ptBR:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Masmorras de grupo-MoP|r
-## Title-koKR:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf05인 던전-MoP|r
-## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf05人小队-MoP|r
-## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0隊伍首領-MoP|r
+## Title:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0Dungeons-MoP|r
+## Title-ruRU:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0Групповые подземелья-MoP|r
+## Title-deDE:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0Gruppe-MoP|r
+## Title-esES:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0Mazmorras-MoP|r
+## Title-esMX:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0Mazmorras-MoP|r
+## Title-frFR:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0Donjons de groupe-MoP|r
+## Title-itIT:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0Dungeon di gruppo-MoP|r
+## Title-ptBR:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0Masmorras de grupo-MoP|r
+## Title-koKR:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf05인 던전-MoP|r
+## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf05人小队-MoP|r
+## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0隊伍首領-MoP|r
 ## Author: Aleksart163
 ## LoadOnDemand: 1
 ## RequiredDeps: DBM-Core

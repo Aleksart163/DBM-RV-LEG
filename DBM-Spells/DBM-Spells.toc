@@ -1,15 +1,13 @@
 ﻿## Interface: 70300
 ## X-Min-Interface: 70300
-## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Another|r
-## Title-ruRU:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Другое|r
-## Title-deDE:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Andere|r
-## Title-esES:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Otros|r
-## Title-esMX:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Otros|r
-## Title-frFR:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Un autre|r
-## Title-itIT:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Un altro|r
-## Title-ptBR:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Outro|r
-## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0其他|r
-## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0其他|r
+## Title:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0Raid Spells|r
+## Title-ruRU:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0Рейдовые заклинания|r
+## Title-deDE:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0Raid-zauber|r
+## Title-esES:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0Hechizos de banda|r
+## Title-esMX:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0Hechizos de banda|r
+## Title-frFR:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0Sorts de RAID|r
+## Title-itIT:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0Incantesimi RAID|r
+## Title-ptBR:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0Feitiços Raid|r
 ## Author: Aleksart163
 ## LoadOnDemand: 1
 ## RequiredDeps: DBM-Core
@@ -17,16 +15,14 @@
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: OTHER
 ## X-DBM-Mod-Category: LEG
-## X-DBM-Mod-Name: Another
-## X-DBM-Mod-Name-ruRU: Другое
-## X-DBM-Mod-Name-deDE: Andere
-## X-DBM-Mod-Name-esES: Otros
-## X-DBM-Mod-Name-esMX: Otros
-## X-DBM-Mod-Name-frFR: Un autre
-## X-DBM-Mod-Name-itIT: Un altro
-## X-DBM-Mod-Name-ptBR: Outro
-## X-DBM-Mod-Name-zhCN: 其他
-## X-DBM-Mod-Name-zhTW: 其他
+## X-DBM-Mod-Name: Raid Spells
+## X-DBM-Mod-Name-ruRU: Рейдовые заклинания
+## X-DBM-Mod-Name-deDE: Raid-zauber
+## X-DBM-Mod-Name-esES: Hechizos de banda
+## X-DBM-Mod-Name-esMX: Hechizos de banda
+## X-DBM-Mod-Name-frFR: Sorts de RAID
+## X-DBM-Mod-Name-itIT: Incantesimi RAID
+## X-DBM-Mod-Name-ptBR: Feitiços Raid
 ## X-DBM-Mod-Sort: 511
 ## X-DBM-Mod-MapID: 1712, 1676, 1530, 1648, 1520, 1779, 1501, 1466, 1456, 1477, 1458, 1516, 1571, 1492, 1544, 1493, 1651, 1677, 1753
 ## X-DBM-Mod-MinCoreRevision: 17700

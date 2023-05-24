@@ -1,16 +1,16 @@
 ## Interface: 70300
 ## X-Min-Interface: 70300
-## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff0055FFOptions GUI|r
-## Title-ruRU:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff0055FFПараметры GUI|r
-## Title-deDE:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff0055FFGUI für Einstellungen|r
-## Title-esES:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff0055FFInterfaz gráfica|r
-## Title-esMX:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff0055FFInterfaz gráfica|r
-## Title-frFR:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff0055FFIUG des options|r
-## Title-itIT:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff0055FFInterfaccia Opzioni|r
-## Title-ptBR:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff0055FFIU de opções|r
-## Title-koKR:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff0055FF설정 GUI|r
-## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff0055FF设置界面|r
-## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff0055FF使用者介面|r
+## Title:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff0055FFOptions GUI|r
+## Title-ruRU:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff0055FFПараметры GUI|r
+## Title-deDE:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff0055FFGUI für Einstellungen|r
+## Title-esES:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff0055FFInterfaz gráfica|r
+## Title-esMX:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff0055FFInterfaz gráfica|r
+## Title-frFR:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff0055FFIUG des options|r
+## Title-itIT:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff0055FFInterfaccia Opzioni|r
+## Title-ptBR:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff0055FFIU de opções|r
+## Title-koKR:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff0055FF설정 GUI|r
+## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff0055FF设置界面|r
+## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff0055FF使用者介面|r
 ## Notes: GUI for Deadly Boss Mods
 ## Notes-ruRU: Графический интерфейс пользователя DBM
 ## Notes-deDE: Grafische Benutzeroberfläche für Deadly Boss Mods

@@ -51,8 +51,8 @@ local timerApocNightmare			= mod:NewCastTimer(5, 200050, nil, nil, nil, 2, nil, 
 local yellFesteringRip				= mod:NewYell(200182, nil, nil, nil, "YELL") --Гноящаяся рана
 local yellNightmareBolt				= mod:NewYell(200185, nil, nil, nil, "YELL") --Кошмарная стрела
 local yellFeedontheWeak				= mod:NewYell(200238, nil, nil, nil, "YELL") --Пожирание слабых
-local yellNightmare					= mod:NewYell(200243, nil, nil, nil, "YELL") --Кошмар наяву
-local yellParanoia					= mod:NewYell(200289, L.ParanoiaYell, nil, nil, "YELL") --Усугубляющаяся паранойя
+local yellNightmare					= mod:NewYellHelp(200243, nil, nil, nil, "YELL") --Кошмар наяву
+local yellParanoia					= mod:NewYellMoveAway(200289, nil, nil, nil, "YELL") --Усугубляющаяся паранойя
 local yellParanoia2					= mod:NewFadesYell(200289, nil, nil, nil, "YELL") --Усугубляющаяся паранойя
 
 local countdownApocNightmare		= mod:NewCountdown(5, 200050, nil, nil, 5) --Апокалиптический Кошмар
@@ -71,9 +71,6 @@ mod.vb.growingParanoia = 0
 mod.vb.lastBoltTime = 0
 local warned_preP1 = false
 local warned_preP2 = false
-
-local playerName = UnitName("player")
-local paranoia = replaceSpellLinks(200289) --Усугубляющаяся паранойя
 
 function mod:NightmareBoltTarget(targetname, uId) --Прошляпанное очко Мурчаля ✔
 	if not targetname then return end
@@ -94,7 +91,7 @@ function mod:ParanoiaTarget(targetname, uId) --Усугубляющаяся па
 	if targetname == UnitName("player") then
 		specWarnParanoia:Show()
 		specWarnParanoia:Play("runaway")
-		yellParanoia:Yell(paranoia, playerName)
+		yellParanoia:Yell()
 	elseif self:CheckNearby(15, targetname) then
 		specWarnParanoia2:Show(targetname)
 		specWarnParanoia2:Play("runaway")

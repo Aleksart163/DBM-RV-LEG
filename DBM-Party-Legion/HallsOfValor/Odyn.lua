@@ -47,6 +47,8 @@ local countdownTempest				= mod:NewCountdown(56, 198263, nil, nil, 5) --Свет
 local countdownTempest2				= mod:NewCountdownFades("Alt7", 198263, nil, nil, 5) --Светозарная буря
 local countdownRunicBrand			= mod:NewCountdown("Alt54", 197961, nil, nil, 5) --Руническое клеймо
 
+local yellRunicBrand				= mod:NewPosYell(197961, DBM_CORE_AUTO_YELL_CUSTOM_POSITION, nil, nil, "YELL") --Руническое клеймо
+
 mod:AddSetIconOption("SetIconOnSurge", 198750, true, true, {8})
 mod:AddSetIconOption("SetIconOnRunicBrand", 197961, true, false, {6, 4, 3, 2, 1}) --Руническое клеймо
 
@@ -54,7 +56,7 @@ mod.vb.temptestMode = 1
 mod.vb.tempestCount = 0
 mod.vb.brandCount = 0
 
-function mod:OnCombatStart(delay) --Прошляпанное очко мурчаля ✔
+function mod:OnCombatStart(delay) --Прошляпанное очко мурчаля [✔]
 	self.vb.temptestMode = 1
 	self.vb.tempestCount = 0
 	self.vb.brandCount = 0
@@ -141,6 +143,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		specWarnRunicBrand:Show("|TInterface\\Icons\\Boss_OdunRunes_Purple.blp:12:12|t")
 		specWarnRunicBrand:Play("frontright")
 		timerRunicBrand:Start(args.destName)
+		yellRunicBrand:Yell(3, "", 3)
 		if self.Options.SetIconOnRunicBrand then
 			self:SetIcon(args.destName, 3, 12)
 		end
@@ -148,6 +151,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		specWarnRunicBrand2:Show("|TInterface\\Icons\\Boss_OdunRunes_Orange.blp:12:12|t")
 		specWarnRunicBrand:Play("backright")
 		timerRunicBrand:Start(args.destName)
+		yellRunicBrand:Yell(2, "", 2)
 		if self.Options.SetIconOnRunicBrand then
 			self:SetIcon(args.destName, 2, 12)
 		end
@@ -155,6 +159,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		specWarnRunicBrand3:Show("|TInterface\\Icons\\Boss_OdunRunes_Yellow.blp:12:12|t")
 		specWarnRunicBrand:Play("backleft")
 		timerRunicBrand:Start(args.destName)
+		yellRunicBrand:Yell(1, "", 1)
 		if self.Options.SetIconOnRunicBrand then
 			self:SetIcon(args.destName, 1, 12)
 		end
@@ -162,6 +167,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		specWarnRunicBrand4:Show("|TInterface\\Icons\\Boss_OdunRunes_Blue.blp:12:12|t")
 		specWarnRunicBrand:Play("frontleft")
 		timerRunicBrand:Start(args.destName)
+		yellRunicBrand:Yell(6, "", 6)
 		if self.Options.SetIconOnRunicBrand then
 			self:SetIcon(args.destName, 6, 12)
 		end
@@ -169,6 +175,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		specWarnRunicBrand5:Show("|TInterface\\Icons\\Boss_OdunRunes_Green.blp:12:12|t")
 		specWarnRunicBrand:Play("frontcenter")--Does not exist yet
 		timerRunicBrand:Start(args.destName)
+		yellRunicBrand:Yell(4, "", 4)
 		if self.Options.SetIconOnRunicBrand then
 			self:SetIcon(args.destName, 4, 12)
 		end

@@ -8,7 +8,8 @@ mod:SetZone()
 mod.isTrashMod = true
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 228255 228239 227917 227925 228625 228606 229714 227966 228254 228280 230094 229429 229608 228700",
+	"SPELL_CAST_START 228255 228239 227917 227925 228625 228606 229714 227966 228254 228280 230094 229429 229608 228700 36247",
+	"SPELL_CAST_SUCCESS 227529",
 	"SPELL_AURA_APPLIED 228331 229706 229716 228610 229074 230083 230050 228280 230087 228241 229468 229489 230297 228576",
 	"SPELL_AURA_APPLIED_DOSE 229074 228610 228576",
 	"SPELL_AURA_REFRESH 229074 228610",
@@ -19,7 +20,8 @@ mod:RegisterEvents(
 	"CHAT_MSG_MONSTER_SAY",
 	"CHAT_MSG_MONSTER_YELL",
 	"CHAT_MSG_MONSTER_EMOTE",
-	"UNIT_DIED"
+	"UNIT_DIED",
+	"UNIT_SPELLCAST_SUCCEEDED mouseover target focus" .. nameplates
 )
 
 --Каражан треш
@@ -34,7 +36,12 @@ local warnArcaneBarrage				= mod:NewCastAnnounce(228700, 3) --Чародейск
 local warnBrittleBones				= mod:NewTargetAnnounce(230297, 3) --Ослабление костей
 local warnBansheeWail				= mod:NewCastAnnounce(228625, 3) --Вой банши
 local warnAllured					= mod:NewStackAnnounce(228576, 3, nil, nil, 2) --Соблазнение
-
+--Поврежденный голем
+local specWarnUnstableEnergy		= mod:NewSpecialWarningDodge(227529, nil, nil, nil, 2, 2) --Нестабильная энергия
+--Наполненный силой пиромант
+local specWarnFelBomb				= mod:NewSpecialWarningSpell(229620, nil, nil, nil, 2, 2) --Бомба Скверны
+local specWarnFelFireball			= mod:NewSpecialWarningInterrupt(36247, "HasInterrupt", nil, nil, 1, 2) --Огненный шар Скверны
+--
 local specWarnRoyalSlash			= mod:NewSpecialWarningDodge(229429, "Melee", nil, nil, 2, 2) --Удар короля сплеча
 
 local specWarnBrittleBones2			= mod:NewSpecialWarningYouDefensive(230297, nil, nil, nil, 3, 6) --Ослабление костей
@@ -42,7 +49,7 @@ local specWarnBrittleBones3			= mod:NewSpecialWarningYouDispel(230297, "CurseDis
 local specWarnBrittleBones			= mod:NewSpecialWarningDispel(230297, "CurseDispeller", nil, nil, 3, 6) --Ослабление костей
 --
 local specWarnCursedTouch			= mod:NewSpecialWarningYou(228241, nil, nil, nil, 2, 2) --Проклятое прикосновение
-local specWarnCursedTouch3			= mod:NewSpecialWarningYouDispel(228241, "CurseDispeller", nil, nil, 2, 2) --Проклятое прикосновение
+local specWarnCursedTouch3			= mod:NewSpecialWarningYouDispel(228241, "CurseDispeller", nil, nil, 3, 2) --Проклятое прикосновение
 local specWarnCursedTouch2			= mod:NewSpecialWarningDispel(228241, "CurseDispeller", nil, nil, 3, 2) --Проклятое прикосновение
 --
 local specWarnAllured				= mod:NewSpecialWarningStack(228576, nil, 80, nil, nil, 1, 3) --Соблазнение
@@ -70,6 +77,7 @@ local specWarnCurseofDoom			= mod:NewSpecialWarningDispel(229716, "MagicDispelle
 local specWarnRoyalty				= mod:NewSpecialWarningSwitch(229489, "-Healer", nil, nil, 1, 2) --Царственность
 local specWarnFlashlight			= mod:NewSpecialWarningLookAway(227966, nil, nil, nil, 3, 3) --Фонарь
 
+local timerFelBomb					= mod:NewCastTimer(17, 196034, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON)
 local timerNullificationCD			= mod:NewCDTimer(14, 230094, nil, nil, nil, 7, nil) --Полная нейтрализация
 local timerReinvigorated			= mod:NewTargetTimer(20, 230087, nil, nil, nil, 7) --Восполнение сил
 local timerOathofFealty				= mod:NewTargetTimer(15, 228280, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON) --Клятва верности
@@ -158,6 +166,18 @@ function mod:SPELL_CAST_START(args)
 			warnArcaneBarrage:Show()
 			warnArcaneBarrage:Play("kickcast")
 		end
+	elseif spellId == 36247 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Огненный шар Скверны
+		specWarnFelFireball:Show()
+		specWarnFelFireball:Play("kickcast")
+	end
+end
+
+function mod:SPELL_CAST_SUCCESS(args)
+	if not self.Options.Enabled then return end
+	local spellId = args.spellId
+	if spellId == 227529 and self:AntiSpam(2, "unstable") then --Нестабильная энергия
+		specWarnUnstableEnergy:Show()
+		specWarnUnstableEnergy:Play("watchstep")
 	end
 end
 
@@ -176,7 +196,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self:IsMythic() then
 			if args:IsPlayer() and not self:IsCurseDispeller() then
 				specWarnCursedTouch:Show()
-				specWarnCursedTouch:Play("defensive")
+				specWarnCursedTouch:Play("targetyou")
 			elseif args:IsPlayer() and self:IsCurseDispeller() then
 				specWarnCursedTouch3:Show()
 				specWarnCursedTouch3:Play("dispelnow")
@@ -189,7 +209,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		else
 			if args:IsPlayer() and not self:IsCurseDispeller() then
 				specWarnCursedTouch:Show()
-				specWarnCursedTouch:Play("defensive")
+				specWarnCursedTouch:Play("targetyou")
 			elseif args:IsPlayer() and self:IsCurseDispeller() then
 				specWarnCursedTouch3:Show()
 				specWarnCursedTouch3:Play("dispelnow")
@@ -321,20 +341,6 @@ function mod:CHAT_MSG_MONSTER_EMOTE(msg)
 	end
 end
 
-function mod:OnSync(msg)
-	if msg == "KaraSpeed" then
-		timerAchieve:Start()
-	elseif msg == "RPBeauty" then
-		timerRoleplay:Start(52.5)
-	elseif msg == "RPWestfall" then
-		timerRoleplay2:Start(46.5)
-	elseif msg == "RPWikket" then
-		timerRoleplay3:Start(70)
-	elseif msg == "RPMedivh1" then
-		timerRoleplay4:Start(14.7)
-	end
-end
-
 function mod:CHAT_MSG_MONSTER_SAY(msg)
 	if msg == L.Medivh1 then
 		self:SendSync("RPMedivh1")
@@ -379,5 +385,33 @@ function mod:UNIT_DIED(args)
 		else
 			timerRoyalty:Cancel()
 		end
+	end
+end
+
+function mod:UNIT_SPELLCAST_SUCCEEDED(_, _, _, _, spellId)
+	if spellId == 229620 and self:AntiSpam(1, "felbomb") then
+		self:SendSync("felbomb")
+	elseif spellId == 229678 and self:AntiSpam(1, "felbombend") then
+		self:SendSync("felbombend")
+	end
+end
+
+function mod:OnSync(msg)
+	if msg == "KaraSpeed" then
+		timerAchieve:Start()
+	elseif msg == "RPBeauty" then
+		timerRoleplay:Start(52.5)
+	elseif msg == "RPWestfall" then
+		timerRoleplay2:Start(46.5)
+	elseif msg == "RPWikket" then
+		timerRoleplay3:Start(70)
+	elseif msg == "RPMedivh1" then
+		timerRoleplay4:Start(14.7)
+	elseif msg == "felbomb" then
+		specWarnFelBomb:Show()
+		specWarnFelBomb:Play("bombsoon")
+		timerFelBomb:Start()
+	elseif msg == "felbombend" then
+		timerFelBomb:Cancel()
 	end
 end

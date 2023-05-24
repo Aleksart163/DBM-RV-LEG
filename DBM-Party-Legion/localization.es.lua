@@ -406,18 +406,7 @@ L:SetTimerLocalization({
 
 if GetLocale() == "esES" then
 L:SetMiscLocalization({
-	EatingYell = "%s %s usando %s!",
-	SiphoningMagic = "%s %s usando %s!",
-	PurifyingYell = "%s %s usando %s!",
-	DrainingYell = "%s %s usando %s!",
-	InvokingTextYell = "%s %s usando %s!",
-	DrinkingYell = "%s %s usando %s!",
-	ReleaseSporesYell = "%s %s usando %s!",
-	ShuttingDownYell = "%s %s usando %s!",
-	TreatingYell = "%s %s usando %s!",
-	PilferingYell = "%s %s usando %s!",
-	DefacingYell = "%s %s usando %s!",
-	TinkeringYell = "%s %s usando %s!",
+	SpellUseYell = "%s %s usando %s!",
 	--
 	proshlyapMurchal = "¿Tan pronto nos abandonas, Gran Magistrix?",
 	Gloves1			= "Dicen los rumores que el espía siempre lleva guantes.",
@@ -502,18 +491,7 @@ L:SetMiscLocalization({
 })
 else--esMX
 L:SetMiscLocalization({
-	EatingYell = "%s usando %s!",
-	SiphoningMagic = "%s usando %s!",
-	PurifyingYell = "%s usando %s!",
-	DrainingYell = "%s usando %s!",
-	InvokingTextYell = "%s usando %s!",
-	DrinkingYell = "%s usando %s!",
-	ReleaseSporesYell = "%s usando %s!",
-	ShuttingDownYell = "%s usando %s!",
-	TreatingYell = "%s usando %s!",
-	PilferingYell = "%s usando %s!",
-	DefacingYell = "%s usando %s!",
-	TinkeringYell = "%s usando %s!",
+	SpellUseYell = "%s %s usando %s!",
 	--
 	proshlyapMurchal = "¿Debes irte tan pronto, Gran magistrix?", --
 	Gloves1			= "Oí que el espía siempre usa guantes.",

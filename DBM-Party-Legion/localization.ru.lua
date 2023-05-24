@@ -347,18 +347,7 @@ L:SetTimerLocalization({
 })
 
 L:SetMiscLocalization({
-	EatingYell = "%s %s использует %s!",
-	SiphoningMagic = "%s %s использует %s!",
-	PurifyingYell = "%s %s использует %s!",
-	DrainingYell = "%s %s использует %s!",
-	InvokingTextYell = "%s %s использует %s!",
-	DrinkingYell = "%s %s использует %s!",
-	ReleaseSporesYell = "%s %s использует %s!",
-	ShuttingDownYell = "%s %s использует %s!",
-	TreatingYell = "%s %s использует %s!",
-	PilferingYell = "%s %s использует %s!",
-	DefacingYell = "%s %s использует %s!",
-	TinkeringYell = "%s %s использует %s!",
+	SpellUseYell = "%s %s использует %s!",
 	--
 	proshlyapMurchal = "Великий магистр, не слишком ли рано?",
 	Gloves1			= "Ходят слухи, что шпион все время носит перчатки.",

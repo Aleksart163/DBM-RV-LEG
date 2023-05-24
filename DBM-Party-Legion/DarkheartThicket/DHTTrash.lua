@@ -11,17 +11,20 @@ mod:RegisterEvents(
 	"SPELL_CAST_START 201226 200580 200630 200768",
 	"SPELL_CAST_SUCCESS 201272",
 	"SPELL_SUMMON 198910",
-	"SPELL_AURA_APPLIED 204243 225568 198904",
-	"SPELL_AURA_REMOVED 225568 198904",
+	"SPELL_AURA_APPLIED 204243 225568 198904 200684",
+	"SPELL_AURA_REMOVED 225568 198904 200684",
 	"SPELL_PERIODIC_DAMAGE 200822",
 	"SPELL_PERIODIC_MISSED 200822"
 )
 
 --Треш Чащи Темного Сердца
+local warnNightmareToxin				= mod:NewTargetAnnounce(200684, 3) --Ядовитый кошмар
 local warnCurseofIsolation				= mod:NewTargetAnnounce(225568, 3) --Проклятие уединения
 local warnPoisonSpear					= mod:NewTargetAnnounce(198904, 3) --Отравленное копье
 local warnUnnervingScreech				= mod:NewCastAnnounce(200630, 4) --Ошеломляющий визг
 
+local specWarnNightmareToxin			= mod:NewSpecialWarningYouMoveAway(200684, nil, nil, nil, 3, 6) --Ядовитый кошмар
+local specWarnNightmareToxin2			= mod:NewSpecialWarningYouDispel(200684, nil, nil, nil, 3, 6) --Ядовитый кошмар
 local specWarnPropellingCharge			= mod:NewSpecialWarningDodge(200768, nil, nil, nil, 2, 3) --Рывок вперед
 local specWarnCurseofIsolation2			= mod:NewSpecialWarningYou(225568, nil, nil, nil, 2, 3) --Проклятие уединения
 local specWarnCurseofIsolation3			= mod:NewSpecialWarningYouDispel(225568, "CurseDispeller", nil, nil, 2, 3) --Проклятие уединения
@@ -41,6 +44,8 @@ local specWarnUnnervingScreech			= mod:NewSpecialWarningInterrupt(200630, "HasIn
 local timerCurseofIsolation				= mod:NewTargetTimer(12, 225568, nil, "Tank|CurseDispeller", nil, 3, nil, DBM_CORE_CURSE_ICON..DBM_CORE_HEALER_ICON) --Проклятие уединения
 local timerVileMushroomCD				= mod:NewCDTimer(14, 198910, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Злогриб
 
+local yellNightmareToxin				= mod:NewYellMoveAway(200684, nil, nil, nil, "YELL") --Ядовитый кошмар
+--local yellNightmareToxin2				= mod:NewFadesYell(200684, nil, nil, nil, "YELL") --Ядовитый кошмар
 local yellCurseofIsolation				= mod:NewYell(225568, nil, nil, nil, "YELL") --Проклятие уединения
 local yellPoisonSpear					= mod:NewYell(198904, nil, nil, nil, "YELL") --Отравленное копье
 
@@ -156,6 +161,21 @@ function mod:SPELL_AURA_APPLIED(args)
 				end
 			end
 		end
+	elseif spellId == 200684 then --Ядовитый кошмар (с новым прошляпом Мурчаля)
+		warnNightmareToxin:CombinedShow(0.5, args.destName)
+		if self:IsMythic() then
+			if args:IsPlayer() and not self:IsPoisonDispeller() then
+				specWarnNightmareToxin:Show()
+				specWarnNightmareToxin:Play("runaway")
+				yellNightmareToxin:Yell()
+			--	yellNightmareToxin2:Countdown(3, 2)
+			elseif args:IsPlayer() and self:IsPoisonDispeller() then
+				specWarnNightmareToxin2:Show()
+				specWarnNightmareToxin2:Play("runaway")
+				yellNightmareToxin:Yell()
+			--	yellNightmareToxin2:Countdown(3, 2)
+			end
+		end
 	end
 end
 
@@ -163,6 +183,10 @@ function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
 	if spellId == 225568 then --Проклятие уединения
 		timerCurseofIsolation:Cancel(args.destName)
+--[[	elseif spellId == 200684 then --Ядовитый кошмар
+		if args:IsPlayer() then
+			yellNightmareToxin2:Cancel()
+		end]]
 	end
 end
 
