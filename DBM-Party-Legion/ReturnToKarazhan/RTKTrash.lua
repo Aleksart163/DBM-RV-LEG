@@ -220,6 +220,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnBurningBrand:Show()
 			specWarnBurningBrand:Play("runout")
 			yellBurningBrand:Yell()
+			yellBurningBrand2:Cancel()
 			yellBurningBrand2:Countdown(6, 3)
 		end
 	elseif spellId == 229706 then
@@ -260,6 +261,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnReinvigorated:Show()
 		--	yellReinvigorated:Yell(playerName)
+			yellReinvigorated2:Cancel()
 			yellReinvigorated2:Countdown(20, 3)
 		else
 			warnReinvigorated:Show(args.destName)
