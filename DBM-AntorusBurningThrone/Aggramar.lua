@@ -117,8 +117,9 @@ local comboDebugCounter = 0
 local unitTracked = {}
 local ravenousBlaze = replaceSpellLinks(254452)
 
+-- premsg_Aggramar_FlameRend_rw ↓
 local function ProshlyapMurchalya1(self) --прошляпанное очко Мурчаля Прошляпенко [✔]
-	if not self:IsMythic() then
+	-- if not self:IsMythic() then
 		self.vb.proshlyap1Count = self.vb.proshlyap1Count + 1
 		-- if self.Options.ShowProshlyapMurchal1 then
 			-- prepareMessage(self, "premsg_Aggramar_FlameRend_rw")
@@ -130,11 +131,12 @@ local function ProshlyapMurchalya1(self) --прошляпанное очко М�
 			self.vb.proshlyap1Count = 0
 			self:Unschedule(ProshlyapMurchalya1)
 		end
-	end
+	-- end
 end
 
+-- premsg_Aggramar_Embers_rw ↓
 local function ProshlyapMurchalya2(self) --прошляпанное очко Мурчаля Прошляпенко [✔]
-	if self:IsHeroic() then
+	-- if self:IsHeroic() then
 		self.vb.proshlyap2Count = self.vb.proshlyap2Count + 1
 		-- if self.Options.ShowProshlyapMurchal2 then
 			-- prepareMessage(self, "premsg_Aggramar_Embers_rw")
@@ -146,7 +148,7 @@ local function ProshlyapMurchalya2(self) --прошляпанное очко М�
 			self.vb.proshlyap2Count = 0
 			self:Unschedule(ProshlyapMurchalya2)
 		end
-	end
+	-- end
 end
 
 -- Синхронизация анонсов ↓
@@ -761,7 +763,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		self.vb.secondCombo = nil
 		self.vb.foeCount = 0
 		self.vb.rendCount = 0
-		if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapMurchal1 and DBM:GetRaidRank() > 0 then
+		if not self:IsMythic() and not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapMurchal1 and DBM:GetRaidRank() > 0 then
 			-- self:Schedule(31, ProshlyapMurchalya1, self)
 			prepareMessage(self, "premsg_Aggramar_FlameRend_rw", nil, nil, 30)
 		end
@@ -880,7 +882,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 				timerTempestCD:Start(15)
 			end
 		end
-		if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapMurchal1 and DBM:GetRaidRank() > 0 then
+		if not self:IsMythic() and not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapMurchal1 and DBM:GetRaidRank() > 0 then
 			-- self:Schedule(53, ProshlyapMurchalya1, self)
 			prepareMessage(self, "premsg_Aggramar_FlameRend_rw", nil, nil, 52)
 		end
