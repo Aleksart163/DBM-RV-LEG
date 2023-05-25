@@ -118,30 +118,34 @@ local unitTracked = {}
 local ravenousBlaze = replaceSpellLinks(254452)
 
 local function ProshlyapMurchalya1(self) --прошляпанное очко Мурчаля Прошляпенко [✔]
-	self.vb.proshlyap1Count = self.vb.proshlyap1Count + 1
-	-- if self.Options.ShowProshlyapMurchal1 then
-		-- prepareMessage(self, "premsg_Aggramar_FlameRend_rw")
-		smartChat(L.ProshlyapMurchal1, "rw")
-	-- end
-	if self.vb.proshlyap1Count < 3 then
-		self:Schedule(1, ProshlyapMurchalya1, self)
-	elseif self.vb.proshlyap1Count == 3 then
-		self.vb.proshlyap1Count = 0
-		self:Unschedule(ProshlyapMurchalya1)
+	if not self:IsMythic() then
+		self.vb.proshlyap1Count = self.vb.proshlyap1Count + 1
+		-- if self.Options.ShowProshlyapMurchal1 then
+			-- prepareMessage(self, "premsg_Aggramar_FlameRend_rw")
+			smartChat(L.ProshlyapMurchal1, "rw")
+		-- end
+		if self.vb.proshlyap1Count < 3 then
+			self:Schedule(1, ProshlyapMurchalya1, self)
+		elseif self.vb.proshlyap1Count == 3 then
+			self.vb.proshlyap1Count = 0
+			self:Unschedule(ProshlyapMurchalya1)
+		end
 	end
 end
 
 local function ProshlyapMurchalya2(self) --прошляпанное очко Мурчаля Прошляпенко [✔]
-	self.vb.proshlyap2Count = self.vb.proshlyap2Count + 1
-	-- if self.Options.ShowProshlyapMurchal2 then
-		-- prepareMessage(self, "premsg_Aggramar_Embers_rw")
-		smartChat(L.ProshlyapMurchal2, "rw")
-	-- end
-	if self.vb.proshlyap2Count < 3 then
-		self:Schedule(1, ProshlyapMurchalya2, self)
-	elseif self.vb.proshlyap2Count == 3 then
-		self.vb.proshlyap2Count = 0
-		self:Unschedule(ProshlyapMurchalya2)
+	if self:IsHeroic() then
+		self.vb.proshlyap2Count = self.vb.proshlyap2Count + 1
+		-- if self.Options.ShowProshlyapMurchal2 then
+			-- prepareMessage(self, "premsg_Aggramar_Embers_rw")
+			smartChat(L.ProshlyapMurchal2, "rw")
+		-- end
+		if self.vb.proshlyap2Count < 3 then
+			self:Schedule(1, ProshlyapMurchalya2, self)
+		elseif self.vb.proshlyap2Count == 3 then
+			self.vb.proshlyap2Count = 0
+			self:Unschedule(ProshlyapMurchalya2)
+		end
 	end
 end
 
@@ -419,10 +423,10 @@ function mod:OnCombatStart(delay)
 		timerRavenousBlazeCD:Start(4-delay) --Хищное пламя+++
 		countdownRavenousBlaze:Start(4-delay) --Хищное пламя+++
 		timerWakeofFlameCD:Start(11-delay) --Огненная волна+++
-		if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapMurchal1 and DBM:GetRaidRank() > 0 then
+	--[[	if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapMurchal1 and DBM:GetRaidRank() > 0 then
 			-- self:Schedule(10, ProshlyapMurchalya1, self)
 			prepareMessage(self, "premsg_Aggramar_FlameRend_rw", nil, nil, 9)
-		end
+		end]]
 		timerTaeshalachTechCD:Start(15-delay, 1) --Искусный прием+++
 		countdownTaeshalachTech:Start(15-delay) --Искусный прием+++
 		berserkTimer:Start(540-delay)
