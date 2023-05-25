@@ -51,7 +51,7 @@ local yellSixPoundBarrel		= mod:NewYell(194442, nil, nil, nil, "YELL") --Шес�
 
 function mod:SixPoundBarrelTarget(targetname, uId) --прошляпанное очко Мурчаля Прошляпенко ✔
 	if not targetname then return end
-	if targetname == UnitName("player") then
+	if targetname == UnitName("player") and self:AntiSpam(2, targetname) then
 		specWarnSixPoundBarrel:Show()
 		specWarnSixPoundBarrel:Play("targetyou")
 		yellSixPoundBarrel:Yell()

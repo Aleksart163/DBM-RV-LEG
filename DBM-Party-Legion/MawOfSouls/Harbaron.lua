@@ -14,7 +14,8 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 194231 194266 194216 194325",
 	"SPELL_CAST_SUCCESS 194325",
 	"SPELL_PERIODIC_DAMAGE 194235",
-	"SPELL_PERIODIC_MISSED 194235"
+	"SPELL_PERIODIC_MISSED 194235",
+	"UNIT_DIED"
 )
 
 --Харбарон https://ru.wowhead.com/npc=96754/харбарон/эпохальный-журнал-сражений
@@ -31,11 +32,11 @@ local specWarnScythe			= mod:NewSpecialWarningDodge(194216, nil, nil, nil, 2, 3)
 local timerFragmentCD			= mod:NewCDTimer(30, 194327, nil, nil, nil, 7) --Разделение
 local timerServitorCD			= mod:NewCDTimer(23, 194231, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON) --Призыв скованного прислужника 23-30 
 
-local yellFragment				= mod:NewYell(194327, nil, nil, nil, "YELL") --Разделение
+local yellFragment				= mod:NewYellHelp(194327, nil, nil, nil, "YELL") --Разделение
 
 mod.vb.kickCount = 0
 
-function mod:FragmentTarget(targetname, uId) --Прошляпанное очко Прошляпенко (Мурчаля) (✔✔✔)
+function mod:FragmentTarget(targetname, uId) --Прошляпанное очко Прошляпенко (Мурчаля) [✔]
 	if not targetname then return end
 	if targetname == UnitName("player") then
 		specWarnFragment2:Show()
@@ -122,3 +123,10 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spell
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
+
+function mod:UNIT_DIED(args)
+	local cid = self:GetCIDFromGUID(args.destGUID)
+	if cid == 98693 then --Скованный прислужник
+		self.vb.kickCount = 0
+	end
+end
