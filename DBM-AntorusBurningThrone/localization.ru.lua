@@ -171,7 +171,7 @@ L:SetOptionLocalization({
 L:SetMiscLocalization({
 	ProshlyapMurchal4	= "СТЕНКА - ВСЕ В ЦЕНТР",
 	ProshlyapMurchal3	= "МОЛНИИ - ДЕРЖИМ РАДИУС 2 МЕТРА",
-	ProshlyapMurchal2	= "ПЛАМЯ - ВСЕ УШЛИ С ЦЕНТРА",
+	ProshlyapMurchal2	= "ПЛАМЯ - УШЛИ ВСЕ С ЦЕНТРА",
 	ProshlyapMurchal1	= "АМАНТУЛ - СВИЧ В ТРЕШ",
 	YellPullCoven		= "Сейчас ваша плоть зашипит на огне."
 })
@@ -199,7 +199,7 @@ L:SetOptionLocalization({
 L:SetMiscLocalization({
 --	YellPullAggramar = "Вы сгорите!",
 	ProshlyapMurchal2	= "КОНТРОЛИМ МОБОВ",
-	ProshlyapMurchal1	= "СБЕЖАЛИСЬ ПОД БОССА",
+	ProshlyapMurchal1	= "ВСЕ ПОД БОССА",
 --	Blaze		= "Хищное пламя",
 	Foe			= "Сокрушитель",
 	Rend		= "Пламя",
