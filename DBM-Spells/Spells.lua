@@ -42,7 +42,7 @@ local warnHearty					= mod:NewTargetSourceAnnounce(201351, 1) --Обильное
 local warnSugar						= mod:NewTargetSourceAnnounce(185709, 1) --Угощение из засахаренной рыбы
 local warnCauldron					= mod:NewTargetSourceAnnounce(188036, 4) --Котел духов
 local warnSoulstone					= mod:NewTargetAnnounce(20707, 1) --Камень души
-local warnRebirth					= mod:NewTargetSourceAnnounce2(20484, 4) --Возрождение
+local warnRebirth					= mod:NewTargetSourceAnnounce2(20484, 2) --Возрождение
 local warnInnervate					= mod:NewTargetSourceAnnounce2(29166, 1) --Озарение
 local warnSymbolHope				= mod:NewTargetSourceAnnounce(64901, 1) --Символ надежды
 

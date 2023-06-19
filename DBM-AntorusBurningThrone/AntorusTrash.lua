@@ -34,7 +34,7 @@ local specWarnPyroblast2				= mod:NewSpecialWarningInterrupt(246505, "HasInterru
 local specWarnShadowStorm				= mod:NewSpecialWarningInterrupt(245888, "HasInterrupt", nil, nil, 1, 2) --Буря Тени
 --Тёмные хранители и Тарнет
 local specWarnDrawFlames				= mod:NewSpecialWarningInterrupt(246903, "HasInterrupt", nil, nil, 1, 2) --Призыв огней
-local specWarnDestruction				= mod:NewSpecialWarningDefensive(249436, nil, nil, nil, 3, 6) --Разрушение
+--local specWarnDestruction				= mod:NewSpecialWarningDefensive(249436, nil, nil, nil, 3, 6) --Разрушение
 --Крушитель Кин'гарота
 local specWarnDecimation				= mod:NewSpecialWarningYouMoveAway(246687, nil, nil, nil, 4, 3) --Децимация
 local specWarnDecimation2				= mod:NewSpecialWarningDodge(246687, "-Tank", nil, nil, 2, 2) --Децимация
@@ -151,7 +151,7 @@ function mod:SPELL_CAST_START(args)
 	end
 end
 
-
+--[[
 function mod:SPELL_CAST_SUCCESS(args)
 	if not self.Options.Enabled then return end
 	local spellId = args.spellId
@@ -159,7 +159,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		specWarnDestruction:Show()
 		specWarnDestruction:Play("defensive")
 	end
-end
+end]]
 
 function mod:SPELL_AURA_APPLIED(args)
 	if not self.Options.Enabled then return end
