@@ -351,7 +351,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				yellSleepCanisterStun:Yell()
 			end
 			yellSleepCanisterStun2:Countdown(20, 3)
-		elseif self:CheckNearby(10, args.destName) then--Warn nearby again
+		elseif self:CheckNearby(11, args.destName) then--Warn nearby again
 			specWarnSleepCanisterNear:CombinedShow(0.3, args.destName)
 			specWarnSleepCanisterNear:Play("runaway")
 		end
@@ -370,11 +370,11 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnEmpPulseGrenade2:Schedule(7)
 			yellEmpPulseGrenade:Yell()
 			if self:IsMythic() then
-				yellEmpPulseGrenade2:Countdown(75, 5)
+				yellEmpPulseGrenade2:Countdown(75, 3)
 			elseif self:IsHeroic() then
-				yellEmpPulseGrenade2:Countdown(45.5, 5)
+				yellEmpPulseGrenade2:Countdown(45.5, 3)
 			elseif self:IsEasy() then
-				yellEmpPulseGrenade2:Countdown(30, 5)
+				yellEmpPulseGrenade2:Countdown(30, 3)
 			end
 		end
 		updateRangeFrame(self)

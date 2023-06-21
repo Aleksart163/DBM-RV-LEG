@@ -16,8 +16,8 @@ mod:RegisterEvents(
 	"SPELL_AURA_APPLIED 254106 254480 252037 252038 254015 254268 233228 254200 222620 252057 253068 218121 183270 220267 251245 246317 253978 254281 238681",
 	"SPELL_AURA_APPLIED_DOSE 252037 183270 246317",
 	"SPELL_AURA_REMOVED 254200",
-	"SPELL_PERIODIC_DAMAGE 222631 250926 223292",
-	"SPELL_PERIODIC_MISSED 222631 250926 223292",
+	"SPELL_PERIODIC_DAMAGE 222631 250926 223292 254218",
+	"SPELL_PERIODIC_MISSED 222631 250926 223292 254218",
 	"CHAT_MSG_RAID_BOSS_EMOTE",
 	"LOADING_SCREEN_DISABLED",
 	"UNIT_DIED"
@@ -31,6 +31,8 @@ local warnHeadCrack					= mod:NewTargetAnnounce(254015, 2) --Трещина в �
 local warnEnrage					= mod:NewTargetAnnounce(218121, 2) --Исступление
 local warnDreadInspiration			= mod:NewTargetAnnounce(251245, 2) --Жуткое воодушевление
 ------------------------------------------------МАК'АРИ------------------------------------------------------------------------
+--Зул'тан Многоликий https://www.wowhead.com/ru/npc=126908/зултан-многоликий
+local specWarnOozingPool			= mod:NewSpecialWarningYouMove(254218, nil, nil, nil, 1, 2) --Склизкая лужа
 --Чемпион джед'хин Воруск
 local specWarnIronCharge			= mod:NewSpecialWarningYouMoveAway(254163, nil, nil, nil, 1, 3) --Железный рывок
 local specWarnSeismicStomp			= mod:NewSpecialWarningDodge(254168, nil, nil, nil, 2, 2) --Сотрясающий топот
@@ -84,7 +86,6 @@ local specWarnBurrow				= mod:NewSpecialWarningInterrupt(253972, "HasInterrupt",
 --Турек Мерцающий https://www.wowhead.com/ru/npc=126868/турек-мерцающий
 --Каара Бледная https://www.wowhead.com/ru/npc=126860/каара-бледная
 --Баруут Кровожадный https://www.wowhead.com/ru/npc=126862/баруут-кровожадный
---Зул'тан Многоликий https://www.wowhead.com/ru/npc=126908/зултан-многоликий
 --Искаженное чудовище https://www.wowhead.com/ru/npc=126815/искаженное-чудовище
 --Сабуул https://www.wowhead.com/ru/npc=126898/сабуул
 --Мраколиск https://www.wowhead.com/ru/npc=126885/мраколиск
@@ -651,6 +652,9 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spell
 	elseif spellId == 223292 and destGUID == UnitGUID("player") and self:AntiSpam(2, 3) then --Огненный ливень
 		specWarnRainofFire:Show()
 		specWarnRainofFire:Play("runaway")
+	elseif spellId == 254218 and destGUID == UnitGUID("player") and self:AntiSpam(2, 4) then --Склизкая лужа
+		specWarnOozingPool:Show()
+		specWarnOozingPool:Play("runaway")
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE

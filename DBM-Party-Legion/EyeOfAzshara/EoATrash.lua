@@ -8,7 +8,7 @@ mod:SetUsedIcons(8, 7, 6)
 mod.isTrashMod = true
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 196870 195046 195284 197105 196127 195253 196175 195129 196290 196296 196028 196516",
+	"SPELL_CAST_START 196870 195046 195284 197105 196127 195253 196175 195129 196290 196296 196028 196516 195109",
 	"SPELL_AURA_APPLIED 196127 192706 197105 196144 195253",
 	"SPELL_AURA_REMOVED 197105 192706 195253"
 )
@@ -18,10 +18,12 @@ local warnArcaneBomb			= mod:NewTargetAnnounce(192706, 4) --Чародейска
 local warnImprisoningBubble		= mod:NewTargetAnnounce(195253, 4) --Пузырь-тюрьма
 local warnPolymorph				= mod:NewTargetAnnounce(197105, 2) --Превращение в рыбу
 local warnSandstorm				= mod:NewTargetAnnounce(196144, 2) --Песчаная буря
+local warnArcLightning			= mod:NewTargetAnnounce(195109, 2) --Дуговая молния
 
 local specWarnSandstorm			= mod:NewSpecialWarningYou(196144, nil, nil, nil, 1, 2) --Песчаная буря
 local specWarnSandstorm2		= mod:NewSpecialWarningYouDispel(196144, "MagicDispeller2", nil, nil, 1, 3) --Песчаная буря
 local specWarnSandstorm3		= mod:NewSpecialWarningDispel(196144, "MagicDispeller2", nil, nil, 1, 3) --Песчаная буря
+local specWarnArcLightning2		= mod:NewSpecialWarningYouMoveAway(195109, nil, nil, nil, 4, 5) --Чародейская бомба
 --
 local specWarnArcaneBomb		= mod:NewSpecialWarningYouMoveAway(192706, nil, nil, nil, 3, 3) --Чародейская бомба
 local specWarnArcaneBomb4		= mod:NewSpecialWarningYouDispel(192706, "MagicDispeller2", nil, nil, 3, 3) --Чародейская бомба
@@ -41,6 +43,7 @@ local specWarnImprisoningBubble	= mod:NewSpecialWarningInterrupt(195253, "HasInt
 local specWarnStorm				= mod:NewSpecialWarningInterrupt(196870, "HasInterrupt", nil, nil, 1, 2) --Буря
 local specWarnRejuvWaters		= mod:NewSpecialWarningInterrupt(195046, "HasInterrupt", nil, nil, 1, 2) --Живительная вода
 local specWarnUndertow			= mod:NewSpecialWarningInterrupt(195284, "HasInterrupt", nil, nil, 1, 2) --Водоворот
+local specWarnArcLightning		= mod:NewSpecialWarningInterrupt(195109, "HasInterrupt", nil, nil, 1, 2) --Дуговая молния
 local specWarnSpraySand			= mod:NewSpecialWarningDodge(196127, "Melee", nil, nil, 1, 2) --Струя песка
 
 local timerUndertow				= mod:NewCastTimer(10, 195284, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Водоворот
@@ -55,6 +58,7 @@ local yellArcaneBombFades		= mod:NewFadesYell(192706, nil, nil, nil, "YELL") --�
 local yellPolymorph				= mod:NewYell(197105, nil, nil, nil, "YELL") --Превращение в рыбу
 local yellPolymorphFades		= mod:NewFadesYell(197105, nil, nil, nil, "YELL") --Превращение в рыбу
 local yellSandstorm				= mod:NewYell(196144, nil, nil, nil, "YELL") --Песчаная буря
+local yellArcLightning			= mod:NewYell(195109, nil, nil, nil, "YELL") --Дуговая молния
 
 mod:AddSetIconOption("SetIconOnArcaneBomb", 192706, true, false, {8}) --Чародейская бомба
 mod:AddSetIconOption("SetIconOnImprisoningBubble", 195253, true, false, {7}) --Пузырь-тюрьма
@@ -67,6 +71,17 @@ function mod:PolymorphTarget(targetname, uId) --Превращение в рыб
 		yellPolymorph:Yell()
 	else
 		warnPolymorph:Show(targetname)
+	end
+end
+
+function mod:ArcLightningTarget(targetname, uId) --Дуговая молния в прошляпанное очко Мурчаля Прошляпенко ✔
+	if not targetname then return end
+	if targetname == UnitName("player") then
+		specWarnArcLightning2:Show()
+		specWarnArcLightning2:Play("runout")
+		yellArcLightning:Yell()
+	else
+		warnArcLightning:Show(targetname)
 	end
 end
 
@@ -104,6 +119,12 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 195129 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Грохочущий топот
 		specWarnThunderingStomp:Show()
 		specWarnThunderingStomp:Play("kickcast")
+	elseif spellId == 195109 then --Дуговая молния
+		self:BossTargetScanner(args.sourceGUID, "ArcLightningTarget", 0.1, 2)
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnArcLightning:Show()
+			specWarnArcLightning:Play("kickcast")
+		end
 	elseif spellId == 196290 and self:AntiSpam(2, 1) then --Буря Хаоса
 		specWarnChaoticTempest:Show()
 		specWarnChaoticTempest:Play("watchstep")

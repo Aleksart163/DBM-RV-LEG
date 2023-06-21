@@ -8,8 +8,8 @@ mod:SetUsedIcons(8, 7, 6, 5, 4, 3, 2, 1)
 mod.isTrashMod = true
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 246209 245807 246444 254500 246505 245888",
-	"SPELL_CAST_SUCCESS 246664",
+	"SPELL_CAST_START 246209 245807 246444 254500 246505 245888 246903",
+	"SPELL_CAST_SUCCESS 246664 249436",
 	"SPELL_AURA_APPLIED 252760 246692 253600 254122 249297 246199 254948 246698 244399 254509 257920 248757 252797 245770 246687 254502",
 	"SPELL_AURA_APPLIED_DOSE 257920 248757",
 	"SPELL_AURA_REMOVED 252760 246692 254122 249297 253600 252797 245770 244399 254948 246687",
@@ -32,6 +32,9 @@ local warnSoulburn						= mod:NewTargetAnnounce(253600, 3) --Горящая ду
 local specWarnPyroblast					= mod:NewSpecialWarningYou(246505, nil, nil, nil, 2, 6) --Огненная глыба
 local specWarnPyroblast2				= mod:NewSpecialWarningInterrupt(246505, "HasInterrupt", nil, nil, 1, 2) --Огненная глыба
 local specWarnShadowStorm				= mod:NewSpecialWarningInterrupt(245888, "HasInterrupt", nil, nil, 1, 2) --Буря Тени
+--Тёмные хранители и Тарнет
+local specWarnDrawFlames				= mod:NewSpecialWarningInterrupt(246903, "HasInterrupt", nil, nil, 1, 2) --Призыв огней
+--local specWarnDestruction				= mod:NewSpecialWarningDefensive(249436, nil, nil, nil, 3, 6) --Разрушение
 --Крушитель Кин'гарота
 local specWarnDecimation				= mod:NewSpecialWarningYouMoveAway(246687, nil, nil, nil, 4, 3) --Децимация
 local specWarnDecimation2				= mod:NewSpecialWarningDodge(246687, "-Tank", nil, nil, 2, 2) --Децимация
@@ -142,6 +145,9 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 245888 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Буря Тени
 		specWarnShadowStorm:Show()
 		specWarnShadowStorm:Play("kickcast")
+	elseif spellId == 246903 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Призыв огней
+		specWarnDrawFlames:Show()
+		specWarnDrawFlames:Play("kickcast")
 	end
 end
 
@@ -149,7 +155,9 @@ end
 function mod:SPELL_CAST_SUCCESS(args)
 	if not self.Options.Enabled then return end
 	local spellId = args.spellId
-	
+	if spellId == 249436 and self:AntiSpam(5, "destruction") then --Разрушение
+		specWarnDestruction:Show()
+		specWarnDestruction:Play("defensive")
 	end
 end]]
 

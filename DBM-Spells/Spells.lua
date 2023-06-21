@@ -19,11 +19,11 @@ mod:RegisterEvents(
 )
 
 --Прошляпанное очко Мурчаля Прошляпенко✔✔✔
-local warnMassres1					= mod:NewTargetSourceAnnounce(212040, 1) --Возвращение к жизни (друид)
-local warnMassres2					= mod:NewTargetSourceAnnounce(212056, 1) --Отпущение (пал)
-local warnMassres3					= mod:NewTargetSourceAnnounce(212036, 1) --Массовое воскрешение (прист)
-local warnMassres4					= mod:NewTargetSourceAnnounce(212048, 1) --Древнее видение (шаман)
-local warnMassres5					= mod:NewTargetSourceAnnounce(212051, 1) --Повторное пробуждение (монк)
+local warnMassres1					= mod:NewTargetSourceAnnounce(212040, 4) --Возвращение к жизни (друид)
+local warnMassres2					= mod:NewTargetSourceAnnounce(212056, 4) --Отпущение (пал)
+local warnMassres3					= mod:NewTargetSourceAnnounce(212036, 4) --Массовое воскрешение (прист)
+local warnMassres4					= mod:NewTargetSourceAnnounce(212048, 4) --Древнее видение (шаман)
+local warnMassres5					= mod:NewTargetSourceAnnounce(212051, 4) --Повторное пробуждение (монк)
 
 local warnPylon						= mod:NewTargetSourceAnnounce(199115, 1) --Пилон
 local warnJeeves					= mod:NewTargetSourceAnnounce(67826, 1) --Дживс
@@ -40,9 +40,9 @@ local warnRitualofSummoning			= mod:NewTargetSourceAnnounce(698, 1) --Ритуа
 local warnLavishSuramar				= mod:NewTargetSourceAnnounce(201352, 1) --Щедрое сурамарское угощение
 local warnHearty					= mod:NewTargetSourceAnnounce(201351, 1) --Обильное угощение
 local warnSugar						= mod:NewTargetSourceAnnounce(185709, 1) --Угощение из засахаренной рыбы
-local warnCauldron					= mod:NewTargetSourceAnnounce(188036, 1) --Котел духов
+local warnCauldron					= mod:NewTargetSourceAnnounce(188036, 4) --Котел духов
 local warnSoulstone					= mod:NewTargetAnnounce(20707, 1) --Камень души
-local warnRebirth					= mod:NewTargetSourceAnnounce2(20484, 1) --Возрождение
+local warnRebirth					= mod:NewTargetSourceAnnounce2(20484, 2) --Возрождение
 local warnInnervate					= mod:NewTargetSourceAnnounce2(29166, 1) --Озарение
 local warnSymbolHope				= mod:NewTargetSourceAnnounce(64901, 1) --Символ надежды
 

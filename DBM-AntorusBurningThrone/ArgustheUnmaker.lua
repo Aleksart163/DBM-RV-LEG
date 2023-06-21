@@ -687,7 +687,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnGiftofSea:Show()
 			specWarnGiftofSea:Play("runout")
 			yells.yellGiftofSea:Yell(playerName)
-			yells.yellGiftofSea2:Countdown(5, 3)
+			yells.yellGiftofSea2:Countdown(5, 2)
 		end
 		if self.Options.SetIconGift then
 			self:SetIcon(args.destName, 6)
@@ -698,7 +698,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnGiftofSky:Show()
 			specWarnGiftofSky:Play("runout")
 			yells.yellGiftofSky:Yell(playerName)
-			yells.yellGiftofSky2:Countdown(5, 3)
+			yells.yellGiftofSky2:Countdown(5, 2)
 		end
 		if self.Options.SetIconGift then
 			self:SetIcon(args.destName, 5)
