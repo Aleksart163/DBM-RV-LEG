@@ -84,7 +84,7 @@ local timerRoleplay					= mod:NewTimer(28, "timerRoleplay", "Interface\\Icons\\S
 
 local countdownFelDetonation		= mod:NewCountdown(12, 211464, nil, nil, 5) --Взрыв Скверны
 
-local yellPickingUp					= mod:NewYell(244910, L.PickingUpYell, nil, nil, "YELL") --Поднять ключ
+local yellPickingUp					= mod:NewYell(214697, L.PickingUpYell, nil, nil, "YELL") --Поднять ключ
 local yellSealMagic					= mod:NewYell(209404, nil, nil, nil, "YELL") --Подавление магии
 local yellSuppress					= mod:NewYell(209413, nil, nil, nil, "YELL") --Подавление
 local yellSubdue					= mod:NewYell(212773, nil, nil, nil, "YELL") --Подчинение
