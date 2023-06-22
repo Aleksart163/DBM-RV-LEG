@@ -709,6 +709,7 @@ L:SetOptionLocalization({
 	timerRoleplay2 = "Show timer to the start of the show \"Westfall Story\"",
 	timerRoleplay3 = "Show timer to the start of the show \"Wikket\"",
 	timerRoleplay4 = DBM_CORE_OPTION_TIMER_DOOR_OPENING,
+	timerRoleplay5 = DBM_CORE_OPTION_TIMER_COMBAT,
 	OperaActivation = DBM_CORE_GENERIC_TIMER_ROLE_PLAY
 })
 
@@ -716,7 +717,8 @@ L:SetTimerLocalization({
 	timerRoleplay = "\"Beautiful Beast\"",
 	timerRoleplay2 = "\"Westfall Story\"",
 	timerRoleplay3 = "\"Wikket\"",
-	timerRoleplay4 = DBM_CORE_GENERIC_TIMER_DOOR_OPENING
+	timerRoleplay4 = DBM_CORE_GENERIC_TIMER_DOOR_OPENING,
+	timerRoleplay5 = DBM_CORE_GENERIC_TIMER_COMBAT
 })
 
 L:SetMiscLocalization({
@@ -724,7 +726,8 @@ L:SetMiscLocalization({
 	Westfall = "Ladies and gentlemen, welcome to this evening's feature presentation!",
 	Wikket = "Welcome, ladies and gentlemen, to our--OOF!",
 	Medivh1 = "I've left so many fragments of myself throughout this tower...",
-	speedRun = "The strange chill of a dark presence winds through the air..."
+	speedRun = "The strange chill of a dark presence winds through the air...",
+	Medivh2 = "You've got my attention, dragon. You'll find I'm not as easily scared as the villagers below."
 })
 
 -----------------------

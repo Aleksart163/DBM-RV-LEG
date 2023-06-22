@@ -99,6 +99,7 @@ local timerRoleplay					= mod:NewTimer(30, "timerRoleplay", "Interface\\Icons\\S
 local timerRoleplay2				= mod:NewTimer(30, "timerRoleplay2", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7)
 local timerRoleplay3				= mod:NewTimer(30, "timerRoleplay3", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7)
 local timerRoleplay4				= mod:NewTimer(30, "timerRoleplay4", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7)
+local timerRoleplay5				= mod:NewTimer(30, "timerRoleplay5", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7)
 
 mod:AddBoolOption("OperaActivation", true)
 
@@ -356,6 +357,8 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 		self:SendSync("RPWestfall")
 	elseif msg == L.Wikket then
 		self:SendSync("RPWikket")
+	elseif msg == L.Medivh2 then
+		self:SendSync("RPMedivh2")
 	end
 end
 
@@ -364,8 +367,8 @@ function mod:GOSSIP_SHOW()
 	if not guid then return end
 	local cid = self:GetCIDFromGUID(guid)
 	if mod.Options.OperaActivation then
-		if cid == 114339 then --Барнс
-			if select('#', GetGossipOptions()) > 0 then
+		if cid == 114339 or cid == 115038 then --Барнс, Проекция Медива
+			if GetNumGossipOptions() == 1 then
 				SelectGossipOption(1)
 				CloseGossip()
 			end
@@ -409,6 +412,8 @@ function mod:OnSync(msg)
 		timerRoleplay3:Start(70)
 	elseif msg == "RPMedivh1" then
 		timerRoleplay4:Start(14.7)
+	elseif msg == "RPMedivh2" then
+		timerRoleplay5:Start(79.3)
 	elseif msg == "felbomb" then
 		specWarnFelBomb:Show()
 		specWarnFelBomb:Play("bombsoon")

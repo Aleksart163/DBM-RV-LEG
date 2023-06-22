@@ -710,6 +710,7 @@ L:SetOptionLocalization({
 	timerRoleplay2 = "Отсчет времени до начала представления \"Однажды в Западном крае\"",
 	timerRoleplay = "Отсчет времени до начала представления \"Красавица и Зверь\"",
 	timerRoleplay4 = DBM_CORE_OPTION_TIMER_DOOR_OPENING,
+	timerRoleplay5 = DBM_CORE_OPTION_TIMER_COMBAT,
 	OperaActivation = DBM_CORE_GENERIC_TIMER_ROLE_PLAY
 })
 
@@ -717,7 +718,8 @@ L:SetTimerLocalization({
 	timerRoleplay3 = "\"Злюкер\"",
 	timerRoleplay2 = "\"Однажды и Западном крае\"",
 	timerRoleplay = "\"Красавица и Зверь\"",
-	timerRoleplay4 = DBM_CORE_GENERIC_TIMER_DOOR_OPENING
+	timerRoleplay4 = DBM_CORE_GENERIC_TIMER_DOOR_OPENING,
+	timerRoleplay5 = DBM_CORE_GENERIC_TIMER_COMBAT
 })
 
 L:SetMiscLocalization({
@@ -725,7 +727,8 @@ L:SetMiscLocalization({
 	Westfall = "Дамы и господа, добро пожаловать на вечернее представление!",
 	Wikket = "Дамы и господа, добро пожаловать... ОХ!",
 	Medivh1 = "Я разбросал по башне столько фрагментов своей души...",
-	speedRun = "Странный холод возвещает о темном присутствии..."
+	speedRun = "Странный холод возвещает о темном присутствии...",
+	Medivh2 = "Ты сам хотел меня видеть, дракон. Меня не так легко запугать, как местных крестьян."
 })
 
 ---------------------------
