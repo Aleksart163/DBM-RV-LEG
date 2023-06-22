@@ -8,7 +8,7 @@ mod:SetOOCBWComms()
 mod.isTrashMod = true
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 209027 212031 209485 209410 209413 211470 211464 209404 209495 225100 211299 209378 207980 207979 214692 214688 214690 212773 210253",
+	"SPELL_CAST_START 209027 212031 209485 209410 209413 211470 211464 209404 209495 225100 211299 209378 207980 207979 214692 214688 214690 212773 210253 214697",
 	"SPELL_CAST_SUCCESS 214688 208585 208427 209767 208334 210872 210307 208939 208370 210925 210217 210922 210330",
 	"SPELL_AURA_APPLIED 209033 209512 207981 214690 212773 209404",
 	"SPELL_AURA_REMOVED 214690",
@@ -20,6 +20,7 @@ mod:RegisterEvents(
 --Квартал звезд трэш
 local warnMinionDie					= mod:NewAnnounce("WarningMinionDie", 2, 245910)
 local warnPhase2					= mod:NewAnnounce("warnSpy", 1, 248732) --Шпион обнаружен , nil, nil, true
+local warnPickingUp					= mod:NewTargetSourceAnnounce(214697, 1) --Поднять ключ
 local warnDrainMagic				= mod:NewCastAnnounce(209485, 4) --Похищение магии
 local warnCripple					= mod:NewTargetAnnounce(214690, 3) --Увечье
 local warnCarrionSwarm				= mod:NewTargetAnnounce(214688, 4) --Темная стая
@@ -83,6 +84,7 @@ local timerRoleplay					= mod:NewTimer(28, "timerRoleplay", "Interface\\Icons\\S
 
 local countdownFelDetonation		= mod:NewCountdown(12, 211464, nil, nil, 5) --Взрыв Скверны
 
+local yellPickingUp					= mod:NewYell(244910, L.PickingUpYell, nil, nil, "YELL") --Поднять ключ
 local yellSealMagic					= mod:NewYell(209404, nil, nil, nil, "YELL") --Подавление магии
 local yellSuppress					= mod:NewYell(209413, nil, nil, nil, "YELL") --Подавление
 local yellSubdue					= mod:NewYell(212773, nil, nil, nil, "YELL") --Подчинение
@@ -103,6 +105,8 @@ mod:AddBoolOption("YellOnPilfering", true) --Воровство (отвлече�
 mod:AddBoolOption("YellOnTinkering", true) --Конструирование (отвлечение)
 mod:AddBoolOption("YellOnDefacing", true) --Осквернение (отвлечение)
 mod:AddBoolOption("SpyHelper", true)
+
+local key = replaceSpellLinks(214697) --Поднять ключ
 
 local eating = replaceSpellLinks(208585) --Поглощение пищи
 local siphoningMagic = replaceSpellLinks(208427) --Похищение магии
@@ -363,6 +367,11 @@ function mod:SPELL_CAST_START(args)
 		end
 	elseif spellId == 210253 then --Отключение маяка
 		warnDisableBeacon:Show(args.sourceName)
+	elseif spellId == 214697 then --Поднять ключ
+		warnPickingUp:Show(args.sourceName)
+		if args:IsPlayerSource() then
+			yellPickingUp:Yell(key)
+		end
 	end
 end
 

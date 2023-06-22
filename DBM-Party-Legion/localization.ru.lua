@@ -347,6 +347,7 @@ L:SetTimerLocalization({
 })
 
 L:SetMiscLocalization({
+	PickingUpYell = "Я жму %s!",
 	SpellUseYell = "%s %s использует %s!",
 	--
 	proshlyapMurchal = "Великий магистр, не слишком ли рано?",
