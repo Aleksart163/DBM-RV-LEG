@@ -11,10 +11,6 @@ L:SetGeneralLocalization({
 	name = "Raid Spells"
 })
 
-L:SetWarningLocalization({
---	Rebirth = "%s casts a spell %s on %s"
-})
-
 L:SetOptionLocalization({
 	YellOnMassRes = "Announce when someone is casting a spell $spell:212036 or equivalent",
 	YellOnManaRegen = "Announce when someone is casting a spell $spell:29166 or equivalent",
@@ -33,6 +29,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization{
+	WhisperThanks = "%s Thank you for %s!",
 	InnervateYell = "%s on %s!",
 	SymbolHopeYell = "Using %s!",
 	HeroismYell = "%s %s uses %s!",

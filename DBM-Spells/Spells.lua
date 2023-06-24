@@ -54,7 +54,7 @@ local specWarnSymbolHope 			= mod:NewSpecialWarningYou(64901, nil, nil, nil, 1, 
 local specWarnSymbolHope2			= mod:NewSpecialWarningEnd(64901, nil, nil, nil, 1, 2) --Символ надежды
 local specWarnManaTea2				= mod:NewSpecialWarningEnd(197908, nil, nil, nil, 1, 2) --Маначай
 
-local yellSoulstone					= mod:NewYell(20707, nil, nil, nil, "YELL") --Камень души
+--local yellSoulstone					= mod:NewYell(20707, nil, nil, nil, "YELL") --Камень души
 --local yellInnervate					= mod:NewYell(29166, L.InnervateYell, nil, nil, "YELL") --Озарение
 local yellSymbolHope				= mod:NewYell(64901, L.SymbolHopeYell, nil, nil, "YELL") --Символ надежды
 
@@ -617,7 +617,10 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnSoulstone:Show()
 			specWarnSoulstone:Play("targetyou")
-			yellSoulstone:Yell()
+		--	yellSoulstone:Yell()
+			if not args:IsPlayerSource() then
+				SendChatMessage(L.WhisperThanks:format(DbmRV, soulstone), "WHISPER", "COMMON", args.sourceName)
+			end
 		end
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnSoulstone then
 			prepareMessage(self, "premsg_Spells_soulstone", args.sourceName, args.destName)
@@ -627,7 +630,9 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() and self:IsHealer() then
 			specWarnInnervate:Show()
 			specWarnInnervate:Play("targetyou")
-		--	yellInnervate:Yell(innervate, playerName)
+			if not args:IsPlayerSource() then
+				SendChatMessage(L.WhisperThanks:format(DbmRV, innervate), "WHISPER", "COMMON", args.sourceName)
+			end
 		end
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnManaRegen then
 			prepareMessage(self, "premsg_Spells_innervate", args.sourceName, args.destName)
@@ -746,6 +751,7 @@ function mod:SPELL_RESURRECT(args)
 		if args:IsPlayer() then
 			specWarnRebirth:Show()
 			specWarnRebirth:Play("targetyou")
+			SendChatMessage(L.WhisperThanks:format(DbmRV, rebirth3), "WHISPER", "COMMON", args.sourceName)
 		end
 	elseif spellId == 20484 then --Возрождение
 		warnRebirth:Show(args.sourceName, args.destName)
@@ -755,6 +761,7 @@ function mod:SPELL_RESURRECT(args)
 		if args:IsPlayer() then
 			specWarnRebirth:Show()
 			specWarnRebirth:Play("targetyou")
+			SendChatMessage(L.WhisperThanks:format(DbmRV, rebirth1), "WHISPER", "COMMON", args.sourceName)
 		end
 	elseif spellId == 61999 and self:AntiSpam(2.5, "rebirth") then --Воскрешение союзника
 		warnRebirth:Show(args.sourceName, args.destName)
@@ -764,6 +771,7 @@ function mod:SPELL_RESURRECT(args)
 		if args:IsPlayer() then
 			specWarnRebirth:Show()
 			specWarnRebirth:Play("targetyou")
+			SendChatMessage(L.WhisperThanks:format(DbmRV, rebirth2), "WHISPER", "COMMON", args.sourceName)
 		end
 	end
 end
