@@ -657,6 +657,10 @@ function mod:GOSSIP_SHOW()
 			SelectGossipOption(1)
 			CloseGossip()
 		end
+	elseif cid == 113617 then
+		if select('#', GetGossipOptions()) > 0 then
+			SelectGossipOption(1, "", true)
+		end
 	end		
 	-- Suspicious noble
 	if cid == 107486 then --Болтливый сплетник
