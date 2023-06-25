@@ -155,10 +155,12 @@ function mod:SPELL_AURA_APPLIED(args)
 		specWarnFelStrike:Show()
 		specWarnFelStrike:Play("runaway")
 	elseif spellId == 211756 and args:IsDestTypePlayer() then --Жгучая рана
-		timerSearingWound:Start(args.destName)
-		if args:IsPlayer() then
-			specWarnSearingWound:Show()
-			specWarnSearingWound:Play("targetyou")
+		if self:IsMythic() then
+			timerSearingWound:Start(args.destName)
+			if args:IsPlayer() then
+				specWarnSearingWound:Show()
+				specWarnSearingWound:Play("targetyou")
+			end
 		end
 	elseif spellId == 211543 then --Пожирание
 		self.vb.devourIcon = self.vb.devourIcon - 1

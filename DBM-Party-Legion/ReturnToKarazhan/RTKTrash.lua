@@ -8,7 +8,7 @@ mod:SetZone()
 mod.isTrashMod = true
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 228255 228239 227917 227925 228625 228606 229714 227966 228254 228280 230094 229429 229608 228700 36247",
+	"SPELL_CAST_START 228255 228239 227917 227925 228625 228606 229714 227966 228254 228280 230094 229429 229608 228700 36247 233981",
 	"SPELL_CAST_SUCCESS 227529",
 	"SPELL_AURA_APPLIED 228331 229706 229716 228610 229074 230083 230050 228280 230087 228241 229468 229489 230297 228576",
 	"SPELL_AURA_APPLIED_DOSE 229074 228610 228576",
@@ -25,6 +25,7 @@ mod:RegisterEvents(
 )
 
 --Каражан треш
+local warnTakeKeys					= mod:NewTargetSourceAnnounce(233981, 1) --Взять ключи
 local warnMovePiece					= mod:NewTargetAnnounce(229468, 3)
 local warnVolatileCharge			= mod:NewTargetAnnounce(228331, 4) --Нестабильный заряд
 local warnOathofFealty				= mod:NewCastAnnounce(228280, 3) --Клятва верности
@@ -84,6 +85,7 @@ local timerOathofFealty				= mod:NewTargetTimer(15, 228280, nil, nil, nil, 3, ni
 local timerRoyalty					= mod:NewCDTimer(20, 229489, nil, nil, nil, 3, nil, DBM_CORE_DAMAGE_ICON) --Царственность
 local timerMovePieceCD				= mod:NewCDTimer(6, 229468, nil, nil, nil, 7)
 
+local yellTakeKeys					= mod:NewYell(233981, L.TakeKeysYell, nil, nil, "YELL") --Взять ключи
 local yellBrittleBones				= mod:NewYell(230297, nil, nil, nil, "YELL") --Ослабление костей
 local yellNullification				= mod:NewYell(230083, nil, nil, nil, "YELL") --Полная нейтрализация
 local yellVolatileCharge			= mod:NewYell(228331, nil, nil, nil, "YELL") --Нестабильный заряд
@@ -103,6 +105,7 @@ local timerRoleplay5				= mod:NewTimer(30, "timerRoleplay5", "Interface\\Icons\\
 
 mod:AddBoolOption("OperaActivation", true)
 
+local key = replaceSpellLinks(233981) --Взять ключи
 local playerName = UnitName("player")
 local king = false
 
@@ -170,6 +173,11 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 36247 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Огненный шар Скверны
 		specWarnFelFireball:Show()
 		specWarnFelFireball:Play("kickcast")
+	elseif spellId == 233981 then --Взять ключи
+		warnTakeKeys:Show(args.sourceName)
+		if args:IsPlayerSource() then
+			yellTakeKeys:Yell(key)
+		end
 	end
 end
 
@@ -368,7 +376,7 @@ function mod:GOSSIP_SHOW()
 	local cid = self:GetCIDFromGUID(guid)
 	if mod.Options.OperaActivation then
 		if cid == 114339 or cid == 115038 then --Барнс, Проекция Медива
-			if GetNumGossipOptions() == 1 then
+			if select('#', GetGossipOptions()) > 0 then
 				SelectGossipOption(1)
 				CloseGossip()
 			end
@@ -413,7 +421,7 @@ function mod:OnSync(msg)
 	elseif msg == "RPMedivh1" then
 		timerRoleplay4:Start(14.7)
 	elseif msg == "RPMedivh2" then
-		timerRoleplay5:Start(79.3)
+		timerRoleplay5:Start(79.2)
 	elseif msg == "felbomb" then
 		specWarnFelBomb:Show()
 		specWarnFelBomb:Play("bombsoon")
