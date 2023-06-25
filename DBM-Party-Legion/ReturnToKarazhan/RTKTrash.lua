@@ -375,10 +375,10 @@ function mod:GOSSIP_SHOW()
 	if not guid then return end
 	local cid = self:GetCIDFromGUID(guid)
 	if mod.Options.OperaActivation then
-		if cid == 114339 then --Барнс, 115038 Проекция Медива
+		if cid == 114339 or cid == 115038 then --Барнс, Проекция Медива
 			if select('#', GetGossipOptions()) > 0 then
 				SelectGossipOption(1)
-				CloseGossip()
+			--	CloseGossip()
 			end
 		end
 	end
