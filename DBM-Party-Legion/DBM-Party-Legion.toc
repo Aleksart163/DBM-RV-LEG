@@ -120,11 +120,11 @@ ReturnToKarazhan\Maiden.lua
 ReturnToKarazhan\OperaWikket.lua
 ReturnToKarazhan\OperaWestfall.lua
 ReturnToKarazhan\OperaBeast.lua
-ReturnToKarazhan\Nightbane.lua
 ReturnToKarazhan\Curator.lua
 ReturnToKarazhan\Medivh.lua
 ReturnToKarazhan\ManaDevourer.lua
 ReturnToKarazhan\Vizaduum.lua
+ReturnToKarazhan\Nightbane.lua
 ReturnToKarazhan\RTKTrash.lua
 CathedralofEternalNight\Agronox.lua
 CathedralofEternalNight\Thrashbite.lua

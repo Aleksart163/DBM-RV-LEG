@@ -695,6 +695,10 @@ L:SetGeneralLocalization({
 	name = "Nightbane"
 })
 
+L:SetMiscLocalization({
+	Tip = "Spell \"Reverberating Shadows\" is not working properly on this project and cannot be interrupted. Please contact the author of the addon if the boss is fixed and this spell is interruptable again."
+})
+
 -----------------------
 --Return To Karazhan Trash
 -----------------------
@@ -722,6 +726,7 @@ L:SetTimerLocalization({
 })
 
 L:SetMiscLocalization({
+	TakeKeysYell = "I use %s!",
 	Beauty = "Good evening, ladies and gentlemen. We proudly welcome you to this evening's feature presentation!",
 	Westfall = "Ladies and gentlemen, welcome to this evening's feature presentation!",
 	Wikket = "Welcome, ladies and gentlemen, to our--OOF!",

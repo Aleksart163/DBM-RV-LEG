@@ -5,8 +5,8 @@ mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
 mod:SetCreatureID(114895)
 mod:SetEncounterID(2031)
 mod:SetZone()
-mod:SetUsedIcons(1)
-mod:SetHotfixNoticeRev(17650)
+mod:SetUsedIcons(8)
+mod:SetHotfixNoticeRev(17700)
 mod.respawnTime = 25
 
 mod.onlyMythic = true--VERIFY how they actually do this
@@ -27,36 +27,46 @@ mod:RegisterEventsInCombat(
 --TODO, Infernal Power http://www.wowhead.com/spell=228792/infernal-power
 --TODO, Absorb Vitality? http://www.wowhead.com/spell=228835/absorb-vitality
 --TODO, tweak breath warning?
-local warnIgniteSoul				= mod:NewTargetAnnounce(228796, 4)
-local warnBreath					= mod:NewSpellAnnounce(228785, 3)
+local warnIgniteSoul				= mod:NewTargetAnnounce(228796, 4) --Воспламенение души
+local warnBreath					= mod:NewTargetAnnounce(228785, 4) --Испепеляющее дыхание
 local warnPhase2					= mod:NewPhaseAnnounce(2, 2)
 local warnPhase3					= mod:NewPhaseAnnounce(3, 2)
 
-local specWarnReverbShadows			= mod:NewSpecialWarningInterruptCount(229307, "HasInterrupt", nil, nil, 1, 3)
-local specWarnCharredEarth			= mod:NewSpecialWarningMove(228808, nil, nil, nil, 1, 2)
-local specWarnIgniteSoul			= mod:NewSpecialWarningMoveTo(228796, nil, nil, nil, 3, 2)
-local yellIgniteSoul				= mod:NewShortFadesYell(228796)
-local specWarnFear					= mod:NewSpecialWarningSpell(228837, nil, nil, nil, 2, 2)
+--local specWarnReverbShadows			= mod:NewSpecialWarningInterruptCount(229307, "HasInterrupt", nil, nil, 1, 3) --Рокочущие тени
+local specWarnReverbShadows			= mod:NewSpecialWarningSpell(229307, nil, nil, nil, 1, 3) --Рокочущие тени
+local specWarnCharredEarth			= mod:NewSpecialWarningYouMove(228808, nil, nil, nil, 1, 2) --Опаленная земля
+local specWarnIgniteSoul			= mod:NewSpecialWarningMoveTo(228796, nil, nil, nil, 3, 6) --Воспламенение души
+local specWarnFear					= mod:NewSpecialWarningSpell(228837, nil, nil, nil, 2, 2) --Раскатистый рев
 
-local timerReverbShadowsCD			= mod:NewCDTimer(12, 229307, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON)--12-16
-local timerBreathCD					= mod:NewCDTimer(23, 228785, nil, "Tank", nil, 5)--23-35
-local timerCharredEarthCD			= mod:NewCDTimer(20, 228806, nil, nil, nil, 3)--20-25
-local timerBurningBonesCD			= mod:NewCDTimer(18.3, 228829, nil, nil, nil, 3)--20-25
-local timerIgniteSoulCD				= mod:NewCDTimer(25, 228796, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON)
+local timerReverbShadowsCD			= mod:NewCDTimer(12, 229307, nil, nil, nil, 2, nil) --12-16 Рокочущие тени
+local timerBreathCD					= mod:NewCDTimer(23, 228785, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON) --23-35 Испепеляющее дыхание
+local timerCharredEarthCD			= mod:NewCDTimer(20, 228806, nil, nil, nil, 3) --20-25 Опаленная земля
+local timerBurningBonesCD			= mod:NewCDTimer(18.3, 228829, nil, nil, nil, 3) --20-25 Горящие кости
+local timerIgniteSoulCD				= mod:NewCDTimer(25, 228796, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Воспламенение души
 
-local timerFearCD					= mod:NewCDTimer(43, 228837, nil, nil, nil, 2)--43-46
+local timerFearCD					= mod:NewCDTimer(43, 228837, nil, nil, nil, 2) --43-46 Раскатистый рев
 
---local berserkTimer				= mod:NewBerserkTimer(300)
+local yellBreath					= mod:NewYell(228785, nil, nil, nil, "YELL") --Испепеляющее дыхание
+local yellIgniteSoul				= mod:NewShortFadesYell(228796, nil, nil, nil, "YELL") --Воспламенение души
 
-local countdownIngiteSoul			= mod:NewCountdownFades("AltTwo9", 228796)
+local countdownIngiteSoul			= mod:NewCountdownFades(9, 228796, nil, nil, 5) --Воспламенение души
 
-mod:AddSetIconOption("SetIconOnIgnite", 228796, true, false, {1})
+mod:AddSetIconOption("SetIconOnIgnite", 228796, true, false, {8}) --Воспламенение души
 mod:AddInfoFrameOption(228829, true)
 
 mod.vb.phase = 1
 mod.vb.kickCount = 0
 
 local charredEarth, burningBones, filteredDebuff = DBM:GetSpellInfo(228808), DBM:GetSpellInfo(228829), DBM:GetSpellInfo(228796)
+
+function mod:BreathTarget(targetname, uId) --прошляпанное очко Мурчаля Прошляпенко ✔
+	if not targetname then return end
+	if targetname == UnitName("player") then
+		yellBreath:Yell()
+	else
+		warnBreath:Show(targetname)
+	end
+end
 
 function mod:OnCombatStart(delay)
 	self.vb.phase = 1
@@ -92,11 +102,11 @@ function mod:SPELL_CAST_START(args)
 		specWarnFear:Show()
 		specWarnFear:Play("fearsoon")
 		timerFearCD:Start()
-	elseif spellId == 228785 then
-		warnBreath:Show()
+	elseif spellId == 228785 then --Испепеляющее дыхание
+		self:BossTargetScanner(args.sourceGUID, "BreathTarget", 0.1, 2)
 		timerBreathCD:Start()
-	elseif spellId == 229307 then
-		if self.vb.kickCount == 2 then self.vb.kickCount = 0 end
+	elseif spellId == 229307 then --Рокочущие тени
+	--[[	if self.vb.kickCount == 2 then self.vb.kickCount = 0 end
 		self.vb.kickCount = self.vb.kickCount + 1
 		local kickCount = self.vb.kickCount
 		specWarnReverbShadows:Show(kickCount)
@@ -105,7 +115,10 @@ function mod:SPELL_CAST_START(args)
 		elseif kickCount == 2 then
 			specWarnReverbShadows:Play("kick2r")
 			self.vb.kickCount = 0
-		end
+		end]]
+		DBM:AddMsg(L.Tip)
+		specWarnReverbShadows:Show()
+		specWarnReverbShadows:Play("aesoon")
 		timerReverbShadowsCD:Start()
 	end
 end
@@ -132,7 +145,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			warnIgniteSoul:Show(args.destName)
 		end
 		if self.Options.SetIconOnIgnite then
-			self:SetIcon(args.destName, 1)
+			self:SetIcon(args.destName, 8)
 		end
 	end
 end
