@@ -174,9 +174,10 @@ function mod:SPELL_CAST_START(args)
 		specWarnFelFireball:Show()
 		specWarnFelFireball:Play("kickcast")
 	elseif spellId == 233981 then --Взять ключи
-		warnTakeKeys:Show(args.sourceName)
 		if args:IsPlayerSource() then
 			yellTakeKeys:Yell(key)
+		else
+			warnTakeKeys:Show(args.sourceName)
 		end
 	end
 end

@@ -12,6 +12,8 @@ mod:RegisterEvents(
 	"SPELL_CAST_SUCCESS 214688 208585 208427 209767 208334 210872 210307 208939 208370 210925 210217 210922 210330",
 	"SPELL_AURA_APPLIED 209033 209512 207981 214690 212773 209404",
 	"SPELL_AURA_REMOVED 214690",
+	"SPELL_PERIODIC_DAMAGE 211391",
+	"SPELL_PERIODIC_MISSED 211391",
 	"CHAT_MSG_MONSTER_SAY",
 	"GOSSIP_SHOW",
 	"UNIT_DIED"
@@ -69,6 +71,7 @@ local specWarnSearingGlare			= mod:NewSpecialWarningInterrupt(211299, "HasInterr
 local specWarnSealMagic				= mod:NewSpecialWarningInterrupt(209404, "HasInterrupt", nil, nil, 1, 2) --Подавление магии
 local specWarnDisruptingEnergy		= mod:NewSpecialWarningMove(209512, nil, nil, nil, 1, 2)
 local specWarnWhirlingBlades		= mod:NewSpecialWarningRun(209378, "Melee", nil, nil, 4, 3) --Крутящиеся клинки
+local specWarnFelblazePuddle		= mod:NewSpecialWarningYouMove(211391, nil, nil, nil, 1, 2) --Лужа пламени Скверны
 --Герент Зловещий
 local timerCripple					= mod:NewTargetTimer(8, 214690, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON) --Увечье
 local timerCrippleCD				= mod:NewCDTimer(20.5, 214690, nil, "MagicDispeller2", nil, 3, nil, DBM_CORE_HEALER_ICON..DBM_CORE_MAGIC_ICON) --Увечье
@@ -368,9 +371,10 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 210253 then --Отключение маяка
 		warnDisableBeacon:Show(args.sourceName)
 	elseif spellId == 214697 then --Поднять ключ
-		warnPickingUp:Show(args.sourceName)
 		if args:IsPlayerSource() then
 			yellPickingUp:Yell(key)
+		else
+			warnPickingUp:Show(args.sourceName)
 		end
 	end
 end
@@ -452,7 +456,6 @@ function mod:SPELL_AURA_APPLIED(args)
 		specWarnDisruptingEnergy:Show()
 		specWarnDisruptingEnergy:Play("runaway")
 	elseif spellId == 214690 then --Увечье
-		warnCripple:Show(args.destName)
 		timerCripple:Start(args.destName)
 		if self:IsMythic() then
 			if args:IsPlayer() and not self:IsMagicDispeller2() then
@@ -468,6 +471,8 @@ function mod:SPELL_AURA_APPLIED(args)
 					specWarnCripple:Show(args.destName)
 					specWarnCripple:Play("dispelnow")
 				end
+			else
+				warnCripple:Show(args.destName)
 			end
 		else
 			if args:IsPlayer() and not self:IsMagicDispeller2() then
@@ -492,9 +497,10 @@ function mod:SPELL_AURA_APPLIED(args)
 			warnSubdue:CombinedShow(0.3, args.destName)
 		end
 	elseif spellId == 209404 then --Подавление магии
-		warnSealMagic:CombinedShow(0.5, args.destName)
 		if args:IsPlayer() then
 			yellSealMagic:Yell()
+		else
+			warnSealMagic:CombinedShow(0.5, args.destName)
 		end
 	end
 end
@@ -505,6 +511,14 @@ function mod:SPELL_AURA_REMOVED(args)
 		timerCripple:Cancel(args.destName)
 	end
 end
+
+function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
+	if spellId == 211391 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then --Лужа пламени Скверны
+		specWarnFelblazePuddle:Show()
+		specWarnFelblazePuddle:Play("runaway")
+	end
+end
+mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
 
 local hintTranslations = {
 	["gloves"] = L.Gloves,
