@@ -425,10 +425,7 @@ function mod:OnCombatStart(delay)
 		timerRavenousBlazeCD:Start(4-delay) --Хищное пламя+++
 		countdownRavenousBlaze:Start(4-delay) --Хищное пламя+++
 		timerWakeofFlameCD:Start(11-delay) --Огненная волна+++
-	--[[	if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapMurchal1 and DBM:GetRaidRank() > 0 then
-			-- self:Schedule(10, ProshlyapMurchalya1, self)
-			prepareMessage(self, "premsg_Aggramar_FlameRend_rw", nil, nil, 9)
-		end]]
+		--под мифик не надо анонс о сбегании--
 		timerTaeshalachTechCD:Start(15-delay, 1) --Искусный прием+++
 		countdownTaeshalachTech:Start(15-delay) --Искусный прием+++
 		berserkTimer:Start(540-delay)
@@ -438,8 +435,7 @@ function mod:OnCombatStart(delay)
 		timerScorchingBlazeCD:Start(5.5-delay) --Обжигающее пламя+++
 		timerWakeofFlameCD:Start(5.8-delay) --Огненная волна+++
 		if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapMurchal1 and DBM:GetRaidRank() > 0 then
-			-- self:Schedule(31, ProshlyapMurchalya1, self)
-			prepareMessage(self, "premsg_Aggramar_FlameRend_rw", nil, nil, 30)
+			prepareMessage(self, "premsg_Aggramar_FlameRend_rw", nil, nil, 31)
 		end
 		timerTaeshalachTechCD:Start(36-delay, 1) --Искусный прием+++
 		countdownTaeshalachTech:Start(36-delay) --Искусный прием+++
@@ -448,8 +444,7 @@ function mod:OnCombatStart(delay)
 		timerScorchingBlazeCD:Start(5.5-delay) --Обжигающее пламя+++
 		timerWakeofFlameCD:Start(5.8-delay) --Огненная волна+++
 		if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapMurchal1 and DBM:GetRaidRank() > 0 then
-			-- self:Schedule(31, ProshlyapMurchalya1, self)
-			prepareMessage(self, "premsg_Aggramar_FlameRend_rw", nil, nil, 30)
+			prepareMessage(self, "premsg_Aggramar_FlameRend_rw", nil, nil, 31)
 		end
 		timerTaeshalachTechCD:Start(36-delay, 1) --Искусный прием+++
 		countdownTaeshalachTech:Start(36-delay) --Искусный прием+++
@@ -721,7 +716,6 @@ function mod:SPELL_AURA_APPLIED(args)
 			end
 		elseif self:IsHeroic() then
 			if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapMurchal2 and DBM:GetRaidRank() > 0 then
-				-- self:Schedule(3, ProshlyapMurchalya2, self)
 				prepareMessage(self, "premsg_Aggramar_Embers_rw", nil, nil, 2)
 			end
 		end
@@ -764,8 +758,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		self.vb.foeCount = 0
 		self.vb.rendCount = 0
 		if not self:IsMythic() and not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapMurchal1 and DBM:GetRaidRank() > 0 then
-			-- self:Schedule(31, ProshlyapMurchalya1, self)
-			prepareMessage(self, "premsg_Aggramar_FlameRend_rw", nil, nil, 30)
+			prepareMessage(self, "premsg_Aggramar_FlameRend_rw", nil, nil, 31)
 		end
 		if self:IsHeroic() then
 			timerTaeshalachTechCD:Start(36, self.vb.techCount+1)
@@ -883,8 +876,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 			end
 		end
 		if not self:IsMythic() and not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapMurchal1 and DBM:GetRaidRank() > 0 then
-			-- self:Schedule(53, ProshlyapMurchalya1, self)
-			prepareMessage(self, "premsg_Aggramar_FlameRend_rw", nil, nil, 52)
+			prepareMessage(self, "premsg_Aggramar_FlameRend_rw", nil, nil, 53.5)
 		end
 		warnTaeshalachTech:Show(self.vb.techCount)
 		timerTaeshalachTechCD:Start(nil, self.vb.techCount+1)

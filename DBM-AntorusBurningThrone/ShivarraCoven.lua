@@ -92,7 +92,7 @@ local timerStormofDarknessCD			= mod:NewNextCountTimer(56.8, 252861, nil, nil, n
 mod:AddTimerLine(Diima)
 local timerFlashFreezeCD				= mod:NewCDTimer(10.1, 245518, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Морозная вспышка
 local timerChilledBloodCD				= mod:NewNextTimer(25.9, 245586, nil, nil, nil, 5, nil, DBM_CORE_HEALER_ICON) --Студеная кровь
-local timerOrbofFrostCD					= mod:NewNextTimer(30, 253650, nil, nil, nil, 3)
+local timerOrbofFrostCD					= mod:NewNextTimer(30, 253650, nil, nil, nil, 2)
 --Thu'raya, Mother of the Cosmos (Mythic)
 mod:AddTimerLine(Thuraya)
 local timerCosmicGlareCD				= mod:NewCDTimer(15, 250757, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Космический отблеск
