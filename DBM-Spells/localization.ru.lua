@@ -13,12 +13,7 @@ L:SetGeneralLocalization({
 	name = "Рейдовые заклинания"
 })
 
-L:SetWarningLocalization({
---	Rebirth = "%s применяет заклинание %s на %s"
-})
-
 L:SetOptionLocalization({
---	Rebirth = "Объявлять (с целью) источник использования заклинания $spell:20484",
 	YellOnMassRes = "Сообщать, когда кто-то применяет заклинание $spell:212036 или аналогичные ему",
 	YellOnManaRegen = "Сообщать, когда кто-то применяет заклинание $spell:29166 или аналогичные ему",
 	YellOnHeroism = "Сообщать, когда кто-то применяет заклинание $spell:32182 или аналогичные ему",
@@ -36,6 +31,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization{
+	WhisperThanks = "%s Спасибо тебе за %s!",
 	InnervateYell = "%s на %s!",
 	SymbolHopeYell = "Использую %s!",
 	HeroismYell = "%s %s использует %s!",

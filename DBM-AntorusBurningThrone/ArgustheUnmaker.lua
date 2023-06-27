@@ -1010,6 +1010,7 @@ function mod:UNIT_HEALTH(uId)
 		timerAvatarofAggraCD:Stop()
 		timerSargGazeCD:Stop()
 		countdownSargGaze:Cancel()
+		specWarnEdgeofObliteration:Cancel()
 	end
 end
 

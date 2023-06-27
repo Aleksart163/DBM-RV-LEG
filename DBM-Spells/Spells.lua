@@ -54,7 +54,7 @@ local specWarnSymbolHope 			= mod:NewSpecialWarningYou(64901, nil, nil, nil, 1, 
 local specWarnSymbolHope2			= mod:NewSpecialWarningEnd(64901, nil, nil, nil, 1, 2) --Символ надежды
 local specWarnManaTea2				= mod:NewSpecialWarningEnd(197908, nil, nil, nil, 1, 2) --Маначай
 
-local yellSoulstone					= mod:NewYell(20707, nil, nil, nil, "YELL") --Камень души
+--local yellSoulstone					= mod:NewYell(20707, nil, nil, nil, "YELL") --Камень души
 --local yellInnervate					= mod:NewYell(29166, L.InnervateYell, nil, nil, "YELL") --Озарение
 local yellSymbolHope				= mod:NewYell(64901, L.SymbolHopeYell, nil, nil, "YELL") --Символ надежды
 
@@ -596,9 +596,10 @@ function mod:SPELL_CAST_SUCCESS(args)
 			prepareMessage(self, "premsg_Spells_bank", args.sourceName)
 		end
 	elseif spellId == 64901 then --Символ надежды
-		warnSymbolHope:Show(args.sourceName)
 		if args:IsPlayerSource() then
 			yellSymbolHope:Yell(hope)
+		else
+			warnSymbolHope:Show(args.sourceName)
 		end
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnManaRegen then
 			prepareMessage(self, "premsg_Spells_hope", args.sourceName)
@@ -613,21 +614,28 @@ end
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 20707 then --Камень души
-		warnSoulstone:Show(args.destName)
 		if args:IsPlayer() then
 			specWarnSoulstone:Show()
 			specWarnSoulstone:Play("targetyou")
-			yellSoulstone:Yell()
+		--	yellSoulstone:Yell()
+			if not args:IsPlayerSource() then
+				SendChatMessage(L.WhisperThanks:format(DbmRV, soulstone), "WHISPER", "COMMON", args.sourceName)
+			end
+		else
+			warnSoulstone:Show(args.destName)
 		end
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnSoulstone then
 			prepareMessage(self, "premsg_Spells_soulstone", args.sourceName, args.destName)
 		end
 	elseif spellId == 29166 then --Озарение
-		warnInnervate:Show(args.sourceName, args.destName)
 		if args:IsPlayer() and self:IsHealer() then
 			specWarnInnervate:Show()
 			specWarnInnervate:Play("targetyou")
-		--	yellInnervate:Yell(innervate, playerName)
+			if not args:IsPlayerSource() then
+				SendChatMessage(L.WhisperThanks:format(DbmRV, innervate), "WHISPER", "COMMON", args.sourceName)
+			end
+		else
+			warnInnervate:Show(args.sourceName, args.destName)
 		end
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnManaRegen then
 			prepareMessage(self, "premsg_Spells_innervate", args.sourceName, args.destName)
@@ -739,31 +747,37 @@ end
 function mod:SPELL_RESURRECT(args)
 	local spellId = args.spellId
 	if spellId == 95750 then --Воскрешение камнем души
-		warnRebirth:Show(args.sourceName, args.destName)
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnResurrect then
 			prepareMessage(self, "premsg_Spells_rebirth3", args.sourceName, args.destName)
 		end
 		if args:IsPlayer() then
 			specWarnRebirth:Show()
 			specWarnRebirth:Play("targetyou")
+			SendChatMessage(L.WhisperThanks:format(DbmRV, rebirth3), "WHISPER", "COMMON", args.sourceName)
+		else
+			warnRebirth:Show(args.sourceName, args.destName)
 		end
 	elseif spellId == 20484 then --Возрождение
-		warnRebirth:Show(args.sourceName, args.destName)
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnResurrect then
 			prepareMessage(self, "premsg_Spells_rebirth1", args.sourceName, args.destName)
 		end
 		if args:IsPlayer() then
 			specWarnRebirth:Show()
 			specWarnRebirth:Play("targetyou")
+			SendChatMessage(L.WhisperThanks:format(DbmRV, rebirth1), "WHISPER", "COMMON", args.sourceName)
+		else
+			warnRebirth:Show(args.sourceName, args.destName)
 		end
 	elseif spellId == 61999 and self:AntiSpam(2.5, "rebirth") then --Воскрешение союзника
-		warnRebirth:Show(args.sourceName, args.destName)
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnResurrect then
 			prepareMessage(self, "premsg_Spells_rebirth2", args.sourceName, args.destName)
 		end
 		if args:IsPlayer() then
 			specWarnRebirth:Show()
 			specWarnRebirth:Play("targetyou")
+			SendChatMessage(L.WhisperThanks:format(DbmRV, rebirth2), "WHISPER", "COMMON", args.sourceName)
+		else
+			warnRebirth:Show(args.sourceName, args.destName)
 		end
 	end
 end

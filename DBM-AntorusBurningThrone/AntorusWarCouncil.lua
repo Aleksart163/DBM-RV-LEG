@@ -269,9 +269,10 @@ function mod:SPELL_CAST_START(args)
 			end
 		end
 	elseif spellId == 244907 then --Активация щита Скверны
-		warnActivateFelshield:Show(args.sourceName)
 		if args:IsPlayerSource() then
 			yellFelshield:Yell(felShield)
+		else
+			warnActivateFelshield:Show(args.sourceName)
 		end
 	end
 end

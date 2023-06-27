@@ -11,7 +11,7 @@ mod.isTrashMod = true
 --Тут будут новые прошляпы Мурчаля и Idiot
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 254099 254106 254044 254046 251302 251317 241917 254477 252663 222623 253972 254266 233228 254190 254288 222596 251091 251284 251703 251689 251683 251470 251714 252064 252057 252065 185777 233306 242021 238592 242069 203956 249854 238984 237308 220267 250963 251246 251276 251265 244623 242471 242397 254079 254012 254026 253978 249879 254168 254163",
+	"SPELL_CAST_START 254099 254106 254044 254046 251302 251317 241917 254477 252663 222623 253972 254266 233228 254190 254288 222596 251091 251284 251703 251689 251683 251470 251714 252064 252057 252065 185777 233306 242021 238592 242069 203956 249854 238984 237308 220267 250963 251246 251276 251265 244623 242471 242397 254079 254012 254026 253978 249879 254168 254163 222900",
 	"SPELL_CAST_SUCCESS 252055 223421 242071 203109 254079",
 	"SPELL_AURA_APPLIED 254106 254480 252037 252038 254015 254268 233228 254200 222620 252057 253068 218121 183270 220267 251245 246317 253978 254281 238681",
 	"SPELL_AURA_APPLIED_DOSE 252037 183270 246317",
@@ -94,6 +94,8 @@ local specWarnBurrow				= mod:NewSpecialWarningInterrupt(253972, "HasInterrupt",
 --анонс взят с Пастуха Кравос
 --Язвоглот
 local specWarnBlisteringWave		= mod:NewSpecialWarningInterrupt2(249879, nil, nil, nil, 1, 2) --Кипящая волна
+--Командир Текслаз https://www.wowhead.com/ru/npc=127084/командир-текслаз
+local specWarnIntimidatingRoar		= mod:NewSpecialWarningInterrupt(222900, "HasInterrupt", nil, nil, 1, 2) --Устрашающий рев
 --Гар'зот
 local specWarnGlaiveBlast			= mod:NewSpecialWarningDodge(244623, nil, nil, nil, 2, 3) --Удар властителя преисподней
 local specWarnRainofFire			= mod:NewSpecialWarningYouMove(223292, nil, nil, nil, 1, 2) --Огненный ливень
@@ -135,7 +137,6 @@ local specWarnTheParaxis			= mod:NewSpecialWarningMoveTo(252508, nil, nil, nil, 
 --Варга https://www.wowhead.com/ru/npc=126208/варга
 --Миродробитель Скуул https://www.wowhead.com/ru/npc=127118/миродробитель-скуул
 --Псарь Керракс https://www.wowhead.com/ru/npc=127288/псарь-керракс
---Командир Текслаз https://www.wowhead.com/ru/npc=127084/командир-текслаз
 ------------------------------------------------КРОКУУН------------------------------------------------------------------------
 --Командир Викайя
 local specWarnFelBackdraft				= mod:NewSpecialWarningInterrupt2(251265, nil, nil, nil, 1, 2) --Обратный поток Скверны
@@ -482,6 +483,9 @@ function mod:SPELL_CAST_START(args)
 		specWarnSeismicStomp:Play("watchstep")
 	elseif spellId == 254163 then --Железный рывок
 		self:BossTargetScanner(args.sourceGUID, "IronChargeTarget", 0.1, 2)
+	elseif spellId == 222900 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Устрашающий рев
+		specWarnIntimidatingRoar:Show()
+		specWarnIntimidatingRoar:Play("kickcast")
 	end
 end
 

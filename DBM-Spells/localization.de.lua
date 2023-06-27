@@ -31,6 +31,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization{
+	WhisperThanks = "%s Vielen Dank für %s!",
 	InnervateYell = "%s auf %s!",
 	SymbolHopeYell = "Anwendung %s!",
 	HeroismYell = "%s %s nutzt %s!",
