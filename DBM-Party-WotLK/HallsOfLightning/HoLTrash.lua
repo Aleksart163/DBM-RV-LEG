@@ -21,10 +21,11 @@ local yellSleep2						= mod:NewFadesYell(59165, nil, nil, nil, "YELL") --Сон
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 59165 then --Сон
-		warnSleep:CombinedShow(0.5, args.destName)
 		if args:IsPlayer() then
 			yellSleep:Yell()
 			yellSleep2:Countdown(5, 3)
+		else
+			warnSleep:CombinedShow(0.5, args.destName)
 		end
 		timerSleep:Start(args.destName)
 	end
