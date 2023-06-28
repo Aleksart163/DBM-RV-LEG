@@ -87,6 +87,15 @@ L = DBM:GetModLocalization(599)
 ---------
 L = DBM:GetModLocalization(600)
 
+-------------
+--Треш-мобы--
+-------------
+L = DBM:GetModLocalization("HoLTrash")
+
+L:SetGeneralLocalization({
+	name = "Трэш ЧМ"
+})
+
 ----------
 --Нексус--
 ----------

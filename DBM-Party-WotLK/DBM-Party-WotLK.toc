@@ -61,6 +61,7 @@ HallsOfLightning\Bjarngrin.lua
 HallsOfLightning\Volkhan.lua
 HallsOfLightning\Ionar.lua
 HallsOfLightning\Loken.lua
+HallsOfLightning\HoLTrash.lua
 TheNexus\Commander.lua
 TheNexus\GrandMagusTelestra.lua
 TheNexus\Anomalus.lua

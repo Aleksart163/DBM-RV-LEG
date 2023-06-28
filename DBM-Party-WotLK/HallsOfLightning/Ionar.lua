@@ -16,12 +16,16 @@ mod:RegisterEventsInCombat(
 )
 
 local warningDisperseSoon	= mod:NewSoonAnnounce(52770, 2)
-local warningDisperse		= mod:NewSpellAnnounce(52770, 3)
 local warningOverload		= mod:NewTargetAnnounce(52658, 2)
 
-local specWarnOverload		= mod:NewSpecialWarningMoveAway(52658, nil, nil, nil, 1, 2)
+local specWarnOverload		= mod:NewSpecialWarningYouMoveAway(52658, nil, nil, nil, 3, 5) --Статическая перегрузка
+local specWarnDisperse		= mod:NewSpecialWarningRun(52770, nil, nil, nil, 3, 6) --Рассеяние
 
-local timerOverload			= mod:NewTargetTimer(10, 52658, nil, nil, nil, 3)
+local timerOverload			= mod:NewTargetTimer(10, 52658, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Рассеяние
+local timerDisperse			= mod:NewBuffFadesTimer(13, 52770, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Рассеяние
+
+local yellOverload			= mod:NewYell(52658, nil, nil, nil, "YELL") --Статическая перегрузка
+local yellOverload2			= mod:NewFadesYell(52658, nil, nil, nil, "YELL") --Статическая перегрузка
 
 mod:AddRangeFrameOption(10, 52658)
 mod:AddSetIconOption("SetIconOnOverloadTarget", 59795, true, false, {8})
@@ -39,10 +43,12 @@ function mod:OnCombatEnd()
 end
 
 function mod:SPELL_AURA_APPLIED(args)
-	if args:IsSpellID(52658, 59795) then
+	if args:IsSpellID(52658, 59795) then --Статическая перегрузка
 		if args:IsPlayer() then
 			specWarnOverload:Show()
-			specWarnOverload:Play("runout")
+			specWarnOverload:Play("runaway")
+			yellOverload:Yell()
+			yellOverload2:Countdown(10, 3)
 			if self.Options.RangeFrame then
 				DBM.RangeCheck:Show(10)
 			end
@@ -68,13 +74,15 @@ function mod:SPELL_AURA_REMOVED(args)
 end
 
 function mod:SPELL_CAST_START(args)
-	if args.spellId == 52770 then
-		warningDisperse:Show()
+	if args.spellId == 52770 then --Рассеяние
+		specWarnDisperse:Show()
+		specWarnDisperse:Play("runaway")
+		timerDisperse:Start()
 	end
 end
 
 function mod:UNIT_HEALTH(uId)
-	if not warnedDisperse and self:GetUnitCreatureId(uId) == 28546 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.54 then
+	if not warnedDisperse and self:GetUnitCreatureId(uId) == 28546 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.56 then
 		warnedDisperse = true
 		warningDisperseSoon:Show()
 	end
