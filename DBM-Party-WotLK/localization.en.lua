@@ -76,6 +76,15 @@ L = DBM:GetModLocalization(598)
 -------------
 L = DBM:GetModLocalization(600)
 
+---------
+--Trash--
+---------
+L = DBM:GetModLocalization("HoLTrash")
+
+L:SetGeneralLocalization({
+	name = "HoL Trash"
+})
+
 -----------------
 --  The Nexus  --
 -----------------
