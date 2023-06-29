@@ -8,7 +8,7 @@ mod:SetZone(1712, 1676, 1530, 1648, 1520, 1779, 1501, 1466, 1456, 1477, 1458, 15
 mod.noStatistics = true
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 61994 212040 212056 212036 212048 212051",
+	"SPELL_CAST_START 61994 212040 212056 212036 212048 212051 7720",
 	"SPELL_CAST_SUCCESS 688 691 157757 80353 32182 230935 90355 2825 160452 10059 11416 11419 32266 49360 11417 11418 11420 32267 49361 33691 53142 88345 88346 132620 132626 176246 176244 224871 29893 83958 64901 21169",
 	"SPELL_AURA_APPLIED 20707 29166 64901",
 	"SPELL_AURA_REMOVED 29166 64901 197908",
@@ -66,6 +66,7 @@ mod:AddBoolOption("YellOnPortal", true) --порталы
 mod:AddBoolOption("YellOnSoulwell", true)
 mod:AddBoolOption("YellOnSoulstone", true)
 mod:AddBoolOption("YellOnRitualofSummoning", true)
+mod:AddBoolOption("YellOnSummoning", true)
 mod:AddBoolOption("YellOnSpiritCauldron", true) --котел
 mod:AddBoolOption("YellOnLavish", true)
 mod:AddBoolOption("YellOnBank", true) --банк
@@ -88,7 +89,7 @@ local orgrimmar, undercity, thunderBluff, silvermoon, stonard, tolBarad2, valeEt
 --Порталы общие
 local shattrath, dalaran1, dalaran2 = replaceSpellLinks(33691), replaceSpellLinks(53142), replaceSpellLinks(224871)
 --Спеллы лока
-local soulwell, soulstone, summoning = replaceSpellLinks(29893), replaceSpellLinks(20707), replaceSpellLinks(698)
+local soulwell, soulstone, summoning, summoning2 = replaceSpellLinks(29893), replaceSpellLinks(20707), replaceSpellLinks(698), replaceSpellLinks(7720)
 --Котел духов
 local cauldron = replaceSpellLinks(188036)
 --Еда
@@ -463,6 +464,16 @@ function mod:SPELL_CAST_START(args)
 			-- if IsInRaid() and DBM:GetRaidRank() > 0 then
 				prepareMessage(self, "premsg_Spells_massres5_rw", args.sourceName)
 			-- end
+		end
+	elseif spellId == 7720 then --Ритуал призыва
+		if args:IsPlayerSource() then
+			if IsInRaid() then
+				SendChatMessage(L.SoulstoneYell:format(DbmRV, args.sourceName, summoning2, UnitName("target")), "RAID")
+			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
+				SendChatMessage(L.SoulstoneYell:format(DbmRV, args.sourceName, summoning2, UnitName("target")), "INSTANCE_CHAT")
+			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
+				SendChatMessage(L.SoulstoneYell:format(DbmRV, args.sourceName, summoning2, UnitName("target")), "PARTY")
+			end
 		end
 	end
 end

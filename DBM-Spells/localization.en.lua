@@ -20,6 +20,7 @@ L:SetOptionLocalization({
 	YellOnSoulwell = "Announce when someone is casting a spell $spell:29893",
 	YellOnSoulstone = "Announce when someone has been subjected to $spell:20707",
 	YellOnRitualofSummoning = "Announce when someone is casting a spell $spell:698",
+	YellOnSummoning = "Announce when you cast a spell $spell:7720",
 	YellOnSpiritCauldron = "Announce when someone puts $spell:188036",
 	YellOnLavish = "Announce when someone puts $spell:201352 or equivalent",
 	YellOnRepair = "Announce when someone puts $spell:199109 or equivalent",
