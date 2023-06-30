@@ -467,13 +467,7 @@ function mod:SPELL_CAST_START(args)
 		end
 	elseif spellId == 7720 then --Ритуал призыва
 		if args:IsPlayerSource() then
-			if IsInRaid() then
-				SendChatMessage(L.SoulstoneYell:format(DbmRV, args.sourceName, summoning2, UnitName("target")), "RAID")
-			elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
-				SendChatMessage(L.SoulstoneYell:format(DbmRV, args.sourceName, summoning2, UnitName("target")), "INSTANCE_CHAT")
-			elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
-				SendChatMessage(L.SoulstoneYell:format(DbmRV, args.sourceName, summoning2, UnitName("target")), "PARTY")
-			end
+			smartChat(L.SoulstoneYell:format(DbmRV, args.sourceName, summoning2, UnitName("target")))
 		end
 	end
 end
@@ -630,7 +624,8 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnSoulstone:Play("targetyou")
 		--	yellSoulstone:Yell()
 			if not args:IsPlayerSource() then
-				SendChatMessage(L.WhisperThanks:format(DbmRV, soulstone), "WHISPER", "COMMON", args.sourceName)
+				smartChat(L.WhisperThanks:format(DbmRV, soulstone), "whisper", args.sourceName)
+			--	SendChatMessage(L.WhisperThanks:format(DbmRV, soulstone), "WHISPER", "COMMON", args.sourceName)
 			end
 		else
 			warnSoulstone:Show(args.destName)
@@ -643,7 +638,8 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnInnervate:Show()
 			specWarnInnervate:Play("targetyou")
 			if not args:IsPlayerSource() then
-				SendChatMessage(L.WhisperThanks:format(DbmRV, innervate), "WHISPER", "COMMON", args.sourceName)
+				smartChat(L.WhisperThanks:format(DbmRV, innervate), "whisper", args.sourceName)
+			--	SendChatMessage(L.WhisperThanks:format(DbmRV, innervate), "WHISPER", "COMMON", args.sourceName)
 			end
 		else
 			warnInnervate:Show(args.sourceName, args.destName)
@@ -764,7 +760,8 @@ function mod:SPELL_RESURRECT(args)
 		if args:IsPlayer() then
 			specWarnRebirth:Show()
 			specWarnRebirth:Play("targetyou")
-			SendChatMessage(L.WhisperThanks:format(DbmRV, rebirth3), "WHISPER", "COMMON", args.sourceName)
+			smartChat(L.WhisperThanks:format(DbmRV, rebirth3), "whisper", args.sourceName)
+		--	SendChatMessage(L.WhisperThanks:format(DbmRV, rebirth3), "WHISPER", "COMMON", args.sourceName)
 		else
 			warnRebirth:Show(args.sourceName, args.destName)
 		end
@@ -775,7 +772,8 @@ function mod:SPELL_RESURRECT(args)
 		if args:IsPlayer() then
 			specWarnRebirth:Show()
 			specWarnRebirth:Play("targetyou")
-			SendChatMessage(L.WhisperThanks:format(DbmRV, rebirth1), "WHISPER", "COMMON", args.sourceName)
+			smartChat(L.WhisperThanks:format(DbmRV, rebirth1), "whisper", args.sourceName)
+		--	SendChatMessage(L.WhisperThanks:format(DbmRV, rebirth1), "WHISPER", "COMMON", args.sourceName)
 		else
 			warnRebirth:Show(args.sourceName, args.destName)
 		end
@@ -786,7 +784,8 @@ function mod:SPELL_RESURRECT(args)
 		if args:IsPlayer() then
 			specWarnRebirth:Show()
 			specWarnRebirth:Play("targetyou")
-			SendChatMessage(L.WhisperThanks:format(DbmRV, rebirth2), "WHISPER", "COMMON", args.sourceName)
+			smartChat(L.WhisperThanks:format(DbmRV, rebirth2), "whisper", args.sourceName)
+		--	SendChatMessage(L.WhisperThanks:format(DbmRV, rebirth2), "WHISPER", "COMMON", args.sourceName)
 		else
 			warnRebirth:Show(args.sourceName, args.destName)
 		end
