@@ -390,12 +390,12 @@ function mod:SPELL_CAST_START(args)
 	end
 end
 
---[[function mod:SPELL_CAST_SUCCESS(args)
+function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
 	if spellId == 249121 then --Всеобщая погибель
-		self:SendSync("OchkoSoulburnin")
+		self:SendSync("OchkoMurchalya")
 	end
-end]]
+end
 
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
@@ -534,6 +534,10 @@ function mod:UNIT_DIED(args)
 		end
 	elseif cid == 123726 and self.vb.purifiers > 0 then--Fel-Infused Purifier
 		self.vb.purifiers = self.vb.purifiers - 1
+	elseif cid == 124445 then --Параксий
+		if self.vb.lifeForceCast < 4 then
+			self:SendSync("OchkoMurchalya")
+		end
 	end
 end
 
@@ -585,11 +589,11 @@ mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
 	if msg:find(L.YellKilled) or msg == L.YellKilled then
 		DBM:EndCombat(self)
 	end
-end
+end]]
 	
 function mod:OnSync(msg)
-	if msg == "OchkoSoulburnin" then
-		DBM:Debug("Checking synchronization execute")
+	if msg == "OchkoMurchalya" then
+		DBM:Debug("Checking Murchal proshlyapation")
 		DBM:EndCombat(self, true)
 	end
-end]]
+end
