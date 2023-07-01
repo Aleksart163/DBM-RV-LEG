@@ -40,6 +40,7 @@ local warnBombardment				= mod:NewSpellAnnounce(229284, 3) --Приказ: бо�
 local specWarnChaoticShadows		= mod:NewSpecialWarningYou(229159, nil, nil, nil, 1, 3) --Тени Хаоса
 local specWarnChaoticShadows2		= mod:NewSpecialWarningYouMoveAway(229159, nil, nil, nil, 3, 6) --Тени Хаоса
 --
+local specWarnStabilizeRift			= mod:NewSpecialWarningInterrupt(230084, "HasInterrupt", nil, nil, 3, 6) --Стабилизация разлома
 local specWarnBurningBlast4			= mod:NewSpecialWarningStack(229083, nil, 1, nil, nil, 3, 6) --Выброс пламени
 local specWarnBurningBlast3			= mod:NewSpecialWarningYouDispel(229083, "MagicDispeller2", nil, nil, 3, 3) --Выброс пламени
 local specWarnBurningBlast			= mod:NewSpecialWarningInterruptCount(229083, "HasInterrupt", nil, nil, 1, 2) --Выброс пламени
@@ -178,7 +179,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 			warned_preP2 = true
 			timerFelBeamCD:Stop()
 			countdownFelBeam:Cancel()
-			timerDisintegrateCD:Start(15.5)
+			timerDisintegrateCD:Start(15)
 		elseif self.vb.phase == 3 then
 			warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase))
 			self.vb.burningBlastCount = 0
@@ -240,6 +241,8 @@ function mod:SPELL_AURA_APPLIED(args)
 			warnFelBeam:Show(args.destName)
 		end
 	elseif spellId == 230084 then --Стабилизация разлома
+		specWarnStabilizeRift:Schedule(27.7)
+		specWarnStabilizeRift:ScheduleVoice(27.7, "kickcast")
 		timerStabilizeRift:Start()
 		countdownStabilizeRift:Start()
 	elseif spellId == 230002 and args:IsDestTypePlayer() then --Пылающая подрезка
@@ -315,6 +318,7 @@ mod.SPELL_MISSED = mod.SPELL_DAMAGE
 
 function mod:SPELL_INTERRUPT(args)
 	if type(args.extraSpellId) == "number" and args.extraSpellId == 230084 then
+		specWarnStabilizeRift:Cancel()
 		timerDisintegrateCD:Stop()
 		timerChaoticShadowsCD:Stop()
 		countdownStabilizeRift:Cancel()
