@@ -510,4 +510,3 @@ function mod:UNIT_HEALTH(uId)
 		end
 	end
 end
- 
