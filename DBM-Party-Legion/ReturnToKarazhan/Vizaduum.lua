@@ -299,7 +299,8 @@ function mod:SPELL_AURA_REMOVED(args)
 			self:SetIcon(args.destName, 0)
 		end
 	elseif spellId == 230084 then --Стабилизация разлома
-		timerStabilizeRift:Cancel()
+		specWarnStabilizeRift:Cancel()
+		timerStabilizeRift:Stop()
 		countdownStabilizeRift:Cancel()
 	elseif spellId == 229083 then --Выброс пламени
 		if self.Options.SetIconOnBurningBlast then
@@ -321,6 +322,7 @@ function mod:SPELL_INTERRUPT(args)
 		specWarnStabilizeRift:Cancel()
 		timerDisintegrateCD:Stop()
 		timerChaoticShadowsCD:Stop()
+		timerStabilizeRift:Stop()
 		countdownStabilizeRift:Cancel()
 		timerDisintegrateCD:Start(11)
 		timerChaoticShadowsCD:Start(18)
