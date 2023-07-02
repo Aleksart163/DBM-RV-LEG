@@ -103,6 +103,8 @@ local timerRoleplay3				= mod:NewTimer(30, "timerRoleplay3", "Interface\\Icons\\
 local timerRoleplay4				= mod:NewTimer(30, "timerRoleplay4", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7)
 local timerRoleplay5				= mod:NewTimer(30, "timerRoleplay5", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7)
 
+local countdownRoleplay				= mod:NewCountdownFades(30, 229620, nil, nil, 5) --Бомба Скверны (и т.д.)
+
 mod:AddBoolOption("OperaActivation", true)
 
 local key = replaceSpellLinks(233981) --Взять ключи
@@ -415,19 +417,25 @@ function mod:OnSync(msg)
 		timerAchieve:Start()
 	elseif msg == "RPBeauty" then
 		timerRoleplay:Start(52.5)
+		countdownRoleplay:Start(52.5)
 	elseif msg == "RPWestfall" then
 		timerRoleplay2:Start(46.5)
+		countdownRoleplay:Start(46.5)
 	elseif msg == "RPWikket" then
 		timerRoleplay3:Start(70)
+		countdownRoleplay:Start(70)
 	elseif msg == "RPMedivh1" then
 		timerRoleplay4:Start(14.7)
 	elseif msg == "RPMedivh2" then
 		timerRoleplay5:Start(79.2)
+		countdownRoleplay:Start(79.2)
 	elseif msg == "felbomb" then
 		specWarnFelBomb:Show()
 		specWarnFelBomb:Play("bombsoon")
 		timerFelBomb:Start()
+		countdownRoleplay:Start(17)
 	elseif msg == "felbombend" then
 		timerFelBomb:Cancel()
+		countdownRoleplay:Cancel()
 	end
 end
