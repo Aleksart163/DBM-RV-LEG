@@ -96,6 +96,18 @@ L:SetGeneralLocalization({
 	name = "Трэш ЧМ"
 })
 
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+})
+
+L:SetMiscLocalization({
+	RPLoken = "Я был свидетелем расцвета и падения империй... рождения и исчезновения целых рас... И только безрассудство смертных всегда оставалось неизменным. Ваше присутствие подтверждает это."
+})
+
 ----------
 --Нексус--
 ----------
