@@ -1,13 +1,14 @@
 local mod	= DBM:NewMod(2025, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17714 $"):sub(12, -3))
 mod:SetCreatureID(124445)
 mod:SetEncounterID(2075)
 mod:SetZone()
 --mod:SetBossHPInfoToHighest()
 mod:SetUsedIcons(8, 7, 6, 5, 4)
 mod:SetHotfixNoticeRev(17650)
+mod:SetMinSyncRevision(17714)
 mod:DisableIEEUCombatDetection()
 mod:DisableEEKillDetection()
 mod:DisableOnMobKillDetection()
@@ -393,7 +394,7 @@ end
 function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
 	if spellId == 249121 then --Всеобщая погибель
-		self:SendSync("OchkoMurchalya")
+		DBM:EndCombat(self, true)
 	end
 end
 
@@ -534,10 +535,6 @@ function mod:UNIT_DIED(args)
 		end
 	elseif cid == 123726 and self.vb.purifiers > 0 then--Fel-Infused Purifier
 		self.vb.purifiers = self.vb.purifiers - 1
-	elseif cid == 124445 then --Параксий
-		if self.vb.lifeForceCast < 4 then
-			self:SendSync("OchkoMurchalya")
-		end
 	end
 end
 
@@ -584,16 +581,3 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spell
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
-
---[[function mod:CHAT_MSG_MONSTER_YELL(msg)
-	if msg:find(L.YellKilled) or msg == L.YellKilled then
-		DBM:EndCombat(self)
-	end
-end]]
-	
-function mod:OnSync(msg)
-	if msg == "OchkoMurchalya" then
-		DBM:Debug("Checking Murchal proshlyapation")
-		DBM:EndCombat(self, true)
-	end
-end
