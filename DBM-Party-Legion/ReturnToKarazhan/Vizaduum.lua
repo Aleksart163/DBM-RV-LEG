@@ -184,7 +184,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 			warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase))
 			self.vb.burningBlastCount = 0
 			warned_preP4 = true
-			timerStabilizeRiftCD:Start(22)
+			timerStabilizeRiftCD:Start(22.5)
 			timerDisintegrateCD:Start(58.7)
 			timerChaoticShadowsCD:Start(71.7)
 			if self.Options.RangeFrame then
