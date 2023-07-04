@@ -20,7 +20,6 @@ L:SetOptionLocalization({
 	YellOnSoulwell = "Announce when someone is casting a spell $spell:29893",
 	YellOnSoulstone = "Announce when someone has been subjected to $spell:20707",
 	YellOnRitualofSummoning = "Announce when someone is casting a spell $spell:698",
-	YellOnSummoning = "Announce when you cast a spell $spell:7720",
 	YellOnSpiritCauldron = "Announce when someone puts $spell:188036",
 	YellOnLavish = "Announce when someone puts $spell:201352 or equivalent",
 	YellOnRepair = "Announce when someone puts $spell:199109 or equivalent",
@@ -38,4 +37,21 @@ L:SetMiscLocalization{
 	SoulwellYell = "%s %s puts %s!",
 	SoulstoneYell = "%s %s applies %s to %s!",
 	SummoningYell = "%s %s begins %s!"
+}
+
+-------------
+-- Spells2 --
+-------------
+L= DBM:GetModLocalization("Spells2")
+
+L:SetGeneralLocalization({
+	name = "Raid Spells2"
+})
+
+L:SetOptionLocalization({
+	YellOnSummoning = "Announce when you cast a spell $spell:7720"
+})
+
+L:SetMiscLocalization{
+	SummonYell = "%s %s applies %s to %s!"
 }

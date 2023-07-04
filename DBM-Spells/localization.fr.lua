@@ -39,3 +39,20 @@ L:SetMiscLocalization{
 	SoulstoneYell = "%s %s s'applique %s sur %s!",
 	SummoningYell = "%s %s commence %s!"
 }
+
+-------------
+-- Spells2 --
+-------------
+L= DBM:GetModLocalization("Spells2")
+
+L:SetGeneralLocalization({
+	name = "Raid Spells2"
+})
+
+L:SetOptionLocalization({
+	YellOnSummoning = "Signaler l'application d'un sort $spell:7720"
+})
+
+L:SetMiscLocalization{
+	SummonYell = "%s %s s'applique %s sur %s!"
+}

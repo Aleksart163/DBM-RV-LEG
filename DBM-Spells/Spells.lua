@@ -3,12 +3,12 @@ local L		= mod:GetLocalizedStrings()
 
 mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
 --mod:SetZone()
-mod:SetZone(1712, 1676, 1530, 1648, 1520, 1779, 1501, 1466, 1456, 1477, 1458, 1516, 1571, 1492, 1544, 1493, 1651, 1677, 1753)
-
+mod:SetZone(1712, 1676, 1648, 1530, 1520, 1753, 1677, 1651, 1571, 1544, 1516, 1501, 1493, 1492, 1477, 1466, 1458, 1456, 603)
+--1779 (точки вторжения)
 mod.noStatistics = true
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 61994 212040 212056 212036 212048 212051 7720",
+	"SPELL_CAST_START 61994 212040 212056 212036 212048 212051",
 	"SPELL_CAST_SUCCESS 688 691 157757 80353 32182 230935 90355 2825 160452 10059 11416 11419 32266 49360 11417 11418 11420 32267 49361 33691 53142 88345 88346 132620 132626 176246 176244 224871 29893 83958 64901 21169",
 	"SPELL_AURA_APPLIED 20707 29166 64901",
 	"SPELL_AURA_REMOVED 29166 64901 197908",
@@ -66,7 +66,6 @@ mod:AddBoolOption("YellOnPortal", true) --порталы
 mod:AddBoolOption("YellOnSoulwell", true)
 mod:AddBoolOption("YellOnSoulstone", true)
 mod:AddBoolOption("YellOnRitualofSummoning", true)
-mod:AddBoolOption("YellOnSummoning", true)
 mod:AddBoolOption("YellOnSpiritCauldron", true) --котел
 mod:AddBoolOption("YellOnLavish", true)
 mod:AddBoolOption("YellOnBank", true) --банк
@@ -445,10 +444,10 @@ function mod:SPELL_CAST_START(args)
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnMassRes then
 			prepareMessage(self, "premsg_Spells_massres5_rw", args.sourceName)
 		end
-	elseif spellId == 7720 then --Ритуал призыва
+--[[	elseif spellId == 7720 then --Ритуал призыва
 		if args:IsPlayerSource() then
 			smartChat(L.SoulstoneYell:format(DbmRV, args.sourceName, summoning2, UnitName("target")))
-		end
+		end]]
 	end
 end
 
