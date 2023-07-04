@@ -114,9 +114,9 @@ local premsg_values = {
 	orgrimmar, undercity, thunderBluff, silvermoon, stonard, tolBarad2, valeEternal2, warspear,
 	shattrath, dalaran1, dalaran2,
 	soulwell, soulstone, summoning,
-	cauldron,
-	lavishSuramar, hearty, sugar,
-	jeeves, autoHammer, pylon,
+	cauldron_rw,
+	lavishSuramar_rw, hearty, sugar,
+	jeeves_rw, autoHammer_rw, pylon_rw,
 	bank,
 	toyTrain, moonfeather, --[[highborne, discoball, ]]direbrews
 }
@@ -252,27 +252,27 @@ local function sendAnnounce(self)
 	elseif premsg_values.summoning == 1 then
 		smartChat(L.SummoningYell:format(DbmRV, premsg_values.args_sourceName, summoning))
 		premsg_values.summoning = 0
-	elseif premsg_values.cauldron == 1 then
+	elseif premsg_values.cauldron_rw == 1 then
 		smartChat(L.SoulwellYell:format(DbmRV, premsg_values.args_sourceName, cauldron))
-		premsg_values.cauldron = 0
-	elseif premsg_values.lavishSuramar == 1 then
+		premsg_values.cauldron_rw = 0
+	elseif premsg_values.lavishSuramar_rw == 1 then
 		smartChat(L.SoulwellYell:format(DbmRV, premsg_values.args_sourceName, lavishSuramar))
-		premsg_values.lavishSuramar = 0
+		premsg_values.lavishSuramar_rw = 0
 	elseif premsg_values.hearty == 1 then
 		smartChat(L.SoulwellYell:format(DbmRV, premsg_values.args_sourceName, hearty))
 		premsg_values.hearty = 0
 	elseif premsg_values.sugar == 1 then
 		smartChat(L.SoulwellYell:format(DbmRV, premsg_values.args_sourceName, sugar))
 		premsg_values.sugar = 0
-	elseif premsg_values.jeeves == 1 then
+	elseif premsg_values.jeeves_rw == 1 then
 		smartChat(L.SoulwellYell:format(DbmRV, premsg_values.args_sourceName, jeeves))
-		premsg_values.jeeves = 0
-	elseif premsg_values.autoHammer == 1 then
+		premsg_values.jeeves_rw = 0
+	elseif premsg_values.autoHammer_rw == 1 then
 		smartChat(L.SoulwellYell:format(DbmRV, premsg_values.args_sourceName, autoHammer))
-		premsg_values.autoHammer = 0
-	elseif premsg_values.pylon == 1 then
+		premsg_values.autoHammer_rw = 0
+	elseif premsg_values.pylon_rw == 1 then
 		smartChat(L.SoulwellYell:format(DbmRV, premsg_values.args_sourceName, pylon))
-		premsg_values.pylon = 0
+		premsg_values.pylon_rw = 0
 	elseif premsg_values.bank == 1 then
 		smartChat(L.SoulwellYell:format(DbmRV, premsg_values.args_sourceName, bank))
 		premsg_values.bank = 0
@@ -378,20 +378,20 @@ local function announceList(premsg_announce, value)
 		premsg_values.soulstone = value
 	elseif premsg_announce == "premsg_Spells_summoning" then
 		premsg_values.summoning = value
-	elseif premsg_announce == "premsg_Spells_cauldron" then
-		premsg_values.cauldron = value
-	elseif premsg_announce == "premsg_Spells_lavishSuramar" then
-		premsg_values.lavishSuramar = value
+	elseif premsg_announce == "premsg_Spells_cauldron_rw" then
+		premsg_values.cauldron_rw = value
+	elseif premsg_announce == "premsg_Spells_lavishSuramar_rw" then
+		premsg_values.lavishSuramar_rw = value
 	elseif premsg_announce == "premsg_Spells_hearty" then
 		premsg_values.hearty = value
 	elseif premsg_announce == "premsg_Spells_sugar" then
 		premsg_values.sugar = value
-	elseif premsg_announce == "premsg_Spells_jeeves" then
-		premsg_values.jeeves = value
-	elseif premsg_announce == "premsg_Spells_autoHammer" then
-		premsg_values.autoHammer = value
-	elseif premsg_announce == "premsg_Spells_pylon" then
-		premsg_values.pylon = value
+	elseif premsg_announce == "premsg_Spells_jeeves_rw" then
+		premsg_values.jeeves_rw = value
+	elseif premsg_announce == "premsg_Spells_autoHammer_rw" then
+		premsg_values.autoHammer_rw = value
+	elseif premsg_announce == "premsg_Spells_pylon_rw" then
+		premsg_values.pylon_rw = value
 	elseif premsg_announce == "premsg_Spells_bank" then
 		premsg_values.bank = value
 	elseif premsg_announce == "premsg_Spells_toyTrain" then
@@ -662,12 +662,12 @@ function mod:SPELL_CREATE(args)
 	elseif spellId == 188036 and self:AntiSpam(10, "cauldron") then --Котел духов
 		warnCauldron:Show(args.sourceName)
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnSpiritCauldron then
-			prepareMessage(self, "premsg_Spells_cauldron", args.sourceName)
+			prepareMessage(self, "premsg_Spells_cauldron_rw", args.sourceName)
 		end
 	elseif spellId == 201352 and self:AntiSpam(10, "lavishSuramar") then --Щедрое сурамарское угощение
 		warnLavishSuramar:Show(args.sourceName)
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnLavish then
-			prepareMessage(self, "premsg_Spells_lavishSuramar", args.sourceName)
+			prepareMessage(self, "premsg_Spells_lavishSuramar_rw", args.sourceName)
 		end
 	elseif spellId == 201351 and self:AntiSpam(10, "hearty") then --Обильное угощение
 		warnHearty:Show(args.sourceName)
@@ -695,17 +695,17 @@ function mod:SPELL_SUMMON(args)
 	if spellId == 67826 and self:AntiSpam(10, "jeeves") then --Дживс
 		warnJeeves:Show(args.sourceName)
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnRepair then
-			prepareMessage(self, "premsg_Spells_jeeves", args.sourceName)
+			prepareMessage(self, "premsg_Spells_jeeves_rw", args.sourceName)
 		end
 	elseif spellId == 199109 and self:AntiSpam(10, "hammer") then --Автоматический молот
 		warnAutoHammer:Show(args.sourceName)
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnRepair then
-			prepareMessage(self, "premsg_Spells_autoHammer", args.sourceName)
+			prepareMessage(self, "premsg_Spells_autoHammer_rw", args.sourceName)
 		end
 	elseif spellId == 199115 and self:AntiSpam(10, "pylon") then --Пилон для обнаружения проблем
 		warnPylon:Show(args.sourceName)
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnPylon then
-			prepareMessage(self, "premsg_Spells_pylon", args.sourceName)
+			prepareMessage(self, "premsg_Spells_pylon_rw", args.sourceName)
 		end
 	elseif spellId == 195782 and self:AntiSpam(5, "moonfeather") then --Призыв статуи лунного совуха
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnToys then
