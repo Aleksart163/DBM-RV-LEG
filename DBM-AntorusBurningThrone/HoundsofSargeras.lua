@@ -276,6 +276,7 @@ function mod:SPELL_CAST_START(args)
 			timerSiphonCorruptionCD:Start(79) --Вытягивание порчи+++
 			countdownSiphonCorruption:Start(79) --Вытягивание порчи+++
 			specWarnSiphoned2:Schedule(69) --Вытягивание порчи+++
+			specWarnSiphoned2:ScheduleVoice(69, "aesoon") --Вытягивание порчи+++
 			timerComsumingSphereCD:Start(26) --Поглощаяющая сфера+++
 			countdownComsumingSphere:Start(26) --Поглощаяющая сфера+++
 			specWarnComsumingSphere2:Schedule(16) --Поглощаяющая сфера+++
@@ -293,6 +294,7 @@ function mod:SPELL_CAST_START(args)
 			timerSiphonCorruptionCD:Start(72) --Вытягивание порчи+++
 			countdownSiphonCorruption:Start(72) --Вытягивание порчи+++
 			specWarnSiphoned2:Schedule(59) --Вытягивание порчи+++
+			specWarnSiphoned2:ScheduleVoice(59, "aesoon") --Вытягивание порчи+++
 			timerComsumingSphereCD:Start(24) --Поглощаяющая сфера+++
 			countdownComsumingSphere:Start(24) --Поглощаяющая сфера+++
 			specWarnComsumingSphere2:Schedule(14) --Поглощаяющая сфера+++
@@ -309,6 +311,7 @@ function mod:SPELL_CAST_START(args)
 			timerSiphonCorruptionCD:Start(85) --Вытягивание порчи+++
 			countdownSiphonCorruption:Start(85) --Вытягивание порчи+++
 			specWarnSiphoned2:Schedule(75) --Вытягивание порчи+++
+			specWarnSiphoned2:ScheduleVoice(75, "aesoon") --Вытягивание порчи+++
 			timerComsumingSphereCD:Start(28) --Поглощаяющая сфера+++
 			countdownComsumingSphere:Start(28) --Поглощаяющая сфера+++
 			specWarnComsumingSphere2:Schedule(18) --Поглощаяющая сфера+++

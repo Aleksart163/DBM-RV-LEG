@@ -598,14 +598,16 @@ end
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 20707 then --Камень души
-		if args:IsPlayer() then
-			specWarnSoulstone:Show()
-			specWarnSoulstone:Play("targetyou")
-			if not args:IsPlayerSource() then
-				smartChat(L.WhisperThanks:format(DbmRV, soulstone), "whisper", args.sourceName)
+		if IsInInstance() then
+			if args:IsPlayer() then
+				specWarnSoulstone:Show()
+				specWarnSoulstone:Play("targetyou")
+				if not args:IsPlayerSource() then
+					smartChat(L.WhisperThanks:format(DbmRV, soulstone), "whisper", args.sourceName)
+				end
+			else
+				warnSoulstone:Show(args.destName)
 			end
-		else
-			warnSoulstone:Show(args.destName)
 		end
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnSoulstone then
 			prepareMessage(self, "premsg_Spells_soulstone", args.sourceName, args.destName)

@@ -12,6 +12,7 @@ mod:RegisterEvents(
 	"SPELL_AURA_APPLIED 204962 205088 204608",
 	"SPELL_DAMAGE 204762",
 	"SPELL_MISSED 204762",
+	"GOSSIP_SHOW",
 	"UNIT_DIED"
 --	"CHAT_MSG_MONSTER_YELL"
 )
@@ -89,6 +90,18 @@ function mod:UNIT_DIED(args)
 --	elseif z == 102336 or z == 102302 or z == 102335 then--Portal Keeper/Portal Guardian
 --		timerPortal:Start(12)--8-12, nearly always 12
 --		warningPortalSoon:Schedule(7)
+	end
+end
+
+function mod:GOSSIP_SHOW()
+	local guid = UnitGUID("npc")
+	if not guid then return end
+	local cid = self:GetCIDFromGUID(guid)
+	if cid == 102278 then --Лейтенант Синклари
+		if GetNumGossipOptions() == 1 then
+			SelectGossipOption(1)
+		--	CloseGossip()
+		end
 	end
 end
 
