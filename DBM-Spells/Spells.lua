@@ -2,20 +2,18 @@ local mod	= DBM:NewMod("Spells", "DBM-Spells")
 local L		= mod:GetLocalizedStrings()
 
 mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
---mod:SetZone()
-mod:SetZone(1712, 1676, 1648, 1530, 1520, 1753, 1677, 1651, 1571, 1544, 1516, 1501, 1493, 1492, 1477, 1466, 1458, 1456, 603)
---1779 (точки вторжения)
+mod:SetZone(DBM_DISABLE_ZONE_DETECTION)
 mod.noStatistics = true
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 61994 212040 212056 212036 212048 212051",
+	"SPELL_CAST_START 61994 212040 212056 212036 212048 212051 7720",
 	"SPELL_CAST_SUCCESS 688 691 157757 80353 32182 230935 90355 2825 160452 10059 11416 11419 32266 49360 11417 11418 11420 32267 49361 33691 53142 88345 88346 132620 132626 176246 176244 224871 29893 83958 64901 21169",
 	"SPELL_AURA_APPLIED 20707 29166 64901",
 	"SPELL_AURA_REMOVED 29166 64901 197908",
 	"SPELL_SUMMON 67826 199109 199115 195782",
 	"SPELL_CREATE 698 188036 201352 201351 185709 88304 61031 49844",
-	"SPELL_RESURRECT 95750 20484 61999"
---	"UNIT_SPELLCAST_SUCCEEDED"
+	"SPELL_RESURRECT 95750 20484 61999"--[[,
+	"UNIT_SPELLCAST_SUCCEEDED"]]
 )
 
 --Прошляпанное очко Мурчаля Прошляпенко✔✔✔
@@ -66,6 +64,7 @@ mod:AddBoolOption("YellOnPortal", true) --порталы
 mod:AddBoolOption("YellOnSoulwell", true)
 mod:AddBoolOption("YellOnSoulstone", true)
 mod:AddBoolOption("YellOnRitualofSummoning", true)
+mod:AddBoolOption("YellOnSummoning", true)
 mod:AddBoolOption("YellOnSpiritCauldron", true) --котел
 mod:AddBoolOption("YellOnLavish", true)
 mod:AddBoolOption("YellOnBank", true) --банк
@@ -99,6 +98,13 @@ local jeeves, autoHammer, pylon = replaceSpellLinks(67826), replaceSpellLinks(19
 local bank = replaceSpellLinks(88306) --83958
 --Игрушки
 local toyTrain, moonfeather, highborne, discoball, direbrews = replaceSpellLinks(61031), replaceSpellLinks(195782), replaceSpellLinks(73331), replaceSpellLinks(50317), replaceSpellLinks(49844)
+
+local function UnitInYourParty(sourceName)
+	if GetNumGroupMembers() > 0 and (IsInInstance() or UnitInParty(sourceName) or UnitPlayerOrPetInParty(sourceName) or UnitInRaid(sourceName) or UnitInBattleground(sourceName)) then
+		return true
+	end
+	return false
+end
 
 -- Синхронизация анонсов ↓
 local premsg_values = {
@@ -418,6 +424,7 @@ end
 -- Синхронизация анонсов ↑
 
 function mod:SPELL_CAST_START(args)
+	if not UnitInYourParty(args.sourceName) then return end
 	local spellId = args.spellId
 	if spellId == 212040 and self:AntiSpam(15, "massres") then --Возвращение к жизни (друид)
 		warnMassres1:Show(args.sourceName)
@@ -444,14 +451,17 @@ function mod:SPELL_CAST_START(args)
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnMassRes then
 			prepareMessage(self, "premsg_Spells_massres5_rw", args.sourceName)
 		end
---[[	elseif spellId == 7720 then --Ритуал призыва
-		if args:IsPlayerSource() then
-			smartChat(L.SoulstoneYell:format(DbmRV, args.sourceName, summoning2, UnitName("target")))
-		end]]
+	elseif spellId == 7720 then --Ритуал призыва
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnSummoning then
+			if args:IsPlayerSource() then
+				smartChat(L.SummonYell:format(DbmRV, args.sourceName, summoning2, UnitName("target")))
+			end
+		end
 	end
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
+	if not UnitInYourParty(args.sourceName) then return end
 	local spellId = args.spellId
 	if spellId == 80353 then --Искажение времени
 		if self:AntiSpam(5, "bloodlust") then
@@ -596,9 +606,9 @@ function mod:SPELL_CAST_SUCCESS(args)
 end
 
 function mod:SPELL_AURA_APPLIED(args)
+	if not UnitInYourParty(args.sourceName) then return end
 	local spellId = args.spellId
 	if spellId == 20707 then --Камень души
-		if IsInInstance() then
 			if args:IsPlayer() then
 				specWarnSoulstone:Show()
 				specWarnSoulstone:Play("targetyou")
@@ -608,7 +618,6 @@ function mod:SPELL_AURA_APPLIED(args)
 			else
 				warnSoulstone:Show(args.destName)
 			end
-		end
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnSoulstone then
 			prepareMessage(self, "premsg_Spells_soulstone", args.sourceName, args.destName)
 		end
@@ -634,6 +643,7 @@ function mod:SPELL_AURA_APPLIED(args)
 end
 
 function mod:SPELL_AURA_REMOVED(args)
+	if not UnitInYourParty(args.sourceName) then return end
 	local spellId = args.spellId
 	if spellId == 29166 then --Озарение
 		if args:IsPlayer() and self:IsHealer() then
@@ -654,6 +664,7 @@ function mod:SPELL_AURA_REMOVED(args)
 end
 
 function mod:SPELL_CREATE(args)
+	if not UnitInYourParty(args.sourceName) then return end
 	local spellId = args.spellId
 	if spellId == 698 and self:AntiSpam(5, "summoning") then --Ритуал призыва
 		warnRitualofSummoning:Show(args.sourceName)
@@ -692,6 +703,7 @@ function mod:SPELL_CREATE(args)
 end
 
 function mod:SPELL_SUMMON(args)
+	if not UnitInYourParty(args.sourceName) then return end
 	local spellId = args.spellId
 	if spellId == 67826 and self:AntiSpam(10, "jeeves") then --Дживс
 		warnJeeves:Show(args.sourceName)
@@ -716,6 +728,7 @@ function mod:SPELL_SUMMON(args)
 end
 
 function mod:SPELL_RESURRECT(args)
+	if not UnitInYourParty(args.sourceName) then return end
 	local spellId = args.spellId
 	if spellId == 95750 then --Воскрешение камнем души
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnResurrect then
