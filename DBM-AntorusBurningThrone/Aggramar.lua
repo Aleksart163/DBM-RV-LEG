@@ -43,7 +43,7 @@ local specWarnFlameRend2				= mod:NewSpecialWarning("FlameRend3", nil, nil, nil,
 
 local specWarnBlazingEruption			= mod:NewSpecialWarningStack(244912, nil, 2, nil, nil, 1, 5) --Извержение пламени
 --Stage One: Wrath of Aggramar
-local specWarnTaeshalachTechnique		= mod:NewSpecialWarningSoon(244688, nil, nil, nil, 1, 2) --Искусный прием
+--local specWarnTaeshalachTechnique		= mod:NewSpecialWarningSoon(244688, nil, nil, nil, 1, 2) --Искусный прием
 local specWarnTaeshalachReach			= mod:NewSpecialWarningStack(245990, nil, 8, nil, nil, 1, 2) --Гигантский клинок
 local specWarnScorchingBlaze			= mod:NewSpecialWarningYouMoveAway(245994, nil, nil, nil, 1, 6) --Обжигающее пламя
 local specWarnScorchingBlazeNear		= mod:NewSpecialWarningCloseMoveAway(245994, nil, nil, nil, 1, 5) --Обжигающее пламя
@@ -427,8 +427,8 @@ function mod:OnCombatStart(delay)
 		countdownRavenousBlaze:Start(4-delay) --Хищное пламя+++
 		timerWakeofFlameCD:Start(11-delay) --Огненная волна+++
 		--под мифик не надо анонс о сбегании--
-		specWarnTaeshalachTechnique:Schedule(10-delay) --Искусный прием+++
-		specWarnTaeshalachTechnique:ScheduleVoice(10-delay, "specialsoon") --Искусный прием+++
+	--	specWarnTaeshalachTechnique:Schedule(10-delay) --Искусный прием+++
+	--	specWarnTaeshalachTechnique:ScheduleVoice(10-delay, "specialsoon") --Искусный прием+++
 		timerTaeshalachTechCD:Start(15-delay, 1) --Искусный прием+++
 		countdownTaeshalachTech:Start(15-delay) --Искусный прием+++
 		berserkTimer:Start(540-delay)
@@ -440,8 +440,8 @@ function mod:OnCombatStart(delay)
 		if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapMurchal1 and DBM:GetRaidRank() > 0 then
 			prepareMessage(self, "premsg_Aggramar_FlameRend_rw", nil, nil, 31)
 		end
-		specWarnTaeshalachTechnique:Schedule(31-delay) --Искусный прием+++
-		specWarnTaeshalachTechnique:ScheduleVoice(31-delay, "specialsoon") --Искусный прием+++
+	--	specWarnTaeshalachTechnique:Schedule(31-delay) --Искусный прием+++
+	--	specWarnTaeshalachTechnique:ScheduleVoice(31-delay, "specialsoon") --Искусный прием+++
 		timerTaeshalachTechCD:Start(36-delay, 1) --Искусный прием+++
 		countdownTaeshalachTech:Start(36-delay) --Искусный прием+++
 		berserkTimer:Start(-delay)
@@ -451,8 +451,8 @@ function mod:OnCombatStart(delay)
 		if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapMurchal1 and DBM:GetRaidRank() > 0 then
 			prepareMessage(self, "premsg_Aggramar_FlameRend_rw", nil, nil, 31)
 		end
-		specWarnTaeshalachTechnique:Schedule(31-delay) --Искусный прием+++
-		specWarnTaeshalachTechnique:ScheduleVoice(31-delay, "specialsoon") --Искусный прием+++
+	--	specWarnTaeshalachTechnique:Schedule(31-delay) --Искусный прием+++
+	--	specWarnTaeshalachTechnique:ScheduleVoice(31-delay, "specialsoon") --Искусный прием+++
 		timerTaeshalachTechCD:Start(36-delay, 1) --Искусный прием+++
 		countdownTaeshalachTech:Start(36-delay) --Искусный прием+++
 		berserkTimer:Start(-delay)
@@ -714,7 +714,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerFlameRendCD:Stop()
 		timerTempestCD:Stop()
 		self:Unschedule(ProshlyapMurchalya1)
-		specWarnTaeshalachTechnique:Cancel() --Искусный прием
+	--	specWarnTaeshalachTechnique:Cancel() --Искусный прием
 		timerTaeshalachTechCD:Stop()
 		countdownTaeshalachTech:Cancel()
 		if self:IsEasy() then
@@ -769,13 +769,13 @@ function mod:SPELL_AURA_REMOVED(args)
 			prepareMessage(self, "premsg_Aggramar_FlameRend_rw", nil, nil, 31)
 		end
 		if self:IsHeroic() then
-			specWarnTaeshalachTechnique:Schedule(31) --Искусный прием+++
-			specWarnTaeshalachTechnique:ScheduleVoice(31, "specialsoon") --Искусный прием+++
+		--	specWarnTaeshalachTechnique:Schedule(31) --Искусный прием+++
+		--	specWarnTaeshalachTechnique:ScheduleVoice(31, "specialsoon") --Искусный прием+++
 			timerTaeshalachTechCD:Start(36, self.vb.techCount+1)
 			countdownTaeshalachTech:Start(36)
 		else
-			specWarnTaeshalachTechnique:Schedule(31) --Искусный прием+++
-			specWarnTaeshalachTechnique:ScheduleVoice(31, "specialsoon") --Искусный прием+++
+		--	specWarnTaeshalachTechnique:Schedule(31) --Искусный прием+++
+		--	specWarnTaeshalachTechnique:ScheduleVoice(31, "specialsoon") --Искусный прием+++
 			timerTaeshalachTechCD:Start(36, self.vb.techCount+1) --под мифик отлично
 			countdownTaeshalachTech:Start(36)
 		end
@@ -892,8 +892,8 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 		end
 		warnTaeshalachTech:Show(self.vb.techCount)
 		--волосали
-		specWarnTaeshalachTechnique:Schedule(53.5) --Искусный прием
-		specWarnTaeshalachTechnique:ScheduleVoice(53.5, "specialsoon") --Искусный прием+++
+	--	specWarnTaeshalachTechnique:Schedule(53.5) --Искусный прием
+	--	specWarnTaeshalachTechnique:ScheduleVoice(53.5, "specialsoon") --Искусный прием+++
 		timerTaeshalachTechCD:Start(nil, self.vb.techCount+1)
 		countdownTaeshalachTech:Start()
 		if self.Options.InfoFrame then
