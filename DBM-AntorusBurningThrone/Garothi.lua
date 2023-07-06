@@ -41,7 +41,7 @@ local warnPrePhase2						= mod:NewPrePhaseAnnounce(2, 1)
 local warnPrePhase3						= mod:NewPrePhaseAnnounce(3, 1)
 local warnApocDrive						= mod:NewSpellAnnounce(244152, 3, nil, "Healer") --Реактор апокалипсиса
 
-local specWarnFelBombardment			= mod:NewSpecialWarningYouMoveAway(246220, nil, nil, nil, 3, 5) --Обстрел скверны
+local specWarnFelBombardment			= mod:NewSpecialWarningYouMoveAway(246220, nil, nil, nil, 3, 6) --Обстрел скверны
 local specWarnFelBombardment2			= mod:NewSpecialWarningYou(246220, nil, nil, nil, 1, 2) --Обстрел скверны
 local specWarnFelBombardmentTaunt		= mod:NewSpecialWarningTaunt(246220, nil, nil, nil, 3, 5) --Обстрел скверны
 local specWarnApocDrive					= mod:NewSpecialWarningSwitch(244152, "-Healer", nil, nil, 1, 2) --Реактор апокалипсиса

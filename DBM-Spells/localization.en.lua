@@ -37,5 +37,6 @@ L:SetMiscLocalization{
 	PortalYell = "%s %s opens %s!",
 	SoulwellYell = "%s %s puts %s!",
 	SoulstoneYell = "%s %s applies %s to %s!",
-	SummoningYell = "%s %s begins %s!"
+	SummoningYell = "%s %s begins %s!",
+	SummonYell = "%s %s applies %s to %s!"
 }

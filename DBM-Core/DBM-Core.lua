@@ -34,9 +34,9 @@
 -------------------------------
 
 DBM = {
-	Revision = tonumber(("$Revision: 17722 $"):sub(12, -3)), --прошляпанное очко Мурчаля Прошляпенко [✔]
+	Revision = tonumber(("$Revision: 17723 $"):sub(12, -3)), --прошляпанное очко Мурчаля Прошляпенко [✔]
 	DisplayVersion = "7.3.46 Right Version " .. string.sub(GetLocale(), -2),
-	ReleaseRevision = 17721
+	ReleaseRevision = 17722
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -11787,22 +11787,24 @@ function replaceSpellLinks(id)
     return ("|cff71d5ff|Hspell:%d:0|h[%s]|h|r"):format(spellId, spellName)
 end
 
-function smartChat(msg, arg)
-	if arg == "rw" and IsInRaid() and DBM:GetRaidRank() > 0 then
-		SendChatMessage(msg, "RAID_WARNING")
-	elseif arg == "say" then
-		SendChatMessage(msg, "SAY")
-	elseif arg == "yell" then
-		SendChatMessage(msg, "YELL")
-	elseif (arg == nil) or (arg == "rw" and DBM:GetRaidRank() == 0) or (arg == "rw" and not IsInRaid()) then
-		if IsInRaid() then
-			SendChatMessage(msg, "RAID")
-		elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
-			SendChatMessage(msg, "INSTANCE_CHAT")
-		elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
-			SendChatMessage(msg, "PARTY")
-		end
-	end
+function smartChat(msg, arg, target)
+    if arg == "rw" and IsInRaid() and DBM:GetRaidRank() > 0 then
+        SendChatMessage(msg, "RAID_WARNING")
+    elseif arg == "say" then
+        SendChatMessage(msg, "SAY")
+    elseif arg == "yell" then
+        SendChatMessage(msg, "YELL")
+    elseif arg == "whisper" then
+        SendChatMessage(msg, "WHISPER", "COMMON", target)
+    elseif (arg == nil) or (arg == "rw" and DBM:GetRaidRank() == 0) or (arg == "rw" and not IsInRaid()) then
+        if IsInRaid() then
+            SendChatMessage(msg, "RAID")
+        elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
+            SendChatMessage(msg, "INSTANCE_CHAT")
+        elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
+            SendChatMessage(msg, "PARTY")
+        end
+    end
 end
 ------------------------------------------------------------
 --

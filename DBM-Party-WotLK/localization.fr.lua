@@ -81,6 +81,27 @@ L = DBM:GetModLocalization(598)
 ------------
 L = DBM:GetModLocalization(600)
 
+---------
+--Trash--
+---------
+L = DBM:GetModLocalization("HoLTrash")
+
+L:SetGeneralLocalization({
+	name = "Les salles de Foudre Trash"
+})
+
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+})
+
+L:SetMiscLocalization({
+	RPLoken = "J'ai vu la grandeur et la décadence des empires... La naissance et l'extinction d'espèces entières... Pendant d'innombrables millénaires, la seule constante a été la stupidité des mortels. Votre présence ici ne fait que le confirmer."
+})
+
 ---------------
 -- The Nexus --
 ---------------

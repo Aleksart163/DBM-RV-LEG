@@ -119,6 +119,9 @@ mod:AddBoolOption("ShowAllPlatforms", false)
 local warned_preP1 = false
 local warned_preP2 = false
 local warned_preP3 = false
+local warnPortal1 = false
+local warnPortal2 = false
+local warnPortal3 = false
 
 mod.vb.phase = 0
 mod.vb.shieldsActive = false
@@ -181,6 +184,9 @@ function mod:OnCombatStart(delay)
 	warned_preP1 = false
 	warned_preP2 = false
 	warned_preP3 = false
+	warnPortal1 = false
+	warnPortal2 = false
+	warnPortal3 = false
 	self.vb.shieldsActive = false
 	self.vb.firstPortal = false
 	self.vb.felBarrageCast = 0
@@ -453,28 +459,16 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 		warnXorothPortal:Play("newportal")
 		self.vb.phase = 1
 	--	if args:IsPlayer() and self:IsMeleeDps() then
-		if not UnitIsDeadOrGhost("player") then
-			specWarnXorothPortal:Show(Xoroth)
-			specWarnXorothPortal:Play("justrun")
-		end
 	elseif spellId == 257941 then --Врата: Ранкора
 		warnRancoraPortal:Show()
 		warnRancoraPortal:Play("newportal")
 		self.vb.phase = 2
 	--	if args:IsPlayer() and self:IsMeleeDps() then
-		if not UnitIsDeadOrGhost("player") then
-			specWarnRancoraPortal:Show(Rancora)
-			specWarnRancoraPortal:Play("justrun")
-		end
 	elseif spellId == 257942 then --Врата: Натреза
 		warnNathrezaPortal:Show()
 		warnNathrezaPortal:Play("newportal")
 		self.vb.phase = 3
 	--	if args:IsPlayer() and self:IsMeleeDps() then
-		if not UnitIsDeadOrGhost("player") then
-			specWarnNathrezaPortal:Show(Nathreza)
-			specWarnNathrezaPortal:Play("justrun")
-		end
 	elseif spellId == 244455 then --платформа Зорот
 		playerPlatform = 2
 	elseif spellId == 244512 then --платформа Ранкора
@@ -490,12 +484,29 @@ function mod:UNIT_HEALTH(uId)
 	if self.vb.phase == 0 and not warned_preP1 and self:GetUnitCreatureId(uId) == 122104 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.96 then --скоро фаза 1
 		warned_preP1 = true
 		warnXorothPortal2:Show()
+	elseif self.vb.phase == 0 and warned_preP1 and not warnPortal1 and self:GetUnitCreatureId(uId) == 122104 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.93 then --анонс миликам
+		warnPortal1 = true
+		if not UnitIsDeadOrGhost("player") then
+			specWarnXorothPortal:Show(Xoroth)
+			specWarnXorothPortal:Play("justrun")
+		end
 	elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 122104 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.66 then --скоро фаза 2
 		warned_preP2 = true
 		warnRancoraPortal2:Show()
+	elseif self.vb.phase == 1 and warned_preP1 and warned_preP2 and not warnPortal2 and self:GetUnitCreatureId(uId) == 122104 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.63 then --анонс миликам
+		warnPortal2 = true
+		if not UnitIsDeadOrGhost("player") then
+			specWarnRancoraPortal:Show(Rancora)
+			specWarnRancoraPortal:Play("justrun")
+		end
 	elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 122104 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.36 then --скоро фаза 3
 		warned_preP3 = true
 		warnNathrezaPortal2:Show()
+	elseif self.vb.phase == 2 and warned_preP2 and warned_preP3 and not warnPortal3 and self:GetUnitCreatureId(uId) == 122104 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.33 then --анонс миликам
+		warnPortal3 = true
+		if not UnitIsDeadOrGhost("player") then
+			specWarnNathrezaPortal:Show(Nathreza)
+			specWarnNathrezaPortal:Play("justrun")
+		end
 	end
 end
- 

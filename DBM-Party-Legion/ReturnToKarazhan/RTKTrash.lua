@@ -10,7 +10,7 @@ mod.isTrashMod = true
 mod:RegisterEvents(
 	"SPELL_CAST_START 228255 228239 227917 227925 228625 228606 229714 227966 228254 228280 230094 229429 229608 228700 36247 233981",
 	"SPELL_CAST_SUCCESS 227529",
-	"SPELL_AURA_APPLIED 228331 229706 229716 228610 229074 230083 230050 228280 230087 228241 229468 229489 230297 228576",
+	"SPELL_AURA_APPLIED 228331 229706 229716 228610 229074 230083 230050 228280 230087 228241 229468 230297 228576",
 	"SPELL_AURA_APPLIED_DOSE 229074 228610 228576",
 	"SPELL_AURA_REFRESH 229074 228610",
 	"SPELL_AURA_REMOVED 229489 230083 228280 230087 230297",
@@ -40,7 +40,7 @@ local warnAllured					= mod:NewStackAnnounce(228576, 3, nil, nil, 2) --Собл�
 --Поврежденный голем
 local specWarnUnstableEnergy		= mod:NewSpecialWarningDodge(227529, nil, nil, nil, 2, 2) --Нестабильная энергия
 --Наполненный силой пиромант
-local specWarnFelBomb				= mod:NewSpecialWarningSpell(229620, nil, nil, nil, 2, 2) --Бомба Скверны
+local specWarnFelBomb				= mod:NewSpecialWarningRun(229620, nil, nil, nil, 2, 2) --Бомба Скверны
 local specWarnFelFireball			= mod:NewSpecialWarningInterrupt(36247, "HasInterrupt", nil, nil, 1, 2) --Огненный шар Скверны
 --
 local specWarnRoyalSlash			= mod:NewSpecialWarningDodge(229429, "Melee", nil, nil, 2, 2) --Удар короля сплеча
@@ -75,14 +75,14 @@ local specWarnOathofFealty2			= mod:NewSpecialWarningDispel(228280, "MagicDispel
 local specWarnBurningBrand			= mod:NewSpecialWarningYouMoveAway(228610, nil, nil, nil, 3, 3) --Горящее клеймо
 local specWarnLeechLife				= mod:NewSpecialWarningDispel(229706, "MagicDispeller2", nil, nil, 1, 2) --Высасывание жизни
 local specWarnCurseofDoom			= mod:NewSpecialWarningDispel(229716, "MagicDispeller2", nil, nil, 1, 2) --Проклятие рока
-local specWarnRoyalty				= mod:NewSpecialWarningSwitch(229489, "-Healer", nil, nil, 1, 2) --Царственность
+local specWarnRoyalty2				= mod:NewSpecialWarningMoreDamage(229495, "-Healer", nil, nil, 3, 2) --Уязвимость
 local specWarnFlashlight			= mod:NewSpecialWarningLookAway(227966, nil, nil, nil, 3, 3) --Фонарь
 
 local timerFelBomb					= mod:NewCastTimer(17, 196034, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON)
 local timerNullificationCD			= mod:NewCDTimer(14, 230094, nil, nil, nil, 7, nil) --Полная нейтрализация
 local timerReinvigorated			= mod:NewTargetTimer(20, 230087, nil, nil, nil, 7) --Восполнение сил
 local timerOathofFealty				= mod:NewTargetTimer(15, 228280, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON) --Клятва верности
-local timerRoyalty					= mod:NewCDTimer(20, 229489, nil, nil, nil, 3, nil, DBM_CORE_DAMAGE_ICON) --Царственность
+--local timerRoyalty					= mod:NewCDTimer(20, 229489, nil, nil, nil, 3, nil, DBM_CORE_DAMAGE_ICON) --Царственность
 local timerMovePieceCD				= mod:NewCDTimer(6, 229468, nil, nil, nil, 7)
 
 local yellTakeKeys					= mod:NewYell(233981, L.TakeKeysYell, nil, nil, "YELL") --Взять ключи
@@ -103,11 +103,13 @@ local timerRoleplay3				= mod:NewTimer(30, "timerRoleplay3", "Interface\\Icons\\
 local timerRoleplay4				= mod:NewTimer(30, "timerRoleplay4", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7)
 local timerRoleplay5				= mod:NewTimer(30, "timerRoleplay5", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7)
 
+local countdownRoleplay				= mod:NewCountdownFades(30, 229620, nil, nil, 5) --Бомба Скверны (и т.д.)
+
 mod:AddBoolOption("OperaActivation", true)
 
 local key = replaceSpellLinks(233981) --Взять ключи
 local playerName = UnitName("player")
-local king = false
+--local king = false
 
 function mod:SPELL_CAST_START(args)
 	if not self.Options.Enabled then return end
@@ -279,8 +281,6 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 229468 then
 		warnMovePiece:Show(args.destName)
 		timerMovePieceCD:Start()
-	elseif spellId == 229489 then --Царственность
-		timerRoyalty:Cancel()
 	elseif spellId == 230297 then --Ослабление костей
 		warnBrittleBones:CombinedShow(0.5, args.destName)
 		if self:IsMythic() then
@@ -328,10 +328,9 @@ function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
 	if spellId == 229489 then --Царственность
 		if not UnitIsDeadOrGhost("player") then
-			specWarnRoyalty:Show(args.destName)
-			specWarnRoyalty:Play("killbigmob")
+			specWarnRoyalty2:Show(args.sourceName)
+			specWarnRoyalty2:Play("killbigmob")
 		end
-		timerRoyalty:Start()
 	elseif spellId == 228280 then --Клятва верности
 		timerOathofFealty:Cancel(args.destName)
 	elseif spellId == 230087 then --Восполнение сил
@@ -389,16 +388,20 @@ function mod:UNIT_DIED(args)
 	local cid = self:GetCIDFromGUID(args.destGUID)
 	if cid == 115765 then --Абстрактный нейтрализатор
 		timerNullificationCD:Cancel()
-	elseif cid == 115388 then --Король
-		king = true
-		timerRoyalty:Cancel()
-		timerMovePieceCD:Cancel()
-	elseif cid == 115395 or cid == 115406 or cid == 115401 or cid == 115407 then --Ферзь, Конь, Слон, Ладья
+--[[	elseif cid == 115395 or cid == 115406 or cid == 115401 or cid == 115402 or cid == 115407 then --Ферзь, Конь, Слон, Слон, Ладья
 		if not king then
-			timerRoyalty:Start()
-		else
-			timerRoyalty:Cancel()
-		end
+			if timerRoyalty:GetTime() < 10 then
+				timerRoyalty:AddTime(20)
+			elseif timerRoyalty:GetTime() > 10 then
+				timerRoyalty:Start(30)
+			end
+		end]]
+	elseif cid == 115388 then --Король
+	--	if not king then
+	--		king = true
+	--		timerRoyalty:Cancel()
+		timerMovePieceCD:Cancel()
+	--	end
 	end
 end
 
@@ -415,19 +418,25 @@ function mod:OnSync(msg)
 		timerAchieve:Start()
 	elseif msg == "RPBeauty" then
 		timerRoleplay:Start(52.5)
+		countdownRoleplay:Start(52.5)
 	elseif msg == "RPWestfall" then
 		timerRoleplay2:Start(46.5)
+		countdownRoleplay:Start(46.5)
 	elseif msg == "RPWikket" then
 		timerRoleplay3:Start(70)
+		countdownRoleplay:Start(70)
 	elseif msg == "RPMedivh1" then
 		timerRoleplay4:Start(14.7)
 	elseif msg == "RPMedivh2" then
 		timerRoleplay5:Start(79.2)
+		countdownRoleplay:Start(79.2)
 	elseif msg == "felbomb" then
 		specWarnFelBomb:Show()
 		specWarnFelBomb:Play("bombsoon")
 		timerFelBomb:Start()
+		countdownRoleplay:Start(17)
 	elseif msg == "felbombend" then
 		timerFelBomb:Cancel()
+		countdownRoleplay:Cancel()
 	end
 end

@@ -18,13 +18,13 @@ mod:RegisterEventsInCombat(
 local warningDisperseSoon	= mod:NewSoonAnnounce(52770, 2)
 local warningOverload		= mod:NewTargetAnnounce(52658, 2)
 
-local specWarnOverload		= mod:NewSpecialWarningYouMoveAway(52658, nil, nil, nil, 3, 5) --Статическая перегрузка
+local specWarnOverload		= mod:NewSpecialWarningYouMoveAway(52658, nil, nil, nil, 3, 6) --Статическая перегрузка
 local specWarnDisperse		= mod:NewSpecialWarningRun(52770, nil, nil, nil, 3, 6) --Рассеяние
 
 local timerOverload			= mod:NewTargetTimer(10, 52658, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Рассеяние
-local timerDisperse			= mod:NewBuffFadesTimer(13, 52770, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Рассеяние
+local timerDisperse			= mod:NewBuffFadesTimer(13, 52770, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Рассеяние
 
-local yellOverload			= mod:NewYell(52658, nil, nil, nil, "YELL") --Статическая перегрузка
+local yellOverload			= mod:NewYellMoveAway(52658, nil, nil, nil, "YELL") --Статическая перегрузка
 local yellOverload2			= mod:NewFadesYell(52658, nil, nil, nil, "YELL") --Статическая перегрузка
 
 mod:AddRangeFrameOption(10, 52658)

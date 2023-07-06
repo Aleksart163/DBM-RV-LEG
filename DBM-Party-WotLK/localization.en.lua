@@ -85,6 +85,18 @@ L:SetGeneralLocalization({
 	name = "HoL Trash"
 })
 
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+})
+
+L:SetMiscLocalization({
+	RPLoken = "I have witnessed the rise and fall of empires... the birth and extinction of entire species... Over countless millennia the foolishness of mortals has remained the only constant. Your presence here confirms this."
+})
+
 -----------------
 --  The Nexus  --
 -----------------

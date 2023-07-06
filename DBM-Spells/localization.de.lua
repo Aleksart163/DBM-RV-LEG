@@ -22,6 +22,7 @@ L:SetOptionLocalization({
 	YellOnSoulwell = "Bericht, wenn jemand die setzt $spell:29893",
 	YellOnSoulstone = "Melden Sie, wenn jemand verwendet $spell:20707",
 	YellOnRitualofSummoning = "Melden Sie, wenn jemand verwendet $spell:698",
+	YellOnSummoning = "Melden Sie, wenn Sie einen Zauber wirken $spell:7720",
 	YellOnSpiritCauldron = "Melden Sie, wenn jemand verwendet $spell:188036",
 	YellOnLavish = "Melden Sie, wenn jemand verwendet $spell:201352 oder ein ähnliches",
 	YellOnRepair = "Melden Sie, wenn jemand verwendet $spell:199109 oder ein ähnliches",
@@ -38,5 +39,6 @@ L:SetMiscLocalization{
 	PortalYell = "%s %s öffnet %s!",
 	SoulwellYell = "%s %s richtet ein %s!",
 	SoulstoneYell = "%s %s wendet %s auf %s!",
-	SummoningYell = "%s %s nutzt %s!"
+	SummoningYell = "%s %s nutzt %s!",
+	SummonYell = "%s %s wendet %s auf %s!"
 }

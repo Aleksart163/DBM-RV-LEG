@@ -77,6 +77,27 @@ L = DBM:GetModLocalization(598)
 -------------
 L = DBM:GetModLocalization(600)
 
+---------
+--Trash--
+---------
+L = DBM:GetModLocalization("HoLTrash")
+
+L:SetGeneralLocalization({
+	name = "Trash des Die Hallen der Blitze"
+})
+
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+})
+
+L:SetMiscLocalization({
+	RPLoken = "Ich habe den Aufstieg und Untergang von Imperien gesehen... Geburt und Ausrottung ganzer Spezies... Unzählige Jahrtausende lang war die Dummheit der Sterblichen die einzige Konstante. Eure Anwesenheit hier bestätigt das."
+})
+
 -----------------
 --  The Nexus  --
 -----------------
