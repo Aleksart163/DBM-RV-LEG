@@ -143,7 +143,7 @@ function mod:SPELL_CAST_START(args)
 		end
 	elseif spellId == 229083 then --Выброс пламени
 		self.vb.burningBlastCount = self.vb.burningBlastCount + 1
-		if self.vb.kickCount == 2 then self.vb.kickCount = 0 end
+		if self.vb.kickCount == 3 then self.vb.kickCount = 0 end
 		self.vb.kickCount = self.vb.kickCount + 1
 		local kickCount = self.vb.kickCount
 		specWarnBurningBlast:Show(kickCount)
@@ -151,6 +151,8 @@ function mod:SPELL_CAST_START(args)
 			specWarnBurningBlast:Play("kick1r")
 		elseif kickCount == 2 then
 			specWarnBurningBlast:Play("kick2r")
+		elseif kickCount == 3 then
+			specWarnBurningBlast:Play("kick3r")
 		end
 		if self.vb.phase == 2 and self.vb.burningBlastCount == 1 then
 			perephase = false
