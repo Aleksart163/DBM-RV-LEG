@@ -40,7 +40,7 @@ local warnAllured					= mod:NewStackAnnounce(228576, 3, nil, nil, 2) --Собл�
 --Поврежденный голем
 local specWarnUnstableEnergy		= mod:NewSpecialWarningDodge(227529, nil, nil, nil, 2, 2) --Нестабильная энергия
 --Наполненный силой пиромант
-local specWarnFelBomb				= mod:NewSpecialWarningRun(229620, nil, nil, nil, 2, 2) --Бомба Скверны
+local specWarnFelBomb				= mod:NewSpecialWarningRun(229620, nil, nil, nil, 3, 6) --Бомба Скверны
 local specWarnFelFireball			= mod:NewSpecialWarningInterrupt(36247, "HasInterrupt", nil, nil, 1, 2) --Огненный шар Скверны
 --
 local specWarnRoyalSlash			= mod:NewSpecialWarningDodge(229429, "Melee", nil, nil, 2, 2) --Удар короля сплеча
