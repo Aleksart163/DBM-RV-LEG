@@ -5,7 +5,7 @@ mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
 mod:SetCreatureID(114790)
 mod:SetEncounterID(2017)
 mod:SetZone()
-mod:SetUsedIcons(1, 2, 3, 8)
+mod:SetUsedIcons(1, 2, 3, 7, 8)
 --mod:SetHotfixNoticeRev(14922)
 --mod.respawnTime = 30
 
@@ -79,6 +79,7 @@ local countdownStabilizeRift		= mod:NewCountdownFades(29.7, 230084, nil, nil, 5)
 --local countdownFocusedGazeCD		= mod:NewCountdown(40, 198006)
 
 mod:AddSetIconOption("SetIconOnBurningBlast", 229083, true, false, {8}) --Выброс пламени
+mod:AddSetIconOption("SetIconOnFelBeam", 229242, true, false, {7}) --Приказ: луч Скверны
 mod:AddSetIconOption("SetIconOnShadows", 229159, true, false, {3, 2, 1}) --Тени Хаоса
 mod:AddRangeFrameOption(6, 230066) --Флегма тьмы
 --mod:AddInfoFrameOption(198108, false)
@@ -226,7 +227,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 		timerChaoticShadows:Start()
 		timerChaoticShadowsCD:Start(37)
-	elseif spellId == 229241 then
+	elseif spellId == 229241 then --Приказ: луч Скверны
 		timerFelBeamCD:Start()
 		countdownFelBeam:Start()
 		if args:IsPlayer() then
@@ -241,6 +242,9 @@ function mod:SPELL_AURA_APPLIED(args)
 			end
 		else
 			warnFelBeam:Show(args.destName)
+		end
+		if self.Options.SetIconOnFelBeam then
+			self:SetIcon(args.destName, 7, 10)
 		end
 	elseif spellId == 230084 then --Стабилизация разлома
 		specWarnStabilizeRift:Schedule(27.7)
