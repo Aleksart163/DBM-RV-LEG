@@ -55,7 +55,7 @@ local specWarnShadowBoltVolley		= mod:NewSpecialWarningDodge(214692, "-Tank", ni
 local specWarnCarrionSwarm			= mod:NewSpecialWarningDodge(214688, nil, nil, nil, 2, 2) --Темная стая
 local specWarnFelDetonation			= mod:NewSpecialWarningDodge(211464, nil, nil, nil, 2, 3) --Взрыв Скверны
 local specWarnDisintegrationBeam	= mod:NewSpecialWarningYouDefensive(207980, nil, nil, nil, 3, 6) --Луч дезинтеграции
-local specWarnShockwave				= mod:NewSpecialWarningDodge(207979, "Melee", nil, nil, 2, 3) --Ударная волна
+local specWarnShockwave				= mod:NewSpecialWarningDodge(207979, nil, nil, nil, 2, 3) --Ударная волна
 local specWarnFortification			= mod:NewSpecialWarningDispel(209033, "MagicDispeller", nil, nil, 1, 2) --Укрепление
 local specWarnQuellingStrike		= mod:NewSpecialWarningDodge(209027, "Melee", nil, nil, 2, 2) --Подавляющий удар
 local specWarnChargedBlast			= mod:NewSpecialWarningDodge(212031, "Melee", nil, nil, 2, 2) --Заряженный взрыв
@@ -87,6 +87,7 @@ local timerRoleplay					= mod:NewTimer(28, "timerRoleplay", "Interface\\Icons\\S
 
 local countdownFelDetonation		= mod:NewCountdown(12, 211464, nil, nil, 5) --Взрыв Скверны
 
+local yellShockwave					= mod:NewYell(207979, nil, nil, nil, "YELL") --Ударная волна
 local yellPickingUp					= mod:NewYell(214697, L.PickingUpYell, nil, nil, "YELL") --Поднять ключ
 local yellSealMagic					= mod:NewYell(209404, nil, nil, nil, "YELL") --Подавление магии
 local yellSuppress					= mod:NewYell(209413, nil, nil, nil, "YELL") --Подавление
@@ -244,6 +245,17 @@ local function prepareMessage(self, premsg_announce, args_sourceName, args_destN
 	end
 end
 -- Синхронизация анонсов ↑
+function mod:ShockwaveTarget(targetname, uId) --proshlyapation of Murchal [✔]
+	if not targetname then return end
+	if targetname == UnitName("player") then
+		specWarnShockwave:Show()
+		specWarnShockwave:Play("targetyou")
+		yellShockwave:Yell()
+	elseif self:CheckNearby(20, targetname) then
+		specWarnShockwave:Show()
+		specWarnShockwave:Play("watchstep")
+	end
+end
 
 function mod:CarrionSwarmTarget(targetname, uId) --Темная стая ✔
 	if not targetname then return end
@@ -341,10 +353,7 @@ function mod:SPELL_CAST_START(args)
 		self:BossTargetScanner(args.sourceGUID, "DisintegrationBeamTarget", 0.1, 2)
 		timerDisintegrationBeamCD:Start()
 	elseif spellId == 207979 then --Ударная волна
-		if not UnitIsDeadOrGhost("player") then
-			specWarnShockwave:Show()
-			specWarnShockwave:Play("watchstep")
-		end
+		self:BossTargetScanner(args.sourceGUID, "ShockwaveTarget", 0.1, 2)
 		timerShockwaveCD:Start()
 	elseif spellId == 214692 then --Залп стрел Тьмы
 		warnShadowBoltVolley:Show()
