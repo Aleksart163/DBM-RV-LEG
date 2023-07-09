@@ -100,7 +100,7 @@ local bank = replaceSpellLinks(88306) --83958
 local toyTrain, moonfeather, highborne, discoball, direbrews = replaceSpellLinks(61031), replaceSpellLinks(195782), replaceSpellLinks(73331), replaceSpellLinks(50317), replaceSpellLinks(49844)
 
 local function UnitInYourParty(sourceName)
-	if GetNumGroupMembers() > 0 and (IsInInstance() or UnitInParty(sourceName) or UnitPlayerOrPetInParty(sourceName) or UnitInRaid(sourceName) or UnitInBattleground(sourceName)) then
+	if GetNumGroupMembers() > 0 and (UnitInParty(sourceName) or UnitPlayerOrPetInParty(sourceName) or UnitInRaid(sourceName) or UnitInBattleground(sourceName)) then
 		return true
 	end
 	return false
