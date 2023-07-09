@@ -34,9 +34,9 @@
 -------------------------------
 
 DBM = {
-	Revision = tonumber(("$Revision: 17723 $"):sub(12, -3)), --прошляпанное очко Мурчаля Прошляпенко [✔]
+	Revision = tonumber(("$Revision: 17724 $"):sub(12, -3)), --прошляпанное очко Мурчаля Прошляпенко [✔]
 	DisplayVersion = "7.3.46 Right Version " .. string.sub(GetLocale(), -2),
-	ReleaseRevision = 17722
+	ReleaseRevision = 17723
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -11797,7 +11797,7 @@ function smartChat(msg, arg, target)
     elseif arg == "whisper" then
         SendChatMessage(msg, "WHISPER", "COMMON", target)
     elseif (arg == nil) or (arg == "rw" and DBM:GetRaidRank() == 0) or (arg == "rw" and not IsInRaid()) then
-        if IsInRaid() then
+        if IsInRaid() and not IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
             SendChatMessage(msg, "RAID")
         elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
             SendChatMessage(msg, "INSTANCE_CHAT")
