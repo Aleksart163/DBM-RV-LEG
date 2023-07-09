@@ -75,7 +75,7 @@ local specWarnOathofFealty2			= mod:NewSpecialWarningDispel(228280, "MagicDispel
 local specWarnBurningBrand			= mod:NewSpecialWarningYouMoveAway(228610, nil, nil, nil, 3, 3) --Горящее клеймо
 local specWarnLeechLife				= mod:NewSpecialWarningDispel(229706, "MagicDispeller2", nil, nil, 1, 2) --Высасывание жизни
 local specWarnCurseofDoom			= mod:NewSpecialWarningDispel(229716, "MagicDispeller2", nil, nil, 1, 2) --Проклятие рока
-local specWarnRoyalty2				= mod:NewSpecialWarningMoreDamage(229495, "-Healer", nil, nil, 3, 2) --Уязвимость
+local specWarnVulnerable			= mod:NewSpecialWarningMoreDamage(229495, "-Healer", nil, nil, 3, 2) --Уязвимость
 local specWarnFlashlight			= mod:NewSpecialWarningLookAway(227966, nil, nil, nil, 3, 3) --Фонарь
 
 local timerFelBomb					= mod:NewCastTimer(17, 196034, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON)
@@ -326,10 +326,10 @@ mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 function mod:SPELL_AURA_REMOVED(args)
 	if not self.Options.Enabled then return end
 	local spellId = args.spellId
-	if spellId == 229489 then --Царственность
+	if spellId == 229489 and self:AntiSpam(5, "vulnerable") then --Царственность
 		if not UnitIsDeadOrGhost("player") then
-			specWarnRoyalty2:Show(args.sourceName)
-			specWarnRoyalty2:Play("killbigmob")
+			specWarnVulnerable:Show(args.sourceName)
+			specWarnVulnerable:Play("killbigmob")
 		end
 	elseif spellId == 228280 then --Клятва верности
 		timerOathofFealty:Cancel(args.destName)
