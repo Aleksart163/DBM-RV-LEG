@@ -394,6 +394,7 @@ end
 function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
 	if spellId == 249121 then --Всеобщая погибель
+		DBM:Debug("checking proshlyapation of Murchal", 2)
 		DBM:EndCombat(self, true)
 	end
 end
