@@ -17,7 +17,7 @@ local warnShatteredEarth			= mod:NewSpellAnnounce(204666, 3, nil, "Tank") --Ра
 local warnThrowTarget				= mod:NewTargetAnnounce(204658, 2) --Сокрушительная хватка
 
 local specWarnUproot				= mod:NewSpecialWarningSwitch(212786, "Dps|Tank", nil, nil, 1, 2) --Пересадка
-local specWarnThrow2				= mod:NewSpecialWarningYouDefensive(204611, "Tank", nil, nil, 3, 6) --Сокрушительная хватка
+local specWarnThrow2				= mod:NewSpecialWarningYouDefensive(204611, "Tank", nil, nil, 5, 6) --Сокрушительная хватка
 local specWarnThrow					= mod:NewSpecialWarningYouMoveAway(204658, nil, nil, nil, 4, 5) --Сокрушительная хватка
 local specWarnThrow3				= mod:NewSpecialWarningCloseMoveAway(204658, "-Tank", nil, nil, 2, 2) --Сокрушительная хватка
 local specWarnShatteredEarth		= mod:NewSpecialWarningDefensive(204666, "-Tank", nil, nil, 2, 2) --Расколовшаяся земля

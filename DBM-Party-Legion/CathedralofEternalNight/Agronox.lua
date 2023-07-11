@@ -24,11 +24,11 @@ local warnSpores					= mod:NewCountAnnounce(236524, 3) --Ядовитые спо
 local warnChokingVine				= mod:NewTargetAnnounce(238598, 4) --Удушающие лозы
 
 local specWarnTimberSmash			= mod:NewSpecialWarningDefensive(235751, "Tank", nil, nil, 1, 2) --Удар бревном
-local specWarnChokingVine			= mod:NewSpecialWarningYouRun(238598, nil, nil, nil, 4, 2) --Удушающие лозы
+local specWarnChokingVine			= mod:NewSpecialWarningYouRun(238598, nil, nil, nil, 4, 6) --Удушающие лозы
 local specWarnSucculentSecretion	= mod:NewSpecialWarningYouMove(240065, nil, nil, nil, 1, 2) --Выброс сока
 local specWarnFulminatingLashers	= mod:NewSpecialWarningSwitch(236527, "Dps", nil, nil, 1, 2) --Гремучие плеточники
 local specWarnSucculentLashers		= mod:NewSpecialWarningSwitch(236639, "Dps", nil, nil, 1, 2) --Сочные плеточники
-local specWarnFixate				= mod:NewSpecialWarningRun(238674, nil, nil, nil, 4, 3) --Сосредоточение внимания
+local specWarnFixate				= mod:NewSpecialWarningRun(238674, nil, nil, nil, 4, 6) --Сосредоточение внимания
 
 local timerTimberSmashCD			= mod:NewCDTimer(21.7, 235751, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Удар бревном
 local timerChokingVinesCD			= mod:NewCDTimer(30, 238598, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Удушающие лозы

@@ -21,7 +21,6 @@ mod:RegisterEventsInCombat(
 )
 
 --Тень Ксавия https://ru.wowhead.com/npc=99192/тень-ксавия/эпохальный-журнал-сражений
-local warnApocNightmare				= mod:NewSpellAnnounce(200050, 4) --Апокалиптический Кошмар
 local warnApocNightmare2			= mod:NewSoonAnnounce(200050, 1) --Апокалиптический Кошмар
 local warnNightmare					= mod:NewTargetAnnounce(200243, 3) --Кошмар наяву
 local warnParanoia					= mod:NewTargetAnnounce(200289, 3) --Усугубляющаяся паранойя
@@ -33,10 +32,10 @@ local specWarnFesteringRip3			= mod:NewSpecialWarningYouDispel(200182, "MagicDis
 local specWarnFesteringRip			= mod:NewSpecialWarningDispel(200182, "MagicDispeller2", nil, nil, 3, 3) --Гноящаяся рана
 --
 local specWarnNightmareBolt			= mod:NewSpecialWarningYouDefensive(200185, nil, nil, nil, 3, 5) --Кошмарная стрела
-local specWarnApocNightmare2		= mod:NewSpecialWarningDefensive(200050, nil, nil, nil, 3, 5) --Апокалиптический Кошмар
-local specWarnFeedontheWeak			= mod:NewSpecialWarningYouDefensive(200238, nil, nil, nil, 3, 5) --Пожирание слабых
+local specWarnApocNightmare2		= mod:NewSpecialWarningDefensive(200050, nil, nil, nil, 3, 6) --Апокалиптический Кошмар
+local specWarnFeedontheWeak			= mod:NewSpecialWarningYouDefensive(200238, nil, nil, nil, 3, 6) --Пожирание слабых
 local specWarnNightmare				= mod:NewSpecialWarningYouShare(200243, nil, nil, nil, 1, 3) --Кошмар наяву
-local specWarnParanoia				= mod:NewSpecialWarningYouMoveAway(200289, nil, nil, nil, 3, 5) --Усугубляющаяся паранойя
+local specWarnParanoia				= mod:NewSpecialWarningYouMoveAway(200289, nil, nil, nil, 3, 6) --Усугубляющаяся паранойя
 local specWarnParanoia2				= mod:NewSpecialWarningCloseMoveAway(200289, nil, nil, nil, 1, 5) --Усугубляющаяся паранойя
 
 local timerNightmareBoltCD			= mod:NewCDTimer(20, 200185, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON..DBM_CORE_MYTHIC_ICON) --Кошмарная стрела
@@ -48,7 +47,7 @@ local timerParanoiaCD				= mod:NewCDTimer(18, 200359, nil, nil, nil, 3, nil, DBM
 local timerParanoia					= mod:NewTargetTimer(20, 200289, nil, nil, nil, 7) --Усугубляющаяся паранойя
 local timerApocNightmare			= mod:NewCastTimer(5, 200050, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Апокалиптический Кошмар
 
-local yellFesteringRip				= mod:NewYell(200182, nil, nil, nil, "YELL") --Гноящаяся рана
+local yellFesteringRip				= mod:NewYellDispel(200182, nil, nil, nil, "YELL") --Гноящаяся рана
 local yellNightmareBolt				= mod:NewYell(200185, nil, nil, nil, "YELL") --Кошмарная стрела
 local yellFeedontheWeak				= mod:NewYell(200238, nil, nil, nil, "YELL") --Пожирание слабых
 local yellNightmare					= mod:NewYellHelp(200243, nil, nil, nil, "YELL") --Кошмар наяву
@@ -56,8 +55,6 @@ local yellParanoia					= mod:NewYellMoveAway(200289, nil, nil, nil, "YELL") --У
 local yellParanoia2					= mod:NewFadesYell(200289, nil, nil, nil, "YELL") --Усугубляющаяся паранойя
 
 local countdownApocNightmare		= mod:NewCountdown(5, 200050, nil, nil, 5) --Апокалиптический Кошмар
-
-local playerName = UnitName("player")
 
 mod:AddSetIconOption("SetIconOnFeedontheWeak", 200238, true, false, {8}) --Пожирание слабых
 mod:AddSetIconOption("SetIconOnNightmareBolt", 200185, true, false, {8}) --Кошмарная стрела
@@ -111,12 +108,10 @@ function mod:OnCombatStart(delay)
 	if not self:IsNormal() then
 		timerNightmareBoltCD:Start(8.8-delay)
 		timerFesteringRipCD:Start(3.4-delay)
-	--	timerNightmareCD:Start(11-delay)
 		timerFeedontheWeakCD:Start(14-delay)
 		timerParanoiaCD:Start(26-delay)
 	else
 		timerFesteringRipCD:Start(3.4-delay)
-	--	timerNightmareCD:Start(6-delay)
 		timerFeedontheWeakCD:Start(15-delay)
 		timerParanoiaCD:Start(19-delay)
 	end
@@ -156,12 +151,12 @@ end
 
 function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
-	if spellId == 200359 then --Искусственная паранойя
-	--	timerParanoiaCD:Start()
-	elseif spellId == 200182 then --Гноящаяся рана
+	if spellId == 200182 then --Гноящаяся рана
 		timerFesteringRipCD:Start()
+--[[elseif spellId == 200359 then --Искусственная паранойя
+		timerParanoiaCD:Start()
 	elseif spellId == 200238 then --Пожирание слабых
-	--	timerFeedontheWeakCD:Start()
+		timerFeedontheWeakCD:Start()]]
 	end
 end
 
@@ -187,11 +182,9 @@ function mod:SPELL_AURA_APPLIED(args)
 			if args:IsPlayer() and not self:IsMagicDispeller2() then
 				specWarnFesteringRip2:Show()
 				specWarnFesteringRip2:Play("targetyou")
-				yellFesteringRip:Yell()
 			elseif args:IsPlayer() and self:IsMagicDispeller2() then
 				specWarnFesteringRip3:Show()
 				specWarnFesteringRip3:Play("dispelnow")
-				yellFesteringRip:Yell()
 			end
 		end
 	elseif spellId == 200243 then --Кошмар наяву
@@ -218,7 +211,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		self.vb.nightmareBolt = 0
 		self.vb.growingParanoia = 0
 		self.vb.feedOnTheWeak = 1
-		if not self:IsNormal() then
+		if self:IsHard() then
 			if args:IsPlayer() then
 				specWarnFeedontheWeak:Show()
 				specWarnFeedontheWeak:Play("defensive")
@@ -273,16 +266,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 end]]
 
 function mod:CHAT_MSG_MONSTER_YELL(msg)
-	if msg == L.XavApoc then
-		warnApocNightmare:Show()
-		timerApocNightmare:Start()
-		countdownApocNightmare:Start()
-		if not UnitIsDeadOrGhost("player") then
-			specWarnApocNightmare2:Show()
-			specWarnApocNightmare2:Play("defensive")
-		end
-	elseif msg == L.XavApoc2 then
-		warnApocNightmare:Show()
+	if msg == L.XavApoc or msg == L.XavApoc2 then
 		timerApocNightmare:Start()
 		countdownApocNightmare:Start()
 		if not UnitIsDeadOrGhost("player") then

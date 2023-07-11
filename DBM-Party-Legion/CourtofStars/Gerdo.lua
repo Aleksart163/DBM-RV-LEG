@@ -28,15 +28,17 @@ local warnSignalBeacon				= mod:NewSoonAnnounce(207806, 1) --Сигнальны�
 local warnStreetsweeper				= mod:NewSpellAnnounce(219488, 4) --Дворник
 local warnArcaneLockdown			= mod:NewCastAnnounce(207278, 3) --Чародейская изоляция
 
-local specWarnHinder				= mod:NewSpecialWarningInterrupt(215204, "HasInterrupt", nil, nil, 3, 2) --Помеха
+local specWarnHinder				= mod:NewSpecialWarningInterrupt(215204, "HasInterrupt", nil, nil, 3, 5) --Помеха
 local specWarnHinder2				= mod:NewSpecialWarningDispel(215204, "MagicDispeller2", nil, nil, 1, 5) --Помеха
-local specWarnResonantSlash			= mod:NewSpecialWarningDodge(207261, nil, nil, nil, 2, 3) --Резонирующий удар сплеча
-local specWarnArcaneLockdown		= mod:NewSpecialWarningJump(207278, nil, nil, nil, 1, 6) --Чародейская изоляция
+local specWarnResonantSlash			= mod:NewSpecialWarningDodge(207261, nil, nil, nil, 2, 5) --Резонирующий удар сплеча
+local specWarnArcaneLockdown		= mod:NewSpecialWarningJump(207278, nil, nil, nil, 1, 5) --Чародейская изоляция
 local specWarnBeacon				= mod:NewSpecialWarningSwitch(207806, "-Healer", nil, nil, 1, 2) --Сигнальный маяк
 
 local timerStreetsweeperCD			= mod:NewCDTimer(7, 219488, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON..DBM_CORE_MYTHIC_ICON) --Дворник
-local timerResonantSlashCD			= mod:NewCDTimer(12.1, 207261, nil, nil, nil, 3, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Резонирующий удар сплеча +++
+local timerResonantSlashCD			= mod:NewCDTimer(12.1, 207261, nil, nil, nil, 2, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Резонирующий удар сплеча +++
 local timerArcaneLockdownCD			= mod:NewCDTimer(30, 207278, nil, nil, nil, 2, nil, DBM_CORE_MAGIC_ICON..DBM_CORE_DEADLY_ICON) --Чародейская изоляция +++
+
+local yellHinder					= mod:NewYellHelp(215204, nil, nil, nil, "YELL") --Помеха
 
 mod:AddSetIconOption("SetIconOnHinder", 215204, true, false, {8, 7}) --Помеха
 
@@ -129,9 +131,18 @@ function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 215204 then --Помеха
 		self.vb.hinderIcon = self.vb.hinderIcon - 1
-		warnHinder2:CombinedShow(0.3, args.destName)
-		specWarnHinder2:CombinedShow(0.3, args.destName)
-		specWarnHinder2:ScheduleVoice(0.3, "dispelnow")
+		if args:IsPlayer() and not self:IsMagicDispeller2() then
+			yellHinder:Yell()
+		elseif args:IsPlayer() and self:IsMagicDispeller2() then
+			yellHinder:Yell()
+		elseif self:IsMagicDispeller2() then
+			if not UnitIsDeadOrGhost("player") then
+				specWarnHinder2:CombinedShow(0.3, args.destName)
+				specWarnHinder2:ScheduleVoice(0.3, "dispelnow")
+			end
+		else
+			warnHinder2:CombinedShow(0.3, args.destName)
+		end
 		if self.Options.SetIconOnHinder then
 			self:SetIcon(args.destName, self.vb.hinderIcon)
 		end

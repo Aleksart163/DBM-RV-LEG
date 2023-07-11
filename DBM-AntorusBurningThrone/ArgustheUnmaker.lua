@@ -65,15 +65,15 @@ local specWarnEndofAllThings		= mod:NewSpecialWarningInterrupt(256544, "HasInter
 --Stage One: Storm and Sky
 local specWarnSweepingScythe		= mod:NewSpecialWarningStack(248499, nil, 3, nil, nil, 3, 5) --Сметающая коса
 local specWarnSweepingScytheTaunt	= mod:NewSpecialWarningTaunt(248499, "Tank", nil, nil, 3, 2) --Сметающая коса
-local specWarnConeofDeath			= mod:NewSpecialWarningDodge(248165, nil, nil, nil, 1, 2) --Конус смерти
-local specWarnSoulblight			= mod:NewSpecialWarningYouMoveAway(248396, nil, nil, nil, 1, 2) --Изнуряющая чума
+local specWarnConeofDeath			= mod:NewSpecialWarningDodge(248165, nil, nil, nil, 2, 2) --Конус смерти
+local specWarnSoulblight			= mod:NewSpecialWarningYouMoveAway(248396, nil, nil, nil, 5, 6) --Изнуряющая чума
 local specWarnGiftofSea				= mod:NewSpecialWarningYouMoveAway(258647, nil, nil, nil, 3, 6) --Дар моря
 local specWarnGiftofSky				= mod:NewSpecialWarningYouMoveAway(258646, nil, nil, nil, 3, 6) --Дар небес
 --Mythic P1
 local specWarnSargGaze				= mod:NewSpecialWarningPreWarn(258068, nil, 5, nil, nil, 3, 6) --Пристальный взгляд Саргераса
 local specWarnSargRage				= mod:NewSpecialWarningMoveAway(257869, nil, nil, nil, 3, 6) --Ярость Саргераса
 local specWarnSargFear				= mod:NewSpecialWarningShare(257931, nil, nil, nil, 3, 6) --Страх перед Саргерасом
-local specWarnGTFO					= mod:NewSpecialWarningYouMove(248167, nil, nil, nil, 1, 2)
+local specWarnGTFO					= mod:NewSpecialWarningYouMove(248167, nil, nil, nil, 1, 2) --Смертоносный туман
 --Stage Two: The Protector Redeemed
 local specWarnSoulburst				= mod:NewSpecialWarningYouMoveAway(250669, nil, nil, nil, 1, 2) --Взрывная душа
 local specWarnSoulbomb				= mod:NewSpecialWarningYouMoveAway(251570, nil, nil, nil, 5, 6) --Бомба души 
@@ -673,7 +673,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self.Options.NPAuraOnEternalBlades then
 			DBM.Nameplate:Show(true, args.destGUID, spellId, nil, 40)
 		end
-	elseif spellId == 252729 then --Космический луч
+	elseif spellId == 252729 and self:AntiSpam(3, "cosmic") then --Космический луч
 		if args:IsPlayer() then
 			specWarnCosmicRay:Show()
 			specWarnCosmicRay:Play("targetyou")

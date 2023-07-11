@@ -22,24 +22,37 @@ mod:RegisterEventsInCombat(
 --Верховный друид Глайдалис https://ru.wowhead.com/npc=96512/верховный-друид-глайдалис/эпохальный-журнал-сражений
 local warnLeap					= mod:NewTargetAnnounce(196346, 4) --Мучительный прыжок
 
-local specWarnGrievousTear		= mod:NewSpecialWarningYou(196376, nil, nil, nil, 2, 2) --Мучительное разрывание
+local specWarnGrievousTear		= mod:NewSpecialWarningYou(196376, nil, nil, nil, 2, 5) --Мучительное разрывание
 local specWarnGrievousTear2		= mod:NewSpecialWarningEnd(196376, nil, nil, nil, 1, 2) --Мучительное разрывание
 local specWarnNightfall			= mod:NewSpecialWarningYouMove(198408, nil, nil, nil, 1, 2) --Сумерки
-local specWarnRampage			= mod:NewSpecialWarningDodgeCount(198379, "Tank", nil, nil, 3, 2) --Первобытная ярость
-local specWarnRampage2			= mod:NewSpecialWarningDodge(198379, "MeleeDps", nil, nil, 2, 2) --Первобытная ярость
+local specWarnRampage			= mod:NewSpecialWarningDodge(198379, nil, nil, nil, 3, 6) --Первобытная ярость
+local specWarnRampage2			= mod:NewSpecialWarningTargetDodge(198379, nil, nil, nil, 2, 2) --Первобытная ярость
 
 local timerLeapCD				= mod:NewCDTimer(14, 196346, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON..DBM_CORE_HEALER_ICON) --Мучительный прыжок
-local timerRampageCD			= mod:NewCDTimer(29, 198379, nil, "Melee", nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Первобытная ярость
+local timerRampageCD			= mod:NewCDTimer(28.7, 198379, nil, "Melee", nil, 3, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Первобытная ярость
 local timerNightfallCD			= mod:NewCDTimer(14.5, 198401, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Сумерки
 
 local yellLeap					= mod:NewYell(196346, nil, nil, nil, "YELL") --Мучительный прыжок
+local yellRampage				= mod:NewYellMoveAway(198379, nil, nil, nil, "YELL") --Первобытная ярость
 
-local countdownRampage			= mod:NewCountdown(29, 198379, "Melee", nil, 5) --Первобытная ярость
+local countdownRampage			= mod:NewCountdown(28.7, 198379, "Melee", nil, 5) --Первобытная ярость
 
 mod:AddSetIconOption("SetIconOnGrievousTear", 196376, true, false, {8, 7}) --Мучительное разрывание
 
 mod.vb.rampage = 0
 mod.vb.grievousTearIcon = 8
+
+function mod:RampageTarget(targetname, uId)
+	if not targetname then return end
+	if targetname == UnitName("player") then
+		specWarnRampage:Show()
+		specWarnRampage:Play("justrun")
+		yellRampage:Yell()
+	else
+		specWarnRampage2:Show(targetname)
+		specWarnRampage2:Play("watchstep")
+	end
+end
 
 function mod:OnCombatStart(delay)
 	self.vb.rampage = 0
@@ -59,15 +72,7 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 198379 then
 		self.vb.rampage = self.vb.rampage + 1
-		if self:IsTank() then
-			specWarnRampage:Show(self.vb.rampage)
-			specWarnRampage:Play("defensive")
-		else
-			if not UnitIsDeadOrGhost("player") then
-				specWarnRampage2:Show()
-				specWarnRampage2:Play("watchstep")
-			end
-		end
+		self:BossTargetScanner(args.sourceGUID, "RampageTarget", 0.1, 2)
 		timerRampageCD:Start()
 		countdownRampage:Start()
 		if self.vb.rampage == 1 then

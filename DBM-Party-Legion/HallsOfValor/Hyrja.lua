@@ -26,20 +26,20 @@ local warnPhase2					= mod:NewPhaseAnnounce(2, 2, nil, nil, nil, nil, nil, 2) --
 
 local specWarnShieldOfLight			= mod:NewSpecialWarningYouDefensive(192018, "Tank", nil, nil, 3, 2) --Щит Света
 local specWarnSanctify				= mod:NewSpecialWarningDodge(192158, "Ranged", nil, nil, 2, 5) --Освящение
-local specWarnSanctify2				= mod:NewSpecialWarningRun(192158, "Melee", nil, nil, 4, 5) --Освящение
+local specWarnSanctify2				= mod:NewSpecialWarningRun(192158, "Melee", nil, nil, 4, 6) --Освящение
 local specWarnEyeofStorm			= mod:NewSpecialWarningMoveTo(200901, nil, nil, nil, 4, 3) --Око шторма
 local specWarnEyeofStorm2			= mod:NewSpecialWarningDefensive(200901, nil, nil, nil, 3, 3) --Око шторма
 local specWarnExpelLight			= mod:NewSpecialWarningYouMoveAway(192048, nil, nil, nil, 1, 3) --Световое излучение
-local specWarnExpelLight2			= mod:NewSpecialWarningYouDefensive(192048, nil, nil, nil, 3, 3) --Световое излучение
+local specWarnExpelLight2			= mod:NewSpecialWarningYouDefensive(192048, nil, nil, nil, 3, 5) --Световое излучение
 local specWarnArcingBolt			= mod:NewSpecialWarningYouMoveAway(191976, nil, nil, nil, 1, 3) --Дуговая молния
-local specWarnArcingBolt2			= mod:NewSpecialWarningYouDefensive(191976, nil, nil, nil, 3, 3) --Дуговая молния
+local specWarnArcingBolt2			= mod:NewSpecialWarningYouDefensive(191976, nil, nil, nil, 3, 5) --Дуговая молния
 
 local timerArcingBoltCD				= mod:NewCDTimer(28, 191976, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Дуговая молния+++
 local timerShieldOfLightCD			= mod:NewCDTimer(28, 192018, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Щит Света 28-34
 local timerSpecialCD				= mod:NewNextTimer(30, 200736, nil, nil, nil, 2, 143497, DBM_CORE_DEADLY_ICON) --Особый спелл
 local timerExpelLightCD				= mod:NewCDTimer(24.5, 192048, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Световое излучение+++
 
-local yellExpelLight				= mod:NewYell(192048, nil, nil, nil, "YELL") --Световое излучение
+local yellExpelLight				= mod:NewYellMoveAway(192048, nil, nil, nil, "YELL") --Световое излучение
 local yellExpelLight2				= mod:NewShortFadesYell(192048, nil, nil, nil, "YELL") --Световое излучение
 local yellArcingBolt				= mod:NewYell(191976, nil, nil, nil, "YELL") --Дуговая молния
 

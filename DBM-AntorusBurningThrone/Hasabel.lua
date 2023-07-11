@@ -72,7 +72,7 @@ local specWarnSupernova					= mod:NewSpecialWarningDodge(244598, nil, nil, nil, 
 local specWarnEverburningFlames			= mod:NewSpecialWarningMoveTo(244613, nil, nil, nil, 1) --Неугасающее пламя No voice yet
 --Platform: Rancora
 local specWarnFelSilkWrap				= mod:NewSpecialWarningYou(244949, nil, nil, nil, 1, 2) --Кокон из скверношелка
-local specWarnFelSilkWrapOther			= mod:NewSpecialWarningSwitch(244949, "Dps", nil, nil, 1, 2) --Кокон из скверношелка
+local specWarnFelSilkWrapOther			= mod:NewSpecialWarningTargetHelp(244949, "Tank|Dps", nil, nil, 1, 2) --Кокон из скверношелка
 local specWarnLeechEssence				= mod:NewSpecialWarningSpell(244915, nil, nil, nil, 1, 2) --Поглощение сущности Don't know what to do for voice yet til strat divised
 local specWarnCausticSlime				= mod:NewSpecialWarningMoveTo(244849, nil, nil, nil, 1) --Едкая слизь No voice yet
 local specWarnCausticSlimeLFR			= mod:NewSpecialWarningMoveAway(244849, nil, nil, nil, 1) --Едкая слизь No voice yet
@@ -102,7 +102,7 @@ mod:AddTimerLine(Nathreza)
 local timerDelusionsCD					= mod:NewCDTimer(14.6, 245050, nil, nil, nil, 3, nil, DBM_CORE_HEALER_ICON..DBM_CORE_MAGIC_ICON) --Заблуждения
 
 local yellEverburningFlames				= mod:NewFadesYell(244613, nil, nil, nil, "YELL") --Неугасающее пламя
-local yellFelSilkWrap					= mod:NewYell(244949, nil, nil, nil, "YELL") --Кокон из скверношелка
+local yellFelSilkWrap					= mod:NewYellHelp(244949, nil, nil, nil, "YELL") --Кокон из скверношелка
 local yellCausticSlime					= mod:NewFadesYell(244849, nil, nil, nil, "YELL") --Едкая слизь
 local yellCloyingShadows				= mod:NewFadesYell(245118, nil, nil, nil, "YELL") --Надоедливые тени
 
@@ -379,7 +379,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			yellFelSilkWrap:Yell()
 		else
 			if self.Options.ShowAllPlatforms or playerPlatform == 3 then--Actually on Rancora platform
-				specWarnFelSilkWrapOther:Show()
+				specWarnFelSilkWrapOther:Show(args.destName)
 				if self.Options.SpecWarn244949switch then
 					specWarnFelSilkWrapOther:Play("changetarget")
 				end

@@ -31,11 +31,11 @@ local warnShadowBoltVolley			= mod:NewPreWarnAnnounce(202019, 5, 1) --Залп �
 local warnLegacyRavencrest			= mod:NewPreWarnAnnounce(199368, 5, 1) --Наследие Гребня Ворона
 
 local specWarnWhirlingBlade			= mod:NewSpecialWarningTargetDodge(198641, nil, nil, nil, 2, 3) --Крутящийся клинок
-local specWarnWhirlingBlade2		= mod:NewSpecialWarningYouRun(198641, nil, nil, nil, 4, 3) --Крутящийся клинок
-local specWarnDarkblast				= mod:NewSpecialWarningDodge(198820, nil, nil, nil, 3, 5) --Темный взрыв
-local specWarnGuile					= mod:NewSpecialWarningDodge(199193, nil, nil, nil, 3, 5) --Хитроумие повелителя ужаса
+local specWarnWhirlingBlade2		= mod:NewSpecialWarningYouRun(198641, nil, nil, nil, 4, 6) --Крутящийся клинок
+local specWarnDarkblast				= mod:NewSpecialWarningDodge(198820, nil, nil, nil, 3, 6) --Темный взрыв
+local specWarnGuile					= mod:NewSpecialWarningDodge(199193, nil, nil, nil, 3, 6) --Хитроумие повелителя ужаса
 local specWarnGuileEnded			= mod:NewSpecialWarningEnd(199193, nil, nil, nil, 1, 2) --Хитроумие повелителя ужаса
-local specWarnSwarm					= mod:NewSpecialWarningYou(201733, nil, nil, nil, 3, 6) --Жалящий рой
+local specWarnSwarm					= mod:NewSpecialWarningYou(201733, nil, nil, nil, 5, 6) --Жалящий рой
 local specWarnSwarm2				= mod:NewSpecialWarningSwitch(201733, "-Healer", nil, nil, 1, 2) --Жалящий рой
 local specWarnShadowBolt			= mod:NewSpecialWarningDefensive(202019, nil, nil, nil, 3, 6) --Залп стрел Тьмы
 local specWarnLegacyRavencrest		= mod:NewSpecialWarningYou(199368, nil, nil, nil, 1, 2) --Наследие Гребня Ворона

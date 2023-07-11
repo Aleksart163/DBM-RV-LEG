@@ -30,7 +30,7 @@ local specWarnShadowFade			= mod:NewSpecialWarningSwitch(233206, "-Healer", nil,
 local specWarnCarrionSwarm			= mod:NewSpecialWarningYouDefensive(233155, nil, nil, nil, 3, 6) --Темная стая
 local specWarnCarrionSwarm2			= mod:NewSpecialWarningDodge(233155, nil, nil, nil, 2, 3) --Темная стая
 local specWarnCarrionSwarm3			= mod:NewSpecialWarningYouMove(233177, nil, nil, nil, 1, 2) --Темная стая
-local specWarnDemonicUpheaval		= mod:NewSpecialWarningYouMoveAway(233963, nil, nil, nil, 4, 5) --Демоническое извержение
+local specWarnDemonicUpheaval		= mod:NewSpecialWarningYouMoveAway(233963, nil, nil, nil, 4, 6) --Демоническое извержение
 local specWarnDemonicUpheaval2		= mod:NewSpecialWarningEnd(233963, nil, nil, nil, 1, 2) --Демоническое извержение
 
 local timerDarkSolitudeCD			= mod:NewCDTimer(8.5, 234817, nil, nil, nil, 3, nil, DBM_CORE_HEALER_ICON..DBM_CORE_DEADLY_ICON) --Темное одиночество
@@ -40,7 +40,7 @@ local timerShadowFadeCD				= mod:NewCDTimer(77, 233206, nil, nil, nil, 6, nil, D
 local timerShadowFade				= mod:NewCastTimer(3, 233206, nil, nil, nil, 6) --Уход во тьму
 
 local yellCarrionSwarm				= mod:NewYell(233155, nil, nil, nil, "YELL") --Темная стая
-local yellDemonicUpheaval			= mod:NewYell(233963, nil, nil, nil, "YELL") --Демоническое извержение
+local yellDemonicUpheaval			= mod:NewYellMoveAway(233963, nil, nil, nil, "YELL") --Демоническое извержение
 local yellDemonicUpheaval2			= mod:NewFadesYell(233963, nil, nil, nil, "YELL") --Демоническое извержение
 
 local countdownShadowFade			= mod:NewCountdown(77, 233206, nil, nil, 5) --Уход во тьму

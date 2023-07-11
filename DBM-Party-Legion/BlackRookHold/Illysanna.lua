@@ -30,12 +30,12 @@ local specWarnArcaneBlitz			= mod:NewSpecialWarningInterrupt(197797, "Tank|Dps",
 local specWarnBonebreakingStrike	= mod:NewSpecialWarningDodge(197974, "Melee", nil, nil, 2, 2) --Костедробящий удар
 local specWarnFelblazedGround		= mod:NewSpecialWarningYouMove(197821, nil, nil, nil, 1, 3) --Отпечаток пламени Скверны
 local specWarnBlazingTrail			= mod:NewSpecialWarningYouMove(197521, nil, nil, nil, 1, 3) --Огненный след
-local specWarnBrutalGlaive			= mod:NewSpecialWarningYouMoveAway(197546, nil, nil, nil, 4, 3) --Жуткая глефа
-local specWarnBrutalGlaive2			= mod:NewSpecialWarningCloseMoveAway(197546, nil, nil, nil, 2, 2) --Жуткая глефа
-local specWarnBrutalGlaive3			= mod:NewSpecialWarningYouDefensive(197546, "-Tank", nil, nil, 3, 3) --Жуткая глефа
-local specWarnVengefulShear			= mod:NewSpecialWarningYouDefensive(197418, "Tank", nil, nil, 3, 3) --Мстительное рассечение
+local specWarnBrutalGlaive			= mod:NewSpecialWarningYouMoveAway(197546, nil, nil, nil, 4, 6) --Жуткая глефа
+local specWarnBrutalGlaive2			= mod:NewSpecialWarningCloseMoveAway(197546, nil, nil, nil, 2, 5) --Жуткая глефа
+local specWarnBrutalGlaive3			= mod:NewSpecialWarningYouDefensive(197546, "-Tank", nil, nil, 5, 6) --Жуткая глефа
+local specWarnVengefulShear			= mod:NewSpecialWarningYouDefensive(197418, "Tank", nil, nil, 3, 6) --Мстительное рассечение
 local specWarnDarkRush				= mod:NewSpecialWarningYouRunning(197478, nil, nil, nil, 1, 2) --Темный рывок
-local specWarnEyeBeam				= mod:NewSpecialWarningYouRun(197687, nil, nil, nil, 4, 5) --Пронзающий взгляд
+local specWarnEyeBeam				= mod:NewSpecialWarningYouRun(197687, nil, nil, nil, 4, 6) --Пронзающий взгляд
 
 local timerBrutalGlaiveCD			= mod:NewCDTimer(15, 197546, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON..DBM_CORE_HEALER_ICON) --Жуткая глефа +++
 local timerVengefulShearCD			= mod:NewCDTimer(11, 197418, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Мстительное рассечение 11-16
@@ -43,7 +43,7 @@ local timerDarkRushCD				= mod:NewCDTimer(30, 197478, nil, nil, nil, 7) --Тем
 local timerEyeBeam					= mod:NewCastTimer(44.5, 197696, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Пронзающий взгляд
 local timerEyeBeamCD				= mod:NewNextTimer(103, 197696, nil, nil, nil, 6, nil, DBM_CORE_DEADLY_ICON) --Пронзающий взгляд
 
-local yellBrutalGlaive				= mod:NewYell(197546, nil, nil, nil, "YELL") --Жуткая глефа
+local yellBrutalGlaive				= mod:NewYellMoveAway(197546, nil, nil, nil, "YELL") --Жуткая глефа
 local yellEyeBeam					= mod:NewYell(197687, nil, nil, nil, "YELL") --Пронзающий взгляд
 local yellDarkRush					= mod:NewYell(197478, nil, nil, nil, "YELL") --Темный рывок
 

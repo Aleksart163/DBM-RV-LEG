@@ -29,7 +29,7 @@ local warnWinds						= mod:NewSpellAnnounce(191798, 2) --Жестокие вет
 local warnRampage					= mod:NewSpellAnnounce(191848, 2) --Буйство
 
 local specWarnPoisonSpit			= mod:NewSpecialWarningDodge(192050, nil, nil, nil, 2, 3) --Ядовитый плевок
-local specWarnToxicWound			= mod:NewSpecialWarningYouRun(191855, nil, nil, nil, 4, 3) --Отравленная рана
+local specWarnToxicWound			= mod:NewSpecialWarningYouRun(191855, nil, nil, nil, 4, 5) --Отравленная рана
 local specWarnToxicWound2			= mod:NewSpecialWarningEnd(191855, nil, nil, nil, 1, 2) --Отравленная рана
 local specWarnToxicWound3			= mod:NewSpecialWarningCloseMoveAway(191855, nil, nil, nil, 1, 2) --Отравленная рана
 local specWarnSubmerge				= mod:NewSpecialWarningSwitch(191873, nil, nil, nil, 1, 2) --Погружение
