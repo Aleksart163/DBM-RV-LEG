@@ -24,7 +24,7 @@ local warnVoidSnap				= mod:NewCastAnnounce(194266, 4) --Хватка Бездн
 
 local specWarnNetherRip			= mod:NewSpecialWarningYouMove(194235, nil, nil, nil, 1, 2) --Разрыв пустоты
 local specWarnFragment			= mod:NewSpecialWarningSwitch(194327, "-Healer", nil, nil, 1, 2) --Разделение
-local specWarnFragment2			= mod:NewSpecialWarningYouDefensive(194327, nil, nil, nil, 3, 5) --Разделение
+local specWarnFragment2			= mod:NewSpecialWarningYouDefensive(194327, nil, nil, nil, 5, 6) --Разделение
 local specWarnServitor			= mod:NewSpecialWarningSwitch(194231, "-Healer", nil, nil, 1, 2) --Призыв скованного прислужника
 local specWarnVoidSnap			= mod:NewSpecialWarningInterruptCount(194266, "HasInterrupt", nil, nil, 3, 6) --Хватка Бездны
 local specWarnScythe			= mod:NewSpecialWarningDodge(194216, nil, nil, nil, 2, 3) --Космическая коса
@@ -36,7 +36,7 @@ local yellFragment				= mod:NewYellHelp(194327, nil, nil, nil, "YELL") --Раз�
 
 mod.vb.kickCount = 0
 
-function mod:FragmentTarget(targetname, uId) --Прошляпанное очко Прошляпенко (Мурчаля) [✔]
+function mod:FragmentTarget(targetname, uId) --Прошляпанное очко Мурчаля Прошляпенко [✔]
 	if not targetname then return end
 	if targetname == UnitName("player") then
 		specWarnFragment2:Show()

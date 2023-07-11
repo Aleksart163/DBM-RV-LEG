@@ -27,8 +27,8 @@ local warnCallSouls					= mod:NewSpellAnnounce(196078, 3) --Вызов душ
 local specWarnSoulBurst				= mod:NewSpecialWarningDefensive(196587, nil, nil, nil, 3, 6) --Взрыв души
 local specWarnCallSouls				= mod:NewSpecialWarningSwitch(196078, "Dps|Tank", nil, nil, 1, 2) --Вызов душ
 local specWarnReapSoul				= mod:NewSpecialWarningDodge(194956, "Dps|Healer", nil, nil, 2, 2) --Жатва душ
-local specWarnReapSoul2				= mod:NewSpecialWarningYouMove(194956, "Tank", nil, nil, 3, 5) --Жатва душ
-local specWarnSoulEchos				= mod:NewSpecialWarningYouRun(194966, nil, nil, nil, 4, 5) --Эхо души
+local specWarnReapSoul2				= mod:NewSpecialWarningYouMove(194956, "Tank", nil, nil, 3, 6) --Жатва душ
+local specWarnSoulEchos				= mod:NewSpecialWarningYouRun(194966, nil, nil, nil, 4, 6) --Эхо души
 local specWarnSwirlingScythe		= mod:NewSpecialWarningDodge(195254, nil, nil, nil, 2, 2) --Вращающаяся коса
 local specWarnSwirlingScytheNear	= mod:NewSpecialWarningCloseMoveAway(195254, nil, nil, nil, 1, 2) --Вращающаяся коса
 local specWarnSoulEchosNear			= mod:NewSpecialWarningCloseMoveAway(194966, nil, nil, nil, 1, 2) --Эхо души
@@ -39,7 +39,7 @@ local timerSoulEchoesCD				= mod:NewNextTimer(28, 194966, nil, nil, nil, 3, nil,
 local timerReapSoulCD				= mod:NewNextTimer(13, 194956, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Жатва душ
 
 local yellSwirlingScythe			= mod:NewYell(195254, nil, nil, nil, "YELL") --Вращающаяся коса
-local yellSoulEchos					= mod:NewYell(194966, nil, nil, nil, "YELL") --Эхо души
+local yellSoulEchos					= mod:NewYellMoveAway(194966, nil, nil, nil, "YELL") --Эхо души
 local yellSoulEchos2				= mod:NewFadesYell(194966, nil, nil, nil, "YELL") --Эхо души
 
 local countdownReapSoul				= mod:NewCountdown(13, 194956, nil, nil, 5) --Жатва душ
@@ -84,7 +84,7 @@ function mod:SoulTarget(targetname, uId)
 			specWarnSoulEchos:ScheduleVoice(1, "keepmove")
 			yellSoulEchos:Yell()
 			yellSoulEchos2:Countdown(12, 3)
-		elseif self:CheckNearby(6, targetname) then
+		elseif self:CheckNearby(7, targetname) then
 			specWarnSoulEchosNear:Show(targetname)
 			specWarnSoulEchosNear:Play("runaway")
 		else

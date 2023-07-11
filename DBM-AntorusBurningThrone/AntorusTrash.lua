@@ -270,7 +270,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				specWarnFelTorch:Play("stackhigh")
 			end
 		end
-	elseif spellId == 248757 then --Пирогенез
+	elseif spellId == 248757 and not args:IsDestTypePlayer() then --Пирогенез
 		local amount = args.amount or 1
 		if amount >= 2 then
 			specWarnPyrogenics:Show(args.destName)

@@ -30,7 +30,7 @@ local timerMaelstromCD				= mod:NewCDTimer(17, 209676, nil, nil, nil, 2, nil, DB
 local timerGaleCD					= mod:NewCDTimer(17, 209628, nil, nil, nil, 2) --Пронзающий ураган
 
 local yellSurge						= mod:NewYell(209602, nil, nil, nil, "YELL") --Буйство клинков
-local yellEnvelopingWinds			= mod:NewYell(224333, nil, nil, nil, "YELL") --Вихрь
+local yellEnvelopingWinds			= mod:NewYellHelp(224333, nil, nil, nil, "YELL") --Вихрь
 
 local trashmod = DBM:GetModByName("CoSTrash")
 

@@ -45,7 +45,7 @@ mod:AddSetIconOption("SetIconOnAegis", 202711, true, false, {1}) --Эгида А
 local shield = replaceSpellLinks(193983)
 local firstrush = false
 
-function mod:FelblazeRushTarget(targetname, uId) --Рывок пламени Скверны (✔)
+function mod:FelblazeRushTarget(targetname, uId) --Рывок пламени Скверны [✔] прошляпанного очка Мурчаля Прошляпенко
 	if not targetname then return end
 	if targetname == UnitName("player") then
 		specWarnFelblazeRush:Show()

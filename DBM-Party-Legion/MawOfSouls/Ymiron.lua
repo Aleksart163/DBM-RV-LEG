@@ -17,15 +17,16 @@ mod:RegisterEventsInCombat(
 --Имирон, падший король https://ru.wowhead.com/npc=96756/имирон-падший-король/эпохальный-журнал-сражений
 local warnBane						= mod:NewSpellAnnounce(193460, 3) --Погибель
 local warnScreams					= mod:NewTargetAnnounce(193364, 2) --Крики мертвых
+local warnDarkSlash					= mod:NewTargetAnnounce(193211, 4) --Черная рана
 
 local specWarnBane					= mod:NewSpecialWarningDodge(193460, nil, nil, nil, 2, 2) --Погибель
-local specWarnDarkSlash				= mod:NewSpecialWarningDefensive(193211, "Tank", nil, nil, 3, 6) --Черная рана
+local specWarnDarkSlash				= mod:NewSpecialWarningDefensive(193211, nil, nil, nil, 3, 6) --Черная рана
 local specWarnScreams				= mod:NewSpecialWarningRun(193364, "Melee", nil, nil, 4, 3) --Крики мертвых
 local specWarnScreams2				= mod:NewSpecialWarningDodge(193364, "-Melee", nil, nil, 2, 3) --Крики мертвых
 local specWarnWinds					= mod:NewSpecialWarningDefensive(193977, nil, nil, nil, 2, 3) --Ветра Нордскола
 local specAriseFallen				= mod:NewSpecialWarningSwitch(193566, "-Healer", nil, nil, 1, 2) --Восстань, павший
 
-local timerDarkSlashCD				= mod:NewCDTimer(14.6, 193211, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Черная рана
+local timerDarkSlashCD				= mod:NewCDTimer(14.6, 193211, nil, nil, nil, 3, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Черная рана
 local timerScreamsCD				= mod:NewCDTimer(23, 193364, nil, "Melee", nil, 2) --Крики мертвых
 local timerWindsCD					= mod:NewCDTimer(24, 193977, nil, nil, nil, 2) --Ветра Нордскола
 local timerBaneCD					= mod:NewCDTimer(49.5, 193460, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Погибель
@@ -33,6 +34,19 @@ local timerAriseFallenCD			= mod:NewCDTimer(19, 193566, nil, nil, nil, 1, nil, D
 
 local countdownDarkSlash			= mod:NewCountdown("AltTwo14.6", 193211, "Tank", nil, 5) --Черная рана
 local countdownAriseFallen			= mod:NewCountdown(19, 193566, "-Healer", nil, 5) --Восстань, павший
+
+local yellDarkSlash					= mod:NewYell(193211, nil, nil, nil, "YELL") --Черная рана
+
+function mod:DarkSlashTarget(targetname, uId)
+	if not targetname then return end
+	if targetname == UnitName("player") then
+		specWarnDarkSlash:Show()
+		specWarnDarkSlash:Play("defensive")
+		yellDarkSlash:Yell()
+	else
+		warnDarkSlash:Show(targetname)
+	end
+end
 
 function mod:OnCombatStart(delay)
 	countdownDarkSlash:Start(4-delay) --Черная рана
@@ -45,8 +59,7 @@ end
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 193211 then
-		specWarnDarkSlash:Show()
-		specWarnDarkSlash:Play("defensive")
+		self:BossTargetScanner(args.sourceGUID, "DarkSlashTarget", 0.1, 2)
 		if self:IsHard() then
 			timerDarkSlashCD:Start(16)
 			countdownDarkSlash:Start(16)

@@ -19,17 +19,17 @@ mod:RegisterEventsInCombat(
 )
 
 --Один https://ru.wowhead.com/npc=114263/один/эпохальный-журнал-сражений#abilities;mode:
-local warnUnworthy					= mod:NewTargetAnnounce(198190, 3) --Недостойность
+local warnUnworthy					= mod:NewTargetAnnounce(198190, 2) --Недостойность
 local warnSpear						= mod:NewSpellAnnounce(198072, 2) --Копье света
 
-local specWarnTempest				= mod:NewSpecialWarningRun(198263, nil, nil, nil, 4, 5) --Светозарная буря
+local specWarnTempest				= mod:NewSpecialWarningRun(198263, nil, nil, nil, 4, 6) --Светозарная буря
 local specWarnShatterSpears			= mod:NewSpecialWarningDodge(198077, nil, nil, nil, 2, 2) --Расколотые копья
 local specWarnSpear					= mod:NewSpecialWarningDodge(198072, nil, nil, nil, 2, 2) --Копье света
-local specWarnRunicBrand			= mod:NewSpecialWarningYouMoveToPos(197963, nil, nil, nil, 4, 5) --Руническое клеймо фиолетовая
-local specWarnRunicBrand2			= mod:NewSpecialWarningYouMoveToPos(197964, nil, nil, nil, 4, 5) --Руническое клеймо оранжевая
-local specWarnRunicBrand3			= mod:NewSpecialWarningYouMoveToPos(197965, nil, nil, nil, 4, 5) --Руническое клеймо желтая
-local specWarnRunicBrand4			= mod:NewSpecialWarningYouMoveToPos(197966, nil, nil, nil, 4, 5) --Руническое клеймо синяя
-local specWarnRunicBrand5			= mod:NewSpecialWarningYouMoveToPos(197967, nil, nil, nil, 4, 5) --Руническое клеймо зеленая
+local specWarnRunicBrand			= mod:NewSpecialWarningYouMoveToPos(197963, nil, nil, nil, 4, 6) --Руническое клеймо фиолетовая
+local specWarnRunicBrand2			= mod:NewSpecialWarningYouMoveToPos(197964, nil, nil, nil, 4, 6) --Руническое клеймо оранжевая
+local specWarnRunicBrand3			= mod:NewSpecialWarningYouMoveToPos(197965, nil, nil, nil, 4, 6) --Руническое клеймо желтая
+local specWarnRunicBrand4			= mod:NewSpecialWarningYouMoveToPos(197966, nil, nil, nil, 4, 6) --Руническое клеймо синяя
+local specWarnRunicBrand5			= mod:NewSpecialWarningYouMoveToPos(197967, nil, nil, nil, 4, 6) --Руническое клеймо зеленая
 local specWarnAdd					= mod:NewSpecialWarningSwitch(201221, "-Healer", nil, nil, 1, 2) --Призыв закаленного бурей воина
 local specWarnSurge					= mod:NewSpecialWarningInterrupt(198750, "HasInterrupt", nil, nil, 1, 3) --Импульс
 local specWarnUnworthy				= mod:NewSpecialWarningYou(198190, nil, nil, nil, 1, 2) --Недостойность
@@ -56,7 +56,7 @@ mod.vb.temptestMode = 1
 mod.vb.tempestCount = 0
 mod.vb.brandCount = 0
 
-function mod:OnCombatStart(delay) --Прошляпанное очко мурчаля [✔]
+function mod:OnCombatStart(delay) --Прошляпанное очко Мурчаля Прошляпенко [✔]
 	self.vb.temptestMode = 1
 	self.vb.tempestCount = 0
 	self.vb.brandCount = 0

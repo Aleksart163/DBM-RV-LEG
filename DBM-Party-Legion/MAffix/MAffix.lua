@@ -16,7 +16,7 @@ mod:RegisterEvents(
 	"SPELL_PERIODIC_MISSED 226512 240559"
 )
 
---Прошляпанное очко Мурчаля Прошляпенко ✔✔✔
+--Прошляпанное очко Мурчаля Прошляпенко [✔✔✔]
 local warnNecroticWound				= mod:NewStackAnnounce(209858, 3, nil, nil, 2) --Некротическая язва
 
 local specWarnNecroticWound			= mod:NewSpecialWarningStack(209858, nil, 10, nil, nil, 1, 3) --Некротическая язва
@@ -97,11 +97,11 @@ function mod:SPELL_AURA_REMOVED(args)
 end
 
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
-	if spellId == 226512 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then --Кровавый гной
+	if spellId == 226512 and destGUID == UnitGUID("player") and self:AntiSpam(2, "sanguine") then --Кровавый гной
 		specWarnSanguineIchor:Show()
 		specWarnSanguineIchor:Play("runaway")
 	elseif spellId == 240559 and destGUID == UnitGUID("player") then --Тяжкая рана
-		if dota5s and self:AntiSpam(5, 2) then
+		if dota5s and self:AntiSpam(5, "grievous") then
 			specWarnGrievousWound:Show(5)
 			specWarnGrievousWound:Play("stackhigh")
 		end

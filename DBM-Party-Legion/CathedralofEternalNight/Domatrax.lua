@@ -26,7 +26,7 @@ local warnApproachingDoom2			= mod:NewSoonAnnounce(241622, 1) --Приближе
 local warnChaoticEnergy				= mod:NewSoonAnnounce(234107, 1) --Хаотическая энергия
 
 local specWarnFelsoulCleave			= mod:NewSpecialWarningDodge(236543, "Melee", nil, nil, 2, 3) --Удар оскверненной души
-local specWarnChaoticEnergy			= mod:NewSpecialWarningMoveTo(234107, nil, nil, nil, 3, 5) --Хаотическая энергия
+local specWarnChaoticEnergy			= mod:NewSpecialWarningMoveTo(234107, nil, nil, nil, 3, 6) --Хаотическая энергия
 local specWarnChaoticEnergy2		= mod:NewSpecialWarningEnd(234107, nil, nil, nil, 1, 2) --Хаотическая энергия
 local specWarnAdds					= mod:NewSpecialWarningAdds(200597, "-Healer", nil, nil, 1, 2) --Открыть портал Скверны
 

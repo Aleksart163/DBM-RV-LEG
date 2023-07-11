@@ -23,9 +23,9 @@ local warnMythicTornado				= mod:NewSpellAnnounce(192680, 3) --Волшебны�
 local warnRagingStorms				= mod:NewCastAnnounce(192696, 4) --Бушующий шторм
 local warnCrushingDepths			= mod:NewTargetAnnounce(197365, 4) --Морская пучина
 
-local specWarnArcaneBomb			= mod:NewSpecialWarningYouMoveAway(192706, nil, nil, nil, 3, 3) --Чародейская бомба
-local specWarnArcaneBomb4			= mod:NewSpecialWarningYouDispel(192706, nil, nil, nil, 3, 3) --Чародейская бомба
-local specWarnArcaneBomb2			= mod:NewSpecialWarningDispel(192706, "MagicDispeller2", nil, nil, 3, 3) --Чародейская бомба
+local specWarnArcaneBomb			= mod:NewSpecialWarningYouMoveAway(192706, nil, nil, nil, 3, 6) --Чародейская бомба
+local specWarnArcaneBomb4			= mod:NewSpecialWarningYouDispel(192706, nil, nil, nil, 3, 6) --Чародейская бомба
+local specWarnArcaneBomb2			= mod:NewSpecialWarningDispel(192706, "MagicDispeller2", nil, nil, 3, 5) --Чародейская бомба
 local specWarnArcaneBomb3			= mod:NewSpecialWarningEnd(192706, nil, nil, nil, 1, 2) --Чародейская бомба
 local specWarnCrushingDepths		= mod:NewSpecialWarningYouClose(197365, nil, nil, nil, 2, 2) --Морская пучина
 local specWarnCrushingDepths2		= mod:NewSpecialWarningYouShare(197365, nil, nil, nil, 3, 6) --Морская пучина
@@ -37,8 +37,8 @@ local timerMassiveDelugeCD			= mod:NewCDTimer(50, 192617, nil, nil, nil, 2, nil,
 local timerArcaneBombCD				= mod:NewCDTimer(30, 192706, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON..DBM_CORE_DEADLY_ICON) --Чародейская бомба+++
 local timerArcaneBomb				= mod:NewTargetTimer(15, 192706, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON..DBM_CORE_DEADLY_ICON) --Чародейская бомба+++
 
-local yellArcaneBomb				= mod:NewYell(192706, nil, nil, nil, "YELL") --Чародейская бомба
-local yellArcaneBombFades			= mod:NewShortFadesYell(192706, nil, nil, nil, "YELL") --Чародейская бомба
+local yellArcaneBomb				= mod:NewYellDispel(192706, nil, nil, nil, "YELL") --Чародейская бомба
+local yellArcaneBombFades			= mod:NewFadesYellMoveAway(192706, nil, nil, nil, "YELL") --Чародейская бомба
 local yellCrushingDepths			= mod:NewYellHelp(197365, nil, nil, nil, "YELL") --Морская пучина
 local yellCrushingDepthsFades		= mod:NewShortFadesYell(197365, nil, nil, nil, "YELL") --Морская пучина
 

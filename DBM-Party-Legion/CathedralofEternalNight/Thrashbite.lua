@@ -19,13 +19,13 @@ mod:RegisterEventsInCombat(
 local warnScornfulGaze				= mod:NewTargetAnnounce(237726, 4, nil, nil, 2) --Глумливый взгляд
 local warnHeaveCrud					= mod:NewSpellAnnounce(243124, 2) --Бросок дубины
 
-local specWarnPulvCrudgel			= mod:NewSpecialWarningRun(237276, "Melee", nil, nil, 4, 2) --Сокрушающая дубина
+local specWarnPulvCrudgel			= mod:NewSpecialWarningRun(237276, "Melee", nil, nil, 4, 5) --Сокрушающая дубина
 local specWarnPulvCrudgel2			= mod:NewSpecialWarningDodge(237276, "Ranged", nil, nil, 2, 2) --Сокрушающая дубина
 local specWarnMindControl			= mod:NewSpecialWarningSwitchCount(238484, nil, DBM_CORE_AUTO_SPEC_WARN_OPTIONS.switch:format(238484), nil, 1, 2) --Завораживающая биография
-local specWarnScornfulGaze			= mod:NewSpecialWarningYouMoveAway(237726, nil, nil, nil, 4, 5) --Глумливый взгляд
+local specWarnScornfulGaze			= mod:NewSpecialWarningYouMoveAway(237726, nil, nil, nil, 4, 6) --Глумливый взгляд
 local specWarnScornfulGaze2			= mod:NewSpecialWarningTargetDodge(237726, "-Tank", nil, nil, 2, 2) --Глумливый взгляд
 local specWarnScornfulGaze3			= mod:NewSpecialWarningYouDefensive(237726, "Tank", nil, nil, 3, 3) --Глумливый взгляд
-local specWarnScornfulGaze4			= mod:NewSpecialWarningTargetSoak(237726, "Tank", nil, nil, 3, 3) --Глумливый взгляд
+local specWarnScornfulGaze4			= mod:NewSpecialWarningTargetSoak(237726, "Tank", nil, nil, 3, 6) --Глумливый взгляд
 
 local timerPulvCrudgelCD			= mod:NewCDTimer(34.2, 237276, nil, nil, nil, 2, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Сокрушающая дубина
 local timerScornfulGazeCD			= mod:NewCDTimer(36.5, 237726, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Глумливый взгляд

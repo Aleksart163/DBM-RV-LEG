@@ -191,7 +191,7 @@ L= DBM:GetModLocalization(1984)
 L:SetWarningLocalization({
 --	FlameRend1 = "Damage is shared by the 1st group",
 --	FlameRend2 = "Damage is shared by the 2nd group",
-	FlameRend3 = "Another group's turn"
+	FlameRend3 = "ANOTHER GROUP'S TURN"
 })
 
 L:SetOptionLocalization({

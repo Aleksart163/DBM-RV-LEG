@@ -33,7 +33,7 @@ local warnClawFrenzy					= mod:NewSpellAnnounce(196512, 3, nil, "Melee") --Бе�
 
 local specWarnLeap						= mod:NewSpecialWarningYouMoveAway(197556, nil, nil, nil, 4, 3) --Хищный прыжок
 local specWarnHowl						= mod:NewSpecialWarningCast(196543, "SpellCaster", nil, nil, 1, 3) --Пугающий вой
-local specWarnFixate					= mod:NewSpecialWarningYouRun(196838, nil, nil, nil, 4, 5) --Запах крови
+local specWarnFixate					= mod:NewSpecialWarningYouRun(196838, nil, nil, nil, 4, 6) --Запах крови
 local specWarnFixateOver				= mod:NewSpecialWarningEnd(196838, nil, nil, nil, 1, 2) --Запах крови
 local specWarnWolves					= mod:NewSpecialWarningSwitch("ej12600", "Tank|Dps", nil, nil, 1, 2) --Эбеновый ворг
 
@@ -42,7 +42,7 @@ local timerClawFrenzyCD					= mod:NewCDTimer(9.7, 196512, nil, "Melee", nil, 5, 
 local timerHowlCD						= mod:NewCDTimer(31.5, 196543, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON) --Пугающий вой
 local timerFixateCD						= mod:NewCDTimer(38.5, 196838, nil, nil, nil, 7) --Запах крови
 
-local yellLeap							= mod:NewYell(197556, nil, nil, nil, "YELL") --Хищный прыжок
+local yellLeap							= mod:NewYellMoveAway(197556, nil, nil, nil, "YELL") --Хищный прыжок
 local yellFixate						= mod:NewYell(196838, nil, nil, nil, "YELL") --Запах крови
 local yellFixate2						= mod:NewFadesYell(196838, nil, nil, nil, "YELL") --Запах крови
 

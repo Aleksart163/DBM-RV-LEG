@@ -63,27 +63,27 @@ local warnDeadlyScythe				= mod:NewStackAnnounce(258039, 2, nil, "Tank|Healer") 
 
 local specWarnEndofAllThings		= mod:NewSpecialWarningInterrupt(256544, "HasInterrupt", nil, nil, 3, 6) --Конец всего сущего
 --Stage One: Storm and Sky
-local specWarnSweepingScythe		= mod:NewSpecialWarningStack(248499, nil, 3, nil, nil, 3, 6) --Сметающая коса
+local specWarnSweepingScythe		= mod:NewSpecialWarningStack(248499, nil, 3, nil, nil, 3, 5) --Сметающая коса
 local specWarnSweepingScytheTaunt	= mod:NewSpecialWarningTaunt(248499, "Tank", nil, nil, 3, 2) --Сметающая коса
-local specWarnConeofDeath			= mod:NewSpecialWarningDodge(248165, nil, nil, nil, 1, 2) --Конус смерти
-local specWarnSoulblight			= mod:NewSpecialWarningYouMoveAway(248396, nil, nil, nil, 1, 2) --Изнуряющая чума
-local specWarnGiftofSea				= mod:NewSpecialWarningYouMoveAway(258647, nil, nil, nil, 3, 5) --Дар моря
-local specWarnGiftofSky				= mod:NewSpecialWarningYouMoveAway(258646, nil, nil, nil, 3, 5) --Дар небес
+local specWarnConeofDeath			= mod:NewSpecialWarningDodge(248165, nil, nil, nil, 2, 2) --Конус смерти
+local specWarnSoulblight			= mod:NewSpecialWarningYouMoveAway(248396, nil, nil, nil, 5, 6) --Изнуряющая чума
+local specWarnGiftofSea				= mod:NewSpecialWarningYouMoveAway(258647, nil, nil, nil, 3, 6) --Дар моря
+local specWarnGiftofSky				= mod:NewSpecialWarningYouMoveAway(258646, nil, nil, nil, 3, 6) --Дар небес
 --Mythic P1
 local specWarnSargGaze				= mod:NewSpecialWarningPreWarn(258068, nil, 5, nil, nil, 3, 6) --Пристальный взгляд Саргераса
 local specWarnSargRage				= mod:NewSpecialWarningMoveAway(257869, nil, nil, nil, 3, 6) --Ярость Саргераса
 local specWarnSargFear				= mod:NewSpecialWarningShare(257931, nil, nil, nil, 3, 6) --Страх перед Саргерасом
-local specWarnGTFO					= mod:NewSpecialWarningYouMove(248167, nil, nil, nil, 1, 2)
+local specWarnGTFO					= mod:NewSpecialWarningYouMove(248167, nil, nil, nil, 1, 2) --Смертоносный туман
 --Stage Two: The Protector Redeemed
 local specWarnSoulburst				= mod:NewSpecialWarningYouMoveAway(250669, nil, nil, nil, 1, 2) --Взрывная душа
-local specWarnSoulbomb				= mod:NewSpecialWarningYouMoveAway(251570, nil, nil, nil, 3, 6) --Бомба души 
+local specWarnSoulbomb				= mod:NewSpecialWarningYouMoveAway(251570, nil, nil, nil, 5, 6) --Бомба души 
 local specWarnSoulbombMoveTo		= mod:NewSpecialWarningMoveTo(251570, nil, nil, nil, 1, 2) --Бомба души
 local specWarnEdgeofObliteration	= mod:NewSpecialWarningDodge(255826, nil, nil, nil, 2, 2) --Коса разрушения
 local specWarnAvatarofAggra			= mod:NewSpecialWarningYou(255199, nil, nil, nil, 1, 2) --Аватара Агграмара
 --Stage Three: The Arcane Masters
 local specWarnCosmicRay				= mod:NewSpecialWarningYouMoveAway(252729, nil, nil, nil, 1, 2) --Космический луч
 --Stage Three Mythic
-local specWarnSargSentence			= mod:NewSpecialWarningYouDontMove(257966, nil, nil, nil, 3, 6) --Приговор Саргераса
+local specWarnSargSentence			= mod:NewSpecialWarningYouDontMove(257966, nil, nil, nil, 5, 6) --Приговор Саргераса
 local specWarnEdgeofAnni			= mod:NewSpecialWarningDodge(258834, nil, nil, nil, 2, 2) --Грань аннигиляции
 local specWarnSoulrendingScythe		= mod:NewSpecialWarningStack(258838, nil, 2, nil, nil, 3, 2) --Рассекающая коса
 local specWarnSoulrendingScytheTaunt= mod:NewSpecialWarningTaunt(258838, nil, nil, nil, 1, 2) --Рассекающая коса
@@ -673,7 +673,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self.Options.NPAuraOnEternalBlades then
 			DBM.Nameplate:Show(true, args.destGUID, spellId, nil, 40)
 		end
-	elseif spellId == 252729 then --Космический луч
+	elseif spellId == 252729 and self:AntiSpam(3, "cosmic") then --Космический луч
 		if args:IsPlayer() then
 			specWarnCosmicRay:Show()
 			specWarnCosmicRay:Play("targetyou")

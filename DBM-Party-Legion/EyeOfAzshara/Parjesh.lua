@@ -167,17 +167,17 @@ mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
 
 function mod:UNIT_HEALTH(uId)
 	if self:IsHard() then --миф и миф+
-		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 91784 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.40 then --Полководец Паржеш
+		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 91784 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.41 then --Полководец Паржеш
 			warned_preP1 = true
 			warnEnrage2:Show()
-		elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 91784 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.30 then --Полководец Паржеш
+		elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 91784 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.31 then --Полководец Паржеш
 			warned_preP2 = true
 			self.vb.phase = 2
 		end
 	else
-		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 91784 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.40 then --Полководец Паржеш
+		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 91784 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.41 then --Полководец Паржеш
 			warned_preP1 = true
-		elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 91784 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.30 then --Полководец Паржеш
+		elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 91784 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.31 then --Полководец Паржеш
 			warned_preP2 = true
 			self.vb.phase = 2
 		end

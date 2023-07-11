@@ -2,7 +2,7 @@ if GetLocale() ~= "ruRU" then return end
 
 local L
 
---Прошляпанное очко Мурчаля ✔
+--Прошляпанное очко Мурчаля [✔]
 
 ----------------
 --rare enemies--
@@ -14,6 +14,7 @@ L:SetGeneralLocalization({
 })
 
 L:SetMiscLocalization{
+	Tip1 = "К сожалению, из-за разработчиков сервера, невозможно отследить момент обновления дебаффа \"Неизбежный рок\", поэтому анонс появляется лишь 1 раз.",
 	MurchalOchkenProshlyapen = "скоро будет здесь!", --очко Мурчаля
 	MurchalOchkenProshlyapen2 = "прибыл! Скорее в укрытие!"
 }

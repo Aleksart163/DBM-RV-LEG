@@ -40,7 +40,7 @@ local specWarnBreath					= mod:NewSpecialWarningDodge(227233, nil, nil, nil, 3, 
 local specWarnTorrent					= mod:NewSpecialWarningInterruptCount(198495, "HasInterrupt", nil, nil, 1, 3) --Стремительный поток
 
 local timerBrackwaterBarrageCD			= mod:NewCDTimer(15, 202088, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Обстрел солоноватой водой
-local timerTaintofSeaCD					= mod:NewCDTimer(12, 197262, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON) --Морская порча
+local timerTaintofSeaCD					= mod:NewCDTimer(12, 197262, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON..DBM_CORE_DEADLY_ICON) --Морская порча
 local timerPiercingTentacleCD			= mod:NewNextTimer(9, 197596, nil, nil, nil, 3) --Пронзающее щупальце
 --local timerDestructorTentacleCD		= mod:NewCDTimer(26, "ej12364", nil, nil, nil, 1)--More data
 local timerSubmerged					= mod:NewBuffFadesTimer(15, 196947, nil, nil, nil, 6) --Погружение
@@ -48,7 +48,7 @@ local timerSubmerged2					= mod:NewCDTimer(74.5, 196947, nil, nil, nil, 6) --П�
 local timerBreathCD						= mod:NewNextTimer(21, 227233, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Оскверняющий рев
 local timerTorrentCD					= mod:NewCDTimer(9.7, 198495, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON..DBM_CORE_DEADLY_ICON) --Стремительный поток
 
-local yellTaintofSea					= mod:NewYell(197262, nil, nil, nil, "YELL") --Морская порча
+local yellTaintofSea					= mod:NewYellDispel(197262, nil, nil, nil, "YELL") --Морская порча
 local yellTaintofSea2					= mod:NewYell(197264, L.TaintofSeaYell, nil, nil, "YELL") --Морская порча
 
 local countdownBrackwaterBarrage		= mod:NewCountdown(15, 202088, nil, nil, 5) --Обстрел солоноватой водой

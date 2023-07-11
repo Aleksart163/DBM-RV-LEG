@@ -811,7 +811,7 @@ function mod:UNIT_TARGETABLE_CHANGED(uId)
 end
 
 function mod:UNIT_HEALTH(uId)
-	if self:GetUnitCreatureId(uId) == 122468 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.05 then --Нура
+	if self:GetUnitCreatureId(uId) == 122468 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.10 then --Нура
 		self:Unschedule(ProshlyapMurchalya1) --Амантул
 	end
 end

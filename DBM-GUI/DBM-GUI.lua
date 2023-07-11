@@ -392,7 +392,7 @@ do
 		{ sound=true, text = "SW 2", value = 2 },
 		{ sound=true, text = "SW 3", value = 3 },
 		{ sound=true, text = "SW 4", value = 4 },
-	--	{ sound=true, text = "SW 5", value = 5 },
+		{ sound=true, text = "SW 5", value = 5 },
 	})
 	
 	--TODO, this should be localized
