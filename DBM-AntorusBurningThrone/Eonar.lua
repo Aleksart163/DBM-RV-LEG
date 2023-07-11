@@ -76,10 +76,11 @@ local timerBurningEmbers2				= mod:NewCastTimer(5, 250691, nil, nil, nil, 7) --�
 
 local yellRainofFel						= mod:NewYell(248332, nil, nil, nil, "YELL") --Дождь Скверны
 local yellRainofFelFades				= mod:NewShortFadesYell(248332, nil, nil, nil, "YELL") --Дождь Скверны
-local yellArcaneBuildup					= mod:NewYell(250171, nil, nil, nil, "YELL") --Волшебный вихрь
-local yellArcaneBuildupFades			= mod:NewFadesYell(250171, nil, nil, nil, "YELL") --Волшебный вихрь
-local yellBurningEmbers					= mod:NewYell(250691, nil, nil, nil, "YELL") --Раскаленные угли
-local yellBurningEmbersFades			= mod:NewFadesYell(250691, nil, nil, nil, "YELL") --Раскаленные угли
+--
+local yellArcaneBuildup					= mod:NewYellMoveAway(250171, nil, nil, nil, "YELL") --Волшебный вихрь
+local yellArcaneBuildupFades			= mod:NewFadesYellMoveAway(250171, nil, nil, nil, "YELL") --Волшебный вихрь
+local yellBurningEmbers					= mod:NewYellMoveAway(250691, nil, nil, nil, "YELL") --Раскаленные угли
+local yellBurningEmbersFades			= mod:NewFadesYellMoveAway(250691, nil, nil, nil, "YELL") --Раскаленные угли
 --The Paraxis
 --Mythic
 local countdownFinalDoom				= mod:NewCountdown(90, 249121, nil, nil, 5) --Всеобщая погибель

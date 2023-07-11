@@ -60,9 +60,9 @@ local timerNecroticEmbraceCD			= mod:NewNextTimer(30, 244093, nil, nil, nil, 3, 
 
 local yellMarkedPrey					= mod:NewYell(244042, nil, nil, nil, "YELL") --Метка жертвы
 local yellMarkedPreyFades				= mod:NewShortFadesYell(244042, nil, nil, nil, "YELL") --Метка жертвы
-local yellNecroticEmbrace2				= mod:NewYell(244094, nil, nil, nil, "YELL") --Некротические объятия
+local yellNecroticEmbrace2				= mod:NewYellMoveAway(244094, nil, nil, nil, "YELL") --Некротические объятия
 local yellNecroticEmbrace				= mod:NewPosYell(244094, nil, nil, nil, "YELL") --Некротические объятия
-local yellNecroticEmbrace3				= mod:NewFadesYell(244094, nil, nil, nil, "YELL") --Некротические объятия
+local yellNecroticEmbrace3				= mod:NewFadesYellMoveAway(244094, nil, nil, nil, "YELL") --Некротические объятия
 local yellNecroticEmbraceFades			= mod:NewIconFadesYell(244094, nil, nil, nil, "YELL") --Некротические объятия
 --local yellEchoesOfDoom					= mod:NewYell(248732, nil, nil, nil, "YELL") --Отголоски гибели
 

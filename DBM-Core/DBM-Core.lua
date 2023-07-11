@@ -84,7 +84,7 @@ DBM.DefaultOptions = {
 	SpecialWarningSound2 = "Sound\\Creature\\AlgalonTheObserver\\UR_Algalon_BHole01.ogg",
 	SpecialWarningSound3 = "Interface\\AddOns\\DBM-Core\\sounds\\AirHorn.ogg",
 	SpecialWarningSound4 = "Sound\\Creature\\LadyMalande\\BLCKTMPLE_LadyMal_Aggro01.ogg", --"Interface\\AddOns\\DBM-Core\\Sounds\\Custom\\RunAwayBitch.ogg", --"Sound\\Creature\\HoodWolf\\HoodWolfTransformPlayer01.ogg",
---	SpecialWarningSound5 = "Sound\\Creature\\Loathstare\\Loa_Naxx_Aggro02.ogg",
+	SpecialWarningSound5 = "Sound\\Creature\\Kologarn\\UR_Kologarn_Slay02.ogg",
 	ModelSoundValue = "Short",
 	CountdownVoice = "Alarak",
 	CountdownVoice2 = "Artanis",
@@ -9785,6 +9785,10 @@ do
 
 	function bossModPrototype:NewFadesYell(...)
 		return newYell(self, "fade", ...)
+	end
+	
+	function bossModPrototype:NewFadesYellMoveAway(...)
+		return newYell(self, "fademoveaway", ...)
 	end
 	
 	function bossModPrototype:NewShortFadesYell(...)

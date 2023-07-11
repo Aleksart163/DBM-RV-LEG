@@ -23,12 +23,12 @@ local warnBreath					= mod:NewSpellAnnounce(188404, 3, nil, nil, nil, nil, nil, 
 local warnDancingBlade				= mod:NewTargetAnnounce(193235, 4) --Танцующий клинок
 local warnSweep						= mod:NewTargetAnnounce(193092, 4) --Кровопролитный круговой удар
 
-local specWarnSweep					= mod:NewSpecialWarningDefensive(193092, nil, nil, nil, 3, 3) --Кровопролитный круговой удар
-local specWarnHorn					= mod:NewSpecialWarningDefensive(191284, nil, nil, nil, 3, 5) --Рог доблести
+local specWarnSweep					= mod:NewSpecialWarningDefensive(193092, nil, nil, nil, 3, 6) --Кровопролитный круговой удар
+local specWarnHorn					= mod:NewSpecialWarningDefensive(191284, nil, nil, nil, 3, 6) --Рог доблести
 local specWarnHornOfValor			= mod:NewSpecialWarningSoon(188404, nil, nil, nil, 1, 2) --Дыхание бури
 local specWarnHornOfValor2			= mod:NewSpecialWarningDodge(188404, nil, nil, nil, 2, 3) --Дыхание бури
 local specWarnDancingBlade			= mod:NewSpecialWarningYouMove(193235, nil, nil, nil, 1, 2) --Танцующий клинок
-local specWarnDancingBlade2			= mod:NewSpecialWarningYouRun(193235, nil, nil, nil, 3, 3) --Танцующий клинок
+local specWarnDancingBlade2			= mod:NewSpecialWarningYouRun(193235, nil, nil, nil, 3, 6) --Танцующий клинок
 local specWarnDancingBlade3			= mod:NewSpecialWarningCloseMoveAway(193235, nil, nil, nil, 2, 3) --Танцующий клинок
 
 local timerDancingBladeCD			= mod:NewCDTimer(12.5, 193235, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Танцующий клинок 10-15 
@@ -37,7 +37,7 @@ local timerSweepCD					= mod:NewCDTimer(15.5, 193092, nil, "Melee", nil, 5, nil,
 --local timerSweep					= mod:NewTargetTimer(4, 193092, nil, nil, nil, 3, nil, DBM_CORE_TANK_ICON..DBM_CORE_HEALER_ICON) --Кровопролитный круговой удар
 local timerBreath					= mod:NewCDTimer(5, 188404, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Дыхание бури
 
-local yellDancingBlade				= mod:NewYell(193235, nil, nil, nil, "YELL") --Танцующий клинок
+local yellDancingBlade				= mod:NewYellMoveAway(193235, nil, nil, nil, "YELL") --Танцующий клинок
 
 local countdownHorn					= mod:NewCountdown(45, 191284, nil, nil, 5) --Рог доблести
 local countdownSweep				= mod:NewCountdown("Alt15.5", 193092, "Tank", nil, 3) --Кровопролитный круговой удар
@@ -46,7 +46,7 @@ mod:AddSetIconOption("SetIconOnSweep", 193092, true, false, {8}) --Кровоп�
 
 mod.vb.hornCount = 0
 
-function mod:DancingBladeTarget(targetname, uId) --Танцующий клинок ✔ прошляпанного очка Мурчаля Прошляпенко
+function mod:DancingBladeTarget(targetname, uId) --Танцующий клинок [✔] прошляпанного очка Мурчаля Прошляпенко
 	if not targetname then return end
 	if targetname == UnitName("player") then
 		specWarnDancingBlade2:Show()
@@ -60,7 +60,7 @@ function mod:DancingBladeTarget(targetname, uId) --Танцующий клино
 	end
 end
 
-function mod:SweepTarget(targetname, uId) --Кровопролитный круговой удар ✔ прошляпанного очка Мурчаля Прошляпенко
+function mod:SweepTarget(targetname, uId) --Кровопролитный круговой удар [✔] прошляпанного очка Мурчаля Прошляпенко
 	if not targetname then return end
 	if targetname == UnitName("player") then
 		specWarnSweep:Show()

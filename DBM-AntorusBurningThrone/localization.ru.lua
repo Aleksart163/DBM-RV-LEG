@@ -184,7 +184,7 @@ L= DBM:GetModLocalization(1984)
 L:SetWarningLocalization({
 --	FlameRend1 = "Урон делит 1-ая группа",
 --	FlameRend2 = "Урон делит 2-ая группа",
-	FlameRend3 = "Очередь другой группы"
+	FlameRend3 = "ОЧЕРЕДЬ ДРУГОЙ ГРУППЫ"
 })
 
 L:SetOptionLocalization({

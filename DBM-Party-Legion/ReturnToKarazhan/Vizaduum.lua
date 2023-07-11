@@ -65,7 +65,7 @@ local timerStabilizeRiftCD			= mod:NewCDTimer(25, 230084, nil, nil, nil, 1, nil,
 local timerStabilizeRift			= mod:NewCastTimer(29.7, 230084, nil, nil, nil, 1, nil, DBM_CORE_INTERRUPT_ICON..DBM_CORE_DAMAGE_ICON) --Стабилизация разлома
 
 local yellBurningBlast				= mod:NewYell(229083, nil, nil, nil, "YELL") --Выброс пламени
-local yellFelBeam					= mod:NewYell(229242, nil, nil, nil, "YELL") --Приказ: луч Скверны
+local yellFelBeam					= mod:NewYellMoveAway(229242, nil, nil, nil, "YELL") --Приказ: луч Скверны
 local yellChaoticShadows			= mod:NewPosYell(229159, DBM_CORE_AUTO_YELL_CUSTOM_POSITION, nil, nil, "YELL") --Тени Хаоса
 local yellChaoticShadows2			= mod:NewFadesYell(229159, nil, nil, nil, "YELL") --Тени Хаоса
 
