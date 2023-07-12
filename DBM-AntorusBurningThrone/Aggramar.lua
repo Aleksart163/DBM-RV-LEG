@@ -15,9 +15,9 @@ mod:RegisterCombat("combat")
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 244693 245458 245463 245301 255058 255061 255059",
 	"SPELL_CAST_SUCCESS 247079 244033",
-	"SPELL_AURA_APPLIED 245990 245994 244894 244903 247091 254452 247079 244912",
+	"SPELL_AURA_APPLIED 245990 245994 244894 244903 247091 254452 247079 244912 255528",
 	"SPELL_AURA_APPLIED_DOSE 245990 244912",
-	"SPELL_AURA_REMOVED 244894 244903 247091 254452 247079",
+	"SPELL_AURA_REMOVED 244894 244903 247091 254452 247079 255528",
 	"UNIT_DIED",
 	"UNIT_HEALTH boss1",
 	"UNIT_SPELLCAST_SUCCEEDED boss1"
@@ -34,6 +34,7 @@ local warnPrePhase3						= mod:NewPrePhaseAnnounce(3, 1)
 --local warnFlameRend2					= mod:NewAnnounce("FlameRend2", 1, 245463) --2ая группа
 --Stage One: Wrath of Aggramar
 local warnTaeshalachReach				= mod:NewStackAnnounce(245990, 2, nil, "Tank|Healer") --Гигантский клинок
+local warnSearingBinding				= mod:NewTargetAnnounce(255528, 2, nil, "MagicDispeller2") --Тлеющие оковы
 local warnScorchingBlaze				= mod:NewTargetAnnounce(245994, 2) --Обжигающее пламя
 local warnRavenousBlaze					= mod:NewTargetAnnounce(254452, 2) --Хищное пламя
 local warnRavenousBlazeCount			= mod:NewCountAnnounce(254452, 4) --Хищное пламя
@@ -72,6 +73,8 @@ local timerWakeofFlameCD				= mod:NewCDTimer(24, 244693, nil, nil, nil, 3, nil, 
 --Stage Two: Champion of Sargeras
 local timerFlareCD						= mod:NewCDTimer(15, 245983, nil, "Ranged", 2, 3, nil, DBM_CORE_DEADLY_ICON) --Вспышка
 
+local yellSearingBinding				= mod:NewYellDispel(255528, nil, nil, nil, "YELL") --Тлеющие оковы
+local yellSearingBinding2				= mod:NewFadesYell(255528, nil, nil, nil, "YELL") --Тлеющие оковы
 local yellScorchingBlaze				= mod:NewYell(245994, nil, nil, nil, "YELL") --Обжигающее пламя
 local yellRavenousBlaze					= mod:NewPosYell(254452, DBM_CORE_AUTO_YELL_CUSTOM_POSITION, nil, nil, "YELL") --Хищное пламя
 local yellRavenousBlaze2				= mod:NewFadesYell(254452, nil, nil, nil, "YELL") --Хищное пламя
@@ -749,10 +752,16 @@ function mod:SPELL_AURA_APPLIED(args)
 				specWarnBlazingEruption:Play("stackhigh")
 			end
 		end
+	elseif spellId == 255528 then --Тлеющие оковы
+		if args:IsPlayer() then
+			yellSearingBinding:Yell()
+			yellSearingBinding2:Countdown(5, 3)
+		else
+			warnSearingBinding:CombinedShow(0.3, args.destName)
+		end
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
-
 function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
 	if spellId == 244894 then --Оскверненная эгида
@@ -821,6 +830,10 @@ function mod:SPELL_AURA_REMOVED(args)
 	elseif spellId == 247079 then --Усиленное разрывающее пламя (от делёжки)
 		if args:IsPlayer() then
 			FlameRend = false
+		end
+	elseif spellId == 255528 then --Тлеющие оковы
+		if args:IsPlayer() then
+			yellSearingBinding2:Cancel()
 		end
 	end
 end
