@@ -12,7 +12,8 @@ mod:RegisterEvents(
 	"SPELL_AURA_REMOVED 29166 64901 197908",
 	"SPELL_SUMMON 67826 199109 199115 195782",
 	"SPELL_CREATE 698 188036 201352 201351 185709 88304 61031 49844",
-	"SPELL_RESURRECT 95750 20484 61999"--[[,
+	"SPELL_RESURRECT 95750 20484 61999",
+	"GOSSIP_SHOW"--[[,
 	"UNIT_SPELLCAST_SUCCEEDED"]]
 )
 
@@ -762,6 +763,17 @@ function mod:SPELL_RESURRECT(args)
 			smartChat(L.WhisperThanks:format(DbmRV, rebirth2), "whisper", args.sourceName)
 		else
 			warnRebirth:Show(args.sourceName, args.destName)
+		end
+	end
+end
+
+function mod:GOSSIP_SHOW()
+	local guid = UnitGUID("npc")
+	if not guid then return end
+	local cid = self:GetCIDFromGUID(guid)
+	if cid == 113455 or cid == 113457 or cid == 109409 then -- Жалкие ночнорождённые
+		if select('#', GetGossipOptions()) > 0 then
+			SelectGossipOption(1, "", true)
 		end
 	end
 end
