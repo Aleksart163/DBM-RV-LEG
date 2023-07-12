@@ -44,6 +44,7 @@ local specWarnFlameRend2				= mod:NewSpecialWarning("FlameRend3", nil, nil, nil,
 
 local specWarnBlazingEruption			= mod:NewSpecialWarningStack(244912, nil, 2, nil, nil, 1, 5) --Извержение пламени
 --Stage One: Wrath of Aggramar
+local specWarnRavenousBlaze3			= mod:NewSpecialWarningSoon(254452, "Ranged", nil, nil, 1, 2) --Хищное пламя
 --local specWarnTaeshalachTechnique		= mod:NewSpecialWarningSoon(244688, nil, nil, nil, 1, 2) --Искусный прием
 local specWarnTaeshalachReach			= mod:NewSpecialWarningStack(245990, nil, 8, nil, nil, 1, 2) --Гигантский клинок
 local specWarnScorchingBlaze			= mod:NewSpecialWarningYouMoveAway(245994, nil, nil, nil, 1, 6) --Обжигающее пламя
@@ -84,7 +85,7 @@ local berserkTimer						= mod:NewBerserkTimer(600)
 
 --Stages One: Wrath of Aggramar
 local countdownTaeshalachTech			= mod:NewCountdown(59, 244688, nil, nil, 5) --Искусный прием
-local countdownFlare					= mod:NewCountdown("Alt15", 245983, "Ranged", nil, 3) --Вспышка
+local countdownFlare					= mod:NewCountdown("Alt15", 245983, nil, nil, 3) --Вспышка
 local countdownRavenousBlaze			= mod:NewCountdown("AltTwo22", 254452, "Ranged", nil, 5) --Хищное пламя
 --local countdownWakeofFlame				= mod:NewCountdown("AltTwo24", 244693, "-Tank") --Огненная волна
 
@@ -706,6 +707,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		self.vb.embers = 6
 		self.vb.wakeOfFlameCount = 0
 		self.vb.techActive = false
+		specWarnRavenousBlaze3:Cancel()
 		timerScorchingBlazeCD:Stop()
 		timerRavenousBlazeCD:Stop()
 		countdownRavenousBlaze:Cancel()
@@ -762,6 +764,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
+
 function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
 	if spellId == 244894 then --Оскверненная эгида
@@ -778,17 +781,15 @@ function mod:SPELL_AURA_REMOVED(args)
 			prepareMessage(self, "premsg_Aggramar_FlameRend_rw", nil, nil, 31)
 		end
 		if self:IsHeroic() then
-		--	specWarnTaeshalachTechnique:Schedule(31) --Искусный прием+++
-		--	specWarnTaeshalachTechnique:ScheduleVoice(31, "specialsoon") --Искусный прием+++
 			timerTaeshalachTechCD:Start(36, self.vb.techCount+1)
 			countdownTaeshalachTech:Start(36)
 		else
-		--	specWarnTaeshalachTechnique:Schedule(31) --Искусный прием+++
-		--	specWarnTaeshalachTechnique:ScheduleVoice(31, "specialsoon") --Искусный прием+++
 			timerTaeshalachTechCD:Start(36, self.vb.techCount+1) --под мифик отлично
 			countdownTaeshalachTech:Start(36)
 		end
 		if self:IsMythic() then --Хищное пламя
+			specWarnRavenousBlaze3:Schedule(18)
+			specWarnRavenousBlaze3:ScheduleVoice(18, "specialsoon")
 			timerRavenousBlazeCD:Start(23)
 			countdownRavenousBlaze:Start(23)
 		else
@@ -798,16 +799,17 @@ function mod:SPELL_AURA_REMOVED(args)
 		if self.vb.phase == 2 then
 			warnPhase:Play("ptwo")
 			warned_preP2 = true
+			--Вспышка--
 			timerFlareCD:Start(10) --and 8 or 10
-			if self:IsMythic() then
-				countdownFlare:Start(10)
-			end
+			countdownFlare:Start(10)
 		elseif self.vb.phase == 3 then
 			warnPhase:Play("pthree")
 			warned_preP4 = true
+			--Вспышка--
 			timerFlareCD:Start(10) --and 8 or 10
+			countdownFlare:Start(10)
 			if self:IsMythic() then
-				countdownFlare:Start(10)
+				timerWakeofFlameCD:Start(15.5) --Огненная волна
 			end
 		end
 		if self.Options.RangeFrame and not self:IsTank() then
@@ -852,6 +854,8 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 		timerScorchingBlazeCD:Start()
 	elseif spellId == 254451 then --Хищное пламя
 		self.vb.blazeIcon = 8
+		specWarnRavenousBlaze3:Schedule(17)
+		specWarnRavenousBlaze3:ScheduleVoice(17, "specialsoon")
 		timerRavenousBlazeCD:Start()--Unknown at this time
 		countdownRavenousBlaze:Start()
 	elseif spellId == 244688 then --Искусный прием
@@ -862,6 +866,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 		self.vb.foeCount = 0
 		self.vb.rendCount = 0
 		self.vb.techCount = self.vb.techCount + 1
+		specWarnRavenousBlaze3:Cancel()
 		timerScorchingBlazeCD:Stop()
 		timerRavenousBlazeCD:Stop()
 		countdownRavenousBlaze:Cancel()
@@ -875,12 +880,21 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 		end
 	--	countdownWakeofFlame:Cancel()
 		if self:IsMythic() then
-			if self.vb.phase == 2 then
-				timerRavenousBlazeCD:Start(45) --на 2 фазе 45 (проверить третью фазу)
-				countdownRavenousBlaze:Start(45)
-			else
-				timerRavenousBlazeCD:Start(26) --ок на 1 фазе
+			if self.vb.phase == 1 then --Хищное пламя (на 1 фазе всё отлично)
+				specWarnRavenousBlaze3:Schedule(21)
+				specWarnRavenousBlaze3:ScheduleVoice(21, "specialsoon")
+				timerRavenousBlazeCD:Start(26)
 				countdownRavenousBlaze:Start(26)
+			elseif self.vb.phase == 2 then --Хищное пламя (на 2 фазе всё отлично)
+				specWarnRavenousBlaze3:Schedule(40)
+				specWarnRavenousBlaze3:ScheduleVoice(40, "specialsoon")
+				timerRavenousBlazeCD:Start(45)
+				countdownRavenousBlaze:Start(45)
+			elseif self.vb.phase == 3 then -- (пока неточно)
+				specWarnRavenousBlaze3:Schedule(41)
+				specWarnRavenousBlaze3:ScheduleVoice(41, "specialsoon")
+				timerRavenousBlazeCD:Start(46)
+				countdownRavenousBlaze:Start(46)
 			end
 			if self.vb.techCount == 5 then
 				self.vb.techCount = 1
@@ -904,9 +918,6 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 			prepareMessage(self, "premsg_Aggramar_FlameRend_rw", nil, nil, 53.5)
 		end
 		warnTaeshalachTech:Show(self.vb.techCount)
-		--волосали
-	--	specWarnTaeshalachTechnique:Schedule(53.5) --Искусный прием
-	--	specWarnTaeshalachTechnique:ScheduleVoice(53.5, "specialsoon") --Искусный прием+++
 		timerTaeshalachTechCD:Start(nil, self.vb.techCount+1)
 		countdownTaeshalachTech:Start()
 		if self.Options.InfoFrame then
@@ -952,7 +963,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 			timerFlareCD:Start()
 			countdownFlare:Start()
 		else
-			timerFlareCD:Start(58.2) --на 2-ой фазе от каста до каста всё ок (чекнуть 3 фазу)
+			timerFlareCD:Start(58.2) --на 2-ой фазе от каста до каста всё ок (чекнуть 3 фазу, но должно быть примерно столько же)
 			countdownFlare:Start(58.2)
 		end
 	end
