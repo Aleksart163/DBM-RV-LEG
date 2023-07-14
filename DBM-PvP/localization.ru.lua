@@ -25,8 +25,9 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	BgStart60 			= "Битва начнется через 1 минуту.",
-	BgStart30 			= "Битва начнется через 30 секунд. Приготовиться!",
+	BgStart60 			= "Битва начнется через минуту!",
+	BgStart30 			= "Битва начнется через 30 секунд!",
+	BgStart 			= "Битва началась!",
 	ArenaInvite			= "Приглашение на Арену"
 })
 
@@ -143,12 +144,10 @@ L:SetMiscLocalization({
 L = DBM:GetModLocalization("z489")
 
 L:SetTimerLocalization({
-	TimerStart	= "Битва начнется через",
 	TimerFlag	= "Восстановление флага"
 })
 
 L:SetOptionLocalization({
-	TimerStart					= "Отсчет времени до начала битвы",
 	TimerFlag					= "Отсчет времени до восстановления флага",
 	ShowFlagCarrier				= "Показывать флагоносца",
 	ShowFlagCarrierErrorNote	= "Сообщение об ошибке выбора флагоносца в режиме боя"
@@ -211,12 +210,10 @@ L:SetMiscLocalization({ --Доделать Прошляпэйшен Мурчал
 L = DBM:GetModLocalization("z726")
 
 L:SetTimerLocalization({
-	TimerStart	= "Битва начнется через",
 	TimerFlag	= "Восстановление флага"
 })
 
 L:SetOptionLocalization({
-	TimerStart					= "Отсчет времени до начала битвы",
 	TimerFlag					= "Отсчет времени до восстановления флага",
 	ShowFlagCarrier				= "Показывать флагоносца",
 	ShowFlagCarrierErrorNote	= "Сообщение об ошибке выбора флагоносца в режиме боя"

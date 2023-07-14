@@ -24,8 +24,9 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	BgStart60 	= "The battle begins in 1 minute.",
-	BgStart30 	= "The battle begins in 30 seconds.  Prepare yourselves!",
+	BgStart60 	= "The battle begins in 1 minute!",
+	BgStart30 	= "The battle begins in 30 seconds!",
+	BgStart 	= "The battle has begun!",
 	ArenaInvite	= "Arena invite"
 })
 
@@ -98,17 +99,17 @@ L:SetMiscLocalization({
 L = DBM:GetModLocalization("z1105")
 
 L:SetTimerLocalization({
-       TimerCap        = "%s"
+	TimerCap        = "%s"
 })
 
 L:SetOptionLocalization({
-       TimerCap        = "Show capture timer",
-       TimerWin        = "Show win timer"
+	TimerCap        = "Show capture timer",
+	TimerWin        = "Show win timer"
 })
 
 L:SetMiscLocalization({
-       ScoreExpr       = "(%d+)/1500",
-       WinBarText      = "%s wins"
+	ScoreExpr       = "(%d+)/1500",
+	WinBarText      = "%s wins"
 })
 
 ------------------------
@@ -142,12 +143,10 @@ L:SetMiscLocalization({
 L = DBM:GetModLocalization("z489")
 
 L:SetTimerLocalization({
-	TimerStart	= "Game starts",
 	TimerFlag	= "Flag respawn"
 })
 
 L:SetOptionLocalization({
-	TimerStart					= "Show start timer",
 	TimerFlag					= "Show flag respawn timer",
 	ShowFlagCarrier				= "Show flag carrier",
 	ShowFlagCarrierErrorNote	= "Show flag carrier error message while in combat"
@@ -207,12 +206,10 @@ L:SetMiscLocalization({
 L = DBM:GetModLocalization("z726")
 
 L:SetTimerLocalization({
-	TimerStart	= "Game starts",
 	TimerFlag	= "Flag respawn"
 })
 
 L:SetOptionLocalization({
-	TimerStart					= "Show start timer",
 	TimerFlag					= "Show flag respawn timer",
 	ShowFlagCarrier				= "Show flag carrier",
 	ShowFlagCarrierErrorNote	= "Show flag carrier error message while in combat"

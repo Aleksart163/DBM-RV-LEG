@@ -36,7 +36,7 @@ mod:AddBoolOption("ShowPointFrame", true, nil, function()
 	end
 end)
 
-local winTimer = mod:NewTimer(30, "TimerWin", "Interface\\Icons\\INV_Misc_PocketWatch_01")
+local winTimer = mod:NewTimer(30, "TimerWin", "Interface\\Icons\\INV_Misc_PocketWatch_01", nil, nil, 7)
 local flagTimer = mod:NewTimer(7, "TimerFlag", "Interface\\Icons\\INV_Banner_02")
 
 local objectives = {
