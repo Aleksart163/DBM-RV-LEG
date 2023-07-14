@@ -3,7 +3,6 @@ local L		= mod:GetLocalizedStrings()
 
 mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
 mod:SetZone(DBM_DISABLE_ZONE_DETECTION)
-mod.noStatistics = true
 
 mod:RegisterEvents(
 	"SPELL_CAST_START 61994 212040 212056 212036 212048 212051 7720",
