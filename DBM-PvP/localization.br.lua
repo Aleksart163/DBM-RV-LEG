@@ -11,10 +11,12 @@ L:SetGeneralLocalization({
 })
 
 L:SetTimerLocalization({
+	timerCombatStart = DBM_CORE_GENERIC_TIMER_COMBAT,
 	TimerInvite = "%s"
 })
 
 L:SetOptionLocalization({
+	timerCombatStart = DBM_CORE_OPTION_TIMER_COMBAT,
 	ColorByClass	= "Usar cor da classe para os nomes, no quadro de pontuação",
 	ShowInviteTimer	= "Exibir cronógrafo para juntar-se ao Campo de Batalha",
 	AutoSpirit		= "Libertar espírito automaticamente",
@@ -22,8 +24,11 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	BgStart60 			= "A batalha começará em 1 minuto.",
-	BgStart30 			= "A batalha começará em 30 segundos. Preparem-se!",
+	BgStart1 		= "A batalha começará em 1 minuto.", --
+	BgStart2 		= "A batalha começará em 1 minuto.",
+	BgStart3 		= "A batalha começará em 30 segundos!", --
+	BgStart4 		= "A batalha começará em 30 segundos!",
+--	BgStart 		= "The battle has begun!",
 	ArenaInvite	= "Convite para Arena"
 })
 
@@ -37,10 +42,12 @@ L:SetGeneralLocalization({
 })
 
 L:SetTimerLocalization({
+	timerCombatStart = DBM_CORE_GENERIC_TIMER_COMBAT,
 	TimerShadow	= "Shadow Sight" -- TODO Don't really know this buff's name.
 })
 
 L:SetOptionLocalization({
+	timerCombatStart = DBM_CORE_OPTION_TIMER_COMBAT,
 	TimerShadow = "Exibir cronógrafo para Shadow Sight" -- TODO see above
 })
 
@@ -69,15 +76,6 @@ L:SetOptionLocalization({
 --------------------
 L = DBM:GetModLocalization("z529")
 
-L:SetMiscLocalization({
-	ScoreExpr	= "(%d+)/1500",
-	Alliance	= "Aliança",
-	Horde		= "Horda",
-	WinBarText	= "%s vence",
-	BasesToWin	= "Bases para vencer: %d",
-	Flag		= "Bandeira"
-})
-
 L:SetTimerLocalization({
 	TimerCap	= "%s"
 })
@@ -89,22 +87,35 @@ L:SetOptionLocalization({
 	ShowAbBasesToWin		= "Exibir número de bases necessárias para vencer"
 })
 
+L:SetMiscLocalization({
+	ScoreExpr	= "(%d+)/1500",
+	WinBarText	= "%s vence",
+	BasesToWin	= "Bases para vencer: %d"
+})
+
+---------------------
+--  Deepwind Gorge --
+---------------------
+L = DBM:GetModLocalization("z1105")
+
+L:SetTimerLocalization({
+	TimerCap	= "%s"
+})
+
+L:SetOptionLocalization({
+	TimerCap	= "Exibir cronógrafo para captura",
+	TimerWin	= "Exibir cronógrafo para vitória"
+})
+
+L:SetMiscLocalization({
+	ScoreExpr	= "(%d+)/1500",
+	WinBarText	= "%s vence"
+})
+
 ------------------------
 --  Eye of the Storm  --
 ------------------------
 L = DBM:GetModLocalization("z566")
-
-L:SetMiscLocalization({
-	ScoreExpr		= "(%d+)/1500",
-	Alliance 		= "Aliança",
-	Horde 			= "Horda",
-	WinBarText 		= "%s vence",
-	FlagReset 		= "The flag has been reset!",
-	FlagTaken 		= "(.+) has taken the flag!",
-	FlagCaptured	= "The .+ ha%w+ captured the flag!",
-	FlagDropped		= "A bandeira foi derrubada!"
-
-})
 
 L:SetTimerLocalization({
 	TimerFlag	= "Bandeira reaparece"
@@ -116,33 +127,46 @@ L:SetOptionLocalization({
 	ShowPointFrame	= "Exibir portador da bandeira e estimativa de pontos"
 })
 
+L:SetMiscLocalization({
+	ScoreExpr		= "(%d+)/1500",
+	WinBarText 		= "%s vence",
+	Flag			= "Bandeira",
+	FlagReset 		= "The flag has been reset!",
+	FlagTaken 		= "(.+) has taken the flag!",
+	FlagCaptured	= "The .+ ha%w+ captured the flag!",
+	FlagDropped		= "A bandeira foi derrubada!",
+	Alliance 		= "Aliança",
+	Horde 			= "Horda"
+
+})
+
 ---------------------
 --  Warsong Gulch  --
 ---------------------
 L = DBM:GetModLocalization("z489")
 
+L:SetTimerLocalization({
+	TimerFlag	= "Bandeira reaparece"
+})
+
+L:SetOptionLocalization({
+	TimerFlag					= "Exibir cronógrafo para a bandeira reapareceer",
+	ShowFlagCarrier				= "Exibir portador da bandeira",
+	ShowFlagCarrierErrorNote	= "Exibir mensagem de erro de portador de bandeira, enquanto em combate"
+})
+
 L:SetMiscLocalization({
-	Alliance 			= "Aliança",
-	Horde 				= "Horda",
 	InfoErrorText		= "A funcionalidade de mirar portador da bandeira será restaurada quando você sair de combate.",
 	ExprFlagPickUp		= "(.+) pegou a Bandeira da ([%wç]+)!",
 	ExprFlagCaptured	= "(.+) capturou a bandeira da ([%wç]+)!",
 	ExprFlagReturn		= "A Bandeira da ([%wç]+) foi devolvida à base por (.+)!",
 	FlagAlliance		= "Bandeira da Aliança: ",
 	FlagHorde			= "Bandeira da Horda: ",
-	FlagBase			= "Base"
-})
-
-L:SetTimerLocalization({
-	TimerStart	= "Início da partida",
-	TimerFlag	= "Bandeira reaparece"
-})
-
-L:SetOptionLocalization({
-	TimerStart					= "Exibir cronógrafo para início da partida",
-	TimerFlag					= "Exibir cronógrafo para a bandeira reapareceer",
-	ShowFlagCarrier				= "Exibir portador da bandeira",
-	ShowFlagCarrierErrorNote	= "Exibir mensagem de erro de portador de bandeira, enquanto em combate"
+	FlagBase			= "Base",
+--	Vulnerable1			= "The flag carriers have become vulnerable to attack!",
+--	Vulnerable2			= "The flag carriers have become increasingly vulnerable to attack!"
+	Alliance 			= "Aliança",
+	Horde 				= "Horda"
 })
 
 ------------------------
@@ -186,9 +210,17 @@ L:SetMiscLocalization({
 ------------------
 L = DBM:GetModLocalization("z726")
 
+L:SetTimerLocalization({
+	TimerFlag	= "Bandeira reaparece"
+})
+
+L:SetOptionLocalization({
+	TimerFlag					= "Exibir cronógrafo para a bandeira reapareceer",
+	ShowFlagCarrier				= "Exibir portador da bandeira",
+	ShowFlagCarrierErrorNote	= "Exibir mensagem de erro de portador de bandeira, enquanto em combate"
+})
+
 L:SetMiscLocalization({
-	Alliance 			= "Aliança",
-	Horde 				= "Horda",
 	InfoErrorText		= "A funcionalidade de portador de bandeira será restaurada quando você sair de combate.",
 	ExprFlagPickUp		= "The (%w+) .lag was picked up by (.+)!",
 	ExprFlagCaptured	= "(.+) captured the (%w+) flag!",
@@ -196,44 +228,68 @@ L:SetMiscLocalization({
 	FlagAlliance		= "Alliance Flag: ",
 	FlagHorde			= "Horde Flag: ",
 	FlagBase			= "Base",
-	Vulnerable1		= "The flag carriers have become vulnerable to attack!",
-	Vulnerable2		= "The flag carriers have become increasingly vulnerable to attack!"
+--	Vulnerable1			= "The flag carriers have become vulnerable to attack!",
+--	Vulnerable2			= "The flag carriers have become increasingly vulnerable to attack!",
+	Alliance 			= "Aliança",
+	Horde 				= "Horda"
 })
-
-L:SetTimerLocalization({
-	TimerStart	= "Partida inicia",
-	TimerFlag	= "Bandeira reaparece"
-})
-
-L:SetOptionLocalization({
-   	TimerStart					= "Exibir cronógrafo para início da partida",
-	TimerFlag					= "Exibir cronógrafo para a bandeira reapareceer",
-	ShowFlagCarrier				= "Exibir portador da bandeira",
-	ShowFlagCarrierErrorNote	= "Exibir mensagem de erro de portador de bandeira, enquanto em combate"
-})
-
 
 -------------------------
---  Battle of Gilneas  --
+--  Battle of Gilneas  -- Волосали
 -------------------------
 L = DBM:GetModLocalization("z761")
-
-L:SetMiscLocalization({
-	ScoreExpr	= "(%d+)/1500",
-	Alliance	= "Aliança",
-	Horde		= "Horda",
-	WinBarText	= "%s vence",
-	BasesToWin	= "Bases para vencer: %d",
-	Flag		= "Bandeira"
-})
 
 L:SetTimerLocalization({
 	TimerCap	= "%s"
 })
 
 L:SetOptionLocalization({
-	TimerWin				= "Exibir cronógrafo para vitória",
-	TimerCap				= "Exibir cronógrafo para captura",
+	TimerWin						= "Exibir cronógrafo para vitória",
+	TimerCap						= "Exibir cronógrafo para captura",
 	ShowGilneasEstimatedPoints		= "Exibir estimativa de pontos ao final da partida",
 	ShowGilneasBasesToWin			= "Exibir número de bases necessárias para vencer"
+})
+
+L:SetMiscLocalization({
+	ScoreExpr	= "(%d+)/1500",
+	WinBarText	= "%s vence",
+	BasesToWin	= "Bases para vencer: %d",
+	Alliance	= "Aliança",
+	Horde		= "Horda"
+})
+
+-------------------------
+--  Silvershard Mines  --
+-------------------------
+L = DBM:GetModLocalization("z727")
+
+L:SetTimerLocalization({
+	TimerCart	= "Cart respawn"
+})
+
+L:SetOptionLocalization({
+	TimerCart	= "Show cart respawn timer"
+})
+
+L:SetMiscLocalization({
+	Capture = "has captured"
+})
+
+-------------------------
+--  Temple of Kotmogu  --
+-------------------------
+L = DBM:GetModLocalization("z998")
+
+L:SetOptionLocalization({
+	TimerWin					= "Show win timer",
+	ShowKotmoguEstimatedPoints	= "Show estimated points on win/loss",
+	ShowKotmoguOrbsToWin		= "Show orbs required to win"
+})
+
+L:SetMiscLocalization({
+	OrbTaken 	= "(%S+) has taken the (%S+) orb!",
+	OrbReturn 	= "The (%S+) orb has been returned!",
+	ScoreExpr	= "(%d+)/1500",
+	WinBarText	= "Estimate %s wins",
+	OrbsToWin	= "Orbs to win: %d"
 })

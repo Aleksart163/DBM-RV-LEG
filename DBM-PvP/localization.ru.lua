@@ -11,13 +11,18 @@ L:SetGeneralLocalization({
 	name = "Общие параметры"
 })
 
+L:SetWarningLocalization({
+	Start = "Битва началась!"
+})
+
 L:SetTimerLocalization({
-	timerCombatStart = DBM_CORE_GENERIC_TIMER_COMBAT,
-	TimerInvite = "%s"
+	timerCombatStart	= DBM_CORE_GENERIC_TIMER_COMBAT,
+	TimerInvite 		= "%s"
 })
 
 L:SetOptionLocalization({
-	timerCombatStart = DBM_CORE_OPTION_TIMER_COMBAT,
+	Start		 		= "Спец-предупреждение \"Битва началась!\" при начале боя на полях боя",
+	timerCombatStart 	= DBM_CORE_OPTION_TIMER_COMBAT,
 	ColorByClass		= "Показывать имена цветом класса в таблице очков",
 	ShowInviteTimer		= "Отсчет времени до входа на поле боя",
 	AutoSpirit			= "Автоматически покидать тело",
@@ -25,9 +30,13 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	BgStart60 			= "Битва начнется через минуту!",
-	BgStart30 			= "Битва начнется через 30 секунд!",
-	BgStart 			= "Битва началась!",
+	BgStart1 			= "Битва начнется через 1 минуту.", --
+	BgStart2 			= "Битва начнется через минуту!", --
+	BgStart3 			= "Битва начнется через 30 секунд. Приготовиться!", --
+	BgStart4 			= "Битва начнется через 30 секунд!", --
+	BgStart5 			= "Раунд 2 битвы за Берег Древних начнется через 1 минуту.", --пока неточно (надо проверить)
+	BgStart6 			= "Раунд 2 начнется через 30 секунд.  Приготовьтесь!", --пока неточно (надо проверить)
+	BgStart 			= "Битва началась!", --
 	ArenaInvite			= "Приглашение на Арену"
 })
 
@@ -163,8 +172,6 @@ L:SetMiscLocalization({
 	FlagBase			= "База",
 	Vulnerable1			= "Персонажи, несущие флаг, стали более уязвимы!",
 	Vulnerable2			= "Персонажи, несущие флаг, стали еще более уязвимы!",
-	Alliance 			= "Альянса",
-	Horde 				= "Орды",
 	ExprFlagPickUp2		= "Флаг (%w+) у (.+)!" -- only used for Russian language
 })
 
@@ -228,9 +235,7 @@ L:SetMiscLocalization({
 	FlagHorde			= "Флаг Орды: ",
 	FlagBase			= "База",
 	Vulnerable1			= "Персонажи, несущие флаг, стали более уязвимы!",
-	Vulnerable2			= "Персонажи, несущие флаг, стали еще более уязвимы!",
-	Alliance			= "Альянса",
-	Horde				= "Орды"
+	Vulnerable2			= "Персонажи, несущие флаг, стали еще более уязвимы!"
 })
 
 ------------------------

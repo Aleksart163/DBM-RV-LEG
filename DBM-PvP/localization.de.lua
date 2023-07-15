@@ -10,22 +10,31 @@ L:SetGeneralLocalization({
 	name = "Allgemeine Einstellungen"
 })
 
+L:SetWarningLocalization({
+	Start = "Der Kampf hat begonnen!"
+})
 
 L:SetTimerLocalization({
+	timerCombatStart = DBM_CORE_GENERIC_TIMER_COMBAT,
 	TimerInvite = "%s"
 })
 
 L:SetOptionLocalization({
-	ColorByClass	= "Einfärbung der Spielernamen nach Klasse in der Schlachtfeld-Punktetafel",
-	ShowInviteTimer	= "Zeige Zeit für Schlachtfeld-Beitrittsmöglichkeit",
-	AutoSpirit		= "Automatisch Geist freilassen",
+	Start		 		= "Spezialwarnung \"Die Schlacht hat begonnen!\", wenn eine Schlacht auf den Schlachtfeldern beginnt",
+	timerCombatStart 	= DBM_CORE_OPTION_TIMER_COMBAT,
+	ColorByClass		= "Einfärbung der Spielernamen nach Klasse in der Schlachtfeld-Punktetafel",
+	ShowInviteTimer		= "Zeige Zeit für Schlachtfeld-Beitrittsmöglichkeit",
+	AutoSpirit			= "Automatisch Geist freilassen",
 	HideBossEmoteFrame	= "Verberge das Fenster \"RaidBossEmoteFrame\" und Garnisons-/Gildenerfolgsmeldungen während Schlachtfeldern"
 })
 
 L:SetMiscLocalization({
-	BgStart60 	= "Die Schlacht beginnt in 1 Minute.",
-	BgStart30 	= "Die Schlacht beginnt in 30 Sekunden. Macht Euch bereit!",
-	ArenaInvite	= "Arena-Einladung"
+	BgStart1 			= "Die Schlacht beginnt in 1 Minute.", --
+	BgStart2 			= "Der Kampf beginnt in 1 Minute!", --
+	BgStart3 			= "Die Schlacht beginnt in 30 Sekunden. Macht Euch bereit!", --
+	BgStart4 			= "Der Kampf beginnt in 30 Sekunden!", --
+	BgStart 			= "Der Kampf hat begonnen!", --
+	ArenaInvite			= "Arena-Einladung"
 })
 
 --------------
@@ -38,16 +47,19 @@ L:SetGeneralLocalization({
 })
 
 L:SetTimerLocalization({
+	timerCombatStart = DBM_CORE_GENERIC_TIMER_COMBAT,
 	TimerShadow	= "Schattensicht"
 })
 
 L:SetOptionLocalization({
+	timerCombatStart = DBM_CORE_OPTION_TIMER_COMBAT,
 	TimerShadow = "Zeige Zeit bis $spell:34709 verfügbar"
 })
 
 L:SetMiscLocalization({
-	Start15	= "Noch fünfzehn Sekunden bis der Arenakampf beginnt!",
-	highmaulArena = "Der Kampf um die Vorherrschaft beginnt in 30 Sekunden!"
+	Start15			= "Noch fünfzehn Sekunden bis der Arenakampf beginnt!",
+	highmaulArena 	= "Der Kampf um die Vorherrschaft beginnt in 30 Sekunden!",
+	Start			= "Битва на арене началась!"
 })
 
 ----------------------
@@ -94,17 +106,17 @@ L:SetMiscLocalization({
 L = DBM:GetModLocalization("z1105")
 
 L:SetTimerLocalization({
-       TimerCap        = "%s"
+	TimerCap        = "%s"
 })
 
 L:SetOptionLocalization({
-       TimerCap        = "Zeige Eroberungsdauer für Basen",
-       TimerWin        = "Zeige Zeit bis eine Fraktion gewinnt"
+	TimerCap        = "Zeige Eroberungsdauer für Basen",
+	TimerWin        = "Zeige Zeit bis eine Fraktion gewinnt"
 })
 
 L:SetMiscLocalization({
-       ScoreExpr       = "(%d+)/1500",
-       WinBarText      = "%s gewinnt"
+	ScoreExpr       = "(%d+)/1500",
+	WinBarText      = "%s gewinnt"
 })
 
 ------------------------
@@ -138,12 +150,10 @@ L:SetMiscLocalization({
 L = DBM:GetModLocalization("z489")
 
 L:SetTimerLocalization({
-	TimerStart	= "Kampfbeginn",
 	TimerFlag	= "Flaggen-Respawn"
 })
 
 L:SetOptionLocalization({
-	TimerStart					= "Zeige Zeit bis Kampfbeginn",
 	TimerFlag					= "Zeige Zeit bis zum Respawn der Flaggen",
 	ShowFlagCarrier				= "Zeige Flaggenträger",
 	ShowFlagCarrierErrorNote	= "Zeige Fehlermeldung, wenn Flaggenträger-Zielauswahl nicht gesetzt werden kann"
@@ -203,12 +213,10 @@ L:SetMiscLocalization({
 L = DBM:GetModLocalization("z726")
 
 L:SetTimerLocalization({
-	TimerStart	= "Kampfbeginn",
 	TimerFlag	= "Flaggen-Respawn"
 })
 
 L:SetOptionLocalization({
-	TimerStart					= "Zeige Zeit bis Kampfbeginn",
 	TimerFlag					= "Zeige Zeit bis zum Respawn der Flaggen",
 	ShowFlagCarrier				= "Zeige Flaggenträger",
 	ShowFlagCarrierErrorNote	= "Zeige Fehlermeldung, wenn Flaggenträger-Zielauswahl nicht gesetzt werden kann"
@@ -236,8 +244,8 @@ L:SetTimerLocalization({
 })
 
 L:SetOptionLocalization({
-	TimerWin				= "Zeige Zeit bis eine Fraktion gewinnt",
-	TimerCap				= "Zeige Eroberungsdauer für Basen",
+	TimerWin						= "Zeige Zeit bis eine Fraktion gewinnt",
+	TimerCap						= "Zeige Eroberungsdauer für Basen",
 	ShowGilneasEstimatedPoints		= "Zeige geschätzten Endpunktestand",
 	ShowGilneasBasesToWin			= "Zeige benötigte Anzahl von Basen zum Sieg"
 })
@@ -262,7 +270,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	Capture = "hat eine Minenlore erobert"
+	Capture 	= "hat eine Minenlore erobert"
 })
 
 -------------------------
@@ -271,7 +279,7 @@ L:SetMiscLocalization({
 L = DBM:GetModLocalization("z998")
 
 L:SetOptionLocalization({
-	TimerWin			= "Zeige Zeit bis eine Fraktion gewinnt",
+	TimerWin					= "Zeige Zeit bis eine Fraktion gewinnt",
 	ShowKotmoguEstimatedPoints	= "Zeige geschätzten Endpunktestand",
 	ShowKotmoguOrbsToWin		= "Zeige benötigte Anzahl von Kugeln der Macht zum Sieg"
 })

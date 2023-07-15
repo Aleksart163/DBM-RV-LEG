@@ -10,22 +10,31 @@ L:SetGeneralLocalization({
 	name = "Opciones generales"
 })
 
+L:SetWarningLocalization({
+	Start = "¡La batalla ha comenzado!"
+})
 
 L:SetTimerLocalization({
-	TimerInvite = "%s"
+	timerCombatStart	= DBM_CORE_GENERIC_TIMER_COMBAT,
+	TimerInvite 		= "%s"
 })
 
 L:SetOptionLocalization({
-	ColorByClass	= "Mostrar nombres con el color de su clase en la tabla de estadísticas",
-	ShowInviteTimer	= "Mostrar tiempo restante para unirse al campo de batalla",
-	AutoSpirit		= "Liberar espíritu automáticamente",
+	Start		 		= "Mostrar aviso especial \"¡La batalla ha comenzado!\" al iniciar una batalla en los campos de batalla.",
+	timerCombatStart 	= DBM_CORE_OPTION_TIMER_COMBAT,
+	ColorByClass		= "Mostrar nombres con el color de su clase en la tabla de estadísticas",
+	ShowInviteTimer		= "Mostrar tiempo restante para unirse al campo de batalla",
+	AutoSpirit			= "Liberar espíritu automáticamente",
 	HideBossEmoteFrame	= "Ocultar marco de jefe de banda y botón de ciudadela en campos de batalla"
 })
 
-L:SetMiscLocalization({
-	BgStart60 		= "La batalla comienza en 1 minuto.",
-	BgStart30 		= "La batalla comienza en 30 segundos. ¡Preparaos!",
-	ArenaInvite	= "Invitación a la arena"
+L:SetMiscLocalization({ --чисто испанский (for Proshlyapation of Murchal)
+	BgStart1 		= "La batalla comienza en 1 minuto.", --
+	BgStart2 		= "¡La batalla comienza en 1 minuto!", --
+	BgStart3 		= "La batalla comienza en 30 segundos. ¡Preparaos!", --
+	BgStart4 		= "¡La batalla comienza en 30 segundos!", --
+	BgStart 		= "¡La batalla ha comenzado!", --
+	ArenaInvite		= "Invitación a la arena"
 })
 
 ------------
@@ -38,10 +47,12 @@ L:SetGeneralLocalization({
 })
 
 L:SetTimerLocalization({
+	timerCombatStart = DBM_CORE_GENERIC_TIMER_COMBAT,
 	TimerShadow	= "Visión de las Sombras"
 })
 
 L:SetOptionLocalization({
+	timerCombatStart = DBM_CORE_OPTION_TIMER_COMBAT,
 	TimerShadow = "Mostrar temporizador para Visión de las Sombras"
 })
 

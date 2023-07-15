@@ -13,19 +13,24 @@ L:SetGeneralLocalization({
 })
 
 L:SetTimerLocalization({
-	TimerInvite		 = "%s"
+	timerCombatStart	= DBM_CORE_GENERIC_TIMER_COMBAT,
+	TimerInvite		 	= "%s"
 })
 
 L:SetOptionLocalization({
-	ColorByClass	= "Met le nom en couleur en fonction de la classe dans le tableau des scores",
-	ShowInviteTimer	= "Affiche le temps restant pour rejoindre le Champ de bataille",
-	AutoSpirit		= "Auto-rez à un Ange",
+	timerCombatStart 	= DBM_CORE_OPTION_TIMER_COMBAT,
+	ColorByClass		= "Met le nom en couleur en fonction de la classe dans le tableau des scores",
+	ShowInviteTimer		= "Affiche le temps restant pour rejoindre le Champ de bataille",
+	AutoSpirit			= "Auto-rez à un Ange",
 	HideBossEmoteFrame	= "Masquez les cadres d'émotes de boss de raid"
 })
 
 L:SetMiscLocalization({
-	BgStart60 		= "Début de la bataille pour le goulet des Chanteguerres dans 1 minute.",
-	BgStart30 		= "Début de la bataille pour le goulet des Chanteguerres dans 30 secondes. Préparez-vous !",
+	BgStart1 		= "Début de la bataille pour le goulet des Chanteguerres dans 1 minute.", --
+	BgStart2 		= "Début de la bataille pour le goulet des Chanteguerres dans 1 minute.",
+	BgStart3 		= "Début de la bataille pour le goulet des Chanteguerres dans 30 secondes. Préparez-vous !", --
+	BgStart4 		= "Début de la bataille pour le goulet des Chanteguerres dans 30 secondes. Préparez-vous !",
+	BgStart 		= "La bataille a commencé", --пока неточно
 	ArenaInvite		= "Invitation d'arène"
 })
 
@@ -40,10 +45,12 @@ L:SetGeneralLocalization({
 })
 
 L:SetTimerLocalization({
+	timerCombatStart = DBM_CORE_GENERIC_TIMER_COMBAT,
 	TimerShadow	= "Vue de l'ombre"
 })
 
 L:SetOptionLocalization({
+	timerCombatStart = DBM_CORE_OPTION_TIMER_COMBAT,
 	TimerShadow = "Montre le timer de la Vue de l'ombre"
 })
 

@@ -18,18 +18,20 @@ mod:RegisterEvents(
 
 --local inviteTimer = mod:NewTimer(60, "TimerInvite", "Interface\\Icons\\Spell_Holy_WeaponMastery", nil, false)
 
+local specWarnBgStart		= mod:NewSpecialWarning("Start", nil, nil, nil, 1, 2)
 
 local timerCombatStart		= mod:NewTimer(30, "timerCombatStart", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7) --начало боя
 
 local countdownMatchStart	= mod:NewCountdown(15, 91344, nil, nil, 5) --начало боя
 
 function mod:CHAT_MSG_BG_SYSTEM_NEUTRAL(msg)
-	if msg == L.BgStart60 then
+	if msg == L.BgStart1 or msg == L.BgStart2 or msg == L.BgStart5 then
 		timerCombatStart:Start(60)
 		countdownMatchStart:Start(60)
-	elseif msg == L.BgStart30 then
+	elseif msg == L.BgStart3 or msg == L.BgStart4 or msg == L.BgStart6 then
 		timerCombatStart:Cancel()
 		countdownMatchStart:Cancel()
+		specWarnBgStart:Schedule(30)
 		timerCombatStart:Start(30)
 		countdownMatchStart:Start(30)
 	elseif msg == L.BgStart then

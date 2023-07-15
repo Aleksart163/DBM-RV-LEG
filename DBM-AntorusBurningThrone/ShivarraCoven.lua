@@ -99,15 +99,15 @@ local timerCosmicGlareCD				= mod:NewCDTimer(15, 250757, nil, nil, nil, 3, nil, 
 --Torment of the Titans
 mod:AddTimerLine(torment)
 --Activations timers
-local timerMachinationsofAmanThulCD		= mod:NewTimer(90, "timerAmanThul", 250335, nil, nil, 6, DBM_CORE_HEALER_ICON..DBM_CORE_DEADLY_ICON) --Махинации Амантула
-local timerFlamesofKhazgorothCD			= mod:NewTimer(90, "timerKhazgoroth", 250333, nil, nil, 6, DBM_CORE_DEADLY_ICON) --Пламя Казгарота
-local timerSpectralArmyofNorgannonCD	= mod:NewTimer(90, "timerNorgannon", 250334, nil, nil, 6, DBM_CORE_DEADLY_ICON) --Армия Норганнона
-local timerFuryofGolgannethCD			= mod:NewTimer(90, "timerGolganneth", 249793, nil, nil, 6, DBM_CORE_DEADLY_ICON) --Мучения Голганнета
+local timerMachinationsofAmanThulCD		= mod:NewTimer(90, "timerAmanThul", 250335, nil, nil, 1, DBM_CORE_HEALER_ICON..DBM_CORE_DEADLY_ICON) --Махинации Амантула
+local timerFlamesofKhazgorothCD			= mod:NewTimer(90, "timerKhazgoroth", 250333, nil, nil, 1, DBM_CORE_DEADLY_ICON) --Пламя Казгарота
+local timerSpectralArmyofNorgannonCD	= mod:NewTimer(90, "timerNorgannon", 250334, nil, nil, 1, DBM_CORE_DEADLY_ICON) --Армия Норганнона
+local timerFuryofGolgannethCD			= mod:NewTimer(90, "timerGolganneth", 249793, nil, nil, 1, DBM_CORE_DEADLY_ICON) --Мучения Голганнета
 --Шиварры
 local timerDiimaCD						= mod:NewCDTimer(194.5, "ej15969", nil, nil, nil, 6, 253189, DBM_CORE_TANK_ICON) --Дима
 local timerNouraCD						= mod:NewCDTimer(194.5, "ej15967", nil, nil, nil, 6, 253189, DBM_CORE_TANK_ICON) --Нура
 local timerAsaraCD						= mod:NewCDTimer(194.5, "ej15968", nil, nil, nil, 6, 253189, DBM_CORE_TANK_ICON) --Азара
-local timerThurayaCD					= mod:NewCDTimer(242, "ej16398", nil, nil, nil, 6, 253189, DBM_CORE_TANK_ICON..DBM_CORE_MYTHIC_ICON) --Зурайя
+local timerThurayaCD					= mod:NewCDTimer(194.5, "ej16398", nil, nil, nil, 6, 253189, DBM_CORE_TANK_ICON..DBM_CORE_MYTHIC_ICON) --Зурайя
 ----Actual phase stuff
 local timerMachinationsofAman			= mod:NewCastTimer(25, 250095, nil, nil, nil, 5, nil, DBM_CORE_DAMAGE_ICON) --Махинации Амантула
 
@@ -130,10 +130,8 @@ mod:AddSetIconOption("SetIconOnCosmicGlare", 250757, true, false, {8, 7}) --Ко
 mod:AddInfoFrameOption(245586, true) --Студеная кровь
 mod:AddNamePlateOption("NPAuraOnVisageofTitan", 249863)
 mod:AddBoolOption("SetLighting", true)
-mod:AddBoolOption("IgnoreFirstKick", false)
 mod:AddBoolOption("ShowProshlyapMurchal", true)
 mod:AddMiscLine(DBM_CORE_OPTION_CATEGORY_DROPDOWNS)
-mod:AddDropdownOption("InterruptBehavior", {"Three", "Four", "Five"}, "Three", "misc")
 mod:AddDropdownOption("TauntBehavior", {"TwoMythicThreeNon", "TwoAlways", "ThreeAlways"}, "TwoMythicThreeNon", "misc")
 
 local titanCount = {}
@@ -145,10 +143,7 @@ mod.vb.MachinationsLeft = 0
 mod.vb.fpIcon = 4
 mod.vb.chilledIcon = 1
 mod.vb.glareIcon = 7
-mod.vb.touchCosmosCast = 0
-mod.vb.interruptBehavior = "Three"
-mod.vb.ignoreFirstInterrupt = false
-mod.vb.firstCastHappend = false
+mod.vb.kickCount = 0
 local CVAR1, CVAR2 = nil, nil
 
 local function ProshlyapMurchalya1(self) --прошляпанное очко Мурчаля Прошляпенко [✔]
@@ -204,6 +199,42 @@ local function ProshlyapMurchalya4(self)
 	elseif self.vb.proshlyapCount == 3 then
 		self.vb.proshlyapCount = 0
 		self:Unschedule(ProshlyapMurchalya4)
+	end
+end
+
+local function ProshlyapMurchalya5(self) --Махинации Амантула (и прошляп Мурчаля)
+	if not UnitIsDeadOrGhost("player") then
+		specWarnAmantul:Show()
+		specWarnAmantul:Play("runtoedge")
+		specWarnTormentofTitans:Schedule(5)
+		specWarnTormentofTitans:ScheduleVoice(5, "mobkill")
+	end
+end
+
+local function ProshlyapMurchalya6(self) --Пламя Казгарота (и прошляп Мурчаля)
+	if not UnitIsDeadOrGhost("player") then
+		specWarnKazgagot:Show()
+		specWarnKazgagot:Play("runtoedge")
+		specWarnTormentofTitans:Schedule(5)
+		specWarnTormentofTitans:ScheduleVoice(5, "mobkill")
+	end
+end
+
+local function ProshlyapMurchalya7(self) --Ярость Голганнета (и прошляп Мурчаля)
+	if not UnitIsDeadOrGhost("player") then
+		specWarnGolgannet:Show()
+		specWarnGolgannet:Play("scatter")
+		specWarnTormentofTitans:Schedule(5)
+		specWarnTormentofTitans:ScheduleVoice(5, "mobkill")
+	end
+end
+
+local function ProshlyapMurchalya8(self) --Призрачная армия Норганнона (и прошляп Мурчаля)
+	if not UnitIsDeadOrGhost("player") then
+		specWarnNorgannon:Show()
+		specWarnNorgannon:Play("frontcenter")
+		specWarnTormentofTitans:Schedule(5)
+		specWarnTormentofTitans:ScheduleVoice(5, "watchstep")
 	end
 end
 
@@ -285,10 +316,7 @@ function mod:OnCombatStart(delay)
 	self.vb.fpIcon = 4
 	self.vb.chilledIcon = 1
 	self.vb.glareIcon = 7
-	self.vb.touchCosmosCast = 0
-	self.vb.interruptBehavior = "Three"
-	self.vb.ignoreFirstInterrupt = false
-	self.vb.firstCastHappend = false
+	self.vb.kickCount = 0
 	if self:IsMythic() then
 		self:SetCreatureID(122468, 122467, 122469, 125436)
 	else
@@ -312,15 +340,6 @@ function mod:OnCombatStart(delay)
 		CVAR1, CVAR2 = GetCVar("graphicsLightingQuality") or 3, GetCVar("raidGraphicsLightingQuality") or 2--Non raid cvar is nil if 3 (default) and raid one is nil if 2 (default)
 		SetCVar("graphicsLightingQuality", 1)
 		SetCVar("raidGraphicsLightingQuality", 1)
-	end
-	if UnitIsGroupLeader("player") and not self:IsLFR() then
-		if self.Options.InterruptBehavior == "Three" then
-			self:SendSync("Three", self.Options.IgnoreFirstKick)
-		elseif self.Options.InterruptBehavior == "Four" then
-			self:SendSync("Four", self.Options.IgnoreFirstKick)
-		elseif self.Options.InterruptBehavior == "Five" then
-			self:SendSync("Five", self.Options.IgnoreFirstKick)
-		end
 	end
 end
 
@@ -390,20 +409,19 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 250095 and self:AntiSpam(3, 1) then
 		timerMachinationsofAman:Start()
 	elseif spellId == 250648 then --Прикосновение космоса
-		if self.vb.firstCastHappend or not self.vb.ignoreFirstInterrupt then
-			self.vb.touchCosmosCast = self.vb.touchCosmosCast + 1
+		if self.vb.kickCount == 4 then self.vb.kickCount = 0 end
+		self.vb.kickCount = self.vb.kickCount + 1
+		local kickCount = self.vb.kickCount
+		specWarnTouchoftheCosmos:Show(kickCount)
+		if kickCount == 1 then
+			specWarnTouchoftheCosmos:Play("kick1r")
+		elseif kickCount == 2 then
+			specWarnTouchoftheCosmos:Play("kick2r")
+		elseif kickCount == 3 then
+			specWarnTouchoftheCosmos:Play("kick3r")
+		elseif kickCount == 4 then
+			specWarnTouchoftheCosmos:Play("kick4r")
 		end
-		if (self.vb.interruptBehavior == "Three" and self.vb.touchCosmosCast == 4) or (self.vb.interruptBehavior == "Four" and self.vb.touchCosmosCast == 5) or (self.vb.interruptBehavior == "Five" and self.vb.touchCosmosCast == 6) then
-			self.vb.touchCosmosCast = 0
-		end
-		local kickCount = self.vb.touchCosmosCast
-		specWarnTouchoftheCosmos:Show(args.sourceName, kickCount)
-		if kickCount == 0 then
-			specWarnTouchoftheCosmos:Play("kickcast")
-		else
-			specWarnTouchoftheCosmos:Play("kick"..kickCount.."r")
-		end
-		if not self.vb.firstCastHappend then self.vb.firstCastHappend = true end
 	end
 end
 
@@ -424,12 +442,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		if spellId == 250335 then --Махинации Амантула
 			timerMachinationsofAmanThulCD:Start()
 			specWarnAmantul2:Schedule(75)
-			if not UnitIsDeadOrGhost("player") then
-				specWarnAmantul:Schedule(85)
-				specWarnAmantul:ScheduleVoice(85, "runtoedge")
-				specWarnTormentofTitans:Schedule(90)
-				specWarnTormentofTitans:ScheduleVoice(90, "mobkill")
-			end
+			self:Schedule(85, ProshlyapMurchalya5, self)
 			if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapMurchal and DBM:GetRaidRank() > 0 then
 				-- self:Schedule(81, ProshlyapMurchalya1, self)
 				prepareMessage(self, "premsg_ShivarraCoven_AmanThul_rw")
@@ -437,12 +450,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		elseif spellId == 250333 then --Пламя Казгарота
 			timerFlamesofKhazgorothCD:Start()
 			specWarnKazgagot2:Schedule(75)
-			if not UnitIsDeadOrGhost("player") then
-				specWarnKazgagot:Schedule(85)
-				specWarnKazgagot:ScheduleVoice(85, "runtoedge")
-				specWarnTormentofTitans:Schedule(90)
-				specWarnTormentofTitans:ScheduleVoice(90, "mobkill")
-			end
+			self:Schedule(85, ProshlyapMurchalya6, self)
 			if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapMurchal and DBM:GetRaidRank() > 0 then
 				-- self:Schedule(81, ProshlyapMurchalya2, self)
 				prepareMessage(self, "premsg_ShivarraCoven_Khazgoroth_rw")
@@ -450,12 +458,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		elseif spellId == 249793 then --Ярость Голганнета
 			timerFuryofGolgannethCD:Start()
 			specWarnGolgannet2:Schedule(75)
-			if not UnitIsDeadOrGhost("player") then
-				specWarnGolgannet:Schedule(85)
-				specWarnGolgannet:ScheduleVoice(85, "scatter")
-				specWarnTormentofTitans:Schedule(90)
-				specWarnTormentofTitans:ScheduleVoice(90, "mobkill")
-			end
+			self:Schedule(85, ProshlyapMurchalya7, self)
 			if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapMurchal and DBM:GetRaidRank() > 0 then
 				-- self:Schedule(81, ProshlyapMurchalya3, self)
 				prepareMessage(self, "premsg_ShivarraCoven_Golganneth_rw")
@@ -463,12 +466,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		elseif spellId == 250334 then --Призрачная армия Норганнона
 			timerSpectralArmyofNorgannonCD:Start()
 			specWarnNorgannon2:Schedule(75)
-			if not UnitIsDeadOrGhost("player") then
-				specWarnNorgannon:Schedule(85)
-				specWarnNorgannon:ScheduleVoice(85, "frontcenter")
-				specWarnTormentofTitans:Schedule(90)
-				specWarnTormentofTitans:ScheduleVoice(90, "watchstep")
-			end
+			self:Schedule(85, ProshlyapMurchalya8, self)
 			if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapMurchal and DBM:GetRaidRank() > 0 then
 				-- self:Schedule(81, ProshlyapMurchalya4, self)
 				prepareMessage(self, "premsg_ShivarraCoven_Norgannon_rw")
@@ -547,9 +545,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				warnFieryStrike:Show(args.destName, amount)
 			end
 		end
-	elseif spellId == 253520 then
-	-- оригинальный эвент сломан разрабами и таймер с кд не выдаёт
-	-- по прошлой версии, вместо 3 цели анонс выдавал лишь 1, вероятно поможет новая
+	elseif spellId == 253520 then --Гремучий импульс
 		warnFulminatingPulse:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
 			specWarnFulminatingPulse:Show()
@@ -794,7 +790,6 @@ function mod:UNIT_TARGETABLE_CHANGED(uId)
 		end
 	elseif cid == 125436 then--Thu'raya (mythic only)
 		if UnitExists(uId) then
-			self.vb.touchCosmosCast = 0
 			if self.Options.SpecWarn118212switchcount then
 				specWarnActivated:Show(UnitName(uId))
 				specWarnActivated:Play("changetarget")
@@ -816,21 +811,8 @@ function mod:UNIT_HEALTH(uId)
 	end
 end
 
-function mod:OnSync(msg, firstInterrupt)
-	local premsg_announce = msg
-	local sender = firstInterrupt
+function mod:OnSync(premsg_announce, sender)
 	if sender < playerOnlyName then
 		announceList(premsg_announce, 0)
-	end
-	if self:IsLFR() then return end
-	if msg == "Three" then
-		self.vb.interruptBehavior = "Three"
-	elseif msg == "Four" then
-		self.vb.interruptBehavior = "Four"
-	elseif msg == "Five" then
-		self.vb.interruptBehavior = "Five"
-	end	
-	if firstInterrupt then
-		self.vb.ignoreFirstInterrupt = firstInterrupt == "true" and true or false
 	end
 end

@@ -9,6 +9,9 @@ L:SetGeneralLocalization({
 	name = "General Options"
 })
 
+L:SetWarningLocalization({
+	Start = "The battle has begun!"
+})
 
 L:SetTimerLocalization({
 	timerCombatStart = DBM_CORE_GENERIC_TIMER_COMBAT,
@@ -16,17 +19,22 @@ L:SetTimerLocalization({
 })
 
 L:SetOptionLocalization({
+	Start		 	= "Show special warning \"The battle has begun!\" when starting a battle on the battlefields.",
 	timerCombatStart = DBM_CORE_OPTION_TIMER_COMBAT,
 	ColorByClass	= "Set name color to class color in the score frame",
 	ShowInviteTimer	= "Show battleground join timer",
 	AutoSpirit		= "Auto-release spirit",
-	HideBossEmoteFrame	= "Hide the raid boss emote frame & garrison/Guild toasts during battlegrounds"
+	HideBossEmoteFrame = "Hide the raid boss emote frame & garrison/Guild toasts during battlegrounds"
 })
 
 L:SetMiscLocalization({
-	BgStart60 	= "The battle begins in 1 minute!",
-	BgStart30 	= "The battle begins in 30 seconds!",
-	BgStart 	= "The battle has begun!",
+	BgStart1 	= "The battle begins in 1 minute!", --
+	BgStart2 	= "The battle begins in 1 minute!", --
+	BgStart3 	= "The battle begins in 30 seconds.  Prepare yourselves!", --
+	BgStart4 	= "The battle begins in 30 seconds!", --
+	BgStart5 	= "Round 2 of the Battle for the Strand of the Ancients begins in 1 minute.", --
+	BgStart6 	= "Round 2 begins in 30 seconds.  Prepare yourselves!", --
+	BgStart 	= "The battle has begun!", --
 	ArenaInvite	= "Arena invite"
 })
 
@@ -237,8 +245,8 @@ L:SetTimerLocalization({
 })
 
 L:SetOptionLocalization({
-	TimerWin				= "Show win timer",
-	TimerCap				= "Show capture timer",
+	TimerWin						= "Show win timer",
+	TimerCap						= "Show capture timer",
 	ShowGilneasEstimatedPoints		= "Show estimated points on win/loss",
 	ShowGilneasBasesToWin			= "Show bases required to win"
 })
