@@ -56,9 +56,10 @@ L:SetOptionLocalization({
 	TimerShadow = "Mostrar temporizador para Visión de las Sombras"
 })
 
-L:SetMiscLocalization({
-	Start15	= "¡Quince segundos hasta que comience la batalla en arena!",
-	highmaulArena = "¡La batalla por la supremacía comienza en 30 segundos!"
+L:SetMiscLocalization({ --¡Un minuto hasta que dé comienzo la batalla en arena!
+	Start30			= "¡Treinta segundos hasta que comience la batalla de arena!", --
+	Start15			= "¡Quince segundos para que comience la batalla de arena!", --
+	Start			= "¡La batalla de arena ha comenzado!" --
 })
 
 ----------------------

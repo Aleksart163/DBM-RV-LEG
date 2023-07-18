@@ -56,10 +56,10 @@ L:SetOptionLocalization({
 	TimerShadow = "Zeige Zeit bis $spell:34709 verfügbar"
 })
 
-L:SetMiscLocalization({
-	Start15			= "Noch fünfzehn Sekunden bis der Arenakampf beginnt!",
-	highmaulArena 	= "Der Kampf um die Vorherrschaft beginnt in 30 Sekunden!",
-	Start			= "Битва на арене началась!"
+L:SetMiscLocalization({ --Noch eine Minute bis der Arenakampf beginnt!
+	Start30			= "Noch dreißig Sekunden bis der Arenakampf beginnt!", --
+	Start15			= "Noch fünfzehn Sekunden bis der Arenakampf beginnt!", --
+	Start			= "Der Arenakampf hat begonnen!" --
 })
 
 ----------------------

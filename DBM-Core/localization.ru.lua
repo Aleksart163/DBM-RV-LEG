@@ -2,7 +2,7 @@ if GetLocale() ~= "ruRU" then return end
 
 DBM_CORE_NEED_SUPPORT				= "Вы - программист или хороший переводчик? Если да, то нам нужна ваша помощь в локализации DBM на другие языки. Помогите нам, посетив |HDBM:forums|h|cff3588ffhttps://github.com/Aleksart163/DBM-RV|r.\nНашли баг или неправильный таймер? Вы считаете что какому-то модулю требуется дополнительное предупреждение, таймер или особенность?\nПосетите новые форумы DBM для обсуждений, сообщений об ошибках и запроса новых возможностей на " .. DBM_CORE_UPDATEREMINDER_URL .. "."
 DBM_HOW_TO_USE_MOD					= "Добро пожаловать в DBM. Для доступа к настройкам наберите /dbm в чате. При желании, загрузите определенные зоны вручную для изменений специфических настроек для каждого босса. DBM пытается подстраиваться под вас на основе вашей специализации на момент первого запуска, но некоторые могут захотеть включить дополнительные опции."
---DBM_FORUMS_MESSAGE					= "Нашли баг или неправильный таймер? Вы считаете что какому-то модулю требуется дополнительное предупреждение, таймер или особенность?\nПосетите новые форумы DBM для обсуждений, сообщений об ошибках и запроса новых возможностей на |HDBM:forums|h|cff3588ffhttps://github.com/Aleksart163/DBM-RV|r (вы можете нажать на ссылку, чтобы скопировать URL)"
+DBM_FORUMS_MESSAGE					= "Нашли баг или неправильный таймер? Считаете что какому-то модулю требуется дополнительное предупреждение, таймер, особенность или локализация?\nПо всем вопросам можете обращаться на discord Aleksart163, /w Куплиняшка или оставлять запросы на |h|cff3588ffhttps://github.com/Aleksart163/DBM-RV|r"
 DBM_SILENT_REMINDER					= "Напоминание: DBM все еще находится в беззвучном режиме."
 
 DBM_CORE_LOAD_MOD_ERROR				= "Ошибка при загрузке босс модуля для %s: %s"
@@ -584,7 +584,7 @@ DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT.yelldispel = "%s на мне! Диспел мн
 DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT.yellmoveaway = "%s на мне! ОТОЙДИ ОТ МЕНЯ!"
 DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT.count	= "%s на " .. UnitName("player") .. "! (%%d)"
 DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT.fade	= "%s спадает через %%d"
-DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT.fademoveaway = "%s спадает через %%d! ОТОЙДИТЕ ОТ МЕНЯ!"
+DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT.fademoveaway = "%s спадает через %%d! ОТОЙДИ ОТ МЕНЯ!"
 DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT.shortfade = "%%d"
 DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT.iconfade = "{rt%%2$d}%%1$d"
 DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT.position = "%s %%s на {rt%%d}"..UnitName("player").."{rt%%d}"

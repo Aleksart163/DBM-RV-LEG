@@ -22,13 +22,18 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	BgStart60 	= "1분 후 전투가 시작됩니다!",
-	BgStart30 	= "30초 후 전투가 시작됩니다!",
+	BgStart1 	= "1분 후 전투가 시작됩니다!", --
+	BgStart2 	= "1분 후 전투가 시작됩니다!", -- Need localization straight from the battlefield
+	BgStart3 	= "30초 후 전투가 시작됩니다!", --
+	BgStart4 	= "30초 후 전투가 시작됩니다!", -- Need localization straight from the battlefield
+	BgStart5 	= "Round 2 of the Battle for the Strand of the Ancients begins in 1 minute.", -- Need localization straight from the battlefield
+	BgStart6 	= "Round 2 begins in 30 seconds.  Prepare yourselves!", -- Need localization straight from the battlefield
+	BgStart 	= "The battle has begun!", -- Need localization
 	ArenaInvite	= "전투 참여"
 })
 
 --------------
---  투기장  --
+--  Arenas  --
 --------------
 L = DBM:GetModLocalization("Arenas")
 
@@ -44,9 +49,10 @@ L:SetOptionLocalization({
 	TimerShadow 	= "어둠의 시야 바 보기"
 })
 
-L:SetMiscLocalization({
-	Start15 	= "투기장 전투 시작 15초 전입니다!",
-	highmaulArena = "최고의 투사를 가리는 전투가 30초 후 시작됩니다!"
+L:SetMiscLocalization({ --투기장 전투 시작 1분 전입니다!
+	Start30			= "투기장 전투 시작 30초 전입니다!", --
+	Start15			= "투기장 전투 시작 15초 전입니다!", --
+	Start			= "투기장 전투가 시작되었습니다!" --
 })
 
 ---------------
@@ -267,17 +273,16 @@ L:SetMiscLocalization({
 -------------------------
 L = DBM:GetModLocalization("z998")
 
+L:SetOptionLocalization({
+	TimerWin					= "전투 승리까지 남은시간 바 보기",
+	ShowKotmoguEstimatedPoints	= "전투 종료 순간 승/패 진영 예상 점수 보기",
+	ShowKotmoguOrbsToWin		= "뒤지고 있을 경우 역전에 필요한 공 개수 보기"
+})
+
 L:SetMiscLocalization({
 	OrbTaken 	= "(.+)|1이;가; (.+) 공을 차지했습니다!",
 	OrbReturn 	= "(.+) 공이 돌아왔습니다!",
 	ScoreExpr	= "(%d+)/1500",
 	WinBarText	= "%s 승리",
 	OrbsToWin	= "역전하기 위해 필요한 공 수: %d"
-})
-
-
-L:SetOptionLocalization({
-	TimerWin					= "전투 승리까지 남은시간 바 보기",
-	ShowKotmoguEstimatedPoints	= "전투 종료 순간 승/패 진영 예상 점수 보기",
-	ShowKotmoguOrbsToWin		= "뒤지고 있을 경우 역전에 필요한 공 개수 보기"
 })

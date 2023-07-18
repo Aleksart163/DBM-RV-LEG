@@ -1,6 +1,7 @@
 if GetLocale() ~= "esES" and GetLocale() ~= "esMX" then return end
 
 DBM_HOW_TO_USE_MOD					= "Bienvenido a DBM. Escribe '/dbm help' para ver la lista de comandos. Para acceder a la configuración no tienes más que escribir '/dbm'."
+DBM_FORUMS_MESSAGE					= "¿Has encontrado un error o un temporizador incorrecto? ¿Crees que algún módulo necesita una advertencia adicional, temporizador, característica o localización? |nCualquier pregunta puede ser dirigida a discord Aleksart163, /w Куплиняшка o dejar peticiones a |h|cff3588ffhttps://github.com/Aleksart163/DBM-RV|r"
 DBM_SILENT_REMINDER					= "Recordatorio: DBM sigue en modo silencioso."
 
 DBM_CORE_LOAD_MOD_ERROR				= "Error al cargar el módulo de %s: %s"

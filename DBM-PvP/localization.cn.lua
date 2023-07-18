@@ -1,7 +1,4 @@
-﻿-- Simplified Chinese by Diablohu(diablohudream@gmail.com) & yleaf(yaroot@gmail.com)
--- Last update: 1/26/2013
-
-if GetLocale() ~= "zhCN" then return end
+﻿if GetLocale() ~= "zhCN" then return end
 
 local L
 
@@ -26,8 +23,13 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	BgStart60 = "战歌峡谷战斗将在1分钟内开始。",
-	BgStart30 = "战歌峡谷战斗将在30秒钟内开始。做好准备！",
+	BgStart1 = "战歌峡谷战斗将在1分钟内开始。", --
+	BgStart2 = "战歌峡谷战斗将在1分钟内开始。", -- Need localization straight from the battlefield
+	BgStart3 = "战歌峡谷战斗将在30秒钟内开始。做好准备！", -- 
+	BgStart4 = "战歌峡谷战斗将在30秒钟内开始。做好准备！", -- Need localization straight from the battlefield
+	BgStart5 	= "Round 2 of the Battle for the Strand of the Ancients begins in 1 minute.", -- Need localization straight from the battlefield
+	BgStart6 	= "Round 2 begins in 30 seconds.  Prepare yourselves!", -- Need localization straight from the battlefield
+	BgStart 	= "The battle has begun!", -- Need localization straight from the battlefield
 	ArenaInvite	= "竞技场邀请"
 })
 
@@ -49,7 +51,9 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	Start15 = "竞技场战斗将在十五秒后开始！"
+	Start30			= "Thirty seconds until the Arena battle begins!", -- Need localization straight from the battlefield
+	Start15 		= "竞技场战斗将在十五秒后开始！",
+	Start			= "The Arena battle has begun!" -- Need localization straight from the battlefield
 })
 
 ----------------------
@@ -73,15 +77,6 @@ L:SetOptionLocalization({
 --------------------
 L = DBM:GetModLocalization("z529")
 
-L:SetMiscLocalization({
-	ScoreExpr 	= "(%d+)/1500",
-	Alliance 	= "联盟",
-	Horde 		= "部落",
-	WinBarText 	= "%s 获胜",
-	BasesToWin 	= "胜利需要占领资源点: %d",
-	Flag 		= "旗帜"
-})
-
 L:SetTimerLocalization({
 	TimerCap = "%s"
 })
@@ -93,22 +88,37 @@ L:SetOptionLocalization({
 	ShowAbBasesToWin 		= "显示获胜需要占领的资源点"
 })
 
+L:SetMiscLocalization({
+	ScoreExpr 	= "(%d+)/1500",
+	WinBarText 	= "%s 获胜",
+	BasesToWin 	= "胜利需要占领资源点: %d",
+	Alliance 	= "联盟",
+	Horde 		= "部落"
+})
+
+---------------------
+--  Deepwind Gorge --
+---------------------
+L = DBM:GetModLocalization("z1105")
+
+L:SetTimerLocalization({
+	TimerCap        = "%s"
+})
+
+L:SetOptionLocalization({
+	TimerCap 		= "计时条：占领资源点",
+	TimerWin 		= "计时条：获胜"
+})
+
+L:SetMiscLocalization({
+	ScoreExpr 		= "(%d+)/1500",
+	WinBarText 		= "%s 获胜"
+})
+
 ------------------------
 --  Eye of the Storm  --
 ------------------------
 L = DBM:GetModLocalization("z566")
-
-L:SetMiscLocalization({
-	ScoreExpr	 	= "(%d+)/1500",
-	Alliance 		= "联盟",
-	Horde 			= "部落",
-	WinBarText 		= "%s 获胜",
-	FlagReset 		= "旗帜被重新放置了。!",
-	FlagTaken 		= "(.+)夺走了旗帜！",
-	FlagCaptured 	= "(.+)夺得了旗帜！",
-	FlagDropped 	= "旗帜被扔掉了！",
-
-})
 
 L:SetTimerLocalization({
 	TimerFlag = "旗帜重置"
@@ -120,33 +130,45 @@ L:SetOptionLocalization({
 	ShowPointFrame 	= "显示旗帜携带着和预计获胜点数"
 })
 
+L:SetMiscLocalization({
+	ScoreExpr	 	= "(%d+)/1500",
+	WinBarText 		= "%s 获胜",
+	Flag 			= "旗帜",
+	FlagReset 		= "旗帜被重新放置了。!",
+	FlagTaken 		= "(.+)夺走了旗帜！",
+	FlagCaptured 	= "(.+)夺得了旗帜！",
+	FlagDropped 	= "旗帜被扔掉了！",
+	Alliance 		= "联盟",
+	Horde 			= "部落"
+})
+
 ---------------------
 --  Warsong Gulch  --
 ---------------------
 L = DBM:GetModLocalization("z489")
 
-L:SetMiscLocalization({
-	Alliance = "联盟",
-	Horde = "部落",
-	InfoErrorText = "携带旗帜者目标功能会在你脱离战斗后恢复。",
-	ExprFlagPickUp = "(.+)的旗帜被(.+)拔起了！",
-	ExprFlagCaptured = "(.+)夺取了(.+)的旗帜！",
-	ExprFlagReturn = "(.+)的旗帜被(.+)还到了它的基地中！",
-	FlagAlliance = "联盟: ",
-	FlagHorde = "部落: ",
-	FlagBase = "基地"
-})
-
 L:SetTimerLocalization({
-	TimerStart = "战斗即将开始",
 	TimerFlag = "旗帜重置"
 })
 
 L:SetOptionLocalization({
-	TimerStart  = "计时条：战斗开始",
 	TimerFlag = "计时条：旗帜重置",
 	ShowFlagCarrier = "显示旗帜携带者",
 	ShowFlagCarrierErrorNote = "战斗中显示旗帜携带者错误信息"
+})
+
+L:SetMiscLocalization({
+	InfoErrorText 		= "携带旗帜者目标功能会在你脱离战斗后恢复。",
+	ExprFlagPickUp 		= "(.+)的旗帜被(.+)拔起了！",
+	ExprFlagCaptured 	= "(.+)夺取了(.+)的旗帜！",
+	ExprFlagReturn 		= "(.+)的旗帜被(.+)还到了它的基地中！",
+	FlagAlliance 		= "联盟: ",
+	FlagHorde 			= "部落: ",
+	FlagBase 			= "基地",
+	Vulnerable1			= "The flag carriers have become vulnerable to attack!", -- Need localization straight from the battlefield
+	Vulnerable2			= "The flag carriers have become increasingly vulnerable to attack!", -- Need localization straight from the battlefield
+	Alliance 			= "联盟",
+	Horde 				= "部落"
 })
 
 ------------------------
@@ -161,7 +183,7 @@ L:SetWarningLocalization({
 
 L:SetTimerLocalization({
 	TimerPOI			= "%s",
-	TimerSiegeEngine		= "攻城机具修复"
+	TimerSiegeEngine	= "攻城机具修复"
 })
 
 L:SetOptionLocalization({
@@ -174,14 +196,14 @@ L:SetOptionLocalization({
 
 L:SetMiscLocalization({
 	GatesHealthFrame		= "城门破损状况",
-	SiegeEngine			= "攻城器",
+	SiegeEngine				= "攻城器",
 	GoblinStartAlliance		= "看到那些爆盐炸弹了吗？当我维修攻城机具的时候用它们来轰破大门！",
 	GoblinStartHorde		= "修理攻城机具的工作就交给我，帮我看着点就够了。如果你想要轰破大门的话，尽管把那些爆盐炸弹拿去用吧！",
-	GoblinHalfwayAlliance		= "我已经修好一半了！别让部落靠近。工程学院可没有教我们如何作战喔！",
+	GoblinHalfwayAlliance	= "我已经修好一半了！别让部落靠近。工程学院可没有教我们如何作战喔！",
 	GoblinHalfwayHorde		= "我已经修好一半了！别让联盟靠近 - 我的合约里可没有作战这一条！",
-	GoblinFinishedAlliance		= "我有史以来最得意的作品！这台攻城机具已经可以上场啰！",
+	GoblinFinishedAlliance	= "我有史以来最得意的作品！这台攻城机具已经可以上场啰！",
 	GoblinFinishedHorde		= "这台攻城机具已经可以上场啦！",
-	GoblinBrokenAlliance		= "这么快就坏啦？！别担心，再坏的情况我都可以修得好。",
+	GoblinBrokenAlliance	= "这么快就坏啦？！别担心，再坏的情况我都可以修得好。",
 	GoblinBrokenHorde		= "又坏掉了吗？！让我来修理吧……但别指望产品的保固会帮你支付这一切。"
 })
 
@@ -190,45 +212,34 @@ L:SetMiscLocalization({
 ------------------
 L = DBM:GetModLocalization("z726")
 
-L:SetMiscLocalization({
-	Alliance 			= "联盟",
-	Horde 				= "部落",
-	InfoErrorText		= "携带旗帜者目标功能会在你脱离战斗后恢复。",
-	ExprFlagPickUp = "(.+)的旗帜被(.+)拔起了！",
-	ExprFlagCaptured = "(.+)夺取了(.+)的旗帜！",
-	ExprFlagReturn = "(.+)的旗帜被(.+)还到了它的基地中！",
-	FlagAlliance = "联盟: ",
-	FlagHorde = "部落: ",
-	FlagBase = "基地",
-	Vulnerable1		= "The flag carriers have become vulnerable to attack!",
-	Vulnerable2		= "The flag carriers have become increasingly vulnerable to attack!"
-})
-
 L:SetTimerLocalization({
-	TimerStart = "战斗即将开始",
 	TimerFlag = "旗帜重置"
 })
 
 L:SetOptionLocalization({
-	TimerStart  = "计时条：战斗开始",
 	TimerFlag = "计时条：旗帜重置",
 	ShowFlagCarrier = "显示旗帜携带者",
 	ShowFlagCarrierErrorNote = "战斗中显示旗帜携带者错误信息"
+})
+
+L:SetMiscLocalization({
+	InfoErrorText		= "携带旗帜者目标功能会在你脱离战斗后恢复。",
+	ExprFlagPickUp 		= "(.+)的旗帜被(.+)拔起了！",
+	ExprFlagCaptured 	= "(.+)夺取了(.+)的旗帜！",
+	ExprFlagReturn 		= "(.+)的旗帜被(.+)还到了它的基地中！",
+	FlagAlliance 		= "联盟: ",
+	FlagHorde 			= "部落: ",
+	FlagBase 			= "基地",
+	Vulnerable1			= "The flag carriers have become vulnerable to attack!", -- Need localization straight from the battlefield
+	Vulnerable2			= "The flag carriers have become increasingly vulnerable to attack!", -- Need localization straight from the battlefield
+	Alliance 			= "联盟",
+	Horde 				= "部落"
 })
 
 --------------------------
 --  Battle for Gilneas  --
 --------------------------
 L = DBM:GetModLocalization("z761")
-
-L:SetMiscLocalization({
-	ScoreExpr = "(%d+)/1500",
-	Alliance = "联盟",
-	Horde = "部落",
-	WinBarText = "%s 获胜",
-	BasesToWin = "胜利需要占领资源点: %d",
-	Flag = "旗帜"
-})
 
 L:SetTimerLocalization({
 	TimerCap = "%s"
@@ -241,6 +252,13 @@ L:SetOptionLocalization({
 	ShowGilneasBasesToWin = "显示获胜需要占领的资源点"
 })
 
+L:SetMiscLocalization({
+	ScoreExpr = "(%d+)/1500",
+	WinBarText = "%s 获胜",
+	BasesToWin = "胜利需要占领资源点: %d",
+	Alliance = "联盟",
+	Horde = "部落"
+})
 
 -------------------------
 --  Silvershard Mines  --
@@ -274,8 +292,8 @@ L:SetMiscLocalization({
 	OrbTaken 	= "(%S+)取走了(%S+)的球！",
 	OrbReturn 	= "(%S+)宝珠被放回了！",
 	ScoreExpr	= "(%d+)/1500",
-	Alliance	= "联盟",
-	Horde		= "部落",
 	WinBarText	= "预计：%s获胜",
-	OrbsToWin	= "胜利需要控制宝珠：%d"
+	OrbsToWin	= "胜利需要控制宝珠：%d",
+	Alliance	= "联盟",
+	Horde		= "部落"
 })

@@ -1,6 +1,5 @@
-﻿-- Last update: 01/19/2013 (19/01/2013 in french format)
--- By Edoz (stephanelc35@msn.com)
-if GetLocale() ~= "frFR" then return end
+﻿if GetLocale() ~= "frFR" then return end
+
 local L
 
 ----------------------------
@@ -12,12 +11,17 @@ L:SetGeneralLocalization({
 	name = "Options générale"
 })
 
+L:SetWarningLocalization({
+	Start = "The battle has begun!" -- Need localization straight from the battlefield
+})
+
 L:SetTimerLocalization({
 	timerCombatStart	= DBM_CORE_GENERIC_TIMER_COMBAT,
 	TimerInvite		 	= "%s"
 })
 
 L:SetOptionLocalization({
+	Start		 		= "Show special warning \"The battle has begun!\" when starting a battle on the battlefields.", -- Need localization
 	timerCombatStart 	= DBM_CORE_OPTION_TIMER_COMBAT,
 	ColorByClass		= "Met le nom en couleur en fonction de la classe dans le tableau des scores",
 	ShowInviteTimer		= "Affiche le temps restant pour rejoindre le Champ de bataille",
@@ -27,10 +31,12 @@ L:SetOptionLocalization({
 
 L:SetMiscLocalization({
 	BgStart1 		= "Début de la bataille pour le goulet des Chanteguerres dans 1 minute.", --
-	BgStart2 		= "Début de la bataille pour le goulet des Chanteguerres dans 1 minute.",
+	BgStart2 		= "Début de la bataille pour le goulet des Chanteguerres dans 1 minute.", -- Need localization straight from the battlefield
 	BgStart3 		= "Début de la bataille pour le goulet des Chanteguerres dans 30 secondes. Préparez-vous !", --
-	BgStart4 		= "Début de la bataille pour le goulet des Chanteguerres dans 30 secondes. Préparez-vous !",
-	BgStart 		= "La bataille a commencé", --пока неточно
+	BgStart4 		= "Début de la bataille pour le goulet des Chanteguerres dans 30 secondes. Préparez-vous !", -- Need localization straight from the battlefield
+	BgStart5 		= "Round 2 of the Battle for the Strand of the Ancients begins in 1 minute.", -- Need localization straight from the battlefield
+	BgStart6 		= "Round 2 begins in 30 seconds.  Prepare yourselves!", -- Need localization straight from the battlefield
+	BgStart 		= "La bataille a commencé", -- Need localization straight from the battlefield
 	ArenaInvite		= "Invitation d'arène"
 })
 
@@ -54,8 +60,10 @@ L:SetOptionLocalization({
 	TimerShadow = "Montre le timer de la Vue de l'ombre"
 })
 
-L:SetMiscLocalization({
-	Start15		= "Quinze secondes avant le départ de l'arène !"
+L:SetMiscLocalization({ --Le combat d’arène commence dans une minute !
+	Start30			= "Le combat d’arène commence dans trente secondes !", --
+	Start15			= "Le combat commence dans quinze secondes !", --
+	Start			= "Le combat commence !" --
 })
 
 ---------------

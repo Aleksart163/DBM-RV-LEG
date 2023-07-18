@@ -4,11 +4,6 @@ local L		= mod:GetLocalizedStrings()
 mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
 mod:SetZone(DBM_DISABLE_ZONE_DETECTION)
 
-mod:AddBoolOption("ColorByClass", true)
---mod:AddBoolOption("ShowInviteTimer", true)
-mod:AddBoolOption("HideBossEmoteFrame", false)
-mod:AddBoolOption("AutoSpirit", false)
-
 mod:RegisterEvents(
 	"CHAT_MSG_BG_SYSTEM_NEUTRAL",
 	"ZONE_CHANGED_NEW_AREA",
@@ -16,13 +11,20 @@ mod:RegisterEvents(
 	"PLAYER_DEAD"
 )
 
+-- Прошляпанное очко Мурчаля Прошляпенко [✔] --
+
 --local inviteTimer = mod:NewTimer(60, "TimerInvite", "Interface\\Icons\\Spell_Holy_WeaponMastery", nil, false)
 
-local specWarnBgStart		= mod:NewSpecialWarning("Start", nil, nil, nil, 1, 2)
+local specWarnBgStart		= mod:NewSpecialWarning("Start", nil, nil, nil, 1, 2) -- бой начался
 
 local timerCombatStart		= mod:NewTimer(30, "timerCombatStart", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7) --начало боя
 
 local countdownMatchStart	= mod:NewCountdown(15, 91344, nil, nil, 5) --начало боя
+
+mod:AddBoolOption("ColorByClass", true)
+--mod:AddBoolOption("ShowInviteTimer", true)
+mod:AddBoolOption("HideBossEmoteFrame", false)
+mod:AddBoolOption("AutoSpirit", false)
 
 function mod:CHAT_MSG_BG_SYSTEM_NEUTRAL(msg)
 	if msg == L.BgStart1 or msg == L.BgStart2 or msg == L.BgStart5 then
@@ -31,10 +33,11 @@ function mod:CHAT_MSG_BG_SYSTEM_NEUTRAL(msg)
 	elseif msg == L.BgStart3 or msg == L.BgStart4 or msg == L.BgStart6 then
 		timerCombatStart:Cancel()
 		countdownMatchStart:Cancel()
-		specWarnBgStart:Schedule(30)
 		timerCombatStart:Start(30)
 		countdownMatchStart:Start(30)
 	elseif msg == L.BgStart then
+		DBM:AddMsg(DBM_FORUMS_MESSAGE)
+		specWarnBgStart:Show()
 		timerCombatStart:Cancel()
 		countdownMatchStart:Cancel()		
 	end

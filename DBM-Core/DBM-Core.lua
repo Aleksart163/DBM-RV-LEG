@@ -5444,6 +5444,7 @@ do
 	
 	function DBM:ENCOUNTER_START(encounterID, name, difficulty, size) --Волосали
 		self:Debug("ENCOUNTER_START event fired: "..encounterID.." "..name.." "..difficulty.." "..size)
+		DBM:AddMsg(DBM_FORUMS_MESSAGE)
 		if dbmIsEnabled then
 			if not self.Options.DontShowReminders then
 				self:CheckAvailableMods()

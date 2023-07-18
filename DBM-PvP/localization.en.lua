@@ -57,10 +57,10 @@ L:SetOptionLocalization({
 	TimerShadow = "Show timer for Shadow Sight"
 })
 
-L:SetMiscLocalization({
-	Start15			= "Fifteen seconds until the Arena battle begins!",
-	highmaulArena	= "The battle for supremacy begins in 30 seconds!",
-	Start			= "The Arena battle has begun!"
+L:SetMiscLocalization({ --One minute until the Arena battle begins!
+	Start30			= "Thirty seconds until the Arena battle begins!", --
+	Start15			= "Fifteen seconds until the Arena battle begins!", --
+	Start			= "The Arena battle has begun!" --
 })
 
 ----------------------
@@ -280,7 +280,7 @@ L:SetMiscLocalization({
 L = DBM:GetModLocalization("z998")
 
 L:SetOptionLocalization({
-	TimerWin			= "Show win timer",
+	TimerWin					= "Show win timer",
 	ShowKotmoguEstimatedPoints	= "Show estimated points on win/loss",
 	ShowKotmoguOrbsToWin		= "Show orbs required to win"
 })
