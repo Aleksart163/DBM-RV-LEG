@@ -146,7 +146,7 @@ L:SetTimerLocalization({
 })
 
 L:SetOptionLocalization({
-	ShowProshlyapMurchal = "Спец-предупреждение об $journal:16138 (требуются права лидера рейда)",
+	ShowProshlyapMurchal = "Спец-предупреждения об $journal:16138 (требуются права лидера рейда)",
 	Amantul 			= "Спец-предупреждение за 5 сек до появления $spell:252479",
 	Norgannon 			= "Спец-предупреждение за 5 сек до появления $spell:244740",
 	Golgannet 			= "Спец-предупреждение за 5 сек до появления $spell:244756",
