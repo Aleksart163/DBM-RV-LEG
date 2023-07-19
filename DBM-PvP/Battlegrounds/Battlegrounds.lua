@@ -27,19 +27,30 @@ mod:AddBoolOption("HideBossEmoteFrame", false)
 mod:AddBoolOption("AutoSpirit", false)
 
 function mod:CHAT_MSG_BG_SYSTEM_NEUTRAL(msg)
-	if msg == L.BgStart1 or msg == L.BgStart2 or msg == L.BgStart5 then
+	if msg == L.BgStart1 or msg == L.BgStart2 then
 		timerCombatStart:Start(60)
 		countdownMatchStart:Start(60)
-	elseif msg == L.BgStart3 or msg == L.BgStart4 or msg == L.BgStart6 then
+	elseif msg == L.BgStart3 or msg == L.BgStart4 then
 		timerCombatStart:Cancel()
 		countdownMatchStart:Cancel()
 		timerCombatStart:Start(30)
 		countdownMatchStart:Start(30)
+	elseif msg == L.BgStart5 then
+		timerCombatStart:Start(60)
+		countdownMatchStart:Start(60)
+		specWarnBgStart:Schedule(60)
+	elseif msg == L.BgStart6 then
+		timerCombatStart:Cancel()
+		countdownMatchStart:Cancel()
+		specWarnBgStart:Cancel()
+		timerCombatStart:Start(30)
+		countdownMatchStart:Start(30)
+		specWarnBgStart:Schedule(30)
 	elseif msg == L.BgStart then
 		DBM:AddMsg(DBM_FORUMS_MESSAGE)
 		specWarnBgStart:Show()
 		timerCombatStart:Cancel()
-		countdownMatchStart:Cancel()		
+		countdownMatchStart:Cancel()
 	end
 end
 
