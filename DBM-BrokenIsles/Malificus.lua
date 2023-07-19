@@ -18,19 +18,19 @@ mod:RegisterEventsInCombat(
 	"SPELL_PERIODIC_MISSED 233850"
 )
 
---TODO, actual timer data and verify spellIds
---TODO, use nameplate auras or HUDMap (since it is outdoors after all)
+
 local warnIncitePanic				= mod:NewSpellAnnounce(233568, 2, nil, false)--Off cause fuckups may result in heavy spam
-local warnShadowBarrage				= mod:NewSpellAnnounce(234452, 2)
+local warnShadowBarrage				= mod:NewSpellAnnounce(234452, 2) --Залп Тени
 
-local specWarnIncitePanic			= mod:NewSpecialWarningYou(233568, nil, nil, nil, 2, 2)
-local yellIncitePanic				= mod:NewYell(233568)
-local specWarnIncitePanicNear		= mod:NewSpecialWarningClose(233568, nil, nil, nil, 1, 2)
-local specWarnVirulentInfection		= mod:NewSpecialWarningMove(233850, nil, nil, nil, 1, 2)
+local specWarnIncitePanic			= mod:NewSpecialWarningYou(233568, nil, nil, nil, 1, 2) --Вызвать панику
+local specWarnIncitePanicNear		= mod:NewSpecialWarningClose(233568, nil, nil, nil, 1, 2) --Вызвать панику
+local specWarnVirulentInfection		= mod:NewSpecialWarningMove(233850, nil, nil, nil, 1, 2) --Смертоносная инфекция
 
-local timerIncitePanicCD			= mod:NewCDTimer(14.6, 233568, nil, nil, nil, 1)
-local timerPestilenceCD				= mod:NewCDTimer(14.2, 233614, nil, nil, nil, 3)
-local timerShadowBarrageCD			= mod:NewCDTimer(16.7, 234452, nil, nil, nil, 2)
+local timerIncitePanicCD			= mod:NewCDTimer(14.6, 233568, nil, nil, nil, 3) --Вызвать панику
+local timerPestilenceCD				= mod:NewCDTimer(14.2, 233614, nil, nil, nil, 3) --Мор
+local timerShadowBarrageCD			= mod:NewCDTimer(16.7, 234452, nil, nil, nil, 2) --Залп Тени
+
+local yellIncitePanic				= mod:NewYellMoveAway(233568, nil, nil, nil, "YELL") --Вызвать панику
 
 --mod:AddReadyCheckOption(37460, false)
 mod:AddRangeFrameOption(8, 233568)
