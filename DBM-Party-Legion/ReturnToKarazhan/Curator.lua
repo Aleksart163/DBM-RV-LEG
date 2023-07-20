@@ -24,7 +24,7 @@ mod:RegisterEventsInCombat(
 	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
 
---Смотритель https://ru.wowhead.com/npc=114247/смотритель/эпохальный-журнал-сражений
+--Смотритель и прошляпанное очко Мурчаля Прошляпенко [✔]
 local warnOverload					= mod:NewStackAnnounce(227257, 4, nil, nil, 2) --Перегрузка
 local warnAdds						= mod:NewSpellAnnounce(227267, 3, nil, "Healer") --Призыв нестабильной энергии
 local warnEvo						= mod:NewSpellAnnounce(227254, 3, nil, "Healer") --Прилив сил
@@ -34,11 +34,11 @@ local specWarnPowerDischarge2		= mod:NewSpecialWarningDodge(227279, nil, nil, ni
 local specWarnAdds					= mod:NewSpecialWarningSwitch(227267, "-Healer", nil, nil, 1, 2) --Призыв нестабильной энергии
 local specWarnPowerDischarge		= mod:NewSpecialWarningYouMove(227465, nil, nil, nil, 1, 2) --Разряд энергии
 local specWarnEvo					= mod:NewSpecialWarningMoreDamage(227254, "-Healer", nil, nil, 3, 2) --Прилив сил
-local specWarnEvo2					= mod:NewSpecialWarningDefensive(227254, nil, nil, nil, 3, 6) --Прилив сил
+local specWarnOverload				= mod:NewSpecialWarningDefensive(227257, nil, nil, nil, 3, 6) --Перегрузка
 
 local timerSummonAddCD				= mod:NewNextTimer(9.5, 227267, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON) --Призыв нестабильной энергии
 local timerPowerDischargeCD			= mod:NewCDTimer(14, 227279, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Разряд энергии
-local timerEvoCD					= mod:NewNextTimer(70, 227254, nil, nil, nil, 6, nil, DBM_CORE_DAMAGE_ICON) --Прилив сил
+local timerEvoCD					= mod:NewNextTimer(70, 227254, nil, nil, nil, 7) --Прилив сил
 local timerEvo						= mod:NewBuffActiveTimer(20, 227254, nil, nil, nil, 6, nil, DBM_CORE_DEADLY_ICON) --Прилив сил
 
 local countdownEvo					= mod:NewCountdown(70, 227254, nil, nil, 5) --Прилив сил
@@ -47,7 +47,7 @@ mod.vb.powerDischargeCast = 0
 
 local powerDischarges = {14, 14, 14, 45.2, 14, 14, 45.2, 14, 14, 45.2, 14, 14, 45.2, 14, 14, 45.2, 14, 14, 45.2, 14, 14, 45.2}
 
-local function startPowerDischarge(self)
+local function startPowerDischarge(self) --Прошляпанное очко Мурчаля Прошляпенко
 	self.vb.powerDischargeCast = self.vb.powerDischargeCast + 1
 	if not UnitIsDeadOrGhost("player") then
 		specWarnPowerDischarge2:Show()
@@ -100,7 +100,8 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnEvo:Show()
 		specWarnEvo:Show(args.destName)
 		warnEvo2:Schedule(17)
-		specWarnEvo2:Schedule(17)
+		specWarnOverload:Schedule(17)
+		specWarnOverload:ScheduleVoice(17, "defensive")
 		timerEvo:Start()
 		countdownEvo:Start(20)
 	elseif spellId == 227257 then --Перегрузка
