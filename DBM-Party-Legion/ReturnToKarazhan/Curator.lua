@@ -28,12 +28,12 @@ mod:RegisterEventsInCombat(
 local warnOverload					= mod:NewStackAnnounce(227257, 4, nil, nil, 2) --Перегрузка
 local warnAdds						= mod:NewSpellAnnounce(227267, 3, nil, "Healer") --Призыв нестабильной энергии
 local warnEvo						= mod:NewSpellAnnounce(227254, 3, nil, "Healer") --Прилив сил
-local warnEvo2						= mod:NewPreWarnAnnounce(227254, 3, 4) --Прилив сил
 
 local specWarnPowerDischarge2		= mod:NewSpecialWarningDodge(227279, nil, nil, nil, 2, 2) --Разряд энергии
 local specWarnAdds					= mod:NewSpecialWarningSwitch(227267, "-Healer", nil, nil, 1, 2) --Призыв нестабильной энергии
 local specWarnPowerDischarge		= mod:NewSpecialWarningYouMove(227465, nil, nil, nil, 1, 2) --Разряд энергии
 local specWarnEvo					= mod:NewSpecialWarningMoreDamage(227254, "-Healer", nil, nil, 3, 2) --Прилив сил
+local specWarnEvo2					= mod:NewSpecialWarningSoon(227254, nil, nil, nil, 1, 2) --Прилив сил
 local specWarnOverload				= mod:NewSpecialWarningDefensive(227257, nil, nil, nil, 3, 6) --Перегрузка
 
 local timerSummonAddCD				= mod:NewNextTimer(9.5, 227267, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON) --Призыв нестабильной энергии
@@ -64,6 +64,8 @@ function mod:OnCombatStart(delay)
 	self.vb.powerDischargeCast = 0
 	if not self:IsNormal() then
 		timerSummonAddCD:Start(6-delay) --Призыв нестабильной энергии
+		specWarnEvo2:Schedule(48-delay)
+		specWarnEvo2:ScheduleVoice(48-delay, "specialsoon")
 		timerEvoCD:Start(53-delay) --Прилив сил
 		countdownEvo:Start(53) --Прилив сил
 		timerPowerDischargeCD:Start(13-delay) --Разряд энергии
@@ -99,7 +101,6 @@ function mod:SPELL_AURA_APPLIED(args)
 	--	timerPowerDischargeCD:Stop()
 		warnEvo:Show()
 		specWarnEvo:Show(args.destName)
-		warnEvo2:Schedule(17)
 		specWarnOverload:Schedule(17)
 		specWarnOverload:ScheduleVoice(17, "defensive")
 		timerEvo:Start()
@@ -116,6 +117,8 @@ function mod:SPELL_AURA_REMOVED(args)
 	if spellId == 227254 then --Прилив сил
 		timerSummonAddCD:Start(6)
 	--	timerPowerDischargeCD:Start(13)
+		specWarnEvo2:Schedule(48.5)
+		specWarnEvo2:ScheduleVoice(48.5, "specialsoon")
 		timerEvoCD:Start(53.5) --для миф0 норм
 		countdownEvo:Start(53.5) --для миф0 норм
 	end
