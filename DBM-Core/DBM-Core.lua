@@ -1526,6 +1526,35 @@ function proshlyapMurchalya(force, raid, guild) --Прошляпанное оч�
 		end
 	end
 end
+
+local AutoKeystone = CreateFrame("Frame")
+
+function AutoKeystone:OnEvent(event, proshlyap)
+	if (proshlyap == "Blizzard_ChallengesUI") then
+		if ChallengesKeystoneFrame then
+			ChallengesKeystoneFrame:HookScript("OnShow", self.OnShow)
+		end
+	end
+end
+
+function AutoKeystone:OnShow()
+	for container=BACKPACK_CONTAINER, NUM_BAG_SLOTS do
+		local slots = GetContainerNumSlots(container)
+		for slot=1, slots do
+			local _, _, _, _, _, _, slotLink, _, _, slotItemID = GetContainerItemInfo(container, slot)
+			if slotLink and slotLink:match("|Hkeystone:") then
+				PickupContainerItem(container, slot)
+				if (CursorHasItem()) then
+					C_ChallengeMode.SlotKeystone()
+				end
+			end
+		end
+	end
+end
+
+AutoKeystone:RegisterEvent("ADDON_LOADED")
+AutoKeystone:SetScript("OnEvent", AutoKeystone.OnEvent)
+
 --[[ Волосали
 local function Proshlyap2(self, event)
 	if event == "CONFIRM_SUMMON" then

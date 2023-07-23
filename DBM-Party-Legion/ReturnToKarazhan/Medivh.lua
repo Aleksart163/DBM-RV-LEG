@@ -29,15 +29,17 @@ local warnFlameWreathTargets		= mod:NewTargetAnnounce(228269, 4) --Венец п
 
 local specWarnArcaneMissiles		= mod:NewSpecialWarningDefensive(227628, "Tank", nil, nil, 2, 2) --Пронзающие стрелы
 local specWarnArcaneMissiles2		= mod:NewSpecialWarningStack(227644, nil, 2, nil, nil, 3, 6) --Пронзающие стрелы
-local specWarnFrostbite				= mod:NewSpecialWarningInterrupt(227592, "HasInterrupt", nil, nil, 3, 6) --Обморожение
+local specWarnFrostbite				= mod:NewSpecialWarningInterrupt(227592, "HasInterrupt", nil, nil, 3, 3) --Обморожение
 local specWarnInfernoBolt			= mod:NewSpecialWarningInterrupt(227615, "HasInterrupt", nil, nil, 1, 2) --Инфернальная стрела
-local specWarnArcaneBolt			= mod:NewSpecialWarningInterrupt(228991, "HasInterrupt", nil, nil, 3, 6) --Чародейская стрела
+local specWarnArcaneBolt			= mod:NewSpecialWarningInterrupt(228991, "HasInterrupt", nil, nil, 3, 3) --Чародейская стрела
 local specWarnInfernoBoltMoveTo		= mod:NewSpecialWarningMoveTo(227615, nil, nil, nil, 1, 2) --Инфернальная стрела
 local specWarnInfernoBoltMoveAway	= mod:NewSpecialWarningMoveAway(227615, nil, nil, nil, 1, 2) --Инфернальная стрела
 local specWarnInfernoBoltNear		= mod:NewSpecialWarningClose(227615, nil, nil, nil, 1, 2) --Инфернальная стрела
 local specWarnCeaselessWinter		= mod:NewSpecialWarningDontStand(227779, nil, nil, nil, 2, 3) --Бесконечная зима
-local specWarnFlameWreath			= mod:NewSpecialWarningYouDontMove(228261, nil, nil, nil, 3, 5) --Венец пламени
+local specWarnFlameWreath			= mod:NewSpecialWarningYouDontMove(228269, nil, nil, nil, 3, 5) --Венец пламени
 local specWarnFlameWreath2			= mod:NewSpecialWarningDontMove(228269, nil, nil, nil, 2, 5) --Венец пламени
+local specWarnFlameWreath3			= mod:NewSpecialWarningMoveAway(228269, nil, nil, nil, 3, 5) --Венец пламени
+local specWarnFlameWreath4			= mod:NewSpecialWarningYouDefensive(228269, nil, nil, nil, 5, 6) --Венец пламени
 local specWarnGuardiansImage		= mod:NewSpecialWarningSwitch(228334, "-Healer", nil, nil, 1, 2) --Проекция Хранителя
 
 local timerSpecialCD				= mod:NewCDSpecialTimer(30)
@@ -88,8 +90,10 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 228269 then --Венец пламени
 		warnFlameWreath:Show()
 		if not UnitIsDeadOrGhost("player") then
-			specWarnFlameWreath2:Show()
-			specWarnFlameWreath2:Play("stopmove")
+			specWarnFlameWreath3:Show()
+			specWarnFlameWreath3:Play("runaway")
+			specWarnFlameWreath2:Schedule(2.5)
+			specWarnFlameWreath2:ScheduleVoice(2.5, "stopmove")
 		end
 		timerSpecialCD:Start(31.5)
 		countdownSpecial:Start(31.5)
@@ -106,12 +110,14 @@ function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 227592 then
 		self.vb.playersFrozen = self.vb.playersFrozen + 1
-	elseif spellId == 228261 then
+	elseif spellId == 228261 then --Венец пламени
 		self.vb.wreathIcon = self.vb.wreathIcon - 1
 		warnFlameWreathTargets:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
 			specWarnFlameWreath:Show()
 			specWarnFlameWreath:Play("stopmove")
+			specWarnFlameWreath4:Schedule(3)
+			specWarnFlameWreath4:ScheduleVoice(3, "defensive")
 			yellFlameWreath:Yell()
 			yellFlameWreath2:Countdown(20, 3)
 		end

@@ -515,11 +515,11 @@ do
 		if msg:find("spell:254244") then
 			targetName = Ambiguate(targetName, "none")
 			if self:AntiSpam(4, targetName) then
-				warnSleepCanister:CombinedShow(0.5, targetName)
+				warnSleepCanister:CombinedShow(1, targetName)
 				if targetName == playerName then
 					local icon = self.vb.sleepCanisterIcon
 					yellSleepCanister:Yell(icon, sleepCanister, icon)
-				elseif self:CheckNearby(10, targetName) then
+				elseif self:CheckNearby(11, targetName) then
 					specWarnSleepCanisterNear:CombinedShow(0.3, targetName)
 					specWarnSleepCanisterNear:Play("runaway")
 				end
