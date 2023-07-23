@@ -95,8 +95,7 @@ L:SetOptionLocalization({
 
 L:SetMiscLocalization({
 	noCLEU4EchoRings		= "让时间的浪潮碾碎你们！",
-	noCLEU4EchoOrbs			= "你们会发现，时间极不稳定。",
-	prePullRP				= "我早就预见了你们的到来，命运指引你们来到此地。为了阻止军团，你们想背水一战。"
+	noCLEU4EchoOrbs			= "你们会发现，时间极不稳定。"
 })
 
 ------------------
@@ -105,8 +104,7 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(1737)
 
 L:SetMiscLocalization({
-	mythicPhase3		= "该让这个恶魔猎手的灵魂回到躯体中……防止燃烧军团之主占据它了！",
-	prePullRP			= "啊我们的英雄到了，如此执着，如此自性但这种傲慢只会毁了你们！"
+	mythicPhase3		= "该让这个恶魔猎手的灵魂回到躯体中……防止燃烧军团之主占据它了！"
 })
 
 -------------
@@ -116,4 +114,9 @@ L = DBM:GetModLocalization("NightholdTrash")
 
 L:SetGeneralLocalization({
 	name =	"暗夜要塞小怪"
+})
+
+L:SetMiscLocalization({
+	prePullRP1				= "我早就预见了你们的到来，命运指引你们来到此地。为了阻止军团，你们想背水一战。",
+	prePullRP2			= "啊我们的英雄到了，如此执着，如此自性但这种傲慢只会毁了你们！"
 })

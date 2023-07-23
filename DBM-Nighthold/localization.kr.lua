@@ -97,8 +97,7 @@ L:SetOptionLocalization({
 
 L:SetMiscLocalization({
 	noCLEU4EchoRings		= "시간의 파도가 널 덮치기를!",
-	noCLEU4EchoOrbs				= "시간은 제멋대로 사라져 버리지.",
-	prePullRP				= "모두 예견했다. 너희를 여기로 이끈 운명의 실마리를. 군단을 막으려는 너희의 필사적인 몸부림을."
+	noCLEU4EchoOrbs			= "시간은 제멋대로 사라져 버리지."
 })
 
 ------------------
@@ -107,8 +106,7 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(1737)
 
 L:SetMiscLocalization({
-	mythicPhase3		= "악마사냥꾼의 영혼을 육신으로 돌려보내야 할 때요... 군단의 주인을 거부해야 하오!",
-	prePullRP			= "아, 그래, 영웅들이 납셨군. 아주 끈질겨... 자신감이 넘치고. 그 오만 때문에 파멸할 것이다!"
+	mythicPhase3			= "악마사냥꾼의 영혼을 육신으로 돌려보내야 할 때요... 군단의 주인을 거부해야 하오!"
 })
 
 -------------
@@ -118,4 +116,9 @@ L = DBM:GetModLocalization("NightholdTrash")
 
 L:SetGeneralLocalization({
 	name =	"밤의 요새 일반몹"
+})
+
+L:SetMiscLocalization({
+	prePullRP1				= "모두 예견했다. 너희를 여기로 이끈 운명의 실마리를. 군단을 막으려는 너희의 필사적인 몸부림을.",
+	prePullRP2				= "아, 그래, 영웅들이 납셨군. 아주 끈질겨... 자신감이 넘치고. 그 오만 때문에 파멸할 것이다!"
 })

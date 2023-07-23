@@ -8,7 +8,7 @@ mod.isTrashMod = true
 
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 199805 192563 199726 199382 200901 192158 192288 210875 199652 200969 198888 198931 191401 198892",
+	"SPELL_CAST_START 199805 192563 199726 199382 200901 192158 192288 210875 199652 200969 198888 198931 191401 198892 198595",
 	"SPELL_CAST_SUCCESS 199382 200901",
 	"SPELL_AURA_APPLIED 215430 199652",
 	"SPELL_AURA_APPLIED_DOSE 199652",
@@ -56,6 +56,7 @@ local specWarnCrackle				= mod:NewSpecialWarningDodge(199805, nil, nil, nil, 1, 
 local specWarnCleansingFlame		= mod:NewSpecialWarningInterrupt(192563, "HasInterrupt", nil, nil, 1, 2) --Очищающие языки пламени
 local specWarnUnrulyYell			= mod:NewSpecialWarningInterrupt(199726, "HasInterrupt", nil, nil, 1, 2) --Буйный вопль
 local specWarnSearingLight			= mod:NewSpecialWarningInterrupt(192288, "HasInterrupt", nil, nil, 1, 2) --Опаляющий свет
+local specWarnThunderousBolt		= mod:NewSpecialWarningInterrupt(198595, "HasInterrupt", nil, nil, 1, 2) --Гром и молния
 
 local timerSever					= mod:NewTargetTimer(12, 199652, nil, "Tank|Healer", nil, 3, nil, DBM_CORE_TANK_ICON) --Рассечение
 local timerEnragingRoarCD			= mod:NewCDTimer(25, 199382, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON) --Яростный рев
@@ -129,7 +130,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 192563 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
 		specWarnCleansingFlame:Show()
 		specWarnCleansingFlame:Play("kickcast")
-	elseif spellId == 199726 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
+	elseif spellId == 199726 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Буйный вопль
 		specWarnUnrulyYell:Show()
 		specWarnUnrulyYell:Play("kickcast")
 	elseif spellId == 192288 then --Опаляющий свет
@@ -152,7 +153,7 @@ function mod:SPELL_CAST_START(args)
 			specWarnSanctify2:Show()
 			specWarnSanctify2:Play("watchorb")
 			specWarnSanctify:Show()
-			specWarnSanctify:Play("watchorb")
+			specWarnSanctify:Play("watchstep")
 		end
 		timerSanctifyCD:Start()
 		countdownSanctify:Start()
@@ -185,6 +186,9 @@ function mod:SPELL_CAST_START(args)
 		self:BossTargetScanner(args.sourceGUID, "ShootTarget", 0.1, 2)
 	elseif spellId == 198892 then --Грохочущая буря
 		self:BossTargetScanner(args.sourceGUID, "CracklingStormTarget", 0.1, 2)
+	elseif spellId == 198595 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Гром и молния
+		specWarnThunderousBolt:Show()
+		specWarnThunderousBolt:Play("kickcast")
 	end
 end
 

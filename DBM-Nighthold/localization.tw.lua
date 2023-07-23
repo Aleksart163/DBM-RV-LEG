@@ -93,8 +93,7 @@ L:SetOptionLocalization({
 
 L:SetMiscLocalization({
 	noCLEU4EchoRings		= "時間的浪潮會粉碎你！",
-	noCLEU4EchoOrbs			= "你會發現時光有時很不穩定。",
-	prePullRP				= "我預見了你的到來。命運的絲線帶你來到這裡。你竭盡全力，想阻止燃燒軍團。"
+	noCLEU4EchoOrbs			= "你會發現時光有時很不穩定。"
 })
 
 ------------------
@@ -103,8 +102,7 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(1737)
 
 L:SetMiscLocalization({
-	mythicPhase3		= "把靈魂送回惡魔獵人的體內...別讓燃燒軍團的主宰占用!",
-	prePullRP			= "啊，很好，英雄們來了。真有毅力，真有自信。不過你們的傲慢會害死你們！"
+	mythicPhase3			= "把靈魂送回惡魔獵人的體內...別讓燃燒軍團的主宰占用!"
 })
 
 -------------
@@ -114,4 +112,9 @@ L = DBM:GetModLocalization("NightholdTrash")
 
 L:SetGeneralLocalization({
 	name =	"暗夜堡小怪"
+})
+
+L:SetMiscLocalization({
+	prePullRP1				= "我預見了你的到來。命運的絲線帶你來到這裡。你竭盡全力，想阻止燃燒軍團。",
+	prePullRP2				= "啊，很好，英雄們來了。真有毅力，真有自信。不過你們的傲慢會害死你們！"
 })
