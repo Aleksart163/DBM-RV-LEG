@@ -80,7 +80,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 248227 then
 		specWarnDarkMatter:Show()
 		specWarnDarkMatter:Play("killmob")
-	elseif spellId == 248128 and self:AntiSpam(3, 1) then --Потемневший прах
+	elseif spellId == 248128 and self:AntiSpam(3, "darkenedremnant") then --Потемневший прах
 		specWarnDarkenedRemnant:Show()
 		specWarnDarkenedRemnant:Play("watchstep")
 	end
@@ -89,7 +89,7 @@ end
 function mod:SPELL_AURA_APPLIED(args)
 	if not self.Options.Enabled then return end
 	local spellId = args.spellId
-	if spellId == 249077 and self:AntiSpam(3, args.destName) then
+	if spellId == 249077 and self:AntiSpam(3, "corruptingvoid") then
 		if args:IsPlayer() then
 			specWarnCorruptingVoid:Show()
 			specWarnCorruptingVoid:Play("runout")
@@ -98,7 +98,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		else
 			warnCorruptingVoid:CombinedShow(0.5, args.destName)
 		end
-	elseif spellId == 249081 and self:AntiSpam(3, args.destName) then --Подавляющее поле
+	elseif spellId == 249081 and self:AntiSpam(3, "supfield") then --Подавляющее поле
 		if args:IsPlayer() then
 			specWarnSupField:Show()
 			specWarnSupField:Play("stopmove")
@@ -162,7 +162,7 @@ function mod:CHAT_MSG_MONSTER_SAY(msg)
 	end
 end
 
-function mod:OnSync(msg, GUID)
+function mod:OnSync(msg)
 	if msg == "RP1" then
 		timerRoleplay:Start(22)
 	elseif msg == "RP2" then
