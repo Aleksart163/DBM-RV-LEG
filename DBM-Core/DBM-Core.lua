@@ -1478,8 +1478,8 @@ do
 		end
 	end
 end
-
-local function proshlyapSoulburnin(self, event, msg) --явно прошляпанное очко Мурчаля
+---------------------------------Murchal ochken proshlyapen---------------------------------------
+local function proshlyapSoulburnin(self, event, msg)
 	if DBM.Options.AutoKeyLink then
 		if event == "CHAT_MSG_PARTY" or event == "CHAT_MSG_PARTY_LEADER" then
 			if string.lower(msg) == "!keys" then
@@ -1526,10 +1526,10 @@ function proshlyapMurchalya(force, raid, guild) --Прошляпанное оч�
 		end
 	end
 end
+--------------------------------------------------------------------------------------------------
+local Proshlyapation = CreateFrame("Frame")
 
-local AutoKeystone = CreateFrame("Frame")
-
-function AutoKeystone:OnEvent(event, proshlyap)
+function Proshlyapation:OnEvent(event, proshlyap)
 	if (proshlyap == "Blizzard_ChallengesUI") then
 		if ChallengesKeystoneFrame then
 			ChallengesKeystoneFrame:HookScript("OnShow", self.OnShow)
@@ -1537,7 +1537,7 @@ function AutoKeystone:OnEvent(event, proshlyap)
 	end
 end
 
-function AutoKeystone:OnShow()
+function Proshlyapation:OnShow()
 	for container=BACKPACK_CONTAINER, NUM_BAG_SLOTS do
 		local slots = GetContainerNumSlots(container)
 		for slot=1, slots do
@@ -1552,9 +1552,9 @@ function AutoKeystone:OnShow()
 	end
 end
 
-AutoKeystone:RegisterEvent("ADDON_LOADED")
-AutoKeystone:SetScript("OnEvent", AutoKeystone.OnEvent)
-
+Proshlyapation:RegisterEvent("ADDON_LOADED")
+Proshlyapation:SetScript("OnEvent", Proshlyapation.OnEvent)
+--------------------------------------------------------------------------------------------------
 --[[ Волосали
 local function Proshlyap2(self, event)
 	if event == "CONFIRM_SUMMON" then
@@ -10306,7 +10306,7 @@ do
 			elseif announceType == "soonlookaway" or announceType == "targetint" or announceType == "targetrun" or announceType == "targetsoak" or announceType == "keepdist" or announceType == "you" or announceType == "yourun" or announceType == "yourunning" or announceType == "closemoveaway" or announceType == "youfind" or announceType == "youclose" or announceType == "youshare" or announceType == "youdefensive" or announceType == "youmoveaway" or announceType == "youmove" or announceType == "youcount" or announceType == "youpos" or announceType == "move" or announceType == "dodge" or announceType == "moveaway" or announceType == "run" or announceType == "stack" or announceType == "moveto" or announceType == "soakpos" or announceType == "youmoveawaypos" or announceType == "youfades" or announceType == "youdontmove" or announceType == "cast" then
 				catType = "announcepersonal"
 			--Things you have to do to fulfil your role
-			elseif announceType == "reflect" or announceType == "taunt" or announceType == "youdispel" or announceType == "moredamage" or announceType == "defensive" or announceType == "interrupt2" or announceType == "dispel" or announceType == "interrupt" or announceType == "interruptcount" or announceType == "switch" or announceType == "switchcount" or announceType == "youmoredamage" then
+			elseif announceType == "reflect" or announceType == "taunt" or announceType == "youdispel" or announceType == "moredamage" or announceType == "defensive" or announceType == "interrupt2" or announceType == "dispel" or announceType == "interrupt" or announceType == "interruptcount" or announceType == "switch" or announceType == "switch2" or announceType == "switchcount" or announceType == "youmoredamage" then
 				catType = "announcerole"
 			end
 			self:AddSpecialWarningOption(obj.option, optionDefault, runSound, catType)
@@ -10589,6 +10589,10 @@ do
 
 	function bossModPrototype:NewSpecialWarningSwitch(text, optionDefault, ...)
 		return newSpecialWarning(self, "switch", text, nil, optionDefault, ...)
+	end
+	
+	function bossModPrototype:NewSpecialWarningSwitch2(text, optionDefault, ...)
+		return newSpecialWarning(self, "switch2", text, nil, optionDefault, ...)
 	end
 
 	function bossModPrototype:NewSpecialWarningSwitchCount(text, optionDefault, ...)
