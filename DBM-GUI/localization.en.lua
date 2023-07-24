@@ -349,11 +349,12 @@ L.BigBrotherAnnounceToRaid	= "Announce Big Brother results to raid"
 L.Area_Invite				= "Invite Options"
 L.AutoAcceptFriendInvite	= "Automatically accept group invites from friends"
 L.AutoAcceptGuildInvite		= "Automatically accept group invites from guild members"
---
+-- Murchal ochken proshlyapen [✔]
 L.Area_Key					= "Options Mythic+ keys and raids"
-L.AutoKeyLink				= "Link your Mythic+ key to the chat"
-L.IgnoreRaidAnnounce		= "Disable raid announcements in chat (from special module)"
+L.AutoKeyLink				= "Link your Mythic+ key in raid/group/guild chat by command !keys"
+L.IgnoreRaidAnnounce		= "Disable announcements in raid/group chat when someone applies $spell:80353 or similar to it"
 L.IgnoreRaidAnnounce2		= "Disable announcements on bosses in the ABT from the raid leader/assistant"
+L.IgnoreRaidAnnounce3		= "Disable thank you messages when spells like $spell:20484 or similar are applied to you"
 --
 L.Area_Advanced				= "Advanced Options"
 L.FakeBW					= "Pretend to be BigWigs in version checks instead of DBM (Useful for guilds that force using BigWigs)"

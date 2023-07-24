@@ -612,7 +612,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			if args:IsPlayer() then
 				specWarnSoulstone:Show()
 				specWarnSoulstone:Play("targetyou")
-				if not args:IsPlayerSource() then
+				if not args:IsPlayerSource() and not DBM.Options.IgnoreRaidAnnounce3 then
 					smartChat(L.WhisperThanks:format(DbmRV, soulstone), "whisper", args.sourceName)
 				end
 			else
@@ -625,7 +625,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() and self:IsHealer() then
 			specWarnInnervate:Show()
 			specWarnInnervate:Play("targetyou")
-			if not args:IsPlayerSource() then
+			if not args:IsPlayerSource() and not DBM.Options.IgnoreRaidAnnounce3 then
 				smartChat(L.WhisperThanks:format(DbmRV, innervate), "whisper", args.sourceName)
 			end
 		else
@@ -737,7 +737,9 @@ function mod:SPELL_RESURRECT(args)
 		if args:IsPlayer() then
 			specWarnRebirth:Show()
 			specWarnRebirth:Play("targetyou")
-			smartChat(L.WhisperThanks:format(DbmRV, rebirth3), "whisper", args.sourceName)
+			if not DBM.Options.IgnoreRaidAnnounce3 then
+				smartChat(L.WhisperThanks:format(DbmRV, rebirth3), "whisper", args.sourceName)
+			end
 		else
 			warnRebirth:Show(args.sourceName, args.destName)
 		end
@@ -748,7 +750,9 @@ function mod:SPELL_RESURRECT(args)
 		if args:IsPlayer() then
 			specWarnRebirth:Show()
 			specWarnRebirth:Play("targetyou")
-			smartChat(L.WhisperThanks:format(DbmRV, rebirth1), "whisper", args.sourceName)
+			if not DBM.Options.IgnoreRaidAnnounce3 then
+				smartChat(L.WhisperThanks:format(DbmRV, rebirth1), "whisper", args.sourceName)
+			end
 		else
 			warnRebirth:Show(args.sourceName, args.destName)
 		end
@@ -759,7 +763,9 @@ function mod:SPELL_RESURRECT(args)
 		if args:IsPlayer() then
 			specWarnRebirth:Show()
 			specWarnRebirth:Play("targetyou")
-			smartChat(L.WhisperThanks:format(DbmRV, rebirth2), "whisper", args.sourceName)
+			if not DBM.Options.IgnoreRaidAnnounce3 then
+				smartChat(L.WhisperThanks:format(DbmRV, rebirth2), "whisper", args.sourceName)
+			end
 		else
 			warnRebirth:Show(args.sourceName, args.destName)
 		end
