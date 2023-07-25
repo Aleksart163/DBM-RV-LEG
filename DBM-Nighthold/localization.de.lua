@@ -93,8 +93,7 @@ L:SetOptionLocalization({
 
 L:SetMiscLocalization({
 	noCLEU4EchoRings		= "Die Wellen der Zeit spülen Euch fort!",
-	noCLEU4EchoOrbs			= "Ihr seht, die Zeit kann recht flüchtig sein.",
-	prePullRP				= "Natürlich habe ich Eure Ankunft vorausgesehen. Das Schicksal, das Euch hierherführt. Euren verzweifelten Kampf gegen die Legion."
+	noCLEU4EchoOrbs			= "Ihr seht, die Zeit kann recht flüchtig sein."
 })
 
 ------------------
@@ -103,8 +102,7 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(1737)
 
 L:SetMiscLocalization({
-	mythicPhase3		= "Time to return the demon hunter's soul to his body... and deny the Legion's master a host!",--translate (trigger)
-	prePullRP			= "Ah yes, the heroes have arrived. So persistent. So confident. But your arrogance will be your undoing!"--translate (trigger)
+	mythicPhase3		= "Zeit, die Seele des Dämonenjägers seinem Körper zurückzugeben... und der Legion einen Wirt zu nehmen!" --Proshlyapation of Murchal
 })
 
 -------------
@@ -114,4 +112,9 @@ L = DBM:GetModLocalization("NightholdTrash")
 
 L:SetGeneralLocalization({
 	name =	"Trash der Nachtfestung"
+})
+
+L:SetMiscLocalization({
+	prePullRP1				= "Natürlich habe ich Eure Ankunft vorausgesehen. Das Schicksal, das Euch hierherführt. Euren verzweifelten Kampf gegen die Legion.",
+	prePullRP2				= "Ah ja, die Helden sind da. So hartnäckig. So zuversichtlich. Eure Arroganz wird Euch zum Verhängnis werden!" --Proshlyapation of Murchal
 })

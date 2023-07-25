@@ -5,7 +5,7 @@ mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
 mod:SetCreatureID(94960)
 mod:SetEncounterID(1805)
 mod:SetZone()
-mod:SetUsedIcons(8)
+mod:SetUsedIcons(8, 7)
 mod:DisableEEKillDetection()
 mod:RegisterCombat("combat")
 
@@ -33,7 +33,7 @@ local specWarnDancingBlade3			= mod:NewSpecialWarningCloseMoveAway(193235, nil, 
 
 local timerDancingBladeCD			= mod:NewCDTimer(12.5, 193235, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Танцующий клинок 10-15 
 local timerHornCD					= mod:NewCDCountTimer(45, 191284, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Рог доблести
-local timerSweepCD					= mod:NewCDTimer(15.5, 193092, nil, "Melee", nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Кровопролитный круговой удар
+local timerSweepCD					= mod:NewCDTimer(15.5, 193092, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Кровопролитный круговой удар
 --local timerSweep					= mod:NewTargetTimer(4, 193092, nil, nil, nil, 3, nil, DBM_CORE_TANK_ICON..DBM_CORE_HEALER_ICON) --Кровопролитный круговой удар
 local timerBreath					= mod:NewCDTimer(5, 188404, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Дыхание бури
 
@@ -42,7 +42,8 @@ local yellDancingBlade				= mod:NewYellMoveAway(193235, nil, nil, nil, "YELL") -
 local countdownHorn					= mod:NewCountdown(45, 191284, nil, nil, 5) --Рог доблести
 local countdownSweep				= mod:NewCountdown("Alt15.5", 193092, "Tank", nil, 3) --Кровопролитный круговой удар
 
-mod:AddSetIconOption("SetIconOnSweep", 193092, true, false, {8}) --Кровопролитный круговой удар
+mod:AddSetIconOption("SetIconOnDancingBlade", 193235, true, false, {8}) --Танцующий клинок
+mod:AddSetIconOption("SetIconOnSweep", 193092, true, false, {7}) --Кровопролитный круговой удар
 
 mod.vb.hornCount = 0
 
@@ -58,9 +59,12 @@ function mod:DancingBladeTarget(targetname, uId) --Танцующий клино
 	else
 		warnDancingBlade:Show(targetname)
 	end
+	if self.Options.SetIconOnDancingBlade then
+		self:SetIcon(targetname, 8, 5)
+	end
 end
 
-function mod:SweepTarget(targetname, uId) --Кровопролитный круговой удар [✔] прошляпанного очка Мурчаля Прошляпенко
+function mod:SweepTarget(targetname, uId) --Кровопролитный круговой удар [✔] в прошляпанное очко Мурчаля Прошляпенко
 	if not targetname then return end
 	if targetname == UnitName("player") then
 		specWarnSweep:Show()
@@ -149,7 +153,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 193092 then --Кровопролитный круговой удар
 		if self.Options.SetIconOnSweep then
-			self:SetIcon(args.destName, 8, 4)
+			self:SetIcon(args.destName, 7, 4)
 		end
 	end
 end

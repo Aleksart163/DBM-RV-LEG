@@ -102,7 +102,6 @@ local specWarnPurifiedEssence		= mod:NewSpecialWarningMoveTo(221486, nil, nil, n
 
 --Stage One: The Council of Elders
 ----Gul'dan
-local timerRP						= mod:NewRPTimer(78)
 mod:AddTimerLine(SCENARIO_STAGE:format(1))
 local timerLiquidHellfireCD			= mod:NewNextCountTimer(25, 206219, nil, nil, nil, 3)
 local timerFelEffluxCD				= mod:NewCDCountTimer(10.7, 206514, nil, nil, nil, 3)--10.7-13.5 (14-15 on normal)
@@ -768,9 +767,7 @@ function mod:UNIT_DIED(args)
 end
 
 function mod:CHAT_MSG_MONSTER_YELL(msg)
-	if (msg == L.prePullRP or msg:find(L.prePullRP)) and self:LatencyCheck() then
-		self:SendSync("GuldanRP")
-	elseif ( msg == L.mythicPhase3 or msg:find(L.mythicPhase3)) and self:IsMythic() then	
+	if (msg == L.mythicPhase3 or msg:find(L.mythicPhase3)) and self:IsMythic() then	
 		self:SendSync("mythicPhase3")
 	end
 end
@@ -902,9 +899,6 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 end
 
 function mod:OnSync(msg)
-	if msg == "GuldanRP" and self:AntiSpam(10, 3) then
-		timerRP:Start()
-	end
 	if not self:IsInCombat() then return end
 	if msg == "mythicPhase3" and self:IsMythic() then
 		warnPhase3Soon:Show()

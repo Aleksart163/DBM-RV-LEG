@@ -34,9 +34,9 @@
 -------------------------------
 
 DBM = {
-	Revision = tonumber(("$Revision: 17725 $"):sub(12, -3)), --прошляпанное очко Мурчаля Прошляпенко [✔]
+	Revision = tonumber(("$Revision: 17726 $"):sub(12, -3)), --прошляпанное очко Мурчаля Прошляпенко [✔]
 	DisplayVersion = "7.3.46 Right Version " .. string.sub(GetLocale(), -2),
-	ReleaseRevision = 17724
+	ReleaseRevision = 17725
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -1478,8 +1478,8 @@ do
 		end
 	end
 end
-
-local function proshlyapSoulburnin(self, event, msg) --явно прошляпанное очко Мурчаля
+---------------------------------Murchal ochken proshlyapen---------------------------------------
+local function proshlyapSoulburnin(self, event, msg)
 	if DBM.Options.AutoKeyLink then
 		if event == "CHAT_MSG_PARTY" or event == "CHAT_MSG_PARTY_LEADER" then
 			if string.lower(msg) == "!keys" then
@@ -1526,6 +1526,35 @@ function proshlyapMurchalya(force, raid, guild) --Прошляпанное оч�
 		end
 	end
 end
+--------------------------------------------------------------------------------------------------
+local Proshlyapation = CreateFrame("Frame")
+
+function Proshlyapation:OnEvent(event, proshlyap)
+	if (proshlyap == "Blizzard_ChallengesUI") then
+		if ChallengesKeystoneFrame then
+			ChallengesKeystoneFrame:HookScript("OnShow", self.OnShow)
+		end
+	end
+end
+
+function Proshlyapation:OnShow()
+	for container=BACKPACK_CONTAINER, NUM_BAG_SLOTS do
+		local slots = GetContainerNumSlots(container)
+		for slot=1, slots do
+			local _, _, _, _, _, _, slotLink, _, _, slotItemID = GetContainerItemInfo(container, slot)
+			if slotLink and slotLink:match("|Hkeystone:") then
+				PickupContainerItem(container, slot)
+				if (CursorHasItem()) then
+					C_ChallengeMode.SlotKeystone()
+				end
+			end
+		end
+	end
+end
+
+Proshlyapation:RegisterEvent("ADDON_LOADED")
+Proshlyapation:SetScript("OnEvent", Proshlyapation.OnEvent)
+--------------------------------------------------------------------------------------------------
 --[[ Волосали
 local function Proshlyap2(self, event)
 	if event == "CONFIRM_SUMMON" then
@@ -3743,8 +3772,8 @@ function DBM:UPDATE_BATTLEFIELD_STATUS()
 		if GetBattlefieldStatus(i) == "confirm" then
 			if self.Options.ShowQueuePop and not self.Options.DontShowBossTimers then
 				queuedBattlefield[i] = select(2, GetBattlefieldStatus(i))
-				self.Bars:CreateBar(85, queuedBattlefield[i], "Interface\\Icons\\Spell_Holy_BorrowedTime")	-- need to confirm the timer
-				fireEvent("DBM_TimerStart", "DBMBFSTimer", queuedBattlefield[i], 85, "Interface\\Icons\\Spell_Holy_BorrowedTime", "extratimer", nil, 0)
+			--	self.Bars:CreateBar(85, queuedBattlefield[i], "Interface\\Icons\\Spell_Holy_BorrowedTime")	-- need to confirm the timer
+			--	fireEvent("DBM_TimerStart", "DBMBFSTimer", queuedBattlefield[i], 85, "Interface\\Icons\\Spell_Holy_BorrowedTime", "extratimer", nil, 0)
 			end
 			if self.Options.LFDEnhance then
 				self:PlaySoundFile("Sound\\interface\\levelup2.ogg", true)--Because regular sound uses SFX channel which is too low of volume most of time
@@ -10277,7 +10306,7 @@ do
 			elseif announceType == "soonlookaway" or announceType == "targetint" or announceType == "targetrun" or announceType == "targetsoak" or announceType == "keepdist" or announceType == "you" or announceType == "yourun" or announceType == "yourunning" or announceType == "closemoveaway" or announceType == "youfind" or announceType == "youclose" or announceType == "youshare" or announceType == "youdefensive" or announceType == "youmoveaway" or announceType == "youmove" or announceType == "youcount" or announceType == "youpos" or announceType == "move" or announceType == "dodge" or announceType == "moveaway" or announceType == "run" or announceType == "stack" or announceType == "moveto" or announceType == "soakpos" or announceType == "youmoveawaypos" or announceType == "youfades" or announceType == "youdontmove" or announceType == "cast" then
 				catType = "announcepersonal"
 			--Things you have to do to fulfil your role
-			elseif announceType == "reflect" or announceType == "taunt" or announceType == "youdispel" or announceType == "moredamage" or announceType == "defensive" or announceType == "interrupt2" or announceType == "dispel" or announceType == "interrupt" or announceType == "interruptcount" or announceType == "switch" or announceType == "switchcount" or announceType == "youmoredamage" then
+			elseif announceType == "reflect" or announceType == "taunt" or announceType == "youdispel" or announceType == "moredamage" or announceType == "defensive" or announceType == "interrupt2" or announceType == "dispel" or announceType == "interrupt" or announceType == "interruptcount" or announceType == "switch" or announceType == "switch2" or announceType == "switchcount" or announceType == "youmoredamage" then
 				catType = "announcerole"
 			end
 			self:AddSpecialWarningOption(obj.option, optionDefault, runSound, catType)
@@ -10560,6 +10589,10 @@ do
 
 	function bossModPrototype:NewSpecialWarningSwitch(text, optionDefault, ...)
 		return newSpecialWarning(self, "switch", text, nil, optionDefault, ...)
+	end
+	
+	function bossModPrototype:NewSpecialWarningSwitch2(text, optionDefault, ...)
+		return newSpecialWarning(self, "switch2", text, nil, optionDefault, ...)
 	end
 
 	function bossModPrototype:NewSpecialWarningSwitchCount(text, optionDefault, ...)

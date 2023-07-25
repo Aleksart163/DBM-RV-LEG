@@ -24,9 +24,6 @@ mod:RegisterEventsInCombat(
 	"CHAT_MSG_RAID_BOSS_EMOTE",
 	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
-mod:RegisterEvents(
-	"CHAT_MSG_MONSTER_SAY"
-)
 
 --(ability.id = 209595 or ability.id = 208807 or ability.id = 228877 or ability.id = 210022 or ability.id = 209168) and type = "begincast" or (ability.id = 209597 or ability.id = 210387 or ability.id = 214278 or ability.id = 214295 or ability.id = 208863) and type = "cast"
 --Base
@@ -73,7 +70,6 @@ local specWarnConflexiveBurstTank	= mod:NewSpecialWarningTaunt(209598, nil, nil,
 local specWarnAblativePulse			= mod:NewSpecialWarningInterrupt(209971, "Tank", nil, 2, 1, 2)
 
 --Base
-local timerRP						= mod:NewRPTimer(68)
 local timerLeaveNightwell			= mod:NewCastTimer(9.8, 208863, nil, nil, nil, 6)
 local timerTimeElementalsCD			= mod:NewNextSourceTimer(16, 208887, 141872, nil, nil, 1)--"Call Elemental" short text
 local timerFastTimeBubble			= mod:NewTimer(35, "timerFastTimeBubble", 209166, nil, nil, 5)
@@ -586,12 +582,6 @@ function mod:CHAT_MSG_MONSTER_YELL(msg, npc, _, _, target)
 	end
 end
 
-function mod:CHAT_MSG_MONSTER_SAY(msg, npc, _, _, target)
-	if (msg == L.prePullRP or msg:find(L.prePullRP)) and self:LatencyCheck() then
-		self:SendSync("ElisandeRP")
-	end
-end
-
 --Backup to above yell, it's 2 seconds slower but works without localizing
 --"<228.48 22:48:56> [CHAT_MSG_RAID_BOSS_EMOTE] |TInterface\\Icons\\Spell_Mage_ArcaneOrb.blp:20|t |cFFFF0000|Hspell:228877|h[Arcanetic Rings]|h|
 function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, npc, _, _, target)
@@ -614,9 +604,6 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, npc, _, _, target)
 end
 
 function mod:OnSync(msg, targetname)
-	if msg == "ElisandeRP" and self:AntiSpam(10, 6) then
-		timerRP:Start()
-	end
 	if not self:IsInCombat() then return end
 	if msg == "ArcaneticRing" and self:AntiSpam(5, 1) then
 		self.vb.ringCastCount = self.vb.ringCastCount + 1

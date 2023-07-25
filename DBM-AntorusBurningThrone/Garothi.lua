@@ -228,6 +228,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	elseif spellId == 244294 then --Аннигиляция
 		specWarnAnnihilation:Show()
 		specWarnAnnihilation:Play("helpsoak")
+		DBM:Debug("checking proshlyapation of Murchal 1", 2)
 		if self.vb.annihilatorHaywire then
 			DBM:AddMsg("Blizzard fixed haywire Annihilator, tell DBM author")
 		else
@@ -343,6 +344,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 		timerSurgingFelCD:Cancel()
 	--	specWarnSurgingFel:Cancel()
 		warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase))
+		DBM:Debug("checking proshlyapation of Murchal", 2)
 		if self.vb.phase == 2 and not self:IsMythic() then
 			if spellId == 245515 then --(когда уничтожен Дециматор)
 				timerAnnihilationCD:Start(21.5)
@@ -356,7 +358,8 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 				timerDecimationCD:Start(21.5) --было 22
 				countdownDecimation:Start(21.5)
 			else
-				timerAnnihilationCD:Start(21.5) --прошляп
+				DBM:Debug("checking proshlyapation of Murchal 2", 2)
+				timerAnnihilationCD:Start(21.5)
 				countdownAnnihilation:Start(21.5)
 				timerDecimationCD:Start(37.5)
 				countdownDecimation:Start(37.5)

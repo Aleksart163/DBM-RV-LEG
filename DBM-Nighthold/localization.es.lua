@@ -93,8 +93,7 @@ L:SetOptionLocalization({
 
 L:SetMiscLocalization({
 	noCLEU4EchoRings		= "¡Que las mareas del tiempo os ahoguen!",
-	noCLEU4EchoOrbs			= "Veréis que el tiempo puede ser muy volátil.",
-	prePullRP				= "Vaticiné vuestra llegada, por supuesto. Los hilos del destino que os trajeron a este lugar; vuestros desesperados intentos por detener a la Legión..."
+	noCLEU4EchoOrbs			= "Veréis que el tiempo puede ser muy volátil."
 })
 
 -------------
@@ -103,8 +102,7 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(1737)
 
 L:SetMiscLocalization({
-	mythicPhase3		= "Es hora de devolver el alma del cazador de demonios a su cuerpo...", --Incomplete until I get to see it in a video or by myself
-	prePullRP			= "Ah, sí, los héroes han llegado. Tan persistentes y seguros de sí mismos. ¡Pero vuestra arrogancia será vuestra perdición!"
+	mythicPhase3		= "Es hora de devolver el alma del cazador de demonios a su cuerpo..." --Incomplete until I get to see it in a video or by myself
 })
 
 ----------------------
@@ -116,3 +114,7 @@ L:SetGeneralLocalization({
 	name =	"Enemigos menores"
 })
 
+L:SetMiscLocalization({
+	prePullRP1				= "Vaticiné vuestra llegada, por supuesto. Los hilos del destino que os trajeron a este lugar; vuestros desesperados intentos por detener a la Legión...",
+	prePullRP2				= "Ah, sí, los héroes han llegado. Tan persistentes y seguros de sí mismos. ¡Pero vuestra arrogancia será vuestra perdición!"
+})
