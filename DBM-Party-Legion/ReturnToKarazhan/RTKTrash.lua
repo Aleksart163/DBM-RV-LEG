@@ -40,7 +40,7 @@ local warnAllured					= mod:NewStackAnnounce(228576, 3, nil, nil, 2) --Собл�
 --Поврежденный голем
 local specWarnUnstableEnergy		= mod:NewSpecialWarningDodge(227529, nil, nil, nil, 2, 2) --Нестабильная энергия
 --Наполненный силой пиромант
-local specWarnFelBomb				= mod:NewSpecialWarningRun(229620, nil, nil, nil, 1, 6) --Бомба Скверны
+local specWarnFelBomb				= mod:NewSpecialWarningRun(229620, nil, nil, nil, 4, 6) --Бомба Скверны
 local specWarnFelFireball			= mod:NewSpecialWarningInterrupt(36247, "HasInterrupt", nil, nil, 1, 2) --Огненный шар Скверны
 --
 local specWarnRoyalSlash			= mod:NewSpecialWarningDodge(229429, "Melee", nil, nil, 2, 2) --Удар короля сплеча
@@ -432,8 +432,8 @@ function mod:OnSync(msg)
 		countdownRoleplay:Start(79.2)
 	elseif msg == "felbomb" then
 		specWarnFelBomb:Show()
-	--	specWarnFelBomb:Play("bombsoon")
-		DBM:PlaySoundFile("Interface\\AddOns\\DBM-Core\\Sounds\\Custom\\Kuplinov_Sebae.ogg")
+		specWarnFelBomb:Play("bombsoon")
+	--	DBM:PlaySoundFile("Interface\\AddOns\\DBM-Core\\Sounds\\Custom\\Kuplinov_Sebae.ogg")
 		timerFelBomb:Start()
 		countdownRoleplay:Start(17)
 	elseif msg == "felbombend" then
