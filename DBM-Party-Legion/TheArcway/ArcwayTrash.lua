@@ -11,7 +11,8 @@ mod:RegisterEvents(
 	"SPELL_CAST_START 211757 226206 211115 211771 193938 226269 211217 211917 211875 210645 210662 210684 211007 226285",
 	"SPELL_CAST_SUCCESS 211543",
 	"SPELL_AURA_APPLIED 194006 210750 211745 211756 211543",
-	"SPELL_AURA_REMOVED 211756 211543"
+	"SPELL_AURA_REMOVED 211756 211543",
+	"UNIT_DIED"
 )
 
 --Катакомбы Сурамара трэш
@@ -187,5 +188,12 @@ function mod:SPELL_AURA_REMOVED(args)
 		if self.Options.SetIconOnDevour then
 			self:SetIcon(args.destName, 0)
 		end
+	end
+end
+
+function mod:UNIT_DIED(args)
+	local cid = self:GetCIDFromGUID(args.destGUID)
+	if cid == 105706 then --Жрица горя
+		timerBladestormCD:Cancel()
 	end
 end
