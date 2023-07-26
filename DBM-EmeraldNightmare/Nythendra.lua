@@ -23,7 +23,7 @@ mod:RegisterEventsInCombat(
 	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
 
-local warnVolatileRot				= mod:NewTargetAnnounce(204463, 4) --Взрывоопасная гниль
+local warnVolatileRot				= mod:NewTargetAnnounce(204463, 4, nil, "Tank") --Взрывоопасная гниль
 local warnRot						= mod:NewTargetAnnounce(203096, 3) --Гниль
 local warnRotFades					= mod:NewFadesAnnounce(203096, 1) --Гниль
 local warnHeartofSwarm				= mod:NewSpellAnnounce(203552, 2) --Королева роя
