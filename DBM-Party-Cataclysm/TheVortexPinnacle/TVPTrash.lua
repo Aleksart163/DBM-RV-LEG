@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("TVPTrash", "DBM-Party-Cataclysm", 5)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
 mod:SetZone()
 mod.isTrashMod = true
 
@@ -11,7 +11,8 @@ mod:RegisterEvents(
 	"SPELL_AURA_REMOVED 88010"
 )
 
-local warnCyclone						= mod:NewTargetAnnounce(88010, 3) --Смерч
+local warnCyclone						= mod:NewTargetAnnounce(88010, 4) --Смерч
+local warnCyclone2						= mod:NewCastAnnounce(88010, 2) --Смерч
 
 local specWarnCyclone					= mod:NewSpecialWarningInterrupt(88010, "HasInterrupt", nil, nil, 1, 2) --Смерч
 local specWarnVaporForm					= mod:NewSpecialWarningInterrupt(88186, "HasInterrupt", nil, nil, 1, 2) --Туманный облик
@@ -31,6 +32,8 @@ function mod:SPELL_CAST_START(args)
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnCyclone:Show()
 			specWarnCyclone:Play("kickcast")
+		else
+			warnCyclone2:Show()
 		end
 	end
 end
