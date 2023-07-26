@@ -119,7 +119,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	ProshlyapSoulburnin = "%s через 5 сек",
+	ProshlyapSoulburnin = "%s %s через 5 сек",
 	NecroticYell = "%s НА ТЕБЕ %s - ВЫНОСИ",
 	YellPullVarimathras = "Идите сюда и познайте страдания!",
 	YellPullVarimathras2 = "Нападайте! Я покажу вам, что такое боль!"
@@ -169,10 +169,11 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	ProshlyapMurchal4	= "СТЕНКА - ВСЕ В ЦЕНТР",
-	ProshlyapMurchal3	= "МОЛНИИ - ДЕРЖИМ РАДИУС 2 МЕТРА",
-	ProshlyapMurchal2	= "ПЛАМЯ - УШЛИ ВСЕ С ЦЕНТРА",
-	ProshlyapMurchal1	= "АМАНТУЛ - СВИЧ В ТРЕШ",
+	ProshlyapMurchal4	= "%s СТЕНКА - ВСЕ В ЦЕНТР!",
+	ProshlyapMurchal3	= "%s МОЛНИИ - ДЕРЖИМ РАДИУС 2 МЕТРА!",
+	ProshlyapMurchal2	= "%s ПЛАМЯ - УШЛИ ВСЕ С ЦЕНТРА!",
+	ProshlyapMurchal1	= "%s АМАНТУЛ - СВИЧ В ТРЕШ!",
+	ProshlyapMurchal5	= "%s ВЕСЬ УРОН ПО БОССУ!",
 	YellPullCoven		= "Сейчас ваша плоть зашипит на огне."
 })
 
@@ -198,8 +199,8 @@ L:SetOptionLocalization({
 
 L:SetMiscLocalization({
 --	YellPullAggramar = "Вы сгорите!",
-	ProshlyapMurchal2	= "КОНТРОЛИМ МОБОВ",
-	ProshlyapMurchal1	= "ВСЕ ПОД БОССА",
+	ProshlyapMurchal2	= "%s КОНТРОЛИМ МОБОВ",
+	ProshlyapMurchal1	= "%s ВСЕ ПОД БОССА",
 --	Blaze		= "Хищное пламя",
 	Foe			= "Сокрушитель",
 	Rend		= "Пламя",

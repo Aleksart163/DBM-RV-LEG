@@ -91,7 +91,7 @@ local necrotic = replaceSpellLinks(244094) --некротик
 local function ProshlyapSoulburnin1(self)
 	-- if self.Options.ShowProshlyapSoulburnin then
 		-- prepareMessage(self, "premsg_Varimathras_Soulburnin_rw")
-		smartChat(L.ProshlyapSoulburnin:format(necrotic), "rw")
+		smartChat(L.ProshlyapSoulburnin:format(DbmRV, necrotic), "rw")
 	-- end
 end
 

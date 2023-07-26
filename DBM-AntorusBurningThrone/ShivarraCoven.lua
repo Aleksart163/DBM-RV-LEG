@@ -145,13 +145,15 @@ mod.vb.chilledIcon = 1
 mod.vb.glareIcon = 7
 mod.vb.kickCount = 0
 local CVAR1, CVAR2 = nil, nil
+local proshlyapation = false
 
-local function ProshlyapMurchalya1(self) --прошляпанное очко Мурчаля Прошляпенко [✔]
+local function ProshlyapMurchalya1(self) --прошляпанное очко Мурчаля Прошляпенко [✔] Амантул
 	self.vb.proshlyapCount = self.vb.proshlyapCount + 1
-	-- if self.Options.ShowProshlyapMurchal then
-		-- prepareMessage(self, "premsg_ShivarraCoven_AmanThul_rw")
-		smartChat(L.ProshlyapMurchal1, "rw")
-	-- end
+	if not proshlyapation then
+		smartChat(L.ProshlyapMurchal1:format(DbmRV), "rw")
+	else
+		smartChat(L.ProshlyapMurchal5:format(DbmRV), "rw")
+	end
 	if self.vb.proshlyapCount < 3 then
 		self:Schedule(1, ProshlyapMurchalya1, self)
 	elseif self.vb.proshlyapCount == 3 then
@@ -160,12 +162,9 @@ local function ProshlyapMurchalya1(self) --прошляпанное очко М�
 	end
 end
 
-local function ProshlyapMurchalya2(self)
+local function ProshlyapMurchalya2(self) --прошляпанное очко Мурчаля Прошляпенко [✔] Казгарот
 	self.vb.proshlyapCount = self.vb.proshlyapCount + 1
-	-- if self.Options.ShowProshlyapMurchal then
-		-- prepareMessage(self, "premsg_ShivarraCoven_Khazgoroth_rw")
-		smartChat(L.ProshlyapMurchal2, "rw")
-	-- end
+	smartChat(L.ProshlyapMurchal2:format(DbmRV), "rw")
 	if self.vb.proshlyapCount < 3 then
 		self:Schedule(1, ProshlyapMurchalya2, self)
 	elseif self.vb.proshlyapCount == 3 then
@@ -174,12 +173,9 @@ local function ProshlyapMurchalya2(self)
 	end
 end
 
-local function ProshlyapMurchalya3(self)
+local function ProshlyapMurchalya3(self) --прошляпанное очко Мурчаля Прошляпенко [✔] Голганнет
 	self.vb.proshlyapCount = self.vb.proshlyapCount + 1
-	-- if self.Options.ShowProshlyapMurchal then
-		-- prepareMessage(self, "premsg_ShivarraCoven_Golganneth_rw")
-		smartChat(L.ProshlyapMurchal3, "rw")
-	-- end
+	smartChat(L.ProshlyapMurchal3:format(DbmRV), "rw")
 	if self.vb.proshlyapCount < 3 then
 		self:Schedule(1, ProshlyapMurchalya3, self)
 	elseif self.vb.proshlyapCount == 3 then
@@ -188,12 +184,9 @@ local function ProshlyapMurchalya3(self)
 	end
 end
 
-local function ProshlyapMurchalya4(self)
+local function ProshlyapMurchalya4(self) --прошляпанное очко Мурчаля Прошляпенко [✔] Норганнон
 	self.vb.proshlyapCount = self.vb.proshlyapCount + 1
-	-- if self.Options.ShowProshlyapMurchal then
-		-- prepareMessage(self, "premsg_ShivarraCoven_Norgannon_rw")
-		smartChat(L.ProshlyapMurchal4, "rw")
-	-- end
+	smartChat(L.ProshlyapMurchal4:format(DbmRV), "rw")
 	if self.vb.proshlyapCount < 3 then
 		self:Schedule(1, ProshlyapMurchalya4, self)
 	elseif self.vb.proshlyapCount == 3 then
@@ -317,6 +310,7 @@ function mod:OnCombatStart(delay)
 	self.vb.chilledIcon = 1
 	self.vb.glareIcon = 7
 	self.vb.kickCount = 0
+	proshlyapation = false
 	if self:IsMythic() then
 		self:SetCreatureID(122468, 122467, 122469, 125436)
 	else
@@ -807,7 +801,8 @@ end
 
 function mod:UNIT_HEALTH(uId)
 	if self:GetUnitCreatureId(uId) == 122468 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.10 then --Нура
-		self:Unschedule(ProshlyapMurchalya1) --Амантул
+		proshlyapation = true
+	--	self:Unschedule(ProshlyapMurchalya1) --Амантул
 	end
 end
 

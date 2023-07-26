@@ -128,7 +128,7 @@ local function ProshlyapMurchalya1(self) --прошляпанное очко М�
 		self.vb.proshlyap1Count = self.vb.proshlyap1Count + 1
 		-- if self.Options.ShowProshlyapMurchal1 then
 			-- prepareMessage(self, "premsg_Aggramar_FlameRend_rw")
-			smartChat(L.ProshlyapMurchal1, "rw")
+			smartChat(L.ProshlyapMurchal1:format(DbmRV), "rw")
 		-- end
 		if self.vb.proshlyap1Count < 3 then
 			self:Schedule(1, ProshlyapMurchalya1, self)
@@ -145,7 +145,7 @@ local function ProshlyapMurchalya2(self) --прошляпанное очко М�
 		self.vb.proshlyap2Count = self.vb.proshlyap2Count + 1
 		-- if self.Options.ShowProshlyapMurchal2 then
 			-- prepareMessage(self, "premsg_Aggramar_Embers_rw")
-			smartChat(L.ProshlyapMurchal2, "rw")
+			smartChat(L.ProshlyapMurchal2:format(DbmRV), "rw")
 		-- end
 		if self.vb.proshlyap2Count < 3 then
 			self:Schedule(1, ProshlyapMurchalya2, self)
