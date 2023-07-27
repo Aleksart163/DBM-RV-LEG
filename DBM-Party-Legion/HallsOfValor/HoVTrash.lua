@@ -93,13 +93,15 @@ function mod:WickedDaggerTarget(targetname, uId) --Гибельный кинжа
 	if not targetname then return end
 	if self:AntiSpam(2.5, targetname) then
 		if targetname == UnitName("player") then
-			if self:IsHard() then
+			if self:IsMythic() then
 				specWarnWickedDagger:Show()
 				specWarnWickedDagger:Play("defensive")
 				yellWickedDagger:Yell()
+			else
+				yellWickedDagger:Yell()
 			end
 		else
-			warnPyroblast:CombinedShow(1, targetname)
+			warnPyroblast:CombinedShow(0.5, targetname)
 		end
 	end
 end
@@ -314,23 +316,17 @@ end
 
 function mod:CHAT_MSG_MONSTER_YELL(msg)
 	if msg == L.RPSkovald then
-		timerRoleplay:Start(33.5)
+		self:SendSync("RPSkovald1")
 	elseif msg == L.RPOdyn then
-		timerRoleplay:Start(25.5)
+		self:SendSync("RPOdyn1")
 	elseif msg == L.RPSolsten then
-		timerEyeofStormCD:Start(9)
-		countdownEyeofStorm:Start(9)
+		self:SendSync("RPSolsten1")
 	elseif msg == L.RPSolsten2 then
-		timerEyeofStormCD:Cancel()
-		countdownEyeofStorm:Cancel()
+		self:SendSync("RPSolsten2")
 	elseif msg == L.RPOlmyr then
-		timerSanctifyCD:Start(9.5)
-		countdownSanctify:Start(9.5)
-		timerSearingLightCD:Start(5.5)
+		self:SendSync("RPOlmyr1")
 	elseif msg == L.RPOlmyr2 then
-		timerSanctifyCD:Cancel()
-		countdownSanctify:Cancel()
-		timerSearingLightCD:Cancel()
+		self:SendSync("RPOlmyr2")
 	end
 end
 
@@ -338,6 +334,24 @@ function mod:OnSync(msg)
 	if msg == "RPOdyn2" then
 		timerRoleplay:Start(2.8)
 		countdownEyeofStorm:Start(2.8)
+	elseif msg == "RPSkovald1" then
+		timerRoleplay:Start(33.5)
+	elseif msg == "RPOdyn1" then
+		timerRoleplay:Start(25.5)
+	elseif msg == "RPSolsten1" then
+		timerEyeofStormCD:Start(9)
+		countdownEyeofStorm:Start(9)
+	elseif msg == "RPSolsten2" then
+		timerEyeofStormCD:Cancel()
+		countdownEyeofStorm:Cancel()
+	elseif msg == "RPOlmyr1" then
+		timerSanctifyCD:Start(9.5)
+		countdownSanctify:Start(9.5)
+		timerSearingLightCD:Start(5.5)
+	elseif msg == "RPOlmyr2" then
+		timerSanctifyCD:Cancel()
+		countdownSanctify:Cancel()
+		timerSearingLightCD:Cancel()
 	end
 end
 
