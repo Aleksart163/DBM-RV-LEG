@@ -51,6 +51,7 @@ local specWarnEradication2				= mod:NewSpecialWarningDefensive(244969, nil, nil,
 --Decimator
 local specWarnDecimation				= mod:NewSpecialWarningYouMoveAway(244410, nil, nil, nil, 4, 5) --Децимация
 local specWarnDecimation2				= mod:NewSpecialWarningDodge(244410, "-Tank", nil, nil, 2, 2) --Децимация
+local specWarnDecimation3				= mod:NewSpecialWarningYouDontMove(244410, nil, nil, nil, 1, 3) --Децимация
 
 local specWarnSurgingFel				= mod:NewSpecialWarningDodge(246663, nil, nil, nil, 2, 2) --Всплеск скверны
 --Annihilator
@@ -201,7 +202,7 @@ end
 function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
 	if spellId == 244399 or spellId == 245294 or spellId == 246919 then --Децимация
-		self.vb.lastCannon = 2--Anniilator 1 decimator 2
+		self.vb.lastCannon = 2 --Аннигилятор = 1, Дециматор = 2
 		if not self:IsMythic() then
 			if self.vb.phase == 1 then
 				timerAnnihilationCD:Start(16)
@@ -229,10 +230,10 @@ function mod:SPELL_CAST_SUCCESS(args)
 		specWarnAnnihilation:Show()
 		specWarnAnnihilation:Play("helpsoak")
 		DBM:Debug("checking proshlyapation of Murchal 1", 2)
+		self.vb.lastCannon = 1 --Аннигилятор = 1, Дециматор = 2
 		if self.vb.annihilatorHaywire then
 			DBM:AddMsg("Blizzard fixed haywire Annihilator, tell DBM author")
 		else
-			self.vb.lastCannon = 1--Annihilation 1 Decimation 2
 			if self.vb.phase == 1 or self:IsMythic() then
 				timerDecimationCD:Start(16)
 				countdownDecimation:Start(16)
@@ -293,16 +294,30 @@ function mod:SPELL_AURA_APPLIED(args)
 		self.vb.deciminationActive = self.vb.deciminationActive + 1
 		warnDecimation:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
-			specWarnDecimation:Show()
-			specWarnDecimation:Play("runout")
-			yellDecimation:Yell()
-			if spellId ~= 246919 then
+			if not self:IsMythic() then
+				specWarnDecimation:Show()
+				specWarnDecimation:Play("runout")
+				yellDecimation:Yell()
 				yellDecimationFades:Countdown(5, 3)
+			else --мифик
+				specWarnDecimation3:Show()
+				specWarnDecimation3:Play("dontmove")
+				yellDecimation:Yell()
+				if spellId ~= 246919 then
+					yellDecimationFades:Countdown(5, 3)
+				end
 			end
 		elseif self:AntiSpam(3, 2) then
-			if not UnitIsDeadOrGhost("player") then
-				specWarnDecimation2:Schedule(4.5)
-				specWarnDecimation2:ScheduleVoice(4.5, "watchstep")
+			if spellId == 244410 then
+				if not UnitIsDeadOrGhost("player") then
+					specWarnDecimation2:Schedule(4.5)
+					specWarnDecimation2:ScheduleVoice(4.5, "watchstep")
+				end
+			elseif spellId == 246919 then
+				if not UnitIsDeadOrGhost("player") then
+					specWarnDecimation2:Schedule(1.5)
+					specWarnDecimation2:ScheduleVoice(1.5, "watchstep")
+				end
 			end
 		end
 		if self.Options.SetIconOnDecimation then
@@ -354,19 +369,19 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 				countdownChooseCannon:Start(21.5)
 			end
 		elseif self:IsMythic() then
-			if self.vb.lastCannon == 1 then--Annihilator Cannon
+			if self.vb.lastCannon == 1 then --ласт спелл был Аннигиляция
 				timerDecimationCD:Start(21.5) --было 22
 				countdownDecimation:Start(21.5)
-			else
+			elseif self.vb.lastCannon == 2 then --ласт спелл был Децимация
 				DBM:Debug("checking proshlyapation of Murchal 2", 2)
 				timerAnnihilationCD:Start(21.5)
 				countdownAnnihilation:Start(21.5)
 				timerDecimationCD:Start(37.5)
 				countdownDecimation:Start(37.5)
-				specWarnAnnihilation:Schedule(21.5)
-				specWarnAnnihilation:ScheduleVoice(21.5, "helpsoak")
-				specWarnAnnihilation:Schedule(28.5)
-				specWarnAnnihilation:ScheduleVoice(28.5, "helpsoak")
+			--	specWarnAnnihilation:Schedule(21.5)
+			--	specWarnAnnihilation:ScheduleVoice(21.5, "helpsoak")
+			--	specWarnAnnihilation:Schedule(28.5)
+			--	specWarnAnnihilation:ScheduleVoice(28.5, "helpsoak")
 			end
 			--timerSpecialCD:Start(22)--Random cannon
 		end
