@@ -32,7 +32,7 @@
 ## X-DBM-Mod-Name-koKR: 던전 (WotLK)
 ## X-DBM-Mod-Name-zhCN: 5人小队 (WotLK)
 ## X-DBM-Mod-Name-zhTW: 隊伍首領 (WotLK)
-## X-DBM-Mod-Sort: 532
+## X-DBM-Mod-Sort: 533
 ## X-DBM-Mod-MapID: 619, 604, 602, 576, 575, 658
 ## X-DBM-Mod-MinCoreRevision: 17700
 

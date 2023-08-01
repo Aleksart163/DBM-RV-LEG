@@ -536,10 +536,12 @@ L:SetWarningLocalization({
 })
 
 L:SetTimerLocalization({
+	timerRoleplay 		= DBM_CORE_GENERIC_TIMER_COMBAT,
 	TimerPortal			= "Portal CD"
 })
 
 L:SetOptionLocalization({
+	timerRoleplay 			= DBM_CORE_OPTION_TIMER_COMBAT,
 	WarningPortalNow		= "Show warning for new portal",
 	WarningPortalSoon		= "Show pre-warning for new portal",
 	WarningBossNow			= "Show warning for boss incoming",
@@ -547,7 +549,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	Malgath		=	"Lord Malgath"
+	MillificentRP = "Finally free from that cursed mage trap! Such a-"
 })
 
 -----------------------

@@ -1,5 +1,4 @@
 ﻿if GetLocale() ~= "ruRU" then return end
-
 local L
 
 local optionWarning		= "Предупреждение для %s"

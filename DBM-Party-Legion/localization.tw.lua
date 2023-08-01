@@ -513,10 +513,12 @@ L:SetWarningLocalization({
 })
 
 L:SetTimerLocalization({
+	timerRoleplay 		= DBM_CORE_GENERIC_TIMER_COMBAT,
 	TimerPortal			= "傳送門冷卻"
 })
 
 L:SetOptionLocalization({
+	timerRoleplay 			= DBM_CORE_OPTION_TIMER_COMBAT,
 	WarningPortalNow		= "為新的傳送門顯示警告",
 	WarningPortalSoon		= "為新的傳送門顯示準備警告",
 	WarningBossNow			= "為首領到來顯示警告",
@@ -524,7 +526,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	Malgath		=	"馬爾加斯領主"
+	MillificentRP = "Наконец-то я вырвалась из ловушки! Ну и..." --need localization
 })
 
 -----------------------

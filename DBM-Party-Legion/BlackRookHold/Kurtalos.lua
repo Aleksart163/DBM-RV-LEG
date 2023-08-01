@@ -52,7 +52,7 @@ local timerShadowBoltVolleyCD		= mod:NewCDTimer(8, 202019, nil, nil, nil, 2, nil
 local timerLegacyRavencrestCD		= mod:NewCDTimer(24.5, 199368, nil, nil, nil, 7) --Наследие Гребня Ворона
 local timerWhirlingBladeCD			= mod:NewCDTimer(25.5, 198641, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Крутящийся клинок
 
-local yellWhirlingBlade				= mod:NewYell(198641, nil, nil, nil, "YELL") --Крутящийся клинок
+local yellWhirlingBlade				= mod:NewYellMoveAway(198641, nil, nil, nil, "YELL") --Крутящийся клинок
 local yellSwarm						= mod:NewYellHelp(201733, nil, nil, nil, "YELL") --Жалящий рой
 
 local countdownDarkblast			= mod:NewCountdown(18, 198820, nil, nil, 5) --Темный взрыв
@@ -146,9 +146,11 @@ function mod:SPELL_CAST_START(args)
 		if self.vb.guileCount == 1 then
 			timerCloudCD:Start(25)
 			timerSwarmCD:Start(27.5)
+			timerShadowBoltVolleyCD:Start(29.8)
 		elseif self.vb.guileCount == 2 then
-			timerSwarmCD:Start(27.5)
-			timerCloudCD:Start(32.5)
+			timerShadowBoltVolleyCD:Start(28.1) -- в последний раз было точно.
+			timerSwarmCD:Start(27.5) -- в последний раз не сработал, надо будет проверить.
+			timerCloudCD:Start(31.9) -- в последний раз было точно.
 		end
 	elseif spellId == 202019 then
 		self.vb.shadowboltCount = self.vb.shadowboltCount + 1
@@ -247,7 +249,6 @@ function mod:UNIT_DIED(args)
 	end
 end
 
---[[
 function mod:CHAT_MSG_MONSTER_SAY(msg) --Прошляпанное очко Мурчаля Прошляпенко
 	if msg == L.proshlyapMurchal then
 		self.vb.phase = 2
@@ -258,17 +259,11 @@ function mod:CHAT_MSG_MONSTER_SAY(msg) --Прошляпанное очко Му�
 		timerUnerringShearCD:Cancel()
 		countdownDarkblast:Cancel()
 	end
-end]]
+end
 
 function mod:UNIT_HEALTH(uId)
-	if not self:IsNormal() then
-		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 98965 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.31 then --Кур'талос
-			warned_preP1 = true
-			warnPhase2:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase+1))
-		end
-	else
-		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 98965 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.31 then --Кур'талос
-			warned_preP1 = true
-		end
+	if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 98965 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.31 then --Кур'талос
+		warned_preP1 = true
+		warnPhase2:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase+1))
 	end
 end

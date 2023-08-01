@@ -49,7 +49,7 @@ local specWarnEtch					= mod:NewSpecialWarningYouMove(198959, nil, nil, nil, 1, 
 local specWarnCallAncestor			= mod:NewSpecialWarningSwitch(200969, "Dps", nil, nil, 1, 2) --Зов предков
 local specWarnSever					= mod:NewSpecialWarningYouDefensive(199652, "Tank", nil, nil, 3, 5) --Рассечение
 local specWarnSever2				= mod:NewSpecialWarningStack(199652, nil, 2, nil, nil, 2, 2) --Рассечение
-local specWarnEyeofStorm			= mod:NewSpecialWarningMoveTo(200901, nil, nil, nil, 4, 3) --Око шторма
+local specWarnEyeofStorm			= mod:NewSpecialWarningMoveTo(200901, nil, nil, nil, 4, 5) --Око шторма
 local specWarnEyeofStorm2			= mod:NewSpecialWarningDefensive(200901, nil, nil, nil, 3, 3) --Око шторма
 local specWarnSanctify				= mod:NewSpecialWarningDodge(192158, "Ranged", nil, nil, 2, 5) --Освящение
 local specWarnSanctify2				= mod:NewSpecialWarningRun(192158, "Melee", nil, nil, 4, 5) --Освящение
@@ -72,8 +72,9 @@ local timerSearingLightCD			= mod:NewCDTimer(13, 192288, nil, "HasInterrupt", ni
 --Солстен
 local timerEyeofStormCD				= mod:NewCDTimer(31.5, 200901, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Око шторма
 
-local timerRoleplay					= mod:NewTimer(30, "timerRoleplay", "Interface\\Icons\\ability_warrior_offensivestance", nil, nil, 7) --Ролевая игра
+local timerRoleplay					= mod:NewTimer(30, "timerRoleplay", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7) --Ролевая игра
 
+local countdownRoleplay				= mod:NewCountdown(30, 91344, nil, nil, 5)
 local countdownEyeofStorm			= mod:NewCountdown(31.5, 200901, nil, nil, 3) --Око шторма
 local countdownSanctify				= mod:NewCountdown("Alt26.5", 192158, nil, nil, 3) --Освящение
 
@@ -91,17 +92,13 @@ mod:AddRangeFrameOption(8, 215430) --Громовой удар
 
 function mod:WickedDaggerTarget(targetname, uId) --Гибельный кинжал ✔
 	if not targetname then return end
-	if self:AntiSpam(2.5, targetname) then
+	if self:AntiSpam(2, targetname) then
 		if targetname == UnitName("player") then
-			if self:IsMythic() then
-				specWarnWickedDagger:Show()
-				specWarnWickedDagger:Play("defensive")
-				yellWickedDagger:Yell()
-			else
-				yellWickedDagger:Yell()
-			end
+			specWarnWickedDagger:Show()
+			specWarnWickedDagger:Play("defensive")
+			yellWickedDagger:Yell()
 		else
-			warnPyroblast:CombinedShow(0.5, targetname)
+			warnWickedDagger:CombinedShow(0.5, targetname)
 		end
 	end
 end
@@ -143,7 +140,7 @@ function mod:ShootTarget(targetname, uId) --Выстрел ✔
 	end
 end
 
-function mod:CrackleTarget(targetname, uId)
+function mod:CrackleTarget(targetname, uId) --Разряд
 	if not targetname then
 		warnCrackle:Show(DBM_CORE_UNKNOWN)
 		return
@@ -153,14 +150,14 @@ function mod:CrackleTarget(targetname, uId)
 		specWarnCrackle:Play("watchstep")
 		yellCrackle:Yell()
 	else
-		warnCrackle:Show(targetname)
+		warnCrackle:CombinedShow(1, targetname)
 	end
 end
 
 function mod:SPELL_CAST_START(args)
 	if not self.Options.Enabled then return end
 	local spellId = args.spellId
-	if spellId == 199805 then
+	if spellId == 199805 then --Разряд
 		self:BossTargetScanner(args.sourceGUID, "CrackleTarget", 0.1, 9)
 	elseif spellId == 192563 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
 		specWarnCleansingFlame:Show()
@@ -181,12 +178,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 199382 then
 		timerEnragingRoarCD:Start()
 	elseif spellId == 200901 then --Око шторма
-		if not UnitIsDeadOrGhost("player") then
-			specWarnEyeofStorm:Show(eyeShortName)
-			specWarnEyeofStorm:Play("findshelter")
-		end
-		timerEyeofStormCD:Start()
-		countdownEyeofStorm:Start()
+		self:SendSync("EyeofStorm1")
 	elseif spellId == 192158 then --Освящение
 		if not UnitIsDeadOrGhost("player") then
 			specWarnSanctify2:Show()
@@ -241,28 +233,26 @@ function mod:SPELL_CAST_SUCCESS(args)
 		specWarnEnragingRoar:Show()
 		specWarnEnragingRoar:Play("defensive")
 	elseif spellId == 200901 then --Око шторма
-		if not UnitIsDeadOrGhost("player") then
-			specWarnEyeofStorm2:Show()
-			specWarnEyeofStorm2:Play("defensive")
-		end
+		self:SendSync("EyeofStorm2")
 	end
 end
 
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if args.spellId == 215430 then --Громовой удар
-		warnThunderstrike:CombinedShow(0.5, args.destName)
 		timerThunderstrike:Start(args.destName)
-		if self:IsHard() then
-			if args:IsPlayer() and self:AntiSpam(3, "thunderstrike") then
+		if args:IsPlayer() then
+			if self:IsHard() then
 				specWarnThunderstrike:Show()
 				specWarnThunderstrike:Play("runout")
 				yellThunderstrike:Yell()
 				yellThunderstrike2:Countdown(3, 2)
-			elseif self:CheckNearby(10, args.destName) then
-				specWarnThunderstrike2:CombinedShow(0.3, args.destName)
-				specWarnThunderstrike2:Play("watchstep")
 			end
+		elseif self:CheckNearby(10, args.destName) then
+			specWarnThunderstrike2:CombinedShow(0.3, args.destName)
+			specWarnThunderstrike2:Play("watchstep")
+		else
+			warnThunderstrike:CombinedShow(0.5, args.destName)
 		end
 		if self.Options.RangeFrame then
 			DBM.RangeCheck:Show(8)
@@ -333,11 +323,13 @@ end
 function mod:OnSync(msg)
 	if msg == "RPOdyn2" then
 		timerRoleplay:Start(2.8)
-		countdownEyeofStorm:Start(2.8)
+		countdownRoleplay:Start(2.8)
 	elseif msg == "RPSkovald1" then
 		timerRoleplay:Start(33.5)
+		countdownRoleplay:Start(33.5)
 	elseif msg == "RPOdyn1" then
 		timerRoleplay:Start(25.5)
+		countdownRoleplay:Start(25.5)
 	elseif msg == "RPSolsten1" then
 		timerEyeofStormCD:Start(9)
 		countdownEyeofStorm:Start(9)
@@ -352,9 +344,20 @@ function mod:OnSync(msg)
 		timerSanctifyCD:Cancel()
 		countdownSanctify:Cancel()
 		timerSearingLightCD:Cancel()
+	elseif msg == "EyeofStorm1" then
+		specWarnEyeofStorm:Show(eyeShortName)
+		specWarnEyeofStorm:Play("findshelter")
+		timerEyeofStormCD:Start()
+		countdownEyeofStorm:Start()
+	elseif msg == "EyeofStorm2" then
+		if not UnitIsDeadOrGhost("player") then
+			specWarnEyeofStorm2:Show()
+			specWarnEyeofStorm2:Play("defensive")
+		end
 	end
 end
 
+		
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
 	if spellId == 198959 and destGUID == UnitGUID("player") and self:AntiSpam(2, "etch") then --Гравировка
 		if self:IsHard() then
