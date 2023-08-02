@@ -530,6 +530,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
+	MurchalOchkenShlyapen = "Guardie della prigione, ce ne andiamo! Da adesso, ci pensano questi avventurieri! Via! Via! Via!", --
 	MillificentRP = "Наконец-то я вырвалась из ловушки! Ну и..." --need localization
 })
 

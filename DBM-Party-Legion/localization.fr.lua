@@ -530,7 +530,8 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	MillificentRP = "Наконец-то я вырвалась из ловушки! Ну и..." --need localization
+	MurchalOchkenShlyapen = "Gardes, nous partons ! Ces aventuriers vont se charger de la suite ! Allez, en route !", --
+	MillificentRP = "Enfin libre ! Débarrassée de ce maudit piège ! Ah celui-là, quel…" --
 })
 
 -----------------------

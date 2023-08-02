@@ -36,7 +36,7 @@ local specWarnCreepingDoom2			= mod:NewSpecialWarningEnd(197422, nil, nil, nil, 
 local specWarnVengeance				= mod:NewSpecialWarningSwitch(197796, "-Healer", nil, nil, 3, 6) --Отмщение
 
 --local timerDetonation				= mod:NewTargetTimer(10, 197541, nil, nil, nil, 3, nil, DBM_CORE_HEALER_ICON) --Мгновенный взрыв
-local timerFelGlaiveCD				= mod:NewCDCountTimer(10, 197333, nil, nil, nil, 7) --Глефа Скверны
+local timerFelGlaiveCD				= mod:NewCDTimer(10, 197333, nil, nil, nil, 7) --Глефа Скверны
 local timerKickCD					= mod:NewCDTimer(15.7, 197251, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Сбивающий с ног удар 16-42
 local timerDeepeningShadowsCD		= mod:NewCDTimer(30.5, 213576, nil, nil, nil, 2) --Сгущающиеся тени
 local timerCreepingDoomCD			= mod:NewCDCountTimer(74.5, 197422, nil, nil, nil, 7) --Ползучая гибель
@@ -54,15 +54,15 @@ mod.vb.proshlyapenCount = 0
 
 local warned_preP1 = false
 local warned_preP2 = false
-local warned_preP3 = false MurchalOchkenProshlyapenTimers1
-local MurchalOchkenProshlyapationTimers1 = {15.7, 7.2, 12.1, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2}
-local MurchalOchkenProshlyapationTimers2 = {52.8, 11.2, 7, 14.5, 8.7, 7.2, 11.7, 7.3, 7.2, 7.3, 15.8, 7.2, 7.3, 7.2, 7.2, 7.4, 13.2, 13.2, 7.2, 7.2, 7.3, 7.3, 7.4, 13.1, 17, 7.4}
-local MurchalOchkenProshlyapationTimers3 = {57.8, 28.8, 20.5, 21.7, 23, 21.6, 20.5, 20.5, 21.7, 20.5, 24.2, 25}
+local warned_preP3 = false
+local MurchalProshlyapationTimers1 = {15.7, 7.2, 12.1, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2}
+local MurchalProshlyapationTimers2 = {52.8, 11.2, 7, 14.5, 8.7, 7.2, 11.7, 7.3, 7.2, 7.3, 15.8, 7.2, 7.3, 7.2, 7.2, 7.4, 13.2, 13.2, 7.2, 7.2, 7.3, 7.3, 7.4, 13.1, 17, 7.4}
+local MurchalProshlyapationTimers3 = {57.8, 28.8, 20.5, 21.7, 23, 21.6, 20.5, 20.5, 21.7, 20.5, 24.2, 25}
 
 local function startProshlyapationOfMurchal(self) -- Proshlyapation of Murchal
 	self.vb.ochkenShlyapenCount = self.vb.ochkenShlyapenCount + 1
 	if self.vb.phase == 1 then
-		local proshlyap1 = MurchalOchkenProshlyapationTimers1[self.vb.ochkenShlyapenCount+1]
+		local proshlyap1 = MurchalProshlyapationTimers1[self.vb.ochkenShlyapenCount+1]
 		if proshlyap1 then
 			specWarnFelGlaive:Show()
 			specWarnFelGlaive:Play("watchstep")
@@ -71,7 +71,7 @@ local function startProshlyapationOfMurchal(self) -- Proshlyapation of Murchal
 			self:Schedule(proshlyap1, startProshlyapationOfMurchal, self)
 		end
 	elseif self.vb.phase == 3 then
-		local proshlyap2 = MurchalOchkenProshlyapationTimers2[self.vb.ochkenShlyapenCount+1]
+		local proshlyap2 = MurchalProshlyapationTimers2[self.vb.ochkenShlyapenCount+1]
 		if proshlyap2 then
 			specWarnFelGlaive:Show()
 			specWarnFelGlaive:Play("watchstep")
@@ -121,7 +121,7 @@ function mod:SPELL_CAST_START(args)
 		elseif self.vb.phase == 2 then --
 			timerKickCD:Start()
 		elseif self.vb.phase == 3 then -- выглядит прошляпом очка для Мурчаля
-			local proshlyap3 = MurchalOchkenProshlyapationTimers3[self.vb.proshlyapenCount+1]
+			local proshlyap3 = MurchalProshlyapationTimers3[self.vb.proshlyapenCount+1]
 			if proshlyap3 then
 				timerKickCD:Start(proshlyap3)
 			end
