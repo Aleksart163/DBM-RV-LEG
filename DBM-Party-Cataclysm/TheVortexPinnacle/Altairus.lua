@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(115, "DBM-Party-Cataclysm", 5, 68)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
 mod:SetCreatureID(43873)
 mod:SetEncounterID(1041)
 mod:SetUsedIcons(8)
@@ -13,33 +13,33 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 88308"
 )
 
-local warnBreath		= mod:NewTargetNoFilterAnnounce(88308, 2)
-local warnUpwind		= mod:NewSpellAnnounce(88282, 1)
+local warnBreath		= mod:NewTargetNoFilterAnnounce(88308, 2) --Студеное дыхание
+local warnUpwind		= mod:NewSpellAnnounce(88282, 1) --Наветренная сторона
 
-local specWarnBreath	= mod:NewSpecialWarningYou(88308, "-Tank", nil, 2, 1, 2)
-local specWarnBreathNear= mod:NewSpecialWarningClose(88308, nil, nil, nil, 1, 2)
+local specWarnBreath	= mod:NewSpecialWarningYouMoveAway(88308, "-Tank", nil, 2, 3, 3) --Студеное дыхание
+local specWarnBreathNear= mod:NewSpecialWarningCloseMoveAway(88308, nil, nil, nil, 2, 2) --Студеное дыхание
 local specWarnDownwind	= mod:NewSpecialWarningMove(88286, nil, nil, nil, 1, 2)
 
-local timerBreathCD		= mod:NewCDTimer(10.5, 88308, nil, nil, nil, 3)
+local timerBreathCD		= mod:NewCDTimer(10.5, 88308, nil, nil, nil, 3) --Студеное дыхание
 
-mod:AddSetIconOption("BreathIcon", 88308, true, false, {8})
+mod:AddSetIconOption("BreathIcon", 88308, true, false, {8}) --Студеное дыхание
 
 mod.vb.activeWind = "none"
 
 function mod:BreathTarget()
 	local targetname = self:GetBossTarget(43873)
 	if not targetname then return end
-	if self.Options.BreathIcon then
-		self:SetIcon(targetname, 8, 4)
-	end
 	if targetname == UnitName("player") then--Tank doesn't care about this so if your current spec is tank ignore this warning.
 		specWarnBreath:Show()
-		specWarnBreath:Play("targetyou")
+		specWarnBreath:Play("moveaway")
 	elseif self:CheckNearby(10, targetname) then
 		specWarnBreathNear:Show(targetname)
 		specWarnBreathNear:Play("runaway")
 	else
 		warnBreath:Show(targetname)
+	end
+	if self.Options.BreathIcon then
+		self:SetIcon(targetname, 8, 5)
 	end
 end
 

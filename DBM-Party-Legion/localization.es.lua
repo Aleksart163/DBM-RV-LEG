@@ -694,10 +694,12 @@ L:SetWarningLocalization({
 })
 
 L:SetTimerLocalization({
+	timerRoleplay 		= DBM_CORE_GENERIC_TIMER_COMBAT,
 	TimerPortal			= "Portal"
 })
 
 L:SetOptionLocalization({
+	timerRoleplay 			= DBM_CORE_OPTION_TIMER_COMBAT,
 	WarningPortalNow		= "Mostrar aviso cuando aparezca un portal",
 	WarningPortalSoon		= "Mostrar aviso previo para el siguiente portal",
 	WarningBossNow			= "Mostrar aviso previo para el siguiente jefe",
@@ -705,7 +707,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	Malgath		=	"Lord Malgath"
+	MillificentRP = "Наконец-то я вырвалась из ловушки! Ну и..." --need localization
 })
 
 -----------------------------

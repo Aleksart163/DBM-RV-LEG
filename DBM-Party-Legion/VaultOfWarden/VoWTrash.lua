@@ -63,6 +63,8 @@ local timerDoubleStrike			= mod:NewTargetTimer(6, 193607, nil, "Healer", nil, 3,
 
 local timerRoleplay				= mod:NewTimer(23, "timerRoleplay", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7) --Ролевая игра
 
+local countdownRoleplay			= mod:NewCountdown(23, 91344, nil, nil, 5)
+
 local yellNightmares			= mod:NewYell(193069, nil, nil, nil, "YELL") --Кошмары
 local yellTorment				= mod:NewYell(202615, nil, nil, nil, "YELL") --Мучение
 local yellAMotherLove			= mod:NewYell(194064, nil, nil, nil, "YELL") --Материнская любовь
@@ -206,6 +208,7 @@ end
 function mod:OnSync(msg)
 	if msg == "Roleplay" then
 		timerRoleplay:Start()
+		countdownRoleplay:Start()
 	end
 end
 

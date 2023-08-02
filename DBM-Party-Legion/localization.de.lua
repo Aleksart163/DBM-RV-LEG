@@ -530,10 +530,12 @@ L:SetWarningLocalization({
 })
 
 L:SetTimerLocalization({
+	timerRoleplay 		= DBM_CORE_GENERIC_TIMER_COMBAT,
 	TimerPortal			= "Portal CD"
 })
 
 L:SetOptionLocalization({
+	timerRoleplay 			= DBM_CORE_OPTION_TIMER_COMBAT,
 	WarningPortalNow		= "Zeige Warnung für neues Portal",
 	WarningPortalSoon		= "Zeige Vorwarnung für neues Portal",
 	WarningBossNow			= "Zeige Warnung für neuen Boss",
@@ -541,7 +543,8 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	Malgath		=	"Lord Malgath"
+	MurchalOchkenShlyapen = "Gefängniswärter, wir brechen auf! Diese Abenteurer übernehmen! Na los, na los, na los!", --
+	MillificentRP = "Ahh. Endlich frei von dieser verfluchten Falle! So ein..." --
 })
 
 -----------------------

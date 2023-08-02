@@ -13,8 +13,8 @@ mod:RegisterEvents(
 	"SPELL_DAMAGE 204762",
 	"SPELL_MISSED 204762",
 	"GOSSIP_SHOW",
-	"UNIT_DIED"
---	"CHAT_MSG_MONSTER_YELL"
+	"UNIT_DIED",
+	"CHAT_MSG_MONSTER_YELL"
 )
 
 --TODO, change fel slam to dodge if tank can actually dodge it.
@@ -33,7 +33,13 @@ local specWarnFelPrison				= mod:NewSpecialWarningSwitch(204608, "Dps", nil, nil
 local yellFelPrison					= mod:NewYell(204608)
 
 local timerPortal					= mod:NewTimer(122, "TimerPortal", 57687, nil, nil, 6)
+local timerRoleplay					= mod:NewTimer(21.8, "timerRoleplay", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7) --Ролевая игра
 --local timerShieldDestruction		= mod:NewNextTimer(12.5, 202312, nil, nil, nil, 1)--Time between boss yell and shield coming down.
+
+local countdownRoleplay				= mod:NewCountdown(21.8, 91344, nil, nil, 5)
+
+--13.06.48.290
+--13.07.10.156
 
 function mod:SPELL_CAST_START(args)
 	if not self.Options.Enabled then return end
@@ -105,12 +111,13 @@ function mod:GOSSIP_SHOW()
 	end
 end
 
---[[
-function mod:CHAT_MSG_MONSTER_YELL(msg, mob)
-	--Boss only yells when he's spawning a boss (including himself), otherwise he's quiet
-	if mob == L.Malgath then--Fact this has to be localized because blizzard didn't put him anywhere in journal, is stupid
-		warningBossNow:Show()
-		timerShieldDestruction:Start()
+function mod:CHAT_MSG_MONSTER_YELL(msg)
+	if msg == L.MillificentRP then
+		timerRoleplay:Start()
+		countdownRoleplay:Start()
+	elseif msg == L.MurchalOchkenShlyapen then
+		timerPortal:Start(21.5)
+		warningPortalSoon:Schedule(16.5)
+		countdownRoleplay:Start(21.5)
 	end
 end
---]]

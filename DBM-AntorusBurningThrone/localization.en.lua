@@ -125,7 +125,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	ProshlyapSoulburnin = "%s in 5 sec",
+	ProshlyapSoulburnin = "%s %s in 5 sec",
 	NecroticYell = "%s ON YOU %s - RUN AWAY",
 	YellPullVarimathras = "Draw your blades! I will show you torment!",
 	YellPullVarimathras2 = "Come, then. We will trade pain for pain!"
@@ -176,10 +176,11 @@ L:SetOptionLocalization({
 
 
 L:SetMiscLocalization({
-	ProshlyapMurchal4	= "ARMY - RUN TO THE CENTER",
-	ProshlyapMurchal3	= "LIGHTNING - KEEP A DISTANCE OF 2m",
-	ProshlyapMurchal2	= "FLAMES - LEAVE THE CENTER",
-	ProshlyapMurchal1	= "AMAN'THUL - SWITCH TARGET",
+	ProshlyapMurchal4	= "%s ARMY - RUN TO THE CENTER!",
+	ProshlyapMurchal3	= "%s LIGHTNING - KEEP A DISTANCE OF 2m!",
+	ProshlyapMurchal2	= "%s FLAMES - LEAVE THE CENTER!",
+	ProshlyapMurchal1	= "%s AMAN'THUL - SWITCH TARGET!",
+	ProshlyapMurchal5	= "%s ALL DAMAGE TO THE BOSS!!",
 	YellPullCoven 		= "I can't wait to hear your flesh sizzle."
 })
 
@@ -205,8 +206,8 @@ L:SetOptionLocalization({
 
 L:SetMiscLocalization({
 --	YellPullAggramar = "You will burn!",
-	ProshlyapMurchal2	= "CONTROL MOBS",
-	ProshlyapMurchal1	= "THEY RAN UNDER THE BOSS",
+	ProshlyapMurchal2	= "%s CONTROL MOBS",
+	ProshlyapMurchal1	= "%s THEY RAN UNDER THE BOSS",
 --	Blaze		= "Ravenous Blaze",
 	Foe			= "Foe",
 	Rend		= "Rend",

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(118, "DBM-Party-Cataclysm", 1, 69)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
 mod:SetCreatureID(43614)
 --mod:SetEncounterID(1054)--Disabled because it's likely not correct since him and augh are split.
 

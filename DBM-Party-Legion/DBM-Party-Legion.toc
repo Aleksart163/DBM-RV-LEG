@@ -43,7 +43,7 @@
 ## X-DBM-Mod-Name-koKR: 던전
 ## X-DBM-Mod-Name-zhCN: 5人小队
 ## X-DBM-Mod-Name-zhTW: 隊伍首領
-## X-DBM-Mod-Sort: 509
+## X-DBM-Mod-Sort: 508
 ## X-DBM-Mod-MapID: 1501, 1466, 1456, 1477, 1458, 1516, 1571, 1492, 1544, 1493, 1651, 1677, 1753
 ## X-DBM-Mod-MinCoreRevision: 17700
 

@@ -1,5 +1,4 @@
 ﻿if GetLocale() ~= "zhCN" then return end
-
 local L
 
 local optionWarning	= "显示%s警报"		-- translate

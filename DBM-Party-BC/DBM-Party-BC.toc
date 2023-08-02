@@ -32,7 +32,7 @@
 ## X-DBM-Mod-Name-koKR: 5인 던전 (TBC)
 ## X-DBM-Mod-Name-zhCN: 队伍首领 (TBC)
 ## X-DBM-Mod-Name-zhTW: 隊伍首領 (TBC)
-## X-DBM-Mod-Sort: 533
+## X-DBM-Mod-Sort: 560
 ## X-DBM-Mod-MapID: 540, 547, 552, 557, 585, 269
 ## X-DBM-Mod-MinCoreRevision: 17700
 

@@ -537,10 +537,12 @@ L:SetWarningLocalization({
 })
 
 L:SetTimerLocalization({
+	timerRoleplay 		= DBM_CORE_GENERIC_TIMER_COMBAT,
 	TimerPortal			= "~ Портал"
 })
 
 L:SetOptionLocalization({
+	timerRoleplay 			= DBM_CORE_OPTION_TIMER_COMBAT,
 	WarningPortalNow		= "Предупреждение о новом портале",
 	WarningPortalSoon		= "Предупреждать заранее о новом портале",
 	WarningBossNow			= "Предупреждать о прибытии босса",
@@ -548,7 +550,8 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	Malgath		= "Лорд Малгат"
+	MurchalOchkenShlyapen = "Стражники! Уходим! Эти герои обо всем позаботятся. За мной!", --
+	MillificentRP = "Наконец-то я вырвалась из ловушки! Ну и..." --
 })
 
 --------------------------

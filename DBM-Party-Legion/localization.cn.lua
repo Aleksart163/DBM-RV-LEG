@@ -512,10 +512,12 @@ L:SetWarningLocalization({
 })
 
 L:SetTimerLocalization({
+	timerRoleplay 		= DBM_CORE_GENERIC_TIMER_COMBAT,
 	TimerPortal			= "传送门CD"
 })
 
 L:SetOptionLocalization({
+	timerRoleplay 			= DBM_CORE_OPTION_TIMER_COMBAT,
 	WarningPortalNow		= "警报：新的传送门",
 	WarningPortalSoon		= "警报：准备开门",
 	WarningBossNow			= "警报：Boss来了",
@@ -523,7 +525,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	Malgath		=	"督军马尔加斯" --offical
+	MillificentRP = "Наконец-то я вырвалась из ловушки! Ну и..." --need localization
 })
 
 -----------------------

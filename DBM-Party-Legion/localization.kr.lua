@@ -513,10 +513,12 @@ L:SetWarningLocalization({
 })
 
 L:SetTimerLocalization({
+	timerRoleplay 		= DBM_CORE_GENERIC_TIMER_COMBAT,
 	TimerPortal			= "차원문 가능"
 })
 
 L:SetOptionLocalization({
+	timerRoleplay 			= DBM_CORE_OPTION_TIMER_COMBAT,
 	WarningPortalNow		= "새 차원문 등장시 경고 표시",
 	WarningPortalSoon		= "새 차원문 사전 경고 표시",
 	WarningBossNow			= "보스 등장 경고 표시",
@@ -524,7 +526,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	Malgath		=	"군주 말가스"
+	MillificentRP = "Наконец-то я вырвалась из ловушки! Ну и..." --need localization
 })
 
 -----------------------

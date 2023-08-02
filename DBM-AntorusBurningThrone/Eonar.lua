@@ -23,7 +23,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_SUCCESS 249121", --254769, 246753
 	"SPELL_AURA_APPLIED 250074 250555 249016 248332 250073 250693 250691 250140 246753 249017 249015",
 	"SPELL_AURA_APPLIED_DOSE 250140",
-	"SPELL_AURA_REMOVED 250074 250555 249016 248332 250693 250691",
+	"SPELL_AURA_REMOVED 250074 250555 249016 248332 250693 250691 249015",
 --	"SPELL_DAMAGE 248329",
 --	"SPELL_MISSED 248329",
 	"CHAT_MSG_RAID_BOSS_EMOTE",
@@ -89,7 +89,7 @@ local countdownArcaneSingularity		= mod:NewCountdown("Alt5", 250171, nil, nil, 5
 local countdownBurningEmbers			= mod:NewCountdown("Alt5", 250691, nil, nil, 5) --Раскаленные угли
 
 --mod:AddSetIconOption("SetIconOnFeedbackTargeted2", 249016, false, false, {6, 5, 4, 3, 2, 1})
-mod:AddSetIconOption("SetIconOnBurningEmbers", 249015, true, false, {8, 7, 6, 5, 4})
+mod:AddSetIconOption("SetIconOnBurningEmbers", 249015, true, false, {8, 7, 6, 5, 4}) --Раскаленные угли
 mod:AddInfoFrameOption(250030, true)
 mod:AddNamePlateOption("NPAuraOnPurification", 250074)
 mod:AddNamePlateOption("NPAuraOnFelShielding", 250555)
@@ -523,6 +523,10 @@ function mod:SPELL_AURA_REMOVED(args)
 			if self.Options.RangeFrame then
 				DBM.RangeCheck:Hide()
 			end
+		end
+	elseif spellId == 249015 then --Раскаленные угли
+		if self.Options.SetIconOnBurningEmbers then
+			self:SetIcon(args.destName, 0)
 		end
 	end
 end
