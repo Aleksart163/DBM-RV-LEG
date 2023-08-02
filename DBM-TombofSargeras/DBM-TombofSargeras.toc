@@ -20,7 +20,7 @@
 ## X-DBM-Mod-Type: RAID
 ## X-DBM-Mod-Category: LEG
 ## X-DBM-Mod-Has-Mythic : 1
-## X-DBM-Mod-Sort: 502
+## X-DBM-Mod-Sort: 501
 ## X-DBM-Mod-MapID: 1676
 ## X-DBM-Mod-MinCoreRevision: 17700
 

@@ -20,7 +20,7 @@
 ## X-DBM-Mod-Type: OTHER
 ## X-DBM-Mod-Category: LEG
 ## X-DBM-Mod-Has-Single-Format: 1
-## X-DBM-Mod-Sort: 507
+## X-DBM-Mod-Sort: 506
 ## X-DBM-Mod-MapID: 1669
 ## X-DBM-Mod-MinCoreRevision: 17700
 

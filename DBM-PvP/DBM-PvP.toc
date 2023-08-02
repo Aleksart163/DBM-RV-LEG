@@ -30,7 +30,7 @@
 ## X-DBM-Mod-SubCategories-frFR: Arène,Champs de Bataille
 ## X-DBM-Mod-Name: PvP
 ## X-DBM-Mod-MapID: 572, 617, 618, 980, 1134, 1505, 1672, 30, 489, 529, 566, 607, 628, 726, 727, 761, 968, 998, 1105, 1681, 1803, 2107
-## X-DBM-Mod-Sort: 1338
+## X-DBM-Mod-Sort: 610
 ## X-DBM-Mod-MinCoreRevision: 17700
 
 localization.en.lua

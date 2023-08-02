@@ -14,7 +14,6 @@ mod:RegisterEventsInCombat(
 	"SPELL_AURA_REMOVED 206567 197422",
 	"SPELL_PERIODIC_DAMAGE 216870",
 	"SPELL_PERIODIC_MISSED 216870",
-	"UNIT_SPELLCAST_SUCCEEDED boss1",
 	"UNIT_HEALTH boss1"
 )
 
@@ -38,7 +37,7 @@ local specWarnVengeance				= mod:NewSpecialWarningSwitch(197796, "-Healer", nil,
 
 --local timerDetonation				= mod:NewTargetTimer(10, 197541, nil, nil, nil, 3, nil, DBM_CORE_HEALER_ICON) --Мгновенный взрыв
 local timerFelGlaiveCD				= mod:NewCDCountTimer(10, 197333, nil, nil, nil, 7) --Глефа Скверны
-local timerKickCD					= mod:NewCDTimer(15.7, 197251, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON) --Сбивающий с ног удар 16-42
+local timerKickCD					= mod:NewCDTimer(15.7, 197251, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Сбивающий с ног удар 16-42
 local timerDeepeningShadowsCD		= mod:NewCDTimer(30.5, 213576, nil, nil, nil, 2) --Сгущающиеся тени
 local timerCreepingDoomCD			= mod:NewCDCountTimer(74.5, 197422, nil, nil, nil, 7) --Ползучая гибель
 local timerCreepingDoom				= mod:NewBuffActiveTimer(35, 197422, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Ползучая гибель 35-40
@@ -55,93 +54,33 @@ mod.vb.proshlyapenCount = 0
 
 local warned_preP1 = false
 local warned_preP2 = false
-local warned_preP3 = false
-local MurchalOchkenProshlyapenTimers1 = {15.7, 7.2, 12.1, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2}
-local MurchalOchkenProshlyapenTimers2 = {52.8, 11.2, 7, 14.5, 8.7, 7.2, 11.7, 7.3, 7.2, 7.3, 15.8, 7.2, 7.3, 7.2, 7.2, 7.4, 13.2, 13.2, 7.2, 7.2, 7.3, 7.3, 7.4, 13.1, 17, 7.4}
-----------------------------------------  0,    1,   2,   3,   4,   5,    6,   7,   8,   9,   10   11,  12,  13,  14,  15,  16,   17,   18,  19,  20
+local warned_preP3 = false MurchalOchkenProshlyapenTimers1
+local MurchalOchkenProshlyapationTimers1 = {15.7, 7.2, 12.1, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2, 7.2}
+local MurchalOchkenProshlyapationTimers2 = {52.8, 11.2, 7, 14.5, 8.7, 7.2, 11.7, 7.3, 7.2, 7.3, 15.8, 7.2, 7.3, 7.2, 7.2, 7.4, 13.2, 13.2, 7.2, 7.2, 7.3, 7.3, 7.4, 13.1, 17, 7.4}
+local MurchalOchkenProshlyapationTimers3 = {57.8, 28.8, 20.5, 21.7, 23, 21.6, 20.5, 20.5, 21.7, 20.5, 24.2, 25}
 
-local function startMurchalOchkenProshlyapen(self) -- Прошляпанное очко Мурчаля Прошляпенко
+local function startProshlyapationOfMurchal(self) -- Proshlyapation of Murchal
 	self.vb.ochkenShlyapenCount = self.vb.ochkenShlyapenCount + 1
 	if self.vb.phase == 1 then
-		local proshlyap = self:IsMythic() and MurchalOchkenProshlyapenTimers1[self.vb.ochkenShlyapenCount+1] or self:IsHeroic() and MurchalOchkenProshlyapenTimers1[self.vb.ochkenShlyapenCount+1]
-		if proshlyap then
+		local proshlyap1 = MurchalOchkenProshlyapationTimers1[self.vb.ochkenShlyapenCount+1]
+		if proshlyap1 then
 			specWarnFelGlaive:Show()
-			timerFelGlaiveCD:Start(proshlyap, self.vb.ochkenShlyapenCount+1)
-			countdownFelGlaive:Start(proshlyap)
-			self:Schedule(proshlyap, startMurchalOchkenProshlyapen, self)
+			specWarnFelGlaive:Play("watchstep")
+			timerFelGlaiveCD:Start(proshlyap1, self.vb.ochkenShlyapenCount+1)
+			countdownFelGlaive:Start(proshlyap1)
+			self:Schedule(proshlyap1, startProshlyapationOfMurchal, self)
 		end
 	elseif self.vb.phase == 3 then
-		local proshlyap = self:IsMythic() and MurchalOchkenProshlyapenTimers2[self.vb.ochkenShlyapenCount+1] or self:IsHeroic() and MurchalOchkenProshlyapenTimers2[self.vb.ochkenShlyapenCount+1]
-		if proshlyap then
+		local proshlyap2 = MurchalOchkenProshlyapationTimers2[self.vb.ochkenShlyapenCount+1]
+		if proshlyap2 then
 			specWarnFelGlaive:Show()
-			timerFelGlaiveCD:Start(proshlyap, self.vb.ochkenShlyapenCount+1)
-			countdownFelGlaive:Start(proshlyap)
-			self:Schedule(proshlyap, startMurchalOchkenProshlyapen, self)
+			specWarnFelGlaive:Play("watchstep")
+			timerFelGlaiveCD:Start(proshlyap2, self.vb.ochkenShlyapenCount+1)
+			countdownFelGlaive:Start(proshlyap2)
+			self:Schedule(proshlyap2, startProshlyapationOfMurchal, self)
 		end
 	end
 end
-
---[[
-local function MurchalOchkenProshlyapen(self)
-	self.vb.ochkenShlyapenCount = self.vb.ochkenShlyapenCount + 1
-	if self:IsHard() then
-		if self.vb.phase == 1 and self.vb.ochkenShlyapenCount == 1 then -- 1 фаза
-			timerFelGlaiveCD:Start(7.2, self.vb.ochkenShlyapenCount+1)
-			countdownFelGlaive:Start(7.2)
-			self:Schedule(7.2, MurchalOchkenProshlyapen, self)
-		elseif self.vb.phase == 1 and self.vb.ochkenShlyapenCount == 2 then --
-			timerFelGlaiveCD:Start(12.1, self.vb.ochkenShlyapenCount+1)
-			countdownFelGlaive:Start(12.1)
-			self:Schedule(12.1, MurchalOchkenProshlyapen, self)
-		elseif self.vb.phase == 1 and self.vb.ochkenShlyapenCount >= 3 then --
-			timerFelGlaiveCD:Start(7.2, self.vb.ochkenShlyapenCount+1)
-			self:Schedule(7.2, MurchalOchkenProshlyapen, self)
-			countdownFelGlaive:Start(7.2)
-		elseif self.vb.phase == 2 and self.vb.ochkenShlyapenCount == 1 then -- 2 фаза
-		if self.vb.phase == 2 and self.vb.ochkenShlyapenCount == 1 then -- 2 фаза
-			self.vb.ochkenShlyapenCount = 0
-		elseif self.vb.phase == 3 and self.vb.ochkenShlyapenCount == 1 then -- 3 фаза
-			timerFelGlaiveCD:Start(11.1, self.vb.ochkenShlyapenCount+1)
-			self:Schedule(11.1, MurchalOchkenProshlyapen, self)
-		elseif self.vb.phase == 3 and self.vb.ochkenShlyapenCount == 2 then --
-			timerFelGlaiveCD:Start(7, self.vb.ochkenShlyapenCount+1)
-			self:Schedule(7, MurchalOchkenProshlyapen, self)
-		elseif self.vb.phase == 3 and self.vb.ochkenShlyapenCount == 3 then --
-			timerFelGlaiveCD:Start(14.4, self.vb.ochkenShlyapenCount+1)
-			self:Schedule(14.4, MurchalOchkenProshlyapen, self)
-		elseif self.vb.phase == 3 and self.vb.ochkenShlyapenCount == 4 then --
-			timerFelGlaiveCD:Start(8.6, self.vb.ochkenShlyapenCount+1)
-			self:Schedule(8.6, MurchalOchkenProshlyapen, self)
-		elseif self.vb.phase == 3 and self.vb.ochkenShlyapenCount == 5 then
-			timerFelGlaiveCD:Start(7.1, self.vb.ochkenShlyapenCount+1)
-			self:Schedule(7.1, MurchalOchkenProshlyapen, self)
-		elseif self.vb.phase == 3 and self.vb.ochkenShlyapenCount == 6 then
-			timerFelGlaiveCD:Start(11.6, self.vb.ochkenShlyapenCount+1)
-			self:Schedule(11.6, MurchalOchkenProshlyapen, self)
-		elseif self.vb.phase == 3 and self.vb.ochkenShlyapenCount == 7 then
-			timerFelGlaiveCD:Start(7.1, self.vb.ochkenShlyapenCount+1)
-			self:Schedule(7.1, MurchalOchkenProshlyapen, self)
-		elseif self.vb.phase == 3 and self.vb.ochkenShlyapenCount == 8 then
-			timerFelGlaiveCD:Start(15, self.vb.ochkenShlyapenCount+1)
-			self:Schedule(15, MurchalOchkenProshlyapen, self)
-		elseif self.vb.phase == 3 and self.vb.ochkenShlyapenCount == 9 then
-			timerFelGlaiveCD:Start(15, self.vb.ochkenShlyapenCount+1)
-			self:Schedule(15, MurchalOchkenProshlyapen, self)
-		elseif self.vb.phase == 3 and self.vb.ochkenShlyapenCount == 10 then
-			timerFelGlaiveCD:Start(15.5, self.vb.ochkenShlyapenCount+1)
-			self:Schedule(15.5, MurchalOchkenProshlyapen, self)
-		elseif self.vb.phase == 3 and self.vb.ochkenShlyapenCount == 11 then
-			timerFelGlaiveCD:Start(7.1, self.vb.ochkenShlyapenCount+1)
-			self:Schedule(7.1, MurchalOchkenProshlyapen, self)
-		elseif self.vb.phase == 3 and self.vb.ochkenShlyapenCount == 12 then
-			timerFelGlaiveCD:Start(7.1, self.vb.ochkenShlyapenCount+1)
-			self:Schedule(7.1, MurchalOchkenProshlyapen, self)
-		elseif self.vb.phase == 3 and self.vb.ochkenShlyapenCount >= 13 then
-			timerFelGlaiveCD:Start(7.1, self.vb.ochkenShlyapenCount+1)
-			self:Schedule(7.1, MurchalOchkenProshlyapen, self)
-		end
-	end
-end]]
 
 function mod:OnCombatStart(delay)
 	self.vb.phase = 1
@@ -151,21 +90,21 @@ function mod:OnCombatStart(delay)
 	warned_preP1 = false
 	warned_preP2 = false
 	warned_preP3 = false
-	self:Schedule(15.7, startMurchalOchkenProshlyapen, self)
---	self:Schedule(15.7, MurchalOchkenProshlyapen, self)
+	self:Schedule(15.7, startProshlyapationOfMurchal, self)
 	timerFelGlaiveCD:Start(15.7-delay, 1) --Глефа Скверны
-	countdownFelGlaive:Start(15.7-delay)
+	countdownFelGlaive:Start(15.7-delay) --Глефа Скверны
 	timerDeepeningShadowsCD:Start(11-delay) --Сгущающиеся тени
 	timerKickCD:Start(8.3-delay) --Сбивающий с ног удар
 end
 
 function mod:OnCombatEnd()
+	self:Unschedule(startProshlyapationOfMurchal)
 	self:UnregisterShortTermEvents()
 end
 
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
-	if spellId == 213576 or spellId == 213583 and self:AntiSpam(5, 1) then --Сгущающиеся тени
+	if spellId == 213576 or spellId == 213583 and self:AntiSpam(10, 1) then --Сгущающиеся тени
 		if ExtraActionBarFrame:IsShown() then--Has light
 			specWarnDeepeningShadows:Show(args.spellName)
 			specWarnDeepeningShadows:Play("213576")
@@ -177,33 +116,14 @@ function mod:SPELL_CAST_START(args)
 		self.vb.proshlyapenCount = self.vb.proshlyapenCount + 1
 		specWarnKick:Show()
 		specWarnKick:Play("carefly")
-		if self.vb.phase == 1 then
+		if self.vb.phase == 1 then --
 			timerKickCD:Start(21)
-		elseif self.vb.phase == 2 then -- выглядит отлично
+		elseif self.vb.phase == 2 then --
 			timerKickCD:Start()
-		elseif self.vb.phase == 3 then
-			if self.vb.proshlyapenCount == 1 then
-				timerKickCD:Start(28.8)
-			elseif self.vb.proshlyapenCount == 2 then
-				timerKickCD:Start(20.5)
-			elseif self.vb.proshlyapenCount == 3 then
-				timerKickCD:Start(21.7)
-			elseif self.vb.proshlyapenCount == 4 then
-				timerKickCD:Start(23)
-			elseif self.vb.proshlyapenCount == 5 then
-				timerKickCD:Start(21.6)
-			elseif self.vb.proshlyapenCount == 6 then
-				timerKickCD:Start(20.5)
-			elseif self.vb.proshlyapenCount == 7 then
-				timerKickCD:Start(20.5)
-			elseif self.vb.proshlyapenCount == 8 then
-				timerKickCD:Start(21.7)
-			elseif self.vb.proshlyapenCount == 9 then
-				timerKickCD:Start(20.5)
-			elseif self.vb.proshlyapenCount == 10 then
-				timerKickCD:Start(24.2)
-			else
-				timerKickCD:Start(25)
+		elseif self.vb.phase == 3 then -- выглядит прошляпом очка для Мурчаля
+			local proshlyap3 = MurchalOchkenProshlyapationTimers3[self.vb.proshlyapenCount+1]
+			if proshlyap3 then
+				timerKickCD:Start(proshlyap3)
 			end
 		end
 	elseif spellId == 197422 then --первая Ползучая гибель (длится 35 сек)
@@ -223,6 +143,7 @@ function mod:SPELL_CAST_START(args)
 		countdownCreepingDoom:Start()
 		timerFelGlaiveCD:Stop()
 		countdownFelGlaive:Cancel()
+		specWarnFelGlaive:Cancel()
 		warnCreepingDoom:Schedule(69.5)
 		timerCreepingDoomCD:Start(74.5, self.vb.proshlyapCount+1)
 		countdownCreepingDoom:Start(74.5)
@@ -231,8 +152,7 @@ function mod:SPELL_CAST_START(args)
 		timerKickCD:Start(57.8)
 		timerFelGlaiveCD:Start(52.8, 1)
 		countdownFelGlaive:Start(52.8)
-		self:Schedule(52.8, startMurchalOchkenProshlyapen, self)
---		self:Schedule(52.8, MurchalOchkenProshlyapen, self)
+		self:Schedule(52.8, startProshlyapationOfMurchal, self)
 		self:UnregisterShortTermEvents()
 	elseif spellId == 213685 then --вторая Ползучая гибель
 		self.vb.proshlyapCount = self.vb.proshlyapCount + 1
@@ -263,7 +183,6 @@ function mod:SPELL_AURA_APPLIED(args)
 			timerVengeanceCD:Start()
 		end
 	elseif spellId == 197541 then
-	--	timerDetonation:Start(args.destName)
 		if args:IsPlayer() then
 			specWarnDetonation:Show()
 			specWarnDetonation:Play("defensive")
@@ -283,8 +202,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		--	specWarnHiddenStarted:Play("end")
 		end
 		self.vb.ochkenShlyapenCount = 0
-		self:Unschedule(startMurchalOchkenProshlyapen)
-	--	self:Unschedule(MurchalOchkenProshlyapen)
+		self:Unschedule(startProshlyapationOfMurchal)
 	end
 end
 
@@ -313,23 +231,9 @@ function mod:INSTANCE_ENCOUNTER_ENGAGE_UNIT()
 			timerFelGlaiveCD:Start(33.6, 1) --глефа
 			countdownFelGlaive:Start(33.6)
 			specWarnFelGlaive:Schedule(33.6)
-		--	self:Schedule(33.6, MurchalOchkenProshlyapen, self)
 		end
 	end
 end
-
---[[
-function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
-	local spellId = legacySpellId or bfaSpellId
-	if spellId == 203416 then--Shadowstep. Faster than 206567 applied
-		timerDeepeningShadowsCD:Stop()
-		timerKickCD:Stop()
-		if not UnitIsDeadOrGhost("player") then
-			specWarnHiddenStarted:Show()
-		--	specWarnHiddenStarted:Play("end")
-		end
-	end
-end]]
 
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
 	if spellId == 216870 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then

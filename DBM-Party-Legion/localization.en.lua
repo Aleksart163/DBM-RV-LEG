@@ -549,7 +549,8 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	MillificentRP = "Finally free from that cursed mage trap! Such a-"
+	MurchalOchkenShlyapen = "Prison guards, we are leaving! These adventurers are taking over! Go go go!", --
+	MillificentRP = "Finally free from that cursed mage trap! Such a-" --
 })
 
 -----------------------
