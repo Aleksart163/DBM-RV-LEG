@@ -322,18 +322,18 @@ L.BigBrotherAnnounceToRaid	= "Anunciar resultados de Big Brother en el chat de b
 L.Area_Invite				= "Opciones de invitación"
 L.AutoAcceptFriendInvite	= "Aceptar automáticamente invitaciones a grupos de amigos"
 L.AutoAcceptGuildInvite		= "Aceptar automáticamente invitaciones a grupos de miembros de la hermandad"
+
+L.Area_Advanced				= "Opciones avanzadas"
+L.FakeBW					= "Camuflar DBM como si fuera BigWigs en comprobaciones de versión (útil para hermandades que obligan a usar BigWigs)"
+L.AITimer					= "Generar temporizadores automáticamente para encuentros no vistos anteriormente mediante la IA de temporizadores interna de DBM (útil para probar jefes por primera vez en el RPP). No funciona correctamente en encuentros con múltiples esbirros que comparten la misma facultad."
+L.AutoCorrectTimer			= "Corregir automáticamente temporizadores que son demasiado largos (útil para contenido nuevo para el que DBM todavía no está actualizado). Nota: esta opción puede empeorar algunos temporizadores si el encuentro los reinicia en cambios de fase para los que DBM todavía no está preparado."
 -- Murchal ochken proshlyapen [✔]
-L.Area_Key					= "Opciones de bandas y mazmorras Mythic+"
+L.AreaMurchalOchkenProshlyapation = "Opciones de bandas y mazmorras Mythic+"
 L.AutoKeyLink				= "Mostrar su llave Mythic+ al chat de raid/grupo/gremio con el comando !keys"
 L.IgnoreRaidAnnounce		= "Deshabilitar los anuncios del chat en bandas/grupo cuando alguien usa $spell:80353 o similar"
 L.IgnoreRaidAnnounce2		= "Deshabilitar los anuncios del líder/asistente de banda en bosses de ATA (Antorus)"
 L.IgnoreRaidAnnounce3		= "Desactiva los mensajes de agradecimiento, cuando te usan hechizos como $spell:20484 o similar"
 --
-L.Area_Advanced				= "Opciones avanzadas"
-L.FakeBW					= "Camuflar DBM como si fuera BigWigs en comprobaciones de versión (útil para hermandades que obligan a usar BigWigs)"
-L.AITimer					= "Generar temporizadores automáticamente para encuentros no vistos anteriormente mediante la IA de temporizadores interna de DBM (útil para probar jefes por primera vez en el RPP). No funciona correctamente en encuentros con múltiples esbirros que comparten la misma facultad."
-L.AutoCorrectTimer			= "Corregir automáticamente temporizadores que son demasiado largos (útil para contenido nuevo para el que DBM todavía no está actualizado). Nota: esta opción puede empeorar algunos temporizadores si el encuentro los reinicia en cambios de fase para los que DBM todavía no está preparado."
-
 L.Panel_Profile				= "Perfiles"
 L.Area_CreateProfile		= "Creación de perfiles para opciones generales de DBM"
 L.EnterProfileName			= "Nombre del perfil"

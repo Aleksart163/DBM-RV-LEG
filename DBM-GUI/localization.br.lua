@@ -267,11 +267,15 @@ L.BigBrotherAnnounceToRaid	= "Anunciar resultados do Big Brother para a raid"
 L.Area_Invite				= "Opções de convite"
 L.AutoAcceptFriendInvite	= "Aceitar convites de amigos automaticamente"
 L.AutoAcceptGuildInvite		= "Aceitar convites de membros da guilda automaticamente"
-L.Area_Key					= "Opções Chaves míticas+"
-L.AutoKeyLink				= "Vincule sua Chaves míticas+ ao bate-papo"
 L.Area_Advanced				= "Opções avançadas"
 L.FakeBW					= "Fingir ser BigWigs em checagens de versão ao invés de ser DBM ( útil para guildas que forçam o uso de BigWigs )"
-
+-- Murchal ochken proshlyapen [✔]
+L.AreaMurchalOchkenProshlyapation = "Opções Chaves míticas+"
+L.AutoKeyLink				= "Vincule sua Chaves míticas+ ao bate-papo"
+L.IgnoreRaidAnnounce		= "Отключить анонсы в рейд/групп чате, когда кто-то применяет $spell:80353 или аналогичные ему" --need localization
+L.IgnoreRaidAnnounce2		= "Отключить анонсы на боссах в АПТ от лидера/помощника рейда" --need localization
+L.IgnoreRaidAnnounce3		= "Отключить сообщения благодарности, когда к вам применяют заклинания типа $spell:20484 или аналогичные ему" --need localization
+--
 L.Panel_Profile				= "Perfil"
 L.Area_CreateProfile		= "Criação de perfil"
 L.EnterProfileName			= "entre com o nome do perfil"
