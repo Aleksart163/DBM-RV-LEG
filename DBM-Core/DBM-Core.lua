@@ -34,9 +34,9 @@
 -------------------------------
 
 DBM = {
-	Revision = tonumber(("$Revision: 17728 $"):sub(12, -3)),
+	Revision = tonumber(("$Revision: 17727 $"):sub(12, -3)),
 	DisplayVersion = "7.3.47 Right Version " .. string.sub(GetLocale(), -2),
-	ReleaseRevision = 17727
+	ReleaseRevision = 17726
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -1480,7 +1480,7 @@ do
 end
 ---------------------------------Murchal ochken proshlyapen---------------------------------------
 local function proshlyapSoulburnin(self, event, msg)
-	if DBM.Options.AutoKeyLink and DBM:AntiSpam(3, "OMP") then
+	if DBM.Options.AutoKeyLink and DBM:AntiSpam(5, "MOP") then
 		if event == "CHAT_MSG_PARTY" or event == "CHAT_MSG_PARTY_LEADER" then
 			if string.lower(msg) == "!keys" then
 				proshlyapMurchalya(true)
