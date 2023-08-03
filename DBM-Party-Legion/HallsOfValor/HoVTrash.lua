@@ -242,12 +242,10 @@ function mod:SPELL_AURA_APPLIED(args)
 	if args.spellId == 215430 then --Громовой удар
 		timerThunderstrike:Start(args.destName)
 		if args:IsPlayer() then
-			if self:IsHard() then
-				specWarnThunderstrike:Show()
-				specWarnThunderstrike:Play("runout")
-				yellThunderstrike:Yell()
-				yellThunderstrike2:Countdown(3, 2)
-			end
+			specWarnThunderstrike:Show()
+			specWarnThunderstrike:Play("runout")
+			yellThunderstrike:Yell()
+			yellThunderstrike2:Countdown(3, 2)
 		elseif self:CheckNearby(10, args.destName) then
 			specWarnThunderstrike2:CombinedShow(0.3, args.destName)
 			specWarnThunderstrike2:Play("watchstep")
