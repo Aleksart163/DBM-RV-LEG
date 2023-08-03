@@ -1480,7 +1480,7 @@ do
 end
 ---------------------------------Murchal ochken proshlyapen---------------------------------------
 local function proshlyapSoulburnin(self, event, msg)
-	if DBM.Options.AutoKeyLink then
+	if DBM.Options.AutoKeyLink and DBM:AntiSpam(3, "OMP") then
 		if event == "CHAT_MSG_PARTY" or event == "CHAT_MSG_PARTY_LEADER" then
 			if string.lower(msg) == "!keys" then
 				proshlyapMurchalya(true)
@@ -7580,76 +7580,6 @@ function bossModPrototype:IsValidWarning(sourceGUID)
 	end
 	return false
 end
-
---[[do
-	local interruptSpells = { --На всякий, если старый будет косячить
-		[1766] = true,--Крыса (Пинок)
-		[2139] = true,--Маг (Антимагия)
-		[6552] = true,--Воин (Зуботычина)
-		[15487] = true,--Прист (Безмолвие)
-		[19647] = true,--Пет лока (Запрет чар)--
-		[47528] = true,--ДК (Заморозка разума)
-		[57994] = true,--Шаман (Пронизывающий ветер)
-		[78675] = true,--Друид (Столп солнечного света)
-		[96231] = true,--Паладин (Укор)
-		[106839] = true,--Друид (Лобовая атака)
-		[116705] = true,--Монах (Рука-копье)
-		[147362] = true,--Хант (Встречный выстрел)--
-		[171138] = true,--Пет лока (Замок мира теней)--
-		[183752] = true,--ДХ (Похищение магии)
-		[187707] = true,--Хант (Намордник)--
-	}
-	--onlyTandF param is used when CheckInterruptFilter is actually being used for a simpe target/focus check and nothing more.
-	--checkCooldown should always be passed true except for special rotations like count warnings when you should be alerted it's your turn even if you dropped ball and put it on CD at wrong time
-	--ignoreTandF is passed usually when interrupt is on a main boss or event that is global to entire raid and should always be alerted regardless of targetting.
-	function bossModPrototype:CheckInterruptFilter(sourceGUID, checkOnlyTandF, checkCooldown, ignoreTandF)
-		--Just return true if interrupt filtering is disabled (and it's actually for an interrupt)
-		if DBM.Options.FilterInterrupt2 == "None" and not checkOnlyTandF then return true end
-
-		local unitID = (UnitGUID("target") == sourceGUID) and "target" or not isClassic and (UnitGUID("focus") == sourceGUID) and "focus"
-
-		--Just return true if target or focus is ONLY requirement (not an interrupt check) and we already confirmed T and F
-		if unitID and checkOnlyTandF then return true end--checkOnlyTandF means this isn't an interrupt check at all, skip all the rest and return true if we met TandF rquirement
-
-		--TandF required in all checks except "None" or if ignoreTandF is passed
-		--Just return false if source isn't our target or focus, no need to do further checks
-		if not ignoreTandF and not unitID then
-			return false
-		end
-
-		--Check if cooldown check is actually required
-		local cooldownRequired = checkCooldown--First set to default value defined by arg
-		if cooldownRequired and ((DBM.Options.FilterInterrupt2 == "onlyTandF") or self.isTrashMod and (DBM.Options.FilterInterrupt2 == "TandFandBossCooldown")) then
-			cooldownRequired = false
-		end
-
-		local InterruptAvailable = true--We want to default to true versus false, since some interrupts don't require CD checks
-		if cooldownRequired then
-			for spellID, _ in pairs(interruptSpells) do
-				--For an inverse check, don't need to check if it's known, if it's on cooldown it's known
-				--This is possible since no class has 2 interrupt spells (well, actual interrupt spells)
-				if (GetSpellCooldown(spellID)) ~= 0 then--Spell is on cooldown
-					InterruptAvailable = false
-				end
-			end
-		end
-		if InterruptAvailable then
-			--Check if it's casting something that's not interruptable at the moment
-			--needed for torghast since many mobs can have interrupt immunity with same spellIds as other mobs that can be interrupted
-			if isRetail and unitID then
-				if UnitCastingInfo(unitID) then
-					local _, _, _, _, _, _, _, notInterruptible = UnitCastingInfo(unitID)
-					if notInterruptible then return false end
-				elseif UnitChannelInfo(unitID) then
-					local _, _, _, _, _, _, notInterruptible = UnitChannelInfo(unitID)
-					if notInterruptible then return false end
-				end
-			end
-			return true
-		end
-		return false
-	end
-end]]
 
 function bossModPrototype:CheckInterruptFilter(sourceGUID, skip, checkCooldown) --интеррапт, кик каста
 	if DBM.Options.FilterInterrupt2 == "None" and not skip then return true end--use doesn't want to use interrupt filter, always return true
