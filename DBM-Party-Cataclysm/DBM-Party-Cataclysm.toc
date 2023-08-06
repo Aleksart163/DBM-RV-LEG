@@ -73,3 +73,4 @@ EndTime\Jaina.lua
 EndTime\Sylvanas.lua
 EndTime\Tyrande.lua
 EndTime\Murozond.lua
+EndTime\ETTrash.lua

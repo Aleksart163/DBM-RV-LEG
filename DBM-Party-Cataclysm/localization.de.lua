@@ -232,3 +232,24 @@ L= DBM:GetModLocalization(289)
 L:SetMiscLocalization{
 	Kill		= "Ihr wisst nicht, was Ihr getan habt. Aman'Thul... Was ich... gesehen... habe..."
 }
+
+-----------
+-- Trash --
+-----------
+L = DBM:GetModLocalization("ETTrash")
+
+L:SetGeneralLocalization{
+	name = "Trash der Die Endzeit"
+}
+
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+})
+
+L:SetMiscLocalization({
+	ProshlyapM = "Die \"Endzeit\" habe ich diesen Ort einst genannt. Damals war ich noch blind und unwissend. Ihr wollt... was - Mich hier aufhalten? Das Schicksal ändern, an dem ich so unermüdlich gewebt habe?"
+})

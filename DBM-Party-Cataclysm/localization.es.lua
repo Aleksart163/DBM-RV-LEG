@@ -243,3 +243,30 @@ L= DBM:GetModLocalization(289)
 L:SetMiscLocalization{
 	Kill		= "No tenéis ni idea de lo que habéis hecho. Aman'Thul... Lo que... he... visto..."
 }
+
+-----------
+-- Trash --
+-----------
+L = DBM:GetModLocalization("ETTrash")
+
+L:SetGeneralLocalization{
+	name = "Enemigos menores"
+}
+
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+})
+
+if GetLocale() == "esES" then
+L:SetMiscLocalization({
+	ProshlyapM = "Una vez llamé a este lugar el \"Fin de los Días\". Entonces, no había visto, no sabía. ¿Qué esperáis? ¿Detenerme aquí? ¿Cambiar el destino que tanto me ha costado tejer?" --
+})
+else
+L:SetMiscLocalization({
+	ProshlyapM = "Una vez llamé a este lugar, el \"Fin de los Días\". Entonces, no lo conocía. ¿Qué esperan? ¿Detenerme aquí? ¿Cambiar el destino que tanto me costó tejer?" --
+})
+end

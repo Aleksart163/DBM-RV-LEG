@@ -282,3 +282,24 @@ L= DBM:GetModLocalization(289)
 L:SetMiscLocalization{
 	Kill		= "你根本不明白你究竟干了什么。阿曼苏尔……我……看到……的……"
 }
+
+-----------
+-- Trash --
+-----------
+L = DBM:GetModLocalization("ETTrash")
+
+L:SetGeneralLocalization{
+	name = "时光之末小怪"
+}
+
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+})
+
+L:SetMiscLocalization({
+	ProshlyapM = "“时光之末”，我曾经这么称呼这个地方，我看不到从此以后的时间。什么？你想要……阻止我？改变我花费了无尽时间编织的命运？"
+})

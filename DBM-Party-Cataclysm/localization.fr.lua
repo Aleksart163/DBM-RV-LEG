@@ -200,3 +200,24 @@ L= DBM:GetModLocalization(289)
 L:SetMiscLocalization{
 	Kill		= "You know not what you have done. Aman'Thul... What I... have... seen..."
 }
+
+-----------
+-- Trash --
+-----------
+L = DBM:GetModLocalization("ETTrash")
+
+L:SetGeneralLocalization{
+	name = "La Fin des temps Trash"
+}
+
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+})
+
+L:SetMiscLocalization({
+	ProshlyapM = "J’appelais ces lieux la « Fin des temps ». Mais je n’avais pas encore vu. Je ne savais pas. Qu’espérez-vous ? M’arrêter, ici ? Et changer le destin que j’ai entrepris de tisser inlassablement ?" --
+})
