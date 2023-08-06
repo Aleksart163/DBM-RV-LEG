@@ -70,7 +70,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			if amount == 7 then
 				specWarnBurst:Show()
 				specWarnBurst:Play("stackhigh")
-			elseif amount >= 10 and amount % 5 == 0 and self:AntiSpam(2, 1) then
+			elseif amount >= 10 and amount % 5 == 0 and self:AntiSpam(3, 1) then
 				specWarnBurst:Show()
 				specWarnBurst:Play("stackhigh")
 			end
@@ -101,7 +101,7 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spell
 		specWarnSanguineIchor:Show()
 		specWarnSanguineIchor:Play("runaway")
 	elseif spellId == 240559 and destGUID == UnitGUID("player") then --Тяжкая рана
-		if dota5s and self:AntiSpam(5, "grievous") then
+		if dota5s and self:AntiSpam(7, "grievous") then
 			specWarnGrievousWound:Show(5)
 			specWarnGrievousWound:Play("stackhigh")
 		end

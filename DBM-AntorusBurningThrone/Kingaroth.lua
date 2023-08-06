@@ -362,7 +362,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnDecimation:Schedule(4.5)
 			specWarnDecimation:ScheduleVoice(4.5, "runaway")
-			yellDecimation:Countdown(10, 3)
+			yellDecimation:Countdown(9, 3)
 		end
 	elseif spellId == 246698 or spellId == 252760 then
 		if not tContains(DemolishTargets, args.destName) then

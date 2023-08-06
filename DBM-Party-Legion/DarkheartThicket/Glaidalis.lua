@@ -5,7 +5,7 @@ mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
 mod:SetCreatureID(96512)
 mod:SetEncounterID(1836)
 mod:SetZone()
-mod:SetUsedIcons(8, 7)
+mod:SetUsedIcons(8, 7, 6)
 
 mod:RegisterCombat("combat")
 
@@ -37,10 +37,11 @@ local yellRampage				= mod:NewYellMoveAway(198379, nil, nil, nil, "YELL") --Пе
 
 local countdownRampage			= mod:NewCountdown(28.7, 198379, "Melee", nil, 5) --Первобытная ярость
 
-mod:AddSetIconOption("SetIconOnGrievousTear", 196376, true, false, {8, 7}) --Мучительное разрывание
+mod:AddSetIconOption("SetIconOnRampage", 198379, true, false, {8}) --Первобытная ярость
+mod:AddSetIconOption("SetIconOnGrievousTear", 196376, true, false, {7, 6}) --Мучительное разрывание
 
 mod.vb.rampage = 0
-mod.vb.grievousTearIcon = 8
+mod.vb.grievousTearIcon = 7
 
 function mod:RampageTarget(targetname, uId)
 	if not targetname then return end
@@ -52,11 +53,14 @@ function mod:RampageTarget(targetname, uId)
 		specWarnRampage2:Show(targetname)
 		specWarnRampage2:Play("watchstep")
 	end
+	if self.Options.SetIconOnRampage then
+		self:SetIcon(targetname, 8, 5)
+	end
 end
 
 function mod:OnCombatStart(delay)
 	self.vb.rampage = 0
-	self.vb.grievousTearIcon = 8
+	self.vb.grievousTearIcon = 7
 	if not self:IsNormal() then
 		timerLeapCD:Start(5.5-delay) --Мучительный прыжок
 		timerRampageCD:Start(13.5-delay) --Первобытная ярость

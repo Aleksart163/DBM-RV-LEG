@@ -273,8 +273,10 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 248757 and not args:IsDestTypePlayer() then --Пирогенез
 		local amount = args.amount or 1
 		if amount >= 2 then
-			specWarnPyrogenics:Show(args.destName)
-			specWarnPyrogenics:Play("dispelnow")
+			if not UnitIsDeadOrGhost("player") then
+				specWarnPyrogenics:Show(args.destName)
+				specWarnPyrogenics:Play("dispelnow")
+			end
 		end
 	elseif spellId == 254502 then --Ужасающий прыжок
 		warnFearsomeLeap:CombinedShow(0.3, args.destName)

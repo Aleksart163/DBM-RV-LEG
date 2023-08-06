@@ -114,6 +114,7 @@ local timerMachinationsofAman			= mod:NewCastTimer(25, 250095, nil, nil, nil, 5,
 local yellFulminatingPulse2				= mod:NewYell(253520, nil, nil, nil, "YELL") --Гремучий импульс
 local yellFulminatingPulse				= mod:NewFadesYell(253520, nil, nil, nil, "YELL") --Гремучий импульс
 local yellChilledBlood					= mod:NewYell(245586, nil, nil, nil, "YELL") --Студеная кровь
+local yellChilledBlood2					= mod:NewYell(129148, nil, nil, nil, "YELL") --Заморозка
 local yellCosmicGlare					= mod:NewYell(250757, nil, nil, nil, "YELL") --Космический отблеск
 local yellCosmicGlareFades				= mod:NewShortFadesYell(250757, nil, nil, nil, "YELL") --Космический отблеск
 
@@ -621,6 +622,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnChilledBlood3:Show()
 			specWarnChilledBlood3:Play("targetyou")
+			yellChilledBlood2:Yell()
 		end
 	end
 end
