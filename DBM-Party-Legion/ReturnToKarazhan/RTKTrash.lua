@@ -257,6 +257,9 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 230083 then --Полная нейтрализация
 		if args:IsPlayer() then
 			specWarnNullification:Show()
+			specWarnNullification:Play("findshadow")
+			yellReinvigorated2:Cancel()
+			timerReinvigorated:Cancel()
 			yellNullification:Yell()
 		else
 			warnNullification:Show(args.destName)
@@ -274,15 +277,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnOathofFealty2:Play("dispelnow")
 		end
 	elseif spellId == 230087 then --Восполнение сил
-		timerReinvigorated:Start(args.destName)
-		if args:IsPlayer() then
-			specWarnReinvigorated:Show()
-		--	yellReinvigorated:Yell(playerName)
-			yellReinvigorated2:Cancel()
-			yellReinvigorated2:Countdown(20, 3)
-		else
-			warnReinvigorated:Show(args.destName)
-		end
+		warnReinvigorated:Show(args.destName)
 	elseif spellId == 229468 then
 		warnMovePiece:Show(args.destName)
 		timerMovePieceCD:Start()
@@ -348,6 +343,12 @@ function mod:SPELL_AURA_REMOVED(args)
 		if args:IsPlayer() then
 			yellBurningBrand2:Cancel()
 		end
+	elseif spellId == 230083 then --Полная нейтрализация
+		if args:IsPlayer() then
+			timerReinvigorated:Start(args.destName)
+			specWarnReinvigorated:Show()
+			yellReinvigorated2:Countdown(20, 3)
+		end
 	end
 end
 
@@ -394,6 +395,9 @@ function mod:UNIT_DIED(args)
 	if cid == 115765 then --Абстрактный нейтрализатор
 		timerNullificationCD:Cancel()
 --[[	elseif cid == 115395 or cid == 115406 or cid == 115401 or cid == 115402 or cid == 115407 then --Ферзь, Конь, Слон, Слон, Ладья
+		--за Ладью +20 сек, если все живы
+		--за Ферзя +30 сек если все живы, +22 сек, если мертва Ладья
+		--слишком дохуя вариантов
 		if not king then
 			if timerRoyalty:GetTime() < 10 then
 				timerRoyalty:AddTime(20)
