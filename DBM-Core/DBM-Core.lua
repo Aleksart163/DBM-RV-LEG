@@ -1480,21 +1480,21 @@ do
 end
 ---------------------------------Murchal ochken proshlyapen---------------------------------------
 local function proshlyapSoulburnin(self, event, msg)
-	if DBM.Options.AutoKeyLink and DBM:AntiSpam(5, "MOP") then
-		if event == "CHAT_MSG_PARTY" or event == "CHAT_MSG_PARTY_LEADER" then
-			if string.lower(msg) == "!keys" then
-				proshlyapMurchalya(true)
-			end
-		elseif event == "CHAT_MSG_RAID" or event == "CHAT_MSG_RAID_LEADER" then
-			if string.lower(msg) == "!keys" then
-				proshlyapMurchalya(true, true)
-			end
-		elseif event == "CHAT_MSG_GUILD" then
-			if string.lower(msg) == "!keys" then
-				proshlyapMurchalya(true, true, true)
-			end
-		end
-	end
+    if DBM.Options.AutoKeyLink then
+        if event == "CHAT_MSG_PARTY" or event == "CHAT_MSG_PARTY_LEADER" then
+            if string.lower(msg) == "!keys" and DBM:AntiSpam(30, "MOP") then
+                proshlyapMurchalya(true)
+            end
+        elseif event == "CHAT_MSG_RAID" or event == "CHAT_MSG_RAID_LEADER" then
+            if string.lower(msg) == "!keys" and DBM:AntiSpam(30, "MOP") then
+                proshlyapMurchalya(true, true)
+            end
+        elseif event == "CHAT_MSG_GUILD" then
+            if string.lower(msg) == "!keys" and DBM:AntiSpam(30, "MOP") then
+                proshlyapMurchalya(true, true, true)
+            end
+        end
+    end
 end
 
 local f = CreateFrame("Frame")
