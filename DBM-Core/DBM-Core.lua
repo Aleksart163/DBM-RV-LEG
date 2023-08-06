@@ -34,9 +34,9 @@
 -------------------------------
 
 DBM = {
-	Revision = tonumber(("$Revision: 17727 $"):sub(12, -3)),
+	Revision = tonumber(("$Revision: 17728 $"):sub(12, -3)),
 	DisplayVersion = "7.3.47 Right Version " .. string.sub(GetLocale(), -2),
-	ReleaseRevision = 17726
+	ReleaseRevision = 17727
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -1486,11 +1486,11 @@ local function proshlyapSoulburnin(self, event, msg)
                 proshlyapMurchalya(true)
             end
         elseif event == "CHAT_MSG_RAID" or event == "CHAT_MSG_RAID_LEADER" then
-            if string.lower(msg) == "!keys" and DBM:AntiSpam(30, "MOP") then
+            if string.lower(msg) == "!keys" and DBM:AntiSpam(30, "MOPR") then
                 proshlyapMurchalya(true, true)
             end
         elseif event == "CHAT_MSG_GUILD" then
-            if string.lower(msg) == "!keys" and DBM:AntiSpam(30, "MOP") then
+            if string.lower(msg) == "!keys" and DBM:AntiSpam(30, "MOPG") then
                 proshlyapMurchalya(true, true, true)
             end
         end
