@@ -1486,7 +1486,7 @@ local function proshlyapSoulburnin(self, event, msg)
                 proshlyapMurchalya(true)
             end
         elseif event == "CHAT_MSG_RAID" or event == "CHAT_MSG_RAID_LEADER" then
-            if string.lower(msg) == "!keys" and DBM:AntiSpam(30, "MOPR") then
+            if string.lower(msg) == "!keys" and DBM:AntiSpam(30, "MOP") then
                 proshlyapMurchalya(true, true)
             end
         elseif event == "CHAT_MSG_GUILD" then
