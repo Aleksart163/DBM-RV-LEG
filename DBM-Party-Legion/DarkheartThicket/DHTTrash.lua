@@ -8,7 +8,7 @@ mod:SetZone()
 mod.isTrashMod = true
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 201226 200580 200630 200768 201399",
+	"SPELL_CAST_START 201226 200580 200630 200768 201399 200658",
 	"SPELL_CAST_SUCCESS 201272",
 	"SPELL_SUMMON 198910",
 	"SPELL_AURA_APPLIED 204243 225568 198904 200684 200642",
@@ -24,7 +24,9 @@ local warnCurseofIsolation				= mod:NewTargetAnnounce(225568, 3) --Прокля�
 local warnPoisonSpear					= mod:NewTargetAnnounce(198904, 3) --Отравленное копье
 local warnUnnervingScreech				= mod:NewCastAnnounce(200630, 4) --Ошеломляющий визг
 local warnDreadInferno					= mod:NewCastAnnounce(201399, 4) --Жуткое пекло
+local warnStarShower					= mod:NewCastAnnounce(200658, 4) --Звездный дождь
 
+local specWarnStarShower				= mod:NewSpecialWarningInterrupt(200658, "HasInterrupt", nil, nil, 1, 3) --Звездный дождь
 local specWarnNightfall					= mod:NewSpecialWarningYouMove(198408, nil, nil, nil, 1, 2) --Сумерки
 local specWarnDespair					= mod:NewSpecialWarningStack(200642, nil, 5, nil, nil, 1, 2) --Отчаяние
 local specWarnNightmareToxin			= mod:NewSpecialWarningYouMoveAway(200684, nil, nil, nil, 3, 6) --Ядовитый кошмар
@@ -81,6 +83,14 @@ function mod:SPELL_CAST_START(args)
 		if not self:IsNormal() then
 			warnDreadInferno:Show()
 			warnDreadInferno:Play("kickcast")
+		end
+	elseif spellId == 200658 then --Звездный дождь
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnStarShower:Show()
+			specWarnStarShower:Play("kickcast")
+		else
+			warnStarShower:Show()
+			warnStarShower:Play("kickcast")
 		end
 	end
 end

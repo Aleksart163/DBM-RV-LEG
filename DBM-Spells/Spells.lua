@@ -6,7 +6,7 @@ mod:SetZone(DBM_DISABLE_ZONE_DETECTION)
 
 mod:RegisterEvents(
 	"SPELL_CAST_START 61994 212040 212056 212036 212048 212051 7720",
-	"SPELL_CAST_SUCCESS 688 691 157757 80353 32182 230935 90355 2825 160452 10059 11416 11419 32266 49360 11417 11418 11420 32267 49361 33691 53142 88345 88346 132620 132626 176246 176244 224871 29893 83958 64901 21169",
+	"SPELL_CAST_SUCCESS 161399 157757 80353 32182 230935 90355 2825 160452 10059 11416 11419 32266 49360 11417 11418 11420 32267 49361 33691 53142 88345 88346 132620 132626 176246 176244 224871 29893 83958 64901 21169",
 	"SPELL_AURA_APPLIED 20707 29166 64901",
 	"SPELL_AURA_REMOVED 29166 64901 197908",
 	"SPELL_SUMMON 67826 199109 199115 195782",
@@ -93,7 +93,7 @@ local cauldron = replaceSpellLinks(188036)
 --Еда
 local lavishSuramar, hearty, sugar = replaceSpellLinks(201352), replaceSpellLinks(201351), replaceSpellLinks(185709)
 --Инженерия
-local jeeves, autoHammer, pylon = replaceSpellLinks(67826), replaceSpellLinks(199109), replaceSpellLinks(199115)
+local jeeves, autoHammer, pylon, swap = replaceSpellLinks(67826), replaceSpellLinks(199109), replaceSpellLinks(199115), replaceSpellLinks(161399)
 --Мобильный банк
 local bank = replaceSpellLinks(88306) --83958
 --Игрушки
@@ -121,7 +121,7 @@ local premsg_values = {
 	soulwell, soulstone, summoning,
 	cauldron_rw,
 	lavishSuramar_rw, hearty, sugar,
-	jeeves_rw, autoHammer_rw, pylon_rw,
+	jeeves_rw, autoHammer_rw, pylon_rw, swap,
 	bank,
 	toyTrain, moonfeather, --[[highborne, discoball, ]]direbrews
 }
@@ -278,6 +278,9 @@ local function sendAnnounce(self)
 	elseif premsg_values.pylon_rw == 1 then
 		smartChat(L.SoulwellYell:format(DbmRV, premsg_values.args_sourceName, pylon))
 		premsg_values.pylon_rw = 0
+	elseif premsg_values.swap == 1 then
+		smartChat(L.SoulstoneYell:format(DbmRV, premsg_values.args_sourceName, swap, premsg_values.args_destName))
+		premsg_values.swap = 0
 	elseif premsg_values.bank == 1 then
 		smartChat(L.SoulwellYell:format(DbmRV, premsg_values.args_sourceName, bank))
 		premsg_values.bank = 0
@@ -397,6 +400,8 @@ local function announceList(premsg_announce, value)
 		premsg_values.autoHammer_rw = value
 	elseif premsg_announce == "premsg_Spells_pylon_rw" then
 		premsg_values.pylon_rw = value
+	elseif premsg_announce == "premsg_Spells_swap" then
+		premsg_values.swap = value
 	elseif premsg_announce == "premsg_Spells_bank" then
 		premsg_values.bank = value
 	elseif premsg_announce == "premsg_Spells_toyTrain" then
@@ -601,6 +606,10 @@ function mod:SPELL_CAST_SUCCESS(args)
 	elseif spellId == 21169 then --Реинкарнация
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnResurrect then
 			prepareMessage(self, "premsg_Spells_rebirth4", args.sourceName)
+		end
+	elseif spellId == 161399 then --Поменяться местами
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnToys then
+			prepareMessage(self, "premsg_Spells_swap", args.sourceName, args.destName)
 		end
 	end
 end
