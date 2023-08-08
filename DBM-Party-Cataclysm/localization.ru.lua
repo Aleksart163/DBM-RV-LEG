@@ -233,3 +233,24 @@ L= DBM:GetModLocalization(289)
 L:SetMiscLocalization{
 	Kill		= "Что... вы наделали... Аман'тул... Я...видел..."
 }
+
+-----------
+-- Trash --
+-----------
+L = DBM:GetModLocalization("ETTrash")
+
+L:SetGeneralLocalization{
+	name = "Трэш Конца Времён"
+}
+
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+})
+
+L:SetMiscLocalization({
+	ProshlyapM = "Однажды я назвал это место \"Концом Времен\". Я еще не видел тогда... я не знал. Что вы надеетесь сделать? Остановить меня? Изменить судьбу, которую я ткал столь неустанно?" --
+})

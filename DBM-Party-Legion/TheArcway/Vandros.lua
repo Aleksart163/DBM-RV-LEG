@@ -23,7 +23,7 @@ mod:RegisterEventsInCombat(
 )
 
 --Советник Вандрос https://ru.wowhead.com/npc=98208/советник-вандрос/эпохальный-журнал-сражений
-local warnBlast						= mod:NewStackAnnounce(203176, 3, nil, nil, 2) --Ускоряющий взрыв
+local warnBlast						= mod:NewStackAnnounce(203176, 2, nil, nil, 2) --Ускоряющий взрыв
 local warnTimeLock					= mod:NewTargetAnnounce(203957, 4) --Временное ограничение
 local warnUnstableMana				= mod:NewTargetAnnounce(220871, 4) --Нестабильная мана
 local warnPhase						= mod:NewPhaseChangeAnnounce(1)
@@ -94,14 +94,15 @@ function mod:SPELL_AURA_APPLIED(args)
 			self:SetIcon(args.destName, 8, 8)
 		end
 		timerUnstableManaCD:Start()
-	elseif spellId == 203176 then --Ускоряющий взрыв
+	elseif spellId == 203176 and not args:IsDestTypePlayer() then --Ускоряющий взрыв
 		local amount = args.amount or 1
 		if amount >= 2 then
-			warnBlast:Show(args.destName, amount)
 			if not UnitIsDeadOrGhost("player") then
 				specWarnBlastStacks:Show(args.destName)
 				specWarnBlastStacks:Play("dispelboss")
 			end
+		else
+			warnBlast:Show(args.destName, amount)
 		end
 	end
 end

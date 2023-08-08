@@ -147,6 +147,12 @@ L.Area_SpamFilter_Outgoing		= "Filtri Globali - Opzioni"
 L.SpamBlockNoShowAnnounce		= "Non visualizzare annunci o suoni"
 L.SpamBlockNoSetIcon			= "Non impostare icone sui giocatori"
 
+-- Murchal ochken proshlyapen [✔] --need full localization
+L.AreaMurchalOchkenProshlyapation = "Параметры Эпохальных+ ключей и рейдов"
+L.AutoKeyLink				= "Линковать свой Эпохальный+ ключ в рейд/групп/гильд чат по команде !keys"
+L.IgnoreRaidAnnounce		= "Отключить анонсы в рейд/групп чате, когда кто-то применяет $spell:80353 или аналогичные ему"
+L.IgnoreRaidAnnounce2		= "Отключить анонсы на боссах в АПТ от лидера/помощника рейда"
+L.IgnoreRaidAnnounce3		= "Отключить сообщения благодарности, когда к вам применяют заклинания типа $spell:20484 или аналогичные ему"
 
 -- Misc
 L.FontHeight	= 16

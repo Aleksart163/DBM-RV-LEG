@@ -294,7 +294,13 @@ L.Area_Advanced				= "Options Avancées"
 L.FakeBW					= "Prétendre être BigWigs lors des vérifications de versions au lieu de DBM (Utile pour les guildes qui forcent l'utilisation de BigWigs)"
 L.AITimer					= "Utiliser un générateur automatique de timers pour des nouveaux combats utilisant l'IA intégrée de DBM (Utile pout engager les boss jamais vus sur la beta). Note: ceci ne fonctionnera pas correctement s'il y a plusieurs adds avec la même abilité"
 L.AutoCorrectTimer			= "Corriger automatiquement les timers trop longs (Utile pour les guildes sur le contenu haut niveau pour lequel les bossmods ne sont pas encore mis à jour)"
-
+-- Murchal ochken proshlyapen [✔] --need full localization
+L.AreaMurchalOchkenProshlyapation = "Параметры Эпохальных+ ключей и рейдов"
+L.AutoKeyLink				= "Линковать свой Эпохальный+ ключ в рейд/групп/гильд чат по команде !keys"
+L.IgnoreRaidAnnounce		= "Отключить анонсы в рейд/групп чате, когда кто-то применяет $spell:80353 или аналогичные ему"
+L.IgnoreRaidAnnounce2		= "Отключить анонсы на боссах в АПТ от лидера/помощника рейда"
+L.IgnoreRaidAnnounce3		= "Отключить сообщения благодарности, когда к вам применяют заклинания типа $spell:20484 или аналогичные ему"
+--
 L.Panel_Profile				= "Profils"
 L.Area_CreateProfile		= "Création de Profil"
 L.EnterProfileName			= "Entrer un nom de profil"

@@ -8,13 +8,14 @@ mod:SetZone()
 mod.isTrashMod = true
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 201226 200580 200630 200768",
+	"SPELL_CAST_START 201226 200580 200630 200768 201399 200658",
 	"SPELL_CAST_SUCCESS 201272",
 	"SPELL_SUMMON 198910",
-	"SPELL_AURA_APPLIED 204243 225568 198904 200684",
+	"SPELL_AURA_APPLIED 204243 225568 198904 200684 200642",
+	"SPELL_AURA_APPLIED_DOSE 200642",
 	"SPELL_AURA_REMOVED 225568 198904 200684",
-	"SPELL_PERIODIC_DAMAGE 200822",
-	"SPELL_PERIODIC_MISSED 200822"
+	"SPELL_PERIODIC_DAMAGE 200822 198408",
+	"SPELL_PERIODIC_MISSED 200822 198408"
 )
 
 --Треш Чащи Темного Сердца
@@ -22,7 +23,12 @@ local warnNightmareToxin				= mod:NewTargetAnnounce(200684, 3) --Ядовиты�
 local warnCurseofIsolation				= mod:NewTargetAnnounce(225568, 3) --Проклятие уединения
 local warnPoisonSpear					= mod:NewTargetAnnounce(198904, 3) --Отравленное копье
 local warnUnnervingScreech				= mod:NewCastAnnounce(200630, 4) --Ошеломляющий визг
+local warnDreadInferno					= mod:NewCastAnnounce(201399, 4) --Жуткое пекло
+local warnStarShower					= mod:NewCastAnnounce(200658, 4) --Звездный дождь
 
+local specWarnStarShower				= mod:NewSpecialWarningInterrupt(200658, "HasInterrupt", nil, nil, 1, 3) --Звездный дождь
+local specWarnNightfall					= mod:NewSpecialWarningYouMove(198408, nil, nil, nil, 1, 2) --Сумерки
+local specWarnDespair					= mod:NewSpecialWarningStack(200642, nil, 5, nil, nil, 1, 2) --Отчаяние
 local specWarnNightmareToxin			= mod:NewSpecialWarningYouMoveAway(200684, nil, nil, nil, 3, 6) --Ядовитый кошмар
 local specWarnNightmareToxin2			= mod:NewSpecialWarningYouDispel(200684, nil, nil, nil, 3, 6) --Ядовитый кошмар
 local specWarnPropellingCharge			= mod:NewSpecialWarningDodge(200768, nil, nil, nil, 2, 3) --Рывок вперед
@@ -57,7 +63,7 @@ function mod:SPELL_CAST_START(args)
 			specWarnBloodAssault:Show()
 			specWarnBloodAssault:Play("chargemove")
 		end
-	elseif spellId == 200580 and self:AntiSpam(2, 2) then --Безумный рев
+	elseif spellId == 200580 and self:AntiSpam(2, "maddeningroar") then --Безумный рев
 		if not self:IsNormal() then
 			specWarnMaddeningRoar:Show()
 			specWarnMaddeningRoar:Play("defensive")
@@ -70,19 +76,30 @@ function mod:SPELL_CAST_START(args)
 			warnUnnervingScreech:Show()
 			warnUnnervingScreech:Play("kickcast")
 		end
-	elseif spellId == 200768 and self:AntiSpam(1.5, 7) then --Рывок вперед
+	elseif spellId == 200768 and self:AntiSpam(2, "propellingcharge") then --Рывок вперед
 		specWarnPropellingCharge:Show()
 		specWarnPropellingCharge:Play("watchstep")
+	elseif spellId == 201399 and self:AntiSpam(2, "dreadinferno") then --Жуткое пекло
+		if not self:IsNormal() then
+			warnDreadInferno:Show()
+			warnDreadInferno:Play("kickcast")
+		end
+	elseif spellId == 200658 then --Звездный дождь
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnStarShower:Show()
+			specWarnStarShower:Play("kickcast")
+		else
+			warnStarShower:Show()
+			warnStarShower:Play("kickcast")
+		end
 	end
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
 	if spellId == 201272 and self:AntiSpam(2, 3) then --Кровавая бомба
-		if not self:IsNormal() then
-			specWarnBloodBomb:Show()
-			specWarnBloodBomb:Play("watchstep")
-		end
+		specWarnBloodBomb:Show()
+		specWarnBloodBomb:Play("watchstep")
 	end
 end
 
@@ -107,19 +124,8 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnTormentingEye:Play("kickcast")
 		end
 	elseif spellId == 225568 then --Проклятие уединения
-		warnCurseofIsolation:CombinedShow(0.5, args.destName)
 		timerCurseofIsolation:Start(args.destName)
-		if self:IsHeroic() then
-			if args:IsPlayer() and not self:IsCurseDispeller() then
-				specWarnCurseofIsolation2:Show()
-				specWarnCurseofIsolation2:Play("watchstep")
-				yellCurseofIsolation:Yell()
-			elseif args:IsPlayer() and self:IsCurseDispeller() then
-				specWarnCurseofIsolation3:Show()
-				specWarnCurseofIsolation3:Play("dispelnow")
-				yellCurseofIsolation:Yell()
-			end
-		elseif self:IsMythic() then
+		if not self:IsNormal() then
 			if args:IsPlayer() and not self:IsCurseDispeller() then
 				specWarnCurseofIsolation2:Show()
 				specWarnCurseofIsolation2:Play("watchstep")
@@ -133,19 +139,12 @@ function mod:SPELL_AURA_APPLIED(args)
 					specWarnCurseofIsolation:CombinedShow(0.5, args.destName)
 					specWarnCurseofIsolation:ScheduleVoice(0.5, "dispelnow")
 				end
+			else
+				warnCurseofIsolation:CombinedShow(0.5, args.destName)
 			end
 		end
 	elseif spellId == 198904 then --Отравленное копье
-		warnPoisonSpear:CombinedShow(0.5, args.destName)
-		if self:IsHeroic() then
-			if args:IsPlayer() and not self:IsPoisonDispeller() then
-				specWarnPoisonSpear2:Show()
-				specWarnPoisonSpear2:Play("defensive")
-			elseif args:IsPlayer() and self:IsPoisonDispeller() then
-				specWarnPoisonSpear3:Show()
-				specWarnPoisonSpear3:Play("dispelnow")
-			end
-		elseif self:IsMythic() then
+		if not self:IsNormal() then
 			if args:IsPlayer() and not self:IsPoisonDispeller() then
 				specWarnPoisonSpear2:Show()
 				specWarnPoisonSpear2:Play("defensive")
@@ -159,25 +158,33 @@ function mod:SPELL_AURA_APPLIED(args)
 					specWarnPoisonSpear:CombinedShow(0.5, args.destName)
 					specWarnPoisonSpear:ScheduleVoice(0.5, "dispelnow")
 				end
+			else
+				warnPoisonSpear:CombinedShow(0.5, args.destName)
 			end
 		end
-	elseif spellId == 200684 then --Ядовитый кошмар (с новым прошляпом Мурчаля)
-		warnNightmareToxin:CombinedShow(0.5, args.destName)
-		if self:IsMythic() then
+	elseif spellId == 200684 then --Ядовитый кошмар (с новым прошляпом Прошляпенко)
+		if not self:IsNormal() then
 			if args:IsPlayer() and not self:IsPoisonDispeller() then
 				specWarnNightmareToxin:Show()
 				specWarnNightmareToxin:Play("runaway")
 				yellNightmareToxin:Yell()
-			--	yellNightmareToxin2:Countdown(3, 2)
 			elseif args:IsPlayer() and self:IsPoisonDispeller() then
 				specWarnNightmareToxin2:Show()
 				specWarnNightmareToxin2:Play("runaway")
 				yellNightmareToxin:Yell()
-			--	yellNightmareToxin2:Countdown(3, 2)
+			else
+				warnNightmareToxin:CombinedShow(0.5, args.destName)
 			end
+		end
+	elseif spellId == 200642 then --Отчаяние
+		local amount = args.amount or 1
+		if args:IsPlayer() and amount >= 5 and amount % 5 == 0 then
+			specWarnDespair:Show(amount)
+			specWarnDespair:Play("stackhigh")
 		end
 	end
 end
+mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 
 function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
@@ -191,10 +198,15 @@ function mod:SPELL_AURA_REMOVED(args)
 end
 
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
-	if spellId == 200822 and destGUID == UnitGUID("player") and self:AntiSpam(2, 6) then
+	if spellId == 200822 and destGUID == UnitGUID("player") and self:AntiSpam(2, "rottingearth") then
 		if not self:IsNormal() then
 			specWarnRottingEarth:Show()
 			specWarnRottingEarth:Play("runaway")
+		end
+	elseif spellId == 198408 and destGUID == UnitGUID("player") and self:AntiSpam(2, "nightfall") then --Сумерки
+		if not self:IsNormal() then
+			specWarnNightfall:Show()
+			specWarnNightfall:Play("runaway")
 		end
 	end
 end

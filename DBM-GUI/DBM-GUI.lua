@@ -3188,17 +3188,17 @@ local function CreateOptionsMenu()
 		local inviteArea			= extraFeaturesPanel:CreateArea(L.Area_Invite, nil, 100, true)
 		local AutoAcceptFriendInvite= inviteArea:CreateCheckButton(L.AutoAcceptFriendInvite, true, nil, "AutoAcceptFriendInvite")
 		local AutoAcceptGuildInvite	= inviteArea:CreateCheckButton(L.AutoAcceptGuildInvite, true, nil, "AutoAcceptGuildInvite")
-		
-		local keyArea				= extraFeaturesPanel:CreateArea(L.Area_Key, nil, 135, true)
-		local AutoKeyLink			= keyArea:CreateCheckButton(L.AutoKeyLink, true, nil, "AutoKeyLink")
-		local IgnoreRaidAnnounce	= keyArea:CreateCheckButton(L.IgnoreRaidAnnounce, true, nil, "IgnoreRaidAnnounce")
-		local IgnoreRaidAnnounce2	= keyArea:CreateCheckButton(L.IgnoreRaidAnnounce2, true, nil, "IgnoreRaidAnnounce2")
-		local IgnoreRaidAnnounce3	= keyArea:CreateCheckButton(L.IgnoreRaidAnnounce3, true, nil, "IgnoreRaidAnnounce3")
 
 		local advancedArea			= extraFeaturesPanel:CreateArea(L.Area_Advanced, nil, 100, true)
 		local FakeBW				= advancedArea:CreateCheckButton(L.FakeBW, true, nil, "FakeBWVersion")
 		local AITimers				= advancedArea:CreateCheckButton(L.AITimer, true, nil, "AITimer")
 		local ACTimers				= advancedArea:CreateCheckButton(L.AutoCorrectTimer, true, nil, "AutoCorrectTimer")
+		
+		local keyArea				= extraFeaturesPanel:CreateArea(L.AreaMurchalOchkenProshlyapation, nil, 140, true)
+		local AutoKeyLink			= keyArea:CreateCheckButton(L.AutoKeyLink, true, nil, "AutoKeyLink")
+		local IgnoreRaidAnnounce	= keyArea:CreateCheckButton(L.IgnoreRaidAnnounce, true, nil, "IgnoreRaidAnnounce")
+		local IgnoreRaidAnnounce2	= keyArea:CreateCheckButton(L.IgnoreRaidAnnounce2, true, nil, "IgnoreRaidAnnounce2")
+		local IgnoreRaidAnnounce3	= keyArea:CreateCheckButton(L.IgnoreRaidAnnounce3, true, nil, "IgnoreRaidAnnounce3")
 
 		chatAlertsArea:AutoSetDimension()
 		soundAlertsArea:AutoSetDimension()

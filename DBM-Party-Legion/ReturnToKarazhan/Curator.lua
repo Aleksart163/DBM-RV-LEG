@@ -45,18 +45,18 @@ local countdownEvo					= mod:NewCountdown(70, 227254, nil, nil, 5) --Прили�
 
 mod.vb.powerDischargeCast = 0
 
-local powerDischarges = {14, 14, 14, 45.2, 14, 14, 45.2, 14, 14, 45.2, 14, 14, 45.2, 14, 14, 45.2, 14, 14, 45.2, 14, 14, 45.2}
+local powerDischargesTimers = {14, 14, 14, 45.2, 14, 14, 45.2, 14, 14, 45.2, 14, 14, 45.2, 14, 14, 45.2, 14, 14, 45.2, 14, 14, 45.2}
 
-local function startPowerDischarge(self) --Прошляпанное очко Мурчаля Прошляпенко
+local function startProshlyapationOfMurchal(self) -- Proshlyapation of Murchal
 	self.vb.powerDischargeCast = self.vb.powerDischargeCast + 1
 	if not UnitIsDeadOrGhost("player") then
 		specWarnPowerDischarge2:Show()
 		specWarnPowerDischarge2:Play("watchstep")
 	end
-	local timer = self:IsHard() and powerDischarges[self.vb.powerDischargeCast+1] or self:IsHeroic() and powerDischarges[self.vb.powerDischargeCast+1]
+	local timer = powerDischargesTimers[self.vb.powerDischargeCast+1]
 	if timer then
 		timerPowerDischargeCD:Start(timer, self.vb.powerDischargeCast+1)
-		self:Schedule(timer, startPowerDischarge, self)
+		self:Schedule(timer, startProshlyapationOfMurchal, self)
 	end
 end
 
@@ -69,7 +69,7 @@ function mod:OnCombatStart(delay)
 		timerEvoCD:Start(53-delay) --Прилив сил
 		countdownEvo:Start(53) --Прилив сил
 		timerPowerDischargeCD:Start(13-delay) --Разряд энергии
-		self:Schedule(13, startPowerDischarge, self)
+		self:Schedule(13, startProshlyapationOfMurchal, self)
 	end
 --		timerSummonAddCD:Start(6-delay)
 --		timerPowerDischargeCD:Start(13.5)
@@ -79,7 +79,7 @@ function mod:OnCombatStart(delay)
 end
 
 function mod:OnCombatEnd()
-
+	self:Unschedule(startProshlyapationOfMurchal)
 end
 
 function mod:SPELL_SUMMON(args)
@@ -100,9 +100,11 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerSummonAddCD:Stop()
 	--	timerPowerDischargeCD:Stop()
 		warnEvo:Show()
-		specWarnEvo:Show(args.destName)
-		specWarnOverload:Schedule(17)
-		specWarnOverload:ScheduleVoice(17, "defensive")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnEvo:Show(args.destName)
+			specWarnOverload:Schedule(17)
+			specWarnOverload:ScheduleVoice(17, "defensive")
+		end
 		timerEvo:Start()
 		countdownEvo:Start(20)
 	elseif spellId == 227257 then --Перегрузка
@@ -125,7 +127,7 @@ function mod:SPELL_AURA_REMOVED(args)
 end
 
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
-	if spellId == 227465 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
+	if spellId == 227465 and destGUID == UnitGUID("player") and self:AntiSpam(2, "powerdischarge") then
 		if self:IsHard() then
 			specWarnPowerDischarge:Show()
 			specWarnPowerDischarge:Play("runaway")

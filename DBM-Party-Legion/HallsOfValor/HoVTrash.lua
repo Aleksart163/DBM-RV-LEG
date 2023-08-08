@@ -48,7 +48,7 @@ local specWarnCrackle2				= mod:NewSpecialWarningYouMove(199818, nil, nil, nil, 
 local specWarnEtch					= mod:NewSpecialWarningYouMove(198959, nil, nil, nil, 1, 2) --Гравировка
 local specWarnCallAncestor			= mod:NewSpecialWarningSwitch(200969, "Dps", nil, nil, 1, 2) --Зов предков
 local specWarnSever					= mod:NewSpecialWarningYouDefensive(199652, "Tank", nil, nil, 3, 5) --Рассечение
-local specWarnSever2				= mod:NewSpecialWarningStack(199652, nil, 2, nil, nil, 2, 2) --Рассечение
+local specWarnSever2				= mod:NewSpecialWarningStack(199652, nil, 3, nil, nil, 2, 2) --Рассечение
 local specWarnEyeofStorm			= mod:NewSpecialWarningMoveTo(200901, nil, nil, nil, 4, 5) --Око шторма
 local specWarnEyeofStorm2			= mod:NewSpecialWarningDefensive(200901, nil, nil, nil, 3, 3) --Око шторма
 local specWarnSanctify				= mod:NewSpecialWarningDodge(192158, "Ranged", nil, nil, 2, 5) --Освящение
@@ -257,8 +257,8 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif spellId == 199652 then --Рассечение
 		local amount = args.amount or 1
-		if args:IsPlayer() and self:IsMythic() then
-			if amount >= 2 then
+		if args:IsPlayer() and not self:IsNormal() then
+			if amount >= 3 then
 				specWarnSever2:Show(amount)
 				specWarnSever2:Play("stackhigh")
 			end
@@ -358,17 +358,17 @@ end
 		
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
 	if spellId == 198959 and destGUID == UnitGUID("player") and self:AntiSpam(2, "etch") then --Гравировка
-		if self:IsHard() then
+		if not self:IsNormal() then
 			specWarnEtch:Show()
 			specWarnEtch:Play("runaway")
 		end
 	elseif spellId == 199818 and destGUID == UnitGUID("player") and self:AntiSpam(2, "crackle") then --Разряд
-		if self:IsHard() then
+		if not self:IsNormal() then
 			specWarnCrackle2:Show()
 			specWarnCrackle2:Play("runaway")
 		end
 	elseif spellId == 198903 and destGUID == UnitGUID("player") and self:AntiSpam(2, "cracklingstorm") then --Грохочущая буря
-		if self:IsHard() then
+		if not self:IsNormal() then
 			specWarnCracklingStorm3:Show()
 			specWarnCracklingStorm3:Play("runaway")
 		end

@@ -19,8 +19,6 @@ mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED 229159 229241 230084 230002 229083",
 	"SPELL_AURA_APPLIED_DOSE 230002 229083",
 	"SPELL_AURA_REMOVED 229159 230084",
-	"SPELL_DAMAGE 230067",
-	"SPELL_MISSED 230067",
 	"SPELL_INTERRUPT",
 	"UNIT_HEALTH boss1",
 	"UNIT_SPELLCAST_SUCCEEDED boss1"
@@ -36,6 +34,7 @@ local warnChaoticShadows			= mod:NewTargetAnnounce(229159, 3) --Тени Хао�
 local warnFelBeam					= mod:NewTargetAnnounce(229242, 4) --Приказ: луч Скверны
 local warnDisintegrate				= mod:NewSpellAnnounce(229151, 4) --Расщепление
 local warnBombardment				= mod:NewSpellAnnounce(229284, 3) --Приказ: бомбардировка
+local warnShadowPhlegm				= mod:NewSpellAnnounce(230066, 4) --Флегма тьмы
 
 local specWarnChaoticShadows		= mod:NewSpecialWarningYou(229159, nil, nil, nil, 1, 3) --Тени Хаоса
 local specWarnChaoticShadows2		= mod:NewSpecialWarningYouMoveAway(229159, nil, nil, nil, 3, 6) --Тени Хаоса
@@ -61,28 +60,24 @@ local timerBombardmentCD			= mod:NewCDTimer(25, 229284, 229287, nil, nil, 2, nil
 --Фаза 3
 mod:AddTimerLine(SCENARIO_STAGE:format(3))
 local timerShadowPhlegmCD			= mod:NewCDTimer(5, 230066, nil, nil, nil, 7) --Флегма тьмы
-local timerStabilizeRiftCD			= mod:NewCDTimer(25, 230084, nil, nil, nil, 1, nil, DBM_CORE_INTERRUPT_ICON) --Стабилизация разлома
-local timerStabilizeRift			= mod:NewCastTimer(29.7, 230084, nil, nil, nil, 1, nil, DBM_CORE_INTERRUPT_ICON..DBM_CORE_DAMAGE_ICON) --Стабилизация разлома
+local timerStabilizeRiftCD			= mod:NewCDTimer(25, 230084, nil, nil, nil, 1, nil) --Стабилизация разлома
+local timerStabilizeRift			= mod:NewCastTimer(30, 230084, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON..DBM_CORE_INTERRUPT_ICON) --Стабилизация разлома
 
 local yellBurningBlast				= mod:NewYell(229083, nil, nil, nil, "YELL") --Выброс пламени
 local yellFelBeam					= mod:NewYellMoveAway(229242, nil, nil, nil, "YELL") --Приказ: луч Скверны
+local yellFelBeam2					= mod:NewFadesYellMoveAway(229241, nil, nil, nil, "YELL") --Выбор цели
 local yellChaoticShadows			= mod:NewPosYell(229159, DBM_CORE_AUTO_YELL_CUSTOM_POSITION, nil, nil, "YELL") --Тени Хаоса
 local yellChaoticShadows2			= mod:NewFadesYell(229159, nil, nil, nil, "YELL") --Тени Хаоса
 
 local countdownFelBeam				= mod:NewCountdown(40, 229242, nil, nil, 5) --Приказ: луч Скверны
 local countdownBombardment			= mod:NewCountdown("Alt25", 229284, nil, nil, 5) --Приказ: бомбардировка
-local countdownStabilizeRift		= mod:NewCountdownFades(29.7, 230084, nil, nil, 5) --Стабилизация разлома
---local countdownShadowPhlegm			= mod:NewCountdown(5, 230066, nil, nil, 5) --Флегма тьмы
-
---local berserkTimer					= mod:NewBerserkTimer(300)
-
---local countdownFocusedGazeCD		= mod:NewCountdown(40, 198006)
+local countdownStabilizeRift		= mod:NewCountdownFades(30, 230084, nil, nil, 5) --Стабилизация разлома
+local countdownShadowPhlegm			= mod:NewCountdownFades("Alt5", 230066, nil, nil, 3) --Флегма тьмы
 
 mod:AddSetIconOption("SetIconOnBurningBlast", 229083, true, false, {8}) --Выброс пламени
 mod:AddSetIconOption("SetIconOnFelBeam", 229242, true, false, {7}) --Приказ: луч Скверны
 mod:AddSetIconOption("SetIconOnShadows", 229159, true, false, {3, 2, 1}) --Тени Хаоса
-mod:AddRangeFrameOption(6, 230066) --Флегма тьмы
---mod:AddInfoFrameOption(198108, false)
+mod:AddRangeFrameOption("5")
 
 mod.vb.phase = 1
 mod.vb.kickCount = 0
@@ -95,6 +90,13 @@ local warned_preP3 = false
 local warned_preP4 = false
 local perephase = false
 local chaoticshadows = replaceSpellLinks(229159) --Тени Хаоса
+
+local function startProshlyapationOfMurchal(self) -- Proshlyapation of Murchal
+	warnShadowPhlegm:Show()
+	timerShadowPhlegmCD:Start()
+	countdownShadowPhlegm:Start()
+	self:Schedule(5, startProshlyapationOfMurchal, self)
+end
 
 local function breakShadows(self)
 	warnChaoticShadows:Show(table.concat(chaoticShadowsTargets, "<, >"))
@@ -112,18 +114,17 @@ function mod:OnCombatStart(delay)
 	warned_preP4 = false
 	perephase = false
 	table.wipe(chaoticShadowsTargets)
-	--These timers seem to vary about 1-2 sec
-	if not self:IsNormal() then
-		timerFelBeamCD:Start(6-delay) --Приказ: луч Скверны+++
-		countdownFelBeam:Start(6-delay) --Приказ: луч Скверны+++
-		timerDisintegrateCD:Start(11-delay) --Расщепление+++
-		timerChaoticShadowsCD:Start(18.5-delay) --Тени Хаоса+++
-		timerBombardmentCD:Start(26-delay) --Приказ: бомбардировка+++
-		countdownBombardment:Start(26-delay) --Приказ: бомбардировка+++
-	end
+	--These Murchal's made his Proshlyapation here.
+	timerFelBeamCD:Start(6-delay) --Приказ: луч Скверны+++
+	countdownFelBeam:Start(6-delay) --Приказ: луч Скверны+++
+	timerDisintegrateCD:Start(11-delay) --Расщепление+++
+	timerChaoticShadowsCD:Start(18.5-delay) --Тени Хаоса+++
+	timerBombardmentCD:Start(26-delay) --Приказ: бомбардировка+++
+	countdownBombardment:Start(26-delay) --Приказ: бомбардировка+++
 end
 
 function mod:OnCombatEnd()
+	self:Unschedule(startProshlyapationOfMurchal)
 	if self.Options.RangeFrame then
 		DBM.RangeCheck:Hide()
 	end
@@ -167,7 +168,7 @@ end
 
 function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
-	if spellId == 229610 then--Demonic Portal (both times or just once?)
+	if spellId == 229610 then --Демонический портал
 		self.vb.phase = self.vb.phase + 1
 		self.vb.kickCount = 0
 		--Cancel stuff
@@ -187,11 +188,14 @@ function mod:SPELL_CAST_SUCCESS(args)
 			warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase))
 			self.vb.burningBlastCount = 0
 			warned_preP4 = true
-			timerStabilizeRiftCD:Start(22.5)
+			timerShadowPhlegmCD:Start(22.2)
+			countdownShadowPhlegm:Start(22.2)
+			self:Schedule(22.2, startProshlyapationOfMurchal, self)
+			timerStabilizeRiftCD:Start(21.3)
 			timerDisintegrateCD:Start(58.7)
 			timerChaoticShadowsCD:Start(71.7)
 			if self.Options.RangeFrame then
-				DBM.RangeCheck:Show(6)
+				DBM.RangeCheck:Show(5)
 			end
 		end
 	elseif spellId == 230084 then--Stabilize Rift
@@ -235,6 +239,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnFelBeam:Play("justrun")
 			specWarnFelBeam:ScheduleVoice(2, "keepmove")
 			yellFelBeam:Yell()
+			yellFelBeam2:Countdown(5, 3)
 		elseif self:CheckNearby(20, args.destName) then
 			if not UnitIsDeadOrGhost("player") then
 				specWarnFelBeam2:Show(args.destName)
@@ -246,11 +251,11 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self.Options.SetIconOnFelBeam then
 			self:SetIcon(args.destName, 7, 10)
 		end
-	elseif spellId == 230084 then --Стабилизация разлома
+--[[	elseif spellId == 230084 then --Стабилизация разлома
 		specWarnStabilizeRift:Schedule(27.7)
 		specWarnStabilizeRift:ScheduleVoice(27.7, "kickcast")
 		timerStabilizeRift:Start()
-		countdownStabilizeRift:Start()
+		countdownStabilizeRift:Start()]]
 	elseif spellId == 230002 and args:IsDestTypePlayer() then --Пылающая подрезка
 		local amount = args.amount or 1
 		if amount >= 3 then
@@ -315,21 +320,13 @@ function mod:SPELL_AURA_REMOVED(args)
 	end
 end
 
-function mod:SPELL_DAMAGE(args)
-	local spellId = args.spellId
-	if spellId == 230067 then --Флегма тьмы
-		timerShadowPhlegmCD:Start()
-	end
-end
-mod.SPELL_MISSED = mod.SPELL_DAMAGE
-
 function mod:SPELL_INTERRUPT(args)
 	if type(args.extraSpellId) == "number" and args.extraSpellId == 230084 then
 		specWarnStabilizeRift:Cancel()
-		timerDisintegrateCD:Stop()
-		timerChaoticShadowsCD:Stop()
 		timerStabilizeRift:Stop()
 		countdownStabilizeRift:Cancel()
+		timerDisintegrateCD:Stop()
+		timerChaoticShadowsCD:Stop()
 		timerDisintegrateCD:Start(11)
 		timerChaoticShadowsCD:Start(18)
 	end
@@ -341,17 +338,26 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 		timerBombardmentCD:Start()
 		countdownBombardment:Start()
 		warnBombardment:Show()
+	elseif spellId == 230084 then --Стабилизация разлома
+		self:SendSync("stabilizerift")
 	end
 end
 
 function mod:UNIT_HEALTH(uId)
-	if self:IsHard() then --гер, миф и миф+
-		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 114790 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.68 then
-			warned_preP1 = true
-			warnPhase2:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase+1))
-		elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 114790 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.35 then
-			warned_preP3 = true
-			warnPhase3:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase+1))
-		end
+	if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 114790 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.68 then
+		warned_preP1 = true
+		warnPhase2:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase+1))
+	elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 114790 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.35 then
+		warned_preP3 = true
+		warnPhase3:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase+1))
+	end
+end
+
+function mod:OnSync(msg)
+	if msg == "stabilizerift" then
+		specWarnStabilizeRift:Schedule(27.7)
+		specWarnStabilizeRift:ScheduleVoice(27.7, "kickcast")
+		timerStabilizeRift:Start()
+		countdownStabilizeRift:Start()
 	end
 end

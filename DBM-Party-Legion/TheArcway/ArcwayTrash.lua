@@ -8,7 +8,7 @@ mod:SetUsedIcons(8, 7, 6, 5, 4)
 mod.isTrashMod = true
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 211757 226206 211115 211771 193938 226269 211217 211917 211875 210645 210662 210684 211007 226285",
+	"SPELL_CAST_START 211757 226206 211115 211771 193938 226269 211217 211917 211875 210645 210662 210684 211007 226285 211775",
 	"SPELL_CAST_SUCCESS 211543",
 	"SPELL_AURA_APPLIED 194006 210750 211745 211756 211543",
 	"SPELL_AURA_REMOVED 211756 211543",
@@ -22,7 +22,7 @@ local warnOozeExplosion				= mod:NewCastAnnounce(193938, 4) --Взрыв сли�
 local warnEyeVortex					= mod:NewCastAnnounce(211007, 4) --Око урагана
 local warnDemonicAscension			= mod:NewCastAnnounce(226285, 4) --Демоническое вознесение
 local warnDevour 					= mod:NewTargetAnnounce(211543, 4) --Пожирание
---local warnPropheciesofDoom			= mod:NewSpellAnnounce(211771, 4) --Предсказания рока
+local warnEyeoftheBeast 			= mod:NewTargetAnnounce(211775, 2) --Глаз Зверя
 
 local specWarnFelstorm				= mod:NewSpecialWarningDodge(211917, nil, nil, nil, 2, 2) --Буря Скверны
 local specWarnBladestorm			= mod:NewSpecialWarningRun(211875, "Melee", nil, nil, 4, 3) --Вихрь клинков
@@ -32,7 +32,9 @@ local specWarnOozeExplosion			= mod:NewSpecialWarningRun(193938, "Melee", nil, n
 local specWarnOozeExplosion2		= mod:NewSpecialWarningDodge(193938, "Ranged", nil, nil, 2, 2) --Взрыв слизнюка
 local specWarnPropheciesofDoom		= mod:NewSpecialWarningDefensive(211771, nil, nil, nil, 3, 5) --Предсказания рока
 
-local specWarnSearingWound			= mod:NewSpecialWarningYou(211756, nil, nil, nil, 1, 3) --Жгучая рана
+local specWarnEyeoftheBeast			= mod:NewSpecialWarningYouMove(211775, nil, nil, nil, 1, 3) --Глаз Зверя
+local specWarnEyeoftheBeast2		= mod:NewSpecialWarningTargetDodge(211775, nil, nil, nil, 2, 2) --Глаз Зверя
+local specWarnSearingWound			= mod:NewSpecialWarningYouDefensive(211756, nil, nil, nil, 1, 3) --Жгучая рана
 local specWarnArcaneSlicer			= mod:NewSpecialWarningDodge(211217, nil, nil, nil, 2, 3) --Чародейский рассекатель
 local specWarnEyeVortex				= mod:NewSpecialWarningInterrupt(211007, "HasInterrupt", nil, nil, 1, 2) --Око урагана
 local specWarnTorment				= mod:NewSpecialWarningInterrupt(226269, "HasInterrupt", nil, nil, 1, 2) --Мучение
@@ -52,11 +54,26 @@ local timerFelstormCD				= mod:NewCDTimer(23.5, 211917, nil, nil, nil, 2, nil, D
 local timerBladestormCD				= mod:NewCDTimer(23.5, 211875, nil, nil, nil, 3) --Вихрь клинков
 local timerSearingWound				= mod:NewTargetTimer(10, 211756, nil, nil, nil, 3, nil, DBM_CORE_HEALER_ICON..DBM_CORE_DEADLY_ICON) --Жгучая рана
 
+local yellEyeoftheBeast				= mod:NewYell(211775, nil, nil, nil, "YELL") --Глаз Зверя
 local yellDevour					= mod:NewYellHelp(211543, nil, nil, nil, "YELL") --Пожирание
 
 mod:AddSetIconOption("SetIconOnDevour", 211543, true, false, {8, 7, 6, 5, 4}) --Пожирание
 
 mod.vb.devourIcon = 8
+
+function mod:EyeoftheBeastTarget(targetname, uId)
+	if not targetname then return end
+	if targetname == UnitName("player") then
+		specWarnEyeoftheBeast:Show()
+		specWarnEyeoftheBeast:Play("watchstep")
+		yellEyeoftheBeast:Yell()
+	elseif self:CheckNearby(10, targetname) then
+		specWarnEyeoftheBeast2:Show(targetname)
+		specWarnEyeoftheBeast2:Play("watchstep")
+	else
+		warnEyeoftheBeast:Show(targetname)
+	end
+end
 
 function mod:SPELL_CAST_START(args)
 	if not self.Options.Enabled then return end
@@ -132,6 +149,8 @@ function mod:SPELL_CAST_START(args)
 			warnDemonicAscension:Show()
 			warnDemonicAscension:Play("kickcast")
 		end
+	elseif spellId == 211775 then --Глаз Зверя
+		self:BossTargetScanner(args.sourceGUID, "EyeoftheBeastTarget", 0.1, 2)
 	end
 end
 

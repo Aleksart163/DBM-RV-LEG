@@ -232,3 +232,24 @@ L= DBM:GetModLocalization(289)
 L:SetMiscLocalization{
 	Kill		= "넌 네가 무슨 짓을 저지르는지 모른다. 아만툴... 내가... 본... 것은..."
 }
+
+-----------
+-- Trash --
+-----------
+L = DBM:GetModLocalization("ETTrash")
+
+L:SetGeneralLocalization{
+	name = "시간의 끝 일반몹"
+}
+
+L:SetOptionLocalization({
+	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT
+})
+
+L:SetTimerLocalization({
+	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+})
+
+L:SetMiscLocalization({
+	ProshlyapM = "\"시간의 끝\", 난 한때 이곳을 그렇게 불렀다. 그때는 알지 못했다. 보지 못했지. 그런데 뭐? 여기서 날 막겠다고? 내가 이리 힘들게 일궈놓은 운명을?" --
+})

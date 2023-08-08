@@ -8,7 +8,7 @@ mod:SetZone()
 mod.isTrashMod = true
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 228255 228239 227917 227925 228625 228606 229714 227966 228254 228280 230094 229429 229608 228700 36247 233981",
+	"SPELL_CAST_START 228255 228239 227917 227925 228625 228606 229714 227966 228254 228280 230094 229429 229608 228700 36247 233981 229622",
 	"SPELL_CAST_SUCCESS 227529",
 	"SPELL_AURA_APPLIED 228331 229706 229716 228610 229074 230083 230050 228280 230087 228241 229468 230297 228576",
 	"SPELL_AURA_APPLIED_DOSE 229074 228610 228576",
@@ -40,8 +40,10 @@ local warnAllured					= mod:NewStackAnnounce(228576, 3, nil, nil, 2) --Собл�
 --Поврежденный голем
 local specWarnUnstableEnergy		= mod:NewSpecialWarningDodge(227529, nil, nil, nil, 2, 2) --Нестабильная энергия
 --Наполненный силой пиромант
-local specWarnFelBomb				= mod:NewSpecialWarningRun(229620, nil, nil, nil, 4, 6) --Бомба Скверны
+local specWarnFelBomb				= mod:NewSpecialWarningRun(229620, nil, nil, nil, 4, 6) --Бомба Скверны 
 local specWarnFelFireball			= mod:NewSpecialWarningInterrupt(36247, "HasInterrupt", nil, nil, 1, 2) --Огненный шар Скверны
+--
+local specWarnFelBreath				= mod:NewSpecialWarningInterrupt2(229622, "HasInterrupt", nil, nil, 2, 2) --Дыхание Скверны
 --
 local specWarnRoyalSlash			= mod:NewSpecialWarningDodge(229429, "Melee", nil, nil, 2, 2) --Удар короля сплеча
 
@@ -83,7 +85,7 @@ local timerNullificationCD			= mod:NewCDTimer(14, 230094, nil, nil, nil, 7, nil)
 local timerReinvigorated			= mod:NewTargetTimer(20, 230087, nil, nil, nil, 7) --Восполнение сил
 local timerOathofFealty				= mod:NewTargetTimer(15, 228280, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON) --Клятва верности
 --local timerRoyalty					= mod:NewCDTimer(20, 229489, nil, nil, nil, 3, nil, DBM_CORE_DAMAGE_ICON) --Царственность
-local timerMovePieceCD				= mod:NewCDTimer(6, 229468, nil, nil, nil, 7)
+local timerMovePieceCD				= mod:NewCDTimer(5.5, 229468, nil, nil, nil, 7)
 
 local yellTakeKeys					= mod:NewYell(233981, L.TakeKeysYell, nil, nil, "YELL") --Взять ключи
 local yellBrittleBones				= mod:NewYell(230297, nil, nil, nil, "YELL") --Ослабление костей
@@ -181,6 +183,9 @@ function mod:SPELL_CAST_START(args)
 		else
 			warnTakeKeys:Show(args.sourceName)
 		end
+	elseif spellId == 229622 then --Дыхание Скверны
+		specWarnFelBreath:Show()
+		specWarnFelBreath:Play("kickcast")
 	end
 end
 
@@ -252,6 +257,9 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 230083 then --Полная нейтрализация
 		if args:IsPlayer() then
 			specWarnNullification:Show()
+			specWarnNullification:Play("findshadow")
+			yellReinvigorated2:Cancel()
+			timerReinvigorated:Cancel()
 			yellNullification:Yell()
 		else
 			warnNullification:Show(args.destName)
@@ -269,15 +277,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnOathofFealty2:Play("dispelnow")
 		end
 	elseif spellId == 230087 then --Восполнение сил
-		timerReinvigorated:Start(args.destName)
-		if args:IsPlayer() then
-			specWarnReinvigorated:Show()
-		--	yellReinvigorated:Yell(playerName)
-			yellReinvigorated2:Cancel()
-			yellReinvigorated2:Countdown(20, 3)
-		else
-			warnReinvigorated:Show(args.destName)
-		end
+		warnReinvigorated:Show(args.destName)
 	elseif spellId == 229468 then
 		warnMovePiece:Show(args.destName)
 		timerMovePieceCD:Start()
@@ -343,6 +343,12 @@ function mod:SPELL_AURA_REMOVED(args)
 		if args:IsPlayer() then
 			yellBurningBrand2:Cancel()
 		end
+	elseif spellId == 230083 then --Полная нейтрализация
+		if args:IsPlayer() then
+			timerReinvigorated:Start(args.destName)
+			specWarnReinvigorated:Show()
+			yellReinvigorated2:Countdown(20, 3)
+		end
 	end
 end
 
@@ -389,6 +395,9 @@ function mod:UNIT_DIED(args)
 	if cid == 115765 then --Абстрактный нейтрализатор
 		timerNullificationCD:Cancel()
 --[[	elseif cid == 115395 or cid == 115406 or cid == 115401 or cid == 115402 or cid == 115407 then --Ферзь, Конь, Слон, Слон, Ладья
+		--за Ладью +20 сек, если все живы
+		--за Ферзя +30 сек если все живы, +22 сек, если мертва Ладья
+		--слишком дохуя вариантов
 		if not king then
 			if timerRoyalty:GetTime() < 10 then
 				timerRoyalty:AddTime(20)
