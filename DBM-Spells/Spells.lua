@@ -6,7 +6,7 @@ mod:SetZone(DBM_DISABLE_ZONE_DETECTION)
 
 mod:RegisterEvents(
 	"SPELL_CAST_START 61994 212040 212056 212036 212048 212051 7720",
-	"SPELL_CAST_SUCCESS 97462 161399 157757 80353 32182 230935 90355 2825 160452 10059 11416 11419 32266 49360 11417 11418 11420 32267 49361 33691 53142 88345 88346 132620 132626 176246 176244 224871 29893 83958 64901 21169",
+	"SPELL_CAST_SUCCESS 205223 97462 161399 157757 80353 32182 230935 90355 2825 160452 10059 11416 11419 32266 49360 11417 11418 11420 32267 49361 33691 53142 88345 88346 132620 132626 176246 176244 224871 29893 83958 64901 21169",
 	"SPELL_AURA_APPLIED 20707 29166 64901",
 	"SPELL_AURA_REMOVED 29166 64901 197908",
 	"SPELL_SUMMON 67826 199109 199115 195782",
@@ -53,11 +53,15 @@ local specWarnSymbolHope2			= mod:NewSpecialWarningEnd(64901, nil, nil, nil, 1, 
 local specWarnManaTea2				= mod:NewSpecialWarningEnd(197908, nil, nil, nil, 1, 2) --Маначай
 
 local timerRallyingCry				= mod:NewBuffActiveTimer(10, 97462, nil, nil, nil, 7) --Ободряющий клич
+local timerVampiricAura				= mod:NewBuffActiveTimer(15, 238698, nil, nil, nil, 7) --Вампирская аура
 
 --local yellSoulstone					= mod:NewYell(20707, nil, nil, nil, "YELL") --Камень души
 --local yellInnervate					= mod:NewYell(29166, L.InnervateYell, nil, nil, "YELL") --Озарение
-local yellSymbolHope				= mod:NewYell(64901, L.SymbolHopeYell, nil, nil, "YELL") --Символ надежды
+local yellVampiricAura				= mod:NewYell(238698, L.SpellNameYell, nil, nil, "YELL") --Вампирская аура
+local yellRallyingCry				= mod:NewYell(97462, L.SpellNameYell, nil, nil, "YELL") --Ободряющий клич
+local yellSymbolHope				= mod:NewYell(64901, L.SpellNameYell, nil, nil, "YELL") --Символ надежды
 
+mod:AddBoolOption("YellOnRaidCooldown", true) --рейд кд
 mod:AddBoolOption("YellOnMassRes", true) --масс рес
 mod:AddBoolOption("YellOnManaRegen", true) --мана реген
 mod:AddBoolOption("YellOnHeroism", true) --героизм
@@ -74,8 +78,8 @@ mod:AddBoolOption("YellOnRepair", true) --починка
 mod:AddBoolOption("YellOnPylon", true) --пилон
 mod:AddBoolOption("YellOnToys", true) --игрушки
 
---массовые
-local rallyingcry = replaceSpellLinks(97462)
+--рейд кд
+local rallyingcry, vampiricaura = replaceSpellLinks(97462), replaceSpellLinks(238698)
 --Реген маны
 local hope, innervate, manatea = replaceSpellLinks(64901), replaceSpellLinks(29166), replaceSpellLinks(197908)
 --Массрес
@@ -116,7 +120,7 @@ local premsg_values = {
 	args_sourceName,
 	args_destName,
 	massres1_rw, massres2_rw, massres3_rw, massres4_rw, massres5_rw,
-	rallyingcry,
+	rallyingcry, vampiricaura,
 	hope, innervate,
 	timeWarp, heroism, bloodlust, hysteria, winds, drums,
 	rebirth1, rebirth2, rebirth3, rebirth4,
@@ -163,6 +167,9 @@ local function sendAnnounce(self)
 	elseif premsg_values.rallyingcry == 1 then --Ободряющий клич
 		smartChat(L.HeroismYell:format(DbmRV, premsg_values.args_sourceName, rallyingcry))
 		premsg_values.rallyingcry = 0
+	elseif premsg_values.vampiricaura == 1 then --Вампирская аура
+		smartChat(L.HeroismYell:format(DbmRV, premsg_values.args_sourceName, vampiricaura))
+		premsg_values.vampiricaura = 0
 	elseif premsg_values.hope == 1 then --Символ надежды
 		smartChat(L.HeroismYell:format(DbmRV, premsg_values.args_sourceName, hope))
 		premsg_values.hope = 0
@@ -326,8 +333,10 @@ local function announceList(premsg_announce, value)
 		premsg_values.massres4_rw = value
 	elseif premsg_announce == "premsg_Spells_massres5_rw" then
 		premsg_values.massres5_rw = value
-	elseif premsg_announce == "premsg_Spells_rallyingcry" then --
+	elseif premsg_announce == "premsg_Spells_rallyingcry" then --Ободряющий клич
 		premsg_values.rallyingcry = value
+	elseif premsg_announce == "premsg_Spells_vampiricaura" then --Вампирская аура
+		premsg_values.vampiricaura = value
 	elseif premsg_announce == "premsg_Spells_hope" then --Символ надежды
 		premsg_values.hope = value
 	elseif premsg_announce == "premsg_Spells_innervate" then --Озарение
@@ -622,10 +631,21 @@ function mod:SPELL_CAST_SUCCESS(args)
 			prepareMessage(self, "premsg_Spells_swap", args.sourceName, args.destName)
 		end
 	elseif spellId == 97462 then --Ободряющий клич
-		if not DBM.Options.IgnoreRaidAnnounce then
+		if args:IsPlayerSource() then
+			yellRallyingCry:Yell(rallyingcry)
+		end
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnRaidCooldown then
 			prepareMessage(self, "premsg_Spells_rallyingcry", args.sourceName)
 		end
 		timerRallyingCry:Start()
+	elseif spellId == 205223 then --Пожирание
+		if args:IsPlayerSource() then
+			yellVampiricAura:Yell(vampiricaura)
+		end
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnRaidCooldown then
+			prepareMessage(self, "premsg_Spells_vampiricaura", args.sourceName)
+		end
+		timerVampiricAura:Start()
 	end
 end
 

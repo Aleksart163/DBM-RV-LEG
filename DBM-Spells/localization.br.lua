@@ -14,6 +14,7 @@ L:SetGeneralLocalization({
 })
 
 L:SetOptionLocalization({
+	YellOnRaidCooldown = "Relatar quando alguém usa o feitiço $spell:97462 ou similar",
 	YellOnMassRes = "Relatar quando alguém usa o feitiço $spell:212036 ou similar",
 	YellOnManaRegen = "Relatar quando alguém usa o feitiço $spell:29166 ou similar",
 	YellOnHeroism = "Relatar quando alguém usa o feitiço $spell:32182 ou similar",
@@ -33,7 +34,7 @@ L:SetOptionLocalization({
 L:SetMiscLocalization{
 	WhisperThanks = "%s Obrigado por %s!",
 	InnervateYell = "%s em %s!",
-	SymbolHopeYell = "Usando %s!",
+	SpellNameYell = "Usando %s!",
 	HeroismYell = "%s %s usa um %s!",
 	PortalYell = "%s %s abre %s!",
 	SoulwellYell = "%s %s puts %s!",

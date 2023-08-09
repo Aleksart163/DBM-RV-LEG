@@ -14,6 +14,7 @@ L:SetGeneralLocalization({
 })
 
 L:SetOptionLocalization({
+	YellOnRaidCooldown = "Signaler quand quelqu'un applique un sort $spell:97462 ou similaire",
 	YellOnMassRes = "Signaler quand quelqu'un applique un sort $spell:212036 ou similaire",
 	YellOnManaRegen = "Signaler quand quelqu'un applique un sort $spell:29166 ou similaire",
 	YellOnHeroism = "Signaler quand quelqu'un applique un sort $spell:32182 ou similaire",
@@ -33,7 +34,7 @@ L:SetOptionLocalization({
 L:SetMiscLocalization{
 	WhisperThanks = "%s Je vous remercie pour %s!",
 	InnervateYell = "%s sur %s!",
-	SymbolHopeYell = "Application %s!",
+	SpellNameYell = "Application %s!",
 	HeroismYell = "%s %s utilise %s!",
 	PortalYell = "%s %s ouvre %s!",
 	SoulwellYell = "%s %s établit %s!",
