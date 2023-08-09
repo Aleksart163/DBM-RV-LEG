@@ -640,8 +640,8 @@ function mod:SPELL_CAST_SUCCESS(args)
 		timerRallyingCry:Start()
 	elseif spellId == 205223 then --Пожирание
 		timerVampiricAura:Start()
-		local maxPlayers = select(5, GetInstanceInfo())
-		if maxPlayers ~= 5 then return end
+		local typeInstance = select(2, IsInInstance())
+		if typeInstance ~= "party" then return end
 		if DBM:GetNumRealGroupMembers() < 2 then return end
 		if args:IsPlayerSource() then
 			yellVampiricAura:Yell(vampiricaura)
