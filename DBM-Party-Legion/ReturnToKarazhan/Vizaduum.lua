@@ -188,12 +188,12 @@ function mod:SPELL_CAST_SUCCESS(args)
 			warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase))
 			self.vb.burningBlastCount = 0
 			warned_preP4 = true
-			timerShadowPhlegmCD:Start(22.2)
-			countdownShadowPhlegm:Start(22.2)
-			self:Schedule(22.2, startProshlyapationOfMurchal, self)
-			timerStabilizeRiftCD:Start(21.3)
-			timerDisintegrateCD:Start(58.7)
-			timerChaoticShadowsCD:Start(71.7)
+			timerShadowPhlegmCD:Start(29.5)
+			countdownShadowPhlegm:Start(29.5)
+			self:Schedule(29.5, startProshlyapationOfMurchal, self)
+			timerStabilizeRiftCD:Start(23.5)
+			timerDisintegrateCD:Start(64.6)
+			timerChaoticShadowsCD:Start(71.9)
 			if self.Options.RangeFrame then
 				DBM.RangeCheck:Show(5)
 			end
@@ -258,7 +258,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		countdownStabilizeRift:Start()]]
 	elseif spellId == 230002 and args:IsDestTypePlayer() then --Пылающая подрезка
 		local amount = args.amount or 1
-		if amount >= 3 then
+		if amount >= 2 and amount % 2 == 0 then
 			warnBlazingHamstring:Show(args.destName, amount)
 		end
 	elseif spellId == 229083 then --Выброс пламени

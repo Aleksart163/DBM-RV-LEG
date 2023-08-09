@@ -6,7 +6,7 @@ mod:SetZone(DBM_DISABLE_ZONE_DETECTION)
 
 mod:RegisterEvents(
 	"SPELL_CAST_START 61994 212040 212056 212036 212048 212051 7720",
-	"SPELL_CAST_SUCCESS 161399 157757 80353 32182 230935 90355 2825 160452 10059 11416 11419 32266 49360 11417 11418 11420 32267 49361 33691 53142 88345 88346 132620 132626 176246 176244 224871 29893 83958 64901 21169",
+	"SPELL_CAST_SUCCESS 97462 161399 157757 80353 32182 230935 90355 2825 160452 10059 11416 11419 32266 49360 11417 11418 11420 32267 49361 33691 53142 88345 88346 132620 132626 176246 176244 224871 29893 83958 64901 21169",
 	"SPELL_AURA_APPLIED 20707 29166 64901",
 	"SPELL_AURA_REMOVED 29166 64901 197908",
 	"SPELL_SUMMON 67826 199109 199115 195782",
@@ -52,6 +52,8 @@ local specWarnSymbolHope 			= mod:NewSpecialWarningYou(64901, nil, nil, nil, 1, 
 local specWarnSymbolHope2			= mod:NewSpecialWarningEnd(64901, nil, nil, nil, 1, 2) --Символ надежды
 local specWarnManaTea2				= mod:NewSpecialWarningEnd(197908, nil, nil, nil, 1, 2) --Маначай
 
+local timerRallyingCry				= mod:NewBuffActiveTimer(10, 97462, nil, nil, nil, 7) --Ободряющий клич
+
 --local yellSoulstone					= mod:NewYell(20707, nil, nil, nil, "YELL") --Камень души
 --local yellInnervate					= mod:NewYell(29166, L.InnervateYell, nil, nil, "YELL") --Озарение
 local yellSymbolHope				= mod:NewYell(64901, L.SymbolHopeYell, nil, nil, "YELL") --Символ надежды
@@ -72,6 +74,8 @@ mod:AddBoolOption("YellOnRepair", true) --починка
 mod:AddBoolOption("YellOnPylon", true) --пилон
 mod:AddBoolOption("YellOnToys", true) --игрушки
 
+--массовые
+local rallyingcry = replaceSpellLinks(97462)
 --Реген маны
 local hope, innervate, manatea = replaceSpellLinks(64901), replaceSpellLinks(29166), replaceSpellLinks(197908)
 --Массрес
@@ -112,6 +116,7 @@ local premsg_values = {
 	args_sourceName,
 	args_destName,
 	massres1_rw, massres2_rw, massres3_rw, massres4_rw, massres5_rw,
+	rallyingcry,
 	hope, innervate,
 	timeWarp, heroism, bloodlust, hysteria, winds, drums,
 	rebirth1, rebirth2, rebirth3, rebirth4,
@@ -155,6 +160,9 @@ local function sendAnnounce(self)
 	elseif premsg_values.massres5_rw == 1 then
 		smartChat(L.HeroismYell:format(DbmRV, premsg_values.args_sourceName, massres5), "rw")
 		premsg_values.massres5_rw = 0
+	elseif premsg_values.rallyingcry == 1 then --Ободряющий клич
+		smartChat(L.HeroismYell:format(DbmRV, premsg_values.args_sourceName, rallyingcry))
+		premsg_values.rallyingcry = 0
 	elseif premsg_values.hope == 1 then --Символ надежды
 		smartChat(L.HeroismYell:format(DbmRV, premsg_values.args_sourceName, hope))
 		premsg_values.hope = 0
@@ -318,6 +326,8 @@ local function announceList(premsg_announce, value)
 		premsg_values.massres4_rw = value
 	elseif premsg_announce == "premsg_Spells_massres5_rw" then
 		premsg_values.massres5_rw = value
+	elseif premsg_announce == "premsg_Spells_rallyingcry" then --
+		premsg_values.rallyingcry = value
 	elseif premsg_announce == "premsg_Spells_hope" then --Символ надежды
 		premsg_values.hope = value
 	elseif premsg_announce == "premsg_Spells_innervate" then --Озарение
@@ -611,6 +621,11 @@ function mod:SPELL_CAST_SUCCESS(args)
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnToys then
 			prepareMessage(self, "premsg_Spells_swap", args.sourceName, args.destName)
 		end
+	elseif spellId == 97462 then --Ободряющий клич
+		if not DBM.Options.IgnoreRaidAnnounce then
+			prepareMessage(self, "premsg_Spells_rallyingcry", args.sourceName)
+		end
+		timerRallyingCry:Start()
 	end
 end
 
