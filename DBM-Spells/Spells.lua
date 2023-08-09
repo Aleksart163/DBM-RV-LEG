@@ -639,13 +639,16 @@ function mod:SPELL_CAST_SUCCESS(args)
 		end
 		timerRallyingCry:Start()
 	elseif spellId == 205223 then --Пожирание
+		timerVampiricAura:Start()
+		local typeInstance = select(2, IsInInstance())
+		if typeInstance ~= "party" then return end
+		if DBM:GetNumRealGroupMembers() < 2 then return end
 		if args:IsPlayerSource() then
 			yellVampiricAura:Yell(vampiricaura)
 		end
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnRaidCooldown then
 			prepareMessage(self, "premsg_Spells_vampiricaura", args.sourceName)
 		end
-		timerVampiricAura:Start()
 	end
 end
 
