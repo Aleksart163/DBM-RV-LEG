@@ -12,6 +12,7 @@ L:SetGeneralLocalization({
 })
 
 L:SetOptionLocalization({
+	YellOnRaidCooldown = "Announce when someone is casting a spell $spell:97462 or equivalent",
 	YellOnMassRes = "Announce when someone is casting a spell $spell:212036 or equivalent",
 	YellOnManaRegen = "Announce when someone is casting a spell $spell:29166 or equivalent",
 	YellOnHeroism = "Announce when someone is casting a spell $spell:32182 or equivalent",

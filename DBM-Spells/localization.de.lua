@@ -14,6 +14,7 @@ L:SetGeneralLocalization({
 })
 
 L:SetOptionLocalization({
+	YellOnRaidCooldown = "Melden Sie, wenn jemand verwendet $spell:97462 oder ein ähnliches",
 	YellOnMassRes = "Melden Sie, wenn jemand verwendet $spell:212036 oder ein ähnliches",
 	YellOnManaRegen = "Melden Sie, wenn jemand verwendet $spell:29166 oder ein ähnliches",
 	YellOnHeroism = "Melden Sie, wenn jemand verwendet $spell:32182 oder ein ähnliches",

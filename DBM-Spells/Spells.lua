@@ -58,6 +58,7 @@ local timerRallyingCry				= mod:NewBuffActiveTimer(10, 97462, nil, nil, nil, 7) 
 --local yellInnervate					= mod:NewYell(29166, L.InnervateYell, nil, nil, "YELL") --Озарение
 local yellSymbolHope				= mod:NewYell(64901, L.SymbolHopeYell, nil, nil, "YELL") --Символ надежды
 
+mod:AddBoolOption("YellOnRaidCooldown", true) --рейд кд
 mod:AddBoolOption("YellOnMassRes", true) --масс рес
 mod:AddBoolOption("YellOnManaRegen", true) --мана реген
 mod:AddBoolOption("YellOnHeroism", true) --героизм
@@ -74,7 +75,7 @@ mod:AddBoolOption("YellOnRepair", true) --починка
 mod:AddBoolOption("YellOnPylon", true) --пилон
 mod:AddBoolOption("YellOnToys", true) --игрушки
 
---массовые
+--рейд кд
 local rallyingcry = replaceSpellLinks(97462)
 --Реген маны
 local hope, innervate, manatea = replaceSpellLinks(64901), replaceSpellLinks(29166), replaceSpellLinks(197908)
@@ -622,7 +623,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 			prepareMessage(self, "premsg_Spells_swap", args.sourceName, args.destName)
 		end
 	elseif spellId == 97462 then --Ободряющий клич
-		if not DBM.Options.IgnoreRaidAnnounce then
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnRaidCooldown then
 			prepareMessage(self, "premsg_Spells_rallyingcry", args.sourceName)
 		end
 		timerRallyingCry:Start()
