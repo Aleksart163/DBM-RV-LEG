@@ -8111,6 +8111,7 @@ do
 			["MagicDispeller"] = true,
 			["HasInterrupt"] = true,
 			["HasImmunity"] = true,
+			["OchkenProshlyapen"] = true,
 		},
 		[65] = {	--Холи пал
 			["Healer"] = true,
@@ -8132,6 +8133,7 @@ do
 			["RemoveDisease"] = true,
 			["HasInterrupt"] = true,
 			["HasImmunity"] = true,
+			["OchkenProshlyapen"] = true,
 		},
 		[70] = {	--Ретри пал
 			["Dps"] = true,
@@ -8142,6 +8144,7 @@ do
 			["PoisonDispeller"] = true,
 			["RemoveDisease"] = true,
 			["HasInterrupt"] = true,
+			["OchkenProshlyapen"] = true,
 		},
 		[71] = {	--Армс вар
 			["Dps"] = true,
@@ -8150,13 +8153,14 @@ do
 			["RaidCooldown"] = true,--Rallying Cry
 			["Physical"] = true,
 			["HasInterrupt"] = true,
+			["OchkenProshlyapen"] = true,
 		},
 		[73] = {	--Прото вар
 			["Tank"] = true,
 			["Melee"] = true,
 			["Physical"] = true,
 			["HasInterrupt"] = true,
-			--["RaidCooldown"] = true,--Rallying Cry (in 8.x)
+			["OchkenProshlyapen"] = true,
 		},
 		[102] = {	--Сова
 			["Dps"] = true,
@@ -8177,6 +8181,7 @@ do
 			["CurseDispeller"] = true,
 			["PoisonDispeller"] = true,
 			["HasInterrupt"] = true,
+			["OchkenProshlyapen"] = true,
 		},
 		[104] = {	--Медведь
 			["Tank"] = true,
@@ -8185,6 +8190,7 @@ do
 			["CurseDispeller"] = true,
 			["PoisonDispeller"] = true,
 			["HasInterrupt"] = true,
+			["OchkenProshlyapen"] = true,
 		},
 		[105] = {	--Дерево
 			["Healer"] = true,
@@ -8201,6 +8207,8 @@ do
 			["Melee"] = true,
 			["Physical"] = true,
 			["HasInterrupt"] = true,
+			["RaidCooldown"] = true, --Proshlyapality
+			["OchkenProshlyapen"] = true,
 		},
 		[251] = {	--Фрост дк
 			["Dps"] = true,
@@ -8208,6 +8216,7 @@ do
 			["MeleeDps"] = true,
 			["Physical"] = true,
 			["HasInterrupt"] = true,
+			["OchkenProshlyapen"] = true,
 		},
 		[253] = {	--Бистмастер хант
 			["Dps"] = true,
@@ -8215,6 +8224,7 @@ do
 			["RangedDps"] = true,
 			["Physical"] = true,
 			["HasInterrupt"] = true,
+			["OchkenProshlyapen"] = true,
 		},
 		[255] = {	--Сурв хант
 			["Dps"] = true,
@@ -8222,6 +8232,7 @@ do
 			["MeleeDps"] = true,
 			["Physical"] = true,
 			["HasInterrupt"] = true,
+			["OchkenProshlyapen"] = true,
 		},
 		[256] = {	--ДЦ
 			["Healer"] = true,
@@ -8244,6 +8255,7 @@ do
 			["MagicDispeller"] = true,
 			["MagicDispeller2"] = true,
 			["HasInterrupt"] = true,
+			["OchkenProshlyapen"] = true,
 		},
 		[259] = {	--Ликвидация крыса
 			["Dps"] = true,
@@ -8252,6 +8264,7 @@ do
 			["Physical"] = true,
 			["HasInterrupt"] = true,
 			["HasImmunity"] = true,
+			["OchkenProshlyapen"] = true,
 		},
 		[262] = {	--Элем шаман
 			["Dps"] = true,
@@ -8263,6 +8276,7 @@ do
 			["CurseDispeller"] = true,
 			["MagicDispeller"] = true,
 			["HasInterrupt"] = true,
+			["OchkenProshlyapen"] = true,
 		},
 		[263] = {	--Энх шаман
 			["Dps"] = true,
@@ -8274,6 +8288,7 @@ do
 			["CurseDispeller"] = true,
 			["MagicDispeller"] = true,
 			["HasInterrupt"] = true,
+			["OchkenProshlyapen"] = true,
 		},
 		[264] = {	--Рестор шаман
 			["Healer"] = true,
@@ -8303,6 +8318,7 @@ do
 			["PoisonDispeller"] = true,
 			["RemoveDisease"] = true,
 			["HasInterrupt"] = true,
+			["OchkenProshlyapen"] = true,
 		},
 		[269] = {	--ТСВ монк
 			["Dps"] = true,
@@ -8312,6 +8328,7 @@ do
 			["PoisonDispeller"] = true,
 			["RemoveDisease"] = true,
 			["HasInterrupt"] = true,
+			["OchkenProshlyapen"] = true,
 		},
 		[270] = {	--ТТ монк
 			["Healer"] = true,
@@ -8331,12 +8348,14 @@ do
 			["Physical"] = true,
 			["HasInterrupt"] = true,
 			["Dhdd"] = true,
+			["OchkenProshlyapen"] = true,
 		},
 		[581] = {	--Дх танк
 			["Tank"] = true,
 			["Melee"] = true,
 			["Physical"] = true,
 			["HasInterrupt"] = true,
+			["OchkenProshlyapen"] = true, --Печать страдания и Печать цепей
 		},
 	}
 	specRoleTable[63] = specRoleTable[62]--Frost Mage same as arcane
@@ -8513,6 +8532,17 @@ do
 			DBM:SetCurrentSpecInfo()
 		end
 		if specRoleTable[currentSpecID]["CurseDispeller"] then
+			return true
+		else
+			return false
+		end
+	end
+	
+	function bossModPrototype:IsProshlyap()
+		if not currentSpecID then
+			DBM:SetCurrentSpecInfo()
+		end
+		if specRoleTable[currentSpecID]["OchkenProshlyapen"] then
 			return true
 		else
 			return false

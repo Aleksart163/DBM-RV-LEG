@@ -43,7 +43,7 @@ local specWarnUnstableEnergy		= mod:NewSpecialWarningDodge(227529, nil, nil, nil
 local specWarnFelBomb				= mod:NewSpecialWarningRun(229620, nil, nil, nil, 4, 6) --Бомба Скверны 
 local specWarnFelFireball			= mod:NewSpecialWarningInterrupt(36247, "HasInterrupt", nil, nil, 1, 2) --Огненный шар Скверны
 --
-local specWarnFelBreath				= mod:NewSpecialWarningInterrupt2(229622, "HasInterrupt", nil, nil, 2, 2) --Дыхание Скверны
+local specWarnFelBreath				= mod:NewSpecialWarningInterrupt2(229622, "OchkenProshlyapen", nil, nil, 2, 2) --Дыхание Скверны
 --
 local specWarnRoyalSlash			= mod:NewSpecialWarningDodge(229429, "Melee", nil, nil, 2, 2) --Удар короля сплеча
 
@@ -80,15 +80,16 @@ local specWarnCurseofDoom			= mod:NewSpecialWarningDispel(229716, "MagicDispelle
 local specWarnVulnerable			= mod:NewSpecialWarningMoreDamage(229495, "-Healer", nil, nil, 3, 2) --Уязвимость
 local specWarnFlashlight			= mod:NewSpecialWarningLookAway(227966, nil, nil, nil, 3, 3) --Фонарь
 
-local timerFelBomb					= mod:NewCastTimer(17, 196034, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON)
+local timerFelBomb					= mod:NewCastTimer(17, 196034, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Бомба Скверны
 local timerNullificationCD			= mod:NewCDTimer(14, 230094, nil, nil, nil, 7, nil) --Полная нейтрализация
 local timerReinvigorated			= mod:NewTargetTimer(20, 230087, nil, nil, nil, 7) --Восполнение сил
 local timerOathofFealty				= mod:NewTargetTimer(15, 228280, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON) --Клятва верности
 --local timerRoyalty					= mod:NewCDTimer(20, 229489, nil, nil, nil, 3, nil, DBM_CORE_DAMAGE_ICON) --Царственность
 local timerMovePieceCD				= mod:NewCDTimer(5.5, 229468, nil, nil, nil, 7)
 
+local yellCursedTouch				= mod:NewYellDispel(228241, nil, nil, nil, "YELL") --Проклятое прикосновение
 local yellTakeKeys					= mod:NewYell(233981, L.TakeKeysYell, nil, nil, "YELL") --Взять ключи
-local yellBrittleBones				= mod:NewYell(230297, nil, nil, nil, "YELL") --Ослабление костей
+local yellBrittleBones				= mod:NewYellDispel(230297, nil, nil, nil, "YELL") --Ослабление костей
 local yellNullification				= mod:NewYell(230083, nil, nil, nil, "YELL") --Полная нейтрализация
 local yellVolatileCharge			= mod:NewYell(228331, nil, nil, nil, "YELL") --Нестабильный заряд
 local yellVolatileCharge2			= mod:NewFadesYell(228331, nil, nil, nil, "YELL") --Нестабильный заряд
@@ -112,6 +113,19 @@ mod:AddBoolOption("OperaActivation", true)
 local key = replaceSpellLinks(233981) --Взять ключи
 local playerName = UnitName("player")
 --local king = false
+
+function mod:FelBreathTarget(targetname, uId) --Грохочущая буря ✔
+	if not targetname then return end
+	if self:AntiSpam(2, targetname) then
+		if targetname == UnitName("player") then
+			specWarnFelBreath:Show()
+			specWarnFelBreath:Play("kickcast")
+		elseif self:CheckNearby(15, targetname) then
+			specWarnFelBreath:Show()
+			specWarnFelBreath:Play("kickcast")
+		end
+	end
+end
 
 function mod:SPELL_CAST_START(args)
 	if not self.Options.Enabled then return end
@@ -184,8 +198,7 @@ function mod:SPELL_CAST_START(args)
 			warnTakeKeys:Show(args.sourceName)
 		end
 	elseif spellId == 229622 then --Дыхание Скверны
-		specWarnFelBreath:Show()
-		specWarnFelBreath:Play("kickcast")
+		self:BossTargetScanner(args.sourceGUID, "FelBreathTarget", 0.1, 2)
 	end
 end
 
@@ -210,26 +223,20 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif spellId == 228241 then --Проклятое прикосновение
 		warnCursedTouch:CombinedShow(0.3, args.destName)
-		if self:IsMythic() then
+		if not self:IsNormal() then
 			if args:IsPlayer() and not self:IsCurseDispeller() then
 				specWarnCursedTouch:Show()
 				specWarnCursedTouch:Play("targetyou")
+				yellCursedTouch:Yell()
 			elseif args:IsPlayer() and self:IsCurseDispeller() then
 				specWarnCursedTouch3:Show()
 				specWarnCursedTouch3:Play("dispelnow")
+				yellCursedTouch:Yell()
 			elseif self:IsCurseDispeller() then
 				if not UnitIsDeadOrGhost("player") then
 					specWarnCursedTouch2:CombinedShow(0.3, args.destName)
 					specWarnCursedTouch2:ScheduleVoice(0.3, "dispelnow")
 				end
-			end
-		else
-			if args:IsPlayer() and not self:IsCurseDispeller() then
-				specWarnCursedTouch:Show()
-				specWarnCursedTouch:Play("targetyou")
-			elseif args:IsPlayer() and self:IsCurseDispeller() then
-				specWarnCursedTouch3:Show()
-				specWarnCursedTouch3:Play("dispelnow")
 			end
 		end
 	elseif spellId == 228610 and self:AntiSpam(3, 1) then --Горящее клеймо
