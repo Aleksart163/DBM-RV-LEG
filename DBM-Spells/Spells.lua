@@ -6,7 +6,7 @@ mod:SetZone(DBM_DISABLE_ZONE_DETECTION)
 
 mod:RegisterEvents(
 	"SPELL_CAST_START 61994 212040 212056 212036 212048 212051 7720",
-	"SPELL_CAST_SUCCESS 205223 97462 161399 157757 80353 32182 230935 90355 2825 160452 10059 11416 11419 32266 49360 11417 11418 11420 32267 49361 33691 53142 88345 88346 132620 132626 176246 176244 224871 29893 83958 64901 21169",
+	"SPELL_CAST_SUCCESS 15286 31821 205223 97462 161399 157757 80353 32182 230935 90355 2825 160452 10059 11416 11419 32266 49360 11417 11418 11420 32267 49361 33691 53142 88345 88346 132620 132626 176246 176244 224871 29893 83958 64901 21169",
 	"SPELL_AURA_APPLIED 20707 29166 64901",
 	"SPELL_AURA_REMOVED 29166 64901 197908",
 	"SPELL_SUMMON 67826 199109 199115 195782",
@@ -16,17 +16,21 @@ mod:RegisterEvents(
 	"UNIT_SPELLCAST_SUCCEEDED"]]
 )
 
---Прошляпанное очко Мурчаля Прошляпенко✔✔✔
+--Прошляпанное очко Мурчаля Прошляпенко на рейдовых спеллах [✔]
 local warnMassres1					= mod:NewTargetSourceAnnounce(212040, 4) --Возвращение к жизни (друид)
 local warnMassres2					= mod:NewTargetSourceAnnounce(212056, 4) --Отпущение (пал)
 local warnMassres3					= mod:NewTargetSourceAnnounce(212036, 4) --Массовое воскрешение (прист)
 local warnMassres4					= mod:NewTargetSourceAnnounce(212048, 4) --Древнее видение (шаман)
 local warnMassres5					= mod:NewTargetSourceAnnounce(212051, 4) --Повторное пробуждение (монк)
-
+local warnRallyingCry				= mod:NewTargetSourceAnnounce(97462, 1) --Ободряющий клич
+local warnVampiricAura				= mod:NewTargetSourceAnnounce(238698, 1) --Вампирская аура
+local warnAuraMastery				= mod:NewTargetSourceAnnounce(31821, 1) --Владение аурами
+local warnVampiricEmbrace			= mod:NewTargetSourceAnnounce(15286, 1) --Объятия вампира
+--инженерия
 local warnPylon						= mod:NewTargetSourceAnnounce(199115, 1) --Пилон
 local warnJeeves					= mod:NewTargetSourceAnnounce(67826, 1) --Дживс
 local warnAutoHammer				= mod:NewTargetSourceAnnounce(199109, 1) --Автоматический молот
-
+--героизм
 local warnTimeWarp					= mod:NewTargetSourceAnnounce(80353, 1) --Искажение времени
 local warnHeroism					= mod:NewTargetSourceAnnounce(32182, 1) --Героизм
 local warnBloodlust					= mod:NewTargetSourceAnnounce(2825, 1) --Кровожадность
@@ -52,11 +56,13 @@ local specWarnSymbolHope 			= mod:NewSpecialWarningYou(64901, nil, nil, nil, 1, 
 local specWarnSymbolHope2			= mod:NewSpecialWarningEnd(64901, nil, nil, nil, 1, 2) --Символ надежды
 local specWarnManaTea2				= mod:NewSpecialWarningEnd(197908, nil, nil, nil, 1, 2) --Маначай
 
-local timerRallyingCry				= mod:NewBuffActiveTimer(10, 97462, nil, nil, nil, 7) --Ободряющий клич
+local timerVampiricEmbrace			= mod:NewBuffActiveTimer(15, 15286, nil, nil, nil, 7) --Объятия вампира
+local timerAuraMastery				= mod:NewBuffActiveTimer(6, 31821, nil, nil, nil, 7) --Владение аурами
 local timerVampiricAura				= mod:NewBuffActiveTimer(15, 238698, nil, nil, nil, 7) --Вампирская аура
+local timerRallyingCry				= mod:NewBuffActiveTimer(10, 97462, nil, nil, nil, 7) --Ободряющий клич
 
---local yellSoulstone					= mod:NewYell(20707, nil, nil, nil, "YELL") --Камень души
---local yellInnervate					= mod:NewYell(29166, L.InnervateYell, nil, nil, "YELL") --Озарение
+local yellVampiricEmbrace			= mod:NewYell(15286, L.SpellNameYell, nil, nil, "YELL") --Объятия вампира
+local yellAuraMastery				= mod:NewYell(31821, L.SpellNameYell, nil, nil, "YELL") --Владение аурами
 local yellVampiricAura				= mod:NewYell(238698, L.SpellNameYell, nil, nil, "YELL") --Вампирская аура
 local yellRallyingCry				= mod:NewYell(97462, L.SpellNameYell, nil, nil, "YELL") --Ободряющий клич
 local yellSymbolHope				= mod:NewYell(64901, L.SpellNameYell, nil, nil, "YELL") --Символ надежды
@@ -79,7 +85,7 @@ mod:AddBoolOption("YellOnPylon", true) --пилон
 mod:AddBoolOption("YellOnToys", true) --игрушки
 
 --рейд кд
-local rallyingcry, vampiricaura = replaceSpellLinks(97462), replaceSpellLinks(238698)
+local rallyingcry, vampiricaura, auramastery, vampiricembrace = replaceSpellLinks(97462), replaceSpellLinks(238698), replaceSpellLinks(31821), replaceSpellLinks(15286)
 --Реген маны
 local hope, innervate, manatea = replaceSpellLinks(64901), replaceSpellLinks(29166), replaceSpellLinks(197908)
 --Массрес
@@ -120,7 +126,7 @@ local premsg_values = {
 	args_sourceName,
 	args_destName,
 	massres1_rw, massres2_rw, massres3_rw, massres4_rw, massres5_rw,
-	rallyingcry, vampiricaura,
+	rallyingcry, vampiricaura, auramastery, vampiricembrace,
 	hope, innervate,
 	timeWarp, heroism, bloodlust, hysteria, winds, drums,
 	rebirth1, rebirth2, rebirth3, rebirth4,
@@ -164,6 +170,12 @@ local function sendAnnounce(self)
 	elseif premsg_values.massres5_rw == 1 then
 		smartChat(L.HeroismYell:format(DbmRV, premsg_values.args_sourceName, massres5), "rw")
 		premsg_values.massres5_rw = 0
+	elseif premsg_values.vampiricembrace == 1 then --Объятия вампира
+		smartChat(L.HeroismYell:format(DbmRV, premsg_values.args_sourceName, vampiricembrace))
+		premsg_values.vampiricembrace = 0
+	elseif premsg_values.auramastery == 1 then --Владение аурами
+		smartChat(L.HeroismYell:format(DbmRV, premsg_values.args_sourceName, auramastery))
+		premsg_values.auramastery = 0
 	elseif premsg_values.rallyingcry == 1 then --Ободряющий клич
 		smartChat(L.HeroismYell:format(DbmRV, premsg_values.args_sourceName, rallyingcry))
 		premsg_values.rallyingcry = 0
@@ -333,6 +345,10 @@ local function announceList(premsg_announce, value)
 		premsg_values.massres4_rw = value
 	elseif premsg_announce == "premsg_Spells_massres5_rw" then
 		premsg_values.massres5_rw = value
+	elseif premsg_announce == "premsg_Spells_vampiricembrace" then --Объятия вампира
+		premsg_values.vampiricembrace = value
+	elseif premsg_announce == "premsg_Spells_auramastery" then --Владение аурами
+		premsg_values.auramastery = value
 	elseif premsg_announce == "premsg_Spells_rallyingcry" then --Ободряющий клич
 		premsg_values.rallyingcry = value
 	elseif premsg_announce == "premsg_Spells_vampiricaura" then --Вампирская аура
@@ -631,6 +647,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 			prepareMessage(self, "premsg_Spells_swap", args.sourceName, args.destName)
 		end
 	elseif spellId == 97462 then --Ободряющий клич
+		warnRallyingCry:Show(args.sourceName)
 		if args:IsPlayerSource() then
 			yellRallyingCry:Yell(rallyingcry)
 		end
@@ -639,6 +656,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		end
 		timerRallyingCry:Start()
 	elseif spellId == 205223 then --Пожирание
+		warnVampiricAura:Show(args.sourceName)
 		timerVampiricAura:Start()
 		local typeInstance = select(2, IsInInstance())
 		if typeInstance ~= "party" then return end
@@ -649,6 +667,24 @@ function mod:SPELL_CAST_SUCCESS(args)
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnRaidCooldown then
 			prepareMessage(self, "premsg_Spells_vampiricaura", args.sourceName)
 		end
+	elseif spellId == 31821 then --Владение аурами
+		warnAuraMastery:Show(args.sourceName)
+		if args:IsPlayerSource() then
+			yellAuraMastery:Yell(auramastery)
+		end
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnRaidCooldown then
+			prepareMessage(self, "premsg_Spells_auramastery", args.sourceName)
+		end
+		timerAuraMastery:Start()
+	elseif spellId == 15286 then --Объятия вампира
+		warnVampiricEmbrace:Show(args.sourceName)
+		if args:IsPlayerSource() then
+			yellVampiricEmbrace:Yell(vampiricembrace)
+		end
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnRaidCooldown then
+			prepareMessage(self, "premsg_Spells_vampiricembrace", args.sourceName)
+		end
+		timerVampiricEmbrace:Start()
 	end
 end
 
