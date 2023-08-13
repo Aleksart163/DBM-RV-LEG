@@ -444,7 +444,7 @@ function mod:SPELL_AURA_REMOVED(args)
 				timerSleepCanisterCD:Start(7) --Склянка с усыпляющим газом+++
 				timerPulseGrenadeCD:Start(12) --Импульсная граната+++
 				countdownPulseGrenade:Start(12) --Импульсная граната+++
-				timerShrapnalBlast2CD:Start(15, 1) --Усиленный Заряд шрапнели+++
+				timerShrapnalBlastCD:Start(15, 1) --Усиленный Заряд шрапнели+++
 			else
 				timerShocklanceCD:Start(5) --Копье-шокер (точно под гер)
 				timerPulseGrenadeCD:Start(6) --Импульсная граната (точно под гер)
