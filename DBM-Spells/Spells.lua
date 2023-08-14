@@ -120,6 +120,8 @@ local function UnitInYourParty(sourceName)
 	return false
 end
 
+local typeInstance = nil
+
 -- Синхронизация анонсов ↓
 local premsg_values = {
 	-- test,
@@ -503,7 +505,7 @@ end
 function mod:SPELL_CAST_SUCCESS(args)
 	if not UnitInYourParty(args.sourceName) then return end
 	local spellId = args.spellId
-	local typeInstance = select(2, IsInInstance())
+	typeInstance = select(2, IsInInstance())
 	if spellId == 80353 then --Искажение времени
 		if self:AntiSpam(5, "bloodlust") then
 			warnTimeWarp:Show(args.sourceName)
