@@ -482,7 +482,7 @@ function mod:SPELL_AURA_REMOVED(args)
 	elseif spellId == 254429 then --Бремя тьмы
 		self.vb.WeightDarkIcon = self.vb.WeightDarkIcon - 1
 		if self.Options.SetIconOnWeightofDarkness then
-			self:SetIcon(args.destName, 0)
+			self:RemoveIcon(args.destName)
 		end
 		if args:IsPlayer() then
 			yellWeightOfDarknessFades:Cancel()

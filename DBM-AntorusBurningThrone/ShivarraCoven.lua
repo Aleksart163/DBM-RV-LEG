@@ -636,7 +636,7 @@ function mod:SPELL_AURA_REMOVED(args)
 			yellFulminatingPulse:Cancel()
 		end
 		if self.Options.SetIconOnFulminatingPulse2 then
-			self:SetIcon(args.destName, 0)
+			self:RemoveIcon(args.destName)
 		end
 	elseif spellId == 245586 then
 		self.vb.chilledCount = self.vb.chilledCount - 1
@@ -644,7 +644,7 @@ function mod:SPELL_AURA_REMOVED(args)
 			DBM.InfoFrame:Hide()
 		end
 		if self.Options.SetIconOnChilledBlood2 then
-			self:SetIcon(args.destName, 0)
+			self:RemoveIcon(args.destName)
 		end
 		self.vb.chilledIcon = self.vb.chilledIcon - 1
 	elseif spellId == 249863 then--Bonecage Armor
@@ -657,7 +657,7 @@ function mod:SPELL_AURA_REMOVED(args)
 			yellCosmicGlareFades:Cancel()
 		end
 		if self.Options.SetIconOnCosmicGlare then
-			self:SetIcon(args.destName, 0)
+			self:RemoveIcon(args.destName)
 		end
 	end
 end

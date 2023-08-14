@@ -435,7 +435,7 @@ function mod:SPELL_AURA_REMOVED(args)
 			yellDemolishFades:Cancel()
 		end
 		if self.Options.SetIconOnDemolish then
-			self:SetIcon(args.destName, 0)
+			self:RemoveIcon(args.destName)
 		end
 		if self.Options.InfoFrame then
 			DBM.InfoFrame:Update()

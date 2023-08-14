@@ -396,7 +396,7 @@ function mod:SPELL_AURA_REMOVED(args)
 			end
 		end
 		if self.Options.SetIconOnShockGrenade then
-			self:SetIcon(args.destName, 0)
+			self:RemoveIcon(args.destName)
 		end
 	elseif spellId == 244388 then --Псионный шрам
 		if args:IsPlayer() then

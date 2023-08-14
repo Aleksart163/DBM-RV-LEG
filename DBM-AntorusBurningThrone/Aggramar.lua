@@ -827,7 +827,7 @@ function mod:SPELL_AURA_REMOVED(args)
 			yellRavenousBlaze2:Cancel()
 		end
 		if self.Options.SetIconOnBlaze then
-			self:SetIcon(args.destName, 0)
+			self:RemoveIcon(args.destName)
 		end
 	elseif spellId == 247079 then --Усиленное разрывающее пламя (от делёжки)
 		if args:IsPlayer() then

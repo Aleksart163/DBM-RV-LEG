@@ -477,7 +477,7 @@ function mod:SPELL_AURA_REMOVED(args)
 			yellEmpPulseGrenade2:Cancel()
 		end
 		if self.Options.SetIconOnEmpPulse2 then
-			self:SetIcon(args.destName, 0)
+			self:RemoveIcon(args.destName)
 		end
 		if self.Options.InfoFrame then
 			DBM.InfoFrame:Update()
@@ -487,7 +487,7 @@ function mod:SPELL_AURA_REMOVED(args)
 			yellSleepCanisterStun2:Cancel()
 		end
 		if self.Options.SetIconOnSleepCanister then
-			self:SetIcon(args.destName, 0)
+			self:RemoveIcon(args.destName)
 		end
 	end
 end
