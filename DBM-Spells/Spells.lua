@@ -643,18 +643,23 @@ function mod:SPELL_CAST_SUCCESS(args)
 			prepareMessage(self, "premsg_Spells_rebirth4", args.sourceName)
 		end
 	elseif spellId == 161399 then --Поменяться местами
+		local typeInstance = select(2, IsInInstance())
+		if typeInstance ~= "party" and typeInstance ~= "raid" then return end
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnToys then
 			prepareMessage(self, "premsg_Spells_swap", args.sourceName, args.destName)
 		end
 	elseif spellId == 97462 then --Ободряющий клич
 		warnRallyingCry:Show(args.sourceName)
+		timerRallyingCry:Start()
+		local typeInstance = select(2, IsInInstance())
+		if typeInstance ~= "party" and typeInstance ~= "raid" then return end
+		if DBM:GetNumRealGroupMembers() < 2 then return end
 		if args:IsPlayerSource() then
 			yellRallyingCry:Yell(rallyingcry)
 		end
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnRaidCooldown then
 			prepareMessage(self, "premsg_Spells_rallyingcry", args.sourceName)
 		end
-		timerRallyingCry:Start()
 	elseif spellId == 205223 then --Пожирание
 		warnVampiricAura:Show(args.sourceName)
 		timerVampiricAura:Start()
@@ -669,22 +674,28 @@ function mod:SPELL_CAST_SUCCESS(args)
 		end
 	elseif spellId == 31821 then --Владение аурами
 		warnAuraMastery:Show(args.sourceName)
+		timerAuraMastery:Start()
+		local typeInstance = select(2, IsInInstance())
+		if typeInstance ~= "party" and typeInstance ~= "raid" then return end
+		if DBM:GetNumRealGroupMembers() < 2 then return end
 		if args:IsPlayerSource() then
 			yellAuraMastery:Yell(auramastery)
 		end
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnRaidCooldown then
 			prepareMessage(self, "premsg_Spells_auramastery", args.sourceName)
 		end
-		timerAuraMastery:Start()
 	elseif spellId == 15286 then --Объятия вампира
 		warnVampiricEmbrace:Show(args.sourceName)
+		timerVampiricEmbrace:Start()
+		local typeInstance = select(2, IsInInstance())
+		if typeInstance ~= "party" and typeInstance ~= "raid" then return end
+		if DBM:GetNumRealGroupMembers() < 2 then return end
 		if args:IsPlayerSource() then
 			yellVampiricEmbrace:Yell(vampiricembrace)
 		end
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnRaidCooldown then
 			prepareMessage(self, "premsg_Spells_vampiricembrace", args.sourceName)
 		end
-		timerVampiricEmbrace:Start()
 	end
 end
 
@@ -749,7 +760,7 @@ end
 function mod:SPELL_CREATE(args)
 	if not UnitInYourParty(args.sourceName) then return end
 	local spellId = args.spellId
-	if spellId == 698 and self:AntiSpam(5, "summoning") then --Ритуал призыва
+	if spellId == 698 and self:AntiSpam(10, "summoning") then --Ритуал призыва
 		warnRitualofSummoning:Show(args.sourceName)
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnRitualofSummoning then
 			prepareMessage(self, "premsg_Spells_summoning", args.sourceName)
@@ -900,6 +911,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 				SendChatMessage(L.HeroismYell:format(DbmRV, UnitName(uId), discoball), "PARTY")
 			end
 		end
+	226241 --Кодекс безмятежного разума
 	end
 end]]
 
