@@ -6,9 +6,9 @@ mod:SetZone(DBM_DISABLE_ZONE_DETECTION)
 
 mod:RegisterEvents(
 	"SPELL_CAST_START 61994 212040 212056 212036 212048 212051 7720",
-	"SPELL_CAST_SUCCESS 15286 31821 205223 97462 161399 157757 80353 32182 230935 90355 2825 160452 10059 11416 11419 32266 49360 11417 11418 11420 32267 49361 33691 53142 88345 88346 132620 132626 176246 176244 224871 29893 83958 64901 21169",
-	"SPELL_AURA_APPLIED 20707 29166 64901",
-	"SPELL_AURA_REMOVED 29166 64901 197908",
+	"SPELL_CAST_SUCCESS 47788 62618 15286 31821 205223 97462 161399 157757 80353 32182 230935 90355 2825 160452 10059 11416 11419 32266 49360 11417 11418 11420 32267 49361 33691 53142 88345 88346 132620 132626 176246 176244 224871 29893 83958 64901 21169",
+	"SPELL_AURA_APPLIED 33206 20707 29166 64901",
+	"SPELL_AURA_REMOVED 47788 29166 64901 197908",
 	"SPELL_SUMMON 67826 199109 199115 195782",
 	"SPELL_CREATE 698 188036 201352 201351 185709 88304 61031 49844",
 	"SPELL_RESURRECT 95750 20484 61999",
@@ -26,6 +26,9 @@ local warnRallyingCry				= mod:NewTargetSourceAnnounce(97462, 1) --Ободря�
 local warnVampiricAura				= mod:NewTargetSourceAnnounce(238698, 1) --Вампирская аура
 local warnAuraMastery				= mod:NewTargetSourceAnnounce(31821, 1) --Владение аурами
 local warnVampiricEmbrace			= mod:NewTargetSourceAnnounce(15286, 1) --Объятия вампира
+local warnPowerWordBarrier			= mod:NewTargetSourceAnnounce(62618, 1) --Слово силы: Барьер
+local warnGuardianSpirit			= mod:NewTargetSourceAnnounce2(47788, 1) --Оберегающий дух
+local warnPainSuppression			= mod:NewTargetSourceAnnounce2(33206, 1) --Подавление боли
 --инженерия
 local warnPylon						= mod:NewTargetSourceAnnounce(199115, 1) --Пилон
 local warnJeeves					= mod:NewTargetSourceAnnounce(67826, 1) --Дживс
@@ -48,6 +51,8 @@ local warnRebirth					= mod:NewTargetSourceAnnounce2(20484, 2) --Возрожд�
 local warnInnervate					= mod:NewTargetSourceAnnounce2(29166, 1) --Озарение
 local warnSymbolHope				= mod:NewTargetSourceAnnounce(64901, 1) --Символ надежды
 
+local specWarnGuardianSpirit		= mod:NewSpecialWarningYou(47788, nil, nil, nil, 1, 2) --Оберегающий дух
+local specWarnPainSuppression		= mod:NewSpecialWarningYou(33206, nil, nil, nil, 1, 2) --Подавление боли
 local specWarnSoulstone				= mod:NewSpecialWarningYou(20707, nil, nil, nil, 1, 2) --Камень души
 local specWarnRebirth 				= mod:NewSpecialWarningYou(20484, nil, nil, nil, 1, 2) --Возрождение
 local specWarnInnervate 			= mod:NewSpecialWarningYou(29166, nil, nil, nil, 1, 2) --Озарение
@@ -56,15 +61,19 @@ local specWarnSymbolHope 			= mod:NewSpecialWarningYou(64901, nil, nil, nil, 1, 
 local specWarnSymbolHope2			= mod:NewSpecialWarningEnd(64901, nil, nil, nil, 1, 2) --Символ надежды
 local specWarnManaTea2				= mod:NewSpecialWarningEnd(197908, nil, nil, nil, 1, 2) --Маначай
 
-local timerVampiricEmbrace			= mod:NewBuffActiveTimer(15, 15286, nil, nil, nil, 7) --Объятия вампира
-local timerAuraMastery				= mod:NewBuffActiveTimer(6, 31821, nil, nil, nil, 7) --Владение аурами
-local timerVampiricAura				= mod:NewBuffActiveTimer(15, 238698, nil, nil, nil, 7) --Вампирская аура
 local timerRallyingCry				= mod:NewBuffActiveTimer(10, 97462, nil, nil, nil, 7) --Ободряющий клич
+local timerVampiricAura				= mod:NewBuffActiveTimer(15, 238698, nil, nil, nil, 7) --Вампирская аура
+local timerAuraMastery				= mod:NewBuffActiveTimer(6, 31821, nil, nil, nil, 7) --Владение аурами
+local timerVampiricEmbrace			= mod:NewBuffActiveTimer(15, 15286, nil, nil, nil, 7) --Объятия вампира
+local timerPowerWordBarrier			= mod:NewBuffActiveTimer(10, 62618, nil, nil, nil, 7) --Слово силы: Барьер
+local timerGuardianSpirit			= mod:NewBuffActiveTimer(10, 47788, nil, nil, nil, 7) --Оберегающий дух
+local timerPainSuppression			= mod:NewBuffActiveTimer(8, 33206, nil, nil, nil, 7) --Подавление боли
 
-local yellVampiricEmbrace			= mod:NewYell(15286, L.SpellNameYell, nil, nil, "YELL") --Объятия вампира
-local yellAuraMastery				= mod:NewYell(31821, L.SpellNameYell, nil, nil, "YELL") --Владение аурами
-local yellVampiricAura				= mod:NewYell(238698, L.SpellNameYell, nil, nil, "YELL") --Вампирская аура
 local yellRallyingCry				= mod:NewYell(97462, L.SpellNameYell, nil, nil, "YELL") --Ободряющий клич
+local yellVampiricAura				= mod:NewYell(238698, L.SpellNameYell, nil, nil, "YELL") --Вампирская аура
+local yellAuraMastery				= mod:NewYell(31821, L.SpellNameYell, nil, nil, "YELL") --Владение аурами
+local yellVampiricEmbrace			= mod:NewYell(15286, L.SpellNameYell, nil, nil, "YELL") --Объятия вампира
+local yellPowerWordBarrier			= mod:NewYell(62618, L.SpellNameYell, nil, nil, "YELL") --Слово силы: Барьер
 local yellSymbolHope				= mod:NewYell(64901, L.SpellNameYell, nil, nil, "YELL") --Символ надежды
 
 mod:AddBoolOption("YellOnRaidCooldown", true) --рейд кд
@@ -85,7 +94,7 @@ mod:AddBoolOption("YellOnPylon", true) --пилон
 mod:AddBoolOption("YellOnToys", true) --игрушки
 
 --рейд кд
-local rallyingcry, vampiricaura, auramastery, vampiricembrace = replaceSpellLinks(97462), replaceSpellLinks(238698), replaceSpellLinks(31821), replaceSpellLinks(15286)
+local rallyingcry, vampiricaura, auramastery, vampiricembrace, powerwordbarrier, guardianspirit, painsuppression = replaceSpellLinks(97462), replaceSpellLinks(238698), replaceSpellLinks(31821), replaceSpellLinks(15286), replaceSpellLinks(62618), replaceSpellLinks(47788), replaceSpellLinks(33206)
 --Реген маны
 local hope, innervate, manatea = replaceSpellLinks(64901), replaceSpellLinks(29166), replaceSpellLinks(197908)
 --Массрес
@@ -113,6 +122,8 @@ local bank = replaceSpellLinks(88306) --83958
 --Игрушки
 local toyTrain, moonfeather, highborne, discoball, direbrews = replaceSpellLinks(61031), replaceSpellLinks(195782), replaceSpellLinks(73331), replaceSpellLinks(50317), replaceSpellLinks(49844)
 
+local typeInstance = nil
+
 local function UnitInYourParty(sourceName)
 	if GetNumGroupMembers() > 0 and (UnitInParty(sourceName) or UnitPlayerOrPetInParty(sourceName) or UnitInRaid(sourceName) or UnitInBattleground(sourceName)) then
 		return true
@@ -120,15 +131,13 @@ local function UnitInYourParty(sourceName)
 	return false
 end
 
-local typeInstance = nil
-
 -- Синхронизация анонсов ↓
 local premsg_values = {
 	-- test,
 	args_sourceName,
 	args_destName,
 	massres1_rw, massres2_rw, massres3_rw, massres4_rw, massres5_rw,
-	rallyingcry, vampiricaura, auramastery, vampiricembrace,
+	rallyingcry, vampiricaura, auramastery, vampiricembrace, powerwordbarrier, guardianspirit, painsuppression,
 	hope, innervate,
 	timeWarp, heroism, bloodlust, hysteria, winds, drums,
 	rebirth1, rebirth2, rebirth3, rebirth4,
@@ -172,18 +181,27 @@ local function sendAnnounce(self)
 	elseif premsg_values.massres5_rw == 1 then
 		smartChat(L.HeroismYell:format(DbmRV, premsg_values.args_sourceName, massres5), "rw")
 		premsg_values.massres5_rw = 0
-	elseif premsg_values.vampiricembrace == 1 then --Объятия вампира
-		smartChat(L.HeroismYell:format(DbmRV, premsg_values.args_sourceName, vampiricembrace))
-		premsg_values.vampiricembrace = 0
-	elseif premsg_values.auramastery == 1 then --Владение аурами
-		smartChat(L.HeroismYell:format(DbmRV, premsg_values.args_sourceName, auramastery))
-		premsg_values.auramastery = 0
 	elseif premsg_values.rallyingcry == 1 then --Ободряющий клич
 		smartChat(L.HeroismYell:format(DbmRV, premsg_values.args_sourceName, rallyingcry))
 		premsg_values.rallyingcry = 0
 	elseif premsg_values.vampiricaura == 1 then --Вампирская аура
 		smartChat(L.HeroismYell:format(DbmRV, premsg_values.args_sourceName, vampiricaura))
 		premsg_values.vampiricaura = 0
+	elseif premsg_values.auramastery == 1 then --Владение аурами
+		smartChat(L.HeroismYell:format(DbmRV, premsg_values.args_sourceName, auramastery))
+		premsg_values.auramastery = 0
+	elseif premsg_values.vampiricembrace == 1 then --Объятия вампира
+		smartChat(L.HeroismYell:format(DbmRV, premsg_values.args_sourceName, vampiricembrace))
+		premsg_values.vampiricembrace = 0
+	elseif premsg_values.powerwordbarrier == 1 then --Слово силы: Барьер
+		smartChat(L.HeroismYell:format(DbmRV, premsg_values.args_sourceName, powerwordbarrier))
+		premsg_values.powerwordbarrier = 0
+	elseif premsg_values.guardianspirit == 1 then --Оберегающий дух
+		smartChat(L.SoulstoneYell:format(DbmRV, premsg_values.args_sourceName, guardianspirit, premsg_values.args_destName))
+		premsg_values.guardianspirit = 0
+	elseif premsg_values.painsuppression == 1 then --Подавление боли
+		smartChat(L.SoulstoneYell:format(DbmRV, premsg_values.args_sourceName, painsuppression, premsg_values.args_destName))
+		premsg_values.painsuppression = 0
 	elseif premsg_values.hope == 1 then --Символ надежды
 		smartChat(L.HeroismYell:format(DbmRV, premsg_values.args_sourceName, hope))
 		premsg_values.hope = 0
@@ -347,14 +365,20 @@ local function announceList(premsg_announce, value)
 		premsg_values.massres4_rw = value
 	elseif premsg_announce == "premsg_Spells_massres5_rw" then
 		premsg_values.massres5_rw = value
-	elseif premsg_announce == "premsg_Spells_vampiricembrace" then --Объятия вампира
-		premsg_values.vampiricembrace = value
-	elseif premsg_announce == "premsg_Spells_auramastery" then --Владение аурами
-		premsg_values.auramastery = value
 	elseif premsg_announce == "premsg_Spells_rallyingcry" then --Ободряющий клич
 		premsg_values.rallyingcry = value
 	elseif premsg_announce == "premsg_Spells_vampiricaura" then --Вампирская аура
 		premsg_values.vampiricaura = value
+	elseif premsg_announce == "premsg_Spells_auramastery" then --Владение аурами
+		premsg_values.auramastery = value
+	elseif premsg_announce == "premsg_Spells_vampiricembrace" then --Объятия вампира
+		premsg_values.vampiricembrace = value
+	elseif premsg_announce == "premsg_Spells_powerwordbarrier" then --Слово силы: Барьер
+		premsg_values.powerwordbarrier = value
+	elseif premsg_announce == "premsg_Spells_guardianspirit" then --Оберегающий дух
+		premsg_values.guardianspirit = value
+	elseif premsg_announce == "premsg_Spells_painsuppression" then --Подавление боли
+		premsg_values.painsuppression = value
 	elseif premsg_announce == "premsg_Spells_hope" then --Символ надежды
 		premsg_values.hope = value
 	elseif premsg_announce == "premsg_Spells_innervate" then --Озарение
@@ -624,15 +648,17 @@ function mod:SPELL_CAST_SUCCESS(args)
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnPortal then
 			prepareMessage(self, "premsg_Spells_dalaran2", args.sourceName)
 		end
-	elseif spellId == 29893 and self:AntiSpam(3, "soulwell") then --Источник душ
+	elseif spellId == 29893 and self:AntiSpam(10, "soulwell") then --Источник душ
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnSoulwell then
 			prepareMessage(self, "premsg_Spells_soulwell", args.sourceName)
 		end
-	elseif spellId == 83958 and self:AntiSpam(3, "bank") then --Мобильный банк
+	elseif spellId == 83958 and self:AntiSpam(5, "bank") then --Мобильный банк
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnBank then
 			prepareMessage(self, "premsg_Spells_bank", args.sourceName)
 		end
 	elseif spellId == 64901 then --Символ надежды
+		if typeInstance ~= "party" and typeInstance ~= "raid" then return end
+		if DBM:GetNumRealGroupMembers() < 2 then return end
 		if args:IsPlayerSource() then
 			yellSymbolHope:Yell(hope)
 		else
@@ -651,10 +677,10 @@ function mod:SPELL_CAST_SUCCESS(args)
 			prepareMessage(self, "premsg_Spells_swap", args.sourceName, args.destName)
 		end
 	elseif spellId == 97462 then --Ободряющий клич
-		warnRallyingCry:Show(args.sourceName)
-		timerRallyingCry:Start()
 		if typeInstance ~= "party" and typeInstance ~= "raid" then return end
 		if DBM:GetNumRealGroupMembers() < 2 then return end
+		warnRallyingCry:Show(args.sourceName)
+		timerRallyingCry:Start()
 		if args:IsPlayerSource() then
 			yellRallyingCry:Yell(rallyingcry)
 		end
@@ -662,10 +688,10 @@ function mod:SPELL_CAST_SUCCESS(args)
 			prepareMessage(self, "premsg_Spells_rallyingcry", args.sourceName)
 		end
 	elseif spellId == 205223 then --Пожирание
-		warnVampiricAura:Show(args.sourceName)
-		timerVampiricAura:Start()
 		if typeInstance ~= "party" then return end
 		if DBM:GetNumRealGroupMembers() < 2 then return end
+		warnVampiricAura:Show(args.sourceName)
+		timerVampiricAura:Start()
 		if args:IsPlayerSource() then
 			yellVampiricAura:Yell(vampiricaura)
 		end
@@ -673,10 +699,10 @@ function mod:SPELL_CAST_SUCCESS(args)
 			prepareMessage(self, "premsg_Spells_vampiricaura", args.sourceName)
 		end
 	elseif spellId == 31821 then --Владение аурами
-		warnAuraMastery:Show(args.sourceName)
-		timerAuraMastery:Start()
 		if typeInstance ~= "party" and typeInstance ~= "raid" then return end
 		if DBM:GetNumRealGroupMembers() < 2 then return end
+		warnAuraMastery:Show(args.sourceName)
+		timerAuraMastery:Start()
 		if args:IsPlayerSource() then
 			yellAuraMastery:Yell(auramastery)
 		end
@@ -684,15 +710,42 @@ function mod:SPELL_CAST_SUCCESS(args)
 			prepareMessage(self, "premsg_Spells_auramastery", args.sourceName)
 		end
 	elseif spellId == 15286 then --Объятия вампира
-		warnVampiricEmbrace:Show(args.sourceName)
-		timerVampiricEmbrace:Start()
 		if typeInstance ~= "party" and typeInstance ~= "raid" then return end
 		if DBM:GetNumRealGroupMembers() < 2 then return end
+		warnVampiricEmbrace:Show(args.sourceName)
+		timerVampiricEmbrace:Start()
 		if args:IsPlayerSource() then
 			yellVampiricEmbrace:Yell(vampiricembrace)
 		end
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnRaidCooldown then
 			prepareMessage(self, "premsg_Spells_vampiricembrace", args.sourceName)
+		end
+	elseif spellId == 62618 then --Слово силы: Барьер
+		if typeInstance ~= "party" and typeInstance ~= "raid" then return end
+		if DBM:GetNumRealGroupMembers() < 2 then return end
+		warnPowerWordBarrier:Show(args.sourceName)
+		timerPowerWordBarrier:Start()
+		if args:IsPlayerSource() then
+			yellPowerWordBarrier:Yell(powerwordbarrier)
+		end
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnRaidCooldown then
+			prepareMessage(self, "premsg_Spells_powerwordbarrier", args.sourceName)
+		end
+	elseif spellId == 47788 then --Оберегающий дух
+		if typeInstance ~= "party" and typeInstance ~= "raid" then return end
+		if DBM:GetNumRealGroupMembers() < 2 then return end
+		if args:IsPlayer() then
+			specWarnGuardianSpirit:Show()
+			specWarnGuardianSpirit:Play("targetyou")
+			timerGuardianSpirit:Start()
+			if not args:IsPlayerSource() and not DBM.Options.IgnoreRaidAnnounce3 then
+				smartChat(L.WhisperThanks:format(DbmRV, guardianspirit), "whisper", args.sourceName)
+			end
+		else
+			warnGuardianSpirit:Show(args.sourceName, args.destName)
+		end
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnRaidCooldown then
+			prepareMessage(self, "premsg_Spells_guardianspirit", args.sourceName, args.destName)
 		end
 	end
 end
@@ -700,20 +753,25 @@ end
 function mod:SPELL_AURA_APPLIED(args)
 	if not UnitInYourParty(args.sourceName) then return end
 	local spellId = args.spellId
+	typeInstance = select(2, IsInInstance())
 	if spellId == 20707 then --Камень души
-			if args:IsPlayer() then
-				specWarnSoulstone:Show()
-				specWarnSoulstone:Play("targetyou")
-				if not args:IsPlayerSource() and not DBM.Options.IgnoreRaidAnnounce3 then
-					smartChat(L.WhisperThanks:format(DbmRV, soulstone), "whisper", args.sourceName)
-				end
-			else
-				warnSoulstone:Show(args.destName)
+		if typeInstance ~= "party" and typeInstance ~= "raid" then return end
+		if DBM:GetNumRealGroupMembers() < 2 then return end
+		if args:IsPlayer() then
+			specWarnSoulstone:Show()
+			specWarnSoulstone:Play("targetyou")
+			if not args:IsPlayerSource() and not DBM.Options.IgnoreRaidAnnounce3 then
+				smartChat(L.WhisperThanks:format(DbmRV, soulstone), "whisper", args.sourceName)
 			end
+		else
+			warnSoulstone:Show(args.destName)
+		end
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnSoulstone then
 			prepareMessage(self, "premsg_Spells_soulstone", args.sourceName, args.destName)
 		end
 	elseif spellId == 29166 then --Озарение
+		if typeInstance ~= "party" and typeInstance ~= "raid" then return end
+		if DBM:GetNumRealGroupMembers() < 2 then return end
 		if args:IsPlayer() and self:IsHealer() then
 			specWarnInnervate:Show()
 			specWarnInnervate:Play("targetyou")
@@ -727,9 +785,27 @@ function mod:SPELL_AURA_APPLIED(args)
 			prepareMessage(self, "premsg_Spells_innervate", args.sourceName, args.destName)
 		end
 	elseif spellId == 64901 then --Символ надежды
+		if typeInstance ~= "party" and typeInstance ~= "raid" then return end
+		if DBM:GetNumRealGroupMembers() < 2 then return end
 		if args:IsPlayer() and self:IsHealer() then
 			specWarnSymbolHope:Show()
 			specWarnSymbolHope:Play("targetyou")
+		end
+	elseif spellId == 33206 then --Подавление боли
+		if typeInstance ~= "party" and typeInstance ~= "raid" then return end
+		if DBM:GetNumRealGroupMembers() < 2 then return end
+		if args:IsPlayer() then
+			specWarnPainSuppression:Show()
+			specWarnPainSuppression:Play("targetyou")
+			timerPainSuppression:Start()
+			if not args:IsPlayerSource() and not DBM.Options.IgnoreRaidAnnounce3 then
+				smartChat(L.WhisperThanks:format(DbmRV, painsuppression), "whisper", args.sourceName)
+			end
+		else
+			warnPainSuppression:Show(args.sourceName, args.destName)
+		end
+		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnRaidCooldown then
+			prepareMessage(self, "premsg_Spells_painsuppression", args.sourceName, args.destName)
 		end
 	end
 end
@@ -751,6 +827,10 @@ function mod:SPELL_AURA_REMOVED(args)
 		if args:IsPlayer() and self:IsHealer() then
 			specWarnManaTea2:Show()
 			specWarnManaTea2:Play("end")
+		end
+	elseif spellId == 47788 then --Оберегающий дух
+		if args:IsPlayer() then
+			timerGuardianSpirit:Stop()
 		end
 	end
 end
