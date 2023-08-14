@@ -399,7 +399,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif spellId == 227626 then
 		local amount = args.amount or 1
-		if amount >= 10 and amount % 5 == 0 then
+		if amount >= 10 and amount % 10 == 0 then
 			if self:IsTanking("player", "boss1", nil, true) then
 				specWarnOdynsTest:Show(amount)
 				specWarnOdynsTest:Play("changemt")
@@ -407,7 +407,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				specWarnOdynsTestOther:Show(L.name)
 				specWarnOdynsTestOther:Play("changemt")
 			end
-		else
+		elseif amount >= 10 and amount % 5 == 0 then
 			warnOdynsTest:Show(args.destName, amount)
 		end
 	elseif spellId == 228918 then
