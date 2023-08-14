@@ -91,7 +91,6 @@ mod:AddTimerLine(ENCOUNTER_JOURNAL_SECTION_FLAG12)
 local timerRunicBrandCD				= mod:NewNextTimer(35, 231297, nil, nil, nil, 3, nil, DBM_CORE_HEROIC_ICON) --Руническое клеймо
 local timerRadiantSmite				= mod:NewCastTimer(7.5, 231350, nil, nil, nil, 2, nil, DBM_CORE_HEROIC_ICON) --Сияние правосудия
 
-local yellDancingBlade				= mod:NewYell(228003, nil, nil, nil, "YELL") --Танцующий клинок
 local yellExpelLight				= mod:NewYell(228028, nil, nil, nil, "YELL") --Световое излучение
 local yellShieldofLightFades		= mod:NewFadesYell(228270, nil, nil, nil, "YELL") --Щит Света
 local yellBranded					= mod:NewPosYell(227490, DBM_CORE_AUTO_YELL_CUSTOM_POSITION, nil, nil, "YELL")
