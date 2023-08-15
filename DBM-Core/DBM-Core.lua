@@ -34,9 +34,9 @@
 -------------------------------
 
 DBM = {
-	Revision = tonumber(("$Revision: 17728 $"):sub(12, -3)),
+	Revision = tonumber(("$Revision: 17729 $"):sub(12, -3)),
 	DisplayVersion = "7.3.47 Right Version " .. string.sub(GetLocale(), -2),
-	ReleaseRevision = 17727
+	ReleaseRevision = 17728
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -84,7 +84,8 @@ DBM.DefaultOptions = {
 	SpecialWarningSound2 = "Sound\\Creature\\AlgalonTheObserver\\UR_Algalon_BHole01.ogg",
 	SpecialWarningSound3 = "Interface\\AddOns\\DBM-Core\\sounds\\AirHorn.ogg",
 	SpecialWarningSound4 = "Sound\\Creature\\LadyMalande\\BLCKTMPLE_LadyMal_Aggro01.ogg", --"Interface\\AddOns\\DBM-Core\\Sounds\\Custom\\RunAwayBitch.ogg", --"Sound\\Creature\\HoodWolf\\HoodWolfTransformPlayer01.ogg",
-	SpecialWarningSound5 = "Sound\\Creature\\Kologarn\\UR_Kologarn_Slay02.ogg",
+	SpecialWarningSound5 = "Sound\\Creature\\Kologarn\\UR_Kologarn_Slay02.ogg", --"Sound\\Creature\\RAGNAROS\\VO_FL_RAGNAROS_HAMMER_DROP_02.ogg", A_BLCKTMPLE_Illidan_04
+--	SpecialWarningSound5 = "Sound\\Creature\\RAGNAROS\\VO_FL_RAGNAROS_HAMMER_DROP_02.ogg",
 	ModelSoundValue = "Short",
 	CountdownVoice = "Alarak",
 	CountdownVoice2 = "Artanis",
