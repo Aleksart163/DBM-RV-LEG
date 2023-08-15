@@ -196,7 +196,7 @@ L:SetWarningLocalization({
 })
 
 L:SetOptionLocalization({
-	ShowProshlyapMurchal1 = "Show announcements for $spell:244033 (Requires raid leader)",
+	ShowProshlyapMurchal1 = "Show announcements for $spell:244688 (Requires raid leader)",
 	ShowProshlyapMurchal2 = "Show announcements for $spell:244912 (Requires raid leader)",
 	FlameRend1 = "Show special warning during $spell:245463 for the first group (only in mythic)",
 	FlameRend2 = "Show special warning during $spell:245463 for the second group (only in mythic)",
@@ -205,6 +205,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
+	MurchalProshlyapation = "%s Soon %s",
 --	YellPullAggramar = "You will burn!",
 	ProshlyapMurchal2	= "%s CONTROL MOBS",
 	ProshlyapMurchal1	= "%s THEY RAN UNDER THE BOSS",

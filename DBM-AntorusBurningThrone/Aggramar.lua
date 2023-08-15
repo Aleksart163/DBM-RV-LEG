@@ -38,7 +38,8 @@ local warnSearingBinding				= mod:NewTargetAnnounce(255528, 2, nil, "MagicDispel
 local warnScorchingBlaze				= mod:NewTargetAnnounce(245994, 2) --Обжигающее пламя
 local warnRavenousBlaze					= mod:NewTargetAnnounce(254452, 2) --Хищное пламя
 local warnRavenousBlazeCount			= mod:NewCountAnnounce(254452, 4) --Хищное пламя
-local warnTaeshalachTech				= mod:NewCountAnnounce(244688, 3) --Искусный прием
+local warnTaeshalachTech				= mod:NewCountAnnounce(244688, 4) --Искусный прием
+local warnTaeshalachTech2				= mod:NewSoonAnnounce(244688, 3) --Искусный прием
 
 local specWarnFlameRend2				= mod:NewSpecialWarning("FlameRend3", nil, nil, nil, 1, 2) --другая пати
 
@@ -121,7 +122,18 @@ local comboDebug = {}
 local comboDebugCounter = 0
 local unitTracked = {}
 local ravenousBlaze = replaceSpellLinks(254452)
+local proshlyap = replaceSpellLinks(244688) --Искусный прием
 
+local function startMurchalProshlyapation(self)
+	self.vb.proshlyap1Count = self.vb.proshlyap1Count + 1
+	smartChat(L.MurchalProshlyapation:format(DbmRV, proshlyap), "rw")
+	if self.vb.proshlyap1Count < 3 then
+		self:Schedule(1, startMurchalProshlyapation, self)
+	elseif self.vb.proshlyap1Count == 3 then
+		self.vb.proshlyap1Count = 0
+		self:Unschedule(startMurchalProshlyapation)
+	end
+end
 -- premsg_Aggramar_FlameRend_rw ↓
 local function ProshlyapMurchalya1(self) --прошляпанное очко Мурчаля Прошляпенко [✔]
 	-- if not self:IsMythic() then
@@ -162,7 +174,7 @@ local premsg_values = {
 	-- args_sourceName,
 	-- args_destName,
 	scheduleDelay,
-	FlameRend, Embers
+	FlameRend, Embers, Technique
 }
 local playerOnlyName = UnitName("player")
 
@@ -187,6 +199,9 @@ local function sendAnnounce(self)
 		-- smartChat(L.ProshlyapMurchal2, "rw")
 		self:Schedule(premsg_values.scheduleDelay, ProshlyapMurchalya2, self)
 		premsg_values.Embers = 0
+	elseif premsg_values.Technique == 1 then
+		self:Schedule(premsg_values.scheduleDelay, startMurchalProshlyapation, self)
+		premsg_values.Technique = 0
 	end
 
 	-- premsg_values.args_sourceName = nil
@@ -201,6 +216,8 @@ local function announceList(premsg_announce, value)
 		premsg_values.FlameRend = value
 	elseif premsg_announce == "premsg_Aggramar_Embers_rw" then
 		premsg_values.Embers = value
+	elseif premsg_announce == "premsg_Aggramar_Technique_rw" then
+		premsg_values.Technique = value
 	end
 end
 
@@ -430,9 +447,11 @@ function mod:OnCombatStart(delay)
 		timerRavenousBlazeCD:Start(4-delay) --Хищное пламя+++
 		countdownRavenousBlaze:Start(4-delay) --Хищное пламя+++
 		timerWakeofFlameCD:Start(11-delay) --Огненная волна+++
-		--под мифик не надо анонс о сбегании--
-	--	specWarnTaeshalachTechnique:Schedule(10-delay) --Искусный прием+++
-	--	specWarnTaeshalachTechnique:ScheduleVoice(10-delay, "specialsoon") --Искусный прием+++
+		warnTaeshalachTech2:Schedule(10-delay) --Искусный прием+++
+		warnTaeshalachTech2:ScheduleVoice(10-delay, "specialsoon") --Искусный прием+++
+		if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapMurchal1 and DBM:GetRaidRank() > 0 then
+			prepareMessage(self, "premsg_Aggramar_Technique_rw", nil, nil, 10)
+		end
 		timerTaeshalachTechCD:Start(15-delay, 1) --Искусный прием+++
 		countdownTaeshalachTech:Start(15-delay) --Искусный прием+++
 		berserkTimer:Start(540-delay)
@@ -441,22 +460,22 @@ function mod:OnCombatStart(delay)
 	elseif self:IsHeroic() then
 		timerScorchingBlazeCD:Start(5.5-delay) --Обжигающее пламя+++
 		timerWakeofFlameCD:Start(5.8-delay) --Огненная волна+++
+		warnTaeshalachTech2:Schedule(31-delay) --Искусный прием+++
+		warnTaeshalachTech2:ScheduleVoice(31-delay, "specialsoon") --Искусный прием+++
 		if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapMurchal1 and DBM:GetRaidRank() > 0 then
 			prepareMessage(self, "premsg_Aggramar_FlameRend_rw", nil, nil, 31)
 		end
-	--	specWarnTaeshalachTechnique:Schedule(31-delay) --Искусный прием+++
-	--	specWarnTaeshalachTechnique:ScheduleVoice(31-delay, "specialsoon") --Искусный прием+++
 		timerTaeshalachTechCD:Start(36-delay, 1) --Искусный прием+++
 		countdownTaeshalachTech:Start(36-delay) --Искусный прием+++
 		berserkTimer:Start(-delay)
 	else
 		timerScorchingBlazeCD:Start(5.5-delay) --Обжигающее пламя+++
 		timerWakeofFlameCD:Start(5.8-delay) --Огненная волна+++
+		warnTaeshalachTech2:Schedule(31-delay) --Искусный прием+++
+		warnTaeshalachTech2:ScheduleVoice(31-delay, "specialsoon") --Искусный прием+++
 		if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapMurchal1 and DBM:GetRaidRank() > 0 then
 			prepareMessage(self, "premsg_Aggramar_FlameRend_rw", nil, nil, 31)
 		end
-	--	specWarnTaeshalachTechnique:Schedule(31-delay) --Искусный прием+++
-	--	specWarnTaeshalachTechnique:ScheduleVoice(31-delay, "specialsoon") --Искусный прием+++
 		timerTaeshalachTechCD:Start(36-delay, 1) --Искусный прием+++
 		countdownTaeshalachTech:Start(36-delay) --Искусный прием+++
 		berserkTimer:Start(-delay)
@@ -719,7 +738,8 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerFlameRendCD:Stop()
 		timerTempestCD:Stop()
 		self:Unschedule(ProshlyapMurchalya1)
-	--	specWarnTaeshalachTechnique:Cancel() --Искусный прием
+		self:Unschedule(startMurchalProshlyapation)
+		warnTaeshalachTech2:Cancel()
 		timerTaeshalachTechCD:Stop()
 		countdownTaeshalachTech:Cancel()
 		if self:IsEasy() then
@@ -777,8 +797,12 @@ function mod:SPELL_AURA_REMOVED(args)
 		self.vb.secondCombo = nil
 		self.vb.foeCount = 0
 		self.vb.rendCount = 0
+		warnTaeshalachTech2:Schedule(31) --Искусный прием
+		warnTaeshalachTech2:ScheduleVoice(31, "specialsoon") --Искусный прием
 		if not self:IsMythic() and not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapMurchal1 and DBM:GetRaidRank() > 0 then
 			prepareMessage(self, "premsg_Aggramar_FlameRend_rw", nil, nil, 31)
+		elseif self:IsMythic() and not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapMurchal1 and DBM:GetRaidRank() > 0 then
+			prepareMessage(self, "premsg_Aggramar_Technique_rw", nil, nil, 31)
 		end
 		if self:IsHeroic() then
 			timerTaeshalachTechCD:Start(36, self.vb.techCount+1)
@@ -914,8 +938,12 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 				timerTempestCD:Start(15)
 			end
 		end
+		warnTaeshalachTech2:Schedule(48.5) --Искусный прием
+		warnTaeshalachTech2:ScheduleVoice(48.5, "specialsoon") --Искусный прием
 		if not self:IsMythic() and not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapMurchal1 and DBM:GetRaidRank() > 0 then
 			prepareMessage(self, "premsg_Aggramar_FlameRend_rw", nil, nil, 53.5)
+		elseif self:IsMythic() and not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapMurchal1 and DBM:GetRaidRank() > 0 then
+			prepareMessage(self, "premsg_Aggramar_Technique_rw", nil, nil, 53.5)
 		end
 		warnTaeshalachTech:Show(self.vb.techCount)
 		timerTaeshalachTechCD:Start(nil, self.vb.techCount+1)

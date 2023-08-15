@@ -169,10 +169,13 @@ L:SetOptionLocalization({
 L= DBM:GetModLocalization(1984)
 
 L:SetOptionLocalization({
+	ShowProshlyapMurchal1 = "Mostrar aviso especial para $spell:244688 (se requieren derechos de líder de redada)",
+	ShowProshlyapMurchal2 = "Mostrar aviso especial para $spell:244912 (se requieren derechos de líder de redada)",
 	ignoreThreeTank	= "Deshabilitar avisos especiales de provocar para Domaenemigos y Desgarro de llamas cuando haya tres o más tanques en el grupo de banda (DBM no puede determinar una rotación exacta con esa composición). Si muere uno de los tanques, los avisos se rehabilitan automáticamente."
 })
 
 L:SetMiscLocalization({
+	MurchalProshlyapation = "%s %s en breve",
 --	YellPullAggramar = "¡Arderéis!",
 --	Blaze		= "Llamarada voraz",
 	Foe			= "Doma",

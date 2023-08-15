@@ -189,7 +189,7 @@ L:SetWarningLocalization({
 })
 
 L:SetOptionLocalization({
-	ShowProshlyapMurchal1 = "Спец-предупреждение об $spell:244033 (требуются права лидера рейда)",
+	ShowProshlyapMurchal1 = "Спец-предупреждение об $spell:244688 (требуются права лидера рейда)",
 	ShowProshlyapMurchal2 = "Спец-предупреждение об $spell:244912 (требуются права лидера рейда)",
 	FlameRend1 = "Спец-предупреждение во время $spell:245463 для первой группы (только мифик)",
 	FlameRend2 = "Спец-предупреждение во время $spell:245463 для второй группы (только мифик)",
@@ -198,6 +198,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
+	MurchalProshlyapation = "%s Скоро %s",
 --	YellPullAggramar = "Вы сгорите!",
 	ProshlyapMurchal2	= "%s КОНТРОЛИМ МОБОВ",
 	ProshlyapMurchal1	= "%s ВСЕ ПОД БОССА",

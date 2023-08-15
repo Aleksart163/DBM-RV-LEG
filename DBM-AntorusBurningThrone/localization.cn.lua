@@ -127,6 +127,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
+	MurchalProshlyapation = "%s 即将 %s",
 --	Blaze		= "饕餮烈焰",
 	Foe			= "破坏者",
 	Rend		= "烈焰撕裂",

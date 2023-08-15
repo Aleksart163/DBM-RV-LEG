@@ -149,6 +149,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
+	MurchalProshlyapation = "%s %s imminente",
 --	Blaze		= "Fiammata Vorace",
 	Foe			= "Foe",
 	Rend		= "Rend",

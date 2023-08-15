@@ -178,6 +178,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
+	MurchalProshlyapation = "%s %s bald",
 --	YellPullAggramar = "Ihr... werdet... brennen!", -- или Die Flammen werden Euch verzehren!
 --	Blaze		= "Unersättliche Feuersbrunst",
 	Foe			= "Brecher",
