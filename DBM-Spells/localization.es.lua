@@ -14,11 +14,8 @@ L:SetGeneralLocalization({
 })
 
 L:SetOptionLocalization({
-	YellOnRaidCooldown = "Avisar, cuando alguien esta usando hechizo $spell:97462 o similar",
 	YellOnMassRes = "Avisar, cuando alguien esta usando hechizo $spell:212036 o similar",
-	YellOnManaRegen = "Avisar, cuando alguien esta usando hechizo $spell:29166 o similar",
 	YellOnHeroism = "Avisar, cuando alguien esta usando hechizo $spell:32182 o similar",
-	YellOnResurrect = "Avisar, cuando y sobre quien han usado $spell:20484 o similar",
 	YellOnPortal = "Avisar, cuando alguien esta abriendo $spell:224871 o similar",
 	YellOnSoulwell = "Avisar, cuando alquien esta usando hechizo $spell:29893",
 	YellOnSoulstone = "Avisar, sobre quien han usado $spell:20707",
@@ -33,7 +30,6 @@ L:SetOptionLocalization({
 
 L:SetMiscLocalization{
 	WhisperThanks = "%s Gracias por %s!",
-	InnervateYell = "%s en %s!",
 	SpellNameYell = "Aplicación de %s!",
 	HeroismYell = "%s %s usando %s!",
 	PortalYell = "%s %s abriendo %s!",
@@ -41,4 +37,25 @@ L:SetMiscLocalization{
 	SoulstoneYell = "%s %s usando %s sobre %s!",
 	SummoningYell = "%s %s empieza %s!",
 	SummonYell = "%s %s usando %s sobre %s!"
+}
+
+----------------
+-- Заклинания --
+----------------
+L= DBM:GetModLocalization("Spells2")
+
+L:SetGeneralLocalization({
+	name = "Hechizos de banda 2"
+})
+
+L:SetOptionLocalization({
+	YellOnRaidCooldown = "Avisar, cuando alguien esta usando hechizo $spell:97462 o similar",
+	YellOnResurrect = "Avisar, cuando y sobre quien han usado $spell:20484 o similar"
+})
+
+L:SetMiscLocalization{
+	WhisperThanks = "%s Gracias por %s!",
+	SpellNameYell = "Aplicación de %s!",
+	HeroismYell = "%s %s usando %s!",
+	SoulstoneYell = "%s %s usando %s sobre %s!"
 }

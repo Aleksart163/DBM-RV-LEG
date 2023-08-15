@@ -39,3 +39,4 @@ localization.cn.lua
 localization.tw.lua
 
 Spells.lua
+Spells2.lua
