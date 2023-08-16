@@ -205,7 +205,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	MurchalProshlyapation = "%s Soon %s",
+	MurchalProshlyapation = "%s %s in 5 sec",
 --	YellPullAggramar = "You will burn!",
 	ProshlyapMurchal2	= "%s CONTROL MOBS",
 	ProshlyapMurchal1	= "%s THEY RAN UNDER THE BOSS",

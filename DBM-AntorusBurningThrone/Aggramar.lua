@@ -125,14 +125,7 @@ local ravenousBlaze = replaceSpellLinks(254452)
 local proshlyap = replaceSpellLinks(244688) --Искусный прием
 
 local function startMurchalProshlyapation(self)
-	self.vb.proshlyap1Count = self.vb.proshlyap1Count + 1
 	smartChat(L.MurchalProshlyapation:format(DbmRV, proshlyap), "rw")
-	if self.vb.proshlyap1Count < 3 then
-		self:Schedule(1, startMurchalProshlyapation, self)
-	elseif self.vb.proshlyap1Count == 3 then
-		self.vb.proshlyap1Count = 0
-		self:Unschedule(startMurchalProshlyapation)
-	end
 end
 -- premsg_Aggramar_FlameRend_rw ↓
 local function ProshlyapMurchalya1(self) --прошляпанное очко Мурчаля Прошляпенко [✔]

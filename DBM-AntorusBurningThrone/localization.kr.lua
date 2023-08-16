@@ -132,7 +132,6 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	MurchalProshlyapation = "%s 곧 %s",
 --	Blaze		= "탐욕의 불길",
 	Foe			= "적 해체",
 	Rend		= "분쇄",

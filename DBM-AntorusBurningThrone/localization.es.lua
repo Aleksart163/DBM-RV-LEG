@@ -175,7 +175,6 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	MurchalProshlyapation = "%s %s en breve",
 --	YellPullAggramar = "¡Arderéis!",
 --	Blaze		= "Llamarada voraz",
 	Foe			= "Doma",
