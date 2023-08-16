@@ -785,7 +785,7 @@ function mod:SPELL_AURA_REMOVED(args)
 			specWarnSoulburst:CancelVoice()
 		end
 		if self.Options.SetIconOnSoulBurst then
-			self:SetIcon(args.destName, 0)
+			self:RemoveIcon(args.destName)
 		end
 	elseif spellId == 251570 then --Бомба души
 		warnSoulbomb2:Show(args.destName)
@@ -796,28 +796,28 @@ function mod:SPELL_AURA_REMOVED(args)
 			yells.yellSoulbombFades:Cancel()
 		end
 		if self.Options.SetIconOnSoulBomb then
-			self:SetIcon(args.destName, 0)
+			self:RemoveIcon(args.destName)
 		end
 	elseif spellId == 255199 then
 		if args:IsPlayer() then
 			playerAvatar = false
 		end
 		if self.Options.SetIconOnAvatar then
-			self:SetIcon(args.destName, 0)
+			self:RemoveIcon(args.destName)
 		end
 	elseif spellId == 258647 then --Дар моря
 		if args:IsPlayer() then
 			yells.yellGiftofSea2:Cancel()
 		end
 		if self.Options.SetIconGift then
-			self:SetIcon(args.destName, 0)
+			self:RemoveIcon(args.destName)
 		end
 	elseif spellId == 258646 then --Дар небес
 		if args:IsPlayer() then
 			yells.yellGiftofSky2:Cancel()
 		end
 		if self.Options.SetIconGift then
-			self:SetIcon(args.destName, 0)
+			self:RemoveIcon(args.destName)
 		end
 	elseif spellId == 253021 then--Inevitability
 		if self.Options.NPAuraOnInevitability then

@@ -344,7 +344,7 @@ function mod:SPELL_AURA_REMOVED(args)
 			yellDecimationFades:Cancel()
 		end
 		if self.Options.SetIconOnDecimation then
-			self:SetIcon(args.destName, 0)
+			self:RemoveIcon(args.destName)
 		end
 		updateRangeFrame(self)
 	end

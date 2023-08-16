@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1819, "DBM-TrialofValor", nil, 861)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
 mod:SetCreatureID(114263, 114361, 114360)--114263 Odyn, 114361 Hymdall, 114360 Hyrja 
 mod:SetEncounterID(1958)
 mod:SetZone()
@@ -12,7 +12,7 @@ mod:SetHotfixNoticeRev(15581)
 mod.respawnTime = 29
 
 mod:RegisterCombat("combat")
---Прошляпанное очко мурчаля (✔)
+
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 228003 228012 228171 231013 227629",
 	"SPELL_CAST_SUCCESS 228012 228028 228162 231350 227629",
@@ -25,16 +25,17 @@ mod:RegisterEventsInCombat(
 	"UNIT_SPELLCAST_SUCCEEDED boss1 boss2 boss3"
 )
 
+--Прошляпанное очко Прошляпенко [✔]
 --Один https://ru.wowhead.com/npc=114263/один
 local hymdall = DBM:EJ_GetSectionInfo(14005)
 local hyrja = DBM:EJ_GetSectionInfo(14006)
 
-local warnDancingBlade				= mod:NewTargetAnnounce(228003, 3) --Танцующий клинок
---local warnDancingBlade				= mod:NewCountAnnounce(228003, 3) --Танцующий клинок Change if target scanning works, but considering it doesn't in 5 man version of this spell, omitting for now
+local warnDancingBlade				= mod:NewCountAnnounce(228003, 3) --Танцующий клинок
 local warnRevivify					= mod:NewCastAnnounce(228171, 2) --Регенерация
 local warnExpelLight				= mod:NewTargetAnnounce(228028, 3) --Световое излучение
 local warnShieldofLight				= mod:NewTargetCountAnnounce(228270, 3, nil, nil, nil, nil, nil, nil, true) --Щит Света
 local warnUnerringBlast				= mod:NewCastAnnounce(227629, 4) --Выверенный взрыв
+local warnOdynsTest			    	= mod:NewStackAnnounce(227626, 2, nil, "Tank|Healer")
 --Stage 2: Stuff
 local warnPhase2					= mod:NewPhaseAnnounce(2, 2) --Фаза 2
 --Stage 3: Odyn immitates lei shen
@@ -43,8 +44,6 @@ local warnStormofJustice			= mod:NewTargetAnnounce(227807, 3) --Буря пра�
 
 --Stage 1: Halls of Valor was merely a set back
 local specWarnDancingBlade			= mod:NewSpecialWarningYouMove(228003, nil, nil, nil, 1, 2) --Танцующий клинок
-local specWarnDancingBlade2			= mod:NewSpecialWarningYouRun(228003, nil, nil, nil, 3, 3) --Танцующий клинок
-local specWarnDancingBlade3			= mod:NewSpecialWarningCloseMoveAway(228003, nil, nil, nil, 2, 3) --Танцующий клинок
 local specWarnHornOfValor			= mod:NewSpecialWarningMoveAway(228012, nil, nil, nil, 1, 2) --Рог доблести
 local specWarnHornOfValor2			= mod:NewSpecialWarningRun(228012, "Melee", nil, nil, 4, 2) --Рог доблести
 local specWarnExpelLight			= mod:NewSpecialWarningYouMoveAway(228028, nil, nil, nil, 1, 2) --Световое излучение
@@ -92,7 +91,6 @@ mod:AddTimerLine(ENCOUNTER_JOURNAL_SECTION_FLAG12)
 local timerRunicBrandCD				= mod:NewNextTimer(35, 231297, nil, nil, nil, 3, nil, DBM_CORE_HEROIC_ICON) --Руническое клеймо
 local timerRadiantSmite				= mod:NewCastTimer(7.5, 231350, nil, nil, nil, 2, nil, DBM_CORE_HEROIC_ICON) --Сияние правосудия
 
-local yellDancingBlade				= mod:NewYell(228003, nil, nil, nil, "YELL") --Танцующий клинок
 local yellExpelLight				= mod:NewYell(228028, nil, nil, nil, "YELL") --Световое излучение
 local yellShieldofLightFades		= mod:NewFadesYell(228270, nil, nil, nil, "YELL") --Щит Света
 local yellBranded					= mod:NewPosYell(227490, DBM_CORE_AUTO_YELL_CUSTOM_POSITION, nil, nil, "YELL")
@@ -198,19 +196,6 @@ do
 	end
 end
 
-function mod:DancingBladeTarget(targetname, uId) --Танцующий клинок (✔)
-	if not targetname then return end
-	warnDancingBlade:Show(targetname)
-	if targetname == UnitName("player") then
-		specWarnDancingBlade2:Show()
-		specWarnDancingBlade2:Play("runout")
-		yellDancingBlade:Yell()
-	elseif self:CheckNearby(10, targetname) then
-		specWarnDancingBlade3:Show(targetname)
-		specWarnDancingBlade3:Play("runaway")
-	end
-end
-
 function mod:OnCombatStart(delay)
 	self.vb.phase = 1
 	self.vb.hornCasting = false
@@ -272,9 +257,8 @@ end
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 228003 then --Танцующий клинок
-		self:BossTargetScanner(args.sourceGUID, "DancingBladeTarget", 0.1, 2)
 		self.vb.dancingBladeCast = self.vb.dancingBladeCast + 1
-	--	warnDancingBlade:Show(self.vb.dancingBladeCast)
+		warnDancingBlade:Show(self.vb.dancingBladeCast)
 		if self.vb.phase == 1 then
 			if self:IsMythic() then
 				local timer = dancingBladeTimers[self.vb.dancingBladeCast+1]
@@ -414,7 +398,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif spellId == 227626 then
 		local amount = args.amount or 1
-		if (amount == 5 or amount >= 9) and self:AntiSpam(3, 3) then--First warning at 5, then a decent amount of time until 8. then spam every 3 seconds at 8 and above.
+		if amount >= 10 and amount % 10 == 0 then
 			if self:IsTanking("player", "boss1", nil, true) then
 				specWarnOdynsTest:Show(amount)
 				specWarnOdynsTest:Play("changemt")
@@ -422,6 +406,8 @@ function mod:SPELL_AURA_APPLIED(args)
 				specWarnOdynsTestOther:Show(L.name)
 				specWarnOdynsTestOther:Play("changemt")
 			end
+		elseif amount >= 10 and amount % 5 == 0 then
+			warnOdynsTest:Show(args.destName, amount)
 		end
 	elseif spellId == 228918 then
 		timerStormforgedSpearCD:Start()--If this can miss, move it to a success event.
@@ -554,10 +540,10 @@ function mod:SPELL_AURA_REMOVED(args)
 end
 
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
-	if spellId == 228007 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
+	if spellId == 228007 and destGUID == UnitGUID("player") and self:AntiSpam(2, "dancingblade") then
 		specWarnDancingBlade:Show()
 		specWarnDancingBlade:Play("runaway")
-	elseif spellId == 228683 and destGUID == UnitGUID("player") and self:AntiSpam(2, 4) then
+	elseif spellId == 228683 and destGUID == UnitGUID("player") and self:AntiSpam(2, "cleansingflame") then
 		specWarnCleansingFlame:Show()
 		specWarnCleansingFlame:Play("runaway")
 	end

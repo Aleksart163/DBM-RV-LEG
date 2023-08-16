@@ -296,7 +296,7 @@ function mod:SPELL_AURA_REMOVED(args)
 			yellDemolishFades:Cancel()
 		end
 		if self.Options.SetIconOnDemolish then
-			self:SetIcon(args.destName, 0)
+			self:RemoveIcon(args.destName)
 		end
 	elseif spellId == 254122 then --Облако растерянности
 		timerCloudofConfuse:Cancel(args.destName)
@@ -304,7 +304,7 @@ function mod:SPELL_AURA_REMOVED(args)
 			yellCloudofConfuseFades:Cancel()
 		end
 		if self.Options.SetIconOnCloudofConfuse then
-			self:SetIcon(args.destName, 0)
+			self:RemoveIcon(args.destName)
 		end
 	elseif spellId == 249297 then --Пламя пересоздания
 		if args:IsPlayer() then
@@ -314,7 +314,7 @@ function mod:SPELL_AURA_REMOVED(args)
 			DBM.RangeCheck:Hide()
 		end
 		if self.Options.SetIconOnFlamesofReorig then
-			self:SetIcon(args.destName, 0)
+			self:RemoveIcon(args.destName)
 		end
 	elseif spellId == 253600 then --Горящая душа
 		if args:IsPlayer() then
@@ -324,7 +324,7 @@ function mod:SPELL_AURA_REMOVED(args)
 			DBM.RangeCheck:Hide()
 		end
 		if self.Options.SetIconOnSoulburn then
-			self:SetIcon(args.destName, 0)
+			self:RemoveIcon(args.destName)
 		end
 	elseif spellId == 245770 or spellId == 252797 or spellId == 244399 or spellId == 254948 or spellId == 246687 then --Децимация
 	--	self.vb.decimationIcon = self.vb.decimationIcon - 1
@@ -332,7 +332,7 @@ function mod:SPELL_AURA_REMOVED(args)
 			yellDecimationFades:Cancel()
 		end
 		if self.Options.SetIconOnDecimation then
-			self:SetIcon(args.destName, 0)
+			self:RemoveIcon(args.destName)
 		end
 	end
 end

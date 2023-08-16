@@ -373,7 +373,7 @@ function mod:SPELL_AURA_REMOVED(args)
 			end
 		end
 		if self.Options.SetIconEmbrace then
-			self:SetIcon(args.destName, 0)
+			self:RemoveIcon(args.destName)
 		end
 	end
 end

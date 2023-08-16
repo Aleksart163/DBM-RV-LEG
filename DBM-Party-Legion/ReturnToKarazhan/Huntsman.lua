@@ -55,7 +55,7 @@ local timerMortalStrikeCD			= mod:NewNextTimer(16, 227493, nil, "Melee", nil, 5,
 local timerSharedSufferingCD		= mod:NewNextTimer(18, 228852, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Разделенные муки +++
 
 local yellSharedSuffering			= mod:NewYellMoveAway(228852, nil, nil, nil, "YELL") --Разделенные муки
-local yellPresence					= mod:NewYellDispel(227404, nil, nil, nil, "YELL") --Незримое присутствие
+local yellPresence					= mod:NewYellDispel(227404) --Незримое присутствие
 
 local countdownSharedSuffering		= mod:NewCountdown(18, 228852, nil, nil, 5) --Разделенные муки
 local countdownSharedSuffering2		= mod:NewCountdownFades("Alt3.8", 228852, nil, nil, 3) --Разделенные муки

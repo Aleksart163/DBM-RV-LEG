@@ -43,3 +43,24 @@ L:SetMiscLocalization{
 	SummoningYell = "%s %s nutzt %s!",
 	SummonYell = "%s %s wendet %s auf %s!"
 }
+
+-----------------
+-- Raid-zauber --
+-----------------
+L= DBM:GetModLocalization("Spells2")
+
+L:SetGeneralLocalization({
+	name = "Raid-zauber 2"
+})
+
+L:SetOptionLocalization({
+	YellOnRaidCooldown = "Melden Sie, wenn jemand verwendet $spell:97462 oder ein ähnliches",
+	YellOnResurrect = "Melden Sie, wenn jemand verwendet $spell:20484 oder ein ähnliches"
+})
+
+L:SetMiscLocalization{
+	WhisperThanks = "%s Vielen Dank für %s!",
+	SpellNameYell = "Anwendung %s!",
+	HeroismYell = "%s %s nutzt %s!",
+	SoulstoneYell = "%s %s wendet %s auf %s!"
+}

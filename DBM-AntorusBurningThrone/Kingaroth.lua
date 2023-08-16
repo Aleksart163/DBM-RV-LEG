@@ -32,7 +32,6 @@ local warnOvercharge					= mod:NewStackAnnounce(249740, 4) --Перегрузк�
 local warnShatteringStrike				= mod:NewSpellAnnounce(248375, 2) --Разбивающий удар
 local warnDiabolicBomb					= mod:NewSpellAnnounce(246779, 3, nil, nil, nil, nil, nil, 2) --Демоническая бомба
 local warnReverberatingStrike			= mod:NewTargetAnnounce(254926, 3) --Гулкий удар
-local warnWarnInitializing				= mod:NewSpellAnnounce(246504, 3, nil, "Healer") --Инициализация
 --Reavers (or empowered boss from reaver deaths)
 local warnDecimation					= mod:NewTargetAnnounce(246687, 3) --Децимация (на 5 игроков)
 local warnDecimation2					= mod:NewTargetAnnounce(249680, 3) --Резонансное истребление (на 5 игрока)
@@ -40,14 +39,15 @@ local warnDemolish						= mod:NewTargetAnnounce(246692, 4) --Разрушени�
 local warnForgingStrike					= mod:NewStackAnnounce(244312, 2, nil, "Tank|Healer") --Прессование
 --Stage: Deployment
 --local specWarnGTFO					= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 2)
-local specWarnForgingStrike				= mod:NewSpecialWarningDefensive(244312, nil, nil, nil, 1, 3) --Прессование
+local specWarnForgingStrike				= mod:NewSpecialWarningDefensive(244312, nil, nil, nil, 1, 5) --Прессование
 local specWarnForgingStrike2			= mod:NewSpecialWarningStack(244312, nil, 2, nil, nil, 3, 6) --Прессование
-local specWarnForgingStrikeOther		= mod:NewSpecialWarningTaunt(244312, nil, nil, nil, 3, 3) --Прессование
+local specWarnForgingStrikeOther		= mod:NewSpecialWarningTaunt(244312, nil, nil, nil, 3, 6) --Прессование
 local specWarnReverberatingStrike		= mod:NewSpecialWarningYou(254926, nil, nil, nil, 1, 2) --Гулкий удар
 local specWarnReverberatingStrikeNear	= mod:NewSpecialWarningClose(254926, nil, nil, nil, 1, 2) --Гулкий удар
 local specWarnRuiner					= mod:NewSpecialWarningDodge(246840, nil, nil, nil, 3, 6) --Разрушитель
 --Stage: Construction
-local specWarnInitializing				= mod:NewSpecialWarningSwitch(246504, "-Healer", nil, nil, 1, 2) --Инициализация
+local specWarnInitializing				= mod:NewSpecialWarningCount(246504, "Healer", nil, nil, 1, 6) --Инициализация
+local specWarnInitializing2				= mod:NewSpecialWarningSwitchCount(246504, "-Healer", nil, nil, 1, 6) --Инициализация
 --Reavers (or empowered boss from reaver deaths)
 local specWarnDecimation				= mod:NewSpecialWarningYouMoveAway(246687, nil, nil, nil, 4, 5) --Децимация
 local specWarnAnnihilation				= mod:NewSpecialWarningSoak(245807, nil, nil, nil, 2, 2) --Аннигиляция
@@ -88,6 +88,7 @@ mod:AddBoolOption("InfoFrame", true)
 mod:AddBoolOption("UseAddTime", true)
 mod:AddRangeFrameOption(5, 254926) --Гулкий удар
 
+mod.vb.apocProtocolCount = 0
 mod.vb.ruinerCast = 0
 mod.vb.forgingStrikeCast = 0
 mod.vb.reverbStrikeCast = 0
@@ -179,6 +180,7 @@ function mod:TestFunction(time)
 end
 
 function mod:OnCombatStart(delay)
+	self.vb.apocProtocolCount = 0
 	self.vb.ruinerCast = 0
 	self.vb.forgingStrikeCast = 0
 	self.vb.reverbStrikeCast = 0
@@ -273,6 +275,7 @@ function mod:SPELL_CAST_START(args)
 		timerForgingStrikeCD:Start(10, self.vb.forgingStrikeCast+1)
 		countdownForgingStrike:Start(10)
 	elseif spellId == 246516 and self:IsInCombat() then --Протокол Апокалипсис
+		self.vb.apocProtoCount = self.vb.apocProtoCount + 1
 		self.vb.ruinerTimeLeft = timerRuinerCD:GetRemaining(self.vb.ruinerCast+1)
 		self.vb.reverbTimeLeft = timerReverberatingStrikeCD:GetRemaining(self.vb.reverbStrikeCast+1)
 		self.vb.forgingTimeLeft = timerForgingStrikeCD:GetRemaining(self.vb.forgingStrikeCast+1)
@@ -294,10 +297,14 @@ function mod:SPELL_CAST_START(args)
 		end
 		--timerDiabolicBombCD:Stop()
 		--timerShatteringStrikeCD:Stop()
-		warnWarnInitializing:Show()
 		if not UnitIsDeadOrGhost("player") then
-			specWarnInitializing:Show()
-			specWarnInitializing:Play("mobkill")
+			if self:IsHealer() then
+				specWarnInitializing:Show(self.vb.apocProtoCount)
+				specWarnInitializing:Play("healall")
+			else
+				specWarnInitializing2:Show(self.vb.apocProtoCount)
+				specWarnInitializing2:Play("mobkill")
+			end
 		end
 		if self:IsLFR() then
 			timerInitializing:Start(42.3)
@@ -435,7 +442,7 @@ function mod:SPELL_AURA_REMOVED(args)
 			yellDemolishFades:Cancel()
 		end
 		if self.Options.SetIconOnDemolish then
-			self:SetIcon(args.destName, 0)
+			self:RemoveIcon(args.destName)
 		end
 		if self.Options.InfoFrame then
 			DBM.InfoFrame:Update()

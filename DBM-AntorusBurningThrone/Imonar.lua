@@ -444,7 +444,7 @@ function mod:SPELL_AURA_REMOVED(args)
 				timerSleepCanisterCD:Start(7) --Склянка с усыпляющим газом+++
 				timerPulseGrenadeCD:Start(12) --Импульсная граната+++
 				countdownPulseGrenade:Start(12) --Импульсная граната+++
-				timerShrapnalBlast2CD:Start(15, 1) --Усиленный Заряд шрапнели+++
+				timerShrapnalBlastCD:Start(15, 1) --Усиленный Заряд шрапнели+++
 			else
 				timerShocklanceCD:Start(5) --Копье-шокер (точно под гер)
 				timerPulseGrenadeCD:Start(6) --Импульсная граната (точно под гер)
@@ -477,7 +477,7 @@ function mod:SPELL_AURA_REMOVED(args)
 			yellEmpPulseGrenade2:Cancel()
 		end
 		if self.Options.SetIconOnEmpPulse2 then
-			self:SetIcon(args.destName, 0)
+			self:RemoveIcon(args.destName)
 		end
 		if self.Options.InfoFrame then
 			DBM.InfoFrame:Update()
@@ -487,7 +487,7 @@ function mod:SPELL_AURA_REMOVED(args)
 			yellSleepCanisterStun2:Cancel()
 		end
 		if self.Options.SetIconOnSleepCanister then
-			self:SetIcon(args.destName, 0)
+			self:RemoveIcon(args.destName)
 		end
 	end
 end

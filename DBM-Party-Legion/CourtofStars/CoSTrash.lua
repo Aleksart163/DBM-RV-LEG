@@ -85,9 +85,9 @@ local timerShockwaveCD				= mod:NewCDTimer(8.5, 207979, nil, nil, nil, 3, nil, D
 
 local timerRoleplay					= mod:NewTimer(28, "timerRoleplay", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7) --Ролевая игра
 
+local countdownRoleplay				= mod:NewCountdown(28, 91344, nil, nil, 5)
 local countdownFelDetonation		= mod:NewCountdown(12, 211464, nil, nil, 5) --Взрыв Скверны
 
-local yellShockwave					= mod:NewYellMoveAway(207979, nil, nil, nil, "YELL") --Ударная волна
 local yellPickingUp					= mod:NewYell(214697, L.PickingUpYell, nil, nil, "YELL") --Поднять ключ
 local yellSealMagic					= mod:NewYell(209404, nil, nil, nil, "YELL") --Подавление магии
 local yellSuppress					= mod:NewYell(209413, nil, nil, nil, "YELL") --Подавление
@@ -245,17 +245,6 @@ local function prepareMessage(self, premsg_announce, args_sourceName, args_destN
 	end
 end
 -- Синхронизация анонсов ↑
-function mod:ShockwaveTarget(targetname, uId) --proshlyapation of Murchal [✔]
-	if not targetname then return end
-	if targetname == UnitName("player") then
-		specWarnShockwave:Show()
-		specWarnShockwave:Play("targetyou")
-		yellShockwave:Yell()
-	elseif self:CheckNearby(20, targetname) then
-		specWarnShockwave:Show()
-		specWarnShockwave:Play("watchstep")
-	end
-end
 
 function mod:CarrionSwarmTarget(targetname, uId) --Темная стая ✔
 	if not targetname then return end
@@ -353,7 +342,8 @@ function mod:SPELL_CAST_START(args)
 		self:BossTargetScanner(args.sourceGUID, "DisintegrationBeamTarget", 0.1, 2)
 		timerDisintegrationBeamCD:Start()
 	elseif spellId == 207979 then --Ударная волна
-		self:BossTargetScanner(args.sourceGUID, "ShockwaveTarget", 0.1, 2)
+		specWarnShockwave:Show()
+		specWarnShockwave:Play("watchstep")
 		timerShockwaveCD:Start()
 	elseif spellId == 214692 then --Залп стрел Тьмы
 		warnShadowBoltVolley:Show()
@@ -742,6 +732,7 @@ function mod:OnSync(msg, clue)
 	--	self:Finish()
 	elseif msg == "RolePlayMel" then
 		timerRoleplay:Start()
+		countdownRoleplay:Start()
 	end
 end
 

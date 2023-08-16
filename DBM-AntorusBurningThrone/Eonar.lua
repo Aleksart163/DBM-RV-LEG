@@ -524,10 +524,10 @@ function mod:SPELL_AURA_REMOVED(args)
 				DBM.RangeCheck:Hide()
 			end
 		end
-	elseif spellId == 249015 then --Раскаленные угли
+--[[	elseif spellId == 249015 then --Раскаленные угли (не снимаются при смерти)
 		if self.Options.SetIconOnBurningEmbers then
 			self:SetIcon(args.destName, 0)
-		end
+		end]]
 	end
 end
 

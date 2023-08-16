@@ -78,7 +78,7 @@ local specWarnCosmicGlare				= mod:NewSpecialWarningYou(250757, nil, nil, nil, 1
 local specWarnTormentofTitans			= mod:NewSpecialWarningSpell("ej16138", nil, nil, nil, 1, 6) --Мучения Титанов
 
 --General
-local timerBossIncoming					= mod:NewTimer(61, "timerBossIncoming", nil, nil, nil, 1)
+
 --Noura, Mother of Flames
 mod:AddTimerLine(Noura)
 local timerFieryStrikeCD				= mod:NewCDTimer(10.5, 244899, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Пламенный удар
@@ -92,7 +92,7 @@ local timerStormofDarknessCD			= mod:NewNextCountTimer(56.8, 252861, nil, nil, n
 mod:AddTimerLine(Diima)
 local timerFlashFreezeCD				= mod:NewCDTimer(10.1, 245518, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Морозная вспышка
 local timerChilledBloodCD				= mod:NewNextTimer(25.9, 245586, nil, nil, nil, 5, nil, DBM_CORE_HEALER_ICON) --Студеная кровь
-local timerOrbofFrostCD					= mod:NewNextTimer(30, 253650, nil, nil, nil, 2)
+local timerOrbofFrostCD					= mod:NewNextTimer(30, 253650, nil, nil, nil, 2) --Сфера льда
 --Thu'raya, Mother of the Cosmos (Mythic)
 mod:AddTimerLine(Thuraya)
 local timerCosmicGlareCD				= mod:NewCDTimer(15, 250757, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Космический отблеск
@@ -636,7 +636,7 @@ function mod:SPELL_AURA_REMOVED(args)
 			yellFulminatingPulse:Cancel()
 		end
 		if self.Options.SetIconOnFulminatingPulse2 then
-			self:SetIcon(args.destName, 0)
+			self:RemoveIcon(args.destName)
 		end
 	elseif spellId == 245586 then
 		self.vb.chilledCount = self.vb.chilledCount - 1
@@ -644,7 +644,7 @@ function mod:SPELL_AURA_REMOVED(args)
 			DBM.InfoFrame:Hide()
 		end
 		if self.Options.SetIconOnChilledBlood2 then
-			self:SetIcon(args.destName, 0)
+			self:RemoveIcon(args.destName)
 		end
 		self.vb.chilledIcon = self.vb.chilledIcon - 1
 	elseif spellId == 249863 then--Bonecage Armor
@@ -657,7 +657,7 @@ function mod:SPELL_AURA_REMOVED(args)
 			yellCosmicGlareFades:Cancel()
 		end
 		if self.Options.SetIconOnCosmicGlare then
-			self:SetIcon(args.destName, 0)
+			self:RemoveIcon(args.destName)
 		end
 	end
 end
@@ -708,7 +708,6 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 		end
 		if titanCount[name] == 2 then
 			titanCount[name] = 0
-			timerBossIncoming:Start(8.7, name)
 		end
 		DBM:Debug("UNIT_SPELLCAST_SUCCEEDED fired with: "..name, 2)
 	elseif spellId == 250752 then --Космический отблеск
@@ -716,9 +715,9 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	end
 end
 
-function mod:UNIT_TARGETABLE_CHANGED(uId)
+function mod:UNIT_TARGETABLE_CHANGED(uId) --Выход боссов
 	local cid = self:GetUnitCreatureId(uId)
-	if cid == 122468 then--Noura
+	if cid == 122468 then --Нура
 		if UnitExists(uId) then
 			if self.Options.SpecWarn118212switchcount then
 				specWarnActivated:Show(UnitName(uId))
@@ -727,10 +726,10 @@ function mod:UNIT_TARGETABLE_CHANGED(uId)
 				warnActivated:Show(UnitName(uId))
 			end
 			DBM:Debug("UNIT_TARGETABLE_CHANGED, Boss Engaging", 2)
-			timerWhirlingSaberCD:Start(9)
+			timerWhirlingSaberCD:Start(8.5) --Вращающийся меч (под миф выглядит отлично)
 			timerFieryStrikeCD:Start(11.8)
-			if not self:IsEasy() then
-				timerFulminatingPulseCD:Start(20.6)
+			if not self:IsEasy() then --Гремучий импульс (под миф выглядит отлично)
+				timerFulminatingPulseCD:Start(20.6) 
 				countdownFulminatingPulse:Start(20.6)
 			end
 		else
@@ -740,7 +739,7 @@ function mod:UNIT_TARGETABLE_CHANGED(uId)
 			timerFulminatingPulseCD:Stop()
 			countdownFulminatingPulse:Cancel()
 		end
-	elseif cid == 122467 then--Asara
+	elseif cid == 122467 then --Азара
 		if UnitExists(uId) then
 			if self.Options.SpecWarn118212switchcount then
 				specWarnActivated:Show(UnitName(uId))
@@ -749,6 +748,8 @@ function mod:UNIT_TARGETABLE_CHANGED(uId)
 				warnActivated:Show(UnitName(uId))
 			end
 			DBM:Debug("UNIT_TARGETABLE_CHANGED, Boss Engaging", 2)
+			timerShadowBladesCD:Start(14) --Теневые клинки (под миф выглядит отлично)
+			timerStormofDarknessCD:Start(28.9, self.vb.stormCount+1) --Буря тьмы (под миф выглядит отлично)
 			--TODO, timers, never saw her leave so never saw her return
 		else
 			DBM:Debug("UNIT_TARGETABLE_CHANGED, Boss Leaving", 2)

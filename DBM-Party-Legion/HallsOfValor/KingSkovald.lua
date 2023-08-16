@@ -25,7 +25,7 @@ local warnRagnarok					= mod:NewPreWarnAnnounce(193826, 5, 1) --Рагнарек
 
 local specWarnFelblazeRush			= mod:NewSpecialWarningYouMoveAway(193659, nil, nil, nil, 3, 6) --Рывок пламени Скверны
 local specWarnSavageBlade			= mod:NewSpecialWarningDefensive(193668, "Tank", nil, nil, 1, 3) --Свирепый клинок
-local specWarnRagnarok				= mod:NewSpecialWarningMoveTo(193826, "-Tank", nil, nil, 3, 6) --Рагнарек
+local specWarnRagnarok				= mod:NewSpecialWarningMoveTo(193826, nil, nil, nil, 3, 6) --Рагнарек
 local specWarnRagnarok2				= mod:NewSpecialWarningUseItem(193826, nil, nil, nil, 3, 6) --Рагнарек
 local specWarnFlames				= mod:NewSpecialWarningYouMove(193702, nil, nil, nil, 1, 3) --Инфернальное пламя
 
