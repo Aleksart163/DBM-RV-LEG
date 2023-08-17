@@ -25,7 +25,9 @@ L:SetOptionLocalization({
 	YellOnLavish = "Relatar quando alguém coloca $spell:201352 ou similar",
 	YellOnRepair = "Relatar quando alguém coloca $spell:199109 ou similar",
 	YellOnPylon = "Relatar quando alguém coloca $spell:199115",
-	YellOnBank = "Relatar quando alguém coloca $spell:83958"
+	YellOnBank = "Relatar quando alguém coloca $spell:83958",
+	YellOnRaidCooldown = "Relatar quando alguém usa o feitiço $spell:97462 ou similar",
+	YellOnResurrect = "Relatar quando um feitiço foi usado em alguém $spell:20484 ou similar"
 })
 
 L:SetMiscLocalization{
@@ -36,24 +38,7 @@ L:SetMiscLocalization{
 	SoulwellYell = "%s %s puts %s!",
 	SoulstoneYell = "%s %s aplica %s on %s!",
 	SummoningYell = "%s %s começa %s!",
-	SummonYell = "%s %s aplica %s on %s!"
-}
-
--------------------
--- Feitiços Raid --
--------------------
-L= DBM:GetModLocalization("Spells2")
-
-L:SetGeneralLocalization({
-	name = "Feitiços Raid 2"
-})
-
-L:SetOptionLocalization({
-	YellOnRaidCooldown = "Relatar quando alguém usa o feitiço $spell:97462 ou similar",
-	YellOnResurrect = "Relatar quando um feitiço foi usado em alguém $spell:20484 ou similar"
-})
-
-L:SetMiscLocalization{
+	SummonYell = "%s %s aplica %s on %s!",
 	WhisperThanks = "%s Obrigado por %s!",
 	SpellNameYell = "Usando %s!",
 	HeroismYell = "%s %s usa um %s!",

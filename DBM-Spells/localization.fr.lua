@@ -25,7 +25,9 @@ L:SetOptionLocalization({
 	YellOnLavish = "Signaler quand quelqu'un met $spell:201352 ou similaire",
 	YellOnRepair = "Signaler quand quelqu'un met $spell:199109 ou similaire",
 	YellOnPylon = "Signaler quand quelqu'un met $spell:199115",
-	YellOnBank = "Signaler quand quelqu'un met $spell:83958"
+	YellOnBank = "Signaler quand quelqu'un met $spell:83958",
+	YellOnRaidCooldown = "Signaler quand quelqu'un applique un sort $spell:97462 ou similaire",
+	YellOnResurrect = "Signaler quand quelqu'un est devenu la cible d'un sort $spell:20484 ou similaire"
 })
 
 L:SetMiscLocalization{
@@ -36,24 +38,7 @@ L:SetMiscLocalization{
 	SoulwellYell = "%s %s établit %s!",
 	SoulstoneYell = "%s %s s'applique %s sur %s!",
 	SummoningYell = "%s %s commence %s!",
-	SummonYell = "%s %s s'applique %s sur %s!"
-}
-
--------------------
--- Sorts de RAID --
--------------------
-L= DBM:GetModLocalization("Spells2")
-
-L:SetGeneralLocalization({
-	name = "Sorts de RAID 2"
-})
-
-L:SetOptionLocalization({
-	YellOnRaidCooldown = "Signaler quand quelqu'un applique un sort $spell:97462 ou similaire",
-	YellOnResurrect = "Signaler quand quelqu'un est devenu la cible d'un sort $spell:20484 ou similaire"
-})
-
-L:SetMiscLocalization{
+	SummonYell = "%s %s s'applique %s sur %s!",
 	WhisperThanks = "%s Je vous remercie pour %s!",
 	SpellNameYell = "Application %s!",
 	HeroismYell = "%s %s utilise %s!",

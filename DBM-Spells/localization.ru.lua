@@ -27,7 +27,9 @@ L:SetOptionLocalization({
 	YellOnRepair = "Сообщать, когда кто-то ставит $spell:199109 или аналогичные ему",
 	YellOnPylon = "Сообщать, когда кто-то ставит $spell:199115",
 	YellOnBank = "Сообщать, когда кто-то ставит $spell:83958",
-	YellOnToys = "Сообщать, когда кто-то ставит игрушки типо $spell:61031"
+	YellOnToys = "Сообщать, когда кто-то ставит игрушки типо $spell:61031",
+	YellOnResurrect = "Сообщать, когда на кого-то применили $spell:20484 или аналогичные ему",
+	YellOnRaidCooldown = "Сообщать, когда кто-то применяет заклинание $spell:97462 или аналогичные ему"
 })
 
 L:SetMiscLocalization{
@@ -38,24 +40,7 @@ L:SetMiscLocalization{
 	SoulwellYell = "%s %s ставит %s!",
 	SoulstoneYell = "%s %s применяет %s на %s!",
 	SummoningYell = "%s %s начинает %s!",
-	SummonYell 	= "%s %s применяет %s на %s!"
-}
-
-----------------
--- Заклинания --
-----------------
-L= DBM:GetModLocalization("Spells2")
-
-L:SetGeneralLocalization({
-	name = "Рейдовые заклинания 2"
-})
-
-L:SetOptionLocalization({
-	YellOnResurrect = "Сообщать, когда на кого-то применили $spell:20484 или аналогичные ему",
-	YellOnRaidCooldown = "Сообщать, когда кто-то применяет заклинание $spell:97462 или аналогичные ему"
-})
-
-L:SetMiscLocalization{
+	SummonYell 	= "%s %s применяет %s на %s!",
 	WhisperThanks = "%s Спасибо тебе за %s!",
 	SpellNameYell = "Использую %s!",
 	HeroismYell = "%s %s использует %s!",

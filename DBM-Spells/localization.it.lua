@@ -25,7 +25,9 @@ L:SetOptionLocalization({
 	YellOnLavish = "Segnala quando qualcuno mette $spell:201352 o simili",
 	YellOnRepair = "Segnala quando qualcuno mette $spell:199109 o simili",
 	YellOnPylon = "Segnala quando qualcuno mette $spell:199115",
-	YellOnBank = "Segnala quando qualcuno mette $spell:83958"
+	YellOnBank = "Segnala quando qualcuno mette $spell:83958",
+	YellOnRaidCooldown = "Segnala quando qualcuno lancia l'incantesimo $spell:97462 o simili",
+	YellOnResurrect = "Segnala quando qualcuno è diventato un obiettivo $spell:20484 o simili"
 })
 
 L:SetMiscLocalization{
@@ -36,24 +38,7 @@ L:SetMiscLocalization{
 	SoulwellYell = "%s %s mette %s!",
 	SoulstoneYell = "%s %s applica la %s a %s!",
 	SummoningYell = "%s %s inizia %s!",
-	SummonYell = "%s %s applica la %s a %s!"
-}
-
-----------------------
--- Incantesimi RAID --
-----------------------
-L= DBM:GetModLocalization("Spells2")
-
-L:SetGeneralLocalization({
-	name = "Incantesimi RAID 2"
-})
-
-L:SetOptionLocalization({
-	YellOnRaidCooldown = "Segnala quando qualcuno lancia l'incantesimo $spell:97462 o simili",
-	YellOnResurrect = "Segnala quando qualcuno è diventato un obiettivo $spell:20484 o simili"
-})
-
-L:SetMiscLocalization{
+	SummonYell = "%s %s applica la %s a %s!",
 	WhisperThanks = "%s Grazie per %s!",
 	SpellNameYell = "Utilizzo %s!",
 	HeroismYell = "%s %s utilizza %s!",

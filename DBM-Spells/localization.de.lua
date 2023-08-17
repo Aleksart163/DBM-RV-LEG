@@ -29,7 +29,9 @@ L:SetOptionLocalization({
 	YellOnRepair = "Melden Sie, wenn jemand verwendet $spell:199109 oder ein ähnliches",
 	YellOnPylon = "Melden Sie, wenn jemand verwendet $spell:199115",
 	YellOnBank = "Melden Sie, wenn jemand verwendet $spell:83958",
-	YellOnToys = "Melden Sie, wenn jemand Spielzeug setzt $spell:61031"
+	YellOnToys = "Melden Sie, wenn jemand Spielzeug setzt $spell:61031",
+	YellOnRaidCooldown = "Melden Sie, wenn jemand verwendet $spell:97462 oder ein ähnliches",
+	YellOnResurrect = "Melden Sie, wenn jemand verwendet $spell:20484 oder ein ähnliches"
 })
 
 L:SetMiscLocalization{
@@ -41,24 +43,7 @@ L:SetMiscLocalization{
 	SoulwellYell = "%s %s richtet ein %s!",
 	SoulstoneYell = "%s %s wendet %s auf %s!",
 	SummoningYell = "%s %s nutzt %s!",
-	SummonYell = "%s %s wendet %s auf %s!"
-}
-
------------------
--- Raid-zauber --
------------------
-L= DBM:GetModLocalization("Spells2")
-
-L:SetGeneralLocalization({
-	name = "Raid-zauber 2"
-})
-
-L:SetOptionLocalization({
-	YellOnRaidCooldown = "Melden Sie, wenn jemand verwendet $spell:97462 oder ein ähnliches",
-	YellOnResurrect = "Melden Sie, wenn jemand verwendet $spell:20484 oder ein ähnliches"
-})
-
-L:SetMiscLocalization{
+	SummonYell = "%s %s wendet %s auf %s!",
 	WhisperThanks = "%s Vielen Dank für %s!",
 	SpellNameYell = "Anwendung %s!",
 	HeroismYell = "%s %s nutzt %s!",
