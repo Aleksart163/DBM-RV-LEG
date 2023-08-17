@@ -64,12 +64,12 @@ local yellSymbolHope				= mod:NewYell(64901, L.SpellNameYell, nil, nil, "YELL") 
 mod:AddBoolOption("YellOnRaidCooldown", true) --рейд кд
 mod:AddBoolOption("YellOnResurrect", true) --бр
 
---рейд кд
+--[[рейд кд
 local rallyingcry, vampiricaura, auramastery, vampiricembrace, powerwordbarrier, guardianspirit, painsuppression, spirittotem, lifecocoon, blesofprot, ironbark, ancprotectotem = replaceSpellLinks(97462), replaceSpellLinks(238698), replaceSpellLinks(31821), replaceSpellLinks(15286), replaceSpellLinks(62618), replaceSpellLinks(47788), replaceSpellLinks(33206), replaceSpellLinks(98008), replaceSpellLinks(116849), replaceSpellLinks(1022), replaceSpellLinks(102342), replaceSpellLinks(207399)
 --Реген маны
 local hope, innervate, manatea = replaceSpellLinks(64901), replaceSpellLinks(29166), replaceSpellLinks(197908)
 --БР
-local rebirth1, rebirth2, rebirth3 = replaceSpellLinks(20484), replaceSpellLinks(61999), replaceSpellLinks(95750)
+local rebirth1, rebirth2, rebirth3 = replaceSpellLinks(20484), replaceSpellLinks(61999), replaceSpellLinks(95750)]]
 
 local typeInstance = nil
 
@@ -83,8 +83,10 @@ end
 -- Синхронизация анонсов ↓
 local premsg_values = {
 	-- test,
-	args_sourceName,
-	args_destName,
+	spellId,
+	sourceName,
+	destName,
+	localizedName,
 	rallyingcry, vampiricaura, auramastery, vampiricembrace, powerwordbarrier, guardianspirit, painsuppression, spirittotem, lifecocoon, blesofprot, ironbark, ancprotectotem,
 	hope, innervate,
 	rebirth1, rebirth2, rebirth3
@@ -92,68 +94,71 @@ local premsg_values = {
 local playerOnlyName = UnitName("player")
 
 local function sendAnnounce(self)
-	if premsg_values.args_sourceName == nil then
-		premsg_values.args_sourceName = "Unknown"
+	if premsg_values.spellId == nil then
+		premsg_values.localizedName = "Unknown"
+	else
+		premsg_values.localizedName = replaceSpellLinks(spellId)
 	end
-	if premsg_values.args_destName == nil then
-		premsg_values.args_destName = "Unknown"
-	end
+	if premsg_values.sourceName == nil then premsg_values.sourceName = "Unknown" end
+	if premsg_values.destName == nil then premsg_values.destName = "Unknown" end
 
 	if premsg_values.rallyingcry == 1 then --Ободряющий клич
-		smartChat(L.HeroismYell:format(DbmRV, premsg_values.args_sourceName, rallyingcry))
+		smartChat(L.HeroismYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
 		premsg_values.rallyingcry = 0
 	elseif premsg_values.vampiricaura == 1 then --Вампирская аура
-		smartChat(L.HeroismYell:format(DbmRV, premsg_values.args_sourceName, vampiricaura))
+		smartChat(L.HeroismYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
 		premsg_values.vampiricaura = 0
 	elseif premsg_values.auramastery == 1 then --Владение аурами
-		smartChat(L.HeroismYell:format(DbmRV, premsg_values.args_sourceName, auramastery))
+		smartChat(L.HeroismYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
 		premsg_values.auramastery = 0
 	elseif premsg_values.vampiricembrace == 1 then --Объятия вампира
-		smartChat(L.HeroismYell:format(DbmRV, premsg_values.args_sourceName, vampiricembrace))
+		smartChat(L.HeroismYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
 		premsg_values.vampiricembrace = 0
 	elseif premsg_values.powerwordbarrier == 1 then --Слово силы: Барьер
-		smartChat(L.HeroismYell:format(DbmRV, premsg_values.args_sourceName, powerwordbarrier))
+		smartChat(L.HeroismYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
 		premsg_values.powerwordbarrier = 0
 	elseif premsg_values.guardianspirit == 1 then --Оберегающий дух
-		smartChat(L.SoulstoneYell:format(DbmRV, premsg_values.args_sourceName, guardianspirit, premsg_values.args_destName))
+		smartChat(L.SoulstoneYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName, premsg_values.destName))
 		premsg_values.guardianspirit = 0
 	elseif premsg_values.painsuppression == 1 then --Подавление боли
-		smartChat(L.SoulstoneYell:format(DbmRV, premsg_values.args_sourceName, painsuppression, premsg_values.args_destName))
+		smartChat(L.SoulstoneYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName, premsg_values.destName))
 		premsg_values.painsuppression = 0
 	elseif premsg_values.spirittotem == 1 then --Тотем духовной связи
-		smartChat(L.HeroismYell:format(DbmRV, premsg_values.args_sourceName, spirittotem))
+		smartChat(L.HeroismYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
 		premsg_values.spirittotem = 0
 	elseif premsg_values.lifecocoon == 1 then --Исцеляющий кокон
-		smartChat(L.SoulstoneYell:format(DbmRV, premsg_values.args_sourceName, lifecocoon, premsg_values.args_destName))
+		smartChat(L.SoulstoneYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName, premsg_values.destName))
 		premsg_values.lifecocoon = 0
 	elseif premsg_values.blesofprot == 1 then --Благословение защиты
-		smartChat(L.SoulstoneYell:format(DbmRV, premsg_values.args_sourceName, blesofprot, premsg_values.args_destName))
+		smartChat(L.SoulstoneYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName, premsg_values.destName))
 		premsg_values.blesofprot = 0
 	elseif premsg_values.ironbark == 1 then --Железная кора
-		smartChat(L.SoulstoneYell:format(DbmRV, premsg_values.args_sourceName, ironbark, premsg_values.args_destName))
+		smartChat(L.SoulstoneYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName, premsg_values.destName))
 		premsg_values.ironbark = 0
 	elseif premsg_values.ancprotectotem == 1 then --Тотем защиты Предков
-		smartChat(L.HeroismYell:format(DbmRV, premsg_values.args_sourceName, ancprotectotem))
+		smartChat(L.HeroismYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
 		premsg_values.ancprotectotem = 0
 	elseif premsg_values.hope == 1 then --Символ надежды
-		smartChat(L.HeroismYell:format(DbmRV, premsg_values.args_sourceName, hope))
+		smartChat(L.HeroismYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
 		premsg_values.hope = 0
 	elseif premsg_values.innervate == 1 then --Озарение
-		smartChat(L.SoulstoneYell:format(DbmRV, premsg_values.args_sourceName, innervate, premsg_values.args_destName))
+		smartChat(L.SoulstoneYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName, premsg_values.destName))
 		premsg_values.innervate = 0
 	elseif premsg_values.rebirth1 == 1 then --Возрождение
-		smartChat(L.SoulstoneYell:format(DbmRV, premsg_values.args_sourceName, rebirth1, premsg_values.args_destName))
+		smartChat(L.SoulstoneYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName, premsg_values.destName))
 		premsg_values.rebirth1 = 0
 	elseif premsg_values.rebirth2 == 1 then --Воскрешение союзника
-		smartChat(L.SoulstoneYell:format(DbmRV, premsg_values.args_sourceName, rebirth2, premsg_values.args_destName))
+		smartChat(L.SoulstoneYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName, premsg_values.destName))
 		premsg_values.rebirth2 = 0
 	elseif premsg_values.rebirth3 == 1 then --Воскрешение камнем души
-		smartChat(L.SoulstoneYell:format(DbmRV, premsg_values.args_sourceName, rebirth3, premsg_values.args_destName))
+		smartChat(L.SoulstoneYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName, premsg_values.destName))
 		premsg_values.rebirth3 = 0
 	end
 
-	premsg_values.args_sourceName = nil
-	premsg_values.args_destName = nil
+	premsg_values.spellId = nil
+	premsg_values.sourceName = nil
+	premsg_values.destName = nil
+	premsg_values.localizedName = nil
 end
 
 local function announceList(premsg_announce, value)
@@ -194,10 +199,11 @@ local function announceList(premsg_announce, value)
 	end
 end
 
-local function prepareMessage(self, premsg_announce, args_sourceName, args_destName)
+local function prepareMessage(self, premsg_announce, spellId, sourceName, destName)
 	if self:AntiSpam(1, "prepareMessage") then
-		premsg_values.args_sourceName = args_sourceName
-		premsg_values.args_destName = args_destName
+		premsg_values.spellId = spellId
+		premsg_values.sourceName = sourceName
+		premsg_values.destName = destName
 		announceList(premsg_announce, 1)
 		self:SendSync(premsg_announce, playerOnlyName)
 		self:Schedule(1, sendAnnounce, self)
@@ -206,8 +212,10 @@ end
 -- Синхронизация анонсов ↑
 
 function mod:SPELL_CAST_SUCCESS(args)
-	if not UnitInYourParty(args.sourceName) then return end
 	local spellId = args.spellId
+	local sourceName = args.sourceName
+	local destName = args.destName
+	if not UnitInYourParty(sourceName) then return end
 	typeInstance = select(2, IsInInstance())
 	if spellId == 64901 then --Символ надежды
 		if typeInstance ~= "party" and typeInstance ~= "raid" then return end
@@ -215,10 +223,10 @@ function mod:SPELL_CAST_SUCCESS(args)
 		if args:IsPlayerSource() then
 			yellSymbolHope:Yell(hope)
 		else
-			warnSymbolHope:Show(args.sourceName)
+			warnSymbolHope:Show(sourceName)
 		end
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnRaidCooldown then
-			prepareMessage(self, "premsg_Spells_hope", args.sourceName)
+			prepareMessage(self, "premsg_Spells_hope", spellId, sourceName)
 		end
 	elseif spellId == 97462 then --Ободряющий клич
 		if typeInstance ~= "party" and typeInstance ~= "raid" then return end
@@ -227,10 +235,10 @@ function mod:SPELL_CAST_SUCCESS(args)
 		if args:IsPlayerSource() then
 			yellRallyingCry:Yell(rallyingcry)
 		else
-			warnRallyingCry:Show(args.sourceName)
+			warnRallyingCry:Show(sourceName)
 		end
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnRaidCooldown then
-			prepareMessage(self, "premsg_Spells_rallyingcry", args.sourceName)
+			prepareMessage(self, "premsg_Spells_rallyingcry", spellId, sourceName)
 		end
 	elseif spellId == 205223 then --Пожирание
 		if typeInstance ~= "party" then return end
@@ -239,10 +247,10 @@ function mod:SPELL_CAST_SUCCESS(args)
 		if args:IsPlayerSource() then
 			yellVampiricAura:Yell(vampiricaura)
 		else
-			warnVampiricAura:Show(args.sourceName)
+			warnVampiricAura:Show(sourceName)
 		end
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnRaidCooldown then
-			prepareMessage(self, "premsg_Spells_vampiricaura", args.sourceName)
+			prepareMessage(self, "premsg_Spells_vampiricaura", spellId, sourceName)
 		end
 	elseif spellId == 31821 then --Владение аурами
 		if typeInstance ~= "party" and typeInstance ~= "raid" then return end
@@ -251,10 +259,10 @@ function mod:SPELL_CAST_SUCCESS(args)
 		if args:IsPlayerSource() then
 			yellAuraMastery:Yell(auramastery)
 		else
-			warnAuraMastery:Show(args.sourceName)
+			warnAuraMastery:Show(sourceName)
 		end
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnRaidCooldown then
-			prepareMessage(self, "premsg_Spells_auramastery", args.sourceName)
+			prepareMessage(self, "premsg_Spells_auramastery", spellId, sourceName)
 		end
 	elseif spellId == 15286 then --Объятия вампира
 		if typeInstance ~= "party" and typeInstance ~= "raid" then return end
@@ -263,10 +271,10 @@ function mod:SPELL_CAST_SUCCESS(args)
 		if args:IsPlayerSource() then
 			yellVampiricEmbrace:Yell(vampiricembrace)
 		else
-			warnVampiricEmbrace:Show(args.sourceName)
+			warnVampiricEmbrace:Show(sourceName)
 		end
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnRaidCooldown then
-			prepareMessage(self, "premsg_Spells_vampiricembrace", args.sourceName)
+			prepareMessage(self, "premsg_Spells_vampiricembrace", spellId, sourceName)
 		end
 	elseif spellId == 62618 then --Слово силы: Барьер
 		if typeInstance ~= "party" and typeInstance ~= "raid" then return end
@@ -275,10 +283,10 @@ function mod:SPELL_CAST_SUCCESS(args)
 		if args:IsPlayerSource() then
 			yellPowerWordBarrier:Yell(powerwordbarrier)
 		else
-			warnPowerWordBarrier:Show(args.sourceName)
+			warnPowerWordBarrier:Show(sourceName)
 		end
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnRaidCooldown then
-			prepareMessage(self, "premsg_Spells_powerwordbarrier", args.sourceName)
+			prepareMessage(self, "premsg_Spells_powerwordbarrier", spellId, sourceName)
 		end
 	elseif spellId == 47788 then --Оберегающий дух
 		if typeInstance ~= "party" and typeInstance ~= "raid" then return end
@@ -288,20 +296,22 @@ function mod:SPELL_CAST_SUCCESS(args)
 			specWarnGuardianSpirit:Play("targetyou")
 			timerGuardianSpirit:Start()
 			if not args:IsPlayerSource() and not DBM.Options.IgnoreRaidAnnounce3 then
-				smartChat(L.WhisperThanks:format(DbmRV, guardianspirit), "whisper", args.sourceName)
+				smartChat(L.WhisperThanks:format(DbmRV, replaceSpellLinks(spellId)), "whisper", sourceName)
 			end
 		else
-			warnGuardianSpirit:Show(args.sourceName, args.destName)
+			warnGuardianSpirit:Show(sourceName, destName)
 		end
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnRaidCooldown then
-			prepareMessage(self, "premsg_Spells_guardianspirit", args.sourceName, args.destName)
+			prepareMessage(self, "premsg_Spells_guardianspirit", spellId, sourceName, destName)
 		end
 	end
 end
 
 function mod:SPELL_AURA_APPLIED(args)
-	if not UnitInYourParty(args.sourceName) then return end
 	local spellId = args.spellId
+	local sourceName = args.sourceName
+	local destName = args.destName
+	if not UnitInYourParty(sourceName) then return end
 	typeInstance = select(2, IsInInstance())
 	if spellId == 29166 then --Озарение
 		if typeInstance ~= "party" and typeInstance ~= "raid" then return end
@@ -311,13 +321,13 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnInnervate:Play("targetyou")
 			timerInnervate:Start()
 			if not args:IsPlayerSource() and not DBM.Options.IgnoreRaidAnnounce3 then
-				smartChat(L.WhisperThanks:format(DbmRV, innervate), "whisper", args.sourceName)
+				smartChat(L.WhisperThanks:format(DbmRV, replaceSpellLinks(spellId)), "whisper", sourceName)
 			end
 		else
-			warnInnervate:Show(args.sourceName, args.destName)
+			warnInnervate:Show(sourceName, destName)
 		end
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnRaidCooldown then
-			prepareMessage(self, "premsg_Spells_innervate", args.sourceName, args.destName)
+			prepareMessage(self, "premsg_Spells_innervate", spellId, sourceName, destName)
 		end
 	elseif spellId == 64901 then --Символ надежды
 		if typeInstance ~= "party" and typeInstance ~= "raid" then return end
@@ -334,13 +344,13 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnPainSuppression:Play("targetyou")
 			timerPainSuppression:Start()
 			if not args:IsPlayerSource() and not DBM.Options.IgnoreRaidAnnounce3 then
-				smartChat(L.WhisperThanks:format(DbmRV, painsuppression), "whisper", args.sourceName)
+				smartChat(L.WhisperThanks:format(DbmRV, replaceSpellLinks(spellId)), "whisper", sourceName)
 			end
 		else
-			warnPainSuppression:Show(args.sourceName, args.destName)
+			warnPainSuppression:Show(sourceName, destName)
 		end
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnRaidCooldown then
-			prepareMessage(self, "premsg_Spells_painsuppression", args.sourceName, args.destName)
+			prepareMessage(self, "premsg_Spells_painsuppression", spellId, sourceName, destName)
 		end
 	elseif spellId == 116849 then --Исцеляющий кокон
 		if typeInstance ~= "party" and typeInstance ~= "raid" then return end
@@ -350,13 +360,13 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnLifeCocoon:Play("targetyou")
 			timerLifeCocoon:Start()
 			if not args:IsPlayerSource() and not DBM.Options.IgnoreRaidAnnounce3 then
-				smartChat(L.WhisperThanks:format(DbmRV, lifecocoon), "whisper", args.sourceName)
+				smartChat(L.WhisperThanks:format(DbmRV, replaceSpellLinks(spellId)), "whisper", sourceName)
 			end
 		else
-			warnLifeCocoon:Show(args.sourceName, args.destName)
+			warnLifeCocoon:Show(sourceName, destName)
 		end
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnRaidCooldown then
-			prepareMessage(self, "premsg_Spells_lifecocoon", args.sourceName, args.destName)
+			prepareMessage(self, "premsg_Spells_lifecocoon", spellId, sourceName, destName)
 		end
 	elseif spellId == 102342 then --Благословение защиты
 		if typeInstance ~= "party" and typeInstance ~= "raid" then return end
@@ -366,13 +376,13 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnBlessingofProtection:Play("targetyou")
 			timerBlessingofProtection:Start()
 			if not args:IsPlayerSource() and not DBM.Options.IgnoreRaidAnnounce3 then
-				smartChat(L.WhisperThanks:format(DbmRV, blesofprot), "whisper", args.sourceName)
+				smartChat(L.WhisperThanks:format(DbmRV, replaceSpellLinks(spellId)), "whisper", sourceName)
 			end
 		else
-			warnBlessingofProtection:Show(args.sourceName, args.destName)
+			warnBlessingofProtection:Show(sourceName, destName)
 		end
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnRaidCooldown then
-			prepareMessage(self, "premsg_Spells_blesofprot", args.sourceName, args.destName)
+			prepareMessage(self, "premsg_Spells_blesofprot", spellId, sourceName, destName)
 		end
 	elseif spellId == 102342 then --Железная кора
 		if typeInstance ~= "party" and typeInstance ~= "raid" then return end
@@ -382,20 +392,22 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnIronbark:Play("targetyou")
 			timerIronbark:Start()
 			if not args:IsPlayerSource() and not DBM.Options.IgnoreRaidAnnounce3 then
-				smartChat(L.WhisperThanks:format(DbmRV, ironbark), "whisper", args.sourceName)
+				smartChat(L.WhisperThanks:format(DbmRV, replaceSpellLinks(spellId)), "whisper", sourceName)
 			end
 		else
-			warnIronbark:Show(args.sourceName, args.destName)
+			warnIronbark:Show(sourceName, destName)
 		end
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnRaidCooldown then
-			prepareMessage(self, "premsg_Spells_ironbark", args.sourceName, args.destName)
+			prepareMessage(self, "premsg_Spells_ironbark", spellId, sourceName, destName)
 		end
 	end
 end
 
 function mod:SPELL_AURA_REMOVED(args)
-	if not UnitInYourParty(args.sourceName) then return end
 	local spellId = args.spellId
+	local sourceName = args.sourceName
+	local destName = args.destName
+	if not UnitInYourParty(sourceName) then return end
 	if spellId == 29166 then --Озарение
 		if args:IsPlayer() and self:IsHealer() then
 			specWarnInnervate2:Show()
@@ -432,15 +444,17 @@ function mod:SPELL_AURA_REMOVED(args)
 end
 
 function mod:SPELL_SUMMON(args)
-	if not UnitInYourParty(args.sourceName) then return end
 	local spellId = args.spellId
+	local sourceName = args.sourceName
+	local destName = args.destName
+	if not UnitInYourParty(sourceName) then return end
 	typeInstance = select(2, IsInInstance())
 	if spellId == 98008 then --Тотем духовной связи
 		if typeInstance ~= "party" and typeInstance ~= "raid" then return end
 		if DBM:GetNumRealGroupMembers() < 2 then return end
-		warnSpiritLinkTotem:Show(args.sourceName)
+		warnSpiritLinkTotem:Show(sourceName)
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnRaidCooldown then
-			prepareMessage(self, "premsg_Spells_spirittotem", args.sourceName)
+			prepareMessage(self, "premsg_Spells_spirittotem", spellId, sourceName)
 		end
 	elseif spellId == 207399 then --Тотем защиты Предков
 		if typeInstance ~= "party" and typeInstance ~= "raid" then return end
@@ -448,55 +462,57 @@ function mod:SPELL_SUMMON(args)
 		if args:IsPlayerSource() then
 			yellAncestralProtectionTotem:Yell(ancprotectotem)
 		else
-			warnAncestralProtectionTotem:Show(args.sourceName)
+			warnAncestralProtectionTotem:Show(sourceName)
 		end
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnRaidCooldown then
-			prepareMessage(self, "premsg_Spells_ancprotectotem", args.sourceName)
+			prepareMessage(self, "premsg_Spells_ancprotectotem", spellId, sourceName)
 		end
 	end
 end
 
 function mod:SPELL_RESURRECT(args)
-	if not UnitInYourParty(args.sourceName) then return end
 	local spellId = args.spellId
+	local sourceName = args.sourceName
+	local destName = args.destName
+	if not UnitInYourParty(sourceName) then return end
 	if spellId == 95750 then --Воскрешение камнем души
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnResurrect then
-			prepareMessage(self, "premsg_Spells_rebirth3", args.sourceName, args.destName)
+			prepareMessage(self, "premsg_Spells_rebirth3", spellId, sourceName, destName)
 		end
 		if args:IsPlayer() then
 			specWarnRebirth:Show()
 			specWarnRebirth:Play("targetyou")
 			if not DBM.Options.IgnoreRaidAnnounce3 then
-				smartChat(L.WhisperThanks:format(DbmRV, rebirth3), "whisper", args.sourceName)
+				smartChat(L.WhisperThanks:format(DbmRV, replaceSpellLinks(spellId)), "whisper", sourceName)
 			end
 		else
-			warnRebirth:Show(args.sourceName, args.destName)
+			warnRebirth:Show(sourceName, destName)
 		end
 	elseif spellId == 20484 then --Возрождение
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnResurrect then
-			prepareMessage(self, "premsg_Spells_rebirth1", args.sourceName, args.destName)
+			prepareMessage(self, "premsg_Spells_rebirth1", spellId, sourceName, destName)
 		end
 		if args:IsPlayer() then
 			specWarnRebirth:Show()
 			specWarnRebirth:Play("targetyou")
 			if not DBM.Options.IgnoreRaidAnnounce3 then
-				smartChat(L.WhisperThanks:format(DbmRV, rebirth1), "whisper", args.sourceName)
+				smartChat(L.WhisperThanks:format(DbmRV, replaceSpellLinks(spellId)), "whisper", sourceName)
 			end
 		else
-			warnRebirth:Show(args.sourceName, args.destName)
+			warnRebirth:Show(sourceName, destName)
 		end
 	elseif spellId == 61999 and self:AntiSpam(2.5, "rebirth") then --Воскрешение союзника
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnResurrect then
-			prepareMessage(self, "premsg_Spells_rebirth2", args.sourceName, args.destName)
+			prepareMessage(self, "premsg_Spells_rebirth2", spellId, sourceName, destName)
 		end
 		if args:IsPlayer() then
 			specWarnRebirth:Show()
 			specWarnRebirth:Play("targetyou")
 			if not DBM.Options.IgnoreRaidAnnounce3 then
-				smartChat(L.WhisperThanks:format(DbmRV, rebirth2), "whisper", args.sourceName)
+				smartChat(L.WhisperThanks:format(DbmRV, replaceSpellLinks(spellId)), "whisper", sourceName)
 			end
 		else
-			warnRebirth:Show(args.sourceName, args.destName)
+			warnRebirth:Show(sourceName, destName)
 		end
 	end
 end

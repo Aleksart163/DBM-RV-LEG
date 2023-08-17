@@ -55,7 +55,7 @@ mod:AddBoolOption("YellOnRepair", true) --починка
 mod:AddBoolOption("YellOnPylon", true) --пилон
 mod:AddBoolOption("YellOnToys", true) --игрушки
 
---Массрес
+--[[Массрес
 local massres1, massres2, massres3, massres4, massres5 = replaceSpellLinks(212040), replaceSpellLinks(212056), replaceSpellLinks(212036), replaceSpellLinks(212048), replaceSpellLinks(212051)
 --Героизм
 local timeWarp, heroism, bloodlust, hysteria, winds, drums = replaceSpellLinks(80353), replaceSpellLinks(32182), replaceSpellLinks(2825), replaceSpellLinks(90355), replaceSpellLinks(160452), replaceSpellLinks(230935)
@@ -76,7 +76,7 @@ local jeeves, autoHammer, pylon, swap = replaceSpellLinks(67826), replaceSpellLi
 --Мобильный банк
 local bank = replaceSpellLinks(88306) --83958
 --Игрушки
-local toyTrain, moonfeather, highborne, discoball, direbrews = replaceSpellLinks(61031), replaceSpellLinks(195782), replaceSpellLinks(73331), replaceSpellLinks(50317), replaceSpellLinks(49844)
+local toyTrain, moonfeather, highborne, discoball, direbrews = replaceSpellLinks(61031), replaceSpellLinks(195782), replaceSpellLinks(73331), replaceSpellLinks(50317), replaceSpellLinks(49844)]]
 
 local typeInstance = nil
 
@@ -90,8 +90,10 @@ end
 -- Синхронизация анонсов ↓
 local premsg_values = {
 	-- test,
-	args_sourceName,
-	args_destName,
+	spellId,
+	sourceName,
+	destName,
+	localizedName,
 	massres1_rw, massres2_rw, massres3_rw, massres4_rw, massres5_rw,
 	timeWarp, heroism, bloodlust, hysteria, winds, drums,
 	stormwind, ironforge, darnassus, exodar, theramore, tolBarad1, valeEternal1, stormshield,
@@ -107,149 +109,150 @@ local premsg_values = {
 local playerOnlyName = UnitName("player")
 
 local function sendAnnounce(self)
-	if premsg_values.args_sourceName == nil then
-		premsg_values.args_sourceName = "Unknown"
+	if premsg_values.spellId == nil then
+		premsg_values.localizedName = "Unknown"
+	else
+		premsg_values.localizedName = replaceSpellLinks(spellId)
 	end
-	if premsg_values.args_destName == nil then
-		premsg_values.args_destName = "Unknown"
-	end
+	if premsg_values.sourceName == nil then premsg_values.sourceName = "Unknown" end
+	if premsg_values.destName == nil then premsg_values.destName = "Unknown" end
 
 	--[[if premsg_values.test == 1 then
 		smartChat("Тестовое сообщение.")
-		smartChat("args_sourceName: " .. premsg_values.args_sourceName)
-		smartChat("args_destName: " .. premsg_values.args_destName)
+		smartChat("sourceName: " .. premsg_values.sourceName)
+		smartChat("destName: " .. premsg_values.destName)
 		premsg_values.test = 0
 	else]]if premsg_values.massres1_rw == 1 then
-		smartChat(L.HeroismYell:format(DbmRV, premsg_values.args_sourceName, massres1), "rw")
+		smartChat(L.HeroismYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName), "rw")
 		premsg_values.massres1_rw = 0
 	elseif premsg_values.massres2_rw == 1 then
-		smartChat(L.HeroismYell:format(DbmRV, premsg_values.args_sourceName, massres2), "rw")
+		smartChat(L.HeroismYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName), "rw")
 		premsg_values.massres2_rw = 0
 	elseif premsg_values.massres3_rw == 1 then
-		smartChat(L.HeroismYell:format(DbmRV, premsg_values.args_sourceName, massres3), "rw")
+		smartChat(L.HeroismYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName), "rw")
 		premsg_values.massres3_rw = 0
 	elseif premsg_values.massres4_rw == 1 then
-		smartChat(L.HeroismYell:format(DbmRV, premsg_values.args_sourceName, massres4), "rw")
+		smartChat(L.HeroismYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName), "rw")
 		premsg_values.massres4_rw = 0
 	elseif premsg_values.massres5_rw == 1 then
-		smartChat(L.HeroismYell:format(DbmRV, premsg_values.args_sourceName, massres5), "rw")
+		smartChat(L.HeroismYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName), "rw")
 		premsg_values.massres5_rw = 0
 	elseif premsg_values.timeWarp == 1 then
-		smartChat(L.HeroismYell:format(DbmRV, premsg_values.args_sourceName, timeWarp))
+		smartChat(L.HeroismYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
 		premsg_values.timeWarp = 0
 	elseif premsg_values.heroism == 1 then
-		smartChat(L.HeroismYell:format(DbmRV, premsg_values.args_sourceName, heroism))
+		smartChat(L.HeroismYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
 		premsg_values.heroism = 0
 	elseif premsg_values.bloodlust == 1 then
-		smartChat(L.HeroismYell:format(DbmRV, premsg_values.args_sourceName, bloodlust))
+		smartChat(L.HeroismYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
 		premsg_values.bloodlust = 0
 	elseif premsg_values.hysteria == 1 then
-		smartChat(L.HeroismYell:format(DbmRV, premsg_values.args_sourceName, hysteria))
+		smartChat(L.HeroismYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
 		premsg_values.hysteria = 0
 	elseif premsg_values.winds == 1 then
-		smartChat(L.HeroismYell:format(DbmRV, premsg_values.args_sourceName, winds))
+		smartChat(L.HeroismYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
 		premsg_values.winds = 0
 	elseif premsg_values.drums == 1 then
-		smartChat(L.HeroismYell:format(DbmRV, premsg_values.args_sourceName, drums))
+		smartChat(L.HeroismYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
 		premsg_values.drums = 0
 	elseif premsg_values.stormwind == 1 then
-		smartChat(L.PortalYell:format(DbmRV, premsg_values.args_sourceName, stormwind))
+		smartChat(L.PortalYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
 		premsg_values.stormwind = 0
 	elseif premsg_values.ironforge == 1 then
-		smartChat(L.PortalYell:format(DbmRV, premsg_values.args_sourceName, ironforge))
+		smartChat(L.PortalYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
 		premsg_values.ironforge = 0
 	elseif premsg_values.darnassus == 1 then
-		smartChat(L.PortalYell:format(DbmRV, premsg_values.args_sourceName, darnassus))
+		smartChat(L.PortalYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
 		premsg_values.darnassus = 0
 	elseif premsg_values.exodar == 1 then
-		smartChat(L.PortalYell:format(DbmRV, premsg_values.args_sourceName, exodar))
+		smartChat(L.PortalYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
 		premsg_values.exodar = 0
 	elseif premsg_values.theramore == 1 then
-		smartChat(L.PortalYell:format(DbmRV, premsg_values.args_sourceName, theramore))
+		smartChat(L.PortalYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
 		premsg_values.theramore = 0
 	elseif premsg_values.tolBarad1 == 1 then
-		smartChat(L.PortalYell:format(DbmRV, premsg_values.args_sourceName, tolBarad1))
+		smartChat(L.PortalYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
 		premsg_values.tolBarad1 = 0
 	elseif premsg_values.valeEternal1 == 1 then
-		smartChat(L.PortalYell:format(DbmRV, premsg_values.args_sourceName, valeEternal1))
+		smartChat(L.PortalYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
 		premsg_values.valeEternal1 = 0
 	elseif premsg_values.stormshield == 1 then
-		smartChat(L.PortalYell:format(DbmRV, premsg_values.args_sourceName, stormshield))
+		smartChat(L.PortalYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
 		premsg_values.stormshield = 0
 	elseif premsg_values.orgrimmar == 1 then
-		smartChat(L.PortalYell:format(DbmRV, premsg_values.args_sourceName, orgrimmar))
+		smartChat(L.PortalYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
 		premsg_values.orgrimmar = 0
 	elseif premsg_values.undercity == 1 then
-		smartChat(L.PortalYell:format(DbmRV, premsg_values.args_sourceName, undercity))
+		smartChat(L.PortalYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
 		premsg_values.undercity = 0
 	elseif premsg_values.thunderBluff == 1 then
-		smartChat(L.PortalYell:format(DbmRV, premsg_values.args_sourceName, thunderBluff))
+		smartChat(L.PortalYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
 		premsg_values.thunderBluff = 0
 	elseif premsg_values.silvermoon == 1 then
-		smartChat(L.PortalYell:format(DbmRV, premsg_values.args_sourceName, silvermoon))
+		smartChat(L.PortalYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
 		premsg_values.silvermoon = 0
 	elseif premsg_values.stonard == 1 then
-		smartChat(L.PortalYell:format(DbmRV, premsg_values.args_sourceName, stonard))
+		smartChat(L.PortalYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
 		premsg_values.stonard = 0
 	elseif premsg_values.tolBarad2 == 1 then
-		smartChat(L.PortalYell:format(DbmRV, premsg_values.args_sourceName, tolBarad2))
+		smartChat(L.PortalYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
 		premsg_values.tolBarad2 = 0
 	elseif premsg_values.valeEternal2 == 1 then
-		smartChat(L.PortalYell:format(DbmRV, premsg_values.args_sourceName, valeEternal2))
+		smartChat(L.PortalYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
 		premsg_values.valeEternal2 = 0
 	elseif premsg_values.warspear == 1 then
-		smartChat(L.PortalYell:format(DbmRV, premsg_values.args_sourceName, warspear))
+		smartChat(L.PortalYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
 		premsg_values.warspear = 0
 	elseif premsg_values.shattrath == 1 then
-		smartChat(L.PortalYell:format(DbmRV, premsg_values.args_sourceName, shattrath))
+		smartChat(L.PortalYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
 		premsg_values.shattrath = 0
 	elseif premsg_values.dalaran1 == 1 then
-		smartChat(L.PortalYell:format(DbmRV, premsg_values.args_sourceName, dalaran1))
+		smartChat(L.PortalYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
 		premsg_values.dalaran1 = 0
 	elseif premsg_values.dalaran2 == 1 then
-		smartChat(L.PortalYell:format(DbmRV, premsg_values.args_sourceName, dalaran2))
+		smartChat(L.PortalYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
 		premsg_values.dalaran2 = 0
 	elseif premsg_values.soulwell == 1 then
-		smartChat(L.HeroismYell:format(DbmRV, premsg_values.args_sourceName, soulwell))
+		smartChat(L.HeroismYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
 		premsg_values.soulwell = 0
 	elseif premsg_values.soulstone == 1 then
-		smartChat(L.SoulstoneYell:format(DbmRV, premsg_values.args_sourceName, soulstone, premsg_values.args_destName))
+		smartChat(L.SoulstoneYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName, premsg_values.destName))
 		premsg_values.soulstone = 0
 	elseif premsg_values.summoning == 1 then
-		smartChat(L.SummoningYell:format(DbmRV, premsg_values.args_sourceName, summoning))
+		smartChat(L.SummoningYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
 		premsg_values.summoning = 0
 	elseif premsg_values.cauldron_rw == 1 then
-		smartChat(L.SoulwellYell:format(DbmRV, premsg_values.args_sourceName, cauldron))
+		smartChat(L.SoulwellYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
 		premsg_values.cauldron_rw = 0
 	elseif premsg_values.lavishSuramar_rw == 1 then
-		smartChat(L.SoulwellYell:format(DbmRV, premsg_values.args_sourceName, lavishSuramar))
+		smartChat(L.SoulwellYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
 		premsg_values.lavishSuramar_rw = 0
 	elseif premsg_values.hearty == 1 then
-		smartChat(L.SoulwellYell:format(DbmRV, premsg_values.args_sourceName, hearty))
+		smartChat(L.SoulwellYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
 		premsg_values.hearty = 0
 	elseif premsg_values.sugar == 1 then
-		smartChat(L.SoulwellYell:format(DbmRV, premsg_values.args_sourceName, sugar))
+		smartChat(L.SoulwellYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
 		premsg_values.sugar = 0
 	elseif premsg_values.jeeves_rw == 1 then
-		smartChat(L.SoulwellYell:format(DbmRV, premsg_values.args_sourceName, jeeves))
+		smartChat(L.SoulwellYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
 		premsg_values.jeeves_rw = 0
 	elseif premsg_values.autoHammer_rw == 1 then
-		smartChat(L.SoulwellYell:format(DbmRV, premsg_values.args_sourceName, autoHammer))
+		smartChat(L.SoulwellYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
 		premsg_values.autoHammer_rw = 0
 	elseif premsg_values.pylon_rw == 1 then
-		smartChat(L.SoulwellYell:format(DbmRV, premsg_values.args_sourceName, pylon))
+		smartChat(L.SoulwellYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
 		premsg_values.pylon_rw = 0
 	elseif premsg_values.swap == 1 then
-		smartChat(L.SoulstoneYell:format(DbmRV, premsg_values.args_sourceName, swap, premsg_values.args_destName))
+		smartChat(L.SoulstoneYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName, premsg_values.destName))
 		premsg_values.swap = 0
 	elseif premsg_values.bank == 1 then
-		smartChat(L.SoulwellYell:format(DbmRV, premsg_values.args_sourceName, bank))
+		smartChat(L.SoulwellYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
 		premsg_values.bank = 0
 	elseif premsg_values.toyTrain == 1 then
-		smartChat(L.SoulwellYell:format(DbmRV, premsg_values.args_sourceName, toyTrain))
+		smartChat(L.SoulwellYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
 		premsg_values.toyTrain = 0
 	elseif premsg_values.moonfeather == 1 then
-		smartChat(L.HeroismYell:format(DbmRV, premsg_values.args_sourceName, moonfeather))
+		smartChat(L.HeroismYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
 		premsg_values.moonfeather = 0
 	--[[elseif premsg_values.highborne == 1 then
 	
@@ -258,12 +261,14 @@ local function sendAnnounce(self)
 	
 		premsg_values.discoball = 0]]
 	elseif premsg_values.direbrews == 1 then
-		smartChat(L.SummoningYell:format(DbmRV, premsg_values.args_sourceName, direbrews))
+		smartChat(L.SummoningYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
 		premsg_values.direbrews = 0
 	end
 
-	premsg_values.args_sourceName = nil
-	premsg_values.args_destName = nil
+	premsg_values.spellId = nil
+	premsg_values.sourceName = nil
+	premsg_values.destName = nil
+	premsg_values.localizedName = nil
 end
 
 local function announceList(premsg_announce, value)
@@ -366,10 +371,11 @@ local function announceList(premsg_announce, value)
 	end
 end
 
-local function prepareMessage(self, premsg_announce, args_sourceName, args_destName)
+local function prepareMessage(self, premsg_announce, spellId, sourceName, destName)
 	if self:AntiSpam(1, "prepareMessage") then
-		premsg_values.args_sourceName = args_sourceName
-		premsg_values.args_destName = args_destName
+		premsg_values.spellId = spellId
+		premsg_values.sourceName = sourceName
+		premsg_values.destName = destName
 		announceList(premsg_announce, 1)
 		self:SendSync(premsg_announce, playerOnlyName)
 		self:Schedule(1, sendAnnounce, self)
@@ -378,183 +384,189 @@ end
 -- Синхронизация анонсов ↑
 
 function mod:SPELL_CAST_START(args)
-	if not UnitInYourParty(args.sourceName) then return end
 	local spellId = args.spellId
+	local sourceName = args.sourceName
+	local destName = args.destName
+	if not UnitInYourParty(sourceName) then return end
 	if spellId == 212040 and self:AntiSpam(15, "massres") then --Возвращение к жизни (друид)
-		warnMassres1:Show(args.sourceName)
+		warnMassres1:Show(sourceName)
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnMassRes then
-			prepareMessage(self, "premsg_Spells_massres1_rw", args.sourceName)
+			prepareMessage(self, "premsg_Spells_massres1_rw", spellId, sourceName)
 		end
 	elseif spellId == 212056 and self:AntiSpam(15, "massres") then --Отпущение (пал)
-		warnMassres2:Show(args.sourceName)
+		warnMassres2:Show(sourceName)
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnMassRes then
-			prepareMessage(self, "premsg_Spells_massres2_rw", args.sourceName)
+			prepareMessage(self, "premsg_Spells_massres2_rw", spellId, sourceName)
 		end
 	elseif spellId == 212036 and self:AntiSpam(15, "massres") then --Массовое воскрешение (прист)
-		warnMassres3:Show(args.sourceName)
+		warnMassres3:Show(sourceName)
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnMassRes then
-			prepareMessage(self, "premsg_Spells_massres3_rw", args.sourceName)
+			prepareMessage(self, "premsg_Spells_massres3_rw", spellId, sourceName)
 		end
 	elseif spellId == 212048 and self:AntiSpam(15, "massres") then --Древнее видение (шаман)
-		warnMassres4:Show(args.sourceName)
+		warnMassres4:Show(sourceName)
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnMassRes then
-			prepareMessage(self, "premsg_Spells_massres4_rw", args.sourceName)
+			prepareMessage(self, "premsg_Spells_massres4_rw", spellId, sourceName)
 		end
 	elseif spellId == 212051 and self:AntiSpam(15, "massres") then --Повторное пробуждение (монк)
-		warnMassres5:Show(args.sourceName)
+		warnMassres5:Show(sourceName)
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnMassRes then
-			prepareMessage(self, "premsg_Spells_massres5_rw", args.sourceName)
+			prepareMessage(self, "premsg_Spells_massres5_rw", spellId, sourceName)
 		end
 	elseif spellId == 7720 then --Ритуал призыва
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnSummoning then
 			if args:IsPlayerSource() then
-				smartChat(L.SummonYell:format(DbmRV, args.sourceName, summoning2, UnitName("target")))
+				smartChat(L.SummonYell:format(DbmRV, sourceName, replaceSpellLinks(spellId), UnitName("target")))
 			end
 		end
 	end
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
-	if not UnitInYourParty(args.sourceName) then return end
 	local spellId = args.spellId
+	local sourceName = args.sourceName
+	local destName = args.destName
+	if not UnitInYourParty(sourceName) then return end
 	typeInstance = select(2, IsInInstance())
 	if spellId == 80353 then --Искажение времени
 		if self:AntiSpam(5, "bloodlust") then
-			warnTimeWarp:Show(args.sourceName)
+			warnTimeWarp:Show(sourceName)
 		end
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnHeroism then
-			prepareMessage(self, "premsg_Spells_timeWarp", args.sourceName)
+			prepareMessage(self, "premsg_Spells_timeWarp", spellId, sourceName)
 		end
 	elseif spellId == 32182 then --Героизм
 		if self:AntiSpam(5, "bloodlust") then
-			warnHeroism:Show(args.sourceName)
+			warnHeroism:Show(sourceName)
 		end
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnHeroism then
-			prepareMessage(self, "premsg_Spells_heroism", args.sourceName)
+			prepareMessage(self, "premsg_Spells_heroism", spellId, sourceName)
 		end
 	elseif spellId == 2825 then --Кровожадность
 		if self:AntiSpam(5, "bloodlust") then
-			warnBloodlust:Show(args.sourceName)
+			warnBloodlust:Show(sourceName)
 		end
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnHeroism then
-			prepareMessage(self, "premsg_Spells_bloodlust", args.sourceName)
+			prepareMessage(self, "premsg_Spells_bloodlust", spellId, sourceName)
 		end
 	elseif spellId == 90355 then --Древняя истерия (пет ханта)
 		if self:AntiSpam(5, "bloodlust") then
-			warnHysteria:Show(args.sourceName)
+			warnHysteria:Show(sourceName)
 		end
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnHeroism then
-			prepareMessage(self, "premsg_Spells_hysteria", args.sourceName)
+			prepareMessage(self, "premsg_Spells_hysteria", spellId, sourceName)
 		end
 	elseif spellId == 160452 then --Ветер пустоты (пет ханта)
 		if self:AntiSpam(5, "bloodlust") then
-			warnNetherwinds:Show(args.sourceName)
+			warnNetherwinds:Show(sourceName)
 		end
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnHeroism then
-			prepareMessage(self, "premsg_Spells_winds", args.sourceName)
+			prepareMessage(self, "premsg_Spells_winds", spellId, sourceName)
 		end
 	elseif spellId == 230935 then --Барабаны гор
 		if self:AntiSpam(5, "bloodlust") then
-			warnDrums:Show(args.sourceName)
+			warnDrums:Show(sourceName)
 		end
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnHeroism then
-			prepareMessage(self, "premsg_Spells_drums", args.sourceName)
+			prepareMessage(self, "premsg_Spells_drums", spellId, sourceName)
 		end
 	elseif spellId == 10059 then --Штормград
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnPortal then
-			prepareMessage(self, "premsg_Spells_stormwind", args.sourceName)
+			prepareMessage(self, "premsg_Spells_stormwind", spellId, sourceName)
 		end
 	elseif spellId == 11416 then --Стальгорн
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnPortal then
-			prepareMessage(self, "premsg_Spells_ironforge", args.sourceName)
+			prepareMessage(self, "premsg_Spells_ironforge", spellId, sourceName)
 		end
 	elseif spellId == 11419 then --Дарнас
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnPortal then
-			prepareMessage(self, "premsg_Spells_darnassus", args.sourceName)
+			prepareMessage(self, "premsg_Spells_darnassus", spellId, sourceName)
 		end
 	elseif spellId == 32266 then --Экзодар
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnPortal then
-			prepareMessage(self, "premsg_Spells_exodar", args.sourceName)
+			prepareMessage(self, "premsg_Spells_exodar", spellId, sourceName)
 		end
 	elseif spellId == 49360 then --Терамор
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnPortal then
-			prepareMessage(self, "premsg_Spells_theramore", args.sourceName)
+			prepareMessage(self, "premsg_Spells_theramore", spellId, sourceName)
 		end
 	elseif spellId == 11417 then --Оргриммар
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnPortal then
-			prepareMessage(self, "premsg_Spells_orgrimmar", args.sourceName)
+			prepareMessage(self, "premsg_Spells_orgrimmar", spellId, sourceName)
 		end
 	elseif spellId == 11418 then --Подгород
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnPortal then
-			prepareMessage(self, "premsg_Spells_undercity", args.sourceName)
+			prepareMessage(self, "premsg_Spells_undercity", spellId, sourceName)
 		end
 	elseif spellId == 11420 then --Громовой утес
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnPortal then
-			prepareMessage(self, "premsg_Spells_thunderBluff", args.sourceName)
+			prepareMessage(self, "premsg_Spells_thunderBluff", spellId, sourceName)
 		end
 	elseif spellId == 32267 then --Луносвет
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnPortal then
-			prepareMessage(self, "premsg_Spells_silvermoon", args.sourceName)
+			prepareMessage(self, "premsg_Spells_silvermoon", spellId, sourceName)
 		end
 	elseif spellId == 49361 then --Каменор
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnPortal then
-			prepareMessage(self, "premsg_Spells_stonard", args.sourceName)
+			prepareMessage(self, "premsg_Spells_stonard", spellId, sourceName)
 		end
 	elseif spellId == 33691 then --Шаттрат
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnPortal then
-			prepareMessage(self, "premsg_Spells_shattrath", args.sourceName)
+			prepareMessage(self, "premsg_Spells_shattrath", spellId, sourceName)
 		end
 	elseif spellId == 53142 then --Даларан1
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnPortal then
-			prepareMessage(self, "premsg_Spells_dalaran1", args.sourceName)
+			prepareMessage(self, "premsg_Spells_dalaran1", spellId, sourceName)
 		end
 	elseif spellId == 88345 then --Тол Барад (альянс)
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnPortal then
-			prepareMessage(self, "premsg_Spells_tolBarad1", args.sourceName)
+			prepareMessage(self, "premsg_Spells_tolBarad1", spellId, sourceName)
 		end
 	elseif spellId == 88346 then --Тол Барад (орда)
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnPortal then
-			prepareMessage(self, "premsg_Spells_tolBarad2", args.sourceName)
+			prepareMessage(self, "premsg_Spells_tolBarad2", spellId, sourceName)
 		end
 	elseif spellId == 132620 then --Вечноцветущий дол (альянс)
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnPortal then
-			prepareMessage(self, "premsg_Spells_valeEternal1", args.sourceName)
+			prepareMessage(self, "premsg_Spells_valeEternal1", spellId, sourceName)
 		end
 	elseif spellId == 132626 then --Вечноцветущий дол (орда)
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnPortal then
-			prepareMessage(self, "premsg_Spells_valeEternal2", args.sourceName)
+			prepareMessage(self, "premsg_Spells_valeEternal2", spellId, sourceName)
 		end
 	elseif spellId == 176246 then --Преграда Ветров (альянс)
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnPortal then
-			prepareMessage(self, "premsg_Spells_stormshield", args.sourceName)
+			prepareMessage(self, "premsg_Spells_stormshield", spellId, sourceName)
 		end
 	elseif spellId == 176244 then --Копье Войны (орда)
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnPortal then
-			prepareMessage(self, "premsg_Spells_warspear", args.sourceName)
+			prepareMessage(self, "premsg_Spells_warspear", spellId, sourceName)
 		end
 	elseif spellId == 224871 then --Даларан2
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnPortal then
-			prepareMessage(self, "premsg_Spells_dalaran2", args.sourceName)
+			prepareMessage(self, "premsg_Spells_dalaran2", spellId, sourceName)
 		end
 	elseif spellId == 29893 and self:AntiSpam(10, "soulwell") then --Источник душ
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnSoulwell then
-			prepareMessage(self, "premsg_Spells_soulwell", args.sourceName)
+			prepareMessage(self, "premsg_Spells_soulwell", spellId, sourceName)
 		end
 	elseif spellId == 83958 and self:AntiSpam(5, "bank") then --Мобильный банк
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnBank then
-			prepareMessage(self, "premsg_Spells_bank", args.sourceName)
+			prepareMessage(self, "premsg_Spells_bank", spellId, sourceName)
 		end
 	elseif spellId == 161399 then --Поменяться местами
 		if typeInstance ~= "party" and typeInstance ~= "raid" then return end
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnToys then
-			prepareMessage(self, "premsg_Spells_swap", args.sourceName, args.destName)
+			prepareMessage(self, "premsg_Spells_swap", spellId, sourceName, destName)
 		end
 	end
 end
 
 function mod:SPELL_AURA_APPLIED(args)
-	if not UnitInYourParty(args.sourceName) then return end
 	local spellId = args.spellId
+	local sourceName = args.sourceName
+	local destName = args.destName
+	if not UnitInYourParty(sourceName) then return end
 	typeInstance = select(2, IsInInstance())
 	if spellId == 20707 then --Камень души
 		if typeInstance ~= "party" and typeInstance ~= "raid" then return end
@@ -563,77 +575,81 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnSoulstone:Show()
 			specWarnSoulstone:Play("targetyou")
 			if not args:IsPlayerSource() and not DBM.Options.IgnoreRaidAnnounce3 then
-				smartChat(L.WhisperThanks:format(DbmRV, soulstone), "whisper", args.sourceName)
+				smartChat(L.WhisperThanks:format(DbmRV, replaceSpellLinks(spellId)), "whisper", sourceName)
 			end
 		else
-			warnSoulstone:Show(args.destName)
+			warnSoulstone:Show(destName)
 		end
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnSoulstone then
-			prepareMessage(self, "premsg_Spells_soulstone", args.sourceName, args.destName)
+			prepareMessage(self, "premsg_Spells_soulstone", spellId, sourceName, destName)
 		end
 	end
 end
 
 function mod:SPELL_CREATE(args)
-	if not UnitInYourParty(args.sourceName) then return end
 	local spellId = args.spellId
+	local sourceName = args.sourceName
+	local destName = args.destName
+	if not UnitInYourParty(sourceName) then return end
 	if spellId == 698 and self:AntiSpam(10, "summoning") then --Ритуал призыва
-		warnRitualofSummoning:Show(args.sourceName)
+		warnRitualofSummoning:Show(sourceName)
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnRitualofSummoning then
-			prepareMessage(self, "premsg_Spells_summoning", args.sourceName)
+			prepareMessage(self, "premsg_Spells_summoning", spellId, sourceName)
 		end
 	elseif spellId == 188036 and self:AntiSpam(10, "cauldron") then --Котел духов
-		warnCauldron:Show(args.sourceName)
+		warnCauldron:Show(sourceName)
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnSpiritCauldron then
-			prepareMessage(self, "premsg_Spells_cauldron_rw", args.sourceName)
+			prepareMessage(self, "premsg_Spells_cauldron_rw", spellId, sourceName)
 		end
 	elseif spellId == 201352 and self:AntiSpam(10, "lavishSuramar") then --Щедрое сурамарское угощение
-		warnLavishSuramar:Show(args.sourceName)
+		warnLavishSuramar:Show(sourceName)
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnLavish then
-			prepareMessage(self, "premsg_Spells_lavishSuramar_rw", args.sourceName)
+			prepareMessage(self, "premsg_Spells_lavishSuramar_rw", spellId, sourceName)
 		end
 	elseif spellId == 201351 and self:AntiSpam(10, "hearty") then --Обильное угощение
-		warnHearty:Show(args.sourceName)
+		warnHearty:Show(sourceName)
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnLavish then
-			prepareMessage(self, "premsg_Spells_hearty", args.sourceName)
+			prepareMessage(self, "premsg_Spells_hearty", spellId, sourceName)
 		end
 	elseif spellId == 185709 and self:AntiSpam(10, "sugar") then --Угощение из засахаренной рыбы
-		warnSugar:Show(args.sourceName)
+		warnSugar:Show(sourceName)
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnLavish then
-			prepareMessage(self, "premsg_Spells_sugar", args.sourceName)
+			prepareMessage(self, "premsg_Spells_sugar", spellId, sourceName)
 		end
 	elseif spellId == 61031 and self:AntiSpam(10, "toyTrain") then --Игрушечная железная дорога
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnToys then
-			prepareMessage(self, "premsg_Spells_toyTrain", args.sourceName)
+			prepareMessage(self, "premsg_Spells_toyTrain", spellId, sourceName)
 		end
 	elseif spellId == 49844 and self:AntiSpam(10, "direbrews") then --пульт управления Худовара
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnToys then
-			prepareMessage(self, "premsg_Spells_direbrews", args.sourceName)
+			prepareMessage(self, "premsg_Spells_direbrews", spellId, sourceName)
 		end
 	end
 end
 
 function mod:SPELL_SUMMON(args)
-	if not UnitInYourParty(args.sourceName) then return end
 	local spellId = args.spellId
+	local sourceName = args.sourceName
+	local destName = args.destName
+	if not UnitInYourParty(sourceName) then return end
 	if spellId == 67826 and self:AntiSpam(10, "jeeves") then --Дживс
-		warnJeeves:Show(args.sourceName)
+		warnJeeves:Show(sourceName)
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnRepair then
-			prepareMessage(self, "premsg_Spells_jeeves_rw", args.sourceName)
+			prepareMessage(self, "premsg_Spells_jeeves_rw", spellId, sourceName)
 		end
 	elseif spellId == 199109 and self:AntiSpam(10, "hammer") then --Автоматический молот
-		warnAutoHammer:Show(args.sourceName)
+		warnAutoHammer:Show(sourceName)
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnRepair then
-			prepareMessage(self, "premsg_Spells_autoHammer_rw", args.sourceName)
+			prepareMessage(self, "premsg_Spells_autoHammer_rw", spellId, sourceName)
 		end
 	elseif spellId == 199115 and self:AntiSpam(10, "pylon") then --Пилон для обнаружения проблем
-		warnPylon:Show(args.sourceName)
+		warnPylon:Show(sourceName)
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnPylon then
-			prepareMessage(self, "premsg_Spells_pylon_rw", args.sourceName)
+			prepareMessage(self, "premsg_Spells_pylon_rw", spellId, sourceName)
 		end
 	elseif spellId == 195782 and self:AntiSpam(5, "moonfeather") then --Призыв статуи лунного совуха
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnToys then
-			prepareMessage(self, "premsg_Spells_moonfeather", args.sourceName)
+			prepareMessage(self, "premsg_Spells_moonfeather", spellId, sourceName)
 		end
 	end
 end
