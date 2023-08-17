@@ -221,7 +221,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		if typeInstance ~= "party" and typeInstance ~= "raid" then return end
 		if DBM:GetNumRealGroupMembers() < 2 then return end
 		if args:IsPlayerSource() then
-			yellSymbolHope:Yell(hope)
+			yellSymbolHope:Yell(replaceSpellLinks(spellId))
 		else
 			warnSymbolHope:Show(sourceName)
 		end
@@ -233,7 +233,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		if DBM:GetNumRealGroupMembers() < 2 then return end
 		timerRallyingCry:Start()
 		if args:IsPlayerSource() then
-			yellRallyingCry:Yell(rallyingcry)
+			yellRallyingCry:Yell(replaceSpellLinks(spellId))
 		else
 			warnRallyingCry:Show(sourceName)
 		end
@@ -245,7 +245,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		if DBM:GetNumRealGroupMembers() < 2 then return end
 		timerVampiricAura:Start()
 		if args:IsPlayerSource() then
-			yellVampiricAura:Yell(vampiricaura)
+			yellVampiricAura:Yell(replaceSpellLinks(spellId))
 		else
 			warnVampiricAura:Show(sourceName)
 		end
@@ -257,7 +257,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		if DBM:GetNumRealGroupMembers() < 2 then return end
 		timerAuraMastery:Start()
 		if args:IsPlayerSource() then
-			yellAuraMastery:Yell(auramastery)
+			yellAuraMastery:Yell(replaceSpellLinks(spellId))
 		else
 			warnAuraMastery:Show(sourceName)
 		end
@@ -269,7 +269,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		if DBM:GetNumRealGroupMembers() < 2 then return end
 		timerVampiricEmbrace:Start()
 		if args:IsPlayerSource() then
-			yellVampiricEmbrace:Yell(vampiricembrace)
+			yellVampiricEmbrace:Yell(replaceSpellLinks(spellId))
 		else
 			warnVampiricEmbrace:Show(sourceName)
 		end
@@ -281,7 +281,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		if DBM:GetNumRealGroupMembers() < 2 then return end
 		timerPowerWordBarrier:Start()
 		if args:IsPlayerSource() then
-			yellPowerWordBarrier:Yell(powerwordbarrier)
+			yellPowerWordBarrier:Yell(replaceSpellLinks(spellId))
 		else
 			warnPowerWordBarrier:Show(sourceName)
 		end
@@ -460,7 +460,7 @@ function mod:SPELL_SUMMON(args)
 		if typeInstance ~= "party" and typeInstance ~= "raid" then return end
 		if DBM:GetNumRealGroupMembers() < 2 then return end
 		if args:IsPlayerSource() then
-			yellAncestralProtectionTotem:Yell(ancprotectotem)
+			yellAncestralProtectionTotem:Yell(replaceSpellLinks(spellId))
 		else
 			warnAncestralProtectionTotem:Show(sourceName)
 		end
