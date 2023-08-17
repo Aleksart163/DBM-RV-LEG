@@ -14,6 +14,8 @@ L:SetGeneralLocalization({
 })
 
 L:SetOptionLocalization({
+	YellOnRaidCooldown = "Segnala quando qualcuno lancia l'incantesimo $spell:97462 o simili",
+	YellOnResurrect = "Segnala quando qualcuno è diventato un obiettivo $spell:20484 o simili",
 	YellOnMassRes = "Segnala quando qualcuno lancia l'incantesimo $spell:212036 o simili",
 	YellOnHeroism = "Segnala quando qualcuno lancia l'incantesimo $spell:32182 o simili",
 	YellOnPortal = "Segnala quando qualcuno apre $spell:224871 o simili",
@@ -26,8 +28,7 @@ L:SetOptionLocalization({
 	YellOnRepair = "Segnala quando qualcuno mette $spell:199109 o simili",
 	YellOnPylon = "Segnala quando qualcuno mette $spell:199115",
 	YellOnBank = "Segnala quando qualcuno mette $spell:83958",
-	YellOnRaidCooldown = "Segnala quando qualcuno lancia l'incantesimo $spell:97462 o simili",
-	YellOnResurrect = "Segnala quando qualcuno è diventato un obiettivo $spell:20484 o simili"
+	YellOnToys = "Segnala quando qualcuno mette giocattoli come $spell:61031"
 })
 
 L:SetMiscLocalization{
@@ -38,9 +39,5 @@ L:SetMiscLocalization{
 	SoulwellYell = "%s %s mette %s!",
 	SoulstoneYell = "%s %s applica la %s a %s!",
 	SummoningYell = "%s %s inizia %s!",
-	SummonYell = "%s %s applica la %s a %s!",
-	WhisperThanks = "%s Grazie per %s!",
-	SpellNameYell = "Utilizzo %s!",
-	HeroismYell = "%s %s utilizza %s!",
-	SoulstoneYell = "%s %s applica la %s a %s!"
+	SummonYell = "%s %s applica la %s a %s!"
 }

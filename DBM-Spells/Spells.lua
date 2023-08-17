@@ -91,6 +91,8 @@ local yellPowerWordBarrier			= mod:NewYell(62618, L.SpellNameYell, nil, nil, "YE
 local yellAncestralProtectionTotem	= mod:NewYell(207399, L.SpellNameYell, nil, nil, "YELL") --Тотем защиты Предков
 local yellSymbolHope				= mod:NewYell(64901, L.SpellNameYell, nil, nil, "YELL") --Символ надежды
 
+mod:AddBoolOption("YellOnRaidCooldown", true) --рейд кд
+mod:AddBoolOption("YellOnResurrect", true) --бр
 mod:AddBoolOption("YellOnMassRes", true) --масс рес
 mod:AddBoolOption("YellOnHeroism", true) --героизм
 mod:AddBoolOption("YellOnPortal", true) --порталы
@@ -104,8 +106,6 @@ mod:AddBoolOption("YellOnBank", true) --банк
 mod:AddBoolOption("YellOnRepair", true) --починка
 mod:AddBoolOption("YellOnPylon", true) --пилон
 mod:AddBoolOption("YellOnToys", true) --игрушки
-mod:AddBoolOption("YellOnRaidCooldown", true) --рейд кд
-mod:AddBoolOption("YellOnResurrect", true) --бр
 
 --[[Массрес
 local massres1, massres2, massres3, massres4, massres5 = replaceSpellLinks(212040), replaceSpellLinks(212056), replaceSpellLinks(212036), replaceSpellLinks(212048), replaceSpellLinks(212051)

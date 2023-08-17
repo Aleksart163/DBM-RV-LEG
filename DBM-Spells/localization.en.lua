@@ -13,6 +13,7 @@ L:SetGeneralLocalization({
 
 L:SetOptionLocalization({
 	YellOnRaidCooldown = "Announce when someone is casting a spell $spell:97462 or equivalent",
+	YellOnResurrect = "Announce when someone has been subjected to $spell:20484 or equivalent",
 	YellOnMassRes = "Announce when someone is casting a spell $spell:212036 or equivalent",
 	YellOnHeroism = "Announce when someone is casting a spell $spell:32182 or equivalent",
 	YellOnPortal = "Announce when someone opens $spell:224871 or equivalent",
@@ -25,9 +26,7 @@ L:SetOptionLocalization({
 	YellOnRepair = "Announce when someone puts $spell:199109 or equivalent",
 	YellOnPylon = "Announce when someone puts $spell:199115",
 	YellOnBank = "Announce when someone puts $spell:83958",
-	YellOnToys = "Announce when someone puts toys like $spell:61031",
-	YellOnResurrect = "Announce when someone has been subjected to $spell:20484 or equivalent",
-	YellOnRaidCooldown = "Announce when someone is casting a spell $spell:97462 or equivalent"
+	YellOnToys = "Announce when someone puts toys like $spell:61031"
 })
 
 L:SetMiscLocalization{
@@ -38,9 +37,5 @@ L:SetMiscLocalization{
 	SoulwellYell = "%s %s puts %s!",
 	SoulstoneYell = "%s %s applies %s to %s!",
 	SummoningYell = "%s %s begins %s!",
-	SummonYell = "%s %s applies %s to %s!",
-	WhisperThanks = "%s Thank you for %s!",
-	SpellNameYell = "Using %s!",
-	HeroismYell = "%s %s uses %s!",
-	SoulstoneYell = "%s %s applies %s to %s!"
+	SummonYell = "%s %s applies %s to %s!"
 }
