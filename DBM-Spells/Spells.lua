@@ -182,7 +182,7 @@ local function sendAnnounce(self)
 		premsg_values.localizedName = replaceSpellLinks(premsg_values.spellId)
 	end
 
-	if premsg_values.spellId == nil or premsg_values.sourceName == nil or premsg_values.destName == nil then
+	if premsg_values.spellId == nil or premsg_values.sourceName == nil then
 		DBM:Debug('problem in sendAnnounce function')
 		DBM:Debug('premsg_values.spellId: ' .. tostring(premsg_values.spellId))
 		DBM:Debug('premsg_values.sourceName: ' .. tostring(premsg_values.sourceName))
@@ -541,7 +541,7 @@ local function prepareMessage(self, premsg_announce, spellId, sourceName, destNa
 		premsg_values.sourceName = sourceName
 		premsg_values.destName = destName
 
-		if premsg_values.spellId == nil or premsg_values.sourceName == nil or premsg_values.destName == nil then
+		if premsg_values.spellId == nil or premsg_values.sourceName == nil then
 			DBM:Debug('problem in prepareMessage function')
 			DBM:Debug('premsg_values.spellId: ' .. tostring(premsg_values.spellId))
 			DBM:Debug('premsg_values.sourceName: ' .. tostring(premsg_values.sourceName))
