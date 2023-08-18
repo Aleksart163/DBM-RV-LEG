@@ -170,13 +170,31 @@ local premsg_values = {
 local playerOnlyName = UnitName("player")
 
 local function sendAnnounce(self)
-	if premsg_values.spellId == nil then
+	--[[if premsg_values.spellId == nil then
 		premsg_values.localizedName = "Unknown"
 	else
 		premsg_values.localizedName = replaceSpellLinks(premsg_values.spellId)
 	end
 	if premsg_values.sourceName == nil then premsg_values.sourceName = "Unknown" end
-	if premsg_values.destName == nil then premsg_values.destName = "Unknown" end
+	if premsg_values.destName == nil then premsg_values.destName = "Unknown" end]]
+
+	if premsg_values.spellId ~= nil then
+		premsg_values.localizedName = replaceSpellLinks(premsg_values.spellId)
+	end
+
+	if premsg_values.spellId == nil or premsg_values.sourceName == nil or premsg_values.destName == nil then
+		DBM:Debug('problem in sendAnnounce function')
+		DBM:Debug('premsg_values.spellId: ' .. tostring(premsg_values.spellId))
+		DBM:Debug('premsg_values.spellId: ' .. tostring(premsg_values.sourceName))
+		DBM:Debug('premsg_values.spellId: ' .. tostring(premsg_values.destName))
+
+		premsg_values.spellId = nil
+		premsg_values.sourceName = nil
+		premsg_values.destName = nil
+		premsg_values.localizedName = nil
+
+		return
+	end
 
 	--[[if premsg_values.test == 1 then
 		smartChat("Тестовое сообщение.")
@@ -522,6 +540,20 @@ local function prepareMessage(self, premsg_announce, spellId, sourceName, destNa
 		premsg_values.spellId = spellId
 		premsg_values.sourceName = sourceName
 		premsg_values.destName = destName
+
+		if premsg_values.spellId == nil or premsg_values.sourceName == nil or premsg_values.destName == nil then
+			DBM:Debug('problem in prepareMessage function')
+			DBM:Debug('premsg_values.spellId: ' .. tostring(premsg_values.spellId))
+			DBM:Debug('premsg_values.spellId: ' .. tostring(premsg_values.sourceName))
+			DBM:Debug('premsg_values.spellId: ' .. tostring(premsg_values.destName))
+	
+			premsg_values.spellId = nil
+			premsg_values.sourceName = nil
+			premsg_values.destName = nil
+	
+			return
+		end
+
 		announceList(premsg_announce, 1)
 		self:SendSync(premsg_announce, playerOnlyName)
 		self:Schedule(1, sendAnnounce, self)
