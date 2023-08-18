@@ -148,10 +148,10 @@ end
 -- Синхронизация анонсов ↓
 local premsg_values = {
 	-- test,
-	spellId,
-	sourceName,
-	destName,
-	localizedName,
+	-- spellId,
+	-- sourceName,
+	-- destName,
+	-- localizedName,
 	massres1_rw, massres2_rw, massres3_rw, massres4_rw, massres5_rw,
 	timeWarp, heroism, bloodlust, hysteria, winds, drums,
 	stormwind, ironforge, darnassus, exodar, theramore, tolBarad1, valeEternal1, stormshield,
@@ -169,29 +169,31 @@ local premsg_values = {
 }
 local playerOnlyName = UnitName("player")
 
-local function sendAnnounce(self)
+local function sendAnnounce(self, spellId, sourceName, destName)
+	local localizedName = nil
 	--[[if premsg_values.spellId == nil then
 		premsg_values.localizedName = "Unknown"
 	else
 		premsg_values.localizedName = replaceSpellLinks(premsg_values.spellId)
 	end
 	if premsg_values.sourceName == nil then premsg_values.sourceName = "Unknown" end]]
-	if premsg_values.destName == nil then premsg_values.destName = "Unknown" end
-
-	if premsg_values.spellId ~= nil then
-		premsg_values.localizedName = replaceSpellLinks(premsg_values.spellId)
+	if destName == nil then destName = "Unknown" end
+	if spellId == nil then
+		localizedName = "Unknown"
+	else
+		localizedName = replaceSpellLinks(spellId)
 	end
 
-	if premsg_values.spellId == nil or premsg_values.sourceName == nil then
+	if spellId == nil or sourceName == nil then
 		DBM:Debug('problem in sendAnnounce function')
-		DBM:Debug('premsg_values.spellId: ' .. tostring(premsg_values.spellId))
-		DBM:Debug('premsg_values.sourceName: ' .. tostring(premsg_values.sourceName))
-		DBM:Debug('premsg_values.destName: ' .. tostring(premsg_values.destName))
+		DBM:Debug('spellId: ' .. tostring(spellId))
+		DBM:Debug('sourceName: ' .. tostring(sourceName))
+		DBM:Debug('destName: ' .. tostring(destName))
 
-		premsg_values.spellId = nil
+		--[[premsg_values.spellId = nil
 		premsg_values.sourceName = nil
 		premsg_values.destName = nil
-		premsg_values.localizedName = nil
+		premsg_values.localizedName = nil]]
 
 		return
 	end
@@ -202,136 +204,136 @@ local function sendAnnounce(self)
 		smartChat("destName: " .. premsg_values.destName)
 		premsg_values.test = 0
 	else]]if premsg_values.massres1_rw == 1 then
-		smartChat(L.HeroismYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName), "rw")
+		smartChat(L.HeroismYell:format(DbmRV, sourceName, localizedName), "rw")
 		premsg_values.massres1_rw = 0
 	elseif premsg_values.massres2_rw == 1 then
-		smartChat(L.HeroismYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName), "rw")
+		smartChat(L.HeroismYell:format(DbmRV, sourceName, localizedName), "rw")
 		premsg_values.massres2_rw = 0
 	elseif premsg_values.massres3_rw == 1 then
-		smartChat(L.HeroismYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName), "rw")
+		smartChat(L.HeroismYell:format(DbmRV, sourceName, localizedName), "rw")
 		premsg_values.massres3_rw = 0
 	elseif premsg_values.massres4_rw == 1 then
-		smartChat(L.HeroismYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName), "rw")
+		smartChat(L.HeroismYell:format(DbmRV, sourceName, localizedName), "rw")
 		premsg_values.massres4_rw = 0
 	elseif premsg_values.massres5_rw == 1 then
-		smartChat(L.HeroismYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName), "rw")
+		smartChat(L.HeroismYell:format(DbmRV, sourceName, localizedName), "rw")
 		premsg_values.massres5_rw = 0
 	elseif premsg_values.timeWarp == 1 then
-		smartChat(L.HeroismYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
+		smartChat(L.HeroismYell:format(DbmRV, sourceName, localizedName))
 		premsg_values.timeWarp = 0
 	elseif premsg_values.heroism == 1 then
-		smartChat(L.HeroismYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
+		smartChat(L.HeroismYell:format(DbmRV, sourceName, localizedName))
 		premsg_values.heroism = 0
 	elseif premsg_values.bloodlust == 1 then
-		smartChat(L.HeroismYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
+		smartChat(L.HeroismYell:format(DbmRV, sourceName, localizedName))
 		premsg_values.bloodlust = 0
 	elseif premsg_values.hysteria == 1 then
-		smartChat(L.HeroismYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
+		smartChat(L.HeroismYell:format(DbmRV, sourceName, localizedName))
 		premsg_values.hysteria = 0
 	elseif premsg_values.winds == 1 then
-		smartChat(L.HeroismYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
+		smartChat(L.HeroismYell:format(DbmRV, sourceName, localizedName))
 		premsg_values.winds = 0
 	elseif premsg_values.drums == 1 then
-		smartChat(L.HeroismYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
+		smartChat(L.HeroismYell:format(DbmRV, sourceName, localizedName))
 		premsg_values.drums = 0
 	elseif premsg_values.stormwind == 1 then
-		smartChat(L.PortalYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
+		smartChat(L.PortalYell:format(DbmRV, sourceName, localizedName))
 		premsg_values.stormwind = 0
 	elseif premsg_values.ironforge == 1 then
-		smartChat(L.PortalYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
+		smartChat(L.PortalYell:format(DbmRV, sourceName, localizedName))
 		premsg_values.ironforge = 0
 	elseif premsg_values.darnassus == 1 then
-		smartChat(L.PortalYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
+		smartChat(L.PortalYell:format(DbmRV, sourceName, localizedName))
 		premsg_values.darnassus = 0
 	elseif premsg_values.exodar == 1 then
-		smartChat(L.PortalYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
+		smartChat(L.PortalYell:format(DbmRV, sourceName, localizedName))
 		premsg_values.exodar = 0
 	elseif premsg_values.theramore == 1 then
-		smartChat(L.PortalYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
+		smartChat(L.PortalYell:format(DbmRV, sourceName, localizedName))
 		premsg_values.theramore = 0
 	elseif premsg_values.tolBarad1 == 1 then
-		smartChat(L.PortalYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
+		smartChat(L.PortalYell:format(DbmRV, sourceName, localizedName))
 		premsg_values.tolBarad1 = 0
 	elseif premsg_values.valeEternal1 == 1 then
-		smartChat(L.PortalYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
+		smartChat(L.PortalYell:format(DbmRV, sourceName, localizedName))
 		premsg_values.valeEternal1 = 0
 	elseif premsg_values.stormshield == 1 then
-		smartChat(L.PortalYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
+		smartChat(L.PortalYell:format(DbmRV, sourceName, localizedName))
 		premsg_values.stormshield = 0
 	elseif premsg_values.orgrimmar == 1 then
-		smartChat(L.PortalYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
+		smartChat(L.PortalYell:format(DbmRV, sourceName, localizedName))
 		premsg_values.orgrimmar = 0
 	elseif premsg_values.undercity == 1 then
-		smartChat(L.PortalYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
+		smartChat(L.PortalYell:format(DbmRV, sourceName, localizedName))
 		premsg_values.undercity = 0
 	elseif premsg_values.thunderBluff == 1 then
-		smartChat(L.PortalYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
+		smartChat(L.PortalYell:format(DbmRV, sourceName, localizedName))
 		premsg_values.thunderBluff = 0
 	elseif premsg_values.silvermoon == 1 then
-		smartChat(L.PortalYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
+		smartChat(L.PortalYell:format(DbmRV, sourceName, localizedName))
 		premsg_values.silvermoon = 0
 	elseif premsg_values.stonard == 1 then
-		smartChat(L.PortalYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
+		smartChat(L.PortalYell:format(DbmRV, sourceName, localizedName))
 		premsg_values.stonard = 0
 	elseif premsg_values.tolBarad2 == 1 then
-		smartChat(L.PortalYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
+		smartChat(L.PortalYell:format(DbmRV, sourceName, localizedName))
 		premsg_values.tolBarad2 = 0
 	elseif premsg_values.valeEternal2 == 1 then
-		smartChat(L.PortalYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
+		smartChat(L.PortalYell:format(DbmRV, sourceName, localizedName))
 		premsg_values.valeEternal2 = 0
 	elseif premsg_values.warspear == 1 then
-		smartChat(L.PortalYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
+		smartChat(L.PortalYell:format(DbmRV, sourceName, localizedName))
 		premsg_values.warspear = 0
 	elseif premsg_values.shattrath == 1 then
-		smartChat(L.PortalYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
+		smartChat(L.PortalYell:format(DbmRV, sourceName, localizedName))
 		premsg_values.shattrath = 0
 	elseif premsg_values.dalaran1 == 1 then
-		smartChat(L.PortalYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
+		smartChat(L.PortalYell:format(DbmRV, sourceName, localizedName))
 		premsg_values.dalaran1 = 0
 	elseif premsg_values.dalaran2 == 1 then
-		smartChat(L.PortalYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
+		smartChat(L.PortalYell:format(DbmRV, sourceName, localizedName))
 		premsg_values.dalaran2 = 0
 	elseif premsg_values.soulwell == 1 then
-		smartChat(L.HeroismYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
+		smartChat(L.HeroismYell:format(DbmRV, sourceName, localizedName))
 		premsg_values.soulwell = 0
 	elseif premsg_values.soulstone == 1 then
-		smartChat(L.SoulstoneYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName, premsg_values.destName))
+		smartChat(L.SoulstoneYell:format(DbmRV, sourceName, localizedName, destName))
 		premsg_values.soulstone = 0
 	elseif premsg_values.summoning == 1 then
-		smartChat(L.SummoningYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
+		smartChat(L.SummoningYell:format(DbmRV, sourceName, localizedName))
 		premsg_values.summoning = 0
 	elseif premsg_values.cauldron_rw == 1 then
-		smartChat(L.SoulwellYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
+		smartChat(L.SoulwellYell:format(DbmRV, sourceName, localizedName))
 		premsg_values.cauldron_rw = 0
 	elseif premsg_values.lavishSuramar_rw == 1 then
-		smartChat(L.SoulwellYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
+		smartChat(L.SoulwellYell:format(DbmRV, sourceName, localizedName))
 		premsg_values.lavishSuramar_rw = 0
 	elseif premsg_values.hearty == 1 then
-		smartChat(L.SoulwellYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
+		smartChat(L.SoulwellYell:format(DbmRV, sourceName, localizedName))
 		premsg_values.hearty = 0
 	elseif premsg_values.sugar == 1 then
-		smartChat(L.SoulwellYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
+		smartChat(L.SoulwellYell:format(DbmRV, sourceName, localizedName))
 		premsg_values.sugar = 0
 	elseif premsg_values.jeeves_rw == 1 then
-		smartChat(L.SoulwellYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
+		smartChat(L.SoulwellYell:format(DbmRV, sourceName, localizedName))
 		premsg_values.jeeves_rw = 0
 	elseif premsg_values.autoHammer_rw == 1 then
-		smartChat(L.SoulwellYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
+		smartChat(L.SoulwellYell:format(DbmRV, sourceName, localizedName))
 		premsg_values.autoHammer_rw = 0
 	elseif premsg_values.pylon_rw == 1 then
-		smartChat(L.SoulwellYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
+		smartChat(L.SoulwellYell:format(DbmRV, sourceName, localizedName))
 		premsg_values.pylon_rw = 0
 	elseif premsg_values.swap == 1 then
-		smartChat(L.SoulstoneYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName, premsg_values.destName))
+		smartChat(L.SoulstoneYell:format(DbmRV, sourceName, localizedName, destName))
 		premsg_values.swap = 0
 	elseif premsg_values.bank == 1 then
-		smartChat(L.SoulwellYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
+		smartChat(L.SoulwellYell:format(DbmRV, sourceName, localizedName))
 		premsg_values.bank = 0
 	elseif premsg_values.toyTrain == 1 then
-		smartChat(L.SoulwellYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
+		smartChat(L.SoulwellYell:format(DbmRV, sourceName, localizedName))
 		premsg_values.toyTrain = 0
 	elseif premsg_values.moonfeather == 1 then
-		smartChat(L.HeroismYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
+		smartChat(L.HeroismYell:format(DbmRV, sourceName, localizedName))
 		premsg_values.moonfeather = 0
 	--[[elseif premsg_values.highborne == 1 then
 	
@@ -340,65 +342,65 @@ local function sendAnnounce(self)
 	
 		premsg_values.discoball = 0]]
 	elseif premsg_values.direbrews == 1 then
-		smartChat(L.SummoningYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
+		smartChat(L.SummoningYell:format(DbmRV, sourceName, localizedName))
 		premsg_values.direbrews = 0
 	elseif premsg_values.rallyingcry == 1 then --Ободряющий клич
-		smartChat(L.HeroismYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
+		smartChat(L.HeroismYell:format(DbmRV, sourceName, localizedName))
 		premsg_values.rallyingcry = 0
 	elseif premsg_values.vampiricaura == 1 then --Вампирская аура
-		smartChat(L.HeroismYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
+		smartChat(L.HeroismYell:format(DbmRV, sourceName, localizedName))
 		premsg_values.vampiricaura = 0
 	elseif premsg_values.auramastery == 1 then --Владение аурами
-		smartChat(L.HeroismYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
+		smartChat(L.HeroismYell:format(DbmRV, sourceName, localizedName))
 		premsg_values.auramastery = 0
 	elseif premsg_values.vampiricembrace == 1 then --Объятия вампира
-		smartChat(L.HeroismYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
+		smartChat(L.HeroismYell:format(DbmRV, sourceName, localizedName))
 		premsg_values.vampiricembrace = 0
 	elseif premsg_values.powerwordbarrier == 1 then --Слово силы: Барьер
-		smartChat(L.HeroismYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
+		smartChat(L.HeroismYell:format(DbmRV, sourceName, localizedName))
 		premsg_values.powerwordbarrier = 0
 	elseif premsg_values.guardianspirit == 1 then --Оберегающий дух
-		smartChat(L.SoulstoneYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName, premsg_values.destName))
+		smartChat(L.SoulstoneYell:format(DbmRV, sourceName, localizedName, destName))
 		premsg_values.guardianspirit = 0
 	elseif premsg_values.painsuppression == 1 then --Подавление боли
-		smartChat(L.SoulstoneYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName, premsg_values.destName))
+		smartChat(L.SoulstoneYell:format(DbmRV, sourceName, localizedName, destName))
 		premsg_values.painsuppression = 0
 	elseif premsg_values.spirittotem == 1 then --Тотем духовной связи
-		smartChat(L.HeroismYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
+		smartChat(L.HeroismYell:format(DbmRV, sourceName, localizedName))
 		premsg_values.spirittotem = 0
 	elseif premsg_values.lifecocoon == 1 then --Исцеляющий кокон
-		smartChat(L.SoulstoneYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName, premsg_values.destName))
+		smartChat(L.SoulstoneYell:format(DbmRV, sourceName, localizedName, destName))
 		premsg_values.lifecocoon = 0
 	elseif premsg_values.blesofprot == 1 then --Благословение защиты
-		smartChat(L.SoulstoneYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName, premsg_values.destName))
+		smartChat(L.SoulstoneYell:format(DbmRV, sourceName, localizedName, destName))
 		premsg_values.blesofprot = 0
 	elseif premsg_values.ironbark == 1 then --Железная кора
-		smartChat(L.SoulstoneYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName, premsg_values.destName))
+		smartChat(L.SoulstoneYell:format(DbmRV, sourceName, localizedName, destName))
 		premsg_values.ironbark = 0
 	elseif premsg_values.ancprotectotem == 1 then --Тотем защиты Предков
-		smartChat(L.HeroismYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
+		smartChat(L.HeroismYell:format(DbmRV, sourceName, localizedName))
 		premsg_values.ancprotectotem = 0
 	elseif premsg_values.hope == 1 then --Символ надежды
-		smartChat(L.HeroismYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName))
+		smartChat(L.HeroismYell:format(DbmRV, sourceName, localizedName))
 		premsg_values.hope = 0
 	elseif premsg_values.innervate == 1 then --Озарение
-		smartChat(L.SoulstoneYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName, premsg_values.destName))
+		smartChat(L.SoulstoneYell:format(DbmRV, sourceName, localizedName, destName))
 		premsg_values.innervate = 0
 	elseif premsg_values.rebirth1 == 1 then --Возрождение
-		smartChat(L.SoulstoneYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName, premsg_values.destName))
+		smartChat(L.SoulstoneYell:format(DbmRV, sourceName, localizedName, destName))
 		premsg_values.rebirth1 = 0
 	elseif premsg_values.rebirth2 == 1 then --Воскрешение союзника
-		smartChat(L.SoulstoneYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName, premsg_values.destName))
+		smartChat(L.SoulstoneYell:format(DbmRV, sourceName, localizedName, destName))
 		premsg_values.rebirth2 = 0
 	elseif premsg_values.rebirth3 == 1 then --Воскрешение камнем души
-		smartChat(L.SoulstoneYell:format(DbmRV, premsg_values.sourceName, premsg_values.localizedName, premsg_values.destName))
+		smartChat(L.SoulstoneYell:format(DbmRV, sourceName, localizedName, destName))
 		premsg_values.rebirth3 = 0
 	end	
 
-	premsg_values.spellId = nil
+	--[[premsg_values.spellId = nil
 	premsg_values.sourceName = nil
 	premsg_values.destName = nil
-	premsg_values.localizedName = nil
+	premsg_values.localizedName = nil]]
 end
 
 local function announceList(premsg_announce, value)
@@ -537,26 +539,26 @@ end
 
 local function prepareMessage(self, premsg_announce, spellId, sourceName, destName)
 	if self:AntiSpam(1, "prepareMessage") then
-		premsg_values.spellId = spellId
+		--[[premsg_values.spellId = spellId
 		premsg_values.sourceName = sourceName
-		premsg_values.destName = destName
+		premsg_values.destName = destName]]
 
-		if premsg_values.spellId == nil or premsg_values.sourceName == nil then
+		if spellId == nil or sourceName == nil then
 			DBM:Debug('problem in prepareMessage function')
-			DBM:Debug('premsg_values.spellId: ' .. tostring(premsg_values.spellId))
-			DBM:Debug('premsg_values.sourceName: ' .. tostring(premsg_values.sourceName))
-			DBM:Debug('premsg_values.destName: ' .. tostring(premsg_values.destName))
+			DBM:Debug('spellId: ' .. tostring(spellId))
+			DBM:Debug('sourceName: ' .. tostring(sourceName))
+			DBM:Debug('destName: ' .. tostring(destName))
 	
-			premsg_values.spellId = nil
+			--[[premsg_values.spellId = nil
 			premsg_values.sourceName = nil
-			premsg_values.destName = nil
+			premsg_values.destName = nil]]
 	
 			return
 		end
 
 		announceList(premsg_announce, 1)
 		self:SendSync(premsg_announce, playerOnlyName)
-		self:Schedule(1, sendAnnounce, self)
+		self:Schedule(1, sendAnnounce, self, spellId, sourceName, destName)
 	end
 end
 -- Синхронизация анонсов ↑
