@@ -29,7 +29,7 @@ local specWarnQuake2				= mod:NewSpecialWarningMoveAway(240447, "Melee", nil, ni
 local timerQuake					= mod:NewCastTimer(2.5, 240447, nil, nil, nil, 2, nil, DBM_CORE_INTERRUPT_ICON..DBM_CORE_DEADLY_ICON) --Землетрясение
 --local timerQuakeCD					= mod:NewCDTimer(20, 240447, nil, nil, nil, 7) --Землетрясение
 local timerNecroticWound			= mod:NewTargetTimer(9, 209858, nil, "Tank|Healer", nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_HEALER_ICON) --Некротическая язва
-local timerBurst					= mod:NewTargetTimer(4, 240443, nil, nil, nil, 3, nil, DBM_CORE_MYTHIC_ICON..DBM_CORE_DEADLY_ICON) --Взрыв
+local timerBurst					= mod:NewBuffActiveTimer(4, 240443, nil, nil, nil, 3, nil, DBM_CORE_MYTHIC_ICON..DBM_CORE_DEADLY_ICON) --Взрыв
 
 local dota5s = false
 
