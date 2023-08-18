@@ -185,8 +185,8 @@ local function sendAnnounce(self)
 	if premsg_values.spellId == nil or premsg_values.sourceName == nil or premsg_values.destName == nil then
 		DBM:Debug('problem in sendAnnounce function')
 		DBM:Debug('premsg_values.spellId: ' .. tostring(premsg_values.spellId))
-		DBM:Debug('premsg_values.spellId: ' .. tostring(premsg_values.sourceName))
-		DBM:Debug('premsg_values.spellId: ' .. tostring(premsg_values.destName))
+		DBM:Debug('premsg_values.sourceName: ' .. tostring(premsg_values.sourceName))
+		DBM:Debug('premsg_values.destName: ' .. tostring(premsg_values.destName))
 
 		premsg_values.spellId = nil
 		premsg_values.sourceName = nil
@@ -544,8 +544,8 @@ local function prepareMessage(self, premsg_announce, spellId, sourceName, destNa
 		if premsg_values.spellId == nil or premsg_values.sourceName == nil or premsg_values.destName == nil then
 			DBM:Debug('problem in prepareMessage function')
 			DBM:Debug('premsg_values.spellId: ' .. tostring(premsg_values.spellId))
-			DBM:Debug('premsg_values.spellId: ' .. tostring(premsg_values.sourceName))
-			DBM:Debug('premsg_values.spellId: ' .. tostring(premsg_values.destName))
+			DBM:Debug('premsg_values.sourceName: ' .. tostring(premsg_values.sourceName))
+			DBM:Debug('premsg_values.destName: ' .. tostring(premsg_values.destName))
 	
 			premsg_values.spellId = nil
 			premsg_values.sourceName = nil
