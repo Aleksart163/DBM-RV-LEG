@@ -733,12 +733,12 @@ function mod:SPELL_CAST_SUCCESS(args)
 		if DBM:GetNumRealGroupMembers() < 2 then return end
 		timerVampiricAura:Start()
 		if args:IsPlayerSource() then
-			yellVampiricAura:Yell(replaceSpellLinks(spellId))
+			yellVampiricAura:Yell(replaceSpellLinks(238698))
 		else
 			warnVampiricAura:Show(sourceName)
 		end
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnRaidCooldown then
-			prepareMessage(self, "premsg_Spells_vampiricaura", spellId, sourceName)
+			prepareMessage(self, "premsg_Spells_vampiricaura", 238698, sourceName)
 		end
 	elseif spellId == 31821 then --Владение аурами
 		if typeInstance ~= "party" and typeInstance ~= "raid" then return end
