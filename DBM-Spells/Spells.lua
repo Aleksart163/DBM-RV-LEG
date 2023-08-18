@@ -175,8 +175,8 @@ local function sendAnnounce(self)
 	else
 		premsg_values.localizedName = replaceSpellLinks(premsg_values.spellId)
 	end
-	if premsg_values.sourceName == nil then premsg_values.sourceName = "Unknown" end
-	if premsg_values.destName == nil then premsg_values.destName = "Unknown" end]]
+	if premsg_values.sourceName == nil then premsg_values.sourceName = "Unknown" end]]
+	if premsg_values.destName == nil then premsg_values.destName = "Unknown" end
 
 	if premsg_values.spellId ~= nil then
 		premsg_values.localizedName = replaceSpellLinks(premsg_values.spellId)
