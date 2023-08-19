@@ -5,7 +5,7 @@ mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
 mod:SetZone(DBM_DISABLE_ZONE_DETECTION)
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 61994 212040 212056 212036 212048 212051 7720 8690 222695",
+	"SPELL_CAST_START 61994 212040 212056 212036 212048 212051 7720",
 	"SPELL_CAST_SUCCESS 161399 157757 80353 32182 230935 90355 2825 160452 10059 11416 11419 32266 49360 11417 11418 11420 32267 49361 33691 53142 88345 88346 132620 132626 176246 176244 224871 29893 83958 21169 97462 205223 31821 15286 62618 47788 64901",
 	"SPELL_AURA_APPLIED 20707 33206 116849 1022 29166 64901 102342",
 	"SPELL_AURA_REMOVED 47788 29166 64901 197908 102342 1022 116849",
@@ -118,8 +118,8 @@ end
 
 -- Синхронизация анонсов ↓
 local premsg_values = {
-	["premsg_Spells_test"] = {0, L.HeroismYell}, -- test (Needs to be commented out before release)
-	["premsg_Spells_test2"] = {0, L.HeroismYell}, -- test2 (Needs to be commented out before release)
+	-- ["premsg_Spells_test"] = {0, L.HeroismYell}, -- test (Needs to be commented out before release) 8690
+	-- ["premsg_Spells_test2"] = {0, L.HeroismYell}, -- test2 (Needs to be commented out before release) 222695
 	["premsg_Spells_massres1_rw"] = {0, L.HeroismYell, "rw"},
 	["premsg_Spells_massres2_rw"] = {0, L.HeroismYell, "rw"},
 	["premsg_Spells_massres3_rw"] = {0, L.HeroismYell, "rw"},
@@ -237,11 +237,11 @@ function mod:SPELL_CAST_START(args)
 	local sourceName = args.sourceName
 	local destName = args.destName
 	if not UnitInYourParty(sourceName) then return end
-	if spellId == 8690 then -- test (Needs to be commented out before release)
+	--[[if spellId == 8690 then -- test (Needs to be commented out before release)
 		prepareMessage(self, "premsg_Spells_test", spellId, sourceName)
 	elseif spellId == 222695 then -- test2 (Needs to be commented out before release)
 		prepareMessage(self, "premsg_Spells_test2", spellId, sourceName)
-	elseif spellId == 212040 and self:AntiSpam(15, "massres") then --Возвращение к жизни (друид)
+	else]]if spellId == 212040 and self:AntiSpam(15, "massres") then --Возвращение к жизни (друид)
 		warnMassres1:Show(sourceName)
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnMassRes then
 			prepareMessage(self, "premsg_Spells_massres1_rw", spellId, sourceName)
