@@ -5,7 +5,7 @@ mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
 mod:SetZone(DBM_DISABLE_ZONE_DETECTION)
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 61994 212040 212056 212036 212048 212051 7720",
+	"SPELL_CAST_START 61994 212040 212056 212036 212048 212051 7720 8690 222695",
 	"SPELL_CAST_SUCCESS 161399 157757 80353 32182 230935 90355 2825 160452 10059 11416 11419 32266 49360 11417 11418 11420 32267 49361 33691 53142 88345 88346 132620 132626 176246 176244 224871 29893 83958 21169 97462 205223 31821 15286 62618 47788 64901",
 	"SPELL_AURA_APPLIED 20707 33206 116849 1022 29166 64901 102342",
 	"SPELL_AURA_REMOVED 47788 29166 64901 197908 102342 1022 116849",
@@ -107,35 +107,6 @@ mod:AddBoolOption("YellOnRepair", true) --починка
 mod:AddBoolOption("YellOnPylon", true) --пилон
 mod:AddBoolOption("YellOnToys", true) --игрушки
 
---[[Массрес
-local massres1, massres2, massres3, massres4, massres5 = replaceSpellLinks(212040), replaceSpellLinks(212056), replaceSpellLinks(212036), replaceSpellLinks(212048), replaceSpellLinks(212051)
---Героизм
-local timeWarp, heroism, bloodlust, hysteria, winds, drums = replaceSpellLinks(80353), replaceSpellLinks(32182), replaceSpellLinks(2825), replaceSpellLinks(90355), replaceSpellLinks(160452), replaceSpellLinks(230935)
---Порталы Альянса
-local stormwind, ironforge, darnassus, exodar, theramore, tolBarad1, valeEternal1, stormshield = replaceSpellLinks(10059), replaceSpellLinks(11416), replaceSpellLinks(11419), replaceSpellLinks(32266), replaceSpellLinks(49360), replaceSpellLinks(88345), replaceSpellLinks(132620), replaceSpellLinks(176246)
---Порталы Орды
-local orgrimmar, undercity, thunderBluff, silvermoon, stonard, tolBarad2, valeEternal2, warspear = replaceSpellLinks(11417), replaceSpellLinks(11418), replaceSpellLinks(11420), replaceSpellLinks(32267), replaceSpellLinks(49361), replaceSpellLinks(88346), replaceSpellLinks(132626), replaceSpellLinks(176244)
---Порталы общие
-local shattrath, dalaran1, dalaran2 = replaceSpellLinks(33691), replaceSpellLinks(53142), replaceSpellLinks(224871)
---Спеллы лока
-local soulwell, soulstone, summoning, summoning2 = replaceSpellLinks(29893), replaceSpellLinks(20707), replaceSpellLinks(698), replaceSpellLinks(7720)
---Котел духов
-local cauldron = replaceSpellLinks(188036)
---Еда
-local lavishSuramar, hearty, sugar = replaceSpellLinks(201352), replaceSpellLinks(201351), replaceSpellLinks(185709)
---Инженерия
-local jeeves, autoHammer, pylon, swap = replaceSpellLinks(67826), replaceSpellLinks(199109), replaceSpellLinks(199115), replaceSpellLinks(161399)
---Мобильный банк
-local bank = replaceSpellLinks(88306) --83958
---Игрушки
-local toyTrain, moonfeather, highborne, discoball, direbrews = replaceSpellLinks(61031), replaceSpellLinks(195782), replaceSpellLinks(73331), replaceSpellLinks(50317), replaceSpellLinks(49844)
-рейд кд
-local rallyingcry, vampiricaura, auramastery, vampiricembrace, powerwordbarrier, guardianspirit, painsuppression, spirittotem, lifecocoon, blesofprot, ironbark, ancprotectotem = replaceSpellLinks(97462), replaceSpellLinks(238698), replaceSpellLinks(31821), replaceSpellLinks(15286), replaceSpellLinks(62618), replaceSpellLinks(47788), replaceSpellLinks(33206), replaceSpellLinks(98008), replaceSpellLinks(116849), replaceSpellLinks(1022), replaceSpellLinks(102342), replaceSpellLinks(207399)
---Реген маны
-local hope, innervate, manatea = replaceSpellLinks(64901), replaceSpellLinks(29166), replaceSpellLinks(197908)
---БР
-local rebirth1, rebirth2, rebirth3 = replaceSpellLinks(20484), replaceSpellLinks(61999), replaceSpellLinks(95750)]]
-
 local typeInstance = nil
 
 local function UnitInYourParty(sourceName)
@@ -147,412 +118,110 @@ end
 
 -- Синхронизация анонсов ↓
 local premsg_values = {
-	-- test,
-	-- spellId,
-	-- sourceName,
-	-- destName,
-	-- localizedName,
-	massres1_rw, massres2_rw, massres3_rw, massres4_rw, massres5_rw,
-	timeWarp, heroism, bloodlust, hysteria, winds, drums,
-	stormwind, ironforge, darnassus, exodar, theramore, tolBarad1, valeEternal1, stormshield,
-	orgrimmar, undercity, thunderBluff, silvermoon, stonard, tolBarad2, valeEternal2, warspear,
-	shattrath, dalaran1, dalaran2,
-	soulwell, soulstone, summoning,
-	cauldron_rw,
-	lavishSuramar_rw, hearty, sugar,
-	jeeves_rw, autoHammer_rw, pylon_rw, swap,
-	bank,
-	toyTrain, moonfeather, --[[highborne, discoball, ]]direbrews,
-	rallyingcry, vampiricaura, auramastery, vampiricembrace, powerwordbarrier, guardianspirit, painsuppression, spirittotem, lifecocoon, blesofprot, ironbark, ancprotectotem,
-	hope, innervate,
-	rebirth1, rebirth2, rebirth3
+	["premsg_Spells_test"] = {0, L.HeroismYell}, -- test (Needs to be commented out before release)
+	["premsg_Spells_test2"] = {0, L.HeroismYell}, -- test2 (Needs to be commented out before release)
+	["premsg_Spells_massres1_rw"] = {0, L.HeroismYell, "rw"},
+	["premsg_Spells_massres2_rw"] = {0, L.HeroismYell, "rw"},
+	["premsg_Spells_massres3_rw"] = {0, L.HeroismYell, "rw"},
+	["premsg_Spells_massres4_rw"] = {0, L.HeroismYell, "rw"},
+	["premsg_Spells_massres5_rw"] = {0, L.HeroismYell, "rw"},
+	["premsg_Spells_timeWarp"] = {0, L.HeroismYell},
+	["premsg_Spells_heroism"] = {0, L.HeroismYell},
+	["premsg_Spells_bloodlust"] = {0, L.HeroismYell},
+	["premsg_Spells_hysteria"] = {0, L.HeroismYell},
+	["premsg_Spells_winds"] = {0, L.HeroismYell},
+	["premsg_Spells_drums"] = {0, L.HeroismYell},
+	["premsg_Spells_stormwind"] = {0, L.PortalYell},
+	["premsg_Spells_ironforge"] = {0, L.PortalYell},
+	["premsg_Spells_darnassus"] = {0, L.PortalYell},
+	["premsg_Spells_exodar"] = {0, L.PortalYell},
+	["premsg_Spells_theramore"] = {0, L.PortalYell},
+	["premsg_Spells_tolBarad1"] = {0, L.PortalYell},
+	["premsg_Spells_valeEternal1"] = {0, L.PortalYell},
+	["premsg_Spells_stormshield"] = {0, L.PortalYell},
+	["premsg_Spells_orgrimmar"] = {0, L.PortalYell},
+	["premsg_Spells_undercity"] = {0, L.PortalYell},
+	["premsg_Spells_thunderBluff"] = {0, L.PortalYell},
+	["premsg_Spells_silvermoon"] = {0, L.PortalYell},
+	["premsg_Spells_stonard"] = {0, L.PortalYell},
+	["premsg_Spells_tolBarad2"] = {0, L.PortalYell},
+	["premsg_Spells_valeEternal2"] = {0, L.PortalYell},
+	["premsg_Spells_warspear"] = {0, L.PortalYell},
+	["premsg_Spells_shattrath"] = {0, L.PortalYell},
+	["premsg_Spells_dalaran1"] = {0, L.PortalYell},
+	["premsg_Spells_dalaran2"] = {0, L.PortalYell},
+	["premsg_Spells_soulwell"] = {0, L.HeroismYell},
+	["premsg_Spells_soulstone"] = {0, L.SoulstoneYell},
+	["premsg_Spells_summoning"] = {0, L.SummoningYell},
+	["premsg_Spells_cauldron_rw"] = {0, L.SoulwellYell},
+	["premsg_Spells_lavishSuramar_rw"] = {0, L.SoulwellYell},
+	["premsg_Spells_hearty"] = {0, L.SoulwellYell},
+	["premsg_Spells_sugar"] = {0, L.SoulwellYell},
+	["premsg_Spells_jeeves_rw"] = {0, L.SoulwellYell},
+	["premsg_Spells_autoHammer_rw"] = {0, L.SoulwellYell},
+	["premsg_Spells_pylon_rw"] = {0, L.SoulwellYell},
+	["premsg_Spells_swap"] = {0, L.SoulstoneYell},
+	["premsg_Spells_bank"] = {0, L.SoulwellYell},
+	["premsg_Spells_toyTrain"] = {0, L.SoulwellYell},
+	["premsg_Spells_moonfeather"] = {0, L.HeroismYell},
+	["premsg_Spells_direbrews"] = {0, L.SummoningYell},
+	["premsg_Spells_rallyingcry"] = {0, L.HeroismYell}, --Ободряющий клич
+	["premsg_Spells_vampiricaura"] = {0, L.HeroismYell}, --Вампирская аура
+	["premsg_Spells_auramastery"] = {0, L.HeroismYell}, --Владение аурами
+	["premsg_Spells_vampiricembrace"] = {0, L.HeroismYell}, --Объятия вампира
+	["premsg_Spells_powerwordbarrier"] = {0, L.HeroismYell}, --Слово силы: Барьер
+	["premsg_Spells_guardianspirit"] = {0, L.SoulstoneYell}, --Оберегающий дух
+	["premsg_Spells_painsuppression"] = {0, L.SoulstoneYell}, --Подавление боли
+	["premsg_Spells_spirittotem"] = {0, L.HeroismYell}, --Тотем духовной связи
+	["premsg_Spells_lifecocoon"] = {0, L.SoulstoneYell}, --Исцеляющий кокон
+	["premsg_Spells_blesofprot"] = {0, L.SoulstoneYell}, --Благословение защиты
+	["premsg_Spells_ironbark"] = {0, L.SoulstoneYell}, --Железная кора
+	["premsg_Spells_ancprotectotem"] = {0, L.HeroismYell}, --Тотем защиты Предков
+	["premsg_Spells_hope"] = {0, L.HeroismYell}, --Символ надежды
+	["premsg_Spells_innervate"] = {0, L.SoulstoneYell}, --Озарение
+	["premsg_Spells_rebirth1"] = {0, L.SoulstoneYell}, --Возрождение
+	["premsg_Spells_rebirth2"] = {0, L.SoulstoneYell}, --Воскрешение союзника
+	["premsg_Spells_rebirth3"] = {0, L.SoulstoneYell} --Воскрешение камнем души
 }
 local playerOnlyName = UnitName("player")
 
 local function sendAnnounce(self, spellId, sourceName, destName)
 	local localizedName = nil
-	--[[if premsg_values.spellId == nil then
-		premsg_values.localizedName = "Unknown"
-	else
-		premsg_values.localizedName = replaceSpellLinks(premsg_values.spellId)
-	end
-	if premsg_values.sourceName == nil then premsg_values.sourceName = "Unknown" end]]
+
 	if destName == nil then destName = "Unknown" end
-	if spellId == nil then
-		localizedName = "Unknown"
-	else
-		localizedName = replaceSpellLinks(spellId)
-	end
+	if spellId ~= nil then localizedName = replaceSpellLinks(spellId) end
 
 	if spellId == nil or sourceName == nil then
 		DBM:Debug('problem in sendAnnounce function')
 		DBM:Debug('spellId: ' .. tostring(spellId))
 		DBM:Debug('sourceName: ' .. tostring(sourceName))
 		DBM:Debug('destName: ' .. tostring(destName))
-
-		--[[premsg_values.spellId = nil
-		premsg_values.sourceName = nil
-		premsg_values.destName = nil
-		premsg_values.localizedName = nil]]
-
 		return
 	end
 
-	--[[if premsg_values.test == 1 then
-		smartChat("Тестовое сообщение.")
-		smartChat("sourceName: " .. premsg_values.sourceName)
-		smartChat("destName: " .. premsg_values.destName)
-		premsg_values.test = 0
-	else]]if premsg_values.massres1_rw == 1 then
-		smartChat(L.HeroismYell:format(DbmRV, sourceName, localizedName), "rw")
-		premsg_values.massres1_rw = 0
-	elseif premsg_values.massres2_rw == 1 then
-		smartChat(L.HeroismYell:format(DbmRV, sourceName, localizedName), "rw")
-		premsg_values.massres2_rw = 0
-	elseif premsg_values.massres3_rw == 1 then
-		smartChat(L.HeroismYell:format(DbmRV, sourceName, localizedName), "rw")
-		premsg_values.massres3_rw = 0
-	elseif premsg_values.massres4_rw == 1 then
-		smartChat(L.HeroismYell:format(DbmRV, sourceName, localizedName), "rw")
-		premsg_values.massres4_rw = 0
-	elseif premsg_values.massres5_rw == 1 then
-		smartChat(L.HeroismYell:format(DbmRV, sourceName, localizedName), "rw")
-		premsg_values.massres5_rw = 0
-	elseif premsg_values.timeWarp == 1 then
-		smartChat(L.HeroismYell:format(DbmRV, sourceName, localizedName))
-		premsg_values.timeWarp = 0
-	elseif premsg_values.heroism == 1 then
-		smartChat(L.HeroismYell:format(DbmRV, sourceName, localizedName))
-		premsg_values.heroism = 0
-	elseif premsg_values.bloodlust == 1 then
-		smartChat(L.HeroismYell:format(DbmRV, sourceName, localizedName))
-		premsg_values.bloodlust = 0
-	elseif premsg_values.hysteria == 1 then
-		smartChat(L.HeroismYell:format(DbmRV, sourceName, localizedName))
-		premsg_values.hysteria = 0
-	elseif premsg_values.winds == 1 then
-		smartChat(L.HeroismYell:format(DbmRV, sourceName, localizedName))
-		premsg_values.winds = 0
-	elseif premsg_values.drums == 1 then
-		smartChat(L.HeroismYell:format(DbmRV, sourceName, localizedName))
-		premsg_values.drums = 0
-	elseif premsg_values.stormwind == 1 then
-		smartChat(L.PortalYell:format(DbmRV, sourceName, localizedName))
-		premsg_values.stormwind = 0
-	elseif premsg_values.ironforge == 1 then
-		smartChat(L.PortalYell:format(DbmRV, sourceName, localizedName))
-		premsg_values.ironforge = 0
-	elseif premsg_values.darnassus == 1 then
-		smartChat(L.PortalYell:format(DbmRV, sourceName, localizedName))
-		premsg_values.darnassus = 0
-	elseif premsg_values.exodar == 1 then
-		smartChat(L.PortalYell:format(DbmRV, sourceName, localizedName))
-		premsg_values.exodar = 0
-	elseif premsg_values.theramore == 1 then
-		smartChat(L.PortalYell:format(DbmRV, sourceName, localizedName))
-		premsg_values.theramore = 0
-	elseif premsg_values.tolBarad1 == 1 then
-		smartChat(L.PortalYell:format(DbmRV, sourceName, localizedName))
-		premsg_values.tolBarad1 = 0
-	elseif premsg_values.valeEternal1 == 1 then
-		smartChat(L.PortalYell:format(DbmRV, sourceName, localizedName))
-		premsg_values.valeEternal1 = 0
-	elseif premsg_values.stormshield == 1 then
-		smartChat(L.PortalYell:format(DbmRV, sourceName, localizedName))
-		premsg_values.stormshield = 0
-	elseif premsg_values.orgrimmar == 1 then
-		smartChat(L.PortalYell:format(DbmRV, sourceName, localizedName))
-		premsg_values.orgrimmar = 0
-	elseif premsg_values.undercity == 1 then
-		smartChat(L.PortalYell:format(DbmRV, sourceName, localizedName))
-		premsg_values.undercity = 0
-	elseif premsg_values.thunderBluff == 1 then
-		smartChat(L.PortalYell:format(DbmRV, sourceName, localizedName))
-		premsg_values.thunderBluff = 0
-	elseif premsg_values.silvermoon == 1 then
-		smartChat(L.PortalYell:format(DbmRV, sourceName, localizedName))
-		premsg_values.silvermoon = 0
-	elseif premsg_values.stonard == 1 then
-		smartChat(L.PortalYell:format(DbmRV, sourceName, localizedName))
-		premsg_values.stonard = 0
-	elseif premsg_values.tolBarad2 == 1 then
-		smartChat(L.PortalYell:format(DbmRV, sourceName, localizedName))
-		premsg_values.tolBarad2 = 0
-	elseif premsg_values.valeEternal2 == 1 then
-		smartChat(L.PortalYell:format(DbmRV, sourceName, localizedName))
-		premsg_values.valeEternal2 = 0
-	elseif premsg_values.warspear == 1 then
-		smartChat(L.PortalYell:format(DbmRV, sourceName, localizedName))
-		premsg_values.warspear = 0
-	elseif premsg_values.shattrath == 1 then
-		smartChat(L.PortalYell:format(DbmRV, sourceName, localizedName))
-		premsg_values.shattrath = 0
-	elseif premsg_values.dalaran1 == 1 then
-		smartChat(L.PortalYell:format(DbmRV, sourceName, localizedName))
-		premsg_values.dalaran1 = 0
-	elseif premsg_values.dalaran2 == 1 then
-		smartChat(L.PortalYell:format(DbmRV, sourceName, localizedName))
-		premsg_values.dalaran2 = 0
-	elseif premsg_values.soulwell == 1 then
-		smartChat(L.HeroismYell:format(DbmRV, sourceName, localizedName))
-		premsg_values.soulwell = 0
-	elseif premsg_values.soulstone == 1 then
-		smartChat(L.SoulstoneYell:format(DbmRV, sourceName, localizedName, destName))
-		premsg_values.soulstone = 0
-	elseif premsg_values.summoning == 1 then
-		smartChat(L.SummoningYell:format(DbmRV, sourceName, localizedName))
-		premsg_values.summoning = 0
-	elseif premsg_values.cauldron_rw == 1 then
-		smartChat(L.SoulwellYell:format(DbmRV, sourceName, localizedName))
-		premsg_values.cauldron_rw = 0
-	elseif premsg_values.lavishSuramar_rw == 1 then
-		smartChat(L.SoulwellYell:format(DbmRV, sourceName, localizedName))
-		premsg_values.lavishSuramar_rw = 0
-	elseif premsg_values.hearty == 1 then
-		smartChat(L.SoulwellYell:format(DbmRV, sourceName, localizedName))
-		premsg_values.hearty = 0
-	elseif premsg_values.sugar == 1 then
-		smartChat(L.SoulwellYell:format(DbmRV, sourceName, localizedName))
-		premsg_values.sugar = 0
-	elseif premsg_values.jeeves_rw == 1 then
-		smartChat(L.SoulwellYell:format(DbmRV, sourceName, localizedName))
-		premsg_values.jeeves_rw = 0
-	elseif premsg_values.autoHammer_rw == 1 then
-		smartChat(L.SoulwellYell:format(DbmRV, sourceName, localizedName))
-		premsg_values.autoHammer_rw = 0
-	elseif premsg_values.pylon_rw == 1 then
-		smartChat(L.SoulwellYell:format(DbmRV, sourceName, localizedName))
-		premsg_values.pylon_rw = 0
-	elseif premsg_values.swap == 1 then
-		smartChat(L.SoulstoneYell:format(DbmRV, sourceName, localizedName, destName))
-		premsg_values.swap = 0
-	elseif premsg_values.bank == 1 then
-		smartChat(L.SoulwellYell:format(DbmRV, sourceName, localizedName))
-		premsg_values.bank = 0
-	elseif premsg_values.toyTrain == 1 then
-		smartChat(L.SoulwellYell:format(DbmRV, sourceName, localizedName))
-		premsg_values.toyTrain = 0
-	elseif premsg_values.moonfeather == 1 then
-		smartChat(L.HeroismYell:format(DbmRV, sourceName, localizedName))
-		premsg_values.moonfeather = 0
-	--[[elseif premsg_values.highborne == 1 then
-	
-		premsg_values.highborne = 0
-	elseif premsg_values.discoball == 1 then
-	
-		premsg_values.discoball = 0]]
-	elseif premsg_values.direbrews == 1 then
-		smartChat(L.SummoningYell:format(DbmRV, sourceName, localizedName))
-		premsg_values.direbrews = 0
-	elseif premsg_values.rallyingcry == 1 then --Ободряющий клич
-		smartChat(L.HeroismYell:format(DbmRV, sourceName, localizedName))
-		premsg_values.rallyingcry = 0
-	elseif premsg_values.vampiricaura == 1 then --Вампирская аура
-		smartChat(L.HeroismYell:format(DbmRV, sourceName, localizedName))
-		premsg_values.vampiricaura = 0
-	elseif premsg_values.auramastery == 1 then --Владение аурами
-		smartChat(L.HeroismYell:format(DbmRV, sourceName, localizedName))
-		premsg_values.auramastery = 0
-	elseif premsg_values.vampiricembrace == 1 then --Объятия вампира
-		smartChat(L.HeroismYell:format(DbmRV, sourceName, localizedName))
-		premsg_values.vampiricembrace = 0
-	elseif premsg_values.powerwordbarrier == 1 then --Слово силы: Барьер
-		smartChat(L.HeroismYell:format(DbmRV, sourceName, localizedName))
-		premsg_values.powerwordbarrier = 0
-	elseif premsg_values.guardianspirit == 1 then --Оберегающий дух
-		smartChat(L.SoulstoneYell:format(DbmRV, sourceName, localizedName, destName))
-		premsg_values.guardianspirit = 0
-	elseif premsg_values.painsuppression == 1 then --Подавление боли
-		smartChat(L.SoulstoneYell:format(DbmRV, sourceName, localizedName, destName))
-		premsg_values.painsuppression = 0
-	elseif premsg_values.spirittotem == 1 then --Тотем духовной связи
-		smartChat(L.HeroismYell:format(DbmRV, sourceName, localizedName))
-		premsg_values.spirittotem = 0
-	elseif premsg_values.lifecocoon == 1 then --Исцеляющий кокон
-		smartChat(L.SoulstoneYell:format(DbmRV, sourceName, localizedName, destName))
-		premsg_values.lifecocoon = 0
-	elseif premsg_values.blesofprot == 1 then --Благословение защиты
-		smartChat(L.SoulstoneYell:format(DbmRV, sourceName, localizedName, destName))
-		premsg_values.blesofprot = 0
-	elseif premsg_values.ironbark == 1 then --Железная кора
-		smartChat(L.SoulstoneYell:format(DbmRV, sourceName, localizedName, destName))
-		premsg_values.ironbark = 0
-	elseif premsg_values.ancprotectotem == 1 then --Тотем защиты Предков
-		smartChat(L.HeroismYell:format(DbmRV, sourceName, localizedName))
-		premsg_values.ancprotectotem = 0
-	elseif premsg_values.hope == 1 then --Символ надежды
-		smartChat(L.HeroismYell:format(DbmRV, sourceName, localizedName))
-		premsg_values.hope = 0
-	elseif premsg_values.innervate == 1 then --Озарение
-		smartChat(L.SoulstoneYell:format(DbmRV, sourceName, localizedName, destName))
-		premsg_values.innervate = 0
-	elseif premsg_values.rebirth1 == 1 then --Возрождение
-		smartChat(L.SoulstoneYell:format(DbmRV, sourceName, localizedName, destName))
-		premsg_values.rebirth1 = 0
-	elseif premsg_values.rebirth2 == 1 then --Воскрешение союзника
-		smartChat(L.SoulstoneYell:format(DbmRV, sourceName, localizedName, destName))
-		premsg_values.rebirth2 = 0
-	elseif premsg_values.rebirth3 == 1 then --Воскрешение камнем души
-		smartChat(L.SoulstoneYell:format(DbmRV, sourceName, localizedName, destName))
-		premsg_values.rebirth3 = 0
-	end	
-
-	--[[premsg_values.spellId = nil
-	premsg_values.sourceName = nil
-	premsg_values.destName = nil
-	premsg_values.localizedName = nil]]
+	for k, v in pairs(premsg_values) do
+		if type(v) == "table" and v[1] == 1 then
+			smartChat(v[2]:format(DbmRV, sourceName, localizedName, destName), v[3])
+			v[1] = 0
+		end
+	end
 end
 
 local function announceList(premsg_announce, value)
-	--[[if premsg_announce == "premsg_Spells_test" then
-		premsg_values.test = value
-	else]]if premsg_announce == "premsg_Spells_massres1_rw" then
-		premsg_values.massres1_rw = value
-	elseif premsg_announce == "premsg_Spells_massres2_rw" then
-		premsg_values.massres2_rw = value
-	elseif premsg_announce == "premsg_Spells_massres3_rw" then
-		premsg_values.massres3_rw = value
-	elseif premsg_announce == "premsg_Spells_massres4_rw" then
-		premsg_values.massres4_rw = value
-	elseif premsg_announce == "premsg_Spells_massres5_rw" then
-		premsg_values.massres5_rw = value
-	elseif premsg_announce == "premsg_Spells_timeWarp" then
-		premsg_values.timeWarp = value
-	elseif premsg_announce == "premsg_Spells_heroism" then
-		premsg_values.heroism = value
-	elseif premsg_announce == "premsg_Spells_bloodlust" then
-		premsg_values.bloodlust = value
-	elseif premsg_announce == "premsg_Spells_hysteria" then
-		premsg_values.hysteria = value
-	elseif premsg_announce == "premsg_Spells_winds" then
-		premsg_values.winds = value
-	elseif premsg_announce == "premsg_Spells_drums" then
-		premsg_values.drums = value
-	elseif premsg_announce == "premsg_Spells_stormwind" then
-		premsg_values.stormwind = value
-	elseif premsg_announce == "premsg_Spells_ironforge" then
-		premsg_values.ironforge = value
-	elseif premsg_announce == "premsg_Spells_darnassus" then
-		premsg_values.darnassus = value
-	elseif premsg_announce == "premsg_Spells_exodar" then
-		premsg_values.exodar = value
-	elseif premsg_announce == "premsg_Spells_theramore" then
-		premsg_values.theramore = value
-	elseif premsg_announce == "premsg_Spells_tolBarad1" then
-		premsg_values.tolBarad1 = value
-	elseif premsg_announce == "premsg_Spells_valeEternal1" then
-		premsg_values.valeEternal1 = value
-	elseif premsg_announce == "premsg_Spells_stormshield" then
-		premsg_values.stormshield = value
-	elseif premsg_announce == "premsg_Spells_orgrimmar" then
-		premsg_values.orgrimmar = value
-	elseif premsg_announce == "premsg_Spells_undercity" then
-		premsg_values.undercity = value
-	elseif premsg_announce == "premsg_Spells_thunderBluff" then
-		premsg_values.thunderBluff = value
-	elseif premsg_announce == "premsg_Spells_silvermoon" then
-		premsg_values.silvermoon = value
-	elseif premsg_announce == "premsg_Spells_stonard" then
-		premsg_values.stonard = value
-	elseif premsg_announce == "premsg_Spells_tolBarad2" then
-		premsg_values.tolBarad2 = value
-	elseif premsg_announce == "premsg_Spells_valeEternal2" then
-		premsg_values.valeEternal2 = value
-	elseif premsg_announce == "premsg_Spells_warspear" then
-		premsg_values.warspear = value
-	elseif premsg_announce == "premsg_Spells_shattrath" then
-		premsg_values.shattrath = value
-	elseif premsg_announce == "premsg_Spells_dalaran1" then
-		premsg_values.dalaran1 = value
-	elseif premsg_announce == "premsg_Spells_dalaran2" then
-		premsg_values.dalaran2 = value
-	elseif premsg_announce == "premsg_Spells_soulwell" then
-		premsg_values.soulwell = value
-	elseif premsg_announce == "premsg_Spells_soulstone" then
-		premsg_values.soulstone = value
-	elseif premsg_announce == "premsg_Spells_summoning" then
-		premsg_values.summoning = value
-	elseif premsg_announce == "premsg_Spells_cauldron_rw" then
-		premsg_values.cauldron_rw = value
-	elseif premsg_announce == "premsg_Spells_lavishSuramar_rw" then
-		premsg_values.lavishSuramar_rw = value
-	elseif premsg_announce == "premsg_Spells_hearty" then
-		premsg_values.hearty = value
-	elseif premsg_announce == "premsg_Spells_sugar" then
-		premsg_values.sugar = value
-	elseif premsg_announce == "premsg_Spells_jeeves_rw" then
-		premsg_values.jeeves_rw = value
-	elseif premsg_announce == "premsg_Spells_autoHammer_rw" then
-		premsg_values.autoHammer_rw = value
-	elseif premsg_announce == "premsg_Spells_pylon_rw" then
-		premsg_values.pylon_rw = value
-	elseif premsg_announce == "premsg_Spells_swap" then
-		premsg_values.swap = value
-	elseif premsg_announce == "premsg_Spells_bank" then
-		premsg_values.bank = value
-	elseif premsg_announce == "premsg_Spells_toyTrain" then
-		premsg_values.toyTrain = value
-	elseif premsg_announce == "premsg_Spells_moonfeather" then
-		premsg_values.moonfeather = value
-	--[[elseif premsg_announce == "premsg_Spells_highborne" then
-		premsg_values.highborne = value
-	elseif premsg_announce == "premsg_Spells_discoball" then
-		premsg_values.discoball = value]]
-	elseif premsg_announce == "premsg_Spells_direbrews" then
-		premsg_values.direbrews = value
-	elseif premsg_announce == "premsg_Spells_rallyingcry" then --Ободряющий клич
-		premsg_values.rallyingcry = value
-	elseif premsg_announce == "premsg_Spells_vampiricaura" then --Вампирская аура
-		premsg_values.vampiricaura = value
-	elseif premsg_announce == "premsg_Spells_auramastery" then --Владение аурами
-		premsg_values.auramastery = value
-	elseif premsg_announce == "premsg_Spells_vampiricembrace" then --Объятия вампира
-		premsg_values.vampiricembrace = value
-	elseif premsg_announce == "premsg_Spells_powerwordbarrier" then --Слово силы: Барьер
-		premsg_values.powerwordbarrier = value
-	elseif premsg_announce == "premsg_Spells_guardianspirit" then --Оберегающий дух
-		premsg_values.guardianspirit = value
-	elseif premsg_announce == "premsg_Spells_painsuppression" then --Подавление боли
-		premsg_values.painsuppression = value
-	elseif premsg_announce == "premsg_Spells_spirittotem" then --Тотем духовной связи
-		premsg_values.spirittotem = value
-	elseif premsg_announce == "premsg_Spells_lifecocoon" then --Исцеляющий кокон
-		premsg_values.lifecocoon = value
-	elseif premsg_announce == "premsg_Spells_blesofprot" then --Благословение защиты
-		premsg_values.blesofprot = value
-	elseif premsg_announce == "premsg_Spells_ironbark" then --Железная кора
-		premsg_values.ironbark = value
-	elseif premsg_announce == "premsg_Spells_ancprotectotem" then --Тотем защиты Предков
-		premsg_values.ancprotectotem = value
-	elseif premsg_announce == "premsg_Spells_hope" then --Символ надежды
-		premsg_values.hope = value
-	elseif premsg_announce == "premsg_Spells_innervate" then --Озарение
-		premsg_values.innervate = value
-	elseif premsg_announce == "premsg_Spells_rebirth1" then --Возрождение
-		premsg_values.rebirth1 = value
-	elseif premsg_announce == "premsg_Spells_rebirth2" then --Воскрешение союзника
-		premsg_values.rebirth2 = value
-	elseif premsg_announce == "premsg_Spells_rebirth3" then --Воскрешение камнем души
-		premsg_values.rebirth3 = value
+	for k, v in pairs(premsg_values) do
+		if type(v) == "table" and k == premsg_announce then
+			v[1] = value
+		end
 	end
 end
 
 local function prepareMessage(self, premsg_announce, spellId, sourceName, destName)
 	if self:AntiSpam(1, "prepareMessage") then
-		--[[premsg_values.spellId = spellId
-		premsg_values.sourceName = sourceName
-		premsg_values.destName = destName]]
-
 		if spellId == nil or sourceName == nil then
 			DBM:Debug('problem in prepareMessage function')
 			DBM:Debug('spellId: ' .. tostring(spellId))
 			DBM:Debug('sourceName: ' .. tostring(sourceName))
-			DBM:Debug('destName: ' .. tostring(destName))
-	
-			--[[premsg_values.spellId = nil
-			premsg_values.sourceName = nil
-			premsg_values.destName = nil]]
-	
+			DBM:Debug('destName: ' .. tostring(destName))	
 			return
 		end
 
@@ -568,7 +237,11 @@ function mod:SPELL_CAST_START(args)
 	local sourceName = args.sourceName
 	local destName = args.destName
 	if not UnitInYourParty(sourceName) then return end
-	if spellId == 212040 and self:AntiSpam(15, "massres") then --Возвращение к жизни (друид)
+	if spellId == 8690 then -- test (Needs to be commented out before release)
+		prepareMessage(self, "premsg_Spells_test", spellId, sourceName)
+	elseif spellId == 222695 then -- test2 (Needs to be commented out before release)
+		prepareMessage(self, "premsg_Spells_test2", spellId, sourceName)
+	elseif spellId == 212040 and self:AntiSpam(15, "massres") then --Возвращение к жизни (друид)
 		warnMassres1:Show(sourceName)
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnMassRes then
 			prepareMessage(self, "premsg_Spells_massres1_rw", spellId, sourceName)
@@ -1124,44 +797,6 @@ function mod:GOSSIP_SHOW()
 		end
 	end
 end
---[[
-function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
-	local spellId = legacySpellId or bfaSpellId
-	if spellId == 73331 and self:AntiSpam(5, 11) then --Плач высокорожденных
-		if self.Options.YellOnToys then
-			if IsInRaid() then
-				SendChatMessage(L.HeroismYell:format(DbmRV, args.sourceName, highborne), "RAID")
-			elseif IsInGroup() then
-				SendChatMessage(L.HeroismYell:format(DbmRV, args.sourceName, highborne), "PARTY")
-			end
-		end
-	elseif spellId == 50317 and self:AntiSpam(5, 11) then --Вызов диско-шара
-		if self.Options.YellOnToys then
-			if IsInRaid() then
-				SendChatMessage(L.HeroismYell:format(DbmRV, args.sourceName, discoball), "RAID")
-			elseif IsInGroup() then
-				SendChatMessage(L.HeroismYell:format(DbmRV, args.sourceName, discoball), "PARTY")
-			end
-		end
-	elseif spellId == 774 then --Вызов диско-шара
-		if self.Options.YellOnToys then
-			if IsInRaid() then
-				SendChatMessage(L.HeroismYell:format(DbmRV, UnitName(uId), discoball), "RAID")
-			elseif IsInGroup() then
-				SendChatMessage(L.HeroismYell:format(DbmRV, UnitName(uId), discoball), "PARTY")
-			end
-		end
-	elseif spellId == 131347 then --Вызов диско-шара
-		if self.Options.YellOnToys then
-			if IsInRaid() then
-				SendChatMessage(L.HeroismYell:format(DbmRV, UnitName(uId), discoball), "RAID")
-			elseif IsInGroup() then
-				SendChatMessage(L.HeroismYell:format(DbmRV, UnitName(uId), discoball), "PARTY")
-			end
-		end
-	226241 --Кодекс безмятежного разума
-	end
-end]]
 
 function mod:OnSync(premsg_announce, sender)
 	if sender < playerOnlyName then
