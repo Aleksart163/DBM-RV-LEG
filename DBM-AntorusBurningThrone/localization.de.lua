@@ -113,12 +113,16 @@ L:SetMiscLocalization({
 -- Varimathras --
 ---------------------------
 L= DBM:GetModLocalization(1983)
---[[
+
+L:SetOptionLocalization({
+	ShowProshlyapSoulburnin = "Spezialwarnung für $spell:244093 (nur als Leiter/Assistent)"
+})
+
 L:SetMiscLocalization({
+	ProshlyapSoulburnin = "%s %s in 5 Sekunden",
 	YellPullVarimathras = "Dann kommt. Vergelten wir Schmerz mit Schmerz!",
 	YellPullVarimathras2 = "Zieht Eure Klingen! Ich werde Euch wahre Qualen zeigen!"
 })
---]]
 
 ---------------------------
 -- The Coven of Shivarra --

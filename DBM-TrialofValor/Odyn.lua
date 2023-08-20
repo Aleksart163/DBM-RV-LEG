@@ -7,7 +7,7 @@ mod:SetEncounterID(1958)
 mod:SetZone()
 --mod:SetBossHPInfoToHighest()
 mod:SetMainBossID(114263)
-mod:SetUsedIcons(1)
+mod:SetUsedIcons(8)
 mod:SetHotfixNoticeRev(15581)
 mod.respawnTime = 29
 
@@ -47,10 +47,11 @@ local specWarnDancingBlade			= mod:NewSpecialWarningYouMove(228003, nil, nil, ni
 local specWarnHornOfValor			= mod:NewSpecialWarningMoveAway(228012, nil, nil, nil, 1, 2) --Рог доблести
 local specWarnHornOfValor2			= mod:NewSpecialWarningRun(228012, "Melee", nil, nil, 4, 2) --Рог доблести
 local specWarnExpelLight			= mod:NewSpecialWarningYouMoveAway(228028, nil, nil, nil, 1, 2) --Световое излучение
-local specWarnShieldofLight			= mod:NewSpecialWarningYou(228270, nil, nil, nil, 1, 2) --Щит Света
+local specWarnShieldofLight			= mod:NewSpecialWarningYouDefensive(228270, nil, nil, nil, 5, 6) --Щит Света
+local specWarnShieldofLight2		= mod:NewSpecialWarningTargetSoak(228270, nil, nil, nil, 3, 6) --Щит Света
 local specWarnBranded				= mod:NewSpecialWarningMoveTo(227503, nil, nil, nil, 3, 6) --Впитывание энергии
 local specWarnDrawPower				= mod:NewSpecialWarningSwitch(227503, "-Healer", nil, nil, 1, 2) --Впитывание энергии
-local specWarnUnerringBlast			= mod:NewSpecialWarningDefensive(227629, nil, nil, nil, 3, 5) --Выверенный взрыв
+local specWarnUnerringBlast			= mod:NewSpecialWarningDefensive(227629, nil, nil, nil, 3, 6) --Выверенный взрыв
 --Stage 2: Odyn immitates margok
 local specWarnOdynsTest				= mod:NewSpecialWarningCount(227626, nil, DBM_CORE_AUTO_SPEC_WARN_OPTIONS.stack:format(5, 159515), nil, 1, 2) --Испытание Одина
 local specWarnOdynsTestOther		= mod:NewSpecialWarningTaunt(227626, nil, nil, nil, 1, 2) --Испытание Одина
@@ -92,9 +93,10 @@ local timerRunicBrandCD				= mod:NewNextTimer(35, 231297, nil, nil, nil, 3, nil,
 local timerRadiantSmite				= mod:NewCastTimer(7.5, 231350, nil, nil, nil, 2, nil, DBM_CORE_HEROIC_ICON) --Сияние правосудия
 
 local yellExpelLight				= mod:NewYell(228028, nil, nil, nil, "YELL") --Световое излучение
+local yellShieldofLight				= mod:NewYellHelp(228270, nil, nil, nil, "YELL") --Щит Света
 local yellShieldofLightFades		= mod:NewFadesYell(228270, nil, nil, nil, "YELL") --Щит Света
 local yellBranded					= mod:NewPosYell(227490, DBM_CORE_AUTO_YELL_CUSTOM_POSITION, nil, nil, "YELL")
-local yellStormofJustice			= mod:NewYell(227807, nil, nil, nil, "YELL") --Буря правосудия
+local yellStormofJustice			= mod:NewYellMoveAway(227807, nil, nil, nil, "YELL") --Буря правосудия
 local yellRunicBrand				= mod:NewPosYell(231297, DBM_CORE_AUTO_YELL_CUSTOM_POSITION, nil, nil, "YELL") --Руническое клеймо
 --local berserkTimer				= mod:NewBerserkTimer(300)
 
@@ -107,7 +109,8 @@ local countdownStormforgedSpear		= mod:NewCountdown("Alt11", 228918, "Tank") --�
 --Mythic
 local countdownRunicBrand			= mod:NewCountdown(35, 231297, nil, nil, 5) --Руническое клеймо
 
-mod:AddSetIconOption("SetIconOnShield", 228270, true, false, {1}) --Щит Света
+mod:AddBoolOption("ShowProshlyapMurchal", true)
+mod:AddSetIconOption("SetIconOnShield", 228270, true, false, {8}) --Щит Света
 mod:AddInfoFrameOption(227503, true) --Впитывание энергии
 mod:AddRangeFrameOption("5/8/15")
 mod:AddNamePlateOption("NPAuraOnBranded", 227503, true) --Впитывание энергии
@@ -127,6 +130,51 @@ local dancingBladeTimers = {15.0, 20.0, 20.0, 25.0, 20.0}
 local hornTimers = {8.0, 22.0, 20.0, 35.0, 54.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0} --(✔)
 local shieldTimers = {20.0, 20.0, 33.0, 22.0, 20.0, 35.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0} --(✔)
 local expelLightTimers = {25.0, 20.0, 15.0, 30.0, 20.0}
+
+local blast = replaceSpellLinks(227629) --Выверенный взрыв
+
+local function startMurchalProshlyapation(self)
+	smartChat(L.ProshlyapMurchal:format(DbmRV, blast), "rw")
+end
+
+-- Синхронизация анонсов ↓
+local premsg_values = {
+	args_destName,
+	scheduleDelay,
+	blast_rw
+}
+local playerOnlyName = UnitName("player")
+
+local function sendAnnounce(self)
+	if premsg_values.args_destName == nil then
+		premsg_values.args_destName = "Unknown"
+	end
+
+	if premsg_values.blast_rw == 1 then
+		self:Schedule(premsg_values.scheduleDelay, startMurchalProshlyapation, self)
+		premsg_values.blast_rw = 0
+	end
+
+	premsg_values.args_destName = nil
+	premsg_values.scheduleDelay = nil
+end
+
+local function announceList(premsg_announce, value)
+	if premsg_announce == "premsg_Odyn_blast_rw" then
+		premsg_values.blast_rw = value
+	end
+end
+
+local function prepareMessage(self, premsg_announce, args_sourceName, args_destName, scheduleDelay)
+	if self:AntiSpam(1, "prepareMessage") then
+		premsg_values.args_destName = args_destName
+		premsg_values.scheduleDelay = scheduleDelay
+		announceList(premsg_announce, 1)
+		self:SendSync(premsg_announce, playerOnlyName)
+		self:Schedule(1, sendAnnounce, self)
+	end
+end
+-- Синхронизация анонсов ↑
 
 local debuffFilter
 local playerDebuff = nil
@@ -327,10 +375,10 @@ function mod:SPELL_CAST_START(args)
 		specWarnShatterSpears:Play("watchorb")
 	elseif spellId == 227629 then --Выверенный взрыв
 		warnUnerringBlast:Show()
-		if not self:IsMythic() and self.vb.runicShield > 2 then
+		if self:IsEasy() and self.vb.runicShield > 2 then
 			specWarnUnerringBlast:Show()
 			specWarnUnerringBlast:Play("defensive")
-		elseif self:IsMythic() then
+		else
 			specWarnUnerringBlast:Show()
 			specWarnUnerringBlast:Play("defensive")
 		end
@@ -342,7 +390,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	if spellId == 228012 then
 		self.vb.hornCasting = false
 		updateRangeFrame(self)
-	elseif spellId == 228028 then
+	elseif spellId == 228028 then --Световое излучение
 		self.vb.expelLightCast = self.vb.expelLightCast + 1
 		if self.vb.phase == 1 then
 			if self:IsMythic() then
@@ -368,7 +416,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		end
 	elseif spellId == 228162 then--Cast finished, cleanup icons
 		if self.Options.SetIconOnShield then
-			self:SetIcon(args.destName, 0)
+			self:RemoveIcon(args.destName)
 		end
 	elseif spellId == 231350 then
 		self.vb.brandActive = false
@@ -517,6 +565,7 @@ function mod:SPELL_AURA_REMOVED(args)
 	elseif spellId == 227503 then--Draw power, assumed
 		timerDrawPower:Stop()
 		countdownDrawPower:Cancel()
+		self:Unschedule(startMurchalProshlyapation)
 	elseif spellId == 227490 or spellId == 227491 or spellId == 227498 or spellId == 227499 or spellId == 227500 then--Branded (Draw Power Runes)
 		drawTable[spellId] = nil
 		if self.Options.InfoFrame then
@@ -587,14 +636,18 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, npc, _, _, target)
 			if targetname == UnitName("player") then
 				specWarnShieldofLight:Show()
 				specWarnShieldofLight:Play("targetyou")
+				yellShieldofLight:Yell()
 				yellShieldofLightFades:Schedule(2.8, 1)
 				yellShieldofLightFades:Schedule(1.8, 2)
 				yellShieldofLightFades:Schedule(0.8, 3)
+			elseif self:CheckNearby(15, targetname) then
+				specWarnShieldofLight2:Show(targetname)
+				specWarnShieldofLight2:Play("helpsoak")
 			else
 				warnShieldofLight:Show(self.vb.shieldCast, targetname)
 			end
 			if self.Options.SetIconOnShield then
-				self:SetIcon(targetname, 1)
+				self:SetIcon(targetname, 8, 5)
 			end
 		end
 	--"<269.72 17:21:06> [CHAT_MSG_RAID_BOSS_EMOTE] |cFFFF0000Hyrja|r leaps back into battle!#Hyrja###Odyn##0#0##0#344#nil#0#false#false#false#false", -- [1538]
@@ -635,6 +688,9 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 		specWarnDrawPower:Play("switch")
 		timerDrawPower:Start()
 		countdownDrawPower:Start()
+		if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapMurchal and DBM:GetRaidRank() > 0 then
+			prepareMessage(self, "premsg_Odyn_blast_rw", nil, nil, 26)
+		end
 		if self:IsEasy() then
 			self.vb.runicShield = 3
 			timerDrawPowerCD:Start(75)--LFR phase 2 verified. Might still be 70 in heroic though. no logs long enough for phase 2
@@ -675,6 +731,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 		timerDrawPowerCD:Stop()
 		timerDrawPower:Stop()
 		countdownDrawPower:Cancel()
+		self:Unschedule(startMurchalProshlyapation)
 		timerSpearCD:Start(13)
 		if self:IsEasy() then
 			timerDrawPowerCD:Start(53)
@@ -724,6 +781,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 		timerHyrjaCD:Stop()
 		timerDrawPower:Stop()
 		countdownDrawPower:Cancel()
+		self:Unschedule(startMurchalProshlyapation)
 		timerDrawPowerCD:Stop()
 		warnPhase3:Show()
 		timerStormOfJusticeCD:Start(4)
