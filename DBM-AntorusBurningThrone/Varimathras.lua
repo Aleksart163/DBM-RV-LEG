@@ -85,7 +85,6 @@ mod.vb.proshlyapMurchalCount = 0
 mod.vb.proshlyapMurchal2Count = 0
 local playerAffected = false
 
---волосали1
 local necrotic = replaceSpellLinks(244094) --некротик
 
 local function ProshlyapSoulburnin1(self)
@@ -296,7 +295,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			end
 		else --героик
 			-- DBM:Debug("self.vb.totalEmbrace (SPELL_AURA_APPLIED): " .. self.vb.totalEmbrace)
-			if self.vb.totalEmbrace == 1 then --волосали2
+			if self.vb.totalEmbrace == 1 then
 				if DBM:GetRaidRank() > 0 and self:AntiSpam(25, "necrotic") then
 					-- prepareMessage(self, "premsg_Varimathras_necrotic_rw", nil, args.destName)
 					DBM:Debug(L.NecroticYell:format(args.destName, necrotic))
@@ -390,7 +389,7 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
 
-function mod:OnSync(premsg_announce, sender) --волосали3
+function mod:OnSync(premsg_announce, sender)
 	if sender < playerOnlyName then
 		announceList(premsg_announce, 0)
 	end
