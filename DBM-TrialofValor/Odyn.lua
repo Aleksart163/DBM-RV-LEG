@@ -125,10 +125,10 @@ mod.vb.runicShield = 0
 mod.vb.brandActive = false
 local drawTable = {}
 local playerProtected = false
---Mythic Timers
-local dancingBladeTimers = {15.0, 20.0, 20.0, 25.0, 20.0}
-local hornTimers = {8.0, 22.0, 20.0, 35.0, 54.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0} --(✔)
-local shieldTimers = {20.0, 20.0, 33.0, 22.0, 20.0, 35.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0} --(✔)
+--MurchalProshlyapationTimers--
+local dancingBladeTimers = {15.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0} -- [✔]
+local hornTimers = {8.0, 22.0, 20.0, 35.0, 54.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0} -- [✔]
+local shieldTimers = {20.0, 20.0, 33.0, 22.0, 20.0, 35.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0} -- [✔]
 local expelLightTimers = {25.0, 20.0, 15.0, 30.0, 20.0}
 
 local blast = replaceSpellLinks(227629) --Выверенный взрыв
@@ -791,5 +791,11 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 			timerRunicBrandCD:Start(21)
 			countdownRunicBrand:Start(21)
 		end
+	end
+end
+
+function mod:OnSync(premsg_announce, sender)
+	if sender < playerOnlyName then
+		announceList(premsg_announce, 0)
 	end
 end
