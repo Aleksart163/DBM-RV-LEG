@@ -125,6 +125,14 @@ L:SetOptionLocalization({
 -----------------
 L= DBM:GetModLocalization(1983)
 
+L:SetOptionLocalization({
+	ShowProshlyapSoulburnin = "Mostrar aviso especial para $spell:244093 (requiere líder o ayudante)"
+})
+
+L:SetMiscLocalization({
+	ProshlyapSoulburnin = "%s %s en 5 seg"
+})
+
 ------------------------
 -- Aquelarre shivarra --
 ------------------------

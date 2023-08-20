@@ -6,6 +6,14 @@ local L
 ----------
 L= DBM:GetModLocalization(1819)
 
+L:SetOptionLocalization({
+	ShowProshlyapMurchal = "Mostrar aviso especial para $spell:227629 (requiere líder o ayudante)"
+})
+
+L:SetMiscLocalization({
+	ProshlyapMurchal = "%s %s en 5 seg"
+})
+
 -----------
 -- Guarm --
 -----------
