@@ -137,10 +137,10 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(1986)
 
 L:SetWarningLocalization({
-	Amantul 			= "Torment of Aman'Thul in 5 sec - switch target",
-	Norgannon 			= "Torment of Norgannon in 5 sec - run to the center",
-	Golgannet 			= "Torment of Golganneth in 5 sec - keep a distance of 2m",
-	Kazgagot 			= "Torment of Khaz'goroth in 5 sec - leave the center"
+	Amantul 			= "Aman'Thul in 5 sec - switch target",
+	Kazgagot 			= "Khaz'goroth in 5 sec - leave the center",
+	Norgannon 			= "Norgannon in 5 sec - run to the center",
+	Golgannet 			= "Golganneth in 5 sec - keep a distance of 2m"
 })
 
 L:SetTimerLocalization({
@@ -196,8 +196,8 @@ L:SetWarningLocalization({
 })
 
 L:SetOptionLocalization({
-	ShowProshlyapMurchal1 = "Show announcements for $spell:244688 (Requires raid leader)",
-	ShowProshlyapMurchal2 = "Show announcements for $spell:244912 (Requires raid leader)",
+	ShowProshlyapMurchal1 = "Show special warning for $spell:244688 (Requires raid leader)",
+	ShowProshlyapMurchal2 = "Show special warning for $spell:244912 (Requires raid leader)",
 	FlameRend1 = "Show special warning during $spell:245463 for the first group (only in mythic)",
 	FlameRend2 = "Show special warning during $spell:245463 for the second group (only in mythic)",
 	FlameRend3 = "Show special warning during $spell:245463 when it's not your turn (only in mythic)",
@@ -206,9 +206,9 @@ L:SetOptionLocalization({
 
 L:SetMiscLocalization({
 	MurchalProshlyapation = "%s %s in 5 sec",
---	YellPullAggramar = "You will burn!",
 	ProshlyapMurchal2	= "%s CONTROL MOBS",
 	ProshlyapMurchal1	= "%s THEY RAN UNDER THE BOSS",
+--	YellPullAggramar = "You will burn!",
 --	Blaze		= "Ravenous Blaze",
 	Foe			= "Foe",
 	Rend		= "Rend",

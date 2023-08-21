@@ -137,13 +137,13 @@ L:SetMiscLocalization({
 -- Aquelarre shivarra --
 ------------------------
 L= DBM:GetModLocalization(1986)
---[[
+
 L:SetWarningLocalization({
-	Amantul = "Мучения Аман`тула через 5 сек - переключитесь",
-	Norgannon = "Мучения Норганнона через 5 сек - бегите в центр",
-	Golgannet = "Мучения Голганнета через 5 сек - держите радиус 2м",
-	Kazgagot = "Мучения Каз`горота через 5 сек - уйдите с центра"
-})]]
+	Amantul = "Aman'thul en 5 seg - cambia de objetivo",
+	Kazgagot = "Khaz'goroth en 5 seg - sal del centro",
+	Norgannon = "Norgannon en 5 seg - correr al centro",
+	Golgannet = "Golganneth en 5 seg - guarde el Radio de los 2m"
+})
 
 L:SetTimerLocalization({
 	timerBossIncoming = DBM_INCOMING,
@@ -154,6 +154,11 @@ L:SetTimerLocalization({
 })
 
 L:SetOptionLocalization({
+	ShowProshlyapMurchal = "Mostrar aviso especial para $journal:16138 (requiere líder o ayudante)",
+	Amantul 			= "Спец-предупреждение за 5 сек до появления $spell:252479",
+	Norgannon 			= "Спец-предупреждение за 5 сек до появления $spell:244740",
+	Golgannet 			= "Спец-предупреждение за 5 сек до появления $spell:244756",
+	Kazgagot 			= "Спец-предупреждение за 5 сек до появления $spell:244733",
 	timerBossIncoming	= "Mostrar temporizador para el siguiente cambio de jefe",
 	TauntBehavior		= "Patrón de avisos para el cambio de tanque",
 	TwoMythicThreeNon	= "Cambiar a dos acumulaciones en mítico, tres en otras dificultades",--Default
@@ -171,6 +176,14 @@ L:SetOptionLocalization({
 	timerGolganneth 	= "Mostrar temporizador para el lanzamiento de $spell:249793"
 })
 
+L:SetMiscLocalization({ --need localization
+--	ProshlyapMurchal4	= "%s ARMY - RUN TO THE CENTER!",
+--	ProshlyapMurchal3	= "%s LIGHTNING - KEEP A DISTANCE OF 2m!",
+--	ProshlyapMurchal2	= "%s FLAMES - LEAVE THE CENTER!",
+--	ProshlyapMurchal1	= "%s AMAN'THUL - SWITCH TARGET!",
+--	ProshlyapMurchal5	= "%s ALL DAMAGE TO THE BOSS!!"
+})
+
 --------------
 -- Aggramar --
 --------------
@@ -183,6 +196,9 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
+	MurchalProshlyapation = "%s %s en 5 seg",
+--	ProshlyapMurchal2	= "%s CONTROL MOBS", --need localization
+--	ProshlyapMurchal1	= "%s THEY RAN UNDER THE BOSS", --need localization
 --	YellPullAggramar = "¡Arderéis!",
 --	Blaze		= "Llamarada voraz",
 	Foe			= "Doma",
