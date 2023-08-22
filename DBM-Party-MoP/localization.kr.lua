@@ -39,6 +39,10 @@ L= DBM:GetModLocalization(335)
 -----------
 L = DBM:GetModLocalization("JSTTrash")
 
+L:SetTimerLocalization{
+    TimerSpeedKill	= "물 같은 걸 끼얹나?"
+}
+
 L:SetGeneralLocalization{
 	name = "옥룡사 일반몹"
 }

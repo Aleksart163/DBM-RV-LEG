@@ -39,6 +39,10 @@ L= DBM:GetModLocalization(335)
 -----------
 L = DBM:GetModLocalization("JSTTrash")
 
+L:SetTimerLocalization{
+    TimerSpeedKill	= "洁净"
+}
+
 L:SetGeneralLocalization{
 	name = "青龙寺小怪"
 }

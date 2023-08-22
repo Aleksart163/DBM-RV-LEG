@@ -45,6 +45,10 @@ L= DBM:GetModLocalization(335)
 -----------
 L = DBM:GetModLocalization("JSTTrash")
 
+L:SetTimerLocalization{
+    TimerSpeedKill	= "Cleaning Up"
+}
+
 L:SetGeneralLocalization{
 	name = "TotJS Trash"
 }
