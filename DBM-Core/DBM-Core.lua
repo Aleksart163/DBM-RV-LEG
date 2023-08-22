@@ -8484,7 +8484,7 @@ do
 		end
 	end
 	
-	function bossModPrototype:IsMagicDispeller() --магия (баффы)
+	function bossModPrototype:IsMagicDispeller() --диспел магических баффов
 		if not currentSpecID then
 			DBM:SetCurrentSpecInfo()
 		end
@@ -8495,7 +8495,7 @@ do
 		end
 	end
 		
-	function bossModPrototype:IsMagicDispeller2() --магия (дебаффы)
+	function bossModPrototype:IsMagicDispeller2() --диспел магических дебаффов
 		if not currentSpecID then
 			DBM:SetCurrentSpecInfo()
 		end

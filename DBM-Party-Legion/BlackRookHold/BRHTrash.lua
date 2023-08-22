@@ -234,21 +234,20 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 225909 then --Отравленная душа
 		local amount = args.amount or 1
 		if self:IsHard() then
-			if args:IsPlayer() and self:IsTank() then
-				if amount >= 10 and amount % 5 == 0 then
+			if amount >= 10 and amount % 5 == 0 then
+				if args:IsPlayer() and self:IsTank() then
 					specWarnSoulVenom:Show(amount)
 					specWarnSoulVenom:Play("stackhigh")
-				end
-			elseif args:IsPlayer() and not self:IsTank() then
-				if amount >= 5 and amount % 5 == 0 then
+				elseif args:IsPlayer() and not self:IsTank() then
 					specWarnSoulVenom:Show(amount)
 					specWarnSoulVenom:Play("stackhigh")
-				end
-			elseif not args:IsPlayer() then
-				if amount >= 5 and amount % 5 == 0 then
+				elseif not args:IsPlayer() and self:IsMagicDispeller2() then
+					if not UnitIsDeadOrGhost("player") then
+						specWarnSoulVenom2:CombinedShow(0.5, args.destName)
+						specWarnSoulVenom2:Play("dispelnow")
+					end
+				else
 					warnSoulVenom:Show(args.destName, amount)
-					specWarnSoulVenom2:CombinedShow(0.5, args.destName)
-					specWarnSoulVenom2:Play("dispelnow")
 				end
 			end
 		end

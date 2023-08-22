@@ -197,9 +197,6 @@ function mod:OnCombatEnd()
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:Hide()
 	end
-	if self.Options.SetIconOnEmpPulse2 then
-		self:RemoveIcon(args.destName)
-	end
 end
 
 function mod:SPELL_CAST_START(args)
