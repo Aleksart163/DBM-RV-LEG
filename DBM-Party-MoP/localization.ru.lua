@@ -11,6 +11,10 @@ local L
 ----------------
 L= DBM:GetModLocalization(672)
 
+L:SetMiscLocalization{
+	YellKill	= "Тьма расступается..."
+}
+
 --------------------------------------
 --Хранитель истории Каменная Поступь--
 --------------------------------------
@@ -29,6 +33,19 @@ L= DBM:GetModLocalization(658)
 --Ша Сомнения--
 ---------------
 L= DBM:GetModLocalization(335)
+
+-----------
+-- Trash --
+-----------
+L = DBM:GetModLocalization("JSTTrash")
+
+L:SetTimerLocalization{
+    TimerSpeedKill	= "Очищение водой"
+}
+
+L:SetGeneralLocalization{
+	name = "Трэш ХНЗ"
+}
 
 ------------------------------------
 --<<<Хмелеварня Буйных Портеров>>>--

@@ -14,9 +14,10 @@ mod.noNormal = true
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_START 227628 227592 227779 228269 228334 227615 228991",
-	"SPELL_AURA_APPLIED 227592 228261 228249 227644",
-	"SPELL_AURA_APPLIED_DOSE 227644",
+	"SPELL_CAST_START 227592 227779 228269 228334 227615 228991",
+	"SPELL_CAST_SUCCESS 227628 227779 228269",
+	"SPELL_AURA_APPLIED 227592 228261 228249 227644 227806",
+	"SPELL_AURA_APPLIED_DOSE 227644 227806",
 	"SPELL_AURA_REMOVED 227592 228261",
 	"UNIT_SPELLCAST_SUCCEEDED boss1 boss2 boss3"
 )
@@ -26,9 +27,11 @@ local warnArcaneMissiles			= mod:NewStackAnnounce(227644, 1) --Пронзающ�
 local warnInfernoBolt				= mod:NewTargetAnnounce(227615, 3) --Инфернальная стрела
 local warnFlameWreath				= mod:NewCastAnnounce(228269, 4) --Венец пламени
 local warnFlameWreathTargets		= mod:NewTargetAnnounce(228269, 4) --Венец пламени
+local warnFrostbite					= mod:NewTargetAnnounce(227592, 4) --Обморожение
 
 local specWarnArcaneMissiles		= mod:NewSpecialWarningDefensive(227628, "Tank", nil, nil, 2, 2) --Пронзающие стрелы
 local specWarnArcaneMissiles2		= mod:NewSpecialWarningStack(227644, nil, 2, nil, nil, 3, 6) --Пронзающие стрелы
+local specWarnCeaselessWinter2		= mod:NewSpecialWarningStack(227779, nil, 2, nil, nil, 3, 5) --Бесконечная зима
 local specWarnFrostbite				= mod:NewSpecialWarningInterrupt(227592, "HasInterrupt", nil, nil, 3, 3) --Обморожение
 local specWarnInfernoBolt			= mod:NewSpecialWarningInterrupt(227615, "HasInterrupt", nil, nil, 1, 2) --Инфернальная стрела
 local specWarnArcaneBolt			= mod:NewSpecialWarningInterrupt(228991, "HasInterrupt", nil, nil, 3, 3) --Чародейская стрела
@@ -44,14 +47,18 @@ local specWarnGuardiansImage		= mod:NewSpecialWarningSwitch(228334, "-Healer", n
 
 local timerSpecialCD				= mod:NewCDSpecialTimer(30)
 local timerArcaneMissiles			= mod:NewTargetTimer(20, 227644, nil, nil, nil, 3, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Пронзающие стрелы
+local timerCeaselessWinter			= mod:NewBuffActiveTimer(20, 227779, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Бесконечная зима
+local timerFlameWreath				= mod:NewBuffActiveTimer(20, 228269, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Венец пламени
 
 local yellFlameWreath				= mod:NewYell(228261, nil, nil, nil, "YELL") --Венец пламени
 local yellFlameWreath2				= mod:NewFadesYell(228261, nil, nil, nil, "YELL") --Венец пламени
+local yellFrostbite					= mod:NewYellHelp(227592, nil, nil, nil, "YELL") --Обморожение
 
 local countdownSpecial				= mod:NewCountdown(30, 228582)
+local countdownCeaselessWinter		= mod:NewCountdownFades("Alt20", 227779, nil, nil, 5) --Бесконечная зима
+local countdownFlameWreath			= mod:NewCountdownFades("Alt20", 228269, nil, nil, 5) --Венец пламени
 
 mod:AddSetIconOption("SetIconOnWreath", 228261, true, false, {8, 7}) --Венец пламени
---mod:AddInfoFrameOption(198108, false)
 
 mod.vb.wreathIcon = 8
 mod.vb.playersFrozen = 0
@@ -62,22 +69,19 @@ function mod:OnCombatStart(delay)
 	self.vb.wreathIcon = 8
 	self.vb.playersFrozen = 0
 	self.vb.imagesActive = false
-	timerSpecialCD:Start(33.5)
-	countdownSpecial:Start(33.5)
+	timerSpecialCD:Start(32.9)
+	countdownSpecial:Start(32.9)
 end
 
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
-	if spellId == 227628 then --Пронзающие стрелы
-		specWarnArcaneMissiles:Show()
-		specWarnArcaneMissiles:Play("defensive")
-	elseif spellId == 227592 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Обморожение
+	if spellId == 227592 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Обморожение
 		specWarnFrostbite:Show()
 		specWarnFrostbite:Play("kickcast")
 	elseif spellId == 227615 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Инфернальная стрела
 		specWarnInfernoBolt:Show()
 		specWarnInfernoBolt:Play("kickcast")
-	elseif spellId == 228991 and self:AntiSpam(5, "ArcaneBolt") and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Чародейская стрела
+	elseif spellId == 228991 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Чародейская стрела
 		specWarnArcaneBolt:Show()
 		specWarnArcaneBolt:Play("kickcast")
 	elseif spellId == 227779 then --Бесконечная зима
@@ -92,8 +96,6 @@ function mod:SPELL_CAST_START(args)
 		if not UnitIsDeadOrGhost("player") then
 			specWarnFlameWreath3:Show()
 			specWarnFlameWreath3:Play("runaway")
-			specWarnFlameWreath2:Schedule(2.5)
-			specWarnFlameWreath2:ScheduleVoice(2.5, "stopmove")
 		end
 		timerSpecialCD:Start(31.5)
 		countdownSpecial:Start(31.5)
@@ -106,20 +108,42 @@ function mod:SPELL_CAST_START(args)
 	end
 end
 
+function mod:SPELL_CAST_SUCCESS(args)
+	local spellId = args.spellId
+	if spellId == 227779 then --Бесконечная зима
+		timerCeaselessWinter:Start()
+		countdownCeaselessWinter:Start()
+	elseif spellId == 228269 then --Венец пламени
+		timerFlameWreath:Start()
+		countdownFlameWreath:Start()
+	elseif spellId == 227628 then --Пронзающие стрелы
+		specWarnArcaneMissiles:Show()
+		specWarnArcaneMissiles:Play("defensive")
+	end
+end
+
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
-	if spellId == 227592 then
+	if spellId == 227592 then --Обморожение
 		self.vb.playersFrozen = self.vb.playersFrozen + 1
+		if args:IsPlayer() then
+			yellFrostbite:Yell()
+		else
+			warnFrostbite:Show(args.destName)
+		end
 	elseif spellId == 228261 then --Венец пламени
 		self.vb.wreathIcon = self.vb.wreathIcon - 1
 		warnFlameWreathTargets:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
 			specWarnFlameWreath:Show()
 			specWarnFlameWreath:Play("stopmove")
-			specWarnFlameWreath4:Schedule(3)
-			specWarnFlameWreath4:ScheduleVoice(3, "defensive")
+			specWarnFlameWreath4:Schedule(2)
+			specWarnFlameWreath4:ScheduleVoice(2, "defensive")
 			yellFlameWreath:Yell()
 			yellFlameWreath2:Countdown(20, 3)
+		else
+			specWarnFlameWreath2:Show()
+			specWarnFlameWreath2:Play("stopmove")
 		end
 		if self.Options.SetIconOnWreath then
 			self:SetIcon(args.destName, self.vb.wreathIcon)
@@ -143,19 +167,27 @@ function mod:SPELL_AURA_APPLIED(args)
 		local amount = args.amount or 1
 		warnArcaneMissiles:Show(args.destName, amount)
 		timerArcaneMissiles:Start(args.destName)
-		if self:IsNormal() or self:IsHeroic() then --обычка и героик
+		if self:IsHeroic() then
 			if amount >= 3 then
 				if args:IsPlayer() then
 					specWarnArcaneMissiles2:Show(amount)
 					specWarnArcaneMissiles2:Play("stackhigh")
 				end
 			end
-		elseif self:IsMythic() then --миф и миф+
+		else
 			if amount >= 2 then
 				if args:IsPlayer() then
 					specWarnArcaneMissiles2:Show(amount)
 					specWarnArcaneMissiles2:Play("stackhigh")
 				end
+			end
+		end
+	elseif spellId == 227806 then --Бесконечная зима
+		local amount = args.amount or 1
+		if amount >= 3 and amount % 2 == 0 then
+			if args:IsPlayer() then
+				specWarnCeaselessWinter2:Show(amount)
+				specWarnCeaselessWinter2:Play("stackhigh")
 			end
 		end
 	end
@@ -164,9 +196,9 @@ mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 
 function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
-	if spellId == 227592 then
+	if spellId == 227592 then --Обморожение
 		self.vb.playersFrozen = self.vb.playersFrozen - 1
-	elseif spellId == 228261 then
+	elseif spellId == 228261 then --Венец пламени
 		self.vb.wreathIcon = self.vb.wreathIcon + 1
 		if self.Options.SetIconOnWreath then
 			self:SetIcon(args.destName, 0)

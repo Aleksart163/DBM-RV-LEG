@@ -222,7 +222,6 @@ function mod:SPELL_AURA_APPLIED(args)
 			yellVolatileCharge2:Countdown(5, 3)
 		end
 	elseif spellId == 228241 then --Проклятое прикосновение
-		warnCursedTouch:CombinedShow(0.3, args.destName)
 		if not self:IsNormal() then
 			if args:IsPlayer() and not self:IsCurseDispeller() then
 				specWarnCursedTouch:Show()
@@ -232,11 +231,13 @@ function mod:SPELL_AURA_APPLIED(args)
 				specWarnCursedTouch3:Show()
 				specWarnCursedTouch3:Play("dispelnow")
 				yellCursedTouch:Yell()
-			elseif self:IsCurseDispeller() then
+			elseif not args:IsPlayer() and self:IsCurseDispeller() then
 				if not UnitIsDeadOrGhost("player") then
 					specWarnCursedTouch2:CombinedShow(0.3, args.destName)
 					specWarnCursedTouch2:ScheduleVoice(0.3, "dispelnow")
 				end
+			else
+				warnCursedTouch:CombinedShow(0.3, args.destName)
 			end
 		end
 	elseif spellId == 228610 and self:AntiSpam(3, 1) then --Горящее клеймо

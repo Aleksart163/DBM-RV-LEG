@@ -5,6 +5,14 @@ local L
 ---------------
 L= DBM:GetModLocalization(1819)
 
+L:SetOptionLocalization({
+	ShowProshlyapMurchal = "Show announcements for $spell:227629 (Requires raid leader)"
+})
+
+L:SetMiscLocalization({
+	ProshlyapMurchal = "%s %s in 5 sec"
+})
+
 ---------------------------
 -- Guarm --
 ---------------------------

@@ -34,9 +34,9 @@
 -------------------------------
 
 DBM = {
-	Revision = tonumber(("$Revision: 17731 $"):sub(12, -3)),
+	Revision = tonumber(("$Revision: 17732 $"):sub(12, -3)),
 	DisplayVersion = "7.3.47 Right Version " .. string.sub(GetLocale(), -2),
-	ReleaseRevision = 17730
+	ReleaseRevision = 17731
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -8484,7 +8484,7 @@ do
 		end
 	end
 	
-	function bossModPrototype:IsMagicDispeller() --магия (баффы)
+	function bossModPrototype:IsMagicDispeller() --диспел магических баффов
 		if not currentSpecID then
 			DBM:SetCurrentSpecInfo()
 		end
@@ -8495,7 +8495,7 @@ do
 		end
 	end
 		
-	function bossModPrototype:IsMagicDispeller2() --магия (дебаффы)
+	function bossModPrototype:IsMagicDispeller2() --диспел магических дебаффов
 		if not currentSpecID then
 			DBM:SetCurrentSpecInfo()
 		end

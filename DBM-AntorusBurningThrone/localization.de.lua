@@ -113,12 +113,16 @@ L:SetMiscLocalization({
 -- Varimathras --
 ---------------------------
 L= DBM:GetModLocalization(1983)
---[[
+
+L:SetOptionLocalization({
+	ShowProshlyapSoulburnin = "Spezialwarnung für $spell:244093 (nur als Leiter/Assistent)"
+})
+
 L:SetMiscLocalization({
+	ProshlyapSoulburnin = "%s %s in 5 Sek",
 	YellPullVarimathras = "Dann kommt. Vergelten wir Schmerz mit Schmerz!",
 	YellPullVarimathras2 = "Zieht Eure Klingen! Ich werde Euch wahre Qualen zeigen!"
 })
---]]
 
 ---------------------------
 -- The Coven of Shivarra --
@@ -141,7 +145,11 @@ L:SetTimerLocalization({
 })
 
 L:SetOptionLocalization({
-	ShowProshlyapMurchal = "Spezialwarnung zum $journal:16138 (nur als Schlachtzugsleiter)",
+	ShowProshlyapMurchal = "Spezialwarnung zum $journal:16138 (nur als Leiter/Assistent)",
+	Amantul 			= "Spezialwarnung zum 5 Sekunden vor Erscheinen $spell:252479",
+	Norgannon 			= "Spezialwarnung zum 5 Sekunden vor Erscheinen $spell:244740",
+	Golgannet 			= "Spezialwarnung zum 5 Sekunden vor Erscheinen $spell:244756",
+	Kazgagot 			= "Spezialwarnung zum 5 Sekunden vor Erscheinen $spell:244733",
 	timerBossIncoming	= "Zeige Zeit bis nächsten Bosswechsel",
 	TauntBehavior		= "Setze Spottverhalten für Tankwechsel",
 	TwoMythicThreeNon	= "Wechsel bei 2 Stacks (mythisch) bzw. 3 Stacks (andere Schwierigkeitsgrade)",
@@ -160,10 +168,10 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	ProshlyapMurchal4	= "Heer - ALLES IN DIE MITTE",
-	ProshlyapMurchal3	= "Blitz - RADIUS 2 METER",
-	ProshlyapMurchal2	= "Flammen - ALLE SIND AUS DEM ZENTRUM VERSCHWUNDEN",
-	ProshlyapMurchal1	= "Aman'thul - ZIEL WECHSELN",
+	ProshlyapMurchal4	= "%s Heer - ALLES IN DIE MITTE",
+	ProshlyapMurchal3	= "%s Blitz - RADIUS 2 METER",
+	ProshlyapMurchal2	= "%s Flammen - ALLE SIND AUS DEM ZENTRUM VERSCHWUNDEN",
+	ProshlyapMurchal1	= "%s Aman'thul - ZIEL WECHSELN",
 	YellPullCoven		= "Ich möchte Eure Glieder schmoren sehen!" --на всякий случай потом погуглить и проверить
 })
 --
@@ -174,10 +182,13 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(1984)
 
 L:SetOptionLocalization({
+	ShowProshlyapMurchal1 = "Spezialwarnung für $spell:244688 (nur als Leiter/Assistent)",
+	ShowProshlyapMurchal2 = "Spezialwarnung für $spell:244912 (nur als Leiter/Assistent)",
 	ignoreThreeTank	= "Unterdrücke Schnitt/Brecher Spottspezialwarnungen bei Verwendung von drei oder mehr Tanks (da DBM für diese Zusammensetzung die genaue Tankrotation nicht bestimmen kann). Falls ein Tank stirbt und die Anzahl auf 2 fällt, wird dieser Filter automatisch deaktiviert."
 })
 
 L:SetMiscLocalization({
+	MurchalProshlyapation = "%s %s in 5 Sek",
 --	YellPullAggramar = "Ihr... werdet... brennen!", -- или Die Flammen werden Euch verzehren!
 --	Blaze		= "Unersättliche Feuersbrunst",
 	Foe			= "Brecher",

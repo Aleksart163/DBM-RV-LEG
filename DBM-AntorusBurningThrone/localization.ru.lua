@@ -131,10 +131,10 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(1986)
 
 L:SetWarningLocalization({
-	Amantul 			= "Мучения Аман`тула через 5 сек - переключитесь",
-	Kazgagot 			= "Мучения Каз`горота через 5 сек - уйдите с центра",
-	Norgannon 			= "Мучения Норганнона через 5 сек - бегите в центр",
-	Golgannet 			= "Мучения Голганнета через 5 сек - держите радиус 2м"
+	Amantul 			= "Аман`тул через 5 сек - переключитесь",
+	Kazgagot 			= "Каз`горот через 5 сек - уйдите с центра",
+	Norgannon 			= "Норганнон через 5 сек - бегите в центр",
+	Golgannet 			= "Голганнет через 5 сек - держите радиус 2м"
 })
 
 L:SetTimerLocalization({
@@ -199,9 +199,9 @@ L:SetOptionLocalization({
 
 L:SetMiscLocalization({
 	MurchalProshlyapation = "%s %s через 5 сек",
---	YellPullAggramar = "Вы сгорите!",
 	ProshlyapMurchal2	= "%s КОНТРОЛИМ МОБОВ",
 	ProshlyapMurchal1	= "%s ВСЕ ПОД БОССА",
+--	YellPullAggramar = "Вы сгорите!",
 --	Blaze		= "Хищное пламя",
 	Foe			= "Сокрушитель",
 	Rend		= "Пламя",

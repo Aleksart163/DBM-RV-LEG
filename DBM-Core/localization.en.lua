@@ -1,7 +1,7 @@
 
 DBM_CORE_NEED_SUPPORT				= "Are you good with programming or languages? If yes, the DBM needs your help in localizing DBM in more languages. Help us out by visiting |HDBM:forums|h|cff3588ffhttps://github.com/Aleksart163/DBM-RV|r.\nFound a bug or wrong timer? Do you think some mod would need an additional warning, timer or special feature?\nVisit the new DBM discussion, bug report and feature request forums at |HDBM:forums|h|cff3588ffhttps://github.com/Aleksart163/DBM-RV|r."
 DBM_HOW_TO_USE_MOD					= "Welcome to DBM. Type /dbm help for a list of supported commands. To access options type /dbm in your chat to begin configuration. Load specific zones manually to configure any boss specific settings to your liking as well. DBM will setup defaults for your spec, but you may want to fine tune these."
-DBM_FORUMS_MESSAGE					= "Found a bug or wrong timer? Do you think that some module needs an additional warning, timer, feature or localization? \nAny questions can be addressed to discord Aleksart163, /w Куплиняшка or leave requests at |h|cff3588ffhttps://github.com/Aleksart163/DBM-RV|r"
+DBM_FORUMS_MESSAGE					= "Found a bug or wrong timer? Do you think that some module needs an additional warning, timer, feature or localization? \nAny questions can be addressed to discord Aleksart163, /w Куплиняшка or leave requests at |h|cff3588ffhttps://github.com/Aleksart163/DBM-RV/pulls|r"
 DBM_SILENT_REMINDER					= "Reminder: DBM is still in silent mode."
 
 DBM_CORE_LOAD_MOD_ERROR				= "Error while loading boss mods for %s: %s"

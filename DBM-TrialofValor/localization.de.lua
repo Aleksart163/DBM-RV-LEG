@@ -1,10 +1,19 @@
 if GetLocale() ~= "deDE" then return end
+
 local L
 
 ---------------
 -- Odyn --
 ---------------
 L= DBM:GetModLocalization(1819)
+
+L:SetOptionLocalization({
+	ShowProshlyapMurchal = "Spezialwarnung für $spell:227629 (nur als Leiter/Assistent)"
+})
+
+L:SetMiscLocalization({
+	ProshlyapMurchal = "%s %s in 5 Sekunden"
+})
 
 ---------------------------
 -- Guarm --

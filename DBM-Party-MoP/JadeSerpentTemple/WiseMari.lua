@@ -7,6 +7,7 @@ mod:SetEncounterID(1418)
 mod:SetUsedIcons(8)
 
 mod:RegisterCombat("combat")
+mod:RegisterKill("yell", L.YellKill)
 
 mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED 106653",

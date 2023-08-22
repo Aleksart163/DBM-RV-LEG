@@ -51,6 +51,7 @@ JadeSerpentTemple\WiseMari.lua
 JadeSerpentTemple\LibraryEvent.lua
 JadeSerpentTemple\LiuFlameheart.lua
 JadeSerpentTemple\ShaofDoubt.lua
+JadeSerpentTemple\JSTTrash.lua
 StormstoutBrewery\OokOok.lua
 StormstoutBrewery\Hoptallus.lua
 StormstoutBrewery\YanZhu.lua

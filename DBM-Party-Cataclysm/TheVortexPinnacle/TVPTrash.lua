@@ -41,10 +41,11 @@ end
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 88010 then --Смерч
-		warnCyclone:CombinedShow(0.5, args.destName)
 		if args:IsPlayer() then
 			yellCyclone1:Yell()
 			yellCyclone2:Countdown(6, 3)
+		else
+			warnCyclone:CombinedShow(0.5, args.destName)
 		end
 	end
 end

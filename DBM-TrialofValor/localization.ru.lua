@@ -7,6 +7,14 @@ local L
 --------
 L= DBM:GetModLocalization(1819)
 
+L:SetOptionLocalization({
+	ShowProshlyapMurchal = "Спец-предупреждение об $spell:227629 (требуются права лидера рейда)"
+})
+
+L:SetMiscLocalization({
+	ProshlyapMurchal = "%s %s через 5 сек"
+})
+
 --------
 --Гарм--
 --------

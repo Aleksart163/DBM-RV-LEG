@@ -174,6 +174,7 @@ mod:AddSetIconOption("SetIconGift", 255594, true, false, {6, 5}) --Небо и �
 mod:AddSetIconOption("SetIconOnAvatar", 255199, true, false, {4}) --Аватара Агграмара 4
 
 local soulbomb = replaceSpellLinks(251570)
+local soulburst = replaceSpellLinks(250669)
 local playerAvatar = false
 mod.vb.phase = 1
 mod.vb.kurators = 7
@@ -610,7 +611,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnSoulburst:Show()
 			specWarnSoulburst:Play("targetyou")
 			specWarnSoulburst:ScheduleVoice(self:IsMythic() and 7 or 10, "bombnow")
-			yells.yellSoulburst:Yell(icon, L.Burst2, icon)
+			yells.yellSoulburst:Yell(icon, soulburst, icon)
 			yells.yellSoulburstFades:Countdown(self:IsMythic() and 12 or 15, 4, icon)
 			fearCheck(self)
 		end
@@ -673,8 +674,8 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self.Options.NPAuraOnEternalBlades then
 			DBM.Nameplate:Show(true, args.destGUID, spellId, nil, 40)
 		end
-	elseif spellId == 252729 and self:AntiSpam(3, "cosmic") then --Космический луч
-		if args:IsPlayer() then
+	elseif spellId == 252729 then --Космический луч
+		if args:IsPlayer() and self:AntiSpam(2, "cosmic") then
 			specWarnCosmicRay:Show()
 			specWarnCosmicRay:Play("targetyou")
 			yells.yellCosmicRay:Yell()

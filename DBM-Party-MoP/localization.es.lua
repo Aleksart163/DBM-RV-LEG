@@ -5,10 +5,15 @@ local L
 -------------------------------
 -- Templo del Dragón de Jade --
 -------------------------------
+
 ----------------
 -- Sabio Maro --
 ----------------
 L= DBM:GetModLocalization(672)
+
+L:SetMiscLocalization{
+	YellKill	= "La oscuridad se disipa..."
+}
 
 --------------------------
 -- Eremita Senda Pétrea --
@@ -32,6 +37,19 @@ L= DBM:GetModLocalization(658)
 -- Sha de la duda --
 --------------------
 L= DBM:GetModLocalization(335)
+
+-----------
+-- Trash --
+-----------
+L = DBM:GetModLocalization("JSTTrash")
+
+L:SetTimerLocalization{
+    TimerSpeedKill	= "Así limpiaba, así, así"
+}
+
+L:SetGeneralLocalization{
+	name = "Enemigos menores"
+}
 
 ---------------------------
 -- Cervecería del Trueno --
