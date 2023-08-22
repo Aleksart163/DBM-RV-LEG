@@ -244,7 +244,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				elseif not args:IsPlayer() and self:IsMagicDispeller2() then
 					if not UnitIsDeadOrGhost("player") then
 						specWarnSoulVenom2:CombinedShow(0.5, args.destName)
-						specWarnSoulVenom2:Play("dispelnow")
+						specWarnSoulVenom2:ScheduleVoice(0.5, "dispelnow")
 					end
 				else
 					warnSoulVenom:Show(args.destName, amount)

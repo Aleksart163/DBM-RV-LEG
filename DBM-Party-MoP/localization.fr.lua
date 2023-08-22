@@ -5,10 +5,15 @@ local L
 -----------------------
 -- <<<Temple of the Jade Serpent>>> --
 -----------------------
+
 -----------------------
 -- Wise Mari --
 -----------------------
 L= DBM:GetModLocalization(672)
+
+L:SetMiscLocalization{
+	YellKill	= "Les ténèbres se dissipent…"
+}
 
 -----------------------
 -- Lorewalker Stonestep --
@@ -28,6 +33,15 @@ L= DBM:GetModLocalization(658)
 -- Sha of Doubt --
 -----------------------
 L= DBM:GetModLocalization(335)
+
+-----------
+-- Trash --
+-----------
+L = DBM:GetModLocalization("JSTTrash")
+
+L:SetGeneralLocalization{
+	name = "TdSdj Trash"
+}
 
 -----------------------
 -- <<<Stormstout Brewery>>> --

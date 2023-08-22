@@ -7,8 +7,8 @@ mod:SetZone(DBM_DISABLE_ZONE_DETECTION)
 mod:RegisterEvents(
 	"SPELL_CAST_START 61994 212040 212056 212036 212048 212051 7720",
 	"SPELL_CAST_SUCCESS 161399 157757 80353 32182 230935 90355 2825 160452 10059 11416 11419 32266 49360 11417 11418 11420 32267 49361 33691 53142 88345 88346 132620 132626 176246 176244 224871 29893 83958 21169 97462 205223 31821 15286 62618 47788 64901",
-	"SPELL_AURA_APPLIED 20707 33206 116849 1022 29166 64901 102342",
-	"SPELL_AURA_REMOVED 47788 29166 64901 197908 102342 1022 116849",
+	"SPELL_AURA_APPLIED 20707 33206 116849 1022 29166 64901 102342 238698",
+	"SPELL_AURA_REMOVED 47788 29166 64901 197908 102342 1022 116849 238698",
 	"SPELL_SUMMON 67826 199109 199115 195782 98008 207399",
 	"SPELL_CREATE 698 188036 201352 201351 185709 88304 61031 49844",
 	"SPELL_RESURRECT 20484 95750 61999",
@@ -438,7 +438,6 @@ function mod:SPELL_CAST_SUCCESS(args)
 	elseif spellId == 205223 then --Пожирание
 		if typeInstance ~= "party" then return end
 		if DBM:GetNumRealGroupMembers() < 2 then return end
-		timerVampiricAura:Start()
 		if args:IsPlayerSource() then
 			yellVampiricAura:Yell(replaceSpellLinks(238698))
 		else
@@ -610,6 +609,12 @@ function mod:SPELL_AURA_APPLIED(args)
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnRaidCooldown then
 			prepareMessage(self, "premsg_Spells_ironbark", spellId, sourceName, destName)
 		end
+	elseif spellId == 238698 then --Вампирская аура
+		if typeInstance ~= "party" and typeInstance ~= "raid" then return end
+		if DBM:GetNumRealGroupMembers() < 2 then return end
+		if args:IsPlayer() then
+			timerVampiricAura:Start()
+		end
 	end
 end
 
@@ -649,6 +654,10 @@ function mod:SPELL_AURA_REMOVED(args)
 	elseif spellId == 1022 then --Благословение защиты
 		if args:IsPlayer() then
 			timerBlessingofProtection:Stop()
+		end
+	elseif spellId == 238698 then --Вампирская аура
+		if args:IsPlayer() then
+			timerVampiricAura:Stop()
 		end
 	end
 end
