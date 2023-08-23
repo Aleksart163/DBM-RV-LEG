@@ -63,6 +63,7 @@ local specWarnSearingTempest			= mod:NewSpecialWarningRun(245301, nil, nil, nil,
 local specWarnEmberTaeshalach			= mod:NewSpecialWarningSwitch("ej16686", "Dps", nil, nil, 1, 6) --Уголек Тайшалака
 --Stage Two: Champion of Sargeras
 local specWarnFlare						= mod:NewSpecialWarningDodge(245983, "-Tank", nil, 2, 2, 2) --Вспышка
+local specWarnFlare2					= mod:NewSpecialWarningDodge(246037, "-Tank", nil, nil, 2, 2) --Усиленная вспышка
 
 --Stage One: Wrath of Aggramar
 local timerTaeshalachTechCD				= mod:NewNextCountTimer(58.5, 244688, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_MYTHIC_ICON) --Искусный прием было 61 (если смотреть по героику)
@@ -892,8 +893,8 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 			timerFlareCD:Stop()
 			countdownFlare:Cancel()
 			timerScorchingBlazeCD:Start(27) --Обжигающее пламя
-			timerFlareCD:Start(31) --Вспышка
-			countdownFlare:Start(31) --Вспышка
+			timerFlareCD:Start(32) --Вспышка
+			countdownFlare:Start(32) --Вспышка
 		end
 	--	countdownWakeofFlame:Cancel()
 		if self:IsMythic() then
@@ -976,9 +977,14 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 			DBM.InfoFrame:Hide()
 		end
 	elseif spellId == 245983 or spellId == 246037 then --Вспышка
-		if not UnitIsDeadOrGhost("player") then
+		if spellId == 245983 and not UnitIsDeadOrGhost("player") then --Вспышка
 			specWarnFlare:Show()
 			specWarnFlare:Play("watchstep")
+		elseif spellId == 246037 and not UnitIsDeadOrGhost("player") then --Усиленная вспышка
+			specWarnFlare2:Show()
+			specWarnFlare2:Play("watchstep")
+			specWarnWakeofFlame:Schedule(5)
+			specWarnWakeofFlame:ScheduleVoice(5, "watchstep")
 		end
 		if not self:IsMythic() then
 			timerFlareCD:Start()

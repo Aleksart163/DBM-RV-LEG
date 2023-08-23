@@ -275,7 +275,7 @@ function mod:SPELL_CAST_START(args)
 		timerForgingStrikeCD:Start(10, self.vb.forgingStrikeCast+1)
 		countdownForgingStrike:Start(10)
 	elseif spellId == 246516 and self:IsInCombat() then --Протокол Апокалипсис
-		self.vb.apocProtoCount = self.vb.apocProtoCount + 1
+		self.vb.apocProtocolCount = self.vb.apocProtocolCount + 1
 		self.vb.ruinerTimeLeft = timerRuinerCD:GetRemaining(self.vb.ruinerCast+1)
 		self.vb.reverbTimeLeft = timerReverberatingStrikeCD:GetRemaining(self.vb.reverbStrikeCast+1)
 		self.vb.forgingTimeLeft = timerForgingStrikeCD:GetRemaining(self.vb.forgingStrikeCast+1)
@@ -299,10 +299,10 @@ function mod:SPELL_CAST_START(args)
 		--timerShatteringStrikeCD:Stop()
 		if not UnitIsDeadOrGhost("player") then
 			if self:IsHealer() then
-				specWarnInitializing:Show(self.vb.apocProtoCount)
+				specWarnInitializing:Show(self.vb.apocProtocolCount)
 				specWarnInitializing:Play("healall")
 			else
-				specWarnInitializing2:Show(self.vb.apocProtoCount)
+				specWarnInitializing2:Show(self.vb.apocProtocolCount)
 				specWarnInitializing2:Play("mobkill")
 			end
 		end
