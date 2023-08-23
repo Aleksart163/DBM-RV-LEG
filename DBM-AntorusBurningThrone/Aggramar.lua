@@ -39,7 +39,7 @@ local warnScorchingBlaze				= mod:NewTargetAnnounce(245994, 2) --Обжигаю�
 local warnRavenousBlaze					= mod:NewTargetAnnounce(254452, 2) --Хищное пламя
 local warnRavenousBlazeCount			= mod:NewCountAnnounce(254452, 4) --Хищное пламя
 local warnTaeshalachTech				= mod:NewCountAnnounce(244688, 4) --Искусный прием
-local warnTaeshalachTech2				= mod:NewSoonAnnounce(244688, 3) --Искусный прием
+local warnTaeshalachTech2				= mod:NewSoonAnnounce(244688, 2) --Искусный прием
 
 local specWarnFlameRend2				= mod:NewSpecialWarning("FlameRend3", nil, nil, nil, 1, 2) --другая пати
 
@@ -932,8 +932,8 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 				timerTempestCD:Start(15)
 			end
 		end
-		warnTaeshalachTech2:Schedule(48.5) --Искусный прием
-		warnTaeshalachTech2:ScheduleVoice(48.5, "specialsoon") --Искусный прием
+		warnTaeshalachTech2:Schedule(53.5) --Искусный прием
+		warnTaeshalachTech2:ScheduleVoice(53.5, "specialsoon") --Искусный прием
 		if not self:IsMythic() and not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapMurchal1 and DBM:GetRaidRank() > 0 then
 			prepareMessage(self, "premsg_Aggramar_FlameRend_rw", nil, nil, 53.5)
 		elseif self:IsMythic() and not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapMurchal1 and DBM:GetRaidRank() > 0 then
