@@ -114,6 +114,9 @@ function mod:SPELL_CAST_START(args)
 			specWarnAdd:Schedule(51)
 			specWarnAdd:ScheduleVoice(51, "mobkill")
 		end
+		if self.Options.SetIconOnSurge then
+			self:ScanForMobs(102019, 0, 8, 1, 0.1, 12, "SetIconOnSurge")
+		end
 	elseif spellId == 198077 then
 		if not UnitIsDeadOrGhost("player") then
 			specWarnShatterSpears:Show()
@@ -127,9 +130,6 @@ function mod:SPELL_CAST_START(args)
 		else
 			specWarnSurge:Show()
 			specWarnSurge:Play("kickcast")
-		end
-		if self.Options.SetIconOnSurge then
-			self:ScanForMobs(102019, 0, 8, 1, 0.1, 12, "SetIconOnSurge")
 		end
 	end
 end
