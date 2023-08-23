@@ -176,6 +176,15 @@ L= DBM:GetModLocalization(690)
 -----------------------
 L= DBM:GetModLocalization(698)
 
+-----------
+-- Trash --
+-----------
+L = DBM:GetModLocalization("MPTrash")
+
+L:SetGeneralLocalization{
+	name = "魔古山宫殿小怪"
+}
+
 -----------------------
 -- <<<Siege of Niuzao Temple>>> --
 -----------------------

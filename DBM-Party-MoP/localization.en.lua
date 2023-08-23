@@ -191,6 +191,15 @@ L= DBM:GetModLocalization(690)
 -----------------------
 L= DBM:GetModLocalization(698)
 
+-----------
+-- Trash --
+-----------
+L = DBM:GetModLocalization("MPTrash")
+
+L:SetGeneralLocalization{
+	name = "Mogu'shan Palace Trash"
+}
+
 -----------------------
 -- <<<Siege of Niuzao Temple>>> --
 -----------------------

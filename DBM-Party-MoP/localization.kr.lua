@@ -174,6 +174,15 @@ L= DBM:GetModLocalization(690)
 -----------------------
 L= DBM:GetModLocalization(698)
 
+-----------
+-- Trash --
+-----------
+L = DBM:GetModLocalization("MPTrash")
+
+L:SetGeneralLocalization{
+	name = "모구샨 궁전 일반몹"
+}
+
 -----------------------
 -- <<<Siege of Niuzao Temple>>> --
 -----------------------

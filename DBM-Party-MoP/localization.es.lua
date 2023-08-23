@@ -188,6 +188,15 @@ L= DBM:GetModLocalization(690)
 ------------------------------
 L= DBM:GetModLocalization(698)
 
+-----------
+-- Trash --
+-----------
+L = DBM:GetModLocalization("MPTrash")
+
+L:SetGeneralLocalization{
+	name = "Enemigos menores"
+}
+
 ---------------------------------
 -- Asedio del Templo de Niuzao --
 ---------------------------------

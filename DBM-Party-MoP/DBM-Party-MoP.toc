@@ -66,6 +66,7 @@ GateSettingSun\Raigonn.lua
 MogushanPalace\TrialoftheKing.lua
 MogushanPalace\Gekkan.lua
 MogushanPalace\WeaponmasterXin.lua
+MogushanPalace\MPTrash.lua
 NiuzaoTemple\Jinbak.lua
 NiuzaoTemple\Vojak.lua
 NiuzaoTemple\Pavalak.lua
