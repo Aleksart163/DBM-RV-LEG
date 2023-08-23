@@ -30,20 +30,21 @@ local warnPhase						= mod:NewPhaseChangeAnnounce(1)
 local warnPhase2					= mod:NewPrePhaseAnnounce(2, 1, 220871)
 
 local specWarnTimeSplit				= mod:NewSpecialWarningMove(203833, nil, nil, nil, 1, 2) --Расщепление времени
-local specWarnForceBomb				= mod:NewSpecialWarningDodge(202974, nil, nil, nil, 2, 5) --Силовая бомба
+local specWarnForceBomb				= mod:NewSpecialWarningDodge(202974, nil, nil, nil, 2, 6) --Силовая бомба
 local specWarnBlast					= mod:NewSpecialWarningInterruptCount(203176, "HasInterrupt", nil, 2, 1, 2) --Ускоряющий взрыв
-local specWarnBlastStacks			= mod:NewSpecialWarningDispel(203176, "MagicDispeller", nil, nil, 1, 2) --Ускоряющий взрыв
+local specWarnBlastStacks			= mod:NewSpecialWarningDispel(203176, "MagicDispeller", nil, nil, 3, 2) --Ускоряющий взрыв
 local specWarnTimeLock				= mod:NewSpecialWarningInterrupt(203957, "HasInterrupt", nil, nil, 1, 2) --Временное ограничение
 local specWarnUnstableMana			= mod:NewSpecialWarningYouMoveAway(220871, nil, nil, nil, 3, 6) --Нестабильная мана
-local specWarnUnstableMana2			= mod:NewSpecialWarningCloseMoveAway(220871, nil, nil, nil, 2, 2) --Нестабильная мана
+local specWarnUnstableMana2			= mod:NewSpecialWarningCloseMoveAway(220871, nil, nil, nil, 2, 5) --Нестабильная мана
 
 local timerUnstableMana				= mod:NewTargetTimer(8, 220871, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Нестабильная мана
 local timerUnstableManaCD			= mod:NewCDTimer(35.5, 220871, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON..DBM_CORE_MYTHIC_ICON) --Нестабильная мана
 local timerForceBombD				= mod:NewCDTimer(31.8, 202974, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Силовая бомба
 local timerEvent					= mod:NewCastTimer(124, 203914, nil, nil, nil, 6, nil, DBM_CORE_DEADLY_ICON) --Изгнание во времени
 
-local yellUnstableMana				= mod:NewYell(220871, nil, nil, nil, "YELL") --Нестабильная мана
+local yellUnstableMana				= mod:NewYellMoveAway(220871, nil, nil, nil, "YELL") --Нестабильная мана
 local yellUnstableMana2				= mod:NewFadesYell(220871, nil, nil, nil, "YELL") --Нестабильная мана
+local yellTimeLock					= mod:NewYellHelp(203957, nil, nil, nil, "YELL") --Временное ограничение
 
 local countdownEvent				= mod:NewCountdownFades(124, 203914, nil, nil, 10) --Изгнание во времени
 
@@ -69,11 +70,15 @@ end
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 203957 then --Временное ограничение
-		warnTimeLock:Show(args.destName)
-		if self:AntiSpam(3, 2) then
-			if not UnitIsDeadOrGhost("player") then
-				specWarnTimeLock:Show()
-				specWarnTimeLock:Play("kickcast")
+		if args:IsPlayer() then
+			yellTimeLock:Yell()
+		else
+			warnTimeLock:Show(args.destName)
+			if self:AntiSpam(3, 2) then
+				if not UnitIsDeadOrGhost("player") then
+					specWarnTimeLock:Show()
+					specWarnTimeLock:Play("kickcast")
+				end
 			end
 		end
 	elseif spellId == 220871 then --Нестабильная мана
@@ -113,7 +118,7 @@ function mod:SPELL_CAST_START(args)
 	if spellId == 202974 then
 		if not UnitIsDeadOrGhost("player") then
 			specWarnForceBomb:Show()
-			specWarnForceBomb:Play("157349")
+			specWarnForceBomb:Play("watchstep")
 		end
 		if self:IsHard() then
 			if self.vb.phase == 1 then
@@ -191,12 +196,14 @@ end
 function mod:OnSync(msg)
 	if msg == "VandrosRP" then
 		if not self:IsNormal() then --Гер, миф, миф+ и прошляп очка Мурчаля
+			self.vb.interruptCount = 0
 			timerEvent:Cancel()
 			countdownEvent:Cancel()
 			timerForceBombD:Start(27)
 			warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase))
 			timerUnstableManaCD:Start(5.5)
 		else
+			self.vb.interruptCount = 0
 			timerEvent:Cancel()
 			countdownEvent:Cancel()
 			timerForceBombD:Start(27)
