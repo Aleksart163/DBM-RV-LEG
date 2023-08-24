@@ -136,14 +136,14 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnFlameWreathTargets:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
 			specWarnFlameWreath:Show()
-			specWarnFlameWreath:Play("dontmove")
+			specWarnFlameWreath:Play("stopmove")
 			specWarnFlameWreath4:Schedule(2)
 			specWarnFlameWreath4:ScheduleVoice(2, "defensive")
 			yellFlameWreath:Yell()
 			yellFlameWreath2:Countdown(20, 3)
 		else
 			specWarnFlameWreath2:Show()
-			specWarnFlameWreath2:Play("dontmove")
+			specWarnFlameWreath2:Play("stopmove")
 		end
 		if self.Options.SetIconOnWreath then
 			self:SetIcon(args.destName, self.vb.wreathIcon)

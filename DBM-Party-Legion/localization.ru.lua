@@ -659,15 +659,6 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	IntangiblePresence = "Незримое присутствие",
-	IntangiblePresence2 = "Körperlose Präsenz",
-	IntangiblePresence3 = "Intangible Presence",
-	IntangiblePresence4 = "Presencia intangible",
-	IntangiblePresence5 = "Présence immatérielle",
-	IntangiblePresence6 = "Presenza Intangibile",
-	IntangiblePresence7 = "Presença Intangível",
-	IntangiblePresence8 = "무형의 존재",
-	IntangiblePresence9 = "无形",
 	Tip1 = "Призрак появился на неизвестном человеке. Такое происходит, когда цель призрака пользуется BigWigs, имеет старую версию DBM, или не пользуется аддонами вообще.",
 	SharedSufferingYell = "%s на %s! БЕГИТЕ от меня!",
 	Perephase1 = "Что ж, сразимся лицом к лицу!",

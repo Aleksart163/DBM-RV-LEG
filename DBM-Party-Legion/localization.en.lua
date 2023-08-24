@@ -658,15 +658,6 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	IntangiblePresence = "Незримое присутствие",
-	IntangiblePresence2 = "Körperlose Präsenz",
-	IntangiblePresence3 = "Intangible Presence",
-	IntangiblePresence4 = "Presencia intangible",
-	IntangiblePresence5 = "Présence immatérielle",
-	IntangiblePresence6 = "Presenza Intangibile",
-	IntangiblePresence7 = "Presença Intangível",
-	IntangiblePresence8 = "무형의 존재",
-	IntangiblePresence9 = "无形",
 	Tip1 = "A ghost has appeared on an unknown person. This happens when the ghost target uses BigWigs, has an old version of the DBM, or does not use addons at all.",
 	SharedSufferingYell = "%s on %s! RUN AWAY from me!",
 	Perephase1 = "Time to face my quarry toe-to-toe!",

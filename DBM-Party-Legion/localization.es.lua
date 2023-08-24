@@ -827,15 +827,6 @@ L:SetOptionLocalization({
 
 if GetLocale() == "esES" then
 L:SetMiscLocalization({
-	IntangiblePresence = "Незримое присутствие",
-	IntangiblePresence2 = "Körperlose Präsenz",
-	IntangiblePresence3 = "Intangible Presence",
-	IntangiblePresence4 = "Presencia intangible",
-	IntangiblePresence5 = "Présence immatérielle",
-	IntangiblePresence6 = "Presenza Intangibile",
-	IntangiblePresence7 = "Presença Intangível",
-	IntangiblePresence8 = "무형의 존재",
-	IntangiblePresence9 = "无形",
 	Tip1 = "La fantasma aparece sobre alguien desconocido. Esto ocurre cuando, el objetivo de la fantasma esta usando BigWigs, tiene la version antigua del DBM, o no esta usando ningun addon",
 	SharedSufferingYell = "%s en %s. ALEJAROS de mi!",
 	Perephase1 = "¡Hora de enfrentarme a mi presa cara a cara!",
@@ -843,15 +834,6 @@ L:SetMiscLocalization({
 })
 else
 L:SetMiscLocalization({
-	IntangiblePresence = "Незримое присутствие",
-	IntangiblePresence2 = "Körperlose Präsenz",
-	IntangiblePresence3 = "Intangible Presence",
-	IntangiblePresence4 = "Presencia intangible",
-	IntangiblePresence5 = "Présence immatérielle",
-	IntangiblePresence6 = "Presenza Intangibile",
-	IntangiblePresence7 = "Presença Intangível",
-	IntangiblePresence8 = "무형의 존재",
-	IntangiblePresence9 = "无形",
 	Tip1 = "La fantasma aparece sobre alguien desconocido. Esto ocurre cuando, el objetivo de la fantasma esta usando Bigwigs, tiene la version antigua del Dbm, o no esta usando ningun addon",
 	SharedSufferingYell = "%s en %s. ALEJAROS de mi!",
 	Perephase1 = "¡Hora de enfrentarme a mi presa cara a cara!", --
