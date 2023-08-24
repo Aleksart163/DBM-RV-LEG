@@ -618,6 +618,15 @@ L= DBM:GetModLocalization(1827)
 L= DBM:GetModLocalization(1835)
 
 L:SetMiscLocalization({
+	IntangiblePresence = "Незримое присутствие",
+	IntangiblePresence2 = "Körperlose Präsenz",
+	IntangiblePresence3 = "Intangible Presence",
+	IntangiblePresence4 = "Presencia intangible",
+	IntangiblePresence5 = "Présence immatérielle",
+	IntangiblePresence6 = "Presenza Intangibile",
+	IntangiblePresence7 = "Presença Intangível",
+	IntangiblePresence8 = "무형의 존재",
+	IntangiblePresence9 = "无形",
 	SharedSufferingYell = "%s on %s. RUN AWAY from me!",
 	Perephase1 = "이제 사냥감을 정면으로 상대해야겠군!",
 	Perephase2 = "천둥아, 우리는 승리를 향해 나아간다!"

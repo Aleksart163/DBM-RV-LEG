@@ -22,6 +22,8 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_SUCCESS 227636",
 	"UNIT_SPELLCAST_SUCCEEDED boss1 boss2",
 	"CHAT_MSG_MONSTER_YELL",
+	"CHAT_MSG_SAY",
+	"CHAT_MSG_YELL",
 	"UNIT_HEALTH",
 	"VEHICLE_ANGLE_UPDATE"
 )
@@ -43,8 +45,8 @@ local specWarnPresence				= mod:NewSpecialWarningYou(227404, nil, nil, nil, 3, 6
 local specWarnPresence2				= mod:NewSpecialWarningYouDispel(227404, nil, nil, nil, 3, 6) --Незримое присутствие
 local specWarnPresence3				= mod:NewSpecialWarningDispel(227404, nil, nil, nil, 3, 6) --Незримое присутствие
 local specWarnPresence4				= mod:NewSpecialWarningEnd(227404, nil, nil, nil, 1, 2) --Незримое присутствие
-local specWarnPresence5				= mod:NewSpecialWarning("Presence", nil, nil, nil, 3, 6) --Незримое присутствие
-local specWarnPresence6				= mod:NewSpecialWarningSpell(227404, nil, nil, nil, 1, 2) --Незримое присутствие
+--local specWarnPresence5				= mod:NewSpecialWarning("Presence", nil, nil, nil, 3, 6) --Незримое присутствие
+--local specWarnPresence6				= mod:NewSpecialWarningSpell(227404, nil, nil, nil, 1, 2) --Незримое присутствие
 local specWarnPresence7				= mod:NewSpecialWarningTarget(227404, nil, nil, nil, 1, 2) --Незримое присутствие
 --local specWarnRagnarok				= mod:NewSpecialWarningDefensive(193826, nil, nil, nil, 3, 5) 
 
@@ -55,7 +57,7 @@ local timerMortalStrikeCD			= mod:NewNextTimer(16, 227493, nil, "Melee", nil, 5,
 local timerSharedSufferingCD		= mod:NewNextTimer(18, 228852, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Разделенные муки +++
 
 local yellSharedSuffering			= mod:NewYellMoveAway(228852, nil, nil, nil, "YELL") --Разделенные муки
-local yellPresence					= mod:NewYellDispel(227404) --Незримое присутствие
+local yellPresence					= mod:NewYellDispel(227404, nil, nil, nil, "YELL") --Незримое присутствие
 
 local countdownSharedSuffering		= mod:NewCountdown(18, 228852, nil, nil, 5) --Разделенные муки
 local countdownSharedSuffering2		= mod:NewCountdownFades("Alt3.8", 228852, nil, nil, 3) --Разделенные муки
@@ -123,13 +125,13 @@ end]]
 
 local function checkSyncEvent(self)
 	if not syncEvent then
-		DBM:AddMsg(L.Tip1)
+	--	DBM:AddMsg(L.Tip1)
 		if self:IsMagicDispeller2() then
 			specWarnPresence5:Show()
 			specWarnPresence5:Play("dispelnow")
-		elseif not self:IsMagicDispeller2() then
-			specWarnPresence6:Show()
-			specWarnPresence6:Play("ghostsoon")
+	--	elseif not self:IsMagicDispeller2() then
+	--		specWarnPresence6:Show()
+	--		specWarnPresence6:Play("ghostsoon")
 		end
 	end
 end
@@ -238,11 +240,11 @@ function mod:SPELL_AURA_APPLIED(args)
 			phase2 = false
 		end
 	elseif spellId == 227404 then --Незримое присутствие
-		syncEvent = false
+--[[		syncEvent = false
 		-- DBM:Debug("SPELL_AURA_APPLIED: " .. GetTime() .. ", syncEvent = false")
 		if self:AntiSpam(2, "intangiblePresence") then
 			self:Schedule(1.5, checkSyncEvent, self)
-		end
+		end]]
 		timerMortalStrikeCD:Stop() --Смертельный удар
 		timerSharedSufferingCD:Stop() --Разделенные муки
 		countdownSharedSuffering:Cancel() --Разделенные муки
@@ -380,16 +382,48 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 --		specWarnSpectralCharge:Schedule(21.5) --Призрачный рывок
 --	end
 end
+---для пользователей БигПук---
+function mod:CHAT_MSG_SAY(msg, _, _, _, targetname)
+	if (msg:find(L.IntangiblePresence) or msg:find(L.IntangiblePresence2) or msg:find(L.IntangiblePresence3) or msg:find(L.IntangiblePresence4) or msg:find(L.IntangiblePresence5) or msg:find(L.IntangiblePresence6) or msg:find(L.IntangiblePresence7) or msg:find(L.IntangiblePresence8) or msg:find(L.IntangiblePresence9)) then
+		if targetname ~= UnitName("player") then
+			if self:IsMagicDispeller2() then
+				specWarnPresence3:Show(targetname)
+				specWarnPresence3:Play("dispelnow")
+			else
+				specWarnPresence7:Show(targetname)
+			end
+		end
+		if self.Options.SetIconOnPresence then
+			self:SetIcon(targetname, 7)
+		end
+	end
+end
+---для пользователей DBM---
+function mod:CHAT_MSG_YELL(msg, _, _, _, targetname)
+	if (msg:find(L.IntangiblePresence) or msg:find(L.IntangiblePresence2) or msg:find(L.IntangiblePresence3) or msg:find(L.IntangiblePresence4) or msg:find(L.IntangiblePresence5) or msg:find(L.IntangiblePresence6) or msg:find(L.IntangiblePresence7) or msg:find(L.IntangiblePresence8) or msg:find(L.IntangiblePresence9)) then
+		if targetname ~= UnitName("player") then
+			if self:IsMagicDispeller2() then
+				specWarnPresence3:Show(targetname)
+				specWarnPresence3:Play("dispelnow")
+			else
+				specWarnPresence7:Show(targetname)
+			end
+		end
+		if self.Options.SetIconOnPresence then
+			self:SetIcon(targetname, 7)
+		end
+	end
+end
 
 function mod:VEHICLE_ANGLE_UPDATE()
 	if DBM:UnitDebuff("player", 227404) and intangiblePresenceOnMe then
 		intangiblePresenceOnMe = false
-		syncEvent = true
+	--	syncEvent = true
 		-- DBM:Debug("VEHICLE_ANGLE_UPDATE: " .. GetTime() .. ", syncEvent = true")
 		if self.Options.SetIconOnPresence then
 			self:SetIcon(playerName, 7)
 		end
-		self:SendSync("intangiblePresenceOnMe", playerName)
+	--	self:SendSync("intangiblePresenceOnMe", playerName)
 		if self:IsMagicDispeller2() then
 			specWarnPresence2:Show()
 			specWarnPresence2:Play("dispelnow")
@@ -402,6 +436,7 @@ function mod:VEHICLE_ANGLE_UPDATE()
 	end
 end
 
+--[[
 function mod:OnSync(msg, sender)
 	if msg == "intangiblePresenceOnMe" and sender ~= playerName then
 		syncEvent = true
@@ -416,4 +451,4 @@ function mod:OnSync(msg, sender)
 			specWarnPresence7:Show(sender)
 		end
 	end
-end
+end]]
