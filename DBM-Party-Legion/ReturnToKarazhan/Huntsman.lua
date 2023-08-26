@@ -403,9 +403,25 @@ function mod:VEHICLE_ANGLE_UPDATE()
 end
 
 function mod:OnSync(msg, sender)
-	if msg == "intangiblePresenceOnMe" and sender ~= playerName then
+	if msg == "intangiblePresenceOnMe" and DBM:UnitDebuff(sender, 227404) and sender ~= playerName and not syncEvent then
 		syncEvent = true
 		-- DBM:Debug("OnSync: " .. GetTime() .. ", syncEvent = true")
+		if self.Options.SetIconOnPresence then
+			self:SetIcon(sender, 7)
+		end
+		if self:IsMagicDispeller2() then
+			specWarnPresence3:Show(sender)
+			specWarnPresence3:Play("dispelnow")
+		elseif not self:IsMagicDispeller2() then
+			specWarnPresence7:Show(sender)
+		end
+	end
+end
+
+function mod:OnBWSync(msg, _, sender)
+	if msg == "intangiblePresenceOnMe" and DBM:UnitDebuff(sender, 227404) and sender ~= playerName and not syncEvent then
+		syncEvent = true
+		-- DBM:Debug("OnBWSync: " .. GetTime() .. ", syncEvent = true")
 		if self.Options.SetIconOnPresence then
 			self:SetIcon(sender, 7)
 		end
