@@ -16,7 +16,7 @@ mod:RegisterEventsInCombat(
 )
 
 local warnYaksam				= mod:NewCastAnnounce(223373, 3) --Отрыжка
-local warnJetsam				= mod:NewTargetAnnounce(220295, 2) --Мусор
+--local warnJetsam				= mod:NewTargetAnnounce(220295, 2) --Мусор
 
 local specWarnGetsam			= mod:NewSpecialWarningDodge(220340, "-Tank", nil, nil, 1, 2) --Мусорка
 local specWarnBreakSam			= mod:NewSpecialWarningSpell(223317, "Melee", nil, nil, 1, 2) --Мусоробой
@@ -26,10 +26,11 @@ local timerYaksamCD				= mod:NewCDTimer(50, 223373, nil, nil, nil, 1, nil, DBM_C
 
 --mod:AddReadyCheckOption(37460, false)
 
+--[[
 function mod:JetsamTarget(targetname, uId)
 	if not targetname then return end
 	warnJetsam:Show(targetname)
-end
+end]]
 
 --[[
 function mod:OnCombatStart(delay, yellTriggered)
@@ -60,6 +61,6 @@ end
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	local spellId = legacySpellId or bfaSpellId
 	if spellId == 220295 and self:AntiSpam(4, 1) then---220277-Summon Jetsam Stalker/220295-Jetsam
-		self:BossTargetScanner(99929, "JetsamTarget", 0.2, 5)
+	--	self:BossTargetScanner(99929, "JetsamTarget", 0.2, 5)
 	end
 end
