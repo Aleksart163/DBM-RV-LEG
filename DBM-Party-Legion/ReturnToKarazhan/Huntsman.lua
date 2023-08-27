@@ -403,7 +403,7 @@ function mod:VEHICLE_ANGLE_UPDATE()
 end
 
 function mod:OnSync(msg, sender)
-	if msg == "intangiblePresenceOnMe" and DBM:UnitDebuff(sender, 227404) and sender ~= playerName and not syncEvent then
+	if msg == "intangiblePresenceOnMe" and sender ~= playerName and not syncEvent then
 		syncEvent = true
 		-- DBM:Debug("OnSync: " .. GetTime() .. ", syncEvent = true")
 		if self.Options.SetIconOnPresence then
@@ -419,7 +419,7 @@ function mod:OnSync(msg, sender)
 end
 
 function mod:OnBWSync(msg, _, sender)
-	if msg == "intangiblePresenceOnMe" and DBM:UnitDebuff(sender, 227404) and sender ~= playerName and not syncEvent then
+	if msg == "intangiblePresenceOnMe" and sender ~= playerName and not syncEvent then
 		syncEvent = true
 		-- DBM:Debug("OnBWSync: " .. GetTime() .. ", syncEvent = true")
 		if self.Options.SetIconOnPresence then
