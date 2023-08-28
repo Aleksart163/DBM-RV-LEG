@@ -42,7 +42,7 @@ local countdownRush					= mod:NewCountdown(11, 193659, nil, nil, 5) --Рывок
 mod:AddSetIconOption("SetIconOnRush", 193659, true, false, {8}) --Рывок пламени Скверны
 mod:AddSetIconOption("SetIconOnAegis", 202711, true, false, {1}) --Эгида Агграмара
 
-local shield = replaceSpellLinks(193983)
+local shield = DBM:GetSpellInfo(193983)
 local firstrush = false
 
 function mod:FelblazeRushTarget(targetname, uId) --Рывок пламени Скверны [✔] прошляпанного очка Мурчаля Прошляпенко
