@@ -11783,6 +11783,7 @@ function replaceSpellLinks(id)
 end
 
 function smartChat(msg, arg, target)
+	if not msg then return end
     if arg == "rw" and IsInRaid() and DBM:GetRaidRank() > 0 then
         SendChatMessage(msg, "RAID_WARNING")
     elseif arg == "say" then
@@ -11790,6 +11791,7 @@ function smartChat(msg, arg, target)
     elseif arg == "yell" then
         SendChatMessage(msg, "YELL")
     elseif arg == "whisper" then
+		if not target then return end
         SendChatMessage(msg, "WHISPER", "COMMON", target)
     elseif (arg == nil) or (arg == "rw" and DBM:GetRaidRank() == 0) or (arg == "rw" and not IsInRaid()) then
         if IsInRaid() and not IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
