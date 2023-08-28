@@ -69,7 +69,6 @@ mod.vb.spectralchargeCast = 0
 mod.vb.mezairCast = 0
 mod.vb.mountedstrikeCast = 0
 
-local sharedSuffering = replaceSpellLinks(228852)
 local playerName = UnitName("player")
 local perephase = false
 local firsttwophase = false
