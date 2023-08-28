@@ -80,7 +80,7 @@ local warned_preP3 = false
 local warned_preP4 = false
 local phase2 = false
 local intangiblePresenceOnMe = true
-local syncEvent = false
+local syncEvent = true
 
 function mod:SharedSufferingTarget(targetname, uId) --прошляпанное очко Мурчаля Прошляпенко [✔]
 	if not targetname then return end
@@ -136,7 +136,7 @@ end
 
 function mod:OnCombatStart(delay)
 	intangiblePresenceOnMe = true
-	syncEvent = false
+	syncEvent = true
 	self.vb.phase = 1
 	self.vb.murchalproshlyap = 0
 	self.vb.spectralchargeCast = 0
@@ -239,7 +239,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif spellId == 227404 then --Незримое присутствие
 		syncEvent = false
-		-- DBM:Debug("SPELL_AURA_APPLIED: " .. GetTime() .. ", syncEvent = false")
+		DBM:Debug("SPELL_AURA_APPLIED: " .. GetTime() .. ", syncEvent = false")
 		if self:AntiSpam(2, "intangiblePresence") then
 			self:Schedule(1.5, checkSyncEvent, self)
 		end
@@ -385,7 +385,7 @@ function mod:VEHICLE_ANGLE_UPDATE()
 	if DBM:UnitDebuff("player", 227404) and intangiblePresenceOnMe then
 		intangiblePresenceOnMe = false
 		syncEvent = true
-		-- DBM:Debug("VEHICLE_ANGLE_UPDATE: " .. GetTime() .. ", syncEvent = true")
+		DBM:Debug("VEHICLE_ANGLE_UPDATE: " .. GetTime() .. ", syncEvent = true")
 		if self.Options.SetIconOnPresence then
 			self:SetIcon(playerName, 7)
 		end
@@ -405,7 +405,7 @@ end
 function mod:OnSync(msg, sender)
 	if msg == "intangiblePresenceOnMe" and sender ~= playerName and not syncEvent then
 		syncEvent = true
-		-- DBM:Debug("OnSync: " .. GetTime() .. ", syncEvent = true")
+		DBM:Debug("OnSync: " .. GetTime() .. ", syncEvent = true")
 		if self.Options.SetIconOnPresence then
 			self:SetIcon(sender, 7)
 		end
@@ -421,7 +421,7 @@ end
 function mod:OnBWSync(msg, _, sender)
 	if msg == "intangiblePresenceOnMe" and sender ~= playerName and not syncEvent then
 		syncEvent = true
-		-- DBM:Debug("OnBWSync: " .. GetTime() .. ", syncEvent = true")
+		DBM:Debug("OnBWSync: " .. GetTime() .. ", syncEvent = true")
 		if self.Options.SetIconOnPresence then
 			self:SetIcon(sender, 7)
 		end
