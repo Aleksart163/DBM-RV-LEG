@@ -122,6 +122,8 @@ end]]
 
 local function checkSyncEvent(self)
 	if not syncEvent then
+		syncEvent = true
+		DBM:Debug("checkSyncEvent: " .. GetTime() .. ", syncEvent = true")
 		DBM:AddMsg(L.Tip1)
 		if self:IsMagicDispeller2() then
 			specWarnPresence5:Show()
