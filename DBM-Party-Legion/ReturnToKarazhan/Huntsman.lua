@@ -246,10 +246,10 @@ function mod:SPELL_AURA_APPLIED(args)
 			--[[runtime = GetTime()
 			DBM:Debug("SPELL_AURA_APPLIED: syncEvent = false, runtime: " .. runtime)]]
 			self:Schedule(1.5, checkSyncEvent, self)
+			timerMortalStrikeCD:Stop() --Смертельный удар
+			timerSharedSufferingCD:Stop() --Разделенные муки
+			countdownSharedSuffering:Cancel() --Разделенные муки
 		end
-		timerMortalStrikeCD:Stop() --Смертельный удар
-		timerSharedSufferingCD:Stop() --Разделенные муки
-		countdownSharedSuffering:Cancel() --Разделенные муки
 	end
 end
 
