@@ -101,7 +101,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	--	timerPowerDischargeCD:Stop()
 		warnEvo:Show()
 		if not UnitIsDeadOrGhost("player") then
-			specWarnEvo:Show(args.destName)
+			specWarnEvo:Show()
 			specWarnOverload:Schedule(17)
 			specWarnOverload:ScheduleVoice(17, "defensive")
 		end

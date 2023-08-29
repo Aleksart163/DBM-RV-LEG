@@ -336,7 +336,7 @@ function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
 	if spellId == 229489 and self:AntiSpam(5, "vulnerable") then --Царственность
 		if not UnitIsDeadOrGhost("player") then
-			specWarnVulnerable:Show(args.sourceName)
+			specWarnVulnerable:Show()
 			specWarnVulnerable:Play("killbigmob")
 		end
 	elseif spellId == 228280 then --Клятва верности

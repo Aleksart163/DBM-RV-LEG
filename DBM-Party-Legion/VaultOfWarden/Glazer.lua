@@ -79,7 +79,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerBeamed:Start(args.destName)
 		timerFocused:Stop()
 		if not UnitIsDeadOrGhost("player") then
-			specWarnBeamed:Show(args.destName)
+			specWarnBeamed:Show()
 		end
 		timerFocusedCD:Start()
 		countdownFocused:Start()
