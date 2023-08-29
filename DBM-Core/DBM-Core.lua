@@ -8091,7 +8091,7 @@ do
 		["CasterDps"] = true,--Ranged dps that uses spells, relevant for spell reflect type abilities that only reflect spells but not ranged physical such as hunters
 		["RaidCooldown"] = true,
 		["PoisonDispeller"] = true,--from ally
-		["RemoveDisease"] = true,--from ally
+		["DiseaseDispeller"] = true,--from ally
 		["RemoveEnrage"] = true,--Unused, no one can remove enrage anymore, returning in classic/8.x!
 		["CurseDispeller"] = true,--from ally
 		["MagicDispeller"] = true--диспел с врагов от бафов, все кроме хиллеров. from ENEMY, not debuffs on players. use "Healer" for ally magic dispels. ALL healers can do that.
@@ -8121,7 +8121,7 @@ do
 			["SpellCaster"] = true,
 			["RaidCooldown"] = true,--Devotion Aura
 			["PoisonDispeller"] = true,
-			["RemoveDisease"] = true,
+			["DiseaseDispeller"] = true,
 			["HasImmunity"] = true,
 			["MagicDispeller2"] = true,
 		},
@@ -8131,7 +8131,7 @@ do
 			["ManaUser"] = true,
 			["Physical"] = true,
 			["PoisonDispeller"] = true,
-			["RemoveDisease"] = true,
+			["DiseaseDispeller"] = true,
 			["HasInterrupt"] = true,
 			["HasImmunity"] = true,
 			["OchkenProshlyapen"] = true,
@@ -8143,7 +8143,7 @@ do
 			["ManaUser"] = true,
 			["Physical"] = true,
 			["PoisonDispeller"] = true,
-			["RemoveDisease"] = true,
+			["DiseaseDispeller"] = true,
 			["HasInterrupt"] = true,
 			["OchkenProshlyapen"] = true,
 		},
@@ -8242,7 +8242,7 @@ do
 			["SpellCaster"] = true,
 			["CasterDps"] = true,--Iffy. Technically yes, but this can't be used to determine eligable target for dps only debuffs
 			["RaidCooldown"] = true,--Power Word: Barrier(Discipline) / Divine Hymn (Holy)
-			["RemoveDisease"] = true,
+			["DiseaseDispeller"] = true,
 			["MagicDispeller"] = true,
 			["MagicDispeller2"] = true,
 		},
@@ -8317,7 +8317,7 @@ do
 			["Melee"] = true,
 			["Physical"] = true,
 			["PoisonDispeller"] = true,
-			["RemoveDisease"] = true,
+			["DiseaseDispeller"] = true,
 			["HasInterrupt"] = true,
 			["OchkenProshlyapen"] = true,
 		},
@@ -8327,7 +8327,7 @@ do
 			["MeleeDps"] = true,
 			["Physical"] = true,
 			["PoisonDispeller"] = true,
-			["RemoveDisease"] = true,
+			["DiseaseDispeller"] = true,
 			["HasInterrupt"] = true,
 			["OchkenProshlyapen"] = true,
 		},
@@ -8339,7 +8339,7 @@ do
 			["SpellCaster"] = true,
 			["RaidCooldown"] = true,--Revival
 			["PoisonDispeller"] = true,
-			["RemoveDisease"] = true,
+			["DiseaseDispeller"] = true,
 			["MagicDispeller2"] = true,
 		},
 		[577] = {	--Дх дд
@@ -8521,7 +8521,7 @@ do
 		if not currentSpecID then
 			DBM:SetCurrentSpecInfo()
 		end
-		if specRoleTable[currentSpecID]["RemoveDisease"] then
+		if specRoleTable[currentSpecID]["DiseaseDispeller"] then
 			return true
 		else
 			return false

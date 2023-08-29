@@ -18,14 +18,14 @@ mod:RegisterEventsInCombat(
 local warnWaterspout		= mod:NewSpellAnnounce(75863, 3)
 local warnWaterspoutSoon	= mod:NewSoonAnnounce(75863, 2)
 local warnGeyser			= mod:NewSpellAnnounce(75722, 3)
-local warnFungalSpores		= mod:NewTargetNoFilterAnnounce(80564, 3, nil, "RemoveDisease", 2)
+local warnFungalSpores		= mod:NewTargetNoFilterAnnounce(80564, 3, nil, "DiseaseDispeller", 2)
 
 local specWarnShockBlast	= mod:NewSpecialWarningInterrupt(76008, nil, nil, nil, 1, 2)
 
 local timerWaterspout		= mod:NewBuffActiveTimer(60, 75863, nil, nil, nil, 6)
 local timerShockBlastCD		= mod:NewCDTimer(13, 76008, nil, "HasInterrupt", 2, 4, nil, DBM_CORE_INTERRUPT_ICON)
 local timerGeyser			= mod:NewCastTimer(5, 75722, nil, nil, nil, 3)
-local timerFungalSpores		= mod:NewBuffFadesTimer(15, 80564, nil, "RemoveDisease", 2, 5, nil, DBM_CORE_DISEASE_ICON)
+local timerFungalSpores		= mod:NewBuffFadesTimer(15, 80564, nil, "DiseaseDispeller", 2, 5, nil, DBM_CORE_DISEASE_ICON)
 
 local sporeTargets = {}
 mod.vb.sporeCount = 0
