@@ -373,7 +373,6 @@ DBM_CORE_AUTO_SPEC_WARN_TEXTS.switchcount	= "%s - ¡cambia de objetivo! (%%s)"
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.gtfo			= "%%s a tus pies - ¡apártate!"
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.Adds			= "Esbirros en breve - ¡cambia de objetivo!"
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.Addscustom	= "Esbirros en breve - %%s"
-DBM_CORE_AUTO_SPEC_WARN_TEXTS.moredamage	= "%s - ¡más daño!"
 
 -- Auto-generated Special Warning Localizations
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.spell 			= "Mostrar aviso especial para $spell:%s"
@@ -410,7 +409,6 @@ DBM_CORE_AUTO_SPEC_WARN_OPTIONS.switchcount		= "Mostrar aviso especial (con cont
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.gtfo 			= "Mostrar aviso especial para apartarte de áreas de daño en el suelo"
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.Adds			= "Mostrar aviso especial para cambiar de objetivo cuando falte poco para que aparezcan esbirros"
 DBM_CORE_AUTO_SPEC_WARN_OPTIONS.Addscustom		= "Mostrar aviso especial cuando falte poco para que aparezcan esbirros"
-DBM_CORE_AUTO_SPEC_WARN_OPTIONS.moredamage		= "Mostrar aviso especial \"¡más daño!\" cuando alguien se ve afectado por $spell:%s"
 
 -- Auto-generated Timer Localizations
 DBM_CORE_AUTO_TIMER_TEXTS.target		= "%s: %%s"

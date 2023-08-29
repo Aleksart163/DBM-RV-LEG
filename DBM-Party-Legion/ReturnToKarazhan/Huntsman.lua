@@ -80,7 +80,7 @@ local warned_preP4 = false
 local phase2 = false
 local intangiblePresenceOnMe = true
 local syncEvent = true
-local runtime = 0
+-- local runtime = 0 -- debug
 
 function mod:SharedSufferingTarget(targetname, uId) --прошляпанное очко Мурчаля Прошляпенко [✔]
 	if not targetname then return end
@@ -124,8 +124,8 @@ end]]
 local function checkSyncEvent(self)
 	if not syncEvent then
 		syncEvent = true
-		local currenttime = GetTime()
-		DBM:Debug("checkSyncEvent: syncEvent = true, GetTime(): " .. currenttime .. ", spenttime: " .. currenttime - runtime)
+		--[[local currenttime = GetTime()
+		DBM:Debug("checkSyncEvent: syncEvent = true, GetTime(): " .. currenttime .. ", spenttime: " .. currenttime - runtime)]]
 		DBM:AddMsg(L.Tip1)
 		if self:IsMagicDispeller2() then
 			specWarnPresence5:Show()
@@ -243,13 +243,13 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 227404 then --Незримое присутствие
 		if self:AntiSpam(2, "intangiblePresence") then
 			syncEvent = false
-			runtime = GetTime()
-			DBM:Debug("SPELL_AURA_APPLIED: syncEvent = false, runtime: " .. runtime)
+			--[[runtime = GetTime()
+			DBM:Debug("SPELL_AURA_APPLIED: syncEvent = false, runtime: " .. runtime)]]
 			self:Schedule(1.5, checkSyncEvent, self)
+			timerMortalStrikeCD:Stop() --Смертельный удар
+			timerSharedSufferingCD:Stop() --Разделенные муки
+			countdownSharedSuffering:Cancel() --Разделенные муки
 		end
-		timerMortalStrikeCD:Stop() --Смертельный удар
-		timerSharedSufferingCD:Stop() --Разделенные муки
-		countdownSharedSuffering:Cancel() --Разделенные муки
 	end
 end
 
@@ -389,8 +389,8 @@ function mod:VEHICLE_ANGLE_UPDATE()
 	if DBM:UnitDebuff("player", 227404) and intangiblePresenceOnMe then
 		intangiblePresenceOnMe = false
 		syncEvent = true
-		local currenttime = GetTime()
-		DBM:Debug("VEHICLE_ANGLE_UPDATE: syncEvent = true, GetTime(): " .. currenttime .. ", spenttime: " .. currenttime - runtime)
+		--[[local currenttime = GetTime()
+		DBM:Debug("VEHICLE_ANGLE_UPDATE: syncEvent = true, GetTime(): " .. currenttime .. ", spenttime: " .. currenttime - runtime)]]
 		if self.Options.SetIconOnPresence then
 			self:SetIcon(playerName, 7)
 		end
@@ -410,8 +410,8 @@ end
 function mod:OnSync(msg, sender)
 	if msg == "intangiblePresenceOnMe" and sender ~= playerName and not syncEvent then
 		syncEvent = true
-		local currenttime = GetTime()
-		DBM:Debug("OnSync: syncEvent = true, GetTime(): " .. currenttime .. ", spenttime: " .. currenttime - runtime)
+		--[[local currenttime = GetTime()
+		DBM:Debug("OnSync: syncEvent = true, GetTime(): " .. currenttime .. ", spenttime: " .. currenttime - runtime)]]
 		if self.Options.SetIconOnPresence then
 			self:SetIcon(sender, 7)
 		end
@@ -427,8 +427,8 @@ end
 function mod:OnBWSync(msg, _, sender)
 	if msg == "intangiblePresenceOnMe" and sender ~= playerName and not syncEvent then
 		syncEvent = true
-		local currenttime = GetTime()
-		DBM:Debug("OnBWSync: syncEvent = true, GetTime(): " .. currenttime .. ", spenttime: " .. currenttime - runtime)
+		--[[local currenttime = GetTime()
+		DBM:Debug("OnBWSync: syncEvent = true, GetTime(): " .. currenttime .. ", spenttime: " .. currenttime - runtime)]]
 		if self.Options.SetIconOnPresence then
 			self:SetIcon(sender, 7)
 		end

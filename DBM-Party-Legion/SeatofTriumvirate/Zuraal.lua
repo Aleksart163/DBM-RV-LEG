@@ -120,7 +120,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		self.vb.aberrations = 0
 		warnVoidTear:Show(args.destName)
 		if not UnitIsDeadOrGhost("player") then
-			specWarnVoidTear:Show()
+			specWarnVoidTear:Show(args.destName)
 		end
 		timerNullPalmCD:Stop()
 		timerDeciminateCD:Stop()
