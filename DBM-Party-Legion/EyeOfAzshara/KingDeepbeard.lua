@@ -23,7 +23,7 @@ local warnFrenzy2					= mod:NewSoonAnnounce(197550, 1) --Бешенство
 local warnCallSeas					= mod:NewSpellAnnounce(193051, 2) --Зов морей
 
 local specWarnQuake					= mod:NewSpecialWarningMoveAway(193152, nil, nil, nil, 1, 2) --Землетрясение
-local specWarnQuake2				= mod:NewSpecialWarningYouMove(193152, nil, nil, nil, 2, 2) --Землетрясение
+local specWarnQuake2				= mod:NewSpecialWarningYouMove(193171, nil, nil, nil, 2, 2) --Повторный толчок
 local specWarnGroundSlam			= mod:NewSpecialWarningDodge(193093, "Melee", nil, nil, 1, 3) --Удар по земле
 local specWarnBubbles2				= mod:NewSpecialWarningYou(193018, nil, nil, nil, 3, 3) --Пузырь газа
 local specWarnBubbles3				= mod:NewSpecialWarningEnd(193018, nil, nil, nil, 1, 2) --Пузырь газа
@@ -36,6 +36,7 @@ local timerBubblesCD				= mod:NewNextTimer(32, 193018, nil, nil, nil, 7) --Пу�
 local timerBubbles					= mod:NewTargetTimer(20, 193047, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Взрыв газа+++
 
 local countdownQuake				= mod:NewCountdown(21.8, 193152, nil, nil, 5) --Землетрясение
+local countdownQuake2				= mod:NewCountdown(4, 193171, nil, nil, 4) --Повторный толчок
 
 local yellBubbles					= mod:NewYell(193018, nil, nil, nil, "YELL") --Пузырь газа
 local yellBubbles2					= mod:NewFadesYell(193018, nil, nil, nil, "YELL") --Пузырь газа
@@ -113,6 +114,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 			specWarnQuake2:ScheduleVoice(0.5, "runout")
 		end
 		timerQuake2:Start()
+		countdownQuake2:Start()
 	end
 end
 
@@ -143,6 +145,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		timerBubbles:Cancel(args.destName)
 		if args:IsPlayer() then
 			specWarnBubbles3:Show()
+			specWarnBubbles3:Play("end")
 			yellBubbles2:Cancel()
 		end
 		if self.Options.SetIconOnBubbles then

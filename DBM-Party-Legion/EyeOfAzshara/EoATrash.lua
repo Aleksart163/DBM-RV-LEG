@@ -155,7 +155,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnArcaneBomb4:Play("dispelnow")
 			yellArcaneBomb:Yell()
 			yellArcaneBombFades:Countdown(15, 3)
-		elseif self:IsMagicDispeller2() then
+		elseif not args:IsPlayer() and self:IsMagicDispeller2() then
 			if not UnitIsDeadOrGhost("player") then
 				specWarnArcaneBomb2:Show(args.destName)
 				specWarnArcaneBomb2:Play("dispelnow")
@@ -172,7 +172,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			yellPolymorph:Yell()
 			yellPolymorphFades:Countdown(8, 3)
-		elseif self:IsMagicDispeller2() then
+		elseif not args:IsPlayer() and self:IsMagicDispeller2() then
 			if not UnitIsDeadOrGhost("player") then
 				specWarnPolymorph2:Show(args.destName)
 				specWarnPolymorph2:Play("dispelnow")
@@ -204,7 +204,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				specWarnSandstorm2:Show()
 				specWarnSandstorm2:Play("dispelnow")
 				yellSandstorm:Yell()
-			elseif self:IsMagicDispeller2() then
+			elseif not args:IsPlayer() and self:IsMagicDispeller2() then
 				if not UnitIsDeadOrGhost("player") then
 					specWarnSandstorm3:CombinedShow(0.5, args.destName)
 					specWarnSandstorm3:ScheduleVoice(0.5, "dispelnow")
