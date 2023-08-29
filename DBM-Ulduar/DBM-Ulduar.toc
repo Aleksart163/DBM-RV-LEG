@@ -1,0 +1,68 @@
+## Interface: 70300
+## X-Min-Interface: 70300
+## Title:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0Ulduar|r
+## Title-ruRU:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0Ульдуар|r
+## Title-deDE:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0Ulduar|r
+## Title-esES:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0Ulduar|r
+## Title-esMX:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0Ulduar|r
+## Title-frFR:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0Ulduar|r
+## Title-itIT:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0Ulduar|r
+## Title-ptBR:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0Ulduar|r
+## Title-koKR:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0울두아르|r
+## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0奥杜尔|r
+## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0奧杜亞|r
+## Author: Aleksart163
+## LoadOnDemand: 1
+## RequiredDeps: DBM-Core
+## SavedVariablesPerCharacter: DBMUlduar_SavedVars, DBMUlduar_SavedStats
+## X-DBM-Mod: 1
+## X-DBM-Mod-Type: RAID
+## X-DBM-Mod-Category: WotLK
+## X-DBM-Mod-Has-TimeWalker : 1
+## X-DBM-Mod-Name: Ulduar
+## X-DBM-Mod-Name-ruRU: Ульдуар
+## X-DBM-Mod-Name-koKR: 울두아르
+## X-DBM-Mod-Name-zhTW: 奧杜亞
+## X-DBM-Mod-Name-zhCN: 奥杜尔
+## X-DBM-Mod-Name-esES: Ulduar
+## X-DBM-Mod-Sort: 550
+## X-DBM-Mod-MapID: 603
+## X-DBM-Mod-LoadZone: Ulduar
+## X-DBM-Mod-LoadZone-frFR: Ulduar
+## X-DBM-Mod-LoadZone-ruRU: Ульдуар
+## X-DBM-Mod-LoadZone-koKR: 울두아르
+## X-DBM-Mod-LoadZone-zhTW: 奧杜亞
+## X-DBM-Mod-LoadZone-zhCN: 奥杜尔
+## X-DBM-Mod-LoadZone-esES: Ulduar
+## X-DBM-Mod-LoadZone-esMX: Ulduar
+## X-DBM-Mod-LoadZone-deDE: Ulduar
+## X-DBM-Mod-LoadZone-frFR: Ulduar
+## X-DBM-Mod-LoadZone-itIT: Ulduar
+## X-DBM-Mod-MinCoreRevision: 17728
+
+localization.en.lua
+localization.ru.lua
+localization.de.lua
+localization.es.lua
+localization.fr.lua
+localization.it.lua
+localization.br.lua
+localization.kr.lua
+localization.cn.lua
+localization.tw.lua
+
+FlameLeviathan.lua
+Ignis.lua
+Razorscale.lua
+XT002.lua
+IronCouncil.lua
+Kologarn.lua
+Auriaya.lua
+Hodir.lua
+Thorim.lua
+Freya.lua
+Mimiron.lua
+GeneralVezax.lua
+YoggSaron.lua
+Algalon.lua
+UlduarTrash.lua
