@@ -104,7 +104,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	if spellId == 192517 and args:GetSrcCreatureID() == 95886 then --Ломкость
 		self.vb.countermeasure = self.vb.countermeasure + 1
 		if not UnitIsDeadOrGhost("player") then
-			specWarnBrittle:Show(args.destName)
+			specWarnBrittle:Show()
 		end
 		timerBrittle:Start()
 		countdownBrittle:Start()

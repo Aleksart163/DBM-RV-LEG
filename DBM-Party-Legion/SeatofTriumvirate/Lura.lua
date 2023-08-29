@@ -116,7 +116,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		self.vb.backlash = self.vb.backlash + 1
 		warnBacklash:Show(args.destName)
 		if not UnitIsDeadOrGhost("player") then
-			specWarnBacklash:Show(args.destName)
+			specWarnBacklash:Show()
 		end
 		timerBacklash:Start()
 		countdownBacklash2:Start()
