@@ -125,12 +125,17 @@ L:SetWarningLocalization{
 }
 
 L:SetOptionLocalization{
+	ShowProshlyapationOfMurchal = "Spezialwarnung für $spell:62776 (nur als Leiter/Assistent)",
 	SpecialWarningLightBomb		= "Zeige Spezialwarnung bei Lichtbombe auf dir",
 	SpecialWarningGravityBomb	= "Zeige Spezialwarnung bei Graviationsbombe auf dir",
 	specWarnConsumption			= "Zeige Spezialwarnung, wenn du von Verzehrung betroffen bist",
 	SetIconOnLightBombTarget	= "Setze Zeichen auf Ziel der Lichtbombe",
 	SetIconOnGravityBombTarget	= "Setze Zeichen auf Ziel der Graviationsbombe",
 }
+
+L:SetMiscLocalization({
+	ProshlyapMurchal = "%s %s in 5 Sek"
+})
 
 --------------------
 --  Iron Council  --
@@ -526,7 +531,7 @@ L:SetOptionLocalization{
 	WarningSanity					= "Zeige Warnung wenn Geistige Gesundheit niedrig ist",
 	SpecWarnSanity					= "Zeige Spezialwarnung wenn Geistige Gesundheit sehr niedrig ist",
 	SpecWarnGuardianLow				= "Zeige Spezialwarnung wenn Wächter (P1) fast tot ist (für DDs)",
-	WarnBrainPortalSoon				= "Zeige Vorwarnung für Gehirnportale",
+	WarnBrainPortalSoon				= "Zeige Vorwarnung für $journal:17696",
 	SpecWarnMadnessOutNow			= "Zeige Spezialwarnung kurz vor Ende von Wahnsinn hervorrufen",
 	SetIconOnFearTarget				= "Setze Zeichen auf Ziele von Geisteskrankheit",
 	SpecWarnFervor					= "Zeige Spezialwarnung wenn du von Saras Eifer betroffen bist",
@@ -554,8 +559,8 @@ L:SetGeneralLocalization{
 }
 
 L:SetMiscLocalization{
-	MurchalProshlyapation = "Ihr habt die Verteidigung von Ulduar überwunden. Wir werden gleich da sein, um...",
-	TrashRespawnTimer	= "Freya-Trash-Respawn"
+	MurchalProshlyapation 	= "Ihr habt die Verteidigung von Ulduar überwunden. Wir werden gleich da sein, um...", --
+	TrashRespawnTimer		= "Freya-Trash-Respawn"
 }
 
 L:SetWarningLocalization{
@@ -564,7 +569,7 @@ L:SetWarningLocalization{
 }
 
 L:SetOptionLocalization{
-	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT,
+	timerRoleplay 			= DBM_CORE_OPTION_TIMER_COMBAT,
 	SpecWarnFistOfStone		= "Zeige Spezialwarnung für Fäuste aus Stein",
 	SpecWarnGroundTremor	= "Zeige Spezialwarnung für Bebende Erde",
 	PlaySoundOnFistOfStone	= "Spiele Sound bei Fäuste aus Stein",
@@ -572,5 +577,5 @@ L:SetOptionLocalization{
 }
 
 L:SetTimerLocalization({
-	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+	timerRoleplay 			= DBM_CORE_GENERIC_TIMER_COMBAT
 })

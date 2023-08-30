@@ -109,10 +109,14 @@ L:SetTimerLocalization{
 }
 
 L:SetOptionLocalization{
-
+	ShowProshlyapationOfMurchal = "為$spell:62776顯示特別警告 (需要團隊隊長或助理權限)",
 	SetIconOnLightBombTarget	= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(65121),
 	SetIconOnGravityBombTarget	= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(64234)
 }
+
+L:SetMiscLocalization({
+	ProshlyapMurchal = "%s 5秒后 %s"
+})
 
 --------------------
 --  Iron Council  --
@@ -467,7 +471,7 @@ L:SetOptionLocalization{
 	WarningSanity			= "當理智剩下50時顯示警告",
 	SpecWarnSanity			= "當理智過低(25,15,5)時顯示特別警告",
 	SpecWarnGuardianLow		= "當守護者(第1階段)血量過低時顯示特別警告 (DD用)",
-	WarnBrainPortalSoon		= "為腦部傳送門顯示預先警告",
+	WarnBrainPortalSoon		= "顯示特別警告 $journal:17696",
 	SpecWarnMadnessOutNow	= "為瘋狂誘陷結束前顯示特別警告",
 	SetIconOnFearTarget		= "為心靈缺陷的目標設置標記 (頭顱)",
 	SpecWarnFervor			= "當你中了薩拉的熱誠時顯示特別警告",
@@ -493,18 +497,19 @@ L:SetGeneralLocalization{
 }
 
 L:SetMiscLocalization{
-	TrashRespawnTimer = "芙蕾雅的小怪重生"
+	MurchalProshlyapation 	= "你辦到了!你突破了奧杜亞的防護。再過一會我們就能進入...", --
+	TrashRespawnTimer 		= "芙蕾雅的小怪重生"
 }
 
 L:SetWarningLocalization{
 }
 
 L:SetOptionLocalization{
-	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT,
-	PlaySoundOnFistOfStone = "為石拳連擊播放音效",
-	TrashRespawnTimer = "為芙蕾雅的小怪重生顯示計時器"
+	timerRoleplay 			= DBM_CORE_OPTION_TIMER_COMBAT,
+	PlaySoundOnFistOfStone 	= "為石拳連擊播放音效",
+	TrashRespawnTimer 		= "為芙蕾雅的小怪重生顯示計時器"
 }
 
 L:SetTimerLocalization({
-	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+	timerRoleplay 			= DBM_CORE_GENERIC_TIMER_COMBAT
 })

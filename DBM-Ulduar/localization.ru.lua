@@ -114,9 +114,14 @@ L:SetWarningLocalization{
 }
 
 L:SetOptionLocalization{
+	ShowProshlyapationOfMurchal = "Спец-предупреждение об $spell:62776 (требуются права лидера рейда)",
 	SetIconOnLightBombTarget	= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(65121),
 	SetIconOnGravityBombTarget	= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(64234)
 }
+
+L:SetMiscLocalization({
+	ProshlyapMurchal = "%s %s через 5 сек"
+})
 
 -----------------------
 -- Железное Собрание --
@@ -472,7 +477,7 @@ L:SetOptionLocalization{
 	WarningSanity					= "Предупреждение, когда у вас мало $spell:63050",
 	SpecWarnSanity					= "Спец-предупреждение, когда у вас очень мало $spell:63050",
 	SpecWarnGuardianLow				= "Спец-предупреждение, когда у Стража (в фазе 1) мало здоровья (для бойцов)",
-	WarnBrainPortalSoon				= "Предупреждать заранее о Провале Безумия",
+	WarnBrainPortalSoon				= "Предупреждать заранее о $journal:17696",
 	SpecWarnMadnessOutNow			= "Спец-предупреждение незадолго до окончания $spell:64059",
 	SetIconOnFearTarget				= "Устанавливать метки на цели заклинания $spell:63881",
 	SpecWarnFervorCast				= "Спец-предупреждение, когда на вас накладывается $spell:63138\n(должна быть в цели или фокусе хотя бы у одного члена рейда)",
@@ -496,19 +501,19 @@ L:SetGeneralLocalization{
 }
 
 L:SetMiscLocalization{
-	MurchalProshlyapation = "У вас получилось! Оборона Ульдуара прорвана. Еще чуть-чуть, и мы высадимся у...",
-	TrashRespawnTimer	= "Возрождение монстров"
+	MurchalProshlyapation 	= "У вас получилось! Оборона Ульдуара прорвана. Еще чуть-чуть, и мы высадимся у...", --
+	TrashRespawnTimer		= "Возрождение монстров"
 }
 
 L:SetWarningLocalization{
 }
 
 L:SetOptionLocalization{
-	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT,
+	timerRoleplay 			= DBM_CORE_OPTION_TIMER_COMBAT,
 	PlaySoundOnFistOfStone	= "Звуковой сигнал при Каменных кулаках",
 	TrashRespawnTimer		= "Отсчет времени до возрождения монстров"
 }
 
 L:SetTimerLocalization({
-	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+	timerRoleplay 			= DBM_CORE_GENERIC_TIMER_COMBAT
 })

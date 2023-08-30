@@ -23,7 +23,7 @@ local warnPhase2					= mod:NewPrePhaseAnnounce(2, 1)
 local warnLightBomb					= mod:NewTargetAnnounce(65121, 3) --Опаляющий свет
 local warnGravityBomb				= mod:NewTargetAnnounce(64234, 4) --Гравитационная бомба
 
-local specWarnExposedHeart			= mod:NewSpecialWarningSpell(63849, "-Healer", nil, nil, 3, 6) --Обнаженное сердце
+local specWarnExposedHeart			= mod:NewSpecialWarningMoreDamage(63849, "-Healer", nil, nil, 3, 6) --Обнаженное сердце
 local specWarnTympanicTantrum		= mod:NewSpecialWarningDefensive(62776, nil, nil, nil, 3, 6) --Раскаты ярости
 local specWarnLightBomb				= mod:NewSpecialWarningYouMoveAway(65121, nil, nil, nil, 4, 5) --Опаляющий свет
 local specWarnGravityBomb			= mod:NewSpecialWarningYouMoveAway(64234, nil, nil, nil, 5, 6) --Гравитационная бомба
@@ -39,7 +39,7 @@ local timerGravityBomb				= mod:NewTargetTimer(9, 64234, nil, nil, nil, 3, nil, 
 local timerAchieve					= mod:NewAchievementTimer(205, 12329, "TimerSpeedKill", nil, nil, 7)
 local enrageTimer					= mod:NewBerserkTimer(600)
 
-local countdownTympanicTantrum		= mod:NewCountdown(60, 62776, nil, nil, 3) --Раскаты ярости
+local countdownTympanicTantrum		= mod:NewCountdown(60, 62776, nil, nil, 5) --Раскаты ярости
 
 local yellLightBomb					= mod:NewYell(65121, nil, nil, nil, "YELL") --Опаляющий свет
 local yellLightBomb2				= mod:NewFadesYell(65121, nil, nil, nil, "YELL") --Опаляющий свет
@@ -48,6 +48,7 @@ local yellGravityBomb2				= mod:NewFadesYell(64234, nil, nil, nil, "YELL") --Г�
 
 mod:AddSetIconOption("SetIconOnGravityBombTarget", 63024, true, false, {8})
 mod:AddSetIconOption("SetIconOnLightBombTarget", 63018, true, false, {7})
+mod:AddBoolOption("ShowProshlyapationOfMurchal", true)
 mod:AddRangeFrameOption("8")
 
 mod.vb.phase = 1
@@ -56,6 +57,49 @@ local warned_preP1 = false
 local warned_preP2 = false
 local warned_preP3 = false
 local warned_preP4 = false
+
+local ochko = replaceSpellLinks(62776) --Прошляпанное очко Мурчаля
+
+local function startMurchalProshlyapation(self)
+	smartChat(L.ProshlyapMurchal:format(DbmRV, ochko), "rw")
+end
+
+local premsg_values = {
+	args_destName,
+	scheduleDelay,
+	ochko_rw
+}
+local playerOnlyName = UnitName("player")
+
+local function sendAnnounce(self)
+	if premsg_values.args_destName == nil then
+		premsg_values.args_destName = "Unknown"
+	end
+
+	if premsg_values.ochko_rw == 1 then
+		self:Schedule(premsg_values.scheduleDelay, startMurchalProshlyapation, self)
+		premsg_values.ochko_rw = 0
+	end
+
+	premsg_values.args_destName = nil
+	premsg_values.scheduleDelay = nil
+end
+
+local function announceList(premsg_announce, value)
+	if premsg_announce == "premsg_XT002_ochko_rw" then
+		premsg_values.ochko_rw = value
+	end
+end
+
+local function prepareMessage(self, premsg_announce, args_sourceName, args_destName, scheduleDelay)
+	if self:AntiSpam(1, "prepareMessage") then
+		premsg_values.args_destName = args_destName
+		premsg_values.scheduleDelay = scheduleDelay
+		announceList(premsg_announce, 1)
+		self:SendSync(premsg_announce, playerOnlyName)
+		self:Schedule(1, sendAnnounce, self)
+	end
+end
 
 function mod:OnCombatStart(delay)
 	self.vb.phase = 1
@@ -69,6 +113,9 @@ function mod:OnCombatStart(delay)
 	timerGravityBombCD:Start(20.5-delay) --Гравитационная бомба
 	timerTympanicTantrumCD:Start(30-delay) --Раскаты ярости
 	countdownTympanicTantrum:Start(30-delay) --Раскаты ярости
+	if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapationOfMurchal and DBM:GetRaidRank() > 0 then
+		prepareMessage(self, "premsg_XT002_ochko_rw", nil, nil, 24)
+	end
 end
 
 function mod:SPELL_CAST_START(args)
@@ -79,6 +126,9 @@ function mod:SPELL_CAST_START(args)
 		timerTympanicTantrumCast:Start()
 		timerTympanicTantrumCD:Start()
 		countdownTympanicTantrum:Start()
+		if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapationOfMurchal and DBM:GetRaidRank() > 0 then
+			prepareMessage(self, "premsg_XT002_ochko_rw", nil, nil, 54)
+		end
 	end
 end
 
@@ -127,6 +177,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerTympanicTantrumCD:Start(115)
 		countdownTympanicTantrum:Start(115)
 		timerHeart:Start()
+		self:Unschedule(startMurchalProshlyapation)
 	end
 end
 
@@ -157,6 +208,9 @@ function mod:UNIT_DIED(args)
 		timerTympanicTantrumCD:Start(25)
 		countdownTympanicTantrum:Start(25)
 		timerGravityBombCD:Start(15)
+		if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapationOfMurchal and DBM:GetRaidRank() > 0 then
+			prepareMessage(self, "premsg_XT002_ochko_rw", nil, nil, 19)
+		end
 	end
 end
 
@@ -184,12 +238,8 @@ do
 	end
 end
 
---[[
-function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
-	if spellId == 64208 or spellId == 64206 and args:IsPlayer() and self:AntiSpam(2.5, "consumption") then --Увядание
-		specWarnConsumption:Show()
-		specWarnConsumption:Play("runout")
+function mod:OnSync(premsg_announce, sender)
+	if sender < playerOnlyName then
+		announceList(premsg_announce, 0)
 	end
 end
-mod.SPELL_MISSED = mod.SPELL_DAMAGE
-mod.SPELL_ABSORBED = mod.SPELL_DAMAGE]]

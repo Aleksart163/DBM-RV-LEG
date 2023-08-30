@@ -25,7 +25,7 @@ local warnGiftEonar			= mod:NewSoonAnnounce("ej17405", 1) --Дар Эонар
 
 local specWarnGiftEonar		= mod:NewSpecialWarningSwitch("ej17405", "-Healer", nil, nil, 3, 5) --Дар Эонар
 local specWarnFury			= mod:NewSpecialWarningYouMoveAway(63571, nil, nil, nil, 4, 6) --Гнев природы
-local specWarnTremor		= mod:NewSpecialWarningCast(62859, "SpellCaster", nil, nil, 2, 3)	--Дрожание земли
+local specWarnTremor		= mod:NewSpecialWarningCast(62859, "SpellCaster", nil, nil, 2, 5)	--Дрожание земли
 local specWarnTremor2		= mod:NewSpecialWarningSpell(62859, nil, nil, nil, 2, 3) --Дрожание земли
 local specWarnBeam			= mod:NewSpecialWarningYouMove(62865)	-- Hard mode
 

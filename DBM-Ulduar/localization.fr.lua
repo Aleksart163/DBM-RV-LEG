@@ -127,12 +127,17 @@ L:SetWarningLocalization{
 }
 
 L:SetOptionLocalization{
+	ShowProshlyapationOfMurchal = "Afficher une alerte spéciale pour $spell:62776 (nécessite d'être chef du raid ou assistant)",
 	SpecialWarningLightBomb		= "Activer l'avertissement spécial quand vous êtes affecté par la bombe de lumière",
 	SpecialWarningGravityBomb	= "Activer l'avertissement spécial quand vous êtes affecté par la bombe à gravité",
 	specWarnConsumption			= "Montre une alerte spéciale quand vous subissez des dégats venant des Zone de Vide ( Hard-mode )",
 	SetIconOnLightBombTarget	= "Mettre un icône sur la cible de la bombe de lumière",
 	SetIconOnGravityBombTarget	= "Mettre un icône sur la cible de la bombe à gravité"
 }
+
+L:SetMiscLocalization({
+	ProshlyapMurchal = "%s %s dans 5 sec"
+})
 
 -------------------
 --  IronCouncil  --
@@ -538,7 +543,7 @@ L:SetOptionLocalization{
 	WarningSanity					= "Montre une alerte quand la Santé mentale est basse",
 	SpecWarnSanity					= "Montre une alerte quand la Santé mentale est très basse",
 	SpecWarnGuardianLow				= "Montre une alerte spéciale quand les gardiens (P1) n'a plus beaucoup de vie",
-	WarnBrainPortalSoon				= "Annonce les Portails",
+	WarnBrainPortalSoon				= "Annonce les $journal:17696",
 	SpecWarnMadnessOutNow			= "Montre une alerte spéciale avant la fin du cast de Susciter la folie",
 	SetIconOnFearTarget				= "Met une icône sur la cible du fear",
 	SpecWarnFervor					= "Montre une alerte spéciale pour la ferveur de Sara",
@@ -566,7 +571,8 @@ L:SetGeneralLocalization{
 }
 
 L:SetMiscLocalization{
-	TrashRespawnTimer	= "Respawn des Trashs de Freya"
+	MurchalProshlyapation 	= "Vous avez réussi ! Vous avez brisé les défenses d’Ulduar. Dans un p’tit moment, on va passer dans -", --
+	TrashRespawnTimer		= "Respawn des Trashs de Freya"
 }
 
 L:SetWarningLocalization{
@@ -575,7 +581,7 @@ L:SetWarningLocalization{
 }
 
 L:SetOptionLocalization{
-	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT,
+	timerRoleplay 			= DBM_CORE_OPTION_TIMER_COMBAT,
 	SpecWarnFistOfStone		= "Montre une alerte spéciale pour le coup de poings de pierre",
 	SpecWarnGroundTremor	= "Montre une alerte spéciale pour le tremblement de terre",
 	PlaySoundOnFistOfStone	= "Joue un son à l'incantation des poings de pierre",
@@ -583,5 +589,5 @@ L:SetOptionLocalization{
 }
 
 L:SetTimerLocalization({
-	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+	timerRoleplay 			= DBM_CORE_GENERIC_TIMER_COMBAT
 })

@@ -90,6 +90,14 @@ L:SetOptionLocalization({
 ---------------------------
 L= DBM:GetModLocalization(1983)
 
+L:SetOptionLocalization({
+	ShowProshlyapSoulburnin = "Afficher une alerte spéciale pour $spell:244093 (nécessite d'être chef du raid ou assistant)"
+})
+
+L:SetMiscLocalization({
+	ProshlyapSoulburnin = "%s %s dans 5 sec"
+})
+
 ---------------------------
 -- The Coven of Shivarra --
 ---------------------------

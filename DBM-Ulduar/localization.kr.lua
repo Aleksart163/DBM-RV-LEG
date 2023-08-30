@@ -128,12 +128,17 @@ L:SetWarningLocalization{
 }
 
 L:SetOptionLocalization{
+	ShowProshlyapationOfMurchal 	= "$spell:62776 특수 경고 보기 (승급 권한 필요)",
 	SpecialWarningLightBomb			= "당신이 타오르는 빛의 영향을 받을 때 특수 경고 보기",
 	SpecialWarningGravityBomb		= "당신이 중력 폭탄의 영향을 받을 때 특수 경고 보기",
 	specWarnConsumption				= "공허의 지대로부터 데미지를 받을 경우 특수 경고 보기",	
 	SetIconOnLightBombTarget		= "타오르는 빛 대상에게 공격대 아이콘 표시",
 	SetIconOnGravityBombTarget		= "중력 폭탄 대상에게 공격대 아이콘 표시"
 }
+
+L:SetMiscLocalization({
+	ProshlyapMurchal = "%s 5초 후 %s"
+})
 
 -------------------
 --  무쇠 평의회  --
@@ -543,7 +548,7 @@ L:SetOptionLocalization{
 	SpecWarnGuardianLow				= "수호자의 생명력이 낮을 때 특수 경고 보기(1페이즈 / 딜러)",
 	NextPortal						= "다음 내부 차원문 알리기",	
 	WarnBrainPortalSoon				= "내부 차원문 알리기",
-	specWarnBrainPortalSoon			= "내부 차원문 특수 경고 알리기",	
+	specWarnBrainPortalSoon			= "이전에 특수 경고 보기 $journal:17696",	
 	SpecWarnMadnessOutNow			= "광기 유발이 끝나기 전 특수 경고 알리기",
 	WarningSqueeze					= "압착의 촉수의 대상이 됏을 경우 외치기",
 	SetIconOnFearTarget				= "병든 정신 타겟 아이콘 설정하기",
@@ -574,11 +579,12 @@ L:SetWarningLocalization{
 }
 
 L:SetMiscLocalization{
+	MurchalProshlyapation 	= "해내셨군요! 울두아르의 방어선을 무너뜨렸어요! 몇 분만 지나면 우린 이제...", --
 	TrashRespawnTimer 		= "프레이야 지역 리젠타임"
 }
 
 L:SetOptionLocalization{
-	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT,
+	timerRoleplay 			= DBM_CORE_OPTION_TIMER_COMBAT,
 	SpecWarnFistOfStone		= "돌덩이 주먹 특수 경고 보기",
 	PlaySoundOnFistOfStone	= "돌덩이 주먹 특수 사운드 재생",
 	SpecWarnGroundTremor	= "지진 특수 경고 보기",
@@ -586,5 +592,5 @@ L:SetOptionLocalization{
 }
 
 L:SetTimerLocalization({
-	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+	timerRoleplay 			= DBM_CORE_GENERIC_TIMER_COMBAT
 })

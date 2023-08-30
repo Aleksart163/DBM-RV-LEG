@@ -114,9 +114,14 @@ L:SetWarningLocalization{
 }
 
 L:SetOptionLocalization{
+	ShowProshlyapationOfMurchal = "Mostrar aviso especial para $spell:62776 (requiere líder o ayudante)",
 	SetIconOnLightBombTarget	= "Mostrar icono a quien pone Bomba de Luz",
 	SetIconOnGravityBombTarget	= "Mostrar icono a quien pone Bomba de Gravedad"
 }
+
+L:SetMiscLocalization({
+	ProshlyapMurchal = "%s %s en 5 seg"
+})
 
 -------------------
 --  IronCouncil  --
@@ -476,7 +481,7 @@ L:SetOptionLocalization{
 	WarningSanity					= "Mostrar aviso cuando tengas poca $spell:63050",
 	SpecWarnSanity					= "Mostrar aviso especial cuando tengas muy poca $spell:63050",
 	SpecWarnGuardianLow				= "Mostrar aviso especial cuando el Guardián esté a punto de morir (Fase 1)",
-	WarnBrainPortalSoon				= "Mostrar pre-aviso para Portal cerebral",
+	WarnBrainPortalSoon				= "Mostrar pre-aviso para $journal:17696",
 	SpecWarnMadnessOutNow			= "Mostrar aviso especial poco antes de que $spell:64059 termine",
 	SetIconOnFearTarget				= "Poner iconos en los objetivos de $spell:63881",
 	SpecWarnFervorCast				= "Mostrar aviso especial cuando $spell:63138 esté siendo casteado en ti/n(Tiene que ser el objetivo o el foco de al menos un personaje de la banda)",
@@ -499,19 +504,27 @@ L:SetGeneralLocalization{
 	name = "Enemigos menores"
 }
 
+if GetLocale() == "esES" then
 L:SetMiscLocalization{
-	TrashRespawnTimer	= "Reaparicion de Adds de Freya"
+	MurchalProshlyapation 	= "¡Lo habéis conseguido! Habéis atravesado las defensas de Ulduar. En unos momentos, pasaremos…", --
+	TrashRespawnTimer		= "Reaparicion de Adds de Freya"
 }
+else
+L:SetMiscLocalization{
+	MurchalProshlyapation 	= "¡Lo lograron! Rompieron las defensas de Ulduar. En pocos momentos, llegaremos a…", --
+	TrashRespawnTimer		= "Reaparicion de Adds de Freya"
+}
+end
 
 L:SetWarningLocalization{
 }
 
 L:SetOptionLocalization{
-	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT,
+	timerRoleplay 			= DBM_CORE_OPTION_TIMER_COMBAT,
 	PlaySoundOnFistOfStone	= "Reproducir sonido cuando castee Puños de piedra",
-	TrashRespawnTimer	= "Mostrar tiempo para reaparición de adds"
+	TrashRespawnTimer		= "Mostrar tiempo para reaparición de adds"
 }
 
 L:SetTimerLocalization({
-	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+	timerRoleplay 			= DBM_CORE_GENERIC_TIMER_COMBAT
 })

@@ -82,6 +82,14 @@ L:SetOptionLocalization({
 ---------------------------
 L= DBM:GetModLocalization(1983)
 
+L:SetOptionLocalization({
+	ShowProshlyapSoulburnin = "為$spell:244093顯示特別警告 (需要團隊隊長或助理權限)"
+})
+
+L:SetMiscLocalization({
+	ProshlyapSoulburnin = "%s 5秒后 %s"
+})
+
 ---------------------------
 -- The Coven of Shivarra --
 ---------------------------

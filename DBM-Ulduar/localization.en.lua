@@ -113,9 +113,14 @@ L:SetWarningLocalization{
 }
 
 L:SetOptionLocalization{
+	ShowProshlyapationOfMurchal = "Show announcements for $spell:62776 (Requires raid leader)",
 	SetIconOnLightBombTarget	= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(65121),
 	SetIconOnGravityBombTarget	= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(64234)
 }
+
+L:SetMiscLocalization({
+	ProshlyapMurchal = "%s %s in 5 sec"
+})
 
 --------------------
 --  Iron Council  --
@@ -473,7 +478,7 @@ L:SetOptionLocalization{
 	WarningSanity					= "Show warning when $spell:63050 is low",
 	SpecWarnSanity					= "Show special warning when $spell:63050 is very low",
 	SpecWarnGuardianLow				= "Show special warning when Guardian (Phase 1) is low (for DDs)",
-	WarnBrainPortalSoon				= "Show pre-warning for Brain Portal",
+	WarnBrainPortalSoon				= "Show pre-warning for $journal:17696",
 	SpecWarnMadnessOutNow			= "Show special warning shortly before $spell:64059 ends",
 	SetIconOnFearTarget				= "Set icons on $spell:63881 targets",
 	SpecWarnFervorCast				= "Show special warning when $spell:63138 is being cast on you (must be targeted or focused by at least one raid member)",
@@ -497,18 +502,19 @@ L:SetGeneralLocalization{
 }
 
 L:SetMiscLocalization{
-	TrashRespawnTimer	= "Freya trash respawn"
+	MurchalProshlyapation 	= "You've done it! You've broken the defenses of Ulduar. In a few moments, we will be dropping in to...", --
+	TrashRespawnTimer		= "Freya trash respawn"
 }
 
 L:SetWarningLocalization{
 }
 
 L:SetOptionLocalization{
-	timerRoleplay = DBM_CORE_OPTION_TIMER_COMBAT,
+	timerRoleplay 			= DBM_CORE_OPTION_TIMER_COMBAT,
 	PlaySoundOnFistOfStone	= "Play sound on Fists of Stone",
 	TrashRespawnTimer		= "Show timer for trash respawn"
 }
 
 L:SetTimerLocalization({
-	timerRoleplay = DBM_CORE_GENERIC_TIMER_COMBAT
+	timerRoleplay 			= DBM_CORE_GENERIC_TIMER_COMBAT
 })
