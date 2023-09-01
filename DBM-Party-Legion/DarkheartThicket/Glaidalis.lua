@@ -29,7 +29,7 @@ local specWarnRampage			= mod:NewSpecialWarningDodge(198379, nil, nil, nil, 3, 6
 local specWarnRampage2			= mod:NewSpecialWarningTargetDodge(198379, nil, nil, nil, 2, 2) --Первобытная ярость
 
 local timerLeapCD				= mod:NewCDTimer(14, 196346, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON..DBM_CORE_HEALER_ICON) --Мучительный прыжок
-local timerRampageCD			= mod:NewCDTimer(28.7, 198379, nil, "Melee", nil, 3, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Первобытная ярость
+local timerRampageCD			= mod:NewCDTimer(28.7, 198379, nil, nil, nil, 3, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Первобытная ярость
 local timerNightfallCD			= mod:NewCDTimer(14.5, 198401, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Сумерки
 
 local yellLeap					= mod:NewYell(196346, nil, nil, nil, "YELL") --Мучительный прыжок
