@@ -334,7 +334,7 @@ L.AreaMurchalOchkenProshlyapation = "Параметры Эпохальных+ к
 L.AutoKeyLink				= "Линковать свой Эпохальный+ ключ в рейд/групп/гильд чат по команде !keys" --need localization
 L.IgnoreRaidAnnounce		= "Отключить анонсы в рейд/групп чате, когда кто-то применяет $spell:80353 или аналогичные ему" --need localization
 L.IgnoreRaidAnnounce2		= "Отключить анонсы на боссах в АПТ от лидера/помощника рейда" --need localization
-L.IgnoreRaidAnnounce3		= "Отключить сообщения благодарности, когда к вам применяют заклинания типа $spell:20484 или аналогичные ему" --need localization
+--L.IgnoreRaidAnnounce3		= "Отключить сообщения благодарности, когда к вам применяют заклинания типа $spell:20484 или аналогичные ему" --need localization
 --
 L.Panel_Profile				= "配置文件"
 L.Area_CreateProfile        = "创建DBM核心配置"

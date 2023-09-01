@@ -3198,7 +3198,7 @@ local function CreateOptionsMenu()
 		local AutoKeyLink			= keyArea:CreateCheckButton(L.AutoKeyLink, true, nil, "AutoKeyLink")
 		local IgnoreRaidAnnounce	= keyArea:CreateCheckButton(L.IgnoreRaidAnnounce, true, nil, "IgnoreRaidAnnounce")
 		local IgnoreRaidAnnounce2	= keyArea:CreateCheckButton(L.IgnoreRaidAnnounce2, true, nil, "IgnoreRaidAnnounce2")
-		local IgnoreRaidAnnounce3	= keyArea:CreateCheckButton(L.IgnoreRaidAnnounce3, true, nil, "IgnoreRaidAnnounce3")
+	--	local IgnoreRaidAnnounce3	= keyArea:CreateCheckButton(L.IgnoreRaidAnnounce3, true, nil, "IgnoreRaidAnnounce3")
 
 		chatAlertsArea:AutoSetDimension()
 		soundAlertsArea:AutoSetDimension()

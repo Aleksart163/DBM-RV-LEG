@@ -332,7 +332,7 @@ L.AreaMurchalOchkenProshlyapation = "Opciones de bandas y mazmorras Mythic+"
 L.AutoKeyLink				= "Mostrar su llave Mythic+ al chat de raid/grupo/gremio con el comando !keys"
 L.IgnoreRaidAnnounce		= "Deshabilitar los anuncios del chat en bandas/grupo cuando alguien usa $spell:80353 o similar"
 L.IgnoreRaidAnnounce2		= "Deshabilitar los anuncios del líder/asistente de banda en bosses de ATA (Antorus)"
-L.IgnoreRaidAnnounce3		= "Desactiva los mensajes de agradecimiento, cuando te usan hechizos como $spell:20484 o similar"
+--L.IgnoreRaidAnnounce3		= "Desactiva los mensajes de agradecimiento, cuando te usan hechizos como $spell:20484 o similar"
 --
 L.Panel_Profile				= "Perfiles"
 L.Area_CreateProfile		= "Creación de perfiles para opciones generales de DBM"

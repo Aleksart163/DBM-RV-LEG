@@ -359,7 +359,7 @@ L.AreaMurchalOchkenProshlyapation = "Options Mythic+ keys and raids"
 L.AutoKeyLink				= "Link your Mythic+ key in raid/group/guild chat by command !keys"
 L.IgnoreRaidAnnounce		= "Disable announcements in raid/group chat when someone applies $spell:80353 or similar to it"
 L.IgnoreRaidAnnounce2		= "Disable announcements on bosses in the ABT from the raid leader/assistant"
-L.IgnoreRaidAnnounce3		= "Disable thank you messages when spells like $spell:20484 or similar are applied to you"
+--L.IgnoreRaidAnnounce3		= "Disable thank you messages when spells like $spell:20484 or similar are applied to you"
 --
 L.Panel_Profile				= "Profiles"
 L.Area_CreateProfile		= "Profile Creation for DBM Core Options"

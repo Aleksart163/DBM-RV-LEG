@@ -489,9 +489,9 @@ function mod:SPELL_CAST_SUCCESS(args)
 			specWarnGuardianSpirit:Show()
 			specWarnGuardianSpirit:Play("targetyou")
 			timerGuardianSpirit:Start()
-			if not args:IsPlayerSource() and not DBM.Options.IgnoreRaidAnnounce3 then
+		--[[	if not args:IsPlayerSource() and not DBM.Options.IgnoreRaidAnnounce3 then
 				smartChat(L.WhisperThanks:format(DbmRV, replaceSpellLinks(spellId)), "whisper", sourceName)
-			end
+			end]]
 		else
 			warnGuardianSpirit:Show(sourceName, destName)
 		end
@@ -513,9 +513,9 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnSoulstone:Show()
 			specWarnSoulstone:Play("targetyou")
-			if not args:IsPlayerSource() and not DBM.Options.IgnoreRaidAnnounce3 then
+		--[[	if not args:IsPlayerSource() and not DBM.Options.IgnoreRaidAnnounce3 then
 				smartChat(L.WhisperThanks:format(DbmRV, replaceSpellLinks(spellId)), "whisper", sourceName)
-			end
+			end]]
 		else
 			warnSoulstone:Show(destName)
 		end
@@ -529,9 +529,9 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnInnervate:Show()
 			specWarnInnervate:Play("targetyou")
 			timerInnervate:Start()
-			if not args:IsPlayerSource() and not DBM.Options.IgnoreRaidAnnounce3 then
+		--[[	if not args:IsPlayerSource() and not DBM.Options.IgnoreRaidAnnounce3 then
 				smartChat(L.WhisperThanks:format(DbmRV, replaceSpellLinks(spellId)), "whisper", sourceName)
-			end
+			end]]
 		else
 			warnInnervate:Show(sourceName, destName)
 		end
@@ -552,9 +552,9 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnPainSuppression:Show()
 			specWarnPainSuppression:Play("targetyou")
 			timerPainSuppression:Start()
-			if not args:IsPlayerSource() and not DBM.Options.IgnoreRaidAnnounce3 then
+		--[[	if not args:IsPlayerSource() and not DBM.Options.IgnoreRaidAnnounce3 then
 				smartChat(L.WhisperThanks:format(DbmRV, replaceSpellLinks(spellId)), "whisper", sourceName)
-			end
+			end]]
 		else
 			warnPainSuppression:Show(sourceName, destName)
 		end
@@ -568,9 +568,9 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnLifeCocoon:Show()
 			specWarnLifeCocoon:Play("targetyou")
 			timerLifeCocoon:Start()
-			if not args:IsPlayerSource() and not DBM.Options.IgnoreRaidAnnounce3 then
+		--[[	if not args:IsPlayerSource() and not DBM.Options.IgnoreRaidAnnounce3 then
 				smartChat(L.WhisperThanks:format(DbmRV, replaceSpellLinks(spellId)), "whisper", sourceName)
-			end
+			end]]
 		else
 			warnLifeCocoon:Show(sourceName, destName)
 		end
@@ -584,9 +584,9 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnBlessingofProtection:Show()
 			specWarnBlessingofProtection:Play("targetyou")
 			timerBlessingofProtection:Start()
-			if not args:IsPlayerSource() and not DBM.Options.IgnoreRaidAnnounce3 then
+		--[[	if not args:IsPlayerSource() and not DBM.Options.IgnoreRaidAnnounce3 then
 				smartChat(L.WhisperThanks:format(DbmRV, replaceSpellLinks(spellId)), "whisper", sourceName)
-			end
+			end]]
 		else
 			warnBlessingofProtection:Show(sourceName, destName)
 		end
@@ -600,9 +600,9 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnIronbark:Show()
 			specWarnIronbark:Play("targetyou")
 			timerIronbark:Start()
-			if not args:IsPlayerSource() and not DBM.Options.IgnoreRaidAnnounce3 then
+		--[[	if not args:IsPlayerSource() and not DBM.Options.IgnoreRaidAnnounce3 then
 				smartChat(L.WhisperThanks:format(DbmRV, replaceSpellLinks(spellId)), "whisper", sourceName)
-			end
+			end]]
 		else
 			warnIronbark:Show(sourceName, destName)
 		end
@@ -761,9 +761,9 @@ function mod:SPELL_RESURRECT(args)
 		if args:IsPlayer() then
 			specWarnRebirth:Show()
 			specWarnRebirth:Play("targetyou")
-			if not DBM.Options.IgnoreRaidAnnounce3 then
+		--[[	if not DBM.Options.IgnoreRaidAnnounce3 then
 				smartChat(L.WhisperThanks:format(DbmRV, replaceSpellLinks(spellId)), "whisper", sourceName)
-			end
+			end]]
 		else
 			warnRebirth:Show(sourceName, destName)
 		end
@@ -774,9 +774,9 @@ function mod:SPELL_RESURRECT(args)
 		if args:IsPlayer() then
 			specWarnRebirth:Show()
 			specWarnRebirth:Play("targetyou")
-			if not DBM.Options.IgnoreRaidAnnounce3 then
+		--[[	if not DBM.Options.IgnoreRaidAnnounce3 then
 				smartChat(L.WhisperThanks:format(DbmRV, replaceSpellLinks(spellId)), "whisper", sourceName)
-			end
+			end]]
 		else
 			warnRebirth:Show(sourceName, destName)
 		end
@@ -787,9 +787,9 @@ function mod:SPELL_RESURRECT(args)
 		if args:IsPlayer() then
 			specWarnRebirth:Show()
 			specWarnRebirth:Play("targetyou")
-			if not DBM.Options.IgnoreRaidAnnounce3 then
+		--[[	if not DBM.Options.IgnoreRaidAnnounce3 then
 				smartChat(L.WhisperThanks:format(DbmRV, replaceSpellLinks(spellId)), "whisper", sourceName)
-			end
+			end]]
 		else
 			warnRebirth:Show(sourceName, destName)
 		end

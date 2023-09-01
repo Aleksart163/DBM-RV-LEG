@@ -148,11 +148,10 @@ L.SpamBlockNoShowAnnounce		= "Non visualizzare annunci o suoni"
 L.SpamBlockNoSetIcon			= "Non impostare icone sui giocatori"
 
 -- Murchal ochken proshlyapen [✔] --need full localization
-L.AreaMurchalOchkenProshlyapation = "Параметры Эпохальных+ ключей и рейдов"
-L.AutoKeyLink				= "Линковать свой Эпохальный+ ключ в рейд/групп/гильд чат по команде !keys"
-L.IgnoreRaidAnnounce		= "Отключить анонсы в рейд/групп чате, когда кто-то применяет $spell:80353 или аналогичные ему"
-L.IgnoreRaidAnnounce2		= "Отключить анонсы на боссах в АПТ от лидера/помощника рейда"
-L.IgnoreRaidAnnounce3		= "Отключить сообщения благодарности, когда к вам применяют заклинания типа $spell:20484 или аналогичные ему"
+--[[L.AreaMurchalOchkenProshlyapation = "Options Mythic+ keys and raids"
+L.AutoKeyLink				= "Link your Mythic+ key in raid/group/guild chat by command !keys"
+L.IgnoreRaidAnnounce		= "Disable announcements in raid/group chat when someone applies $spell:80353 or similar to it"
+L.IgnoreRaidAnnounce2		= "Disable announcements on bosses in the ABT from the raid leader/assistant"]]
 
 -- Misc
 L.FontHeight	= 16

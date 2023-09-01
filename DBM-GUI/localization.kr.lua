@@ -327,11 +327,10 @@ L.FakeBW					= "DBM 대신 BigWigs 사용자로 위장하기 (BigWigs 사용을 
 L.AITimer					= "DBM 내장 인공지능 타이머를 사용하여 처음 하는 전투의 타이머를 자동으로 생성합니다. (베타나 테스트 서버에서 보스 테스트시 유용) 알림: 동일한 주문을 사용하는 쫄이 여러 종류가 나오는 전투에서는 제대로 작동하지 않습니다."
 L.AutoCorrectTimer			= "지나치게 긴 타이머를 자동으로 교정합니다. (보스 모드가 업데이트되지 않은 최상위 콘텐츠를 공략하는 공격대에 유용) 알림: 보스 단계 전환시 타이머가 초기화될 경우 이 기능이 일부 타이머의 작동을 더 안좋게 만들 수 있습니다."
 -- Murchal ochken proshlyapen [✔] --need full localization
-L.AreaMurchalOchkenProshlyapation = "Параметры Эпохальных+ ключей и рейдов"
-L.AutoKeyLink				= "Линковать свой Эпохальный+ ключ в рейд/групп/гильд чат по команде !keys"
-L.IgnoreRaidAnnounce		= "Отключить анонсы в рейд/групп чате, когда кто-то применяет $spell:80353 или аналогичные ему"
-L.IgnoreRaidAnnounce2		= "Отключить анонсы на боссах в АПТ от лидера/помощника рейда"
-L.IgnoreRaidAnnounce3		= "Отключить сообщения благодарности, когда к вам применяют заклинания типа $spell:20484 или аналогичные ему"
+--[[L.AreaMurchalOchkenProshlyapation = "Options Mythic+ keys and raids"
+L.AutoKeyLink				= "Link your Mythic+ key in raid/group/guild chat by command !keys"
+L.IgnoreRaidAnnounce		= "Disable announcements in raid/group chat when someone applies $spell:80353 or similar to it"
+L.IgnoreRaidAnnounce2		= "Disable announcements on bosses in the ABT from the raid leader/assistant"]]
 --
 L.Panel_Profile				= "프로필"
 L.Area_CreateProfile		= "DBM Core 프로필 생성"

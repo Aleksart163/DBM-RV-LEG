@@ -335,7 +335,7 @@ L.AreaMurchalOchkenProshlyapation = "Einstellungen Mythisch+ Schlüssel"
 L.AutoKeyLink				= "Link deinen Mythisch+ Schlüssel mit dem Chat"
 L.IgnoreRaidAnnounce		= "Deaktiviere Ansagen im Raid-/Gruppenchat, wenn jemand $spell:80353 oder ähnliches anwendet"
 L.IgnoreRaidAnnounce2		= "Deaktiviere Ansagen des Schlachtzugsleiters/Helfers bei Bossen in der ABT"
-L.IgnoreRaidAnnounce3		= "Deaktivieren Sie Dankesmeldungen, wenn Zaubersprüche wie $spell:20484 oder ähnliche auf Sie angewendet werden"
+--L.IgnoreRaidAnnounce3		= "Deaktivieren Sie Dankesmeldungen, wenn Zaubersprüche wie $spell:20484 oder ähnliche auf Sie angewendet werden"
 --
 L.Panel_Profile				= "Profile"
 L.Area_CreateProfile		= "Profilerzeugung für DBM Core Einstellungen"

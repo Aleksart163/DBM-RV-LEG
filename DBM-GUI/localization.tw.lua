@@ -331,11 +331,10 @@ L.FakeBW					= "假裝使用BigWigs版本檢查而不是用DBM版本(適合用�
 L.AITimer					= "DBM為沒遇見過的戰鬥使用內建的AI計時器自動產生計時器(在初期的Beta或PTR的首領測試非常有幫助)。 註: 此功能不會在多目標使用相同技能生效。"
 L.AutoCorrectTimer			= "自動校正時間過長的計時器(適合在公會正在進行全新副本而首領模組還沒被更新至可靠的程度). 註: 這選項可能會使某些計時器錯亂，如首領重制計時器或階段轉換而DBM編碼還不能夠去處理。"
 -- Murchal ochken proshlyapen [✔] --need full localization
-L.AreaMurchalOchkenProshlyapation = "Параметры Эпохальных+ ключей и рейдов"
-L.AutoKeyLink				= "Линковать свой Эпохальный+ ключ в рейд/групп/гильд чат по команде !keys"
-L.IgnoreRaidAnnounce		= "Отключить анонсы в рейд/групп чате, когда кто-то применяет $spell:80353 или аналогичные ему"
-L.IgnoreRaidAnnounce2		= "Отключить анонсы на боссах в АПТ от лидера/помощника рейда"
-L.IgnoreRaidAnnounce3		= "Отключить сообщения благодарности, когда к вам применяют заклинания типа $spell:20484 или аналогичные ему"
+--[[L.AreaMurchalOchkenProshlyapation = "Options Mythic+ keys and raids"
+L.AutoKeyLink				= "Link your Mythic+ key in raid/group/guild chat by command !keys"
+L.IgnoreRaidAnnounce		= "Disable announcements in raid/group chat when someone applies $spell:80353 or similar to it"
+L.IgnoreRaidAnnounce2		= "Disable announcements on bosses in the ABT from the raid leader/assistant"]]
 --
 L.Panel_Profile				= "配置檔"
 L.Area_CreateProfile        = "建立核心選項配置檔"
