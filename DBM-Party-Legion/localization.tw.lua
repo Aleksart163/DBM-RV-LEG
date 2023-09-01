@@ -618,7 +618,6 @@ L= DBM:GetModLocalization(1827)
 L= DBM:GetModLocalization(1835)
 
 L:SetMiscLocalization({
-	ProshlyapAnala = "%s很快",
 	SharedSufferingYell = "%s on %s. 离我远点！",
 	Perephase1 = "該上場跟獵物正面對決了！",
 	Perephase2 = "奔馳吧，午夜！邁向勝利！"

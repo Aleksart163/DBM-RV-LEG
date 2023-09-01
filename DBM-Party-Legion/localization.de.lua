@@ -636,7 +636,6 @@ L= DBM:GetModLocalization(1827)
 L= DBM:GetModLocalization(1835)
 
 L:SetMiscLocalization({
-	ProshlyapAnala = "Bald %s!",
 	Tip1 = "Ein Geist ist bei einer unbekannten Person erschienen. Dies geschieht, wenn das Geisterziel BigWigs verwendet, eine alte Version von DBM hat oder überhaupt keine Addons verwendet.",
 	SharedSufferingYell = "%s auf %s. Lauf vor mir weg!",
 	Perephase1 = "Ich stelle mich der Beute. Auge in Auge!",

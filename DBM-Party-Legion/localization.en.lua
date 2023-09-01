@@ -658,9 +658,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	ProshlyapAnala = "Soon %s!",
 	Tip1 = "A ghost has appeared on an unknown person. This happens when the ghost target uses BigWigs, has an old version of the DBM, or does not use addons at all.",
-	Tip2 = "The ghost at \"Intangible Presence\" appears on an unknown person when the ghost target uses BigWigs, has an old version of DBM, or does not use addons at all. In all other cases, the announcement with the target is shown correctly.\nStay tuned for addon updates.",
 	SharedSufferingYell = "%s on %s! RUN AWAY from me!",
 	Perephase1 = "Time to face my quarry toe-to-toe!",
 	Perephase2 = "We ride, Midnight! To victory!"
