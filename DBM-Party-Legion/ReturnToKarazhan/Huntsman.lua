@@ -85,11 +85,6 @@ local phase2 = false
 local intangiblePresenceOnMe = true
 local syncEvent = true
 -- local runtime = 0 -- debug
-local proshlyap = DBM:GetSpellInfo(227404)
-
-local function startAnalProshlyapation(self)
-	smartChat(L.ProshlyapAnala:format(proshlyap), "say")
-end
 
 function mod:SharedSufferingTarget(targetname, uId) --прошляпанное очко Мурчаля Прошляпенко [✔]
 	if not targetname then return end
@@ -252,7 +247,6 @@ function mod:SPELL_AURA_APPLIED(args)
 			phase2 = false
 		end
 	elseif spellId == 227404 then --Незримое присутствие
-		startAnalProshlyapation(self)
 		if self:AntiSpam(2, "intangiblePresence") then
 			syncEvent = false
 			--[[runtime = GetTime()
