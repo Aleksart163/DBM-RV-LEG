@@ -8,7 +8,7 @@ mod:SetZone()
 mod:SetBossHPInfoToHighest()
 mod:SetUsedIcons(8, 7, 6, 5, 4, 3, 2, 1)
 mod:SetHotfixNoticeRev(17650)
-mod:SetMinSyncRevision(17734)
+-- mod:SetMinSyncRevision(17734)
 mod:DisableIEEUCombatDetection()
 mod:DisableEEKillDetection()
 mod.respawnTime = 28
