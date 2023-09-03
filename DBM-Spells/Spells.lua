@@ -191,13 +191,13 @@ local function sendAnnounce(self, spellId, sourceName, destName)
 
 	for k, v in pairs(premsg_values) do
 		if type(v) == "table" and v[1] == 1 then
+			v[1] = 0
 			if (not spellId) or (not sourceName) or (v[3] and not destName) then
 				DBM:Debug('[sendAnnounce] spellId: ' .. tostring(spellId) .. ', sourceName: ' .. tostring(sourceName) .. ', destName: ' .. tostring(destName))
 				return
 			end
 			localizedName = replaceSpellLinks(spellId)
 			smartChat(v[2]:format(DbmRV, sourceName, localizedName, destName), v[4])
-			v[1] = 0
 		end
 	end
 end
