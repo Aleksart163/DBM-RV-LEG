@@ -82,6 +82,7 @@ local timerLifeCocoon				= mod:NewBuffActiveTimer(12, 116849, nil, nil, nil, 7) 
 local timerBlessingofProtection		= mod:NewBuffActiveTimer(10, 1022, nil, nil, nil, 7) --Благословение защиты
 local timerIronbark					= mod:NewBuffActiveTimer(12, 102342, nil, nil, nil, 7) --Железная кора
 local timerInnervate				= mod:NewBuffActiveTimer(10, 29166, nil, nil, nil, 7) --Озарение
+local timerSymbolHope				= mod:NewBuffActiveTimer(12, 64901, nil, nil, nil, 7) --Символ надежды
 
 local yellRallyingCry				= mod:NewYell(97462, L.SpellNameYell, nil, nil, "YELL") --Ободряющий клич
 local yellVampiricAura				= mod:NewYell(238698, L.SpellNameYell, nil, nil, "YELL") --Вампирская аура
@@ -544,6 +545,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() and self:IsHealer() then
 			specWarnSymbolHope:Show()
 			specWarnSymbolHope:Play("targetyou")
+			timerSymbolHope:Start()
 		end
 	elseif spellId == 33206 then --Подавление боли
 		if typeInstance ~= "party" and typeInstance ~= "raid" then return end
