@@ -121,11 +121,11 @@ end
 local premsg_values = {
 	-- ["premsg_Spells_test"] = {0, L.HeroismYell}, -- test (Needs to be commented out before release) 8690
 	-- ["premsg_Spells_test2"] = {0, L.HeroismYell}, -- test2 (Needs to be commented out before release) 222695
-	["premsg_Spells_massres1_rw"] = {0, L.HeroismYell, "rw"},
-	["premsg_Spells_massres2_rw"] = {0, L.HeroismYell, "rw"},
-	["premsg_Spells_massres3_rw"] = {0, L.HeroismYell, "rw"},
-	["premsg_Spells_massres4_rw"] = {0, L.HeroismYell, "rw"},
-	["premsg_Spells_massres5_rw"] = {0, L.HeroismYell, "rw"},
+	["premsg_Spells_massres1_rw"] = {0, L.HeroismYell, nil, "rw"},
+	["premsg_Spells_massres2_rw"] = {0, L.HeroismYell, nil, "rw"},
+	["premsg_Spells_massres3_rw"] = {0, L.HeroismYell, nil, "rw"},
+	["premsg_Spells_massres4_rw"] = {0, L.HeroismYell, nil, "rw"},
+	["premsg_Spells_massres5_rw"] = {0, L.HeroismYell, nil, "rw"},
 	["premsg_Spells_timeWarp"] = {0, L.HeroismYell},
 	["premsg_Spells_heroism"] = {0, L.HeroismYell},
 	["premsg_Spells_bloodlust"] = {0, L.HeroismYell},
@@ -152,7 +152,7 @@ local premsg_values = {
 	["premsg_Spells_dalaran1"] = {0, L.PortalYell},
 	["premsg_Spells_dalaran2"] = {0, L.PortalYell},
 	["premsg_Spells_soulwell"] = {0, L.HeroismYell},
-	["premsg_Spells_soulstone"] = {0, L.SoulstoneYell},
+	["premsg_Spells_soulstone"] = {0, L.SoulstoneYell, true},
 	["premsg_Spells_summoning"] = {0, L.SummoningYell},
 	["premsg_Spells_cauldron_rw"] = {0, L.SoulwellYell},
 	["premsg_Spells_lavishSuramar_rw"] = {0, L.SoulwellYell},
@@ -161,7 +161,7 @@ local premsg_values = {
 	["premsg_Spells_jeeves_rw"] = {0, L.SoulwellYell},
 	["premsg_Spells_autoHammer_rw"] = {0, L.SoulwellYell},
 	["premsg_Spells_pylon_rw"] = {0, L.SoulwellYell},
-	["premsg_Spells_swap"] = {0, L.SoulstoneYell},
+	["premsg_Spells_swap"] = {0, L.SoulstoneYell, true},
 	["premsg_Spells_bank"] = {0, L.SoulwellYell},
 	["premsg_Spells_toyTrain"] = {0, L.SoulwellYell},
 	["premsg_Spells_moonfeather"] = {0, L.HeroismYell},
@@ -171,38 +171,32 @@ local premsg_values = {
 	["premsg_Spells_auramastery"] = {0, L.HeroismYell}, --Владение аурами
 	["premsg_Spells_vampiricembrace"] = {0, L.HeroismYell}, --Объятия вампира
 	["premsg_Spells_powerwordbarrier"] = {0, L.HeroismYell}, --Слово силы: Барьер
-	["premsg_Spells_guardianspirit"] = {0, L.SoulstoneYell}, --Оберегающий дух
-	["premsg_Spells_painsuppression"] = {0, L.SoulstoneYell}, --Подавление боли
+	["premsg_Spells_guardianspirit"] = {0, L.SoulstoneYell, true}, --Оберегающий дух
+	["premsg_Spells_painsuppression"] = {0, L.SoulstoneYell, true}, --Подавление боли
 	["premsg_Spells_spirittotem"] = {0, L.HeroismYell}, --Тотем духовной связи
-	["premsg_Spells_lifecocoon"] = {0, L.SoulstoneYell}, --Исцеляющий кокон
-	["premsg_Spells_blesofprot"] = {0, L.SoulstoneYell}, --Благословение защиты
-	["premsg_Spells_ironbark"] = {0, L.SoulstoneYell}, --Железная кора
+	["premsg_Spells_lifecocoon"] = {0, L.SoulstoneYell, true}, --Исцеляющий кокон
+	["premsg_Spells_blesofprot"] = {0, L.SoulstoneYell, true}, --Благословение защиты
+	["premsg_Spells_ironbark"] = {0, L.SoulstoneYell, true}, --Железная кора
 	["premsg_Spells_ancprotectotem"] = {0, L.HeroismYell}, --Тотем защиты Предков
 	["premsg_Spells_hope"] = {0, L.HeroismYell}, --Символ надежды
-	["premsg_Spells_innervate"] = {0, L.SoulstoneYell}, --Озарение
-	["premsg_Spells_rebirth1"] = {0, L.SoulstoneYell}, --Возрождение
-	["premsg_Spells_rebirth2"] = {0, L.SoulstoneYell}, --Воскрешение союзника
-	["premsg_Spells_rebirth3"] = {0, L.SoulstoneYell} --Воскрешение камнем души
+	["premsg_Spells_innervate"] = {0, L.SoulstoneYell, true}, --Озарение
+	["premsg_Spells_rebirth1"] = {0, L.SoulstoneYell, true}, --Возрождение
+	["premsg_Spells_rebirth2"] = {0, L.SoulstoneYell, true}, --Воскрешение союзника
+	["premsg_Spells_rebirth3"] = {0, L.SoulstoneYell, true} --Воскрешение камнем души
 }
 local playerOnlyName = UnitName("player")
 
 local function sendAnnounce(self, spellId, sourceName, destName)
 	local localizedName = nil
 
-	if destName == nil then destName = "Unknown" end
-	if spellId ~= nil then localizedName = replaceSpellLinks(spellId) end
-
-	if spellId == nil or sourceName == nil then
-		DBM:Debug('problem in sendAnnounce function')
-		DBM:Debug('spellId: ' .. tostring(spellId))
-		DBM:Debug('sourceName: ' .. tostring(sourceName))
-		DBM:Debug('destName: ' .. tostring(destName))
-		return
-	end
-
 	for k, v in pairs(premsg_values) do
 		if type(v) == "table" and v[1] == 1 then
-			smartChat(v[2]:format(DbmRV, sourceName, localizedName, destName), v[3])
+			if (not spellId) or (not sourceName) or (v[3] and not destName) then
+				DBM:Debug('[sendAnnounce] spellId: ' .. tostring(spellId) .. ', sourceName: ' .. tostring(sourceName) .. ', destName: ' .. tostring(destName))
+				return
+			end
+			localizedName = replaceSpellLinks(spellId)
+			smartChat(v[2]:format(DbmRV, sourceName, localizedName, destName), v[4])
 			v[1] = 0
 		end
 	end
@@ -218,12 +212,13 @@ end
 
 local function prepareMessage(self, premsg_announce, spellId, sourceName, destName)
 	if self:AntiSpam(1, "prepareMessage") then
-		if spellId == nil or sourceName == nil then
-			DBM:Debug('problem in prepareMessage function')
-			DBM:Debug('spellId: ' .. tostring(spellId))
-			DBM:Debug('sourceName: ' .. tostring(sourceName))
-			DBM:Debug('destName: ' .. tostring(destName))	
-			return
+		for k, v in pairs(premsg_values) do
+			if type(v) == "table" and k == premsg_announce then
+				if (not spellId) or (not sourceName) or (v[3] and not destName) then
+					DBM:Debug('[prepareMessage] spellId: ' .. tostring(spellId) .. ', sourceName: ' .. tostring(sourceName) .. ', destName: ' .. tostring(destName))
+					return
+				end
+			end
 		end
 
 		announceList(premsg_announce, 1)
