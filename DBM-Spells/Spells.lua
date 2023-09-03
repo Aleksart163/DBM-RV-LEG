@@ -187,8 +187,6 @@ local premsg_values = {
 local playerOnlyName = UnitName("player")
 
 local function sendAnnounce(self, spellId, sourceName, destName)
-	local localizedName = nil
-
 	for k, v in pairs(premsg_values) do
 		if type(v) == "table" and v[1] == 1 then
 			v[1] = 0
@@ -196,8 +194,7 @@ local function sendAnnounce(self, spellId, sourceName, destName)
 				DBM:Debug('[sendAnnounce] spellId: ' .. tostring(spellId) .. ', sourceName: ' .. tostring(sourceName) .. ', destName: ' .. tostring(destName))
 				return
 			end
-			localizedName = replaceSpellLinks(spellId)
-			smartChat(v[2]:format(DbmRV, sourceName, localizedName, destName), v[4])
+			smartChat(v[2]:format(DbmRV, sourceName, replaceSpellLinks(spellId), destName), v[4])
 		end
 	end
 end
