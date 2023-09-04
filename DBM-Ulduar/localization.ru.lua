@@ -224,7 +224,7 @@ L:SetMiscLocalization{
 	Health_Body				= "Кологарн",
 	Health_Right_Arm		= "Правая рука",
 	Health_Left_Arm			= "Левая рука",
-	FocusedEyebeam			= "%s устремляет на вас свой взгляд!",
+	FocusedEyebeam			= "устремляет на вас свой взгляд!",
 	YellBeam				= "Сосредоточенный взгляд на мне!"
 }
 
@@ -509,6 +509,7 @@ L:SetWarningLocalization{
 }
 
 L:SetOptionLocalization{
+	MurchalOchkenProshlyapation = DBM_CORE_GENERIC_TIMER_ROLE_PLAY,
 	timerRoleplay 			= DBM_CORE_OPTION_TIMER_COMBAT,
 	PlaySoundOnFistOfStone	= "Звуковой сигнал при Каменных кулаках",
 	TrashRespawnTimer		= "Отсчет времени до возрождения монстров"

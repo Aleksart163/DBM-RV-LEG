@@ -100,9 +100,9 @@ L:SetOptionLocalization{
 L:SetMiscLocalization{
 	YellAir				= "Gebt uns einen Moment, damit wir uns auf den Bau der Geschütze vorbereiten können.",
 	YellAir2			= "Feuer einstellen! Lasst uns diese Geschütze reparieren!",
-	YellGround			= "Beeilt Euch! Sie wird nicht lange am Boden bleiben!", 
-	EmotePhase2			= "%%s grounded permanently!",
-	FlamecastUnknown		= DBM_CORE_UNKNOWN
+	YellGround			= "Beeilt Euch! Sie wird nicht lange am Boden bleiben!",
+	EmotePhase2			= "%%s ist dauerhaft an den Boden gebunden!",
+	FlamecastUnknown	= DBM_CORE_UNKNOWN
 }
 
 ----------------------------
@@ -202,11 +202,11 @@ L:SetOptionLocalization{
 }
 
 L:SetMiscLocalization{
-	YellPull				= "Euer Handeln ist unlogisch. Alle Möglichkeiten dieser Begegnung wurden berechnet. Das Pantheon wird die Nachricht des Beobachters erhalten, ungeachtet des Ausgangs.",
-	YellKill				= "I have seen worlds bathed in the Makers' flames, their denizens fading without as much as a whimper. Entire planetary systems born and razed in the time that it takes your mortal hearts to beat once. Yet all throughout, my own heart devoid of emotion... of empathy. I. Have. Felt. Nothing. A million-million lives wasted. Had they all held within them your tenacity? Had they all loved life as you do?", --to be translated
+	YellPull				= "Euer Handeln ist unlogisch. Alle Möglichkeiten dieser Begegnung wurden berechnet. Das Pantheon wird die Nachricht des Beobachters erhalten, ungeachtet des Ausgangs.", --
+	YellKill				= "Ich sah Welten umhüllt von den Flammen der Schöpfer, sah ohne einen Hauch von Trauer ihre Bewohner vergehen. Ganze Planetensysteme geboren und vernichtet, während Eure sterblichen Herzen nur einmal schlagen. Doch immer war mein Herz kalt... ohne Mitgefühl. Ich - habe - nichts - gefühlt. Millionen, Milliarden Leben verschwendet. Trugen sie alle dieselbe Beharrlichkeit in sich, wie Ihr? Liebten sie alle das Leben so sehr, wie Ihr es tut?", --Прошляпано Мурчалем
 	Emote_CollapsingStar	= "%s beginnt damit, kollabierende Sterne zu beschwören!!",
-	Phase2					= "Behold the tools of creation",	--to be translated
-	PullCheck		= "Zeit, bis Algalon mit dem Uplink beginnt= (%d+) min."
+	Phase2					= "Erblicket die Instrumente der Schöpfung!", --Прошляпано Мурчалем Прошляпенко
+	PullCheck				= "Zeit, bis Algalon mit dem Uplink beginnt= (%d+) min."
 }
 
 ----------------
@@ -244,12 +244,12 @@ L:SetOptionLocalization{
 }
 
 L:SetMiscLocalization{
-	Yell_Trigger_arm_left		= "Das ist nur ein Kratzer!",	
-	Yell_Trigger_arm_right		= "Ist nur 'ne Fleischwunde!",
-	Health_Body			= "Kologarn",
+	Yell_Trigger_arm_left	= "Das ist nur ein Kratzer!",	
+	Yell_Trigger_arm_right	= "Ist nur 'ne Fleischwunde!",
+	Health_Body				= "Kologarn",
 	Health_Right_Arm		= "Rechter Arm",
 	Health_Left_Arm			= "Linker Arm",
-	FocusedEyebeam			= "%s fokussiert seinen Blick auf Euch!"
+	FocusedEyebeam			= "fokussiert seinen Blick auf Euch!"
 }
 
 ---------------
@@ -569,6 +569,7 @@ L:SetWarningLocalization{
 }
 
 L:SetOptionLocalization{
+	MurchalOchkenProshlyapation = DBM_CORE_GENERIC_TIMER_ROLE_PLAY,
 	timerRoleplay 			= DBM_CORE_OPTION_TIMER_COMBAT,
 	SpecWarnFistOfStone		= "Zeige Spezialwarnung für Fäuste aus Stein",
 	SpecWarnGroundTremor	= "Zeige Spezialwarnung für Bebende Erde",

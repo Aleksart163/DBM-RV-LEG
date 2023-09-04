@@ -520,6 +520,7 @@ L:SetWarningLocalization{
 }
 
 L:SetOptionLocalization{
+	MurchalOchkenProshlyapation = DBM_CORE_GENERIC_TIMER_ROLE_PLAY,
 	timerRoleplay 			= DBM_CORE_OPTION_TIMER_COMBAT,
 	PlaySoundOnFistOfStone	= "Reproducir sonido cuando castee Puños de piedra",
 	TrashRespawnTimer		= "Mostrar tiempo para reaparición de adds"

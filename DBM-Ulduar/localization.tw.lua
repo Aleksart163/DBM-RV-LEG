@@ -505,6 +505,7 @@ L:SetWarningLocalization{
 }
 
 L:SetOptionLocalization{
+	MurchalOchkenProshlyapation = DBM_CORE_GENERIC_TIMER_ROLE_PLAY,
 	timerRoleplay 			= DBM_CORE_OPTION_TIMER_COMBAT,
 	PlaySoundOnFistOfStone 	= "為石拳連擊播放音效",
 	TrashRespawnTimer 		= "為芙蕾雅的小怪重生顯示計時器"

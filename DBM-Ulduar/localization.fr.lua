@@ -581,6 +581,7 @@ L:SetWarningLocalization{
 }
 
 L:SetOptionLocalization{
+	MurchalOchkenProshlyapation = DBM_CORE_GENERIC_TIMER_ROLE_PLAY,
 	timerRoleplay 			= DBM_CORE_OPTION_TIMER_COMBAT,
 	SpecWarnFistOfStone		= "Montre une alerte spéciale pour le coup de poings de pierre",
 	SpecWarnGroundTremor	= "Montre une alerte spéciale pour le tremblement de terre",

@@ -33,6 +33,7 @@ local yellImpale				= mod:NewYellHelp(62928, nil, nil, nil, "YELL") --Прока
 local yellDominateMind			= mod:NewYellHelp(63713, nil, nil, nil, "YELL") --Господство над разумом
 
 mod:AddSetIconOption("SetIconOnDominateMind", 63713, true, false, {1}) --Господство над разумом
+mod:AddBoolOption("MurchalOchkenProshlyapation", true)
 mod:AddBoolOption("TrashRespawnTimer", true, "timer")
 
 mod.vb.ProshlyapationCount = 2
@@ -112,10 +113,11 @@ function mod:GOSSIP_SHOW()
 	local guid = UnitGUID("npc")
 	if not guid then return end
 	local cid = self:GetCIDFromGUID(guid)
-	if cid == 33210 then --Начальник экспедиции
-		if GetNumGossipOptions() == 1 then
-			SelectGossipOption(1)
-		--	self:SendSync("MurchalOchenProshlyapen")
+	if mod.Options.MurchalOchkenProshlyapation then --Прошляпанное очко Мурчаля Прошляпенко ✔
+		if cid == 33210 then --Начальник экспедиции
+			if GetNumGossipOptions() == 1 then
+				SelectGossipOption(1)
+			end
 		end
 	end
 end
@@ -123,7 +125,7 @@ end
 function mod:UNIT_DIED(args)
 	if self.Options.TrashRespawnTimer and not DBM.Bars:GetBar(L.TrashRespawnTimer) then
 		local guid = tonumber(args.destGUID:sub(9, 12), 16)
-		if guid == 33430 or guid == 33355 or guid == 33354 then		-- guardian lasher / nymph / tree
+		if guid == 33430 or guid == 33355 or guid == 33354 then --Страж-плеточник, Заблудшая нимфа, Зараженный служитель
 			DBM.Bars:CreateBar(7200, L.TrashRespawnTimer)
 		end
 	end
@@ -137,7 +139,7 @@ end
 
 function mod:OnSync(msg)
 	if msg == "MurchalOchkenProshlyapation1" then
-		timerRoleplay:Start(19.2)
-		countdownRoleplay:Start(19.2)
+		timerRoleplay:Start(19.7)
+		countdownRoleplay:Start(19.7)
 	end
 end

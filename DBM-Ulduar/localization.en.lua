@@ -510,6 +510,7 @@ L:SetWarningLocalization{
 }
 
 L:SetOptionLocalization{
+	MurchalOchkenProshlyapation = DBM_CORE_GENERIC_TIMER_ROLE_PLAY,
 	timerRoleplay 			= DBM_CORE_OPTION_TIMER_COMBAT,
 	PlaySoundOnFistOfStone	= "Play sound on Fists of Stone",
 	TrashRespawnTimer		= "Show timer for trash respawn"

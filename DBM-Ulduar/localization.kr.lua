@@ -584,6 +584,7 @@ L:SetMiscLocalization{
 }
 
 L:SetOptionLocalization{
+	MurchalOchkenProshlyapation = DBM_CORE_GENERIC_TIMER_ROLE_PLAY,
 	timerRoleplay 			= DBM_CORE_OPTION_TIMER_COMBAT,
 	SpecWarnFistOfStone		= "돌덩이 주먹 특수 경고 보기",
 	PlaySoundOnFistOfStone	= "돌덩이 주먹 특수 사운드 재생",

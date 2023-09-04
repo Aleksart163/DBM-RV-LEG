@@ -14,9 +14,10 @@ mod:RegisterEvents(
 	"SPELL_AURA_APPLIED 64290 64292 64002 63355",
 	"SPELL_AURA_APPLIED_DOSE 64002",
 	"SPELL_AURA_REMOVED 64290 64292",
-	"SPELL_DAMAGE 63783 63982 63346 63976 64003",
-	"SPELL_MISSED 63783 63982 63346 63976 64003",
-	"CHAT_MSG_RAID_BOSS_WHISPER",
+	"SPELL_DAMAGE 63346 63976 63783 63982",
+	"SPELL_MISSED 63346 63976 63783 63982",
+	"SPELL_ABSORBED 63346 63976 63783 63982",
+	"CHAT_MSG_RAID_BOSS_EMOTE",
 	"UNIT_DIED",
 	"UNIT_SPELLCAST_SUCCEEDED boss1 boss2 boss3"
 )
@@ -37,17 +38,18 @@ local specWarnCrunchArmor		= mod:NewSpecialWarningStack(64002, nil, 2, nil, nil,
 local specWarnCrunchArmor2		= mod:NewSpecialWarningTaunt(64002, "Tank", nil, nil, 3, 6) --Разламывание доспеха
 local specWarnCrunchArmor3		= mod:NewSpecialWarningYouDefensive(63355, nil, nil, nil, 5, 6) --Разламывание доспеха
 local specWarnEyebeam			= mod:NewSpecialWarningYouMoveAway(63346, nil, nil, nil, 4, 6) --Сосредоточенный взгляд
+local specWarnEyebeam2			= mod:NewSpecialWarningYouMove(63346, nil, nil, nil, 1, 3) --Сосредоточенный взгляд
 
 local timerCrunch10             = mod:NewTargetTimer(6, 63355, nil, nil, nil, 3, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Разламывание доспеха
 local timerCrunch25             = mod:NewTargetTimer(45, 64002, nil, nil, nil, 3, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Разламывание доспеха
 local timerOverheadSmash		= mod:NewCDTimer(15, 64003, nil, nil, nil, 3, nil, DBM_CORE_TANK_ICON) --Удар с размаха
-local timerNextShockwave		= mod:NewCDTimer(18, 63982)
+local timerNextShockwave		= mod:NewCDTimer(18, 63982, nil, nil, nil, 2) --Ударная волна
 local timerRespawnLeftArm		= mod:NewTimer(48, "timerLeftArm")
 local timerRespawnRightArm		= mod:NewTimer(48, "timerRightArm")
 local timerTimeForDisarmed		= mod:NewAchievementTimer(12, 12338, "TimerSpeedKill", nil, nil, 7)
 
 local yellGrip					= mod:NewYellHelp(64292, nil, nil, nil, "YELL") --Каменная хватка
-local yellEyebeam				= mod:NewYell(63976, nil, nil, nil, "YELL") --Сосредоточенный взгляд
+local yellEyebeam				= mod:NewYellMoveAway(63976, nil, nil, nil, "YELL") --Сосредоточенный взгляд
 
 --mod:AddBoolOption("HealthFrame", true)
 mod:AddSetIconOption("SetIconOnGripTarget", 64290, true, false, {7, 6, 5})
@@ -63,36 +65,6 @@ function mod:OnCombatEnd()
 	timerRespawnLeftArm:Stop()
 	timerTimeForDisarmed:Stop()
 	self:UnscheduleMethod("GripAnnounce")
-end
-
-function mod:SPELL_DAMAGE(args)
-	local spellId = args.spellId
-	if spellId == 63783 or spellId == 63982 and args:IsPlayer() then --Ударная волна
-		timerNextShockwave:Start()
-	elseif spellId == 63346 or spellId == 63976 and args:IsPlayer() then --Сосредоточенный взгляд
-		specWarnEyebeam:Show()
-		specWarnEyebeam:Play("runaway")
---	elseif spellId == 64003 and args:IsPlayer() then --Удар с размаха
---		timerOverheadSmash:Start()
-	end
-end
-mod.SPELL_MISSED = mod.SPELL_DAMAGE
-
-function mod:CHAT_MSG_RAID_BOSS_WHISPER(msg)
-	if msg:find(L.FocusedEyebeam) then
-		self:SendSync("EyeBeamOn", UnitName("player"))
-	end
-end
-
-function mod:UNIT_DIED(args)
-	local cid = self:GetCIDFromGUID(args.destGUID)
-	if cid == 32934 then --Правая рука
-		timerRespawnRightArm:Start()
-		timerTimeForDisarmed:Start()
-	elseif cid == 32933 then --Левая рука
-		timerRespawnLeftArm:Start()
-		timerTimeForDisarmed:Start()
-	end
 end
 
 local gripTargets = {}
@@ -160,6 +132,35 @@ function mod:SPELL_AURA_REMOVED(args)
     end
 end
 
+function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
+	if spellId == 63346 or spellId == 63976 and destGUID == UnitGUID("player") and self:AntiSpam(1, "proshlyapation") then
+		specWarnEyebeam2:Show()
+		specWarnEyebeam2:Play("runout")
+	elseif spellId == 63783 or spellId == 63982 and destGUID == UnitGUID("player") then
+		timerNextShockwave:Start()
+	end
+end
+mod.SPELL_MISSED = mod.SPELL_DAMAGE
+mod.SPELL_ABSORBED = mod.SPELL_DAMAGE
+
+function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg) --Прошляпано Мурчалем Прошляпенко
+	if msg == L.FocusedEyebeam or msg:find(L.FocusedEyebeam) then
+		self:SendSync("EyeBeamOn", UnitName("player"))
+	end
+end
+
+function mod:UNIT_DIED(args)
+	local cid = self:GetCIDFromGUID(args.destGUID)
+	if cid == 32934 then --Правая рука
+		timerRespawnRightArm:Start(40)
+		timerTimeForDisarmed:Start()
+	elseif cid == 32933 then --Левая рука
+		timerRespawnLeftArm:Start(40)
+		timerTimeForDisarmed:Start()
+		timerNextShockwave:Stop()
+	end
+end
+
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	local spellId = legacySpellId or bfaSpellId
 	if spellId == 64003 then --Удар с размаха
@@ -176,7 +177,7 @@ function mod:OnSync(msg, target)
 			yellEyebeam:Yell()
 		end 
 		if self.Options.SetIconOnEyebeamTarget then
-			self:SetIcon(target, 8, 8) 
+			self:SetIcon(target, 8, 11) 
 		end
 	end
 end
