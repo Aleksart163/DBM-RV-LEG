@@ -82,6 +82,7 @@ local berserkTimer						= mod:NewBerserkTimer(600)
 local countdownApocProtocol				= mod:NewCountdown(77.5, 246516, nil, nil, 5) --Протокол Апокалипсис
 local countdownForgingStrike			= mod:NewCountdown("Alt14", 244312, "Tank", nil, 5) --Прессование
 local countdownRuiner					= mod:NewCountdown("AltTwo29", 246840, nil, nil, 5) --Разрушитель
+local countdownInitializing				= mod:NewCountdown("Alt30", 246504, nil, nil, 5) --Инициализация
 
 mod:AddSetIconOption("SetIconOnDemolish", 246692, true, false, {3, 2, 1}) --Разрушение
 mod:AddBoolOption("InfoFrame", true)
@@ -308,13 +309,16 @@ function mod:SPELL_CAST_START(args)
 		end
 		if self:IsLFR() then
 			timerInitializing:Start(42.3)
+			countdownInitializing:Start(42.3)
 		elseif self:IsMythic() then
 			timerApocProtocol:Start()
 			timerInitializing:Start(32.3)
+			countdownInitializing:Start(32.3)
 			countdownApocProtocol:Start(42.3)
 		else
 			timerApocProtocol:Start()
 			timerInitializing:Start(32.3)
+			countdownInitializing:Start(32.3)
 			countdownApocProtocol:Start(42.3)
 		end
 	end
