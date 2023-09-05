@@ -35,7 +35,7 @@ local timerNightfallCD			= mod:NewCDTimer(14.5, 198401, nil, nil, nil, 3, nil, D
 local yellLeap					= mod:NewYell(196346, nil, nil, nil, "YELL") --Мучительный прыжок
 local yellRampage				= mod:NewYellMoveAway(198379, nil, nil, nil, "YELL") --Первобытная ярость
 
-local countdownRampage			= mod:NewCountdown(28.7, 198379, "Melee", nil, 5) --Первобытная ярость
+local countdownRampage			= mod:NewCountdown(28.7, 198379, nil, nil, 5) --Первобытная ярость
 
 mod:AddSetIconOption("SetIconOnRampage", 198379, true, false, {8}) --Первобытная ярость
 mod:AddSetIconOption("SetIconOnGrievousTear", 196376, true, false, {7, 6}) --Мучительное разрывание

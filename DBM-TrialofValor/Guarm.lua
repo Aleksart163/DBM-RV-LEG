@@ -57,7 +57,7 @@ local timerVolatileFoamCD			= mod:NewCDCountTimer(15.4, 228824, nil, nil, nil, 3
 
 local berserkTimer					= mod:NewBerserkTimer(300)
 
-local countdownBreath				= mod:NewCountdown(20.5, 228187)
+local countdownBreath				= mod:NewCountdown(20.5, 228187, nil, nil, 5) --Дыхание стража
 local countdownFangs				= mod:NewCountdown("Alt20", 227514, "Tank")
 
 mod:AddSetIconOption("SetIconOnFoam", "ej14535", true)
@@ -135,13 +135,17 @@ function mod:OnCombatStart(delay)
 					self:Schedule(5, delayedSync, self)--Delayed to ensure it's not sent at same time as someone elses OnCombatStart firing and setting YellRealIcons back to false
 				end
 			end
+		elseif self:IsHeroic() then
+			berserkTimer:Start(-delay)
+			timerBreathCD:Start(18, 1)
+			countdownBreath:Start(18)
 		else
 			berserkTimer:Start(-delay)
 		end
 		if self.Options.RangeFrame then
 			DBM.RangeCheck:Show(5)
 		end
-	else
+	else --лфр
 		berserkTimer:Start(420-delay)
 	end
 end
@@ -339,13 +343,32 @@ Might be inversed depending on perspective.
 --Better to just assume things aren't in cobmat log anymore, then switch if they actually are.
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	local spellId = legacySpellId or bfaSpellId
-	if spellId == 227573 then--Guardian's Breath (pre cast used for all 6 versions of breath. Not a bad guess for my drycode huh? :) )
+	if spellId == 227573 then --Дыхание стража
 		self.vb.breathCast = self.vb.breathCast + 1
 		specWarnBreath:Show(self.vb.breathCast)
 		specWarnBreath:Play("breathsoon")
-		if self.vb.breathCast == 1 then
-			timerBreathCD:Start(nil, 2)
-			countdownBreath:Start()
+		if self:IsHeroic() then
+			if self.vb.breathCast == 1 then
+				timerBreathCD:Start(32, self.vb.breathCast+1)
+				countdownBreath:Start(32)
+			elseif self.vb.breathCast == 2 then
+				timerBreathCD:Start(43, self.vb.breathCast+1)
+				countdownBreath:Start(43)
+			elseif self.vb.breathCast == 3 then
+				timerBreathCD:Start(33, self.vb.breathCast+1)
+				countdownBreath:Start(33)
+			elseif self.vb.breathCast == 4 then
+				timerBreathCD:Start(43, self.vb.breathCast+1)
+				countdownBreath:Start(43)
+			elseif self.vb.breathCast == 5 then
+				timerBreathCD:Start(33, self.vb.breathCast+1)
+				countdownBreath:Start(33)
+			end
+		else
+			if self.vb.breathCast == 1 then
+				timerBreathCD:Start(nil, 2)
+				countdownBreath:Start()
+			end
 		end
 	elseif spellId == 228201 then--Off the Leash
 		self.vb.leapCast = 0
@@ -354,16 +377,29 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 		--self:Schedule(30, cancelLeash, self)
 		timerChargeCD:Start()
 	elseif spellId == 231561 then--Helyatosis (off the leash ending)
-		self.vb.fangCast = 0
-		self.vb.breathCast = 0
-		timerFangsCD:Start(4, 1)
-		countdownFangs:Start(4)
-		timerLeashCD:Start()--45
-		timerBreathCD:Start(11, 1)--11-14
-		countdownBreath:Start(11)--11-14
 		if self:IsMythic() then
 			self.vb.foamCast = 0
 			timerVolatileFoamCD:Start(10, 1)
+			self.vb.fangCast = 0
+			self.vb.breathCast = 0
+			timerFangsCD:Start(4, 1)
+			countdownFangs:Start(4)
+			timerLeashCD:Start()--45
+			timerBreathCD:Start(11, 1)--11-14
+			countdownBreath:Start(11)--11-14
+		elseif self:IsHeroic() then
+			self.vb.fangCast = 0
+			timerFangsCD:Start(4, 1)
+			countdownFangs:Start(4)
+			timerLeashCD:Start()--45
+		else
+			self.vb.fangCast = 0
+			self.vb.breathCast = 0
+			timerFangsCD:Start(4, 1)
+			countdownFangs:Start(4)
+			timerLeashCD:Start()--45
+			timerBreathCD:Start(11, 1)--11-14
+			countdownBreath:Start(11)--11-14
 		end
 	end
 end
