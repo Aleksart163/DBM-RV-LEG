@@ -33,7 +33,8 @@ L:SetTimerLocalization({
 })
 
 L:SetMiscLocalization({
-	phaseThree		= "Your efforts are for naught, mortals! Odyn will NEVER be free!",
+	MurchalProshlyapation2 = "Soon you will join the ranks of my Kvaldir!",
+	MurchalProshlyapation3 = "Your efforts are for naught, mortals! Odyn will NEVER be free!",
 	near			= "near",
 	far				= "far",
 	multiple		= "Multiple"

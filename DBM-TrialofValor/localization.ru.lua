@@ -30,7 +30,8 @@ L:SetTimerLocalization({
 })
 
 L:SetMiscLocalization({
-	phaseThree = "Даже не надейтесь, смертные! Один НИКОГДА не обретет свободу!",
+	MurchalProshlyapation2 = "Скоро вы пополните ряды моих квалдиров!",
+	MurchalProshlyapation3 = "Даже не надейтесь, смертные! Один НИКОГДА не обретет свободу!",
 	near = "Возле",
 	far = "Вдалеке",
 	multiple = "множественный"

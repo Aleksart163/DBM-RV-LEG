@@ -22,6 +22,7 @@ mod:RegisterEventsInCombat(
 	"INSTANCE_ENCOUNTER_ENGAGE_UNIT",
 	"RAID_BOSS_EMOTE",
 	"RAID_BOSS_WHISPER",
+	"CHAT_MSG_MONSTER_YELL",
 	"UNIT_SPELLCAST_SUCCEEDED boss1 boss2 boss3 boss4 boss5"
 )
 
@@ -194,6 +195,55 @@ function mod:OnCombatEnd()
 	end
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:Hide()
+	end
+end
+
+local function startMurchalOchkenProshlyapation2(self)
+	self.vb.phase = 2
+	timerTentacleStrikeCD:Stop()
+	timerBilewaterBreathCD:Stop()
+	timerOrbOfCorruptionCD:Stop()
+	countdownOrbs:Cancel()
+	warnPhase2:Show()
+	if not self:IsMythic() then
+		--On mythic first fury of maw is instantly on phase change, adds timer is handled by that
+		timerAddsCD:Start(14)
+		timerFuryofMawCD:Start(36.5, 1)
+	end
+	self:RegisterShortTermEvents(
+		"UNIT_HEALTH_FREQUENT boss1 boss2 boss3 boss4 boss5"
+	)
+end
+
+local function startMurchalOchkenProshlyapation3(self)
+	self:UnregisterShortTermEvents()
+	self.vb.phase = 3
+	self.vb.taintCount = 0--TODO, make sure helya happens before first taint goes out
+	self.vb.orbCount = 1
+	self.vb.furyOfMawCount = 0
+	self.vb.breathCount = 0
+	timerFuryofMawCD:Stop()
+	warnPhase3:Show()
+	if self:IsMythic() then
+		timerOrbOfCorrosionCD:Start(6, 1, RANGED)
+		countdownOrbs:Start(6)
+		timerCorruptedBreathCD:Start(10, 1)
+		timerFuryofMawCD:Start(35, 1)
+	elseif self:IsLFR() then
+		timerOrbOfCorrosionCD:Start(11, 1, RANGED)--Needs recheck
+		countdownOrbs:Start(11)--Needs recheck
+		timerCorruptedBreathCD:Start(40, 1)--Needs recheck
+		timerFuryofMawCD:Start(90, 1)--Needs recheck
+	elseif self:IsNormal() then--May still be same as heroic with variation
+		timerOrbOfCorrosionCD:Start(12, 1, RANGED)--Needs recheck
+		countdownOrbs:Start(12)--Needs more verification
+		timerCorruptedBreathCD:Start(20.5, 1)
+		timerFuryofMawCD:Start(33, 1)--Needs more verification
+	else--Heroic
+		timerOrbOfCorrosionCD:Start(14, 1, RANGED)--Needs more verification
+		countdownOrbs:Start(14)--Needs verification
+		timerCorruptedBreathCD:Start(19.4, 1)
+		timerFuryofMawCD:Start(30, 1)
 	end
 end
 
@@ -600,6 +650,18 @@ function mod:RAID_BOSS_WHISPER(msg)
 	end
 end
 
+function mod:CHAT_MSG_MONSTER_YELL(msg)
+	if msg == L.MurchalProshlyapation2 or msg:find(L.MurchalProshlyapation2) then --Прошляп очка Мурчаля [✔] Прошляпенко
+		if not self.vb.phase == 2 then
+			startMurchalOchkenProshlyapation2(self)
+		end
+	elseif msg == L.MurchalProshlyapation3 or msg:find(L.MurchalProshlyapation3) then --Прошляп очка Мурчаля [✔] Прошляпенко
+		if not self.vb.phase == 3 then
+			startMurchalOchkenProshlyapation3(self)
+		end
+	end
+end
+
 function mod:UNIT_HEALTH_FREQUENT(uId)
 	if not self.vb.phase == 2 then
 		self:UnregisterShortTermEvents()
@@ -620,49 +682,12 @@ end
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	local spellId = legacySpellId or bfaSpellId
 	if spellId == 228372 then--Mists of Helheim (Phase 2)
-		self.vb.phase = 2
-		timerTentacleStrikeCD:Stop()
-		timerBilewaterBreathCD:Stop()
-		timerOrbOfCorruptionCD:Stop()
-		countdownOrbs:Cancel()
-		warnPhase2:Show()
-		if not self:IsMythic() then
-			--On mythic first fury of maw is instantly on phase change, adds timer is handled by that
-			timerAddsCD:Start(14)
-			timerFuryofMawCD:Start(36.5, 1)
+		if not self.vb.phase == 2 then
+			startMurchalOchkenProshlyapation2(self)
 		end
-		self:RegisterShortTermEvents(
-			"UNIT_HEALTH_FREQUENT boss1 boss2 boss3 boss4 boss5"
-		)
 	elseif spellId == 228546 then--Helya (Phase 3, 6 seconds slower than yell)
-		self:UnregisterShortTermEvents()
-		self.vb.phase = 3
-		self.vb.taintCount = 0--TODO, make sure helya happens before first taint goes out
-		self.vb.orbCount = 1
-		self.vb.furyOfMawCount = 0
-		self.vb.breathCount = 0
-		timerFuryofMawCD:Stop()
-		warnPhase3:Show()
-		if self:IsMythic() then
-			timerOrbOfCorrosionCD:Start(6, 1, RANGED)
-			countdownOrbs:Start(6)
-			timerCorruptedBreathCD:Start(10, 1)
-			timerFuryofMawCD:Start(35, 1)
-		elseif self:IsLFR() then
-			timerOrbOfCorrosionCD:Start(11, 1, RANGED)--Needs recheck
-			countdownOrbs:Start(11)--Needs recheck
-			timerCorruptedBreathCD:Start(40, 1)--Needs recheck
-			timerFuryofMawCD:Start(90, 1)--Needs recheck
-		elseif self:IsNormal() then--May still be same as heroic with variation
-			timerOrbOfCorrosionCD:Start(12, 1, RANGED)--Needs recheck
-			countdownOrbs:Start(12)--Needs more verification
-			timerCorruptedBreathCD:Start(20.5, 1)
-			timerFuryofMawCD:Start(33, 1)--Needs more verification
-		else--Heroic
-			timerOrbOfCorrosionCD:Start(14, 1, RANGED)--Needs more verification
-			countdownOrbs:Start(14)--Needs verification
-			timerCorruptedBreathCD:Start(19.4, 1)
-			timerFuryofMawCD:Start(30, 1)
+		if not self.vb.phase == 3 then
+			startMurchalOchkenProshlyapation3(self)
 		end
 	elseif spellId == 228838 then
 		if self:IsEasy() then

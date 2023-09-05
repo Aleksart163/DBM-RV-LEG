@@ -35,7 +35,8 @@ L:SetTimerLocalization({
 })
 
 L:SetMiscLocalization({
-	phaseThree		= "Eure Mühen sind umsonst, Sterbliche! Odyn wird NIEMALS frei sein!",
+	MurchalProshlyapation2 = "Bald stoßt Ihr zu den Reihen meiner Kvaldir!",
+	MurchalProshlyapation3 = "Eure Mühen sind umsonst, Sterbliche! Odyn wird NIEMALS frei sein!",
 	near			= "Nähe",--needs to be verified (video-captured translation) ("Ein Zuschlagendes Tentakel erscheint in Helyas Nähe!")
 	far				= "weit",--needs to be verified (video-captured translation) ("Ein Zuschlagendes Tentakel erscheint weit von Helya entfernt!")
 	multiple		= "Mehrere"--needs to be verified (unused)
