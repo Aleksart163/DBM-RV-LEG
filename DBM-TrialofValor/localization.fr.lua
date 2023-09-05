@@ -6,6 +6,12 @@ local L
 ---------------
 L= DBM:GetModLocalization(1819)
 
+L:SetMiscLocalization({
+	MurchalProshlyapation2 = "Belle performance… jusqu’ici ! Je dois à présent juger de votre valeur moi-même !",
+	MurchalProshlyapation3 = "On dirait que j’ai été trop tendre. Venez par là !"
+--	ProshlyapMurchal = "%s %s через 5 сек"
+})
+
 ---------------------------
 -- Guarm --
 ---------------------------

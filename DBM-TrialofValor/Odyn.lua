@@ -22,6 +22,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_PERIODIC_DAMAGE 228007 228683",
 	"SPELL_PERIODIC_MISSED 228007 228683",
 	"CHAT_MSG_RAID_BOSS_EMOTE",
+	"CHAT_MSG_MONSTER_YELL",
 	"UNIT_SPELLCAST_SUCCEEDED boss1 boss2 boss3"
 )
 
@@ -175,6 +176,57 @@ local function prepareMessage(self, premsg_announce, args_sourceName, args_destN
 	end
 end
 -- Синхронизация анонсов ↑
+
+local function startMurchalOchkenProshlyapation2(self)
+	warnPhase2:Show()
+	self.vb.phase = 2
+	self.vb.hornCast = 0--Verify
+	self.vb.shieldCast = 0--Verify
+	self.vb.expelLightCast = 0--Verify
+	self.vb.dancingBladeCast = 0--Verify
+	timerDancingBladeCD:Stop()
+	timerHornOfValorCD:Stop()
+	countdownHorn:Cancel()
+	timerExpelLightCD:Stop()
+	timerShieldofLightCD:Stop()
+	countdownShield:Cancel()
+	timerDrawPowerCD:Stop()
+	timerDrawPower:Stop()
+	countdownDrawPower:Cancel()
+	self:Unschedule(startMurchalProshlyapation)
+	timerSpearCD:Start(13)
+	if self:IsEasy() then
+		timerDrawPowerCD:Start(53)
+		countdownDrawPower:Start(53)
+	elseif self:IsMythic() then
+		timerDrawPowerCD:Start(45)
+		countdownDrawPower:Start(45)
+	else
+		timerDrawPowerCD:Start(48)
+		countdownDrawPower:Start(48)
+	end
+	if self.Options.InfoFrame then
+		DBM.InfoFrame:Hide()
+	end
+end
+
+local function startMurchalOchkenProshlyapation3(self)
+	self.vb.phase = 3
+	timerHymdallCD:Stop()
+	timerHyrjaCD:Stop()
+	timerDrawPower:Stop()
+	countdownDrawPower:Cancel()
+	self:Unschedule(startMurchalProshlyapation)
+	timerDrawPowerCD:Stop()
+	warnPhase3:Show()
+	timerStormOfJusticeCD:Start(4)
+	timerStormforgedSpearCD:Start(9)
+	countdownStormforgedSpear:Start(9)
+	if self:IsMythic() then
+		timerRunicBrandCD:Start(21)
+		countdownRunicBrand:Start(21)
+	end
+end
 
 local debuffFilter
 local playerDebuff = nil
@@ -682,7 +734,6 @@ end
 
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	local spellId = legacySpellId or bfaSpellId
-	--"<51.36 16:56:28> [UNIT_SPELLCAST_SUCCEEDED] Odyn(??) [[boss1:Draw Power::3-3198-1648-10280-227503-000A6050FC:227503]]", -- [376]
 	if spellId == 227503 or spellId == 229576 then --Впитывание энергии (когда появляется треш и руны)
 		specWarnDrawPower:Show()
 		specWarnDrawPower:Play("switch")
@@ -708,48 +759,17 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 		--	timerSpearCD:Stop()
 		--	timerSpearCD:Start(35)
 		--end
-	--"<150.12 16:58:07> [UNIT_SPELLCAST_SUCCEEDED] Odyn(??) [[boss1:Test for Players::3-3198-1648-10280-229168-000660515F:229168]]", -- [1347]
-	--"<156.10 16:58:13> [UNIT_SPELLCAST_SUCCEEDED] Odyn(??) [[boss1:Leap into Battle::3-3198-1648-10280-227882-0001605165:227882]]", -- [1382]
-	--"<159.34 16:58:16> [UNIT_SPELLCAST_SUCCEEDED] Odyn(??) [[boss1:Spear Transition - Holy::3-3198-1648-10280-228734-0004E05168:228734]]", -- [1395]
 	elseif spellId == 231297 then--Phase 3 mythic runic Brand
 		self.vb.brandActive = true
 		timerRadiantSmite:Start()
 		timerRunicBrandCD:Start()
 		countdownRunicBrand:Start()
-	elseif spellId == 229168 then--Test for Players (Phase 1 end)
-		warnPhase2:Show()
-		self.vb.hornCast = 0--Verify
-		self.vb.shieldCast = 0--Verify
-		self.vb.expelLightCast = 0--Verify
-		self.vb.dancingBladeCast = 0--Verify
-		timerDancingBladeCD:Stop()
-		timerHornOfValorCD:Stop()
-		countdownHorn:Cancel()
-		timerExpelLightCD:Stop()
-		timerShieldofLightCD:Stop()
-		countdownShield:Cancel()
-		timerDrawPowerCD:Stop()
-		timerDrawPower:Stop()
-		countdownDrawPower:Cancel()
-		self:Unschedule(startMurchalProshlyapation)
-		timerSpearCD:Start(13)
-		if self:IsEasy() then
-			timerDrawPowerCD:Start(53)
-			countdownDrawPower:Start(53)
-		elseif self:IsMythic() then
-			timerDrawPowerCD:Start(45)
-			countdownDrawPower:Start(45)
-		else
-			timerDrawPowerCD:Start(48)
-			countdownDrawPower:Start(48)
+--	elseif spellId == 229168 then--Test for Players (Phase 1 end)
+		--2 фаза
+	elseif spellId == 227882 then --Прыжок в гущу битвы
+		if not self.vb.phase == 2 then
+			startMurchalOchkenProshlyapation2(self)
 		end
-		--Timers above started in earliest possible place
-		--Timer started at jump though has to be delayed to avoid phase 1 ClearAllDebuffs events
-		if self.Options.InfoFrame then
-			DBM.InfoFrame:Hide()
-		end
-	elseif spellId == 227882 then--Jump into Battle (phase 2 begin)
-		self.vb.phase = 2
 		if not self:IsEasy() then
 			timerHyrjaCD:Start(16)
 		end
@@ -772,24 +792,21 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 		end
 		specWarnShatterSpears:Show()
 		specWarnShatterSpears:Play("watchorb")
-	--"<487.37 21:38:02> [CHAT_MSG_MONSTER_YELL] It seems I have been too gentle. Have at thee!#Odyn#####0#0##0#191#nil#0#false#false#false#false", -- [2839]
-	--"<489.60 21:38:04> [UNIT_SPELLCAST_SUCCEEDED] Odyn(??) [[boss1:Spear Transition - Thunder::3-2012-1648-3815-228740-00058AC2FC:228740]]", -- [2940]
-	--"<489.60 21:38:04> [UNIT_SPELLCAST_SUCCEEDED] Odyn(??) [[boss1:Arcing Storm::3-2012-1648-3815-229254-00060AC2FC:229254]]", -- [2941]
 	elseif spellId == 228740 then--Spear Transition - Thunder (Phase 3 begin)
-		self.vb.phase = 3
-		timerHymdallCD:Stop()
-		timerHyrjaCD:Stop()
-		timerDrawPower:Stop()
-		countdownDrawPower:Cancel()
-		self:Unschedule(startMurchalProshlyapation)
-		timerDrawPowerCD:Stop()
-		warnPhase3:Show()
-		timerStormOfJusticeCD:Start(4)
-		timerStormforgedSpearCD:Start(9)
-		countdownStormforgedSpear:Start(9)
-		if self:IsMythic() then
-			timerRunicBrandCD:Start(21)
-			countdownRunicBrand:Start(21)
+		if not self.vb.phase == 3 then
+			startMurchalOchkenProshlyapation3(self)
+		end
+	end
+end
+
+function mod:CHAT_MSG_MONSTER_YELL(msg)
+	if msg == L.MurchalProshlyapation2 or msg:find(L.MurchalProshlyapation2) then --Прошляп очка Мурчаля [✔] Прошляпенко
+		if not self.vb.phase == 2 then
+			startMurchalOchkenProshlyapation2(self)
+		end
+	elseif msg == L.MurchalProshlyapation3 or msg:find(L.MurchalProshlyapation3) then --Прошляп очка Мурчаля [✔] Прошляпенко
+		if not self.vb.phase == 3 then
+			startMurchalOchkenProshlyapation3(self)
 		end
 	end
 end

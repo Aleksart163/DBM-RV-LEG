@@ -17,6 +17,8 @@ local specWarnBindSpirit			= mod:NewSpecialWarningDispel(228395, "MagicDispeller
 
 local timerRoleplay					= mod:NewTimer(49.5, "timerRoleplay", "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, nil, 7)
 
+local countdownRoleplay				= mod:NewCountdown(49.5, 91344, nil, nil, 5)
+
 function mod:SPELL_AURA_APPLIED(args)
 	if not self.Options.Enabled then return end
 	local spellId = args.spellId
@@ -41,5 +43,6 @@ end
 function mod:OnSync(msg)
 	if msg == "RP1" then
 		timerRoleplay:Start()
+		countdownRoleplay:Start()
 	end
 end

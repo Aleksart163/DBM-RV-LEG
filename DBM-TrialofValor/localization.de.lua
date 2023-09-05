@@ -12,6 +12,8 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
+	MurchalProshlyapation2 = "Nicht schlecht... bis jetzt. Doch ich entscheide selbst, ob Ihr würdig seid!",
+	MurchalProshlyapation3 = "Ich war wohl zu sanft. Kommt nur her!",
 	ProshlyapMurchal = "%s %s in 5 Sekunden"
 })
 
