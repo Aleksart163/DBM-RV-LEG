@@ -8,7 +8,7 @@ mod:SetZone()
 mod.isTrashMod = true
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 183088 193585 226296 202181",
+	"SPELL_CAST_START 183088 193585 226296 202181 202230",
 	"SPELL_AURA_APPLIED 200154 201983 193585",
 	"SPELL_PERIODIC_DAMAGE 226388 183407",
 	"SPELL_PERIODIC_MISSED 226388 183407",
@@ -22,14 +22,16 @@ local warnFrenzy				= mod:NewTargetAnnounce(201983, 4) --Бешенство
 local warnBound					= mod:NewCastAnnounce(193585, 3) --Скованность
 local warnBound2				= mod:NewTargetAnnounce(193585, 4) --Скованность
 local warnPiercingShards		= mod:NewCastAnnounce(226296, 4) --Острые осколки
+local warnAvalanche				= mod:NewCastAnnounce(183088, 4) --Лавина
 
+local specWarnLeech				= mod:NewSpecialWarningInterrupt(202230, "HasInterrupt", nil, nil, 1, 2) --Пиявка
 local specWarnStoneGaze			= mod:NewSpecialWarningInterrupt(202181, "HasInterrupt", nil, nil, 3, 2) --Каменный взгляд
 local specWarnStoneGaze2		= mod:NewSpecialWarningYou(202181, nil, nil, nil, 2, 6) --Каменный взгляд
 local specWarnBound				= mod:NewSpecialWarningInterrupt(193585, "HasInterrupt", nil, nil, 1, 2) --Скованность
 local specWarnBurningHatred		= mod:NewSpecialWarningYouRun(200154, nil, nil, nil, 4, 2) --Пламенная ненависть
 local specWarnAcidSplatter		= mod:NewSpecialWarningYouMove(183407, nil, nil, nil, 1, 2) --Кислотный всплеск
 local specWarnRancidOoze		= mod:NewSpecialWarningYouMove(226388, nil, nil, nil, 1, 2) --Тухлая слизь
-local specWarnAvalanche			= mod:NewSpecialWarningDodge(183088, "Tank", nil, nil, 1, 2) --Лавина
+local specWarnAvalanche			= mod:NewSpecialWarningDefensive(183088, "Tank", nil, nil, 1, 2) --Лавина
 
 local timerFrenzy				= mod:NewTargetTimer(8, 201983, nil, "Tank", nil, 3, nil) --Бешенство
 
@@ -52,8 +54,12 @@ function mod:SPELL_CAST_START(args)
 	if not self.Options.Enabled then return end
 	local spellId = args.spellId
 	if spellId == 183088 and self:AntiSpam(2, 2) then
-		specWarnAvalanche:Show()
-		specWarnAvalanche:Play("shockwave")
+		if self:IsTank() then
+			specWarnAvalanche:Show()
+			specWarnAvalanche:Play("shockwave")
+		else
+			warnAvalanche:Show()
+		end
 	elseif spellId == 193585 then
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnBound:Show()
@@ -71,10 +77,12 @@ function mod:SPELL_CAST_START(args)
 			specWarnStoneGaze:Show()
 			specWarnStoneGaze:Play("kickcast")
 		end
+	elseif spellId == 202230 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Пиявка
+		specWarnLeech:Show()
+		specWarnLeech:Play("kickcast")
 	end
 end
 
-		
 function mod:SPELL_AURA_APPLIED(args)
 	if not self.Options.Enabled then return end
 	local spellId = args.spellId

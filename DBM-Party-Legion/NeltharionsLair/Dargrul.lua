@@ -100,12 +100,13 @@ function mod:SPELL_CAST_START(args)
 			timerLandSlideCD:Start()
 		end
 	elseif spellId == 200404 and self:AntiSpam(3, 1) then --Магматическая волна
-		if not UnitIsDeadOrGhost("player") then
+		if self:IsTank() then
+			specWarnMagmaWave2:Show()
+			specWarnMagmaWave2:Play("defensive")
+		else
 			specWarnMagmaWave:Show(shelterName)
 			specWarnMagmaWave:Play("findshelter")
 		end
-		specWarnMagmaWave2:Show()
-		specWarnMagmaWave2:Play("defensive")
 		countdownMagmaWave2:Start()
 		if self:IsHard() then
 			timerMagmaWaveCD:Start(61)
