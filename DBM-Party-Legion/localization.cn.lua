@@ -427,8 +427,8 @@ L= DBM:GetModLocalization(1512)
 L= DBM:GetModLocalization(1663)
 
 L:SetMiscLocalization({
-	Proshlyaping = "你们以为自己赢了？这只是一场风暴而已……大海是不可阻挡的。" --
---	TaintofSeaYell = "%s спадает с %s. Берегись!"
+	Proshlyaping = "你们以为自己赢了？这只是一场风暴而已……大海是不可阻挡的。", --
+	TaintofSeaYell = "%s 退色. 当心!"
 })
 
 -----------------------

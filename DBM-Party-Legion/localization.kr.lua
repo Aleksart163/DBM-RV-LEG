@@ -429,7 +429,7 @@ L= DBM:GetModLocalization(1663)
 
 L:SetMiscLocalization({
 	Proshlyaping = "너희가 승리했다고 생각하느냐? 폭풍에서 살아남은 것일 뿐... 바다는 막을 수 없다.", --
-	TaintofSeaYell = "%s disappears with %s. 조심해!"
+	TaintofSeaYell = "%s 사라짐. 조심하세요!"
 })
 
 -----------------------

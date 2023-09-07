@@ -65,7 +65,6 @@ mod.vb.taintofseaIcon = 8
 
 local warned_preP1 = false
 local warned_preP2 = false
-local playerName = UnitName("player")
 local taintofSea = replaceSpellLinks(197262) --Морская порча
 
 function mod:OnCombatStart(delay)
@@ -203,7 +202,7 @@ function mod:SPELL_AURA_REMOVED(args)
 	elseif spellId == 197262 then --Морская порча
 		if args:IsPlayer() then
 			specWarnTaintofSeaOver:Show()
-			yellTaintofSea2:Yell(taintofSea, playerName)
+			yellTaintofSea2:Yell(taintofSea)
 		end
 		if self.Options.SetIconOnTaintofSea then
 			self:SetIcon(args.destName, 0)
