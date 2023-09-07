@@ -34,15 +34,15 @@ local specWarnFixate				= mod:NewSpecialWarningYou(209906) --Самопожер�
 local specWarnSpikedTongue			= mod:NewSpecialWarningYouRun(199176, nil, nil, nil, 4, 6) --Шипастый язык
 local specWarnRancidMaw				= mod:NewSpecialWarningYouMove(188494, nil, nil, nil, 1, 3)--Needs confirmation this is pool damage and not constant fight aoe damage
 
-local timerSpikedTongueCD			= mod:NewNextTimer(55, 199176, nil, "Tank|Healer", nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Шипастый язык
+local timerSpikedTongueCD			= mod:NewNextTimer(55, 199176, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Шипастый язык
 local timerAddsCD					= mod:NewCDTimer(65, 199817, nil, "Tank|Dps", nil, 1, 226361, DBM_CORE_DAMAGE_ICON) --Призыв прислужников (последние цифры это картинка на спелл)
 local timerRancidMawCD				= mod:NewCDTimer(18.5, 205549, nil, nil, nil, 3) --Зловонная пасть +++
-local timerToxicRetchCD				= mod:NewCDTimer(14.5, 210150, nil, nil, nil, 3) --Токсичная желчь +++
+local timerToxicRetchCD				= mod:NewCDTimer(14.5, 210150, nil, nil, nil, 2) --Токсичная желчь +++
 
 local yellSpikedTongue				= mod:NewYell(199176, nil, nil, nil, "YELL") --Шипастый язык
 
-local countdownSpikedTongue			= mod:NewCountdown(55, 199176, "Tank|Healer", nil, 5) --Шипастый язык
---local countdownAdds					= mod:NewCountdown(65, 199817, "Dps") --Призыв прислужников
+local countdownSpikedTongue			= mod:NewCountdown(55, 199176, "Tank", nil, 5) --Шипастый язык
+local countdownAdds					= mod:NewCountdown("Alt65", 199817, "Tank|Dps", nil, 5) --Призыв прислужников
 
 mod:AddSetIconOption("SetIconOnSpikedTongue", 199176, true, false, {8}) --Шипастый язык
 
@@ -64,14 +64,14 @@ end
 function mod:OnCombatStart(delay)
 	if self:IsHard() then
 		timerAddsCD:Start(6-delay) --Призыв прислужников +++
-	--	countdownAdds:Start(6-delay) --Призыв прислужников +++
+		countdownAdds:Start(6-delay) --Призыв прислужников +++
 		timerRancidMawCD:Start(7.3-delay) --Зловонная пасть +++
 		timerToxicRetchCD:Start(12.5-delay) --Токсичная желчь +++
 		timerSpikedTongueCD:Start(55-delay) --Шипастый язык +++
 		countdownSpikedTongue:Start(55-delay) --Шипастый язык +++
 	else
 		timerAddsCD:Start(5.5-delay) --Призыв прислужников
-	--	countdownAdds:Start(5.5-delay) --Призыв прислужников
+		countdownAdds:Start(5.5-delay) --Призыв прислужников
 		timerRancidMawCD:Start(7.3-delay) --Зловонная пасть
 		timerToxicRetchCD:Start(12.4-delay) --Токсичная желчь
 		timerSpikedTongueCD:Start(50.5-delay) --Шипастый язык
@@ -129,10 +129,10 @@ mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 
 
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
-	if spellId == 188494 and destGUID == UnitGUID("player") and self:AntiSpam(2, "proshlyapation1") then
+	if spellId == 188494 and destGUID == UnitGUID("player") and self:AntiSpam(1, "proshlyapation1") then --Зловонная пасть
 		specWarnRancidMaw:Show()
 		specWarnRancidMaw:Play("runout")
-	elseif spellId == 210166 and destGUID == UnitGUID("player") and self:AntiSpam(2, "proshlyapation2") then
+	elseif spellId == 210166 and destGUID == UnitGUID("player") and self:AntiSpam(1, "proshlyapation2") then --Токсичная желчь
 		specWarnToxicRetch4:Show()
 		specWarnToxicRetch4:Play("runout")
 	end
@@ -145,14 +145,16 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 		if self:IsRanged() then
 			specWarnAdds:Schedule(1)
 			specWarnAdds:ScheduleVoice(1, "mobkill")
-		else
+		elseif self:IsMeleeDps() then
 			specWarnAdds:Schedule(8)
 			specWarnAdds:ScheduleVoice(8, "mobkill")
 		end
 		if self:IsHard() then
 			timerAddsCD:Start(75)
+			countdownAdds:Start(75)
 		else
 			timerAddsCD:Start()
+			countdownAdds:Start()
 		end
 	end
 end
