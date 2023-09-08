@@ -19,8 +19,8 @@ mod:RegisterEventsInCombat(
 
 --Дресарон https://ru.wowhead.com/npc=99200/дресарон/эпохальный-журнал-сражений
 local warnRoar						= mod:NewSpellAnnounce(199389, 3) --Сотрясающий землю рык
-local warnRoar2						= mod:NewPreWarnAnnounce(199389, 5, 1) --Сотрясающий землю рык
-local warnDownDraft					= mod:NewPreWarnAnnounce(199345, 5, 1) --Нисходящий поток
+--local warnRoar2						= mod:NewPreWarnAnnounce(199389, 5, 1) --Сотрясающий землю рык
+--local warnDownDraft					= mod:NewPreWarnAnnounce(199345, 5, 1) --Нисходящий поток
 
 local specWarnDownDraft				= mod:NewSpecialWarningMoveBoss(199345, nil, nil, nil, 4, 6) --Нисходящий поток
 local specWarnBreath				= mod:NewSpecialWarningDodge(199332, nil, nil, nil, 2, 2) --Дыхание порчи
@@ -37,13 +37,13 @@ function mod:OnCombatStart(delay)
 	if self:IsHard() then
 		timerBreathCD:Start(13-delay) --Дыхание порчи +++
 		timerEarthShakerCD:Start(20-delay) --Сотрясающий землю рык +++
-		warnDownDraft:Schedule(15-delay) --Нисходящий поток +++
+	--	warnDownDraft:Schedule(15-delay) --Нисходящий поток +++
 		timerDownDraftCD:Start(20-delay) --Нисходящий поток +++
 		countdownDownDraft:Start(20-delay) --Нисходящий поток +++
 	else
 		timerBreathCD:Start(8-delay) --Дыхание порчи
 		timerEarthShakerCD:Start(15-delay) --Сотрясающий землю рык
-		warnDownDraft:Schedule(15-delay) --Нисходящий поток
+	--	warnDownDraft:Schedule(15-delay) --Нисходящий поток
 		timerDownDraftCD:Start(20-delay) --Нисходящий поток
 		countdownDownDraft:Start(20-delay) --Нисходящий поток
 	end
@@ -53,7 +53,7 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 199389 then --Сотрясающий землю рык
 		warnRoar:Show()
-		warnRoar2:Schedule(25)
+	--	warnRoar2:Schedule(25)
 		timerEarthShakerCD:Start(30)
 	elseif spellId == 199345 then --Нисходящий поток
 		if not UnitIsDeadOrGhost("player") then
@@ -66,7 +66,7 @@ function mod:SPELL_CAST_START(args)
 			timerDownDraft:Start()
 		--	warnRoar:Schedule(7)
 		--	timerEarthShakerCD:Start(12)
-			warnDownDraft:Schedule(25)
+		--	warnDownDraft:Schedule(25)
 			countdownDownDraft:Start(30)
 			timerBreathCD:Start(12)
 		--	timerBreathCD:Start(16)
@@ -75,7 +75,7 @@ function mod:SPELL_CAST_START(args)
 			timerDownDraft:Start()
 		--	warnRoar:Schedule(7)
 		--	timerEarthShakerCD:Start(12)
-			warnDownDraft:Schedule(24)
+		--	warnDownDraft:Schedule(24)
 			countdownDownDraft:Start(29)
 		end
 	end
