@@ -43,7 +43,8 @@ local warnPermaliativeTorment		= mod:NewTargetAnnounce(210387, 3, nil, "Healer")
 local warnConflexiveBurst			= mod:NewTargetAnnounce(209598, 4)
 
 --Base
-local specWarnTimeElementals		= mod:NewSpecialWarningSwitchCount(208887, "-Healer", DBM_CORE_AUTO_SPEC_WARN_OPTIONS.switch:format(208887), nil, 1, 2)
+local specWarnTimeElementals1		= mod:NewSpecialWarningSwitchCount("ej14666", "-Healer", nil, nil, 1, 3) --Призыв элема времени (замедление)
+local specWarnTimeElementals2		= mod:NewSpecialWarningSwitchCount("ej14670", "-Healer", nil, nil, 1, 3) --Призыв элема времени (ускорение)
 ----Recursive Elemental
 local specWarnCompressedTime		= mod:NewSpecialWarningDodge(209590)
 local specWarnRecursion				= mod:NewSpecialWarningInterrupt(209620, "HasInterrupt", nil, nil, 1, 2)
@@ -52,15 +53,15 @@ local specWarnBlast					= mod:NewSpecialWarningInterrupt(221864, "HasInterrupt",
 --local specWarnExoRelease			= mod:NewSpecialWarningInterrupt(209568, "HasInterrupt", nil, nil, 1, 2)
 local specWarnExpedite				= mod:NewSpecialWarningInterrupt(209617, "HasInterrupt", nil, nil, 1, 2)
 --Time Layer 1
-local specWarnArcaneticRing			= mod:NewSpecialWarningDodge(208807, nil, nil, nil, 2, 5)
+local specWarnArcaneticRing			= mod:NewSpecialWarningDodge(208807, nil, nil, nil, 2, 6) --Кинетическое кольцо
 local specWarnAblation				= mod:NewSpecialWarningTaunt(209615, nil, nil, nil, 1, 2)
-local specWarnSpanningSingularityPre= mod:NewSpecialWarningMoveTo(209168, "RangedDps", nil, 2, 1, 7)
-local specWarnSpanningSingularity	= mod:NewSpecialWarningDodge(209168, nil, nil, nil, 2, 2)
-local specWarnSingularityGTFO		= mod:NewSpecialWarningYouMove(209168, "-Tank", nil, 2, 1, 2)
+local specWarnSpanningSingularityPre= mod:NewSpecialWarningMoveTo(209168, "RangedDps", nil, 2, 1, 7) --Затягивающая сингулярность
+local specWarnSpanningSingularity	= mod:NewSpecialWarningDodge(209168, nil, nil, nil, 2, 2) --Затягивающая сингулярность
+local specWarnSingularityGTFO		= mod:NewSpecialWarningYouMove(209168, "-Tank", nil, 2, 1, 2) --Затягивающая сингулярность
 --Time Layer 2
 local specWarnDelphuricBeam			= mod:NewSpecialWarningYou(214278, nil, nil, nil, 1, 2)
 local yellDelphuricBeam				= mod:NewYell(214278, nil, false)--off by default, because yells last longer than 3-4 seconds so yells from PERVIOUS beam are not yet gone when new beam is cast.
-local specWarnEpochericOrb			= mod:NewSpecialWarningSpell(210022, "-Tank", nil, 2, 1, 2)
+local specWarnEpochericOrb			= mod:NewSpecialWarningSoak(210022, "-Tank", nil, 2, 1, 2) --Эпохальная сфера
 local specWarnAblationExplosion		= mod:NewSpecialWarningTaunt(209615, nil, nil, nil, 1, 2)
 local specWarnAblationExplosionOut	= mod:NewSpecialWarningMoveAway(209615, nil, nil, nil, 1, 2)
 local yellAblatingExplosion			= mod:NewFadesYell(209973)
@@ -72,6 +73,8 @@ local specWarnAblativePulse			= mod:NewSpecialWarningInterrupt(209971, "Tank", n
 --Base
 local timerLeaveNightwell			= mod:NewCastTimer(9.8, 208863, nil, nil, nil, 6)
 local timerTimeElementalsCD			= mod:NewNextSourceTimer(16, 208887, 141872, nil, nil, 1)--"Call Elemental" short text
+local timerTimeElementalsCD1		= mod:NewCDTimer(16, "ej14666", 209165, nil, nil, 1, nil, DBM_CORE_TANK_ICON..DBM_CORE_DAMAGE_ICON) --Призыв элема времени (замедление)
+local timerTimeElementalsCD2		= mod:NewCDTimer(16, "ej14670", 209166, nil, nil, 1, nil, DBM_CORE_TANK_ICON..DBM_CORE_DAMAGE_ICON) --Призыв элема времени (ускорение)
 local timerFastTimeBubble			= mod:NewTimer(35, "timerFastTimeBubble", 209166, nil, nil, 5)
 local timerSlowTimeBubble			= mod:NewTimer(70, "timerSlowTimeBubble", 209165, nil, nil, 5)
 --209166
@@ -79,11 +82,11 @@ local timerSlowTimeBubble			= mod:NewTimer(70, "timerSlowTimeBubble", 209165, ni
 mod:AddTimerLine(SCENARIO_STAGE:format(1))
 local timerArcaneticRing			= mod:NewNextCountTimer(6, 208807, nil, nil, nil, 2)
 --local timerAblationCD				= mod:NewCDTimer(4.8, 209615, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
-local timerSpanningSingularityCD	= mod:NewNextCountTimer(16, 209168, nil, nil, nil, 3)
+local timerSpanningSingularityCD	= mod:NewNextCountTimer(16, 209168, nil, nil, nil, 3) --Затягивающая сингулярность
 --Time Layer 2
 mod:AddTimerLine(SCENARIO_STAGE:format(2))
 local timerDelphuricBeamCD			= mod:NewNextCountTimer(16, 214278, nil, nil, nil, 3)
-local timerEpochericOrbCD			= mod:NewNextCountTimer(16, 210022, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON)
+local timerEpochericOrbCD			= mod:NewNextCountTimer(16, 210022, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Эпохальная сфера
 local timerAblatingExplosion		= mod:NewTargetTimer(6, 209973, nil, "Tank")
 local timerAblatingExplosionCD		= mod:NewCDTimer(20, 209973, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
 --Time Layer 3
@@ -96,12 +99,12 @@ local berserkTimer					= mod:NewBerserkTimer(240)
 
 --Base
 --Time Layer 1
-local countdownArcaneticRing		= mod:NewCountdown(30, 208807)
-local countdownSpanningSingularity	= mod:NewCountdown(30, 209168, "Ranged")--Mythic Only
+local countdownArcaneticRing		= mod:NewCountdown(30, 208807, nil, nil, 5) --Кинетическое кольцо
+local countdownSpanningSingularity	= mod:NewCountdown(30, 209168, "Ranged", nil, 5) --Затягивающая сингулярность
 --Time Layer 2
-local countdownOrbs					= mod:NewCountdown("Alt6", 210022, "Ranged")
+local countdownOrbs					= mod:NewCountdown("Alt6", 210022, "Ranged", nil, 5)
 --Time Layer 3
-local countdownConflexiveBurst		= mod:NewCountdown("AltTwo6", 209597)
+local countdownConflexiveBurst		= mod:NewCountdown("AltTwo6", 209597, nil, nil, 5)
 
 mod:AddRangeFrameOption(8, 209973)
 mod:AddInfoFrameOption(209598)
@@ -178,27 +181,27 @@ function mod:OnCombatStart(delay)
 	self.vb.totalRingCasts = 0
 	self.vb.totalbeamCasts = 0
 	self.vb.totalsingularityCasts = 1
-	timerLeaveNightwell:Start(4-delay)
-	timerTimeElementalsCD:Start(5-delay, SLOW)
+	timerLeaveNightwell:Start(3-delay) --Покинуть ночной колодец (точно под миф)
+	timerTimeElementalsCD1:Start(5-delay, SLOW) --Призыв элема времени (замедление) (точно под миф)
 	--timerAblationCD:Start(8.5-delay)--Verify/tweak
 	if self:IsMythic() then
-		timerTimeElementalsCD:Start(8-delay, FAST)
-		timerSpanningSingularityCD:Start(53.7-delay, 2)
-		specWarnSpanningSingularityPre:Schedule(48.7, DBM_CORE_ROOM_EDGE)
+		timerTimeElementalsCD2:Start(8-delay, FAST) --Призыв элема времени (ускорение)+++
+		timerSpanningSingularityCD:Start(54-delay, 1) --Затягивающая сингулярность+++
+		countdownSpanningSingularity:Start(54) --Затягивающая сингулярность+++
+		specWarnSpanningSingularityPre:Schedule(49, DBM_CORE_ROOM_EDGE) --Затягивающая сингулярность+++
 		if self.Options.SpecWarn209168moveto then
-			specWarnSpanningSingularityPre:ScheduleVoice(48.7, "runtoedge")
+			specWarnSpanningSingularityPre:ScheduleVoice(49, "runtoedge") --Затягивающая сингулярность+++
 		end
-		countdownSpanningSingularity:Start(53.7)
-		timerArcaneticRing:Start(30-delay, 1)
-		countdownArcaneticRing:Start(30-delay)
+		timerArcaneticRing:Start(29-delay, 1) --Кинетическое кольцо+++
+		countdownArcaneticRing:Start(29-delay) --Кинетическое кольцо+++
 	elseif self:IsLFR() then
-		timerSpanningSingularityCD:Start(15-delay, 2)
+		timerTimeElementalsCD2:Start(65-delay, FAST) --Призыв элема времени (ускорение)+++
+		timerSpanningSingularityCD:Start(15-delay, 1)
 		timerArcaneticRing:Start(21-delay, 1)
 		countdownArcaneticRing:Start(21-delay)
-		timerTimeElementalsCD:Start(65-delay, FAST)
 	else
-		timerTimeElementalsCD:Start(8-delay, FAST)
-		timerSpanningSingularityCD:Start(22-delay, 2)
+		timerTimeElementalsCD2:Start(8-delay, FAST) --Призыв элема времени (ускорение)+++
+		timerSpanningSingularityCD:Start(22-delay, 1)
 		timerArcaneticRing:Start(34-delay, 1)
 		countdownArcaneticRing:Start(34-delay)
 	end
@@ -243,7 +246,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 210022 and self:AntiSpam(15, 4) then
 		self.vb.orbCastCount = self.vb.orbCastCount + 1
 		specWarnEpochericOrb:Show()
-		specWarnEpochericOrb:Play("161612")
+		specWarnEpochericOrb:Play("helpsoak")
 		local nextCount = self.vb.orbCastCount + 1
 		local timer = self:IsMythic() and mythicOrbTimers[nextCount] or self:IsNormal() and normalOrbTimers[nextCount] or self:IsHeroic() and heroicOrbTimers[nextCount] or self:IsLFR() and lfrOrbTimers[nextCount]
 		if timer then
@@ -290,7 +293,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		local timer = self:IsMythic() and mythicOrbTimers[nextCount] or self:IsNormal() and normalOrbTimers[nextCount] or self:IsHeroic() and heroicOrbTimers[nextCount] or self:IsLFR() and lfrOrbTimers[nextCount]
 		if timer then
 			specWarnEpochericOrb:Schedule(timer-10)
-			specWarnEpochericOrb:ScheduleVoice(timer-10, "161612")
+			specWarnEpochericOrb:ScheduleVoice(timer-10, "helpsoak")
 			timerEpochericOrbCD:Start(timer-10, nextCount)
 			countdownOrbs:Start(timer-10)
 		end
@@ -408,7 +411,7 @@ end
 
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	local spellId = legacySpellId or bfaSpellId
-	if spellId == 211647 then--Time Stop
+	if spellId == 211647 then --Остановка времени
 		self.vb.transitionActive = true
 		self.vb.phase = self.vb.phase + 1
 		--self.vb.firstElementals = false
@@ -479,7 +482,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 				timerEpochericOrbCD:Start(24, 1)
 				countdownOrbs:Start(24)
 				specWarnEpochericOrb:Schedule(24)--Spawning isn't in combat log in phase 3, only landing, so need to use schedule for warnings
-				specWarnEpochericOrb:ScheduleVoice(24, "161612")
+				specWarnEpochericOrb:ScheduleVoice(24, "helpsoak")
 				timerArcaneticRing:Start(42, 1)--Verified Jan 18
 				countdownArcaneticRing:Start(42)
 				timerConflexiveBurstCD:Start(48, 1)
@@ -489,7 +492,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 				timerEpochericOrbCD:Start(27, 1)
 				countdownOrbs:Start(27)
 				specWarnEpochericOrb:Schedule(27)--Spawning isn't in combat log in phase 3, only landing, so need to use schedule for warnings
-				specWarnEpochericOrb:ScheduleVoice(27, "161612")
+				specWarnEpochericOrb:ScheduleVoice(27, "helpsoak")
 				timerPermaliativeTormentCD:Start(33, 1)
 				timerArcaneticRing:Start(45.7, 1)--Verified Jan 18
 				countdownArcaneticRing:Start(45.7)
@@ -512,12 +515,12 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 				berserkTimer:Start(199)
 			end
 		end
-	elseif spellId == 209005 and not self.vb.transitionActive then--Summon Time Elemental - Slow
+	elseif spellId == 209005 and not self.vb.transitionActive then --Призыв элема времени (замедление)
 		self.vb.slowElementalCount = self.vb.slowElementalCount + 1
-		--if self.vb.firstElementals then
-			specWarnTimeElementals:Show(SLOW)
-			specWarnTimeElementals:Play("bigmob")
-		--end
+		if self:AntiSpam(2, "slow") then
+			specWarnTimeElementals1:Show(SLOW)
+			specWarnTimeElementals1:Play("bigmob")
+		end
 		local timer
 		local nextCount = self.vb.slowElementalCount+1
 		if self:IsMythic() then
@@ -528,12 +531,12 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 		if timer then
 			timerTimeElementalsCD:Start(timer, SLOW)
 		end
-	elseif (spellId == 209007 or spellId == 211616) and not self.vb.transitionActive then--Summon Time Elemental - Fast
+	elseif (spellId == 209007 or spellId == 211616) and not self.vb.transitionActive then --Призыв элема времени (ускорение)
 		self.vb.fastElementalCount = self.vb.fastElementalCount + 1
-		--if self.vb.firstElementals then
-			specWarnTimeElementals:Show(FAST)
-			specWarnTimeElementals:Play("bigmob")
-		--end
+		if self:AntiSpam(2, "fast") then
+			specWarnTimeElementals2:Show(FAST)
+			specWarnTimeElementals2:Play("bigmob")
+		end
 		local timer
 		local nextCount = self.vb.fastElementalCount+1
 		if self:IsMythic() then
@@ -587,8 +590,8 @@ end
 function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, npc, _, _, target)
 	if msg:find("spell:228877") and self:AntiSpam(5, 1) then
 		self.vb.ringCastCount = self.vb.ringCastCount + 1
-		specWarnArcaneticRing:Show()
-		specWarnArcaneticRing:Play("watchorb")
+		specWarnArcaneticRing:Schedule(2)
+		specWarnArcaneticRing:ScheduleVoice(2, "watchorb")
 		local nextCount = self.vb.ringCastCount + 1
 		if self.vb.phase == 1 then
 			self.vb.totalRingCasts = self.vb.totalRingCasts + 1
@@ -607,8 +610,8 @@ function mod:OnSync(msg, targetname)
 	if not self:IsInCombat() then return end
 	if msg == "ArcaneticRing" and self:AntiSpam(5, 1) then
 		self.vb.ringCastCount = self.vb.ringCastCount + 1
-		specWarnArcaneticRing:Show()
-		specWarnArcaneticRing:Play("watchorb")
+		specWarnArcaneticRing:Schedule(2)
+		specWarnArcaneticRing:ScheduleVoice(2, "watchorb")
 		local nextCount = self.vb.ringCastCount + 1
 		if self.vb.phase == 1 then
 			self.vb.totalRingCasts = self.vb.totalRingCasts + 1
@@ -626,7 +629,7 @@ function mod:OnSync(msg, targetname)
 		countdownOrbs:Cancel()
 		self.vb.orbCastCount = self.vb.orbCastCount + 1
 		specWarnEpochericOrb:Show()
-		specWarnEpochericOrb:Play("161612")
+		specWarnEpochericOrb:Play("helpsoak")
 		local nextCount = self.vb.orbCastCount + 1
 		local timer = self:IsMythic() and mythicOrbTimers[nextCount] or self:IsNormal() and normalOrbTimers[nextCount] or self:IsHeroic() and heroicOrbTimers[nextCount] or self:IsLFR() and lfrOrbTimers[nextCount]
 		if timer then
