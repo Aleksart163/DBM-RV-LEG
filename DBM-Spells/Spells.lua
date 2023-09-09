@@ -12,6 +12,7 @@ mod:RegisterEvents(
 	"SPELL_SUMMON 67826 199109 199115 195782 98008 207399",
 	"SPELL_CREATE 698 188036 201352 201351 185709 88304 61031 49844",
 	"SPELL_RESURRECT 20484 95750 61999",
+	"PLAYER_DEAD",
 	"GOSSIP_SHOW"--[[,
 	"UNIT_SPELLCAST_SUCCEEDED"]]
 )
@@ -107,6 +108,7 @@ mod:AddBoolOption("YellOnBank", true) --банк
 mod:AddBoolOption("YellOnRepair", true) --починка
 mod:AddBoolOption("YellOnPylon", true) --пилон
 mod:AddBoolOption("YellOnToys", true) --игрушки
+mod:AddBoolOption("AutoSpirit", false)
 
 local typeInstance = nil
 
@@ -798,6 +800,12 @@ function mod:GOSSIP_SHOW()
 		if select('#', GetGossipOptions()) > 0 then
 			SelectGossipOption(1, "", true)
 		end
+	end
+end
+
+function mod:PLAYER_DEAD()
+	if not IsInInstance() and self.Options.AutoSpirit then
+		RepopMe()
 	end
 end
 
