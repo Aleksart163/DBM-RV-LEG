@@ -25,7 +25,7 @@ local warnDeepeningShadows			= mod:NewSpellAnnounce(213583, 4) --Сгущающ�
 local warnCreepingDoom				= mod:NewSoonAnnounce(197422, 1) --Ползучая гибель
 
 local specWarnFelGlaive				= mod:NewSpecialWarningDodge(197333, nil, nil, nil, 1, 2) --Глефа Скверны
-local specWarnDeepeningShadows2		= mod:NewSpecialWarningYouMove(213583, "nil", nil, nil, 5, 6) --Сгущающиеся тени
+local specWarnDeepeningShadows2		= mod:NewSpecialWarningYouMove(213583, nil, nil, nil, 5, 6) --Сгущающиеся тени
 local specWarnDetonation			= mod:NewSpecialWarningYouDefensive(197541, nil, nil, nil, 2, 5) --Мгновенный взрыв
 local specWarnKick					= mod:NewSpecialWarningSpell(197251, "Tank", nil, nil, 3, 2) --Сбивающий с ног удар
 local specWarnDeepeningShadows		= mod:NewSpecialWarningMoveTo(213583, nil, nil, nil, 3, 6) --Сгущающиеся тени
