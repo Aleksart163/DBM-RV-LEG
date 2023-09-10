@@ -17,6 +17,7 @@ mod:RegisterEvents(
 	"SPELL_PERIODIC_MISSED 246199",
 	"CHAT_MSG_MONSTER_YELL",
 	"GOSSIP_SHOW",
+	"UNIT_AURA player",
 	"UNIT_DIED"
 )
 
@@ -89,6 +90,9 @@ mod:AddBoolOption("BossActivation", true)
 mod.vb.demolishIcon = 6
 mod.vb.decimationIcon = 1
 mod.vb.soulburnIcon = 8
+
+local proshlyapationOfMurchal = DBM:GetSpellInfo(252797)
+local murchalProshlyaping = false
 
 function mod:PyroblastTarget(targetname, uId) --прошляпанное очко Мурчаля Прошляпенко ✔
 	if not targetname then return end
@@ -345,12 +349,6 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spell
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
 
-function mod:OnSync(msg)
-	if msg == "RPImonar" then
-		timerRoleplay:Start(24.5)
-	end
-end
-
 function mod:CHAT_MSG_MONSTER_YELL(msg)
 	if msg == L.RPImonar then
 		self:SendSync("RPImonar")
@@ -379,5 +377,26 @@ function mod:UNIT_DIED(args)
 	elseif cid == 123680 then --Темный хранитель Эйдис
 		timerSearingSlashCD:Cancel()
 		timerPunishingFlameCD:Cancel()
+	end
+end
+
+do
+	function mod:UNIT_AURA(uId)
+		local proshlyap = UnitDebuff("player", proshlyapationOfMurchal)
+		if proshlyap and not murchalProshlyaping then
+			murchalProshlyaping = true
+			specWarnDecimation:Show()
+			specWarnDecimation:Play("runout")
+			yellDecimation:Yell()
+			yellDecimationFades:Countdown(5, 3)
+		elseif not proshlyap and murchalProshlyaping then
+			murchalProshlyaping = false
+		end
+	end
+end
+
+function mod:OnSync(msg)
+	if msg == "RPImonar" then
+		timerRoleplay:Start(24.5)
 	end
 end
