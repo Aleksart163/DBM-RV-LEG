@@ -5472,9 +5472,9 @@ do
 		self:Debug("UNIT_SPELLCAST_SUCCEEDED fired: "..UnitName(uId).."'s "..spellName.."("..spellId..")", 3)
 	end
 	
-	function DBM:ENCOUNTER_START(encounterID, name, difficulty, size) --Волосали
+	function DBM:ENCOUNTER_START(encounterID, name, difficulty, size)
 		self:Debug("ENCOUNTER_START event fired: "..encounterID.." "..name.." "..difficulty.." "..size)
-		DBM:AddMsg(DBM_FORUMS_MESSAGE)
+		self:AddMsg(DBM_FORUMS_MESSAGE)
 		if dbmIsEnabled then
 			if not self.Options.DontShowReminders then
 				self:CheckAvailableMods()
@@ -6993,7 +6993,7 @@ end
 --  Misc. Functions  --
 -----------------------
 function DBM:AddMsg(text, prefix)
-	local tag = prefix or (self.localization and self.localization.general.name) or "DBM"
+	local tag = prefix or (self.localization and self.localization.general.name) or "DBM RV"
 	local frame = _G[tostring(DBM.Options.ChatFrame)]
 	frame = frame and frame:IsShown() and frame or DEFAULT_CHAT_FRAME
 	if prefix ~= false then
