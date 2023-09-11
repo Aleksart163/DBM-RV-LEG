@@ -76,7 +76,12 @@ L:SetOptionLocalization({
 L= DBM:GetModLocalization(1732)
 
 L:SetOptionLocalization({
-	ConjunctionYellFilter	= "During $spell:205408, disable all other SAY messages and just spam the star sign message says instead until conjunction has ended"
+	ShowProshlyapationOfMurchal = "Show announcements for $spell:205408 (Requires raid leader)",
+	ConjunctionYellFilter = "During $spell:205408, disable all other SAY messages and just spam the star sign message says instead until conjunction has ended"
+})
+
+L:SetMiscLocalization({
+	ProshlyapMurchal = "%s %s in 5 sec!"
 })
 
 ------------------

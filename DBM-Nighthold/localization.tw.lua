@@ -73,7 +73,12 @@ L:SetOptionLocalization({
 L= DBM:GetModLocalization(1732)
 
 L:SetOptionLocalization({
-	ConjunctionYellFilter	= "在$spell:205408當中，停用其他所有說話訊息而不停重複的說著星之記號直到大連線結束"
+	ShowProshlyapationOfMurchal = "為$spell:62776顯示特別警告 (需要團隊隊長或助理權限)",
+	ConjunctionYellFilter = "在$spell:205408當中，停用其他所有說話訊息而不停重複的說著星之記號直到大連線結束"
+})
+
+L:SetMiscLocalization({
+	ProshlyapMurchal = "%s 5秒后 %s!"
 })
 
 ------------------

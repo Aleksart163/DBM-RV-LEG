@@ -73,7 +73,12 @@ L:SetOptionLocalization({
 L= DBM:GetModLocalization(1732)
 
 L:SetOptionLocalization({
-	ConjunctionYellFilter	= "Deaktivere alle anderen SCHREIE während $spell:205408 und schreie stattdessen nur fortwährend die Sternzeichenmeldung, bis die Konjunktion vorbei ist"
+	ShowProshlyapationOfMurchal = "Spezialwarnung für $spell:205408 (nur als Leiter/Assistent)",
+	ConjunctionYellFilter = "Deaktivere alle anderen SCHREIE während $spell:205408 und schreie stattdessen nur fortwährend die Sternzeichenmeldung, bis die Konjunktion vorbei ist"
+})
+
+L:SetMiscLocalization({
+	ProshlyapMurchal = "%s %s in 5 Sek!"
 })
 
 ------------------

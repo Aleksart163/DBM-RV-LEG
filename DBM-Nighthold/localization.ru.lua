@@ -80,7 +80,12 @@ L:SetOptionLocalization({
 L= DBM:GetModLocalization(1732)
 
 L:SetOptionLocalization({
-	ConjunctionYellFilter	= "Во время $spell:205408, отключить все другие сообщения и просто спамить свой знак, пока не закончится соединение."
+	ShowProshlyapationOfMurchal = "Спец-предупреждение об $spell:205408 (требуются права лидера рейда)",
+	ConjunctionYellFilter = "Во время $spell:205408, отключить все другие сообщения и просто спамить свой знак, пока не закончится соединение."
+})
+
+L:SetMiscLocalization({
+	ProshlyapMurchal = "%s %s через 5 сек!"
 })
 
 ----------------------------
