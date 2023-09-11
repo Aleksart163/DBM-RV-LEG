@@ -21,6 +21,7 @@ mod:RegisterEvents(
 	"CHAT_MSG_MONSTER_YELL",
 	"CHAT_MSG_MONSTER_EMOTE",
 	"UNIT_DIED",
+	"UNIT_AURA player",
 	"UNIT_SPELLCAST_SUCCEEDED mouseover target focus" .. nameplates
 )
 
@@ -70,9 +71,9 @@ local specWarnHealingTouch			= mod:NewSpecialWarningInterrupt(228606, "HasInterr
 local specWarnConsumeMagic			= mod:NewSpecialWarningInterrupt(229714, "HasInterrupt", nil, nil, 1, 2)
 local specWarnArcaneBarrage			= mod:NewSpecialWarningInterrupt(228700, "HasInterrupt", nil, nil, 1, 2) --Чародейский обстрел
 local specWarnFinalCurtain			= mod:NewSpecialWarningDodge(227925, "Melee", nil, nil, 1, 2) --Последний занавес
-local specWarnVolatileCharge		= mod:NewSpecialWarningYouMoveAway(228331, nil, nil, nil, 3, 3) --Нестабильный заряд
 local specWarnOathofFealty			= mod:NewSpecialWarningInterrupt(228280, "HasInterrupt", nil, nil, 3, 3) --Клятва верности
 local specWarnOathofFealty2			= mod:NewSpecialWarningDispel(228280, "MagicDispeller2", nil, nil, 1, 2) --Клятва верности
+local specWarnVolatileCharge		= mod:NewSpecialWarningYouMoveAway(228331, nil, nil, nil, 3, 3) --Нестабильный заряд
 
 local specWarnBurningBrand			= mod:NewSpecialWarningYouMoveAway(228610, nil, nil, nil, 3, 3) --Горящее клеймо
 local specWarnLeechLife				= mod:NewSpecialWarningDispel(229706, "MagicDispeller2", nil, nil, 1, 2) --Высасывание жизни
@@ -92,7 +93,7 @@ local yellTakeKeys					= mod:NewYell(233981, L.TakeKeysYell, nil, nil, "YELL") -
 local yellBrittleBones				= mod:NewYellDispel(230297, nil, nil, nil, "YELL") --Ослабление костей
 local yellNullification				= mod:NewYell(230083, nil, nil, nil, "YELL") --Полная нейтрализация
 local yellVolatileCharge			= mod:NewYell(228331, nil, nil, nil, "YELL") --Нестабильный заряд
-local yellVolatileCharge2			= mod:NewFadesYell(228331, nil, nil, nil, "YELL") --Нестабильный заряд
+local yellVolatileCharge2			= mod:NewFadesYellMoveAway(228331, nil, nil, nil, "YELL") --Нестабильный заряд
 local yellBurningBrand				= mod:NewYell(228610, nil, nil, nil, "YELL") --Горящее клеймо
 local yellBurningBrand2				= mod:NewFadesYell(228610, nil, nil, nil, "YELL") --Горящее клеймо
 --local yellReinvigorated				= mod:NewYell(230087, L.ReinvigoratedYell, nil, nil, "YELL") --Восполнение сил
@@ -112,6 +113,8 @@ mod:AddBoolOption("OperaActivation", true)
 
 local key = replaceSpellLinks(233981) --Взять ключи
 local playerName = UnitName("player")
+local proshlyapationOfMurchal = DBM:GetSpellInfo(228331)
+local murchalProshlyaping = false
 --local king = false
 
 function mod:FelBreathTarget(targetname, uId) --Грохочущая буря ✔
@@ -213,15 +216,7 @@ end
 
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
-	if spellId == 228331 then
-		warnVolatileCharge:CombinedShow(0.3, args.destName)
-		if args:IsPlayer() then
-			specWarnVolatileCharge:Show()
-			specWarnVolatileCharge:Play("runout")
-			yellVolatileCharge:Yell()
-			yellVolatileCharge2:Countdown(5, 3)
-		end
-	elseif spellId == 228241 then --Проклятое прикосновение
+	if spellId == 228241 then --Проклятое прикосновение
 		if not self:IsNormal() then
 			if args:IsPlayer() and not self:IsCurseDispeller() then
 				specWarnCursedTouch:Show()
@@ -427,6 +422,21 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(_, _, _, _, spellId)
 		self:SendSync("felbomb")
 	elseif spellId == 229678 and self:AntiSpam(2, "felbombsend") then
 		self:SendSync("felbombend")
+	end
+end
+
+do
+	function mod:UNIT_AURA(uId)
+		local proshlyap = UnitDebuff("player", proshlyapationOfMurchal)
+		if proshlyap and not murchalProshlyaping then
+			murchalProshlyaping = true
+			specWarnVolatileCharge:Show()
+			specWarnVolatileCharge:Play("runaway")
+			yellVolatileCharge:Yell()
+			yellVolatileCharge2:Countdown(5, 3)
+		elseif not proshlyap and murchalProshlyaping then
+			murchalProshlyaping = false
+		end
 	end
 end
 
