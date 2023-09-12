@@ -49,7 +49,7 @@ local specWarnPresence6				= mod:NewSpecialWarningSpell(227404, nil, nil, nil, 1
 local specWarnPresence7				= mod:NewSpecialWarningTarget(227404, nil, nil, nil, 1, 2) --Незримое присутствие
 --local specWarnRagnarok				= mod:NewSpecialWarningDefensive(193826, nil, nil, nil, 3, 5) 
 
-local timerHorsefightingCD			= mod:NewCDTimer(25.5, "ej14300", nil, nil, nil, 6, 227339) --Бой верхом
+local timerHorsefightingCD			= mod:NewCDTimer(26.5, "ej14300", nil, nil, nil, 6, 227339) --Бой верхом
 local timerSpectralChargeCD			= mod:NewCDTimer(7.5, 227365, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Призрачный рывок
 local timerMightyStompCD			= mod:NewCDTimer(14, 227363, nil, nil, nil, 2, nil, DBM_CORE_INTERRUPT_ICON) --Могучий топот +++
 local timerPresenceCD				= mod:NewCDTimer(55, 227404, nil, nil, nil, 5, nil, DBM_CORE_HEALER_ICON..DBM_CORE_MAGIC_ICON) --Незримое присутствие
@@ -63,6 +63,7 @@ local yellMortalStrike				= mod:NewYell(227493, nil, nil, nil, "YELL") --Сме�
 
 local countdownSharedSuffering		= mod:NewCountdown(18, 228852, nil, nil, 5) --Разделенные муки
 local countdownSharedSuffering2		= mod:NewCountdownFades("Alt3.8", 228852, nil, nil, 3) --Разделенные муки
+local countdownHorsefighting		= mod:NewCountdown("Alt26.5", "ej14300", nil, nil, 5) --Бой верхом
 
 mod:AddSetIconOption("SetIconOnSharedSuffering", 228852, true, false, {8}) --Разделенные муки
 mod:AddSetIconOption("SetIconOnPresence", 227404, true, false, {7}) --Незримое присутствие
@@ -229,6 +230,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerMortalStrikeCD:Stop()
 		timerPresenceCD:Stop()
 		timerHorsefightingCD:Stop()
+		countdownHorsefighting:Cancel()
 		if phase2 then
 			phase2 = false
 		end
@@ -315,9 +317,11 @@ function mod:NextProshlyap()
 	timerMortalStrikeCD:Stop()
 	timerSharedSufferingCD:Stop()
 	timerHorsefightingCD:Stop()
+	countdownHorsefighting:Cancel()
 	timerMortalStrikeCD:Start(9.5) --смертельный удар
 	timerSharedSufferingCD:Start(18) --Разделенные муки
 	timerHorsefightingCD:Start() --Бой верхом
+	countdownHorsefighting:Start()
 	countdownSharedSuffering:Start() --Разделенные муки
 end
 
@@ -332,7 +336,9 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 		timerMortalStrikeCD:Stop()
 		timerSharedSufferingCD:Stop()
 		countdownSharedSuffering:Cancel()
-	--	specWarnRagnarok:Show()
+		specWarnSpectralCharge:Schedule(2)
+		specWarnSpectralCharge:ScheduleVoice(2, "watchstep")
+		timerMightyStompCD:Start(12)
 	--	perephase = false
 	--	timerSpectralChargeCD:Stop() --Призрачный рывок
 	--	specWarnSpectralCharge:Cancel() --Призрачный рывок

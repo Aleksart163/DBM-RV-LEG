@@ -28,7 +28,8 @@ L:SetOptionLocalization({
 	YellOnRepair = "Avisar, cuando alguien esta poniendo $spell:199109 o similar",
 	YellOnPylon = "Avisar, cuando alguien esta poniendo $spell:199115",
 	YellOnBank = "Avisar, cuando alguien esta poniendo $spell:83958",
-	YellOnToys = "Avisar, cuando alguien ponga juguetes como $spell:61031"
+	YellOnToys = "Avisar, cuando alguien ponga juguetes como $spell:61031",
+	AutoSpirit = "Liberar espíritu automáticamente"
 })
 
 L:SetMiscLocalization{

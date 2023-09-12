@@ -26,7 +26,7 @@ local warnEyeBeam					= mod:NewTargetAnnounce(197687, 4) --Пронзающий 
 local warnArcaneBlitz				= mod:NewCastAnnounce(197797, 4) --Чародейская бомбардировка
 
 local specWarnSummonAdds			= mod:NewSpecialWarningSwitch(245546, "Tank|Dps", nil, nil, 1, 2) --Вызов помощников
-local specWarnArcaneBlitz			= mod:NewSpecialWarningInterrupt(197797, "Tank|Dps", nil, nil, 1, 2) --Чародейская бомбардировка
+local specWarnArcaneBlitz			= mod:NewSpecialWarningInterrupt(197797, "HasInterrupt", nil, nil, 1, 2) --Чародейская бомбардировка
 local specWarnBonebreakingStrike	= mod:NewSpecialWarningDodge(197974, "Melee", nil, nil, 2, 2) --Костедробящий удар
 local specWarnFelblazedGround		= mod:NewSpecialWarningYouMove(197821, nil, nil, nil, 1, 3) --Отпечаток пламени Скверны
 local specWarnBlazingTrail			= mod:NewSpecialWarningYouMove(197521, nil, nil, nil, 1, 3) --Огненный след

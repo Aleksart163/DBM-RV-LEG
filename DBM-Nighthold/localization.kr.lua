@@ -77,7 +77,12 @@ L:SetOptionLocalization({
 L= DBM:GetModLocalization(1732)
 
 L:SetOptionLocalization({
-	ConjunctionYellFilter	= "$spell:205408 동안 다른 모든 일반 대화 메시지를 끄고 천체 정렬이 끝날 때까지 별자리 징표만 도배"
+	ShowProshlyapationOfMurchal = "$spell:62776 특수 경고 보기 (승급 권한 필요)",
+	ConjunctionYellFilter = "$spell:205408 동안 다른 모든 일반 대화 메시지를 끄고 천체 정렬이 끝날 때까지 별자리 징표만 도배"
+})
+
+L:SetMiscLocalization({
+	ProshlyapMurchal = "%s 5초 후 %s!"
 })
 
 ------------------

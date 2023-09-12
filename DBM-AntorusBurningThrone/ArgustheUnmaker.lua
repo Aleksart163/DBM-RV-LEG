@@ -172,9 +172,15 @@ mod:AddSetIconOption("SetIconOnSoulBomb", 251570, true, false, {8}) --Бомба
 mod:AddSetIconOption("SetIconOnSoulBurst", 250669, true, false, {7, 3}) --Взрывная душа
 mod:AddSetIconOption("SetIconGift", 255594, true, false, {6, 5}) --Небо и море 5 and 6
 mod:AddSetIconOption("SetIconOnAvatar", 255199, true, false, {4}) --Аватара Агграмара 4
+mod:AddBoolOption("ShowProshlyapationOfMurchal1", true)
+mod:AddBoolOption("ShowProshlyapationOfMurchal2", true)
+mod:AddBoolOption("AutoProshlyapMurchal", true)
 
 local soulbomb = replaceSpellLinks(251570)
 local soulburst = replaceSpellLinks(250669)
+local sargerasGaze = replaceSpellLinks(258068) --Пристальный взгляд Саргераса
+local apocalypsisModule = replaceSpellLinks(258029) --Модуль апокалипсиса
+local reoriginationModule = replaceSpellLinks(256389) --Модуль пересозидания
 local playerAvatar = false
 mod.vb.phase = 1
 mod.vb.kurators = 7
@@ -193,8 +199,6 @@ local warned_preP1 = false
 local warned_preP2 = false
 local warned_preP3 = false
 local warned_preP4 = false
-local warned_preP5 = false
-local warned_preP6 = false
 local playerName = UnitName("player")
 --P3 Mythic Timers
 local torturedRage = {40, 40, 50, 30, 35, 10, 8, 35, 10, 8, 35}--3 timers from method video not logs, verify by logs to improve accuracy
@@ -309,6 +313,64 @@ do
 	end
 end
 
+local function startProshlyapationOfMurchal1(self)
+	smartChat(L.ProshlyapMurchal:format(DbmRV, sargerasGaze), "rw")
+end
+
+local function startProshlyapationOfMurchal2(self)
+	if self:IsMythic() then
+		smartChat(L.ProshlyapMurchal:format(DbmRV, apocalypsisModule), "rw")
+	else
+		smartChat(L.ProshlyapMurchal:format(DbmRV, reoriginationModule), "rw")
+	end
+end
+
+local function startProshlyapationOfMurchal3(self)
+	RepopMe()
+end
+
+local premsg_values = {
+	args_destName,
+	scheduleDelay,
+	proshlyap1_rw, proshlyap2_rw
+}
+local playerOnlyName = UnitName("player")
+
+local function sendAnnounce(self)
+	if premsg_values.args_destName == nil then
+		premsg_values.args_destName = "Unknown"
+	end
+
+	if premsg_values.proshlyap1_rw == 1 then
+		self:Schedule(premsg_values.scheduleDelay, startProshlyapationOfMurchal1, self)
+		premsg_values.proshlyap1_rw = 0
+	elseif premsg_values.proshlyap2_rw == 1 then
+		self:Schedule(premsg_values.scheduleDelay, startProshlyapationOfMurchal2, self)
+		premsg_values.proshlyap2_rw = 0
+	end
+
+	premsg_values.args_destName = nil
+	premsg_values.scheduleDelay = nil
+end
+
+local function announceList(premsg_announce, value)
+	if premsg_announce == "premsg_ArgustheUnmaker_proshlyap1_rw" then
+		premsg_values.proshlyap1_rw = value
+	elseif premsg_announce == "premsg_ArgustheUnmaker_proshlyap2_rw" then
+		premsg_values.proshlyap2_rw = value
+	end
+end
+
+local function prepareMessage(self, premsg_announce, args_sourceName, args_destName, scheduleDelay)
+	if self:AntiSpam(1, "prepareMessage") then
+		premsg_values.args_destName = args_destName
+		premsg_values.scheduleDelay = scheduleDelay
+		announceList(premsg_announce, 1)
+		self:SendSync(premsg_announce, playerOnlyName)
+		self:Schedule(1, sendAnnounce, self)
+	end
+end
+
 function mod:OnCombatStart(delay)
 	playerAvatar = false
 	table.wipe(tankStacks)
@@ -329,8 +391,6 @@ function mod:OnCombatStart(delay)
 	warned_preP2 = false
 	warned_preP3 = false
 	warned_preP4 = false
-	warned_preP5 = false
-	warned_preP6 = false
 	timerSweepingScytheCD:Start(5.5-delay, 1)
 	countdownSweapingScythe:Start(5.5)
 	timerTorturedRageCD:Start(12-delay, 1)
@@ -339,6 +399,9 @@ function mod:OnCombatStart(delay)
 		timerSweepingScytheCD:Start(6-delay, 1) --Смертоносная коса+++
 		timerSargGazeCD:Start(8.5-delay, 1) --Пристальный взгляд Саргераса+++
 		countdownSargGaze:Start(8.5) --Пристальный взгляд Саргераса+++
+		if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapationOfMurchal1 and DBM:GetRaidRank() > 0 then
+			prepareMessage(self, "premsg_ArgustheUnmaker_proshlyap1_rw", nil, nil, 2.5)
+		end
 		self:Schedule(6, ToggleRangeFinder, self)--Call Show 5 seconds Before NEXT rages get applied (2 seconds before cast + 3 sec cast time)
 		berserkTimer:Start(660-delay)
 		timerSkyandSeaCD:Start(11-delay, 1) --Небо и море+++
@@ -448,8 +511,12 @@ function mod:SPELL_CAST_START(args)
 			self.vb.gazeCount = 0
 			timerSargGazeCD:Stop()
 			countdownSargGaze:Cancel()
+			self:Unschedule(startProshlyapationOfMurchal1)
 			timerSargGazeCD:Start(32, 1) --Пристальный взгляд Саргераса (было 26.7)
 			countdownSargGaze:Start(32) --Пристальный взгляд Саргераса
+			if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapationOfMurchal1 and DBM:GetRaidRank() > 0 then
+				prepareMessage(self, "premsg_ArgustheUnmaker_proshlyap1_rw", nil, nil, 26)
+			end
 			self:Schedule(29.5, ToggleRangeFinder, self)--Call Show 5 seconds Before NEXT rages get applied (2 seconds before cast + 3 sec cast time)
 		end
 	elseif spellId == 257645 then --Временной взрыв (Фаза 3)
@@ -457,7 +524,6 @@ function mod:SPELL_CAST_START(args)
 		if self.vb.phase < 3 then
 			self:Unschedule(ToggleRangeFinder)
 			self.vb.phase = 3
-			warned_preP4 = true
 			warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(3))
 			timerSweepingScytheCD:Stop()
 			countdownSweapingScythe:Cancel()
@@ -469,6 +535,7 @@ function mod:SPELL_CAST_START(args)
 			timerAvatarofAggraCD:Stop()
 			timerSargGazeCD:Stop()
 			countdownSargGaze:Cancel()
+			self:Unschedule(startProshlyapationOfMurchal1)
 			if not self:IsMythic() then
 				self.vb.kurators = 7
 				timerAddsCD:Start(14) --точно под гер
@@ -483,18 +550,21 @@ function mod:SPELL_CAST_START(args)
 		timerReapSoul:Start()
 		if not self:IsMythic() then
 			self.vb.phase = 4
-			warned_preP6 = true
 			if self.Options.InfoFrame then
 				DBM.InfoFrame:Show(6, "function", updateInfoFrame, false, false)
 			end
 		end
+		self:Unschedule(ToggleRangeFinder)
 		timerDiscsofNorg:Stop()
 		timerSargGazeCD:Stop()
-		self:Unschedule(ToggleRangeFinder)
 		countdownSargGaze:Cancel()
+		self:Unschedule(startProshlyapationOfMurchal1)
 		timerNextPhase:Start(35)--or 53.8
-	elseif spellId == 257619 then--Gift of the Lifebinder (p4/p3mythic)
+	elseif spellId == 257619 then --Дар Хранительницы жизни (p4/p3mythic)
 		warnGiftOfLifebinder:Show()
+		if self.Options.AutoProshlyapMurchal then
+			self:Schedule(11.1, startProshlyapationOfMurchal3, self)
+		end
 	end
 end
 
@@ -766,13 +836,19 @@ function mod:SPELL_AURA_APPLIED(args)
 			local timer = apocModuleTimers[self.vb.moduleCount+1] or 46.5
 			timerApocModuleCD:Start(timer, self.vb.moduleCount+1)
 			countdownApocModule:Start(timer)
-		elseif spellId == 256388 and self:AntiSpam(2, 2) then
+			if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapationOfMurchal2 and DBM:GetRaidRank() > 0 then
+				prepareMessage(self, "premsg_ArgustheUnmaker_proshlyap2_rw", nil, nil, timer-6)
+			end
+		elseif spellId == 256388 and self:AntiSpam(2, "reorgmodule") then --обычка и гер
 			if not UnitIsDeadOrGhost("player") then
 				specWarnReorgModule:Show()
 				specWarnReorgModule:Play("mobkill")
 			end
 			timerReorgModuleCD:Start(46.5)
 			countdownReorgModule:Start(46.5)
+			if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapationOfMurchal2 and DBM:GetRaidRank() > 0 then
+				prepareMessage(self, "premsg_ArgustheUnmaker_proshlyap2_rw", nil, nil, 40.5)
+			end
 		end
 	end
 end
@@ -887,26 +963,31 @@ function mod:SPELL_INTERRUPT(args)
 			self:Schedule(5, startAnnihilationStuff, self) --Грань аннигиляции
 			timerSargGazeCD:Start(20, 1) --Пристальный взгляд Саргераса
 			countdownSargGaze:Start(20) --Пристальный взгляд Саргераса
+			if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapationOfMurchal1 and DBM:GetRaidRank() > 0 then
+				prepareMessage(self, "premsg_ArgustheUnmaker_proshlyap1_rw", nil, nil, 14)
+			end
 			self:Schedule(17.5, ToggleRangeFinder, self)--Call Show 5 seconds Before NEXT rages get applied (2 seconds before cast + 3 sec cast time)
 			timerApocModuleCD:Start(30.1, 1)
 			countdownApocModule:Start(30.1)
+			if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapationOfMurchal2 and DBM:GetRaidRank() > 0 then
+				prepareMessage(self, "premsg_ArgustheUnmaker_proshlyap2_rw", nil, nil, 24.1)
+			end
 			timerTorturedRageCD:Start(40, 1)
 			timerSargSentenceCD:Start(53, 1)
 			--self:Schedule(63, checkForMissingSentence, self)
 		else
-			if not self:IsHeroic() then
+			if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapationOfMurchal2 and DBM:GetRaidRank() > 0 then
+				prepareMessage(self, "premsg_ArgustheUnmaker_proshlyap2_rw", nil, nil, 7)
+			end
+			if self:IsHeroic() then
+				timerDeadlyScytheCD:Start(5) --Смертоносная коса
+				timerReorgModuleCD:Start(13)
+				countdownReorgModule:Start(13)
+			else
 				timerSweepingScytheCD:Start(5, 1)
 				countdownSweapingScythe:Start(5)
 				timerReorgModuleCD:Start(13)
 				countdownReorgModule:Start(13)
-			--	specWarnReorgModule:Schedule(13)
-			--	specWarnReorgModule:ScheduleVoice(13, "killmob")
-			else -- под героик всё норм
-				timerDeadlyScytheCD:Start(5) --Смертоносная коса
-				timerReorgModuleCD:Start(13)
-				countdownReorgModule:Start(13)
-			--	specWarnReorgModule:Schedule(13)
-			--	specWarnReorgModule:ScheduleVoice(13, "killmob")
 			end
 --[[			local currentPowerPercent = UnitPower("boss1")/UnitPowerMax("boss1")
 			local remainingPercent
@@ -939,6 +1020,9 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)
 		if self.vb.phase == 2 then
 			timerSargGazeCD:Start(59.7, self.vb.gazeCount+1)
 			countdownSargGaze:Start(59.7)
+			if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapationOfMurchal1 and DBM:GetRaidRank() > 0 then
+				prepareMessage(self, "premsg_ArgustheUnmaker_proshlyap1_rw", nil, nil, 53.7)
+			end
 		elseif self.vb.phase == 3 then
 			local timer = sargGazeTimers[self.vb.gazeCount+1]
 			if timer then
@@ -947,6 +1031,9 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)
 				self:Unschedule(ToggleRangeFinder)
 				self:Schedule(5, ToggleRangeFinder, self, true)--Call hide 2 seconds after rages go out, function will check player for debuff and decide
 				self:Schedule(timer-2.5, ToggleRangeFinder, self)--Call Show 5 seconds Before NEXT rages get applied (2 seconds before cast + 3 sec cast time)
+				if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapationOfMurchal1 and DBM:GetRaidRank() > 0 then
+					prepareMessage(self, "premsg_ArgustheUnmaker_proshlyap1_rw", nil, nil, timer-6)
+				end
 			end
 		else--Stage 1
 			timerSargGazeCD:Start(35, self.vb.gazeCount+1)
@@ -954,6 +1041,9 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)
 			self:Unschedule(ToggleRangeFinder)
 			self:Schedule(5, ToggleRangeFinder, self, true)--Call hide 2 seconds after rages go out, function will check player for debuff and decide
 			self:Schedule(32.5, ToggleRangeFinder, self)--Call Show 5 seconds Before NEXT rages get applied (2 seconds before cast + 3 sec cast time)
+			if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapationOfMurchal1 and DBM:GetRaidRank() > 0 then
+				prepareMessage(self, "premsg_ArgustheUnmaker_proshlyap1_rw", nil, nil, 29)
+			end
 		end
 	end
 end
@@ -978,6 +1068,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 		timerEdgeofObliterationCD:Stop()
 		timerSargGazeCD:Stop()
 		countdownSargGaze:Cancel()
+		self:Unschedule(startProshlyapationOfMurchal1)
 		if not self:IsMythic() then
 			if self.Options.InfoFrame then
 				DBM.InfoFrame:Hide()
@@ -1000,7 +1091,8 @@ function mod:UNIT_HEALTH(uId)
 	elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 124828 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.46 then --скоро фаза 3
 		warned_preP3 = true
 		warnPrePhase3:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase+1))
-	elseif self.vb.phase == 2 and warned_preP3 and self:GetUnitCreatureId(uId) == 124828 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.41 then --фаза 3
+	elseif self.vb.phase == 2 and warned_preP3 and not warned_preP4 and self:GetUnitCreatureId(uId) == 124828 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.41 then --фаза 3
+		warned_preP4 = true
 		timerSweepingScytheCD:Stop()
 		countdownSweapingScythe:Cancel()
 		timerTorturedRageCD:Stop()
@@ -1011,6 +1103,7 @@ function mod:UNIT_HEALTH(uId)
 		timerAvatarofAggraCD:Stop()
 		timerSargGazeCD:Stop()
 		countdownSargGaze:Cancel()
+		self:Unschedule(startProshlyapationOfMurchal1)
 		specWarnEdgeofObliteration:Cancel()
 	end
 end
@@ -1020,7 +1113,6 @@ function mod:UNIT_DIED(args)
 	if cid == 127192 then
 		self.vb.kurators = self.vb.kurators - 1
 		if self.vb.kurators == 1 then
-			warned_preP5 = true
 			warnPrePhase4:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase+1))
 		end
 	end

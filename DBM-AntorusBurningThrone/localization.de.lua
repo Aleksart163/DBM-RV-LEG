@@ -52,7 +52,12 @@ L:SetTimerLocalization({
 	timerBats	 		= "Nächste Fledermäuse (%s)"
 })
 
+L:SetOptionLocalization({
+	ShowProshlyapationOfMurchal = "Spezialwarnung für $spell:249121 (nur als Leiter/Assistent)"
+})
+
 L:SetMiscLocalization({
+	ProshlyapMurchal = "%s %s in 5 Sek!",
 	YellPullEonar = "Champions! Die Streitmacht der Legion versucht, meine Essenz für ihren infernalen Meister zu stehlen!",
 	Obfuscators = "Verdunkler",
 	Destructors = "Zerstörer",
@@ -119,7 +124,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	ProshlyapSoulburnin = "%s %s in 5 Sek",
+	ProshlyapSoulburnin = "%s %s in 5 Sek!",
 	YellPullVarimathras = "Dann kommt. Vergelten wir Schmerz mit Schmerz!",
 	YellPullVarimathras2 = "Zieht Eure Klingen! Ich werde Euch wahre Qualen zeigen!"
 })
@@ -188,7 +193,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	MurchalProshlyapation = "%s %s in 5 Sek",
+	MurchalProshlyapation = "%s %s in 5 Sek!",
 --	YellPullAggramar = "Ihr... werdet... brennen!", -- или Die Flammen werden Euch verzehren!
 --	Blaze		= "Unersättliche Feuersbrunst",
 	Foe			= "Brecher",
@@ -206,7 +211,14 @@ L:SetTimerLocalization({
 	timerSargSentenceCD	= "Urteil CD (%s)"
 })
 
+L:SetOptionLocalization({
+	ShowProshlyapationOfMurchal1 = "Spezialwarnung für $spell:258068 (nur als Leiter/Assistent)",
+	ShowProshlyapationOfMurchal2 = "Spezialwarnung für $spell:256389 (nur als Leiter/Assistent)",
+	AutoProshlyapMurchal = "Automatisch Geist freilassen"
+})
+
 L:SetMiscLocalization({
+	ProshlyapMurchal = "%s %s in 5 Sek!",
 --	YellPullArgus = "Tod! Tod und Schmerz!",
 	SeaText		= "Tempo/Viels auf %s",
 	SkyText		= "Krit/Meist auf %s",

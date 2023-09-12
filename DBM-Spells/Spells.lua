@@ -12,16 +12,17 @@ mod:RegisterEvents(
 	"SPELL_SUMMON 67826 199109 199115 195782 98008 207399",
 	"SPELL_CREATE 698 188036 201352 201351 185709 88304 61031 49844",
 	"SPELL_RESURRECT 20484 95750 61999",
+	"PLAYER_DEAD",
 	"GOSSIP_SHOW"--[[,
 	"UNIT_SPELLCAST_SUCCEEDED"]]
 )
 
 --Прошляпанное очко Мурчаля Прошляпенко на рейдовых спеллах [✔]
-local warnMassres1					= mod:NewTargetSourceAnnounce(212040, 4) --Возвращение к жизни (друид)
-local warnMassres2					= mod:NewTargetSourceAnnounce(212056, 4) --Отпущение (пал)
-local warnMassres3					= mod:NewTargetSourceAnnounce(212036, 4) --Массовое воскрешение (прист)
-local warnMassres4					= mod:NewTargetSourceAnnounce(212048, 4) --Древнее видение (шаман)
-local warnMassres5					= mod:NewTargetSourceAnnounce(212051, 4) --Повторное пробуждение (монк)
+local warnMassres1					= mod:NewTargetSourceAnnounce(212040, 3) --Возвращение к жизни (друид)
+local warnMassres2					= mod:NewTargetSourceAnnounce(212056, 3) --Отпущение (пал)
+local warnMassres3					= mod:NewTargetSourceAnnounce(212036, 3) --Массовое воскрешение (прист)
+local warnMassres4					= mod:NewTargetSourceAnnounce(212048, 3) --Древнее видение (шаман)
+local warnMassres5					= mod:NewTargetSourceAnnounce(212051, 3) --Повторное пробуждение (монк)
 --инженерия
 local warnPylon						= mod:NewTargetSourceAnnounce(199115, 1) --Пилон
 local warnJeeves					= mod:NewTargetSourceAnnounce(67826, 1) --Дживс
@@ -54,8 +55,8 @@ local warnBlessingofProtection		= mod:NewTargetSourceAnnounce2(1022, 1) --Бла
 local warnIronbark					= mod:NewTargetSourceAnnounce2(102342, 1) --Железная кора
 local warnAncestralProtectionTotem	= mod:NewTargetSourceAnnounce(207399, 1) --Тотем защиты Предков
 local warnRebirth					= mod:NewTargetSourceAnnounce2(20484, 2) --Возрождение
-local warnInnervate					= mod:NewTargetSourceAnnounce2(29166, 1) --Озарение
-local warnSymbolHope				= mod:NewTargetSourceAnnounce(64901, 1) --Символ надежды
+local warnInnervate					= mod:NewTargetSourceAnnounce2(29166, 1, nil, "Healer") --Озарение
+local warnSymbolHope				= mod:NewTargetSourceAnnounce(64901, 1, nil, "Healer") --Символ надежды
 
 local specWarnSoulstone				= mod:NewSpecialWarningYou(20707, nil, nil, nil, 1, 2) --Камень души
 
@@ -107,6 +108,7 @@ mod:AddBoolOption("YellOnBank", true) --банк
 mod:AddBoolOption("YellOnRepair", true) --починка
 mod:AddBoolOption("YellOnPylon", true) --пилон
 mod:AddBoolOption("YellOnToys", true) --игрушки
+mod:AddBoolOption("AutoSpirit", true)
 
 local typeInstance = nil
 
@@ -798,6 +800,12 @@ function mod:GOSSIP_SHOW()
 		if select('#', GetGossipOptions()) > 0 then
 			SelectGossipOption(1, "", true)
 		end
+	end
+end
+
+function mod:PLAYER_DEAD()
+	if not IsInInstance() and self.Options.AutoSpirit then
+		RepopMe()
 	end
 end
 

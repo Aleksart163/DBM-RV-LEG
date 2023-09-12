@@ -73,7 +73,12 @@ L:SetOptionLocalization({
 L= DBM:GetModLocalization(1732)
 
 L:SetOptionLocalization({
-	ConjunctionYellFilter	= "Desactivar todos los demás mensajes de chat durante $spell:205408 y repetir el mensaje de tu signo estelar hasta que acabe la conjunción"
+	ShowProshlyapationOfMurchal = "Mostrar aviso especial para $spell:205408 (requiere líder o ayudante)",
+	ConjunctionYellFilter = "Desactivar todos los demás mensajes de chat durante $spell:205408 y repetir el mensaje de tu signo estelar hasta que acabe la conjunción"
+})
+
+L:SetMiscLocalization({
+	ProshlyapMurchal = "%s %s en 5 seg!"
 })
 
 -----------------------------

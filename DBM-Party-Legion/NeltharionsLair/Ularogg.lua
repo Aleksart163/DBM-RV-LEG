@@ -21,10 +21,11 @@ local warnBellowofDeeps				= mod:NewSpellAnnounce(193375, 2) --Рев глуби
 local warnStanceofMountain			= mod:NewSpellAnnounce(198564, 2) --Горная стойка
 local warnStanceofMountain2			= mod:NewSoonAnnounce(198564, 1) --Горная стойка
 
+local specWarnStanceofMountain		= mod:NewSpecialWarningSpell(198564, nil, nil, nil, 1, 2) --Горная стойка
 local specWarnSunder				= mod:NewSpecialWarningYouDefensive(198496, "Tank", nil, 2, 3, 2) --Раскол
 local specWarnStrikeofMountain		= mod:NewSpecialWarningDodge(198428, nil, nil, nil, 2, 3) --Удар горы
 
-local timerSunderCD					= mod:NewCDTimer(8.4, 198496, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON) --Раскол +++
+local timerSunderCD					= mod:NewCDTimer(8.4, 198496, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Раскол +++
 local timerStrikeCD					= mod:NewCDTimer(17.5, 198428, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Удар горы
 local timerStanceOfMountainCD		= mod:NewCDTimer(51, 198564, nil, nil, nil, 7) --Горная стойка
 
@@ -35,18 +36,20 @@ mod.vb.stanceofmountainCast = 0
 
 function mod:OnCombatStart(delay)
 	self.vb.stanceofmountainCast = 0
-	if not self:IsNormal() then
+	if self:IsHard() then
 		timerSunderCD:Start(7-delay) --Раскол +++
 		timerStrikeCD:Start(20.5-delay) --Удар горы +++
 		timerStanceOfMountainCD:Start(31-delay) --Горная стойка +++
 		countdownStanceOfMountain:Start(31-delay) --Горная стойка +++
 		warnStanceofMountain2:Schedule(26-delay) --Горная стойка +++
+		self.vb.totemsAlive = 5
 	else
 		timerSunderCD:Start(7-delay) --Раскол
 		timerStrikeCD:Start(20.5-delay) --Удар горы
 		timerStanceOfMountainCD:Start(31-delay) --Горная стойка +++
 		countdownStanceOfMountain:Start(31-delay) --Горная стойка +++
 		warnStanceofMountain2:Schedule(26-delay) --Горная стойка +++
+		self.vb.totemsAlive = 3
 	end
 end
 
@@ -77,12 +80,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	local spellId = legacySpellId or bfaSpellId
 	if spellId == 198509 then --Горная стойка
 		self.vb.stanceofmountainCast = self.vb.stanceofmountainCast + 1
-		if self:IsNormal() then
-			self.vb.totemsAlive = 3
-		else
-			self.vb.totemsAlive = 5
-		end
-		warnStanceofMountain:Show()
+		specWarnStanceofMountain:Show()
 		timerSunderCD:Stop()
 		timerStrikeCD:Stop()
 		timerStanceOfMountainCD:Stop()

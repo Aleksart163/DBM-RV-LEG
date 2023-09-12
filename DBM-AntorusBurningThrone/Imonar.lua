@@ -347,11 +347,11 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif spellId == 255029 then --Склянка с усыпляющим газом (уже наложилась)
 		if args:IsPlayer() then
-			if self:CheckNearby(11) then
+			if self:CheckNearby(12) then
 				yellSleepCanisterStun:Yell()
 			end
 			yellSleepCanisterStun2:Countdown(20, 3)
-		elseif self:CheckNearby(11, args.destName) then--Warn nearby again
+		elseif self:CheckNearby(12, args.destName) then--Warn nearby again
 			specWarnSleepCanisterNear:CombinedShow(0.3, args.destName)
 			specWarnSleepCanisterNear:Play("runaway")
 		end
@@ -519,7 +519,7 @@ do
 				if targetName == playerName then
 					local icon = self.vb.sleepCanisterIcon
 					yellSleepCanister:Yell(icon, sleepCanister, icon)
-				elseif self:CheckNearby(11, targetName) then
+				elseif self:CheckNearby(12, targetName) then
 					specWarnSleepCanisterNear:CombinedShow(0.3, targetName)
 					specWarnSleepCanisterNear:Play("runaway")
 				end

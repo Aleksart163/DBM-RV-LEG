@@ -38,7 +38,12 @@ L:SetTimerLocalization({
 	timerBats	 		= "下一次風掣魔蝠(%s)"
 })
 
+L:SetOptionLocalization({
+	ShowProshlyapationOfMurchal = "為$spell:249121顯示特別警告 (需要團隊隊長或助理權限)"
+})
+
 L:SetMiscLocalization({
+	ProshlyapMurchal = "%s 5秒后 %s!",
 	YellPullEonar = "勇士們！燃燒軍團的惡魔想奪走我的生命精華，交給它們的主人！", --
 	Obfuscators = "匿蹤者",
 	Destructors = "毀滅者",
@@ -87,7 +92,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	ProshlyapSoulburnin = "%s 5秒后 %s"
+	ProshlyapSoulburnin = "%s 5秒后 %s!"
 })
 
 ---------------------------
@@ -127,10 +132,13 @@ L:SetOptionLocalization({
 L= DBM:GetModLocalization(1984)
 
 L:SetOptionLocalization({
+	ShowProshlyapMurchal1 = "為$spell:244688顯示特別警告 (需要團隊隊長或助理權限)",
+	ShowProshlyapMurchal2 = "為$spell:244912顯示特別警告 (需要團隊隊長或助理權限)",
 	ignoreThreeTank	= "當使用三或更多的坦克時過濾烈焰撕裂/碎敵者嘲諷特別警告(在此設定DBM無法得知確實的坦克循環)。如果坦克因死亡而數量降到2時。過濾會自動停用。"
 })
 
 L:SetMiscLocalization({
+	MurchalProshlyapation = "%s 5秒后 %s!",
 --	Blaze		= "饕餮烈焰",
 	Foe			= "碎敵者",
 	Rend		= "烈焰撕裂",
@@ -147,7 +155,14 @@ L:SetTimerLocalization({
 	timerSargSentenceCD	= "薩格拉斯的判決冷卻(%s)"
 })
 
+L:SetOptionLocalization({
+	ShowProshlyapationOfMurchal1 = "為$spell:258068顯示特別警告 (需要團隊隊長或助理權限)",
+	ShowProshlyapationOfMurchal2 = "為$spell:256389顯示特別警告 (需要團隊隊長或助理權限)",
+	AutoProshlyapMurchal = "自動釋放靈魂"
+})
+
 L:SetMiscLocalization({
+	ProshlyapMurchal = "%s 5秒后 %s!",
 	SeaText = "{rt6}加速臨機",
 	SkyText = "{rt5}爆擊精通",
 	Blight	= "靈魂之疫",
