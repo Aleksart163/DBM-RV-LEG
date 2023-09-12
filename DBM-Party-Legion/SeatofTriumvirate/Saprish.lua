@@ -27,7 +27,7 @@ local warnVoidTrap						= mod:NewSpellAnnounce(246026, 3, nil, nil, nil, nil, ni
 --local specWarnOverloadTrap				= mod:NewSpecialWarningDodge(247206, nil, nil, nil, 2, 2) --Заряженные ловушки
 local specWarnUmbralFlanking			= mod:NewSpecialWarningYouMoveAway(247245, nil, nil, nil, 1, 2) --Призрачный удар
 local specWarnRavagingDarkness			= mod:NewSpecialWarningDodge(245802, nil, nil, nil, 2, 3) --Опустошающая тьма
-local specWarnDreadScreech				= mod:NewSpecialWarningInterrupt(248831, "HasInterrupt", nil, nil, 3, 6) --Ужасный визг
+local specWarnDreadScreech				= mod:NewSpecialWarningInterrupt(248831, "HasInterrupt", nil, nil, 3, 5) --Ужасный визг
 
 local timerVoidTrapCD					= mod:NewCDTimer(16, 247175, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Ловушка Бездны +++
 --local timerOverloadTrapCD				= mod:NewCDTimer(20.6, 247206, nil, nil, nil, 3) --Заряженные ловушки
@@ -37,7 +37,8 @@ local timerScreechCD					= mod:NewCDTimer(15.8, 248831, nil, nil, nil, 4, nil, D
 
 local yellUmbralFlanking				= mod:NewYell(247245, nil, nil, nil, "YELL") --Призрачный удар
 
-local countdownDreadScreech				= mod:NewCountdownFades(3, 248831, nil, nil, 3) --Ужасный визг
+local countdownDreadScreech				= mod:NewCountdown(15.8, 248831, nil, nil, 5) --Ужасный визг
+local countdownDreadScreech2			= mod:NewCountdownFades("Alt3", 248831, nil, nil, 3) --Ужасный визг
 
 mod:AddSetIconOption("SetIconOnUmbralFlanking", 247245, true, false, {8, 7, 6}) --Призрачный удар
 
@@ -51,6 +52,7 @@ function mod:OnCombatStart(delay)
 	--	timerOverloadTrapCD:Start(12.5-delay) --Заряженные ловушки
 		timerUmbralFlankingCD:Start(21-delay) --Призрачный удар +++
 		timerScreechCD:Start(6-delay) --Ужасный визг +++
+		countdownDreadScreech:Start(6-delay) --Ужасный визг +++
 	else
 		timerRavagingDarknessCD:Start(5.5-delay) --Опустошающая тьма
 		timerVoidTrapCD:Start(8.8-delay) --Ловушка Бездны
@@ -68,17 +70,18 @@ function mod:SPELL_CAST_START(args)
 		end
 		timerRavagingDarknessCD:Start()
 	elseif spellId == 248831 then --Ужасный визг
-		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
-			specWarnDreadScreech:Show()
-			specWarnDreadScreech:Play("kickcast")
-		else
-			if not UnitIsDeadOrGhost("player") then
+		if not UnitIsDeadOrGhost("player") then
+			if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+				specWarnDreadScreech:Show()
+				specWarnDreadScreech:Play("kickcast")
+			else
 				specWarnDreadScreech:Show()
 				specWarnDreadScreech:Play("kickcast")
 			end
 		end
 		timerScreechCD:Start()
 		countdownDreadScreech:Start()
+		countdownDreadScreech2:Start()
 	end
 end
 
@@ -121,6 +124,6 @@ end
 
 function mod:SPELL_INTERRUPT(args)
 	if type(args.extraSpellId) == "number" and args.extraSpellId == 248831 then
-		countdownDreadScreech:Cancel()
+		countdownDreadScreech2:Cancel()
 	end
 end
