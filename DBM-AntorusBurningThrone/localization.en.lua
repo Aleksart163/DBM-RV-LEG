@@ -228,10 +228,13 @@ L:SetTimerLocalization({
 })
 
 L:SetOptionLocalization({
+	ShowProshlyapationOfMurchal1 = "Show special warning for $spell:258068 (Requires raid leader)",
+	ShowProshlyapationOfMurchal2 = "Show special warning for $spell:256389 (Requires raid leader)",
 	timerSargSentenceCD = DBM_CORE_AUTO_TIMER_OPTIONS["cdcount"]:format(257966)
 })
 
 L:SetMiscLocalization({
+	ProshlyapMurchal = "%s %s in 5 sec!",
 --	YellPullArgus = "Death! Death and pain!",
 	SeaText		= "Haste/Vers on %s",
 	SkyText		= "Crit/Mast on %s",

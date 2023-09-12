@@ -155,7 +155,13 @@ L:SetTimerLocalization({
 	timerSargSentenceCD	= "薩格拉斯的判決冷卻(%s)"
 })
 
+L:SetOptionLocalization({
+	ShowProshlyapationOfMurchal1 = "為$spell:258068顯示特別警告 (需要團隊隊長或助理權限)",
+	ShowProshlyapationOfMurchal2 = "為$spell:256389顯示特別警告 (需要團隊隊長或助理權限)"
+})
+
 L:SetMiscLocalization({
+	ProshlyapMurchal = "%s 5秒后 %s!",
 	SeaText = "{rt6}加速臨機",
 	SkyText = "{rt5}爆擊精通",
 	Blight	= "靈魂之疫",

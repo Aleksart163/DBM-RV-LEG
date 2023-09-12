@@ -164,7 +164,13 @@ L:SetTimerLocalization({
 	timerSargSentenceCD	= "선고 쿨타임 (%s)"
 })
 
+L:SetOptionLocalization({
+	ShowProshlyapationOfMurchal1 = "$spell:258068 특수 경고 보기 (승급 권한 필요) Спец-предупреждение об $spell:258068 (требуются права лидера рейда)",
+	ShowProshlyapationOfMurchal2 = "$spell:256389 특수 경고 보기 (승급 권한 필요) Спец-предупреждение об $spell:256389 (требуются права лидера рейда)"
+})
+
 L:SetMiscLocalization({
+	ProshlyapMurchal = "%s 5초 후 %s!",
 	SeaText		= "가속/유연",
 	SkyText		= "치명/특화",
 	Blight		= "역병",

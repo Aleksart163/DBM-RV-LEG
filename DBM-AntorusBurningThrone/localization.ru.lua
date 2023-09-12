@@ -221,10 +221,13 @@ L:SetTimerLocalization({
 })
 
 L:SetOptionLocalization({
+	ShowProshlyapationOfMurchal1 = "Спец-предупреждение об $spell:258068 (требуются права лидера рейда)",
+	ShowProshlyapationOfMurchal2 = "Спец-предупреждение об $spell:256389 (требуются права лидера рейда)",
 	timerSargSentenceCD = DBM_CORE_AUTO_TIMER_OPTIONS["cdcount"]:format(257966)
 })
 
 L:SetMiscLocalization({
+	ProshlyapMurchal = "%s %s через 5 сек!",
 --	YellPullArgus = "Смерть! Смерть и боль!",
 	SeaText		= "Хаст/Верса на %s",
 	SkyText		= "Крит/Мастери на %s",

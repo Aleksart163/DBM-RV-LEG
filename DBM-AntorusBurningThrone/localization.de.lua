@@ -211,7 +211,13 @@ L:SetTimerLocalization({
 	timerSargSentenceCD	= "Urteil CD (%s)"
 })
 
+L:SetOptionLocalization({
+	ShowProshlyapationOfMurchal1 = "Spezialwarnung für $spell:258068 (nur als Leiter/Assistent)",
+	ShowProshlyapationOfMurchal2 = "Spezialwarnung für $spell:256389 (nur als Leiter/Assistent)"
+})
+
 L:SetMiscLocalization({
+	ProshlyapMurchal = "%s %s in 5 Sek!",
 --	YellPullArgus = "Tod! Tod und Schmerz!",
 	SeaText		= "Tempo/Viels auf %s",
 	SkyText		= "Krit/Meist auf %s",

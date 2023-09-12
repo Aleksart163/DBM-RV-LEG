@@ -220,10 +220,13 @@ L:SetTimerLocalization({
 })
 
 L:SetOptionLocalization({
+	ShowProshlyapationOfMurchal1 = "Mostrar aviso especial para $spell:258068 (se requieren derechos de líder de redada)",
+	ShowProshlyapationOfMurchal2 = "Mostrar aviso especial para $spell:256389 (se requieren derechos de líder de redada)",
 	timerSargSentenceCD		=	DBM_CORE_AUTO_TIMER_OPTIONS["cdcount"]:format(257966)
 })
 
 L:SetMiscLocalization({
+	ProshlyapMurchal = "%s %s en 5 seg!",
 --	YellPullArgus = "¡Muerte! ¡Muerte y dolor!",
 	SeaText		= "Celeridad/Versatilidad en %s",
 	SkyText		= "Crítico/Maestría en %s",
