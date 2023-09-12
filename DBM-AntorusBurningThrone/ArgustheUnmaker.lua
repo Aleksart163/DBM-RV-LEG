@@ -174,6 +174,7 @@ mod:AddSetIconOption("SetIconGift", 255594, true, false, {6, 5}) --Небо и �
 mod:AddSetIconOption("SetIconOnAvatar", 255199, true, false, {4}) --Аватара Агграмара 4
 mod:AddBoolOption("ShowProshlyapationOfMurchal1", true)
 mod:AddBoolOption("ShowProshlyapationOfMurchal2", true)
+mod:AddBoolOption("AutoProshlyapMurchal", true)
 
 local soulbomb = replaceSpellLinks(251570)
 local soulburst = replaceSpellLinks(250669)
@@ -561,7 +562,9 @@ function mod:SPELL_CAST_START(args)
 		timerNextPhase:Start(35)--or 53.8
 	elseif spellId == 257619 then --Дар Хранительницы жизни (p4/p3mythic)
 		warnGiftOfLifebinder:Show()
-		self:Schedule(11.1, startProshlyapationOfMurchal3, self)
+		if self.Options.AutoProshlyapMurchal then
+			self:Schedule(11.1, startProshlyapationOfMurchal3, self)
+		end
 	end
 end
 

@@ -222,6 +222,7 @@ L:SetTimerLocalization({
 L:SetOptionLocalization({
 	ShowProshlyapationOfMurchal1 = "Mostrar aviso especial para $spell:258068 (se requieren derechos de líder de redada)",
 	ShowProshlyapationOfMurchal2 = "Mostrar aviso especial para $spell:256389 (se requieren derechos de líder de redada)",
+	AutoProshlyapMurchal = "Liberar espíritu automáticamente",
 	timerSargSentenceCD		=	DBM_CORE_AUTO_TIMER_OPTIONS["cdcount"]:format(257966)
 })
 
@@ -261,5 +262,5 @@ L:SetTimerLocalization({
 })
 
 L:SetMiscLocalization({
-	RPImonar = "Halt!"
+--	RPImonar = "Halt!" --need localization
 })

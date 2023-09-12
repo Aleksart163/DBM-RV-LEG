@@ -213,7 +213,8 @@ L:SetTimerLocalization({
 
 L:SetOptionLocalization({
 	ShowProshlyapationOfMurchal1 = "Spezialwarnung für $spell:258068 (nur als Leiter/Assistent)",
-	ShowProshlyapationOfMurchal2 = "Spezialwarnung für $spell:256389 (nur als Leiter/Assistent)"
+	ShowProshlyapationOfMurchal2 = "Spezialwarnung für $spell:256389 (nur als Leiter/Assistent)",
+	AutoProshlyapMurchal = "Automatisch Geist freilassen"
 })
 
 L:SetMiscLocalization({

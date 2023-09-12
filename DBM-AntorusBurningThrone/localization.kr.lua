@@ -165,8 +165,9 @@ L:SetTimerLocalization({
 })
 
 L:SetOptionLocalization({
-	ShowProshlyapationOfMurchal1 = "$spell:258068 특수 경고 보기 (승급 권한 필요) Спец-предупреждение об $spell:258068 (требуются права лидера рейда)",
-	ShowProshlyapationOfMurchal2 = "$spell:256389 특수 경고 보기 (승급 권한 필요) Спец-предупреждение об $spell:256389 (требуются права лидера рейда)"
+	ShowProshlyapationOfMurchal1 = "$spell:258068 특수 경고 보기 (승급 권한 필요)",
+	ShowProshlyapationOfMurchal2 = "$spell:256389 특수 경고 보기 (승급 권한 필요)",
+	AutoProshlyapMurchal = "전장에서 사망시 자동으로 무덤 이동"
 })
 
 L:SetMiscLocalization({

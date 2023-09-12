@@ -230,6 +230,7 @@ L:SetTimerLocalization({
 L:SetOptionLocalization({
 	ShowProshlyapationOfMurchal1 = "Show special warning for $spell:258068 (Requires raid leader)",
 	ShowProshlyapationOfMurchal2 = "Show special warning for $spell:256389 (Requires raid leader)",
+	AutoProshlyapMurchal = "Auto-release spirit",
 	timerSargSentenceCD = DBM_CORE_AUTO_TIMER_OPTIONS["cdcount"]:format(257966)
 })
 

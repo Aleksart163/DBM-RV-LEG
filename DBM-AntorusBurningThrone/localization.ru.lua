@@ -223,6 +223,7 @@ L:SetTimerLocalization({
 L:SetOptionLocalization({
 	ShowProshlyapationOfMurchal1 = "Спец-предупреждение об $spell:258068 (требуются права лидера рейда)",
 	ShowProshlyapationOfMurchal2 = "Спец-предупреждение об $spell:256389 (требуются права лидера рейда)",
+	AutoProshlyapMurchal = "Автоматически покидать тело",
 	timerSargSentenceCD = DBM_CORE_AUTO_TIMER_OPTIONS["cdcount"]:format(257966)
 })
 

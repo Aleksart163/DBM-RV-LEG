@@ -157,7 +157,8 @@ L:SetTimerLocalization({
 
 L:SetOptionLocalization({
 	ShowProshlyapationOfMurchal1 = "為$spell:258068顯示特別警告 (需要團隊隊長或助理權限)",
-	ShowProshlyapationOfMurchal2 = "為$spell:256389顯示特別警告 (需要團隊隊長或助理權限)"
+	ShowProshlyapationOfMurchal2 = "為$spell:256389顯示特別警告 (需要團隊隊長或助理權限)",
+	AutoProshlyapMurchal = "自動釋放靈魂"
 })
 
 L:SetMiscLocalization({
