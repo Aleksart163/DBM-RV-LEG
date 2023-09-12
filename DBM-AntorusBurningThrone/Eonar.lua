@@ -93,6 +93,7 @@ mod:AddSetIconOption("SetIconOnBurningEmbers", 249015, true, false, {8, 7, 6, 5,
 mod:AddInfoFrameOption(250030, true)
 mod:AddNamePlateOption("NPAuraOnPurification", 250074)
 mod:AddNamePlateOption("NPAuraOnFelShielding", 250555)
+mod:AddBoolOption("ShowProshlyapationOfMurchal", true)
 mod:AddRangeFrameOption("8/10")
 
 mod.vb.rainOfFelCount = 0
@@ -191,7 +192,9 @@ local addCountToLocationLFR = {
 	["Dest"] = {DBM_CORE_MIDDLE, DBM_CORE_BOTTOM, DBM_CORE_TOP, DBM_CORE_MIDDLE, DBM_CORE_BOTTOM, DBM_CORE_TOP,DBM_CORE_BOTTOM, DBM_CORE_TOP, DBM_CORE_BOTTOM}
 }
 
-local lifeForceName = DBM:GetSpellInfo(250048)
+local lifeForceName = DBM:GetSpellInfo(250048) --Жизненная сила
+local finalDoom = replaceSpellLinks(249121) --Всеобщая погибель
+
 local updateInfoFrame
 do
 	local lines = {}
@@ -257,6 +260,47 @@ local function checkForDeadDestructor(self, forceStart)
 	DBM:Debug("checkForDeadDestructor ran, which means a destructor died before casting high alert, or DBM has a timer error near: "..self.vb.destructorCast, 2)
 end
 
+local function startProshlyapationOfMurchal(self)
+	smartChat(L.ProshlyapMurchal:format(DbmRV, finalDoom), "rw")
+end
+
+local premsg_values = {
+	args_destName,
+	scheduleDelay,
+	proshlyap_rw
+}
+local playerOnlyName = UnitName("player")
+
+local function sendAnnounce(self)
+	if premsg_values.args_destName == nil then
+		premsg_values.args_destName = "Unknown"
+	end
+
+	if premsg_values.proshlyap_rw == 1 then
+		self:Schedule(premsg_values.scheduleDelay, startProshlyapationOfMurchal, self)
+		premsg_values.proshlyap_rw = 0
+	end
+
+	premsg_values.args_destName = nil
+	premsg_values.scheduleDelay = nil
+end
+
+local function announceList(premsg_announce, value)
+	if premsg_announce == "premsg_Eonar_proshlyap_rw" then
+		premsg_values.proshlyap_rw = value
+	end
+end
+
+local function prepareMessage(self, premsg_announce, args_sourceName, args_destName, scheduleDelay)
+	if self:AntiSpam(1, "prepareMessage") then
+		premsg_values.args_destName = args_destName
+		premsg_values.scheduleDelay = scheduleDelay
+		announceList(premsg_announce, 1)
+		self:SendSync(premsg_announce, playerOnlyName)
+		self:Schedule(1, sendAnnounce, self)
+	end
+end
+
 local function arcanesingularityOnPlayer(self) --Магическая сингулярность
 	specWarnArcaneBuildup:Show()
 	specWarnArcaneBuildup:Play("runaway")
@@ -317,6 +361,9 @@ function mod:OnCombatStart(delay)
 			timerPurifierCD:Start(65.7, DBM_CORE_MIDDLE) --Очиститель
 			timerFinalDoomCD:Start(58.8-delay, 1) --Всеобщая погибель
 			countdownFinalDoom:Start(58.8-delay) --Всеобщая погибель
+			if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapationOfMurchal and DBM:GetRaidRank() > 0 then
+				prepareMessage(self, "premsg_Eonar_proshlyap_rw", nil, nil, 52.8)
+			end
 			timerBatsCD:Start(189, 1) --мыши, подправил
 			self:Schedule(189, startBatsStuff, self)
 		elseif self:IsHeroic() then
@@ -375,6 +422,9 @@ function mod:SPELL_CAST_START(args)
 			specWarnFinalDoom2:Schedule(timer-15, self.vb.finalDoomCast+1)
 			timerFinalDoomCD:Start(timer, self.vb.finalDoomCast+1)
 			countdownFinalDoom:Start(timer)
+			if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapationOfMurchal and DBM:GetRaidRank() > 0 then
+				prepareMessage(self, "premsg_Eonar_proshlyap_rw", nil, nil, timer-6)
+			end
 		end
 	elseif spellId == 250701 then --Размах скверны
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
@@ -587,3 +637,9 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spell
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
+
+function mod:OnSync(premsg_announce, sender)
+	if sender < playerOnlyName then
+		announceList(premsg_announce, 0)
+	end
+end

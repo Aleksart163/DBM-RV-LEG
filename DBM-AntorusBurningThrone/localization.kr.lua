@@ -47,7 +47,12 @@ L:SetTimerLocalization({
 	timerBats	 		=	"다음 박쥐 (%s)"
 })
 
+L:SetOptionLocalization({
+	ShowProshlyapationOfMurchal = "$spell:249121 특수 경고 보기 (승급 권한 필요)"
+})
+
 L:SetMiscLocalization({
+	ProshlyapMurchal = "%s 5초 후 %s!",
 	YellPullEonar = "용사들이여! 군단의 병력이 나의 정수를 차지해 지옥불 주인에게 갖다 바치려 한다!", --
 	Obfuscators = "혼란자",
 	Destructors = "파괴자",
@@ -96,7 +101,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	ProshlyapSoulburnin = "%s 5초 후 %s"
+	ProshlyapSoulburnin = "%s 5초 후 %s!"
 })
 
 ---------------------------
@@ -136,10 +141,13 @@ L:SetOptionLocalization({
 L= DBM:GetModLocalization(1984)
 
 L:SetOptionLocalization({
+	ShowProshlyapMurchal1 = "$spell:244688 특수 경고 보기 (승급 권한 필요)",
+	ShowProshlyapMurchal2 = "$spell:244912 특수 경고 보기 (승급 권한 필요)",
 	ignoreThreeTank	= "3탱 이상 구성일 땐 분쇄/적 해체 도발 특수 경고를 표시하지 않습니다. (이런 구성에선 DBM이 정확한 탱킹 로테이션을 감지할 수 없음) 탱커가 죽어서 2명으로 줄어들면 꺼졌던 도발 알림이 다시 작동합니다"
 })
 
 L:SetMiscLocalization({
+	MurchalProshlyapation = "%s 5초 후 %s!",
 --	Blaze		= "탐욕의 불길",
 	Foe			= "적 해체",
 	Rend		= "분쇄",
@@ -187,5 +195,5 @@ L:SetTimerLocalization({
 })
 
 L:SetMiscLocalization({
-	RPImonar = "Halt!"
+--	RPImonar = "Halt!" need localization
 })

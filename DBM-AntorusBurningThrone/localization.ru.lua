@@ -55,6 +55,7 @@ L:SetTimerLocalization({
 })
 
 L:SetOptionLocalization({
+	ShowProshlyapationOfMurchal = "Спец-предупреждение об $spell:249121 (требуются права лидера рейда)",
 	timerObfuscator		= DBM_CORE_AUTO_TIMER_OPTIONS["cdcount"]:format("ej16501"),
 	timerDestructor 	= DBM_CORE_AUTO_TIMER_OPTIONS["cdcount"]:format("ej16502"),
 	timerPurifier 		= DBM_CORE_AUTO_TIMER_OPTIONS["cdcount"]:format("ej16500"),
@@ -62,6 +63,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
+	ProshlyapMurchal = "%s %s через 5 сек!",
 	YellPullEonar = "Герои! Демоны пытаются захватить мою сущность для своего повелителя.",
 	YellKilled = "Герои, победа близка! Добейте демонов, а я возьму на себя их корабль.",
 	Obfuscators = "Маскировщик",
@@ -119,7 +121,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	ProshlyapSoulburnin = "%s %s через 5 сек",
+	ProshlyapSoulburnin = "%s %s через 5 сек!",
 	NecroticYell = "%s НА ТЕБЕ %s - ВЫНОСИ",
 	YellPullVarimathras = "Идите сюда и познайте страдания!",
 	YellPullVarimathras2 = "Нападайте! Я покажу вам, что такое боль!"
@@ -198,9 +200,9 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	MurchalProshlyapation = "%s %s через 5 сек",
-	ProshlyapMurchal2	= "%s КОНТРОЛИМ МОБОВ",
-	ProshlyapMurchal1	= "%s ВСЕ ПОД БОССА",
+	MurchalProshlyapation = "%s %s через 5 сек!",
+	ProshlyapMurchal2	= "%s КОНТРОЛИМ МОБОВ!",
+	ProshlyapMurchal1	= "%s ВСЕ ПОД БОССА!",
 --	YellPullAggramar = "Вы сгорите!",
 --	Blaze		= "Хищное пламя",
 	Foe			= "Сокрушитель",

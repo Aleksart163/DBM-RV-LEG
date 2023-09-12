@@ -55,6 +55,7 @@ L:SetTimerLocalization({
 })
 
 L:SetOptionLocalization({
+	ShowProshlyapationOfMurchal = "Mostrar aviso especial para $spell:249121 (requiere líder o ayudante)",
 	timerObfuscator		=	DBM_CORE_AUTO_TIMER_OPTIONS["cdcount"]:format("ej16501"),
 	timerDestructor 	=	DBM_CORE_AUTO_TIMER_OPTIONS["cdcount"]:format("ej16502"),
 	timerPurifier 		=	DBM_CORE_AUTO_TIMER_OPTIONS["cdcount"]:format("ej16500"),
@@ -63,6 +64,7 @@ L:SetOptionLocalization({
 
 if GetLocale() == "esES" then
 L:SetMiscLocalization({
+	ProshlyapMurchal = "%s %s en 5 seg!",
 	YellPullEonar = "¡Campeones! ¡Las fuerzas de la Legión buscan capturar mi esencia para su maestro infernal!", --
 	Obfuscators =	"Ofuscador",
 	Destructors =	"Destructor",
@@ -74,6 +76,7 @@ L:SetMiscLocalization({
 })
 else
 L:SetMiscLocalization({
+	ProshlyapMurchal = "%s %s en 5 seg!",
 	YellPullEonar = "¡Campeones! ¡Las fuerzas de la Legión quieren capturar mi esencia para su amo infernal!", --
 	Obfuscators =	"Ofuscador",
 	Destructors =	"Destructor",
@@ -130,7 +133,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	ProshlyapSoulburnin = "%s %s en 5 seg"
+	ProshlyapSoulburnin = "%s %s en 5 seg!"
 })
 
 ------------------------
@@ -196,7 +199,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	MurchalProshlyapation = "%s %s en 5 seg",
+	MurchalProshlyapation = "%s %s en 5 seg!",
 --	ProshlyapMurchal2	= "%s CONTROL MOBS", --need localization
 --	ProshlyapMurchal1	= "%s THEY RAN UNDER THE BOSS", --need localization
 --	YellPullAggramar = "¡Arderéis!",

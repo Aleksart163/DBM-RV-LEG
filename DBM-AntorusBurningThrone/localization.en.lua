@@ -42,6 +42,7 @@ L:SetTimerLocalization({
 })
 
 L:SetOptionLocalization({
+	ShowProshlyapationOfMurchal = "Show announcements for $spell:249121 (Requires raid leader)",
 	timerObfuscator		= DBM_CORE_AUTO_TIMER_OPTIONS["cdcount"]:format("ej16501"),
 	timerDestructor 	= DBM_CORE_AUTO_TIMER_OPTIONS["cdcount"]:format("ej16502"),
 	timerPurifier 		= DBM_CORE_AUTO_TIMER_OPTIONS["cdcount"]:format("ej16500"),
@@ -49,6 +50,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
+	ProshlyapMurchal = "%s %s in 5 sec!",
 	YellPullEonar = "Champions! The forces of the Legion seek to capture my essense for their infernal master!",
 	YellKilled = "Victory is nigh, champions! Dispatch their remaining forces. I will see to their vessel myself.",
 	Obfuscators = "Obfuscator",
@@ -125,7 +127,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	ProshlyapSoulburnin = "%s %s in 5 sec",
+	ProshlyapSoulburnin = "%s %s in 5 sec!",
 	NecroticYell = "%s ON YOU %s - RUN AWAY",
 	YellPullVarimathras = "Draw your blades! I will show you torment!",
 	YellPullVarimathras2 = "Come, then. We will trade pain for pain!"
@@ -205,7 +207,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	MurchalProshlyapation = "%s %s in 5 sec",
+	MurchalProshlyapation = "%s %s in 5 sec!",
 	ProshlyapMurchal2	= "%s CONTROL MOBS",
 	ProshlyapMurchal1	= "%s THEY RAN UNDER THE BOSS",
 --	YellPullAggramar = "You will burn!",
