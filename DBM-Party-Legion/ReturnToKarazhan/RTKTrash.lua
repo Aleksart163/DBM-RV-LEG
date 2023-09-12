@@ -8,7 +8,7 @@ mod:SetZone()
 mod.isTrashMod = true
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 228255 228239 227917 227925 228625 228606 229714 227966 228254 228280 230094 229429 229608 228700 36247 233981 229622",
+	"SPELL_CAST_START 228255 228239 227917 227925 228625 228606 229714 227966 228254 228280 230094 229429 229608 228700 36247 233981 229622 241828 228603",
 	"SPELL_CAST_SUCCESS 227529",
 	"SPELL_AURA_APPLIED 228331 229706 229716 228610 229074 230083 230050 228280 230087 228241 229468 230297 228576",
 	"SPELL_AURA_APPLIED_DOSE 229074 228610 228576",
@@ -38,6 +38,7 @@ local warnArcaneBarrage				= mod:NewCastAnnounce(228700, 3) --Чародейск
 local warnBrittleBones				= mod:NewTargetAnnounce(230297, 3) --Ослабление костей
 local warnBansheeWail				= mod:NewCastAnnounce(228625, 3) --Вой банши
 local warnAllured					= mod:NewStackAnnounce(228576, 3, nil, nil, 2) --Соблазнение
+local warnTramplingStomp			= mod:NewCastAnnounce(241828, 4) --Растаптывающая поступь
 --Поврежденный голем
 local specWarnUnstableEnergy		= mod:NewSpecialWarningDodge(227529, nil, nil, nil, 2, 2) --Нестабильная энергия
 --Наполненный силой пиромант
@@ -74,6 +75,8 @@ local specWarnFinalCurtain			= mod:NewSpecialWarningDodge(227925, "Melee", nil, 
 local specWarnOathofFealty			= mod:NewSpecialWarningInterrupt(228280, "HasInterrupt", nil, nil, 3, 3) --Клятва верности
 local specWarnOathofFealty2			= mod:NewSpecialWarningDispel(228280, "MagicDispeller2", nil, nil, 1, 2) --Клятва верности
 local specWarnVolatileCharge		= mod:NewSpecialWarningYouMoveAway(228331, nil, nil, nil, 3, 3) --Нестабильный заряд
+local specWarnTramplingStomp		= mod:NewSpecialWarningInterrupt(241828, "HasInterrupt", nil, nil, 1, 2) --Растаптывающая поступь
+local specWarnCharge				= mod:NewSpecialWarningDodge(228603, nil, nil, nil, 2, 2) --Рывок
 
 local specWarnBurningBrand			= mod:NewSpecialWarningYouMoveAway(228610, nil, nil, nil, 3, 3) --Горящее клеймо
 local specWarnLeechLife				= mod:NewSpecialWarningDispel(229706, "MagicDispeller2", nil, nil, 1, 2) --Высасывание жизни
@@ -202,6 +205,17 @@ function mod:SPELL_CAST_START(args)
 		end
 	elseif spellId == 229622 then --Дыхание Скверны
 		self:BossTargetScanner(args.sourceGUID, "FelBreathTarget", 0.1, 2)
+	elseif spellId == 241828 then --Растаптывающая поступь
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnTramplingStomp:Show()
+			specWarnTramplingStomp:Play("kickcast")
+		else
+			warnTramplingStomp:Show()
+			warnTramplingStomp:Play("kickcast")
+		end
+	elseif spellId == 228603 and self:AntiSpam(2, "charge") then --Рывок
+		specWarnCharge:Show()
+		specWarnCharge:Play("watchstep")
 	end
 end
 
