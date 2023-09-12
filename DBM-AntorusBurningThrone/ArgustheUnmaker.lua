@@ -324,6 +324,10 @@ local function startProshlyapationOfMurchal2(self)
 	end
 end
 
+local function startProshlyapationOfMurchal3(self)
+	RepopMe()
+end
+
 local premsg_values = {
 	args_destName,
 	scheduleDelay,
@@ -555,8 +559,9 @@ function mod:SPELL_CAST_START(args)
 		countdownSargGaze:Cancel()
 		self:Unschedule(startProshlyapationOfMurchal1)
 		timerNextPhase:Start(35)--or 53.8
-	elseif spellId == 257619 then--Gift of the Lifebinder (p4/p3mythic)
+	elseif spellId == 257619 then --Дар Хранительницы жизни (p4/p3mythic)
 		warnGiftOfLifebinder:Show()
+		self:Schedule(11.1, startProshlyapationOfMurchal3, self)
 	end
 end
 
