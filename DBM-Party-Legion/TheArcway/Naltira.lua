@@ -5,15 +5,15 @@ mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
 mod:SetCreatureID(98207)
 mod:SetEncounterID(1826)
 mod:SetZone()
-mod:SetUsedIcons(8, 7)
+mod:SetUsedIcons(8, 7, 6)
 
 mod.noNormal = true
 
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
-	"SPELL_AURA_APPLIED 200284",
-	"SPELL_AURA_REMOVED 200284",
+	"SPELL_AURA_APPLIED 200284 211543",
+	"SPELL_AURA_REMOVED 200284 211543",
 	"SPELL_CAST_START 200227 200024",
 	"SPELL_PERIODIC_DAMAGE 200040",
 	"SPELL_PERIODIC_MISSED 200040",
@@ -25,23 +25,27 @@ mod:RegisterEventsInCombat(
 local warnBlink					= mod:NewTargetAnnounce(199811, 4) --Молниеносные удары
 local warnWeb					= mod:NewTargetAnnounce(200284, 3) --Липкие путы
 local warnWeb2					= mod:NewSoonAnnounce(200284, 1) --Липкие путы
+local warnDevour 				= mod:NewTargetAnnounce(211543, 4) --Пожирание
 
 local specWarnWeb				= mod:NewSpecialWarningYouMoveAway(200284, nil, nil, nil, 4, 3) --Липкие путы
 local specWarnWeb2				= mod:NewSpecialWarningYouFades(200284, nil, nil, nil, 1, 2) --Липкие путы
 local specWarnBlink				= mod:NewSpecialWarningRun(199811, nil, nil, nil, 4, 2) --Молниеносные удары
 local specWarnBlinkNear			= mod:NewSpecialWarningClose(199811, nil, nil, nil, 1, 2) --Молниеносные удары
 local specWarnVenomGTFO			= mod:NewSpecialWarningYouMove(200040, nil, nil, nil, 1, 2) --Яд Пустоты
+local specWarnDevour			= mod:NewSpecialWarningYouFades(211543, nil, nil, nil, 1, 2) --Пожирание
 --кд спеллов не проверял
 local timerBlinkCD				= mod:NewNextTimer(30, 199811, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Молниеносные удары
 local timerWebCD				= mod:NewCDTimer(24, 200227, nil, nil, nil, 7) --Липкие путы 21-26
 local timerVenomCD				= mod:NewCDTimer(29.8, 200024, nil, nil, nil, 3) --Яд Пустоты 30-33
 
+local yellDevour				= mod:NewYellHelp(211543, nil, nil, nil, "YELL") --Пожирание
 local yellBlink					= mod:NewYell(199811, nil, nil, nil, "YELL") --Молниеносные удары
 local yellWeb					= mod:NewYell(200284, nil, nil, nil, "YELL") --Липкие путы
 
 local countdownBlink			= mod:NewCountdown(30, 199811, nil, nil, 5) --Молниеносные удары
 
 mod:AddSetIconOption("SetIconOnWeb", 200284, true, false, {8, 7}) --Липкие путы
+mod:AddSetIconOption("SetIconOnDevour", 211543, true, false, {6}) --Пожирание
 
 mod.vb.blinkCount = 0
 mod.vb.webIcon = 8
@@ -70,10 +74,19 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnWeb:CombinedShow(0.5, args.destName)
 		if args:IsPlayer() then
 			specWarnWeb:Show()
+			specWarnWeb:Play("runaway")
 			yellWeb:Yell()
 		end
 		if self.Options.SetIconOnWeb then
 			self:SetIcon(args.destName, self.vb.webIcon)
+		end
+	elseif spellId == 211543 then --Пожирание
+		warnDevour:Show(args.destName)
+		if args:IsPlayer() then
+			yellDevour:Yell()
+		end
+		if self.Options.SetIconOnDevour then
+			self:SetIcon(args.destName, 6)
 		end
 	end
 end
@@ -84,9 +97,18 @@ function mod:SPELL_AURA_REMOVED(args)
 		self.vb.webIcon = self.vb.webIcon + 1
 		if args:IsPlayer() then
 			specWarnWeb2:Show()
+			specWarnWeb2:Play("end")
 		end
 		if self.Options.SetIconOnWeb then
 			self:SetIcon(args.destName, 0)
+		end
+	elseif spellId == 211543 then --Пожирание
+		if args:IsPlayer() then
+			specWarnDevour:Show()
+			specWarnDevour:Play("end")
+		end
+		if self.Options.SetIconOnDevour then
+			self:RemoveIcon(args.destName)
 		end
 	end
 end
