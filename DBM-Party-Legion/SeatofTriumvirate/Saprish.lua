@@ -21,7 +21,6 @@ mod:RegisterEventsInCombat(
 --Сарпиш https://ru.wowhead.com/npc=122316/сарпиш/эпохальный-журнал-сражений
 local warnUmbralFlanking				= mod:NewTargetAnnounce(247245, 3) --Призрачный удар
 local warnVoidTrap						= mod:NewSpellAnnounce(246026, 3, nil, nil, nil, nil, nil, 2) --Ловушка Бездны
---local warnDreadScreech					= mod:NewCastAnnounce(248831, 2)
 
 --local specWarnHuntersRush				= mod:NewSpecialWarningDefensive(247145, "Tank", nil, nil, 1, 2)
 --local specWarnOverloadTrap				= mod:NewSpecialWarningDodge(247206, nil, nil, nil, 2, 2) --Заряженные ловушки
@@ -71,13 +70,8 @@ function mod:SPELL_CAST_START(args)
 		timerRavagingDarknessCD:Start()
 	elseif spellId == 248831 then --Ужасный визг
 		if not UnitIsDeadOrGhost("player") then
-			if self:CheckInterruptFilter(args.sourceGUID, false, true) then
-				specWarnDreadScreech:Show()
-				specWarnDreadScreech:Play("kickcast")
-			else
-				specWarnDreadScreech:Show()
-				specWarnDreadScreech:Play("kickcast")
-			end
+			specWarnDreadScreech:Show()
+			specWarnDreadScreech:Play("kickcast")
 		end
 		timerScreechCD:Start()
 		countdownDreadScreech:Start()
