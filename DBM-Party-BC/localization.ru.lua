@@ -46,6 +46,15 @@ L = DBM:GetModLocalization(571)
 ---------
 L = DBM:GetModLocalization(572)
 
+---------
+--Trash--
+---------
+L = DBM:GetModLocalization("TSPTrash")
+
+L:SetGeneralLocalization({
+	name = "Трэш Узилища"
+})
+
 -----------------
 --Гробницы Маны--
 -----------------

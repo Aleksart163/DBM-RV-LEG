@@ -54,6 +54,7 @@ Hellfire_ShatteredHalls\Kargath.lua
 Coil_Slavepens\Mennu.lua
 Coil_Slavepens\Rokmar.lua
 Coil_Slavepens\Quagmirran.lua
+Coil_Slavepens\TSPTrash.lua
 Auct_Tombs\Pandemonius.lua
 Auct_Tombs\Tavarok.lua
 Auct_Tombs\Shaffar.lua
