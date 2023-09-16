@@ -40,6 +40,15 @@ L = DBM:GetModLocalization(571)
 ------------------
 L = DBM:GetModLocalization(572)
 
+---------
+--Trash--
+---------
+L = DBM:GetModLocalization("TSPTrash")
+
+L:SetGeneralLocalization({
+	name = "Trash der Die Sklavenunterkünfte"
+})
+
 ------------------
 --  Mana-Tombs  --
 -------------------

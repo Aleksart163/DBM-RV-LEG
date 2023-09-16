@@ -40,6 +40,15 @@ L = DBM:GetModLocalization(571)
 ------------------
 L = DBM:GetModLocalization(572)
 
+---------
+--Trash--
+---------
+L = DBM:GetModLocalization("TSPTrash")
+
+L:SetGeneralLocalization({
+	name = "奴隶围栏小怪"
+})
+
 ------------------
 --  Mana-Tombs  --
 -------------------
