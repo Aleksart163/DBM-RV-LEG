@@ -389,7 +389,7 @@ function mod:SPELL_CAST_START(args)
 			specWarnProtectiveShell:Play("kickcast")
 		end
 		timerProtectiveShellCD:Start()
-	elseif spellId == 219060 then --Пугающий визг
+	elseif spellId == 206762 then --Пугающий визг
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnFearsomeShriek:Show()
 			specWarnFearsomeShriek:Play("kickcast")
