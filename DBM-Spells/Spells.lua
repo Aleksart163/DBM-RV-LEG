@@ -202,7 +202,6 @@ local function sendAnnounce(self, spellId, sourceName, destName)
 end
 
 local function announceList(premsg_announce, value)
-	if not self:AntiSpam(1, "announceList") then return end
 	for k, v in pairs(premsg_values) do
 		if type(v) == "table" and k == premsg_announce then
 			v[1] = value
@@ -211,19 +210,20 @@ local function announceList(premsg_announce, value)
 end
 
 local function prepareMessage(self, premsg_announce, spellId, sourceName, destName)
-	if not self:AntiSpam(1, "prepareMessage") then return end
-	for k, v in pairs(premsg_values) do
-		if type(v) == "table" and k == premsg_announce then
-			if (not spellId) or (not sourceName) or (v[3] and not destName) then
-				DBM:Debug('[prepareMessage] spellId: ' .. tostring(spellId) .. ', sourceName: ' .. tostring(sourceName) .. ', destName: ' .. tostring(destName))
-				return
+	if self:AntiSpam(1, "prepareMessage") then
+		for k, v in pairs(premsg_values) do
+			if type(v) == "table" and k == premsg_announce then
+				if (not spellId) or (not sourceName) or (v[3] and not destName) then
+					DBM:Debug('[prepareMessage] spellId: ' .. tostring(spellId) .. ', sourceName: ' .. tostring(sourceName) .. ', destName: ' .. tostring(destName))
+					return
+				end
 			end
 		end
-	end
 
-	announceList(premsg_announce, 1)
-	self:SendSync(premsg_announce, playerOnlyName)
-	self:Schedule(1, sendAnnounce, self, spellId, sourceName, destName)
+		announceList(premsg_announce, 1)
+		self:SendSync(premsg_announce, playerOnlyName)
+		self:Schedule(1, sendAnnounce, self, spellId, sourceName, destName)
+	end
 end
 -- Синхронизация анонсов ↑
 
