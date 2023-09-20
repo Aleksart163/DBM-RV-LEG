@@ -202,9 +202,6 @@ local function sendAnnounce(self, spellId, sourceName, destName)
 end
 
 local function announceList(premsg_announce, value)
-	if not self:AntiSpam(1, "announceList") and value == 1 then
-		DBM:Debug('[announceList] premsg_announce: ' .. premsg_announce .. ', value: 1')
-	end
 	for k, v in pairs(premsg_values) do
 		if type(v) == "table" and k == premsg_announce then
 			v[1] = value
