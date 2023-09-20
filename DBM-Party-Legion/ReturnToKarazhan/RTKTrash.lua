@@ -120,7 +120,7 @@ local proshlyapationOfMurchal = DBM:GetSpellInfo(228331)
 local murchalProshlyaping = false
 --local king = false
 
-function mod:FelBreathTarget(targetname, uId) --Грохочущая буря ✔
+function mod:FelBreathTarget(targetname, uId) --Дыхание Скверны ✔
 	if not targetname then return end
 	if self:AntiSpam(2, targetname) then
 		if targetname == UnitName("player") then
@@ -209,11 +209,11 @@ function mod:SPELL_CAST_START(args)
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnTramplingStomp:Show()
 			specWarnTramplingStomp:Play("kickcast")
-		else
+		elseif self:AntiSpam(2, "tramplingstomp") then
 			warnTramplingStomp:Show()
 			warnTramplingStomp:Play("kickcast")
 		end
-	elseif spellId == 228603 and self:AntiSpam(2, "charge") then --Рывок
+	elseif spellId == 228603 and self:AntiSpam(3, "charge") then --Рывок
 		specWarnCharge:Show()
 		specWarnCharge:Play("watchstep")
 	end
@@ -231,6 +231,7 @@ end
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 228241 then --Проклятое прикосновение
+		warnCursedTouch:CombinedShow(0.3, args.destName)
 		if not self:IsNormal() then
 			if args:IsPlayer() and not self:IsCurseDispeller() then
 				specWarnCursedTouch:Show()
@@ -240,13 +241,11 @@ function mod:SPELL_AURA_APPLIED(args)
 				specWarnCursedTouch3:Show()
 				specWarnCursedTouch3:Play("dispelnow")
 				yellCursedTouch:Yell()
-			elseif not args:IsPlayer() and self:IsCurseDispeller() then
+			else
 				if not UnitIsDeadOrGhost("player") then
 					specWarnCursedTouch2:CombinedShow(0.3, args.destName)
 					specWarnCursedTouch2:ScheduleVoice(0.3, "dispelnow")
 				end
-			else
-				warnCursedTouch:CombinedShow(0.3, args.destName)
 			end
 		end
 	elseif spellId == 228610 and self:AntiSpam(3, 1) then --Горящее клеймо

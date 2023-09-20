@@ -93,6 +93,7 @@ local specWarnDeadlyScythe			= mod:NewSpecialWarningStack(258039, nil, 3, nil, n
 local specWarnDeadlyScytheTaunt		= mod:NewSpecialWarningTaunt(258039, nil, nil, nil, 1, 2) --Смертоносная коса
 local specWarnApocModule			= mod:NewSpecialWarningSwitchCount(258007, "Dps", nil, nil, 3, 6) --Модуль апокалипсиса (мифик)
 local specWarnReorgModule			= mod:NewSpecialWarningSwitch(256389, "RangedDps", nil, nil, 3, 6) --Модуль пересозидания
+local specWarnReorgModule2			= mod:NewSpecialWarningSoon(256389, "RangedDps", nil, nil, 1, 3) --Модуль пересозидания
 
 local timerNextPhase				= mod:NewPhaseTimer(74)
 --Stage 1
@@ -320,6 +321,7 @@ end
 local function startProshlyapationOfMurchal2(self)
 	if self:IsMythic() then
 		smartChat(L.ProshlyapMurchal:format(DbmRV, apocalypsisModule), "rw")
+		specWarnReorgModule2:Show()
 	else
 		smartChat(L.ProshlyapMurchal:format(DbmRV, reoriginationModule), "rw")
 	end
@@ -1103,8 +1105,9 @@ function mod:UNIT_HEALTH(uId)
 		timerAvatarofAggraCD:Stop()
 		timerSargGazeCD:Stop()
 		countdownSargGaze:Cancel()
-		self:Unschedule(startProshlyapationOfMurchal1)
 		specWarnEdgeofObliteration:Cancel()
+		specWarnEdgeofObliteration:CancelVoice()
+		self:Unschedule(startProshlyapationOfMurchal1)
 	end
 end
 

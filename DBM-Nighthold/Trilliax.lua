@@ -14,7 +14,7 @@ mod:RegisterCombat("combat")
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 206788 208924 207513 207502 215062 206641 214672 206820",
 	"SPELL_CAST_SUCCESS 206560 206557 206559 206641",
-	"SPELL_AURA_APPLIED 211615 208910 208915 206641 207327",
+	"SPELL_AURA_APPLIED 211615 208910 208915 206641 207327 206560 206557 206559",
 	"SPELL_AURA_APPLIED_DOSE 206641",
 	"SPELL_AURA_REMOVED 208499 206560 207327",
 	"SPELL_PERIODIC_DAMAGE 206488",
@@ -159,51 +159,7 @@ end
 
 function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
-	if spellId == 206560 then--Cleaner Mode (45 seconds)
-		self.vb.cleanerCount = self.vb.cleanerCount + 1
-		self.vb.ArcaneSlashCooldown = 18
-		self.vb.toxicSliceCooldown = 22--Still 22? 27 in mythic logs
-		warnCleanerMode:Show(self.vb.cleanerCount)
-		timerArcaneSlashCD:Stop()
-		countdownArcaneSlash:Cancel()
-		--timerSterilizeCD:Start()--Used 1-3 seconds later
-		timerCleansingRageCD:Start()--10
-		timerToxicSliceCD:Start(13, "boss")
-		timerArcaneSlashCD:Start(19.5)
-		countdownArcaneSlash:Start(19.5)
-		timerPhaseChange:Start(45)--Maniac
-		countdownModes:Start(45)
-	elseif spellId == 206557 then--Maniac Mode (40 seconds)
-		self.vb.maniacCount = self.vb.maniacCount + 1
-		self.vb.ArcaneSlashCooldown = 7
-		warnManiacMode:Show(self.vb.maniacCount)
-		timerToxicSliceCD:Stop("boss")--Must be stopped here too since first cleaner mode has no buff removal
-		timerArcaneSlashCD:Stop()
-		countdownArcaneSlash:Stop()
-		timerArcingBondsCD:Start(5)--Updated Jan 24, make sure it's ok consistently
-		timerArcaneSlashCD:Start(9)--Updated Jan 24, make sure it's ok consistently
-		countdownArcaneSlash:Start(9)
-		timerAnnihilationCD:Start(nil, "boss")--20
-		countdownAnnihilation:Start()--20
-		timerPhaseChange:Start(40)--Caretaker
-		countdownModes:Start(40)
-		if self:IsMythic() and self.vb.maniacCount == 2 then
-			timerEchoDuder:Start(10)
-		end
-	elseif spellId == 206559 then--Caretaker Mode (15 seconds)
-		self.vb.caretakerCount = self.vb.caretakerCount + 1
-		timerArcaneSlashCD:Stop()
-		countdownArcaneSlash:Cancel()
-		warnCaretakerMode:Show(self.vb.caretakerCount)
-		timerSucculentFeastCD:Start()--4.5-5
-		timerTidyUpCD:Start()--10-11
-		timerPhaseChange:Start(13)--Cleaner
-		countdownModes:Start(13)
-		if self:IsMythic() and self.vb.caretakerCount == 3 then
-			timerEchoDuder:Start(8)--VERIFY, it's more extrapolated than first echo
-			--timerAnnihilationCD:Start(38, "echo")--Not a very accurate place/way to do it
-		end
-	elseif spellId == 206641 then--Arcane ArcaneSlash
+	if spellId == 206641 then--Arcane ArcaneSlash
 		timerArcaneSlashCD:Start(self.vb.ArcaneSlashCooldown)
 		countdownArcaneSlash:Start(self.vb.ArcaneSlashCooldown)
 	end
@@ -253,6 +209,51 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 207327 then
 		if self.Options.NPAuraOnCleansing and not _BombTexture then
 			DBM.Nameplate:Show(true, args.destGUID, spellId, nil, 7)
+		end
+		-- Сломано на сервере через SPELL_CAST_SUCCESS--
+	elseif spellId == 206560 then--Уборщик (45 сек) (хотя вроде 35.9 сек)
+		self.vb.cleanerCount = self.vb.cleanerCount + 1
+		self.vb.ArcaneSlashCooldown = 18
+		self.vb.toxicSliceCooldown = 22--Still 22? 27 in mythic logs
+		warnCleanerMode:Show(self.vb.cleanerCount)
+		timerArcaneSlashCD:Stop()
+		countdownArcaneSlash:Cancel()
+		--timerSterilizeCD:Start()--Used 1-3 seconds later
+		timerCleansingRageCD:Start()--10
+		timerToxicSliceCD:Start(13, "boss")
+		timerArcaneSlashCD:Start(19.5)
+		countdownArcaneSlash:Start(19.5)
+		timerPhaseChange:Start(45)--Maniac
+		countdownModes:Start(45)
+	elseif spellId == 206557 then--Маньяк (40 сек) (хотя вроде 39.9 сек)
+		self.vb.maniacCount = self.vb.maniacCount + 1
+		self.vb.ArcaneSlashCooldown = 7
+		warnManiacMode:Show(self.vb.maniacCount)
+		timerToxicSliceCD:Stop("boss")--Must be stopped here too since first cleaner mode has no buff removal
+		timerArcaneSlashCD:Stop()
+		countdownArcaneSlash:Stop()
+		timerArcingBondsCD:Start(5)--Updated Jan 24, make sure it's ok consistently
+		timerArcaneSlashCD:Start(9)--Updated Jan 24, make sure it's ok consistently
+		countdownArcaneSlash:Start(9)
+		timerAnnihilationCD:Start(nil, "boss")--20
+		countdownAnnihilation:Start()--20
+		timerPhaseChange:Start(40)--Caretaker
+		countdownModes:Start(40)
+		if self:IsMythic() and self.vb.maniacCount == 2 then
+			timerEchoDuder:Start(10)
+		end
+	elseif spellId == 206559 then--Смотритель (15 сек) (хотя вроде 13)
+		self.vb.caretakerCount = self.vb.caretakerCount + 1
+		timerArcaneSlashCD:Stop()
+		countdownArcaneSlash:Cancel()
+		warnCaretakerMode:Show(self.vb.caretakerCount)
+		timerSucculentFeastCD:Start()--4.5-5
+		timerTidyUpCD:Start()--10-11
+		timerPhaseChange:Start(13)--Cleaner
+		countdownModes:Start(13)
+		if self:IsMythic() and self.vb.caretakerCount == 3 then
+			timerEchoDuder:Start(8)--VERIFY, it's more extrapolated than first echo
+			--timerAnnihilationCD:Start(38, "echo")--Not a very accurate place/way to do it
 		end
 	end
 end

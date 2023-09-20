@@ -7,7 +7,7 @@ mod:SetEncounterID(1863)
 mod:SetZone()
 --mod:SetUsedIcons(8, 7, 6, 3, 2, 1)
 mod:SetHotfixNoticeRev(15841)
-mod.respawnTime = 50
+mod.respawnTime = 30
 
 mod:RegisterCombat("combat")
 
@@ -42,7 +42,7 @@ local warnGravitationalPull			= mod:NewTargetAnnounce(205984, 3, nil, "Tank")
 --Stage One: The Dome of Observation
 local warnCoronalEjection			= mod:NewTargetAnnounce(206464, 2)
 --Stage Two: Absolute Zero
-local warnIcyEjection				= mod:NewTargetAnnounce(206936, 2)
+local warnIcyEjection				= mod:NewTargetAnnounce(206936, 2) --Выброс льда
 --Stage Three: A Shattered World
 local warnFelEjection				= mod:NewTargetAnnounce(205649, 2)
 local warnFelEjectionPuddle			= mod:NewCountAnnounce(205649, 2)
@@ -54,7 +54,7 @@ local specWarnGravitationalPullOther= mod:NewSpecialWarningTaunt(205984, nil, ni
 --Stage One: The Dome of Observation
 local specWarnCoronalEjection		= mod:NewSpecialWarningMoveAway(206464, nil, nil, nil, 1, 2)
 --Stage Two: Absolute Zero
-local specWarnIcyEjection			= mod:NewSpecialWarningMoveAway(206936, nil, nil, nil, 1, 2)
+local specWarnIcyEjection			= mod:NewSpecialWarningYouMoveAway(206936, nil, nil, nil, 1, 2) --Выброс льда
 local specWarnFrigidNova			= mod:NewSpecialWarningRunning(206949, nil, nil, nil, 3, 6) --Ледяная новая
 local specWarnFrigidNova2			= mod:NewSpecialWarningSoon(206949, nil, nil, nil, 2, 3) --Ледяная новая
 --Stage Three: A Shattered World
@@ -84,7 +84,7 @@ mod:AddTimerLine(SCENARIO_STAGE:format(1))
 --local timerCoronalEjectionCD		= mod:NewCDTimer(16, 206464, nil, nil, nil, 3)--CD is not known, always push phase 2 before this is cast 2nd time
 --Stage Two: Absolute Zero
 mod:AddTimerLine(SCENARIO_STAGE:format(2))
-local timerIcyEjectionCD			= mod:NewCDCountTimer(16, 206936, nil, nil, nil, 3)
+local timerIcyEjectionCD			= mod:NewCDCountTimer(16, 206936, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Выброс льда
 local timerFrigidNovaCD				= mod:NewCDCountTimer(61.5, 206949, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Ледяная новая
 --Stage Three: A Shattered World
 mod:AddTimerLine(SCENARIO_STAGE:format(3))
@@ -92,7 +92,7 @@ local timerFelEjectionCD			= mod:NewCDCountTimer(16, 205649, nil, nil, nil, 3)
 local timerFelNovaCD				= mod:NewCDCountTimer(25, 206517, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Новая Скверны
 --Stage Four: Inevitable Fate
 mod:AddTimerLine(SCENARIO_STAGE:format(4))
-local timerWitnessVoid				= mod:NewCastTimer(4, 207720, nil, nil, nil, 2)
+local timerWitnessVoid				= mod:NewCastTimer(2.7, 207720, nil, nil, nil, 2)
 local timerWitnessVoidCD			= mod:NewCDTimer(13, 207720, nil, nil, nil, 7)
 --local timerVoidEjectionCD			= mod:NewCDCountTimer(16, 207143, nil, nil, nil, 3)--Where did it go? wasn't on normal test and wasn't on heroic retest
 local timerVoidNovaCD				= mod:NewCDCountTimer(74, 207439, nil, nil, nil, 2)--Only saw a single pull it was cast twice, so CD needs more verification
@@ -102,7 +102,8 @@ local timerConjunctionCD			= mod:NewCDTimer(16, 205408, nil, nil, nil, 7) --Ве
 local timerConjunction				= mod:NewBuffActiveTimer(15, 205408, nil, nil, nil, 7) --Великое соединение
 
 local yellFelEjection				= mod:NewYell(205649, nil, nil, nil, "YELL")
-local yellIcyEjection				= mod:NewFadesYell(206936, nil, nil, nil, "YELL")
+local yellIcyEjection				= mod:NewYell(206936, nil, nil, nil, "YELL") --Выброс льда
+local yellIcyEjection2				= mod:NewFadesYell(206936, nil, nil, nil, "YELL") --Выброс льда
 local yellGravitationalPull			= mod:NewFadesYell(205984, nil, nil, nil, "YELL")
 local yellFelEjectionFade			= mod:NewFadesYell(205649, nil, nil, nil, "YELL")
 local yellConjunctionSign			= mod:NewPosYell(205408, DBM_CORE_AUTO_YELL_CUSTOM_POSITION, nil, nil, "YELL") --Великое соединение
@@ -466,6 +467,8 @@ function mod:SPELL_CAST_START(args)
 		if timer then
 			timerWorldDevouringForceCD:Start(timer, self.vb.worldDestroyingCount+1)
 			countWorldDevouringForce:Start(timer)
+			specWarnWorldDevouringForce2:Schedule(timer-5)
+			specWarnWorldDevouringForce2:ScheduleVoice(timer-5, "specialsoon")
 			if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapationOfMurchal and DBM:GetRaidRank() > 0 then
 				prepareMessage(self, "premsg_Etraeus_proshlyap3_rw", nil, nil, timer-6)
 			end
@@ -605,11 +608,12 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnIcyEjection:Show()
 			specWarnIcyEjection:Play("runout")
+			yellIcyEjection:Yell()
 			updateRangeFrame(self)
 			if self.Options.ConjunctionYellFilter and self.vb.conActive then return end--No ejection yells during conjunction
-			yellIcyEjection:Schedule(9, 1)
-			yellIcyEjection:Schedule(8, 2)
-			yellIcyEjection:Schedule(7, 3)
+			yellIcyEjection2:Schedule(9, 1)
+			yellIcyEjection2:Schedule(8, 2)
+			yellIcyEjection2:Schedule(7, 3)
 		end
 	elseif spellId == 205649 then
 		warnFelEjection:CombinedShow(0.5, args.destName)
@@ -668,7 +672,7 @@ function mod:SPELL_AURA_REMOVED(args)
 	elseif spellId == 206464 and args:IsPlayer() then
 		updateRangeFrame(self)
 	elseif spellId == 206936 and args:IsPlayer() then
-		yellIcyEjection:Cancel()
+		yellIcyEjection2:Cancel()
 		updateRangeFrame(self)
 	elseif spellId == 205649 and args:IsPlayer() then
 		yellFelEjectionFade:Cancel()
@@ -716,12 +720,12 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 		self:Unschedule(startProshlyapationOfMurchal4)
 		timerGravPullCD:Start(28.7)
 		if not self:IsEasy() then
-			timerFrigidNovaCD:Start(49, 1)
-			countdownFrigidNova:Start(49)
-			specWarnFrigidNova2:Schedule(44)
-			specWarnFrigidNova2:ScheduleVoice(44, "specialsoon")
-			if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapationOfMurchal and DBM:GetRaidRank() > 0 then
-				prepareMessage(self, "premsg_Etraeus_proshlyap1_rw", nil, nil, 43)
+			timerFrigidNovaCD:Start(48, 1) --Ледяная новая (точно под миф)
+			countdownFrigidNova:Start(48) --Ледяная новая (точно под миф)
+			specWarnFrigidNova2:Schedule(43)
+			specWarnFrigidNova2:ScheduleVoice(43, "specialsoon")
+			if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapationOfMurchal and DBM:GetRaidRank() > 0 then 
+				prepareMessage(self, "premsg_Etraeus_proshlyap1_rw", nil, nil, 42) --Ледяная новая (точно под миф)
 			end
 		end
 		if self:IsMythic() then
@@ -818,6 +822,8 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 			self.vb.worldDestroyingCount = 0
 			timerWorldDevouringForceCD:Start(22, 1)
 			countWorldDevouringForce:Start(22)
+			specWarnWorldDevouringForce2:Schedule(17)
+			specWarnWorldDevouringForce2:ScheduleVoice(17, "specialsoon")
 			if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapationOfMurchal and DBM:GetRaidRank() > 0 then
 				prepareMessage(self, "premsg_Etraeus_proshlyap3_rw", nil, nil, 16)
 			end
