@@ -34,9 +34,9 @@
 -------------------------------
 
 DBM = {
-	Revision = tonumber(("$Revision: 17735 $"):sub(12, -3)),
+	Revision = tonumber(("$Revision: 17736 $"):sub(12, -3)),
 	DisplayVersion = "7.3.48 Right Version " .. string.sub(GetLocale(), -2),
-	ReleaseRevision = 17734
+	ReleaseRevision = 17735
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -11755,7 +11755,7 @@ function bossModPrototype:ReceiveSync(event, sender, revision, ...)
 	local spamId = self.id .. event .. strjoin("\t", ...)
 	local time = GetTime()
 	local checkpremsgevent = string.sub(event, 1, 7) == "premsg_"
-	if (not modSyncSpam[spamId] or (time - modSyncSpam[spamId]) > self.SyncThreshold or checkpremsgevent) and self.OnSync and (not (self.blockSyncs and sender)) and (not sender or (not self.minSyncRevision or revision >= self.minSyncRevision or checkpremsgevent)) then
+	if (not modSyncSpam[spamId] or (time - modSyncSpam[spamId]) > self.SyncThreshold or checkpremsgevent) and self.OnSync and (not (self.blockSyncs and sender)) and (not sender or (not self.minSyncRevision or revision >= self.minSyncRevision--[[ or checkpremsgevent]])) then
 		modSyncSpam[spamId] = time
 		-- we have to use the sender as last argument for compatibility reasons (stupid old API...)
 		-- avoid table allocations for frequently used number of arguments
