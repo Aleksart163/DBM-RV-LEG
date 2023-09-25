@@ -39,7 +39,7 @@ local warnDemolish						= mod:NewTargetAnnounce(246692, 4) --Разрушени�
 local warnForgingStrike					= mod:NewStackAnnounce(244312, 2, nil, "Tank|Healer") --Прессование
 --Stage: Deployment
 --local specWarnGTFO					= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 2)
-local specWarnForgingStrike				= mod:NewSpecialWarningDefensive(244312, nil, nil, nil, 1, 5) --Прессование
+local specWarnForgingStrike				= mod:NewSpecialWarningDefensive(244312, nil, nil, nil, 3, 6) --Прессование
 local specWarnForgingStrike2			= mod:NewSpecialWarningStack(244312, nil, 2, nil, nil, 3, 6) --Прессование
 local specWarnForgingStrikeOther		= mod:NewSpecialWarningTaunt(244312, nil, nil, nil, 3, 6) --Прессование
 local specWarnReverberatingStrike		= mod:NewSpecialWarningYou(254926, nil, nil, nil, 1, 2) --Гулкий удар
@@ -71,6 +71,7 @@ local timerDecimationCD					= mod:NewCDTimer(10.9, 246687, nil, nil, nil, 3) --�
 local timerAnnihilationCD				= mod:NewCDTimer(15.4, 245807, nil, nil, nil, 3) --Аннигиляция
 local timerDemolishCD					= mod:NewCDTimer(15.8, 246692, nil, nil, nil, 3) --Разрушение
 
+local yellForgingStrike					= mod:NewYell(244312, nil, nil, nil, "YELL") --Прессование
 local yellReverberatingStrike			= mod:NewYell(254926, nil, nil, nil, "YELL") --Гулкий удар
 local yellDecimation					= mod:NewYell(246687, nil, nil, nil, "YELL") --Децимация
 local yellDecimation2					= mod:NewShortFadesYell(246687, nil, nil, nil, "YELL") --Децимация
@@ -81,8 +82,8 @@ local berserkTimer						= mod:NewBerserkTimer(600)
 
 --Stage: Deployment
 local countdownApocProtocol				= mod:NewCountdown(77.5, 246516, nil, nil, 5) --Протокол Апокалипсис
-local countdownForgingStrike			= mod:NewCountdown("Alt14", 244312, "Tank", nil, 5) --Прессование
-local countdownRuiner					= mod:NewCountdown("AltTwo29", 246840, nil, nil, 5) --Разрушитель
+local countdownForgingStrike			= mod:NewCountdown("AltTwo14", 244312, "Tank", nil, 5) --Прессование
+local countdownRuiner					= mod:NewCountdown("Alt29", 246840, nil, nil, 5) --Разрушитель
 local countdownInitializing				= mod:NewCountdown("Alt30", 246504, nil, nil, 5) --Инициализация
 
 mod:AddSetIconOption("SetIconOnDemolish", 246692, true, false, {3, 2, 1}) --Разрушение
@@ -110,6 +111,7 @@ function mod:ForgingStrikeTarget(targetname, uId) --прошляпанное о�
 	if targetname == UnitName("player") then
 		specWarnForgingStrike:Show()
 		specWarnForgingStrike:Play("defensive")
+		yellForgingStrike:Yell()
 	end
 end
 		
@@ -240,7 +242,6 @@ function mod:SPELL_CAST_START(args)
 	if spellId == 244312 or spellId == 257978 or spellId == 254919 then --Прессование
 		self.vb.forgingStrikeCast = self.vb.forgingStrikeCast + 1
 		self:BossTargetScanner(args.sourceGUID, "ForgingStrikeTarget", 0.1, 2)
-		--1.5, 27.6, 30.1
 		if self:IsMythic() then
 			timerForgingStrikeCD:Start(14, self.vb.forgingStrikeCast+1)
 			countdownForgingStrike:Start(14)
@@ -367,10 +368,10 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif spellId == 246687 then --Децимация 1 (от моба)
 		if args:IsPlayer() then
-			specWarnDecimation:Schedule(4.5)
-			specWarnDecimation:ScheduleVoice(4.5, "runaway")
+			specWarnDecimation:Schedule(5)
+			specWarnDecimation:ScheduleVoice(5, "runaway")
 			yellDecimation:Yell()
-			yellDecimation2:Countdown(8.5, 3)
+			yellDecimation2:Countdown(9, 3)
 		else
 			warnDecimation:CombinedShow(0.3, args.destName)
 		end
