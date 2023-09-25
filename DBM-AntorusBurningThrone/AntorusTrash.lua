@@ -178,7 +178,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			yellDemolishFades:Countdown(6, 3)
 		end
 		if self.Options.SetIconOnDemolish then
-			self:SetIcon(args.destName, self.vb.demolishIcon)
+			self:SetIcon(args.destName, self.vb.demolishIcon, 6)
 		end
 		if self.vb.demolishIcon == 8 then
 			self.vb.demolishIcon = 6
@@ -246,17 +246,8 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 245770 or spellId == 252797 or spellId == 244399 or spellId == 254948 or spellId == 246687 then --Децимация
 		self.vb.decimationIcon = self.vb.decimationIcon + 1
 		warnDecimation2:CombinedShow(0.3, args.destName)
-		if args:IsPlayer() then
-			specWarnDecimation:Show()
-			specWarnDecimation:Play("runout")
-			yellDecimation:Yell()
-			yellDecimationFades:Countdown(5, 3)
-		elseif self:AntiSpam(5, 3) then
-			specWarnDecimation2:Schedule(6)
-			specWarnDecimation2:ScheduleVoice(6, "watchstep")
-		end
 		if self.Options.SetIconOnDecimation then
-			self:SetIcon(args.destName, self.vb.decimationIcon)
+			self:SetIcon(args.destName, self.vb.decimationIcon, 5)
 		end
 		if self.vb.decimationIcon == 5 then
 			self.vb.decimationIcon = 1
@@ -335,9 +326,6 @@ function mod:SPELL_AURA_REMOVED(args)
 		if args:IsPlayer() then
 			yellDecimationFades:Cancel()
 		end
-		if self.Options.SetIconOnDecimation then
-			self:RemoveIcon(args.destName)
-		end
 	end
 end
 
@@ -388,7 +376,7 @@ do
 			specWarnDecimation:Show()
 			specWarnDecimation:Play("runout")
 			yellDecimation:Yell()
-			yellDecimationFades:Countdown(5, 3)
+			yellDecimationFades:Countdown(7, 3)
 		elseif not proshlyap and murchalProshlyaping then
 			murchalProshlyaping = false
 		end

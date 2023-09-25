@@ -6,7 +6,7 @@ mod:SetCreatureID(122578)
 mod:SetEncounterID(2088)
 mod:SetZone()
 --mod:SetBossHPInfoToHighest()
-mod:SetUsedIcons(3, 2, 1)
+mod:SetUsedIcons(8, 7, 6, 5, 4, 3, 2, 1)
 mod:SetHotfixNoticeRev(17650)
 mod:SetMinSyncRevision(17650)
 mod:DisableIEEUCombatDetection()
@@ -72,7 +72,8 @@ local timerAnnihilationCD				= mod:NewCDTimer(15.4, 245807, nil, nil, nil, 3) --
 local timerDemolishCD					= mod:NewCDTimer(15.8, 246692, nil, nil, nil, 3) --Разрушение
 
 local yellReverberatingStrike			= mod:NewYell(254926, nil, nil, nil, "YELL") --Гулкий удар
-local yellDecimation					= mod:NewShortFadesYell(246687, nil, nil, nil, "YELL") --Децимация
+local yellDecimation					= mod:NewYell(246687, nil, nil, nil, "YELL") --Децимация
+local yellDecimation2					= mod:NewShortFadesYell(246687, nil, nil, nil, "YELL") --Децимация
 local yellDemolish						= mod:NewPosYell(246692, nil, nil, nil, "YELL") --Разрушение
 local yellDemolishFades					= mod:NewIconFadesYell(246692, nil, nil, nil, "YELL") --Разрушение
 
@@ -85,6 +86,7 @@ local countdownRuiner					= mod:NewCountdown("AltTwo29", 246840, nil, nil, 5) --
 local countdownInitializing				= mod:NewCountdown("Alt30", 246504, nil, nil, 5) --Инициализация
 
 mod:AddSetIconOption("SetIconOnDemolish", 246692, true, false, {3, 2, 1}) --Разрушение
+mod:AddSetIconOption("SetIconOnDecimation", 246687, true, false, {8, 7, 6, 5, 4}) --Децимация
 mod:AddBoolOption("InfoFrame", true)
 mod:AddBoolOption("UseAddTime", true)
 mod:AddRangeFrameOption(5, 254926) --Гулкий удар
@@ -98,6 +100,7 @@ mod.vb.ruinerTimeLeft = 0
 mod.vb.reverbTimeLeft = 0
 mod.vb.forgingTimeLeft = 0
 mod.vb.bombTimeLeft = 0
+mod.vb.decimationIcon = 8
 
 local DemolishTargets = {}
 local playerName = DBM:GetMyPlayerInfo()
@@ -190,6 +193,7 @@ function mod:OnCombatStart(delay)
 	self.vb.reverbTimeLeft = 0
 	self.vb.forgingTimeLeft = 0
 	self.vb.bombTimeLeft = 0
+	self.vb.decimationIcon = 8
 	table.wipe(DemolishTargets)
 	berserkTimer:Start(-delay)
 	if self:IsHeroic() then
@@ -362,19 +366,31 @@ function mod:SPELL_AURA_APPLIED(args)
 			warnForgingStrike:Show(args.destName, amount)
 		end
 	elseif spellId == 246687 then --Децимация 1 (от моба)
-		warnDecimation:CombinedShow(0.3, args.destName)
-		if args:IsPlayer() then
-			specWarnDecimation:Show()
-			specWarnDecimation:Play("runaway")
-			yellDecimation:Countdown(5.5, 3)
-		end
-	elseif spellId == 249680 then --Децимация 2 (от босса) 4.5 сек +5
-		warnDecimation2:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
 			specWarnDecimation:Schedule(4.5)
 			specWarnDecimation:ScheduleVoice(4.5, "runaway")
-			yellDecimation:Countdown(9, 3)
+			yellDecimation:Yell()
+			yellDecimation2:Countdown(8.5, 3)
+		else
+			warnDecimation:CombinedShow(0.3, args.destName)
 		end
+		if self.Options.SetIconOnDecimation then
+			self:SetIcon(args.destName, self.vb.decimationIcon, 9)
+		end
+		self.vb.decimationIcon = self.vb.decimationIcon - 1
+	elseif spellId == 249680 then --Децимация 2 (от босса) 4.5 сек +5
+		if args:IsPlayer() then
+			specWarnDecimation:Schedule(5)
+			specWarnDecimation:ScheduleVoice(5, "runaway")
+			yellDecimation:Yell()
+			yellDecimation2:Countdown(9, 3)
+		else
+			warnDecimation2:CombinedShow(0.3, args.destName)
+		end
+		if self.Options.SetIconOnDecimation then
+			self:SetIcon(args.destName, self.vb.decimationIcon, 9)
+		end
+		self.vb.decimationIcon = self.vb.decimationIcon - 1
 	elseif spellId == 246698 or spellId == 252760 then
 		if not tContains(DemolishTargets, args.destName) then
 			DemolishTargets[#DemolishTargets+1] = args.destName
@@ -408,10 +424,15 @@ mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 
 function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
-	if spellId == 246687 then
+	if spellId == 246687 then --Децимация 1 (от моба)
+		self.vb.decimationIcon = self.vb.decimationIcon + 1
 		if args:IsPlayer() then
-			yellDecimation:Cancel()
+			specWarnDecimation:Cancel()
+			specWarnDecimation:CancelVoice()
+			yellDecimation2:Cancel()
 		end
+	elseif spellId == 249680 then --Децимация 2 (от босса)
+		self.vb.decimationIcon = self.vb.decimationIcon + 1
 	elseif spellId == 246516 and self:IsInCombat() then --Протокол Апокалипсис
 		self.vb.apocProtoCount = self.vb.apocProtoCount + 1
 		if self.vb.apocProtoCount % 2 == 1 then
