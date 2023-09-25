@@ -804,7 +804,7 @@ function mod:GOSSIP_SHOW()
 end
 
 function mod:PLAYER_DEAD()
-	if not IsInInstance() and self.Options.AutoSpirit then
+	if not IsInInstance() and not HasSoulstone() and self.Options.AutoSpirit then
 		RepopMe()
 	end
 end
