@@ -25,7 +25,7 @@ local warnHatefulGaze				= mod:NewTargetAnnounce(198079, 4) --Ненавидящ
 local warnFelVomit					= mod:NewTargetAnnounce(198446, 3) --Сквернорвота
 local warnHatefulCharge				= mod:NewStackAnnounce(224188, 4) --Рывок ненависти
 
-local specWarnHatefulCharge			= mod:NewSpecialWarningStack(224188, nil, 1, nil, nil, 3, 5) --Рывок ненависти
+local specWarnHatefulCharge			= mod:NewSpecialWarningStack(224188, nil, 1, nil, nil, 3, 6) --Рывок ненависти
 local specWarnFelVomitus			= mod:NewSpecialWarningYouMove(198501, nil, nil, nil, 1, 3) --Рвота Скверны
 local specWarnFelVomit				= mod:NewSpecialWarningYouMoveAway(198446, nil, nil, nil, 4, 3) --Сквернорвота
 local specWarnStomp					= mod:NewSpecialWarningDefensive(198073, nil, nil, nil, 2, 3) --Сотрясающий землю топот
@@ -52,7 +52,7 @@ local countdownHatefulGaze2			= mod:NewCountdownFades("Alt5", 198079, nil, nil, 
 mod:AddSetIconOption("SetIconOnHatefulGaze", 198079, true, false, {8}) --Ненавидящий взгляд
 mod:AddSetIconOption("SetIconOnFelVomit", 198446, true, false, {7, 6, 5}) --Сквернорвота
 mod:AddSetIconOption("SetIconOnHatefulCharge", 224188, true, false, {2, 1}) --Рывок ненависти
-mod:AddInfoFrameOption(198080)
+--mod:AddInfoFrameOption(198080)
 
 mod.vb.hatefulchargeIcon = 1
 mod.vb.felVomitIcon = 7
@@ -65,18 +65,18 @@ function mod:OnCombatStart(delay)
 	if not self:IsNormal() then
 		timerHatefulGazeCD:Start(6-delay) --Ненавидящий взгляд
 		countdownHatefulGaze:Start(6-delay) --Ненавидящий взгляд
-		if self.Options.InfoFrame then
+	--[[	if self.Options.InfoFrame then
 			DBM.InfoFrame:SetHeader(DBM:GetSpellInfo(198080))
 			DBM.InfoFrame:Show(5, "reverseplayerbaddebuffbyspellid", 224188)--Must match spellID to filter other debuffs out
-		end
+		end]]
 	end
 	timerStompCD:Start(12-delay) --Сотрясающий землю топот
 end
 
 function mod:OnCombatEnd()
-	if self.Options.InfoFrame then
+--[[	if self.Options.InfoFrame then
 		DBM.InfoFrame:Hide()
-	end
+	end]]
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
@@ -137,6 +137,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		self.vb.felVomitIcon = self.vb.felVomitIcon - 1
 		if args:IsPlayer() then
 			specWarnFelVomit:Schedule(3.5)
+			specWarnFelVomit:ScheduleVoice(3.5, "runaway")
 			yellFelVomit:Yell()
 			yellFelVomit2:Countdown(6, 3)
 		else
@@ -155,6 +156,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		timerHatefulGaze:Cancel()
 		if args:IsPlayer() then
 			specWarnHatefulGaze:Cancel()
+			specWarnHatefulGaze:CancelVoice()
 			yellHatefulGaze2:Cancel()
 		end
 	elseif spellId == 224188 then --Рывок ненависти
@@ -166,6 +168,8 @@ function mod:SPELL_AURA_REMOVED(args)
 	elseif spellId == 198446 then --Сквернорвота
 		self.vb.felVomitIcon = self.vb.felVomitIcon + 1
 		if args:IsPlayer() then
+			specWarnFelVomit:Cancel()
+			specWarnFelVomit:CancelVoice()
 			yellFelVomit2:Cancel()
 		end
 		if self.Options.SetIconOnFelVomit then
