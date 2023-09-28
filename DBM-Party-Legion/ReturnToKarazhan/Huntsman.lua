@@ -386,11 +386,11 @@ function mod:OnSync(msg, sender)
 	end
 end
 
-function mod:OnBWSync(msg, _, sender)
+--[[function mod:OnBWSync(msg, _, sender)
 	if msg == "intangiblePresenceOnMe" and sender ~= playerName and not syncEvent then
 		syncEvent = true
-	--	local currenttime = GetTime()
-	--	DBM:Debug("OnBWSync: syncEvent = true, GetTime(): " .. currenttime .. ", spenttime: " .. currenttime - runtime)
+		-- local currenttime = GetTime()
+		-- DBM:Debug("OnBWSync: syncEvent = true, GetTime(): " .. currenttime .. ", spenttime: " .. currenttime - runtime)
 		if self.Options.SetIconOnPresence then
 			self:SetIcon(sender, 7)
 		end
@@ -401,4 +401,4 @@ function mod:OnBWSync(msg, _, sender)
 			specWarnPresence7:Show(sender)
 		end
 	end
-end
+end]]
