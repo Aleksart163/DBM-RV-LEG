@@ -27,7 +27,7 @@ local specWarnWinds					= mod:NewSpecialWarningDefensive(193977, nil, nil, nil, 
 local specAriseFallen				= mod:NewSpecialWarningSwitch(193566, "-Healer", nil, nil, 1, 2) --Восстань, павший
 
 local timerDarkSlashCD				= mod:NewCDTimer(14.6, 193211, nil, nil, nil, 3, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Черная рана
-local timerScreamsCD				= mod:NewCDTimer(23, 193364, nil, "Melee", nil, 2) --Крики мертвых
+local timerScreamsCD				= mod:NewCDTimer(23, 193364, nil, nil, nil, 2) --Крики мертвых
 local timerWindsCD					= mod:NewCDTimer(24, 193977, nil, nil, nil, 2) --Ветра Нордскола
 local timerBaneCD					= mod:NewCDTimer(49.5, 193460, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Погибель
 local timerAriseFallenCD			= mod:NewCDTimer(19, 193566, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON) --Восстань, павший +1сек
