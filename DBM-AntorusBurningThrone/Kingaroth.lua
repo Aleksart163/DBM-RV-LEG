@@ -103,6 +103,7 @@ mod.vb.forgingTimeLeft = 0
 mod.vb.bombTimeLeft = 0
 mod.vb.decimationIcon = 8
 
+local ProshlyapMurchal = false
 local DemolishTargets = {}
 local playerName = DBM:GetMyPlayerInfo()
 
@@ -282,6 +283,7 @@ function mod:SPELL_CAST_START(args)
 		countdownForgingStrike:Start(10)
 	elseif spellId == 246516 and self:IsInCombat() then --Протокол Апокалипсис
 		self.vb.apocProtocolCount = self.vb.apocProtocolCount + 1
+		ProshlyapMurchal = true
 		self.vb.ruinerTimeLeft = timerRuinerCD:GetRemaining(self.vb.ruinerCast+1)
 		self.vb.reverbTimeLeft = timerReverberatingStrikeCD:GetRemaining(self.vb.reverbStrikeCast+1)
 		self.vb.forgingTimeLeft = timerForgingStrikeCD:GetRemaining(self.vb.forgingStrikeCast+1)
@@ -371,7 +373,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnDecimation:Schedule(5)
 			specWarnDecimation:ScheduleVoice(5, "runaway")
 			yellDecimation:Yell()
-			yellDecimation2:Countdown(9, 3)
+			yellDecimation2:Countdown(8.5, 3)
 		else
 			warnDecimation:CombinedShow(0.3, args.destName)
 		end
@@ -427,11 +429,11 @@ function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
 	if spellId == 246687 then --Децимация 1 (от моба)
 		self.vb.decimationIcon = self.vb.decimationIcon + 1
---[[		if args:IsPlayer() then
+		if args:IsPlayer() and not ProshlyapMurchal then
 			specWarnDecimation:Cancel()
 			specWarnDecimation:CancelVoice()
 			yellDecimation2:Cancel()
-		end]]
+		end
 	elseif spellId == 249680 then --Децимация 2 (от босса)
 		self.vb.decimationIcon = self.vb.decimationIcon + 1
 	elseif spellId == 246516 and self:IsInCombat() then --Протокол Апокалипсис
@@ -488,11 +490,12 @@ mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
 
 function mod:UNIT_DIED(args)
 	local cid = self:GetCIDFromGUID(args.destGUID)
-	if cid == 127235 then--Garothi Demolisher
+	if cid == 127235 then --Уничтожитель Кин'гарота
 		timerDemolishCD:Stop(args.destGUID)
-	elseif cid == 127231 then--Garothi Decimator
+	elseif cid == 127231 then --Крушитель Кин'гарота
+		ProshlyapMurchal = false
 		timerDecimationCD:Stop(args.destGUID)
-	elseif cid == 127230 then--Garothi Annihilator
+	elseif cid == 127230 then --Аннигилятор Кин'гарота
 		timerAnnihilationCD:Stop(args.destGUID)
 	end
 end
