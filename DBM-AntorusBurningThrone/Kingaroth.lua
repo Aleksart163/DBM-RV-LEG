@@ -427,11 +427,11 @@ function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
 	if spellId == 246687 then --Децимация 1 (от моба)
 		self.vb.decimationIcon = self.vb.decimationIcon + 1
-		if args:IsPlayer() then
-		--	specWarnDecimation:Cancel()
-		--	specWarnDecimation:CancelVoice()
+--[[		if args:IsPlayer() then
+			specWarnDecimation:Cancel()
+			specWarnDecimation:CancelVoice()
 			yellDecimation2:Cancel()
-		end
+		end]]
 	elseif spellId == 249680 then --Децимация 2 (от босса)
 		self.vb.decimationIcon = self.vb.decimationIcon + 1
 	elseif spellId == 246516 and self:IsInCombat() then --Протокол Апокалипсис
