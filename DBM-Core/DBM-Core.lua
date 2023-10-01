@@ -1571,7 +1571,7 @@ local f = CreateFrame("Frame")
 f:RegisterEvent("CONFIRM_SUMMON")
 
 f:SetScript("OnEvent", Proshlyap2)]]
-
+--------------------------------------------------------------------------------------------------
 --------------------------
 --  OnUpdate/Scheduler  --
 --------------------------
