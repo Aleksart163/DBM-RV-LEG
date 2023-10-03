@@ -87,6 +87,10 @@ local timerRoleplay					= mod:NewTimer(28, "timerRoleplay", "Interface\\Icons\\S
 
 local countdownRoleplay				= mod:NewCountdown(28, 91344, nil, nil, 5)
 local countdownFelDetonation		= mod:NewCountdown(12, 211464, nil, nil, 5) --Взрыв Скверны
+local countdownWhirlingBlades		= mod:NewCountdown(18, 209378, nil, nil, 5) --Крутящиеся клинки
+local countdownDisintegrationBeam	= mod:NewCountdown(14, 207980, nil, nil, 5) --Луч дезинтеграции
+local countdownShockwave			= mod:NewCountdown(8.5, 207979, nil, nil, 5) --Ударная волна
+local countdownShadowBoltVolley		= mod:NewCountdown(20.5, 214692, nil, nil, 5) --Залп стрел Тьмы
 
 local yellPickingUp					= mod:NewYell(214697, L.PickingUpYell, nil, nil, "YELL") --Поднять ключ
 local yellSealMagic					= mod:NewYell(209404, nil, nil, nil, "YELL") --Подавление магии
@@ -338,16 +342,20 @@ function mod:SPELL_CAST_START(args)
 			specWarnWhirlingBlades:Play("runout")
 		end
 		timerWhirlingBladesCD:Start()
+		countdownWhirlingBlades:Start()
 	elseif spellId == 207980 then --Луч дезинтеграции
 		self:BossTargetScanner(args.sourceGUID, "DisintegrationBeamTarget", 0.1, 2)
 		timerDisintegrationBeamCD:Start()
+		countdownDisintegrationBeam:Start()
 	elseif spellId == 207979 then --Ударная волна
 		specWarnShockwave:Show()
 		specWarnShockwave:Play("watchstep")
 		timerShockwaveCD:Start()
+		countdownShockwave:Start()
 	elseif spellId == 214692 then --Залп стрел Тьмы
 		warnShadowBoltVolley:Show()
 		timerShadowBoltVolleyCD:Start()
+		countdownShadowBoltVolley:Start()
 		if self:IsHard() then
 			if not UnitIsDeadOrGhost("player") then
 				specWarnShadowBoltVolley:Show()
@@ -701,18 +709,22 @@ function mod:UNIT_DIED(args)
 		self.vb.wardens = 2
 		warnMinionDie:Show(self.vb.wardens)
 		timerWhirlingBladesCD:Cancel()
+		countdownWhirlingBlades:Cancel()
 	elseif cid == 104274 then --Баалгар Бдительный
 		self.vb.wardens = 1
 		warnMinionDie:Show(self.vb.wardens)
 		timerDisintegrationBeamCD:Cancel()
+		countdownDisintegrationBeam:Cancel()
 	elseif cid == 104273 then --Джазшариу
 		self.vb.wardens = 0
 		warnMinionDie:Show(self.vb.wardens)
 		timerShockwaveCD:Cancel()
+		countdownShockwave:Cancel()
 	elseif cid == 108151 or cid == 107435 then --Герент Зловещий
 		timerCrippleCD:Cancel()
 		timerShadowBoltVolleyCD:Cancel()
 		timerCarrionSwarmCD:Cancel()
+		countdownShadowBoltVolley:Cancel()
 	end
 end
 
