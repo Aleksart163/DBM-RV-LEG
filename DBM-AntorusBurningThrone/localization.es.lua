@@ -64,7 +64,7 @@ L:SetOptionLocalization({
 
 if GetLocale() == "esES" then
 L:SetMiscLocalization({
-	ProshlyapMurchal = "%s %s en 5 seg!",
+	ProshlyapMurchal = "¡%s %s (%s grupo) en 5 seg!",
 	YellPullEonar = "¡Campeones! ¡Las fuerzas de la Legión buscan capturar mi esencia para su maestro infernal!", --
 	Obfuscators =	"Ofuscador",
 	Destructors =	"Destructor",
@@ -76,7 +76,7 @@ L:SetMiscLocalization({
 })
 else
 L:SetMiscLocalization({
-	ProshlyapMurchal = "%s %s en 5 seg!",
+	ProshlyapMurchal = "¡%s %s (%s grupo) en 5 seg!",
 	YellPullEonar = "¡Campeones! ¡Las fuerzas de la Legión quieren capturar mi esencia para su amo infernal!", --
 	Obfuscators =	"Ofuscador",
 	Destructors =	"Destructor",
@@ -133,7 +133,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	ProshlyapSoulburnin = "%s %s en 5 seg!"
+	ProshlyapSoulburnin = "¡%s %s en 5 seg!"
 })
 
 ------------------------
@@ -199,7 +199,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	MurchalProshlyapation = "%s %s en 5 seg!",
+	MurchalProshlyapation = "¡%s %s en 5 seg!",
 --	ProshlyapMurchal2	= "%s CONTROL MOBS", --need localization
 --	ProshlyapMurchal1	= "%s THEY RAN UNDER THE BOSS", --need localization
 --	YellPullAggramar = "¡Arderéis!",
@@ -227,7 +227,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	ProshlyapMurchal = "%s %s en 5 seg!",
+	ProshlyapMurchal = "¡%s %s en 5 seg!",
 --	YellPullArgus = "¡Muerte! ¡Muerte y dolor!",
 	SeaText		= "Celeridad/Versatilidad en %s",
 	SkyText		= "Crítico/Maestría en %s",

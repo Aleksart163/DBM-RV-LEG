@@ -43,7 +43,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	ProshlyapMurchal = "%s 5秒后 %s!",
+	ProshlyapMurchal = "%s %s (%s 组), 10 秒钟后",
 	YellPullEonar = "勇士們！燃燒軍團的惡魔想奪走我的生命精華，交給它們的主人！", --
 	Obfuscators = "匿蹤者",
 	Destructors = "毀滅者",

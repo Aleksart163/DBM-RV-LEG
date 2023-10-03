@@ -52,7 +52,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	ProshlyapMurchal = "%s 5초 후 %s!",
+	ProshlyapMurchal = "%s 10초 후 %s(%s 그룹)!",
 	YellPullEonar = "용사들이여! 군단의 병력이 나의 정수를 차지해 지옥불 주인에게 갖다 바치려 한다!", --
 	Obfuscators = "혼란자",
 	Destructors = "파괴자",

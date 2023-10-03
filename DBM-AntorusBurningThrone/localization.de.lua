@@ -57,7 +57,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	ProshlyapMurchal = "%s %s in 5 Sek!",
+	ProshlyapMurchal = "%s %s (%s Gruppe) in 10 Sek!",
 	YellPullEonar = "Champions! Die Streitmacht der Legion versucht, meine Essenz für ihren infernalen Meister zu stehlen!",
 	Obfuscators = "Verdunkler",
 	Destructors = "Zerstörer",

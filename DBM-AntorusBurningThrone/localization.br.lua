@@ -39,6 +39,7 @@ L:SetTimerLocalization({
 })
 
 L:SetMiscLocalization({
+	ProshlyapMurchal = "%s %s (%s group) em 10 seg!",
 	YellPullEonar = "Campeões! As forças da Legião querem roubar minha essência para o seu mestre infernal!",
 	Obfuscators = "Obfuscator",
 	Destructors = "Destructor",

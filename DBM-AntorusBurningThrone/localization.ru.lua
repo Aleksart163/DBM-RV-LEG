@@ -63,7 +63,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	ProshlyapMurchal = "%s %s через 5 сек!",
+	ProshlyapMurchal = "%s %s (%s группа) через 10 сек!",
 	YellPullEonar = "Герои! Демоны пытаются захватить мою сущность для своего повелителя.",
 	YellKilled = "Герои, победа близка! Добейте демонов, а я возьму на себя их корабль.",
 	Obfuscators = "Маскировщик",

@@ -48,6 +48,7 @@ L:SetTimerLocalization({
 })
 
 L:SetMiscLocalization({
+	ProshlyapMurchal = "%s %s (%s 组), 10 秒钟后",
 	YellPullEonar = "勇士们！军团想为他们那可怕的主人来捕获我的精华！",
 	Obfuscators =	"邪能干扰器", --需要T
 	Destructors =	"注邪毁灭者", --减速

@@ -261,7 +261,7 @@ local function checkForDeadDestructor(self, forceStart)
 end
 
 local function startProshlyapationOfMurchal(self)
-	smartChat(L.ProshlyapMurchal:format(DbmRV, finalDoom), "rw")
+	smartChat(L.ProshlyapMurchal:format(DbmRV, finalDoom, self.vb.finalDoomCast+1), "rw")
 end
 
 local premsg_values = {
@@ -355,6 +355,7 @@ function mod:OnCombatStart(delay)
 		self.vb.lifeRequired = 4
 		if self:IsMythic() then
 			specWarnFinalDoom2:Schedule(43.8-delay, self.vb.finalDoomCast+1)
+			specWarnFinalDoom2:ScheduleVoice(43.8-delay, "specialsoon")
 			timerDestructorCD:Start(17, DBM_CORE_MIDDLE) --Разрушитель
 			self:Schedule(30, checkForDeadDestructor, self, 5)
 			timerObfuscatorCD:Start(43, DBM_CORE_BOTTOM) --маскировщик, подправил
@@ -362,7 +363,7 @@ function mod:OnCombatStart(delay)
 			timerFinalDoomCD:Start(58.8-delay, 1) --Всеобщая погибель
 			countdownFinalDoom:Start(58.8-delay) --Всеобщая погибель
 			if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapationOfMurchal and DBM:GetRaidRank() > 0 then
-				prepareMessage(self, "premsg_Eonar_proshlyap_rw", nil, nil, 52.8)
+				prepareMessage(self, "premsg_Eonar_proshlyap_rw", nil, nil, 47.8)
 			end
 			timerBatsCD:Start(189, 1) --мыши, подправил
 			self:Schedule(189, startBatsStuff, self)
@@ -420,10 +421,11 @@ function mod:SPELL_CAST_START(args)
 		local timer = finalDoomTimers[self.vb.finalDoomCast+1]
 		if timer then
 			specWarnFinalDoom2:Schedule(timer-15, self.vb.finalDoomCast+1)
+			specWarnFinalDoom2:ScheduleVoice(timer-15, "specialsoon")
 			timerFinalDoomCD:Start(timer, self.vb.finalDoomCast+1)
 			countdownFinalDoom:Start(timer)
 			if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapationOfMurchal and DBM:GetRaidRank() > 0 then
-				prepareMessage(self, "premsg_Eonar_proshlyap_rw", nil, nil, timer-6)
+				prepareMessage(self, "premsg_Eonar_proshlyap_rw", nil, nil, timer-11)
 			end
 		end
 	elseif spellId == 250701 then --Размах скверны
