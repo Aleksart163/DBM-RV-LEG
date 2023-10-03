@@ -64,7 +64,7 @@ L:SetOptionLocalization({
 
 if GetLocale() == "esES" then
 L:SetMiscLocalization({
-	ProshlyapMurchal = "¡%s %s (%s grupo) en 5 seg!",
+	ProshlyapMurchal = "¡%s %s (%s grupo) en 10 seg!",
 	YellPullEonar = "¡Campeones! ¡Las fuerzas de la Legión buscan capturar mi esencia para su maestro infernal!", --
 	Obfuscators =	"Ofuscador",
 	Destructors =	"Destructor",
@@ -76,7 +76,7 @@ L:SetMiscLocalization({
 })
 else
 L:SetMiscLocalization({
-	ProshlyapMurchal = "¡%s %s (%s grupo) en 5 seg!",
+	ProshlyapMurchal = "¡%s %s (%s grupo) en 10 seg!",
 	YellPullEonar = "¡Campeones! ¡Las fuerzas de la Legión quieren capturar mi esencia para su amo infernal!", --
 	Obfuscators =	"Ofuscador",
 	Destructors =	"Destructor",
