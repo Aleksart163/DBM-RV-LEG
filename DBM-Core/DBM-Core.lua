@@ -34,9 +34,9 @@
 -------------------------------
 
 DBM = {
-	Revision = tonumber(("$Revision: 17737 $"):sub(12, -3)),
+	Revision = tonumber(("$Revision: 17738 $"):sub(12, -3)),
 	DisplayVersion = "7.3.48 Right Version " .. string.sub(GetLocale(), -2),
-	ReleaseRevision = 17736
+	ReleaseRevision = 17737
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -1571,7 +1571,6 @@ local f = CreateFrame("Frame")
 f:RegisterEvent("CONFIRM_SUMMON")
 
 f:SetScript("OnEvent", Proshlyap2)]]
---------------------------------------------------------------------------------------------------
 --------------------------
 --  OnUpdate/Scheduler  --
 --------------------------
