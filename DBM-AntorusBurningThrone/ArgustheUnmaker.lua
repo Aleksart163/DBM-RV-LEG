@@ -1079,13 +1079,6 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	end
 end
 
-function mod:OnSync(msg, sender)
-	if not self:IsInCombat() then return end
-	if msg == "Release" and DBM:GetRaidRank(sender) == 2 then
-		RepopMe()
-	end
-end
-
 function mod:UNIT_HEALTH(uId)
 	if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 124828 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.76 then --скоро фаза 2
 		warned_preP1 = true
@@ -1118,5 +1111,11 @@ function mod:UNIT_DIED(args)
 		if self.vb.kurators == 1 then
 			warnPrePhase4:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase+1))
 		end
+	end
+end
+
+function mod:OnSync(premsg_announce, sender)
+	if sender < playerOnlyName then
+		announceList(premsg_announce, 0)
 	end
 end
