@@ -39,7 +39,7 @@ local specWarnInfernoBoltMoveTo		= mod:NewSpecialWarningMoveTo(227615, nil, nil,
 local specWarnInfernoBoltMoveAway	= mod:NewSpecialWarningMoveAway(227615, nil, nil, nil, 1, 2) --Инфернальная стрела
 local specWarnInfernoBoltNear		= mod:NewSpecialWarningClose(227615, nil, nil, nil, 1, 2) --Инфернальная стрела
 local specWarnCeaselessWinter		= mod:NewSpecialWarningDontStand(227779, nil, nil, nil, 2, 3) --Бесконечная зима
-local specWarnFlameWreath			= mod:NewSpecialWarningYouDontMove(228269, nil, nil, nil, 3, 5) --Венец пламени
+local specWarnFlameWreath			= mod:NewSpecialWarningYouDontMove(228269, nil, nil, nil, 3, 6) --Венец пламени
 local specWarnFlameWreath2			= mod:NewSpecialWarningDontMove(228269, nil, nil, nil, 2, 5) --Венец пламени
 local specWarnFlameWreath3			= mod:NewSpecialWarningMoveAway(228269, nil, nil, nil, 3, 5) --Венец пламени
 local specWarnFlameWreath4			= mod:NewSpecialWarningYouDefensive(228269, nil, nil, nil, 5, 6) --Венец пламени
@@ -141,7 +141,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnFlameWreath4:ScheduleVoice(2, "defensive")
 			yellFlameWreath:Yell()
 			yellFlameWreath2:Countdown(20, 3)
-		else
+		elseif self:AntiSpam(2, "flamewreath") then
 			specWarnFlameWreath2:Show()
 			specWarnFlameWreath2:Play("dontmove")
 		end
