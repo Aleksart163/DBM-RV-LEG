@@ -28,6 +28,15 @@ L = DBM:GetModLocalization(584)
 ----------------
 L = DBM:GetModLocalization(583)
 
+---------
+--Trash--
+---------
+L = DBM:GetModLocalization("AKTrash")
+
+L:SetGeneralLocalization({
+	name = "안카헤트: 고대 왕국 일반몹"
+})
+
 ---------------
 --  Gundrak  --
 ----------------
@@ -118,6 +127,15 @@ end
 
 L:SetGeneralLocalization({
 	name = commander
+})
+
+---------
+--Trash--
+---------
+L = DBM:GetModLocalization("TNTrash")
+
+L:SetGeneralLocalization({
+	name = "마력의 탑 일반몹"
 })
 
 ------------------------

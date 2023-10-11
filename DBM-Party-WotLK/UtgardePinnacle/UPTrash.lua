@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("UPTrash", "DBM-Party-WotLK", 5, 286)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
 mod:SetZone()
 
 mod.isTrashMod = true
@@ -18,7 +18,7 @@ local specWarnTerrify				= mod:NewSpecialWarningInterrupt(49106, "HasInterrupt",
 local specWarnDarkMending			= mod:NewSpecialWarningInterrupt(49204, "HasInterrupt", nil, nil, 1, 2) --Исцеление тьмой
 local specWarnChainLightning		= mod:NewSpecialWarningInterrupt(48140, "HasInterrupt", nil, nil, 1, 2) --Цепная молния
 local specWarnHealingWave			= mod:NewSpecialWarningInterrupt(48700, "HasInterrupt", nil, nil, 1, 2) --Волна исцеления
--- else
+
 function mod:SPELL_CAST_START(args)
 	if not self.Options.Enabled then return end
 	local spellId = args.spellId

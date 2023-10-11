@@ -29,6 +29,15 @@ L = DBM:GetModLocalization(584)
 --------------
 L = DBM:GetModLocalization(583)
 
+---------
+--Trash--
+---------
+L = DBM:GetModLocalization("AKTrash")
+
+L:SetGeneralLocalization({
+	name = "Enemigos menores"
+})
+
 -------------
 -- Gundrak --
 -------------
@@ -122,6 +131,15 @@ end
 
 L:SetGeneralLocalization({
 	name = commander
+})
+
+---------
+--Trash--
+---------
+L = DBM:GetModLocalization("TNTrash")
+
+L:SetGeneralLocalization({
+	name = "Enemigos menores"
 })
 
 -------------------------

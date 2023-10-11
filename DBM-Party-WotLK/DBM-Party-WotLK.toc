@@ -52,6 +52,7 @@ AhnKahet\Nadox.lua
 AhnKahet\JedogaShadowseeker.lua
 AhnKahet\Volazj.lua
 AhnKahet\Amanitar.lua
+AhnKahet\AKTrash.lua
 Gundrak\Sladran.lua
 Gundrak\Moorabi.lua
 Gundrak\BloodstoneAnnihilator.lua
@@ -67,6 +68,7 @@ TheNexus\GrandMagusTelestra.lua
 TheNexus\Anomalus.lua
 TheNexus\OrmorokTheTreeShaper.lua
 TheNexus\Keristrasza.lua
+TheNexus\TNTrash.lua
 UtgardePinnacle\SvalaSorrowgrave.lua
 UtgardePinnacle\GortokPalehoof.lua
 UtgardePinnacle\SkadiTheRuthless.lua

@@ -28,6 +28,15 @@ L = DBM:GetModLocalization(584)
 ----------------
 L = DBM:GetModLocalization(583)
 
+---------
+--Trash--
+---------
+L = DBM:GetModLocalization("AKTrash")
+
+L:SetGeneralLocalization({
+	name = "安卡赫特：古代王国 Trash"
+})
+
 ---------------
 --  Gundrak  --
 ----------------

@@ -33,6 +33,15 @@ L = DBM:GetModLocalization(583)
 ------------------
 L = DBM:GetModLocalization(584)
 
+-------------
+--Треш-мобы--
+-------------
+L = DBM:GetModLocalization("AKTrash")
+
+L:SetGeneralLocalization({
+	name = "Трэш Ан'кахет:СТ"
+})
+
 -----------
 --Гундрак--
 -----------
@@ -92,7 +101,7 @@ L = DBM:GetModLocalization(600)
 L = DBM:GetModLocalization("HoLTrash")
 
 L:SetGeneralLocalization({
-	name = "Трэш ЧМ"
+	name = "Трэш Чертогов Молний"
 })
 
 L:SetOptionLocalization({
@@ -152,6 +161,14 @@ L = DBM:GetModLocalization(620)
 --------------
 L = DBM:GetModLocalization(621)
 
+-------------
+--Треш-мобы--
+-------------
+L = DBM:GetModLocalization("TNTrash")
+
+L:SetGeneralLocalization({
+	name = "Трэш Нексуса"
+})
 
 ------------------
 --Вершина Утгард--

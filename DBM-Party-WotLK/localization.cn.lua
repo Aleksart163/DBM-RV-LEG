@@ -31,6 +31,15 @@ L = DBM:GetModLocalization(584)
 ----------------
 L = DBM:GetModLocalization(583)
 
+---------
+--Trash--
+---------
+L = DBM:GetModLocalization("AKTrash")
+
+L:SetGeneralLocalization({
+	name = "安卡赫特：古代王国 Trash"
+})
+
 ---------------
 --  Gundrak  --
 ----------------
@@ -123,6 +132,15 @@ L:SetGeneralLocalization({
 	name = commander
 })
 
+---------
+--Trash--
+---------
+L = DBM:GetModLocalization("TNTrash")
+
+L:SetGeneralLocalization({
+	name = "魔枢 Trash"
+})
+
 ------------------------
 --  Utgarde Pinnacle  --
 --------------------------
@@ -140,9 +158,9 @@ L:SetMiscLocalization({
 -------------------
 L = DBM:GetModLocalization(644)
 
--------------
---Трэш-мобы--
--------------
+---------
+--Trash--
+---------
 L = DBM:GetModLocalization("UPTrash")
 
 L:SetGeneralLocalization({

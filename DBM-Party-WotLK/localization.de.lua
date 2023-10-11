@@ -28,6 +28,15 @@ L = DBM:GetModLocalization(584)
 ----------------
 L = DBM:GetModLocalization(583)
 
+-------------
+--Треш-мобы--
+-------------
+L = DBM:GetModLocalization("AKTrash")
+
+L:SetGeneralLocalization({
+	name = "Trash der Ahn'kahet"
+})
+
 ---------------
 --  Gundrak  --
 ----------------
@@ -83,7 +92,7 @@ L = DBM:GetModLocalization(600)
 L = DBM:GetModLocalization("HoLTrash")
 
 L:SetGeneralLocalization({
-	name = "Trash des Die Hallen der Blitze"
+	name = "Trash der Hallen der Blitze"
 })
 
 L:SetOptionLocalization({
@@ -139,6 +148,15 @@ end
 
 L:SetGeneralLocalization({
 	name = commander
+})
+
+---------
+--Trash--
+---------
+L = DBM:GetModLocalization("TNTrash")
+
+L:SetGeneralLocalization({
+	name = "Trash Der Nexus"
 })
 
 ------------------------

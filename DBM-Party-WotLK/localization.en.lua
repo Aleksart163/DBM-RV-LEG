@@ -27,6 +27,15 @@ L = DBM:GetModLocalization(584)
 ----------------
 L = DBM:GetModLocalization(583)
 
+---------
+--Trash--
+---------
+L = DBM:GetModLocalization("AKTrash")
+
+L:SetGeneralLocalization({
+	name = "Ahn'kahet: TOK Trash"
+})
+
 ---------------
 --  Gundrak  --
 ----------------
@@ -140,6 +149,15 @@ L:SetGeneralLocalization({
 	name = commander
 })
 
+---------
+--Trash--
+---------
+L = DBM:GetModLocalization("TNTrash")
+
+L:SetGeneralLocalization({
+	name = "The Nexus Trash"
+})
+
 ------------------------
 --  Utgarde Pinnacle  --
 --------------------------
@@ -157,9 +175,9 @@ L:SetMiscLocalization({
 -------------------
 L = DBM:GetModLocalization(644)
 
--------------
---Трэш-мобы--
--------------
+---------
+--Trash--
+---------
 L = DBM:GetModLocalization("UPTrash")
 
 L:SetGeneralLocalization({
