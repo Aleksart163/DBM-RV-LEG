@@ -100,7 +100,6 @@ function mod:SPELL_AURA_APPLIED(args)
 			yellHatefulGaze:Yell()
 			yellHatefulGaze2:Countdown(5, 3)
 		elseif self:CheckNearby(10, args.destName) then
-			warnHatefulGaze:Show(args.destName)
 			specWarnHatefulGaze3:Show(args.destName)
 			specWarnHatefulGaze3:Play("watchstep")
 		else
