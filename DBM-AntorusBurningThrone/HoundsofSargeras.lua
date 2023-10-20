@@ -128,7 +128,9 @@ local function UpdateAllTimers(self)
 	timerCorruptingMawCD:Stop()
 	if timerComsumingSphereCD:GetTime() > 0 then
 		specWarnComsumingSphere2:Cancel()
+		specWarnComsumingSphere2:CancelVoice()
 		specWarnComsumingSphere:Cancel()
+		specWarnComsumingSphere:CancelVoice()
 		timerComsumingSphereCD:AddTime(15) --Поглощаяющая сфера
 		countdownComsumingSphere:Cancel() --Поглощаяющая сфера
 	end
@@ -161,7 +163,9 @@ end
 local function UpdateShatugTimers(self) --Шатуг
 	if timerComsumingSphereCD:GetTime() > 0 then --Поглощаяющая сфера
 		specWarnComsumingSphere2:Cancel()
+		specWarnComsumingSphere2:CancelVoice()
 		specWarnComsumingSphere:Cancel()
+		specWarnComsumingSphere:CancelVoice()
 		timerComsumingSphereCD:AddTime(15) --Поглощаяющая сфера
 		countdownComsumingSphere:Cancel() --Поглощаяющая сфера
 	end
@@ -280,6 +284,7 @@ function mod:SPELL_CAST_START(args)
 			timerComsumingSphereCD:Start(26) --Поглощаяющая сфера+++
 			countdownComsumingSphere:Start(26) --Поглощаяющая сфера+++
 			specWarnComsumingSphere2:Schedule(16) --Поглощаяющая сфера+++
+			specWarnComsumingSphere2:ScheduleVoice(16, "specialsoon")
 			if not UnitIsDeadOrGhost("player") then
 				specWarnComsumingSphere:Schedule(26) --Поглощаяющая сфера+++
 				specWarnComsumingSphere:ScheduleVoice(26, "watchorb") --Поглощаяющая сфера+++
@@ -298,6 +303,7 @@ function mod:SPELL_CAST_START(args)
 			timerComsumingSphereCD:Start(24) --Поглощаяющая сфера+++
 			countdownComsumingSphere:Start(24) --Поглощаяющая сфера+++
 			specWarnComsumingSphere2:Schedule(14) --Поглощаяющая сфера+++
+			specWarnComsumingSphere2:ScheduleVoice(14, "specialsoon")
 			if not UnitIsDeadOrGhost("player") then
 				specWarnComsumingSphere:Schedule(24) --Поглощаяющая сфера+++
 				specWarnComsumingSphere:ScheduleVoice(24, "watchorb") --Поглощаяющая сфера+++
@@ -315,6 +321,7 @@ function mod:SPELL_CAST_START(args)
 			timerComsumingSphereCD:Start(28) --Поглощаяющая сфера+++
 			countdownComsumingSphere:Start(28) --Поглощаяющая сфера+++
 			specWarnComsumingSphere2:Schedule(18) --Поглощаяющая сфера+++
+			specWarnComsumingSphere2:ScheduleVoice(18, "specialsoon")
 			if not UnitIsDeadOrGhost("player") then
 				specWarnComsumingSphere:Schedule(28) --Поглощаяющая сфера+++
 				specWarnComsumingSphere:ScheduleVoice(28, "watchorb") --Поглощаяющая сфера+++
@@ -495,5 +502,16 @@ function mod:SPELL_AURA_REMOVED(args)
 		if args:IsPlayer() then
 			Shadowtouched = false
 		end
+	end
+end
+
+function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
+	local spellId = legacySpellId or bfaSpellId
+	if spellId == 244159 then --Поглощаяющая сфера
+		DBM:Debug("checking proshlyapation of Murchal 1", 2)
+	elseif spellId == 244064 then --Опустошающий взгляд
+		DBM:Debug("checking proshlyapation of Murchal 2", 2)
+	elseif spellId == 244069 then --Бремя Тьмы
+		DBM:Debug("checking proshlyapation of Murchal 3", 2)
 	end
 end

@@ -175,7 +175,8 @@ end
 
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	local spellId = legacySpellId or bfaSpellId
-	if spellId == 247576 then--Umbra Shift
+	if spellId == 247576 then --Теневой рывок
+		DBM:Debug("checking proshlyapation of Murchal", 2)
 		--timerUmbraShiftCD:Start()
 	end
 end
