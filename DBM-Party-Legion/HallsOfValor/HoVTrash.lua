@@ -217,7 +217,7 @@ function mod:SPELL_CAST_START(args)
 		self:BossTargetScanner(args.sourceGUID, "ShootTarget", 0.1, 2)
 	elseif spellId == 198892 then --Грохочущая буря
 		self:BossTargetScanner(args.sourceGUID, "CracklingStormTarget", 0.1, 2)
-	elseif spellId == 198595 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Гром и молния
+	elseif spellId == 198595 and self:AntiSpam(2, "ThunderousBolt") and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Гром и молния
 		specWarnThunderousBolt:Show()
 		specWarnThunderousBolt:Play("kickcast")
 	elseif spellId == 199341 then --Капкан на Мурчаля
