@@ -16,7 +16,7 @@ mod:RegisterEventsInCombat(
 )
 
 --Рокмора https://ru.wowhead.com/npc=91003/рокмора/эпохальный-журнал-сражений
-local warnShatter					= mod:NewSpellAnnounce(188114, 4) --Дробление
+local warnShatter					= mod:NewCastAnnounce(188114, 4) --Дробление
 local warnShatter2					= mod:NewSoonAnnounce(188114, 3, nil, nil) --Дробление
 local warnRazorShards				= mod:NewSpellAnnounce(188169, 4) --Бритвенно-острые осколки
 local warnRazorShards2				= mod:NewSoonAnnounce(188169, 3, nil, nil) --Бритвенно-острые осколки
@@ -31,6 +31,7 @@ local timerShatterCD				= mod:NewCDTimer(24.2, 188114, nil, nil, nil, 2, nil, DB
 local timerRazorShardsCD			= mod:NewCDTimer(25, 188169, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Бритвенно-острые осколки +++
 
 local countdownShatter				= mod:NewCountdown(24.2, 188114, nil, nil, 5) --Дробление
+local countdownShatter2				= mod:NewCountdownFades(4.3, 188114, nil, nil, 4.3) --Дробление
 
 function mod:OnCombatStart(delay)
 	if not self:IsNormal() then
@@ -64,6 +65,7 @@ function mod:SPELL_CAST_START(args)
 		end
 	elseif spellId == 188114 then --Дробление
 		warnShatter:Show()
+		countdownShatter2:Start()
 		if not UnitIsDeadOrGhost("player") then
 			specWarnShatter:Show()
 			specWarnShatter:Play("defensive")
