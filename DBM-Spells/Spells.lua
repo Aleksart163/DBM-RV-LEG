@@ -228,6 +228,7 @@ end
 -- Синхронизация анонсов ↑
 
 function mod:SPELL_CAST_START(args)
+	if not self.Options.Enabled then return end
 	local spellId = args.spellId
 	local sourceName = args.sourceName
 	local destName = args.destName
@@ -271,6 +272,7 @@ function mod:SPELL_CAST_START(args)
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
+	if not self.Options.Enabled then return end
 	local spellId = args.spellId
 	local sourceName = args.sourceName
 	local destName = args.destName
@@ -497,6 +499,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 end
 
 function mod:SPELL_AURA_APPLIED(args)
+	if not self.Options.Enabled then return end
 	local spellId = args.spellId
 	local sourceName = args.sourceName
 	local destName = args.destName
@@ -615,6 +618,7 @@ function mod:SPELL_AURA_APPLIED(args)
 end
 
 function mod:SPELL_AURA_REMOVED(args)
+	if not self.Options.Enabled then return end
 	local spellId = args.spellId
 	local sourceName = args.sourceName
 	local destName = args.destName
@@ -659,6 +663,7 @@ function mod:SPELL_AURA_REMOVED(args)
 end
 
 function mod:SPELL_CREATE(args)
+	if not self.Options.Enabled then return end
 	local spellId = args.spellId
 	local sourceName = args.sourceName
 	local destName = args.destName
@@ -700,6 +705,7 @@ function mod:SPELL_CREATE(args)
 end
 
 function mod:SPELL_SUMMON(args)
+	if not self.Options.Enabled then return end
 	local spellId = args.spellId
 	local sourceName = args.sourceName
 	local destName = args.destName
@@ -746,6 +752,7 @@ function mod:SPELL_SUMMON(args)
 end
 
 function mod:SPELL_RESURRECT(args)
+	if not self.Options.Enabled then return end
 	local spellId = args.spellId
 	local sourceName = args.sourceName
 	local destName = args.destName
@@ -793,6 +800,7 @@ function mod:SPELL_RESURRECT(args)
 end
 
 function mod:GOSSIP_SHOW()
+	if not self.Options.Enabled then return end
 	local guid = UnitGUID("npc")
 	if not guid then return end
 	local cid = self:GetCIDFromGUID(guid)
@@ -804,12 +812,14 @@ function mod:GOSSIP_SHOW()
 end
 
 function mod:PLAYER_DEAD()
+	if not self.Options.Enabled then return end
 	if not IsInInstance() and not HasSoulstone() and self.Options.AutoSpirit then
 		RepopMe()
 	end
 end
 
 function mod:OnSync(premsg_announce, sender)
+	if not self.Options.Enabled then return end
 	if sender < playerOnlyName then
 		announceList(premsg_announce, 0)
 	end
