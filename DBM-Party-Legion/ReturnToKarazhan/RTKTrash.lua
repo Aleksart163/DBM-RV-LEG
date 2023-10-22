@@ -223,8 +223,10 @@ function mod:SPELL_CAST_SUCCESS(args)
 	if not self.Options.Enabled then return end
 	local spellId = args.spellId
 	if spellId == 227529 and self:AntiSpam(2, "unstable") then --Нестабильная энергия
-		specWarnUnstableEnergy:Show()
-		specWarnUnstableEnergy:Play("watchstep")
+		if not UnitIsDeadOrGhost("player") then
+			specWarnUnstableEnergy:Show()
+			specWarnUnstableEnergy:Play("watchstep")
+		end
 	end
 end
 
@@ -237,11 +239,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				specWarnCursedTouch:Show()
 				specWarnCursedTouch:Play("targetyou")
 				yellCursedTouch:Yell()
-			elseif args:IsPlayer() and self:IsCurseDispeller() then
-				specWarnCursedTouch3:Show()
-				specWarnCursedTouch3:Play("dispelnow")
-				yellCursedTouch:Yell()
-			else
+			elseif self:IsCurseDispeller() then
 				if not UnitIsDeadOrGhost("player") then
 					specWarnCursedTouch2:CombinedShow(0.3, args.destName)
 					specWarnCursedTouch2:ScheduleVoice(0.3, "dispelnow")
@@ -310,8 +308,8 @@ function mod:SPELL_AURA_APPLIED(args)
 				yellBrittleBones:Yell()
 			elseif self:IsCurseDispeller() then
 				if not UnitIsDeadOrGhost("player") then
-					specWarnBrittleBones:CombinedShow(0.5, args.destName)
-					specWarnBrittleBones:ScheduleVoice(0.5, "dispelnow")
+					specWarnBrittleBones:CombinedShow(0.3, args.destName)
+					specWarnBrittleBones:ScheduleVoice(0.3, "dispelnow")
 				end
 			end
 		else
