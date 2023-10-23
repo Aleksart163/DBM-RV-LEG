@@ -18,8 +18,8 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_SUCCESS 244072 251445 245098 244086",
 	"SPELL_AURA_APPLIED 244768 248815 254429 248819 244054 244055 251356 251447 251448 244071 244072",
 	"SPELL_AURA_REMOVED 244768 248815 254429 248819 251356 244054 244055 244071",
---	"SPELL_PERIODIC_DAMAGE",
---	"SPELL_PERIODIC_MISSED",
+	"SPELL_PERIODIC_DAMAGE 245022",
+	"SPELL_PERIODIC_MISSED 245022",
 	"UNIT_SPELLCAST_SUCCEEDED boss1 boss2"
 )
 
@@ -54,6 +54,7 @@ local specWarnSiphoned2					= mod:NewSpecialWarningSoon(244056, nil, nil, nil, 1
 local specWarnFlameTouched				= mod:NewSpecialWarningYouPos(244054, nil, nil, nil, 3, 6) --Касание пламени
 local specWarnShadowtouched				= mod:NewSpecialWarningYouPos(244055, nil, nil, nil, 3, 6) --Касание тьмы
 local specWarnDarkReconstitution		= mod:NewSpecialWarningSwitch(249113, "Dps|Tank", nil, nil, 3, 3) --Темное восстановление
+local specWarnBurningRemnant			= mod:NewSpecialWarningYouMove(245022, nil, nil, nil, 1, 2) --Пылающий след
 
 --General/Mythic
 local timerFocusingPower				= mod:NewCastTimer(15, 251356, nil, nil, nil, 6) --Фокусирование силы
@@ -87,11 +88,11 @@ local berserkTimer						= mod:NewBerserkTimer(600)
 local countdownSiphonCorruption			= mod:NewCountdown(77, 244056, nil, nil, 5) --Вытягивание порчи
 local countdownComsumingSphere			= mod:NewCountdown(77, 244131, nil, nil, 5) --Поглощаяющая сфера
 local countdownWeightOfDarkness			= mod:NewCountdown(77, 254429, nil, nil, 5) --Бремя тьмы
-local countdownCorruptingMaw			= mod:NewCountdown("AltTwo10", 251447, "Tank", nil, 3) --Заразная пасть
+--local countdownCorruptingMaw			= mod:NewCountdown("AltTwo10", 251447, "Tank", nil, 3) --Заразная пасть
 --Фарг
 local countdownEnflamedCorruption		= mod:NewCountdown("Alt95.9", 244057, nil, nil, 5) --Возгорание порчи
 local countdownDesolateGaze				= mod:NewCountdown("Alt95.9", 244768, nil, nil, 5) --Опустошающий взгляд
-local countdownBurningMaw				= mod:NewCountdown("AltTwo10", 251448, "Tank", nil, 3) --Пылающая пасть
+--local countdownBurningMaw				= mod:NewCountdown("AltTwo10", 251448, "Tank", nil, 3) --Пылающая пасть
 
 local countdownDarkReconstitution		= mod:NewCountdownFades(15, 249113, nil, nil, 5) --Темное восстановление
 
@@ -108,8 +109,8 @@ local shadow = replaceSpellLinks(244055) --Касание Тьмы
 local flame = replaceSpellLinks(244054) --Касание пламени
 
 local function UpdateAllTimers(self)
-	countdownBurningMaw:Cancel()
-	countdownCorruptingMaw:Cancel()
+--	countdownBurningMaw:Cancel()
+--	countdownCorruptingMaw:Cancel()
 	--Fire Doggo
 	timerBurningMawCD:Stop()
 	if timerMoltenTouchCD:GetTime() > 0 then
@@ -145,39 +146,42 @@ local function UpdateAllTimers(self)
 		countdownSiphonCorruption:Cancel() --Вытягивание порчи
 	end
 end
-
-local function UpdateFhargTimers(self) --Фарг
-	if timerMoltenTouchCD:GetTime() > 0 then
-		timerMoltenTouchCD:AddTime(15) --Касание магмы
-	end
-	if timerDesolateGazeCD:GetTime() > 0 then
-		timerDesolateGazeCD:AddTime(15) --Опустошающий взгляд
-		countdownDesolateGaze:Cancel() --Опустошающий взгляд
-	end
-	if timerEnflamedCorruptionCD:GetTime() > 0 then
-		timerEnflamedCorruptionCD:AddTime(15) --Возгорание порчи
-		countdownEnflamedCorruption:Cancel() --Возгорание порчи
-	end
-end
-
-local function UpdateShatugTimers(self) --Шатуг
-	if timerComsumingSphereCD:GetTime() > 0 then --Поглощаяющая сфера
+--Шатуг (Всё прошляпано Мурчалем)
+local function UpdateShatugAndProshlyapMurchalTimers(self)
+	timerCorruptingMawCD:Cancel()
+	if timerComsumingSphereCD:GetTime() <= 15 then --Поглощаяющая сфера +
 		specWarnComsumingSphere2:Cancel()
 		specWarnComsumingSphere2:CancelVoice()
 		specWarnComsumingSphere:Cancel()
 		specWarnComsumingSphere:CancelVoice()
-		timerComsumingSphereCD:AddTime(15) --Поглощаяющая сфера
-		countdownComsumingSphere:Cancel() --Поглощаяющая сфера
+		timerComsumingSphereCD:Cancel()
+		countdownComsumingSphere:Cancel()
 	end
-	if timerWeightOfDarknessCD:GetTime() > 0 then --Бремя тьмы
+	if timerWeightOfDarknessCD:GetTime() <= 15 then --Бремя тьмы +
 		specWarnWeightOfDarkness2:Cancel()
-		timerWeightOfDarknessCD:AddTime(15) --Бремя тьмы
-		countdownWeightOfDarkness:Cancel() --Бремя тьмы
+		timerWeightOfDarknessCD:Cancel()
+		countdownWeightOfDarkness:Cancel()
 	end
-	if timerSiphonCorruptionCD:GetTime() > 0 then --Вытягивание порчи
+	if timerSiphonCorruptionCD:GetTime() <= 15 then --Вытягивание порчи +
 		specWarnSiphoned2:Cancel()
-		timerSiphonCorruptionCD:AddTime(15) --Вытягивание порчи
-		countdownSiphonCorruption:Cancel() --Вытягивание порчи
+		timerSiphonCorruptionCD:Cancel()
+		countdownSiphonCorruption:Cancel()
+	end
+end
+--Фарг (Всё прошляпано Мурчалем)
+local function UpdateFhargAndProshlyapMurchalTimers(self)
+	timerBurningMawCD:Cancel()
+	if timerMoltenTouchCD:GetTime() <= 15 then --Жаркая вспышка
+		timerMoltenTouchCD:Cancel()
+	end
+	if timerDesolateGazeCD:GetTime() <= 15 then --Опустошающий взгляд
+		timerDesolateGazeCD:Cancel()
+		countdownDesolateGaze:Cancel()
+	end
+	if timerEnflamedCorruptionCD:GetTime() <= 15 then --Возгорание порчи
+		specWarnEnflamed2:Cancel()
+		timerEnflamedCorruptionCD:Cancel()
+		countdownEnflamedCorruption:Cancel()
 	end
 end
 
@@ -339,7 +343,7 @@ function mod:SPELL_CAST_START(args)
 					specWarnDarkReconstitution:Play("mobkill")
 				end
 			end
-			UpdateFhargTimers(self)
+			UpdateFhargAndProshlyapMurchalTimers(self)
 		elseif cid == 122135 then --Шатуг
 			if Shadowtouched then
 				if not UnitIsDeadOrGhost("player") then
@@ -347,7 +351,7 @@ function mod:SPELL_CAST_START(args)
 					specWarnDarkReconstitution:Play("mobkill")
 				end
 			end
-			UpdateShatugTimers(self)
+			UpdateShatugAndProshlyapMurchalTimers(self)
 		end
 	end
 end
@@ -504,6 +508,14 @@ function mod:SPELL_AURA_REMOVED(args)
 		end
 	end
 end
+
+function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
+	if spellId == 245022 and destGUID == UnitGUID("player") and self:AntiSpam(3, "hidden") then
+		specWarnBurningRemnant:Show()
+		specWarnBurningRemnant:Play("runout")
+	end
+end
+mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
 
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	local spellId = legacySpellId or bfaSpellId
