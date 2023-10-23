@@ -433,7 +433,7 @@ function mod:SPELL_CAST_START(args)
 			specWarnSwing:Show()
 			specWarnSwing:Play("watchstep")
 		end
-	elseif spellId == 246305 then --Артиллерийский удар
+	elseif spellId == 246305 and self:AntiSpam(2, "ArtilleryStrike") then --Артиллерийский удар
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnArtilleryStrike:Show()
 			specWarnArtilleryStrike:Play("kickcast")
