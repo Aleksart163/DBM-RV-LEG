@@ -31,7 +31,8 @@ local specWarnEnergyDischarge		= mod:NewSpecialWarningSoon(227457, nil, nil, nil
 local specWarnUnstableMana			= mod:NewSpecialWarningStack(227502, nil, 1, nil, nil, 1, 3) --Нестабильная мана
 local specWarnEnergyVoid			= mod:NewSpecialWarningYouMove(227524, nil, nil, nil, 1, 2) --Энергетическая пустота
 local specWarnDecimatingEssence		= mod:NewSpecialWarningDefensive(227507, nil, nil, nil, 3, 6) --Истребляющая сущность
-local specWarnCoalescePower			= mod:NewSpecialWarningDodge(227297, nil, nil, nil, 1, 2) --Слияние энергии
+local specWarnCoalescePower			= mod:NewSpecialWarningMoveTo(227297, "Tank", nil, nil, 1, 2) --Слияние энергии
+local specWarnCoalescePower2		= mod:NewSpecialWarningDodge(227297, "-Tank", nil, nil, 1, 2) --Слияние энергии
 local specWarnArcaneBomb			= mod:NewSpecialWarningDodge(227618, nil, nil, nil, 2, 2) --Чародейская бомба
 local specWarnEnergyVoid2			= mod:NewSpecialWarningDodge(227523, "SpellCaster", nil, nil, 2, 3) --Энергетическая пустота
 
@@ -78,12 +79,12 @@ end
 
 function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
-	if spellId == 227618 then --Чародейская бомба
+	if spellId == 227618 then
 		if not UnitIsDeadOrGhost("player") then
 			specWarnArcaneBomb:Show()
 			specWarnArcaneBomb:Play("watchstep")
 		end
-	elseif spellId == 227523 then --Энергетическая пустота
+	elseif spellId == 227523 then
 		warnEnergyVoid:Show()
 		if not UnitIsDeadOrGhost("player") then
 			specWarnEnergyVoid2:Show()
@@ -95,10 +96,12 @@ end
 
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
-	if spellId == 227297 then --Слияние энергии
+	if spellId == 227297 then
+		specWarnCoalescePower:Show(looseMana)
+		specWarnCoalescePower:Play("helpsoak")
 		if not UnitIsDeadOrGhost("player") then
-			specWarnCoalescePower:Show()
-			specWarnCoalescePower:Play("watchstep")
+			specWarnCoalescePower2:Show()
+			specWarnCoalescePower2:Play("watchstep")
 		end
 		timerCoalescePowerCD:Start()
 		countdownCoalescePower:Start()
@@ -124,9 +127,11 @@ end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
-	if spellId == 227524 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then --Энергетическая пустота
-		specWarnEnergyVoid:Show()
-		specWarnEnergyVoid:Play("runaway")
+	if spellId == 227524 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
+		if not self:IsNormal() then
+			specWarnEnergyVoid:Show()
+			specWarnEnergyVoid:Play("runaway")
+		end
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
