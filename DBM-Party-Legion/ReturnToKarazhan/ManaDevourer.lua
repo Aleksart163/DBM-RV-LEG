@@ -20,6 +20,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED_DOSE 227502",
 	"SPELL_PERIODIC_DAMAGE 227524",
 	"SPELL_PERIODIC_MISSED 227524",
+	"UNIT_HEALTH boss1",
 	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
 
@@ -31,7 +32,8 @@ local specWarnEnergyDischarge		= mod:NewSpecialWarningSoon(227457, nil, nil, nil
 local specWarnUnstableMana			= mod:NewSpecialWarningStack(227502, nil, 1, nil, nil, 1, 3) --Нестабильная мана
 local specWarnEnergyVoid			= mod:NewSpecialWarningYouMove(227524, nil, nil, nil, 1, 2) --Энергетическая пустота
 local specWarnDecimatingEssence		= mod:NewSpecialWarningDefensive(227507, nil, nil, nil, 3, 6) --Истребляющая сущность
-local specWarnCoalescePower			= mod:NewSpecialWarningDodge(227297, nil, nil, nil, 1, 2) --Слияние энергии
+local specWarnDecimatingEssence2	= mod:NewSpecialWarningRun(227507, "-Tank", nil, nil, 4, 6) --Истребляющая сущность
+local specWarnCoalescePower			= mod:NewSpecialWarningDodgeCount(227297, nil, nil, nil, 1, 2) --Слияние энергии
 local specWarnArcaneBomb			= mod:NewSpecialWarningDodge(227618, nil, nil, nil, 2, 2) --Чародейская бомба
 local specWarnEnergyVoid2			= mod:NewSpecialWarningDodge(227523, "SpellCaster", nil, nil, 2, 3) --Энергетическая пустота
 
@@ -45,8 +47,10 @@ local countdownCoalescePower		= mod:NewCountdown("Alt30", 227297, nil, nil, 5) -
 mod:AddInfoFrameOption(227502, true)
 
 local unstableMana, looseMana = DBM:GetSpellInfo(227502), DBM:GetSpellInfo(227296)
+mod.vb.MurchalProshlyapenCount = 0
 
 function mod:OnCombatStart(delay)
+	self.vb.MurchalProshlyapenCount = 0
 	timerEnergyVoidCD:Start(14.5-delay)
 	timerCoalescePowerCD:Start(30-delay)
 	countdownCoalescePower:Start(30-delay)
@@ -69,6 +73,7 @@ end
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 227507 then --Истребляющая сущность
+		self.vb.MurchalProshlyapenCount = 0
 		if not UnitIsDeadOrGhost("player") then
 			specWarnDecimatingEssence:Show()
 			specWarnDecimatingEssence:Play("aesoon")
@@ -96,9 +101,14 @@ end
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 227297 then --Слияние энергии
+		self.vb.MurchalProshlyapenCount = self.vb.MurchalProshlyapenCount + 1
 		if not UnitIsDeadOrGhost("player") then
-			specWarnCoalescePower:Show()
+			specWarnCoalescePower:Show(self.vb.MurchalProshlyapenCount)
 			specWarnCoalescePower:Play("watchstep")
+		end
+		if self.vb.MurchalProshlyapenCount == 2 then
+			specWarnDecimatingEssence2:Schedule(5)
+			specWarnDecimatingEssence2:ScheduleVoice(5, "justrun")
 		end
 		timerCoalescePowerCD:Start()
 		countdownCoalescePower:Start()
@@ -124,7 +134,7 @@ end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
-	if spellId == 227524 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then --Энергетическая пустота
+	if spellId == 227524 and destGUID == UnitGUID("player") and self:AntiSpam(3, "EnergyVoid") then --Энергетическая пустота
 		specWarnEnergyVoid:Show()
 		specWarnEnergyVoid:Play("runaway")
 	end

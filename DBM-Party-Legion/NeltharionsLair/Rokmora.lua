@@ -92,7 +92,7 @@ function mod:SPELL_AURA_APPLIED(args)
 end
 
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
-	if spellId == 192800 and destGUID == UnitGUID("player") and self:AntiSpam(3.5, 1) then
+	if spellId == 192800 and destGUID == UnitGUID("player") and self:AntiSpam(3.5, "Gas") then
 		if not self:IsNormal() then
 			specWarnGas:Show()
 			specWarnGas:Play("runaway")
