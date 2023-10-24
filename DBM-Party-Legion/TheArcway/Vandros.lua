@@ -31,7 +31,7 @@ local warnPhase2					= mod:NewPrePhaseAnnounce(2, 1, 220871)
 
 local specWarnTimeSplit				= mod:NewSpecialWarningMove(203833, nil, nil, nil, 1, 2) --Расщепление времени
 local specWarnForceBomb				= mod:NewSpecialWarningDodge(202974, nil, nil, nil, 2, 6) --Силовая бомба
-local specWarnBlast					= mod:NewSpecialWarningInterruptCount(203176, "HasInterrupt", nil, 2, 1, 2) --Ускоряющий взрыв
+local specWarnBlast					= mod:NewSpecialWarningCount(203176, "HasInterrupt", nil, 2, 1, 2) --Ускоряющий взрыв
 local specWarnBlastStacks			= mod:NewSpecialWarningDispel(203176, "MagicDispeller", nil, nil, 3, 2) --Ускоряющий взрыв
 local specWarnTimeLock				= mod:NewSpecialWarningInterrupt(203957, "HasInterrupt", nil, nil, 1, 2) --Временное ограничение
 local specWarnUnstableMana			= mod:NewSpecialWarningYouMoveAway(220871, nil, nil, nil, 3, 6) --Нестабильная мана

@@ -30,7 +30,7 @@ local warnHolyWrath					= mod:NewCastAnnounce(227823, 4) --Гнев небес
 local specWarnHolyShock2			= mod:NewSpecialWarningStack(227800, nil, 1, nil, nil, 3, 6) --Шок небес
 local specWarnHolyBolt				= mod:NewSpecialWarningYouMoveAway(227809, nil, nil, nil, 3, 3) --Священная молния
 local specWarnSacredGround			= mod:NewSpecialWarningYouMoveAway(227789, nil, nil, nil, 4, 2) --Священная земля
-local specWarnHolyShock				= mod:NewSpecialWarningInterruptCount(227800, "HasInterrupt", nil, nil, 1, 3) --Шок небес
+local specWarnHolyShock				= mod:NewSpecialWarningCount(227800, "HasInterrupt", nil, nil, 1, 3) --Шок небес
 local specWarnRepentance			= mod:NewSpecialWarningMoveTo(227508, nil, nil, nil, 4, 6) --Всеобщее покаяние
 local specWarnHolyWrath				= mod:NewSpecialWarningInterrupt(227823, "HasInterrupt", nil, nil, 3, 6) --Гнев небес
 

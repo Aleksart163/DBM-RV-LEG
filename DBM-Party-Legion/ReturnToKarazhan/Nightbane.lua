@@ -32,7 +32,7 @@ local warnBreath					= mod:NewTargetAnnounce(228785, 4) --Испепеляюще
 local warnPhase2					= mod:NewPhaseAnnounce(2, 2)
 local warnPhase3					= mod:NewPhaseAnnounce(3, 2)
 
---local specWarnReverbShadows			= mod:NewSpecialWarningInterruptCount(229307, "HasInterrupt", nil, nil, 1, 3) --Рокочущие тени
+--local specWarnReverbShadows			= mod:NewSpecialWarningCount(229307, "HasInterrupt", nil, nil, 1, 3) --Рокочущие тени
 local specWarnReverbShadows			= mod:NewSpecialWarningSpell(229307, nil, nil, nil, 1, 3) --Рокочущие тени
 local specWarnCharredEarth			= mod:NewSpecialWarningYouMove(228808, nil, nil, nil, 1, 2) --Опаленная земля
 local specWarnIgniteSoul			= mod:NewSpecialWarningMoveTo(228796, nil, nil, nil, 3, 6) --Воспламенение души

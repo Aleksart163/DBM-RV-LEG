@@ -19,7 +19,7 @@ mod:RegisterEvents(
 --Таликса Пламя Гнева https://ru.wowhead.com/npc=104217/таликса-пламя-гнева/эпохальный-журнал-сражений
 local warnBurningIntensity			= mod:NewStackAnnounce(207906, 4) --Интенсивное горение
 
-local specWarnWitheringSoul			= mod:NewSpecialWarningInterruptCount(208165, "HasInterrupt", nil, nil, 1, 2) --Иссохшая душа
+local specWarnWitheringSoul			= mod:NewSpecialWarningCount(208165, "HasInterrupt", nil, nil, 1, 2) --Иссохшая душа
 local specWarnInfernalEruption		= mod:NewSpecialWarningDodge(207881, nil, nil, nil, 2, 3) --Инфернальное извержение
 
 local timerBurningIntensityCD		= mod:NewCDTimer(23.5, 207906, nil, nil, nil, 2, nil, DBM_CORE_HEALER_ICON..DBM_CORE_DEADLY_ICON) --Интенсивное горение +++

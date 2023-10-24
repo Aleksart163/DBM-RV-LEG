@@ -37,7 +37,7 @@ local specWarnSubmerged2				= mod:NewSpecialWarningSoon(196947, nil, nil, nil, 1
 local specWarnSubmergedOver				= mod:NewSpecialWarningEnd(196947, nil, nil, nil, 1, 2) --Погружение
 local specWarnTaintofSeaOver			= mod:NewSpecialWarningEnd(197262, nil, nil, nil, 1, 2) --Морская порча
 local specWarnBreath					= mod:NewSpecialWarningDodge(227233, nil, nil, nil, 3, 6) --Оскверняющий рев
-local specWarnTorrent					= mod:NewSpecialWarningInterruptCount(198495, "HasInterrupt", nil, nil, 1, 3) --Стремительный поток
+local specWarnTorrent					= mod:NewSpecialWarningCount(198495, "HasInterrupt", nil, nil, 1, 3) --Стремительный поток
 
 local timerBrackwaterBarrageCD			= mod:NewCDTimer(15, 202088, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Обстрел солоноватой водой
 local timerTaintofSeaCD					= mod:NewCDTimer(12, 197262, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON..DBM_CORE_DEADLY_ICON) --Морская порча

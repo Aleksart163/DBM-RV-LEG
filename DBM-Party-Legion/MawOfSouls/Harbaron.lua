@@ -26,7 +26,7 @@ local specWarnNetherRip			= mod:NewSpecialWarningYouMove(194235, nil, nil, nil, 
 local specWarnFragment			= mod:NewSpecialWarningSwitch(194327, "-Healer", nil, nil, 1, 2) --Разделение
 local specWarnFragment2			= mod:NewSpecialWarningYouDefensive(194327, nil, nil, nil, 5, 6) --Разделение
 local specWarnServitor			= mod:NewSpecialWarningSwitch(194231, "-Healer", nil, nil, 1, 2) --Призыв скованного прислужника
-local specWarnVoidSnap			= mod:NewSpecialWarningInterruptCount(194266, "HasInterrupt", nil, nil, 3, 6) --Хватка Бездны
+local specWarnVoidSnap			= mod:NewSpecialWarningCount(194266, "HasInterrupt", nil, nil, 3, 6) --Хватка Бездны
 local specWarnScythe			= mod:NewSpecialWarningDodge(194216, nil, nil, nil, 2, 3) --Космическая коса
 
 local timerFragmentCD			= mod:NewCDTimer(30, 194327, nil, nil, nil, 7) --Разделение
