@@ -24,7 +24,7 @@ local warnExpelLight				= mod:NewTargetAnnounce(192048, 4) --Световое и
 local warnArcingBolt				= mod:NewTargetAnnounce(191976, 3) --Дуговая молния
 local warnPhase2					= mod:NewPhaseAnnounce(2, 2, nil, nil, nil, nil, nil, 2) --фаза
 
-local specWarnShieldOfLight			= mod:NewSpecialWarningYouDefensive(192018, "Tank", nil, nil, 3, 2) --Щит Света
+local specWarnShieldOfLight			= mod:NewSpecialWarningYouDefensive(192018, "Tank", nil, nil, 3, 3) --Щит Света
 local specWarnSanctify				= mod:NewSpecialWarningDodge(192158, "Ranged", nil, nil, 2, 5) --Освящение
 local specWarnSanctify2				= mod:NewSpecialWarningRun(192158, "Melee", nil, nil, 4, 6) --Освящение
 local specWarnEyeofStorm			= mod:NewSpecialWarningMoveTo(200901, nil, nil, nil, 4, 3) --Око шторма
@@ -107,7 +107,6 @@ end
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 192048 then --Световое излучение
-		warnExpelLight:Show(args.destName)
 		if not self:IsNormal() then
 			if args:IsPlayer() then
 				if meh2s then
@@ -121,6 +120,8 @@ function mod:SPELL_AURA_APPLIED(args)
 					yellExpelLight:Yell()
 					yellExpelLight2:Countdown(3)
 				end
+			else
+				warnExpelLight:Show(args.destName)
 			end
 		end
 		if self.Options.RangeFrame then
