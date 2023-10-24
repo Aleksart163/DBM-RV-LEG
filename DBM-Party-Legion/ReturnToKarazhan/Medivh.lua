@@ -81,9 +81,11 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 227615 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Инфернальная стрела
 		specWarnInfernoBolt:Show()
 		specWarnInfernoBolt:Play("kickcast")
-	elseif spellId == 228991 and self:AntiSpam(5, "ArcaneBolt") and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Чародейская стрела
-		specWarnArcaneBolt:Show()
-		specWarnArcaneBolt:Play("kickcast")
+	elseif spellId == 228991 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Чародейская стрела
+		if self:AntiSpam(1, "ArcaneBolt") then
+			specWarnArcaneBolt:Show()
+			specWarnArcaneBolt:Play("kickcast")
+		end
 	elseif spellId == 227779 then --Бесконечная зима
 		if not UnitIsDeadOrGhost("player") then
 			specWarnCeaselessWinter:Show()
