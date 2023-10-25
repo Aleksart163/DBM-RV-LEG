@@ -107,8 +107,8 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnCoalescePower:Play("watchstep")
 		end
 		if self.vb.MurchalProshlyapenCount == 2 then
-			specWarnDecimatingEssence2:Schedule(5)
-			specWarnDecimatingEssence2:ScheduleVoice(5, "justrun")
+			specWarnDecimatingEssence2:Schedule(10)
+			specWarnDecimatingEssence2:ScheduleVoice(10, "justrun")
 		end
 		timerCoalescePowerCD:Start()
 		countdownCoalescePower:Start()
