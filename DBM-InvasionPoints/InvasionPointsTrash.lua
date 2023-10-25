@@ -7,7 +7,8 @@ mod:SetZone()
 mod:RegisterEvents(
 	"SPELL_AURA_APPLIED 251709",
 	"SPELL_AURA_REMOVED 251709",
-	"CHAT_MSG_RAID_BOSS_EMOTE"
+	"CHAT_MSG_RAID_BOSS_EMOTE",
+	"LOADING_SCREEN_DISABLED"
 )
 
 --прошляпанное очко Мурчаля Прошляпенко ✔
@@ -59,5 +60,12 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)
 	elseif strmatch(msg, L.MurchalOchkenProshlyapen2) then
 		specWarnObliterationBeam:Show(shield)
 		specWarnObliterationBeam:Play("watchstep")
+	end
+end
+
+function mod:LOADING_SCREEN_DISABLED()
+	if timerFlashFreezeCD:GetTime() > 0 then
+		timerFlashFreezeCD:Cancel()
+		countdownFlashFreeze:Cancel()
 	end
 end
