@@ -324,6 +324,7 @@ local function startProshlyapationOfMurchal2(self)
 		specWarnReorgModule2:Show()
 	else
 		smartChat(L.ProshlyapMurchal:format(DbmRV, reoriginationModule), "rw")
+		specWarnReorgModule2:Show()
 	end
 end
 
