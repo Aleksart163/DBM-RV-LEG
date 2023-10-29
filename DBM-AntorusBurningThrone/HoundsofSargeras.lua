@@ -130,8 +130,6 @@ local function UpdateAllTimers(self)
 	if timerComsumingSphereCD:GetTime() > 0 then
 		specWarnComsumingSphere2:Cancel()
 		specWarnComsumingSphere2:CancelVoice()
-	--	specWarnComsumingSphere:Cancel()
-	--	specWarnComsumingSphere:CancelVoice()
 		timerComsumingSphereCD:AddTime(15) --Поглощаяющая сфера
 		countdownComsumingSphere:Cancel() --Поглощаяющая сфера
 	end
@@ -152,8 +150,6 @@ local function UpdateShatugAndProshlyapMurchalTimers(self)
 	if timerComsumingSphereCD:GetTime() <= 15 then --Поглощаяющая сфера +
 		specWarnComsumingSphere2:Cancel()
 		specWarnComsumingSphere2:CancelVoice()
-	--	specWarnComsumingSphere:Cancel()
-	--	specWarnComsumingSphere:CancelVoice()
 		timerComsumingSphereCD:Cancel()
 		countdownComsumingSphere:Cancel()
 	end
@@ -289,10 +285,6 @@ function mod:SPELL_CAST_START(args)
 			countdownComsumingSphere:Start(26) --Поглощаяющая сфера+++
 			specWarnComsumingSphere2:Schedule(16) --Поглощаяющая сфера+++
 			specWarnComsumingSphere2:ScheduleVoice(16, "specialsoon")
-			if not UnitIsDeadOrGhost("player") then
-			--	specWarnComsumingSphere:Schedule(26) --Поглощаяющая сфера+++
-			--	specWarnComsumingSphere:ScheduleVoice(26, "watchorb") --Поглощаяющая сфера+++
-			end
 			timerWeightOfDarknessCD:Start(52) --Бремя тьмы+++
 			countdownWeightOfDarkness:Start(52) --Бремя тьмы+++
 			specWarnWeightOfDarkness2:Schedule(42) --Бремя тьмы
@@ -308,10 +300,6 @@ function mod:SPELL_CAST_START(args)
 			countdownComsumingSphere:Start(24) --Поглощаяющая сфера+++
 			specWarnComsumingSphere2:Schedule(14) --Поглощаяющая сфера+++
 			specWarnComsumingSphere2:ScheduleVoice(14, "specialsoon")
-			if not UnitIsDeadOrGhost("player") then
-			--	specWarnComsumingSphere:Schedule(24) --Поглощаяющая сфера+++
-			--	specWarnComsumingSphere:ScheduleVoice(24, "watchorb") --Поглощаяющая сфера+++
-			end
 			timerWeightOfDarknessCD:Start(47) --Бремя тьмы+++
 			countdownWeightOfDarkness:Start(47) --Бремя тьмы+++
 			specWarnWeightOfDarkness2:Schedule(37) --Бремя тьмы+++
@@ -326,10 +314,6 @@ function mod:SPELL_CAST_START(args)
 			countdownComsumingSphere:Start(28) --Поглощаяющая сфера+++
 			specWarnComsumingSphere2:Schedule(18) --Поглощаяющая сфера+++
 			specWarnComsumingSphere2:ScheduleVoice(18, "specialsoon")
-			if not UnitIsDeadOrGhost("player") then
-			--	specWarnComsumingSphere:Schedule(28) --Поглощаяющая сфера+++
-			--	specWarnComsumingSphere:ScheduleVoice(28, "watchorb") --Поглощаяющая сфера+++
-			end
 		end
 	elseif spellId == 249113 then --Темное восстановление
 		warnDarkReconstitution:Show(args.sourceName)
