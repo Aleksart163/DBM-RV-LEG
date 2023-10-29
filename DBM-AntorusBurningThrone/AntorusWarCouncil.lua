@@ -100,14 +100,14 @@ local yellShockGrenadeFades				= mod:NewShortFadesYell(244737, nil, nil, nil, "Y
 --local berserkTimer						= mod:NewBerserkTimer(600)
 
 --General
-local countdownAssumeCommand			= mod:NewCountdown(90, 245227, nil, nil, 5) --Принять командование
-local countdownExploitWeakness			= mod:NewCountdown("AltTwo8", 244892, "Tank", nil, 5) --Обнаружить слабое место
+local countdownAssumeCommand			= mod:NewCountdown("AltTwo90", 245227, nil, nil, 5) --Принять командование
+local countdownExploitWeakness			= mod:NewCountdown("Alt8.5", 244892, "Tank", nil, 5) --Обнаружить слабое место
 --In Pod
 ----Admiral Svirax
-local countdownFusillade				= mod:NewCountdown("Alt30", 244625, nil, nil, 3) --Шквальный огонь
-local countdownFusillade2				= mod:NewCountdownFades("Alt7", 244625, nil, nil, 5) --Шквальный огонь
+local countdownFusillade				= mod:NewCountdown(30, 244625, nil, nil, 3) --Шквальный огонь Alt AltTwo
+local countdownFusillade2				= mod:NewCountdownFades(7, 244625, nil, nil, 5) --Шквальный огонь
 ----General Erodus
---local countdownReinforcements			= mod:NewCountdown(25, 245546) --Вызов подкрепления
+local countdownReinforcements			= mod:NewCountdown("Alt8.4", 245546, "Dps", nil, 3) --Вызов подкрепления
 
 mod:AddSetIconOption("SetIconOnShockGrenade", 244737, true, false, {8, 7, 6}) --Шоковая граната
 mod:AddSetIconOption("SetIconOnPyroblast", 246505, true, false, {3}) --Огненная глыба
@@ -160,7 +160,7 @@ function mod:OnCombatStart(delay)
 --	berserkTimer:Start(-delay)
 	--Out of Pod
 	timerSummonReinforcementsCD:Start(8-delay)
---	countdownReinforcements:Start(8-delay)
+	countdownReinforcements:Start(8-delay)
 	timerIshkarCD:Start(-delay) --Главный инженер Ишкар
 	countdownAssumeCommand:Start(90-delay)
 	if self:IsMythic() then
@@ -216,6 +216,7 @@ function mod:SPELL_CAST_START(args)
 		if cid == 122369 then --Главный инженер Ишкар Фаза 3
 			timerShockGrenadeCD:Stop() --Шоковая граната
 			timerSummonReinforcementsCD:Stop() --Вызов подкрепления
+			countdownReinforcements:Cancel()
 			timerFusilladeCD:Stop() --Шквальный огонь
 			countdownFusillade:Cancel() --Шквальный огонь
 			timerEntropicMineCD:Stop() --Энтропическая мина
@@ -232,10 +233,9 @@ function mod:SPELL_CAST_START(args)
 				timerEntropicMineCD:Start(18) --Энтропическая мина
 			end
 		elseif cid == 122333 then --Генерал Эрод (фаза 4 Адмирал Свиракс)
-		--	timerSummonReinforcementsCD:Start(20) --Вызов подкрепления
-		--	countdownReinforcements:Start(11)
 			timerShockGrenadeCD:Stop() --Шоковая граната
 			timerSummonReinforcementsCD:Stop() --Вызов подкрепления
+			countdownReinforcements:Cancel()
 			timerEntropicMineCD:Stop() --Энтропическая мина
 			timerFusilladeCD:Stop() --Шквальный огонь
 			timerExploitWeaknessCD:Stop() --Обнаружить слабое место
@@ -246,14 +246,17 @@ function mod:SPELL_CAST_START(args)
 				timerShockGrenadeCD:Start(17) --Шоковая граната
 				timerEntropicMineCD:Start(18) --Энтропическая мина
 				timerSummonReinforcementsCD:Start(20) --Вызов подкрепления
+				countdownReinforcements:Start(20)
 			else
 				timerEntropicMineCD:Start(18) --Энтропическая мина
 				timerSummonReinforcementsCD:Start(19) --Вызов подкрепления
+				countdownReinforcements:Start(19)
 			end
 		elseif cid == 122367 then --Адмирал Свиракс Фаза 2
 			self.vb.FusilladeCount = 0
 			timerShockGrenadeCD:Stop() --Шоковая граната
 			timerSummonReinforcementsCD:Stop() --Вызов подкрепления
+			countdownReinforcements:Cancel()
 			timerEntropicMineCD:Stop() --Энтропическая мина
 			timerExploitWeaknessCD:Stop() --Обнаружить слабое место
 			countdownExploitWeakness:Cancel() --Обнаружить слабое место
@@ -264,8 +267,10 @@ function mod:SPELL_CAST_START(args)
 			if self:IsMythic() then
 				timerShockGrenadeCD:Start(17) --Шоковая граната
 				timerSummonReinforcementsCD:Start(20) --Вызов подкрепления
+				countdownReinforcements:Start(20)
 			else
 				timerSummonReinforcementsCD:Start(19) --Вызов подкрепления
+				countdownReinforcements:Start(19)
 			end
 		end
 	elseif spellId == 244907 then --Активация щита Скверны
@@ -428,7 +433,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 			timerEntropicMineCD:Stop()
 		elseif cid == 122333 then--General Erodus
 			timerSummonReinforcementsCD:Stop()--Elite ones
-		--	countdownReinforcements:Cancel()
+			countdownReinforcements:Cancel()
 		elseif cid == 122367 then--Admiral Svirax
 			timerFusilladeCD:Stop()
 			countdownFusillade:Cancel()
@@ -439,7 +444,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 			specWarnSummonReinforcements:Play("mobkill")
 		end
 		timerSummonReinforcementsCD:Start(34) --точно под героик
-	--	countdownReinforcements:Start(35)
+		countdownReinforcements:Start(34)
 		if self.Options.SetIconOnAdds then
 			self:ScanForMobs(122890, 0, self.vb.lastIcon, 1, 0.1, 12, "SetIconOnAdds")
 		end

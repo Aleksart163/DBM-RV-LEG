@@ -321,10 +321,8 @@ end
 local function startProshlyapationOfMurchal2(self)
 	if self:IsMythic() then
 		smartChat(L.ProshlyapMurchal:format(DbmRV, apocalypsisModule), "rw")
-		specWarnReorgModule2:Show()
 	else
 		smartChat(L.ProshlyapMurchal:format(DbmRV, reoriginationModule), "rw")
-		specWarnReorgModule2:Show()
 	end
 end
 
@@ -596,6 +594,8 @@ function mod:SPELL_CAST_SUCCESS(args)
 		if not self:IsMythic() then
 			warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(4))
 		end
+	elseif spellId == 256388 or spellId == 258029 then
+		DBM:Debug("checking proshlyapation of Murchal 1", 2)
 	end
 end
 
@@ -853,6 +853,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				prepareMessage(self, "premsg_ArgustheUnmaker_proshlyap2_rw", nil, nil, 40.5)
 			end
 		end
+		DBM:Debug("checking proshlyapation of Murchal 2", 2)
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
