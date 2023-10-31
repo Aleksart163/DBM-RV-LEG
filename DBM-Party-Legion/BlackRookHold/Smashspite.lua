@@ -153,6 +153,7 @@ function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
 	if spellId == 198079 then --Ненавидящий взгляд
 		timerHatefulGaze:Cancel()
+		countdownHatefulGaze2:Cancel()
 		if args:IsPlayer() then
 			specWarnHatefulGaze:Cancel()
 			specWarnHatefulGaze:CancelVoice()
