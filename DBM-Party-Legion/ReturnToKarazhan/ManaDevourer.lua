@@ -18,6 +18,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_SUCCESS 227618 227523",
 	"SPELL_AURA_APPLIED 227297 227524 227502",
 	"SPELL_AURA_APPLIED_DOSE 227502",
+	"SPELL_AURA_REMOVED 227297",
 	"SPELL_PERIODIC_DAMAGE 227524",
 	"SPELL_PERIODIC_MISSED 227524",
 	"UNIT_POWER_FREQUENT boss1",
@@ -40,10 +41,10 @@ local specWarnEnergyVoid2			= mod:NewSpecialWarningDodge(227523, "SpellCaster", 
 
 local timerEnergyDischargeCD		= mod:NewCDTimer(27, 227457, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Энергетический разряд
 local timerEnergyVoidCD				= mod:NewCDTimer(21.7, 227523, nil, nil, nil, 3) --Энергетическая пустота
-local timerCoalescePowerCD			= mod:NewNextTimer(30, 227297, nil, nil, nil, 1, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Слияние энергии
+local timerCoalescePowerCD			= mod:NewCDCountTimer(25, 227297, nil, nil, nil, 7) --Слияние энергии
 
 local countdownEnergyDischarge		= mod:NewCountdown(27, 227457, nil, nil, 5) --Слияние энергии
-local countdownCoalescePower		= mod:NewCountdown("Alt30", 227297, nil, nil, 5) --Слияние энергии
+local countdownCoalescePower		= mod:NewCountdown("Alt25", 227297, nil, nil, 5) --Слияние энергии
 
 mod:AddInfoFrameOption(227502, true)
 
@@ -55,7 +56,7 @@ function mod:OnCombatStart(delay)
 	self.vb.MurchalProshlyapenCount = 0
 	ProshlyapMurchalyaSoon = false
 	timerEnergyVoidCD:Start(14.5-delay)
-	timerCoalescePowerCD:Start(30-delay)
+	timerCoalescePowerCD:Start(30-delay, 1)
 	countdownCoalescePower:Start(30-delay)
 	specWarnEnergyDischarge:Schedule(17-delay) --Энергетический разряд
 	specWarnEnergyDischarge:ScheduleVoice(17-delay, "aesoon")
@@ -105,16 +106,10 @@ end
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 227297 then --Слияние энергии
-		self.vb.MurchalProshlyapenCount = self.vb.MurchalProshlyapenCount + 1
 		if not UnitIsDeadOrGhost("player") then
-			specWarnCoalescePower:Show(self.vb.MurchalProshlyapenCount)
+			specWarnCoalescePower:Show(self.vb.MurchalProshlyapenCount+1)
 			specWarnCoalescePower:Play("watchstep")
 		end
-		if self.vb.MurchalProshlyapenCount == 2 then
-			ProshlyapMurchalyaSoon = true
-		end
-		timerCoalescePowerCD:Start()
-		countdownCoalescePower:Start()
 	elseif spellId == 227502 then --Нестабильная мана
 		local amount = args.amount or 1
 		if self:IsMythic() then
@@ -135,6 +130,21 @@ function mod:SPELL_AURA_APPLIED(args)
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
+
+function mod:SPELL_AURA_REMOVED(args)
+	local spellId = args.spellId
+	if spellId == 227297 then --Слияние энергии
+		self.vb.MurchalProshlyapenCount = self.vb.MurchalProshlyapenCount + 1
+		if self.vb.MurchalProshlyapenCount == 2 then
+			ProshlyapMurchalyaSoon = true
+			timerCoalescePowerCD:Start(nil, 1)
+			countdownCoalescePower:Start()
+		else
+			timerCoalescePowerCD:Start(nil, self.vb.MurchalProshlyapenCount+1)
+			countdownCoalescePower:Start()
+		end
+	end
+end
 
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
 	if spellId == 227524 and destGUID == UnitGUID("player") and self:AntiSpam(3, "EnergyVoid") then --Энергетическая пустота
@@ -160,9 +170,7 @@ do
 	function mod:UNIT_POWER_FREQUENT(uId)
 		local power = UnitPower(uId)
 		if power == 15000 and ProshlyapMurchalyaSoon then
-			DBM:Debug("checking proshlyapation of Murchal", 2)
-			if timerCoalescePowerCD:GetTime() < 20 and self:AntiSpam(1, "DecimatingEssence") then
-			--	if self:AntiSpam(1, "DecimatingEssence") then
+			if timerCoalescePowerCD:GetTime() < 20 and self:AntiSpam(1.5, "DecimatingEssence") then
 				specWarnDecimatingEssence2:Show()
 				specWarnDecimatingEssence2:Play("justrun")
 			end
