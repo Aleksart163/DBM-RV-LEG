@@ -80,13 +80,17 @@ function mod:ArcingBoltTarget(targetname, uId) --Дуговая молния (�
 end
 
 local function UpdateArcingBoltTimer1(self)
-	timerArcingBoltCD:Stop()
-	timerArcingBoltCD:Start(13)
+--	timerArcingBoltCD:Stop()
+	timerArcingBoltCD:AddTime(13)
+	timerShieldOfLightCD:AddTime(13)
+	countdownShieldOfLight:AddTime(13)
 end
 
 local function UpdateArcingBoltTimer2(self)
-	timerArcingBoltCD:Stop()
-	timerArcingBoltCD:Start(12)
+--	timerArcingBoltCD:Stop()
+	timerArcingBoltCD:AddTime(11.5)
+	timerShieldOfLightCD:AddTime(11.5)
+	countdownShieldOfLight:AddTime(11.5)
 end
 
 function mod:OnCombatStart(delay)
@@ -202,7 +206,7 @@ function mod:SPELL_CAST_START(args)
 			countdownSpecial:Cancel()
 			countdownSpecial:Start()
 		end
-		if timerArcingBoltCD:GetTime() < 13 and warned_MET then
+		if timerArcingBoltCD:GetTime() < 12 and warned_MET then
 			UpdateArcingBoltTimer2(self)
 		end
 	elseif spellId == 192018 then --Щит Света

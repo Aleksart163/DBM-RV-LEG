@@ -2,18 +2,33 @@ if GetLocale() ~= "ruRU" then return end
 
 local L
 
-------------
---  Omen  --
-------------
+----------------------------------
+-- Верховный некромансер Равенн --
+----------------------------------
+L = DBM:GetModLocalization("Ravenn")
+
+L:SetGeneralLocalization({
+	name = "Верховный некромансер Равенн"
+})
+
+L:SetMiscLocalization({
+	MurchalProshlyap1 = "И восстанут мертвые... И вопли живых сменят тишину...",
+	MurchalProshlyap2 = "Бегите, пока можете... Мертвые идут!",
+	MurchalProshlyap3 = "Посмотрим... как хорошо вы бегаете?"
+})
+
+----------
+-- Омен --
+----------
 L = DBM:GetModLocalization("Omen")
 
 L:SetGeneralLocalization({
 	name = "Омен"
 })
 
-------------------------------
---  The Crown Chemical Co.  --
-------------------------------
+-------------------------------
+-- Королевская хим. компания --
+-------------------------------
 L = DBM:GetModLocalization("d288")
 
 L:SetTimerLocalization{
@@ -31,7 +46,7 @@ L:SetMiscLocalization({
 })
 
 ----------------------------
---  The Frost Lord Ahune  --
+-- Повелитель Холода Ахун --
 ----------------------------
 L = DBM:GetModLocalization("d286")
 
@@ -56,9 +71,9 @@ L:SetMiscLocalization({
 	Pull			= "Камень Льда растаял!"
 })
 
-----------------------
---  Coren Direbrew  --
-----------------------
+-------------------
+-- Корен Худовар --
+-------------------
 L = DBM:GetModLocalization("d287")
 
 L:SetWarningLocalization({
@@ -75,9 +90,22 @@ L:SetMiscLocalization({
 	YellBarrel			= "Бочка на мне!"
 })
 
------------------------------
---  The Headless Horseman  --
------------------------------
+----------------
+--  Brewfest  --
+----------------
+L = DBM:GetModLocalization("Brew")
+
+L:SetGeneralLocalization({
+	name = "Пивной фестиваль"
+})
+
+L:SetOptionLocalization({
+	NormalizeVolume			= "Автоматически нормализовать громкость звукового канала DIALOG в соответствии с громкостью музыкального канала при нахождении в зоне Пивного Фестиваля, чтобы он не был таким раздражающе громким. (Если громкость музыкального звука не установлена, то громкость будет отключена.)"
+})
+
+------------------------
+-- Всадник без головы --
+------------------------
 L = DBM:GetModLocalization("d285")
 
 L:SetWarningLocalization({
@@ -97,18 +125,18 @@ L:SetMiscLocalization({
 	HorsemanSoldiers		= "Восстаньте слуги, устремитесь в бой! Пусть павший рыцарь обретет покой!"
 })
 
-------------------------------
---  The Abominable Greench  --
-------------------------------
+-------------------------
+-- Омерзительный Гринч --
+-------------------------
 L = DBM:GetModLocalization("Greench")
 
 L:SetGeneralLocalization({
 	name = "Омерзительный Гринч"
 })
 
---------------------------
---  Plants Vs. Zombies  --
---------------------------
+---------------------------
+-- Растения против Зомби --
+---------------------------
 L = DBM:GetModLocalization("PlantsVsZombies")
 
 L:SetGeneralLocalization({
@@ -132,4 +160,13 @@ L:SetOptionLocalization({
 
 L:SetMiscLocalization({
 	MassiveWave		= "Приближается большая волна зомби!"
+})
+
+--------------------------
+-- Вторжение демонов --
+--------------------------
+L = DBM:GetModLocalization("DemonInvasions")
+
+L:SetGeneralLocalization({
+	name = "Вторжение демонов"
 })

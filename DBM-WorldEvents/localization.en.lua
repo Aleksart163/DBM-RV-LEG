@@ -1,5 +1,14 @@
 local L
 
+---------------------------------
+-- Supreme Necromancer Ravenna --
+---------------------------------
+L = DBM:GetModLocalization("Ravenn")
+
+L:SetGeneralLocalization({
+	name = "Supreme Necromancer Ravenna"
+})
+
 ------------
 --  Omen  --
 ------------
