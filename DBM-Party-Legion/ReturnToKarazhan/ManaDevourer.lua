@@ -49,11 +49,11 @@ mod:AddInfoFrameOption(227502, true)
 
 local unstableMana, looseMana = DBM:GetSpellInfo(227502), DBM:GetSpellInfo(227296)
 mod.vb.MurchalProshlyapenCount = 0
-local ProshlyapSoon = false
+local ProshlyapMurchalyaSoon = false
 
 function mod:OnCombatStart(delay)
 	self.vb.MurchalProshlyapenCount = 0
-	ProshlyapSoon = false
+	ProshlyapMurchalyaSoon = false
 	timerEnergyVoidCD:Start(14.5-delay)
 	timerCoalescePowerCD:Start(30-delay)
 	countdownCoalescePower:Start(30-delay)
@@ -77,7 +77,7 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 227507 then --Истребляющая сущность
 		self.vb.MurchalProshlyapenCount = 0
-		ProshlyapSoon = false
+		ProshlyapMurchalyaSoon = false
 		if not UnitIsDeadOrGhost("player") then
 			specWarnDecimatingEssence:Show()
 			specWarnDecimatingEssence:Play("aesoon")
@@ -111,9 +111,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnCoalescePower:Play("watchstep")
 		end
 		if self.vb.MurchalProshlyapenCount == 2 then
-			ProshlyapSoon = true
-		--	specWarnDecimatingEssence2:Schedule(10)
-		--	specWarnDecimatingEssence2:ScheduleVoice(10, "justrun")
+			ProshlyapMurchalyaSoon = true
 		end
 		timerCoalescePowerCD:Start()
 		countdownCoalescePower:Start()
@@ -161,11 +159,12 @@ do
 	local UnitPower = UnitPower
 	function mod:UNIT_POWER_FREQUENT(uId)
 		local power = UnitPower(uId)
-		if power == 50000 and self.vb.MurchalProshlyapenCount == 1 then -- timerCoalescePowerCD:GetTime() <= 15 and ProshlyapSoon --Слияние энергии
+		if power == 15000 and ProshlyapMurchalyaSoon then
 			DBM:Debug("checking proshlyapation of Murchal", 2)
-			if self:AntiSpam(1, "FelGlaive") then
-				specWarnFelGlaive:Show()
-				specWarnFelGlaive:Play("watchstep")
+			if timerCoalescePowerCD:GetTime() < 20 and self:AntiSpam(1, "DecimatingEssence") then
+			--	if self:AntiSpam(1, "DecimatingEssence") then
+				specWarnDecimatingEssence2:Show()
+				specWarnDecimatingEssence2:Play("justrun")
 			end
 		end
 	end
