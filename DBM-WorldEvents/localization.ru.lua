@@ -11,6 +11,14 @@ L:SetGeneralLocalization({
 	name = "Верховный некромансер Равенн"
 })
 
+L:SetTimerLocalization{
+	MurchalProshlyapTimer	= "Ожившая тыква"
+}
+
+L:SetOptionLocalization({
+	MurchalProshlyapTimer	= "Отсчет времени до появления Оживших тыкв"
+})
+
 L:SetMiscLocalization({
 	MurchalProshlyap1 = "И восстанут мертвые... И вопли живых сменят тишину...",
 	MurchalProshlyap2 = "Бегите, пока можете... Мертвые идут!",

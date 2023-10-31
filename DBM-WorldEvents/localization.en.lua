@@ -9,6 +9,14 @@ L:SetGeneralLocalization({
 	name = "Supreme Necromancer Ravenna"
 })
 
+L:SetTimerLocalization{
+	MurchalProshlyapTimer	= "The living pumpkin"
+}
+
+L:SetOptionLocalization({
+	MurchalProshlyapTimer	= "Show timers to the appearance of the Living Pumpkins"
+})
+
 ------------
 --  Omen  --
 ------------
