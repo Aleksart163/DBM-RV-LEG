@@ -10,7 +10,8 @@ mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 183224 67729",
-	"SPELL_DAMAGE 67781",
+	"SPELL_AURA_APPLIED 28467",
+	"SPELL_AURA_APPLIED_DOSE 28467",
 	"SPELL_MISSED 67781",
 	"SPELL_ABSORBED 67781",
 	"CHAT_MSG_MONSTER_YELL"
@@ -18,14 +19,17 @@ mod:RegisterEventsInCombat(
 
 local warnExplode						= mod:NewCastAnnounce(67729, 4, nil, nil, "Ranged") --Взрыв
 local warnShadowBoltVolley				= mod:NewCastAnnounce(183224, 2) --Залп стрел Тьмы
+local warnMortalWound					= mod:NewStackAnnounce(28467, 2, nil, "Tank|Healer") --Смертельная рана
 
+local specWarnMortalWound				= mod:NewSpecialWarningStack(28467, nil, 5, nil, nil, 3, 6) --Смертельная рана
+local specWarnMortalWound2				= mod:NewSpecialWarningTaunt(28467, nil, nil, nil, 3, 6) --Рассечение
 local specWarnExplode					= mod:NewSpecialWarningDodge(67729, "Melee", nil, nil, 2, 3) --Взрыв
 local specWarnDesecration				= mod:NewSpecialWarningYouMove(67781, nil, nil, nil, 1, 2) --Осквернение
 local specWarnSummonDrudgeGhouls		= mod:NewSpecialWarningSwitch(70358, "Tank|Dps", nil, nil, 1, 2) --Призыв вурдалаков
 
 local timerShadowBoltVolleyCD			= mod:NewCDTimer(12.3, 183224, nil, nil, nil, 2, nil, DBM_CORE_HEALER_ICON) --Залп стрел Тьмы
 local timerSummonDrudgeGhoulsCD			= mod:NewCDTimer(30, 70358, nil, nil, nil, 1, nil, DBM_CORE_TANK_ICON..DBM_CORE_DAMAGE_ICON) --Призыв вурдалаков
-local timerPumpkinCD					= mod:NewTimer(35, "MurchalProshlyapTimer", "Interface\\Icons\\Inv_misc_bag_28_halloween", nil, nil, 1, DBM_CORE_DAMAGE_ICON)
+local timerPumpkinCD					= mod:NewTimer(35, "MurchalProshlyapTimer", "Interface\\Icons\\Inv_misc_bag_28_halloween", nil, nil, 1, DBM_CORE_DAMAGE_ICON) --призыв тыкв
 
 function mod:OnCombatStart(delay)
 --	timerShadowBoltVolleyCD:Start(12.5)
@@ -43,6 +47,35 @@ function mod:SPELL_CAST_START(args)
 		specWarnExplode:Play("watchstep")
 	end
 end
+
+function mod:SPELL_AURA_APPLIED(args)
+	local spellId = args.spellId
+	if spellId == 28467 then --Смертельная рана
+		local amount = args.amount or 1
+		if amount >= 5 then
+			if args:IsPlayer() then
+				specWarnMortalWound:Show(amount)
+				specWarnMortalWound:Play("stackhigh")
+			else
+				local _, _, _, _, _, _, expireTime = DBM:UnitDebuff("player", spellId)
+				local remaining
+				if expireTime then
+					remaining = expireTime-GetTime()
+				end
+				if not UnitIsDeadOrGhost("player") and (not remaining or remaining and remaining < 5) then
+					specWarnMortalWound2:Show(args.destName)
+					specWarnMortalWound2:Play("tauntboss")
+				else
+					warnMortalWound:Show(args.destName, amount)
+				end
+			end
+		else
+			warnMortalWound:Show(args.destName, amount)
+		end
+	end
+end
+mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
+
 function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
 	if spellId == 67781 and destGUID == UnitGUID("player") and self:AntiSpam(3, "Desecration") then --Осквернение
 		specWarnDesecration:Show()

@@ -169,8 +169,9 @@ do
 	local UnitPower = UnitPower
 	function mod:UNIT_POWER_FREQUENT(uId)
 		local power = UnitPower(uId)
-		if power == 15000 and ProshlyapMurchalyaSoon then
-			if timerCoalescePowerCD:GetTime() < 20 and self:AntiSpam(1.5, "DecimatingEssence") then
+		if power == 10000 and ProshlyapMurchalyaSoon then
+		--	if timerCoalescePowerCD:GetTime() < 20 and self:AntiSpam(1.5, "DecimatingEssence") then
+			if self:AntiSpam(2, "DecimatingEssence") then
 				specWarnDecimatingEssence2:Show()
 				specWarnDecimatingEssence2:Play("justrun")
 			end
