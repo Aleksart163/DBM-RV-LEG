@@ -23,7 +23,7 @@ mod:RegisterEventsInCombat(
 -- Всё прошляпанно Мурчалем Прошляпенко --
 ------------------------------------------
 local warnExplode						= mod:NewCastAnnounce(67729, 4, nil, nil, "Ranged") --Взрыв
-local warnShadowBoltVolley				= mod:NewCastAnnounce(183224, 2) --Залп стрел Тьмы
+--local warnShadowBoltVolley				= mod:NewCastAnnounce(183224, 2) --Залп стрел Тьмы
 local warnMortalWound					= mod:NewStackAnnounce(28467, 2, nil, "Tank|Healer") --Смертельная рана
 local warnFixate						= mod:NewTargetAnnounce(154769, 2) --Сосредоточение внимания
 
@@ -35,13 +35,18 @@ local specWarnExplode					= mod:NewSpecialWarningDodge(67729, "Melee", nil, nil,
 local specWarnDesecration				= mod:NewSpecialWarningYouMove(93691, nil, nil, nil, 1, 2) --Осквернение
 local specWarnSummonDrudgeGhouls		= mod:NewSpecialWarningSwitch(70358, "Tank|Dps", nil, nil, 1, 2) --Призыв вурдалаков
 
-local timerShadowBoltVolleyCD			= mod:NewCDTimer(12.3, 183224, nil, nil, nil, 2, nil, DBM_CORE_HEALER_ICON) --Залп стрел Тьмы
+local timerShadowBoltVolleyCD			= mod:NewCDTimer(12.1, 183224, nil, nil, nil, 2, nil, DBM_CORE_HEALER_ICON) --Залп стрел Тьмы
 local timerSummonDrudgeGhoulsCD			= mod:NewCDTimer(38, 70358, nil, nil, nil, 1, nil, DBM_CORE_TANK_ICON..DBM_CORE_DAMAGE_ICON) --Призыв вурдалаков
-local timerPumpkinCD					= mod:NewTimer(32, "MurchalProshlyapTimer", "Interface\\Icons\\Inv_misc_bag_28_halloween", nil, nil, 1, DBM_CORE_DAMAGE_ICON) --призыв тыкв
+local timerPumpkinCD					= mod:NewTimer(32, "MurchalProshlyapTimer", "Interface\\Icons\\Inv_misc_bag_28_halloween", nil, nil, 1, DBM_CORE_DAMAGE_ICON) --Призыв тыкв
 
-local yellFixate						= mod:NewYell(154769, nil, nil, nil, "YELL") --Сосредоточение внимания
+local yellFixate						= mod:NewYell(244653, nil, nil, nil, "YELL") --Сосредоточение внимания
+
+mod:AddSetIconOption("SetIconOnFixate", 154769, true, false, {4, 3, 2, 1})
+
+mod.vb.MurchalItsOchkenProshlyapation = 0
 
 function mod:OnCombatStart(delay)
+	self.vb.MurchalItsOchkenProshlyapation = 0
 --	timerShadowBoltVolleyCD:Start(12.5)
 --	timerSummonDrudgeGhoulsCD:Start(31.5)
 end
@@ -49,7 +54,7 @@ end
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 183224 then --Залп стрел Тьмы
-		warnShadowBoltVolley:Show()
+	--	warnShadowBoltVolley:Show()
 		timerShadowBoltVolleyCD:Start()
 	elseif spellId == 67729 and self:AntiSpam(2, "Explode") then --Взрыв
 		warnExplode:Show()
@@ -83,6 +88,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			warnMortalWound:Show(args.destName, amount)
 		end
 	elseif spellId == 154769 then --Сосредоточение внимания
+		self.vb.MurchalItsOchkenProshlyapation = self.vb.MurchalItsOchkenProshlyapation + 1
 		if args:IsPlayer() then
 			specWarnFixate:Show()
 			specWarnFixate:Play("justrun")
@@ -91,6 +97,9 @@ function mod:SPELL_AURA_APPLIED(args)
 		else
 			warnFixate:CombinedShow(0.5, args.destName)
 		end
+		if self.Options.SetIconOnFixate then
+			self:SetIcon(args.destName, self.vb.MurchalItsOchkenProshlyapation)
+		end
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
@@ -98,9 +107,13 @@ mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
 	if spellId == 154769 then --Сосредоточение внимания
+		self.vb.MurchalItsOchkenProshlyapation = self.vb.MurchalItsOchkenProshlyapation - 1
 		if args:IsPlayer() then
 			specWarnFixate2:Show()
 			specWarnFixate2:Play("end")
+		end
+		if self.Options.SetIconOnFixate then
+			self:RemoveIcon(args.destName)
 		end
 	end
 end
