@@ -12,6 +12,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 183224 67729",
 	"SPELL_AURA_APPLIED 28467 154769",
 	"SPELL_AURA_APPLIED_DOSE 28467",
+	"SPELL_AURA_REMOVED 154769",
 	"SPELL_DAMAGE 93691",
 	"SPELL_MISSED 93691",
 	"SPELL_ABSORBED 93691",
@@ -27,6 +28,7 @@ local warnMortalWound					= mod:NewStackAnnounce(28467, 2, nil, "Tank|Healer") -
 local warnFixate						= mod:NewTargetAnnounce(154769, 2) --Сосредоточение внимания
 
 local specWarnFixate					= mod:NewSpecialWarningYouRun(154769, nil, nil, nil, 4, 3) --Сосредоточение внимания
+local specWarnFixate2					= mod:NewSpecialWarningEnd(154769, nil, nil, nil, 1, 2) --Сосредоточение внимания
 local specWarnMortalWound				= mod:NewSpecialWarningStack(28467, nil, 5, nil, nil, 3, 6) --Смертельная рана
 local specWarnMortalWound2				= mod:NewSpecialWarningTaunt(28467, nil, nil, nil, 3, 6) --Рассечение
 local specWarnExplode					= mod:NewSpecialWarningDodge(67729, "Melee", nil, nil, 2, 3) --Взрыв
@@ -36,6 +38,8 @@ local specWarnSummonDrudgeGhouls		= mod:NewSpecialWarningSwitch(70358, "Tank|Dps
 local timerShadowBoltVolleyCD			= mod:NewCDTimer(12.3, 183224, nil, nil, nil, 2, nil, DBM_CORE_HEALER_ICON) --Залп стрел Тьмы
 local timerSummonDrudgeGhoulsCD			= mod:NewCDTimer(38, 70358, nil, nil, nil, 1, nil, DBM_CORE_TANK_ICON..DBM_CORE_DAMAGE_ICON) --Призыв вурдалаков
 local timerPumpkinCD					= mod:NewTimer(32, "MurchalProshlyapTimer", "Interface\\Icons\\Inv_misc_bag_28_halloween", nil, nil, 1, DBM_CORE_DAMAGE_ICON) --призыв тыкв
+
+local yellFixate						= mod:NewYell(154769, nil, nil, nil, "YELL") --Сосредоточение внимания
 
 function mod:OnCombatStart(delay)
 --	timerShadowBoltVolleyCD:Start(12.5)
@@ -82,12 +86,24 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnFixate:Show()
 			specWarnFixate:Play("justrun")
+			specWarnFixate:ScheduleVoice(1, "keepmove")
+			yellFixate:Yell()
 		else
 			warnFixate:CombinedShow(0.5, args.destName)
 		end
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
+
+function mod:SPELL_AURA_REMOVED(args)
+	local spellId = args.spellId
+	if spellId == 154769 then --Сосредоточение внимания
+		if args:IsPlayer() then
+			specWarnFixate2:Show()
+			specWarnFixate2:Play("end")
+		end
+	end
+end
 
 function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
 	if spellId == 93691 and destGUID == UnitGUID("player") and self:AntiSpam(3, "Desecration") then --Осквернение

@@ -126,6 +126,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		DBM.RangeCheck:Hide()
 	elseif spellId == 196838 and args:IsPlayer() then
 		specWarnFixateOver:Show()
+		specWarnFixateOver:Play("end")
 	end
 end
 
