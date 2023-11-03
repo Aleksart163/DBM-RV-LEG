@@ -46,12 +46,12 @@ local specWarnTorment2			= mod:NewSpecialWarningYouDefensive(202615, nil, nil, n
 local specWarnDoubleStrike		= mod:NewSpecialWarningYouDefensive(193607, nil, nil, nil, 2, 2) --Двойной удар
 local specWarnUnleashedFury		= mod:NewSpecialWarningInterrupt(196799, "HasInterrupt", nil, nil, 2, 2) --Высвобождение ярости
 local specWarnNightmares		= mod:NewSpecialWarningInterrupt(193069, "HasInterrupt", nil, nil, 3, 2) --Кошмары
-local specWarnMeteor			= mod:NewSpecialWarningShare(196249, nil, nil, nil, 1, 2) --Метеор
+local specWarnMeteor			= mod:NewSpecialWarningDodge(196249, nil, nil, nil, 3, 6) --Метеор
 --Разъяренный анимус
 local timerTemporalAnomalyCD	= mod:NewCDTimer(35, 161056, nil, nil, nil, 3, nil) --Временная аномалия (каст)
 local timerArcaneSentriesCD		= mod:NewCDTimer(35, 193936, nil, nil, nil, 1, nil) --Волшебные часовые
 --Повелитель ужаса Мендаций
-local timerMeteorCD				= mod:NewCDTimer(17, 196249, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Метеор
+--local timerMeteorCD				= mod:NewCDTimer(17, 196249, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Метеор
 local timerThunderclapCD		= mod:NewCDTimer(15, 196242, nil, nil, nil, 2, nil) --Удар грома
 --Иллиана Танцующая с Клинками
 local timerDeafeningShoutCD		= mod:NewCDTimer(18.5, 191527, nil, "SpellCaster", nil, 4, nil, DBM_CORE_INTERRUPT_ICON) --Оглушающий крик
@@ -103,8 +103,8 @@ function mod:SPELL_CAST_START(args)
 		end
 	elseif spellId == 196249 then
 		specWarnMeteor:Show()
-		specWarnMeteor:Play("gathershare")
-		timerMeteorCD:Start()
+		specWarnMeteor:Play("watchstep")
+	--	timerMeteorCD:Start()
 	elseif spellId == 193502 then --Метаморфоза
 		warnMetamorphosis:Show()
 	elseif spellId == 193936 then --Волшебные часовые
@@ -220,7 +220,7 @@ function mod:UNIT_DIED(args)
 		timerTemporalAnomalyCD:Cancel()
 		timerArcaneSentriesCD:Cancel()
 	elseif cid == 99649 then --https://ru.wowhead.com/npc=99649/повелитель-ужаса-мендаций
-		timerMeteorCD:Cancel()
+	--	timerMeteorCD:Cancel()
 		timerThunderclapCD:Cancel()
 	elseif cid == 96657 then --https://ru.wowhead.com/npc=96657/иллиана-танцующая-с-клинками
 		timerDeafeningShoutCD:Cancel()
