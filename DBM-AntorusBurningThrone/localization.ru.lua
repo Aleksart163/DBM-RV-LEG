@@ -81,11 +81,11 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(2009)
 
 L:SetWarningLocalization({
-	PulseGrenade = "Импульсная граната - стойте подальше от других"
+	PulseGrenade = "Импульсная граната - стой подальше от других"
 })
 
 L:SetOptionLocalization({
-	PulseGrenade = "Спец-предупреждение \"стойте подальше от других\" когда вы цель $spell:250006"
+	PulseGrenade = "Спец-предупреждение \"стой подальше от других\" когда вы цель $spell:250006"
 })
 
 L:SetMiscLocalization({
