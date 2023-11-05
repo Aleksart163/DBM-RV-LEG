@@ -8,7 +8,7 @@ local L
 L = DBM:GetModLocalization("Ravenn")
 
 L:SetGeneralLocalization({
-	name = "Верховный некромансер Равенн"
+	name = "(Прошляп очка Мурчаля) Верховный некромансер Равенн"
 })
 
 L:SetTimerLocalization{

@@ -5,7 +5,7 @@ mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
 mod:SetCreatureID(117194)
 mod:SetEncounterID(2057)
 mod:SetZone()
-mod:SetUsedIcons(7)
+mod:SetUsedIcons(8)
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
@@ -16,15 +16,14 @@ mod:RegisterEventsInCombat(
 )
 
 --Долбогрыз Глумливый https://ru.wowhead.com/npc=117194/долбогрыз-глумливый/эпохальный-журнал-сражений
-local warnScornfulGaze				= mod:NewTargetAnnounce(237726, 4, nil, nil, 2) --Глумливый взгляд
 local warnHeaveCrud					= mod:NewSpellAnnounce(243124, 2) --Бросок дубины
 
 local specWarnPulvCrudgel			= mod:NewSpecialWarningRun(237276, "Melee", nil, nil, 4, 5) --Сокрушающая дубина
 local specWarnPulvCrudgel2			= mod:NewSpecialWarningDodge(237276, "Ranged", nil, nil, 2, 2) --Сокрушающая дубина
 local specWarnMindControl			= mod:NewSpecialWarningSwitchCount(238484, nil, DBM_CORE_AUTO_SPEC_WARN_OPTIONS.switch:format(238484), nil, 1, 2) --Завораживающая биография
-local specWarnScornfulGaze			= mod:NewSpecialWarningYouMoveAway(237726, nil, nil, nil, 4, 6) --Глумливый взгляд
-local specWarnScornfulGaze2			= mod:NewSpecialWarningTargetDodge(237726, "-Tank", nil, nil, 2, 2) --Глумливый взгляд
-local specWarnScornfulGaze3			= mod:NewSpecialWarningYouDefensive(237726, "Tank", nil, nil, 3, 3) --Глумливый взгляд
+local specWarnScornfulGaze			= mod:NewSpecialWarningYouMoveAway(237726, nil, nil, nil, 4, 3) --Глумливый взгляд
+local specWarnScornfulGaze2			= mod:NewSpecialWarningTargetDodge(237726, nil, nil, nil, 2, 2) --Глумливый взгляд
+local specWarnScornfulGaze3			= mod:NewSpecialWarningYouDefensive(237726, nil, nil, nil, 3, 3) --Глумливый взгляд
 local specWarnScornfulGaze4			= mod:NewSpecialWarningTargetSoak(237726, "Tank", nil, nil, 3, 6) --Глумливый взгляд
 
 local timerPulvCrudgelCD			= mod:NewCDTimer(34.2, 237276, nil, nil, nil, 2, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Сокрушающая дубина
@@ -38,7 +37,7 @@ local countdownScornfulGaze2		= mod:NewCountdownFades("Alt7", 237726, nil, nil, 
 local yellScornfulGaze				= mod:NewYell(237726, nil, nil, nil, "YELL") --Глумливый взгляд
 local yellScornfulGaze2				= mod:NewFadesYell(237726, nil, nil, nil, "YELL") --Глумливый взгляд
 
-mod:AddSetIconOption("SetIconOnScornfulGaze", 237726, true, false, {7}) --Глумливый взгляд
+mod:AddSetIconOption("SetIconOnScornfulGaze", 237726, true, false, {8}) --Глумливый взгляд
 
 function mod:OnCombatStart(delay)
 	if not self:IsNormal() then
@@ -72,22 +71,26 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() and not self:IsTank() then
 			specWarnScornfulGaze:Show()
 			specWarnScornfulGaze:Play("runaway")
+			specWarnScornfulGaze3:Schedule(3.5)
+			specWarnScornfulGaze3:ScheduleVoice(3.5, "defensive")
 			yellScornfulGaze:Yell()
 			yellScornfulGaze2:Countdown(7, 3)
 		elseif args:IsPlayer() and self:IsTank() then
-			specWarnScornfulGaze3:Show()
-			specWarnScornfulGaze3:Play("defensive")
+			specWarnScornfulGaze:Show()
+			specWarnScornfulGaze:Play("runaway")
+			specWarnScornfulGaze3:Schedule(3.5)
+			specWarnScornfulGaze3:ScheduleVoice(3.5, "defensive")
 			yellScornfulGaze:Yell()
 			yellScornfulGaze2:Countdown(7, 3)
-		else
-			warnScornfulGaze:Show(args.destName)
-			specWarnScornfulGaze4:Show(args.destName)
-			specWarnScornfulGaze4:Play("helpsoak")
+		elseif self:CheckNearby(15, args.destName) then
 			specWarnScornfulGaze2:Show(args.destName)
 			specWarnScornfulGaze2:Play("watchstep")
+		else
+			specWarnScornfulGaze4:Show(args.destName)
+			specWarnScornfulGaze4:Play("helpsoak")
 		end
 		if self.Options.SetIconOnScornfulGaze then
-			self:SetIcon(args.destName, 7, 7)
+			self:SetIcon(args.destName, 8, 7)
 		end
 	end
 end
@@ -95,9 +98,11 @@ end
 function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
 	if spellId == 237726 then --Глумливый взгляд
-		timerScornfulGaze:Stop()
+		timerScornfulGaze:Cancel()
 		countdownScornfulGaze2:Cancel()
 		if args:IsPlayer() then
+			specWarnScornfulGaze3:Cancel()
+			specWarnScornfulGaze3:CancelVoice()
 			yellScornfulGaze2:Cancel()
 		end
 	end

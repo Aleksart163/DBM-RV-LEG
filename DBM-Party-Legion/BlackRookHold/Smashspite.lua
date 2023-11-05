@@ -21,7 +21,6 @@ mod:RegisterEventsInCombat(
 )
 
 --Хмуродроб Лютый https://ru.wowhead.com/npc=98949/хмуродроб-лютый/эпохальный-журнал-сражений
-local warnHatefulGaze				= mod:NewTargetAnnounce(198079, 4) --Ненавидящий взгляд
 local warnFelVomit					= mod:NewTargetAnnounce(198446, 3) --Сквернорвота
 local warnHatefulCharge				= mod:NewStackAnnounce(224188, 4) --Рывок ненависти
 
@@ -29,9 +28,9 @@ local specWarnHatefulCharge			= mod:NewSpecialWarningStack(224188, nil, 1, nil, 
 local specWarnFelVomitus			= mod:NewSpecialWarningYouMove(198501, nil, nil, nil, 1, 3) --Рвота Скверны
 local specWarnFelVomit				= mod:NewSpecialWarningYouMoveAway(198446, nil, nil, nil, 4, 3) --Сквернорвота
 local specWarnStomp					= mod:NewSpecialWarningDefensive(198073, nil, nil, nil, 2, 3) --Сотрясающий землю топот
-local specWarnHatefulGaze			= mod:NewSpecialWarningYouDefensive(198079, nil, nil, nil, 3, 6) --Ненавидящий взгляд
+local specWarnHatefulGaze			= mod:NewSpecialWarningYouDefensive(198079, nil, nil, nil, 3, 3) --Ненавидящий взгляд
 local specWarnHatefulGaze2			= mod:NewSpecialWarningYouMoveAway(198079, nil, nil, nil, 4, 3) --Ненавидящий взгляд
-local specWarnHatefulGaze3			= mod:NewSpecialWarningCloseMoveAway(198079, nil, nil, nil, 2, 3) --Ненавидящий взгляд
+local specWarnHatefulGaze3			= mod:NewSpecialWarningTargetDodge(198079, nil, nil, nil, 2, 3) --Ненавидящий взгляд
 local specWarnHatefulGaze4			= mod:NewSpecialWarningTargetSoak(198079, "Tank|Dhdd", nil, nil, 3, 3) --Ненавидящий взгляд
 local specWarnBrutalHaymakerSoon	= mod:NewSpecialWarningSoon(198245, "Tank|Healer", nil, nil, 2, 2) --Жестокий удар кулаком Face fuck soon
 local specWarnBrutalHaymaker		= mod:NewSpecialWarningDefensive(198245, "Tank", nil, nil, 3, 6) --Жестокий удар кулаком Incoming face fuck
@@ -94,16 +93,15 @@ function mod:SPELL_AURA_APPLIED(args)
 		countdownHatefulGaze2:Start()
 		if args:IsPlayer() then
 			specWarnHatefulGaze2:Show()
-			specWarnHatefulGaze2:Play("runout")
+			specWarnHatefulGaze2:Play("runaway")
 			specWarnHatefulGaze:Schedule(3)
 			specWarnHatefulGaze:ScheduleVoice(3, "defensive")
 			yellHatefulGaze:Yell()
 			yellHatefulGaze2:Countdown(5, 3)
-		elseif self:CheckNearby(10, args.destName) then
+		elseif self:CheckNearby(15, args.destName) then
 			specWarnHatefulGaze3:Show(args.destName)
 			specWarnHatefulGaze3:Play("watchstep")
 		else
-			warnHatefulGaze:Show(args.destName)
 			specWarnHatefulGaze4:Show(args.destName)
 			specWarnHatefulGaze4:Play("helpsoak")
 		end
