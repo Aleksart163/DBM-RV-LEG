@@ -181,7 +181,7 @@ local premsg_values = {
 	["premsg_Spells_ironbark"] = {0, L.SoulstoneYell, true}, --Железная кора
 	["premsg_Spells_ancprotectotem"] = {0, L.HeroismYell}, --Тотем защиты Предков
 	["premsg_Spells_hope"] = {0, L.HeroismYell}, --Символ надежды
-	["premsg_Spells_innervate"] = {0, L.SoulstoneYell, true}, --Озарение
+--	["premsg_Spells_innervate"] = {0, L.SoulstoneYell, true}, --Озарение
 	["premsg_Spells_rebirth1"] = {0, L.SoulstoneYell, true}, --Возрождение
 	["premsg_Spells_rebirth2"] = {0, L.SoulstoneYell, true}, --Воскрешение союзника
 	["premsg_Spells_rebirth3"] = {0, L.SoulstoneYell, true} --Воскрешение камнем души
@@ -532,9 +532,6 @@ function mod:SPELL_AURA_APPLIED(args)
 			end]]
 		else
 			warnInnervate:Show(sourceName, destName)
-		end
-		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnRaidCooldown then
-			prepareMessage(self, "premsg_Spells_innervate", spellId, sourceName, destName)
 		end
 	elseif spellId == 64901 then --Символ надежды
 		if typeInstance ~= "party" and typeInstance ~= "raid" then return end
