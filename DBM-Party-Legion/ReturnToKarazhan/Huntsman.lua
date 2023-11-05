@@ -258,15 +258,15 @@ end
 function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
 	if spellId == 227404 then --Незримое присутствие
-		if args:IsPlayer() then
+		if args:IsPlayer() and not UnitIsDeadOrGhost("player") then
 			intangiblePresenceOnMe = true
 			specWarnPresence4:Show()
 			specWarnPresence4:Play("end")
 		end
-		if self:IsMagicDispeller2() then
-			specWarnPresence3:Cancel()
-			specWarnPresence3:CancelVoice()
-		end
+		specWarnPresence3:Cancel()
+		specWarnPresence3:CancelVoice()
+		specWarnPresence7:Cancel()
+		specWarnPresence7:CancelVoice()
 		if self.Options.SetIconOnPresence then
 			self:RemoveIcon(args.destName)
 		end
@@ -342,9 +342,9 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 		timerMortalStrikeCD:Stop()
 		timerSharedSufferingCD:Stop()
 		countdownSharedSuffering:Cancel()
+		timerMightyStompCD:Start(12)
 	--	specWarnSpectralCharge:Schedule(2)
 	--	specWarnSpectralCharge:ScheduleVoice(2, "watchstep")
-		timerMightyStompCD:Start(12)
 	--	perephase = false
 	--	timerSpectralChargeCD:Stop() --Призрачный рывок
 	--	specWarnSpectralCharge:Cancel() --Призрачный рывок
@@ -386,10 +386,13 @@ function mod:OnSync(msg, sender)
 		if self:IsMagicDispeller2() then
 			specWarnPresence3:Show(sender)
 			specWarnPresence3:Play("dispelnow")
-			specWarnPresence3:Schedule(3, sender)
-			specWarnPresence3:ScheduleVoice(3, "dispelnow")
+			specWarnPresence3:Schedule(5, sender)
+			specWarnPresence3:ScheduleVoice(5, "dispelnow")
 		elseif not self:IsMagicDispeller2() then
 			specWarnPresence7:Show(sender)
+			specWarnPresence7:Play("dispelnow")
+			specWarnPresence7:Schedule(5, sender)
+			specWarnPresence7:ScheduleVoice(5, "dispelnow")
 		end
 	end
 end
