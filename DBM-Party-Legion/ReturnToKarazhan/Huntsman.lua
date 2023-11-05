@@ -63,7 +63,7 @@ local yellMortalStrike				= mod:NewYell(227493, nil, nil, nil, "YELL") --Сме�
 
 local countdownSharedSuffering		= mod:NewCountdown(18, 228852, nil, nil, 5) --Разделенные муки
 local countdownSharedSuffering2		= mod:NewCountdownFades("Alt3.8", 228852, nil, nil, 3) --Разделенные муки
-local countdownHorsefighting		= mod:NewCountdown("Alt26.5", "ej14300", nil, nil, 5) --Бой верхом
+local countdownHorsefighting		= mod:NewCountdown("Alt26", "ej14300", nil, nil, 5) --Бой верхом
 
 mod:AddSetIconOption("SetIconOnSharedSuffering", 228852, true, false, {8}) --Разделенные муки
 mod:AddSetIconOption("SetIconOnPresence", 227404, true, false, {7}) --Незримое присутствие
