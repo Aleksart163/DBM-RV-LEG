@@ -49,7 +49,7 @@ local specWarnPresence6				= mod:NewSpecialWarningSpell(227404, nil, nil, nil, 1
 local specWarnPresence7				= mod:NewSpecialWarningTarget(227404, nil, nil, nil, 1, 2) --Незримое присутствие
 --local specWarnRagnarok				= mod:NewSpecialWarningDefensive(193826, nil, nil, nil, 3, 5) 
 
-local timerHorsefightingCD			= mod:NewCDTimer(26.5, "ej14300", nil, nil, nil, 6, 227339) --Бой верхом
+local timerHorsefightingCD			= mod:NewCDTimer(26, "ej14300", nil, nil, nil, 6, 227339) --Бой верхом
 local timerSpectralChargeCD			= mod:NewCDTimer(7.5, 227365, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON) --Призрачный рывок
 local timerMightyStompCD			= mod:NewCDTimer(14, 227363, nil, nil, nil, 2, nil, DBM_CORE_INTERRUPT_ICON) --Могучий топот +++
 local timerPresenceCD				= mod:NewCDTimer(55, 227404, nil, nil, nil, 5, nil, DBM_CORE_HEALER_ICON..DBM_CORE_MAGIC_ICON) --Незримое присутствие
@@ -263,6 +263,10 @@ function mod:SPELL_AURA_REMOVED(args)
 			specWarnPresence4:Show()
 			specWarnPresence4:Play("end")
 		end
+		if self:IsMagicDispeller2() then
+			specWarnPresence3:Cancel()
+			specWarnPresence3:CancelVoice()
+		end
 		if self.Options.SetIconOnPresence then
 			self:RemoveIcon(args.destName)
 		end
@@ -323,6 +327,8 @@ function mod:NextProshlyap()
 	timerHorsefightingCD:Start() --Бой верхом
 	countdownHorsefighting:Start()
 	countdownSharedSuffering:Start() --Разделенные муки
+	specWarnSpectralCharge:Schedule(29)
+	specWarnSpectralCharge:ScheduleVoice(29, "watchstep")
 end
 
 
@@ -336,8 +342,8 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 		timerMortalStrikeCD:Stop()
 		timerSharedSufferingCD:Stop()
 		countdownSharedSuffering:Cancel()
-		specWarnSpectralCharge:Schedule(2)
-		specWarnSpectralCharge:ScheduleVoice(2, "watchstep")
+	--	specWarnSpectralCharge:Schedule(2)
+	--	specWarnSpectralCharge:ScheduleVoice(2, "watchstep")
 		timerMightyStompCD:Start(12)
 	--	perephase = false
 	--	timerSpectralChargeCD:Stop() --Призрачный рывок
@@ -380,6 +386,8 @@ function mod:OnSync(msg, sender)
 		if self:IsMagicDispeller2() then
 			specWarnPresence3:Show(sender)
 			specWarnPresence3:Play("dispelnow")
+			specWarnPresence3:Schedule(3, sender)
+			specWarnPresence3:ScheduleVoice(3, "dispelnow")
 		elseif not self:IsMagicDispeller2() then
 			specWarnPresence7:Show(sender)
 		end

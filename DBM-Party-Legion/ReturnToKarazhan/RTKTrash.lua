@@ -149,7 +149,7 @@ function mod:SPELL_CAST_START(args)
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnBansheeWail:Show()
 			specWarnBansheeWail:Play("kickcast")
-		else
+		elseif self:AntiSpam(2, "BansheeWail") then
 			warnBansheeWail:Show()
 			warnBansheeWail:Play("kickcast")
 		end
@@ -159,10 +159,10 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 229714 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
 		specWarnConsumeMagic:Show(args.destName)
 		specWarnConsumeMagic:Play("kickcast")
-	elseif spellId == 227925 and self:AntiSpam(3, 1) then
+	elseif spellId == 227925 and self:AntiSpam(2, "FinalCurtain") then
 		specWarnFinalCurtain:Show()
 		specWarnFinalCurtain:Play("runout")
-	elseif spellId == 227966 and self:AntiSpam(3, 2) then
+	elseif spellId == 227966 and self:AntiSpam(2, "Flashlight") then
 		if not UnitIsDeadOrGhost("player") then
 			specWarnFlashlight:Show()
 			specWarnFlashlight:Play("turnaway")
@@ -186,7 +186,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 229608 then --Могучий удар
 		specWarnMightySwing:Show()
 		specWarnMightySwing:Play("watchstep")
-	elseif spellId == 228700 and self:AntiSpam(3, 1) then --Чародейский обстрел
+	elseif spellId == 228700 and self:AntiSpam(3, "ArcaneBarrage") then --Чародейский обстрел
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnArcaneBarrage:Show()
 			specWarnArcaneBarrage:Play("kickcast")
@@ -213,7 +213,7 @@ function mod:SPELL_CAST_START(args)
 			warnTramplingStomp:Show()
 			warnTramplingStomp:Play("kickcast")
 		end
-	elseif spellId == 228603 and self:AntiSpam(3, "charge") then --Рывок
+	elseif spellId == 228603 and self:AntiSpam(2.5, "Charge") then --Рывок
 		specWarnCharge:Show()
 		specWarnCharge:Play("watchstep")
 	end
