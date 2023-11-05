@@ -41,7 +41,7 @@ local warnRavenousBlazeCount			= mod:NewCountAnnounce(254452, 4) --Хищное 
 local warnTaeshalachTech				= mod:NewCountAnnounce(244688, 4) --Искусный прием
 local warnTaeshalachTech2				= mod:NewSoonAnnounce(244688, 2) --Искусный прием
 
-local specWarnFlameRend2				= mod:NewSpecialWarning("FlameRend3", nil, nil, nil, 1, 2) --другая пати
+local specWarnFlameRend2				= mod:NewSpecialWarning("FlameRend3", nil, nil, nil, 3, 6) --другая пати
 
 local specWarnBlazingEruption			= mod:NewSpecialWarningStack(244912, nil, 2, nil, nil, 1, 5) --Извержение пламени
 --Stage One: Wrath of Aggramar
@@ -903,16 +903,11 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 				specWarnRavenousBlaze3:ScheduleVoice(21, "specialsoon")
 				timerRavenousBlazeCD:Start(26)
 				countdownRavenousBlaze:Start(26)
-			elseif self.vb.phase == 2 then --Хищное пламя (на 2 фазе всё отлично)
+			else
 				specWarnRavenousBlaze3:Schedule(40)
 				specWarnRavenousBlaze3:ScheduleVoice(40, "specialsoon")
 				timerRavenousBlazeCD:Start(45)
 				countdownRavenousBlaze:Start(45)
-			elseif self.vb.phase == 3 then -- (пока неточно)
-				specWarnRavenousBlaze3:Schedule(41)
-				specWarnRavenousBlaze3:ScheduleVoice(41, "specialsoon")
-				timerRavenousBlazeCD:Start(46)
-				countdownRavenousBlaze:Start(46)
 			end
 			if self.vb.techCount == 5 then
 				self.vb.techCount = 1
