@@ -194,15 +194,13 @@ L= DBM:GetModLocalization(1984)
 L:SetWarningLocalization({
 --	FlameRend1 = "Damage is shared by the 1st group",
 --	FlameRend2 = "Damage is shared by the 2nd group",
-	FlameRend3 = "ANOTHER GROUP'S TURN"
+	FlameRend1 = "ANOTHER GROUP'S TURN"
 })
 
 L:SetOptionLocalization({
 	ShowProshlyapMurchal1 = "Show special warning for $spell:244688 (Requires raid leader)",
 	ShowProshlyapMurchal2 = "Show special warning for $spell:244912 (Requires raid leader)",
-	FlameRend1 = "Show special warning during $spell:245463 for the first group (only in mythic)",
-	FlameRend2 = "Show special warning during $spell:245463 for the second group (only in mythic)",
-	FlameRend3 = "Show special warning during $spell:245463 when it's not your turn (only in mythic)",
+	FlameRend1 = "Show special warning during $spell:245463 when it's not your turn (only in mythic)",
 	ignoreThreeTank	= "Filter Rend/Foe Taunt special warnings when using 3 or more tanks (since DBM can't determine exact tanking rotation in this setup). If any tanks die and it drops to 2, filter auto disables"
 })
 

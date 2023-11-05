@@ -186,9 +186,14 @@ L:SetMiscLocalization({
 ---------------------------
 L= DBM:GetModLocalization(1984)
 
+L:SetWarningLocalization({
+	FlameRend1 = "ANDERE GRUPPE"
+})
+
 L:SetOptionLocalization({
 	ShowProshlyapMurchal1 = "Spezialwarnung für $spell:244688 (nur als Leiter/Assistent)",
 	ShowProshlyapMurchal2 = "Spezialwarnung für $spell:244912 (nur als Leiter/Assistent)",
+	FlameRend1 = "Spezielle Warnung während $spell:245463, wenn du nicht am Zug bist (nur mythisch)",
 	ignoreThreeTank	= "Unterdrücke Schnitt/Brecher Spottspezialwarnungen bei Verwendung von drei oder mehr Tanks (da DBM für diese Zusammensetzung die genaue Tankrotation nicht bestimmen kann). Falls ein Tank stirbt und die Anzahl auf 2 fällt, wird dieser Filter automatisch deaktiviert."
 })
 

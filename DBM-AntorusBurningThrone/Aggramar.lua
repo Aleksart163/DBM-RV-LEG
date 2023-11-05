@@ -1,12 +1,13 @@
 local mod	= DBM:NewMod(1984, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17742 $"):sub(12, -3))
 mod:SetCreatureID(121975)
 mod:SetEncounterID(2063)
 mod:SetZone()
 mod:SetUsedIcons(8, 7, 6, 5, 4)
-mod:SetHotfixNoticeRev(17650)
+mod:SetHotfixNoticeRev(17742)
+mod:SetMinSyncRevision(17742)
 mod:DisableIEEUCombatDetection()
 mod.respawnTime = 30
 
@@ -41,8 +42,6 @@ local warnRavenousBlazeCount			= mod:NewCountAnnounce(254452, 4) --Хищное 
 local warnTaeshalachTech				= mod:NewCountAnnounce(244688, 4) --Искусный прием
 local warnTaeshalachTech2				= mod:NewSoonAnnounce(244688, 2) --Искусный прием
 
-local specWarnFlameRend2				= mod:NewSpecialWarning("FlameRend3", nil, nil, nil, 3, 6) --другая пати
-
 local specWarnBlazingEruption			= mod:NewSpecialWarningStack(244912, nil, 2, nil, nil, 1, 5) --Извержение пламени
 --Stage One: Wrath of Aggramar
 local specWarnRavenousBlaze3			= mod:NewSpecialWarningSoon(254452, "Ranged", nil, nil, 1, 2) --Хищное пламя
@@ -58,12 +57,14 @@ local specWarnFoeBreakerTaunt			= mod:NewSpecialWarningTaunt(245458, nil, nil, n
 local specWarnFoeBreakerDefensive		= mod:NewSpecialWarningDefensive(245458, nil, nil, nil, 3, 3) --Сокрушитель
 local specWarnFoeBreaker				= mod:NewSpecialWarningDodge(245458, "MeleeDps", nil, nil, 2, 3) --Сокрушитель
 local specWarnFlameRend					= mod:NewSpecialWarningRunningCount(245463, nil, nil, nil, 4, 6) --Разрывающее пламя
+local specWarnFlameRend2				= mod:NewSpecialWarning("FlameRend1", nil, nil, nil, 3, 6) --другая пати
 local specWarnFlameRendTaunt			= mod:NewSpecialWarningTaunt(245463, nil, nil, nil, 1, 2) --Разрывающее пламя
 local specWarnSearingTempest			= mod:NewSpecialWarningRun(245301, nil, nil, nil, 4, 3) --Опаляющая буря
 local specWarnEmberTaeshalach			= mod:NewSpecialWarningSwitch("ej16686", "Dps", nil, nil, 1, 6) --Уголек Тайшалака
 --Stage Two: Champion of Sargeras
 local specWarnFlare						= mod:NewSpecialWarningDodge(245983, "-Tank", nil, 2, 2, 2) --Вспышка
 local specWarnFlare2					= mod:NewSpecialWarningDodge(246037, "-Tank", nil, nil, 2, 2) --Усиленная вспышка
+local specWarnFlare3					= mod:NewSpecialWarningRun(245983, "Ranged", nil, nil, 4, 6) --Вспышка
 
 --Stage One: Wrath of Aggramar
 local timerTaeshalachTechCD				= mod:NewNextCountTimer(58.5, 244688, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_MYTHIC_ICON) --Искусный прием было 61 (если смотреть по героику)
@@ -827,7 +828,11 @@ function mod:SPELL_AURA_REMOVED(args)
 			timerFlareCD:Start(10) --and 8 or 10
 			countdownFlare:Start(10)
 			if self:IsMythic() then
-				timerWakeofFlameCD:Start(15.5) --Огненная волна
+				timerWakeofFlameCD:Start(15) --Огненная волна
+				if not UnitIsDeadOrGhost("player") then
+					specWarnFlare3:Schedule(1)
+					specWarnFlare3:ScheduleVoice(1, "runtoedge")
+				end
 			end
 		end
 		if self.Options.RangeFrame and not self:IsTank() then
@@ -971,7 +976,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 		if self.Options.InfoFrame then
 			DBM.InfoFrame:Hide()
 		end
-	elseif spellId == 245983 or spellId == 246037 then --Вспышка
+	elseif spellId == 245983 or spellId == 246037 then --Вспышка + Усиленная вспышка
 		if spellId == 245983 and not UnitIsDeadOrGhost("player") then --Вспышка
 			specWarnFlare:Show()
 			specWarnFlare:Play("watchstep")
@@ -985,8 +990,12 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 			timerFlareCD:Start()
 			countdownFlare:Start()
 		else
-			timerFlareCD:Start(58.2) --на 2-ой фазе от каста до каста всё ок (чекнуть 3 фазу, но должно быть примерно столько же)
+			timerFlareCD:Start(58.2) --Всё прошляпано Мурчалем
 			countdownFlare:Start(58.2)
+			if self.vb.phase == 3 and not UnitIsDeadOrGhost("player") then
+				specWarnFlare3:Schedule(51.2)
+				specWarnFlare3:ScheduleVoice(51.2, "runtoedge")
+			end
 		end
 	end
 end

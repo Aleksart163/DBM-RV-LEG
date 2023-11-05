@@ -139,13 +139,11 @@ L:SetOptionLocalization({
 L= DBM:GetModLocalization(1984)
 
 L:SetWarningLocalization({
-	FlameRend3 = "Another group's turn"
+	FlameRend1 = "ANOTHER GROUP'S TURN"
 })
 
 L:SetOptionLocalization({
-	FlameRend1 = "Show special warning during $spell:245463 for the first group (only in mythic)",
-	FlameRend2 = "Show special warning during $spell:245463 for the second group (only in mythic)",
-	FlameRend3 = "Show special warning during $spell:245463 when it's not your turn (only in mythic)",
+	FlameRend1 = "Show special warning during $spell:245463 when it's not your turn (only in mythic)",
 	ignoreThreeTank	= "Filter Rend/Foe Taunt special warnings when using 3 or more tanks (since DBM can't determine exact tanking rotation in this setup). If any tanks die and it drops to 2, filter auto disables"
 })
 

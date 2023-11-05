@@ -1,13 +1,14 @@
 local mod	= DBM:NewMod(1983, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17742 $"):sub(12, -3))
 mod:SetCreatureID(122366)
 mod:SetEncounterID(2069)
 mod:SetZone()
 --mod:SetBossHPInfoToHighest()
 mod:SetUsedIcons(8, 4, 3)
-mod:SetHotfixNoticeRev(17650)
+mod:SetHotfixNoticeRev(17742)
+mod:SetMinSyncRevision(17742)
 mod:DisableIEEUCombatDetection()
 mod.respawnTime = 30
 
