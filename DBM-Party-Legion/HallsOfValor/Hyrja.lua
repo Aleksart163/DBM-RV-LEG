@@ -22,7 +22,6 @@ local warnMysticEmpowermentHoly		= mod:NewStackAnnounce(192133, 4, nil, nil, 2) 
 local warnMysticEmpowermentThunder	= mod:NewStackAnnounce(192132, 4, nil, nil, 2) --Мистическое усиление: гром
 local warnExpelLight				= mod:NewTargetAnnounce(192048, 4) --Световое излучение
 local warnArcingBolt				= mod:NewTargetAnnounce(191976, 3) --Дуговая молния
-local warnPhase2					= mod:NewPhaseAnnounce(2, 2, nil, nil, nil, nil, nil, 2) --фаза
 
 local specWarnShieldOfLight			= mod:NewSpecialWarningYouDefensive(192018, "Tank", nil, nil, 3, 3) --Щит Света
 local specWarnSanctify				= mod:NewSpecialWarningDodge(192158, "Ranged", nil, nil, 2, 5) --Освящение
@@ -53,11 +52,15 @@ mod:AddRangeFrameOption(8, 192048) --Световое излучение
 local eyeShortName = DBM:GetSpellInfo(91320)--Inner Eye
 
 mod.vb.phase = 1
+mod.vb.ShieldCount = 0
+
 local warned_MEH = false
 local warned_MET = false
 local firstpull = false
-local meh2s = false --свет
-local met2s = false --гром
+local meh2s = false
+local met2s = false
+local MurchalProshlyap1 = false
+local MurchalProshlyap2 = false
 
 function mod:ArcingBoltTarget(targetname, uId) --Дуговая молния (✔)
 	if not targetname then return end
@@ -79,28 +82,111 @@ function mod:ArcingBoltTarget(targetname, uId) --Дуговая молния (�
 	end
 end
 
-local function UpdateArcingBoltTimer1(self)
-	timerArcingBoltCD:Stop()
-	timerArcingBoltCD:Start(13)
-end
-
-local function UpdateArcingBoltTimer2(self)
-	timerArcingBoltCD:Stop()
-	timerArcingBoltCD:Start(12)
+local function UpdateTimers(self)
+	if MurchalProshlyap1 then
+		--Щит Света--
+		if self.vb.ShieldCount == 0 then
+			timerShieldOfLightCD:Start(15.5)
+			countdownShieldOfLight:Start(15.5)
+		else
+			timerShieldOfLightCD:Start(11.8)
+			countdownShieldOfLight:Start(11.8)
+		end
+		--Дуговая молния--
+		if timerArcingBoltCD:GetTime() < 12 and warned_MET then
+			timerArcingBoltCD:Cancel()
+			timerArcingBoltCD:Start(12)
+		end
+		--Световое излучение--
+		if timerExpelLightCD:GetTime() < 12 and warned_MEH then
+			timerExpelLightCD:Cancel()
+			timerArcingBoltCD:Start(12)
+		end
+	elseif MurchalProshlyap2 then
+		--Щит Света--
+		if self.vb.ShieldCount == 0 then
+			timerShieldOfLightCD:Start(17)
+			countdownShieldOfLight:Start(17)
+		else
+			timerShieldOfLightCD:Start(13.4)
+			countdownShieldOfLight:Start(13.4)
+		end
+		--Дуговая молния--
+		if timerArcingBoltCD:GetTime() < 13 and warned_MET then
+			timerArcingBoltCD:Cancel()
+			timerArcingBoltCD:Start(13)
+		end
+		--Световое излучение--
+		if timerExpelLightCD:GetTime() < 12 and warned_MEH then
+			timerExpelLightCD:Cancel()
+			timerArcingBoltCD:Start(12)
+		end
+	end
 end
 
 function mod:OnCombatStart(delay)
 	self.vb.phase = 1
+	self.vb.ShieldCount = 0
 	warned_MEH = false
 	warned_MET = false
 	firstpull = false
 	meh2s = false
 	met2s = false
+	MurchalProshlyap1 = false
+	MurchalProshlyap2 = false
 end
 
 function mod:OnCombatEnd()
 	if self.Options.RangeFrame then
 		DBM.RangeCheck:Hide()
+	end
+end
+
+function mod:SPELL_CAST_START(args)
+	local spellId = args.spellId
+	if spellId == 192158 or spellId == 192307 then --Освящение
+		MurchalProshlyap1 = true
+		MurchalProshlyap2 = false
+		if not UnitIsDeadOrGhost("player") then
+			specWarnSanctify:Show()
+			specWarnSanctify:Play("watchorb")
+			specWarnSanctify2:Show()
+			specWarnSanctify2:Play("watchorb")
+		end
+		if spellId == 192307 then
+			timerSpecialCD:Start()
+			countdownSpecial:Cancel()
+			countdownSpecial:Start()
+		end
+		UpdateTimers(self)
+	elseif spellId == 192018 then --Щит Света
+		self.vb.ShieldCount = self.vb.ShieldCount + 1
+		specWarnShieldOfLight:Show()
+		specWarnShieldOfLight:Play("defensive")
+	elseif spellId == 200901 then --Око шторма
+		MurchalProshlyap1 = false
+		MurchalProshlyap2 = true
+		if not UnitIsDeadOrGhost("player") then
+			specWarnEyeofStorm:Show(eyeShortName)
+			specWarnEyeofStorm:Play("findshelter")
+		end
+		timerSpecialCD:Start()
+		countdownSpecial:Cancel()
+		countdownSpecial:Start()
+		UpdateTimers(self)
+	elseif spellId == 191976 then --Дуговая молния
+		self:BossTargetScanner(args.sourceGUID, "ArcingBoltTarget", 0.1, 2)
+		timerArcingBoltCD:Start(15)
+	end
+end
+
+function mod:SPELL_CAST_SUCCESS(args)
+	local spellId = args.spellId
+	if spellId == 200901 then --Око шторма
+		if not UnitIsDeadOrGhost("player") then
+			specWarnEyeofStorm2:Show()
+			specWarnEyeofStorm2:Play("defensive")
+		end
 	end
 end
 
@@ -136,8 +222,6 @@ function mod:SPELL_AURA_APPLIED(args)
 		warned_MEH = true
 		if not firstpull then
 			firstpull = true
-			timerShieldOfLightCD:Start(25.5)
-			countdownShieldOfLight:Start(25.5)
 		end
 		if not self:IsNormal() then
 			if amount == 1 then
@@ -155,8 +239,6 @@ function mod:SPELL_AURA_APPLIED(args)
 		warned_MET = true
 		if not firstpull then
 			firstpull = true
-			timerShieldOfLightCD:Start(22.5)
-			countdownShieldOfLight:Start(22.5)
 		end
 		if not self:IsNormal() then
 			if amount == 1 then
@@ -188,66 +270,11 @@ function mod:SPELL_AURA_REMOVED(args)
 	end
 end
 
-function mod:SPELL_CAST_START(args)
-	local spellId = args.spellId
-	if spellId == 192158 or spellId == 192307 then --Освящение
-		if not UnitIsDeadOrGhost("player") then
-			specWarnSanctify:Show()
-			specWarnSanctify:Play("watchorb")
-			specWarnSanctify2:Show()
-			specWarnSanctify2:Play("watchorb")
-		end
-		if spellId == 192307 then
-			timerSpecialCD:Start()
-			countdownSpecial:Cancel()
-			countdownSpecial:Start()
-		end
-		if timerArcingBoltCD:GetTime() < 13 and warned_MET then
-			UpdateArcingBoltTimer2(self)
-		end
-	elseif spellId == 192018 then --Щит Света
-		specWarnShieldOfLight:Show()
-		specWarnShieldOfLight:Play("defensive")
-		timerShieldOfLightCD:Start()
-		countdownShieldOfLight:Start()
-	elseif spellId == 200901 then --Око шторма
-		if not UnitIsDeadOrGhost("player") then
-			specWarnEyeofStorm:Show(eyeShortName)
-			specWarnEyeofStorm:Play("findshelter")
-		end
-		if self.vb.phase == 2 then
-			timerSpecialCD:Start()
-			countdownSpecial:Cancel()
-			countdownSpecial:Start()
-		end
-		if timerArcingBoltCD:GetTime() < 13 then
-			UpdateArcingBoltTimer1(self)
-		end
-	elseif spellId == 191976 then --Дуговая молния
-		self:BossTargetScanner(args.sourceGUID, "ArcingBoltTarget", 0.1, 2)
-		timerArcingBoltCD:Start(15)
-	end
-end
-
-function mod:SPELL_CAST_SUCCESS(args)
-	local spellId = args.spellId
-	if spellId == 200901 then --Око шторма
-		if not UnitIsDeadOrGhost("player") then
-			specWarnEyeofStorm2:Show()
-			specWarnEyeofStorm2:Play("defensive")
-		end
-	end
-end
-
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	local spellId = legacySpellId or bfaSpellId
-	if spellId == 192130 then
-		self.vb.phase = 2
-		warnPhase2:Show()
-		warnPhase2:Play("ptwo")
-		timerSpecialCD:Start(9.5) --спец.способность верно
-		countdownSpecial:Start(9.5) --спец.способность верно
-	--	timerShieldOfLightCD:Start(27) --Щит Света верно
-	--	countdownShieldOfLight:Start(27) --Щит Света верно
+	if spellId == 192130 then --Мистическое усиление – слежение
+	-- грубо говоря, пулл босса --
+		timerSpecialCD:Start(10.5)
+		countdownSpecial:Start(10.5)
 	end
 end
