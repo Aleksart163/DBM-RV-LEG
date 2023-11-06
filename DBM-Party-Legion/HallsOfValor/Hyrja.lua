@@ -51,7 +51,6 @@ mod:AddRangeFrameOption(8, 192048) --Световое излучение
 
 local eyeShortName = DBM:GetSpellInfo(91320)--Inner Eye
 
-mod.vb.phase = 1
 mod.vb.ShieldCount = 0
 
 local warned_MEH = false
@@ -125,7 +124,6 @@ local function UpdateTimers(self)
 end
 
 function mod:OnCombatStart(delay)
-	self.vb.phase = 1
 	self.vb.ShieldCount = 0
 	warned_MEH = false
 	warned_MET = false
