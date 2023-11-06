@@ -150,6 +150,8 @@ do
 			yellFixate:Yell()
 		elseif not proshlyap and murchalProshlyaping then
 			murchalProshlyaping = false
+			specWarnFixate2:Show()
+			specWarnFixate2:Play("end")
 		end
 	end
 end
