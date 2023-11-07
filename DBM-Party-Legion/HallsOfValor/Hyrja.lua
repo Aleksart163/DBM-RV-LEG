@@ -63,7 +63,6 @@ local MurchalProshlyap1 = false
 local MurchalProshlyap2 = false
 local debugvars = { --debug
 	["RunTime"] = {0}, --Время запуска
-	["CurrentTime"] = {0}, --Текущее время
 	["SpecialCounter"] = {0, 0, "Выбрать особенность"}, --Выбрать особенность
 	["ArcingBoltCounter"] = {0, 0, "Дуговая молния"}, --Дуговая молния
 	["ExpelLightCounter"] = {0, 0, "Световое излучение"}, --Световое излучение
@@ -71,15 +70,15 @@ local debugvars = { --debug
 }
 
 local function debugTimers(counter)
-	debugvars["CurrentTime"][1] = GetTime()
+	local CurrentTime = GetTime()
 	if debugvars[counter][1] > 0 then
 		debugvars[counter][1] = debugvars[counter][1] + 1
-		DBM:Debug(debugvars[counter][3] .. " [" .. debugvars[counter][1] .. "] " .. debugvars["CurrentTime"][1] - debugvars[counter][2])
+		DBM:Debug(debugvars[counter][3] .. " [" .. debugvars[counter][1] .. "] " .. CurrentTime - debugvars[counter][2])
 	else
 		debugvars[counter][1] = debugvars[counter][1] + 1
-		DBM:Debug(debugvars[counter][3] .. " [" .. debugvars[counter][1] .. "] " .. debugvars["CurrentTime"][1] - debugvars["RunTime"][1])
+		DBM:Debug(debugvars[counter][3] .. " [" .. debugvars[counter][1] .. "] " .. CurrentTime - debugvars["RunTime"][1])
 	end
-	debugvars[counter][2] = debugvars["CurrentTime"][1]
+	debugvars[counter][2] = CurrentTime
 end
 
 function mod:ArcingBoltTarget(targetname, uId) --Дуговая молния (✔)
