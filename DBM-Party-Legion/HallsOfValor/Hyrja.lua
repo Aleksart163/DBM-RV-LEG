@@ -61,17 +61,25 @@ local met2s = false
 local MurchalProshlyap1 = false
 local MurchalProshlyap2 = false
 local debugvars = { --debug
-	RunTime = 0, --Время запуска
-	CurrentTime = 0, --Текущее время
-	SpecialCounter = 0, --Выбрать особенность
-	SpecialTime = 0,
-	ArcingBoltCounter = 0, --Дуговая молния
-	ArcingBoltTime = 0,
-	ExpelLightCounter = 0, --Световое излучение
-	ExpelLightTime = 0,
-	ShieldofLightCounter = 0, --Щит Света
-	ShieldofLightTime = 0
+	["RunTime"] = {0}, --Время запуска
+	["CurrentTime"] = {0}, --Текущее время
+	["SpecialCounter"] = {0, 0, "Выбрать особенность"}, --Выбрать особенность
+	["ArcingBoltCounter"] = {0, 0, "Дуговая молния"}, --Дуговая молния
+	["ExpelLightCounter"] = {0, 0, "Световое излучение"}, --Световое излучение
+	["ShieldofLightCounter"] = {0, 0, "Щит Света"} --Щит Света
 }
+
+local function debugTimers(counter)
+	debugvars["CurrentTime"][1] = GetTime()
+	if debugvars[counter][1] > 0 then
+		debugvars[counter][1] = debugvars[counter][1] + 1
+		DBM:Debug(debugvars[counter][3] .. " [" .. debugvars[counter][1] .. "] " .. debugvars["CurrentTime"][1] - debugvars[counter][2])
+	else
+		debugvars[counter][1] = debugvars[counter][1] + 1
+		DBM:Debug(debugvars[counter][3] .. " [" .. debugvars[counter][1] .. "] " .. debugvars["CurrentTime"][1] - debugvars["RunTime"][1])
+	end
+	debugvars[counter][2] = debugvars["CurrentTime"][1]
+end
 
 function mod:ArcingBoltTarget(targetname, uId) --Дуговая молния (✔)
 	if not targetname then return end
@@ -136,11 +144,15 @@ local function UpdateTimers(self)
 end
 
 function mod:OnCombatStart(delay)
-	debugvars.RunTime = GetTime()
-	debugvars.SpecialCounter = 0
-	debugvars.ArcingBoltCounter = 0
-	debugvars.ExpelLightCounter = 0
-	debugvars.ShieldofLightCounter = 0
+	for k, v in pairs(debugvars) do
+		if type(v) == "table" then
+			v[1] = 0
+			if #v > 1 then
+				v[2] = 0
+			end
+		end
+	end
+	debugvars["RunTime"][1] = GetTime()
 	self.vb.ShieldCount = 0
 	warned_MEH = false
 	warned_MET = false
@@ -161,15 +173,7 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 192158 or spellId == 192307 then --Освящение
 
-		debugvars.CurrentTime = GetTime()
-		if debugvars.SpecialCounter > 0 then
-			debugvars.SpecialCounter = debugvars.SpecialCounter + 1
-			DBM:Debug("Выбрать особенность [" .. debugvars.SpecialCounter .. "] " .. debugvars.CurrentTime - debugvars.SpecialTime)
-		else
-			debugvars.SpecialCounter = debugvars.SpecialCounter + 1
-			DBM:Debug("Выбрать особенность [" .. debugvars.SpecialCounter .. "] " .. debugvars.CurrentTime - debugvars.RunTime)
-		end
-		debugvars.SpecialTime = debugvars.CurrentTime
+		debugTimers("SpecialCounter")
 
 		MurchalProshlyap1 = true
 		MurchalProshlyap2 = false
@@ -187,30 +191,14 @@ function mod:SPELL_CAST_START(args)
 		UpdateTimers(self)
 	elseif spellId == 192018 then --Щит Света
 
-		debugvars.CurrentTime = GetTime()
-		if debugvars.ShieldofLightCounter > 0 then
-			debugvars.ShieldofLightCounter = debugvars.ShieldofLightCounter + 1
-			DBM:Debug("Щит Света [" .. debugvars.ShieldofLightCounter .. "] " .. debugvars.CurrentTime - debugvars.ShieldofLightTime)
-		else
-			debugvars.ShieldofLightCounter = debugvars.ShieldofLightCounter + 1
-			DBM:Debug("Щит Света [" .. debugvars.ShieldofLightCounter .. "] " .. debugvars.CurrentTime - debugvars.RunTime)
-		end
-		debugvars.ShieldofLightTime = debugvars.CurrentTime
+		debugTimers("ShieldofLightCounter")
 
 		self.vb.ShieldCount = self.vb.ShieldCount + 1
 		specWarnShieldOfLight:Show()
 		specWarnShieldOfLight:Play("defensive")
 	elseif spellId == 200901 then --Око шторма
 
-		debugvars.CurrentTime = GetTime()
-		if debugvars.SpecialCounter > 0 then
-			debugvars.SpecialCounter = debugvars.SpecialCounter + 1
-			DBM:Debug("Выбрать особенность [" .. debugvars.SpecialCounter .. "] " .. debugvars.CurrentTime - debugvars.SpecialTime)
-		else
-			debugvars.SpecialCounter = debugvars.SpecialCounter + 1
-			DBM:Debug("Выбрать особенность [" .. debugvars.SpecialCounter .. "] " .. debugvars.CurrentTime - debugvars.RunTime)
-		end
-		debugvars.SpecialTime = debugvars.CurrentTime
+		debugTimers("SpecialCounter")
 
 		MurchalProshlyap1 = false
 		MurchalProshlyap2 = true
@@ -224,15 +212,7 @@ function mod:SPELL_CAST_START(args)
 		UpdateTimers(self)
 	elseif spellId == 191976 then --Дуговая молния
 
-		debugvars.CurrentTime = GetTime()
-		if debugvars.ArcingBoltCounter > 0 then
-			debugvars.ArcingBoltCounter = debugvars.ArcingBoltCounter + 1
-			DBM:Debug("Дуговая молния [" .. debugvars.ArcingBoltCounter .. "] " .. debugvars.CurrentTime - debugvars.ArcingBoltTime)
-		else
-			debugvars.ArcingBoltCounter = debugvars.ArcingBoltCounter + 1
-			DBM:Debug("Дуговая молния [" .. debugvars.ArcingBoltCounter .. "] " .. debugvars.CurrentTime - debugvars.RunTime)
-		end
-		debugvars.ArcingBoltTime = debugvars.CurrentTime
+		debugTimers("ArcingBoltCounter")
 
 		self:BossTargetScanner(args.sourceGUID, "ArcingBoltTarget", 0.1, 2)
 		timerArcingBoltCD:Start(15)
@@ -253,15 +233,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 192048 then --Световое излучение
 
-		debugvars.CurrentTime = GetTime()
-		if debugvars.ExpelLightCounter > 0 then
-			debugvars.ExpelLightCounter = debugvars.ExpelLightCounter + 1
-			DBM:Debug("Световое излучение [" .. debugvars.ExpelLightCounter .. "] " .. debugvars.CurrentTime - debugvars.ExpelLightTime)
-		else
-			debugvars.ExpelLightCounter = debugvars.ExpelLightCounter + 1
-			DBM:Debug("Световое излучение [" .. debugvars.ExpelLightCounter .. "] " .. debugvars.CurrentTime - debugvars.RunTime)
-		end
-		debugvars.ExpelLightTime = debugvars.CurrentTime
+		debugTimers("ExpelLightCounter")
 
 		if not self:IsNormal() then
 			if args:IsPlayer() then
