@@ -1571,6 +1571,46 @@ local f = CreateFrame("Frame")
 f:RegisterEvent("CONFIRM_SUMMON")
 
 f:SetScript("OnEvent", Proshlyap2)]]
+--------------------------------------------------------------------------------------------------
+local function ProshlyapationLittleWigs(self, event, arg1, arg2)
+	local message = arg1
+	local sender = arg2
+	if string.find(arg2, "-") then
+		sender = string.sub(arg2, 1, string.find(arg2, "-") - 1)
+	end
+	if event == "CHAT_MSG_PARTY" or event == "CHAT_MSG_PARTY_LEADER" then
+		if message:find("EblanDetect") then
+			SendChatMessage("[OchkenProshlyapDetect v1.5] Найден подлиз очка Мурчаля Прошляпенко ==> " ..sender.. ".", "PARTY")
+			SendChatMessage("[DBM RV] Нахуя ты спамишь этой хуетой? Выключай эту поеботу и прекрати лизать очко Мурчаля, лишь чат людям засераешь.", "WHISPER", nil, sender)
+		elseif message:find("%[LittleWigs%]") and DBM:AntiSpam(0.5, "PLW") then
+			SendChatMessage("[DBM RV] Найден " ..sender.. ", что юзает помойный ЛитлВигс Эйнела. А зря! Майнеров там дохуя.", "PARTY")
+		end
+	elseif event == "CHAT_MSG_INSTANCE_CHAT" or event == "CHAT_MSG_INSTANCE_CHAT_LEADER" then
+		if message:find("EblanDetect") then
+			SendChatMessage("[OchkenProshlyapDetect v1.5] Найден подлиз очка Мурчаля Прошляпенко ==> " ..sender.. ".", "INSTANCE_CHAT")
+			SendChatMessage("[DBM RV] Нахуя ты спамишь этой хуетой? Выключай эту поеботу и прекрати лизать очко Мурчаля, лишь чат людям засераешь.", "WHISPER", nil, sender)
+		elseif message:find("%[LittleWigs%]") and DBM:AntiSpam(0.5, "PLW") then
+			SendChatMessage("[DBM RV] Найден " ..sender.. ", что юзает помойный ЛитлВигс Эйнела. А зря! Майнеров там дохуя.", "INSTANCE_CHAT")
+		end
+	elseif event == "CHAT_MSG_RAID" or event == "CHAT_MSG_RAID_LEADER" then
+		if message:find("EblanDetect") then
+		--	SendChatMessage("[OchkenProshlyapDetect v1.5] Найден подлиз очка Мурчаля Прошляпенко ==> " ..sender.. ".", "RAID")
+			SendChatMessage("[DBM RV] Нахуя ты спамишь этой хуетой? Выключай эту поеботу и прекрати лизать очко Мурчаля, лишь чат людям засераешь.", "WHISPER", nil, sender)
+		elseif message:find("%[LittleWigs%]") and DBM:AntiSpam(0.5, "PLW") then
+		--	SendChatMessage("[DBM RV] Найден " ..sender.. ", что юзает помойный ЛитлВигс Эйнела. А зря! Майнеров там дохуя.", "RAID")
+		end
+	end
+end
+
+local frame = CreateFrame("Frame")
+--frame:RegisterEvent("CHAT_MSG_WHISPER")
+frame:RegisterEvent("CHAT_MSG_PARTY")
+frame:RegisterEvent("CHAT_MSG_PARTY_LEADER")
+frame:RegisterEvent("CHAT_MSG_INSTANCE_CHAT")
+frame:RegisterEvent("CHAT_MSG_INSTANCE_CHAT_LEADER")
+frame:RegisterEvent("CHAT_MSG_RAID")
+frame:RegisterEvent("CHAT_MSG_RAID_LEADER")
+frame:SetScript("OnEvent", ProshlyapationLittleWigs)
 --------------------------
 --  OnUpdate/Scheduler  --
 --------------------------
