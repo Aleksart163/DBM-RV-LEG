@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1486, "DBM-Party-Legion", 4, 721)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17742 $"):sub(12, -3))
 mod:SetCreatureID(95833)
 mod:SetEncounterID(1806)
 mod:SetZone()
@@ -15,9 +15,9 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_SUCCESS 200901",
 	"SPELL_AURA_APPLIED 192048 192133 192132",
 	"SPELL_AURA_APPLIED_DOSE 192048 192133 192132",
-	"SPELL_AURA_REMOVED 192048 192133 192132",
-	"UNIT_SPELLCAST_SUCCEEDED boss1"
+	"SPELL_AURA_REMOVED 192048 192133 192132"
 )
+
 --Хирья https://ru.wowhead.com/npc=95833/хирья/эпохальный-журнал-сражений
 local warnMysticEmpowermentHoly		= mod:NewStackAnnounce(192133, 4, nil, nil, 2) --Мистическое усиление: Свет
 local warnMysticEmpowermentThunder	= mod:NewStackAnnounce(192132, 4, nil, nil, 2) --Мистическое усиление: гром
@@ -35,9 +35,9 @@ local specWarnArcingBolt			= mod:NewSpecialWarningYouMoveAway(191976, nil, nil, 
 local specWarnArcingBolt2			= mod:NewSpecialWarningYouDefensive(191976, nil, nil, nil, 3, 5) --Дуговая молния
 
 local timerArcingBoltCD				= mod:NewCDTimer(28, 191976, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Дуговая молния+++
-local timerShieldOfLightCD			= mod:NewCDTimer(28, 192018, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Щит Света 28-34
-local timerSpecialCD				= mod:NewNextTimer(30, 200736, nil, nil, nil, 2, 143497, DBM_CORE_DEADLY_ICON) --Особый спелл
+local timerShieldOfLightCD			= mod:NewCDTimer(28, 192018, nil, "Tank", nil, 3, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON) --Щит Света 28-34
 local timerExpelLightCD				= mod:NewCDTimer(24.5, 192048, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON) --Световое излучение+++
+local timerSpecialCD				= mod:NewNextTimer(30, 200736, nil, nil, nil, 2, 143497, DBM_CORE_DEADLY_ICON) --Особый спелл
 
 local yellExpelLight				= mod:NewYellMoveAway(192048, nil, nil, nil, "YELL") --Световое излучение
 local yellExpelLight2				= mod:NewShortFadesYell(192048, nil, nil, nil, "YELL") --Световое излучение
@@ -50,12 +50,10 @@ mod:AddSetIconOption("SetIconOnExpelLight", 192048, true, false, {8}) --Свет
 mod:AddSetIconOption("SetIconOnArcingBolt", 191976, true, false, {7}) --Дуговая молния
 mod:AddRangeFrameOption(8, 192048) --Световое излучение
 
-local eyeShortName = DBM:GetSpellInfo(91320)--Inner Eye
-
 mod.vb.ShieldCount = 0
 
-local warned_MEH = false
-local warned_MET = false
+local MEH = false
+local MET = false
 local firstpull = false
 local meh2s = false
 local met2s = false
@@ -112,14 +110,14 @@ local function UpdateTimers(self)
 			countdownShieldOfLight:Start(11.8)
 		end
 		--Дуговая молния--
-		if timerArcingBoltCD:GetTime() < 12 and warned_MET then
+		if timerArcingBoltCD:GetTime() < 12 and MET then
 			timerArcingBoltCD:Cancel()
 			timerArcingBoltCD:Start(12)
 		end
 		--Световое излучение--
-		if timerExpelLightCD:GetTime() < 12 and warned_MEH then
+		if timerExpelLightCD:GetTime() < 12 and MEH then
 			timerExpelLightCD:Cancel()
-			timerArcingBoltCD:Start(12)
+			timerExpelLightCD:Start(12)
 		end
 	elseif MurchalProshlyap2 then
 		--Щит Света--
@@ -131,14 +129,14 @@ local function UpdateTimers(self)
 			countdownShieldOfLight:Start(13.4)
 		end
 		--Дуговая молния--
-		if timerArcingBoltCD:GetTime() < 13 and warned_MET then
+		if timerArcingBoltCD:GetTime() < 13 and MET then
 			timerArcingBoltCD:Cancel()
 			timerArcingBoltCD:Start(13)
 		end
 		--Световое излучение--
-		if timerExpelLightCD:GetTime() < 12 and warned_MEH then
+		if timerExpelLightCD:GetTime() < 12 and MEH then
 			timerExpelLightCD:Cancel()
-			timerArcingBoltCD:Start(12)
+			timerExpelLightCD:Start(12)
 		end
 	end
 end
@@ -154,13 +152,15 @@ function mod:OnCombatStart(delay)
 	end
 	debugvars["RunTime"][1] = GetTime()
 	self.vb.ShieldCount = 0
-	warned_MEH = false
-	warned_MET = false
+	MEH = false
+	MET = false
 	firstpull = false
 	meh2s = false
 	met2s = false
 	MurchalProshlyap1 = false
 	MurchalProshlyap2 = false
+	timerSpecialCD:Start(10.5)
+	countdownSpecial:Start(10.5)
 end
 
 function mod:OnCombatEnd()
@@ -203,7 +203,7 @@ function mod:SPELL_CAST_START(args)
 		MurchalProshlyap1 = false
 		MurchalProshlyap2 = true
 		if not UnitIsDeadOrGhost("player") then
-			specWarnEyeofStorm:Show(eyeShortName)
+			specWarnEyeofStorm:Show(args.sourceName)
 			specWarnEyeofStorm:Play("findshelter")
 		end
 		timerSpecialCD:Start()
@@ -261,7 +261,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerExpelLightCD:Start()
 	elseif spellId == 192133 then --Мистическое усиление: Свет
 		local amount = args.amount or 1
-		warned_MEH = true
+		MEH = true
 		if not firstpull then
 			firstpull = true
 		end
@@ -278,13 +278,13 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif spellId == 192132 then --Мистическое усиление: гром
 		local amount = args.amount or 1
-		warned_MET = true
+		MET = true
 		if not firstpull then
 			firstpull = true
 		end
 		if not self:IsNormal() then
 			if amount == 1 then
-				timerArcingBoltCD:Start(3)
+				timerArcingBoltCD:Start(2.8)
 			elseif amount >= 2 then
 				met2s = true
 			elseif amount < 2 then
@@ -305,18 +305,9 @@ function mod:SPELL_AURA_REMOVED(args)
 		end
 	elseif spellId == 192133 then --Мистическое усиление: Свет
 		timerExpelLightCD:Stop()
-		warned_MEH = false
+		MEH = false
 	elseif spellId == 192132 then --Мистическое усиление: гром
 		timerArcingBoltCD:Stop()
-		warned_MET = false
-	end
-end
-
-function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
-	local spellId = legacySpellId or bfaSpellId
-	if spellId == 192130 then --Мистическое усиление – слежение
-	-- грубо говоря, пулл босса --
-		timerSpecialCD:Start(10.5)
-		countdownSpecial:Start(10.5)
+		MET = false
 	end
 end
