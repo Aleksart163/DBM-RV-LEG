@@ -93,7 +93,7 @@ local specWarnDeadlyScythe			= mod:NewSpecialWarningStack(258039, nil, 3, nil, n
 local specWarnDeadlyScytheTaunt		= mod:NewSpecialWarningTaunt(258039, nil, nil, nil, 1, 2) --Смертоносная коса
 local specWarnApocModule			= mod:NewSpecialWarningSwitchCount(258007, "-Healer", nil, nil, 3, 6) --Модуль апокалипсиса (мифик)
 local specWarnReorgModule			= mod:NewSpecialWarningSwitch(256389, "RangedDps", nil, nil, 3, 6) --Модуль пересозидания
-local specWarnReorgModule2			= mod:NewSpecialWarningSoon(256389, "RangedDps", nil, nil, 1, 3) --Модуль пересозидания
+--local specWarnReorgModule2			= mod:NewSpecialWarningSoon(256389, "RangedDps", nil, nil, 1, 3) --Модуль пересозидания
 
 local timerNextPhase				= mod:NewPhaseTimer(74)
 --Stage 1
@@ -160,7 +160,7 @@ local countdownSoulScythe			= mod:NewCountdown("Alt5", 258838, "Tank", nil, 3) -
 --Stage Four
 local countdownDeadlyScythe			= mod:NewCountdown("Alt5", 258039, false, nil, 3) --Смертоносная коса Off by default since it'd be almost non stop, so users can elect into this one
 local countdownReorgModule			= mod:NewCountdown("Alt48", 256389, "RangedDps", nil, 5) --Модуль пересозидания
-local countdownApocModule			= mod:NewCountdown("Alt48", 258029, "Dps", nil, 5) --Модуль апокалипсиса
+local countdownApocModule			= mod:NewCountdown("Alt48", 258007, "Dps", nil, 5) --Модуль апокалипсиса
 local countdownEndofAllThings		= mod:NewCountdown(15, 256544, nil, nil, 5) --Конец всего сущего
 
 mod:AddInfoFrameOption(nil, true)--Change to EJ entry since spell not localized
@@ -180,7 +180,7 @@ mod:AddBoolOption("AutoProshlyapMurchal", true)
 local soulbomb = replaceSpellLinks(251570)
 local soulburst = replaceSpellLinks(250669)
 local sargerasGaze = replaceSpellLinks(258068) --Пристальный взгляд Саргераса
-local apocalypsisModule = replaceSpellLinks(258029) --Модуль апокалипсиса
+local apocalypsisModule = replaceSpellLinks(258007) --Модуль апокалипсиса
 local reoriginationModule = replaceSpellLinks(256389) --Модуль пересозидания
 local playerAvatar = false
 mod.vb.phase = 1
@@ -201,6 +201,7 @@ local warned_preP2 = false
 local warned_preP3 = false
 local warned_preP4 = false
 local playerName = UnitName("player")
+local DbmRV = "[DBM RV] "
 --P3 Mythic Timers
 local torturedRage = {40, 40, 50, 30, 35, 10, 8, 35, 10, 8, 35}--3 timers from method video not logs, verify by logs to improve accuracy
 local sargSentenceTimers = {53, 57, 60, 53, 53}--1 timer from method video not logs, verify by logs to improve accuracy
