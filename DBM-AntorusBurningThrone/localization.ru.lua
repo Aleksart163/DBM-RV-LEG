@@ -1,7 +1,7 @@
 if GetLocale() ~= "ruRU" then return end
 
 local L
---$spell:137162
+
 --------------------------------
 --Разрушитель миров Кин'гарота--
 --------------------------------
@@ -23,7 +23,6 @@ L= DBM:GetModLocalization(1997)
 
 L:SetMiscLocalization({
 	FelshieldYell = "Я ЖМУ %s!"
---	YellPullCouncil	= "От меня ещё никто не уходил живым."
 })
 
 ----------------------------------
@@ -34,13 +33,6 @@ L= DBM:GetModLocalization(1985)
 L:SetOptionLocalization({
 	ShowAllPlatforms = "Показать все анонсы независимо от местоположения платформы игрока"
 })
---[[
-L:SetMiscLocalization({
-	YellPullHasabel = "Ха! Так это и есть лучшие из защитников Азерота?",
-	YellPullHasabel2 = "Ваш поход закончится здесь.",
-	YellPullHasabel3 = "Легион сокрушает всех своих врагов!"
-	YellPullHasabel4 = "Нам покорились все миры. Ваш – следующий."
-})]]
 
 ------------------------------
 --Эонар, Хранительница жизни--
@@ -64,8 +56,6 @@ L:SetOptionLocalization({
 
 L:SetMiscLocalization({
 	ProshlyapMurchal = "%s %s (%s группа) через 10 сек!",
-	YellPullEonar = "Герои! Демоны пытаются захватить мою сущность для своего повелителя.",
-	YellKilled = "Герои, победа близка! Добейте демонов, а я возьму на себя их корабль.",
 	Obfuscators = "Маскировщик",
 	Destructors = "Разрушитель",
 	Purifiers 	= "Очиститель",
@@ -89,9 +79,6 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
---	YellPullImonar = "Ваши кости будут щедро оплачены.",
---	YellPullImonar2 = "Я оставлю от вас пару кусочков на память.",
---	YellPullImonar3 = "Ваши головы украсят мою коллекцию.",
 	DispelMe = "Диспел мне!"
 })
 
@@ -104,12 +91,6 @@ L:SetOptionLocalization({
 	InfoFrame =	"Показать информационное табло для обзора боя",
 	UseAddTime = "Всегда показывать таймеры, когда босс выходит из фазы инициализации, вместо того, чтобы скрывать их. (Если таймеры отключены, они возобновятся, когда босс снова станет активным, но могут оставить мало предупреждений, если до окончания действия таймеров осталось 1-2 секунды)."
 })
---[[
-L:SetMiscLocalization({
-	YellPullKingaroth = "За работу!",
-	YellPullKingaroth2 = "И вы надеетесь одолеть мои машины этим жалким оружием?",
-	YellPullKingaroth3 = "Приготовьтесь к утилизации."
-})]]
 
 --------------
 --Вариматрас--
@@ -121,10 +102,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	ProshlyapSoulburnin = "%s %s через 5 сек!",
-	NecroticYell = "%s НА ТЕБЕ %s - ВЫНОСИ",
-	YellPullVarimathras = "Идите сюда и познайте страдания!",
-	YellPullVarimathras2 = "Нападайте! Я покажу вам, что такое боль!"
+	ProshlyapSoulburnin = "%s %s через 5 сек!"
 })
 
 ----------------
@@ -133,10 +111,10 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(1986)
 
 L:SetWarningLocalization({
-	Amantul 			= "Аман`тул через 5 сек - переключитесь",
-	Kazgagot 			= "Каз`горот через 5 сек - уйдите с центра",
-	Norgannon 			= "Норганнон через 5 сек - бегите в центр",
-	Golgannet 			= "Голганнет через 5 сек - держите радиус 2м"
+	Amantul 			= "Аман`тул через 5 сек - переключись",
+	Kazgagot 			= "Каз`горот через 5 сек - уйди с центра",
+	Norgannon 			= "Норганнон через 5 сек - беги в центр",
+	Golgannet 			= "Голганнет через 5 сек - держи радиус 2м"
 })
 
 L:SetTimerLocalization({
@@ -155,12 +133,12 @@ L:SetOptionLocalization({
 	Kazgagot 			= "Спец-предупреждение за 5 сек до появления $spell:244733",
 	timerBossIncoming	= "Показать таймер для следующей смены босса",
 	TauntBehavior		= "Настройка поведения при смене танка",
-	TwoMythicThreeNon	= "Обмен при 2 стаках на мифик сложности, на 3 стаках в других",--Default
+	TwoMythicThreeNon	= "Обмен при 2 стаках на мифик сложности, на 3 стаках в других",
 	TwoAlways			= "Всегда меняться на 2 стаках независимо от сложности",
 	ThreeAlways			= "Всегда меняться на 3 стаках независимо от сложности",
 	SetLighting			= "Автоматическое переключение освещения на низкий уровень, когда ковен задействован и восстановление в конце боя на прежний уровень (не поддерживается в mac-клиенте, т.к. mac-клиент не поддерживает низкое освещение)",
 	InterruptBehavior	= "Настройка поведения прерывания для рейда (требуются права лидера рейда)",
-	Three				= "Чередование 3 человек",--Default
+	Three				= "Чередование 3 человек",
 	Four				= "Чередование 4 человек",
 	Five				= "Чередование 5 человек",
 	IgnoreFirstKick		= "При использовании этой опции первое прерывание исключается из чередования (требуются права лидера рейда)",
@@ -175,8 +153,7 @@ L:SetMiscLocalization({
 	ProshlyapMurchal3	= "%s МОЛНИИ - ДЕРЖИМ РАДИУС 2 МЕТРА!",
 	ProshlyapMurchal2	= "%s ПЛАМЯ - УШЛИ ВСЕ С ЦЕНТРА!",
 	ProshlyapMurchal1	= "%s АМАНТУЛ - СВИЧ В ТРЕШ!",
-	ProshlyapMurchal5	= "%s ВЕСЬ УРОН ПО БОССУ!",
-	YellPullCoven		= "Сейчас ваша плоть зашипит на огне."
+	ProshlyapMurchal5	= "%s ВЕСЬ УРОН ПО БОССУ!"
 })
 
 ------------
@@ -199,8 +176,6 @@ L:SetMiscLocalization({
 	MurchalProshlyapation = "%s %s через 5 сек!",
 	ProshlyapMurchal2	= "%s КОНТРОЛИМ МОБОВ!",
 	ProshlyapMurchal1	= "%s ВСЕ ПОД БОССА!",
---	YellPullAggramar = "Вы сгорите!",
---	Blaze		= "Хищное пламя",
 	Foe			= "Сокрушитель",
 	Rend		= "Пламя",
 	Tempest 	= "Буря",
@@ -225,7 +200,6 @@ L:SetOptionLocalization({
 
 L:SetMiscLocalization({
 	ProshlyapMurchal = "%s %s через 5 сек!",
---	YellPullArgus = "Смерть! Смерть и боль!",
 	SeaText		= "Хаст/Верса на %s",
 	SkyText		= "Крит/Мастери на %s",
 	Blight		= "ЧУМА",
