@@ -1,6 +1,6 @@
 if GetLocale() ~= "ukUK" then return end
 
---- Proshlyapation Ochka Murchalya Proshlyapenko? ---
+--- New Proshlyapation Ochka Murchalya Proshlyapenko? ---
 
 if not DBM_GUI_Translations then DBM_GUI_Translations = {} end
 local L = DBM_GUI_Translations

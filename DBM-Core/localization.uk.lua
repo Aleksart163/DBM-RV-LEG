@@ -1,6 +1,6 @@
 if GetLocale() ~= "ukUK" then return end
 
---- Proshlyapation Ochka Murchalya Proshlyapenko? ---
+--- New Proshlyapation Ochka Murchalya Proshlyapenko? ---
 
 DBM_CORE_NEED_SUPPORT				= "Ви - програміст або хороший перекладач? Якщо так, то нам потрібна ваша допомога в локалізації DBM іншими мовами. Допоможіть нам, відвідавши |HDBM:forums|h|cff3588ffhttps://github.com/Aleksart163/DBM-RV|r.\nЗнайшли баг або неправильний таймер? Ви вважаєте, що якомусь модулю потрібне додаткове попередження, таймер або особливість?\nВідвідайте нові форуми DBM для обговорень, повідомлень про помилки та запиту нових можливостей на " .. DBM_CORE_UPDATEREMINDER_URL .. "."
 DBM_HOW_TO_USE_MOD					= "Ласкаво просимо в DBM. Для доступу до налаштувань наберіть /dbm у чаті. За бажання, завантажте певні зони вручну для змін специфічних налаштувань для кожного боса. DBM намагається підлаштовуватися під вас на основі вашої спеціалізації на момент першого запуску, але деякі можуть захотіти ввімкнути додаткові опції."
@@ -191,7 +191,7 @@ DBM_PIZZA_ERROR_USAGE				= "Использование: /dbm [broadcast] timer <
 
 DBM_CORE_MINIMAP_TOOLTIP_HEADER		= "Dungeon Boss Master"
 DBM_CORE_MINIMAP_TOOLTIP_FOOTER		= "Shift+клацання або клацніть правою кнопкою миші, щоб перемістити\nAlt+shift+клацання для вільного перетягування"
---Волосали
+
 DBM_CORE_RANGECHECK_HEADER 			= "Перевірка дистанції (%d м)"
 DBM_CORE_RANGECHECK_SETRANGE 		= "Налаштування дистанції"
 DBM_CORE_RANGECHECK_SETTHRESHOLD 	= "Налаштування порога гравців"

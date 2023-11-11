@@ -30,6 +30,8 @@ localization.tw.lua
 localization.kr.lua
 localization.es.lua
 localization.br.lua
+localization.uk.lua
+
 DBM-Core.lua
 DBM-Arrow.lua
 DBM-Flash.lua

@@ -37,6 +37,7 @@ localization.br.lua
 localization.kr.lua
 localization.cn.lua
 localization.tw.lua
+localization.uk.lua
 
 DBM-GUI_DropDown.xml
 DBM-GUI_Templates.xml
