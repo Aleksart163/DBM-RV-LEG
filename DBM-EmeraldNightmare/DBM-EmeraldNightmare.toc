@@ -34,6 +34,7 @@ localization.br.lua
 localization.kr.lua
 localization.cn.lua
 localization.tw.lua
+localization.uk.lua
 
 Nythendra.lua
 Ilgynoth.lua
