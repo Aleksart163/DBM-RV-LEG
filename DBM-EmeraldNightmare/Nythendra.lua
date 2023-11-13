@@ -139,15 +139,15 @@ function mod:SPELL_CAST_START(args)
 		DBM:Debug("CLEU event for breath, pruned. If you see this message it was unpruned!")
 	elseif spellId == 205070 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
 		specWarnSpreadInfestation:Show(args.sourceName)
-		specWarnSpreadInfestation:Play("kickcast")
+	--	specWarnSpreadInfestation:Play("kickcast")
 	elseif spellId == 225943 then
 		if playerHasTen then
 			specWarnInfestedMindYou:Show()
-			specWarnInfestedMindYou:Play("targetyou")
+		--	specWarnInfestedMindYou:Play("targetyou")
 			yellInfestedMind:Yell()
 		else
 			specWarnInfestedMind:Show()
-			specWarnInfestedMind:Play("findmc")
+		--	specWarnInfestedMind:Play("findmc")
 		end
 	end
 end
@@ -173,7 +173,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	if spellId == 204463 then --Взрывоопасная гниль
 		if args:IsPlayer() then
 			specWarnVolatileRot:Show()
-			specWarnVolatileRot:Play("runout")
+		--	specWarnVolatileRot:Play("runout")
 			yellVolatileRot:Countdown(8, 3)
 			if self.Options.RangeFrame then
 				DBM.RangeCheck:Show(30)
@@ -181,7 +181,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		else
 			if self:IsTank() then
 				specWarnVolatileRotSwap:Show(args.destName)
-				specWarnVolatileRotSwap:Play("tauntboss")
+			--	specWarnVolatileRotSwap:Play("tauntboss")
 			else
 				warnVolatileRot:Show(args.destName)
 			end
@@ -193,7 +193,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnRot:CombinedShow(0.5, args.destName)
 		if args:IsPlayer() then
 			specWarnRot:Show()
-			specWarnRot:Play("runout")
+		--	specWarnRot:Play("runout")
 			yellRot:Countdown(9, 3)
 		end
 		if self.Options.SetIconOnRot then
@@ -211,9 +211,9 @@ function mod:SPELL_AURA_APPLIED_DOSE(args)
 		if amount >= 7 and amount < 11 then
 			specWarnInfestedStack:Cancel()
 			specWarnInfestedStack:Schedule(0.5, amount)
-			if self:AntiSpam(2, 4) then
+		--[[	if self:AntiSpam(2, 4) then
 				specWarnInfestedStack:Play("stackhigh")
-			end
+			end]]
 		end
 		if amount >= 10 then
 			playerHasTen = true
@@ -258,7 +258,7 @@ end
 function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 203646 and destGUID == UnitGUID("player") and self:AntiSpam(2, 3) then
 		specWarnBurst:Show()
-		specWarnBurst:Play("runaway")
+	--	specWarnBurst:Play("runaway")
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE
@@ -266,7 +266,7 @@ mod.SPELL_MISSED = mod.SPELL_DAMAGE
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 203045 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
 		specWarnInfestedGround:Show()
-		specWarnInfestedGround:Play("runaway")
+	--	specWarnInfestedGround:Play("runaway")
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
@@ -281,7 +281,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	elseif spellId == 202968 then--Infested Breath (CAST_SUCCESS and CAST_START pruned from combat log)
 		self.vb.breathCount = self.vb.breathCount + 1
 		specWarnBreath:Show(self.vb.breathCount)
-		specWarnBreath:Play("breathsoon")
+	--	specWarnBreath:Play("breathsoon")
 		if self.vb.breathCount < 2 then
 			timerBreathCD:Start(nil, self.vb.breathCount+1)
 			countdownBreath:Start()

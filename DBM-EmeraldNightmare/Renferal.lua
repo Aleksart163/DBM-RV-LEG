@@ -108,7 +108,7 @@ local function findDebuff(self, spellName, spellId)
 				warnTwistingShadows:CombinedShow(0.1, self.vb.twistedCast, name)
 				if name == UnitName("player") then
 					specWarnTwistingShadows:Show()
-					specWarnTwistingShadows:Play("runout")
+				--	specWarnTwistingShadows:Play("runout")
 					local _, _, _, _, _, _, expires = UnitDebuff("Player", spellName)
 					local debuffTime = expires - GetTime()
 					if debuffTime then
@@ -121,7 +121,7 @@ local function findDebuff(self, spellName, spellId)
 				warnNecroticVenom:CombinedShow(0.1, name)
 				if name == UnitName("player") then
 					specWarnNecroticVenom:Show()
-					specWarnNecroticVenom:Play("runout")
+				--	specWarnNecroticVenom:Play("runout")
 					local _, _, _, _, _, _, expires = UnitDebuff("Player", spellName)
 					local debuffTime = expires - GetTime()
 					if debuffTime then
@@ -155,14 +155,14 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 212707 then
 		specWarnGatheringClouds:Show()
-		specWarnGatheringClouds:Play("aesoon")
+	--	specWarnGatheringClouds:Play("aesoon")
 	elseif spellId == 210948 then
 		specWarnDarkStorm:Show(eyeOfStorm)
-		specWarnDarkStorm:Play("findshelter")
+	--	specWarnDarkStorm:Play("findshelter")
 	elseif spellId == 210547 then
 		self.vb.razorWingCast = self.vb.razorWingCast + 1
 		specWarnRazorWing:Show()
-		specWarnRazorWing:Play("carefly")
+	--	specWarnRazorWing:Play("carefly")
 		if self.vb.ViolentWindsPlat and self.vb.razorWingCast < 2 or self.vb.razorWingCast < 3 then
 			timerRazorWingCD:Start(self.vb.ViolentWindsPlat and 46 or 32.5, self.vb.razorWingCast+1)
 		end
@@ -171,7 +171,7 @@ function mod:SPELL_CAST_START(args)
 		local targetName, uId, bossuid = self:GetBossTarget(106087, true)
 		if self:IsTanking("player", bossuid, nil, true) then
 			specWarnRakingTalon:Show()
-			specWarnRakingTalon:Play("defensive")
+		--	specWarnRakingTalon:Play("defensive")
 		end
 		if self.vb.ViolentWindsPlat and self.vb.talonsCast < 2 or self.vb.talonsCast < 3 then
 			timerRakingTalonsCD:Start(self.vb.ViolentWindsPlat and 46 or 32.5, self.vb.talonsCast+1)
@@ -231,8 +231,8 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self:IsTanking(uId) then--Why I need a tank filter is beyond me but for some reason 218124 is MAGICALLY triggering on 218144
 			if args:IsPlayer() then
 				specViolentWinds:Show()
-				specViolentWinds:Play("justrun")
-				specViolentWinds:ScheduleVoice(1, "keepmove")
+			--	specViolentWinds:Play("justrun")
+			--	specViolentWinds:ScheduleVoice(1, "keepmove")
 				yellViolentWinds:Yell()
 			else
 				warnViolentWinds:Show(args.destName)
@@ -244,12 +244,12 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 215582 then
 		if not args:IsPlayer() then--Player is not current target
 			specWarnRakingTalonOther:Show(args.destName)
-			specWarnRakingTalonOther:Play("tauntboss")
+		--	specWarnRakingTalonOther:Play("tauntboss")
 		end
 	elseif spellId == 215300 then--215307 can also be used and technically is actually faster since it's first event in combat log, However 215300 is what BW uses and I want to make sure DMM repots it in same Order. Especially if they add icon options
 		if args.sourceGUID == playerGUID then
 			specWarnWebofPain:Show(args.destName)
-			specWarnWebofPain:Play("targetyou")
+		--	specWarnWebofPain:Play("targetyou")
 		elseif args.destGUID == playerGUID then
 			specWarnWebofPain:Show(args.sourceName)
 		else
@@ -274,7 +274,7 @@ function mod:SPELL_AURA_APPLIED_DOSE(args)
 		local amount = args.amount or 1
 		if amount >= 5 then
 			specWarnWebWrap:Show(amount)
-			specWarnWebWrap:Play("stackhigh")
+		--	specWarnWebWrap:Play("stackhigh")
 		end
 	end
 end
@@ -297,7 +297,7 @@ end
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 213124 and destGUID == playerGUID and self:AntiSpam(2, 1) then
 		specWarnVenomousPool:Show()
-		specWarnVenomousPool:Play("runaway")
+	--	specWarnVenomousPool:Play("runaway")
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
@@ -307,7 +307,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	if spellId == 212364 then--Feeding Time
 		self.vb.feedingTimeCast = self.vb.feedingTimeCast + 1
 		specWarnFeedingTime:Show(self.vb.feedingTimeCast)
-		specWarnFeedingTime:Play("killmob")
+	--	specWarnFeedingTime:Play("killmob")
 		if self.vb.feedingTimeCast < 2 then
 			timerFeedingTimeCD:Start(nil, 2)
 		end

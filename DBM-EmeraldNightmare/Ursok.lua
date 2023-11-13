@@ -94,11 +94,11 @@ do
 				soakTable[#soakTable+1] = DBM:GetUnitFullName(unitID)
 				if UnitIsUnit("player", unitID) then
 					specWarnFocusedGazeOther:Show(targetName)
-					if count == 2 then
+				--[[	if count == 2 then
 						specWarnFocusedGazeOther:Play("sharetwo")
 					else
 						specWarnFocusedGazeOther:Play("shareone")
-					end
+					end]]
 				end
 				if soakers == soakerHalf then break end--Got enough soakers, stop
 			end
@@ -150,21 +150,21 @@ function mod:SPELL_CAST_START(args)
 		countdownRendFlesh:Start()
 		if self:IsTanking("player", "boss1", nil, true) then
 			specWarnRendFlesh:Show()
-			specWarnRendFlesh:Play("defensive")
+		--	specWarnRendFlesh:Play("defensive")
 		else
 			--Other tank has overwhelm stacks and is about to die to rend flesh, TAUNT NOW!
 			if UnitExists("boss1target") and not UnitIsUnit("player", "boss1target") then
 				local _, _, _, _, _, _, expireTimeTarget = UnitDebuff("boss1target", overWhelm) -- Overwhelm
 				if expireTimeTarget and expireTimeTarget-GetTime() >= 2 then
 					specWarnRendFleshOther:Show(UnitName("boss1target"))
-					specWarnRendFleshOther:Play("tauntboss")
+				--	specWarnRendFleshOther:Play("tauntboss")
 				end
 			end
 		end
 	elseif spellId == 197969 then
 		self.vb.roarCount = self.vb.roarCount + 1
 		specWarnRoaringCacophony:Show(self.vb.roarCount)
-		specWarnRoaringCacophony:Play("aesoon")
+	--	specWarnRoaringCacophony:Play("aesoon")
 		if self:IsLFR() then
 			--No echos, just every 40 seconds
 			timerRoaringCacophonyCD:Start(40, self.vb.roarCount + 1)
@@ -219,7 +219,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnFocusedGaze:Show()
 			yellFocusedGaze:Yell(icon, icon, icon)
-			specWarnFocusedGaze:Play("targetyou")
+		--	specWarnFocusedGaze:Play("targetyou")
 		end
 		if self.Options.SetIconOnCharge then
 			self:SetIcon(args.destName, icon)
@@ -235,18 +235,18 @@ function mod:SPELL_AURA_APPLIED(args)
 			local _, _, _, _, _, _, expireTime = UnitDebuff("player", rendFlesh)
 			if rendCooldown > 10 and (not expireTime or expireTime and expireTime-GetTime() < 10) then
 				specWarnOverwhelmOther:Show(args.destName)
-				specWarnOverwhelmOther:Play("tauntboss")
+			--	specWarnOverwhelmOther:Play("tauntboss")
 			end
 		end
 	elseif spellId == 198388 then
 		warnBloodFrenzy:Show()
-		warnBloodFrenzy:Play("frenzy")
+	--	warnBloodFrenzy:Play("frenzy")
 	elseif spellId == 205611 and args:IsPlayer() and self:AntiSpam(2, 1) then
 		specWarnMiasma:Show()
-		specWarnMiasma:Play("runaway")
+	--	specWarnMiasma:Play("runaway")
 	elseif spellId == 204859 and not args:IsPlayer() then
 		specWarnRendFleshOther:Show(args.destName)
-		specWarnRendFleshOther:Play("tauntboss")
+	--	specWarnRendFleshOther:Play("tauntboss")
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
@@ -263,7 +263,7 @@ end
 function mod:SPELL_DAMAGE(_, _, _, _, destGUID, destName, _, _, spellId)
 	if spellId == 205611 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
 		specWarnMiasma:Show()
-		specWarnMiasma:Play("runaway")
+	--	specWarnMiasma:Play("runaway")
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE

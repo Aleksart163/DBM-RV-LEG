@@ -250,24 +250,24 @@ function mod:SPELL_CAST_START(args)
 		self:SendSync("DefiledSpirit")
 	elseif spellId == 205300 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
 		specWarnCorruption:Show(args.sourceName)
-		specWarnCorruption:Play("kickcast")
+	--	specWarnCorruption:Play("kickcast")
 	elseif spellId == 214540 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
 		specWarnCollapsingNightmare:Show(args.sourceName)
-		specWarnCollapsingNightmare:Play("kickcast")
+	--	specWarnCollapsingNightmare:Play("kickcast")
 	elseif spellId == 203817 and self:AntiSpam(5, 6) then
 		specWarnCorruptedBurst:Show()
-		specWarnCorruptedBurst:Play("watchstep")
+	--	specWarnCorruptedBurst:Play("watchstep")
 	elseif spellId == 203888 then
 		specWarnSiphonSpirit:Show()
-		specWarnSiphonSpirit:Play("killspirit")
+	--	specWarnSiphonSpirit:Play("killspirit")
 		self:SendSync("SiphonSpirit")
 	elseif spellId == 204100 then
 		specWarnShadesOfTaerar:Show()
-		specWarnShadesOfTaerar:Play("mobsoon")
+	--	specWarnShadesOfTaerar:Play("mobsoon")
 		self:SendSync("Shades")
 	elseif spellId == 204078 then
 		specWarnBellowingRoar:Show()
-		specWarnBellowingRoar:Play("fearsoon")
+	--	specWarnBellowingRoar:Play("fearsoon")
 		self:SendSync("Fear")
 	end
 end
@@ -300,7 +300,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		local amount = args.amount or 1
 		if amount >= 7 then
 			specWarnMark:Show(amount)
-			specWarnMark:Play("stackhigh")
+		--	specWarnMark:Play("stackhigh")
 		end
 		if self:AntiSpam(5, 2) then
 			if self:IsMythic() then
@@ -318,14 +318,14 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 203770 then
 		specWarnDefiledVines:CombinedShow(0.5, args.destName)
 		if self:AntiSpam(2, 1) then
-			specWarnDefiledVines:Play("helpdispel")
+		--	specWarnDefiledVines:Play("helpdispel")
 		end
 	elseif spellId == 203787 then
 		warnVolatileInfection:CombinedShow(0.5, args.destName)
 		if args:IsPlayer() then
 			specWarnVolatileInfection:Show()
 			yellVolatileInfection:Yell()
-			specWarnVolatileInfection:Play("scatter")
+		--	specWarnVolatileInfection:Play("scatter")
 			if self.Options.RangeFrame then
 				DBM.RangeCheck:Show(10)
 			end
@@ -397,7 +397,7 @@ end
 function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, _, _, _, targetname)
 	if msg:find("sha_ability_rogue_envelopingshadows_nightmare") then
 		specWarnLumberingMindgorger:Show()
-		specWarnLumberingMindgorger:Play("bigmob")
+	--	specWarnLumberingMindgorger:Play("bigmob")
 	end
 end
 

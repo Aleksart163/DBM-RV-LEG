@@ -136,10 +136,10 @@ local function bondsWarning(self)
 		if previousTarget then
 			if playerName == previousTarget then
 				specWarnBondsOfTerror:Show(name)
-				specWarnBondsOfTerror:Play("linegather")
+			--	specWarnBondsOfTerror:Play("linegather")
 			elseif playerName == name then
 				specWarnBondsOfTerror:Show(previousTarget)
-				specWarnBondsOfTerror:Play("linegather")
+			--	specWarnBondsOfTerror:Play("linegather")
 			end
 		end
 		previousTarget = name
@@ -189,7 +189,7 @@ function mod:SPELL_CAST_START(args)
 		timerCorruptingNovaCD:Start(nil, args.sourceGUID)
 		if self:AntiSpam(2, 1) then
 			specWarnCorruptingNova:Show(args.sourceName)
-			specWarnCorruptingNova:Play("aesoon")
+		--	specWarnCorruptingNova:Play("aesoon")
 		end
 	elseif spellId == 209443 then
 		if self.vb.phase == 3 then
@@ -207,13 +207,13 @@ function mod:SPELL_CAST_START(args)
 			--Player has dream buff and current tank does NOT so TAUNT warning.
 			if playerHasDream and not UnitDebuff(uId, dreamDebuff) then
 				specWarnNightmareInfusionOther:Show(targetName)
-				specWarnNightmareInfusionOther:Play("tauntboss")
+			--	specWarnNightmareInfusionOther:Play("tauntboss")
 			end
 		end
 	elseif spellId == 205588 then
 		self.vb.inconHorror = self.vb.inconHorror + 1
 		specWarnInconHorror:Show(self.vb.inconHorror)
-		specWarnInconHorror:Play("killmob")
+	--	specWarnInconHorror:Play("killmob")
 		timerCallOfNightmaresCD:Start(nil, self.vb.inconHorror+1)
 		countdownCallOfNightmares:Start()
 	end
@@ -231,7 +231,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	elseif spellId == 210264 then
 		self.vb.corruptionHorror = self.vb.corruptionHorror + 1
 		specWarnCorruptionHorror:Show(self.vb.corruptionHorror)
-		specWarnCorruptionHorror:Play("bigmob")
+	--	specWarnCorruptionHorror:Play("bigmob")
 		timerCorruptionHorrorCD:Start(nil, self.vb.corruptionHorror+1)
 		countdownCorruptionHorror:Start()
 	end
@@ -263,7 +263,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			if amount >= 3 then
 				specWarnDarkeningSoulYou:Show(amount)
-				specWarnDarkeningSoulYou:Play("stackhigh")
+			--	specWarnDarkeningSoulYou:Play("stackhigh")
 			end
 			updateRangeFrame(self)
 		else
@@ -282,7 +282,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				end
 				if not filterWarning then
 					specWarnDarkeningSoulOther:Show(args.destName)
-					specWarnDarkeningSoulOther:Play("tauntboss")
+				--	specWarnDarkeningSoulOther:Play("tauntboss")
 				end
 			end
 		end
@@ -292,7 +292,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			if amount >= 3 then
 				specWarnBlackeningSoulYou:Show(amount)
-				specWarnBlackeningSoulYou:Play("stackhigh")
+			--	specWarnBlackeningSoulYou:Play("stackhigh")
 			end
 			updateRangeFrame(self)
 		else
@@ -311,7 +311,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				end
 				if not filterWarning and not UnitDebuff("player", blackened) then
 					specWarnBlackeningSoulOther:Show(args.destName)
-					specWarnBlackeningSoulOther:Play("tauntboss")
+				--	specWarnBlackeningSoulOther:Play("tauntboss")
 				end
 			end
 		end
@@ -319,7 +319,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnTormentingFixation:CombinedShow(1, args.destName)
 		if args:IsPlayer() then
 			specWarnTormentingFixation:Show()
-			specWarnTormentingFixation:Play("targetyou")
+		--	specWarnTormentingFixation:Play("targetyou")
 		end
 	elseif spellId == 211802 then
 		warnNightmareBlades:CombinedShow(0.5, args.destName)
@@ -328,7 +328,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 		if args:IsPlayer() then
 			specWarnNightmareBlades:Show()
-			specWarnNightmareBlades:Play("runout")
+		--	specWarnNightmareBlades:Play("runout")
 		end
 		if self.Options.SetIconOnBlades then
 			self:SetIcon(args.destName, #bladesTarget)
@@ -347,19 +347,19 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 224508 then
 		if args:IsPlayer() then
 			specWarnCorruptionMeteorYou:Show()
-			specWarnCorruptionMeteorYou:Play("targetyou")
+		--	specWarnCorruptionMeteorYou:Play("targetyou")
 			yellMeteor:Countdown(5)
 		else
 			if playerHasDream then
 				specWarnCorruptionMeteorTo:Show(args.destName)
-				specWarnCorruptionMeteorTo:Play("gathershare")
+			--	specWarnCorruptionMeteorTo:Play("gathershare")
 			else
 				local maxPower = UnitPowerMax("player", ALTERNATE_POWER_INDEX)
 				if maxPower > 0 then
 					local playerPower = UnitPower("player", ALTERNATE_POWER_INDEX) / maxPower * 100
 					if self.vb.phase == 3 and playerPower > 75 or playerPower > 55 then--Avoid it if corruption too high for it
 						specWarnCorruptionMeteorAway:Show()
-						specWarnCorruptionMeteorAway:Play("watchstep")
+					--	specWarnCorruptionMeteorAway:Play("watchstep")
 					end
 				end
 			end
@@ -465,7 +465,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	elseif spellId == 226193 then--Xavius Energize Phase 2
 		self.vb.phase = 2
 		warnPhase2:Show()
-		warnPhase2:Play("ptwo")
+	--	warnPhase2:Play("ptwo")
 		timerNightmareBladesCD:Stop()
 		timerLurkingEruptionCD:Stop()
 		timerCorruptionHorrorCD:Stop()
@@ -485,7 +485,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	elseif spellId == 226185 then--Xavius Energize Phase 3
 		self.vb.phase = 3
 		warnPhase3:Show()
-		warnPhase3:Play("pthree")
+	--	warnPhase3:Play("pthree")
 		timerBlackeningSoulCD:Stop()
 		timerBondsOfTerrorCD:Stop()
 		timerCallOfNightmaresCD:Stop()
@@ -508,7 +508,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 		self.vb.dreamCount = self.vb.dreamCount + 1
 		local count = self.vb.dreamCount
 		specWarnDreaming:Show(count)
-		specWarnDreaming:Play(nil, "Interface\\AddOns\\DBM-VP"..DBM.Options.ChosenVoicePack.."\\count\\"..count..".ogg")
-		specWarnDreaming:ScheduleVoice(1, "stepring")
+	--	specWarnDreaming:Play(nil, "Interface\\AddOns\\DBM-VP"..DBM.Options.ChosenVoicePack.."\\count\\"..count..".ogg")
+	--	specWarnDreaming:ScheduleVoice(1, "stepring")
 	end
 end

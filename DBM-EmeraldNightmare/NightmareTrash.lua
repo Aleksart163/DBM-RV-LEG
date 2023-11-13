@@ -36,7 +36,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnUnstableDecay:CombinedShow(0.5, args.destName)
 		if args:IsPlayer() and self:AntiSpam(4, 1) then
 			specWarnUnstableDecay:Show()
-			specWarnUnstableDecay:Play("runout")
+		--	specWarnUnstableDecay:Play("runout")
 			yellUnstableDecay:Yell()
 			yellUnstableDecay2:Countdown(9, 3)
 		end
@@ -45,14 +45,14 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif spellId == 222719 then --Осквернение (надо сбежаться)
 		specWarnBefoulment:Show(args.destName)
-		specWarnBefoulment:Play("gathershare")
+	--	specWarnBefoulment:Play("gathershare")
 		if args:IsPlayer() then
 			yellBefoulment:Yell()
 			yellBefoulment:Countdown(15, 3)
 		end
 	elseif spellId == 223946 and args:IsPlayer() then--No damage events for trash mod, this should be enough
 		specWarnDarkLightning:Show()
-		specWarnDarkLightning:Play("runaway")
+	--	specWarnDarkLightning:Play("runaway")
 	end
 end
 --mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
