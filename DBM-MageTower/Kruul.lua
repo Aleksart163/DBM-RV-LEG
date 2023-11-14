@@ -1,7 +1,7 @@
 ﻿local mod	= DBM:NewMod("Kruul", "DBM-MageTower", 2)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(117933, 117198) --Инквизитор Варисс, Верховный лорд Круул
 mod:SetZone()
 mod:SetBossHPInfoToHighest()
@@ -83,7 +83,7 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 234423 then --Похищение жизни
 		specWarnDrainLife:Show()
-		specWarnDrainLife:Play("kickcast")
+	--	specWarnDrainLife:Play("kickcast")
 		timerDrainLifeCD:Start(27)
 		countdownDrainLife:Start(27)
 	elseif spellId == 233473 then --Священный оберег
@@ -92,10 +92,10 @@ function mod:SPELL_CAST_START(args)
 		timerHolyWardCD:Start()
 	elseif (spellId == 234631 or spellId == 241717 or spellId == 236537) and self:AntiSpam(2.5, 1) then --Мощный удар
 		specWarnSmash:Show()
-		specWarnSmash:Play("shockwave")
+	--	specWarnSmash:Play("shockwave")
 	elseif spellId == 236572 then --Аннигиляция
 		specWarnAnnihilate:Show()
-		specWarnAnnihilate:Play("defensive")
+	--	specWarnAnnihilate:Play("defensive")
 		if not firstAnnihilate then
 			firstAnnihilate = true
 			timerInfernalCD:Start(9)
@@ -105,7 +105,7 @@ function mod:SPELL_CAST_START(args)
 		end
 	elseif spellId == 234676 then --Кривое зеркало
 		specWarnTwistedReflection:Show()
-		specWarnTwistedReflection:Play("kickcast")
+	--	specWarnTwistedReflection:Play("kickcast")
 	end
 end
 
@@ -130,7 +130,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			if amount >= 5 then
 				specWarnDecay:Show(amount)
-				specWarnDecay:Play("stackhigh")
+			--	specWarnDecay:Play("stackhigh")
 			elseif amount % 2 == 0 then
 				warnDecay:Show(args.destName, amount)
 			end
@@ -153,7 +153,7 @@ end
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
 	if spellId == 234675 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
 		specWarnNetherstomp:Show()
-		specWarnNetherstomp:Play("runaway")
+	--	specWarnNetherstomp:Play("runaway")
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE

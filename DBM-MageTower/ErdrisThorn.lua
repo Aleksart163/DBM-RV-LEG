@@ -1,7 +1,7 @@
 ﻿local mod	= DBM:NewMod("ErdrisThorn", "DBM-MageTower")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 101 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetZone()--Healer (1710), Tank (1698), DPS (1703-The God-Queen's Fury), DPS (Fel Totem Fall)
 
 mod.soloChallenge = true
@@ -33,18 +33,18 @@ function mod:SPELL_AURA_APPLIED(args)
 		if amount % 2 == 0 then
 			if amount >= 4 then
 				specWarnArcaneBlitz:Show(amount)
-				specWarnArcaneBlitz:Play("stackhigh")
+			--	specWarnArcaneBlitz:Play("stackhigh")
 			else
 				warnArcaneBlitz:Show(args.destName, amount)
 			end
 		end
 	elseif spellId == 235984 and args:IsPlayer() then
 		specWarnManaSling:Show(DBM_ALLY)
-		specWarnManaSling:Play("findshelter")
+	--	specWarnManaSling:Play("findshelter")
 	elseif spellId == 237188 then
 		countdownIngiteSoul:Start()
 		specWarnIgniteSoul:Show()
-		specWarnIgniteSoul:Play("targetyou")
+	--	specWarnIgniteSoul:Play("targetyou")
 		timerIgniteSoulCD:Start()
 	end
 end

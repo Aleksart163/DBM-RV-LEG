@@ -1,7 +1,7 @@
 ﻿local mod	= DBM:NewMod("Twins", "DBM-MageTower")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(116409, 116410) --Рейст Волшебное Копье, Карам Волшебное Копье
 mod:SetZone()
 mod:SetBossHPInfoToHighest()
@@ -71,7 +71,7 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 235578 and self:AntiSpam(2, 1) then --Потусторонняя хватка
 		specWarnGrasp:Show()
-		specWarnGrasp:Play("kickcast")
+	--	specWarnGrasp:Play("kickcast")
 	end
 end
 
@@ -89,7 +89,7 @@ function mod:SPELL_AURA_REMOVED(args)
 	if spellId == 235308 then --Чистилище and self:GetUnitCreatureId(args.destName) == 116410
 		self.vb.purgatoryCount = self.vb.purgatoryCount + 1
 		specWarnFixate:Show()
-		specWarnFixate:Play("justrun")
+	--	specWarnFixate:Play("justrun")
 		warned_preP4 = true
 		if self.vb.purgatoryCount == 1 then
 			self:UnscheduleMethod("Shadowfiend")
@@ -167,7 +167,7 @@ end
 
 function mod:Shadowfiend()
 	specWarnRift:Show()
-	specWarnRift:Play("killmob")
+--	specWarnRift:Play("killmob")
 	timerRuneCD:Start(11)
 	self:ScheduleMethod(11, "Shadowfiend")
 end
@@ -176,7 +176,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	local spellId = legacySpellId or bfaSpellId
 	if spellId == 236460 then --Руна призыва
 		specWarnRune2:Show()
-		specWarnRune2:Play("helpsoak")
+	--	specWarnRune2:Play("helpsoak")
 		if self.vb.phase < 4 then
 			timerRune2CD:Start(35.5)
 			countdownRune2:Start(35.5)

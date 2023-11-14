@@ -1,7 +1,7 @@
 ﻿local mod	= DBM:NewMod("FelTotem", "DBM-MageTower")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 96 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(117230, 117484)--Tugar, Jormog
 mod:SetZone()--Healer (1710), Tank (1698), DPS (1703-The God-Queen's Fury), DPS (Fel Totem Fall)
 mod:SetBossHPInfoToHighest()
@@ -67,10 +67,10 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 241687 then
 		specWarnSonicScream:Show()
-		specWarnSonicScream:Play("stopcast")
+	--	specWarnSonicScream:Play("stopcast")
 	elseif spellId == 242496 then--Fel Surge
 		specWarnFelSurge:Show()
-		specWarnFelSurge:Play("stunsoon")
+	--	specWarnFelSurge:Play("stunsoon")
 		timerFelSurgeCD:Start()
 	elseif spellId == 242733 then--Fel Burst (DPS)
 		felburstCount = felburstCount + 1
@@ -86,7 +86,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
 	if spellId == 237950 then
 		specWarnEarthquake:Show(args.sourceName)
-		specWarnEarthquake:Play("aesoon")
+	--	specWarnEarthquake:Play("aesoon")
 		timerEarthquakeCD:Start()
 	elseif spellId == 242730 then
 		warnFelShock:Show()
@@ -126,6 +126,6 @@ end
 function mod:CHAT_MSG_MONSTER_EMOTE(msg)
 	if msg:find("Interface\\Icons\\spell_shaman_earthquake") then
 		specWarnCharge:Show()
-		specWarnCharge:Play("charge")
+	--	specWarnCharge:Play("charge")
 	end
 end

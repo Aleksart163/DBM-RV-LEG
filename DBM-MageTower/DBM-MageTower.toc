@@ -11,6 +11,7 @@
 ## Title-koKR:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0마법사 탑|r
 ## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0法师塔|r
 ## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0法师塔|r
+## Title-ukUK:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0Башта магів|r
 ## Author: Aleksart163
 ## LoadOnDemand: 1
 ## RequiredDeps: DBM-Core
@@ -30,10 +31,11 @@
 ## X-DBM-Mod-Name-koKR: 마법사 탑
 ## X-DBM-Mod-Name-zhCN: 法师塔
 ## X-DBM-Mod-Name-zhTW: 法师塔
+## X-DBM-Mod-Name-ukUK: Башта магів
 ## X-DBM-Mod-Sort: 509
 ## X-DBM-Mod-MapID: 1148, 1698, 1710, 1703, 1702, 1684, 1673, 1616
 ## X-DBM-Mod-LoadCID: 117871
-## X-DBM-Mod-MinCoreRevision: 17700
+## X-DBM-Mod-MinCoreRevision: 17743
 
 localization.en.lua
 localization.ru.lua

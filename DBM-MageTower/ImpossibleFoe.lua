@@ -1,7 +1,7 @@
 ﻿local mod	= DBM:NewMod("ImpossibleFoe", "DBM-MageTower")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(115638) --Агата
 mod:SetZone()
 
@@ -94,7 +94,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 243113 then --Темная ярость
 		specWarnDarkFury:Show(args.destName)
-		specWarnDarkFury:Play("attackshield")
+	--	specWarnDarkFury:Play("attackshield")
 		timerDarkFuryCD:Start()
 		countdownDarkFury:Start()
 		if self.Options.InfoFrame then
@@ -103,7 +103,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif spellId == 243027 then --Щит Тени
 		specWarnUmbralImp:Show(args.sourceName)
-		specWarnUmbralImp:Play("killmob")
+	--	specWarnUmbralImp:Play("killmob")
 		timerShadowShieldCD:Start()
 		if self.Options.SetIconOnShadowShield then
 		--	self:ScanForMobs(115642, 0, 7, 1, 0.1, 12, "SetIconOnShadowShield")
@@ -125,7 +125,7 @@ end
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
 	if spellId == 236161 and destGUID == UnitGUID("player") and self:AntiSpam(3, "plaguezone") then --Область чумы
 		specWarnPlagueZone:Show()
-		specWarnPlagueZone:Play("runaway")
+	--	specWarnPlagueZone:Play("runaway")
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
@@ -143,7 +143,7 @@ end
 function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)
 	if msg:find(L.impServants) or msg == L.impServants then
 		specWarnImpServants:Show()
-		specWarnImpServants:Play("bigmob")
+	--	specWarnImpServants:Play("bigmob")
 		timerImpServantsCD:Start()
 		countdownImpServants:Start()
 	end
@@ -163,14 +163,14 @@ function mod:UNIT_HEALTH(uId)
 	elseif self.vb.phase == 2 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 115638 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.40 then --Агата
 		warned_preP2 = true
 		warnTranslocate:Show()
-		warnTranslocate:Play("specialsoon")
+	--	warnTranslocate:Play("specialsoon")
 	elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 115638 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.25 then --Агата
 		warned_preP3 = true
 		warnTranslocate:Show()
-		warnTranslocate:Play("specialsoon")
+	--	warnTranslocate:Play("specialsoon")
 	elseif self.vb.phase == 2 and warned_preP3 and not warned_preP4 and self:GetUnitCreatureId(uId) == 115638 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.10 then --Агата
 		warned_preP4 = true
 		warnTranslocate:Show()
-		warnTranslocate:Play("specialsoon")
+	--	warnTranslocate:Play("specialsoon")
 	end
 end

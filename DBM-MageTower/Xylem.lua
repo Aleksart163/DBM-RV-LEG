@@ -1,7 +1,7 @@
 ﻿local mod	= DBM:NewMod("Xylem", "DBM-MageTower")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(115244)
 mod:SetZone()
 
@@ -84,7 +84,7 @@ function mod:SPELL_CAST_START(args)
 	if spellId == 234728 then --Волшебная аннигиляция
 		self.vb.arcaneAnnihilationCount = self.vb.arcaneAnnihilationCount + 1
 		specWarnArcaneAnnihilation:Show()
-		specWarnArcaneAnnihilation:Play("kickcast")
+	--	specWarnArcaneAnnihilation:Play("kickcast")
 		timerRazorIceCD:Stop()
 	--	timerArcaneAnnihilationCD:Start(50)
 	elseif spellId == 242316 then --Ледяная стрела
@@ -111,13 +111,13 @@ function mod:SPELL_CAST_SUCCESS(args)
 	if spellId == 232661 then --Ледяной сталагмит
 		self.vb.razorIceCount = self.vb.razorIceCount + 1
 		specWarnRazorIce:Show()
-		specWarnRazorIce:Play("watchstep")
+	--	specWarnRazorIce:Play("watchstep")
 		timerShadowBarrageCD:Cancel()
 	--	timerArcaneAnnihilationCD:Stop()
 		timerRazorIceCD:Start(30)
 	elseif spellId == 231522 then --Похищение энергии
 		specWarnDrawPower:Show()
-		specWarnDrawPower:Play("kickcast")
+	--	specWarnDrawPower:Play("kickcast")
 		timerDrawPowerCD:Start()
 	end
 end
@@ -126,7 +126,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 231443 then
 		specWarnShadowBarrage:Show()
-		specWarnShadowBarrage:Play("watchorb")
+	--	specWarnShadowBarrage:Play("watchorb")
 		if self.vb.phase == 1 then
 			timerShadowBarrageCD:Start(30)
 		else
@@ -137,11 +137,11 @@ function mod:SPELL_AURA_APPLIED(args)
 		countdownSeeds:Start()
 		if args:IsPlayer() then
 			specWarnSeeds:Show()
-			specWarnSeeds:Play("justrun")
+		--	specWarnSeeds:Play("justrun")
 			yellSeeds2:Countdown(8, 3)
 		elseif args:IsPet() then
 			specWarnSeeds3:Show(args.destName)
-			specWarnSeeds3:Play("justrun")
+		--	specWarnSeeds3:Play("justrun")
 		end
 	end
 end
@@ -151,10 +151,10 @@ function mod:SPELL_AURA_REMOVED(args)
 	if spellId == 233248 then --Семя Тьмы
 		if args:IsPlayer() then
 			specWarnSeeds2:Show()
-			specWarnSeeds2:Play("killmob")
+		--	specWarnSeeds2:Play("killmob")
 		elseif args:IsPet() then
 			specWarnSeeds2:Show()
-			specWarnSeeds2:Play("killmob")
+		--	specWarnSeeds2:Play("killmob")
 		end
 	end
 end

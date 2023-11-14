@@ -1,7 +1,7 @@
 ﻿local mod	= DBM:NewMod("Queen", "DBM-MageTower")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(116484, 116499, 116496) --Сигрин, Ярл Вельбранд, Руновидец Фальяр
 mod:SetEncounterID(2059)
 mod:SetZone()
@@ -102,14 +102,14 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 238694 then
 		specWarnThrowSpear:Show()
-		specWarnThrowSpear:Play("watchstep")
+	--	specWarnThrowSpear:Play("watchstep")
 		timerThrowSpearCD:Start()
 	elseif spellId == 237870 then
 		warnHurlAxe:Show()
 	elseif spellId == 237947 then --Ярость берсерка
 		self.vb.berserkerCount = self.vb.berserkerCount + 1
 		specWarnBerserkersRage:Show()
-		specWarnBerserkersRage:Play("justrun")
+	--	specWarnBerserkersRage:Play("justrun")
 		local timer = berserkerRageTimers[self.vb.berserkerCount+1]
 		if timer then
 			timerBerserkersRageCD:Start(timer, self.vb.berserkerCount+1)
@@ -118,7 +118,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 237945 then --Кровь отца
 		self.vb.bloodCount = self.vb.bloodCount + 1
 		specWarnBloodFather:Show(args.sourceName)
-		specWarnBloodFather:Play("crowdcontrol")
+	--	specWarnBloodFather:Play("crowdcontrol")
 		local timer = bloodFatherTimers[self.vb.bloodCount+1]
 		if timer then
 			timerBloodFatherCD:Start(timer, self.vb.bloodCount+1)
@@ -127,7 +127,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 237857 then --Вихрь клинков
 		self.vb.bladeCount = self.vb.bladeCount + 1
 		specWarnBladeStorm:Show()
-		specWarnBladeStorm:Play("justrun")
+	--	specWarnBladeStorm:Play("justrun")
 		local timer = bladeStormTimers[self.vb.bladeCount+1]
 		if timer then
 			timerBladeStormCD:Start(timer, self.vb.bladeCount+1)
@@ -135,7 +135,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 237952 then --Знание предков
 		self.vb.knowledgeCast = self.vb.knowledgeCast + 1
 		specWarnKnowledge:Show()
-		specWarnKnowledge:Play("targetchange")
+	--	specWarnKnowledge:Play("targetchange")
 		local timer = knowledgeTimers[self.vb.knowledgeCast+1] or 25
 		if timer then
 			timerKnowledgeCD:Start(timer, self.vb.knowledgeCast+1)
@@ -192,12 +192,12 @@ end
 function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)
 	if msg:find("spell:237761") then --Темные крылья
 		specWarnDarkWings:Show()
-		specWarnDarkWings:Play("stilldanger")
+	--	specWarnDarkWings:Play("stilldanger")
 		timerDarkWingsCD:Start() -- подправить таймер
 	elseif msg:find("spell:237908") then --Руническая детонация
 		self.vb.detonationCount = self.vb.detonationCount + 1
 		specWarnRunicDetonation:Show()
-		specWarnRunicDetonation:Play("157060")
+	--	specWarnRunicDetonation:Play("157060")
 		timerRunicDetonationCD:Start(30, self.vb.detonationCount+1)
 	end
 end
@@ -205,7 +205,7 @@ end
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 238691 and destGUID == UnitGUID("player") and self:AntiSpam(2, 2) then
 		specWarnSpearofVengeance:Show()
-		specWarnSpearofVengeance:Play("runaway")
+	--	specWarnSpearofVengeance:Play("runaway")
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
