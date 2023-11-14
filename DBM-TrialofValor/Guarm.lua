@@ -1,16 +1,16 @@
 local mod	= DBM:NewMod(1830, "DBM-TrialofValor", nil, 861)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(114323)
 mod:SetEncounterID(1962)
 mod:SetZone()
 mod:SetUsedIcons(1, 2, 3)
 mod:SetHotfixNoticeRev(15651)
 mod.respawnTime = 15
-mod:SetMinSyncRevision(15635)
+mod:SetMinSyncRevision(17745)
 
-mod:RegisterCombat("combat", 114323)
+mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 227514",
@@ -181,7 +181,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		end
 	elseif spellId == 227816 then
 		specWarnCharge:Show()
-		specWarnCharge:Play("chargemove")
+	--	specWarnCharge:Play("chargemove")
 	elseif spellId == 228824 then
 		self.vb.foamCast = self.vb.foamCast + 1
 		if self.vb.foamCast < 3 then
@@ -288,7 +288,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 228228 then
 		if args:IsPlayer() then
 			specWarnFlameLick:Show()
-			specWarnFlameLick:Play("runout")
+		--	specWarnFlameLick:Play("runout")
 			yellFlameLick:Yell()
 		end
 	elseif spellId == 228253 then
@@ -300,9 +300,6 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 228248 then
 		if self.Options.specwarn228248dispel then
 			specWarnFrostLickDispel:CombinedShow(0.3, args.destName)
-			if self:AntiSpam(3, 1) then
-				specWarnFrostLickDispel:Play("helpdispel")
-			end
 		else
 			warnFrostLick:CombinedShow(0.3, args.destName)
 		end
@@ -330,23 +327,13 @@ function mod:SPELL_AURA_REMOVED(args)
 	end
 end
 
---[[
-Might be inversed depending on perspective.
-227658: Fiery left, Salty middle, Dark right
-227660: Fiery left, Dark middle, Salty right
-227666: Salty left, Fiery middle, Dark right
-227667: Salty left, Dark middle, Fiery right
-227669: Dark left, Fiery middle, Salty right
-227673: Dark left, Salty middle, Fiery right
---]]
-
 --Better to just assume things aren't in cobmat log anymore, then switch if they actually are.
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	local spellId = legacySpellId or bfaSpellId
 	if spellId == 227573 then --Дыхание стража
 		self.vb.breathCast = self.vb.breathCast + 1
 		specWarnBreath:Show(self.vb.breathCast)
-		specWarnBreath:Play("breathsoon")
+	--	specWarnBreath:Play("breathsoon")
 		if self:IsHeroic() then
 			if self.vb.breathCast == 1 then
 				timerBreathCD:Start(32, self.vb.breathCast+1)

@@ -11,6 +11,7 @@
 ## Title-koKR:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0용맹의 시험|r
 ## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0勇气试炼|r
 ## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0勇氣試煉|r
+## Title-ukUK:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0Випробування Доблесті|r
 ## Author: MysticalOS and Aleksart163
 ## LoadOnDemand: 1
 ## RequiredDeps: DBM-Core
@@ -22,7 +23,7 @@
 ## X-DBM-Mod-Has-Mythic : 1
 ## X-DBM-Mod-Sort: 503
 ## X-DBM-Mod-MapID: 1648
-## X-DBM-Mod-MinCoreRevision: 17700
+## X-DBM-Mod-MinCoreRevision: 17745
 
 localization.en.lua
 localization.ru.lua
@@ -34,6 +35,7 @@ localization.br.lua
 localization.kr.lua
 localization.cn.lua
 localization.tw.lua
+localization.uk.lua
 
 Odyn.lua
 Guarm.lua

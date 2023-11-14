@@ -1,14 +1,15 @@
 local mod	= DBM:NewMod(1819, "DBM-TrialofValor", nil, 861)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(114263, 114361, 114360)--114263 Odyn, 114361 Hymdall, 114360 Hyrja 
 mod:SetEncounterID(1958)
 mod:SetZone()
 --mod:SetBossHPInfoToHighest()
 mod:SetMainBossID(114263)
 mod:SetUsedIcons(8)
-mod:SetHotfixNoticeRev(15581)
+mod:SetHotfixNoticeRev(17745)
+mod:SetMinSyncRevision(17745)
 mod.respawnTime = 29
 
 mod:RegisterCombat("combat")
@@ -133,6 +134,7 @@ local shieldTimers = {20.0, 20.0, 33.0, 22.0, 20.0, 35.0, 20.0, 20.0, 20.0, 20.0
 local expelLightTimers = {25.0, 20.0, 15.0, 30.0, 20.0}
 
 local blast = replaceSpellLinks(227629) --Выверенный взрыв
+local DbmRV = "[DBM RV] "
 
 local function startMurchalProshlyapation(self)
 	smartChat(L.ProshlyapMurchal:format(DbmRV, blast), "rw")
@@ -386,10 +388,10 @@ function mod:SPELL_CAST_START(args)
 		self.vb.hornCast = self.vb.hornCast + 1
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnHornOfValor2:Show()
-			specWarnHornOfValor2:Play("justrun")
+		--	specWarnHornOfValor2:Play("justrun")
 		else
 			specWarnHornOfValor:Show()
-			specWarnHornOfValor:Play("scatter")
+		--	specWarnHornOfValor:Play("scatter")
 		end
 		if self.vb.phase == 1 then
 			if self:IsMythic() then
@@ -424,15 +426,15 @@ function mod:SPELL_CAST_START(args)
 		warnRevivify:Show()
 	elseif spellId == 231013 then
 		specWarnShatterSpears:Show()
-		specWarnShatterSpears:Play("watchorb")
+	--	specWarnShatterSpears:Play("watchorb")
 	elseif spellId == 227629 then --Выверенный взрыв
 		warnUnerringBlast:Show()
 		if self:IsEasy() and self.vb.runicShield > 2 then
 			specWarnUnerringBlast:Show()
-			specWarnUnerringBlast:Play("defensive")
+		--	specWarnUnerringBlast:Play("defensive")
 		else
 			specWarnUnerringBlast:Show()
-			specWarnUnerringBlast:Play("defensive")
+		--	specWarnUnerringBlast:Play("defensive")
 		end
 	end
 end
@@ -484,7 +486,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnExpelLight:CombinedShow(0.3, args.destName)--TODO: Confirm can be more than one target
 		if args:IsPlayer() then
 			specWarnExpelLight:Show()
-			specWarnExpelLight:Play("runout")
+		--	specWarnExpelLight:Play("runout")
 			yellExpelLight:Yell()
 			updateRangeFrame(self)
 		end
@@ -492,7 +494,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnStormofJustice:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
 			specWarnStormofJustice:Show()
-			specWarnStormofJustice:Play("runout")
+		--	specWarnStormofJustice:Play("runout")
 			yellStormofJustice:Yell()
 			updateRangeFrame(self)
 		end
@@ -501,10 +503,10 @@ function mod:SPELL_AURA_APPLIED(args)
 		if amount >= 10 and amount % 10 == 0 then
 			if self:IsTanking("player", "boss1", nil, true) then
 				specWarnOdynsTest:Show(amount)
-				specWarnOdynsTest:Play("changemt")
+			--	specWarnOdynsTest:Play("changemt")
 			else
 				specWarnOdynsTestOther:Show(L.name)
-				specWarnOdynsTestOther:Play("changemt")
+			--	specWarnOdynsTestOther:Play("changemt")
 			end
 		elseif amount >= 10 and amount % 5 == 0 then
 			warnOdynsTest:Show(args.destName, amount)
@@ -514,10 +516,10 @@ function mod:SPELL_AURA_APPLIED(args)
 		countdownStormforgedSpear:Start()
 		if args:IsPlayer() then
 			specWarnStormforgedSpear:Show()
-			specWarnStormforgedSpear:Play("justrun")
+		--	specWarnStormforgedSpear:Play("justrun")
 		else
 			specWarnStormforgedSpearOther:Show(args.destName)
-			specWarnStormforgedSpearOther:Play("tauntboss")
+		--	specWarnStormforgedSpearOther:Play("tauntboss")
 		end
 	elseif spellId == 227490 or spellId == 227491 or spellId == 227498 or spellId == 227499 or spellId == 227500 then--Branded (Draw Power Runes)
 		drawTable[spellId] = args.destName
@@ -526,23 +528,23 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 		if spellId == 227490 and args:IsPlayer() then--Purple K (NE)
 			specWarnBranded:Show("|TInterface\\Icons\\Boss_OdunRunes_Purple.blp:12:12|t")
-			specWarnBranded:Play("mm3")
+		--	specWarnBranded:Play("mm3")
 			yellBranded:Yell(3, args.spellName, 3)
 		elseif spellId == 227491 and args:IsPlayer() then--Orange N (SE)
 			specWarnBranded:Show("|TInterface\\Icons\\Boss_OdunRunes_Orange.blp:12:12|t")
-			specWarnBranded:Play("mm2")
+		--	specWarnBranded:Play("mm2")
 			yellBranded:Yell(2, args.spellName, 2)
 		elseif spellId == 227498 and args:IsPlayer() then--Yellow H (SW)
 			specWarnBranded:Show("|TInterface\\Icons\\Boss_OdunRunes_Yellow.blp:12:12|t")
-			specWarnBranded:Play("mm1")
+		--	specWarnBranded:Play("mm1")
 			yellBranded:Yell(1, args.spellName, 1)
 		elseif spellId == 227499 and args:IsPlayer() then--Blue fishies (NW)
 			specWarnBranded:Show("|TInterface\\Icons\\Boss_OdunRunes_Blue.blp:12:12|t")
-			specWarnBranded:Play("mm6")
+		--	specWarnBranded:Play("mm6")
 			yellBranded:Yell(6, args.spellName, 6)
 		elseif spellId == 227500 and args:IsPlayer() then--Green box (N)
 			specWarnBranded:Show("|TInterface\\Icons\\Boss_OdunRunes_Green.blp:12:12|t")
-			specWarnBranded:Play("mm4")
+		--	specWarnBranded:Play("mm4")
 			yellBranded:Yell(4, args.spellName, 4)
 		end
 		if self.Options.InfoFrame and not DBM.InfoFrame:IsShown() then
@@ -555,42 +557,42 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 229579 or spellId == 229580 or spellId == 229581 or spellId == 229582 or spellId == 229583 then--Branded (Mythic Phase 1/2 non fixate rune debuffs)
 		if spellId == 229579 and args:IsPlayer() then--Purple K (NE)
 			specWarnBranded:Show("|TInterface\\Icons\\Boss_OdunRunes_Purple.blp:12:12|t")
-			specWarnBranded:Play("mm3")
+		--	specWarnBranded:Play("mm3")
 		elseif spellId == 229580 and args:IsPlayer() then--Orange N (SE)
 			specWarnBranded:Show("|TInterface\\Icons\\Boss_OdunRunes_Orange.blp:12:12|t")
-			specWarnBranded:Play("mm2")
+		--	specWarnBranded:Play("mm2")
 		elseif spellId == 229581 and args:IsPlayer() then--Yellow H (SW)
 			specWarnBranded:Show("|TInterface\\Icons\\Boss_OdunRunes_Yellow.blp:12:12|t")
-			specWarnBranded:Play("mm1")
+		--	specWarnBranded:Play("mm1")
 		elseif spellId == 229582 and args:IsPlayer() then--Blue fishies (NW)
 			specWarnBranded:Show("|TInterface\\Icons\\Boss_OdunRunes_Blue.blp:12:12|t")
-			specWarnBranded:Play("mm6")
+		--	specWarnBranded:Play("mm6")
 		elseif spellId == 229583 and args:IsPlayer() then--Green box (N)
 			specWarnBranded:Show("|TInterface\\Icons\\Boss_OdunRunes_Green.blp:12:12|t")
-			specWarnBranded:Play("mm4")
+		--	specWarnBranded:Play("mm4")
 		end
 	elseif spellId == 231311 or spellId == 231342 or spellId == 231344 or spellId == 231345 or spellId == 231346 then--Runic Brand (Phase 3 Mythic)
 		if args:IsPlayer() then
 			playerDebuff = spellId
 			if spellId == 231311 then--Purple K (NE)
 				specWarnRunicBrand:Show("|TInterface\\Icons\\Boss_OdunRunes_Purple.blp:12:12|t")
-				specWarnRunicBrand:Play("mm3")
+			--	specWarnRunicBrand:Play("mm3")
 				yellRunicBrand:Yell(3, args.spellName, 3)
 			elseif spellId == 231342 then--Orange N (SE)
 				specWarnRunicBrand:Show("|TInterface\\Icons\\Boss_OdunRunes_Orange.blp:12:12|t")
-				specWarnRunicBrand:Play("mm2")
+			--	specWarnRunicBrand:Play("mm2")
 				yellRunicBrand:Yell(2, args.spellName, 2)
 			elseif spellId == 231344 then--Yellow H (SW)
 				specWarnRunicBrand:Show("|TInterface\\Icons\\Boss_OdunRunes_Yellow.blp:12:12|t")
-				specWarnRunicBrand:Play("mm1")
+			--	specWarnRunicBrand:Play("mm1")
 				yellRunicBrand:Yell(1, args.spellName, 1)
 			elseif spellId == 231345 then--Blue fishies (NW)
 				specWarnRunicBrand:Show("|TInterface\\Icons\\Boss_OdunRunes_Blue.blp:12:12|t")
-				specWarnRunicBrand:Play("mm6")
+			--	specWarnRunicBrand:Play("mm6")
 				yellRunicBrand:Yell(6, args.spellName, 6)
 			elseif spellId == 231346 then--Green box (N)
 				specWarnRunicBrand:Show("|TInterface\\Icons\\Boss_OdunRunes_Green.blp:12:12|t")
-				specWarnRunicBrand:Play("mm4")
+			--	specWarnRunicBrand:Play("mm4")
 				yellRunicBrand:Yell(4, args.spellName, 4)
 			end
 			updateRangeFrame(self)
@@ -643,10 +645,10 @@ end
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 228007 and destGUID == UnitGUID("player") and self:AntiSpam(2, "dancingblade") then
 		specWarnDancingBlade:Show()
-		specWarnDancingBlade:Play("runaway")
+	--	specWarnDancingBlade:Play("runaway")
 	elseif spellId == 228683 and destGUID == UnitGUID("player") and self:AntiSpam(2, "cleansingflame") then
 		specWarnCleansingFlame:Show()
-		specWarnCleansingFlame:Play("runaway")
+	--	specWarnCleansingFlame:Play("runaway")
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
@@ -687,14 +689,14 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, npc, _, _, target)
 		if targetname then
 			if targetname == UnitName("player") then
 				specWarnShieldofLight:Show()
-				specWarnShieldofLight:Play("targetyou")
+			--	specWarnShieldofLight:Play("targetyou")
 				yellShieldofLight:Yell()
 				yellShieldofLightFades:Schedule(2.8, 1)
 				yellShieldofLightFades:Schedule(1.8, 2)
 				yellShieldofLightFades:Schedule(0.8, 3)
 			elseif self:CheckNearby(15, targetname) then
 				specWarnShieldofLight2:Show(targetname)
-				specWarnShieldofLight2:Play("helpsoak")
+			--	specWarnShieldofLight2:Play("helpsoak")
 			else
 				warnShieldofLight:Show(self.vb.shieldCast, targetname)
 			end
@@ -707,7 +709,7 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, npc, _, _, target)
 		if npc == hyrja then
 			self.vb.shieldCast = 0
 			specWarnHyrja:Show()
-			specWarnHyrja:Play("bigmob")
+		--	specWarnHyrja:Play("bigmob")
 			timerExpelLightCD:Start(4.7)
 			timerShieldofLightCD:Start(9.7)
 			countdownShield:Start(9.7)
@@ -719,7 +721,7 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, npc, _, _, target)
 		elseif npc == hymdall then
 			self.vb.hornCast = 0
 			specWarnHymall:Show()
-			specWarnHymall:Play("bigmob")
+		--	specWarnHymall:Play("bigmob")
 			timerDancingBladeCD:Start(5)
 			timerHornOfValorCD:Start(9.5, 1)
 			countdownHorn:Start(9.5)
@@ -736,7 +738,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	local spellId = legacySpellId or bfaSpellId
 	if spellId == 227503 or spellId == 229576 then --Впитывание энергии (когда появляется треш и руны)
 		specWarnDrawPower:Show()
-		specWarnDrawPower:Play("switch")
+	--	specWarnDrawPower:Play("switch")
 		timerDrawPower:Start()
 		countdownDrawPower:Start()
 		if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapMurchal and DBM:GetRaidRank() > 0 then
@@ -791,7 +793,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 			timerSpearCD:Start()
 		end
 		specWarnShatterSpears:Show()
-		specWarnShatterSpears:Play("watchorb")
+	--	specWarnShatterSpears:Play("watchorb")
 	elseif spellId == 228740 then--Spear Transition - Thunder (Phase 3 begin)
 		if not self.vb.phase == 3 then
 			startMurchalOchkenProshlyapation3(self)

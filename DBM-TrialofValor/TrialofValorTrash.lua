@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("TrialofValorTrash", "DBM-TrialofValor")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17204 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 --mod:SetModelID(47785)
 mod:SetZone()
 mod.isTrashMod = true
@@ -24,13 +24,13 @@ function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 228845 and self:AntiSpam(3, 1) then
 		specWarnShatterboneShield:Show(args.destName)
-		specWarnShatterboneShield:Play("stopattack")
+	--	specWarnShatterboneShield:Play("stopattack")
 	elseif spellId == 228371 and args:IsPlayer() and self:AntiSpam(2.5, 1) then
 		specWarnBreathOfDread:Show(args.destName)
-		specWarnBreathOfDread:Play("runaway")
+	--	specWarnBreathOfDread:Play("runaway")
 	elseif spellId == 228395 and self:AntiSpam(2.5, 2) then
 		specWarnBindSpirit:CombinedShow(0.5, args.destName)
-		specWarnBindSpirit:Play("dispelnow")
+	--	specWarnBindSpirit:Play("dispelnow")
 	end
 end
 
