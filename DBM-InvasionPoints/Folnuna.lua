@@ -41,7 +41,7 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 247379 then
 		specWarnSlumberingGasp:Show()
-		specWarnSlumberingGasp:Play("breathsoon")
+	--	specWarnSlumberingGasp:Play("breathsoon")
 		timerSlumberingGaspCD:Start()
 	elseif spellId == 247443 then
 		warnGrotesqueSpawn:Show()
@@ -59,11 +59,11 @@ function mod:SPELL_AURA_APPLIED(args)
 				if amount >= 6 then--Lasts 30 seconds, cast every 5 seconds, swapping will be at 6
 					if args:IsPlayer() then--At this point the other tank SHOULD be clear.
 						specWarnInfectedClaws:Show(amount)
-						specWarnInfectedClaws:Play("stackhigh")
+					--	specWarnInfectedClaws:Play("stackhigh")
 					else--Taunt as soon as stacks are clear, regardless of stack count.
 						if not UnitIsDeadOrGhost("player") and not DBM:UnitDebuff("player", args.spellName) then
 							specWarnInfectedClawsOther:Show(args.destName)
-							specWarnInfectedClawsOther:Play("tauntboss")
+						--	specWarnInfectedClawsOther:Play("tauntboss")
 						else
 							warnInfectedClaws:Show(args.destName, amount)
 						end

@@ -64,7 +64,7 @@ function mod:SPELL_CAST_START(args)
 		timerFelBreathCD:Start()
 	elseif spellId == 247733 then
 		specWarnStomp:Show()
-		specWarnStomp:Play("carefly")
+	--	specWarnStomp:Play("carefly")
 		timerStompCD:Start()
 	end
 end
@@ -85,11 +85,11 @@ function mod:SPELL_AURA_APPLIED(args)
 			if amount >= 6 then--Fine Tune
 				if args:IsPlayer() then--At this point the other tank SHOULD be clear.
 					specWarnDrain:Show(amount)
-					specWarnDrain:Play("stackhigh")
+				--	specWarnDrain:Play("stackhigh")
 				else--Taunt as soon as stacks are clear, regardless of stack count.
 					if not UnitIsDeadOrGhost("player") and not DBM:UnitDebuff("player", args.spellName) and self:AntiSpam(1.5, 1) then
 						specWarnDrainTaunt:Show(args.destName)
-						specWarnDrainTaunt:Play("tauntboss")
+					--	specWarnDrainTaunt:Play("tauntboss")
 					else
 						warnDrain:Cancel()
 						warnDrain:Schedule(1.25, args.destName, amount)

@@ -48,7 +48,7 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 247492 then
 		specReap:Show()
-		specReap:Play("shockwave")
+	--	specReap:Play("shockwave")
 		timerReapCD:Start()
 	elseif spellId == 247632 then
 		warnDeathField:Show()
@@ -72,11 +72,11 @@ function mod:SPELL_AURA_APPLIED(args)
 			if amount >= 2 then--Lasts 30 seconds, cast every 5 seconds, swapping will be at 6
 				if args:IsPlayer() then--At this point the other tank SHOULD be clear.
 					specWarnSow:Show(amount)
-					specWarnSow:Play("stackhigh")
+				--	specWarnSow:Play("stackhigh")
 				elseif self:AntiSpam(3, 1) then--Taunt as soon as stacks are clear, regardless of stack count.
 					if not UnitIsDeadOrGhost("player") and not DBM:UnitDebuff("player", args.spellName) then
 						specWarnSowOther:Show(args.destName)
-						specWarnSowOther:Play("tauntboss")
+					--	specWarnSowOther:Play("tauntboss")
 					else
 						warnSow:Show(args.destName, amount)
 					end
@@ -93,7 +93,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	local spellId = legacySpellId or bfaSpellId
 	if spellId == 247585 and self:AntiSpam(3, 2) then--Seeds of Chaos
 		specSeedsofChaos:Show()
-		specSeedsofChaos:Play("169613")
+	--	specSeedsofChaos:Play("169613")
 		timerSeedsofChaosCD:Start()
 	end
 end

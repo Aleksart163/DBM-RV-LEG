@@ -33,7 +33,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	if spellId == 251709 then --Заморозка
 		if args:IsPlayer() then
 			specWarnFrozen:Show()
-			specWarnFrozen:Play("targetyou")
+		--	specWarnFrozen:Play("targetyou")
 			timerFrozen:Start(args.destName)
 			yellFrozen:Yell()
 		else
@@ -54,12 +54,12 @@ end
 function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)
 	if strmatch(msg, L.MurchalOchkenProshlyapen) then
 		specWarnFlashFreeze:Show(warmth)
-		specWarnFlashFreeze:Play("justrun")
+	--	specWarnFlashFreeze:Play("justrun")
 		timerFlashFreezeCD:Start()
 		countdownFlashFreeze:Start()
 	elseif strmatch(msg, L.MurchalOchkenProshlyapen2) then
 		specWarnObliterationBeam:Show(shield)
-		specWarnObliterationBeam:Play("watchstep")
+	--	specWarnObliterationBeam:Play("watchstep")
 	end
 end
 

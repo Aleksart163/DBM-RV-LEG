@@ -36,7 +36,7 @@ mod:AddReadyCheckOption(49197, false)
 local function warnWake(self)
 	if self:AntiSpam(3, 1) then
 		specWarnWakeofDestruction:Show()
-		specWarnWakeofDestruction:Play("watchwave")
+	--	specWarnWakeofDestruction:Play("watchwave")
 	end
 end
 
@@ -50,11 +50,11 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 247698 then
 		specSilence:Show()
-		specSilence:Play("specialsoon")
+	--	specSilence:Play("specialsoon")
 		timerSilenceCD:Start()
 	elseif spellId == 247410 then
 		specWarnSoulCleave:Show()
-		specWarnSoulCleave:Play("179406")
+	--	specWarnSoulCleave:Play("179406")
 		timerSoulCleaveCD:Start()
 	end
 end
@@ -76,13 +76,13 @@ function mod:SPELL_AURA_APPLIED(args)
 	if spellId == 247444 then
 		if not args:IsPlayer() and not DBM:UnitDebuff("player", args.spellName) then
 			specWarnClovenSoul:Show(args.destName)
-			specWarnSoulCleave:Play("tauntboss")
+		--	specWarnSoulCleave:Play("tauntboss")
 		end
 	elseif spellId == 247437 then
 		warnSeedofDestruction:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
 			specWarnSeedofDestruction:Show()
-			specWarnSeedofDestruction:Play("runout")
+		--	specWarnSeedofDestruction:Play("runout")
 			yellSeedsofDestruction:Yell()
 		end
 		if self:AntiSpam(5, 2) then

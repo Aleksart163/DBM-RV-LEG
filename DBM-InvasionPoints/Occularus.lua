@@ -46,11 +46,11 @@ function mod:SPELL_CAST_START(args)
 		timerSearingGazeCD:Start()
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnSearingGaze:Show(args.sourceName)
-			specWarnSearingGaze:Play("kickcast")
+		--	specWarnSearingGaze:Play("kickcast")
 		end
 	elseif spellId == 247393 then
 		specWarnPhantasm:Show()
-		specWarnPhantasm:Play("watchorb")
+	--	specWarnPhantasm:Play("watchorb")
 		timerPhantasmCD:Start()
 	end
 end
@@ -74,11 +74,11 @@ function mod:SPELL_AURA_APPLIED(args)
 		if amount >= 3 then--Lasts 20 seconds, cast every 8 seconds, swapping will be at 3
 			if args:IsPlayer() then--At this point the other tank SHOULD be clear.
 				specWarnGushingWound:Show(amount)
-				specWarnGushingWound:Play("stackhigh")
+			--	specWarnGushingWound:Play("stackhigh")
 			else--Taunt as soon as stacks are clear, regardless of stack count.
 				if not UnitIsDeadOrGhost("player") and not DBM:UnitDebuff("player", args.spellName) then
 					specWarnGushingWoundOther:Show(args.destName)
-					specWarnGushingWoundOther:Play("tauntboss")
+				--	specWarnGushingWoundOther:Play("tauntboss")
 				else
 					warnGushingWound:Show(args.destName, amount)
 				end
@@ -88,9 +88,9 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif spellId == 247330 then
 		specWarnEyeSore:CombinedShow(0.3, args.destName)
-		if self:AntiSpam(4, 1) then
+	--[[	if self:AntiSpam(4, 1) then
 			specWarnEyeSore:Play("healall")
-		end
+		end]]
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED

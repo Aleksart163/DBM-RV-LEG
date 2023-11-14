@@ -49,14 +49,14 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 247549 then --Обманные чары
 		specWarnBeguilingCharm:Schedule(1.5)
-		specWarnBeguilingCharm:ScheduleVoice(1.5, "turnaway")
+	--	specWarnBeguilingCharm:ScheduleVoice(1.5, "turnaway")
 		timerBeguilingCharmCD:Start()
 		countdownBeguilingCharm:Start()
 		warnBeguilingCharm2:Schedule(37)
 	elseif spellId == 247604 then --Бич Скверны
 		warnFelLash:Show()
 		specWarnFelLash:Show()
-		specWarnFelLash:Play("watchstep")
+	--	specWarnFelLash:Play("watchstep")
 		timerFelLashCD:Start()
 	end
 end
@@ -77,10 +77,10 @@ function mod:SPELL_AURA_APPLIED(args)
 		if (amount >= 15) and self:AntiSpam(4, 4) then--First warning at 12, then spam every 4 seconds above.
 			if self:IsTanking("player", "boss1", nil, true) then
 				specWarnSadist:Show(amount)
-				specWarnSadist:Play("changemt")
+			--	specWarnSadist:Play("changemt")
 			else
 				specWarnSadistOther:Show(L.name)
-				specWarnSadistOther:Play("changemt")
+			--	specWarnSadistOther:Play("changemt")
 			end
 		end
 	elseif spellId == 247517 then
