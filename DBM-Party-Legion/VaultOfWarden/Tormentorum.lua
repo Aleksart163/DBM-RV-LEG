@@ -1,10 +1,11 @@
 local mod	= DBM:NewMod(1695, "DBM-Party-Legion", 10, 707)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(96015)
 mod:SetEncounterID(1850)
 mod:SetZone()
+mod:SetMinSyncRevision(17745)
 
 mod:RegisterCombat("combat")
 
@@ -66,7 +67,7 @@ function mod:SPELL_CAST_START(args)
 	if spellId == 201488 then
 		if not UnitIsDeadOrGhost("player") then
 			specWarnFear:Show()
-			specWarnFear:Play("fearsoon")
+		--	specWarnFear:Play("fearsoon")
 		end
 	elseif spellId == 200898 then --Телепортация
 		warnTeleport:Show()
@@ -83,14 +84,14 @@ function mod:SPELL_CAST_SUCCESS(args)
 		if self:IsHard() then--Mythic and mythic + only
 			if not UnitIsDeadOrGhost("player") then
 				specWarnSapSoulHard:Show()
-				specWarnSapSoulHard:Play("stopcast")
+			--	specWarnSapSoulHard:Play("stopcast")
 			end
 			timerSapSoulCD:Start(15.4)
 			countSapSoul:Start(15.4)
 		else--Everything else
 			if not UnitIsDeadOrGhost("player") then
 				specWarnSapSoul:Show()
-				specWarnSapSoul:Play("kickcast")
+			--	specWarnSapSoul:Play("kickcast")
 			end
 			timerSapSoulCD:Start()
 			countSapSoul:Start()
@@ -103,14 +104,14 @@ function mod:SPELL_AURA_APPLIED(args)
 	if spellId == 212564 then --Пытливый взгляд
 		if args:IsPlayer() and self:AntiSpam(2.5, 1) then
 			specWarnStare:Show(L.lookSphere)
-			specWarnStare:Play("turnaway")
+		--	specWarnStare:Play("turnaway")
 		end
 	elseif spellId == 203685 and args:IsDestTypePlayer() then --Из плоти в камень
 		local amount = args.amount or 1
 		if amount >= 7 then
 			if args:IsPlayer() then
 				specWarnFleshtoStone:Show(amount)
-				specWarnFleshtoStone:Play("stackhigh")
+			--	specWarnFleshtoStone:Play("stackhigh")
 			else
 				if not UnitIsDeadOrGhost("player") then
 					specWarnFleshtoStone2:CombinedShow(0.5, args.destName)
@@ -120,7 +121,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif spellId == 202455 then --Щит Бездны
 		specWarnVoidShield:Show(args.destName)
-		specWarnVoidShield:Play("stopattack")
+	--	specWarnVoidShield:Play("stopattack")
 	end	
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
@@ -129,7 +130,7 @@ function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
 	if spellId == 202455 then --Щит Бездны
 		specWarnVoidShield2:Show()
-		specWarnVoidShield2:Play("end")
+	--	specWarnVoidShield2:Play("end")
 	end
 end
 
@@ -141,31 +142,17 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 end
 
 function mod:UNIT_HEALTH(uId)
-	if self:IsHard() then --миф и миф+
-		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 96015 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.81 then
-			warned_preP1 = true
-			warnTeleport2:Show()
-		elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 96015 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.71 then
-			self.vb.phase = 2
-			warned_preP2 = true
-		elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 96015 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.51 then
-			warned_preP3 = true
-			warnTeleport2:Show()
-		elseif self.vb.phase == 2 and warned_preP3 and not warned_preP4 and self:GetUnitCreatureId(uId) == 96015 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.41 then
-			self.vb.phase = 3
-			warned_preP4 = true
-		end
-	else
-		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 96015 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.81 then
-			warned_preP1 = true
-		elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 96015 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.71 then
-			self.vb.phase = 2
-			warned_preP2 = true
-		elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 96015 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.51 then
-			warned_preP3 = true
-		elseif self.vb.phase == 2 and warned_preP3 and not warned_preP4 and self:GetUnitCreatureId(uId) == 96015 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.41 then
-			self.vb.phase = 3
-			warned_preP4 = true
-		end
+	if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 96015 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.81 then
+		warned_preP1 = true
+		warnTeleport2:Show()
+	elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 96015 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.71 then
+		self.vb.phase = 2
+		warned_preP2 = true
+	elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 96015 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.51 then
+		warned_preP3 = true
+		warnTeleport2:Show()
+	elseif self.vb.phase == 2 and warned_preP3 and not warned_preP4 and self:GetUnitCreatureId(uId) == 96015 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.41 then
+		self.vb.phase = 3
+		warned_preP4 = true
 	end
 end

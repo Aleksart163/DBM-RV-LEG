@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("CoSTrash", "DBM-Party-Legion", 7)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetZone()
 mod:SetOOCBWComms()
 
@@ -254,7 +254,7 @@ function mod:CarrionSwarmTarget(targetname, uId) --Темная стая ✔
 	if not targetname then return end
 	if targetname == UnitName("player") then
 		specWarnCarrionSwarm:Show()
-		specWarnCarrionSwarm:Play("watchstep")
+	--	specWarnCarrionSwarm:Play("watchstep")
 		yellCarrionSwarm:Yell()
 	else
 		warnCarrionSwarm:Show(targetname)
@@ -276,7 +276,7 @@ function mod:DisintegrationBeamTarget(targetname, uId) --Луч дезинтег
 	if not targetname then return end
 	if targetname == UnitName("player") then
 		specWarnDisintegrationBeam:Show()
-		specWarnDisintegrationBeam:Play("defensive")
+	--	specWarnDisintegrationBeam:Play("defensive")
 		yellDisintegrationBeam:Yell()
 	else
 		warnDisintegrationBeam:Show(targetname)
@@ -291,55 +291,55 @@ function mod:SPELL_CAST_START(args)
 	if not self.Options.Enabled then return end
 	if spellId == 209027 and self:AntiSpam(3, 5) then
 		specWarnQuellingStrike:Show()
-		specWarnQuellingStrike:Play("shockwave")
+	--	specWarnQuellingStrike:Play("shockwave")
 	elseif spellId == 212031 and self:AntiSpam(3, 6) then
 		specWarnChargedBlast:Show()
-		specWarnChargedBlast:Play("shockwave")
+	--	specWarnChargedBlast:Play("shockwave")
 	elseif spellId == 209485 then --Похищение магии
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnDrainMagic:Show()
-			specWarnDrainMagic:Play("kickcast")
+		--	specWarnDrainMagic:Play("kickcast")
 		else
 			warnDrainMagic:Show()
-			warnDrainMagic:Play("kickcast")
+		--	warnDrainMagic:Play("kickcast")
 		end
 	elseif spellId == 209410 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
 		specWarnNightfallOrb:Show(args.sourceName)
-		specWarnNightfallOrb:Play("kickcast")
+	--	specWarnNightfallOrb:Play("kickcast")
 	elseif spellId == 209413 then --Подавление
 		self:BossTargetScanner(args.sourceGUID, "SuppressTarget", 0.1, 2)
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnSuppress:Show()
-			specWarnSuppress:Play("kickcast")
+		--	specWarnSuppress:Play("kickcast")
 		end
 	elseif spellId == 211470 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
 		specWarnBewitch:Show()
-		specWarnBewitch:Play("kickcast")
+	--	specWarnBewitch:Play("kickcast")
 	elseif spellId == 225100 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
 		specWarnChargingStation:Show()
-		specWarnChargingStation:Play("kickcast")
+	--	specWarnChargingStation:Play("kickcast")
 	elseif spellId == 211299 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
 		specWarnSearingGlare:Show()
-		specWarnSearingGlare:Play("kickcast")
+	--	specWarnSearingGlare:Play("kickcast")
 	elseif spellId == 211464 then
 		warnFelDetonation:Show()
 		if not UnitIsDeadOrGhost("player") then
 			specWarnFelDetonation:Show()
-			specWarnFelDetonation:Play("aesoon")
+		--	specWarnFelDetonation:Play("aesoon")
 		end
 		timerFelDetonationCD:Start()
 		countdownFelDetonation:Start()
 	elseif spellId == 209404 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Подавление магии
 		specWarnSealMagic:Show()
-		specWarnSealMagic:Play("kickcast")
+	--	specWarnSealMagic:Play("kickcast")
 	elseif spellId == 209495 and self:AntiSpam(2, 7) then --Удар с размаху
 		--Don't want to move too early, just be moving already as cast is finishing
 		specWarnChargedSmash:Schedule(1.2)
-		specWarnChargedSmash:ScheduleVoice(1.2, "chargemove")
+	--	specWarnChargedSmash:ScheduleVoice(1.2, "chargemove")
 	elseif spellId == 209378 then
 		if not UnitIsDeadOrGhost("player") then
 			specWarnWhirlingBlades:Show()
-			specWarnWhirlingBlades:Play("runout")
+		--	specWarnWhirlingBlades:Play("runout")
 		end
 		timerWhirlingBladesCD:Start()
 		countdownWhirlingBlades:Start()
@@ -349,18 +349,16 @@ function mod:SPELL_CAST_START(args)
 		countdownDisintegrationBeam:Start()
 	elseif spellId == 207979 then --Ударная волна
 		specWarnShockwave:Show()
-		specWarnShockwave:Play("watchstep")
+	--	specWarnShockwave:Play("watchstep")
 		timerShockwaveCD:Start()
 		countdownShockwave:Start()
 	elseif spellId == 214692 then --Залп стрел Тьмы
 		warnShadowBoltVolley:Show()
 		timerShadowBoltVolleyCD:Start()
 		countdownShadowBoltVolley:Start()
-		if self:IsHard() then
-			if not UnitIsDeadOrGhost("player") then
-				specWarnShadowBoltVolley:Show()
-				specWarnShadowBoltVolley:Play("watchstep")
-			end
+		if self:IsHard() and not UnitIsDeadOrGhost("player") then
+			specWarnShadowBoltVolley:Show()
+		--	specWarnShadowBoltVolley:Play("watchstep")
 		end
 		self:ResetGossipState()
 	elseif spellId == 214688 then --Темная стая
@@ -370,10 +368,10 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 212773 and self:AntiSpam(2, 8) then --Подчинение
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnSubdue:Show(args.sourceName)
-			specWarnSubdue:Play("kickcast")
+		--	specWarnSubdue:Play("kickcast")
 		else
 			warnSubdue2:Show()
-			warnSubdue2:Play("kickcast")
+		--	warnSubdue2:Play("kickcast")
 		end
 	elseif spellId == 210253 then --Отключение маяка
 		warnDisableBeacon:Show(args.sourceName)
@@ -458,38 +456,24 @@ function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 209033 and not args:IsDestTypePlayer() then --Укрепление
 		specWarnFortification:Show(args.destName)
-		specWarnFortification:Play("dispelnow")
+	--	specWarnFortification:Play("dispelnow")
 	elseif spellId == 209512 and args:IsPlayer() then
 		specWarnDisruptingEnergy:Show()
-		specWarnDisruptingEnergy:Play("runaway")
+	--	specWarnDisruptingEnergy:Play("runaway")
 	elseif spellId == 214690 then --Увечье
 		timerCripple:Start(args.destName)
 		if self:IsMythic() then
 			if args:IsPlayer() and not self:IsMagicDispeller2() then
 				specWarnCripple2:Show()
-				specWarnCripple2:Play("targetyou")
-				yellCripple:Yell()
-			elseif args:IsPlayer() and self:IsMagicDispeller2() then
-				specWarnCripple3:Show()
-				specWarnCripple3:Play("dispelnow")
+			--	specWarnCripple2:Play("targetyou")
 				yellCripple:Yell()
 			elseif self:IsMagicDispeller2() then
 				if not UnitIsDeadOrGhost("player") then
 					specWarnCripple:Show(args.destName)
-					specWarnCripple:Play("dispelnow")
+				--	specWarnCripple:Play("dispelnow")
 				end
 			else
 				warnCripple:Show(args.destName)
-			end
-		else
-			if args:IsPlayer() and not self:IsMagicDispeller2() then
-				specWarnCripple2:Show()
-				specWarnCripple2:Play("targetyou")
-				yellCripple:Yell()
-			elseif args:IsPlayer() and self:IsMagicDispeller2() then
-				specWarnCripple3:Show()
-				specWarnCripple3:Play("dispelnow")
-				yellCripple:Yell()
 			end
 		end
 	elseif spellId == 212773 then --Подчинение
@@ -498,7 +482,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		elseif self:IsMagicDispeller2() then
 			if not UnitIsDeadOrGhost("player") then
 				specWarnSubdue2:CombinedShow(0.3, args.destName)
-				specWarnSubdue2:Play("dispelnow")
+			--	specWarnSubdue2:Play("dispelnow")
 			end
 		else
 			warnSubdue:CombinedShow(0.3, args.destName)
@@ -522,7 +506,7 @@ end
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
 	if spellId == 211391 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then --Лужа пламени Скверны
 		specWarnFelblazePuddle:Show()
-		specWarnFelblazePuddle:Play("runaway")
+	--	specWarnFelblazePuddle:Play("runaway")
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE

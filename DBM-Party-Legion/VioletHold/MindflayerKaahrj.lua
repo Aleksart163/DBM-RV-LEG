@@ -1,11 +1,11 @@
 local mod	= DBM:NewMod(1686, "DBM-Party-Legion", 9, 777)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17077 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(101950)
 mod:SetEncounterID(1846)
 mod:SetZone()
-
+mod:SetMinSyncRevision(17745)
 mod.imaspecialsnowflake = true
 
 mod:RegisterCombat("combat")
@@ -34,7 +34,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 201146 then
 		specWarnHysteria:Show(args.destName)
-		specWarnHysteria:Play("dispelnow")
+	--	specWarnHysteria:Play("dispelnow")
 	end
 end
 
@@ -45,10 +45,10 @@ function mod:SPELL_CAST_START(args)
 --		timerShadowCrashCD:Start()
 	elseif spellId == 201153 then
 		specWarnEternalDarkness:Show()
-		specWarnEternalDarkness:Play("mobkill")
+	--	specWarnEternalDarkness:Play("mobkill")
 --		timerEternalDarknessCD:Start()
 	elseif spellId == 201148 then
 		specWarnDoom:Show()
-		specWarnDoom:Play("defensive")
+	--	specWarnDoom:Play("defensive")
 	end
 end

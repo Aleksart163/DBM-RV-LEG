@@ -83,7 +83,7 @@ function mod:BladeBarrageTarget(targetname, uId) --Завеса клинков
 	if not targetname then return end
 	if targetname == UnitName("player") then
 		specWarnBladeBarrage:Show()
-		specWarnBladeBarrage:Play("runaway")
+	--	specWarnBladeBarrage:Play("runaway")
 		yellBladeBarrage:Yell()
 	else
 		warnBladeBarrage:Show(targetname)
@@ -94,11 +94,11 @@ function mod:DisorientingGasTarget(targetname, uId) --Дезориентирую
 	if not targetname then return end
 	if targetname == UnitName("player") then
 		specWarnDisorientingGas:Show()
-		specWarnDisorientingGas:Play("runout")
+	--	specWarnDisorientingGas:Play("runout")
 		yellDisorientingGas:Yell()
 	elseif self:CheckNearby(10, targetname) then
 		specWarnDisorientingGas2:Show(targetname)
-		specWarnDisorientingGas2:Play("runout")
+	--	specWarnDisorientingGas2:Play("runout")
 	else
 		warnDisorientingGas:Show(targetname)
 	end
@@ -110,7 +110,7 @@ function mod:ShootTarget(targetname, uId) --Выстрел ✔
 		if targetname == UnitName("player") then
 			if self:IsHard() then
 				specWarnShoot:Show()
-				specWarnShoot:Play("watchstep")
+			--	specWarnShoot:Play("watchstep")
 			end
 		end
 	end
@@ -120,7 +120,7 @@ function mod:MandibleStrikeTarget(targetname, uId) --Удар жвалами ✔
 	if not targetname then return end
 	if targetname == UnitName("player") then
 		specWarnMandibleStrike:Show()
-		specWarnMandibleStrike:Play("defensive")
+	--	specWarnMandibleStrike:Play("defensive")
 	else
 		warnMandibleStrike:Show(targetname)
 	end
@@ -131,24 +131,24 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 200261 and self:AntiSpam(2, 1) then
 		specWarnBonebreakingStrike:Show()
-		specWarnBonebreakingStrike:Play("shockwave")
+	--	specWarnBonebreakingStrike:Play("shockwave")
 	elseif spellId == 221634 then
 		specWarnWhirlOfFlame:Show()
-		specWarnWhirlOfFlame:Play("watchstep")
+	--	specWarnWhirlOfFlame:Play("watchstep")
 	elseif spellId == 221688 then
 		specWarnOverDetonation:Show()
-		specWarnOverDetonation:Play("runout")
+	--	specWarnOverDetonation:Play("runout")
 	elseif spellId == 225573 and self:AntiSpam(3, 1) then --Исцеление тьмой
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnDarkMending:Show()
-			specWarnDarkMending:Play("kickcast")
+		--	specWarnDarkMending:Play("kickcast")
 		else
 			warnDarkMending:Show()
-			warnDarkMending:Play("kickcast")
+		--	warnDarkMending:Play("kickcast")
 		end
 	elseif spellId == 214003 and self:AntiSpam(3, 4) then
 		specWarnCoupdeGrace:Show()
-		specWarnCoupdeGrace:Play("defensive")
+	--	specWarnCoupdeGrace:Play("defensive")
 	elseif spellId == 221132 then --Чародейская перезарядка
 		timerArcaneOverchargeCD:Start()
 	elseif spellId == 220918 then --Высвобождение мощи
@@ -158,10 +158,10 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 200248 and self:AntiSpam(3, 1) then --Чародейская бомбардировка
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnArcaneBlitz:Show()
-			specWarnArcaneBlitz:Play("kickcast")
+		--	specWarnArcaneBlitz:Play("kickcast")
 		else
 			warnArcaneBlitz:Show()
-			warnArcaneBlitz:Play("kickcast")
+		--	warnArcaneBlitz:Play("kickcast")
 		end
 	elseif spellId == 221363 then --Раздирающий яд
 		timerRupturingPoisonCD:Start()
@@ -171,7 +171,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 200343 then --Залп стрел
 		if self:AntiSpam(3, 2) then
 			specWarnArrowBarrage:Show(args.destName)
-			specWarnArrowBarrage:Play("stilldanger")
+		--	specWarnArrowBarrage:Play("stilldanger")
 		end
 		if args:IsPlayer() and self:AntiSpam(3, 3) then
 			yellArrowBarrage:Yell()
@@ -182,7 +182,7 @@ function mod:SPELL_CAST_START(args)
 		warnKnifeDance:Show()
 	elseif spellId == 227913 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Неистовство Скверны
 		specWarnFelfrenzy:Show()
-		specWarnFelfrenzy:Play("kickcast")
+	--	specWarnFelfrenzy:Play("kickcast")
 	elseif spellId == 221830 then --Дезориентирующий газ
 		self:BossTargetScanner(args.sourceGUID, "DisorientingGasTarget", 0.1, 2)
 	end
@@ -195,8 +195,8 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			yellSoulEchoes:Yell()
 			specWarnSoulEchos:Show()
-			specWarnSoulEchos:Play("runaway")
-			specWarnSoulEchos:ScheduleVoice(1, "keepmove")
+		--	specWarnSoulEchos:Play("runaway")
+		--	specWarnSoulEchos:ScheduleVoice(1, "keepmove")
 		else
 			warnSoulEchoes:Show(args.destName)
 			specWarnSoulEchoes:Show(args.destName)
@@ -206,12 +206,12 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerArcaneOvercharge:Start(args.destName)
 		if args:IsPlayer() then
 			specWarnArcaneOvercharge:Show()
-			specWarnArcaneOvercharge:Play("runaway")
+		--	specWarnArcaneOvercharge:Play("runaway")
 			yellArcaneOvercharge:Yell()
 			yellArcaneOverchargeFades:Countdown(6, 3)
 		elseif self:CheckNearby(6, args.destName) then
 			specWarnArcaneOvercharge2:Show(args.destName)
-			specWarnArcaneOvercharge2:Play("runaway")
+		--	specWarnArcaneOvercharge2:Play("runaway")
 		end
 		if self.Options.RangeFrame then
 			DBM.RangeCheck:Show(6)
@@ -221,12 +221,12 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerRupturingPoison:Start(args.destName)
 		if args:IsPlayer() then
 			specWarnRupturingPoison:Show()
-			specWarnRupturingPoison:Play("runaway")
+		--	specWarnRupturingPoison:Play("runaway")
 			yellRupturingPoison:Yell()
 			yellRupturingPoisonFades:Countdown(6, 3)
 		elseif self:CheckNearby(6, args.destName) then
 			specWarnRupturingPoison2:Show(args.destName)
-			specWarnRupturingPoison2:Play("runaway")
+		--	specWarnRupturingPoison2:Play("runaway")
 		end
 		if self.Options.RangeFrame then
 			DBM.RangeCheck:Show(6)
@@ -237,14 +237,14 @@ function mod:SPELL_AURA_APPLIED(args)
 			if amount >= 10 and amount % 5 == 0 then
 				if args:IsPlayer() and self:IsTank() then
 					specWarnSoulVenom:Show(amount)
-					specWarnSoulVenom:Play("stackhigh")
+				--	specWarnSoulVenom:Play("stackhigh")
 				elseif args:IsPlayer() and not self:IsTank() then
 					specWarnSoulVenom:Show(amount)
-					specWarnSoulVenom:Play("stackhigh")
+				--	specWarnSoulVenom:Play("stackhigh")
 				elseif not args:IsPlayer() and self:IsMagicDispeller2() then
 					if not UnitIsDeadOrGhost("player") then
 						specWarnSoulVenom2:CombinedShow(0.5, args.destName)
-						specWarnSoulVenom2:ScheduleVoice(0.5, "dispelnow")
+					--	specWarnSoulVenom2:ScheduleVoice(0.5, "dispelnow")
 					end
 				else
 					warnSoulVenom:Show(args.destName, amount)

@@ -1,11 +1,11 @@
 local mod	= DBM:NewMod(1711, "DBM-Party-Legion", 9, 777)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17077 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(102446)
 mod:SetEncounterID(1856)
 mod:SetZone()
-
+mod:SetMinSyncRevision(17745)
 mod.imaspecialsnowflake = true
 
 mod:RegisterCombat("combat")
@@ -57,7 +57,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnSeedofDestruction:Show()
 			yellSeedsofDestruction:Yell()
-			specWarnSeedofDestruction:Play("runout")
+		--	specWarnSeedofDestruction:Play("runout")
 		end
 		if self.Options.SetIconOnSeeds then
 			self:SetAlphaIcon(0.5, args.destName)
@@ -87,12 +87,12 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 203641 then
 		specWarnFelSlash:Show()
-		specWarnFelSlash:Play("shockwave")
+	--	specWarnFelSlash:Play("shockwave")
 		self:BossUnitTargetScanner("boss1", "SlashTarget", 3)
 		--timerFelSlashCD:Start()
 	elseif spellId == 202328 then
 		specWarnMightySmash:Show()
-		specWarnMightySmash:Play("carefly")
+	--	specWarnMightySmash:Play("carefly")
 		timerMightySmashCD:Start()
 	end
 end

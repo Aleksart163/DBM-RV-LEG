@@ -1,11 +1,13 @@
 local mod	= DBM:NewMod(1905, "DBM-Party-Legion", 12, 900)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(117193)
 mod:SetEncounterID(2055)
 mod:SetZone()
 mod:SetUsedIcons(7)
+mod:SetMinSyncRevision(17745)
+
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
@@ -66,7 +68,7 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 235751 then --Удар бревном
 		specWarnTimberSmash:Show()
-		specWarnTimberSmash:Play("carefly")
+	--	specWarnTimberSmash:Play("carefly")
 		timerTimberSmashCD:Start()
 		countdownTimberSmash:Start()
 	end
@@ -77,7 +79,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	if spellId == 236527 then --Гремучие плеточники
 		if not UnitIsDeadOrGhost("player") then
 			specWarnFulminatingLashers:Show()
-			specWarnFulminatingLashers:Play("mobkill")
+		--	specWarnFulminatingLashers:Play("mobkill")
 		end
 		if self:IsHard() then
 			timerFulminatingLashersCD:Start(40)
@@ -87,7 +89,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	elseif spellId == 236639 then --Сочные плеточники
 		if not UnitIsDeadOrGhost("player") then
 			specWarnSucculentLashers:Show()
-			specWarnSucculentLashers:Play("mobkill")
+		--	specWarnSucculentLashers:Play("mobkill")
 		end
 		if self:IsHard() then
 			timerSucculentLashersCD:Start(40)
@@ -106,7 +108,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	if spellId == 238598 and args:IsDestTypePlayer() then --Удушающие лозы
 		if args:IsPlayer() then
 			specWarnChokingVine:Show()
-			specWarnChokingVine:Play("runaway")
+		--	specWarnChokingVine:Play("runaway")
 		else
 			warnChokingVine:Show(args.destName)
 		end
@@ -129,7 +131,7 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 240065 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
 		if not self:IsNormal() then
 			specWarnSucculentSecretion:Show()
-			specWarnSucculentSecretion:Play("runaway")
+		--	specWarnSucculentSecretion:Play("runaway")
 		end
 	end
 end
@@ -138,8 +140,8 @@ mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
 function mod:RAID_BOSS_WHISPER(msg)
 	if msg:find("spell:238674") then
 		specWarnFixate:Show()
-		specWarnFixate:Play("justrun")
-		specWarnFixate:ScheduleVoice(1, "keepmove")
+	--	specWarnFixate:Play("justrun")
+	--	specWarnFixate:ScheduleVoice(1, "keepmove")
 		yellFixate:Yell()
 	end
 end

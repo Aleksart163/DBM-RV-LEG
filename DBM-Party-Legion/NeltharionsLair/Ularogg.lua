@@ -1,11 +1,12 @@
 local mod	= DBM:NewMod(1665, "DBM-Party-Legion", 5, 767)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(91004)
 mod:SetEncounterID(1791)
 mod:SetZone()
-mod:SetHotfixNoticeRev(17650)
+mod:SetHotfixNoticeRev(17745)
+mod:SetMinSyncRevision(17745)
 
 mod:RegisterCombat("combat")
 
@@ -57,7 +58,7 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 198496 then --Раскол
 		specWarnSunder:Show()
-		specWarnSunder:Play("defensive")
+	--	specWarnSunder:Play("defensive")
 		timerSunderCD:Start()
 	elseif spellId == 198428 then --Удар горы
 		timerStrikeCD:Start()
@@ -71,7 +72,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	if spellId == 198428 then --Удар горы
 		if not UnitIsDeadOrGhost("player") then
 			specWarnStrikeofMountain:Show()
-			specWarnStrikeofMountain:Play("watchstep")
+		--	specWarnStrikeofMountain:Play("watchstep")
 		end
 	end
 end
@@ -133,6 +134,16 @@ function mod:UNIT_DIED(args)
 					countdownStanceOfMountain:Start(51)
 					timerStrikeCD:Start(18.5)
 					timerSunderCD:Start(3)
+				end
+			else
+				if self:IsHard() then
+					warnStanceofMountain2:Schedule(46)
+					timerStanceOfMountainCD:Start(51)
+					countdownStanceOfMountain:Start(51)
+				else
+					warnStanceofMountain2:Schedule(46)
+					timerStanceOfMountainCD:Start(51)
+					countdownStanceOfMountain:Start(51)
 				end
 			end
 		end

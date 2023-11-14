@@ -1,11 +1,12 @@
 local mod	= DBM:NewMod(1468, "DBM-Party-Legion", 10, 707)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(95886)
 mod:SetEncounterID(1816)
 mod:SetZone()
 mod:SetUsedIcons(8, 7, 6, 5, 4)
+mod:SetMinSyncRevision(17745)
 
 mod:RegisterCombat("combat")
 
@@ -73,17 +74,17 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 192522 then --Разлом
 		specWarnFissure:Show()
-		specWarnFissure:Play("shockwave")
+	--	specWarnFissure:Play("shockwave")
 		timerFissureCD:Start()
 	elseif spellId == 192631 then --Лавовое кольцо
 		if not UnitIsDeadOrGhost("player") then
 			specWarnLavaWreath:Show()
-			specWarnLavaWreath:Play("watchstep")
+		--	specWarnLavaWreath:Play("watchstep")
 		end
 		timerLavaWreathCD:Start()
 	elseif spellId == 192621 then --Пирокласт
 		warnVolcano:Show()
-		warnVolcano:Play("mobsoon")
+	--	warnVolcano:Play("mobsoon")
 		if self:IsHard() then
 			timerVolcanoCD:Start(20.5)
 		else
@@ -93,7 +94,7 @@ function mod:SPELL_CAST_START(args)
 		warnFiredUp:Show()
 		if not UnitIsDeadOrGhost("player") then
 			specWarnFiredUp:Schedule(2)
-			specWarnFiredUp:ScheduleVoice(2, "defensive")
+		--	specWarnFiredUp:ScheduleVoice(2, "defensive")
 		end
 		timerFiredUp:Start()
 	end
@@ -121,7 +122,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			if args:IsPlayer() then
 				if amount >= 2 then
 					specWarnLava:Show(amount)
-					specWarnLava:Play("stackhigh")
+				--	specWarnLava:Play("stackhigh")
 				end
 			end
 		end
@@ -130,7 +131,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnFiredUp2:CombinedShow(1, args.destName)
 		if args:IsPlayer() then
 			specWarnFiredUp2:Show()
-			specWarnFiredUp2:Play("defensive")
+		--	specWarnFiredUp2:Play("defensive")
 			yellFiredUp:Yell()
 		end
 		if self.Options.SetIconOnFiredUp then

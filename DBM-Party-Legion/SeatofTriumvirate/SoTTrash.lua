@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("SoTTrash", "DBM-Party-Legion", 13)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 --mod:SetModelID(47785)
 mod:SetZone()
 
@@ -64,36 +64,36 @@ function mod:SPELL_CAST_START(args)
 		warnWildSummon:Show()
 	elseif spellId == 245585 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
 		specWarnVoidDiffusion:Show()
-		specWarnVoidDiffusion:Play("kickcast")
+	--	specWarnVoidDiffusion:Play("kickcast")
 	elseif spellId == 245727 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
 		specWarnConsumeEssence:Show()
-		specWarnConsumeEssence:Play("kickcast")
+	--	specWarnConsumeEssence:Play("kickcast")
 	elseif spellId == 248133 then --Стигийский заряд
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnStygianBlast:Show()
-			specWarnStygianBlast:Play("kickcast")
+		--	specWarnStygianBlast:Play("kickcast")
 		else
 			warnStygianBlast:Show()
-			warnStygianBlast:Play("kickcast")
+		--	warnStygianBlast:Play("kickcast")
 		end
 	elseif spellId == 248184 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Темное свежевание
 		specWarnDarkFlay:Show()
-		specWarnDarkFlay:Play("kickcast")
+	--	specWarnDarkFlay:Play("kickcast")
 	elseif spellId == 245522 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Энтропический туман
 		specWarnEntropicMist:Show()
-		specWarnEntropicMist:Play("kickcast")
+	--	specWarnEntropicMist:Play("kickcast")
 	elseif spellId == 248227 then
 		specWarnDarkMatter:Show()
-		specWarnDarkMatter:Play("killmob")
+	--	specWarnDarkMatter:Play("killmob")
 	elseif spellId == 248128 and self:AntiSpam(3, "darkenedremnant") then --Потемневший прах
 		specWarnDarkenedRemnant:Show()
-		specWarnDarkenedRemnant:Play("watchstep")
+	--	specWarnDarkenedRemnant:Play("watchstep")
 	elseif spellId == 248301 then --Темное дыхание
 		warnDarkBreath:Show()
-		warnDarkBreath:Play("watchstep")
+	--	warnDarkBreath:Play("watchstep")
 	elseif spellId == 244916 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Хлестание Бездны
 		specWarnVoidLashing:Show()
-		specWarnVoidLashing:Play("kickcast")
+	--	specWarnVoidLashing:Play("kickcast")
 	end
 end
 
@@ -103,14 +103,14 @@ function mod:SPELL_AURA_APPLIED(args)
 	if spellId == 249077 then
 		if args:IsPlayer() and self:AntiSpam(3, "corruptingvoid") then
 			specWarnCorruptingVoid:Show()
-			specWarnCorruptingVoid:Play("runout")
+		--	specWarnCorruptingVoid:Play("runout")
 			yellCorruptingVoid:Yell()
 		--	yellCorruptingVoid2:Countdown(8, 3)
 		end
 	elseif spellId == 249081 then --Подавляющее поле
 		if args:IsPlayer() and self:AntiSpam(3, "supfield") then
 			specWarnSupField:Show()
-			specWarnSupField:Play("stopmove")
+		--	specWarnSupField:Play("stopmove")
 		--	yellSupField:Yell()
 		--	yellSupField2:Countdown(10, 3)
 		end
@@ -118,14 +118,14 @@ function mod:SPELL_AURA_APPLIED(args)
 		local amount = args.amount or 1
 		timerCorruptingTouch:Start(args.destName)
 		if amount >= 2 and amount % 2 == 0 then
-			if args:IsPlayer() then
+			if args:IsPlayer() and not self:IsMagicDispeller2() then
 				specWarnCorruptingTouch:Show(amount)
-				specWarnCorruptingTouch:Play("stackhigh")
+			--	specWarnCorruptingTouch:Play("stackhigh")
 				yellCorruptingTouch:Yell()
-			elseif not args:IsPlayer() and self:IsMagicDispeller2() then
+			elseif self:IsMagicDispeller2() then
 				if not UnitIsDeadOrGhost("player") then
 					specWarnCorruptingTouch2:Show(args.destName)
-					specWarnCorruptingTouch2:Play("dispelnow")
+				--	specWarnCorruptingTouch2:Play("dispelnow")
 				end
 			else
 				warnCorruptingTouch:Show(args.destName, amount)
@@ -136,7 +136,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if amount >= 5 and amount % 5 == 0 then
 			if args:IsPlayer() then
 				specWarnVoidLashing2:Show(amount)
-				specWarnVoidLashing2:Play("stackhigh")
+			--	specWarnVoidLashing2:Play("stackhigh")
 			end
 		end
 	end

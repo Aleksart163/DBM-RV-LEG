@@ -1,10 +1,11 @@
 local mod	= DBM:NewMod(1470, "DBM-Party-Legion", 10, 707)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(95888)
 mod:SetEncounterID(1818)
 mod:SetZone()
+mod:SetMinSyncRevision(17745)
 
 mod:RegisterCombat("combat")
 
@@ -65,7 +66,7 @@ local function startProshlyapationOfMurchal(self) -- Proshlyapation of Murchal
 		local proshlyap1 = MurchalProshlyapationTimers1[self.vb.ochkenShlyapenCount+1]
 		if proshlyap1 then
 			specWarnFelGlaive:Show()
-			specWarnFelGlaive:Play("watchstep")
+		--	specWarnFelGlaive:Play("watchstep")
 			timerFelGlaiveCD:Start(proshlyap1, self.vb.ochkenShlyapenCount+1)
 			countdownFelGlaive:Start(proshlyap1)
 			self:Schedule(proshlyap1, startProshlyapationOfMurchal, self)
@@ -74,7 +75,7 @@ local function startProshlyapationOfMurchal(self) -- Proshlyapation of Murchal
 		local proshlyap2 = MurchalProshlyapationTimers2[self.vb.ochkenShlyapenCount+1]
 		if proshlyap2 then
 			specWarnFelGlaive:Show()
-			specWarnFelGlaive:Play("watchstep")
+		--	specWarnFelGlaive:Play("watchstep")
 			timerFelGlaiveCD:Start(proshlyap2, self.vb.ochkenShlyapenCount+1)
 			countdownFelGlaive:Start(proshlyap2)
 			self:Schedule(proshlyap2, startProshlyapationOfMurchal, self)
@@ -107,7 +108,7 @@ function mod:SPELL_CAST_START(args)
 	if spellId == 213576 or spellId == 213583 and self:AntiSpam(10, 1) then --Сгущающиеся тени
 		if ExtraActionBarFrame:IsShown() then--Has light
 			specWarnDeepeningShadows:Show(args.spellName)
-			specWarnDeepeningShadows:Play("213576")
+		--	specWarnDeepeningShadows:Play("213576")
 		else
 			warnDeepeningShadows:Show()
 		end
@@ -115,7 +116,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 197251 then --Сбивающий с ног удар
 		self.vb.proshlyapenCount = self.vb.proshlyapenCount + 1
 		specWarnKick:Show()
-		specWarnKick:Play("carefly")
+	--	specWarnKick:Play("carefly")
 		if self.vb.phase == 1 then --
 			timerKickCD:Start(21)
 		elseif self.vb.phase == 2 then --
@@ -131,10 +132,10 @@ function mod:SPELL_CAST_START(args)
 		self.vb.ochkenShlyapenCount = 0
 		self.vb.proshlyapenCount = 0
 		warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase))
-		warnPhase:Play("phasechange")
+	--	warnPhase:Play("phasechange")
 		if not UnitIsDeadOrGhost("player") then
 			specWarnCreepingDoom:Show()
-			specWarnCreepingDoom:Play("watchstep")
+		--	specWarnCreepingDoom:Play("watchstep")
 		end
 		timerKickCD:Stop()
 		timerDeepeningShadowsCD:Stop()
@@ -159,7 +160,7 @@ function mod:SPELL_CAST_START(args)
 		self.vb.proshlyapCount = self.vb.proshlyapCount + 1
 		if not UnitIsDeadOrGhost("player") then
 			specWarnCreepingDoom:Show()
-			specWarnCreepingDoom:Play("watchstep")
+		--	specWarnCreepingDoom:Play("watchstep")
 		end
 		--точные таймеры-------------
 	--	specWarnCreepingDoom2:Schedule(20)
@@ -176,7 +177,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	if args.spellId == 205004 then --Отмщение
 		if not UnitIsDeadOrGhost("player") then
 			specWarnVengeance:Show()
-			specWarnVengeance:Play("killmob")
+		--	specWarnVengeance:Play("killmob")
 		end
 		if self:IsMythic() then
 			timerVengeanceCD:Start(44)
@@ -186,12 +187,12 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 197541 then
 		if args:IsPlayer() then
 			specWarnDetonation:Show()
-			specWarnDetonation:Play("defensive")
+		--	specWarnDetonation:Play("defensive")
 		end
 	elseif spellId == 216870 then --Сгущающиеся тени
 		if self:IsHard() then
 			specWarnDeepeningShadows2:Show()
-			specWarnDeepeningShadows2:Play("runaway")
+		--	specWarnDeepeningShadows2:Play("runaway")
 		end
 	elseif spellId == 206567 and self:AntiSpam(2, "hidden") then --Похищенный свет
 		timerDeepeningShadowsCD:Stop()
@@ -215,7 +216,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		)
 	elseif spellId == 197422 then --Первая ползучая гибель
 		specWarnCreepingDoom2:Show()
-		specWarnCreepingDoom2:Play("end")
+	--	specWarnCreepingDoom2:Play("end")
 	end
 end
 
@@ -226,7 +227,7 @@ function mod:INSTANCE_ENCOUNTER_ENGAGE_UNIT()
 		local cid = self:GetCIDFromGUID(GUID)
 		if cid == 95888 then
 			specWarnHiddenOver:Show()
-			specWarnHiddenOver:Play("end")
+		--	specWarnHiddenOver:Play("end")
 			timerDeepeningShadowsCD:Start(9.5) --Сгущающиеся тени
 			timerKickCD:Start(10.8) --Сбивающий с ног удар
 			timerFelGlaiveCD:Start(33.6, 1) --глефа
@@ -240,7 +241,7 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spell
 	if spellId == 216870 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
 		if self:IsHard() then
 			specWarnDeepeningShadows2:Show()
-			specWarnDeepeningShadows2:Play("runaway")
+		--	specWarnDeepeningShadows2:Play("runaway")
 		end
 	end
 end
@@ -254,7 +255,7 @@ function mod:UNIT_HEALTH(uId) --об, гер, миф, миф+ и прошляп�
 		warned_preP2 = true
 		self.vb.phase = 2
 		warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase))
-		warnPhase:Play("phasechange")
+	--	warnPhase:Play("phasechange")
 	elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 95888 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.46 then
 		warned_preP3 = true
 		warnPhase3:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase+1))

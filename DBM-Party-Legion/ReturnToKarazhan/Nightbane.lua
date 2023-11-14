@@ -1,12 +1,13 @@
 local mod	= DBM:NewMod("Nightbane", "DBM-Party-Legion", 11)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(114895)
 mod:SetEncounterID(2031)
 mod:SetZone()
 mod:SetUsedIcons(8)
-mod:SetHotfixNoticeRev(17700)
+mod:SetHotfixNoticeRev(17745)
+mod:SetMinSyncRevision(17745)
 mod.respawnTime = 25
 
 mod.onlyMythic = true--VERIFY how they actually do this
@@ -100,7 +101,7 @@ function mod:SPELL_CAST_START(args)
 		timerBreathCD:Stop()
 	elseif spellId == 228837 then
 		specWarnFear:Show()
-		specWarnFear:Play("fearsoon")
+	--	specWarnFear:Play("fearsoon")
 		timerFearCD:Start()
 	elseif spellId == 228785 then --Испепеляющее дыхание
 		self:BossTargetScanner(args.sourceGUID, "BreathTarget", 0.1, 2)
@@ -118,7 +119,7 @@ function mod:SPELL_CAST_START(args)
 		end]]
 		DBM:AddMsg(L.Tip)
 		specWarnReverbShadows:Show()
-		specWarnReverbShadows:Play("aesoon")
+	--	specWarnReverbShadows:Play("aesoon")
 		timerReverbShadowsCD:Start()
 	end
 end
@@ -138,7 +139,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		countdownIngiteSoul:Start()
 		if args:IsPlayer() then
 			specWarnIgniteSoul:Show(charredEarth)
-			specWarnIgniteSoul:Play("targetyou")
+		--	specWarnIgniteSoul:Play("targetyou")
 			--Yes a 5 count (not typical 3). This debuff is pretty much EVERYTHING
 			yellIgniteSoul:Countdown(9, 5)
 		else
@@ -166,7 +167,7 @@ end
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 228808 and destGUID == UnitGUID("player") and not UnitDebuff("player", filteredDebuff) and self:AntiSpam(2, 1) then
 		specWarnCharredEarth:Show()
-		specWarnCharredEarth:Play("runaway")
+	--	specWarnCharredEarth:Play("runaway")
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE

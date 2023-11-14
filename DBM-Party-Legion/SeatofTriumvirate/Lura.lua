@@ -1,10 +1,11 @@
 local mod	= DBM:NewMod(1982, "DBM-Party-Legion", 13, 945)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(124870) -- или 124729 --124745 Greater Rift Warden
 mod:SetEncounterID(2068)
 mod:SetZone()
+mod:SetMinSyncRevision(17745)
 
 mod:RegisterCombat("combat")
 
@@ -70,7 +71,7 @@ function mod:SPELL_CAST_START(args)
 		self.vb.calltoVoid = self.vb.calltoVoid + 1
 		if not UnitIsDeadOrGhost("player") then
 			specWarnCalltoVoid:Schedule(1.5)
-			specWarnCalltoVoid:ScheduleVoice(1.5, "mobkill")
+		--	specWarnCalltoVoid:ScheduleVoice(1.5, "mobkill")
 		end
 		if self.vb.calltoVoid >= 1 then
 			warnWardenDie:Show(self.vb.wardensDie)
@@ -80,7 +81,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 249009 then
 		if not UnitIsDeadOrGhost("player") then
 			specWarnGrandShift:Show()
-			specWarnGrandShift:Play("watchstep")
+		--	specWarnGrandShift:Play("watchstep")
 		end
 		timerGrandShiftCD:Start()
 		countdownGrandShift:Start()
@@ -105,7 +106,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	elseif spellId == 245164 and self:AntiSpam(2, 3) then --Частица отчаяния
 		if not UnitIsDeadOrGhost("player") then
 			specWarnFragmentOfDespair:Show()
-			specWarnFragmentOfDespair:Play("helpsoak")
+		--	specWarnFragmentOfDespair:Play("helpsoak")
 		end
 	end
 end
@@ -152,7 +153,7 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spell
 	if spellId == 245242 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
 		if self:IsHard() then
 			specWarnRemnantofAnguish:Show()
-			specWarnRemnantofAnguish:Play("runaway")
+		--	specWarnRemnantofAnguish:Play("runaway")
 		end
 	end
 end

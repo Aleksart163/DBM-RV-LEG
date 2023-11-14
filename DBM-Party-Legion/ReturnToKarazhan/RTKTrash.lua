@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("RTKTrash", "DBM-Party-Legion", 11)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 --mod:SetModelID(47785)
 mod:SetZone()
 
@@ -125,10 +125,10 @@ function mod:FelBreathTarget(targetname, uId) --Дыхание Скверны �
 	if self:AntiSpam(2, targetname) then
 		if targetname == UnitName("player") then
 			specWarnFelBreath:Show()
-			specWarnFelBreath:Play("kickcast")
+		--	specWarnFelBreath:Play("kickcast")
 		elseif self:CheckNearby(15, targetname) then
 			specWarnFelBreath:Show()
-			specWarnFelBreath:Play("kickcast")
+		--	specWarnFelBreath:Play("kickcast")
 		end
 	end
 end
@@ -138,65 +138,65 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 228255 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
 		specWarnSoulLeech:Show(args.sourceName)
-		specWarnSoulLeech:Play("kickcast")
+	--	specWarnSoulLeech:Play("kickcast")
 	elseif spellId == 228239 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Ужасающий стон
 		specWarnTerrifyingWail:Show(args.sourceName)
-		specWarnTerrifyingWail:Play("kickcast")
+	--	specWarnTerrifyingWail:Play("kickcast")
 	elseif spellId == 227917 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
 		specWarnPoetrySlam:Show(args.sourceName)
-		specWarnPoetrySlam:Play("kickcast")
+	--	specWarnPoetrySlam:Play("kickcast")
 	elseif spellId == 228625 then --Вой банши
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnBansheeWail:Show()
-			specWarnBansheeWail:Play("kickcast")
+		--	specWarnBansheeWail:Play("kickcast")
 		elseif self:AntiSpam(2, "BansheeWail") then
 			warnBansheeWail:Show()
-			warnBansheeWail:Play("kickcast")
+		--	warnBansheeWail:Play("kickcast")
 		end
 	elseif spellId == 228606 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
 		specWarnHealingTouch:Show(args.sourceName)
-		specWarnHealingTouch:Play("kickcast")
+	--	specWarnHealingTouch:Play("kickcast")
 	elseif spellId == 229714 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
 		specWarnConsumeMagic:Show(args.destName)
-		specWarnConsumeMagic:Play("kickcast")
+	--	specWarnConsumeMagic:Play("kickcast")
 	elseif spellId == 227925 and self:AntiSpam(2, "FinalCurtain") then
 		specWarnFinalCurtain:Show()
-		specWarnFinalCurtain:Play("runout")
+	--	specWarnFinalCurtain:Play("runout")
 	elseif spellId == 227966 and self:AntiSpam(2, "Flashlight") then
 		if not UnitIsDeadOrGhost("player") then
 			specWarnFlashlight:Show()
-			specWarnFlashlight:Play("turnaway")
+		--	specWarnFlashlight:Play("turnaway")
 		end
 	elseif spellId == 228254 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Поглощение души
 		specWarnSoulLeech2:Show()
-		specWarnSoulLeech2:Play("kickcast")
+	--	specWarnSoulLeech2:Play("kickcast")
 	elseif spellId == 228280 then --Клятва верности
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnOathofFealty:Show()
-			specWarnOathofFealty:Play("kickcast")
+		--	specWarnOathofFealty:Play("kickcast")
 		else
 			warnOathofFealty:Show()
-			warnOathofFealty:Play("kickcast")
+		--	warnOathofFealty:Play("kickcast")
 		end
 	elseif spellId == 230094 then --Полная нейтрализация
 		timerNullificationCD:Start()
 	elseif spellId == 229429 then --Удар короля сплеча
 		specWarnRoyalSlash:Show()
-		specWarnRoyalSlash:Play("watchstep")
+	--	specWarnRoyalSlash:Play("watchstep")
 	elseif spellId == 229608 then --Могучий удар
 		specWarnMightySwing:Show()
-		specWarnMightySwing:Play("watchstep")
+	--	specWarnMightySwing:Play("watchstep")
 	elseif spellId == 228700 and self:AntiSpam(3, "ArcaneBarrage") then --Чародейский обстрел
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnArcaneBarrage:Show()
-			specWarnArcaneBarrage:Play("kickcast")
+		--	specWarnArcaneBarrage:Play("kickcast")
 		else
 			warnArcaneBarrage:Show()
-			warnArcaneBarrage:Play("kickcast")
+		--	warnArcaneBarrage:Play("kickcast")
 		end
 	elseif spellId == 36247 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Огненный шар Скверны
 		specWarnFelFireball:Show()
-		specWarnFelFireball:Play("kickcast")
+	--	specWarnFelFireball:Play("kickcast")
 	elseif spellId == 233981 then --Взять ключи
 		if args:IsPlayerSource() then
 			yellTakeKeys:Yell(key)
@@ -208,14 +208,14 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 241828 then --Растаптывающая поступь
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnTramplingStomp:Show()
-			specWarnTramplingStomp:Play("kickcast")
+		--	specWarnTramplingStomp:Play("kickcast")
 		elseif self:AntiSpam(2, "tramplingstomp") then
 			warnTramplingStomp:Show()
-			warnTramplingStomp:Play("kickcast")
+		--	warnTramplingStomp:Play("kickcast")
 		end
 	elseif spellId == 228603 and self:AntiSpam(2.5, "Charge") then --Рывок
 		specWarnCharge:Show()
-		specWarnCharge:Play("watchstep")
+	--	specWarnCharge:Play("watchstep")
 	end
 end
 
@@ -225,7 +225,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	if spellId == 227529 and self:AntiSpam(2, "unstable") then --Нестабильная энергия
 		if not UnitIsDeadOrGhost("player") then
 			specWarnUnstableEnergy:Show()
-			specWarnUnstableEnergy:Play("watchstep")
+		--	specWarnUnstableEnergy:Play("watchstep")
 		end
 	end
 end
@@ -237,29 +237,29 @@ function mod:SPELL_AURA_APPLIED(args)
 		if not self:IsNormal() then
 			if args:IsPlayer() and not self:IsCurseDispeller() then
 				specWarnCursedTouch:Show()
-				specWarnCursedTouch:Play("targetyou")
+			--	specWarnCursedTouch:Play("targetyou")
 				yellCursedTouch:Yell()
 			elseif self:IsCurseDispeller() then
 				if not UnitIsDeadOrGhost("player") then
 					specWarnCursedTouch2:CombinedShow(0.3, args.destName)
-					specWarnCursedTouch2:ScheduleVoice(0.3, "dispelnow")
+				--	specWarnCursedTouch2:ScheduleVoice(0.3, "dispelnow")
 				end
 			end
 		end
 	elseif spellId == 228610 and self:AntiSpam(3, 1) then --Горящее клеймо
 		if args:IsPlayer() then
 			specWarnBurningBrand:Show()
-			specWarnBurningBrand:Play("runout")
+		--	specWarnBurningBrand:Play("runout")
 			yellBurningBrand:Yell()
 			yellBurningBrand2:Cancel()
 			yellBurningBrand2:Countdown(6, 3)
 		end
 	elseif spellId == 229706 then
 		specWarnLeechLife:Show(args.destName)
-		specWarnLeechLife:Play("dispelnow")
+	--	specWarnLeechLife:Play("dispelnow")
 	elseif spellId == 229716 then
 		specWarnCurseofDoom:Show(args.destName)
-		specWarnCurseofDoom:Play("dispelnow")
+	--	specWarnCurseofDoom:Play("dispelnow")
 	elseif spellId == 229074 and self:AntiSpam(3, 3) then
 		local uId = DBM:GetRaidUnitId(args.destName)
 		local _, _, _, _, _, _, expires = DBM:UnitBuff(uId, args.spellName)
@@ -271,7 +271,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 230083 then --Полная нейтрализация
 		if args:IsPlayer() then
 			specWarnNullification:Show()
-			specWarnNullification:Play("findshadow")
+		--	specWarnNullification:Play("findshadow")
 			yellReinvigorated2:Cancel()
 			timerReinvigorated:Cancel()
 			yellNullification:Yell()
@@ -281,14 +281,14 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 230050 then --Силовой клинок
 		if args:IsPlayer() then
 			specWarnForceBlade:Show()
-			specWarnForceBlade:Play("defensive")
+		--	specWarnForceBlade:Play("defensive")
 		end
 	elseif spellId == 228280 then --Клятва верности
 		warnOathofFealty2:CombinedShow(0.5, args.destName)
 		timerOathofFealty:Start(args.destName)
 		if not UnitIsDeadOrGhost("player") then
 			specWarnOathofFealty2:Show(args.destName)
-			specWarnOathofFealty2:Play("dispelnow")
+		--	specWarnOathofFealty2:Play("dispelnow")
 		end
 	elseif spellId == 230087 then --Восполнение сил
 		warnReinvigorated:Show(args.destName)
@@ -300,26 +300,22 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self:IsMythic() then
 			if args:IsPlayer() and not self:IsCurseDispeller() then
 				specWarnBrittleBones2:Show()
-				specWarnBrittleBones2:Play("defensive")
-				yellBrittleBones:Yell()
-			elseif args:IsPlayer() and self:IsCurseDispeller() then
-				specWarnBrittleBones3:Show()
-				specWarnBrittleBones3:Play("defensive")
+			--	specWarnBrittleBones2:Play("defensive")
 				yellBrittleBones:Yell()
 			elseif self:IsCurseDispeller() then
 				if not UnitIsDeadOrGhost("player") then
 					specWarnBrittleBones:CombinedShow(0.3, args.destName)
-					specWarnBrittleBones:ScheduleVoice(0.3, "dispelnow")
+				--	specWarnBrittleBones:ScheduleVoice(0.3, "dispelnow")
 				end
 			end
 		else
 			if args:IsPlayer() and not self:IsCurseDispeller() then
 				specWarnBrittleBones2:Show()
-				specWarnBrittleBones2:Play("defensive")
+			--	specWarnBrittleBones2:Play("defensive")
 				yellBrittleBones:Yell()
 			elseif args:IsPlayer() and self:IsCurseDispeller() then
 				specWarnBrittleBones3:Show()
-				specWarnBrittleBones3:Play("defensive")
+			--	specWarnBrittleBones3:Play("defensive")
 				yellBrittleBones:Yell()
 			end
 		end
@@ -328,7 +324,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if amount >= 80 and amount % 5 == 0 then
 			if args:IsPlayer() then
 				specWarnAllured:Show(amount)
-				specWarnAllured:Play("stackhigh")
+			--	specWarnAllured:Play("stackhigh")
 			else
 				warnAllured:Show(args.destName, amount)
 			end
@@ -343,7 +339,7 @@ function mod:SPELL_AURA_REMOVED(args)
 	if spellId == 229489 and self:AntiSpam(5, "vulnerable") then --Царственность
 		if not UnitIsDeadOrGhost("player") then
 			specWarnVulnerable:Show()
-			specWarnVulnerable:Play("killbigmob")
+		--	specWarnVulnerable:Play("killbigmob")
 		end
 	elseif spellId == 228280 then --Клятва верности
 		timerOathofFealty:Cancel(args.destName)
@@ -442,7 +438,7 @@ do
 		if proshlyap and not murchalProshlyaping then
 			murchalProshlyaping = true
 			specWarnVolatileCharge:Show()
-			specWarnVolatileCharge:Play("runaway")
+		--	specWarnVolatileCharge:Play("runaway")
 			yellVolatileCharge:Yell()
 			yellVolatileCharge2:Countdown(5, 3)
 		elseif not proshlyap and murchalProshlyaping then
@@ -470,7 +466,7 @@ function mod:OnSync(msg)
 		countdownRoleplay:Start(79.2)
 	elseif msg == "felbomb" then
 		specWarnFelBomb:Show()
-		specWarnFelBomb:Play("bombsoon")
+	--	specWarnFelBomb:Play("bombsoon")
 	--	DBM:PlaySoundFile("Interface\\AddOns\\DBM-Core\\Sounds\\Custom\\Kuplinov_Sebae.ogg")
 		timerFelBomb:Start()
 		countdownRoleplay:Start(17)

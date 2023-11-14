@@ -1,11 +1,11 @@
 local mod	= DBM:NewMod(1694, "DBM-Party-Legion", 9, 777)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17077 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(101951)
 mod:SetEncounterID(1845)
 mod:SetZone()
-
+mod:SetMinSyncRevision(17745)
 mod.imaspecialsnowflake = true
 
 mod:RegisterCombat("combat")
@@ -69,7 +69,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 202062 and args:IsPlayer() then
 		specWarnFrigidWinds:Show()
-		specWarnFrigidWinds:Play("scatter")
+	--	specWarnFrigidWinds:Play("scatter")
 		if self.Options.RangeFrame then
 			DBM.RangeCheck:Show(8)
 		end
@@ -88,7 +88,7 @@ function mod:SPELL_CAST_START(args)
 	if spellId == 201672 then
 		self.vb.stormCount = self.vb.stormCount + 1
 		specWarnRelentlessStorm:Show()
-		specWarnRelentlessStorm:Play("watchstep")
+	--	specWarnRelentlessStorm:Play("watchstep")
 		if self.vb.stormCount % 2 == 0 then
 			timerRelentlessStormCD:Start(47)
 		else
@@ -96,7 +96,7 @@ function mod:SPELL_CAST_START(args)
 		end
 	elseif spellId == 201960 then
 		specWarnIceBomb:Show()
-		specWarnIceBomb:Play("findshelter")
+	--	specWarnIceBomb:Play("findshelter")
 		timerIceBombCD:Start()
 	end
 end

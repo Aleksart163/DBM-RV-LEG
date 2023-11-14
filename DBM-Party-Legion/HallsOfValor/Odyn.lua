@@ -1,12 +1,14 @@
 local mod	= DBM:NewMod(1489, "DBM-Party-Legion", 4, 721)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(95676)
 mod:SetEncounterID(1809)
 mod:SetZone()
 mod:SetUsedIcons(8, 6, 4, 3, 2, 1)
 mod:DisableEEKillDetection()
+mod:SetMinSyncRevision(17745)
+
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
@@ -70,11 +72,11 @@ function mod:OnCombatStart(delay) --Прошляпанное очко Мурча
 		timerSpearCD:Start(8-delay) --Копье света+++
 		timerSpearCD:Schedule(8-delay) --Копье света+++
 		specWarnSpear:Schedule(8-delay) --Копье света+++
-		specWarnSpear:ScheduleVoice(8-delay, "watchstep") --Копье света+++
+	--	specWarnSpear:ScheduleVoice(8-delay, "watchstep") --Копье света+++
 		specWarnSpear:Schedule(16-delay) --Копье света+++
-		specWarnSpear:ScheduleVoice(16-delay, "watchstep") --Копье света+++
+	--	specWarnSpear:ScheduleVoice(16-delay, "watchstep") --Копье света+++
 		specWarnAdd:Schedule(19-delay) --Призыв закаленного бурей воина+++
-		specWarnAdd:ScheduleVoice(19-delay, "mobkill") --Призыв закаленного бурей воина+++
+	--	specWarnAdd:ScheduleVoice(19-delay, "mobkill") --Призыв закаленного бурей воина+++
 	else
 		timerTempestCD:Start(24-delay, 1) --Светозарная буря+++
 		countdownTempest:Start(24-delay) --Светозарная буря+++
@@ -82,9 +84,9 @@ function mod:OnCombatStart(delay) --Прошляпанное очко Мурча
 		timerRunicBrandCD:Start(44.5-delay, 1) --Руническое клеймо+++
 		countdownRunicBrand:Start(44.5-delay) --Руническое клеймо+++
 		specWarnSpear:Schedule(8-delay) --Копье света+++
-		specWarnSpear:ScheduleVoice(8-delay, "watchstep") --Копье света+++
+	--	specWarnSpear:ScheduleVoice(8-delay, "watchstep") --Копье света+++
 		specWarnSpear:Schedule(16-delay) --Копье света+++
-		specWarnSpear:ScheduleVoice(16-delay, "watchstep") --Копье света+++
+	--	specWarnSpear:ScheduleVoice(16-delay, "watchstep") --Копье света+++
 	end
 end
 
@@ -94,7 +96,7 @@ function mod:SPELL_CAST_START(args)
 		self.vb.tempestCount = self.vb.tempestCount + 1
 		if not UnitIsDeadOrGhost("player") then
 			specWarnTempest:Show(self.vb.tempestCount)
-			specWarnTempest:Play("runout")
+		--	specWarnTempest:Play("runout")
 		end
 		timerTempestCast:Start()
 		countdownTempest2:Start()
@@ -102,17 +104,17 @@ function mod:SPELL_CAST_START(args)
 		countdownTempest:Start()
 		timerSpearCD:Start(10)
 		specWarnSpear:Schedule(10) -- 1
-		specWarnSpear:ScheduleVoice(10, "watchstep")
+	--	specWarnSpear:ScheduleVoice(10, "watchstep")
 		timerSpearCD:Schedule(33)
 		specWarnSpear:Schedule(41) -- 2
-		specWarnSpear:ScheduleVoice(41, "watchstep")
+	--	specWarnSpear:ScheduleVoice(41, "watchstep")
 		timerSpearCD:Schedule(41)
 		specWarnSpear:Schedule(49) -- 3
-		specWarnSpear:ScheduleVoice(49, "watchstep")
+	--	specWarnSpear:ScheduleVoice(49, "watchstep")
 		if not self:IsNormal() then
 			timerAddCD:Start(50)
 			specWarnAdd:Schedule(51)
-			specWarnAdd:ScheduleVoice(51, "mobkill")
+		--	specWarnAdd:ScheduleVoice(51, "mobkill")
 		end
 		if self.Options.SetIconOnSurge then
 			self:ScanForMobs(102019, 0, 8, 1, 0.1, 12, "SetIconOnSurge")
@@ -120,17 +122,11 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 198077 then
 		if not UnitIsDeadOrGhost("player") then
 			specWarnShatterSpears:Show()
-			specWarnShatterSpears:Play("watchorb")
+		--	specWarnShatterSpears:Play("watchorb")
 		end
 		timerShatterSpearsCD:Start()
 	elseif spellId == 198750 then --Импульс
-		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
-			specWarnSurge:Show()
-			specWarnSurge:Play("kickcast")
-		else
-			specWarnSurge:Show()
-			specWarnSurge:Play("kickcast")
-		end
+		specWarnSurge:Show()
 	end
 end
 
@@ -146,7 +142,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 197963 and args:IsPlayer() then--Purple K (NE)
 		specWarnRunicBrand:Show("|TInterface\\Icons\\Boss_OdunRunes_Purple.blp:12:12|t")
-		specWarnRunicBrand:Play("frontright")
+	--	specWarnRunicBrand:Play("frontright")
 		timerRunicBrand:Start(args.destName)
 		yellRunicBrand:Yell(3, "", 3)
 		if self.Options.SetIconOnRunicBrand then
@@ -154,7 +150,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif spellId == 197964 and args:IsPlayer() then--Orange N (SE)
 		specWarnRunicBrand2:Show("|TInterface\\Icons\\Boss_OdunRunes_Orange.blp:12:12|t")
-		specWarnRunicBrand:Play("backright")
+	--	specWarnRunicBrand:Play("backright")
 		timerRunicBrand:Start(args.destName)
 		yellRunicBrand:Yell(2, "", 2)
 		if self.Options.SetIconOnRunicBrand then
@@ -162,7 +158,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif spellId == 197965 and args:IsPlayer() then--Yellow H (SW)
 		specWarnRunicBrand3:Show("|TInterface\\Icons\\Boss_OdunRunes_Yellow.blp:12:12|t")
-		specWarnRunicBrand:Play("backleft")
+	--	specWarnRunicBrand:Play("backleft")
 		timerRunicBrand:Start(args.destName)
 		yellRunicBrand:Yell(1, "", 1)
 		if self.Options.SetIconOnRunicBrand then
@@ -170,7 +166,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif spellId == 197966 and args:IsPlayer() then--Blue fishies (NW)
 		specWarnRunicBrand4:Show("|TInterface\\Icons\\Boss_OdunRunes_Blue.blp:12:12|t")
-		specWarnRunicBrand:Play("frontleft")
+	--	specWarnRunicBrand:Play("frontleft")
 		timerRunicBrand:Start(args.destName)
 		yellRunicBrand:Yell(6, "", 6)
 		if self.Options.SetIconOnRunicBrand then
@@ -178,22 +174,23 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif spellId == 197967 and args:IsPlayer() then--Green box (N)
 		specWarnRunicBrand5:Show("|TInterface\\Icons\\Boss_OdunRunes_Green.blp:12:12|t")
-		specWarnRunicBrand:Play("frontcenter")--Does not exist yet
+	--	specWarnRunicBrand:Play("frontcenter")--Does not exist yet
 		timerRunicBrand:Start(args.destName)
 		yellRunicBrand:Yell(4, "", 4)
 		if self.Options.SetIconOnRunicBrand then
 			self:SetIcon(args.destName, 4, 12)
 		end
 	elseif spellId == 198190 then --Недостойность
-		warnUnworthy:CombinedShow(0.5, args.destName)
 		if args:IsPlayer() then
 			specWarnUnworthy:Show()
-			specWarnUnworthy:Play("targetyou")
+		--	specWarnUnworthy:Play("targetyou")
+		else
+			warnUnworthy:CombinedShow(0.5, args.destName)
 		end
 	elseif spellId == 197996 then --Клеймо
 		if args:IsPlayer() then
 			specWarnBranded:Show()
-			specWarnBranded:Play("targetyou")
+		--	specWarnBranded:Play("targetyou")
 		end
 	end
 end
@@ -234,9 +231,10 @@ end
 	end
 end]]
 
+--[[
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	local spellId = legacySpellId or bfaSpellId
 	if spellId == 198396 then
 		warnSpear:Show()
 	end
-end
+end]]

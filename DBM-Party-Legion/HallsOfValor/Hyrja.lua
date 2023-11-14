@@ -1,12 +1,14 @@
 local mod	= DBM:NewMod(1486, "DBM-Party-Legion", 4, 721)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17742 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(95833)
 mod:SetEncounterID(1806)
 mod:SetZone()
 mod:SetUsedIcons(8, 7)
 mod:SetReCombatTime(120, 5)
+mod:SetMinSyncRevision(17745)
+
 mod:RegisterCombat("combat")
 mod:SetWipeTime(120)
 
@@ -84,11 +86,11 @@ function mod:ArcingBoltTarget(targetname, uId) --Дуговая молния (�
 	if targetname == UnitName("player") then
 		if met2s then
 			specWarnArcingBolt2:Show()
-			specWarnArcingBolt2:Play("defensive")
+		--	specWarnArcingBolt2:Play("defensive")
 			yellArcingBolt:Yell()
 		else
 			specWarnArcingBolt:Show()
-			specWarnArcingBolt:Play("runout")
+		--	specWarnArcingBolt:Play("runout")
 			yellArcingBolt:Yell()
 		end
 	else
@@ -179,9 +181,9 @@ function mod:SPELL_CAST_START(args)
 		MurchalProshlyap2 = false
 		if not UnitIsDeadOrGhost("player") then
 			specWarnSanctify:Show()
-			specWarnSanctify:Play("watchorb")
+		--	specWarnSanctify:Play("watchorb")
 			specWarnSanctify2:Show()
-			specWarnSanctify2:Play("watchorb")
+		--	specWarnSanctify2:Play("watchorb")
 		end
 		if spellId == 192307 then
 			timerSpecialCD:Start()
@@ -195,7 +197,7 @@ function mod:SPELL_CAST_START(args)
 
 		self.vb.ShieldCount = self.vb.ShieldCount + 1
 		specWarnShieldOfLight:Show()
-		specWarnShieldOfLight:Play("defensive")
+	--	specWarnShieldOfLight:Play("defensive")
 	elseif spellId == 200901 then --Око шторма
 
 		debugTimers("SpecialCounter")
@@ -204,7 +206,7 @@ function mod:SPELL_CAST_START(args)
 		MurchalProshlyap2 = true
 		if not UnitIsDeadOrGhost("player") then
 			specWarnEyeofStorm:Show(args.sourceName)
-			specWarnEyeofStorm:Play("findshelter")
+		--	specWarnEyeofStorm:Play("findshelter")
 		end
 		timerSpecialCD:Start()
 		countdownSpecial:Cancel()
@@ -224,7 +226,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	if spellId == 200901 then --Око шторма
 		if not UnitIsDeadOrGhost("player") then
 			specWarnEyeofStorm2:Show()
-			specWarnEyeofStorm2:Play("defensive")
+		--	specWarnEyeofStorm2:Play("defensive")
 		end
 	end
 end
@@ -239,12 +241,12 @@ function mod:SPELL_AURA_APPLIED(args)
 			if args:IsPlayer() then
 				if meh2s then
 					specWarnExpelLight2:Show()
-					specWarnExpelLight2:Play("defensive")
+				--	specWarnExpelLight2:Play("defensive")
 					yellExpelLight:Yell()
 					yellExpelLight2:Countdown(3)
 				else
 					specWarnExpelLight:Show()
-					specWarnExpelLight:Play("runout")
+				--	specWarnExpelLight:Play("runout")
 					yellExpelLight:Yell()
 					yellExpelLight2:Countdown(3)
 				end

@@ -1,11 +1,13 @@
 local mod	= DBM:NewMod(1480, "DBM-Party-Legion", 3, 716)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(91784)
 mod:SetEncounterID(1810)
 mod:SetZone()
 mod:SetUsedIcons(8, 7)
+mod:SetMinSyncRevision(17745)
+
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
@@ -78,14 +80,14 @@ function mod:SPELL_AURA_APPLIED(args)
 		countdownSpear2:Start()
 		if args:IsPlayer() then
 			specWarnImpalingSpear:Show(trash)
-			specWarnImpalingSpear:Play("192094")
+		--	specWarnImpalingSpear:Play("192094")
 			yellImpalingSpear:Yell()
 			yellImpalingSpear2:Countdown(5, 3)
 		else
 			warnImpalingSpear:Show(args.destName)
 			if not UnitIsDeadOrGhost("player") then
 				specWarnImpalingSpear2:Show(args.destName)
-				specWarnImpalingSpear2:Play("watchstep")
+			--	specWarnImpalingSpear2:Play("watchstep")
 			end
 		end
 		if self.Options.SetIconOnImpalingSpear then
@@ -102,7 +104,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			if self:IsHard() then
 				specWarnThrowSpear:Show()
-				specWarnThrowSpear:Play("defensive")
+			--	specWarnThrowSpear:Play("defensive")
 				yellThrowSpear:Yell()
 				yellThrowSpear2:Countdown(9, 3)
 			else
@@ -122,34 +124,34 @@ function mod:SPELL_CAST_START(args)
 	if spellId == 192073 and self:IsNormal() then--Caster mob
 		if not UnitIsDeadOrGhost("player") then
 			specWarnReinforcements:Show()
-			specWarnReinforcements:Play("bigmobsoon")
+		--	specWarnReinforcements:Play("bigmobsoon")
 		end
 		timerHatecoilCD:Start(20)
 	elseif spellId == 192072 and self:IsNormal() then--Melee mob
 		if not UnitIsDeadOrGhost("player") then
 			specWarnReinforcements:Show()
-			specWarnReinforcements:Play("bigmobsoon")
+		--	specWarnReinforcements:Play("bigmobsoon")
 		end
 		timerHatecoilCD:Start(33)
 	elseif spellId == 196563 then--Both of them (heroic+)
 		if not UnitIsDeadOrGhost("player") then
 			specWarnReinforcements:Show()
-			specWarnReinforcements:Play("bigmobsoon")
+		--	specWarnReinforcements:Play("bigmobsoon")
 		end
 		timerHatecoilCD:Start()
 	elseif spellId == 197502 then
 		warnRestoration:Show()
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnRestoration:Show()
-			specWarnRestoration:Play("kickcast")
+		--	specWarnRestoration:Play("kickcast")
 		end
 	elseif spellId == 191900 then --Сокрушительная волна
 		if not UnitIsDeadOrGhost("player") then
 			specWarnCrashingwave:Show()
-			specWarnCrashingwave:Play("watchstep")
+		--	specWarnCrashingwave:Play("watchstep")
 		end
 		specWarnCrashingwave2:Show()
-		specWarnCrashingwave2:Play("defensive")
+	--	specWarnCrashingwave2:Play("defensive")
 		timerCrashingwaveCD:Start()
 		countdownCrashingwave:Start()
 	end
@@ -159,27 +161,18 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spell
 	if spellId == 192053 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then --Зыбучие пески (после чарджа)
 		if self:IsHard() then
 			specWarnQuicksand:Show()
-			specWarnQuicksand:Play("runaway")
+		--	specWarnQuicksand:Play("runaway")
 		end
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
 
 function mod:UNIT_HEALTH(uId)
-	if self:IsHard() then --миф и миф+
-		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 91784 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.41 then --Полководец Паржеш
-			warned_preP1 = true
-			warnEnrage2:Show()
-		elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 91784 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.31 then --Полководец Паржеш
-			warned_preP2 = true
-			self.vb.phase = 2
-		end
-	else
-		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 91784 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.41 then --Полководец Паржеш
-			warned_preP1 = true
-		elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 91784 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.31 then --Полководец Паржеш
-			warned_preP2 = true
-			self.vb.phase = 2
-		end
+	if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 91784 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.41 then --Полководец Паржеш
+		warned_preP1 = true
+		warnEnrage2:Show()
+	elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 91784 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.31 then --Полководец Паржеш
+		warned_preP2 = true
+		self.vb.phase = 2
 	end
 end

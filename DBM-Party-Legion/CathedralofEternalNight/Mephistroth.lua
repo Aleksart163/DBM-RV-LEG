@@ -1,10 +1,11 @@
 local mod	= DBM:NewMod(1878, "DBM-Party-Legion", 12, 900)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(120793)
 mod:SetEncounterID(2039)
 mod:SetZone()
+mod:SetMinSyncRevision(17745)
 
 mod:RegisterCombat("combat")
 
@@ -57,12 +58,12 @@ function mod:CarrionSwarmTarget(targetname, uId) --прошляпанное оч
 	if not targetname then return end
 	if targetname == UnitName("player") then
 		specWarnCarrionSwarm:Show()
-		specWarnCarrionSwarm:Play("defensive")
+	--	specWarnCarrionSwarm:Play("defensive")
 		yellCarrionSwarm:Yell()
 	else
 		if not UnitIsDeadOrGhost("player") then
 			specWarnCarrionSwarm2:Show()
-			specWarnCarrionSwarm2:Play("watchstep")
+		--	specWarnCarrionSwarm2:Play("watchstep")
 		end
 	end
 end
@@ -106,7 +107,7 @@ function mod:SPELL_CAST_START(args)
 		warnShadowFade:Show()
 		if not UnitIsDeadOrGhost("player") then
 			specWarnShadowFade:Schedule(6)
-			specWarnShadowFade:ScheduleVoice(6, "mobkill")
+		--	specWarnShadowFade:ScheduleVoice(6, "mobkill")
 		end
 		timerCarrionSwarmCD:Stop()
 		timerDarkSolitudeCD:Stop()
@@ -119,7 +120,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 234817 then
 		if not UnitIsDeadOrGhost("player") then
 			specWarnDarkSolitude:Show(8)
-			specWarnDarkSolitude:Play("watchstep")
+		--	specWarnDarkSolitude:Play("watchstep")
 		end
 		timerDarkSolitudeCD:Start()
 		if self.Options.InfoFrame then
@@ -162,7 +163,7 @@ function mod:UNIT_AURA_UNFILTERED(uId)
 		warnDemonicUpheaval:CombinedShow(1.5, name)--Multiple targets in mythic
 		if UnitIsUnit(uId, "player") then
 			specWarnDemonicUpheaval:Show()
-			specWarnDemonicUpheaval:Play("runout")
+		--	specWarnDemonicUpheaval:Play("runout")
 			yellDemonicUpheaval:Yell()
 			yellDemonicUpheaval2:Countdown(5, 3)
 			specWarnDemonicUpheaval2:Schedule(5)
@@ -186,7 +187,7 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spell
 	if spellId == 233177 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
 		if self:IsHard() then
 			specWarnCarrionSwarm3:Show()
-			specWarnCarrionSwarm3:Play("runaway")
+		--	specWarnCarrionSwarm3:Play("runaway")
 		end
 	end
 end

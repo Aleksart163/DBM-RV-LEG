@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("EoATrash", "DBM-Party-Legion", 3)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 --mod:SetModelID(47785)
 mod:SetZone()
 mod:SetUsedIcons(8, 7, 6)
@@ -78,7 +78,7 @@ function mod:ArcLightningTarget(targetname, uId) --Дуговая молния �
 	if not targetname then return end
 	if targetname == UnitName("player") then
 		specWarnArcLightning2:Show()
-		specWarnArcLightning2:Play("runout")
+	--	specWarnArcLightning2:Play("runout")
 		yellArcLightning:Yell()
 	else
 		warnArcLightning:Show(targetname)
@@ -90,51 +90,51 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 196870 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Буря
 		specWarnStorm:Show()
-		specWarnStorm:Play("kickcast")
+	--	specWarnStorm:Play("kickcast")
 	elseif spellId == 196028 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Волшебный рикошет
 		specWarnArcaneRebound:Show()
-		specWarnArcaneRebound:Play("kickcast")
+	--	specWarnArcaneRebound:Play("kickcast")
 	elseif spellId == 195046 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Живительная вода
 		specWarnRejuvWaters:Show()
-		specWarnRejuvWaters:Play("kickcast")
+	--	specWarnRejuvWaters:Play("kickcast")
 	elseif spellId == 195284 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Водоворот
 		specWarnUndertow:Show()
-		specWarnUndertow:Play("kickcast")
+	--	specWarnUndertow:Play("kickcast")
 		timerUndertow:Start()
 	elseif spellId == 197105 then --Превращение в рыбу
 		self:BossTargetScanner(args.sourceGUID, "PolymorphTarget", 0.1, 2)
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnPolymorph:Show()
-			specWarnPolymorph:Play("kickcast")
+		--	specWarnPolymorph:Play("kickcast")
 		end
 	elseif spellId == 195253 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Пузырь-тюрьма
 		specWarnImprisoningBubble:Show()
-		specWarnImprisoningBubble:Play("kickcast")
+	--	specWarnImprisoningBubble:Play("kickcast")
 	elseif spellId == 196127 and self:AntiSpam(2, 1) then --Струя песка
 		specWarnSpraySand:Show()
-		specWarnSpraySand:Play("shockwave")
+	--	specWarnSpraySand:Play("shockwave")
 	elseif spellId == 196175 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Бронераковина
 		specWarnArmorshell:Show()
-		specWarnArmorshell:Play("kickcast")
+	--	specWarnArmorshell:Play("kickcast")
 	elseif spellId == 195129 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Грохочущий топот
 		specWarnThunderingStomp:Show()
-		specWarnThunderingStomp:Play("kickcast")
+	--	specWarnThunderingStomp:Play("kickcast")
 	elseif spellId == 195109 then --Дуговая молния
 		self:BossTargetScanner(args.sourceGUID, "ArcLightningTarget", 0.1, 2)
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnArcLightning:Show()
-			specWarnArcLightning:Play("kickcast")
+		--	specWarnArcLightning:Play("kickcast")
 		end
 	elseif spellId == 196290 and self:AntiSpam(2, 1) then --Буря Хаоса
 		specWarnChaoticTempest:Show()
-		specWarnChaoticTempest:Play("watchstep")
+	--	specWarnChaoticTempest:Play("watchstep")
 	elseif spellId == 196296 and self:AntiSpam(2, 1) then --Бурлящая буря
 		specWarnRoilingStorm:Show()
-		specWarnRoilingStorm:Play("watchstep")
+	--	specWarnRoilingStorm:Play("watchstep")
 	elseif spellId == 196516 then --Вспышка молнии
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnLightningBlast:Show()
-			specWarnLightningBlast:Play("kickcast")
+		--	specWarnLightningBlast:Play("kickcast")
 		end
 	end
 end
@@ -147,18 +147,18 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerArcaneBomb:Start(args.destName)
 		if args:IsPlayer() and not self:IsMagicDispeller2() then
 			specWarnArcaneBomb:Show()
-			specWarnArcaneBomb:Play("runout")
+		--	specWarnArcaneBomb:Play("runout")
 			yellArcaneBomb:Yell()
 			yellArcaneBombFades:Countdown(15, 3)
 		elseif args:IsPlayer() and self:IsMagicDispeller2() then
 			specWarnArcaneBomb4:Show()
-			specWarnArcaneBomb4:Play("dispelnow")
+		--	specWarnArcaneBomb4:Play("dispelnow")
 			yellArcaneBomb:Yell()
 			yellArcaneBombFades:Countdown(15, 3)
 		elseif not args:IsPlayer() and self:IsMagicDispeller2() then
 			if not UnitIsDeadOrGhost("player") then
 				specWarnArcaneBomb2:Show(args.destName)
-				specWarnArcaneBomb2:Play("dispelnow")
+			--	specWarnArcaneBomb2:Play("dispelnow")
 			end
 		end
 		if self.Options.RangeFrame then
@@ -175,7 +175,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		elseif not args:IsPlayer() and self:IsMagicDispeller2() then
 			if not UnitIsDeadOrGhost("player") then
 				specWarnPolymorph2:Show(args.destName)
-				specWarnPolymorph2:Play("dispelnow")
+			--	specWarnPolymorph2:Play("dispelnow")
 			end
 		else
 			warnPolymorph:Show(args.destName)
@@ -185,41 +185,29 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif spellId == 196144 then --Песчаная буря
 		warnSandstorm:CombinedShow(0.5, args.destName)
-		if self:IsHeroic() then
-			if args:IsPlayer() and not self:IsMagicDispeller2() then
-				specWarnSandstorm:Show()
-				specWarnSandstorm:Play("targetyou")
-				yellSandstorm:Yell()
-			elseif args:IsPlayer() and self:IsMagicDispeller2() then
-				specWarnSandstorm2:Show()
-				specWarnSandstorm2:Play("dispelnow")
-				yellSandstorm:Yell()
-			end
-		elseif self:IsMythic() then
-			if args:IsPlayer() and not self:IsMagicDispeller2() then
-				specWarnSandstorm:Show()
-				specWarnSandstorm:Play("targetyou")
-				yellSandstorm:Yell()
-			elseif args:IsPlayer() and self:IsMagicDispeller2() then
-				specWarnSandstorm2:Show()
-				specWarnSandstorm2:Play("dispelnow")
-				yellSandstorm:Yell()
-			elseif not args:IsPlayer() and self:IsMagicDispeller2() then
-				if not UnitIsDeadOrGhost("player") then
-					specWarnSandstorm3:CombinedShow(0.5, args.destName)
-					specWarnSandstorm3:ScheduleVoice(0.5, "dispelnow")
-				end
+		if args:IsPlayer() and not self:IsMagicDispeller2() then
+			specWarnSandstorm:Show()
+		--	specWarnSandstorm:Play("targetyou")
+			yellSandstorm:Yell()
+		elseif args:IsPlayer() and self:IsMagicDispeller2() then
+			specWarnSandstorm2:Show()
+		--	specWarnSandstorm2:Play("dispelnow")
+			yellSandstorm:Yell()
+		elseif not args:IsPlayer() and self:IsMagicDispeller2() then
+			if not UnitIsDeadOrGhost("player") then
+				specWarnSandstorm3:CombinedShow(0.5, args.destName)
+			--	specWarnSandstorm3:ScheduleVoice(0.5, "dispelnow")
 			end
 		end
 	elseif spellId == 195253 then --Пузырь-тюрьма
 		timerImprisoningBubble:Start(args.destName)
-		if args:IsPlayer() then
+		if args:IsPlayer() and not self:IsMagicDispeller2() then
 			yellImprisoningBubble:Yell()
 			yellImprisoningBubbleFades:Countdown(12, 3)
 		elseif self:IsMagicDispeller2() then
 			if not UnitIsDeadOrGhost("player") then
 				specWarnImprisoningBubble2:CombinedShow(0.5, args.destName)
-				specWarnImprisoningBubble2:ScheduleVoice(0.5, "dispelnow")
+			--	specWarnImprisoningBubble2:ScheduleVoice(0.5, "dispelnow")
 			end
 		else
 			warnImprisoningBubble:CombinedShow(0.5, args.destName)
@@ -244,7 +232,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		timerArcaneBomb:Cancel(args.destName)
 		if args:IsPlayer() then
 			specWarnArcaneBomb3:Show()
-			specWarnArcaneBomb3:Play("end")
+		--	specWarnArcaneBomb3:Play("end")
 			yellArcaneBombFades:Cancel()
 		end
 		if self.Options.RangeFrame then

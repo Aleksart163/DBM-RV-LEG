@@ -1,12 +1,12 @@
 local mod	= DBM:NewMod(1498, "DBM-Party-Legion", 6, 726)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(98205)
 mod:SetEncounterID(1825)
 mod:SetZone()
 mod:SetUsedIcons(8, 7)
-
+mod:SetMinSyncRevision(17745)
 mod.noNormal = true
 
 mod:RegisterCombat("combat")
@@ -68,9 +68,9 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 196115 then
 		if not UnitIsDeadOrGhost("player") then
 			specWarnCleansing:Show()
-			specWarnCleansing:Play("aesoon")
+		--	specWarnCleansing:Play("aesoon")
 			specWarnCleansing2:Schedule(6)
-			specWarnCleansing2:ScheduleVoice(6, "justrun")
+		--	specWarnCleansing2:ScheduleVoice(6, "justrun")
 		end
 		timerCleansingCD:Start()
 		countdownCleansing:Start()
@@ -79,7 +79,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 220481 then --Дестабилизированная сфера
 		if not UnitIsDeadOrGhost("player") then
 			specWarnDestabilizedOrb:Show()
-			specWarnDestabilizedOrb:Play("watchstep")
+		--	specWarnDestabilizedOrb:Play("watchstep")
 		end
 		timerDestabilizedOrbCD:Start()
 	end
@@ -91,12 +91,12 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnSupression:Show(args.destName)
 		if args:IsPlayer() then
 			specWarnSupression:Show()
-			specWarnSupression:Play("runout")
-			specWarnSupression:ScheduleVoice(1, "keeprun")
+		--	specWarnSupression:Play("runout")
+		--	specWarnSupression:ScheduleVoice(1, "keeprun")
 			yellSupression:Yell()
 		elseif self:CheckNearby(10, args.destName) then
 			specWarnSupression2:Show(args.destName)
-			specWarnSupression2:Play("runout")
+		--	specWarnSupression2:Play("runout")
 		end
 		if self.Options.SetIconOnSupression then
 			self:SetIcon(args.destName, 8, 7)
@@ -107,7 +107,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		else
 			if not UnitIsDeadOrGhost("player") then
 				specWarnQuarantine:Show(args.destName)
-				specWarnQuarantine:Play("readyrescue")
+			--	specWarnQuarantine:Play("readyrescue")
 			end
 		end
 		if self.Options.SetIconOnQuarantine then
@@ -117,7 +117,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if not self:IsNormal() then
 			if args:IsPlayer() then
 				specWarnDestabilizedOrb2:Show()
-				specWarnDestabilizedOrb2:Play("runout")
+			--	specWarnDestabilizedOrb2:Play("runout")
 			end
 		end
 	end
@@ -146,7 +146,7 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spell
 	if spellId == 220500 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
 		if not self:IsNormal() then
 			specWarnDestabilizedOrb2:Show()
-			specWarnDestabilizedOrb2:Play("runaway")
+		--	specWarnDestabilizedOrb2:Play("runaway")
 		end
 	end
 end

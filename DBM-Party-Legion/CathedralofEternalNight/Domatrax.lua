@@ -1,10 +1,11 @@
 local mod	= DBM:NewMod(1904, "DBM-Party-Legion", 12, 900)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(119542)--119883 Fel Portal Guardian 118834
 mod:SetEncounterID(2053)
 mod:SetZone()
+mod:SetMinSyncRevision(17745)
 --mod:SetHotfixNoticeRev(15186)
 --mod:SetUsedIcons(8)
 
@@ -80,7 +81,7 @@ function mod:SPELL_CAST_START(args)
 	if spellId == 236543 then
 		if not UnitIsDeadOrGhost("player") then
 			specWarnFelsoulCleave:Show()
-			specWarnFelsoulCleave:Play("shockwave")
+		--	specWarnFelsoulCleave:Play("shockwave")
 		end
 		if self:IsHard() then
 			timerFelsoulCleaveCD:Start()
@@ -90,14 +91,14 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 234107 then
 		if not UnitIsDeadOrGhost("player") then
 			specWarnChaoticEnergy:Show(shield)
-			specWarnChaoticEnergy:Play("findshield")
+		--	specWarnChaoticEnergy:Play("findshield")
 		end
 		countdownChaosEnergy2:Start(5)
 	elseif spellId == 241622 then
 		if self:AntiSpam(2, 1) then
 			warnApproachingDoom:Show()
 			specWarnAdds:Show()
-			specWarnAdds:Play("mobkill")
+		--	specWarnAdds:Play("mobkill")
 		end
 		timerApproachingDoom:Start(nil, args.sourceGUID)
 	end
@@ -137,36 +138,22 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	local spellId = legacySpellId or bfaSpellId
 	if spellId == 235822 or spellId == 235862 then--Start Wave 01/Start Wave 02
 		specWarnAdds:Show()
-		specWarnAdds:Play("mobkill")
+	--	specWarnAdds:Play("mobkill")
 	end
 end
 
 function mod:UNIT_HEALTH(uId)
-	if self:IsHard() then --миф и миф+
-		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 119542 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.95 then
-			warned_preP1 = true
-			warnApproachingDoom2:Show()
-		elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 119542 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.90 then
-			self.vb.phase = 2
-			warned_preP2 = true
-		elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 119542 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.55 then
-			warned_preP3 = true
-			warnApproachingDoom2:Show()
-		elseif self.vb.phase == 2 and warned_preP3 and not warned_preP4 and self:GetUnitCreatureId(uId) == 119542 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.50 then
-			self.vb.phase = 3
-			warned_preP4 = true
-		end
-	else
-		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 119542 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.95 then
-			warned_preP1 = true
-		elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 119542 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.90 then
-			self.vb.phase = 2
-			warned_preP2 = true
-		elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 119542 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.55 then
-			warned_preP3 = true
-		elseif self.vb.phase == 2 and warned_preP3 and not warned_preP4 and self:GetUnitCreatureId(uId) == 119542 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.50 then
-			self.vb.phase = 3
-			warned_preP4 = true
-		end
+	if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 119542 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.95 then
+		warned_preP1 = true
+		warnApproachingDoom2:Show()
+	elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 119542 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.90 then
+		self.vb.phase = 2
+		warned_preP2 = true
+	elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 119542 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.55 then
+		warned_preP3 = true
+		warnApproachingDoom2:Show()
+	elseif self.vb.phase == 2 and warned_preP3 and not warned_preP4 and self:GetUnitCreatureId(uId) == 119542 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.50 then
+		self.vb.phase = 3
+		warned_preP4 = true
 	end
 end

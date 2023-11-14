@@ -1,11 +1,12 @@
 local mod	= DBM:NewMod(1687, "DBM-Party-Legion", 5, 767)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(91007)
 mod:SetEncounterID(1793)
 mod:SetZone()
 mod:SetUsedIcons(7)
+mod:SetMinSyncRevision(17745)
 
 mod:RegisterCombat("combat")
 
@@ -52,7 +53,7 @@ function mod:OnCombatStart(delay)
 		timerCrystalSpikesCD:Start(5.8-delay) --Кристальные шипы +++	
 		timerMagmaWaveCD:Start(66.5-delay) --Магматическая волна +++
 		specWarnMagmaWave3:Schedule(56.5-delay) --Магматическая волна +++
-		specWarnMagmaWave3:ScheduleVoice(56.5-delay, "aesoon") --Магматическая волна +++
+	--	specWarnMagmaWave3:ScheduleVoice(56.5-delay, "aesoon") --Магматическая волна +++
 		countdownMagmaWave:Start(66.5-delay) --Магматическая волна +++
 	else
 		timerMagmaSculptorCD:Start(7.3-delay) --Ваятель магмы
@@ -68,7 +69,7 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 200732 then --Магматический удар
 		specWarnMoltenCrash:Show()
-		specWarnMoltenCrash:Play("defensive")
+	--	specWarnMoltenCrash:Play("defensive")
 		if self:IsHard() then
 			timerMoltenCrashCD:Start(17)
 		else
@@ -84,7 +85,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 200637 then --Ваятель магмы
 		if not UnitIsDeadOrGhost("player") then
 			specWarnMagmaSculptor:Show()
-			specWarnMagmaSculptor:Play("killbigmob")
+		--	specWarnMagmaSculptor:Play("killbigmob")
 		end
 		if self:IsHard() then
 			timerMagmaSculptorCD:Start(71.5)
@@ -93,7 +94,7 @@ function mod:SPELL_CAST_START(args)
 		end
 	elseif spellId == 200700 then --Оползень
 		specWarnLandSlide:Show()
-		specWarnLandSlide:Play("shockwave")
+	--	specWarnLandSlide:Play("shockwave")
 		if self:IsHard() then
 			timerLandSlideCD:Start(17)
 		else
@@ -102,17 +103,17 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 200404 and self:AntiSpam(3, 1) then --Магматическая волна
 		if self:IsTank() then
 			specWarnMagmaWave2:Show()
-			specWarnMagmaWave2:Play("defensive")
+		--	specWarnMagmaWave2:Play("defensive")
 		else
 			specWarnMagmaWave:Show(shelterName)
-			specWarnMagmaWave:Play("findshelter")
+		--	specWarnMagmaWave:Play("findshelter")
 		end
 		countdownMagmaWave2:Start()
 		if self:IsHard() then
 			timerMagmaWaveCD:Start(61)
 			countdownMagmaWave:Start(61)
 			specWarnMagmaWave3:Schedule(51)
-			specWarnMagmaWave3:ScheduleVoice(51, "aesoon")
+		--	specWarnMagmaWave3:ScheduleVoice(51, "aesoon")
 		else
 			timerMagmaWaveCD:Start()
 			countdownMagmaWave:Start()
@@ -126,7 +127,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerBurningHatred:Start(args.destName)
 		if args:IsPlayer() then
 			specWarnBurningHatred:Show()
-			specWarnBurningHatred:Play("targetyou")
+		--	specWarnBurningHatred:Play("targetyou")
 			yellBurningHatred:Yell()
 		else
 			warnBurningHatred:Show(args.destName)

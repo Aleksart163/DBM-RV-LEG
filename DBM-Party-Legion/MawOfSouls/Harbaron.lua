@@ -1,10 +1,11 @@
 local mod	= DBM:NewMod(1512, "DBM-Party-Legion", 8, 727)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(96754)
 mod:SetEncounterID(1823)
 mod:SetZone()
+mod:SetMinSyncRevision(17745)
 
 mod:RegisterCombat("combat")
 
@@ -40,7 +41,7 @@ function mod:FragmentTarget(targetname, uId) --Прошляпанное очко
 	if not targetname then return end
 	if targetname == UnitName("player") then
 		specWarnFragment2:Show()
-		specWarnFragment2:Play("targetyou")
+	--	specWarnFragment2:Play("targetyou")
 		yellFragment:Yell()
 	else
 		warnFragment:Show(targetname)
@@ -64,7 +65,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	if spellId == 194327 then --Разделение
 		if not UnitIsDeadOrGhost("player") then
 			specWarnFragment:Show()
-			specWarnFragment:Play("mobkill")
+		--	specWarnFragment:Play("mobkill")
 		end
 	end
 end
@@ -74,7 +75,7 @@ function mod:SPELL_CAST_START(args)
 	if spellId == 194231 then --Призыв скованного прислужника
 		if not UnitIsDeadOrGhost("player") then
 			specWarnServitor:Show()
-			specWarnServitor:Play("bigmob")
+		--	specWarnServitor:Play("bigmob")
 		end
 		if self:IsHard() then
 			timerServitorCD:Start(28)
@@ -86,18 +87,18 @@ function mod:SPELL_CAST_START(args)
 		self.vb.kickCount = self.vb.kickCount + 1
 		local kickCount = self.vb.kickCount
 		specWarnVoidSnap:Show(kickCount)
-		if kickCount == 1 then
+--[[		if kickCount == 1 then
 			specWarnVoidSnap:Play("kick1r")
 		elseif kickCount == 2 then
 			specWarnVoidSnap:Play("kick2r")
 		elseif kickCount == 3 then
 			specWarnVoidSnap:Play("kick3r")
-		end
+		end]]
 		warnVoidSnap:Show()
 	elseif spellId == 194216 then --Космическая коса
 		if not UnitIsDeadOrGhost("player") then
 			specWarnScythe:Show()
-			specWarnScythe:Play("shockwave")
+		--	specWarnScythe:Play("shockwave")
 		end
 	elseif spellId == 194325 then --Разделение
 		self:BossTargetScanner(args.sourceGUID, "FragmentTarget", 0.1, 2)
@@ -118,7 +119,7 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spell
 	if spellId == 194235 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
 		if not self:IsNormal() then
 			specWarnNetherRip:Show()
-			specWarnNetherRip:Play("runaway")
+		--	specWarnNetherRip:Play("runaway")
 		end
 	end
 end

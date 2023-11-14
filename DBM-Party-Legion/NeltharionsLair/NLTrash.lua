@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("NLTrash", "DBM-Party-Legion", 5)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 --mod:SetModelID(47785)
 mod:SetZone()
 
@@ -43,7 +43,7 @@ function mod:StoneGazeTarget(targetname, uId) --прошляпанное очк�
 	if not targetname then return end
 	if targetname == UnitName("player") then
 		specWarnStoneGaze2:Show()
-		specWarnStoneGaze2:Play("targetyou")
+	--	specWarnStoneGaze2:Play("targetyou")
 		yellStoneGaze:Yell()
 	else
 		warnStoneGaze:CombinedShow(1, targetname)
@@ -56,30 +56,30 @@ function mod:SPELL_CAST_START(args)
 	if spellId == 183088 and self:AntiSpam(2, 2) then
 		if self:IsTank() then
 			specWarnAvalanche:Show()
-			specWarnAvalanche:Play("shockwave")
+		--	specWarnAvalanche:Play("shockwave")
 		else
 			warnAvalanche:Show()
 		end
 	elseif spellId == 193585 then
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnBound:Show()
-			specWarnBound:Play("kickcast")
+		--	specWarnBound:Play("kickcast")
 		else
 			warnBound:Show()
-			warnBound:Play("kickcast")
+		--	warnBound:Play("kickcast")
 		end
 	elseif spellId == 226296 then
 		warnPiercingShards:Show()
-		warnPiercingShards:Play("watchstep")
+	--	warnPiercingShards:Play("watchstep")
 	elseif spellId == 202181 then --Каменный взгляд
 		self:BossTargetScanner(args.sourceGUID, "StoneGazeTarget", 0.1, 2)
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnStoneGaze:Show()
-			specWarnStoneGaze:Play("kickcast")
+		--	specWarnStoneGaze:Play("kickcast")
 		end
 	elseif spellId == 202230 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Пиявка
 		specWarnLeech:Show()
-		specWarnLeech:Play("kickcast")
+	--	specWarnLeech:Play("kickcast")
 	end
 end
 
@@ -89,7 +89,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	if spellId == 200154 and self:AntiSpam(2.5, args.destName) then --Пламенная ненависть
 		if args:IsPlayer() then
 			specWarnBurningHatred:Show()
-			specWarnBurningHatred:Play("targetyou")
+		--	specWarnBurningHatred:Play("targetyou")
 		else
 			warnBurningHatred:Show(args.destName)
 		end
@@ -117,12 +117,12 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 226388 and destGUID == UnitGUID("player") and self:AntiSpam(3, 1) then
 		if not self:IsNormal() then
 			specWarnRancidOoze:Show()
-			specWarnRancidOoze:Play("runaway")
+		--	specWarnRancidOoze:Play("runaway")
 		end
 	elseif spellId == 183407 and destGUID == UnitGUID("player") and self:AntiSpam(3, 1) then
 		if not self:IsNormal() then
 			specWarnAcidSplatter:Show()
-			specWarnAcidSplatter:Play("runaway")
+		--	specWarnAcidSplatter:Play("runaway")
 		end
 	end
 end

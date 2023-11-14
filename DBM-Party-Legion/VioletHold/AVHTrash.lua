@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("AVHTrash", "DBM-Party-Legion", 9)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17522 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 --mod:SetModelID(47785)
 mod:SetZone()
 
@@ -48,10 +48,10 @@ function mod:SPELL_CAST_START(args)
 		warnSummonBeasts:Show()
 	elseif spellId == 204963 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
 		specWarnShadowBoltVolley:Show(args.sourceName)
-		specWarnShadowBoltVolley:Play("kickcast")
+	--	specWarnShadowBoltVolley:Play("kickcast")
 	elseif spellId == 205090 then
 		specWarnFelSlam:Show()
-		specWarnFelSlam:Play("shockwave")
+	--	specWarnFelSlam:Play("shockwave")
 	end
 end
 
@@ -61,19 +61,19 @@ function mod:SPELL_AURA_APPLIED(args)
 	if spellId == 204962 then
 		if args:IsPlayer() then
 			specWarnShadowBomb:Show()
-			specWarnShadowBomb:Play("runout")
+		--	specWarnShadowBomb:Play("runout")
 		else
 			warnShadowBomb:CombinedShow(0.3, args.destName)
 		end
 	elseif spellId == 205088 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
 		specWarnHellfire:Show(args.sourceName)
-		specWarnHellfire:Play("kickcast")
+	--	specWarnHellfire:Play("kickcast")
 	elseif spellId == 204608 then
 		if args:IsPlayer() then
 			yellFelPrison:Yell()
 		else
 			specWarnFelPrison:Show()
-			specWarnFelPrison:Play("helpme")
+		--	specWarnFelPrison:Play("helpme")
 		end
 	end
 end
@@ -83,7 +83,7 @@ function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if not self.Options.Enabled then return end
 	if spellId == 204762 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
 		specWarnFelEnergy:Show()
-		specWarnFelEnergy:Play("runaway")
+	--	specWarnFelEnergy:Play("runaway")
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE

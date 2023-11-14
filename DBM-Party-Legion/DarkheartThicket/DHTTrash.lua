@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("DHTTrash", "DBM-Party-Legion", 2)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 --mod:SetModelID(47785)
 mod:SetZone()
 
@@ -61,45 +61,45 @@ function mod:SPELL_CAST_START(args)
 	if spellId == 201226 and self:AntiSpam(2, 1) then --Кровавая атака
 		if not self:IsNormal() then
 			specWarnBloodAssault:Show()
-			specWarnBloodAssault:Play("chargemove")
+		--	specWarnBloodAssault:Play("chargemove")
 		end
 	elseif spellId == 200580 and self:AntiSpam(2, "maddeningroar") then --Безумный рев
 		if not self:IsNormal() then
 			specWarnMaddeningRoar:Show()
-			specWarnMaddeningRoar:Play("defensive")
+		--	specWarnMaddeningRoar:Play("defensive")
 		end
 	elseif spellId == 200630 then --Ошеломляющий визг
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnUnnervingScreech:Show()
-			specWarnUnnervingScreech:Play("kickcast")
-		else
+		--	specWarnUnnervingScreech:Play("kickcast")
+		elseif self:AntiSpam(2, "UnnervingScreech") then
 			warnUnnervingScreech:Show()
-			warnUnnervingScreech:Play("kickcast")
+		--	warnUnnervingScreech:Play("kickcast")
 		end
 	elseif spellId == 200768 and self:AntiSpam(2, "propellingcharge") then --Рывок вперед
 		specWarnPropellingCharge:Show()
-		specWarnPropellingCharge:Play("watchstep")
+	--	specWarnPropellingCharge:Play("watchstep")
 	elseif spellId == 201399 and self:AntiSpam(2, "dreadinferno") then --Жуткое пекло
 		if not self:IsNormal() then
 			warnDreadInferno:Show()
-			warnDreadInferno:Play("kickcast")
+		--	warnDreadInferno:Play("kickcast")
 		end
-	elseif spellId == 200658 and self:AntiSpam(2, "starshower") then --Звездный дождь
+	elseif spellId == 200658 then --Звездный дождь
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnStarShower:Show()
-			specWarnStarShower:Play("kickcast")
-		else
+		--	specWarnStarShower:Play("kickcast")
+		elseif self:AntiSpam(2, "StarShower") then
 			warnStarShower:Show()
-			warnStarShower:Play("kickcast")
+		--	warnStarShower:Play("kickcast")
 		end
 	end
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
-	if spellId == 201272 and self:AntiSpam(2, 3) then --Кровавая бомба
+	if spellId == 201272 and self:AntiSpam(2, "BloodBomb") then --Кровавая бомба
 		specWarnBloodBomb:Show()
-		specWarnBloodBomb:Play("watchstep")
+	--	specWarnBloodBomb:Play("watchstep")
 	end
 end
 
@@ -109,7 +109,7 @@ function mod:SPELL_SUMMON(args)
 		if not self:IsNormal() then
 			if self:AntiSpam(2, 4) then
 				specWarnVileMushroom:Show()
-				specWarnVileMushroom:Play("watchstep")
+			--	specWarnVileMushroom:Play("watchstep")
 			end
 			timerVileMushroomCD:Start(args.sourceGUID)
 		end
@@ -121,23 +121,19 @@ function mod:SPELL_AURA_APPLIED(args)
 	if spellId == 204243 and self:AntiSpam(2, 5) then --Истязающий глаз
 		if not self:IsNormal() then
 			specWarnTormentingEye:Show()
-			specWarnTormentingEye:Play("kickcast")
+		--	specWarnTormentingEye:Play("kickcast")
 		end
 	elseif spellId == 225568 then --Проклятие уединения
 		timerCurseofIsolation:Start(args.destName)
 		if not self:IsNormal() then
 			if args:IsPlayer() and not self:IsCurseDispeller() and self:AntiSpam(2, "curseofisolation") then
 				specWarnCurseofIsolation2:Show()
-				specWarnCurseofIsolation2:Play("watchstep")
-				yellCurseofIsolation:Yell()
-			elseif args:IsPlayer() and self:IsCurseDispeller() and self:AntiSpam(2, "curseofisolation") then
-				specWarnCurseofIsolation3:Show()
-				specWarnCurseofIsolation3:Play("dispelnow")
+			--	specWarnCurseofIsolation2:Play("watchstep")
 				yellCurseofIsolation:Yell()
 			elseif self:IsCurseDispeller() then
 				if not UnitIsDeadOrGhost("player") then
 					specWarnCurseofIsolation:CombinedShow(0.5, args.destName)
-					specWarnCurseofIsolation:ScheduleVoice(0.5, "dispelnow")
+				--	specWarnCurseofIsolation:ScheduleVoice(0.5, "dispelnow")
 				end
 			else
 				warnCurseofIsolation:CombinedShow(0.5, args.destName)
@@ -147,11 +143,11 @@ function mod:SPELL_AURA_APPLIED(args)
 		if not self:IsNormal() then
 			if args:IsPlayer() and not self:IsPoisonDispeller() and self:AntiSpam(2, "poisonspear") then
 				specWarnPoisonSpear2:Show()
-				specWarnPoisonSpear2:Play("defensive")
+			--	specWarnPoisonSpear2:Play("defensive")
 				yellPoisonSpear:Yell()
 			elseif args:IsPlayer() and self:IsPoisonDispeller() and self:AntiSpam(2, "poisonspear") then
 				specWarnPoisonSpear3:Show()
-				specWarnPoisonSpear3:Play("dispelnow")
+			--	specWarnPoisonSpear3:Play("dispelnow")
 				yellPoisonSpear:Yell()
 			else
 				warnPoisonSpear:CombinedShow(0.5, args.destName)
@@ -161,11 +157,11 @@ function mod:SPELL_AURA_APPLIED(args)
 		if not self:IsNormal() then
 			if args:IsPlayer() and not self:IsPoisonDispeller() and self:AntiSpam(2, "nightmaretoxin") then
 				specWarnNightmareToxin:Show()
-				specWarnNightmareToxin:Play("runaway")
+			--	specWarnNightmareToxin:Play("runaway")
 				yellNightmareToxin:Yell()
 			elseif args:IsPlayer() and self:IsPoisonDispeller() and self:AntiSpam(2, "nightmaretoxin") then
 				specWarnNightmareToxin2:Show()
-				specWarnNightmareToxin2:Play("dispelnow")
+			--	specWarnNightmareToxin2:Play("dispelnow")
 				yellNightmareToxin:Yell()
 			else
 				warnNightmareToxin:CombinedShow(0.5, args.destName)
@@ -175,7 +171,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		local amount = args.amount or 1
 		if args:IsPlayer() and amount >= 5 and amount % 5 == 0 then
 			specWarnDespair:Show(amount)
-			specWarnDespair:Play("stackhigh")
+		--	specWarnDespair:Play("stackhigh")
 		end
 	end
 end
@@ -196,12 +192,12 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 200822 and destGUID == UnitGUID("player") and self:AntiSpam(2, "rottingearth") then
 		if not self:IsNormal() then
 			specWarnRottingEarth:Show()
-			specWarnRottingEarth:Play("runaway")
+		--	specWarnRottingEarth:Play("runaway")
 		end
 	elseif spellId == 198408 and destGUID == UnitGUID("player") and self:AntiSpam(2, "nightfall") then --Сумерки
 		if not self:IsNormal() then
 			specWarnNightfall:Show()
-			specWarnNightfall:Play("runaway")
+		--	specWarnNightfall:Play("runaway")
 		end
 	end
 end

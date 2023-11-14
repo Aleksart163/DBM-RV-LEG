@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("MawTrash", "DBM-Party-Legion", 8)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 --mod:SetEncounterID(1823)
 mod:SetZone()
 
@@ -53,11 +53,11 @@ function mod:SixPoundBarrelTarget(targetname, uId) --прошляпанное о
 	if not targetname then return end
 	if targetname == UnitName("player") and self:AntiSpam(2, targetname) then
 		specWarnSixPoundBarrel:Show()
-		specWarnSixPoundBarrel:Play("targetyou")
+	--	specWarnSixPoundBarrel:Play("targetyou")
 		yellSixPoundBarrel:Yell()
 	elseif self:CheckNearby(10, targetname) then
 		specWarnSixPoundBarrel2:Show(targetname)
-		specWarnSixPoundBarrel2:Play("watchstep")
+	--	specWarnSixPoundBarrel2:Play("watchstep")
 	else
 		warnSixPoundBarrel:CombinedShow(0.5, targetname)
 	end
@@ -69,50 +69,50 @@ function mod:SPELL_CAST_START(args)
 	if spellId == 198405 then
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnScream:Show()
-			specWarnScream:Play("kickcast")
+		--	specWarnScream:Play("kickcast")
 		elseif self:AntiSpam(2, 1) then
 			warnScream:Show()
-			warnScream:Play("kickcast")
+		--	warnScream:Play("kickcast")
 		end
 	elseif spellId == 195031 and self:AntiSpam(2, "defiantstrike") then
 		if not self:IsNormal() then
 			specWarnDefiantStrike:Show()
-			specWarnDefiantStrike:Play("watchstep")
+		--	specWarnDefiantStrike:Play("watchstep")
 		end
 	elseif spellId == 195293 then --Истощающий крик
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnDebilitatingShout:Show()
-			specWarnDebilitatingShout:Play("kickcast")
+		--	specWarnDebilitatingShout:Play("kickcast")
 		end
 		timerDebilitatingShoutCD:Start()
 	elseif spellId == 196885 and self:AntiSpam(2, "quarter") then --Не щадить никого
 		if not self:IsNormal() then
 			specWarnGiveNoQuarter:Show()
-			specWarnGiveNoQuarter:Play("stilldanger")
+		--	specWarnGiveNoQuarter:Play("stilldanger")
 		end
 		timerGiveNoQuarterCD:Start()
 	elseif spellId == 194099 then --Гнусное дыхание
 		if not self:IsNormal() then
 			specWarnBileBreath:Show()
-			specWarnBileBreath:Play("stilldanger")
+		--	specWarnBileBreath:Play("stilldanger")
 		end
 	elseif spellId == 192019 and self:AntiSpam(2, "lantern") then --Фонарь Тьмы
 		timerLanternDarknessCD:Start()
 		if not self:IsNormal() then
 			specWarnLanternDarkness:Show()
-			specWarnLanternDarkness:Play("defensive")
+		--	specWarnLanternDarkness:Play("defensive")
 		end
 	elseif spellId == 199589 then --Водоворот душ
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnWhirlpoolSouls:Show(args.sourceName)
-			specWarnWhirlpoolSouls:Play("kickcast")
+		--	specWarnWhirlpoolSouls:Play("kickcast")
 		elseif self:AntiSpam(2, "whirlpool") then
 			warnWhirlpoolSouls:Show()
-			warnWhirlpoolSouls:Play("kickcast")
+		--	warnWhirlpoolSouls:Play("kickcast")
 		end
 	elseif spellId == 194657 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Вытягивание души
 		specWarnSoulSiphon:Show()
-		specWarnSoulSiphon:Play("kickcast")
+	--	specWarnSoulSiphon:Play("kickcast")
 	elseif spellId == 194442 then --Шестифунтовая бочка
 		self:BossTargetScanner(args.sourceGUID, "SixPoundBarrelTarget", 0.1, 2)
 	end
@@ -130,14 +130,14 @@ function mod:SPELL_AURA_APPLIED(args)
 		if not self:IsNormal() then
 			if args:IsPlayer() then
 				specWarnBind:Show()
-				specWarnBind:Play("defensive")
+			--	specWarnBind:Play("defensive")
 			end
 		end
 	elseif spellId == 200208 then --Взрыв солоноватой воды
 		if not self:IsNormal() then
 			if args:IsPlayer() and self:AntiSpam(2, "brackwater") then
 				specWarnBrackwaterBlast:Show()
-				specWarnBrackwaterBlast:Play("defensive")
+			--	specWarnBrackwaterBlast:Play("defensive")
 			end
 		end
 	elseif spellId == 194657 then --Вытягивание души
@@ -147,7 +147,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if not self:IsNormal() then
 			if args:IsPlayer() then
 				specWarnCurseofHope:Show()
-				specWarnCurseofHope:Play("targetyou")
+			--	specWarnCurseofHope:Play("targetyou")
 			end
 		end
 	end
@@ -169,7 +169,7 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spell
 	if spellId == 194102 and destGUID == UnitGUID("player") and self:AntiSpam(2, "poisonous") then
 		if not self:IsNormal() then
 			specWarnPoisonousSludge:Show()
-			specWarnPoisonousSludge:Play("runaway")
+		--	specWarnPoisonousSludge:Play("runaway")
 		end
 	end
 end

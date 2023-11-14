@@ -1,10 +1,11 @@
 local mod	= DBM:NewMod(1662, "DBM-Party-Legion", 5, 767)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(91003)
 mod:SetEncounterID(1790)
 mod:SetZone()
+mod:SetMinSyncRevision(17745)
 
 mod:RegisterCombat("combat")
 
@@ -52,9 +53,9 @@ function mod:SPELL_CAST_START(args)
 		warnRazorShards:Show()
 		if not UnitIsDeadOrGhost("player") then
 			specWarnRazorShards:Show()
-			specWarnRazorShards:Play("shockwave")
+		--	specWarnRazorShards:Play("shockwave")
 			specWarnRazorShards2:Show()
-			specWarnRazorShards2:Play("shockwave")
+		--	specWarnRazorShards2:Play("shockwave")
 		end
 		if self:IsHard() then
 			timerRazorShardsCD:Start(29)
@@ -68,7 +69,7 @@ function mod:SPELL_CAST_START(args)
 		countdownShatter2:Start()
 		if not UnitIsDeadOrGhost("player") then
 			specWarnShatter:Show()
-			specWarnShatter:Play("defensive")
+		--	specWarnShatter:Play("defensive")
 		end
 		if self:IsHard() then
 			timerShatterCD:Start(24.7)
@@ -95,7 +96,7 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 192800 and destGUID == UnitGUID("player") and self:AntiSpam(3.5, "Gas") then
 		if not self:IsNormal() then
 			specWarnGas:Show()
-			specWarnGas:Play("runaway")
+		--	specWarnGas:Play("runaway")
 		end
 	end
 end

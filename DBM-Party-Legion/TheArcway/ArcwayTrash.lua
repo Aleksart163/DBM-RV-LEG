@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("ArcwayTrash", "DBM-Party-Legion", 6)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 --mod:SetModelID(47785)
 mod:SetZone()
 mod:SetUsedIcons(8, 7, 6, 5, 4)
@@ -65,11 +65,11 @@ function mod:EyeoftheBeastTarget(targetname, uId)
 	if not targetname then return end
 	if targetname == UnitName("player") then
 		specWarnEyeoftheBeast:Show()
-		specWarnEyeoftheBeast:Play("watchstep")
+	--	specWarnEyeoftheBeast:Play("watchstep")
 		yellEyeoftheBeast:Yell()
 	elseif self:CheckNearby(10, targetname) then
 		specWarnEyeoftheBeast2:Show(targetname)
-		specWarnEyeoftheBeast2:Play("watchstep")
+	--	specWarnEyeoftheBeast2:Play("watchstep")
 	else
 		warnEyeoftheBeast:Show(targetname)
 	end
@@ -80,74 +80,74 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 211757 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Портал на Аргус
 		specWarnArgusPortal:Show()
-		specWarnArgusPortal:Play("kickcast")
+	--	specWarnArgusPortal:Play("kickcast")
 	elseif spellId == 226206 then --Чародейское воссоздание
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnArcaneReconstitution:Show()
-			specWarnArcaneReconstitution:Play("kickcast")
+		--	specWarnArcaneReconstitution:Play("kickcast")
 		else
 			warnArcaneReconstitution:Show()
-			warnArcaneReconstitution:Play("kickcast")
+		--	warnArcaneReconstitution:Play("kickcast")
 		end
 	elseif spellId == 211115 then --Фазовый прорыв
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnPhaseBreach:Show()
-			specWarnPhaseBreach:Play("kickcast")
+		--	specWarnPhaseBreach:Play("kickcast")
 		else
 			warnPhaseBreach:Show()
-			warnPhaseBreach:Play("kickcast")
+		--	warnPhaseBreach:Play("kickcast")
 			specWarnPhaseBreach:Show()
-			specWarnPhaseBreach:Play("kickcast")
+		--	specWarnPhaseBreach:Play("kickcast")
 		end
 	elseif spellId == 211771 and self:AntiSpam(2, 2) then --Предсказания рока
 		specWarnPropheciesofDoom:Show()
-		specWarnPropheciesofDoom:Play("defensive")
+	--	specWarnPropheciesofDoom:Play("defensive")
 	elseif spellId == 193938 and self:AntiSpam(5, 1) then --Взрыв слизнюка
 		warnOozeExplosion:Show()
 		specWarnOozeExplosion:Show()
-		specWarnOozeExplosion:Play("aesoon")
+	--	specWarnOozeExplosion:Play("aesoon")
 		specWarnOozeExplosion2:Show()
-		specWarnOozeExplosion2:Play("aesoon")
+	--	specWarnOozeExplosion2:Play("aesoon")
 	elseif spellId == 226269 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
 		specWarnTorment:Show()
-		specWarnTorment:Play("kickcast")
+	--	specWarnTorment:Play("kickcast")
 	elseif spellId == 211217 and self:AntiSpam(2, 3) then --Чародейский рассекатель
 		specWarnArcaneSlicer:Show()
-		specWarnArcaneSlicer:Play("shockwave")
+	--	specWarnArcaneSlicer:Play("shockwave")
 	elseif spellId == 211917 then --Буря Скверны
 		specWarnFelstorm:Show()
-		specWarnFelstorm:Play("watchstep")
+	--	specWarnFelstorm:Play("watchstep")
 		timerFelstormCD:Start()
 	elseif spellId == 211875 then --Вихрь клинков
 		specWarnBladestorm2:Show()
-		specWarnBladestorm2:Play("watchstep")
+	--	specWarnBladestorm2:Play("watchstep")
 		specWarnBladestorm:Show()
-		specWarnBladestorm:Play("justrun")
+	--	specWarnBladestorm:Play("justrun")
 		timerBladestormCD:Start()
 	elseif spellId == 210645 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Чародейская погибель
 		specWarnArcanicBane:Show()
-		specWarnArcanicBane:Play("kickcast")
+	--	specWarnArcanicBane:Play("kickcast")
 	elseif spellId == 210662 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Нестабильный поток
 		specWarnUnstableFlux:Show()
-		specWarnUnstableFlux:Play("kickcast")
+	--	specWarnUnstableFlux:Play("kickcast")
 	elseif spellId == 210684 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Вытягивание сущности
 		specWarnSiphonEssence:Show()
-		specWarnSiphonEssence:Play("kickcast")
+	--	specWarnSiphonEssence:Play("kickcast")
 	elseif spellId == 211007 then --Око урагана
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnEyeVortex:Show()
-			specWarnEyeVortex:Play("kickcast")
-		else
+		--	specWarnEyeVortex:Play("kickcast")
+		elseif self:AntiSpam(2, "EyeVortex") then
 			warnEyeVortex:Show()
-			warnEyeVortex:Play("kickcast")
+		--	warnEyeVortex:Play("kickcast")
 		end
 	elseif spellId == 226285 then --Демоническое вознесение
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnDemonicAscension:Show()
-			specWarnDemonicAscension:Play("kickcast")
+		--	specWarnDemonicAscension:Play("kickcast")
 		else
 			warnDemonicAscension:Show()
-			warnDemonicAscension:Play("kickcast")
+		--	warnDemonicAscension:Play("kickcast")
 		end
 	elseif spellId == 211775 then --Глаз Зверя
 		self:BossTargetScanner(args.sourceGUID, "EyeoftheBeastTarget", 0.1, 2)
@@ -167,19 +167,19 @@ function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 194006 and args:IsPlayer() then
 		specWarnOozePuddle:Show()
-		specWarnOozePuddle:Play("runaway")
+	--	specWarnOozePuddle:Play("runaway")
 	elseif spellId == 210750 and args:IsPlayer() then
 		specWarnColapsingRift:Show()
-		specWarnColapsingRift:Play("runaway")
+	--	specWarnColapsingRift:Play("runaway")
 	elseif spellId == 211745 and args:IsPlayer() then
 		specWarnFelStrike:Show()
-		specWarnFelStrike:Play("runaway")
+	--	specWarnFelStrike:Play("runaway")
 	elseif spellId == 211756 and args:IsDestTypePlayer() then --Жгучая рана
 		if self:IsMythic() then
 			timerSearingWound:Start(args.destName)
 			if args:IsPlayer() then
 				specWarnSearingWound:Show()
-				specWarnSearingWound:Play("targetyou")
+			--	specWarnSearingWound:Play("targetyou")
 			end
 		end
 	elseif spellId == 211543 then --Пожирание

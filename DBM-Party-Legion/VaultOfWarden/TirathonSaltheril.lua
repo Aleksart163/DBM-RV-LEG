@@ -1,11 +1,12 @@
 local mod	= DBM:NewMod(1467, "DBM-Party-Legion", 10, 707)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(95885)
 mod:SetEncounterID(1815)
 mod:DisableESCombatDetection()--Remove if blizz fixes trash firing ENCOUNTER_START
 mod:SetZone()
+mod:SetMinSyncRevision(17745)
 
 mod:RegisterCombat("combat")
 
@@ -95,7 +96,7 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if (spellId == 204151 or spellId == 191941) and self:AntiSpam(2.5, 1) then --Удары Тьмы
 		specWarnDarkStrikes:Show()
-		specWarnDarkStrikes:Play("defensive")
+	--	specWarnDarkStrikes:Play("defensive")
 		if self:IsHard() then
 			timerDarkStrikesCD:Start(30.5)
 		else
@@ -105,10 +106,10 @@ function mod:SPELL_CAST_START(args)
 		warnFuriousBlast:Show()
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnFuriousBlast:Show()
-			specWarnFuriousBlast:Play("kickcast")
+		--	specWarnFuriousBlast:Play("kickcast")
 		else
 			specWarnFuriousBlast:Show()
-			specWarnFuriousBlast:Play("kickcast")
+		--	specWarnFuriousBlast:Play("kickcast")
 		end
 		if self:IsHard() then
 			if self.vb.phase == 3 then
@@ -124,7 +125,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 202913 then --Залп Скверны
 		if not UnitIsDeadOrGhost("player") then
 			specWarnFelMortar:Show()
-			specWarnFelMortar:Play("watchstep")
+		--	specWarnFelMortar:Play("watchstep")
 		end
 		timerFelMortarCD:Start()
 	end
@@ -135,7 +136,7 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spell
 	if spellId == 191853 and destGUID == UnitGUID("player") and self:AntiSpam(2, 2) then
 		if not self:IsNormal() then
 			specWarnFelMortarGTFO:Show()
-			specWarnFelMortarGTFO:Play("runaway")
+		--	specWarnFelMortarGTFO:Play("runaway")
 		end
 	end
 end
@@ -146,7 +147,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	if spellId == 190830 then --Ненависть
 		if not UnitIsDeadOrGhost("player") then
 			specWarnHatred:Show()
-			specWarnHatred:Play("watchstep")
+		--	specWarnHatred:Play("watchstep")
 		end
 		timerHatredCD:Start()
 	end

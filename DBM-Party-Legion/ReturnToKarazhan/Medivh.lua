@@ -1,11 +1,12 @@
 local mod	= DBM:NewMod(1817, "DBM-Party-Legion", 11, 860)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(114350)
 mod:SetEncounterID(1965)
 mod:SetZone()
 mod:SetUsedIcons(8, 7)
+mod:SetMinSyncRevision(17745)
 --mod:SetHotfixNoticeRev(14922)
 --mod.respawnTime = 30
 
@@ -77,19 +78,19 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 227592 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Обморожение
 		specWarnFrostbite:Show()
-		specWarnFrostbite:Play("kickcast")
+	--	specWarnFrostbite:Play("kickcast")
 	elseif spellId == 227615 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Инфернальная стрела
 		specWarnInfernoBolt:Show()
-		specWarnInfernoBolt:Play("kickcast")
+	--	specWarnInfernoBolt:Play("kickcast")
 	elseif spellId == 228991 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Чародейская стрела
 		if self:AntiSpam(1, "ArcaneBolt") then
 			specWarnArcaneBolt:Show()
-			specWarnArcaneBolt:Play("kickcast")
+		--	specWarnArcaneBolt:Play("kickcast")
 		end
 	elseif spellId == 227779 then --Бесконечная зима
 		if not UnitIsDeadOrGhost("player") then
 			specWarnCeaselessWinter:Show()
-			specWarnCeaselessWinter:Play("keepjump")
+		--	specWarnCeaselessWinter:Play("keepjump")
 		end
 		timerSpecialCD:Start(32.5)
 		countdownSpecial:Start(32.5)
@@ -97,7 +98,7 @@ function mod:SPELL_CAST_START(args)
 		warnFlameWreath:Show()
 		if not UnitIsDeadOrGhost("player") then
 			specWarnFlameWreath3:Show()
-			specWarnFlameWreath3:Play("runaway")
+		--	specWarnFlameWreath3:Play("runaway")
 		end
 		timerSpecialCD:Start(31.5)
 		countdownSpecial:Start(31.5)
@@ -105,7 +106,7 @@ function mod:SPELL_CAST_START(args)
 		self.vb.imagesActive = true
 		if not UnitIsDeadOrGhost("player") then
 			specWarnGuardiansImage:Show()
-			specWarnGuardiansImage:Play("mobkill")
+		--	specWarnGuardiansImage:Play("mobkill")
 		end
 	end
 end
@@ -120,7 +121,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		countdownFlameWreath:Start()
 	elseif spellId == 227628 then --Пронзающие стрелы
 		specWarnArcaneMissiles:Show()
-		specWarnArcaneMissiles:Play("defensive")
+	--	specWarnArcaneMissiles:Play("defensive")
 	end
 end
 
@@ -138,14 +139,14 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnFlameWreathTargets:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
 			specWarnFlameWreath:Show()
-			specWarnFlameWreath:Play("dontmove")
+		--	specWarnFlameWreath:Play("dontmove")
 			specWarnFlameWreath4:Schedule(2)
-			specWarnFlameWreath4:ScheduleVoice(2, "defensive")
+		--	specWarnFlameWreath4:ScheduleVoice(2, "defensive")
 			yellFlameWreath:Yell()
 			yellFlameWreath2:Countdown(20, 3)
 		elseif self:AntiSpam(2, "flamewreath") then
 			specWarnFlameWreath2:Show()
-			specWarnFlameWreath2:Play("dontmove")
+		--	specWarnFlameWreath2:Play("dontmove")
 		end
 		if self.Options.SetIconOnWreath then
 			self:SetIcon(args.destName, self.vb.wreathIcon)
@@ -154,14 +155,14 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			if self.vb.playersFrozen == 0 then
 				specWarnInfernoBoltMoveAway:Show()
-				specWarnInfernoBoltMoveAway:Play("scatter")
+			--	specWarnInfernoBoltMoveAway:Play("scatter")
 			else
 				specWarnInfernoBoltMoveTo:Show(frostBiteName)
-				specWarnInfernoBoltMoveTo:Play("gather")
+			--	specWarnInfernoBoltMoveTo:Play("gather")
 			end
 		elseif self:CheckNearby(8, args.destName) and not UnitDebuff("player", frostBiteName) and not UnitDebuff("player", flameWreathName) then
 			specWarnInfernoBoltNear:Show(args.destName)
-			specWarnInfernoBoltNear:Play("scatter")
+		--	specWarnInfernoBoltNear:Play("scatter")
 		else
 			warnInfernoBolt:Show(args.destName)
 		end
@@ -173,14 +174,14 @@ function mod:SPELL_AURA_APPLIED(args)
 			if amount >= 3 then
 				if args:IsPlayer() then
 					specWarnArcaneMissiles2:Show(amount)
-					specWarnArcaneMissiles2:Play("stackhigh")
+				--	specWarnArcaneMissiles2:Play("stackhigh")
 				end
 			end
 		else
 			if amount >= 2 then
 				if args:IsPlayer() then
 					specWarnArcaneMissiles2:Show(amount)
-					specWarnArcaneMissiles2:Play("stackhigh")
+				--	specWarnArcaneMissiles2:Play("stackhigh")
 				end
 			end
 		end
@@ -189,7 +190,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if amount >= 3 and amount % 2 == 0 then
 			if args:IsPlayer() then
 				specWarnCeaselessWinter2:Show(amount)
-				specWarnCeaselessWinter2:Play("stackhigh")
+			--	specWarnCeaselessWinter2:Play("stackhigh")
 			end
 		end
 	end

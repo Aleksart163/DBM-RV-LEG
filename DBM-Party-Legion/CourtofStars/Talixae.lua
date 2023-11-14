@@ -1,11 +1,11 @@
 local mod	= DBM:NewMod(1719, "DBM-Party-Legion", 7, 800)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(104217)
 mod:SetEncounterID(1869)
 mod:SetZone()
-
+mod:SetMinSyncRevision(17745)
 mod.noNormal = true
 
 mod:RegisterCombat("combat")
@@ -51,16 +51,16 @@ function mod:SPELL_CAST_START(args)
 		self.vb.kickCount = self.vb.kickCount + 1
 		local kickCount = self.vb.kickCount
 		specWarnWitheringSoul:Show(kickCount)
-		if kickCount == 1 then
+--[[		if kickCount == 1 then
 			specWarnWitheringSoul:Play("kick1r")
 		elseif kickCount == 2 then
 			specWarnWitheringSoul:Play("kick2r")
-		end
+		end]]
 		timerWitheringSoulCD:Start()
 	elseif spellId == 207881 then --Инфернальное извержение
 		if not UnitIsDeadOrGhost("player") then
 			specWarnInfernalEruption:Show()
-			specWarnInfernalEruption:Play("watchstep")
+		--	specWarnInfernalEruption:Play("watchstep")
 		end
 		if self:IsHard() then
 			timerInfernalEruptionCD:Start(20.5)

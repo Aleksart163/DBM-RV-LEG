@@ -1,10 +1,11 @@
 local mod	= DBM:NewMod(1837, "DBM-Party-Legion", 11, 860)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(114312)
 mod:SetEncounterID(1961)
 mod:SetZone()
+mod:SetMinSyncRevision(17745)
 --mod:SetUsedIcons(1)
 --mod:SetHotfixNoticeRev(14922)
 --mod.respawnTime = 30
@@ -109,7 +110,7 @@ function mod:VanishTarget(targetname, uId) --Исчезновение ✔
 	warnVanish:Show(targetname)
 	if targetname == UnitName("player") then
 		specWarnVanish:Show()
-		specWarnVanish:Play("targetyou")
+	--	specWarnVanish:Play("targetyou")
 		yellVanish:Yell()
 	end
 end
@@ -141,24 +142,24 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 227672 then
 		specWarnWillBreaker:Show()
-		specWarnWillBreaker:Play("shockwave")
+	--	specWarnWillBreaker:Play("shockwave")
 		timerWillBreakerCD:Start()
 	elseif spellId == 227578 then --Исцеляющий поток
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnHealingStream:Show()
-			specWarnHealingStream:Play("kickcast")
+		--	specWarnHealingStream:Play("kickcast")
 		else
 			warnHealingStream:Show()
-			warnHealingStream:Play("kickcast")
+		--	warnHealingStream:Play("kickcast")
 		end
 		timerHealingStreamCD:Start()
 	elseif spellId == 227545 then --Похищение маны
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnManaDrain:Show()
-			specWarnManaDrain:Play("kickcast")
+		--	specWarnManaDrain:Play("kickcast")
 		else
 			warnManaDrain:Show()
-			warnManaDrain:Play("kickcast")
+		--	warnManaDrain:Play("kickcast")
 		end
 	elseif spellId == 227736 then --Исчезновение
 		self:BossTargetScanner(args.sourceGUID, "VanishTarget", 0.1, 2)
@@ -184,25 +185,22 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerCoatCheckCD:Start()
 		if args:IsPlayer() and not self:IsMagicDispeller2() then
 			specWarnCoatCheck:Show()
-			specWarnCoatCheck:Play("defensive")
-		elseif args:IsPlayer() and self:IsMagicDispeller2() then
-			specWarnCoatCheckHealer2:Show()
-			specWarnCoatCheckHealer2:Play("dispelnow")
+		--	specWarnCoatCheck:Play("defensive")
 		elseif self:IsMagicDispeller2() then
 			if not UnitIsDeadOrGhost("player") then
 				specWarnCoatCheckHealer:Show(args.destName)
-				specWarnCoatCheckHealer:Play("dispelnow")
+			--	specWarnCoatCheckHealer:Play("dispelnow")
 			end
 		end
 	elseif spellId == 227616 then --Усиление оружия
 		warnEmpoweredArms:Show(args.destName)
 		if args:IsPlayer() and self:IsTank() then
 			specWarnEmpoweredArms2:Show()
-			specWarnEmpoweredArms2:Play("defensive")
+		--	specWarnEmpoweredArms2:Play("defensive")
 		elseif self:IsMagicDispeller() then
 			if not UnitIsDeadOrGhost("player") then
 				specWarnEmpoweredArms:Show(args.destName)
-				specWarnEmpoweredArms:Play("dispelnow")
+			--	specWarnEmpoweredArms:Play("dispelnow")
 			end
 		end
 	elseif spellId == 227742 then --Гаррота
@@ -210,7 +208,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			if amount >= 2 then
 				specWarnGarrote:Show(amount)
-				specWarnGarrote:Play("stackhigh")
+			--	specWarnGarrote:Play("stackhigh")
 			end
 		else
 			warnGarrote:Show(args.destName, amount)

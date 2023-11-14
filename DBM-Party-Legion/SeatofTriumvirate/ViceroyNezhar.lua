@@ -1,10 +1,11 @@
 local mod	= DBM:NewMod(1981, "DBM-Party-Legion", 13, 945)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(124874) -- ну или 124309
 mod:SetEncounterID(2067)
 mod:SetZone()
+mod:SetMinSyncRevision(17745)
 
 mod:RegisterCombat("combat")
 
@@ -61,11 +62,11 @@ function mod:SPELL_CAST_START(args)
 	if spellId == 244751 then --Пронизывающая тьма (фир)
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnHowlingDark:Show()
-			specWarnHowlingDark:Play("kickcast")
+		--	specWarnHowlingDark:Play("kickcast")
 		else
 			warnHowlingDark:Show()
 			specWarnHowlingDark:Show()
-			specWarnHowlingDark:Play("kickcast")
+		--	specWarnHowlingDark:Play("kickcast")
 		end
 		timerHowlingDarkCD:Start()
 	elseif spellId == 248736 and self:AntiSpam(3, 1) then --Вечные сумерки начало каста
@@ -80,7 +81,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 246324 then
 		if not UnitIsDeadOrGhost("player") then
 			specWarnEntropicForce:Show()
-			specWarnEntropicForce:Play("keepmove")
+		--	specWarnEntropicForce:Play("keepmove")
 		end
 	end
 end
@@ -108,7 +109,7 @@ function mod:SPELL_AURA_REMOVED(args)
 			warnDarkBulwark:Show()
 			if not UnitIsDeadOrGhost("player") then
 				specWarnEternalTwilight:Show()
-				specWarnEternalTwilight:Play("kickcast")
+			--	specWarnEternalTwilight:Play("kickcast")
 			end
 		end
 	end
@@ -120,13 +121,13 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 		warnTentacles:Show()
 		if not UnitIsDeadOrGhost("player") then
 			specWarnTentacles:Show()
-			specWarnTentacles:Play("mobkill")
+		--	specWarnTentacles:Play("mobkill")
 		end
 		timerUmbralTentaclesCD:Start()
 	elseif spellId == 249336 then--or 249335
 		if not UnitIsDeadOrGhost("player") then
 			specWarnAdds:Show()
-			specWarnAdds:Play("mobkill")
+		--	specWarnAdds:Play("mobkill")
 		end
 	end
 end

@@ -1,14 +1,15 @@
 local mod	= DBM:NewMod(1487, "DBM-Party-Legion", 4, 721)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(95674, 99868)
 mod:SetEncounterID(1807)
 mod:DisableEEKillDetection()
 mod:SetZone()
+mod:SetMinSyncRevision(17745)
+mod:SetUsedIcons(8)
 
 mod:RegisterCombat("combat")
-mod:SetUsedIcons(8)
 
 mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED 197556 196838 196828",
@@ -58,8 +59,8 @@ function mod:FixateTarget(targetname, uId)
 	if self:AntiSpam(5, targetname) then
 		if targetname == UnitName("player") then
 			specWarnFixate:Show()
-			specWarnFixate:Play("runaway")
-			specWarnFixate:ScheduleVoice(1, "keepmove")
+		--	specWarnFixate:Play("runaway")
+		--	specWarnFixate:ScheduleVoice(1, "keepmove")
 			yellFixate:Yell()
 			yellFixate2:Countdown(9, 3)
 		else
@@ -94,7 +95,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnLeap:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
 			specWarnLeap:Show()
-			specWarnLeap:Play("runout")
+		--	specWarnLeap:Play("runout")
 			yellLeap:Yell()
 		end
 		if self.Options.RangeFrame then
@@ -105,8 +106,8 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self:AntiSpam(5, args.destName) then
 			if args:IsPlayer() then
 				specWarnFixate:Show()
-				specWarnFixate:Play("runaway")
-				specWarnFixate:ScheduleVoice(1, "keepmove")
+			--	specWarnFixate:Play("runaway")
+			--	specWarnFixate:ScheduleVoice(1, "keepmove")
 			else
 				warnFixate:Show(args.destName)
 			end
@@ -126,7 +127,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		DBM.RangeCheck:Hide()
 	elseif spellId == 196838 and args:IsPlayer() then
 		specWarnFixateOver:Show()
-		specWarnFixateOver:Play("end")
+	--	specWarnFixateOver:Play("end")
 	end
 end
 
@@ -142,7 +143,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 196543 then --Пугающий вой
 		if not UnitIsDeadOrGhost("player") then
 			specWarnHowl:Show()
-			specWarnHowl:Play("stopcast")
+		--	specWarnHowl:Play("stopcast")
 		end
 		timerHowlCD:Start()
 	elseif spellId == 197558 then --Хищный прыжок
@@ -161,7 +162,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		if self.vb.phase == 2 then
 			if not UnitIsDeadOrGhost("player") then
 				specWarnWolves:Show()
-				specWarnWolves:Play("mobkill")
+			--	specWarnWolves:Play("mobkill")
 			end
 		end
 	end
@@ -215,30 +216,17 @@ function mod:ZONE_CHANGED_NEW_AREA()
 end
 
 function mod:UNIT_HEALTH(uId)
-	if not self:IsNormal() then --гер, миф и миф+
-		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 95674 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.71 then
-			warned_preP1 = true
-			warnPrePhase2:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase+1))
-		elseif self.vb.phase == 1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 99868 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.60 then
-			self.vb.phase = 2
-			warned_preP2 = true
-			warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase))
-			timerLeapCD:Start(15)
-			timerFixateCD:Start(28)
-			warnFixate2:Schedule(23)
-			timerClawFrenzyCD:Start(12.5)
-		end
-	else
-		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 95674 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.71 then
-			warned_preP1 = true
-		elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 99868 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.60 then
-			self.vb.phase = 2
-			warned_preP2 = true
-			warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase))
-			timerLeapCD:Start(15)
-			timerFixateCD:Start(28)
-			warnFixate2:Schedule(23)
-			timerClawFrenzyCD:Start(12.5)
-		end
+	if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 95674 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.71 then
+		warned_preP1 = true
+		warnPrePhase2:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase+1))
+	elseif self.vb.phase == 1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 99868 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.60 then
+		self.vb.phase = 2
+		warned_preP2 = true
+		warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase))
+		timerHowlCD:Start(5)
+		timerLeapCD:Start(15)
+		timerFixateCD:Start(28)
+		warnFixate2:Schedule(23)
+		timerClawFrenzyCD:Start(12.5)
 	end
 end

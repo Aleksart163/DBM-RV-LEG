@@ -1,11 +1,12 @@
 local mod	= DBM:NewMod(1979, "DBM-Party-Legion", 13, 945)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(124871) --возможно ещё 122313
 mod:SetEncounterID(2065)
 mod:SetZone()
 mod:SetUsedIcons(7)
+mod:SetMinSyncRevision(17745)
 
 mod:RegisterCombat("combat")
 
@@ -80,7 +81,7 @@ function mod:SPELL_CAST_START(args)
 	if spellId == 246134 then
 		if not UnitIsDeadOrGhost("player") then
 			specWarnNullPalm:Show()
-			specWarnNullPalm:Play("shockwave")
+		--	specWarnNullPalm:Play("shockwave")
 		end
 	--	timerNullPalmCD:Start()
 	elseif spellId == 244579 then
@@ -95,7 +96,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	if spellId == 246139 then --Сгустившаяся Бездна 244602
 		if not UnitIsDeadOrGhost("player") then
 			specWarnCoalescedVoid:Show()
-			specWarnCoalescedVoid:Play("mobkill")
+		--	specWarnCoalescedVoid:Play("mobkill")
 		end
 	end
 end
@@ -106,7 +107,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerFixate:Start(args.destName)
 		if args:IsPlayer() then
 			specWarnFixate:Show()
-			specWarnFixate:Play("justrun")
+		--	specWarnFixate:Play("justrun")
 			yellFixate:Yell()
 			yellFixate2:Countdown(10, 3)
 		else
@@ -194,6 +195,6 @@ end
 function mod:OnSync(msg)
 	if msg == "Phase2" then --Прорыв Бездны
 		specWarnVoidTear3:Show()
-		specWarnVoidTear3:Play("specialsoon")
+	--	specWarnVoidTear3:Play("specialsoon")
 	end
 end

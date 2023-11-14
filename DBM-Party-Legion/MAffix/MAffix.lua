@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("MAffix", "DBM-Party-Legion", 14)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetZone()
 
 mod.noStatistics = true
@@ -38,9 +38,9 @@ function mod:SPELL_AURA_APPLIED(args)
 	if spellId == 240447 then --Землетрясение
 		if args:IsPlayer() then
 			specWarnQuake:Show()
-			specWarnQuake:Play("runaway")
+		--	specWarnQuake:Play("runaway")
 			specWarnQuake2:Show()
-			specWarnQuake2:Play("runaway")
+		--	specWarnQuake2:Play("runaway")
 			timerQuake:Start()
 		end
 	elseif spellId == 240559 then --Тяжкая рана
@@ -48,7 +48,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			if amount >= 5 then
 				specWarnGrievousWound:Show(amount)
-				specWarnGrievousWound:Play("stackhigh")
+			--	specWarnGrievousWound:Play("stackhigh")
 				dota5s = true
 			end
 		end
@@ -58,7 +58,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if amount >= 10 and amount % 5 == 0 then
 			if args:IsPlayer() then
 				specWarnNecroticWound:Show(amount)
-				specWarnNecroticWound:Play("stackhigh")
+			--	specWarnNecroticWound:Play("stackhigh")
 			else
 				warnNecroticWound:Show(args.destName, amount)
 			end
@@ -69,10 +69,10 @@ function mod:SPELL_AURA_APPLIED(args)
 			timerBurst:Start(args.destName)
 			if amount == 7 then
 				specWarnBurst:Show()
-				specWarnBurst:Play("stackhigh")
+			--	specWarnBurst:Play("stackhigh")
 			elseif amount >= 10 and amount % 5 == 0 and self:AntiSpam(3, 1) then
 				specWarnBurst:Show()
-				specWarnBurst:Play("stackhigh")
+			--	specWarnBurst:Play("stackhigh")
 			end
 		end
 	end
@@ -99,11 +99,11 @@ end
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
 	if spellId == 226512 and destGUID == UnitGUID("player") and self:AntiSpam(2, "sanguine") then --Кровавый гной
 		specWarnSanguineIchor:Show()
-		specWarnSanguineIchor:Play("runaway")
+	--	specWarnSanguineIchor:Play("runaway")
 	elseif spellId == 240559 and destGUID == UnitGUID("player") then --Тяжкая рана
 		if dota5s and self:AntiSpam(7, "grievous") then
 			specWarnGrievousWound:Show(5)
-			specWarnGrievousWound:Play("stackhigh")
+		--	specWarnGrievousWound:Play("stackhigh")
 		end
 	end
 end

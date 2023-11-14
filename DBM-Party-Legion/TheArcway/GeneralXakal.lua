@@ -1,11 +1,11 @@
 local mod	= DBM:NewMod(1499, "DBM-Party-Legion", 6, 726)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(98206)
 mod:SetEncounterID(1828)
 mod:SetZone()
-
+mod:SetMinSyncRevision(17745)
 mod.noNormal = true
 
 mod:RegisterCombat("combat")
@@ -39,7 +39,7 @@ mod.vb.batCount = 0
 local function blizzardHatesBossMods(self)
 	if not UnitIsDeadOrGhost("player") then
 		specWarnBat:Show()
-		specWarnBat:Play("mobsoon")
+	--	specWarnBat:Play("mobsoon")
 	end
 	if not self:IsNormal() then
 		timerBatCD:Start(30.7)
@@ -74,21 +74,21 @@ function mod:SPELL_CAST_START(args)
 	if spellId == 197776 then
 		if not UnitIsDeadOrGhost("player") then
 			specWarnFissure:Show()
-			specWarnFissure:Play("watchstep")
+		--	specWarnFissure:Play("watchstep")
 		end
 		timerFissureCD:Start()
 		--updateAlltimers(6)
 	elseif spellId == 212030 then
 		if not UnitIsDeadOrGhost("player") then
 			specWarnSlash:Show()
-			specWarnSlash:Play("watchwave")
+		--	specWarnSlash:Play("watchwave")
 		end
 		timerSlashCD:Start()
 		--updateAlltimers(6)
 	elseif spellId == 197810 then
 		if not UnitIsDeadOrGhost("player") then
 			specWarnSlam:Show()
-			specWarnSlam:Play("defensive")
+		--	specWarnSlam:Play("defensive")
 		end
 		timerSlamCD:Start()
 		countdownSlam:Start()
@@ -114,7 +114,7 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spell
 	if spellId == 220443 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
 		if not self:IsNormal() then
 			specWarnWakeofShadows:Show()
-			specWarnWakeofShadows:Play("runaway")
+		--	specWarnWakeofShadows:Play("runaway")
 		end
 	end
 end

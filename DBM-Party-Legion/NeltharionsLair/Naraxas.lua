@@ -1,11 +1,13 @@
 local mod	= DBM:NewMod(1673, "DBM-Party-Legion", 5, 767)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(91005)
 mod:SetEncounterID(1792)
 mod:SetZone()
 mod:SetUsedIcons(8)
+mod:SetMinSyncRevision(17745)
+
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
@@ -50,8 +52,8 @@ function mod:SpikedTongueTarget(targetname, uId)
 	if not targetname then return end
 	if targetname == UnitName("player") then
 		specWarnSpikedTongue:Show()
-		specWarnSpikedTongue:Play("runout")
-		specWarnSpikedTongue:ScheduleVoice(1.5, "keepmove")
+	--	specWarnSpikedTongue:Play("runout")
+	--	specWarnSpikedTongue:ScheduleVoice(1.5, "keepmove")
 		yellSpikedTongue:Yell()
 	else
 		warnSpikedTongue:Show(targetname)
@@ -95,7 +97,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 210150 then --Токсичная желчь
 		if not UnitIsDeadOrGhost("player") then
 			specWarnToxicRetch:Show()
-			specWarnToxicRetch:Play("watchstep")
+		--	specWarnToxicRetch:Play("watchstep")
 		end
 		timerToxicRetchCD:Start()
 	elseif spellId == 198963 then
@@ -118,10 +120,10 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 217851 then --Токсичная желчь
 		if args:IsPlayer() and not self:IsPoisonDispeller() then
 			specWarnToxicRetch3:Show()
-			specWarnToxicRetch3:Play("defensive")
+		--	specWarnToxicRetch3:Play("defensive")
 		elseif args:IsPlayer() and self:IsPoisonDispeller() then
 			specWarnToxicRetch2:Show()
-			specWarnToxicRetch2:Play("dispelnow")
+		--	specWarnToxicRetch2:Play("dispelnow")
 		end
 	end
 end
@@ -131,10 +133,10 @@ mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 188494 and destGUID == UnitGUID("player") and self:AntiSpam(1, "proshlyapation1") then --Зловонная пасть
 		specWarnRancidMaw:Show()
-		specWarnRancidMaw:Play("runout")
+	--	specWarnRancidMaw:Play("runout")
 	elseif spellId == 210166 and destGUID == UnitGUID("player") and self:AntiSpam(1, "proshlyapation2") then --Токсичная желчь
 		specWarnToxicRetch4:Show()
-		specWarnToxicRetch4:Play("runout")
+	--	specWarnToxicRetch4:Play("runout")
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
@@ -144,10 +146,10 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	if spellId == 199817 then --Призыв прислужников
 		if self:IsRanged() then
 			specWarnAdds:Schedule(1)
-			specWarnAdds:ScheduleVoice(1, "mobkill")
+		--	specWarnAdds:ScheduleVoice(1, "mobkill")
 		elseif self:IsMeleeDps() then
 			specWarnAdds:Schedule(8)
-			specWarnAdds:ScheduleVoice(8, "mobkill")
+		--	specWarnAdds:ScheduleVoice(8, "mobkill")
 		end
 		if self:IsHard() then
 			timerAddsCD:Start(75)

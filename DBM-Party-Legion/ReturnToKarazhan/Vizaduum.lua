@@ -1,11 +1,12 @@
 local mod	= DBM:NewMod(1838, "DBM-Party-Legion", 11, 860)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(114790)
 mod:SetEncounterID(2017)
 mod:SetZone()
 mod:SetUsedIcons(1, 2, 3, 7, 8)
+mod:SetMinSyncRevision(17745)
 --mod:SetHotfixNoticeRev(14922)
 --mod.respawnTime = 30
 
@@ -139,7 +140,7 @@ function mod:SPELL_CAST_START(args)
 		else
 			if not UnitIsDeadOrGhost("player") then
 				specWarnDisintegrate:Show()
-				specWarnDisintegrate:Play("watchstep")
+			--	specWarnDisintegrate:Play("watchstep")
 			end
 			timerDisintegrateCD:Start()
 		end
@@ -149,13 +150,13 @@ function mod:SPELL_CAST_START(args)
 		self.vb.kickCount = self.vb.kickCount + 1
 		local kickCount = self.vb.kickCount
 		specWarnBurningBlast:Show(kickCount)
-		if kickCount == 1 then
+--[[		if kickCount == 1 then
 			specWarnBurningBlast:Play("kick1r")
 		elseif kickCount == 2 then
 			specWarnBurningBlast:Play("kick2r")
 		elseif kickCount == 3 then
 			specWarnBurningBlast:Play("kick3r")
-		end
+		end]]
 		if self.vb.phase == 2 and self.vb.burningBlastCount == 1 then
 			perephase = false
 			timerDisintegrateCD:Start(9)
@@ -220,9 +221,9 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 		if args:IsPlayer() then
 			specWarnChaoticShadows:Show()
-			specWarnChaoticShadows:Play("runout")
+		--	specWarnChaoticShadows:Play("runout")
 			specWarnChaoticShadows2:Schedule(4.5)
-			specWarnChaoticShadows2:ScheduleVoice(4.5, "runaway")
+		--	specWarnChaoticShadows2:ScheduleVoice(4.5, "runaway")
 			yellChaoticShadows:Yell(count, chaoticshadows, count)
 			yellChaoticShadows2:Countdown(10, 3)
 		end
@@ -236,14 +237,14 @@ function mod:SPELL_AURA_APPLIED(args)
 		countdownFelBeam:Start()
 		if args:IsPlayer() then
 			specWarnFelBeam:Show()
-			specWarnFelBeam:Play("justrun")
-			specWarnFelBeam:ScheduleVoice(2, "keepmove")
+		--	specWarnFelBeam:Play("justrun")
+		--	specWarnFelBeam:ScheduleVoice(2, "keepmove")
 			yellFelBeam:Yell()
 			yellFelBeam2:Countdown(5, 3)
 		elseif self:CheckNearby(20, args.destName) then
 			if not UnitIsDeadOrGhost("player") then
 				specWarnFelBeam2:Show(args.destName)
-				specWarnFelBeam2:Play("watchstep")
+			--	specWarnFelBeam2:Play("watchstep")
 			end
 		else
 			warnFelBeam:Show(args.destName)
@@ -268,26 +269,22 @@ function mod:SPELL_AURA_APPLIED(args)
 			if self:IsMythic() then
 				if args:IsPlayer() and not self:IsMagicDispeller2() then
 					specWarnBurningBlast4:Show(amount)
-					specWarnBurningBlast4:Play("targetyou")
-					yellBurningBlast:Yell()
-				elseif args:IsPlayer() and self:IsMagicDispeller2() then
-					specWarnBurningBlast3:Show()
-					specWarnBurningBlast3:Play("dispelnow")
+				--	specWarnBurningBlast4:Play("targetyou")
 					yellBurningBlast:Yell()
 				elseif self:IsMagicDispeller2() then
 					if not UnitIsDeadOrGhost("player") then
 						specWarnBurningBlast2:Show(args.destName)
-						specWarnBurningBlast2:Play("dispelnow")
+					--	specWarnBurningBlast2:Play("dispelnow")
 					end
 				end
 			else
 				if args:IsPlayer() and not self:IsMagicDispeller2() then
 					specWarnBurningBlast4:Show(amount)
-					specWarnBurningBlast4:Play("targetyou")
+				--	specWarnBurningBlast4:Play("targetyou")
 					yellBurningBlast:Yell()
 				elseif args:IsPlayer() and self:IsMagicDispeller2() then
 					specWarnBurningBlast3:Show()
-					specWarnBurningBlast3:Play("dispelnow")
+				--	specWarnBurningBlast3:Play("dispelnow")
 					yellBurningBlast:Yell()
 				end
 			end
@@ -356,7 +353,7 @@ end
 function mod:OnSync(msg)
 	if msg == "stabilizerift" then
 		specWarnStabilizeRift:Schedule(27.7)
-		specWarnStabilizeRift:ScheduleVoice(27.7, "kickcast")
+	--	specWarnStabilizeRift:ScheduleVoice(27.7, "kickcast")
 		timerStabilizeRift:Start()
 		countdownStabilizeRift:Start()
 	end

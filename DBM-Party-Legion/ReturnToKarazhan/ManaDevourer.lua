@@ -1,10 +1,11 @@
 local mod	= DBM:NewMod(1818, "DBM-Party-Legion", 11, 860)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(114252)
 mod:SetEncounterID(1959)
 mod:SetZone()
+mod:SetMinSyncRevision(17745)
 --mod:SetUsedIcons(1)
 --mod:SetHotfixNoticeRev(14922)
 --mod.respawnTime = 30
@@ -59,7 +60,7 @@ function mod:OnCombatStart(delay)
 	timerCoalescePowerCD:Start(30-delay, 1)
 	countdownCoalescePower:Start(30-delay)
 	specWarnEnergyDischarge:Schedule(17-delay) --Энергетический разряд
-	specWarnEnergyDischarge:ScheduleVoice(17-delay, "aesoon")
+--	specWarnEnergyDischarge:ScheduleVoice(17-delay, "aesoon")
 	timerEnergyDischargeCD:Start(22-delay) --Энергетический разряд
 	countdownEnergyDischarge:Start(22-delay) --Энергетический разряд
 	if self.Options.InfoFrame then
@@ -81,7 +82,7 @@ function mod:SPELL_CAST_START(args)
 		ProshlyapMurchalyaSoon = false
 		if not UnitIsDeadOrGhost("player") then
 			specWarnDecimatingEssence:Show()
-			specWarnDecimatingEssence:Play("aesoon")
+		--	specWarnDecimatingEssence:Play("aesoon")
 		end
 	end
 end
@@ -91,13 +92,13 @@ function mod:SPELL_CAST_SUCCESS(args)
 	if spellId == 227618 then --Чародейская бомба
 		if not UnitIsDeadOrGhost("player") then
 			specWarnArcaneBomb:Show()
-			specWarnArcaneBomb:Play("watchstep")
+		--	specWarnArcaneBomb:Play("watchstep")
 		end
 	elseif spellId == 227523 then --Энергетическая пустота
 		warnEnergyVoid:Show()
 		if not UnitIsDeadOrGhost("player") then
 			specWarnEnergyVoid2:Show()
-			specWarnEnergyVoid2:Play("watchstep")
+		--	specWarnEnergyVoid2:Play("watchstep")
 		end
 		timerEnergyVoidCD:Start()
 	end
@@ -108,7 +109,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	if spellId == 227297 then --Слияние энергии
 		if not UnitIsDeadOrGhost("player") then
 			specWarnCoalescePower:Show(self.vb.MurchalProshlyapenCount+1)
-			specWarnCoalescePower:Play("watchstep")
+		--	specWarnCoalescePower:Play("watchstep")
 		end
 	elseif spellId == 227502 then --Нестабильная мана
 		local amount = args.amount or 1
@@ -116,14 +117,14 @@ function mod:SPELL_AURA_APPLIED(args)
 			if args:IsPlayer() and not self:IsTank() then
 				if amount >= 1 then
 					specWarnUnstableMana:Show(amount)
-					specWarnUnstableMana:Play("stackhigh")
+				--	specWarnUnstableMana:Play("stackhigh")
 				end
 			end
 		else
 			if args:IsPlayer() then
 				if amount >= 2 then
 					specWarnUnstableMana:Show(amount)
-					specWarnUnstableMana:Play("stackhigh")
+				--	specWarnUnstableMana:Play("stackhigh")
 				end
 			end
 		end
@@ -149,7 +150,7 @@ end
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
 	if spellId == 227524 and destGUID == UnitGUID("player") and self:AntiSpam(3, "EnergyVoid") then --Энергетическая пустота
 		specWarnEnergyVoid:Show()
-		specWarnEnergyVoid:Play("runaway")
+	--	specWarnEnergyVoid:Play("runaway")
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
@@ -159,7 +160,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	if spellId == 227457 then --Энергетический разряд
 		warnEnergyDischarge2:Show()
 		specWarnEnergyDischarge:Schedule(22)
-		specWarnEnergyDischarge:ScheduleVoice(22, "aesoon")
+	--	specWarnEnergyDischarge:ScheduleVoice(22, "aesoon")
 		timerEnergyDischargeCD:Start()
 		countdownEnergyDischarge:Start()
 	end
@@ -173,7 +174,7 @@ do
 		--	if timerCoalescePowerCD:GetTime() < 20 and self:AntiSpam(1.5, "DecimatingEssence") then
 			if self:AntiSpam(2, "DecimatingEssence") then
 				specWarnDecimatingEssence2:Show()
-				specWarnDecimatingEssence2:Play("justrun")
+			--	specWarnDecimatingEssence2:Play("justrun")
 			end
 		end
 	end

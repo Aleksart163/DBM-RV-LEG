@@ -1,11 +1,12 @@
 local mod	= DBM:NewMod(1654, "DBM-Party-Legion", 2, 762)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(96512)
 mod:SetEncounterID(1836)
 mod:SetZone()
 mod:SetUsedIcons(8, 7, 6)
+mod:SetMinSyncRevision(17745)
 
 mod:RegisterCombat("combat")
 
@@ -47,11 +48,11 @@ function mod:RampageTarget(targetname, uId)
 	if not targetname then return end
 	if targetname == UnitName("player") then
 		specWarnRampage:Show()
-		specWarnRampage:Play("justrun")
+	--	specWarnRampage:Play("justrun")
 		yellRampage:Yell()
 	else
 		specWarnRampage2:Show(targetname)
-		specWarnRampage2:Play("watchstep")
+	--	specWarnRampage2:Play("watchstep")
 	end
 	if self.Options.SetIconOnRampage then
 		self:SetIcon(targetname, 8, 5)
@@ -111,7 +112,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnLeap:CombinedShow(0.7, args.destName)
 		if args:IsPlayer() then
 			specWarnGrievousTear:Show()
-			specWarnGrievousTear:Play("defensive")
+		--	specWarnGrievousTear:Play("defensive")
 			yellLeap:Yell()
 		end
 		if self.Options.SetIconOnGrievousTear then
@@ -140,7 +141,7 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 198408 and destGUID == UnitGUID("player") and self:AntiSpam(2, 2) then
 		if not self:IsNormal() then
 			specWarnNightfall:Show()
-			specWarnNightfall:Play("runaway")
+		--	specWarnNightfall:Play("runaway")
 		end
 	end
 end

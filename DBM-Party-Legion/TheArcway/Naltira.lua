@@ -1,12 +1,12 @@
 local mod	= DBM:NewMod(1500, "DBM-Party-Legion", 6, 726)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(98207)
 mod:SetEncounterID(1826)
 mod:SetZone()
 mod:SetUsedIcons(8, 7, 6)
-
+mod:SetMinSyncRevision(17745)
 mod.noNormal = true
 
 mod:RegisterCombat("combat")
@@ -74,16 +74,17 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnWeb:CombinedShow(0.5, args.destName)
 		if args:IsPlayer() then
 			specWarnWeb:Show()
-			specWarnWeb:Play("runaway")
+		--	specWarnWeb:Play("runaway")
 			yellWeb:Yell()
 		end
 		if self.Options.SetIconOnWeb then
 			self:SetIcon(args.destName, self.vb.webIcon)
 		end
 	elseif spellId == 211543 then --Пожирание
-		warnDevour:Show(args.destName)
 		if args:IsPlayer() then
 			yellDevour:Yell()
+		else
+			warnDevour:Show(args.destName)
 		end
 		if self.Options.SetIconOnDevour then
 			self:SetIcon(args.destName, 6)
@@ -97,7 +98,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		self.vb.webIcon = self.vb.webIcon + 1
 		if args:IsPlayer() then
 			specWarnWeb2:Show()
-			specWarnWeb2:Play("end")
+		--	specWarnWeb2:Play("end")
 		end
 		if self.Options.SetIconOnWeb then
 			self:SetIcon(args.destName, 0)
@@ -105,7 +106,7 @@ function mod:SPELL_AURA_REMOVED(args)
 	elseif spellId == 211543 then --Пожирание
 		if args:IsPlayer() then
 			specWarnDevour:Show()
-			specWarnDevour:Play("end")
+		--	specWarnDevour:Play("end")
 		end
 		if self.Options.SetIconOnDevour then
 			self:RemoveIcon(args.destName)
@@ -127,7 +128,7 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 200040 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
 		if not self:IsNormal() then
 			specWarnVenomGTFO:Show()
-			specWarnVenomGTFO:Play("runaway")
+		--	specWarnVenomGTFO:Play("runaway")
 		end
 	end
 end
@@ -152,11 +153,11 @@ function mod:UNIT_SPELLCAST_CHANNEL_START(uId, _, bfaSpellId, _, legacySpellId)
 		end
 		if UnitIsUnit("boss1target", "player") then
 			specWarnBlink:Show()
-			specWarnBlink:Play("runaway")
+		--	specWarnBlink:Play("runaway")
 			yellBlink:Yell()
 		elseif self:CheckNearby(5, targetname) and self:AntiSpam(2.5, 2) then
 			specWarnBlinkNear:Show(targetname)
-			specWarnBlinkNear:Play("runaway")
+		--	specWarnBlinkNear:Play("runaway")
 		else
 			warnBlink:Show(targetname)
 		end

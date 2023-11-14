@@ -1,11 +1,12 @@
 local mod	= DBM:NewMod(1980, "DBM-Party-Legion", 13, 945)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(124872)
 mod:SetEncounterID(2066)
 mod:SetZone()
 mod:SetUsedIcons(8, 7, 6)
+mod:SetMinSyncRevision(17745)
 
 mod:RegisterCombat("combat")
 
@@ -65,13 +66,13 @@ function mod:SPELL_CAST_START(args)
 	if spellId == 245802 then --Опустошающая тьма
 		if not UnitIsDeadOrGhost("player") then
 			specWarnRavagingDarkness:Show()
-			specWarnRavagingDarkness:Play("watchstep")
+		--	specWarnRavagingDarkness:Play("watchstep")
 		end
 		timerRavagingDarknessCD:Start()
 	elseif spellId == 248831 then --Ужасный визг
 		if not UnitIsDeadOrGhost("player") then
 			specWarnDreadScreech:Show()
-			specWarnDreadScreech:Play("kickcast")
+		--	specWarnDreadScreech:Play("kickcast")
 		end
 		timerScreechCD:Start()
 		countdownDreadScreech:Start()
@@ -95,7 +96,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnUmbralFlanking:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
 			specWarnUmbralFlanking:Show()
-			specWarnUmbralFlanking:Play("scatter")
+		--	specWarnUmbralFlanking:Play("scatter")
 			yellUmbralFlanking:Yell()
 		end
 		if self.Options.SetIconOnUmbralFlanking then

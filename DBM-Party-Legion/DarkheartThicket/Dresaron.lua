@@ -1,12 +1,12 @@
 local mod	= DBM:NewMod(1656, "DBM-Party-Legion", 2, 762)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(99200)
 mod:SetEncounterID(1838)
 mod:DisableESCombatDetection()--Remove if blizz fixes trash firing ENCOUNTER_START
 mod:SetZone()
-mod:SetMinSyncRevision(15190)
+mod:SetMinSyncRevision(17745)
 
 mod:RegisterCombat("combat")
 
@@ -58,7 +58,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 199345 then --Нисходящий поток
 		if not UnitIsDeadOrGhost("player") then
 			specWarnDownDraft:Show()
-			specWarnDownDraft:Play("keepmove")
+		--	specWarnDownDraft:Play("keepmove")
 		end
 		if self:IsHard() then
 			timerBreathCD:Stop()
@@ -85,7 +85,7 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 199460 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then --Каменная осыпь
 		if self:IsHard() then
 			specWarnFallingRocks:Show()
-			specWarnFallingRocks:Play("runaway")
+		--	specWarnFallingRocks:Play("runaway")
 		end
 	end
 end
@@ -96,7 +96,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	if spellId == 199332 then --Дыхание порчи
 		if not UnitIsDeadOrGhost("player") then
 			specWarnBreath:Show()
-			specWarnBreath:Play("breathsoon")
+		--	specWarnBreath:Play("breathsoon")
 		end
 		timerBreathCD:Start()
 	end

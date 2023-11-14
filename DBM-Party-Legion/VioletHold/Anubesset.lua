@@ -1,10 +1,11 @@
 local mod	= DBM:NewMod(1696, "DBM-Party-Legion", 9, 777)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17077 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(102246)
 mod:SetEncounterID(1852)
 mod:SetZone()
+mod:SetMinSyncRevision(17745)
 
 mod:RegisterCombat("combat")
 
@@ -39,7 +40,7 @@ function mod:ImpaleTarget(targetname, uId)
 	if not targetname then return end
 	if targetname == UnitName("player") then
 		specWarnImpale:Show()
-		specWarnImpale:Play("runout")
+	--	specWarnImpale:Play("runout")
 		yellImpale:Yell()
 	else
 		warnImpale:Show(targetname)
@@ -60,7 +61,7 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 202217 then
 		specWarnMandibleStrike:Show()
-		specWarnMandibleStrike:Play("defensive")
+	--	specWarnMandibleStrike:Play("defensive")
 		timerMandibleStrikeCD:Start()
 	elseif spellId == 202341 then
 		self:BossUnitTargetScanner("boss1", "ImpaleTarget", 3.4)
@@ -85,7 +86,7 @@ end
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 202485 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
 		specWarnOozeGTFO:Show()
-		specWarnMandibleStrike:Play("runaway")
+	--	specWarnMandibleStrike:Play("runaway")
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("HoVTrash", "DBM-Party-Legion", 4)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 --mod:SetModelID(47785)
 mod:SetZone()
 mod.isTrashMod = true
@@ -95,7 +95,7 @@ function mod:WickedDaggerTarget(targetname, uId) --Гибельный кинжа
 	if self:AntiSpam(2, targetname) then
 		if targetname == UnitName("player") then
 			specWarnWickedDagger:Show()
-			specWarnWickedDagger:Play("defensive")
+		--	specWarnWickedDagger:Play("defensive")
 			yellWickedDagger:Yell()
 		else
 			warnWickedDagger:CombinedShow(0.5, targetname)
@@ -107,7 +107,7 @@ function mod:BearTrapTarget(targetname, uId) --Капкан на Мурчаля 
 	if not targetname then return end
 	if targetname == UnitName("player") then
 		specWarnBearTrap:Show()
-		specWarnBearTrap:Play("justrun")
+	--	specWarnBearTrap:Play("justrun")
 		yellBearTrap:Yell()
 	else
 		warnBearTrap:Show(targetname)
@@ -118,11 +118,11 @@ function mod:CracklingStormTarget(targetname, uId) --Грохочущая бур
 	if not targetname then return end
 	if targetname == UnitName("player") then
 		specWarnCracklingStorm:Show()
-		specWarnCracklingStorm:Play("runaway")
+	--	specWarnCracklingStorm:Play("runaway")
 		yellCracklingStorm:Yell()
 	elseif self:CheckNearby(10, targetname) then
 		specWarnCracklingStorm2:Show(targetname)
-		specWarnCracklingStorm2:Play("runout")
+	--	specWarnCracklingStorm2:Play("runout")
 	else
 		warnCracklingStorm:Show(targetname)
 	end
@@ -134,7 +134,7 @@ function mod:ShootTarget(targetname, uId) --Выстрел ✔
 		if targetname == UnitName("player") then
 			if self:IsHard() then
 				specWarnShoot:Show()
-				specWarnShoot:Play("watchstep")
+			--	specWarnShoot:Play("watchstep")
 			end
 		end
 	end
@@ -147,7 +147,7 @@ function mod:CrackleTarget(targetname, uId) --Разряд
 	end
 	if targetname == UnitName("player") then
 		specWarnCrackle:Show()
-		specWarnCrackle:Play("watchstep")
+	--	specWarnCrackle:Play("watchstep")
 		yellCrackle:Yell()
 	else
 		warnCrackle:CombinedShow(1, targetname)
@@ -161,18 +161,18 @@ function mod:SPELL_CAST_START(args)
 		self:BossTargetScanner(args.sourceGUID, "CrackleTarget", 0.1, 9)
 	elseif spellId == 192563 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
 		specWarnCleansingFlame:Show()
-		specWarnCleansingFlame:Play("kickcast")
+	--	specWarnCleansingFlame:Play("kickcast")
 	elseif spellId == 199726 then --Буйный вопль
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnUnrulyYell:Show()
-			specWarnUnrulyYell:Play("kickcast")
+		--	specWarnUnrulyYell:Play("kickcast")
 		else
 			warnUnrulyYell:Show()
 		end
 	elseif spellId == 192288 then --Опаляющий свет
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnSearingLight:Show()
-			specWarnSearingLight:Play("kickcast")
+		--	specWarnSearingLight:Play("kickcast")
 		end
 		timerSearingLightCD:Start()
 	elseif spellId == 199382 then
@@ -182,36 +182,36 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 192158 then --Освящение
 		if not UnitIsDeadOrGhost("player") then
 			specWarnSanctify2:Show()
-			specWarnSanctify2:Play("watchorb")
+		--	specWarnSanctify2:Play("watchorb")
 			specWarnSanctify:Show()
-			specWarnSanctify:Play("watchstep")
+		--	specWarnSanctify:Play("watchstep")
 		end
 		timerSanctifyCD:Start()
 		countdownSanctify:Start()
 	elseif spellId == 210875 and self:AntiSpam(2, 1) then --Пульсирующий заряд
 		warnChargedPulse:Show()
 		specWarnChargedPulse:Show()
-		specWarnChargedPulse:Play("justrun")
+	--	specWarnChargedPulse:Play("justrun")
 		specWarnChargedPulse2:Show()
-		specWarnChargedPulse2:Play("watchstep")
+	--	specWarnChargedPulse2:Play("watchstep")
 	elseif spellId == 199652 and self:AntiSpam(2, 2) then --Рассечение
 		specWarnSever:Show()
-		specWarnSever:Play("defensive")
+	--	specWarnSever:Play("defensive")
 	elseif spellId == 200969 and self:AntiSpam(3, 3) then --Зов предков
 		if not UnitIsDeadOrGhost("player") then
 			specWarnCallAncestor:Show()
-			specWarnCallAncestor:Play("mobkill")
+		--	specWarnCallAncestor:Play("mobkill")
 		end
 	elseif spellId == 198888 then --Грозовое дыхание
 		specWarnLightningBreath:Show()
-		specWarnLightningBreath:Play("watchstep")
+	--	specWarnLightningBreath:Play("watchstep")
 	elseif spellId == 198931 and self:AntiSpam(2, 4) then --Исцеляющий свет
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnHealingLight:Show()
-			specWarnHealingLight:Play("kickcast")
+		--	specWarnHealingLight:Play("kickcast")
 		else
 			warnHealingLight:Show()
-			warnHealingLight:Play("kickcast")
+		--	warnHealingLight:Play("kickcast")
 		end
 	elseif spellId == 191401 then --Стремительный выстрел
 		self:BossTargetScanner(args.sourceGUID, "ShootTarget", 0.1, 2)
@@ -220,7 +220,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 198595 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Гром и молния
 		if self:AntiSpam(1, "ThunderousBolt") then
 			specWarnThunderousBolt:Show()
-			specWarnThunderousBolt:Play("kickcast")
+		--	specWarnThunderousBolt:Play("kickcast")
 		end
 	elseif spellId == 199341 then --Капкан на Мурчаля
 		self:BossTargetScanner(args.sourceGUID, "BearTrapTarget", 0.1, 2)
@@ -233,7 +233,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
 	if spellId == 199382 then --Яростный рев
 		specWarnEnragingRoar:Show()
-		specWarnEnragingRoar:Play("defensive")
+	--	specWarnEnragingRoar:Play("defensive")
 	elseif spellId == 200901 then --Око шторма
 		self:SendSync("EyeofStorm2")
 	end
@@ -245,12 +245,12 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerThunderstrike:Start(args.destName)
 		if args:IsPlayer() then
 			specWarnThunderstrike:Show()
-			specWarnThunderstrike:Play("runout")
+		--	specWarnThunderstrike:Play("runout")
 			yellThunderstrike:Yell()
 			yellThunderstrike2:Countdown(3, 2)
 		elseif self:CheckNearby(10, args.destName) then
 			specWarnThunderstrike2:CombinedShow(0.3, args.destName)
-			specWarnThunderstrike2:Play("watchstep")
+		--	specWarnThunderstrike2:Play("watchstep")
 		else
 			warnThunderstrike:CombinedShow(0.5, args.destName)
 		end
@@ -262,7 +262,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() and not self:IsNormal() then
 			if amount >= 3 then
 				specWarnSever2:Show(amount)
-				specWarnSever2:Play("stackhigh")
+			--	specWarnSever2:Play("stackhigh")
 			end
 		end
 		timerSever:Start(args.destName)
@@ -346,13 +346,13 @@ function mod:OnSync(msg)
 		timerSearingLightCD:Cancel()
 	elseif msg == "EyeofStorm1" then
 		specWarnEyeofStorm:Show(eyeShortName)
-		specWarnEyeofStorm:Play("findshelter")
+	--	specWarnEyeofStorm:Play("findshelter")
 		timerEyeofStormCD:Start()
 		countdownEyeofStorm:Start()
 	elseif msg == "EyeofStorm2" then
 		if not UnitIsDeadOrGhost("player") then
 			specWarnEyeofStorm2:Show()
-			specWarnEyeofStorm2:Play("defensive")
+		--	specWarnEyeofStorm2:Play("defensive")
 		end
 	end
 end
@@ -362,17 +362,17 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spell
 	if spellId == 198959 and destGUID == UnitGUID("player") and self:AntiSpam(2, "etch") then --Гравировка
 		if not self:IsNormal() then
 			specWarnEtch:Show()
-			specWarnEtch:Play("runaway")
+		--	specWarnEtch:Play("runaway")
 		end
 	elseif spellId == 199818 and destGUID == UnitGUID("player") and self:AntiSpam(2, "crackle") then --Разряд
 		if not self:IsNormal() then
 			specWarnCrackle2:Show()
-			specWarnCrackle2:Play("runaway")
+		--	specWarnCrackle2:Play("runaway")
 		end
 	elseif spellId == 198903 and destGUID == UnitGUID("player") and self:AntiSpam(2, "cracklingstorm") then --Грохочущая буря
 		if not self:IsNormal() then
 			specWarnCracklingStorm3:Show()
-			specWarnCracklingStorm3:Play("runaway")
+		--	specWarnCracklingStorm3:Play("runaway")
 		end
 	end
 end

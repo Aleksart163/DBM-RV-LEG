@@ -1,13 +1,14 @@
 local mod	= DBM:NewMod(1827, "DBM-Party-Legion", 11, 860)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(114329, 114522, 114330, 114328)
 mod:SetEncounterID(1957)--Shared (so not used for encounter START since it'd fire 3 mods)
 mod:DisableESCombatDetection()--However, with ES disabled, EncounterID can be used for BOSS_KILL/ENCOUNTER_END
 mod:DisableIEEUCombatDetection()
 mod:SetZone()
 mod:SetUsedIcons(8, 7)
+mod:SetMinSyncRevision(17745)
 --mod:SetHotfixNoticeRev(14922)
 mod:SetBossHPInfoToHighest()
 mod.noNormal = true
@@ -91,7 +92,7 @@ function mod:SPELL_CAST_START(args)
 	if spellId == 228025 then --Волна жара
 		if not UnitIsDeadOrGhost("player") then
 			specWarnHeatWave:Show()
-			specWarnHeatWave:Play("kickcast")
+		--	specWarnHeatWave:Play("kickcast")
 		end
 		if self:IsHard() then
 			timerHeatWaveCD:Start(30)
@@ -103,7 +104,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 228019 then --Объедки
 		if not UnitIsDeadOrGhost("player") then
 			specWarnLeftovers:Show()
-			specWarnLeftovers:Play("kickcast")
+		--	specWarnLeftovers:Play("kickcast")
 		end
 		if self:IsHard() then
 			timerLeftoversCD:Start(18)
@@ -113,10 +114,10 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 227987 then --Звонок к обеду!
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnDinnerBell:Show()
-			specWarnDinnerBell:Play("kickcast")
+		--	specWarnDinnerBell:Play("kickcast")
 		else
 			warnDinnerBell:Show()
-			warnDinnerBell:Play("kickcast")
+		--	warnDinnerBell:Play("kickcast")
 		end
 		if self:IsHard() then
 			timerDinnerBellCD:Start(20)
@@ -135,14 +136,14 @@ function mod:SPELL_AURA_APPLIED(args)
 	if spellId == 228013 then --Брызги супа
 		if args:IsPlayer() then
 			specWarnDrenched:Show()
-			specWarnDrenched:Play("targetyou")
+		--	specWarnDrenched:Play("targetyou")
 		end
 	elseif spellId == 228221 then --Жесткая уборка
 		timerSevereDustingCD:Start()
 		if args:IsPlayer() then
 			specWarnSevereDusting:Show()
-			specWarnSevereDusting:Play("justrun")
-			specWarnSevereDusting:ScheduleVoice(1, "keepmove")
+		--	specWarnSevereDusting:Play("justrun")
+		--	specWarnSevereDusting:ScheduleVoice(1, "keepmove")
 		else
 			warnSevereDusting:Show(args.destName)
 		end
@@ -152,13 +153,13 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 228225 and not args:IsDestTypePlayer() then
 		if not UnitIsDeadOrGhost("player") then
 			specWarnSultryheat:Show(args.destName)
-			specWarnSultryheat:Play("dispelnow")
+		--	specWarnSultryheat:Play("dispelnow")
 		end
 	elseif spellId == 227985 then --Сминание доспеха
 		timerDentArmor:Start(args.destName)
 		if args:IsPlayer() then
 			specWarnDentArmor:Show()
-			specWarnDentArmor:Play("defensive")
+		--	specWarnDentArmor:Play("defensive")
 		else
 			warnDentArmor:Show(args.destName)
 		end
@@ -171,7 +172,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			warnDinnerBell2:Show(args.destName)
 			if not UnitIsDeadOrGhost("player") then
 				specWarnDinnerBell2:Show(args.destName)
-				specWarnDinnerBell2:Play("dispelnow")
+			--	specWarnDinnerBell2:Play("dispelnow")
 			end
 		end
 	end
@@ -196,7 +197,7 @@ end
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 228200 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
 		specWarnBurningBlaze:Show()
-		specWarnBurningBlaze:Play("runaway")
+	--	specWarnBurningBlaze:Play("runaway")
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE

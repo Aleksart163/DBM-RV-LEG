@@ -11,6 +11,7 @@
 ## Title-koKR:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf05인 던전-Leg|r
 ## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf05人小队-Leg|r
 ## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0隊伍首領-Leg|r
+## Title-ukUK:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0Групові підземелля-Leg|r
 ## Author: MysticalOS and Aleksart163
 ## LoadOnDemand: 1
 ## RequiredDeps: DBM-Core
@@ -32,6 +33,7 @@
 ## X-DBM-Mod-SubCategories-koKR: 검은 떼까마귀 요새,어둠심장 숲,아즈샤라의 눈,용맹의 전당,넬타리온의 둥지,비전로,별의 궁정,영혼의 아귀,보랏빛 요새 침공,감시관의 금고,다시 찾은 카라잔,영원한 밤의 대성당,삼두정의 권좌,쐐기돌
 ## X-DBM-Mod-SubCategories-zhCN: 黑鸦堡垒,黑心林地,艾萨拉之眼,英灵殿,奈萨里奥的巢穴,魔法回廊,群星庭院,噬魂之喉,突袭紫罗兰监狱,守望者地窟,重返卡拉赞,永夜大教堂,执政团之座,钥石
 ## X-DBM-Mod-SubCategories-zhTW: 玄鴉堡,暗心灌木林,艾薩拉之眼,英靈殿,奈薩里奧巢穴,幽暗地道,眾星之廷,靈魂之喉,紫羅蘭堡之襲,看守者鐵獄,重返卡拉贊,永夜聖殿,三傑議會之座,鑰石
+## X-DBM-Mod-SubCategories-ukUK: Фортеця Чорного Човна, Чаща Темного Серця, Око Азшари, Чертоги Доблесті, Лігво Нелтаріона, Катакомби Сурамара, Квартал Зірок, Утроба душ, Штурм Аметистової фортеці, Каземати Вартових, Повернення до Каражану, Собор Вічної Ночі, Престол Тріумвірата, Міфік+ ключі
 ## X-DBM-Mod-Name: Dungeons
 ## X-DBM-Mod-Name-ruRU: Групповые подземелья
 ## X-DBM-Mod-Name-deDE: Gruppe
@@ -43,9 +45,10 @@
 ## X-DBM-Mod-Name-koKR: 던전
 ## X-DBM-Mod-Name-zhCN: 5人小队
 ## X-DBM-Mod-Name-zhTW: 隊伍首領
+## X-DBM-Mod-Name-ukUK: Групові підземелля
 ## X-DBM-Mod-Sort: 508
 ## X-DBM-Mod-MapID: 1501, 1466, 1456, 1477, 1458, 1516, 1571, 1492, 1544, 1493, 1651, 1677, 1753
-## X-DBM-Mod-MinCoreRevision: 17742
+## X-DBM-Mod-MinCoreRevision: 17745
 
 localization.en.lua
 localization.ru.lua
@@ -57,6 +60,7 @@ localization.br.lua
 localization.kr.lua
 localization.cn.lua
 localization.tw.lua
+localization.uk.lua
 
 BlackRookHold\AmalgamSouls.lua
 BlackRookHold\Illysanna.lua

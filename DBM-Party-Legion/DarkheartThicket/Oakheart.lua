@@ -1,11 +1,13 @@
 local mod	= DBM:NewMod(1655, "DBM-Party-Legion", 2, 762)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(103344)
 mod:SetEncounterID(1837)
 mod:SetZone()
 mod:SetUsedIcons(8)
+mod:SetMinSyncRevision(17745)
+
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
@@ -46,7 +48,7 @@ function mod:ThrowTarget(targetname, uId)
 		yellThrow:Yell(playerName)
 	elseif self:CheckNearby(10, targetname) then
 		specWarnThrow3:Show(targetname)
-		specWarnThrow3:Play("runaway")
+	--	specWarnThrow3:Play("runaway")
 	else
 		warnThrowTarget:Show(targetname)
 	end
@@ -81,13 +83,13 @@ function mod:SPELL_CAST_START(args)
 		warnShatteredEarth:Show()
 		if not UnitIsDeadOrGhost("player") then
 			specWarnShatteredEarth:Show()
-			specWarnShatteredEarth:Play("defensive")
+		--	specWarnShatteredEarth:Play("defensive")
 		end
 		timerShatteredEarthCD:Start()
 	elseif spellId == 204574 then
 		if not UnitIsDeadOrGhost("player") then
 			specWarnRoots:Show()
-			specWarnRoots:Play("watchstep")
+		--	specWarnRoots:Play("watchstep")
 		end
 		if self:IsHard() then
 			timerRootsCD:Start(25)
@@ -97,18 +99,18 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 204667 then
 		if self:IsTank() then
 			specWarnBreath:Show()
-			specWarnBreath:Play("defensive")
+		--	specWarnBreath:Play("defensive")
 		else
 			if not UnitIsDeadOrGhost("player") then
 				specWarnBreath2:Show()
-				specWarnBreath2:Play("watchstep")
+			--	specWarnBreath2:Play("watchstep")
 			end
 		end
 		timerBreathCD:Start()
 	elseif spellId == 212786 then --Пересадка
 		if not UnitIsDeadOrGhost("player") then
 			specWarnUproot:Show()
-			specWarnUproot:Play("mobkill")
+		--	specWarnUproot:Play("mobkill")
 		end
 		timerUprootCD:Start()
 	elseif spellId == 204611 then --Сокрушительная хватка
@@ -122,7 +124,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	if spellId == 204611 then --Сокрушительная хватка
 		if args:IsPlayer() then
 			specWarnThrow2:Show()
-			specWarnThrow2:Play("defensive")
+		--	specWarnThrow2:Play("defensive")
 		end
 	end
 end

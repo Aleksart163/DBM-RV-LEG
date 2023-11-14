@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1826, "DBM-Party-Legion", 11, 860)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(114261, 114260, 114265) --Тонни, Мрргрия, Головорез
 mod:SetEncounterID(1957)--Shared (so not used for encounter START since it'd fire 3 mods)
 mod:DisableESCombatDetection()--However, with ES disabled, EncounterID can be used for BOSS_KILL/ENCOUNTER_END
@@ -9,6 +9,7 @@ mod:DisableIEEUCombatDetection()
 mod:SetZone()
 mod:SetBossHPInfoToHighest()
 mod:SetReCombatTime(120, 5)
+mod:SetMinSyncRevision(17745)
 
 mod.noNormal = true
 
@@ -92,9 +93,9 @@ function mod:SPELL_CAST_START(args)
 		warnLegSweep:Show()
 		if not UnitIsDeadOrGhost("player") then
 			specWarnLegSweep:Show()
-			specWarnLegSweep:Play("runout")
+		--	specWarnLegSweep:Play("runout")
 			specWarnLegSweep2:Show()
-			specWarnLegSweep2:Play("watchstep")
+		--	specWarnLegSweep2:Play("watchstep")
 		end
 		if self:IsHard() then
 			timerLegSweepCD:Start()
@@ -103,11 +104,11 @@ function mod:SPELL_CAST_START(args)
 		end
 	elseif spellId == 227420 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
 		specWarnBubbleBlast:Show()
-		specWarnBubbleBlast:Play("kickcast")
+	--	specWarnBubbleBlast:Play("kickcast")
 	elseif spellId == 227783 then --Ураганная волна
 		if not UnitIsDeadOrGhost("player") then
 			specWarnWashAway:Show()
-			specWarnWashAway:Play("watchwave")
+		--	specWarnWashAway:Play("watchwave")
 		end
 		timerWashAwayCD:Start()
 		countdownWashAway:Start()
@@ -130,7 +131,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	if spellId == 227777 then --Ритуал грома
 		if args:IsPlayer() then
 			specWarnThunderRitual:Show()
-			specWarnThunderRitual:Play("range5")
+		--	specWarnThunderRitual:Play("range5")
 			yellThunderRitual:Yell()
 			yellThunderRitual2:Countdown(6, 3)
 			if self.Options.RangeFrame then
@@ -158,7 +159,7 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spell
 	if spellId == 227480 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
 		if self:IsHard() then
 			specWarnFlameGale2:Show()
-			specWarnFlameGale2:Play("runaway")
+		--	specWarnFlameGale2:Play("runaway")
 		end
 	end
 end
@@ -190,7 +191,7 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 	--	self:SendSync("Tonny")
 		if not UnitIsDeadOrGhost("player") then
 			specWarnFlameGale:Show()
-			specWarnFlameGale:Play("watchstep")
+		--	specWarnFlameGale:Play("watchstep")
 		end
 		if self:IsHard() then
 			timerFlameGaleCD:Start()
@@ -204,7 +205,7 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 		self.vb.phase = 3
 		warned_preP4 = true
 		warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase))
-		warnPhase:Play("phasechange")
+	--	warnPhase:Play("phasechange")
 		timerLegSweepCD:Start(10)
 		timerFlameGaleCD:Start(22)
 		countdownFlameGale:Start(22)
@@ -220,7 +221,7 @@ function mod:UNIT_HEALTH(uId)
 			self.vb.phase = 2
 			warned_preP2 = true
 			warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase))
-			warnPhase:Play("phasechange")
+		--	warnPhase:Play("phasechange")
 			timerLegSweepCD:Stop()
 			timerFlameGaleCD:Stop()
 			countdownFlameGale:Cancel()
@@ -244,7 +245,7 @@ function mod:UNIT_HEALTH(uId)
 			self.vb.phase = 2
 			warned_preP2 = true
 			warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase))
-			warnPhase:Play("phasechange")
+		--	warnPhase:Play("phasechange")
 			timerLegSweepCD:Stop()
 			timerFlameGaleCD:Stop()
 			countdownFlameGale:Cancel()

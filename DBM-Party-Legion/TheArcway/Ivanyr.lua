@@ -77,12 +77,12 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnVolatileMagic:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
 			specWarnVolatileMagic:Show()
-			specWarnVolatileMagic:Play("runout")
+		--	specWarnVolatileMagic:Play("runout")
 			yellVolatileMagic:Yell()
 			yellVolatileMagic2:Countdown(4)
 		elseif self:CheckNearby(10, args.destName) then
 			specWarnVolatileMagic2:CombinedShow(0.3, args.destName)
-			specWarnVolatileMagic2:Play("runout")
+		--	specWarnVolatileMagic2:Play("runout")
 		end
 		if self.Options.RangeFrame then
 			DBM.RangeCheck:Show(8)
@@ -94,7 +94,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnNetherLink:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
 			specWarnNetherLink:Show()
-			specWarnNetherLink:Play("targetyou")
+		--	specWarnNetherLink:Play("targetyou")
 			yellNetherLink:Yell()
 		end
 	elseif spellId == 196396 then --Перезарядка
@@ -128,7 +128,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	elseif spellId == 196392 then --Перезарядка маны
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnOverchargeMana:Show()
-			specWarnOverchargeMana:Play("kickcast")
+		--	specWarnOverchargeMana:Play("kickcast")
 		end
 		timerOverchargeManaCD:Start()
 		countdownOverchargeMana:Start()
@@ -140,7 +140,7 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 196824 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
 		if not self:IsNormal() then
 			specWarnNetherLinkGTFO:Show()
-			specWarnNetherLinkGTFO:Play("runaway")
+		--	specWarnNetherLinkGTFO:Play("runaway")
 		end
 	end
 end

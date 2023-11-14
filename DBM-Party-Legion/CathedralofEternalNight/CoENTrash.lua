@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("CoENTrash", "DBM-Party-Legion", 12)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetZone()
 
 mod.isTrashMod = true
@@ -48,7 +48,6 @@ local specWarnTomeSilence		= mod:NewSpecialWarningSwitch(239161, "-Healer", nil,
 local specWarnFelblazeOrb		= mod:NewSpecialWarningDodge(239320, nil, nil, nil, 1, 2) --Сфера пламени Скверны
 local specWarnVenomStorm		= mod:NewSpecialWarningDodge(239266, nil, nil, nil, 2, 2) --Ядовитая буря
 
-local timerSinisterFangs		= mod:NewTargetTimer(15, 236954, nil, "Tank|PoisonDispeller", nil, 3, nil, DBM_CORE_POISON_ICON..DBM_CORE_HEALER_ICON) --Зловещие клыки
 local timerAlluringAroma		= mod:NewTargetTimer(8, 237391, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON) --Манящий аромат
 
 local yellSinisterFangs			= mod:NewYell(236954, nil, nil, nil, "YELL") --Зловещие клыки
@@ -63,7 +62,7 @@ function mod:FelStrikeTarget(targetname, uId)
 	if self:AntiSpam(2, targetname) then--In case two enemies target same target
 		if targetname == UnitName("player") then
 			specWarnFelStrike:Show()
-			specWarnFelStrike:Play("watchstep")
+		--	specWarnFelStrike:Play("watchstep")
 			yellFelStrike:Yell()
 		else
 			warnFelStrike:CombinedShow(0.5, targetname)
@@ -78,69 +77,62 @@ function mod:SPELL_CAST_START(args)
 		self:BossTargetScanner(args.sourceGUID, "FelStrikeTarget", 0.1, 9)
 	elseif spellId == 239232 then
 		specWarnBlindingGlare:Show()
-		specWarnBlindingGlare:Play("turnaway")
+	--	specWarnBlindingGlare:Play("turnaway")
 	elseif spellId == 237391 then --Манящий аромат
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnAlluringAroma:Show()
-			specWarnAlluringAroma:Play("kickcast")
+		--	specWarnAlluringAroma:Play("kickcast")
 		else
 			warnAlluringAroma:Show()
-			warnAlluringAroma:Play("kickcast")
+		--	warnAlluringAroma:Play("kickcast")
 		end
 	elseif spellId == 238543 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Демоническое лечение
 		specWarnDemonicMending:Show()
-		specWarnDemonicMending:Play("kickcast")
+	--	specWarnDemonicMending:Play("kickcast")
 	elseif spellId == 242724 then --Жуткий крик
-		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
-			specWarnDreadScream:Show()
-			specWarnDreadScream:Play("kickcast")
-		else
-			specWarnDreadScream:Show()
-			specWarnDreadScream:Play("kickcast")
-		end
+		specWarnDreadScream:Show()
+	--	specWarnDreadScream:Play("kickcast")
 	elseif spellId == 241598 then --Стена Тьмы
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnShadowWall:Show()
-			specWarnShadowWall:Play("kickcast")
+		--	specWarnShadowWall:Play("kickcast")
 		else
 			warnShadowWall:Show()
-			warnShadowWall:Play("kickcast")
+		--	warnShadowWall:Play("kickcast")
 		end
 	elseif spellId == 242760 then --Сокрушение древа
 		specWarnLumberingCrash:Show()
-		specWarnLumberingCrash:Play("runout")
+	--	specWarnLumberingCrash:Play("runout")
 		specWarnLumberingCrash2:Show()
-		specWarnLumberingCrash2:Play("watchstep")
+	--	specWarnLumberingCrash2:Play("watchstep")
 	elseif spellId == 239320 then
 		specWarnFelblazeOrb:Show()
-		specWarnFelblazeOrb:Play("watchorb")
+	--	specWarnFelblazeOrb:Play("watchorb")
 	elseif spellId == 239266 then --Ядовитая буря
 		specWarnVenomStorm:Show()
-		specWarnVenomStorm:Play("watchstep")
+	--	specWarnVenomStorm:Play("watchstep")
 	elseif spellId == 239235 then --Направленное разрушение
 		specWarnFocusedDestruction:Show()
-		specWarnFocusedDestruction:Play("defensive")
+	--	specWarnFocusedDestruction:Play("defensive")
 	elseif spellId == 239201 then --Взор Скверны
 		specWarnFelGlare:Show()
-		specWarnFelGlare:Play("watchstep")
+	--	specWarnFelGlare:Play("watchstep")
 	elseif spellId == 237558 then --Омоложение Скверной
-		if not self:IsNormal() then
-			if self:CheckInterruptFilter(args.sourceGUID, false, true) then
-				specWarnFelRejuvenation:Show()
-				specWarnFelRejuvenation:Play("kickcast")
-			else
-				warnFelRejuvenation:Show()
-				warnFelRejuvenation:Play("kickcast")
-			end
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnFelRejuvenation:Show()
+		--	specWarnFelRejuvenation:Play("kickcast")
+		else
+			warnFelRejuvenation:Show()
+		--	warnFelRejuvenation:Play("kickcast")
 		end
 	elseif spellId == 237565 then --Обжигающий дождь
 		if self:IsHard() then
 			specWarnBlisteringRain:Show()
-			specWarnBlisteringRain:Play("kickcast")
+		--	specWarnBlisteringRain:Play("kickcast")
 		end
 	elseif spellId == 238653 then --Теневая волна
 		specWarnShadowWave:Show()
-		specWarnShadowWave:Play("shockwave")
+	--	specWarnShadowWave:Play("shockwave")
 	end
 end
 
@@ -149,16 +141,16 @@ function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 238688 and args:IsPlayer() then
 		specWarnChokingVines:Show()
-		specWarnChokingVines:Play("runout")
+	--	specWarnChokingVines:Play("runout")
 	elseif spellId == 239161 and self:AntiSpam(4, 1) then
 		specWarnTomeSilence:Show()
-		specWarnTomeSilence:Play("targetchange")
+	--	specWarnTomeSilence:Play("targetchange")
 	elseif spellId == 237325 and args:IsPlayer() then --если не робит, то переделать
 		specWarnToxicPollen:Show()
-		specWarnToxicPollen:Play("runout")
+	--	specWarnToxicPollen:Play("runout")
 	elseif spellId == 237583 and args:IsPlayer() then --если не робит, то переделать
 		specWarnBurningCelerity:Show()
-		specWarnBurningCelerity:Play("runout")
+	--	specWarnBurningCelerity:Play("runout")
 	elseif spellId == 237391 then --Манящий аромат
 		warnAlluringAroma2:CombinedShow(0.5, args.destName)
 		timerAlluringAroma:Start(args.destName)
@@ -167,26 +159,21 @@ function mod:SPELL_AURA_APPLIED(args)
 		elseif self:IsMagicDispeller2() then
 			if not UnitIsDeadOrGhost("player") then
 				specWarnAlluringAroma2:Show(args.destName)
-				specWarnAlluringAroma2:Play("dispelnow")
+			--	specWarnAlluringAroma2:Play("dispelnow")
 			end
 		end
 	elseif spellId == 236954 then --Зловещие клыки
 		local amount = args.amount or 1
 		if self:IsHard() then
-			timerSinisterFangs:Start(args.destName)
 			if amount >= 2 and amount % 2 == 0 then
 				if args:IsPlayer() and not self:IsPoisonDispeller() then
 					specWarnSinisterFangs:Show(amount)
-					specWarnSinisterFangs:Play("stackhigh")
-					yellSinisterFangs:Yell()
-				elseif args:IsPlayer() and self:IsPoisonDispeller() then
-					specWarnSinisterFangs3:Show()
-					specWarnSinisterFangs3:Play("dispelnow")
+				--	specWarnSinisterFangs:Play("stackhigh")
 					yellSinisterFangs:Yell()
 				elseif self:IsPoisonDispeller() then
 					if not UnitIsDeadOrGhost("player") then
 						specWarnSinisterFangs2:Show(args.destName)
-						specWarnSinisterFangs2:Play("dispelnow")
+					--	specWarnSinisterFangs2:Play("dispelnow")
 					end
 				else
 					warnSinisterFangs:Show(args.destName, amount)
@@ -201,8 +188,6 @@ function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
 	if spellId == 237391 then --Манящий аромат
 		timerAlluringAroma:Cancel(args.destName)
-	elseif spellId == 236954 then --Зловещие клыки
-		timerSinisterFangs:Cancel(args.destName)
 	end
 end
 
@@ -210,7 +195,7 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spell
 	if spellId == 213124 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
 		if not self:IsNormal() then
 			specWarnVenomousPool:Show()
-			specWarnVenomousPool:Play("runaway")
+		--	specWarnVenomousPool:Play("runaway")
 		end
 	end
 end

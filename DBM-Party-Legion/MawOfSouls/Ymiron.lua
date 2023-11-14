@@ -1,10 +1,11 @@
 local mod	= DBM:NewMod(1502, "DBM-Party-Legion", 8, 727)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(96756)
 mod:SetEncounterID(1822)
 mod:SetZone()
+mod:SetMinSyncRevision(17745)
 
 mod:RegisterCombat("combat")
 
@@ -41,7 +42,7 @@ function mod:DarkSlashTarget(targetname, uId)
 	if not targetname then return end
 	if targetname == UnitName("player") then
 		specWarnDarkSlash:Show()
-		specWarnDarkSlash:Play("defensive")
+	--	specWarnDarkSlash:Play("defensive")
 		yellDarkSlash:Yell()
 	else
 		warnDarkSlash:Show(targetname)
@@ -70,9 +71,9 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 193364 then
 		if not UnitIsDeadOrGhost("player") then
 			specWarnScreams:Show()
-			specWarnScreams:Play("runout")
+		--	specWarnScreams:Play("runout")
 			specWarnScreams2:Show()
-			specWarnScreams2:Play("watchstep")
+		--	specWarnScreams2:Play("watchstep")
 		end
 		if self:IsHard() then
 			timerScreamsCD:Start(31.5)
@@ -82,7 +83,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 193977 then
 		if not UnitIsDeadOrGhost("player") then
 			specWarnWinds:Show()
-			specWarnWinds:Play("carefly")
+		--	specWarnWinds:Play("carefly")
 		end
 		if self:IsHard() then
 			timerWindsCD:Start(29.5)
@@ -103,7 +104,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 193566 then
 		if not UnitIsDeadOrGhost("player") then
 			specAriseFallen:Show()
-			specAriseFallen:Play("mobkill")
+		--	specAriseFallen:Play("mobkill")
 		end
 	end
 end
@@ -113,7 +114,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	if spellId == 193460 then --Погибель
 		if not UnitIsDeadOrGhost("player") then
 			specWarnBane:Show()
-			specWarnBane:Play("watchstep")
+		--	specWarnBane:Play("watchstep")
 		end
 	end
 end

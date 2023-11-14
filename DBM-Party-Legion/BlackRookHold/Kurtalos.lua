@@ -1,12 +1,13 @@
 local mod	= DBM:NewMod(1672, "DBM-Party-Legion", 1, 740)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(98965, 98970) --Кур'талос Гребень Ворона, Латосий
 mod:SetEncounterID(1835)
 mod:SetZone()
 mod:SetUsedIcons(8)
 mod:SetBossHPInfoToHighest()
+mod:SetMinSyncRevision(17745)
 
 mod:RegisterCombat("combat")
 
@@ -73,11 +74,11 @@ function mod:WhirlingBladeTarget(targetname, uId) --Крутящийся кли�
 	if not targetname then return end
 	if targetname == UnitName("player") then
 		specWarnWhirlingBlade2:Show()
-		specWarnWhirlingBlade2:Play("runout")
+	--	specWarnWhirlingBlade2:Play("runout")
 		yellWhirlingBlade:Yell()
 	elseif self:CheckNearby(50, targetname) then
 		specWarnWhirlingBlade:Show(targetname)
-		specWarnWhirlingBlade:Play("watchstep")
+	--	specWarnWhirlingBlade:Play("watchstep")
 	end
 	if self.Options.SetIconOnWhirlingBlade then
 		self:SetIcon(targetname, 8, 5)
@@ -88,7 +89,7 @@ function mod:SwarmTarget(targetname, uId) --Жалящий рой ✔
 	if not targetname then return end
 	if targetname == UnitName("player") then
 		specWarnSwarm:Show()
-		specWarnSwarm:Play("targetyou")
+	--	specWarnSwarm:Play("targetyou")
 		yellSwarm:Yell()
 	else
 		warnSwarm:Show(targetname)
@@ -119,7 +120,7 @@ function mod:SPELL_CAST_START(args)
 		if self.vb.phase == 1 then
 			if not UnitIsDeadOrGhost("player") then
 				specWarnDarkblast:Show()
-				specWarnDarkblast:Play("watchstep")
+			--	specWarnDarkblast:Play("watchstep")
 			end
 			timerDarkBlastCD:Start()
 			countdownDarkblast:Start()
@@ -134,8 +135,8 @@ function mod:SPELL_CAST_START(args)
 		timerShadowBoltVolleyCD:Stop()
 		if not UnitIsDeadOrGhost("player") then
 			specWarnGuile:Show()
-			specWarnGuile:Play("watchstep")
-			specWarnGuile:ScheduleVoice(1.5, "keepmove")
+		--	specWarnGuile:Play("watchstep")
+		--	specWarnGuile:ScheduleVoice(1.5, "keepmove")
 		end
 		specWarnGuileEnded:Schedule(20)
 		timerGuile:Start()
@@ -158,7 +159,7 @@ function mod:SPELL_CAST_START(args)
 		if self.vb.shadowboltCount == 1 then
 			if not UnitIsDeadOrGhost("player") then
 				specWarnShadowBolt:Show()
-				specWarnShadowBolt:Play("defensive")
+			--	specWarnShadowBolt:Play("defensive")
 			end
 		end
 		--timerShadowBoltVolleyCD:Start()--Not known, and probably not important
@@ -185,7 +186,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	if spellId == 201733 then --Жалящий рой
 		if not args:IsPlayer() and args:IsDestTypePlayer() then
 			specWarnSwarm2:Show(args.destName)
-			specWarnSwarm2:Play("mobkill")
+		--	specWarnSwarm2:Play("mobkill")
 		end
 		if self.Options.SetIconOnSwarm then
 			self:SetIcon(args.destName, 8, 5)
@@ -193,14 +194,14 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 199368 then --Наследие Гребня Ворона
 		if args:IsPlayer() then
 			specWarnLegacyRavencrest:Show()
-			specWarnLegacyRavencrest:Play("targetyou")
+		--	specWarnLegacyRavencrest:Play("targetyou")
 		end
 	elseif spellId == 198635 then --Неумолимый удар
 		local amount = args.amount or 1
 		if amount >= 3 then
 			if args:IsPlayer() then
 				specWarnUnerringShear:Show(amount)
-				specWarnUnerringShear:Play("stackhigh")
+			--	specWarnUnerringShear:Play("stackhigh")
 			end
 		end
 	end
@@ -211,7 +212,7 @@ function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
 	if spellId == 199193 then
 		specWarnGuileEnded:Show()
-		specWarnGuileEnded:Play("safenow")
+	--	specWarnGuileEnded:Play("safenow")
 		timerCloudCD:Start(3)
 		if not self:IsNormal() then
 			timerSwarmCD:Start(10.5)
@@ -242,14 +243,14 @@ function mod:UNIT_DIED(args)
 		countdownDarkblast:Start(19)
 		timerShadowBoltVolleyCD:Start(19)
 		specWarnShadowBolt2:Schedule(14)
-		specWarnShadowBolt2:ScheduleVoice(14, "aesoon")
+	--	specWarnShadowBolt2:ScheduleVoice(14, "aesoon")
 		timerGuileCD:Start(40, 1)--24-28
 		warnGuile:Schedule(35)
 		countdownGuile:Start(40)
 	end
 end
 
-function mod:CHAT_MSG_MONSTER_SAY(msg) --Прошляпанное очко Мурчаля Прошляпенко
+function mod:CHAT_MSG_MONSTER_SAY(msg) --Прошляпанное очко Мурчаля Прошляпенко--
 	if msg == L.proshlyapMurchal then
 		self.vb.phase = 2
 		warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase))

@@ -1,12 +1,12 @@
 local mod	= DBM:NewMod(1718, "DBM-Party-Legion", 7, 800)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(104215)
 mod:SetEncounterID(1868)
 mod:SetZone()
 mod:SetUsedIcons(8, 7)
-
+mod:SetMinSyncRevision(17745)
 mod.noNormal = true
 
 mod:RegisterCombat("combat")
@@ -71,7 +71,7 @@ function mod:SPELL_CAST_START(args)
 	if spellId == 207261 then
 		if not UnitIsDeadOrGhost("player") then
 			specWarnResonantSlash:Show()
-			specWarnResonantSlash:Play("watchstep")
+		--	specWarnResonantSlash:Play("watchstep")
 		end
 		if self.vb.phase == 2 then
 			timerResonantSlashCD:Start(10)
@@ -91,17 +91,17 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 207806 then
 		if not UnitIsDeadOrGhost("player") then
 			specWarnBeacon:Show()
-			specWarnBeacon:Play("mobsoon")
+		--	specWarnBeacon:Play("mobsoon")
 		end
 		timerStreetsweeperCD:Stop()
 		timerStreetsweeperCD:Start(9)
 	elseif spellId == 215204 and self:AntiSpam(2, 1) then --Помеха
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnHinder:Show()
-			specWarnHinder:Play("kickcast")
+		--	specWarnHinder:Play("kickcast")
 		else
 			warnHinder:Show()
-			warnHinder:Play("kickcast")
+		--	warnHinder:Play("kickcast")
 		end
 	elseif spellId == 207278 then --Чародейская изоляция
 		warnArcaneLockdown:Show()
@@ -113,7 +113,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	if spellId == 207278 then --Чародейская изоляция
 		if not UnitIsDeadOrGhost("player") then
 			specWarnArcaneLockdown:Show()
-			specWarnArcaneLockdown:Play("keepjump")
+		--	specWarnArcaneLockdown:Play("keepjump")
 		end
 		if self:IsHard() then
 			timerArcaneLockdownCD:Start(26)
@@ -122,7 +122,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		end
 	elseif spellId == 219488 then --Дворник
 		warnStreetsweeper:Show()
-		warnStreetsweeper:Play("watchstep")
+	--	warnStreetsweeper:Play("watchstep")
 		timerStreetsweeperCD:Start()
 	end
 end
@@ -138,7 +138,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		elseif self:IsMagicDispeller2() then
 			if not UnitIsDeadOrGhost("player") then
 				specWarnHinder2:CombinedShow(0.3, args.destName)
-				specWarnHinder2:ScheduleVoice(0.3, "dispelnow")
+			--	specWarnHinder2:ScheduleVoice(0.3, "dispelnow")
 			end
 		else
 			warnHinder2:CombinedShow(0.3, args.destName)
@@ -162,19 +162,11 @@ function mod:SPELL_AURA_REMOVED(args)
 end
 
 function mod:UNIT_HEALTH(uId)
-	if self:IsHard() then --миф и миф+
-		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 104215 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.81 then
-			warned_preP1 = true
-			warnSignalBeacon:Show()
-		elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 104215 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.31 then
-			warned_preP2 = true
-			warnFlask2:Show()
-		end
-	else
-		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 104215 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.81 then
-			warned_preP1 = true
-		elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 104215 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.31 then
-			warned_preP2 = true
-		end
+	if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 104215 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.81 then
+		warned_preP1 = true
+		warnSignalBeacon:Show()
+	elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 104215 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.31 then
+		warned_preP2 = true
+		warnFlask2:Show()
 	end
 end

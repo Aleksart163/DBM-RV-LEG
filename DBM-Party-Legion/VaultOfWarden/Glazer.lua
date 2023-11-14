@@ -1,10 +1,11 @@
 local mod	= DBM:NewMod(1469, "DBM-Party-Legion", 10, 707)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(95887)
 mod:SetEncounterID(1817)
 mod:SetZone()
+mod:SetMinSyncRevision(17745)
 
 mod:RegisterCombat("combat")
 
@@ -55,12 +56,12 @@ function mod:SPELL_CAST_START(args)
 		timerFocused:Start()
 		if not UnitIsDeadOrGhost("player") then
 			specWarnFocused:Show()
-			specWarnFocused:Play("specialsoon")
+		--	specWarnFocused:Play("specialsoon")
 		end
 	elseif spellId == 194942 then --Подавляющий взгляд
 		if not UnitIsDeadOrGhost("player") then
 			specWarnGaze:Show()
-			specWarnGaze:Play("watchstep")
+		--	specWarnGaze:Play("watchstep")
 		end
 		timerGazeCD:Start()
 	end
@@ -100,7 +101,7 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 194945 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then --Подавляющий взгляд
 		if not self:IsNormal() then
 			specWarnGazeGTFO:Show()
-			specWarnGazeGTFO:Play("runaway")
+		--	specWarnGazeGTFO:Play("runaway")
 		end
 	end
 end

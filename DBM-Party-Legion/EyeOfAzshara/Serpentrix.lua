@@ -1,11 +1,13 @@
 local mod	= DBM:NewMod(1479, "DBM-Party-Legion", 3, 716)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(91808)
 mod:SetEncounterID(1813)
 mod:SetZone(1456)
 mod:SetUsedIcons(7)
+mod:SetMinSyncRevision(17745)
+
 mod:RegisterCombat("combat")
 
 mod:RegisterEvents(
@@ -78,13 +80,13 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerToxicWound:Start(args.destName)
 		if args:IsPlayer() then
 			specWarnToxicWound:Show()
-			specWarnToxicWound:Play("justrun")
-			specWarnToxicWound:ScheduleVoice(1.5, "keepmove")
+		--	specWarnToxicWound:Play("justrun")
+		--	specWarnToxicWound:ScheduleVoice(1.5, "keepmove")
 			yellToxicWound:Yell()
 			yellToxicWound2:Countdown(6, 3)
 		elseif self:CheckNearby(10, args.destName) then
 			specWarnToxicWound3:Show(args.destName)
-			specWarnToxicWound3:Play("runaway")
+		--	specWarnToxicWound3:Play("runaway")
 		end
 		if self.Options.SetIconOnToxicWound then
 			self:SetIcon(args.destName, 7)
@@ -119,22 +121,22 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 192003 and self:CheckInterruptFilter(args.sourceGUID, false, true) then--Blazing Nova
 		specWarnBlazingNova:Show()
-		specWarnBlazingNova:Play("kickcast")
+	--	specWarnBlazingNova:Play("kickcast")
 	elseif spellId == 192005 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
 		specWarnArcaneBlast:Show()
-		specWarnArcaneBlast:Play("kickcast")
+	--	specWarnArcaneBlast:Play("kickcast")
 	elseif spellId == 191848 then --Буйство
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnRampage:Show()
-			specWarnRampage:Play("kickcast")
+		--	specWarnRampage:Play("kickcast")
 		else
 			warnRampage:Show()
-			warnRampage:Play("kickcast")
+		--	warnRampage:Play("kickcast")
 		end
 	elseif spellId == 192050 then --Ядовитый плевок
 		if not UnitIsDeadOrGhost("player") then
 			specWarnPoisonSpit:Show()
-			specWarnPoisonSpit:Play("watchstep")
+		--	specWarnPoisonSpit:Play("watchstep")
 		end
 	end
 end
@@ -149,7 +151,7 @@ function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 191858 and destGUID == UnitGUID("player") and self:AntiSpam(2.5, 1) then
 		if not self:IsNormal() then
 			specWarnToxicPool:Show()
-			specWarnToxicPool:Play("runaway")
+		--	specWarnToxicPool:Play("runaway")
 		end
 	end
 end
@@ -159,38 +161,24 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)
 	if msg:find("spell:191873") then
 		if not UnitIsDeadOrGhost("player") then
 			specWarnSubmerge:Show()
-			specWarnSubmerge:Play("phasechange")
+		--	specWarnSubmerge:Play("phasechange")
 		end
 		timerToxicWoundCD:Cancel()
 	end
 end
 
 function mod:UNIT_HEALTH(uId)
-	if self:IsHard() then --миф и миф+
-		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 91808 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.73 then --68%
-			warned_preP1 = true
-			warnSubmerge:Show()
-		elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 91808 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.68 then --Погружение
-			self.vb.phase = 2
-			warned_preP2 = true
-		elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 91808 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.39 then --34%
-			warned_preP3 = true
-			warnSubmerge:Show()
-		elseif self.vb.phase == 2 and warned_preP3 and not warned_preP4 and self:GetUnitCreatureId(uId) == 91808 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.34 then
-			self.vb.phase = 3
-			warned_preP4 = true
-		end
-	else
-		if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 91808 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.73 then --68%
-			warned_preP1 = true
-		elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 91808 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.68 then --Погружение
-			self.vb.phase = 2
-			warned_preP2 = true
-		elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 91808 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.39 then --34%
-			warned_preP3 = true
-		elseif self.vb.phase == 2 and warned_preP3 and not warned_preP4 and self:GetUnitCreatureId(uId) == 91808 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.34 then
-			self.vb.phase = 3
-			warned_preP4 = true
-		end
+	if self.vb.phase == 1 and not warned_preP1 and self:GetUnitCreatureId(uId) == 91808 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.73 then --68%
+		warned_preP1 = true
+		warnSubmerge:Show()
+	elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 91808 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.68 then --Погружение
+		self.vb.phase = 2
+		warned_preP2 = true
+	elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 91808 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.39 then --34%
+		warned_preP3 = true
+		warnSubmerge:Show()
+	elseif self.vb.phase == 2 and warned_preP3 and not warned_preP4 and self:GetUnitCreatureId(uId) == 91808 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.34 then
+		self.vb.phase = 3
+		warned_preP4 = true
 	end
 end

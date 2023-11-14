@@ -1,11 +1,12 @@
 local mod	= DBM:NewMod(1518, "DBM-Party-Legion", 1, 740)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(98542)
 mod:SetEncounterID(1832)
 mod:SetZone()
 mod:SetUsedIcons(8, 7)
+mod:SetMinSyncRevision(17745)
 
 mod:RegisterCombat("combat")
 
@@ -60,11 +61,11 @@ function mod:ScytheTarget(targetname, uId)
 	end
 	if targetname == UnitName("player") then --Вращающаяся коса
 		specWarnSwirlingScythe:Show()
-		specWarnSwirlingScythe:Play("runaway")
+	--	specWarnSwirlingScythe:Play("runaway")
 		yellSwirlingScythe:Yell()
 	elseif self:CheckNearby(7, targetname) then
 		specWarnSwirlingScytheNear:Show(targetname)
-		specWarnSwirlingScytheNear:Play("runaway")
+	--	specWarnSwirlingScytheNear:Play("runaway")
 	else
 		warnSwirlingScythe:Show(targetname)
 	end
@@ -80,13 +81,13 @@ function mod:SoulTarget(targetname, uId)
 	if self:AntiSpam(3, targetname) then --Эхо души
 		if targetname == UnitName("player") then
 			specWarnSoulEchos:Show()
-			specWarnSoulEchos:Play("runaway")
-			specWarnSoulEchos:ScheduleVoice(1, "keepmove")
+		--	specWarnSoulEchos:Play("runaway")
+		--	specWarnSoulEchos:ScheduleVoice(1, "keepmove")
 			yellSoulEchos:Yell()
 			yellSoulEchos2:Countdown(12, 3)
 		elseif self:CheckNearby(7, targetname) then
 			specWarnSoulEchosNear:Show(targetname)
-			specWarnSoulEchosNear:Play("runaway")
+		--	specWarnSoulEchosNear:Play("runaway")
 		else
 			warnSoulEchoes:Show(targetname)
 		end
@@ -111,8 +112,8 @@ function mod:SPELL_AURA_APPLIED(args)
 	if spellId == 194966 and self:AntiSpam(3, args.destName) then--Backup Soul echos warning that's 2 seconds slower than target scan
 		if args:IsPlayer() then
 			specWarnSoulEchos:Show()
-			specWarnSoulEchos:Play("runaway")
-			specWarnSoulEchos:ScheduleVoice(1, "keepmove")
+		--	specWarnSoulEchos:Play("runaway")
+		--	specWarnSoulEchos:ScheduleVoice(1, "keepmove")
 		else
 			warnSoulEchoes:Show(args.destName)
 		end
@@ -143,9 +144,9 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 194956 then --Жатва душ
 		if not UnitIsDeadOrGhost("player") then
 			specWarnReapSoul2:Show()
-			specWarnReapSoul2:Play("shockwave")
+		--	specWarnReapSoul2:Play("shockwave")
 			specWarnReapSoul:Show()
-			specWarnReapSoul:Play("shockwave")
+		--	specWarnReapSoul:Play("shockwave")
 		end
 		timerReapSoulCD:Start()
 		countdownReapSoul:Start()
@@ -156,7 +157,7 @@ function mod:SPELL_CAST_START(args)
 		warnCallSouls:Show()
 		if not UnitIsDeadOrGhost("player") then
 			specWarnCallSouls:Schedule(2.5)
-			specWarnCallSouls:ScheduleVoice(2.5, "mobkill")
+		--	specWarnCallSouls:ScheduleVoice(2.5, "mobkill")
 		end
 		timerSwirlingScytheCD:Stop()
 		timerSoulEchoesCD:Stop()
@@ -164,11 +165,9 @@ function mod:SPELL_CAST_START(args)
 		countdownReapSoul:Stop()
 		timerSoulBurstCD:Start()
 	elseif spellId == 196587 then --Взрыв души
-		if not self:IsNormal() then
-			if not UnitIsDeadOrGhost("player") then
-				specWarnSoulBurst:Show()
-				specWarnSoulBurst:Play("defensive")
-			end
+		if not self:IsNormal() and not UnitIsDeadOrGhost("player") then
+			specWarnSoulBurst:Show()
+		--	specWarnSoulBurst:Play("defensive")
 		end
 		timerSwirlingScytheCD:Start(8)
 		timerSoulEchoesCD:Start(15.2)

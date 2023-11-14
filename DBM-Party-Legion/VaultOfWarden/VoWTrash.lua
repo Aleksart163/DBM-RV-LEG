@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("VoWTrash", "DBM-Party-Legion", 10)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 --mod:SetModelID(47785)
 mod:SetZone()
 
@@ -73,12 +73,12 @@ function mod:AMotherLoveTarget(targetname, uId) --Материнская люб�
 	if not targetname then return end
 	if targetname == UnitName("player") then
 		specWarnAMotherLove:Show()
-		specWarnAMotherLove:Play("runaway")
+	--	specWarnAMotherLove:Play("runaway")
 		yellAMotherLove:Yell()
 	else
 		warnAMotherLove:Show(targetname)
 		specWarnAMotherLove2:Show(targetname)
-		specWarnAMotherLove2:Play("runout")
+	--	specWarnAMotherLove2:Play("runout")
 	end
 end
 
@@ -86,24 +86,19 @@ function mod:SPELL_CAST_START(args)
 	if not self.Options.Enabled then return end
 	local spellId = args.spellId
 	if spellId == 196799 and self:AntiSpam(3, 1) then
-		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
-			specWarnUnleashedFury:Show()
-			specWarnUnleashedFury:Play("aesoon")
-		else
-			specWarnUnleashedFury:Show()
-			specWarnUnleashedFury:Play("aesoon")
-		end
+		specWarnUnleashedFury:Show()
+	--	specWarnUnleashedFury:Play("aesoon")
 	elseif spellId == 193069 then --Кошмары
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnNightmares:Show()
-			specWarnNightmares:Play("kickcast")
+		--	specWarnNightmares:Play("kickcast")
 		else
 			warnNightmares2:Show()
-			warnNightmares2:Play("kickcast")
+		--	warnNightmares2:Play("kickcast")
 		end
 	elseif spellId == 196249 then
 		specWarnMeteor:Show()
-		specWarnMeteor:Play("watchstep")
+	--	specWarnMeteor:Play("watchstep")
 	--	timerMeteorCD:Start()
 	elseif spellId == 193502 then --Метаморфоза
 		warnMetamorphosis:Show()
@@ -133,7 +128,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
 	if spellId == 202606 and self:AntiSpam(3, 1) then --Страдающие души
 		specWarnAnguishedSouls2:Show()
-		specWarnAnguishedSouls2:Play("watchstep")
+	--	specWarnAnguishedSouls2:Play("watchstep")
 	end
 end
 
@@ -155,7 +150,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			yellNightmares:Yell()
 		else
 			specWarnNightmares2:CombinedShow(0.3, args.destName)
-			specWarnNightmares2:Play("dispelnow")
+		--	specWarnNightmares2:Play("dispelnow")
 		end
 	elseif spellId == 193607 then --Двойной удар
 		warnDoubleStrike:Show(args.destName)
@@ -163,38 +158,38 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerDoubleStrikeCD:Start()
 		if args:IsPlayer() then
 			specWarnDoubleStrike:Show()
-			specWarnDoubleStrike:Play("defensive")
+		--	specWarnDoubleStrike:Play("defensive")
 		end
 	elseif spellId == 202608 then --Страдающие души
 		if args:IsPlayer() then
 			specWarnAnguishedSouls:Show()
-			specWarnAnguishedSouls:Play("runout")
+		--	specWarnAnguishedSouls:Play("runout")
 		end
 	elseif spellId == 161044 and self:AntiSpam(2, 3) then --Временная аномалия
 		if args:IsPlayer() then
 			specWarnTemporalAnomaly:Show()
-			specWarnTemporalAnomaly:Play("runout")
+		--	specWarnTemporalAnomaly:Play("runout")
 		end
 	elseif spellId == 193164 then --Дар вестника рока
 		if args:IsPlayer() then
 			specWarnGiftoftheDoomsayer2:Show()
-			specWarnGiftoftheDoomsayer2:Play("targetyou")
+		--	specWarnGiftoftheDoomsayer2:Play("targetyou")
 		else
 			specWarnGiftoftheDoomsayer:Show(args.destName)
-			specWarnGiftoftheDoomsayer:Play("dispelnow")
+		--	specWarnGiftoftheDoomsayer:Play("dispelnow")
 		end
 	elseif spellId == 210202 and self:AntiSpam(2, 2) then --Зловонный смрад
 		if self:IsMythic() then
 			if args:IsPlayer() then
 				specWarnFoulStench:Show()
-				specWarnFoulStench:Play("runout")
+			--	specWarnFoulStench:Play("runout")
 			end
 		end
 	elseif spellId == 193997 then --Притяжение
 		warnPull:CombinedShow(0.5, args.destName)
 		if args:IsPlayer() then
 			specWarnPull:Show()
-			specWarnPull:Play("justrun")
+		--	specWarnPull:Play("justrun")
 		end
 	end
 end

@@ -1,11 +1,12 @@
 local mod	= DBM:NewMod(1664, "DBM-Party-Legion", 1, 740)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(98949)
 mod:SetEncounterID(1834)
 mod:SetZone()
 mod:SetUsedIcons(8, 7, 6, 5, 2, 1)
+mod:SetMinSyncRevision(17745)
 
 mod:RegisterCombat("combat")
 
@@ -93,17 +94,17 @@ function mod:SPELL_AURA_APPLIED(args)
 		countdownHatefulGaze2:Start()
 		if args:IsPlayer() then
 			specWarnHatefulGaze2:Show()
-			specWarnHatefulGaze2:Play("runaway")
+		--	specWarnHatefulGaze2:Play("runaway")
 			specWarnHatefulGaze:Schedule(3)
-			specWarnHatefulGaze:ScheduleVoice(3, "defensive")
+		--	specWarnHatefulGaze:ScheduleVoice(3, "defensive")
 			yellHatefulGaze:Yell()
 			yellHatefulGaze2:Countdown(5, 3)
 		elseif self:CheckNearby(15, args.destName) then
 			specWarnHatefulGaze3:Show(args.destName)
-			specWarnHatefulGaze3:Play("watchstep")
+		--	specWarnHatefulGaze3:Play("watchstep")
 		else
 			specWarnHatefulGaze4:Show(args.destName)
-			specWarnHatefulGaze4:Play("helpsoak")
+		--	specWarnHatefulGaze4:Play("helpsoak")
 		end
 		if self.Options.SetIconOnHatefulGaze then
 			self:SetIcon(args.destName, 8, 5)
@@ -115,14 +116,14 @@ function mod:SPELL_AURA_APPLIED(args)
 		if amount >= 1 and not self:IsTank() then
 			if args:IsPlayer() then
 				specWarnHatefulCharge:Show(amount)
-				specWarnHatefulCharge:Play("stackhigh")
+			--	specWarnHatefulCharge:Play("stackhigh")
 			else
 				warnHatefulCharge:Show(args.destName, amount)
 			end
 		elseif amount >= 2 and self:IsTank() then
 			if args:IsPlayer() then
 				specWarnHatefulCharge:Show(amount)
-				specWarnHatefulCharge:Play("stackhigh")
+			--	specWarnHatefulCharge:Play("stackhigh")
 			else
 				warnHatefulCharge:Show(args.destName, amount)
 			end
@@ -134,7 +135,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		self.vb.felVomitIcon = self.vb.felVomitIcon - 1
 		if args:IsPlayer() then
 			specWarnFelVomit:Schedule(3.5)
-			specWarnFelVomit:ScheduleVoice(3.5, "runaway")
+		--	specWarnFelVomit:ScheduleVoice(3.5, "runaway")
 			yellFelVomit:Yell()
 			yellFelVomit2:Countdown(6, 3)
 		else
@@ -181,7 +182,7 @@ function mod:SPELL_CAST_START(args)
 	if spellId == 198073 then
 		if not UnitIsDeadOrGhost("player") then
 			specWarnStomp:Show()
-			specWarnStomp:Play("carefly")
+		--	specWarnStomp:Play("carefly")
 		end
 		if self:IsHard() then
 			timerStompCD:Start(25.5)
@@ -191,11 +192,11 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 198245 and not superWarned then--fallback, only 0.7 seconds warning vs 1.2 if power 100 works, but better than naught.
 		superWarned = true
 		specWarnBrutalHaymaker:Show()
-		if self:IsTank() then
+--[[	if self:IsTank() then
 			specWarnBrutalHaymaker:Play("defensive")
 		else
 			specWarnBrutalHaymaker:Play("tankheal")
-		end
+		end]]
 	end
 end
 
@@ -203,7 +204,7 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spell
 	if spellId == 198501 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
 		if self:IsHard() then
 			specWarnFelVomitus:Show()
-			specWarnFelVomitus:Play("runaway")
+		--	specWarnFelVomitus:Play("runaway")
 		end
 	end
 end
@@ -217,18 +218,18 @@ do
 		if power >= 85 and not warnedSoon then
 			warnedSoon = true
 			specWarnBrutalHaymakerSoon:Show()
-			specWarnBrutalHaymakerSoon:Play("energyhigh")
+		--	specWarnBrutalHaymakerSoon:Play("energyhigh")
 		elseif power < 50 and warnedSoon then
 			warnedSoon = false
 			superWarned = false
 		elseif power == 100 and not superWarned then--Doing here is about 0.5 seconds faster than SPELL_CAST_START, when it works.
 			superWarned = true
 			specWarnBrutalHaymaker:Show()
-			if self:IsTank() then
+--[[		if self:IsTank() then
 				specWarnBrutalHaymaker:Play("defensive")
 			else
 				specWarnBrutalHaymaker:Play("tankheal")
-			end
+			end]]
 		end
 	end
 end

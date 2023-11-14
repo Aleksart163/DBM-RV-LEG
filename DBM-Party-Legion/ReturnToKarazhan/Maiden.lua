@@ -1,11 +1,12 @@
 local mod	= DBM:NewMod(1825, "DBM-Party-Legion", 11, 860)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(113971)
 mod:SetEncounterID(1954)
 mod:SetZone()
 mod:SetUsedIcons(7)
+mod:SetMinSyncRevision(17745)
 --mod:SetUsedIcons(1)
 --mod:SetHotfixNoticeRev(14922)
 --mod.respawnTime = 30
@@ -59,7 +60,7 @@ function mod:SacredGroundTarget(targetname, uId) --Прошляпанное оч
 	if not targetname then return end
 	if targetname == UnitName("player") then
 		specWarnSacredGround:Show()
-		specWarnSacredGround:Play("runout")
+	--	specWarnSacredGround:Play("runout")
 		yellSacredGround:Yell()
 	else
 		warnSacredGround:Show(targetname)
@@ -73,7 +74,7 @@ function mod:HolyBoltTarget(targetname, uId)
 	if not targetname then return end
 	if targetname == UnitName("player") then
 		specWarnHolyBolt:Show()
-		specWarnHolyBolt:Play("runout")
+	--	specWarnHolyBolt:Play("runout")
 		yellHolyBolt:Yell()
 	else
 		warnHolyBolt:Show(targetname)
@@ -109,16 +110,16 @@ function mod:SPELL_CAST_START(args)
 		self.vb.kickCount = self.vb.kickCount + 1
 		local kickCount = self.vb.kickCount
 		specWarnHolyShock:Show(kickCount)
-		if kickCount == 1 then
+--[[		if kickCount == 1 then
 			specWarnHolyShock:Play("kick1r")
 		elseif kickCount == 2 then
 			specWarnHolyShock:Play("kick2r")
-		end
+		end]]
 		timerHolyShockCD:Start()
 	elseif spellId == 227508 then --Всеобщее покаяние
 		if not UnitIsDeadOrGhost("player") then
 			specWarnRepentance:Show(sacredGround)
-			specWarnRepentance:Play("justrun")
+		--	specWarnRepentance:Play("justrun")
 		end
 		timerRepentanceCD:Start()
 		countdownHolyWrath:Start(51)
@@ -153,7 +154,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if amount >= 1 then
 			if args:IsPlayer() then
 				specWarnHolyShock2:Show(amount)
-				specWarnHolyShock2:Play("stackhigh")
+			--	specWarnHolyShock2:Play("stackhigh")
 			end
 		end
 	end
@@ -165,7 +166,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		if UnitCastingInfo("boss1") then
 			if not UnitIsDeadOrGhost("player") then
 				specWarnHolyWrath:Show(L.name)
-				specWarnHolyWrath:Play("kickcast")
+			--	specWarnHolyWrath:Play("kickcast")
 			end
 		end
 		if self.Options.InfoFrame then
