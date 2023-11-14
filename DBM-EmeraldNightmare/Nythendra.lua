@@ -1,12 +1,13 @@
 local mod	= DBM:NewMod(1703, "DBM-EmeraldNightmare", nil, 768)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(102672)
 mod:SetEncounterID(1853)
 mod:SetZone()
 mod:SetUsedIcons(4, 3, 2, 1)
-mod:SetHotfixNoticeRev(15286)
+mod:SetHotfixNoticeRev(17745)
+mod:SetMinSyncRevision(17745)
 mod.respawnTime = 30
 
 mod:RegisterCombat("combat")
@@ -211,9 +212,6 @@ function mod:SPELL_AURA_APPLIED_DOSE(args)
 		if amount >= 7 and amount < 11 then
 			specWarnInfestedStack:Cancel()
 			specWarnInfestedStack:Schedule(0.5, amount)
-		--[[	if self:AntiSpam(2, 4) then
-				specWarnInfestedStack:Play("stackhigh")
-			end]]
 		end
 		if amount >= 10 then
 			playerHasTen = true

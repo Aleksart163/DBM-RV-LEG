@@ -9,6 +9,7 @@
 ## Title-frFR:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0Foire de Sombrelune|r
 ## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0暗月馬戲團|r
 ## Title-itIT:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0Fiera di Lunacupa|r
+## Title-ukUK:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0Ярмарок Молодика|r
 ## Author: MysticalOS
 ## LoadOnDemand: 1
 ## RequiredDeps: DBM-Core
@@ -20,7 +21,8 @@
 ## X-DBM-Mod-Has-Single-Format: 1
 ## X-DBM-Mod-MapID: 974
 ## X-DBM-Mod-Sort: 511
-## X-DBM-Mod-MinCoreRevision: 12473
+## X-DBM-Mod-MinCoreRevision: 17745
+
 localization.en.lua
 localization.ru.lua
 localization.fr.lua
@@ -30,6 +32,7 @@ localization.de.lua
 localization.es.lua
 localization.cn.lua
 localization.br.lua
+
 Cannon.lua
 Gnoll.lua
 Shot.lua

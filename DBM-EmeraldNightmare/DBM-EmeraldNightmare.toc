@@ -11,6 +11,7 @@
 ## Title-koKR:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0에메랄드의 악몽|r
 ## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0翡翠梦魇|r
 ## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0翡翠夢魘|r
+## Title-ukUK:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0Смарагдовий Кошмар|r
 ## Author: MysticalOS
 ## LoadOnDemand: 1
 ## RequiredDeps: DBM-Core
@@ -22,7 +23,7 @@
 ## X-DBM-Mod-Has-Mythic : 1
 ## X-DBM-Mod-Sort: 504
 ## X-DBM-Mod-MapID: 1520
-## X-DBM-Mod-MinCoreRevision: 17743
+## X-DBM-Mod-MinCoreRevision: 17745
 
 localization.en.lua
 localization.ru.lua
