@@ -1,9 +1,9 @@
 local mod	= DBM:NewMod("RareEnemies2", "DBM-BrokenIsles", nil, 822)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetZone()
-mod:SetMinSyncRevision(17650)
+mod:SetMinSyncRevision(17745)
 
 mod.noStatistics = true
 mod.isTrashMod = true
@@ -110,11 +110,11 @@ function mod:hatefulSmashTarget(targetname, uId) --прошляпанное оч
 	if not targetname then return end
 	if targetname == UnitName("player") then
 		specWarnHatefulSmash:Show()
-		specWarnHatefulSmash:Play("runaway")
+	--	specWarnHatefulSmash:Play("runaway")
 		yellHatefulSmash:Yell()
 	elseif self:CheckNearby(5, targetname) then
 		specWarnHatefulSmash2:Show(targetname)
-		specWarnHatefulSmash2:Play("runout")
+	--	specWarnHatefulSmash2:Play("runout")
 	else
 		warnHatefulSmash:Show(targetname)
 	end
@@ -124,11 +124,11 @@ function mod:carrionSwarmTarget(targetname, uId) --прошляпанное оч
 	if not targetname then return end
 	if targetname == UnitName("player") then
 		specWarnCarrionSwarm:Show()
-		specWarnCarrionSwarm:Play("runaway")
+	--	specWarnCarrionSwarm:Play("runaway")
 		yellCarrionSwarm:Yell()
 	elseif self:CheckNearby(5, targetname) then
 		specWarnCarrionSwarm2:Show(targetname)
-		specWarnCarrionSwarm2:Play("runout")
+	--	specWarnCarrionSwarm2:Play("runout")
 	else
 		warnCarrionSwarm:Show(targetname)
 	end
@@ -138,11 +138,11 @@ function mod:glitteringBlastTarget(targetname, uId) --прошляпанное �
 	if not targetname then return end
 	if targetname == UnitName("player") then
 		specWarnGlitteringBlast:Show()
-		specWarnGlitteringBlast:Play("runaway")
+	--	specWarnGlitteringBlast:Play("runaway")
 		yellGlitteringBlast:Yell()
 	elseif self:CheckNearby(5, targetname) then
 		specWarnGlitteringBlast2:Show(targetname)
-		specWarnGlitteringBlast2:Play("runout")
+	--	specWarnGlitteringBlast2:Play("runout")
 	else
 		warnGlitteringBlast:Show(targetname)
 	end
@@ -154,31 +154,31 @@ function mod:SPELL_CAST_START(args)
 		local cid = self:GetCIDFromGUID(args.sourceGUID)
 		if cid == 117066 or cid == 117420 or cid == 118017 or cid == 117060 or cid == 117059 or cid == 118016 or cid == 120310 or cid == 118013 or cid == 117061 then -- 117061 навязанный разрабами
 			specWarnFelFissure:Show()
-			specWarnFelFissure:Play("watchstep")
+		--	specWarnFelFissure:Play("watchstep")
 		end
 	elseif spellId == 223693 then --Истинный Хаос
 		local cid = self:GetCIDFromGUID(args.sourceGUID)
 		if cid == 117066 or cid == 117420 or cid == 118017 or cid == 117060 or cid == 117059 or cid == 118016 or cid == 120310 or cid == 118013 or cid == 117061 then -- 117061 навязанный разрабами
 			specWarnTrueChaos:Show()
-			specWarnTrueChaos:Play("kickcast")
+		--	specWarnTrueChaos:Play("kickcast")
 		end
 	elseif spellId == 239513 then --Огненный шар
 		local cid = self:GetCIDFromGUID(args.sourceGUID)
 		if cid == 117065 or cid == 117969 or cid == 120126 or cid == 117991 or cid == 117067 or cid == 117970 or cid == 117973 then --
 			specWarnFireball:Show()
-			specWarnFireball:Play("kickcast")
+		--	specWarnFireball:Play("kickcast")
 		end
 	elseif spellId == 240095 then --Огненный ливень
 		local cid = self:GetCIDFromGUID(args.sourceGUID)
 		if cid == 117065 or cid == 117039 or cid == 117969 or cid == 117040 or cid == 117991 or cid == 117067 or cid == 117035 or cid == 117970 or cid == 118006 or cid == 117038 or cid == 117973 or cid == 117036 then --
 			specWarnRainofFire:Show()
-			specWarnRainofFire:Play("watchstep")
+		--	specWarnRainofFire:Play("watchstep")
 		end
 	elseif spellId == 240126 then --Грохочущий топот
 		local cid = self:GetCIDFromGUID(args.sourceGUID)
 		if cid == 117040 or cid == 117035 or cid == 118006 or cid == 117038 or cid == 117036 then --
 			specWarnThunderingStomp:Show()
-			specWarnThunderingStomp:Play("watchstep")
+		--	specWarnThunderingStomp:Play("watchstep")
 		end
 	elseif spellId == 238586 then --Полный ненависти удар
 		local cid = self:GetCIDFromGUID(args.sourceGUID)
@@ -190,76 +190,76 @@ function mod:SPELL_CAST_START(args)
 		if cid == 109318 then
 			if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 				specWarnShatteredRune:Show()
-				specWarnShatteredRune:Play("kickcast")
+			--	specWarnShatteredRune:Play("kickcast")
 			end
 		end
 	elseif spellId == 217857 then --Расплетение рун
 		specWarnUnraveltheRunes:Show()
-		specWarnUnraveltheRunes:Play("kickcast")
+	--	specWarnUnraveltheRunes:Play("kickcast")
 	elseif spellId == 233220 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Опаляющий взрыв
 		specWarnIncineratingBlast:Show()
-		specWarnIncineratingBlast:Play("kickcast")
+	--	specWarnIncineratingBlast:Play("kickcast")
 	elseif spellId == 240105 then --Темная стая
 		self:BossTargetScanner(args.sourceGUID, "carrionSwarmTarget", 0.1, 2)
 	elseif spellId == 240115 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Чумной залп
 		specWarnPlagueVolley:Show()
-		specWarnPlagueVolley:Play("kickcast")
+	--	specWarnPlagueVolley:Play("kickcast")
 	elseif spellId == 216504 then --Сокрушительная волна
 		specWarnCrushingWave:Show()
-		specWarnCrushingWave:Play("watchstep")
+	--	specWarnCrushingWave:Play("watchstep")
 	elseif spellId == 219200 then --Сияющий взрыв
 		self:BossTargetScanner(args.sourceGUID, "glitteringBlastTarget", 0.1, 2)
 	elseif spellId == 240015 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Темное сокрушение
 		specWarnShadowCrash:Show()
-		specWarnShadowCrash:Play("kickcast")
+	--	specWarnShadowCrash:Play("kickcast")
 	elseif spellId == 240009 then --Потусторонний вой
 		specWarnHowlfromBeyond:Show()
-		specWarnHowlfromBeyond:Play("kickcast")
+	--	specWarnHowlfromBeyond:Play("kickcast")
 	elseif spellId == 186612 then --Разлагающаяся мертвечина
 		specWarnDecayingCarrion:Show()
-		specWarnDecayingCarrion:Play("kickcast")
+	--	specWarnDecayingCarrion:Play("kickcast")
 	elseif spellId == 212549 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Ужасающий рев
 		specWarnTerrifyingRoar:Show()
-		specWarnTerrifyingRoar:Play("kickcast")
+	--	specWarnTerrifyingRoar:Play("kickcast")
 	elseif spellId == 222326 then --Прожорливые тени
 		specWarnGluttonousShadows:Show()
-		specWarnGluttonousShadows:Play("watchstep")
+	--	specWarnGluttonousShadows:Play("watchstep")
 	elseif spellId == 222318 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Залп стрел Тьмы
 		specWarnShadowBoltVolley:Show()
-		specWarnShadowBoltVolley:Play("kickcast")
+	--	specWarnShadowBoltVolley:Play("kickcast")
 	elseif spellId == 224703 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Оглушающий рев
 		specWarnDeafeningRoar:Show()
-		specWarnDeafeningRoar:Play("kickcast")
+	--	specWarnDeafeningRoar:Play("kickcast")
 	elseif spellId == 219293 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Ужасающий рев
 		specWarnTerrifyingRoar2:Show()
-		specWarnTerrifyingRoar2:Play("kickcast")
+	--	specWarnTerrifyingRoar2:Play("kickcast")
 	elseif spellId == 207460 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Посев зерен кошмарника
 		specWarnSowNightmareSeeds:Show()
-		specWarnSowNightmareSeeds:Play("kickcast")
+	--	specWarnSowNightmareSeeds:Play("kickcast")
 	elseif spellId == 217562 then --Нестабильная буря
 		specWarnVolatileTempest:Show()
-		specWarnVolatileTempest:Play("kickcast")
+	--	specWarnVolatileTempest:Play("kickcast")
 	elseif spellId == 207344 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Похищение сущности
 		specWarnEssenceTheft:Show()
-		specWarnEssenceTheft:Play("kickcast")
+	--	specWarnEssenceTheft:Play("kickcast")
 	elseif spellId == 219554 then --Истязающие заросли
 		specWarnTormentingFoliage:Show()
-		specWarnTormentingFoliage:Play("watchstep")
+	--	specWarnTormentingFoliage:Play("watchstep")
 	elseif spellId == 207734 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Сила навоза
 		specWarnMuckInfusion:Show()
-		specWarnMuckInfusion:Play("kickcast")
+	--	specWarnMuckInfusion:Play("kickcast")
 	elseif spellId == 207729 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Тошнотворная стрела
 		specWarnSickeningBolt:Show()
-		specWarnSickeningBolt:Play("kickcast")
+	--	specWarnSickeningBolt:Play("kickcast")
 	elseif spellId == 217167 then --Жатва душ
 		specWarnSoulHarvest:Show()
-		specWarnSoulHarvest:Play("kickcast")
+	--	specWarnSoulHarvest:Play("kickcast")
 	elseif spellId == 217111 then --Огненная бомба
 		specWarnFlameBomb:Show()
-		specWarnFlameBomb:Play("watchstep")
+	--	specWarnFlameBomb:Play("watchstep")
 	elseif spellId == 219799 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Извержение порчи
 		specWarnTaintedEruption2:Show()
-		specWarnTaintedEruption2:Play("kickcast")
+	--	specWarnTaintedEruption2:Play("kickcast")
 	end
 end
 
@@ -269,18 +269,18 @@ function mod:SPELL_CAST_SUCCESS(args)
 		local cid = self:GetCIDFromGUID(args.sourceGUID)
 		if cid == 117055 or cid == 117054 then
 			specWarnBlazingHellfire:Show()
-			specWarnBlazingHellfire:Play("kickcast")
+		--	specWarnBlazingHellfire:Play("kickcast")
 			timerBlazingHellfireCD:Start()
 		end
 	elseif spellId == 206946 then --Разлом Бездны
 		specWarnVoidFissures:Show()
-		specWarnVoidFissures:Play("killmob")
+	--	specWarnVoidFissures:Play("killmob")
 	elseif spellId == 222532 then --Леденящий туман
 		specWarnFreezingMist:Show()
-		specWarnFreezingMist:Play("kickcast")
+	--	specWarnFreezingMist:Play("kickcast")
 	elseif spellId == 219799 then --Извержение порчи
 		specWarnTaintedEruption:Show()
-		specWarnTaintedEruption:Play("watchstep")
+	--	specWarnTaintedEruption:Play("watchstep")
 	end
 end
 
@@ -290,7 +290,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerCoreofDepravity:Start(args.destName)
 		if args:IsPlayer() then
 			specWarnCoreofDepravity:Schedule(4.5)
-			specWarnCoreofDepravity:ScheduleVoice(4.5, "runaway")
+		--	specWarnCoreofDepravity:ScheduleVoice(4.5, "runaway")
 			yellCoreofDepravity:Yell()
 			yellCoreofDepravity2:Countdown(9, 3)
 		else
@@ -298,35 +298,35 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif spellId == 233213 and not args:IsDestTypePlayer() then --Метеориты из осколков Скверны
 		specWarnFelshardMeteors:Show()
-		specWarnFelshardMeteors:Play("watchstep")
+	--	specWarnFelshardMeteors:Play("watchstep")
 	elseif spellId == 216456 then --Соленый пузырь
 		warnBrinyBubble:CombinedShow(0.5, args.destName)
 		if args:IsPlayer() then
 			specWarnBrinyBubble:Show()
-			specWarnBrinyBubble:Play("targetyou")
+		--	specWarnBrinyBubble:Play("targetyou")
 			yellBrinyBubble:Yell()
 		else
 			specWarnBrinyBubble2:Show()
-			specWarnBrinyBubble2:Play("killmob")
+		--	specWarnBrinyBubble2:Play("killmob")
 		end
 	elseif spellId == 219256 then --Дорогое отвлечение
 		warnExpensiveDistraction:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
 			specWarnExpensiveDistraction:Show()
-			specWarnExpensiveDistraction:Play("targetyou")
+		--	specWarnExpensiveDistraction:Play("targetyou")
 		else
 			specWarnExpensiveDistraction2:CombinedShow(0.3, args.destName)
-			specWarnExpensiveDistraction2:ScheduleVoice(0.3, "dispelnow")
+		--	specWarnExpensiveDistraction2:ScheduleVoice(0.3, "dispelnow")
 		end
 	elseif spellId == 186620 then --Калечащий мрак
 		if args:IsPlayer() then
 			specWarnCripplingGloom:Show()
-			specWarnCripplingGloom:Play("targetyou")
+		--	specWarnCripplingGloom:Play("targetyou")
 		end
 	elseif spellId == 217002 then --Звериное удушение
 		if args:IsPlayer() then
 			specWarnBestialChoke:Show()
-			specWarnBestialChoke:Play("defensive")
+		--	specWarnBestialChoke:Play("defensive")
 		end
 	end
 end
@@ -345,7 +345,7 @@ end
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
 	if spellId == 217136 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then --Огненная бомба
 		specWarnFlameBomb2:Show()
-		specWarnFlameBomb2:Play("runaway")
+	--	specWarnFlameBomb2:Play("runaway")
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE

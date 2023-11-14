@@ -1,13 +1,13 @@
 local mod	= DBM:NewMod(1956, "DBM-BrokenIsles", nil, 822)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(121124)
 --mod:SetEncounterID(1880)
 mod:SetReCombatTime(20)
 mod:SetZone()
 mod:SetUsedIcons(8)
---mod:SetMinSyncRevision(11969)
+mod:SetMinSyncRevision(17745)
 
 mod:RegisterCombat("combat")
 
@@ -39,11 +39,11 @@ function mod:MissilesTarget(targetname, uId)
 	warnFelfireMissiles:Show(targetname)
 	if targetname == UnitName("player") then
 		specWarnFelfireMissiles:Show()
-		specWarnFelfireMissiles:Play("runout")
+	--	specWarnFelfireMissiles:Play("runout")
 		yellFelfireMissiles:Yell()
 	elseif self:CheckNearby(15, targetname) then
 		specWarnFelfireMissilesNear:Show(targetname)
-		specWarnFelfireMissilesNear:Play("watchstep")
+	--	specWarnFelfireMissilesNear:Play("watchstep")
 	end
 	if self.Options.SetIconOnFelfireMissiles then
 		self:SetIcon(targetname, 8, 7)
@@ -54,9 +54,9 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 241458 then --Землетрясение
 		specWarnQuake:Show()
-		specWarnQuake:Play("carefly")
+	--	specWarnQuake:Play("carefly")
 		specWarnQuake2:Show()
-		specWarnQuake2:Play("carefly")
+	--	specWarnQuake2:Play("carefly")
 		timerQuakeCD:Start()
 		timerQuakeCast:Start()
 	elseif spellId == 241498 then --Заряды огня Скверны
@@ -64,7 +64,7 @@ function mod:SPELL_CAST_START(args)
 		self:BossTargetScanner(args.sourceGUID, "MissilesTarget", 0.2, 5)
 	elseif spellId == 241518 then --Выжигание
 		specWarnSear:Show()
-		specWarnSear:Play("defensive")
+	--	specWarnSear:Play("defensive")
 		timerSearCD:Start()
 	end
 end

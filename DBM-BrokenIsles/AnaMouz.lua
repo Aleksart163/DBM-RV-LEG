@@ -1,12 +1,12 @@
 local mod	= DBM:NewMod(1790, "DBM-BrokenIsles", nil, 822)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17077 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(109943)
 --mod:SetEncounterID(1880)
 mod:SetReCombatTime(20)
 mod:SetZone()
---mod:SetMinSyncRevision(11969)
+mod:SetMinSyncRevision(17745)
 
 mod:RegisterCombat("combat")
 
@@ -47,11 +47,11 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 218823 then
 		specWarnFelGeyser:Show()
-		specWarnFelGeyser:Play("watchstep")
+	--	specWarnFelGeyser:Play("watchstep")
 		timerFelGeyserCD:Start()
 	elseif spellId == 218888 then
 		specWarnImpishFlames:Show()
-		specWarnImpishFlames:Play("breathsoon")
+	--	specWarnImpishFlames:Play("breathsoon")
 		timerImpishFlamesCD:Start()
 	elseif spellId == 219045 then
 		timerMothersEmbraceCD:Start()
@@ -68,9 +68,6 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnMothersEmbrace:CombinedShow(0.3, args.destName)
 		else
 			warnMothersEmbrace:CombinedShow(0.3, args.destName)
-		end
-		if self:AntiSpam(3, 1) then
-			specWarnMothersEmbrace:Play("helpdispel")
 		end
 	elseif spellId == 219068 then--Dispel failure.
 		warnMothersEmbraceFail:CombinedShow(0.3, args.destName)

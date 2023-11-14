@@ -1,12 +1,12 @@
 local mod	= DBM:NewMod(1883, "DBM-BrokenIsles", nil, 822)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17077 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(117239)
 --mod:SetEncounterID(1880)
 mod:SetReCombatTime(20)
 mod:SetZone()
---mod:SetMinSyncRevision(11969)
+mod:SetMinSyncRevision(17745)
 
 mod:RegisterCombat("combat")
 
@@ -36,11 +36,11 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 233484 then
 		specWarnMeteorSlash:Show()
-		specWarnMeteorSlash:Play("gathershare")
+	--	specWarnMeteorSlash:Play("gathershare")
 		timerMeteorSlashCD:Start()
 	elseif spellId == 233566 then
 		specWarnRupture:Show()
-		specWarnRupture:Play("watchstep")
+	--	specWarnRupture:Play("watchstep")
 		timerRuptureCD:Start()
 	end
 end
@@ -49,7 +49,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
 	if spellId == 233515 then
 		specWarnCrashingEmbers:Show()
-		specWarnCrashingEmbers:Play("watchstep")
+	--	specWarnCrashingEmbers:Play("watchstep")
 		timerCrashingEmbersCD:Start()
 	end
 end

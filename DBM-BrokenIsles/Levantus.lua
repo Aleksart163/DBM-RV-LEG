@@ -1,12 +1,12 @@
 local mod	= DBM:NewMod(1769, "DBM-BrokenIsles", nil, 822)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17077 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(108829)
 mod:SetEncounterID(1953)
 mod:SetReCombatTime(20)
 mod:SetZone()
---mod:SetMinSyncRevision(11969)
+mod:SetMinSyncRevision(17745)
 
 mod:RegisterCombat("combat")
 
@@ -41,7 +41,7 @@ function mod:SPELL_CAST_START(args)
 		timerRendingWhirlCD:Start()
 	elseif spellId == 217249 then
 		specWarnMassiveSpout:Show()
-		specWarnMassiveSpout:Play("watchwave")
+	--	specWarnMassiveSpout:Play("watchwave")
 		timerMassiveSpoutCD:Start()
 	elseif spellId == 217344 then
 		warnElectrify:Show()
@@ -53,8 +53,5 @@ function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 217352 then
 		specWarnElectrifyDispel:CombinedShow(0.5, args.destName)
-		if self:AntiSpam(3, 1) then
-			specWarnElectrifyDispel:Play("helpdispel")
-		end
 	end
 end

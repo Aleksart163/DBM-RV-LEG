@@ -1,12 +1,12 @@
 local mod	= DBM:NewMod(1749, "DBM-BrokenIsles", nil, 822)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17603 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(107023)
 mod:SetEncounterID(1880)
 mod:SetReCombatTime(20)
 mod:SetZone()
---mod:SetMinSyncRevision(11969)
+mod:SetMinSyncRevision(17745)
 
 mod:RegisterCombat("combat")
 
@@ -42,7 +42,7 @@ local timerStormBreathCD			= mod:NewCDTimer(23.1, 212852, nil, "Tank", nil, 5, n
 local function checkTankSwap(self, targetName, spellName)
 	if not DBM:UnitDebuff("player", spellName) then
 		specWarnBreathSwap:Show(targetName)
-		specWarnBreathSwap:Play("tauntboss")
+	--	specWarnBreathSwap:Play("tauntboss")
 	end
 end
 
@@ -60,7 +60,7 @@ function mod:SPELL_CAST_START(args)
 		local _, unitID = self:GetCurrentTank(args.sourceGUID)
 		if unitID and UnitIsUnit("player", unitID) then
 			specWarnBreath:Show()
-			specWarnBreath:Play("defensive")
+		--	specWarnBreath:Play("defensive")
 		end
 	end
 end
@@ -77,7 +77,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	if spellId == 212887 then
 		if args:IsPlayer() then
 			specWarnStaticCharge:Show()
-			specWarnStaticCharge:Play("runout")
+		--	specWarnStaticCharge:Play("runout")
 			yellStaticCharge:Schedule(2, 3)
 			yellStaticCharge:Schedule(3, 2)
 			yellStaticCharge:Schedule(4, 1)
@@ -88,7 +88,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnLightningRod:CombinedShow(0.5, args.destName)
 		if args:IsPlayer() then
 			specWarnLightningRod:Show()
-			specWarnLightningRod:Play("runaway")
+		--	specWarnLightningRod:Play("runaway")
 		end
 	elseif spellId == 212852 then
 		local uId = DBM:GetRaidUnitId(args.destName)
@@ -98,7 +98,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif spellId == 212884 and args:IsPlayer() then
 		specWarnStorm:Show()
-		specWarnStorm:Play("runaway")
+	--	specWarnStorm:Play("runaway")
 	end
 end
 
@@ -115,7 +115,7 @@ function mod:RAID_BOSS_WHISPER(msg)
 	if msg:find("spell:212841") then
 		specWarnCracklingJolt:Show()
 		yellCracklingJolt:Yell()
-		specWarnCracklingJolt:Play("watchstep")
+	--	specWarnCracklingJolt:Play("watchstep")
 	end
 end
 
@@ -124,7 +124,7 @@ function mod:OnTranscriptorSync(msg, targetName)
 		targetName = Ambiguate(targetName, "none")
 		if self:CheckNearby(4, targetName) and self:AntiSpam(4, 1) then
 			specWarnCracklingJoltNear:Show(targetName)
-			specWarnCracklingJoltNear:Play("watchstep")
+		--	specWarnCracklingJoltNear:Play("watchstep")
 		end
 	end
 end
@@ -136,4 +136,3 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 		timerCracklingJoltCD:Start()
 	end
 end
-

@@ -1,12 +1,12 @@
 local mod	= DBM:NewMod(1884, "DBM-BrokenIsles", nil, 822)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17471 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(117303)
 --mod:SetEncounterID(1880)
 mod:SetReCombatTime(20)
 mod:SetZone()
---mod:SetMinSyncRevision(11969)
+mod:SetMinSyncRevision(17745)
 
 mod:RegisterCombat("combat")
 
@@ -85,13 +85,10 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnIncitePanic:CombinedShow(0.5, args.destName)
 		if args:IsPlayer() then
 			specWarnIncitePanic:Show()
-			specWarnIncitePanic:Play("scatter")
+		--	specWarnIncitePanic:Play("scatter")
 			yellIncitePanic:Yell()
 		elseif self:CheckNearby(10, args.destName) and not DBM:UnitDebuff("player", args.spellName) then
 			specWarnIncitePanicNear:CombinedShow(0.5, args.destName)
-			if self:AntiSpam(3, 1) then
-				specWarnIncitePanicNear:Play("scatter")
-			end
 		end
 	end
 end
@@ -99,7 +96,7 @@ end
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 233850 and destGUID == UnitGUID("player") and self:AntiSpam(2, 2) then
 		specWarnVirulentInfection:Show()
-		specWarnVirulentInfection:Play("runaway")
+	--	specWarnVirulentInfection:Play("runaway")
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE

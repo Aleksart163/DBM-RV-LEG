@@ -1,12 +1,12 @@
 local mod	= DBM:NewMod(1763, "DBM-BrokenIsles", nil, 822)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17077 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(108678)
 mod:SetEncounterID(1888)
 mod:SetReCombatTime(20)
 mod:SetZone()
---mod:SetMinSyncRevision(11969)
+mod:SetMinSyncRevision(17745)
 
 mod:RegisterCombat("combat")
 
@@ -47,11 +47,11 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 215821 then
 		specWarnBreath:Show()
-		specWarnBreath:Play("breathsoon")
+	--	specWarnBreath:Play("breathsoon")
 		timerBreathCD:Start()
 	elseif spellId == 216044 then
 		specWarnFear:Show()
-		specWarnFear:Play("fearsoon")
+	--	specWarnFear:Play("fearsoon")
 		timerFearCD:Start()
 	end
 end
@@ -60,7 +60,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
 	if spellId == 215821 then
 		specWarnBreath:Show()
-		specWarnBreath:Play("breathsoon")
+	--	specWarnBreath:Play("breathsoon")
 		timerBreathCD:Start()
 	end
 end
@@ -68,7 +68,7 @@ end
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 215876 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
 		specWarnBurningEarth:Show()
-		specWarnBurningEarth:Play("runaway")
+	--	specWarnBurningEarth:Play("runaway")
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE

@@ -1,12 +1,12 @@
 local mod	= DBM:NewMod(1770, "DBM-BrokenIsles", nil, 822)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17077 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(108879)
 mod:SetEncounterID(1917)
 mod:SetReCombatTime(20)
 mod:SetZone()
---mod:SetMinSyncRevision(11969)
+mod:SetMinSyncRevision(17745)
 
 mod:RegisterCombat("combat")
 
@@ -48,11 +48,11 @@ function mod:BoomTarget(targetname, uId)
 	if not targetname then return end
 	if targetname == UnitName("player") then
 		specWarnFireBoom:Show()
-		specWarnFireBoom:Play("runout")
+	--	specWarnFireBoom:Play("runout")
 		yellFireBoom:Yell()
 	elseif self:CheckNearby(10, targetname) then
 		specWarnFireBoomNear:Show(targetname)
-		specWarnFireBoomNear:Play("watchstep")
+	--	specWarnFireBoomNear:Play("watchstep")
 	else
 		warnFireBoom:Show(targetname)
 	end
@@ -62,7 +62,7 @@ function mod:IceFists(targetname, uId)
 	if not targetname then return end
 	if targetname == UnitName("player") then
 		specWarnIceFist:Show()
-		specWarnIceFist:Play("runout")
+	--	specWarnIceFist:Play("runout")
 		yellIceFist:Yell()
 	else
 		warnIceFist:Show(targetname)
@@ -91,7 +91,7 @@ function mod:SPELL_CAST_START(args)
 		self:BossTargetScanner(args.sourceGUID, "BoomTarget", 0.1, 14, nil, nil, nil, nil, true)
 	elseif spellId == 216430 then
 		specWarnStomp:Show()
-		specWarnStomp:Play("carefly")
+	--	specWarnStomp:Play("carefly")
 		timerStompCD:Start()
 	elseif spellId == 216432 then
 		self:BossTargetScanner(args.sourceGUID, "IceFists", 0.1, 9, nil, nil, nil, nil, true)
@@ -115,7 +115,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerGoBangStarts:Start(args.destName)
 		if args:IsPlayer() then
 			specWarnGoBangYou:Show()
-			specWarnGoBangYou:Play("runout")
+		--	specWarnGoBangYou:Play("runout")
 			yellGoBang:Schedule(11, 1)
 			yellGoBang:Schedule(10, 2)
 			yellGoBang:Schedule(9, 3)
@@ -125,7 +125,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			end
 		else
 			specWarnGoBangSwap:Show(args.destName)
-			specWarnGoBangSwap:Play("tauntboss")
+		--	specWarnGoBangSwap:Play("tauntboss")
 		end
 	end
 end

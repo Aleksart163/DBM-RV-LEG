@@ -1,12 +1,12 @@
 local mod	= DBM:NewMod(1774, "DBM-BrokenIsles", nil, 822)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17603 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(109331)
 mod:SetEncounterID(1952)
 mod:SetReCombatTime(20)
 mod:SetZone()
---mod:SetMinSyncRevision(11969)
+mod:SetMinSyncRevision(17745)
 
 mod:RegisterCombat("combat")
 
@@ -70,13 +70,13 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 217986 then
 		self.vb.specialCast = self.vb.specialCast + 1
 		specArcaneDesolation:Show()
-		specArcaneDesolation:Play("carefly")
+	--	specArcaneDesolation:Play("carefly")
 		if self.vb.specialCast == 1 then
 			timerArcaneDesolationCD:Start()
 		end
 	elseif spellId == 217893 then
 		specWrathfulFlames:Show()
-		specWrathfulFlames:Play("watchstep")
+	--	specWrathfulFlames:Play("watchstep")
 	end
 end
 
@@ -96,7 +96,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnBurningBomb:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
 			specBurningBomb:Show()
-			specBurningBomb:Play("targetyou")
+		--	specBurningBomb:Play("targetyou")
 			yellBurningBomb:Schedule(7, 1)
 			yellBurningBomb:Schedule(6, 2)
 			yellBurningBomb:Schedule(5, 3)
@@ -124,7 +124,7 @@ end
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 217907 and destGUID == UnitGUID("player") and self:AntiSpam(2, 5) then
 		specWrathfulFlamesGTFO:Show()
-		specWrathfulFlamesGTFO:Play("runaway")
+	--	specWrathfulFlamesGTFO:Play("runaway")
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE

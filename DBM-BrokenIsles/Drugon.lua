@@ -1,12 +1,12 @@
 local mod	= DBM:NewMod(1789, "DBM-BrokenIsles", nil, 822)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17077 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(110378)
 mod:SetEncounterID(1949)
 mod:SetReCombatTime(20)
 mod:SetZone()
---mod:SetMinSyncRevision(11969)
+mod:SetMinSyncRevision(17745)
 
 mod:RegisterCombat("combat")
 
@@ -41,7 +41,7 @@ function mod:AvaTarget(targetname, uId)
 	end
 	if targetname == UnitName("player") then
 		specWarnAvalanche:Show()
-		specWarnAvalanche:Play("runaway")
+	--	specWarnAvalanche:Play("runaway")
 		yellAvalanche:Yell()
 	else
 		warnAvalanche:Show(targetname)
@@ -57,11 +57,11 @@ end
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 219542 then
-		timerAvalancheCD:Start()
 		self:BossTargetScanner(args.sourceGUID, "AvaTarget", 0.2, 9)
+		timerAvalancheCD:Start()
 	elseif spellId == 219493 then
 		specWarnSnowCrash:Show()
-		specWarnSnowCrash:Play("shockwave")
+	--	specWarnSnowCrash:Play("shockwave")
 		timerSnowCrashCD:Start()
 	end
 end
@@ -78,8 +78,8 @@ function mod:SPELL_AURA_APPLIED(args)
 	if spellId == 219602 and args:IsDestTypePlayer() then
 		if args:IsPlayer() then
 			specWarnSnowPlow:Show()
-			specWarnSnowPlow:Play("runaway")
-			specWarnSnowPlow:ScheduleVoice(1, "keepmove")
+		--	specWarnSnowPlow:Play("runaway")
+		--	specWarnSnowPlow:ScheduleVoice(1, "keepmove")
 		else
 			warnSnowPlow:Show(args.destName)
 		end
@@ -90,6 +90,6 @@ function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
 	if spellId == 219602 and args:IsPlayer() then
 		specWarnSnowPlowOver:Show()
-		specWarnSnowPlowOver:Play("safenow")
+	--	specWarnSnowPlowOver:Play("safenow")
 	end
 end

@@ -1,12 +1,12 @@
 local mod	= DBM:NewMod(1795, "DBM-BrokenIsles", nil, 822)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17603 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(99929)
 mod:SetEncounterID(1951)
 mod:SetReCombatTime(20)
 mod:SetZone()
---mod:SetMinSyncRevision(11969)
+mod:SetMinSyncRevision(17745)
 
 mod:RegisterCombat("combat")
 
@@ -47,10 +47,10 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 223317 then
 		specWarnBreakSam:Show()
-		specWarnBreakSam:Play("carefly")
+	--	specWarnBreakSam:Play("carefly")
 	elseif spellId == 220340 then
 		specWarnGetsam:Show()
-		specWarnGetsam:Play("shockwave")
+	--	specWarnGetsam:Play("shockwave")
 		timerGetsamCD:Start()
 	elseif spellId == 223373 then
 		warnYaksam:Show()
@@ -58,9 +58,10 @@ function mod:SPELL_CAST_START(args)
 	end
 end
 
+--[[
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	local spellId = legacySpellId or bfaSpellId
 	if spellId == 220295 and self:AntiSpam(4, 1) then---220277-Summon Jetsam Stalker/220295-Jetsam
-	--	self:BossTargetScanner(99929, "JetsamTarget", 0.2, 5)
+		self:BossTargetScanner(99929, "JetsamTarget", 0.2, 5)
 	end
-end
+end]]

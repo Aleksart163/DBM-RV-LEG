@@ -9,7 +9,7 @@
 ## SavedVariablesPerCharacter: DBM_UsedProfile, DBM_UseDualProfile, DBM_CharSavedRevision
 ## LoadOnDemand: 0
 ## DefaultState: enabled
-## Author: Tandanu and Nitram
+## Author: Tandanu, Nitram and Aleksart163
 
 #@no-lib-strip@
 Libs\LibStub\LibStub.lua

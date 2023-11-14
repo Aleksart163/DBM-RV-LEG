@@ -1,11 +1,12 @@
 local mod	= DBM:NewMod(1756, "DBM-BrokenIsles", nil, 822)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17077 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(106981, 106982, 106984)--Captain Hring, Reaver Jdorn, Soultrapper Mevra
 mod:SetEncounterID(1879)
 mod:SetReCombatTime(20)
 mod:SetZone()
+mod:SetMinSyncRevision(17745)
 
 mod:RegisterCombat("combat")
 
@@ -69,19 +70,19 @@ function mod:SPELL_CAST_START(args)
 		timerTentacleBashCD:Start()
 	elseif spellId == 213522 then
 		specWarnCursedCrew:Show()
-		specWarnCursedCrew:Play("killmob")
+--		specWarnCursedCrew:Play("killmob")
 --		timerCursedCrewCD:Start()
 	elseif spellId == 213532 then
 		warnShatterCrew:Show()
 --		timerShatterCrew:Start()
 	elseif spellId == 213665 and self:CheckInterruptFilter(args.sourceGUID, true) then
 		specWarnMaraudingMists:Show()
-		specWarnMaraudingMists:Play("runout")
+--		specWarnMaraudingMists:Play("runout")
 	elseif spellId == 213625 then
 		timerExpelSoulCD:Start()
 	elseif spellId == 213606 then
 		specWarnSoulRend:Show()
-		specWarnSoulRend:Play("watchstep")
+--		specWarnSoulRend:Play("watchstep")
 --		timerSoulRendCD:Start()
 	end
 end
@@ -95,7 +96,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif spellId == 213625 and args:IsPlayer() then
 		specWarnExpelSoul:Show()
-		specWarnExpelSoul:Play("runout")
+--		specWarnExpelSoul:Play("runout")
 		yellExpelSoul:Yell()
 		if self.Options.RangeFrame then
 			DBM.RangeCheck:Show(8)

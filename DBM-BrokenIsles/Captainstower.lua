@@ -1,8 +1,9 @@
 local mod	= DBM:NewMod("Captainstower", "DBM-BrokenIsles", nil, 822)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetZone()
+mod:SetMinSyncRevision(17745)
 
 mod.noStatistics = true
 mod.isTrashMod = true
@@ -35,7 +36,7 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 203342 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Дымовая шашка
 		specWarnSmokeBomb:Show()
-		specWarnSmokeBomb:Play("kickcast")
+	--	specWarnSmokeBomb:Play("kickcast")
 	elseif spellId == 205425 then --Стенающая стрела
 		local cid = self:GetCIDFromGUID(args.sourceGUID)
 		if cid == 104289 then
@@ -43,13 +44,13 @@ function mod:SPELL_CAST_START(args)
 		end
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnWailingArrow:Show()
-			specWarnWailingArrow:Play("kickcast")
+		--	specWarnWailingArrow:Play("kickcast")
 		end
 	elseif spellId == 204238 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Чародейская сфера
 		specWarnArcaneOrb:Show()
 	elseif spellId == 203884 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Целительное прикосновение
 		specWarnHealingTouch:Show()
-		specWarnHealingTouch:Play("kickcast")
+	--	specWarnHealingTouch:Play("kickcast")
 	end
 end
 
