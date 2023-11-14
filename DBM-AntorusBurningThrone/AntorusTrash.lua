@@ -98,7 +98,7 @@ function mod:PyroblastTarget(targetname, uId) --прошляпанное очк�
 	if not targetname then return end
 	if targetname == UnitName("player") then
 		specWarnPyroblast:Show()
-		specWarnPyroblast:Play("targetyou")
+	--	specWarnPyroblast:Play("targetyou")
 		yellPyroblast:Yell()
 	else
 		warnPyroblast:CombinedShow(1, targetname)
@@ -111,9 +111,9 @@ function mod:SPELL_CAST_START(args)
 	if spellId == 246209 then
 		if not UnitIsDeadOrGhost("player") then
 			specWarnPunishingFlame:Show()
-			specWarnPunishingFlame:Play("justrun")
+		--	specWarnPunishingFlame:Play("justrun")
 			specWarnPunishingFlame2:Show()
-			specWarnPunishingFlame2:Play("justrun")
+		--	specWarnPunishingFlame2:Play("justrun")
 		end
 		if self:IsHeroic() then
 			timerPunishingFlameCD:Start()
@@ -124,17 +124,17 @@ function mod:SPELL_CAST_START(args)
 		self:BossTargetScanner(args.sourceGUID, "PyroblastTarget", 0.1, 2)
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnPyroblast2:Show()
-			specWarnPyroblast2:Play("kickcast")
+		--	specWarnPyroblast2:Play("kickcast")
 		end
 	elseif spellId == 245807 and self:AntiSpam(3, 1) then
 		if not UnitIsDeadOrGhost("player") then
 			specWarnAnnihilation:Show()
-			specWarnAnnihilation:Play("helpsoak")
+		--	specWarnAnnihilation:Play("helpsoak")
 		end
 	elseif spellId == 246444 then --Обжигающий удар
 		if not UnitIsDeadOrGhost("player") then
 			specWarnSearingSlash:Show()
-			specWarnSearingSlash:Play("watchstep")
+		--	specWarnSearingSlash:Play("watchstep")
 		end
 		if self:IsHeroic() then
 			timerSearingSlashCD:Start(33.5)
@@ -144,14 +144,14 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 254500 then --Ужасающий прыжок
 		if not UnitIsDeadOrGhost("player") then
 			specWarnFearsomeLeap:Show()
-			specWarnFearsomeLeap:Play("watchstep")
+		--	specWarnFearsomeLeap:Play("watchstep")
 		end
 	elseif spellId == 245888 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Буря Тени
 		specWarnShadowStorm:Show()
-		specWarnShadowStorm:Play("kickcast")
+	--	specWarnShadowStorm:Play("kickcast")
 	elseif spellId == 246903 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Призыв огней
 		specWarnDrawFlames:Show()
-		specWarnDrawFlames:Play("kickcast")
+	--	specWarnDrawFlames:Play("kickcast")
 	end
 end
 
@@ -173,7 +173,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnDemolish:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
 			specWarnDemolish:Show()
-			specWarnDemolish:Play("targetyou")
+		--	specWarnDemolish:Play("targetyou")
 			yellDemolish:Yell()
 			yellDemolishFades:Countdown(6, 3)
 		end
@@ -187,7 +187,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerCloudofConfuse:Start(args.destName)
 		if args:IsPlayer() then
 			specWarnCloudofConfuse:Show()
-			specWarnDemolish:Play("runout")
+		--	specWarnDemolish:Play("runout")
 			yellCloudofConfuse:Yell()
 			yellCloudofConfuseFades:Countdown(10, 3)
 		elseif self:CheckNearby(20, args.destName) then
@@ -204,20 +204,20 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnSoulburn:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() and not self:IsMagicDispeller2() then
 			specWarnSoulburn:Show()
-			specWarnSoulburn:Play("runout")
+		--	specWarnSoulburn:Play("runout")
 			yellSoulburn:Yell()
 			yellSoulburn2:Countdown(6, 3)
 		elseif args:IsPlayer() and self:IsMagicDispeller2() then
 			specWarnSoulburn:Show()
-			specWarnSoulburn:Play("runout")
+		--	specWarnSoulburn:Play("runout")
 			specWarnSoulburn3:Schedule(2)
-			specWarnSoulburn3:ScheduleVoice(2, "dispelnow")
+		--	specWarnSoulburn3:ScheduleVoice(2, "dispelnow")
 			yellSoulburn:Yell()
 			yellSoulburn2:Countdown(6, 3)
 		elseif self:IsMagicDispeller2() then
 			if not UnitIsDeadOrGhost("player") then
 				specWarnSoulburn2:CombinedShow(2, args.destName)
-				specWarnSoulburn2:ScheduleVoice(2, "dispelnow")
+			--	specWarnSoulburn2:ScheduleVoice(2, "dispelnow")
 			end
 		end
 		if self.Options.SetIconOnSoulburn then
@@ -233,7 +233,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnFlamesofReorig:CombinedShow(0.5, args.destName)
 		if args:IsPlayer() and self:AntiSpam(5, 2) then
 			specWarnFlamesofReorig:Show()
-			specWarnFlamesofReorig:Play("runout")
+		--	specWarnFlamesofReorig:Play("runout")
 			yellFlamesofReorig:Yell()
 			yellFlamesofReorig2:Countdown(6, 3)
 			if self.Options.RangeFrame then
@@ -255,14 +255,14 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 254509 then --Вихрь клинков
 		if not UnitIsDeadOrGhost("player") then
 			specWarnBladestorm:Show()
-			specWarnBladestorm:Play("watchstep")
+		--	specWarnBladestorm:Play("watchstep")
 		end
 	elseif spellId == 257920 then --Факел Скверны
 		local amount = args.amount or 1
 		if args:IsPlayer() and not self:IsTank() then
 			if amount >= 15 and amount % 5 == 0 then
 				specWarnFelTorch:Show(amount)
-				specWarnFelTorch:Play("stackhigh")
+			--	specWarnFelTorch:Play("stackhigh")
 			end
 		end
 	elseif spellId == 248757 and not args:IsDestTypePlayer() then --Пирогенез
@@ -270,7 +270,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if amount >= 2 then
 			if not UnitIsDeadOrGhost("player") then
 				specWarnPyrogenics:Show(args.destName)
-				specWarnPyrogenics:Play("dispelnow")
+			--	specWarnPyrogenics:Play("dispelnow")
 			end
 		end
 	elseif spellId == 254502 then --Ужасающий прыжок
@@ -332,7 +332,7 @@ end
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
 	if spellId == 246199 and destGUID == UnitGUID("player") and self:AntiSpam(2, 4) then
 		specWarnBurningWinds:Show()
-		specWarnBurningWinds:Play("runaway")
+	--	specWarnBurningWinds:Play("runaway")
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
@@ -374,7 +374,7 @@ do
 		if proshlyap and not murchalProshlyaping then
 			murchalProshlyaping = true
 			specWarnDecimation:Show()
-			specWarnDecimation:Play("runout")
+		--	specWarnDecimation:Play("runout")
 			yellDecimation:Yell()
 			yellDecimationFades:Countdown(7, 3)
 		elseif not proshlyap and murchalProshlyaping then

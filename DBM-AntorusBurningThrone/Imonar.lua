@@ -1,14 +1,14 @@
 local mod	= DBM:NewMod(2009, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17742 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(124158)--or 124158 or 125692
 mod:SetEncounterID(2082)
 mod:SetZone()
 --mod:SetBossHPInfoToHighest()
 mod:SetUsedIcons(8, 7, 6, 5, 4, 3, 2, 1)
-mod:SetHotfixNoticeRev(17742)
-mod:SetMinSyncRevision(17742)
+mod:SetHotfixNoticeRev(17745)
+mod:SetMinSyncRevision(17745)
 mod:DisableIEEUCombatDetection()
 mod.respawnTime = 30
 
@@ -206,7 +206,7 @@ function mod:SPELL_CAST_START(args)
 		if spellId == 247376 then--Non Empowered
 			if not UnitIsDeadOrGhost("player") then
 				specWarnPulseGrenade:Show()
-				specWarnPulseGrenade:Play("watchstep")
+			--	specWarnPulseGrenade:Play("watchstep")
 			end
 			timerPulseGrenadeCD:Start()
 			countdownPulseGrenade:Start()
@@ -223,7 +223,7 @@ function mod:SPELL_CAST_START(args)
 		self.vb.shrapnalCast = self.vb.shrapnalCast + 1
 		if not UnitIsDeadOrGhost("player") then
 			specWarnShrapnalBlast:Show()
-			specWarnShrapnalBlast:Play("watchstep")
+		--	specWarnShrapnalBlast:Play("watchstep")
 		end
 		if self:IsMythic() then
 			if self.vb.phase == 2 then
@@ -283,7 +283,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	elseif spellId == 248254 then --Направленные взрывы
 		if not UnitIsDeadOrGhost("player") then
 			specWarnChargedBlastsUnknown:Show()
-			specWarnChargedBlastsUnknown:Play("farfromline")
+		--	specWarnChargedBlastsUnknown:Play("farfromline")
 		end
 		if self:IsMythic() then
 			if self.vb.phase == 2 then
@@ -307,7 +307,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if spellId == 247367 and amount >= 3 then
 			if args:IsPlayer() then
 				specWarnShocklance2:Show(amount)
-				specWarnShocklance2:Play("stackhigh")
+			--	specWarnShocklance2:Play("stackhigh")
 			else
 				local _, _, _, _, _, _, expireTime = DBM:UnitDebuff("player", spellId)
 				local remaining
@@ -316,7 +316,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				end
 				if not UnitIsDeadOrGhost("player") and (not remaining or remaining and remaining < 4) then
 					specWarnShocklance:Show(args.destName)
-					specWarnShocklance:Play("tauntboss")
+				--	specWarnShocklance:Play("tauntboss")
 				else
 					warnShocklance:Show(args.destName, amount)
 				end
@@ -329,7 +329,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if amount >= 2 then
 			if args:IsPlayer() then
 				specWarnSever2:Show(amount)
-				specWarnSever2:Play("stackhigh")
+			--	specWarnSever2:Play("stackhigh")
 			else
 				local _, _, _, _, _, _, expireTime = DBM:UnitDebuff("player", spellId)
 				local remaining
@@ -338,7 +338,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				end
 				if not UnitIsDeadOrGhost("player") and (not remaining or remaining and remaining < 7) then
 					specWarnSever:Show(args.destName)
-					specWarnSever:Play("tauntboss")
+				--	specWarnSever:Play("tauntboss")
 				else
 					warnSever:Show(args.destName, amount)
 				end
@@ -354,7 +354,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			yellSleepCanisterStun2:Countdown(20, 3)
 		elseif self:CheckNearby(12, args.destName) then--Warn nearby again
 			specWarnSleepCanisterNear:CombinedShow(0.3, args.destName)
-			specWarnSleepCanisterNear:Play("runaway")
+		--	specWarnSleepCanisterNear:Play("runaway")
 		end
 	elseif spellId == 247565 then
 		warnSlumberGas:CombinedShow(0.3, args.destName)
@@ -367,7 +367,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnEmpoweredPulseGrenade:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
 			specWarnEmpPulseGrenade:Show()
-			specWarnEmpPulseGrenade:Play("range5")
+		--	specWarnEmpPulseGrenade:Play("range5")
 			specWarnEmpPulseGrenade2:Schedule(7)
 			yellEmpPulseGrenade:Yell()
 			if self:IsMythic() then
@@ -402,18 +402,18 @@ function mod:SPELL_AURA_APPLIED(args)
 		if amount >= 2 and not self:IsTank() then
 			if args:IsPlayer() then
 				specWarnShocked:Show(amount)
-				specWarnShocked:Play("stackhigh")
+			--	specWarnShocked:Play("stackhigh")
 			end
 		elseif amount >= 4 and self:IsTank() then
 			if args:IsPlayer() then
 				specWarnShocked:Show(amount)
-				specWarnShocked:Play("stackhigh")
+			--	specWarnShocked:Play("stackhigh")
 			end
 		end
 	elseif spellId == 254183 and self:AntiSpam(2, 1) then --Опаленная кожа
 		if args:IsPlayer() then
 			specWarnSearedSkin:Show()
-			specWarnSearedSkin:Play("stackhigh")
+		--	specWarnSearedSkin:Play("stackhigh")
 		end
 	elseif spellId == 248424 then --Накопление силы
 		local amount = args.amount or 1
@@ -431,14 +431,14 @@ function mod:SPELL_AURA_REMOVED(args)
 		self.vb.shrapnalCast = 0
 		warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase))
 		if self.vb.phase == 2 then
-			warnPhase:Play("ptwo")
+		--	warnPhase:Play("ptwo")
 			warned_preP2 = true
 			timerSeverCD:Start(7) --Рассечение (точно под гер)
 			timerChargedBlastsCD:Start(8) --Направленные взрывы (точно под гер)
 			countdownChargedBlasts:Start(8) --Направленные взрывы
 			timerShrapnalBlastCD:Start(13, 1) --Заряд шрапнели (точно под гер)
 		elseif self.vb.phase == 3 then --фаза 3
-			warnPhase:Play("pthree")
+		--	warnPhase:Play("pthree")
 			warned_preP4 = true
 			if self:IsMythic() then
 				timerShocklanceCD:Start(4)--NOT empowered
@@ -453,14 +453,14 @@ function mod:SPELL_AURA_REMOVED(args)
 				timerShrapnalBlast2CD:Start(16, 1) --Усиленный Заряд шрапнели (точно под гер)
 			end
 		elseif self.vb.phase == 4 then--Mythic Only
-			warnPhase:Play("pfour")
+		--	warnPhase:Play("pfour")
 			warned_preP6 = true
 			timerSeverCD:Start(7) --Рассечение+++
 			timerChargedBlastsCD:Start(8) --Направленные взрывы+++
 			timerSleepCanisterCD:Start(10) --Склянка с усыпляющим газом+++
 			timerShrapnalBlast2CD:Start(11, 1) --Усиленный Заряд шрапнели+++
 		elseif self.vb.phase == 5 then--Mythic Only (Identical to non mythic 3?)
-			warnPhase:Play("pfive")
+		--	warnPhase:Play("pfive")
 			warned_preP8 = true
 			timerShocklanceCD:Start(5) --Копье-шокер+++
 			timerPulseGrenadeCD:Start(6) --Импульсная граната+++
@@ -474,7 +474,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		updateRangeFrame(self)
 		if args:IsPlayer() then
 			specWarnEmpPulseGrenade3:Show()
-			specWarnEmpPulseGrenade3:Play("end")
+		--	specWarnEmpPulseGrenade3:Play("end")
 			yellEmpPulseGrenade2:Cancel()
 		end
 		if self.Options.SetIconOnEmpPulse2 then
@@ -496,7 +496,7 @@ end
 function mod:RAID_BOSS_WHISPER(msg)
 	if msg:find("spell:254244") then
 		specWarnSleepCanister:Show()
-		specWarnSleepCanister:Play("runaway")
+	--	specWarnSleepCanister:Play("runaway")
 		yellSleepCanister2:Yell()
 		playerSleepDebuff = true
 		updateRangeFrame(self)
@@ -522,7 +522,7 @@ do
 					yellSleepCanister:Yell(icon, sleepCanister, icon)
 				elseif self:CheckNearby(12, targetName) then
 					specWarnSleepCanisterNear:CombinedShow(0.3, targetName)
-					specWarnSleepCanisterNear:Play("runaway")
+				--	specWarnSleepCanisterNear:Play("runaway")
 				end
 			end
 			if self.Options.SetIconOnSleepCanister then
@@ -547,7 +547,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 		countdownPulseGrenade:Cancel()
 		timerSleepCanisterCD:Stop()
 		timerShocklanceCD:Stop()
-		warnPhase:Play("phasechange")
+	--	warnPhase:Play("phasechange")
 	end
 end
 

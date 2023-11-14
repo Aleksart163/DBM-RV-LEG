@@ -1,14 +1,14 @@
 local mod	= DBM:NewMod(1992, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17742 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(122450)
 mod:SetEncounterID(2076)
 mod:SetZone()
 --mod:SetBossHPInfoToHighest()
 mod:SetUsedIcons(8, 6, 5, 4, 3, 2, 1)
-mod:SetHotfixNoticeRev(17742)
-mod:SetMinSyncRevision(17742)
+mod:SetHotfixNoticeRev(17745)
+mod:SetMinSyncRevision(17745)
 mod:DisableIEEUCombatDetection()
 mod.respawnTime = 29
 mod:DisableRegenDetection()--Prevent false combat when fighting trash
@@ -147,19 +147,19 @@ function mod:SPELL_CAST_START(args)
 	if spellId == 244969 and self:AntiSpam(3, 1) then --Искоренение
 		if not UnitIsDeadOrGhost("player") then
 			specWarnEradication:Show()
-			specWarnEradication:Play("justrun")
+		--	specWarnEradication:Play("justrun")
 		end
 		if self:IsMythic() then
 			if not UnitIsDeadOrGhost("player") then
 				specWarnEradication2:Schedule(2.5)
-				specWarnEradication2:ScheduleVoice(2.5, "defensive")
+			--	specWarnEradication2:ScheduleVoice(2.5, "defensive")
 			end
 			timerEradicationCast:Start(5.5)
 			countdownChooseCannon:Start(5.5)
 		else
 			if not UnitIsDeadOrGhost("player") then
 				specWarnEradication2:Schedule(2.5)
-				specWarnEradication2:ScheduleVoice(2.5, "defensive")
+			--	specWarnEradication2:ScheduleVoice(2.5, "defensive")
 			end
 			timerEradicationCast:Start(5.5)
 			countdownChooseCannon:Start(5.5)
@@ -178,7 +178,7 @@ function mod:SPELL_CAST_START(args)
 		timerAnnihilationCD:Stop()
 		if not UnitIsDeadOrGhost("player") then
 			specWarnApocDrive:Show()
-			specWarnApocDrive:Play("targetchange")
+		--	specWarnApocDrive:Play("targetchange")
 		end
 		timerApocDriveCast:Start()
 		if self:IsHeroic() then
@@ -186,14 +186,14 @@ function mod:SPELL_CAST_START(args)
 			timerSurgingFelCast:Schedule(10.5) --в других сложностях возможны другие цифры
 			if not UnitIsDeadOrGhost("player") then
 				specWarnSurgingFel:Schedule(10.5)
-				specWarnSurgingFel:ScheduleVoice(10.5, "watchstep")
+			--	specWarnSurgingFel:ScheduleVoice(10.5, "watchstep")
 			end
 		elseif self:IsMythic() then
 			timerSurgingFelCD:Start(5.5)
 			timerSurgingFelCast:Schedule(5.5)
 			if not UnitIsDeadOrGhost("player") then
 				specWarnSurgingFel:Schedule(5.5)
-				specWarnSurgingFel:ScheduleVoice(5.5, "watchstep")
+			--	specWarnSurgingFel:ScheduleVoice(5.5, "watchstep")
 			end
 		end
 	end
@@ -221,9 +221,9 @@ function mod:SPELL_CAST_SUCCESS(args)
 				timerDecimationCD:Start(32)
 				countdownDecimation:Start(32)
 				specWarnAnnihilation:Schedule(16)
-				specWarnAnnihilation:ScheduleVoice(16, "helpsoak")
+			--	specWarnAnnihilation:ScheduleVoice(16, "helpsoak")
 				specWarnAnnihilation:Schedule(23)
-				specWarnAnnihilation:ScheduleVoice(23, "helpsoak")
+			--	specWarnAnnihilation:ScheduleVoice(23, "helpsoak")
 			end
 		end
 	elseif spellId == 244294 then --Аннигиляция
@@ -248,12 +248,12 @@ function mod:SPELL_CAST_SUCCESS(args)
 			timerSurgingFelCast:Schedule(6.5)
 			if not UnitIsDeadOrGhost("player") then
 				specWarnSurgingFel:Schedule(6.5)
-				specWarnSurgingFel:ScheduleVoice(6.5, "watchstep")
+			--	specWarnSurgingFel:ScheduleVoice(6.5, "watchstep")
 			end
 		elseif self:IsMythic() then
 			if not UnitIsDeadOrGhost("player") then
 				specWarnSurgingFel:Schedule(1.5)
-				specWarnSurgingFel:ScheduleVoice(1.5, "watchstep")
+			--	specWarnSurgingFel:ScheduleVoice(1.5, "watchstep")
 			end
 			timerSurgingFelCast:Schedule(1.5)
 		end
@@ -277,14 +277,14 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnFelBombardment:Show(args.destName)
 		if args:IsPlayer() then
 			specWarnFelBombardment2:Show()
-			specWarnFelBombardment2:Play("targetyou")
+		--	specWarnFelBombardment2:Play("targetyou")
 			specWarnFelBombardment:Schedule(3.5)
-			specWarnFelBombardment:ScheduleVoice(3.5, "runout")
+		--	specWarnFelBombardment:ScheduleVoice(3.5, "runout")
 			yellFelBombardment2:Yell()
 			yellFelBombardment:Countdown(7, 3)
 		elseif self:IsTank() then
 			specWarnFelBombardmentTaunt:Show(args.destName)
-			specWarnFelBombardmentTaunt:Play("tauntboss")
+		--	specWarnFelBombardmentTaunt:Play("tauntboss")
 		end
 		updateRangeFrame(self)
 		if self.Options.SetIconOnBombardment then
@@ -296,12 +296,12 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			if not self:IsMythic() then
 				specWarnDecimation:Show()
-				specWarnDecimation:Play("runout")
+			--	specWarnDecimation:Play("runout")
 				yellDecimation:Yell()
 				yellDecimationFades:Countdown(5, 3)
 			else --мифик
 				specWarnDecimation3:Show()
-				specWarnDecimation3:Play("dontmove")
+			--	specWarnDecimation3:Play("dontmove")
 				yellDecimation:Yell()
 				if spellId ~= 246919 then
 					yellDecimationFades:Countdown(5, 3)
@@ -311,12 +311,12 @@ function mod:SPELL_AURA_APPLIED(args)
 			if spellId == 244410 then
 				if not UnitIsDeadOrGhost("player") then
 					specWarnDecimation2:Schedule(4.5)
-					specWarnDecimation2:ScheduleVoice(4.5, "watchstep")
+				--	specWarnDecimation2:ScheduleVoice(4.5, "watchstep")
 				end
 			elseif spellId == 246919 then
 				if not UnitIsDeadOrGhost("player") then
 					specWarnDecimation2:Schedule(1.5)
-					specWarnDecimation2:ScheduleVoice(1.5, "watchstep")
+				--	specWarnDecimation2:ScheduleVoice(1.5, "watchstep")
 				end
 			end
 		end
@@ -399,7 +399,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 		if self.vb.annihilatorHaywire and self.vb.lastCannon == 2 then 
 			self.vb.lastCannon = 1
 			specWarnAnnihilation:Show()
-			specWarnAnnihilation:Play("helpsoak")
+		--	specWarnAnnihilation:Play("helpsoak")
 			if self.vb.phase == 1 or self:IsMythic() then
 				timerDecimationCD:Start(16)
 				countdownChooseCannon:Start(16)

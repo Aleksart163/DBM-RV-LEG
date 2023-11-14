@@ -1,14 +1,14 @@
 local mod	= DBM:NewMod(1997, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17742 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(122369, 122333, 122367)--Chief Engineer Ishkar, General Erodus, Admiral Svirax
 mod:SetEncounterID(2070)
 mod:SetZone()
 mod:SetBossHPInfoToHighest()
 mod:SetUsedIcons(8, 7, 6, 3, 2, 1)
-mod:SetHotfixNoticeRev(17742)
-mod:SetMinSyncRevision(17742)
+mod:SetHotfixNoticeRev(17745)
+mod:SetMinSyncRevision(17745)
 mod:DisableIEEUCombatDetection()
 mod.respawnTime = 30
 
@@ -126,7 +126,7 @@ function mod:PyroblastTarget(targetname, uId) --прошляпанное очк�
 	if not targetname then return end
 	if targetname == UnitName("player") then
 		specWarnPyroblast:Show()
-		specWarnPyroblast:Play("targetyou")
+	--	specWarnPyroblast:Play("targetyou")
 		yellPyroblast:Yell()
 	else
 		warnPyroblast:CombinedShow(1, targetname)
@@ -141,12 +141,12 @@ function mod:DemonicChargeTarget(targetname, uId)
 	if targetname == UnitName("player") then
 		if self:AntiSpam(3, 4) then
 			specWarnDemonicChargeYou:Show()
-			specWarnDemonicChargeYou:Play("runaway")
+		--	specWarnDemonicChargeYou:Play("runaway")
 			yellDemonicCharge:Yell()
 		end
 	elseif self:AntiSpam(3.5, 2) and self:CheckNearby(10, targetname) then
 		specWarnDemonicCharge:Show(targetname)
-		specWarnDemonicCharge:Play("watchstep")
+	--	specWarnDemonicCharge:Play("watchstep")
 	else
 		warnDemonicCharge:Show(targetname)
 	end
@@ -188,7 +188,7 @@ function mod:SPELL_CAST_START(args)
 		self.vb.FusilladeCount = self.vb.FusilladeCount + 1
 		if not UnitIsDeadOrGhost("player") then
 			specWarnFusillade:Show(felShield)
-			specWarnFusillade:Play("findshield")
+		--	specWarnFusillade:Play("findshield")
 		end
 		timerFusillade:Start()
 		countdownFusillade2:Start()
@@ -200,14 +200,14 @@ function mod:SPELL_CAST_START(args)
 		self:BossTargetScanner(args.sourceGUID, "PyroblastTarget", 0.1, 2)
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnPyroblast2:Show()
-			specWarnPyroblast2:Play("kickcast")
+		--	specWarnPyroblast2:Play("kickcast")
 		end
 	elseif spellId == 253040 then
 		self:BossTargetScanner(args.sourceGUID, "DemonicChargeTarget", 0.2, 9)
 	elseif spellId == 245227 then --Принять командование (начало каста)
 		if not UnitIsDeadOrGhost("player") then
 			specWarnAssumeCommand:Show()
-			specWarnAssumeCommand:Play("targetchange")
+		--	specWarnAssumeCommand:Play("targetchange")
 		end
 		timerExploitWeaknessCD:Stop()
 		countdownExploitWeakness:Cancel()
@@ -322,7 +322,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnShockGrenade:CombinedShow(1.5, args.destName)
 		if args:IsPlayer() then
 			specWarnShockGrenade:Show()
-			specWarnShockGrenade:Play("runout")
+		--	specWarnShockGrenade:Play("runout")
 			yellShockGrenade:Yell()
 			yellShockGrenadeFades:Countdown(5, 3)
 			if self.Options.RangeFrame then
@@ -340,7 +340,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if amount >= 3 then
 			if args:IsPlayer() and self:IsTanking(uId) then
 				specWarnExploitWeakness:Show(amount)
-				specWarnExploitWeakness:Play("stackhigh")
+			--	specWarnExploitWeakness:Play("stackhigh")
 			else
 				local _, _, _, _, _, _, expireTime = DBM:UnitDebuff("player", spellId)
 				local remaining
@@ -349,7 +349,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				end
 				if not UnitIsDeadOrGhost("player") and (not remaining or remaining and remaining < 8) then
 					specWarnExploitWeaknesslf:Show(args.destName)
-					specWarnExploitWeaknesslf:Play("tauntboss")
+				--	specWarnExploitWeaknesslf:Play("tauntboss")
 				else
 					warnExploitWeakness:Show(args.destName, amount)
 				end
@@ -364,10 +364,10 @@ function mod:SPELL_AURA_APPLIED(args)
 			if amount == 10 or amount == 15 then
 				if amount >= 19 then--High priority
 					specWarnPsychicAssault:Show()
-					specWarnPsychicAssault:Play("otherout")
+				--	specWarnPsychicAssault:Play("otherout")
 				else--Just a basic stack warning
 					specWarnPsychicAssaultStack:Show(amount)
-					specWarnPsychicAssaultStack:Play("stackhigh")
+				--	specWarnPsychicAssaultStack:Play("stackhigh")
 				end
 			end
 		else
@@ -381,10 +381,10 @@ function mod:SPELL_AURA_APPLIED(args)
 		--	warnChaosPulse:CombinedShow(1, args.destName)
 			if args:IsPlayer() and not self:IsMagicDispeller2() then
 				specWarnChaosPulse:Show()
-				specWarnChaosPulse:Play("stackhigh")
+			--	specWarnChaosPulse:Play("stackhigh")
 			elseif args:IsPlayer() and self:IsMagicDispeller2() then
 				specWarnChaosPulse2:Show()
-				specWarnChaosPulse2:Play("dispelnow")
+			--	specWarnChaosPulse2:Play("dispelnow")
 			end
 		end
 	end
@@ -407,7 +407,7 @@ function mod:SPELL_AURA_REMOVED(args)
 	elseif spellId == 244388 then --Псионный шрам
 		if args:IsPlayer() then
 			specWarnPsychicScarring:Show()
-			specWarnPsychicScarring:Play("end")
+		--	specWarnPsychicScarring:Play("end")
 		end
 	end
 end
@@ -415,7 +415,7 @@ end
 function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 253039 and destGUID == UnitGUID("player") and self:AntiSpam(1, 3) then
 		specWarnBladestorm:Show()
-		specWarnBladestorm:Play("runaway")
+	--	specWarnBladestorm:Play("runaway")
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE
@@ -442,7 +442,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	elseif spellId == 245546 then --Вызов подкрепления
 		if not UnitIsDeadOrGhost("player") then
 			specWarnSummonReinforcements:Show()
-			specWarnSummonReinforcements:Play("mobkill")
+		--	specWarnSummonReinforcements:Play("mobkill")
 		end
 		timerSummonReinforcementsCD:Start(34) --точно под героик
 		countdownReinforcements:Start(34)

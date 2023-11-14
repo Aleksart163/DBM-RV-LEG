@@ -1,15 +1,15 @@
 local mod	= DBM:NewMod(1985, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17742 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(122104)
 mod:SetEncounterID(2064)
 mod:DisableESCombatDetection()--Remove if blizz fixes clicking portals causing this event to fire (even though boss isn't engaged)
 mod:SetZone()
 --mod:SetBossHPInfoToHighest()
 --mod:SetUsedIcons(1, 2, 3, 4, 5, 6)
-mod:SetHotfixNoticeRev(17742)
-mod:SetMinSyncRevision(17742)
+mod:SetHotfixNoticeRev(17745)
+mod:SetMinSyncRevision(17745)
 mod:DisableIEEUCombatDetection()
 mod.respawnTime = 30
 
@@ -231,19 +231,19 @@ function mod:SPELL_CAST_START(args)
 		if self.Options.ShowAllPlatforms or playerPlatform == 1 then--Actually on nexus platform
 			if not UnitIsDeadOrGhost("player") then
 				specWarnCollapsingWorld:Show(self.vb.worldCount)
-				specWarnCollapsingWorld:Play("watchstep")
+			--	specWarnCollapsingWorld:Play("watchstep")
 			end
 		end
 		updateAllTimers(self, 9.7)
 	elseif spellId == 244709 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
 		specWarnFieryDetonation:Show()
-		specWarnFieryDetonation:Play("kickcast")
+	--	specWarnFieryDetonation:Play("kickcast")
 	elseif spellId == 245504 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
 		specWarnHowlingShadows:Show()
-		specWarnHowlingShadows:Play("kickcast")
+	--	specWarnHowlingShadows:Play("kickcast")
 	elseif spellId == 244607 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
 		specWarnFlamesofXoroth:Show()
-		specWarnFlamesofXoroth:Play("kickcast")
+	--	specWarnFlamesofXoroth:Play("kickcast")
 		if self:IsMythic() then
 			timerFlamesofXorothCD:Start(7.5)
 		else
@@ -269,7 +269,7 @@ function mod:SPELL_CAST_START(args)
 		if self.Options.ShowAllPlatforms or playerPlatform == 1 then--Actually on nexus platform
 			if not UnitIsDeadOrGhost("player") then
 				specWarnTransportPortal:Show()
-				specWarnTransportPortal:Play("mobkill")
+			--	specWarnTransportPortal:Play("mobkill")
 			end
 		end
 		updateAllTimers(self, 8.5)
@@ -288,13 +288,13 @@ function mod:SPELL_CAST_START(args)
 		if self.Options.ShowAllPlatforms or playerPlatform == 1 then--Actually on nexus platform
 			if not UnitIsDeadOrGhost("player") then
 				specWarnFelstormBarrage:Show()
-				specWarnFelstormBarrage:Play("farfromline")
+			--	specWarnFelstormBarrage:Play("farfromline")
 			end
 		end
 		updateAllTimers(self, 9.7)
 	elseif spellId == 255805 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Неустойчивый портал
 		specWarnUnstablePortal:Show()
-		specWarnUnstablePortal:Play("kickcast")
+	--	specWarnUnstablePortal:Play("kickcast")
 	end
 end
 
@@ -305,7 +305,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	elseif spellId == 244598 and self:AntiSpam(5, 1) then--Supernova
 		if self.Options.ShowAllPlatforms or playerPlatform == 2 then--Actually on Xoroth platform
 			specWarnSupernova:Show()
-			specWarnSupernova:Play("watchstep")
+		--	specWarnSupernova:Play("watchstep")
 		end
 	elseif spellId == 244016 then
 		timerRealityTearCD:Start()
@@ -321,7 +321,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if amount >= 3 then
 			if args:IsPlayer() then--At this point the other tank SHOULD be clear.
 				specWarnRealityTear:Show(amount)
-				specWarnRealityTear:Play("stackhigh")
+			--	specWarnRealityTear:Play("stackhigh")
 			else--Taunt as soon as stacks are clear, regardless of stack count.
 				local _, _, _, _, _, _, expireTime = DBM:UnitDebuff("player", spellId)
 				local remaining
@@ -330,7 +330,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				end
 				if not UnitIsDeadOrGhost("player") and (not remaining or remaining and remaining < 12) then
 					specWarnRealityTearOther:Show(args.destName)
-					specWarnRealityTearOther:Play("tauntboss")
+				--	specWarnRealityTearOther:Play("tauntboss")
 				else
 					warnRealityTear:Show(args.destName, amount)
 				end
@@ -375,14 +375,14 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 244949 then--Felsilk Wrap
 		if args:IsPlayer() then
 			specWarnFelSilkWrap:Show()
-			specWarnRealityTearOther:Play("targetyou")
+		--	specWarnRealityTearOther:Play("targetyou")
 			yellFelSilkWrap:Yell()
 		else
 			if self.Options.ShowAllPlatforms or playerPlatform == 3 then--Actually on Rancora platform
 				specWarnFelSilkWrapOther:Show(args.destName)
-				if self.Options.SpecWarn244949switch then
+			--[[	if self.Options.SpecWarn244949switch then
 					specWarnFelSilkWrapOther:Play("changetarget")
-				end
+				end]]
 				if self:IsMythic() then
 					timerFelSilkWrapCD:Start(16)
 				else
@@ -394,7 +394,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnDelusions:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
 			specWarnDelusions:Show()
-			specWarnDelusions:Play("dispelnow")
+		--	specWarnDelusions:Play("dispelnow")
 		end
 	end
 end
@@ -456,17 +456,17 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	if spellId == 257939 then --Врата: Зорот
 		self.vb.firstPortal = true
 		warnXorothPortal:Show()
-		warnXorothPortal:Play("newportal")
+	--	warnXorothPortal:Play("newportal")
 		self.vb.phase = 1
 	--	if args:IsPlayer() and self:IsMeleeDps() then
 	elseif spellId == 257941 then --Врата: Ранкора
 		warnRancoraPortal:Show()
-		warnRancoraPortal:Play("newportal")
+	--	warnRancoraPortal:Play("newportal")
 		self.vb.phase = 2
 	--	if args:IsPlayer() and self:IsMeleeDps() then
 	elseif spellId == 257942 then --Врата: Натреза
 		warnNathrezaPortal:Show()
-		warnNathrezaPortal:Play("newportal")
+	--	warnNathrezaPortal:Play("newportal")
 		self.vb.phase = 3
 	--	if args:IsPlayer() and self:IsMeleeDps() then
 	elseif spellId == 244455 then --платформа Зорот
@@ -488,7 +488,7 @@ function mod:UNIT_HEALTH(uId)
 		warnPortal1 = true
 		if not UnitIsDeadOrGhost("player") then
 			specWarnXorothPortal:Show(Xoroth)
-			specWarnXorothPortal:Play("justrun")
+		--	specWarnXorothPortal:Play("justrun")
 		end
 	elseif self.vb.phase == 1 and warned_preP1 and not warned_preP2 and self:GetUnitCreatureId(uId) == 122104 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.66 then --скоро фаза 2
 		warned_preP2 = true
@@ -497,7 +497,7 @@ function mod:UNIT_HEALTH(uId)
 		warnPortal2 = true
 		if not UnitIsDeadOrGhost("player") then
 			specWarnRancoraPortal:Show(Rancora)
-			specWarnRancoraPortal:Play("justrun")
+		--	specWarnRancoraPortal:Play("justrun")
 		end
 	elseif self.vb.phase == 2 and warned_preP2 and not warned_preP3 and self:GetUnitCreatureId(uId) == 122104 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.36 then --скоро фаза 3
 		warned_preP3 = true
@@ -506,7 +506,7 @@ function mod:UNIT_HEALTH(uId)
 		warnPortal3 = true
 		if not UnitIsDeadOrGhost("player") then
 			specWarnNathrezaPortal:Show(Nathreza)
-			specWarnNathrezaPortal:Play("justrun")
+		--	specWarnNathrezaPortal:Play("justrun")
 		end
 	end
 end
