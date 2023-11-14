@@ -35,6 +35,7 @@ localization.br.lua
 localization.kr.lua
 localization.cn.lua
 localization.tw.lua
+localization.uk.lua
 
 Skorpyron.lua
 ChronoAnomaly.lua
