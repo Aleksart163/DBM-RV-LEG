@@ -191,7 +191,7 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 218438 then
 		specWarnControlledChaos:Show()
-		specWarnControlledChaos:Play("watchstep")
+	--	specWarnControlledChaos:Play("watchstep")
 		--Add filter to make sure it doesn't start timers off chaos spheres dying?
 		timerControlledChaosCD:Start(self.vb.globalTimer)
 		countdownControlledChaos:Start(self.vb.globalTimer)
@@ -206,7 +206,7 @@ function mod:SPELL_CAST_START(args)
 		warnControlledChaos:Show(30)
 	elseif spellId == 218148 then
 		specWarnSolarCollapse:Show()
-		specWarnSolarCollapse:Play("watchstep")
+	--	specWarnSolarCollapse:Play("watchstep")
 		timerSolarCollapseCD:Start(self.vb.globalTimer)
 	elseif spellId == 218806 and self:IsMythic() and self.vb.phase == 3 then
 		warnFlare:Show()
@@ -226,7 +226,7 @@ function mod:SPELL_CAST_START(args)
 		timerToxicSporesCD:Start()
 	elseif spellId == 218927 then
 		specWarnGraceOfNature:Show()
-		specWarnGraceOfNature:Play("bossout")
+	--	specWarnGraceOfNature:Play("bossout")
 		timerGraceOfNatureCD:Start(self.vb.globalTimer)
 		countdownGraceOfNature:Start(self.vb.globalTimer)
 		warnGraceofNature:Schedule(self.vb.globalTimer-5)
@@ -234,7 +234,7 @@ function mod:SPELL_CAST_START(args)
 		self:Unschedule(checkForBuggedBalls)
 		self.vb.phase = 2
 		warnPhase2:Show()
-		warnPhase2:Play("ptwo")
+	--	warnPhase2:Play("ptwo")
 		timerControlledChaosCD:Stop()
 		countdownControlledChaos:Cancel()
 		timerParasiticFetterCD:Stop()
@@ -262,7 +262,7 @@ function mod:SPELL_CAST_START(args)
 		self:SetBossHPInfoToHighest()
 		self.vb.phase = 3
 		warnPhase3:Show()
-		warnPhase3:Play("pthree")
+	--	warnPhase3:Play("pthree")
 		timerControlledChaosCD:Stop()
 		countdownControlledChaos:Cancel()
 		timerParasiticFetterCD:Stop()
@@ -324,7 +324,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnCoN:Show(self:IconNumToString(number))
 			yellCoN:Yell(self:IconNumToString(number), number, number)
-			specWarnCoN:Play("targetyou")
+		--	specWarnCoN:Play("targetyou")
 			if self.Options.RangeFrame then
 				DBM.RangeCheck:Show(8, noCoN, nil, nil, true)
 			end
@@ -337,7 +337,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if amount >= 5 then
 			if not DBM:UnitDebuff("player", args.spellName) and not UnitIsDeadOrGhost("player") and self:AntiSpam(3, 1) then
 				specWarnRecursiveStrikes:Show(args.destName)
-				specWarnRecursiveStrikes:Play("tauntboss")
+			--	specWarnRecursiveStrikes:Play("tauntboss")
 			else
 				if amount % 3 == 0 then
 					warnRecursiveStrikes:Show(args.destName, amount)
@@ -350,7 +350,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 		if self:CheckNearby(20, args.destName) and self:AntiSpam(3.5, 2) then
 			specWarnParasiticFetter:Show(args.destName)
-			specWarnParasiticFetter:Play("runaway")
+		--	specWarnParasiticFetter:Play("runaway")
 		else
 			warnParasiticFetter:CombinedShow(0.5, args.destName)
 		end
@@ -362,7 +362,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnParasiticFixate:CombinedShow(0.5, args.destName)
 		if args:IsPlayer() then
 			specWarnParasiticFixate:Show()
-			specWarnParasiticFixate:Play("targetyou")
+		--	specWarnParasiticFixate:Play("targetyou")
 		end
 		if self.Options.NPAuraOnFixate then
 			DBM.Nameplate:Show(true, args.sourceGUID, spellId)
@@ -497,7 +497,7 @@ function mod:SPELL_AURA_REMOVED(args)
 	elseif spellId == 218304 then
 		if self:AntiSpam(5, 4) and not DBM:UnitDebuff("player", args.spellName) then
 			specWarnLasher:Show()
-			specWarnLasher:Play("killmob")
+		--	specWarnLasher:Play("killmob")
 		end
 		if self.Options.SetIconOnFetter and not self:IsLFR() then
 			self:SetIcon(args.destName, 0)
@@ -524,6 +524,6 @@ function mod:OnSync(msg, guid)
 	if msg == "lowhealth" and guid and not warnedLowHP[guid] then
 		warnedLowHP[guid] = true
 		specwarnStarLow:Show()
-		specwarnStarLow:Play("aesoon")
+	--	specwarnStarLow:Play("aesoon")
 	end
 end

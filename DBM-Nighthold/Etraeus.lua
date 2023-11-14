@@ -1,12 +1,12 @@
 local mod	= DBM:NewMod(1732, "DBM-Nighthold", nil, 786)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17603 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
 mod:SetCreatureID(103758)
 mod:SetEncounterID(1863)
 mod:SetZone()
 --mod:SetUsedIcons(8, 7, 6, 3, 2, 1)
-mod:SetHotfixNoticeRev(15841)
+mod:SetHotfixNoticeRev(17745)
 mod.respawnTime = 30
 
 mod:RegisterCombat("combat")
@@ -134,6 +134,7 @@ local frigidNova = replaceSpellLinks(206949) --Ледяная новая
 local FelNova = replaceSpellLinks(206517) --Новая Скверны
 local devouringForce = replaceSpellLinks(216909) --Всепожирающая сила
 local grandConjunction = replaceSpellLinks(205408) --Великое соединение
+local DbmRV = "[DBM RV] "
 
 local function startProshlyapationOfMurchal1(self)
 	smartChat(L.ProshlyapMurchal:format(DbmRV, frigidNova), "rw")
@@ -362,7 +363,7 @@ function mod:OnCombatStart(delay)
 		timerConjunctionCD:Start(15-delay)
 		countdownConjunction:Start(15-delay)
 		specWarnConjunction2:Schedule(10-delay) --Великое соединение
-		specWarnConjunction2:ScheduleVoice(10, "specialsoon") --Великое соединение
+	--	specWarnConjunction2:ScheduleVoice(10, "specialsoon") --Великое соединение
 		if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapationOfMurchal and DBM:GetRaidRank() > 0 then
 			prepareMessage(self, "premsg_Etraeus_proshlyap4_rw", nil, nil, 9)
 		end
@@ -387,7 +388,7 @@ function mod:SPELL_CAST_START(args)
 		self.vb.conActive = true
 		C_Timer.After(19, function() self.vb.conActive = false end)
 		specWarnConjunction:Show()
-		specWarnConjunction:Play("scatter")
+	--	specWarnConjunction:Play("scatter")
 		local timers
 		if self.vb.phase == 1 then
 			timers = ps1Grand[self.vb.grandConCount+1]
@@ -402,7 +403,7 @@ function mod:SPELL_CAST_START(args)
 			timerConjunctionCD:Start(timers)
 			countdownConjunction:Start(timers)
 			specWarnConjunction2:Schedule(timers-5)
-			specWarnConjunction2:ScheduleVoice(timers-5, "specialsoon")
+		--	specWarnConjunction2:ScheduleVoice(timers-5, "specialsoon")
 			if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapationOfMurchal and DBM:GetRaidRank() > 0 then
 				prepareMessage(self, "premsg_Etraeus_proshlyap4_rw", nil, nil, timers-6)
 			end
@@ -416,23 +417,23 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 206949 then --Ледяная новая
 		self.vb.frostNovaCount = self.vb.frostNovaCount + 1
 		specWarnFrigidNova:Show()
-		specWarnFrigidNova:Play("gathershare")
+	--	specWarnFrigidNova:Play("gathershare")
 		timerFrigidNovaCD:Start(nil, self.vb.frostNovaCount+1)
 		countdownFrigidNova:Start()
 		specWarnFrigidNova2:Schedule(56.5)
-		specWarnFrigidNova2:ScheduleVoice(56.5, "specialsoon")
+	--	specWarnFrigidNova2:ScheduleVoice(56.5, "specialsoon")
 		if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapationOfMurchal and DBM:GetRaidRank() > 0 then
 			prepareMessage(self, "premsg_Etraeus_proshlyap1_rw", nil, nil, 55.5)
 		end
 	elseif spellId == 206517 then --Новая Скверны
 		self.vb.felNovaCount = self.vb.felNovaCount + 1
 		specWarnFelNova:Show()
-		specWarnFelNova:Play("justrun")
+	--	specWarnFelNova:Play("justrun")
 		if self.vb.felNovaCount < 3 then
 			timerFelNovaCD:Start(44, self.vb.felNovaCount+1)
 			countdownFelNova:Start(44)
 			specWarnFelNova2:Schedule(39)
-			specWarnFelNova2:ScheduleVoice(39, "specialsoon")
+		--	specWarnFelNova2:ScheduleVoice(39, "specialsoon")
 			if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapationOfMurchal and DBM:GetRaidRank() > 0 then
 				prepareMessage(self, "premsg_Etraeus_proshlyap2_rw", nil, nil, 38)
 			end
@@ -440,14 +441,14 @@ function mod:SPELL_CAST_START(args)
 			timerFelNovaCD:Start(nil, self.vb.felNovaCount+1)
 			countdownFelNova:Start()
 			specWarnFelNova2:Schedule(20)
-			specWarnFelNova2:ScheduleVoice(20, "specialsoon")
+		--	specWarnFelNova2:ScheduleVoice(20, "specialsoon")
 			if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapationOfMurchal and DBM:GetRaidRank() > 0 then
 				prepareMessage(self, "premsg_Etraeus_proshlyap2_rw", nil, nil, 19)
 			end
 		end
 	elseif spellId == 207720 then
 		specWarnWitnessVoid:Show()
-		specWarnWitnessVoid:Play("turnaway")
+	--	specWarnWitnessVoid:Play("turnaway")
 		timerWitnessVoid:Start(nil, args.sourceGUID)
 		if self:IsMythic() then
 			timerWitnessVoidCD:Start(13, args.sourceGUID)
@@ -457,18 +458,18 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 207439 then
 		self.vb.voidNovaCount = self.vb.voidNovaCount + 1
 		specWarnVoidNova:Show()
-		specWarnVoidNova:Play("aesoon")
+	--	specWarnVoidNova:Play("aesoon")
 		timerVoidNovaCD:Start(nil, self.vb.voidNovaCount+1)
 	elseif spellId == 216909 then
 		self.vb.worldDestroyingCount = self.vb.worldDestroyingCount + 1
 		specWarnWorldDevouringForce:Show()
-		specWarnWorldDevouringForce:Play("farfromline")
+	--	specWarnWorldDevouringForce:Play("farfromline")
 		local timer = worldDestroyingTimers[self.vb.worldDestroyingCount+1]
 		if timer then
 			timerWorldDevouringForceCD:Start(timer, self.vb.worldDestroyingCount+1)
 			countWorldDevouringForce:Start(timer)
 			specWarnWorldDevouringForce2:Schedule(timer-5)
-			specWarnWorldDevouringForce2:ScheduleVoice(timer-5, "specialsoon")
+		--	specWarnWorldDevouringForce2:ScheduleVoice(timer-5, "specialsoon")
 			if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapationOfMurchal and DBM:GetRaidRank() > 0 then
 				prepareMessage(self, "premsg_Etraeus_proshlyap3_rw", nil, nil, timer-6)
 			end
@@ -510,10 +511,10 @@ function mod:SPELL_CAST_SUCCESS(args)
 		end
 		if args:IsPlayer() then
 			specWarnGravitationalPull:Show()
-			specWarnGravitationalPull:Play("targetyou")
+		--	specWarnGravitationalPull:Play("targetyou")
 		elseif self:IsTank() then
 			specWarnGravitationalPullOther:Show(args.destName)
-			specWarnGravitationalPullOther:Play("tauntboss")
+		--	specWarnGravitationalPullOther:Play("tauntboss")
 		else
 			warnGravitationalPull:Show(args.destName)
 		end
@@ -529,7 +530,7 @@ function mod:SPELL_SUMMON(args)
 	local spellId = args.spellId
 	if spellId == 207813 then
 		specWarnThing:Show()
-		specWarnThing:Play("bigmob")
+	--	specWarnThing:Play("bigmob")
 		timerWitnessVoidCD:Start(10, args.destGUID)
 	end
 end
@@ -544,7 +545,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				specWarnStarSignCrab:Show()
 				yellConjunctionSign:Yell(2, "", 2)--Orange Circle
 				self:Schedule(2, updateConjunctionYell, self, args.spellName, 2)
-				specWarnStarSignCrab:Play("205408c")
+			--	specWarnStarSignCrab:Play("205408c")
 				playerAffected = true
 			end
 		elseif spellId == 216344 then --Звездный знак: дракон
@@ -553,7 +554,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				specWarnStarSignDragon:Show()
 				yellConjunctionSign:Yell(6, "", 6)--Blue Square
 				self:Schedule(2, updateConjunctionYell, self, args.spellName, 6)
-				specWarnStarSignDragon:Play("205408d")
+			--	specWarnStarSignDragon:Play("205408d")
 				playerAffected = true
 			end
 		elseif spellId == 216345 then --Звездный знак: охотник
@@ -562,7 +563,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				specWarnStarSignHunter:Show()
 				yellConjunctionSign:Yell(4, "", 4)--Green Triangle
 				self:Schedule(2, updateConjunctionYell, self, args.spellName, 4)
-				specWarnStarSignHunter:Play("205408h")
+			--	specWarnStarSignHunter:Play("205408h")
 				playerAffected = true
 			end
 		elseif spellId == 205445 then --Звездный знак: волк
@@ -571,7 +572,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				specWarnStarSignWolf:Show()
 				yellConjunctionSign:Yell(7, "", 7)--Red Cross
 				self:Schedule(2, updateConjunctionYell, self, args.spellName, 7)
-				specWarnStarSignWolf:Play("205408w")
+			--	specWarnStarSignWolf:Play("205408w")
 				playerAffected = true
 			end
 		end
@@ -585,7 +586,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnCoronalEjection:CombinedShow(0.5, args.destName)
 		if args:IsPlayer() then
 			specWarnCoronalEjection:Show()
-			specWarnCoronalEjection:Play("runout")
+		--	specWarnCoronalEjection:Play("runout")
 			updateRangeFrame(self)
 		end
 	elseif spellId == 205984 or spellId == 214335 or spellId == 214167 then
@@ -607,7 +608,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnIcyEjection:CombinedShow(0.5, args.destName)--If only one, move this to else rule to filter from player
 		if args:IsPlayer() then
 			specWarnIcyEjection:Show()
-			specWarnIcyEjection:Play("runout")
+		--	specWarnIcyEjection:Play("runout")
 			yellIcyEjection:Yell()
 			updateRangeFrame(self)
 			if self.Options.ConjunctionYellFilter and self.vb.conActive then return end--No ejection yells during conjunction
@@ -619,8 +620,8 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnFelEjection:CombinedShow(0.5, args.destName)
 		if args:IsPlayer() then
 			specWarnFelEjection:Show()
-			specWarnFelEjection:Play("runout")
-			specWarnFelEjection:ScheduleVoice(1, "keepmove")
+		--	specWarnFelEjection:Play("runout")
+		--	specWarnFelEjection:ScheduleVoice(1, "keepmove")
 			warnFelEjectionPuddle:Schedule(2, 3)
 			warnFelEjectionPuddle:Schedule(4, 2)
 			warnFelEjectionPuddle:Schedule(6, 1)
@@ -635,7 +636,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		--warnVoidEjection:CombinedShow(0.5, args.destName)
 		if args:IsPlayer() then
 			specWarnVoidEjection:Show()
-			specWarnVoidEjection:Play("runout")
+		--	specWarnVoidEjection:Play("runout")
 		end
 	elseif spellId == 206398 and args:IsPlayer() and self:AntiSpam(2, 1) and not UnitDebuff("Player", gravPullDebuff) then
 		specWarnFelFlame:Show()
@@ -711,19 +712,18 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 		self.vb.frostNovaCount = 0
 		self.vb.icyEjectionCount = 0
 		warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase))
-		warnPhase:Play("phasechange")
+	--	warnPhase:Play("phasechange")
 --		timerCoronalEjectionCD:Stop()
 		timerConjunctionCD:Stop()
 		countdownConjunction:Cancel()
 		specWarnConjunction2:Cancel()
-		specWarnConjunction2:CancelVoice()
 		self:Unschedule(startProshlyapationOfMurchal4)
 		timerGravPullCD:Start(28.7)
 		if not self:IsEasy() then
 			timerFrigidNovaCD:Start(48, 1) --Ледяная новая (точно под миф)
 			countdownFrigidNova:Start(48) --Ледяная новая (точно под миф)
 			specWarnFrigidNova2:Schedule(43)
-			specWarnFrigidNova2:ScheduleVoice(43, "specialsoon")
+		--	specWarnFrigidNova2:ScheduleVoice(43, "specialsoon")
 			if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapationOfMurchal and DBM:GetRaidRank() > 0 then 
 				prepareMessage(self, "premsg_Etraeus_proshlyap1_rw", nil, nil, 42) --Ледяная новая (точно под миф)
 			end
@@ -735,7 +735,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 			timerConjunctionCD:Start(24)
 			countdownConjunction:Start(24)
 			specWarnConjunction2:Schedule(19)
-			specWarnConjunction2:ScheduleVoice(19, "specialsoon")
+		--	specWarnConjunction2:ScheduleVoice(19, "specialsoon")
 			if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapationOfMurchal and DBM:GetRaidRank() > 0 then
 				prepareMessage(self, "premsg_Etraeus_proshlyap4_rw", nil, nil, 18)
 			end
@@ -751,16 +751,14 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 		timerFrigidNovaCD:Stop()
 		countdownFrigidNova:Cancel()
 		specWarnFrigidNova2:Cancel()
-		specWarnFrigidNova2:CancelVoice()
 		self:Unschedule(startProshlyapationOfMurchal1)
 		timerGravPullCD:Stop()
 		timerConjunctionCD:Stop()
 		countdownConjunction:Cancel()
 		specWarnConjunction2:Cancel()
-		specWarnConjunction2:CancelVoice()
 		self:Unschedule(startProshlyapationOfMurchal4)
 		warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase))
-		warnPhase:Play("phasechange")
+	--	warnPhase:Play("phasechange")
 		timerGravPullCD:Start(29)
 		if self:IsMythic() then
 			self:Unschedule(showConjunction)
@@ -769,14 +767,14 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 			timerFelNovaCD:Start(51, 1)
 			countdownFelNova:Start(51)
 			specWarnFelNova2:Schedule(46)
-			specWarnFelNova2:ScheduleVoice(46, "specialsoon")
+		--	specWarnFelNova2:ScheduleVoice(46, "specialsoon")
 			if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapationOfMurchal and DBM:GetRaidRank() > 0 then
 				prepareMessage(self, "premsg_Etraeus_proshlyap2_rw", nil, nil, 45)
 			end
 			timerConjunctionCD:Start(58)
 			countdownConjunction:Start(58)
 			specWarnConjunction2:Schedule(53)
-			specWarnConjunction2:ScheduleVoice(53, "specialsoon")
+		--	specWarnConjunction2:ScheduleVoice(53, "specialsoon")
 			if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapationOfMurchal and DBM:GetRaidRank() > 0 then
 				prepareMessage(self, "premsg_Etraeus_proshlyap4_rw", nil, nil, 52)
 			end
@@ -786,7 +784,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 				timerFelNovaCD:Start(57.7, 1)
 				countdownFelNova:Start(57.7)
 				specWarnFelNova2:Schedule(52.7)
-				specWarnFelNova2:ScheduleVoice(52.7, "specialsoon")
+			--	specWarnFelNova2:ScheduleVoice(52.7, "specialsoon")
 				if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapationOfMurchal and DBM:GetRaidRank() > 0 then
 					prepareMessage(self, "premsg_Etraeus_proshlyap2_rw", nil, nil, 51.7)
 				end
@@ -801,16 +799,14 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 		timerFelNovaCD:Stop()
 		countdownFelNova:Cancel()
 		specWarnFelNova2:Cancel()
-		specWarnFelNova2:CancelVoice()
 		self:Unschedule(startProshlyapationOfMurchal2)
 		timerGravPullCD:Stop()
 		timerConjunctionCD:Stop()
 		countdownConjunction:Cancel()
 		specWarnConjunction2:Cancel()
-		specWarnConjunction2:CancelVoice()
 		self:Unschedule(startProshlyapationOfMurchal4)
 		warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase))
-		warnPhase:Play("phasechange")
+	--	warnPhase:Play("phasechange")
 		timerGravPullCD:Start(19.6)
 		if not self:IsEasy() then--Was never used on normal, probably not LFR either then
 			--timerVoidEjectionCD:Start(24, 1)
@@ -823,14 +819,14 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 			timerWorldDevouringForceCD:Start(22, 1)
 			countWorldDevouringForce:Start(22)
 			specWarnWorldDevouringForce2:Schedule(17)
-			specWarnWorldDevouringForce2:ScheduleVoice(17, "specialsoon")
+		--	specWarnWorldDevouringForce2:ScheduleVoice(17, "specialsoon")
 			if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapationOfMurchal and DBM:GetRaidRank() > 0 then
 				prepareMessage(self, "premsg_Etraeus_proshlyap3_rw", nil, nil, 16)
 			end
 			timerConjunctionCD:Start(46)
 			countdownConjunction:Start(46)
 			specWarnConjunction2:Schedule(41)
-			specWarnConjunction2:ScheduleVoice(41, "specialsoon")
+		--	specWarnConjunction2:ScheduleVoice(41, "specialsoon")
 			if not DBM.Options.IgnoreRaidAnnounce2 and self.Options.ShowProshlyapationOfMurchal and DBM:GetRaidRank() > 0 then
 				prepareMessage(self, "premsg_Etraeus_proshlyap4_rw", nil, nil, 40)
 			end
@@ -860,7 +856,7 @@ do
 		if hasDebuff and not voidWarned then
 			voidWarned = true
 			specWarnVoidEjection:Show()
-			specWarnVoidEjection:Play("runout")
+		--	specWarnVoidEjection:Play("runout")
 			--yellScornedTouch:Yell()
 			--if self.Options.RangeFrame then
 			--	DBM.RangeCheck:Show(8)

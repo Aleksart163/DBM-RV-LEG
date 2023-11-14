@@ -88,7 +88,7 @@ function mod:SPELL_CAST_START(args)
 	if spellId == 204275 and self:AntiSpam(5, 1) then
 		if self:IsTanking("player", "boss1", nil, true) then
 			specWarnArcanoslash:Show()
-			specWarnArcanoslash:Play("defensive")
+		--	specWarnArcanoslash:Play("defensive")
 		end
 		timerArcanoslashCD:Start()
 	elseif spellId == 204372 then
@@ -96,11 +96,11 @@ function mod:SPELL_CAST_START(args)
 		countdownCallofScorpid:Start()
 		if self.Options.SpecWarn204372switch and self:AntiSpam(3.5, 2) then--Even if enabled, only special warn once every 3.5 seconds
 			specWarnCallofScorp:Show()
-			specWarnCallofScorp:Play("killmob")
+		--	specWarnCallofScorp:Play("killmob")
 		end
 	elseif spellId == 204316 then
 		specWarnShockwave:Show(shardName)
-		specWarnShockwave:Play("findshelter")
+	--	specWarnShockwave:Play("findshelter")
 		--specWarnShockwave:CancelVoice()--In case boss stutter cases or starts cast over
 		--specWarnShockwave:ScheduleVoice(3.5, "safenow")
 		timerShockwaveCD:Start()
@@ -144,7 +144,7 @@ function mod:SPELL_CAST_START(args)
 		end
 	elseif spellId == 204471 then
 		specWarnFocusedBlast:Show()
-		specWarnFocusedBlast:Play("watchstep")
+	--	specWarnFocusedBlast:Play("watchstep")
 		timerFocusedBlastCD:Start()
 		countdownFocusedBlast:Start()
 	end
@@ -169,7 +169,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	if spellId == 204531 then
 		if args:IsPlayer() then
 			specWarnTether:Show()
-			specWarnTether:Play("180880")
+		--	specWarnTether:Play("180880")
 		end
 	elseif spellId == 204459 then
 		if self.Options.SpecWarn204459switch then
@@ -203,7 +203,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 204697 then--Red scorpion
 		if self.Options.SpecWarn204372switch and self:AntiSpam(3.5, 2) then--Even if enabled, only special warn once every 3.5 seconds
 			specWarnCallofScorp:Show()
-			specWarnCallofScorp:Play("killmob")
+		--	specWarnCallofScorp:Play("killmob")
 		end
 		self.vb.volatileScorpCount = self.vb.volatileScorpCount + 1
 		if self.Options.SetIconOnVolatileScorpion then
@@ -212,7 +212,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif spellId == 204744 and args:IsPlayer() and self:AntiSpam(2, 3) then
 		specWarnToxicChit:Show()
-		specWarnToxicChit:Play("runaway")
+	--	specWarnToxicChit:Play("runaway")
 	end
 end
 
@@ -228,7 +228,7 @@ end
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 204744 and destGUID == UnitGUID("player") and self:AntiSpam(2, 3) then
 		specWarnToxicChit:Show()
-		specWarnToxicChit:Play("runaway")
+	--	specWarnToxicChit:Play("runaway")
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE

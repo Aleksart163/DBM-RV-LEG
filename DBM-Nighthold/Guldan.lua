@@ -207,7 +207,7 @@ local function upValueCapsAreStupid(self)
 	timerWindsCD:Stop()
 	self:SetBossHPInfoToHighest()
 	specWarnWilloftheDemonWithin:Show()
-	specWarnWilloftheDemonWithin:Play("carefly")
+--	specWarnWilloftheDemonWithin:Play("carefly")
 	timerWilloftheDemonWithin:Update(39, 43)
 	self.vb.severCastCount = 0
 	self.vb.crashCastCount = 0
@@ -284,7 +284,7 @@ function mod:SPELL_CAST_START(args)
 	if spellId == 206219 or spellId == 206220 then
 		self.vb.liquidHellfireCast = self.vb.liquidHellfireCast + 1
 		specWarnLiquidHellfire:Show()
-		specWarnLiquidHellfire:Play("watchstep")
+	--	specWarnLiquidHellfire:Play("watchstep")
 		if self:IsMythic() or self.vb.phase >= 2 then
 			local longTimer, shortTimer, mediumTimer
 			if self:IsMythic() then
@@ -321,7 +321,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 206514 then
 		self.vb.felEffluxCast = self.vb.felEffluxCast + 1
 		specWarnFelEfflux:Show()
-		specWarnFelEfflux:Play("159202")
+	--	specWarnFelEfflux:Play("159202")
 		local timer = self:IsEasy() and felEffluxTimersEasy[self.vb.felEffluxCast+1] or felEffluxTimers[self.vb.felEffluxCast+1] or 12
 		timerFelEffluxCD:Start(timer, self.vb.felEffluxCast+1)
 	elseif spellId == 206675 then
@@ -333,7 +333,7 @@ function mod:SPELL_CAST_START(args)
 		local targetName, uId, bossuid = self:GetBossTarget(104537)--Add true if it has a boss unitID
 		if self:IsTanking("player", bossuid, nil, true) then--Player is current target
 			specWarnShatterEssence:Show()
-			specWarnShatterEssence:Play("defensive")
+		--	specWarnShatterEssence:Play("defensive")
 		end
 	elseif spellId == 206840 then
 		warnGazeofVethriz:Show()
@@ -344,13 +344,13 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 206883 then
 		if self:IsMythic() then--On mythic it's just tossed into center of room, not at tank
 			specWarnSoulVortex:Show()
-			specWarnSoulVortex:Play("watchstep")
+		--	specWarnSoulVortex:Play("watchstep")
 			timerSoulVortexCD:Start(21)
 		else
 			local targetName, uId, bossuid = self:GetBossTarget(104534, true)
 			if self:IsTanking("player", bossuid, nil, true) then--Player is current target
 				specWarnSoulVortex:Show()
-				specWarnSoulVortex:Play("runout")
+			--	specWarnSoulVortex:Play("runout")
 				yellSoulVortex:Yell()
 			elseif targetName then
 				warnSoulVortex:Show(targetName)
@@ -361,7 +361,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 209270 or spellId == 211152 then
 		self.vb.eyeCast = self.vb.eyeCast + 1
 		specWarnEyeofGuldan:Show(self.vb.eyeCast)
-		specWarnEyeofGuldan:Play("killmob")
+	--	specWarnEyeofGuldan:Play("killmob")
 		if self:IsMythic() and self.vb.phase == 2 or self.vb.phase == 3 then
 			local timer = self:IsMythic() and p3EmpoweredEyeTimersMythic[self.vb.eyeCast+1] or self:IsEasy() and p3EmpoweredEyeTimersEasy[self.vb.eyeCast+1] or p3EmpoweredEyeTimers[self.vb.eyeCast+1]
 			if timer then
@@ -390,12 +390,12 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 208672 then
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnCarrionWave:Show(args.sourceName)
-			specWarnCarrionWave:Play("kickcast")
+		--	specWarnCarrionWave:Play("kickcast")
 		end
 	elseif spellId == 206744 then
 		self.vb.blackHarvestCast = self.vb.blackHarvestCast + 1
 		specWarnBlackHarvest:Show(self.vb.blackHarvestCast)
-		specWarnBlackHarvest:Play("aesoon")
+	--	specWarnBlackHarvest:Play("aesoon")
 		local timer = self:IsMythic() and blackHarvestTimersMythic[self.vb.blackHarvestCast+1] or self:IsEasy() and blackHarvestTimersEasy[self.vb.blackHarvestCast+1] or blackHarvestTimers[self.vb.blackHarvestCast+1]
 		if timer then
 			timerBlackHarvestCD:Start(timer, self.vb.blackHarvestCast+1)
@@ -412,14 +412,14 @@ function mod:SPELL_CAST_START(args)
 		table.wipe(bondsIcons)
 		if self:IsTanking("player", "boss1", nil, true) then
 			if spellId == 206221 then
-				specWarnBondsofFel:Play("carefly")
+			--	specWarnBondsofFel:Play("carefly")
 			end
 		else
 			local targetName = UnitName("boss1target") or DBM_CORE_UNKNOWN
 			if not UnitIsUnit("player", "boss1target") then--the very first bonds of fel, threat is broken and not available yet, so we need an additional filter
 				if self:AntiSpam(5, targetName) then
 					specWarnBondsofFelTank:Show(targetName)
-					specWarnBondsofFelTank:Play("tauntboss")
+				--	specWarnBondsofFelTank:Play("tauntboss")
 				end
 			end
 		end
@@ -434,7 +434,7 @@ function mod:SPELL_CAST_START(args)
 		local _, _, bossuid = self:GetBossTarget(111022, true)
 		if self:IsTanking("player", bossuid, nil, true) then
 			specWarnSoulsever:Show(self.vb.severCastCount)
-			specWarnSoulsever:Play("defensive")
+		--	specWarnSoulsever:Play("defensive")
 		end
 		if self.vb.severCastCount == 4 or self.vb.severCastCount == 7 then
 			timerSoulSeverCD:Start(50, self.vb.severCastCount+1)
@@ -446,7 +446,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 227008 then
 		self.vb.visionCastCount = self.vb.visionCastCount+1
 		specWarnVisionsofDarkTitan:Show(timeStopBuff)
-		specWarnVisionsofDarkTitan:Play("movetimebubble")
+	--	specWarnVisionsofDarkTitan:Play("movetimebubble")
 		timerVisionsofDarkTitan:Start()
 		if self.vb.visionCastCount ~= 3 then
 			if self.vb.visionCastCount == 2 then
@@ -465,7 +465,7 @@ function mod:SPELL_CAST_START(args)
 		specWarnBulwarkofAzzinoth:Show()
 	elseif spellId == 221486 and self:AntiSpam(5, 4) then
 		specWarnPurifiedEssence:Show(timeStopBuff)
-		specWarnPurifiedEssence:Play("movetimebubble")
+	--	specWarnPurifiedEssence:Play("movetimebubble")
 		timerPurifiedEssence:Start()
 		if self.Options.InfoFrame then
 			DBM.InfoFrame:SetHeader(DBM_NO_DEBUFF:format(timeStopBuff))
@@ -515,7 +515,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	elseif spellId == 212258 and (self:IsMythic() or self.vb.phase > 1.5) then--Ignore phase 1 adds with this cast
 		self.vb.handofGuldanCast = self.vb.handofGuldanCast + 1
 		specWarnHandofGuldan:Show()
-		specWarnHandofGuldan:Play("bigmob")
+	--	specWarnHandofGuldan:Play("bigmob")
 		if self:IsMythic() then
 			if self.vb.handofGuldanCast == 1 then
 				timerFelLordKurazCD:Start(165)
@@ -557,7 +557,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 		if isPlayer then
 			specWarnBondsofFel:Show()
-			specWarnBondsofFel:Play("targetyou")
+		--	specWarnBondsofFel:Play("targetyou")
 			yellBondsofFel:Yell(count, count, count)
 		else
 			local uId = DBM:GetRaidUnitId(name)
@@ -565,7 +565,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				--secondary warning, in case first one didn't go through
 				if self:AntiSpam(5, name) then
 					specWarnBondsofFelTank:Show(name)
-					specWarnBondsofFelTank:Play("tauntboss")
+				--	specWarnBondsofFelTank:Play("tauntboss")
 				end
 			end
 		end
@@ -578,7 +578,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		local amount = args.amount or 1
 		if args:IsPlayer() and amount >= 5 then
 			specWarnSoulCorrosion:Show(amount)
-			specWarnSoulCorrosion:Play("stackhigh")
+		--	specWarnSoulCorrosion:Play("stackhigh")
 		end
 	elseif spellId == 221606 then--Looks like the 3 second pre targeting debuff for flames of sargeras
 		if self:AntiSpam(35, 1) then
@@ -608,13 +608,13 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnFlamesofSargeras:CombinedShow(0.3, name)
 		if args:IsPlayer() then
 			specWarnFlamesOfSargeras:Show()
-			specWarnFlamesOfSargeras:Play("runout")
+		--	specWarnFlamesOfSargeras:Play("runout")
 			yellFlamesofSargeras:Yell(count, count, count)
 		else
 			local uId = DBM:GetRaidUnitId(name)
 			if self:IsTanking(uId, "boss1") then
 				specWarnFlamesOfSargerasTank:Show(name)
-				specWarnFlamesOfSargerasTank:Play("tauntboss")
+			--	specWarnFlamesOfSargerasTank:Play("tauntboss")
 			end
 		end
 		if self.Options.SetIconOnBondsOfFlames and count < 9 then
@@ -649,7 +649,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self:IsMythic() then
 			self.vb.phase = 2
 			warnPhase2:Show()
-			warnPhase2:Play("ptwo")
+		--	warnPhase2:Play("ptwo")
 			timerDzorykxCD:Stop()
 			timerFelLordKurazCD:Stop()
 			timerFlamesofSargerasCD:Start(24.5, "1-1")
@@ -661,7 +661,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		else
 			self.vb.phase = 3
 			warnPhase3:Show()
-			warnPhase3:Play("pthree")
+		--	warnPhase3:Play("pthree")
 			timerBlackHarvestCD:Start(self:IsLFR() and 73 or 63, 1)
 			countdownBlackHarvest:Start(self:IsLFR() and 73 or 63)
 			if self:IsEasy() then
@@ -682,7 +682,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			local _, _, _, _, _, _, expires = UnitDebuff(args.destName, args.spellName)
 			local remaining = expires-GetTime()
 			specWarnParasiticWound:Show()
-			specWarnParasiticWound:Play("scatter")
+		--	specWarnParasiticWound:Play("scatter")
 			yellParasiticWound:Yell()
 			yellParasiticWoundFades:Countdown(remaining)
 		end
@@ -777,7 +777,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	if spellId == 161121 then--Assumed this is a script like felseeker
 		self.vb.stormCast = self.vb.stormCast + 1
 		specWarnStormOfDestroyer:Show()
-		specWarnStormOfDestroyer:Play("watchstep")
+	--	specWarnStormOfDestroyer:Play("watchstep")
 		local timer = self:IsMythic() and stormTimersMythic[self.vb.stormCast+1] or self:IsEasy() and stormTimersEasy[self.vb.stormCast+1] or stormTimers[self.vb.stormCast+1]
 		if timer then
 			timerStormOfDestroyerCD:Start(timer, self.vb.stormCast+1)
@@ -807,7 +807,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	elseif spellId == 210273 then--Fel Obelisk
 		self.vb.obeliskCastCount = self.vb.obeliskCastCount + 1
 		specWarnFelObelisk:Show()
-		specWarnFelObelisk:Play("watchstep")
+	--	specWarnFelObelisk:Play("watchstep")
 		if self:IsMythic() then
 			if self.vb.obeliskCastCount % 2 == 0 then
 				timerFelObeliskCD:Start(16)
@@ -835,7 +835,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 				self.vb.phase = 2
 				self.vb.liquidHellfireCast = 0
 				warnPhase2:Show()
-				warnPhase2:Play("ptwo")
+			--	warnPhase2:Play("ptwo")
 				timerLiquidHellfireCD:Stop()
 				countdownLiquidHellfire:Cancel()
 				timerFelEffluxCD:Stop()
@@ -869,8 +869,8 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 		self.vb.azzCount = self.vb.azzCount + 1
 		local count = self.vb.azzCount
 		specWarnManifestAzzinoth:Show(count)
-		specWarnManifestAzzinoth:Play("bigmob")
-		specWarnManifestAzzinoth:ScheduleVoice(1.2, nil, "Interface\\AddOns\\DBM-VP"..DBM.Options.ChosenVoicePack.."\\count\\"..count..".ogg")
+	--	specWarnManifestAzzinoth:Play("bigmob")
+	--	specWarnManifestAzzinoth:ScheduleVoice(1.2, nil, "Interface\\AddOns\\DBM-VP"..DBM.Options.ChosenVoicePack.."\\count\\"..count..".ogg")
 		timerBulwarkofAzzinothCD:Start(15)
 		timerManifestAzzinothCD:Start(40, count+1)
 	elseif spellId == 227071 then -- Flame Crash
@@ -885,7 +885,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	elseif spellId == 227283 then -- Nightorb
 		self.vb.orbCastCount = self.vb.orbCastCount + 1
 		specWarnSummonNightorb:Show(self.vb.orbCastCount)
-		specWarnSummonNightorb:Play("mobsoon")
+	--	specWarnSummonNightorb:Play("mobsoon")
 		if self.vb.orbCastCount ~= 4 then
 			if self.vb.orbCastCount == 2 then
 				timerSummonNightorbCD:Start(60, self.vb.orbCastCount+1)

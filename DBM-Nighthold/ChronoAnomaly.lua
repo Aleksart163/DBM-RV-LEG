@@ -74,7 +74,7 @@ local function updateTimeBomb(self)
 		yellTimeBomb:Cancel()
 		local debuffTime = expires - GetTime()
 		specWarnTimeBomb:Schedule(debuffTime - 5)	-- Show "move away" warning 5secs before explode
-		specWarnTimeBomb:ScheduleVoice(debuffTime - 5, "runout")
+	--	specWarnTimeBomb:ScheduleVoice(debuffTime - 5, "runout")
 		timerTimeBomb:Start(debuffTime)
 		countdownTimeBomb:Start(debuffTime)
 		yellTimeBomb:Schedule(debuffTime-1, 1)
@@ -110,10 +110,10 @@ function mod:SPELL_CAST_START(args)
 	if spellId == 211927 then
 		timerChronoPartCD:Stop()--Will be used immediately when this ends.
 		specWarnPowerOverwhelming:Show()
-		specWarnPowerOverwhelming:Play("aesoon")
+	--	specWarnPowerOverwhelming:Play("aesoon")
 	elseif spellId == 207228 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
 		specWarnWarp:Show(args.sourceName)
-		specWarnWarp:Play("kickcast")
+	--	specWarnWarp:Play("kickcast")
 	end
 end
 
@@ -121,7 +121,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
 	if spellId == 219815 then
 		specWarnTemporalOrbs:Show()
-		specWarnTemporalOrbs:Play("watchstep")
+	--	specWarnTemporalOrbs:Play("watchstep")
 	end
 end
 
@@ -159,7 +159,6 @@ function mod:SPELL_AURA_REMOVED(args)
 		self.vb.timeBombDebuffCount = self.vb.timeBombDebuffCount - 1
 		if args:IsPlayer() then
 			specWarnTimeBomb:Cancel()
-			specWarnTimeBomb:CancelVoice()
 			timerTimeBomb:Stop()
 			countdownTimeBomb:Cancel()
 			yellTimeBomb:Cancel()
@@ -459,7 +458,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 		self:Schedule(5, updateTimeBomb, self)
 	elseif spellId == 206700 then--Summon Slow Add (Big Adds)
 		specWarnBigAdd:Show()
-		specWarnBigAdd:Play("bigmobsoon")
+	--	specWarnBigAdd:Play("bigmobsoon")
 	elseif spellId == 207972 then--Full Power, he's just gonna run in circles aoeing the raid and stop using abilities
 		timerBigAddCD:Stop()
 		countdownBigAdd:Cancel()
