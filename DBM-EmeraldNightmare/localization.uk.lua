@@ -73,7 +73,7 @@ L= DBM:GetModLocalization(1704)
 L= DBM:GetModLocalization(1750)
 
 L:SetMiscLocalization({
-	BrambleYell 		= "Колючки поруч із " ... UnitName("player") ... "!",
+	BrambleYell 		= "Колючки поруч із " .. UnitName("player") .. "!",
 	BrambleMessage 		= "Увага: DBM не може визначити, за ким слідують колючки. Він попереджає про мету спавна. Бос вибирає гравця і кидає в нього колючки. Після цього колючки вибирають нову ціль, яку неможливо визначити"
 })
 
