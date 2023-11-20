@@ -15,7 +15,8 @@ mod:RegisterEvents(
 	"SPELL_AURA_APPLIED_DOSE 200642",
 	"SPELL_AURA_REMOVED 225568 198904 200684",
 	"SPELL_PERIODIC_DAMAGE 200822 198408",
-	"SPELL_PERIODIC_MISSED 200822 198408"
+	"SPELL_PERIODIC_MISSED 200822 198408",
+	"UNIT_DIED"
 )
 
 --Треш Чащи Темного Сердца
@@ -111,7 +112,7 @@ function mod:SPELL_SUMMON(args)
 				specWarnVileMushroom:Show()
 			--	specWarnVileMushroom:Play("watchstep")
 			end
-			timerVileMushroomCD:Start(args.sourceGUID)
+			timerVileMushroomCD:Start(14, args.sourceGUID)
 		end
 	end
 end
@@ -202,3 +203,10 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
+
+function mod:UNIT_DIED(args)
+	local cid = self:GetCIDFromGUID(args.destGUID)
+	if cid == 99359 then
+		timerVileMushroomCD:Stop(args.destGUID)
+	end
+end
