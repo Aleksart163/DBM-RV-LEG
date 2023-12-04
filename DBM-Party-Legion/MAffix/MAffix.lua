@@ -23,8 +23,8 @@ local specWarnNecroticWound			= mod:NewSpecialWarningStack(209858, nil, 10, nil,
 local specWarnBurst					= mod:NewSpecialWarningYouDefensive(240443, nil, nil, nil, 3, 3) --Взрыв
 local specWarnGrievousWound			= mod:NewSpecialWarningStack(240559, nil, 5, nil, nil, 1, 2) --Тяжкая рана
 local specWarnSanguineIchor			= mod:NewSpecialWarningYouMove(226512, nil, nil, nil, 1, 2) --Кровавый гной
-local specWarnQuake					= mod:NewSpecialWarningCast(240447, "Ranged", nil, nil, 1, 2) --Землетрясение
-local specWarnQuake2				= mod:NewSpecialWarningMoveAway(240447, "Melee", nil, nil, 1, 2) --Землетрясение
+local specWarnQuake					= mod:NewSpecialWarningCast(240447, "SpellCaster", nil, nil, 1, 2) --Землетрясение
+local specWarnQuake2				= mod:NewSpecialWarningMoveAway(240447, "Physical", nil, nil, 1, 2) --Землетрясение
 
 local timerQuake					= mod:NewCastTimer(2.5, 240447, nil, nil, nil, 2, nil, DBM_CORE_INTERRUPT_ICON..DBM_CORE_DEADLY_ICON) --Землетрясение
 --local timerQuakeCD					= mod:NewCDTimer(20, 240447, nil, nil, nil, 7) --Землетрясение
