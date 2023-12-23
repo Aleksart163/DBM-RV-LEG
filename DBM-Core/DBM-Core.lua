@@ -4049,7 +4049,7 @@ do
 
 	--Loading routeens hacks for world bosses based on target or mouseover.
 	function DBM:UPDATE_MOUSEOVER_UNIT()
-		loadModByUnit()
+		loadModByUnit("mouseover")
 	end
 
 	function DBM:UNIT_TARGET_UNFILTERED(uId)

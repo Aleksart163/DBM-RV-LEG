@@ -589,7 +589,7 @@ DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT.fade = "%s спадає через %%d!"
 DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT.fademoveaway = "%s спадає через %%d! ВІДІЙДИ ВІД МЕНЕ!"
 DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT.shortfade = "%%d"
 DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT.iconfade = "{rt%%%2$d}%%%1$d"
-DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT.position = "%s %%s на {rt%%d}"..UnitName("player").."{rt%%d}"
+DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT.position = "%s %%s на {rt%%d}" .. UnitName("player") .. "{rt%%d}"
 DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT.combo = "%s і %%s"
 
 --DBM_CORE_AUTO_YELL_CUSTOM_POSITION		= "{rt%d}%s{rt%d}"--Doesn't need translating. Has no strings
