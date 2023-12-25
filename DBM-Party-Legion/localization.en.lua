@@ -319,10 +319,12 @@ L:SetGeneralLocalization({
 
 L:SetWarningLocalization({
 	WarningMinionDie = "The minion is killed. Left: %s",
-	warnSpy = "Spy detected"
+	warnSpy = "Spy detected",
+	WarnAvailableItems	= "%s"
 })
 
 L:SetOptionLocalization({
+	WarnAvailableItems	= "Announce available interactions in zone based on group",
 	WarningMinionDie = "Warning about the death of the minions",
 	YellOnEating = "Report when you cast a spell $spell:208585",
 	YellOnSiphoningMagic = "Report when you cast a spell $spell:208427",
@@ -428,7 +430,21 @@ L:SetMiscLocalization({
 	Potions		= "Potions/Зелья",
 	NoPotions	= "No potions/Нет зелий",
 	Book		= "Book/Книга",
-	Pouch		= "Pouch/Кошель"
+	Pouch		= "Pouch/Кошель",
+	
+	Nightshade					= "Nightshade Refreshments",
+	UmbralBloom					= "Umbral Bloom",
+	InfernalTome				= "Infernal Tome",
+	MagicalLantern				= "Magical Lantern",
+	StarlightRoseBrew			= "Starlight Rose Brew",
+	WaterloggedScroll			= "Waterlogged Scroll",
+	DiscardedJunk				= "Discarded Junk",
+	BazaarGoods					= "Bazaar Goods",
+	WoundedNightborneCivilian	= "Wounded Nightborne Civilian",
+	LifesizedNightborneStatue	= "Lifesized Nightborne Statue",
+	--
+	Available					= "%s|cffffffff%s|r available",
+	UsableBy					= "usable by %s"
 })
 
 -----------------------

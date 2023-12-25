@@ -7,6 +7,10 @@ mod:SetOOCBWComms()
 
 mod.isTrashMod = true
 
+local frames = {GetFramesRegisteredForEvent("GOSSIP_SHOW")}
+for i = 1, #frames do
+	frames[i]:UnregisterEvent("GOSSIP_SHOW")
+end
 mod:RegisterEvents(
 	"SPELL_CAST_START 209027 212031 209485 209410 209413 211470 211464 209404 209495 225100 211299 209378 207980 207979 214692 214688 214690 212773 210253 214697",
 	"SPELL_CAST_SUCCESS 214688 208585 208427 209767 208334 210872 210307 208939 208370 210925 210217 210922 210330",
@@ -16,10 +20,15 @@ mod:RegisterEvents(
 	"SPELL_PERIODIC_MISSED 211391",
 	"CHAT_MSG_MONSTER_SAY",
 	"GOSSIP_SHOW",
-	"UNIT_DIED"
+	"UNIT_DIED",
+	"UPDATE_MOUSEOVER_UNIT"
 )
+for i = 1, #frames do
+	frames[i]:RegisterEvent("GOSSIP_SHOW")
+end
 
 --Квартал звезд трэш
+local warnAvailableItems			= mod:NewAnnounce("WarnAvailableItems", 1)
 local warnMinionDie					= mod:NewAnnounce("WarningMinionDie", 2, 245910)
 local warnPhase2					= mod:NewAnnounce("warnSpy", 1, 248732) --Шпион обнаружен , nil, nil, true
 local warnPickingUp					= mod:NewTargetSourceAnnounce(214697, 1) --Поднять ключ
@@ -511,179 +520,6 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spell
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
 
-local hintTranslations = {
-	["gloves"] = L.Gloves,
-	["no gloves"] = L.NoGloves,
-	["cape"] = L.Cape,
-	["no cape"] = L.Nocape,
-	["light vest"] = L.LightVest,
-	["dark vest"] = L.DarkVest,
-	["female"] = L.Female,
-	["male"] = L.Male,
-	["short sleeves"] = L.ShortSleeve,
-	["long sleeves"] = L.LongSleeve,
-	["potions"] = L.Potions,
-	["no potion"] = L.NoPotions,
-	["book"] = L.Book,
-	["pouch"] = L.Pouch
-}
-local hints = {}
-local clues = {
-	[L.Gloves1] = "gloves",
-	[L.Gloves2] = "gloves",
-	[L.Gloves3] = "gloves",
-	[L.Gloves4] = "gloves",
-	[L.Gloves5] = "gloves",
-	[L.Gloves6] = "gloves",
-	
-	[L.NoGloves1] = "no gloves",
-	[L.NoGloves2] = "no gloves",
-	[L.NoGloves3] = "no gloves",
-	[L.NoGloves4] = "no gloves",
-	[L.NoGloves5] = "no gloves",
-	[L.NoGloves6] = "no gloves",
-	[L.NoGloves7] = "no gloves",
-	
-	[L.Cape1] = "cape",
-	[L.Cape2] = "cape",
-	
-	[L.NoCape1] = "no cape",
-	[L.NoCape2] = "no cape",
-	
-	[L.LightVest1] = "light vest",
-	[L.LightVest2] = "light vest",
-	[L.LightVest3] = "light vest",
-	
-	[L.DarkVest1] = "dark vest",
-	[L.DarkVest2] = "dark vest",
-	[L.DarkVest3] = "dark vest",
-	[L.DarkVest4] = "dark vest",
-	
-	[L.Female1] = "female",
-	[L.Female2] = "female",
-	[L.Female3] = "female",
-	[L.Female4] = "female",
-	[L.Female5] = "female",
-	
-	[L.Male1] = "male",
-	[L.Male2] = "male",
-	[L.Male3] = "male",
-	[L.Male4] = "male",
-	[L.Male5] = "male",
-	[L.Male6] = "male",
-	
-	[L.ShortSleeve1] = "short sleeves",
-	[L.ShortSleeve2] = "short sleeves",
-	[L.ShortSleeve3] = "short sleeves",
-	[L.ShortSleeve4] = "short sleeves",
-	[L.ShortSleeve5] = "short sleeves",
-	
-	[L.LongSleeve1] = "long sleeves",
-	[L.LongSleeve2] = "long sleeves",
-	[L.LongSleeve3] = "long sleeves",
-	[L.LongSleeve4] = "long sleeves",
-	[L.LongSleeve5] = "long sleeves",
-	
-	[L.Potions1] = "potions",
-	[L.Potions2] = "potions",
-	[L.Potions3] = "potions",
-	[L.Potions4] = "potions",
-	[L.Potions5] = "potions",
-	[L.Potions6] = "potions",
-	
-	[L.NoPotions1] = "no potion",
-	[L.NoPotions2] = "no potion",
-	
-	[L.Book1] = "book",
-	[L.Book2] = "book",
-	[L.Book3] = "book",
-	
-	[L.Pouch1] = "pouch",
-	[L.Pouch2] = "pouch",
-	[L.Pouch3] = "pouch",
-	[L.Pouch4] = "pouch",
-	[L.Pouch5] = "pouch",
-	[L.Pouch6] = "pouch",
-	[L.Pouch7] = "pouch"
-}
-local bwClues = {
-	[1] = "cape",
-	[2] = "no cape",
-	[3] = "pouch",
-	[4] = "potions",
-	[5] = "long sleeves",
-	[6] = "short sleeves",
-	[7] = "gloves",
-	[8] = "no gloves",
-	[9] = "male",
-	[10] = "female",
-	[11] = "light vest",
-	[12] = "dark vest",
-	[13] = "no potion",
-	[14] = "book"
-}
-
-local function updateInfoFrame()
-	local lines = {}
-	for hint, j in pairs(hints) do
-		local text = hintTranslations[hint] or hint
-		lines[text] = ""
-	end
-	
-	return lines
-end
-
---/run DBM:GetModByName("CoSTrash"):ResetGossipState()
-function mod:ResetGossipState()
-	table.wipe(hints)
-	DBM.InfoFrame:Hide()
-end
-
-function mod:CHAT_MSG_MONSTER_SAY(msg)
-	if msg:find(L.Found) then
-		self:SendSync("Finished")
-	elseif msg == L.proshlyapMurchal then
-		self:SendSync("RolePlayMel")
-	end
-end
-
-function mod:GOSSIP_SHOW()
-	if not self.Options.SpyHelper then return end
-	local guid = UnitGUID("npc")
-	if not guid then return end
-	local cid = self:GetCIDFromGUID(guid)
-	--105729 Сигнальный фонарь, 106468 Ли'лет Лунарх
-	--105249 Закуски ночной тени (Расы - панды, профы - кулинарка 800), 105340 Теневой цветок (классы - друиды, профы - травничество 800), 105117 Настой священной ночи (классы - роги, профы - алхимка 100+)
-	--106110 Промокший свиток (классы - шаман, профы - кожевничество, начертание по 100+), 106024 Магический светильник (расы - эльфы, классы - маг, профы - наложение чар 100+)
-	--106018 Рыночные товары (классы - воин, разбойник, профы - кожевничество 100+), 106113 Статуя ночнорожденного в натуральную величину (профы - горное дело и ювелирное 100+), 105831 Инфернальный фолиант (классы - дх, жрец, паладин)
-	--105157 Проводник магической энергии (расы - гном, гоблин, профы - инженерия 100+), 105160 Сфера Скверны, 106108 Отвар из звездной розы, 105215 Выброшенный хлам, 106112 Раненый ночнорожденный
-	if cid == 106024 or cid == 105729 or cid == 106468 or cid == 105249 or cid == 105340 or cid == 105117 or cid == 106110 or cid == 106018 or cid == 106113 or cid == 105831 or cid == 105157 or cid == 105160 or cid == 106108 or cid == 105215 or cid == 106112 then
-		if select('#', GetGossipOptions()) > 0 then
-			SelectGossipOption(1)
-			CloseGossip()
-		end
-	elseif cid == 113617 then
-		if select('#', GetGossipOptions()) > 0 then
-			SelectGossipOption(1, "", true)
-		end
-	end		
-	-- Suspicious noble
-	if cid == 107486 then --Болтливый сплетник
-		if select('#', GetGossipOptions()) > 0 then
-			SelectGossipOption(1)
-		else
-			local clue = clues[GetGossipText()]
-			if clue and not hints[clue] then
-				CloseGossip()
-				prepareMessage(self, "premsg_CoSTrash_clues", nil, nil, hintTranslations[clue])
-				hints[clue] = true
-				self:SendSync("CoS", clue)
-				DBM.InfoFrame:Show(5, "function", updateInfoFrame)
-			end
-		end
-	end
-end
-
 function mod:UNIT_DIED(args)
 	local cid = self:GetCIDFromGUID(args.destGUID)
 	if cid == 104278 then --Порабощенная Скверной карательница
@@ -712,33 +548,470 @@ function mod:UNIT_DIED(args)
 	end
 end
 
-function mod:OnSync(msg, clue)
-	local premsg_announce = msg
-	local sender = clue
-	if sender < playerOnlyName then
-		announceList(premsg_announce, 0)
-	end
-	if not self.Options.SpyHelper then return end
-	if msg == "CoS" and clue then
-		hints[clue] = true
-		DBM.InfoFrame:Show(5, "function", updateInfoFrame)
-	elseif msg == "Finished" then
-		warnPhase2:Show()
-		self:ResetGossipState()
-	--	self:Finish()
-	elseif msg == "RolePlayMel" then
-		timerRoleplay:Start()
-		countdownRoleplay:Start()
-	end
-end
+do
+	local professionCache = {}
 
-function mod:OnBWSync(msg, extra)
-	if msg ~= "clue" then return end
-	extra = tonumber(extra)
-	if extra and extra > 0 and extra < 15 then
-		DBM:Debug("Recieved BigWigs Comm:"..extra)
-		local bwClue = bwClues[extra]
-		hints[bwClue] = true
-		DBM.InfoFrame:Show(5, "function", updateInfoFrame)
+	local notableBuffNPCs = {
+		--Баффы
+		[105160] = { -- Сфера Скверны
+			["name"] = DBM:GetSpellInfo(208275),
+			["buffid"] = 211081,
+			["class"] = {
+				["PALADIN"] = true,
+				["PRIEST"] = true,
+				["WARLOCK"] = true,
+				["DEMONHUNTER"] = true
+			}
+		},
+		[105249] = { -- Закуски ночной тени
+			["name"] = L.Nightshade,
+			["buffid"] = 211102,
+			["raceids"] = {
+				[24] = true,
+				[25] = true,
+				[26] = true
+			},
+			["professionicons"] = {
+				[133971] = 800 --Кулинария
+			}
+		},
+		[105340] = { -- Теневой цветок
+			["name"] = L.UmbralBloom,
+			["buffid"] = 211110,
+			["class"] = {
+				["DRUID"] = true
+			},
+			["professionicons"] = {
+				[136246] = 800 --Травничество
+			}
+		},
+		[105831] = { -- Инфернальный фолиант
+			["name"] = L.InfernalTome,
+			["buffid"] = 211080,
+			["class"] = {
+				["PALADIN"] = true,
+				["PRIEST"] = true,
+				["DEMONHUNTER"] = true
+			}
+		},
+		[106024] = { -- Магический светильник
+			["name"] = L.MagicalLantern,
+			["buffid"] = 211093,
+			["class"] = {
+				["MAGE"] = true
+			},
+			["raceids"] = {
+				[4] = true, --Ночной эльф
+				[10] = true --Блад эльф
+			},
+			["professionicons"] = {
+				[136244] = 800 --Наложение чар
+			}
+		},
+		[106108] = { -- Отвар из звездной розы
+			["name"] = L.StarlightRoseBrew,
+			["buffid"] = 211071,
+			["class"] = {
+				["DEATHKNIGHT"] = true,
+				["MONK"] = true
+			},
+		},
+		[106110] = { -- Промокший свиток
+			["name"] = L.WaterloggedScroll,
+			["buffid"] = 211084,
+			["class"] = {
+				["SHAMAN"] = true
+			},
+			["professionicons"] = {
+				[134366] = 800, --Кожевничество
+				[237171] = 800 --Начертание
+			}
+		},
+		--Debuffs
+		[105117] = { -- Настой священной ночи
+			["name"] = DBM:GetSpellInfo(207815),
+			["class"] = {
+				["ROGUE"] = true
+			},
+			["professionicons"] = {
+				[136240] = 800 -- Алхимия
+			}
+		},
+		[105157] = { -- Проводник магической энергии
+			["name"] = DBM:GetSpellInfo(210466),
+			["raceids"] = {
+				[7] = true, --Гном
+				[9] = true --Гоблин
+			},
+			["professionicons"] = {
+				[136243] = 800 -- Инженерия
+			}
+		}
+	}
+
+	local notableNonBuffNPCs = {
+		--Alerts
+		[105215] = { -- Выброшенный хлам
+			["name"] = L.DiscardedJunk,
+			["class"] = {
+				["HUNTER"] = true
+			},
+			["professionicons"] = {
+				[136241] = 800 -- Кузнечка
+			},
+		},
+		[106018] = { -- Рыночные товары
+			["name"] = L.BazaarGoods,
+			["class"] = {
+				["WARRIOR"] = true,
+				["ROGUE"] = true,
+			},
+			["professionicons"] = {
+				[136247] = 800 -- Кожевничество
+
+			}
+		},
+		[106112] = { -- Раненый ночнорожденный
+			["name"] = L.WoundedNightborneCivilian,
+			["professionicons"] = {
+				[136249] = 800 -- Портняга
+			},
+			["roles"] = {
+				["Healer"] = true,
+			}
+		},
+		[106113] = { -- Статуя ночнорожденного в натуральную величину
+			["name"] = L.LifesizedNightborneStatue,
+			["professionicons"] = {
+				[134708] = 800, -- Горное дело
+				[134071] = 800 -- Ювелирное дело
+			}
+		}
+	}
+
+	local raceIcons = {
+		[4] = "|T236449:0|t",
+		[7] = "|T236445:0|t",
+		[9] = "|T632354:0|t",
+		[10] = "|T236439:0|t",
+		[24] = "|T626190:0|t",
+		[25] = "|T626190:0|t",
+		[26] = "|T626190:0|t"
+	}
+
+	local function getClassIcon(class)
+		return ("|TInterface/Icons/classicon_%s:0|t"):format(strlower(class))
+	end
+
+	local function getIconById(id)
+		return ("|T%d:0|t"):format(id)
+	end
+
+	local roleIcons = {
+		["Healer"] = "|T337497:0:0:0:0:64:64:20:39:1:20|t",
+	}
+
+	local function alertUsable(self, cid, item)
+		self:SendBigWigsSync("itemAvailable", cid)
+		local players = {} -- who can use the item
+		local icons = {}
+		if item.professionicons then
+			for profIcon, requiredSkill in pairs(item.professionicons) do
+				if professionCache[profIcon] then
+					for _,v in pairs(professionCache[profIcon]) do
+						if v.skill >= requiredSkill then
+							players[v.name] = true
+						end
+					end
+				end
+				icons[#icons+1] = getIconById(profIcon)
+			end
+		end
+		if item.raceids then
+			for race, _ in pairs(item.raceids) do
+				for unit in DBM:GetGroupMembers() do
+					local _, _, unitRaceID = UnitRace(unit)
+					if unitRaceID == race then
+						players[DBM:GetUnitFullName(unit)] = true
+					end
+				end
+				icons[#icons+1] = raceIcons[race]
+			end
+		end
+		if item.class then
+			for class, _ in pairs(item.class) do
+				for unit in DBM:GetGroupMembers() do
+					local _, unitClass = UnitClass(unit)
+					if unitClass == class then
+						players[DBM:GetUnitFullName(unit)] = true
+					end
+				end
+				icons[#icons+1] = getClassIcon(class)
+			end
+		end
+		if item.roles then
+			for role, _ in pairs(item.roles) do
+				for unit in DBM:GetGroupMembers() do
+					if UnitGroupRolesAssigned(unit) == role then
+						players[DBM:GetUnitFullName(unit)] = true
+					end
+				end
+				icons[#icons+1] = roleIcons[role]
+			end
+		end
+
+		local message = (L.Available):format(table.concat(icons, ""), item.name)
+
+		if next(players) then
+			local list = ""
+			for player in pairs(players) do
+				if UnitInParty(player) then -- don't announce players from previous groups
+					list = list .. ">" .. player .. "<, "
+				end
+			end
+			if list:len() > 0 then
+				message = message .. " - ".. L.UsableBy:format(list:sub(0, list:len()-2))
+			end
+		end
+		warnAvailableItems:Show(message)
+	end
+
+	local function assessUsable(self, cid, item)
+		--Don't alert if buff already active
+		if notableBuffNPCs[cid] and notableBuffNPCs[cid].buffid and DBM:UnitBuff("player", notableBuffNPCs[cid].buffid) then return end
+		--Don't alert if we alerted within last 5 minutes
+		if self:AntiSpam(300, "CoS"..cid) then
+			local delayAnnouncement = false
+			if item.professionicons then
+				if self:AntiSpam(300, "CoSProf") then
+					self:SendBigWigsSync("getProfessions")
+					delayAnnouncement = true
+				end
+			end
+			if delayAnnouncement then
+				self:Schedule(0.5, alertUsable, self, cid, item)
+			else
+				alertUsable(self, cid, item)
+			end
+		end
+	end
+
+	function mod:UPDATE_MOUSEOVER_UNIT()
+		local cid = DBM:GetUnitCreatureId("mouseover")
+		local item = notableBuffNPCs[cid] or notableNonBuffNPCs[cid]
+		if item then
+			assessUsable(self, cid, item)
+		end
+	end
+	
+	local hintTranslations = {
+		["gloves"] = L.Gloves,
+		["no gloves"] = L.NoGloves,
+		["cape"] = L.Cape,
+		["no cape"] = L.Nocape,
+		["light vest"] = L.LightVest,
+		["dark vest"] = L.DarkVest,
+		["female"] = L.Female,
+		["male"] = L.Male,
+		["short sleeves"] = L.ShortSleeve,
+		["long sleeves"] = L.LongSleeve,
+		["potions"] = L.Potions,
+		["no potion"] = L.NoPotions,
+		["book"] = L.Book,
+		["pouch"] = L.Pouch
+	}
+	local hints = {}
+	local clues = {
+		[L.Gloves1] = "gloves",
+		[L.Gloves2] = "gloves",
+		[L.Gloves3] = "gloves",
+		[L.Gloves4] = "gloves",
+		[L.Gloves5] = "gloves",
+		[L.Gloves6] = "gloves",
+	
+		[L.NoGloves1] = "no gloves",
+		[L.NoGloves2] = "no gloves",
+		[L.NoGloves3] = "no gloves",
+		[L.NoGloves4] = "no gloves",
+		[L.NoGloves5] = "no gloves",
+		[L.NoGloves6] = "no gloves",
+		[L.NoGloves7] = "no gloves",
+	
+		[L.Cape1] = "cape",
+		[L.Cape2] = "cape",
+	
+		[L.NoCape1] = "no cape",
+		[L.NoCape2] = "no cape",
+	
+		[L.LightVest1] = "light vest",
+		[L.LightVest2] = "light vest",
+		[L.LightVest3] = "light vest",
+	
+		[L.DarkVest1] = "dark vest",
+		[L.DarkVest2] = "dark vest",
+		[L.DarkVest3] = "dark vest",
+		[L.DarkVest4] = "dark vest",
+	
+		[L.Female1] = "female",
+		[L.Female2] = "female",
+		[L.Female3] = "female",
+		[L.Female4] = "female",
+		[L.Female5] = "female",
+	
+		[L.Male1] = "male",
+		[L.Male2] = "male",
+		[L.Male3] = "male",
+		[L.Male4] = "male",
+		[L.Male5] = "male",
+		[L.Male6] = "male",
+	
+		[L.ShortSleeve1] = "short sleeves",
+		[L.ShortSleeve2] = "short sleeves",
+		[L.ShortSleeve3] = "short sleeves",
+		[L.ShortSleeve4] = "short sleeves",
+		[L.ShortSleeve5] = "short sleeves",
+	
+		[L.LongSleeve1] = "long sleeves",
+		[L.LongSleeve2] = "long sleeves",
+		[L.LongSleeve3] = "long sleeves",
+		[L.LongSleeve4] = "long sleeves",
+		[L.LongSleeve5] = "long sleeves",
+	
+		[L.Potions1] = "potions",
+		[L.Potions2] = "potions",
+		[L.Potions3] = "potions",
+		[L.Potions4] = "potions",
+		[L.Potions5] = "potions",
+		[L.Potions6] = "potions",
+	
+		[L.NoPotions1] = "no potion",
+		[L.NoPotions2] = "no potion",
+	
+		[L.Book1] = "book",
+		[L.Book2] = "book",
+		[L.Book3] = "book",
+	
+		[L.Pouch1] = "pouch",
+		[L.Pouch2] = "pouch",
+		[L.Pouch3] = "pouch",
+		[L.Pouch4] = "pouch",
+		[L.Pouch5] = "pouch",
+		[L.Pouch6] = "pouch",
+		[L.Pouch7] = "pouch"
+	}
+	local bwClues = {
+		[1] = "cape",
+		[2] = "no cape",
+		[3] = "pouch",
+		[4] = "potions",
+		[5] = "long sleeves",
+		[6] = "short sleeves",
+		[7] = "gloves",
+		[8] = "no gloves",
+		[9] = "male",
+		[10] = "female",
+		[11] = "light vest",
+		[12] = "dark vest",
+		[13] = "no potion",
+		[14] = "book"
+	}
+
+	function mod:UPDATE_MOUSEOVER_UNIT()
+		local cid = DBM:GetUnitCreatureId("mouseover")
+		local item = notableBuffNPCs[cid] or notableNonBuffNPCs[cid]
+		if item then
+			assessUsable(self, cid, item)
+		end
+	end
+	
+	local function updateInfoFrame()
+		local lines = {}
+		for hint, j in pairs(hints) do
+			local text = hintTranslations[hint] or hint
+			lines[text] = ""
+		end
+	
+		return lines
+	end
+
+	function mod:ResetGossipState()
+		table.wipe(hints)
+		DBM.InfoFrame:Hide()
+	end
+
+	function mod:CHAT_MSG_MONSTER_SAY(msg)
+		if msg:find(L.Found) then
+			self:SendSync("Finished")
+		elseif msg == L.proshlyapMurchal then
+			self:SendSync("RolePlayMel")
+		end
+	end
+
+	function mod:GOSSIP_SHOW()
+		if not self.Options.SpyHelper then return end
+		local guid = UnitGUID("npc")
+		if not guid then return end
+		local cid = self:GetCIDFromGUID(guid)
+		--105729 Сигнальный фонарь, 106468 Ли'лет Лунарх
+		--105249 Закуски ночной тени (Расы - панды, профы - кулинарка 800), 105340 Теневой цветок (классы - друиды, профы - травничество 800), 105117 Настой священной ночи (классы - роги, профы - алхимка 100+)
+		--106110 Промокший свиток (классы - шаман, профы - кожевничество, начертание по 100+), 106024 Магический светильник (расы - эльфы, классы - маг, профы - наложение чар 100+)
+		--106018 Рыночные товары (классы - воин, разбойник, профы - кожевничество 100+), 106113 Статуя ночнорожденного в натуральную величину (профы - горное дело и ювелирное 100+), 105831 Инфернальный фолиант (классы - дх, жрец, паладин)
+		--105157 Проводник магической энергии (расы - гном, гоблин, профы - инженерия 100+), 105160 Сфера Скверны, 106108 Отвар из звездной розы, 105215 Выброшенный хлам, 106112 Раненый ночнорожденный
+		if cid == 106024 or cid == 105729 or cid == 106468 or cid == 105249 or cid == 105340 or cid == 105117 or cid == 106110 or cid == 106018 or cid == 106113 or cid == 105831 or cid == 105157 or cid == 105160 or cid == 106108 or cid == 105215 or cid == 106112 then
+			if select('#', GetGossipOptions()) > 0 then
+				SelectGossipOption(1)
+				CloseGossip()
+			end
+		elseif cid == 113617 then
+			if select('#', GetGossipOptions()) > 0 then
+				SelectGossipOption(1, "", true)
+			end
+		end		
+		-- Suspicious noble
+		if cid == 107486 then --Болтливый сплетник
+			if select('#', GetGossipOptions()) > 0 then
+				SelectGossipOption(1)
+			else
+				local clue = clues[GetGossipText()]
+				if clue and not hints[clue] then
+					CloseGossip()
+					prepareMessage(self, "premsg_CoSTrash_clues", nil, nil, hintTranslations[clue])
+					hints[clue] = true
+					self:SendSync("CoS", clue)
+					DBM.InfoFrame:Show(5, "function", updateInfoFrame)
+				end
+			end
+		end
+	end
+
+	function mod:OnSync(msg, clue)
+		local premsg_announce = msg
+		local sender = clue
+		if sender < playerOnlyName then
+			announceList(premsg_announce, 0)
+		end
+		if not self.Options.SpyHelper then return end
+		if msg == "CoS" and clue then
+			hints[clue] = true
+			DBM.InfoFrame:Show(5, "function", updateInfoFrame)
+		elseif msg == "Finished" then
+			warnPhase2:Show()
+			self:ResetGossipState()
+		--	self:Finish()
+		elseif msg == "RolePlayMel" then
+			timerRoleplay:Start()
+			countdownRoleplay:Start()
+		end
+	end
+
+	function mod:OnBWSync(msg, extra)
+		if msg ~= "clue" then return end
+		extra = tonumber(extra)
+		if extra and extra > 0 and extra < 15 then
+			DBM:Debug("Recieved BigWigs Comm:"..extra)
+			local bwClue = bwClues[extra]
+			hints[bwClue] = true
+			DBM.InfoFrame:Show(5, "function", updateInfoFrame)
+		end
 	end
 end
