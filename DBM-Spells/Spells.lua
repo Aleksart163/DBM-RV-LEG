@@ -266,7 +266,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 7720 then --Ритуал призыва
 		if not DBM.Options.IgnoreRaidAnnounce and self.Options.YellOnSummoning then
 			if args:IsPlayerSource() then
-				smartChat(L.SummonYell:format(DbmRV, sourceName, replaceSpellLinks(spellId), UnitName("target")))
+				smartChat(L.SoulstoneYell:format(DbmRV, sourceName, replaceSpellLinks(spellId), UnitName("target")))
 			end
 		end
 	end

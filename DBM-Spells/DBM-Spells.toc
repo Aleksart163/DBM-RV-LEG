@@ -1,26 +1,27 @@
 ﻿## Interface: 70300
 ## X-Min-Interface: 70300
-## Title:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0Raid Spells|r
-## Title-ruRU:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0Рейдовые заклинания|r
-## Title-deDE:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0Raid-zauber|r
-## Title-esES:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0Hechizos de banda|r
-## Title-esMX:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0Hechizos de banda|r
-## Title-frFR:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0Sorts de RAID|r
-## Title-itIT:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0Incantesimi RAID|r
-## Title-ptBR:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0Feitiços Raid|r
-## Title-ukUK:|cffffe00a<|r|cffff7d0aDBM RV|r|cffffe00a>|r |cff69ccf0Рейдові заклинання|r
+## Title:|cffffe00a<|r|cffff7d0aDBM RV Mod|r|cffffe00a>|r |cff69ccf0Raid Spells|r
+## Title-ruRU:|cffffe00a<|r|cffff7d0aDBM RV Мод|r|cffffe00a>|r |cff69ccf0Рейдовые заклинания|r
+## Title-deDE:|cffffe00a<|r|cffff7d0aDBM RV Mod|r|cffffe00a>|r |cff69ccf0Raid-zauber|r
+## Title-esES:|cffffe00a<|r|cffff7d0aDBM RV Mod|r|cffffe00a>|r |cff69ccf0Hechizos de incursión|r
+## Title-esMX:|cffffe00a<|r|cffff7d0aDBM RV Mod|r|cffffe00a>|r |cff69ccf0Hechizos de incursión|r
+## Title-frFR:|cffffe00a<|r|cffff7d0aDBM RV Mod|r|cffffe00a>|r |cff69ccf0Sorts de RAID|r
+## Title-itIT:|cffffe00a<|r|cffff7d0aDBM RV Mod|r|cffffe00a>|r |cff69ccf0Incantesimi RAID|r
+## Title-ptBR:|cffffe00a<|r|cffff7d0aDBM RV Mod|r|cffffe00a>|r |cff69ccf0Feitiços Raid|r
+## Title-ukUK:|cffffe00a<|r|cffff7d0aDBM RV Мод|r|cffffe00a>|r |cff69ccf0Рейдові заклинання|r
 ## Author: Aleksart163
 ## LoadOnDemand: 1
 ## RequiredDeps: DBM-Core
 ## SavedVariables: DBMSpells_AllSavedVars
+## IconTexture: Interface\AddOns\DBM-Core\textures\dbm_airhorn
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: OTHER
 ## X-DBM-Mod-No-Statistics: 1
 ## X-DBM-Mod-Name: Raid Spells
 ## X-DBM-Mod-Name-ruRU: Рейдовые заклинания
 ## X-DBM-Mod-Name-deDE: Raid-zauber
-## X-DBM-Mod-Name-esES: Hechizos de banda
-## X-DBM-Mod-Name-esMX: Hechizos de banda
+## X-DBM-Mod-Name-esES: Hechizos de incursión
+## X-DBM-Mod-Name-esMX: Hechizos de incursión
 ## X-DBM-Mod-Name-frFR: Sorts de RAID
 ## X-DBM-Mod-Name-itIT: Incantesimi RAID
 ## X-DBM-Mod-Name-ptBR: Feitiços Raid
@@ -36,9 +37,6 @@ localization.es.lua
 localization.fr.lua
 localization.it.lua
 localization.br.lua
-localization.kr.lua
-localization.cn.lua
-localization.tw.lua
 localization.uk.lua
 
 Spells.lua

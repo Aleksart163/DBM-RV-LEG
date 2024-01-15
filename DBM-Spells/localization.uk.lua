@@ -16,6 +16,7 @@ L:SetGeneralLocalization({
 })
 
 L:SetOptionLocalization({
+	YellOnNapull	 		= "Сообщать, когда кто-то применяет заклинание $spell:57934 или аналогичные ему",
 	YellOnRaidCooldown 		= "Повідомляти, коли хтось застосовує заклинання $spell:97462 або аналогічні йому",
 	YellOnResurrect 		= "Повідомляти, коли на когось застосували $spell:20484 або аналогічні йому",
 	YellOnMassRes 			= "Повідомляти, коли хтось застосовує заклинання $spell:212036 або аналогічні йому",
@@ -41,6 +42,5 @@ L:SetMiscLocalization{
 	PortalYell 		= "%s %s открывает %s!",
 	SoulwellYell 	= "%s %s ставит %s!",
 	SoulstoneYell 	= "%s %s применяет %s на %s!",
-	SummoningYell 	= "%s %s начинает %s!",
-	SummonYell 		= "%s %s применяет %s на %s!"
+	SummoningYell 	= "%s %s начинает %s!"
 }
