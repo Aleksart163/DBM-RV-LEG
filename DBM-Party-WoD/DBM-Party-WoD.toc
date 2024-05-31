@@ -18,7 +18,7 @@
 ## X-DBM-Mod-Category: WOD
 ## X-DBM-Mod-Has-Challenge: 1
 ## X-DBM-Mod-Has-Mythic : 1
-## X-DBM-Mod-SubCategoriesID: 1208, 1176
+## X-DBM-Mod-SubCategoriesID: 1182, 1175, 1208, 1195, 1279, 1176, 1209, 1358
 ## X-DBM-Mod-Name: Dungeons (WoD)
 ## X-DBM-Mod-Name-koKR: 던전 (드군)
 ## X-DBM-Mod-Name-deDE: Gruppe (WoD)
@@ -30,7 +30,7 @@
 ## X-DBM-Mod-Name-zhTW: 隊伍首領 (德拉諾之霸)
 ## X-DBM-Mod-Name-zhCN: 队伍首领 (德拉诺之王)
 ## X-DBM-Mod-Sort: 602
-## X-DBM-Mod-MapID: 1208, 1176
+## X-DBM-Mod-MapID: 1182, 1175, 1208, 1195, 1279, 1176, 1209, 1358
 ## X-DBM-Mod-MinCoreRevision: 20200524142133
 ## X-Curse-Project-ID: 314994
 ## X-WoWI-ID: 24904
