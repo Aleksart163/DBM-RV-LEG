@@ -26,9 +26,9 @@
 ## X-DBM-Mod-Name-itIT: Incantesimi RAID
 ## X-DBM-Mod-Name-ptBR: Feitiços Raid
 ## X-DBM-Mod-Name-ukUK: Рейдові заклинання
-## X-DBM-Mod-MapID: 1712, 1676, 1648, 1530, 1520, 1753, 1677, 1651, 1571, 1544, 1516, 1501, 1493, 1492, 1477, 1466, 1458, 1456, 603, 1669, 1220, 1116, 1064, 870, 571, 530, 1, 0
+## X-DBM-Mod-MapID: 1208, 1176, 1712, 1676, 1648, 1530, 1520, 1753, 1677, 1651, 1571, 1544, 1516, 1501, 1493, 1492, 1477, 1466, 1458, 1456, 603, 1669, 1220, 1116, 1064, 870, 571, 530, 1, 0
 ## X-DBM-Mod-Sort: 1337
-## X-DBM-Mod-MinCoreRevision: 17745
+## X-DBM-Mod-MinCoreRevision: 17746
 
 localization.en.lua
 localization.ru.lua
