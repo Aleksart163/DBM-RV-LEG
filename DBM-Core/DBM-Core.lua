@@ -34,9 +34,9 @@
 -------------------------------
 
 DBM = {
-	Revision = tonumber(("$Revision: 17750 $"):sub(12, -3)),
-	DisplayVersion = "7.3.52 Right Version " .. string.sub(GetLocale(), -2),
-	ReleaseRevision = 17749
+	Revision = tonumber(("$Revision: 17752 $"):sub(12, -3)),
+	DisplayVersion = "7.3.53 Right Version " .. string.sub(GetLocale(), -2),
+	ReleaseRevision = 17751
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 

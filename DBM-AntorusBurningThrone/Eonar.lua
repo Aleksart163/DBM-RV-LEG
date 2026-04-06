@@ -1,14 +1,14 @@
 local mod	= DBM:NewMod(2025, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17747 $"):sub(12, -3))
 mod:SetCreatureID(124445)
 mod:SetEncounterID(2075)
 mod:SetZone()
 --mod:SetBossHPInfoToHighest()
 mod:SetUsedIcons(8, 7, 6, 5, 4)
-mod:SetHotfixNoticeRev(17745)
-mod:SetMinSyncRevision(17745)
+mod:SetHotfixNoticeRev(17747)
+mod:SetMinSyncRevision(17747)
 mod:DisableIEEUCombatDetection()
 mod:DisableEEKillDetection()
 mod:DisableOnMobKillDetection()
@@ -305,7 +305,7 @@ end
 
 local function arcanesingularityOnPlayer(self) --Магическая сингулярность
 	specWarnArcaneBuildup:Show()
---	specWarnArcaneBuildup:Play("runaway")
+	specWarnArcaneBuildup:Play("runaway")
 	timerArcaneSingularity2:Start()
 	countdownArcaneSingularity:Start()
 	yellArcaneBuildupFades:Countdown(5, 3)
@@ -317,7 +317,7 @@ end
 
 local function burningembersOnPlayer(self) --Раскаленные угли
 	specWarnBurningEmbers:Show()
---	specWarnBurningEmbers:Play("runaway")
+	specWarnBurningEmbers:Play("runaway")
 	timerBurningEmbers2:Start()
 	countdownBurningEmbers:Start()
 	yellBurningEmbersFades:Countdown(5, 3)
@@ -330,7 +330,7 @@ end
 local function startBatsStuff(self)
 	self.vb.batCast = self.vb.batCast + 1
 	warnWarpIn:Show(L.Bats)
---	warnWarpIn:Play("killmob")
+	warnWarpIn:Play("killmob")
 	local timer = self:IsMythic() and mythicBats[self.vb.batCast+1] or self:IsHeroic() and heroicBats[self.vb.batCast+1] or self:IsNormal() and normalBats[self.vb.batCast+1]
 	if timer then
 		timerBatsCD:Start(timer, self.vb.batCast+1)
@@ -357,7 +357,7 @@ function mod:OnCombatStart(delay)
 		self.vb.lifeRequired = 4
 		if self:IsMythic() then
 			specWarnFinalDoom2:Schedule(43.8-delay, self.vb.finalDoomCast+1)
-		--	specWarnFinalDoom2:ScheduleVoice(43.8-delay, "specialsoon")
+			specWarnFinalDoom2:ScheduleVoice(43.8-delay, "specialsoon")
 			timerDestructorCD:Start(17, DBM_CORE_MIDDLE) --Разрушитель
 			self:Schedule(30, checkForDeadDestructor, self, 5)
 			timerObfuscatorCD:Start(43, DBM_CORE_BOTTOM) --маскировщик, подправил
@@ -417,7 +417,7 @@ function mod:SPELL_CAST_START(args)
 		self.vb.finalDoomCast = self.vb.finalDoomCast + 1
 		local icon = self.vb.finalDoomCast
 		specWarnFinalDoom:Show(self.vb.finalDoomCast)
-	--	specWarnFinalDoom:Play("group"..icon)
+		specWarnFinalDoom:Play("group"..icon)
 		timerFinalDoom:Start()
 		countdownFinalDoom2:Start()
 		local timer = finalDoomTimers[self.vb.finalDoomCast+1]
@@ -433,12 +433,12 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 250701 then --Размах скверны
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnSwing:Show()
-		--	specWarnSwing:Play("watchstep")
+			specWarnSwing:Play("watchstep")
 		end
 	elseif spellId == 246305 and self:CheckInterruptFilter(args.sourceGUID, false, true) then --Артиллерийский удар
 		if self:AntiSpam(1, "ArtilleryStrike") then
 			specWarnArtilleryStrike:Show()
-		--	specWarnArtilleryStrike:Play("kickcast")
+			specWarnArtilleryStrike:Play("kickcast")
 		end
 	elseif spellId == 250048 then --Жизненная сила
 		self.vb.lifeForceCast = self.vb.lifeForceCast + 1
@@ -518,7 +518,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnRainofFel:CombinedShow(1, args.destName)
 		if args:IsPlayer() then
 			specWarnRainofFel:Show()
-		--	specWarnRainofFel:Play("scatter")
+			specWarnRainofFel:Play("scatter")
 			yellRainofFel:Yell()
 			yellRainofFelFades:Countdown(5, 3)
 			if self.Options.RangeFrame then
@@ -550,7 +550,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			local amount = args.amount or 1
 			if amount >= 10 and amount % 5 == 0 then
 				specWarnFoulSteps:Show(amount)
-			--	specWarnFoulSteps:Play("stackhigh")
+				specWarnFoulSteps:Play("stackhigh")
 			end
 		end
 	end
@@ -612,7 +612,7 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, npc, _, _, target)
 		self.vb.spearCast = self.vb.spearCast + 1
 		if not UnitIsDeadOrGhost("player") then
 			specWarnSpearofDoom:Show()
-		--	specWarnSpearofDoom:Play("watchstep")
+			specWarnSpearofDoom:Play("watchstep")
 		end
 		local timer = self:IsHeroic() and heroicSpearofDoomTimers[self.vb.spearCast+1]
 		if timer then
@@ -637,7 +637,7 @@ mod.UNIT_SPELLCAST_STOP = mod.UNIT_SPELLCAST_CHANNEL_STOP
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
 	if spellId == 248795 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
 		specWarnFelWake:Show()
-	--	specWarnFelWake:Play("runaway")
+		specWarnFelWake:Play("runaway")
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE

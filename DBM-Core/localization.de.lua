@@ -1,7 +1,7 @@
 if GetLocale() ~= "deDE" then return end
 
 DBM_HOW_TO_USE_MOD					= "Willkommen bei DBM. Tippe /dbm help für eine Liste unterstützter Kommandos. Für den Zugriff auf Einstellungen tippe /dbm in den Chat um die Konfiguration zu beginnen. Lade gewünschte Zonen manuell um jegliche Boss-spezifische Einstellungen nach deinen Wünschen zu konfigurieren. DBM setzt Standardeinstellungen für deine Spezialisierung, die du aber noch genauer anpassen kannst."
-DBM_FORUMS_MESSAGE					= "Haben Sie einen Fehler oder einen falschen Timer gefunden? Sind Sie der Meinung, dass ein Modul eine zusätzliche Warnung, einen Timer, ein Feature oder eine Lokalisierung benötigt? \nAlle Fragen können auf discord Aleksart163, /w Куплиняшка angesprochen werden oder hinterlassen Sie Anfragen auf |h|cff3588ffhttps://github.com/Aleksart163/DBM-RV/pulls|r"
+DBM_FORUMS_MESSAGE					= "Haben Sie einen Fehler oder einen falschen Timer gefunden? Sind Sie der Meinung, dass ein Modul eine zusätzliche Warnung, einen Timer, ein Feature oder eine Lokalisierung benötigt? \nAlle Fragen können auf discord Aleksart163, /w Куплиняшка angesprochen werden oder hinterlassen Sie Anfragen auf |h|cff3588ffhttps://github.com/Aleksart163/DBM-RV-LEG/pulls|r"
 DBM_SILENT_REMINDER					= "Erinnerung: DBM befindet sich noch im Lautlos-Modus."
 
 DBM_CORE_LOAD_MOD_ERROR				= "Fehler beim Laden der Boss Mods für %s: %s"
@@ -15,7 +15,7 @@ DBM_CORE_LOAD_MOD_EXP_MISMATCH		= "%s kann nicht geladen werden, da es für eine
 DBM_CORE_LOAD_MOD_DISABLED			= "%s ist installiert, aber derzeit nicht aktiviert. Dieses Mod wird nicht geladen, falls du es nicht aktivierst."
 DBM_CORE_LOAD_MOD_DISABLED_PLURAL	= "%s sind installiert, aber derzeit nicht aktiviert. Diese Mods werden nicht geladen, falls du sie nicht aktivierst."
 
-DBM_CORE_UPDATEREMINDER_URL			= "https://github.com/Aleksart163/DBM-RV"
+DBM_CORE_UPDATEREMINDER_URL			= "https://github.com/Aleksart163/DBM-RV-LEG"
 
 DBM_COPY_URL_DIALOG					= "Besuchen Sie unsere Website, um sie auf die neueste Version zu aktualisieren."
 

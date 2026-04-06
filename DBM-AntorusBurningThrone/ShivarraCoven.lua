@@ -1,14 +1,14 @@
 local mod	= DBM:NewMod(1986, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17747 $"):sub(12, -3))
 mod:SetCreatureID(122468, 122467, 122469)--122468 Noura, 122467 Asara, 122469 Diima, 125436 Thu'raya (mythic only)
 mod:SetEncounterID(2073)
 mod:SetZone()
 mod:SetBossHPInfoToHighest()
 mod:SetUsedIcons(8, 7, 6, 5, 4, 3, 2, 1)
-mod:SetHotfixNoticeRev(17745)
-mod:SetMinSyncRevision(17745)
+mod:SetHotfixNoticeRev(17747)
+mod:SetMinSyncRevision(17747)
 mod:DisableIEEUCombatDetection()
 mod:DisableEEKillDetection()
 mod.respawnTime = 28
@@ -151,7 +151,7 @@ local CVAR1, CVAR2 = nil, nil
 local proshlyapation = false
 local DbmRV = "[DBM RV] "
 
-local function ProshlyapMurchalya1(self) --прошляпанное очко Мурчаля Прошляпенко [✔] Амантул
+local function ProshlyapMurchalya1(self) --Прошляпано Мурчалем Прошляпенко [✔] Амантул
 	self.vb.proshlyapCount = self.vb.proshlyapCount + 1
 	if not proshlyapation then
 		smartChat(L.ProshlyapMurchal1:format(DbmRV), "rw")
@@ -166,7 +166,7 @@ local function ProshlyapMurchalya1(self) --прошляпанное очко М�
 	end
 end
 
-local function ProshlyapMurchalya2(self) --прошляпанное очко Мурчаля Прошляпенко [✔] Казгарот
+local function ProshlyapMurchalya2(self) --Прошляпано Мурчалем Прошляпенко [✔] Казгарот
 	self.vb.proshlyapCount = self.vb.proshlyapCount + 1
 	smartChat(L.ProshlyapMurchal2:format(DbmRV), "rw")
 	if self.vb.proshlyapCount < 3 then
@@ -177,7 +177,7 @@ local function ProshlyapMurchalya2(self) --прошляпанное очко М�
 	end
 end
 
-local function ProshlyapMurchalya3(self) --прошляпанное очко Мурчаля Прошляпенко [✔] Голганнет
+local function ProshlyapMurchalya3(self) --Прошляпано Мурчалем Прошляпенко [✔] Голганнет
 	self.vb.proshlyapCount = self.vb.proshlyapCount + 1
 	smartChat(L.ProshlyapMurchal3:format(DbmRV), "rw")
 	if self.vb.proshlyapCount < 3 then
@@ -188,7 +188,7 @@ local function ProshlyapMurchalya3(self) --прошляпанное очко М�
 	end
 end
 
-local function ProshlyapMurchalya4(self) --прошляпанное очко Мурчаля Прошляпенко [✔] Норганнон
+local function ProshlyapMurchalya4(self) --Прошляпано Мурчалем Прошляпенко [✔] Норганнон
 	self.vb.proshlyapCount = self.vb.proshlyapCount + 1
 	smartChat(L.ProshlyapMurchal4:format(DbmRV), "rw")
 	if self.vb.proshlyapCount < 3 then
@@ -199,39 +199,39 @@ local function ProshlyapMurchalya4(self) --прошляпанное очко М�
 	end
 end
 
-local function ProshlyapMurchalya5(self) --Махинации Амантула (и прошляп Мурчаля)
+local function ProshlyapMurchalya5(self) --Прошляпано Мурчалем Прошляпенко [✔] Махинации Амантула
 	if not UnitIsDeadOrGhost("player") then
 		specWarnAmantul:Show()
-	--	specWarnAmantul:Play("runtoedge")
+		specWarnAmantul:Play("runtoedge")
 		specWarnTormentofTitans:Schedule(5)
-	--	specWarnTormentofTitans:ScheduleVoice(5, "mobkill")
+		specWarnTormentofTitans:ScheduleVoice(5, "mobkill")
 	end
 end
 
 local function ProshlyapMurchalya6(self) --Пламя Казгарота (и прошляп Мурчаля)
 	if not UnitIsDeadOrGhost("player") then
 		specWarnKazgagot:Show()
-	--	specWarnKazgagot:Play("runtoedge")
+		specWarnKazgagot:Play("runtoedge")
 		specWarnTormentofTitans:Schedule(5)
-	--	specWarnTormentofTitans:ScheduleVoice(5, "mobkill")
+		specWarnTormentofTitans:ScheduleVoice(5, "mobkill")
 	end
 end
 
 local function ProshlyapMurchalya7(self) --Ярость Голганнета (и прошляп Мурчаля)
 	if not UnitIsDeadOrGhost("player") then
 		specWarnGolgannet:Show()
-	--	specWarnGolgannet:Play("scatter")
+		specWarnGolgannet:Play("scatter")
 		specWarnTormentofTitans:Schedule(5)
-	--	specWarnTormentofTitans:ScheduleVoice(5, "mobkill")
+		specWarnTormentofTitans:ScheduleVoice(5, "mobkill")
 	end
 end
 
 local function ProshlyapMurchalya8(self) --Призрачная армия Норганнона (и прошляп Мурчаля)
 	if not UnitIsDeadOrGhost("player") then
 		specWarnNorgannon:Show()
-	--	specWarnNorgannon:Play("frontcenter")
+		specWarnNorgannon:Play("frontcenter")
 		specWarnTormentofTitans:Schedule(5)
-	--	specWarnTormentofTitans:ScheduleVoice(5, "watchstep")
+		specWarnTormentofTitans:ScheduleVoice(5, "watchstep")
 	end
 end
 
@@ -389,7 +389,7 @@ function mod:SPELL_CAST_START(args)
 		self.vb.stormCount = self.vb.stormCount + 1
 		if not UnitIsDeadOrGhost("player") then
 			specWarnStormofDarkness:Show()
-		--	specWarnStormofDarkness:Play("findshelter")
+			specWarnStormofDarkness:Play("findshelter")
 		end
 		if self:IsHeroic() or self:IsMythic() then --смотрится норм под героик
 			timerStormofDarknessCD:Start(58, self.vb.stormCount+1)
@@ -506,7 +506,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	elseif spellId == 246329 then --Теневые клинки
 		if not UnitIsDeadOrGhost("player") then
 			specWarnShadowBlades:Show()
-		--	specWarnShadowBlades:Play("watchwave")
+			specWarnShadowBlades:Play("watchwave")
 		end
 		timerShadowBladesCD:Start()
 	end
@@ -525,7 +525,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			if amount >= tauntStack then
 				if args:IsPlayer() then--At this point the other tank SHOULD be clear.
 					specWarnFieryStrike:Show(amount)
-				--	specWarnFieryStrike:Play("stackhigh")
+					specWarnFieryStrike:Play("stackhigh")
 				else
 					local _, _, _, _, _, _, expireTime = DBM:UnitDebuff("player", spellId)
 					local remaining
@@ -534,7 +534,7 @@ function mod:SPELL_AURA_APPLIED(args)
 					end
 					if not UnitIsDeadOrGhost("player") and (not remaining or remaining and remaining < 10) then
 						specWarnFieryStrikeOther:Show(args.destName)
-					--	specWarnFieryStrikeOther:Play("tauntboss")
+						specWarnFieryStrikeOther:Play("tauntboss")
 					else
 						warnFieryStrike:Show(args.destName, amount)
 					end
@@ -547,7 +547,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnFulminatingPulse:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
 			specWarnFulminatingPulse:Show()
-		--	specWarnFulminatingPulse:Play("runout")
+			specWarnFulminatingPulse:Play("runout")
 			yellFulminatingPulse2:Yell()
 			yellFulminatingPulse:Countdown(10, 3)
 		end
@@ -579,7 +579,7 @@ function mod:SPELL_AURA_APPLIED(args)
 					end
 					if not UnitIsDeadOrGhost("player") and (not remaining or remaining and remaining < 9.6) then
 						specWarnFlashfreezeOther:Show(args.destName)
-					--	specWarnFlashfreezeOther:Play("tauntboss")
+						specWarnFlashfreezeOther:Play("tauntboss")
 					else
 						warnFlashFreeze:Show(args.destName, amount)
 					end
@@ -593,7 +593,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnChilledBlood:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
 			specWarnChilledBlood2:Show()
-		--	specWarnChilledBlood2:Play("targetyou")
+			specWarnChilledBlood2:Play("targetyou")
 			yellChilledBlood:Yell()
 		end
 		if self.Options.InfoFrame and not DBM.InfoFrame:IsShown() then
@@ -608,7 +608,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnCosmicGlare:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
 			specWarnCosmicGlare:Show()
-		--	specWarnCosmicGlare:Play("targetyou")
+			specWarnCosmicGlare:Play("targetyou")
 			yellCosmicGlare:Yell()
 			yellCosmicGlareFades:Countdown(4)
 		end
@@ -624,7 +624,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnChilledBlood2:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
 			specWarnChilledBlood3:Show()
-		--	specWarnChilledBlood3:Play("targetyou")
+			specWarnChilledBlood3:Play("targetyou")
 			yellChilledBlood2:Yell()
 		end
 	end
@@ -724,7 +724,7 @@ function mod:UNIT_TARGETABLE_CHANGED(uId) --Выход боссов
 		if UnitExists(uId) then
 			if self.Options.SpecWarn118212switchcount then
 				specWarnActivated:Show(UnitName(uId))
-			--	specWarnActivated:Play("changetarget")
+				specWarnActivated:Play("changetarget")
 			else
 				warnActivated:Show(UnitName(uId))
 			end
@@ -746,7 +746,7 @@ function mod:UNIT_TARGETABLE_CHANGED(uId) --Выход боссов
 		if UnitExists(uId) then
 			if self.Options.SpecWarn118212switchcount then
 				specWarnActivated:Show(UnitName(uId))
-			--	specWarnActivated:Play("changetarget")
+				specWarnActivated:Play("changetarget")
 			else
 				warnActivated:Show(UnitName(uId))
 			end
@@ -764,7 +764,7 @@ function mod:UNIT_TARGETABLE_CHANGED(uId) --Выход боссов
 		if UnitExists(uId) then
 			if self.Options.SpecWarn118212switchcount then
 				specWarnActivated:Show(UnitName(uId))
-			--	specWarnActivated:Play("changetarget")
+				specWarnActivated:Play("changetarget")
 			else
 				warnActivated:Show(UnitName(uId))
 			end
@@ -792,7 +792,7 @@ function mod:UNIT_TARGETABLE_CHANGED(uId) --Выход боссов
 		if UnitExists(uId) then
 			if self.Options.SpecWarn118212switchcount then
 				specWarnActivated:Show(UnitName(uId))
-			--	specWarnActivated:Play("changetarget")
+				specWarnActivated:Play("changetarget")
 			else
 				warnActivated:Show(UnitName(uId))
 			end

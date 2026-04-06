@@ -1,14 +1,14 @@
 local mod	= DBM:NewMod(1987, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17747 $"):sub(12, -3))
 mod:SetCreatureID(122477, 122135) --122477 Ф'арг, 122135 Шатуг
 mod:SetEncounterID(2074)
 mod:SetZone()
 mod:SetBossHPInfoToHighest()
 mod:SetUsedIcons(5, 4, 3, 2, 1)
-mod:SetHotfixNoticeRev(17745)
-mod:SetMinSyncRevision(17745)
+mod:SetHotfixNoticeRev(17747)
+mod:SetMinSyncRevision(17747)
 mod:DisableIEEUCombatDetection()
 mod.respawnTime = 30
 
@@ -144,6 +144,7 @@ local function UpdateAllTimers(self)
 		countdownSiphonCorruption:Cancel() --Вытягивание порчи
 	end
 end
+
 --Шатуг (Всё прошляпано Мурчалем)
 local function UpdateShatugAndProshlyapMurchalTimers(self)
 	timerCorruptingMawCD:Cancel()
@@ -163,6 +164,7 @@ local function UpdateShatugAndProshlyapMurchalTimers(self)
 		countdownSiphonCorruption:Cancel()
 	end
 end
+
 --Фарг (Всё прошляпано Мурчалем)
 local function UpdateFhargAndProshlyapMurchalTimers(self)
 	timerBurningMawCD:Cancel()
@@ -185,7 +187,7 @@ function mod:OnCombatStart(delay)
 		--Do nothing, it just disables UpdateAllTimers/Focused Power from firing on pull
 	end
 	self.vb.WeightDarkIcon = 0
-	--Fire doggo
+	--Прошляп Мурчаля 1 (Фарг)
 	berserkTimer:Start(-delay)
 	timerBurningMawCD:Start(9-delay) --Пылающая пасть+++ (под героик точно)
 	timerCorruptingMawCD:Start(11-delay) --Заразная пасть+++ (под героик точно)
@@ -198,7 +200,7 @@ function mod:OnCombatStart(delay)
 		timerSiphonCorruptionCD:Start(25.3-delay) --Вытягивание порчи+++
 		countdownSiphonCorruption:Start(25.3-delay) --Вытягивание порчи+++
 		specWarnSiphoned2:Schedule(15.3-delay) --Вытягивание порчи+++
-	--	specWarnSiphoned2:ScheduleVoice(15.3-delay, "aesoon") --Вытягивание порчи+++
+		specWarnSiphoned2:ScheduleVoice(15.3-delay, "aesoon") --Вытягивание порчи+++
 		timerEnflamedCorruptionCD:Start(49.5-delay) --Возгорание порчи+++
 		countdownEnflamedCorruption:Start(49.5-delay) --Возгорание порчи+++
 		specWarnEnflamed2:Schedule(39.5) --Возгорание порчи+++
@@ -209,11 +211,11 @@ function mod:OnCombatStart(delay)
 		timerSiphonCorruptionCD:Start(26.2-delay) --Вытягивание порчи+++
 		countdownSiphonCorruption:Start(26.2-delay) --Вытягивание порчи+++
 		specWarnSiphoned2:Schedule(16.2-delay) --Вытягивание порчи+++
-	--	specWarnSiphoned2:ScheduleVoice(16.2-delay, "aesoon") --Вытягивание порчи+++
+		specWarnSiphoned2:ScheduleVoice(16.2-delay, "aesoon") --Вытягивание порчи+++
 		timerEnflamedCorruptionCD:Start(52.5-delay) --Возгорание порчи+++
 		countdownEnflamedCorruption:Start(52.5-delay) --Возгорание порчи+++
 		specWarnEnflamed2:Schedule(42.5) --Возгорание порчи+++
-	else
+	else -- Прошляп Мурчаля 2 (Шатуг)
 		self.vb.longTimer = 104
 		self.vb.mediumTimer = 85
 		--Molten touch not even cast
@@ -221,7 +223,7 @@ function mod:OnCombatStart(delay)
 			timerSiphonCorruptionCD:Start(27.4-delay) --Вытягивание порчи+++
 			countdownSiphonCorruption:Start(27.4-delay) --Вытягивание порчи+++
 			specWarnSiphoned2:Schedule(17.4-delay) --Вытягивание порчи+++
-		--	specWarnSiphoned2:ScheduleVoice(17.4-delay, "aesoon") --Вытягивание порчи+++
+			specWarnSiphoned2:ScheduleVoice(17.4-delay, "aesoon") --Вытягивание порчи+++
 			timerEnflamedCorruptionCD:Start(55.6-delay) --Возгорание порчи+++
 			countdownEnflamedCorruption:Start(55.6-delay) --Возгорание порчи+++
 			specWarnEnflamed2:Schedule(45.6) --Возгорание порчи
@@ -277,11 +279,11 @@ function mod:SPELL_CAST_START(args)
 			timerSiphonCorruptionCD:Start(79) --Вытягивание порчи+++
 			countdownSiphonCorruption:Start(79) --Вытягивание порчи+++
 			specWarnSiphoned2:Schedule(69) --Вытягивание порчи+++
-		--	specWarnSiphoned2:ScheduleVoice(69, "aesoon") --Вытягивание порчи+++
+			specWarnSiphoned2:ScheduleVoice(69, "aesoon") --Вытягивание порчи+++
 			timerComsumingSphereCD:Start(26) --Поглощаяющая сфера+++
 			countdownComsumingSphere:Start(26) --Поглощаяющая сфера+++
 			specWarnComsumingSphere2:Schedule(16) --Поглощаяющая сфера+++
-		--	specWarnComsumingSphere2:ScheduleVoice(16, "specialsoon")
+			specWarnComsumingSphere2:ScheduleVoice(16, "specialsoon")
 			timerWeightOfDarknessCD:Start(52) --Бремя тьмы+++
 			countdownWeightOfDarkness:Start(52) --Бремя тьмы+++
 			specWarnWeightOfDarkness2:Schedule(42) --Бремя тьмы
@@ -292,11 +294,11 @@ function mod:SPELL_CAST_START(args)
 			timerSiphonCorruptionCD:Start(72) --Вытягивание порчи+++
 			countdownSiphonCorruption:Start(72) --Вытягивание порчи+++
 			specWarnSiphoned2:Schedule(59) --Вытягивание порчи+++
-		--	specWarnSiphoned2:ScheduleVoice(59, "aesoon") --Вытягивание порчи+++
+			specWarnSiphoned2:ScheduleVoice(59, "aesoon") --Вытягивание порчи+++
 			timerComsumingSphereCD:Start(24) --Поглощаяющая сфера+++
 			countdownComsumingSphere:Start(24) --Поглощаяющая сфера+++
 			specWarnComsumingSphere2:Schedule(14) --Поглощаяющая сфера+++
-		--	specWarnComsumingSphere2:ScheduleVoice(14, "specialsoon")
+			specWarnComsumingSphere2:ScheduleVoice(14, "specialsoon")
 			timerWeightOfDarknessCD:Start(47) --Бремя тьмы+++
 			countdownWeightOfDarkness:Start(47) --Бремя тьмы+++
 			specWarnWeightOfDarkness2:Schedule(37) --Бремя тьмы+++
@@ -306,11 +308,11 @@ function mod:SPELL_CAST_START(args)
 			timerSiphonCorruptionCD:Start(85) --Вытягивание порчи+++
 			countdownSiphonCorruption:Start(85) --Вытягивание порчи+++
 			specWarnSiphoned2:Schedule(75) --Вытягивание порчи+++
-		--	specWarnSiphoned2:ScheduleVoice(75, "aesoon") --Вытягивание порчи+++
+			specWarnSiphoned2:ScheduleVoice(75, "aesoon") --Вытягивание порчи+++
 			timerComsumingSphereCD:Start(28) --Поглощаяющая сфера+++
 			countdownComsumingSphere:Start(28) --Поглощаяющая сфера+++
 			specWarnComsumingSphere2:Schedule(18) --Поглощаяющая сфера+++
-		--	specWarnComsumingSphere2:ScheduleVoice(18, "specialsoon")
+			specWarnComsumingSphere2:ScheduleVoice(18, "specialsoon")
 		end
 	elseif spellId == 249113 then --Темное восстановление
 		warnDarkReconstitution:Show(args.sourceName)
@@ -321,7 +323,7 @@ function mod:SPELL_CAST_START(args)
 			if FlameTouched then
 				if not UnitIsDeadOrGhost("player") then
 					specWarnDarkReconstitution:Show()
-				--	specWarnDarkReconstitution:Play("mobkill")
+					specWarnDarkReconstitution:Play("mobkill")
 				end
 			end
 			UpdateFhargAndProshlyapMurchalTimers(self)
@@ -329,7 +331,7 @@ function mod:SPELL_CAST_START(args)
 			if Shadowtouched then
 				if not UnitIsDeadOrGhost("player") then
 					specWarnDarkReconstitution:Show()
-				--	specWarnDarkReconstitution:Play("mobkill")
+					specWarnDarkReconstitution:Play("mobkill")
 				end
 			end
 			UpdateShatugAndProshlyapMurchalTimers(self)
@@ -342,7 +344,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	if spellId == 244086 and self:AntiSpam(3, 2) then --Касание магмы (244072 изначальный) 
 		if not UnitIsDeadOrGhost("player") then
 			specWarnMoltenTouch:Show()
-		--	specWarnMoltenTouch:Play("watchstep")
+			specWarnMoltenTouch:Play("watchstep")
 		end
 		if self:IsMythic() then
 			timerMoltenTouchCD:Start(88.8)
@@ -377,7 +379,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnDesolateGaze:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
 			specWarnDesolateGaze:Show()
-		--	specWarnDesolateGaze:Play("runout")
+			specWarnDesolateGaze:Play("runout")
 			yellDesolateGaze:Yell()
 			yellDesolateGazeFades:Countdown(8, 3)
 		end
@@ -388,7 +390,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 248815 then --Возгорание
 		if args:IsPlayer() then
 			specWarnEnflamed:Show()
-		--	specWarnEnflamed:Play("scatter")
+			specWarnEnflamed:Play("scatter")
 			yellEnflamed:Countdown(3)
 			if self.Options.RangeFrame then
 				DBM.RangeCheck:Show(8)
@@ -397,7 +399,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 248819 then --Вытягивание
 		if args:IsPlayer() then
 			specWarnSiphoned:Show()
-		--	specWarnSiphoned:Play("gathershare")
+			specWarnSiphoned:Play("gathershare")
 			yellSiphoned:Yell()
 			yellSiphonedFades:Countdown(3, 2)
 			if self.Options.RangeFrame then
@@ -409,7 +411,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnWeightofDarkness:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
 			specWarnWeightOfDarkness:Show()
-		--	specWarnWeightOfDarkness:Play("gathershare")
+			specWarnWeightOfDarkness:Play("gathershare")
 			yellWeightOfDarkness:Yell()
 			yellWeightOfDarknessFades:Countdown(5, 3)
 		end
@@ -425,14 +427,14 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			FlameTouched = true
 			specWarnFlameTouched:Show(self:IconNumToTexture(7))--Red X for flame (more voted on red x than orange circle)
-		--	specWarnFlameTouched:Play("flameonyou")
+			specWarnFlameTouched:Play("flameonyou")
 			yellTouched:Yell(7, flame, 7)
 		end
 	elseif spellId == 244055 then --Касание тьмы
 		if args:IsPlayer() then
 			Shadowtouched = true
 			specWarnShadowtouched:Show(self:IconNumToTexture(3))--Purple diamond for shadow
-		--	specWarnShadowtouched:Play("shadowonyou")
+			specWarnShadowtouched:Play("shadowonyou")
 			yellTouched:Yell(3, shadow, 3)
 		end
 	elseif spellId == 251448 then --Пылающая пасть
@@ -493,7 +495,7 @@ end
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
 	if spellId == 245022 and destGUID == UnitGUID("player") and self:AntiSpam(3, "hidden") then
 		specWarnBurningRemnant:Show()
-	--	specWarnBurningRemnant:Play("runout")
+		specWarnBurningRemnant:Play("runout")
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
@@ -503,7 +505,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	if spellId == 244159 then --Поглощаяющая сфера (разрабы починили? нихуя себе)
 		if not UnitIsDeadOrGhost("player") then
 			specWarnComsumingSphere:Show()
-		--	specWarnComsumingSphere:Play("watchorb")
+			specWarnComsumingSphere:Play("watchorb")
 		end
 		DBM:Debug("checking proshlyapation of Murchal 1", 2)
 	elseif spellId == 244064 then --Опустошающий взгляд

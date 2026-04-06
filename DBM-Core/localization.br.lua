@@ -11,7 +11,7 @@ DBM_CORE_LOAD_GUI_COMBAT			= "A interface gráfica não pode ser carregada em co
 DBM_CORE_BAD_LOAD					= "DBM detectou que a sua mod desta área falhou ao tentar carregar por completo por estar em combate. Use o comando /reloadui assim que sair de combate para corrigir o problema."
 DBM_CORE_LOAD_MOD_VER_MISMATCH		= "%s não foi carregado por não cumprir os requerimentos. Uma atualização da mod é necessária. Obrigado."
 
-DBM_CORE_UPDATEREMINDER_URL			= "https://github.com/Aleksart163/DBM-RV"
+DBM_CORE_UPDATEREMINDER_URL			= "https://github.com/Aleksart163/DBM-RV-LEG"
 
 DBM_CORE_DYNAMIC_DIFFICULTY_CLUMP	= "DBM desabilitou o quadro de alcance dinâmico nesta luta, por falta de informação sobre o numero de jogadores à ficarem amontoados para um grupo desse tamanho."
 

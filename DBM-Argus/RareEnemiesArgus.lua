@@ -1,9 +1,9 @@
 local mod	= DBM:NewMod("RareEnemiesArgus", "DBM-Argus", nil, 822)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17747 $"):sub(12, -3))
 mod:SetZone()
-mod:SetMinSyncRevision(17650)
+mod:SetMinSyncRevision(17747)
 
 mod.noStatistics = true
 mod.isTrashMod = true
@@ -23,7 +23,7 @@ mod:RegisterEvents(
 	"UNIT_DIED"
 )
 
---прошляпанное очко Мурчаля Прошляпенко [✔]
+--Прошляпанное очко Мурчаля Прошляпенко [✔]
 
 local warnMajesticRoar				= mod:NewStackAnnounce(252037, 3) --Величественный рык
 local warnIgnition					= mod:NewTargetAnnounce(254480, 2) --Зажигание

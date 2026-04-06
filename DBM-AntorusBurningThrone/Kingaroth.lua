@@ -1,14 +1,14 @@
 local mod	= DBM:NewMod(2004, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17747 $"):sub(12, -3))
 mod:SetCreatureID(122578)
 mod:SetEncounterID(2088)
 mod:SetZone()
 --mod:SetBossHPInfoToHighest()
 mod:SetUsedIcons(8, 7, 6, 5, 4, 3, 2, 1)
-mod:SetHotfixNoticeRev(17745)
-mod:SetMinSyncRevision(17745)
+mod:SetHotfixNoticeRev(17747)
+mod:SetMinSyncRevision(17747)
 mod:DisableIEEUCombatDetection()
 mod.respawnTime = 29
 
@@ -111,7 +111,7 @@ function mod:ForgingStrikeTarget(targetname, uId) --прошляпанное о�
 	if not targetname then return end
 	if targetname == UnitName("player") then
 		specWarnForgingStrike:Show()
-	--	specWarnForgingStrike:Play("defensive")
+		specWarnForgingStrike:Play("defensive")
 		yellForgingStrike:Yell()
 	end
 end
@@ -120,11 +120,11 @@ function mod:ReverberatingTarget(targetname, uId)
 	if not targetname then return end
 	if targetname == UnitName("player") then
 		specWarnReverberatingStrike:Show()
-	--	specWarnReverberatingStrike:Play("targetyou")
+		specWarnReverberatingStrike:Play("targetyou")
 		yellReverberatingStrike:Yell()
 	elseif self:CheckNearby(7, targetname) then
 		specWarnReverberatingStrikeNear:Show(targetname)
-	--	specWarnReverberatingStrikeNear:Play("runaway")
+		specWarnReverberatingStrikeNear:Play("runaway")
 	else
 		warnReverberatingStrike:Show(targetname)
 	end
@@ -149,7 +149,7 @@ local function warnDemolishTargets(self, spellId)
 	end
 	if not DBM:UnitDebuff("player", spellId) and not self:IsTank() then
 		specWarnDemolishOther:Show(DBM_ALLY)
-	--	specWarnDemolishOther:Play("gathershare")
+		specWarnDemolishOther:Play("gathershare")
 	end
 end
 
@@ -262,7 +262,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 245807 then --Аннигиляция
 		if not UnitIsDeadOrGhost("player") then
 			specWarnAnnihilation:Show()
-		--	specWarnAnnihilation:Play("helpsoak")
+			specWarnAnnihilation:Play("helpsoak")
 		end
 	elseif spellId == 252758 or spellId == 246692 then
 		table.wipe(DemolishTargets)
@@ -272,8 +272,8 @@ function mod:SPELL_CAST_START(args)
 		countdownForgingStrike:Cancel()
 		if not UnitIsDeadOrGhost("player") then
 			specWarnRuiner:Show()
-		--	specWarnRuiner:Play("farfromline")
-		--	specWarnRuiner:ScheduleVoice(1.5, "keepmove")
+			specWarnRuiner:Play("farfromline")
+			specWarnRuiner:ScheduleVoice(1.5, "keepmove")
 		end
 		timerRuiner:Start(3)
 		timerRuiner:Schedule(3)
@@ -308,10 +308,10 @@ function mod:SPELL_CAST_START(args)
 		if not UnitIsDeadOrGhost("player") then
 			if self:IsHealer() then
 				specWarnInitializing:Show(self.vb.apocProtocolCount)
-			--	specWarnInitializing:Play("healall")
+				specWarnInitializing:Play("healall")
 			else
 				specWarnInitializing2:Show(self.vb.apocProtocolCount)
-			--	specWarnInitializing2:Play("mobkill")
+				specWarnInitializing2:Play("mobkill")
 			end
 		end
 		if self:IsLFR() then
@@ -337,7 +337,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		timerDemolishCD:Start(nil, args.sourceGUID)
 	elseif spellId == 248214 then
 		warnDiabolicBomb:Show()
-	--	warnDiabolicBomb:Play("bombsoon")
+		warnDiabolicBomb:Play("bombsoon")
 		timerDiabolicBombCD:Start()
 	end
 end
@@ -351,7 +351,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if amount >= 2 then
 			if args:IsPlayer() then
 				specWarnForgingStrike2:Show(amount)
-			--	specWarnForgingStrike2:Play("stackhigh")
+				specWarnForgingStrike2:Play("stackhigh")
 			else
 				local _, _, _, _, _, _, expireTime = DBM:UnitDebuff("player", spellId)
 				local remaining
@@ -360,7 +360,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				end
 				if not UnitIsDeadOrGhost("player") and (not remaining or remaining and remaining < 14) then
 					specWarnForgingStrikeOther:Show(args.destName)
-				--	specWarnForgingStrikeOther:Play("tauntboss")
+					specWarnForgingStrikeOther:Play("tauntboss")
 				else
 					warnForgingStrike:Show(args.destName, amount)
 				end
@@ -371,7 +371,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 246687 then --Децимация 1 (от моба)
 		if args:IsPlayer() then
 			specWarnDecimation:Schedule(5)
-		--	specWarnDecimation:ScheduleVoice(5, "runaway")
+			specWarnDecimation:ScheduleVoice(5, "runaway")
 			yellDecimation:Yell()
 			yellDecimation2:Countdown(8.5, 3)
 		else
@@ -384,7 +384,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 249680 then --Децимация 2 (от босса) 4.5 сек +5
 		if args:IsPlayer() then
 			specWarnDecimation:Schedule(5)
-		--	specWarnDecimation:ScheduleVoice(5, "runaway")
+			specWarnDecimation:ScheduleVoice(5, "runaway")
 			yellDecimation:Yell()
 			yellDecimation2:Countdown(9, 3)
 		else
@@ -406,7 +406,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		--end
 		if args:IsPlayer() then
 			specWarnDemolish:Show()
-		--	specWarnDemolish:Play("targetyou")
+			specWarnDemolish:Play("targetyou")
 		end
 		if self.Options.InfoFrame then
 			if #DemolishTargets == 1 then
@@ -510,7 +510,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	elseif spellId == 246657 and self:AntiSpam(2, 1) then--Annihilation
 		if not UnitIsDeadOrGhost("player") then
 			specWarnAnnihilation:Show()
-		--	specWarnAnnihilation:Play("helpsoak")
+			specWarnAnnihilation:Play("helpsoak")
 		end
 		timerAnnihilationCD:Start(nil, UnitGUID(uId))
 	elseif spellId == 248375 and self:AntiSpam(5, 2) then--Shattering Strike

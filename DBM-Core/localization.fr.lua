@@ -13,7 +13,7 @@ DBM_CORE_DYNAMIC_DIFFICULTY_CLUMP   = "DBM a désactivé la vérification du nom
 DBM_CORE_DYNAMIC_ADD_COUNT          = "DBM a désactivé les alertes de décompte d'adds en vie sur ce combat pour cause de manque d'information du nombre d'adds apparaissant pour votre taille de raid."
 DBM_CORE_DYNAMIC_MULTIPLE           = "DBM a désactivé plusieurs fonctionnalités sur ce combat pour cause de manque d'informations sur certains mécanismes pour votre taille de raid  ."
 
-DBM_CORE_UPDATEREMINDER_URL			= "https://github.com/Aleksart163/DBM-RV"
+DBM_CORE_UPDATEREMINDER_URL			= "https://github.com/Aleksart163/DBM-RV-LEG"
 
 DBM_CORE_LOOT_SPEC_REMINDER         = "Votre spécialisation actuelle est %s. Votre choix de loot actuel est %s."
  

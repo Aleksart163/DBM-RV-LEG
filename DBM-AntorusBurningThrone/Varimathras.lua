@@ -1,14 +1,14 @@
 local mod	= DBM:NewMod(1983, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17747 $"):sub(12, -3))
 mod:SetCreatureID(122366)
 mod:SetEncounterID(2069)
 mod:SetZone()
 --mod:SetBossHPInfoToHighest()
 mod:SetUsedIcons(8, 4, 3)
-mod:SetHotfixNoticeRev(17745)
-mod:SetMinSyncRevision(17745)
+mod:SetHotfixNoticeRev(17747)
+mod:SetMinSyncRevision(17747)
 mod:DisableIEEUCombatDetection()
 mod.respawnTime = 30
 
@@ -215,7 +215,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	elseif spellId == 243999 then --Темный разлом
 		if not UnitIsDeadOrGhost("player") then
 			specWarnDarkFissure:Show()
-		--	specWarnDarkFissure:Play("watchstep")
+			specWarnDarkFissure:Play("watchstep")
 		end
 		if self:IsHeroic() then
 			timerDarkFissureCD:Start(30.7)
@@ -247,20 +247,20 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			if self:AntiSpam(4, 2) then
 				specWarnMisery:Show()
-			--	specWarnMisery:Play("defensive")
+				specWarnMisery:Play("defensive")
 			end
 		else
 			local uId = DBM:GetRaidUnitId(args.destName)
 			--Applied to a tank that's not you and you don't have it, taunt
 			if uId and self:IsTanking(uId) and (self:CheckNearby(8, args.destName) or self:GetNumAliveTanks() < 3) and not DBM:UnitDebuff("player", spellId) then
 				specWarnMiseryTaunt:Show(args.destName)
-			--	specWarnMiseryTaunt:Play("tauntboss")
+				specWarnMiseryTaunt:Play("tauntboss")
 			end
 		end
 	elseif spellId == 244042 then --Метка жертвы
 		if args:IsPlayer() then
 			specWarnMarkedPrey:Show()
-		--	specWarnMarkedPrey:Play("targetyou")
+			specWarnMarkedPrey:Play("targetyou")
 			yellMarkedPrey:Yell()
 			yellMarkedPreyFades:Countdown(5, 3)
 		else
@@ -326,7 +326,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnEchoesofDoom:CombinedShow(0.5, args.destName)--In case multiple shadows up
 		if args:IsPlayer() and self:AntiSpam(3, 3) then
 			specWarnEchoesOfDoom:Show()
-		--	specWarnEchoesOfDoom:Play("targetyou")
+			specWarnEchoesOfDoom:Play("targetyou")
 		--	yellEchoesOfDoom:Yell()
 		end
 	elseif spellId == 243968 and self.vb.currentTorment ~= 1 then --Пытка огнем
@@ -341,17 +341,17 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 243977 and self.vb.currentTorment ~= 2 then --Пытка холодом
 		self.vb.currentTorment = 2
 		warnTormentofFrost:Show()
-	--	warnTormentofFrost:Play("phasechange")
+		warnTormentofFrost:Play("phasechange")
 		timerTormentofFelCD:Start(99)
 	elseif spellId == 243980 and self.vb.currentTorment ~= 3 then --Пытка скверной
 		self.vb.currentTorment = 3
 		warnTormentofFel:Show()
-	--	warnTormentofFel:Play("phasechange")
+		warnTormentofFel:Play("phasechange")
 		timerTormentofShadowsCD:Start(90)
 	elseif spellId == 243973 and self.vb.currentTorment ~= 4 then --Пытка тьмой
 		self.vb.currentTorment = 4
 		warnTormentofShadows:Show()
-	--	warnTormentofShadows:Play("phasechange")
+		warnTormentofShadows:Play("phasechange")
 	end
 end
 
@@ -367,7 +367,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		if args:IsPlayer() and self:AntiSpam(3, 4) then
 			playerAffected = false
 			specWarnNecroticEmbrace4:Show()
-		--	specWarnNecroticEmbrace4:Play("end")
+			specWarnNecroticEmbrace4:Play("end")
 			yellNecroticEmbraceFades:Cancel()
 			if self.Options.RangeFrame then
 				DBM.RangeCheck:Show(8)
@@ -383,10 +383,10 @@ end
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 244005 and destGUID == UnitGUID("player") and self:AntiSpam(2.5, 5) then
 		specWarnGTFO:Show()
-	--	specWarnGTFO:Play("runaway")
+		specWarnGTFO:Play("runaway")
 	elseif spellId == 248740 and destGUID == UnitGUID("player") and self:AntiSpam(3, 6) then
 		specWarnGTFO2:Show()
-	--	specWarnGTFO2:Play("runaway")
+		specWarnGTFO2:Play("runaway")
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
