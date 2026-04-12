@@ -1,12 +1,12 @@
 local mod	= DBM:NewMod(1653, "DBM-Party-Legion", 1, 740)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17750 $"):sub(12, -3))
 mod:SetCreatureID(98696)
 mod:SetEncounterID(1833)
 mod:SetZone()
 mod:SetUsedIcons(8, 7, 3, 2, 1)
-mod:SetMinSyncRevision(17745)
+mod:SetMinSyncRevision(17750)
 
 mod:RegisterCombat("combat")
 
@@ -61,11 +61,11 @@ function mod:BrutalGlaiveTarget(targetname, uId)
 	if not targetname then return end
 	if targetname == UnitName("player") then
 		specWarnBrutalGlaive:Show()
-	--	specWarnBrutalGlaive:Play("runout")
+		specWarnBrutalGlaive:Play("runout")
 		yellBrutalGlaive:Yell()
 	elseif self:CheckNearby(10, targetname) then
 		specWarnBrutalGlaive2:Show(targetname)
-	--	specWarnBrutalGlaive2:Play("runout")
+		specWarnBrutalGlaive2:Play("runout")
 	else
 		warnBrutalGlaive:Show(targetname)
 	end
@@ -101,7 +101,7 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 197418 then
 		specWarnVengefulShear:Show()
-	--	specWarnVengefulShear:Play("defensive")
+		specWarnVengefulShear:Play("defensive")
 		timerVengefulShearCD:Start()
 	elseif spellId == 197546 then
 		timerBrutalGlaiveCD:Start()
@@ -109,15 +109,15 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 197974 then
 		if not UnitIsDeadOrGhost("player") then
 			specWarnBonebreakingStrike:Show()
-		--	specWarnBonebreakingStrike:Play("shockwave")
+			specWarnBonebreakingStrike:Play("shockwave")
 		end
 	elseif spellId == 197797 then --Чародейская бомбардировка
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnArcaneBlitz:Show()
-		--	specWarnArcaneBlitz:Play("kickcast")
+			specWarnArcaneBlitz:Play("kickcast")
 		else
 			warnArcaneBlitz:Show()
-		--	warnArcaneBlitz:Play("kickcast")
+			warnArcaneBlitz:Play("kickcast")
 		end
 	end
 end
@@ -138,7 +138,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	if spellId == 197478 then --Темный рывок
 		if args:IsPlayer() then
 			specWarnDarkRush:Show()
-		--	specWarnDarkRush:Play("targetyou")
+			specWarnDarkRush:Play("targetyou")
 			yellDarkRush:Yell()
 		else
 			warnDarkRush:CombinedShow(0.3, args.destName)
@@ -149,7 +149,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 197687 then --Пронзающий взгляд
 		if args:IsPlayer() then
 			specWarnEyeBeam:Show()
-		--	specWarnEyeBeam:Play("laserrun")
+			specWarnEyeBeam:Play("laserrun")
 			yellEyeBeam:Yell()
 		else
 			warnEyeBeam:Show(args.destName)
@@ -160,7 +160,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 197546 then --Жуткая глефа
 		if args:IsPlayer() then
 			specWarnBrutalGlaive3:Show()
-		--	specWarnBrutalGlaive3:Play("defensive")
+			specWarnBrutalGlaive3:Play("defensive")
 		else
 			warnBrutalGlaive:CombinedShow(0.5, args.destName)
 		end
@@ -178,12 +178,12 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spell
 	if spellId == 197521 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
 		if self:IsHard() then
 			specWarnBlazingTrail:Show()
-		--	specWarnBlazingTrail:Play("runaway")
+			specWarnBlazingTrail:Play("runaway")
 		end
 	elseif spellId == 197821 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
 		if self:IsHard() then
 			specWarnFelblazedGround:Show()
-		--	specWarnFelblazedGround:Play("runaway")
+			specWarnFelblazedGround:Play("runaway")
 		end
 	end
 end
@@ -195,7 +195,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 		self.vb.phase = self.vb.phase + 1
 		if not UnitIsDeadOrGhost("player") then
 			specWarnSummonAdds:Show()
-		--	specWarnSummonAdds:Play("mobkill")
+			specWarnSummonAdds:Play("mobkill")
 		end
 		timerBrutalGlaiveCD:Stop()
 		timerVengefulShearCD:Stop()

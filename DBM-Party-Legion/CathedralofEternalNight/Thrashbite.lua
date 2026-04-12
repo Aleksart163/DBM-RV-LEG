@@ -1,12 +1,12 @@
 local mod	= DBM:NewMod(1906, "DBM-Party-Legion", 12, 900)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17750 $"):sub(12, -3))
 mod:SetCreatureID(117194)
 mod:SetEncounterID(2057)
 mod:SetZone()
 mod:SetUsedIcons(8)
-mod:SetMinSyncRevision(17745)
+mod:SetMinSyncRevision(17750)
 
 mod:RegisterCombat("combat")
 
@@ -72,24 +72,24 @@ function mod:SPELL_AURA_APPLIED(args)
 		countdownScornfulGaze:Start()
 		if args:IsPlayer() and not self:IsTank() then
 			specWarnScornfulGaze:Show()
-		--	specWarnScornfulGaze:Play("runaway")
+			specWarnScornfulGaze:Play("runaway")
 			specWarnScornfulGaze3:Schedule(3.5)
-		--	specWarnScornfulGaze3:ScheduleVoice(3.5, "defensive")
+			specWarnScornfulGaze3:ScheduleVoice(3.5, "defensive")
 			yellScornfulGaze:Yell()
 			yellScornfulGaze2:Countdown(7, 3)
 		elseif args:IsPlayer() and self:IsTank() then
 			specWarnScornfulGaze:Show()
-		--	specWarnScornfulGaze:Play("runaway")
+			specWarnScornfulGaze:Play("runaway")
 			specWarnScornfulGaze3:Schedule(3.5)
-		--	specWarnScornfulGaze3:ScheduleVoice(3.5, "defensive")
+			specWarnScornfulGaze3:ScheduleVoice(3.5, "defensive")
 			yellScornfulGaze:Yell()
 			yellScornfulGaze2:Countdown(7, 3)
 		elseif self:CheckNearby(15, args.destName) then
 			specWarnScornfulGaze2:Show(args.destName)
-		--	specWarnScornfulGaze2:Play("watchstep")
+			specWarnScornfulGaze2:Play("watchstep")
 		else
 			specWarnScornfulGaze4:Show(args.destName)
-		--	specWarnScornfulGaze4:Play("helpsoak")
+			specWarnScornfulGaze4:Play("helpsoak")
 		end
 		if self.Options.SetIconOnScornfulGaze then
 			self:SetIcon(args.destName, 8, 7)
@@ -114,9 +114,9 @@ function mod:SPELL_CAST_START(args)
 	if spellId == 237276 then --Сокрушающая дубина
 		if not UnitIsDeadOrGhost("player") then
 			specWarnPulvCrudgel:Show()
-		--	specWarnPulvCrudgel:Play("justrun")
+			specWarnPulvCrudgel:Play("justrun")
 			specWarnPulvCrudgel2:Show()
-		--	specWarnPulvCrudgel2:Play("watchstep")
+			specWarnPulvCrudgel2:Play("watchstep")
 		end
 		timerPulvCrudgelCD:Start()
 	end

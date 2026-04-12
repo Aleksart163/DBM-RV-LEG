@@ -1,11 +1,11 @@
 local mod	= DBM:NewMod(1720, "DBM-Party-Legion", 7, 800)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17750 $"):sub(12, -3))
 mod:SetCreatureID(104218)
 mod:SetEncounterID(1870)
 mod:SetZone()
-mod:SetMinSyncRevision(17745)
+mod:SetMinSyncRevision(17750)
 mod.noNormal = true
 
 mod:RegisterCombat("combat")
@@ -41,7 +41,7 @@ function mod:SurgeTarget(targetname, uId)
 	end
 	if targetname == UnitName("player") then
 		specWarnSurge:Show()
-	--	specWarnSurge:Play("targetyou")
+		specWarnSurge:Play("targetyou")
 		yellSurge:Yell()
 	else
 		warnSurge:Show(targetname)
@@ -75,13 +75,13 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 209676 then
 		if not UnitIsDeadOrGhost("player") then
 			specWarnSlicingMaelstrom:Show()
-		--	specWarnSlicingMaelstrom:Play("aesoon")
+			specWarnSlicingMaelstrom:Play("aesoon")
 		end
 		timerMaelstromCD:Start(24.5)
 	elseif spellId == 209628 and self:AntiSpam(5, 1) then
 		if not UnitIsDeadOrGhost("player") then
 			specWarnGale:Show()
-		--	specWarnGale:Play("watchstep")
+			specWarnGale:Play("watchstep")
 		end
 		timerGaleCD:Start(24.5)
 	end
@@ -92,11 +92,11 @@ function mod:SPELL_AURA_APPLIED(args)
 	if spellId == 224333 then --Вихрь
 		if args:IsPlayer() and not self:IsMagicDispeller2() then
 			specWarnEnvelopingWinds2:Show()
-		--	specWarnEnvelopingWinds2:Play("targetyou")
+			specWarnEnvelopingWinds2:Play("targetyou")
 			yellEnvelopingWinds:Yell()
 		elseif self:IsMagicDispeller2() and not UnitIsDeadOrGhost("player") then
 			specWarnEnvelopingWinds:CombinedShow(0.5, args.destName)
-		--	specWarnEnvelopingWinds:ScheduleVoice(0.5, "dispelnow")
+			specWarnEnvelopingWinds:ScheduleVoice(0.5, "dispelnow")
 		else
 			warnEnvelopingWinds:CombinedShow(0.5, args.destName)
 		end

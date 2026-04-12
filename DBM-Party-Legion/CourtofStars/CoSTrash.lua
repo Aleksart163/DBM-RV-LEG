@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("CoSTrash", "DBM-Party-Legion", 7)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17750 $"):sub(12, -3))
 mod:SetZone()
 mod:SetOOCBWComms()
 
@@ -263,7 +263,7 @@ function mod:CarrionSwarmTarget(targetname, uId) --Темная стая ✔
 	if not targetname then return end
 	if targetname == UnitName("player") then
 		specWarnCarrionSwarm:Show()
-	--	specWarnCarrionSwarm:Play("watchstep")
+		specWarnCarrionSwarm:Play("watchstep")
 		yellCarrionSwarm:Yell()
 	else
 		warnCarrionSwarm:Show(targetname)
@@ -285,7 +285,7 @@ function mod:DisintegrationBeamTarget(targetname, uId) --Луч дезинтег
 	if not targetname then return end
 	if targetname == UnitName("player") then
 		specWarnDisintegrationBeam:Show()
-	--	specWarnDisintegrationBeam:Play("defensive")
+		specWarnDisintegrationBeam:Play("defensive")
 		yellDisintegrationBeam:Yell()
 	else
 		warnDisintegrationBeam:Show(targetname)
