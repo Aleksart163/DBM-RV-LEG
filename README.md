@@ -6,6 +6,5 @@
 # DBM RV - Right Version - т.е. правильная, рабочая, адаптируемая под конкретный проект.
 # Support the project / Поддержка проекта
 <a href="https://www.donationalerts.com/r/aleksart163"> <img src = "https://i.imgur.com/ykI6lqX.jpeg" /> </a>
-<a href="https://www.qiwi.com/n/ALEKSART163"> <img src = "https://i.imgur.com/dvjMH7F.png" /> </a>
 # Данный аддон адаптируется под проект [uwow.biz](https://uwow.biz)
 # DBM is developed for the project [uwow.biz](https://uwow.biz)
