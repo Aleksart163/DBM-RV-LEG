@@ -1,12 +1,13 @@
 local mod	= DBM:NewMod(1862, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17603 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17750 $"):sub(12, -3))
 mod:SetCreatureID(115844)
 mod:SetEncounterID(2032)
 mod:SetZone()
 --mod:SetUsedIcons(1)
-mod:SetHotfixNoticeRev(16280)
+mod:SetHotfixNoticeRev(17750)
+mod:SetMinSyncRevision(17750)
 mod.respawnTime = 14
 
 mod:RegisterCombat("combat")

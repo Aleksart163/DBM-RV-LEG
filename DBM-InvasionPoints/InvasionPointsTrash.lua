@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("InvasionPointsTrash", "DBM-InvasionPoints")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17650 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17750 $"):sub(12, -3))
 mod:SetZone()
 
 mod:RegisterEvents(

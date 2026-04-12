@@ -1,10 +1,11 @@
 local mod	= DBM:NewMod("TrialofValorTrash", "DBM-TrialofValor")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17750 $"):sub(12, -3))
 --mod:SetModelID(47785)
 mod:SetZone()
 mod.isTrashMod = true
+mod:SetMinSyncRevision(17750)
 
 mod:RegisterEvents(
 	"SPELL_AURA_APPLIED 228845 228371 228395",

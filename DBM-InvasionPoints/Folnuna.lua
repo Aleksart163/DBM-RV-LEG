@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2010, "DBM-InvasionPoints", nil, 959)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17471 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17750 $"):sub(12, -3))
 mod:SetCreatureID(124514)
 mod:SetEncounterID(2081)
 --mod:SetReCombatTime(20)

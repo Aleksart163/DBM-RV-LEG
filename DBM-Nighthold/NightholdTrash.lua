@@ -1,10 +1,11 @@
 local mod	= DBM:NewMod("NightholdTrash", "DBM-Nighthold")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17522 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17750 $"):sub(12, -3))
 --mod:SetModelID(47785)
 mod:SetZone()
 mod.isTrashMod = true
+mod:SetMinSyncRevision(17750)
 
 mod:RegisterEvents(
 	"SPELL_CAST_START 221164 224510 224246 231005 143807 231737 224440",

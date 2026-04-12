@@ -5473,7 +5473,6 @@ do
 	
 	function DBM:ENCOUNTER_START(encounterID, name, difficulty, size)
 		self:Debug("ENCOUNTER_START event fired: "..encounterID.." "..name.." "..difficulty.." "..size)
-		self:AddMsg(DBM_FORUMS_MESSAGE)
 		if dbmIsEnabled then
 			if not self.Options.DontShowReminders then
 				self:CheckAvailableMods()
@@ -5507,6 +5506,9 @@ do
 	
 	function DBM:ENCOUNTER_END(encounterID, name, difficulty, size, success)
 		self:Debug("ENCOUNTER_END event fired: "..encounterID.." "..name.." "..difficulty.." "..size.." "..success)
+		if self:AntiSpam(5, "FM") then
+			self:AddMsg(DBM_FORUMS_MESSAGE)
+		end
 		for i = #inCombat, 1, -1 do
 			local v = inCombat[i]
 			if not v.combatInfo then return end

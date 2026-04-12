@@ -23,7 +23,7 @@
 ## X-DBM-Mod-Has-Mythic : 1
 ## X-DBM-Mod-Sort: 502
 ## X-DBM-Mod-MapID: 1530
-## X-DBM-Mod-MinCoreRevision: 17745
+## X-DBM-Mod-MinCoreRevision: 17750
 
 localization.en.lua
 localization.ru.lua
