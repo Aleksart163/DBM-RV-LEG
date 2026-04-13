@@ -1,13 +1,13 @@
 local mod	= DBM:NewMod(1485, "DBM-Party-Legion", 4, 721)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17750 $"):sub(12, -3))
 mod:SetCreatureID(94960)
 mod:SetEncounterID(1805)
 mod:SetZone()
 mod:SetUsedIcons(8, 7)
 mod:DisableEEKillDetection()
-mod:SetMinSyncRevision(17745)
+mod:SetMinSyncRevision(17750)
 
 mod:RegisterCombat("combat")
 
@@ -53,11 +53,11 @@ function mod:DancingBladeTarget(targetname, uId) --Танцующий клино
 	if not targetname then return end
 	if targetname == UnitName("player") then
 		specWarnDancingBlade2:Show()
-	--	specWarnDancingBlade2:Play("runout")
+		specWarnDancingBlade2:Play("runout")
 		yellDancingBlade:Yell()
 	elseif self:CheckNearby(10, targetname) then
 		specWarnDancingBlade3:Show(targetname)
-	--	specWarnDancingBlade3:Play("runaway")
+		specWarnDancingBlade3:Play("runaway")
 	else
 		warnDancingBlade:Show(targetname)
 	end
@@ -70,7 +70,7 @@ function mod:SweepTarget(targetname, uId) --Кровопролитный кру�
 	if not targetname then return end
 	if targetname == UnitName("player") then
 		specWarnSweep:Show()
-	--	specWarnSweep:Play("defensive")
+		specWarnSweep:Play("defensive")
 	else
 		warnSweep:Show(targetname)
 	end
@@ -99,14 +99,14 @@ function mod:SPELL_CAST_START(args)
 		self.vb.hornCount = self.vb.hornCount + 1
 		if not UnitIsDeadOrGhost("player") then
 			specWarnHorn:Show()
-		--	specWarnHorn:Play("defensive")
+			specWarnHorn:Play("defensive")
 		end
 		timerDancingBladeCD:Cancel()
 		if not UnitIsDeadOrGhost("player") then
 			specWarnHornOfValor:Schedule(2)
-		--	specWarnHornOfValor:ScheduleVoice(2, "breathsoon")
+			specWarnHornOfValor:ScheduleVoice(2, "breathsoon")
 			specWarnHornOfValor2:Schedule(9)
-		--	specWarnHornOfValor2:ScheduleVoice(9, "watchstep")
+			specWarnHornOfValor2:ScheduleVoice(9, "watchstep")
 		end
 		timerBreath:Start(9)
 		timerBreath:Schedule(9)
@@ -145,7 +145,6 @@ function mod:SPELL_CAST_START(args)
 		timerDancingBladeCD:Start()
 	elseif spellId == 188404 and self:AntiSpam(5, 2) then --Дыхание бури
 		warnBreath:Show()
-	--	warnBreath:Play("watchstep")
 	elseif spellId == 193092 then --Кровопролитный круговой удар
 		self:BossTargetScanner(args.sourceGUID, "SweepTarget", 0.1, 2)
 	end
@@ -164,7 +163,7 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 193234 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
 		if not self:IsNormal() then
 			specWarnDancingBlade:Show()
-		--	specWarnDancingBlade:Play("runaway")
+			specWarnDancingBlade:Play("runaway")
 		end
 	end
 end

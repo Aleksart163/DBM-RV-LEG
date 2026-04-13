@@ -1,12 +1,12 @@
 local mod	= DBM:NewMod(1479, "DBM-Party-Legion", 3, 716)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17750 $"):sub(12, -3))
 mod:SetCreatureID(91808)
 mod:SetEncounterID(1813)
 mod:SetZone(1456)
 mod:SetUsedIcons(7)
-mod:SetMinSyncRevision(17745)
+mod:SetMinSyncRevision(17750)
 
 mod:RegisterCombat("combat")
 
@@ -80,13 +80,13 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerToxicWound:Start(args.destName)
 		if args:IsPlayer() then
 			specWarnToxicWound:Show()
-		--	specWarnToxicWound:Play("justrun")
-		--	specWarnToxicWound:ScheduleVoice(1.5, "keepmove")
+			specWarnToxicWound:Play("justrun")
+			specWarnToxicWound:ScheduleVoice(1.5, "keepmove")
 			yellToxicWound:Yell()
 			yellToxicWound2:Countdown(6, 3)
 		elseif self:CheckNearby(10, args.destName) then
 			specWarnToxicWound3:Show(args.destName)
-		--	specWarnToxicWound3:Play("runaway")
+			specWarnToxicWound3:Play("runaway")
 		end
 		if self.Options.SetIconOnToxicWound then
 			self:SetIcon(args.destName, 7)
@@ -121,22 +121,21 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 192003 and self:CheckInterruptFilter(args.sourceGUID, false, true) then--Blazing Nova
 		specWarnBlazingNova:Show()
-	--	specWarnBlazingNova:Play("kickcast")
+		specWarnBlazingNova:Play("kickcast")
 	elseif spellId == 192005 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
 		specWarnArcaneBlast:Show()
-	--	specWarnArcaneBlast:Play("kickcast")
+		specWarnArcaneBlast:Play("kickcast")
 	elseif spellId == 191848 then --Буйство
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnRampage:Show()
-		--	specWarnRampage:Play("kickcast")
+			specWarnRampage:Play("kickcast")
 		else
 			warnRampage:Show()
-		--	warnRampage:Play("kickcast")
 		end
 	elseif spellId == 192050 then --Ядовитый плевок
 		if not UnitIsDeadOrGhost("player") then
 			specWarnPoisonSpit:Show()
-		--	specWarnPoisonSpit:Play("watchstep")
+			specWarnPoisonSpit:Play("watchstep")
 		end
 	end
 end
@@ -151,7 +150,7 @@ function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 191858 and destGUID == UnitGUID("player") and self:AntiSpam(2.5, 1) then
 		if not self:IsNormal() then
 			specWarnToxicPool:Show()
-		--	specWarnToxicPool:Play("runaway")
+			specWarnToxicPool:Play("runaway")
 		end
 	end
 end
@@ -161,7 +160,7 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)
 	if msg:find("spell:191873") then
 		if not UnitIsDeadOrGhost("player") then
 			specWarnSubmerge:Show()
-		--	specWarnSubmerge:Play("phasechange")
+			specWarnSubmerge:Play("phasechange")
 		end
 		timerToxicWoundCD:Cancel()
 	end

@@ -1,12 +1,12 @@
 local mod	= DBM:NewMod(1490, "DBM-Party-Legion", 3, 716)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17750 $"):sub(12, -3))
 mod:SetCreatureID(91789)
 mod:SetEncounterID(1811)
 mod:SetZone()
 mod:SetUsedIcons(8, 7, 6, 5, 4)
-mod:SetMinSyncRevision(17745)
+mod:SetMinSyncRevision(17750)
 
 mod:RegisterCombat("combat")
 
@@ -73,13 +73,13 @@ function mod:SPELL_CAST_START(args)
 	if spellId == 193682 then --Призыв шторма
 		if not UnitIsDeadOrGhost("player") then
 			specWarnAdds:Show()
-		--	specWarnAdds:Play("mobsoon")
+			specWarnAdds:Play("mobsoon")
 		end
 		timerAddsCD:Start()
 	elseif spellId == 193597 then --Кольцо молний
 		if not UnitIsDeadOrGhost("player") then
 			specWarnStaticNova:Show()
-		--	specWarnStaticNova:Play("findshelter")
+			specWarnStaticNova:Play("findshelter")
 		end
 		warnStaticNova:Schedule(30)
 		warnFocusedLightning:Schedule(8)
@@ -94,7 +94,7 @@ function mod:SPELL_CAST_START(args)
 		self.vb.focusedlightningCount = self.vb.focusedlightningCount + 1
 		if not UnitIsDeadOrGhost("player") then
 			specWarnFocusedLightning2:Show()
-		--	specWarnFocusedLightning2:Play("defensive")
+			specWarnFocusedLightning2:Play("defensive")
 		end
 --[[		if self.vb.focusedlightningCount == 1 then
 			specWarnFocusedLightning2:Show()
@@ -116,7 +116,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerCurseofWitch:Start()
 		if args:IsPlayer() then
 			specWarnCurseofWitch:Schedule(3.5)
-		--	specWarnCurseofWitch:ScheduleVoice(3.5, "turnaway")
+			specWarnCurseofWitch:ScheduleVoice(3.5, "turnaway")
 			yellCurseofWitch:Yell()
 			yellCurseofWitch2:Countdown(6, 3)
 		end

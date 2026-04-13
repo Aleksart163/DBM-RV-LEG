@@ -1,12 +1,12 @@
 local mod	= DBM:NewMod(1663, "DBM-Party-Legion", 8, 727)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17750 $"):sub(12, -3))
 mod:SetCreatureID(96759)
 mod:SetEncounterID(1824)
 mod:SetZone()
 mod:SetUsedIcons(8, 7)
-mod:SetMinSyncRevision(17745)
+mod:SetMinSyncRevision(17750)
 
 mod:RegisterCombat("combat")
 
@@ -90,7 +90,7 @@ function mod:SPELL_CAST_START(args)
 		self.vb.breathCount = self.vb.breathCount + 1
 		if not UnitIsDeadOrGhost("player") then
 			specWarnBreath:Show()
-		--	specWarnBreath:Play("breathsoon")
+			specWarnBreath:Play("breathsoon")
 		end
 		if self.vb.breathCount < 3 then
 			timerBreathCD:Start()
@@ -99,7 +99,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 202088 then --Обстрел солоноватой водой
 		if not UnitIsDeadOrGhost("player") then
 			specWarnBrackwaterBarrage:Show()
-		--	specWarnBrackwaterBarrage:Play("watchstep")
+			specWarnBrackwaterBarrage:Play("watchstep")
 		end
 		if not self:IsNormal() then
 			timerBrackwaterBarrageCD:Start(22)
@@ -130,7 +130,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		countdownBreath:Cancel()
 		if not UnitIsDeadOrGhost("player") then
 			specWarnSubmerged:Show()
-		--	specWarnSubmerged:Play("watchstep")
+			specWarnSubmerged:Play("watchstep")
 		end
 		timerSubmerged:Start()
 		countdownBrackwaterBarrage:Cancel()
@@ -145,12 +145,12 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self:IsMythic() then
 			if args:IsPlayer() and not self:IsMagicDispeller2() then
 				specWarnTaintofSea:Show()
-			--	specWarnTaintofSea:Play("targetyou")
+				specWarnTaintofSea:Play("targetyou")
 				yellTaintofSea:Yell()
 			elseif self:IsMagicDispeller2() then
 				if not UnitIsDeadOrGhost("player") then
 					specWarnTaintofSea2:Show(args.destName)
-				--	specWarnTaintofSea2:Play("dispelnow")
+					specWarnTaintofSea2:Play("dispelnow")
 				end
 			end
 		end
@@ -184,7 +184,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		timerTaintofSeaCD:Start(10)
 		if self.vb.submerged == 1 then
 			warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase))
-		--	warnPhase:Play("phasechange")
+			warnPhase:Play("phasechange")
 		end
 	elseif spellId == 197262 then --Морская порча
 		if args:IsPlayer() then
@@ -207,7 +207,7 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)
 	if msg:find("inv_misc_monsterhorn_03") then
 		if not UnitIsDeadOrGhost("player") then
 			specWarnDestructorTentacle:Show()
-		--	specWarnDestructorTentacle:Play("mobkill")
+			specWarnDestructorTentacle:Play("mobkill")
 		end
 	end
 end

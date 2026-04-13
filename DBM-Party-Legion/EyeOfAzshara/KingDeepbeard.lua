@@ -1,12 +1,12 @@
 local mod	= DBM:NewMod(1491, "DBM-Party-Legion", 3, 716)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17750 $"):sub(12, -3))
 mod:SetCreatureID(91797)
 mod:SetEncounterID(1812)
 mod:SetZone()
 mod:SetUsedIcons(8, 7)
-mod:SetMinSyncRevision(17745)
+mod:SetMinSyncRevision(17750)
 
 mod:RegisterCombat("combat")
 
@@ -81,7 +81,7 @@ function mod:SPELL_CAST_START(args)
 	if spellId == 193152 then --Землетрясение
 		if not UnitIsDeadOrGhost("player") then
 			specWarnQuake:Show()
-		--	specWarnQuake:Play("range5")
+			specWarnQuake:Play("range5")
 		end
 		if self:IsHard() then
 			timerQuakeCD:Start(24)
@@ -96,7 +96,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 193093 then --Удар по земле
 		if not UnitIsDeadOrGhost("player") then
 			specWarnGroundSlam:Show()
-		--	specWarnGroundSlam:Play("watchstep")
+			specWarnGroundSlam:Play("watchstep")
 		end
 		timerGroundSlamCD:Start()
 	elseif spellId == 193018 then --Пузырь газа
@@ -108,12 +108,11 @@ function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
 	if spellId == 193051 then --Зов морей
 		warnCallSeas:Show()
-	--	warnCallSeas:Play("watchstep")
 		timerCallSeasCD:Start()
 	elseif spellId == 193152 then --Землетрясение
 		if not UnitIsDeadOrGhost("player") then
 			specWarnQuake2:Schedule(0.5)
-		--	specWarnQuake2:ScheduleVoice(0.5, "runout")
+			specWarnQuake2:ScheduleVoice(0.5, "runout")
 		end
 		timerQuake2:Start()
 		countdownQuake2:Start()
@@ -128,7 +127,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerBubbles:Start(args.destName)
 		if args:IsPlayer() then
 			specWarnBubbles2:Show()
-		--	specWarnBubbles2:Play("takedamage")
+			specWarnBubbles2:Play("takedamage")
 			yellBubbles:Yell()
 			yellBubbles2:Countdown(20, 3)
 		end
@@ -147,7 +146,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		timerBubbles:Cancel(args.destName)
 		if args:IsPlayer() then
 			specWarnBubbles3:Show()
-		--	specWarnBubbles3:Play("end")
+			specWarnBubbles3:Play("end")
 			yellBubbles2:Cancel()
 		end
 		if self.Options.SetIconOnBubbles then

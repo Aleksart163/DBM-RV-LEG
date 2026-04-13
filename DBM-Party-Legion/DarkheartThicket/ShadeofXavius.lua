@@ -1,12 +1,12 @@
 local mod	= DBM:NewMod(1657, "DBM-Party-Legion", 2, 762)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17750 $"):sub(12, -3))
 mod:SetCreatureID(99192)
 mod:SetEncounterID(1839)
 mod:SetZone()
 mod:SetUsedIcons(8, 7, 1)
-mod:SetMinSyncRevision(17745)
+mod:SetMinSyncRevision(17750)
 
 mod:RegisterCombat("combat")
 
@@ -74,7 +74,7 @@ function mod:NightmareBoltTarget(targetname, uId) --Прошляпанное о�
 	if not targetname then return end
 	if targetname == UnitName("player") then
 		specWarnNightmareBolt:Show()
-	--	specWarnNightmareBolt:Play("defensive")
+		specWarnNightmareBolt:Play("defensive")
 		yellNightmareBolt:Yell()
 	else
 		warnNightmareBolt:Show(targetname)
@@ -88,11 +88,11 @@ function mod:ParanoiaTarget(targetname, uId) --Усугубляющаяся па
 	if not targetname then return end
 	if targetname == UnitName("player") then
 		specWarnParanoia:Show()
-	--	specWarnParanoia:Play("runaway")
+		specWarnParanoia:Play("runaway")
 		yellParanoia:Yell()
 	elseif self:CheckNearby(15, targetname) then
 		specWarnParanoia2:Show(targetname)
-	--	specWarnParanoia2:Play("runaway")
+		specWarnParanoia2:Play("runaway")
 	else
 		warnParanoia:Show(targetname)
 	end
@@ -167,12 +167,12 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self:IsMythic() then
 			if args:IsPlayer() and not self:IsMagicDispeller2() then
 				specWarnFesteringRip2:Show()
-			--	specWarnFesteringRip2:Play("targetyou")
+				specWarnFesteringRip2:Play("targetyou")
 				yellFesteringRip:Yell()
 			elseif self:IsMagicDispeller2() then
 				if not UnitIsDeadOrGhost("player") then
 					specWarnFesteringRip:Show(args.destName)
-				--	specWarnFesteringRip:Play("dispelnow")
+					specWarnFesteringRip:Play("dispelnow")
 				end
 			end
 		end
@@ -180,7 +180,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerNightmare:Start(args.destName)
 		if args:IsPlayer() then
 			specWarnNightmare:Show()
-		--	specWarnNightmare:Play("gathershare")
+			specWarnNightmare:Play("gathershare")
 			yellNightmare:Yell()
 		else
 			warnNightmare:Show(args.destName)
@@ -203,7 +203,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self:IsHard() then
 			if args:IsPlayer() then
 				specWarnFeedontheWeak:Show()
-			--	specWarnFeedontheWeak:Play("defensive")
+				specWarnFeedontheWeak:Play("defensive")
 				yellFeedontheWeak:Yell()
 			else
 				warnFeedontheWeak:Show(args.destName)
@@ -260,7 +260,7 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 		countdownApocNightmare:Start()
 		if not UnitIsDeadOrGhost("player") then
 			specWarnApocNightmare2:Show()
-		--	specWarnApocNightmare2:Play("defensive")
+			specWarnApocNightmare2:Play("defensive")
 		end
 	end
 end

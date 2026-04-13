@@ -1,12 +1,12 @@
 local mod	= DBM:NewMod(1488, "DBM-Party-Legion", 4, 721)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17750 $"):sub(12, -3))
 mod:SetCreatureID(95675)
 mod:SetEncounterID(1808)
 mod:SetZone()
 mod:SetUsedIcons(8, 1)
-mod:SetMinSyncRevision(17745)
+mod:SetMinSyncRevision(17750)
 
 mod:RegisterCombat("combat")
 
@@ -51,7 +51,7 @@ function mod:FelblazeRushTarget(targetname, uId) --Рывок пламени С�
 	if not targetname then return end
 	if targetname == UnitName("player") then
 		specWarnFelblazeRush:Show()
-	--	specWarnFelblazeRush:Play("runout")
+		specWarnFelblazeRush:Play("runout")
 		yellFelblazeRush:Yell()
 	else
 		warnFelblazeRush:Show(targetname)
@@ -115,7 +115,7 @@ function mod:SPELL_CAST_START(args)
 		end
 	elseif spellId == 193668 then --Свирепый клинок
 		specWarnSavageBlade:Show()
-	--	specWarnSavageBlade:Play("defensive")
+		specWarnSavageBlade:Play("defensive")
 		timerSavageBladeCD:Start()
 		if firstrush then
 			firstrush = false
@@ -126,11 +126,11 @@ function mod:SPELL_CAST_START(args)
 		firstrush = false
 		if ExtraActionBarFrame:IsShown() then
 			specWarnRagnarok2:Show(shield)
-		--	specWarnRagnarok2:Play("useitem")
+			specWarnRagnarok2:Play("useitem")
 		else
 			if not UnitIsDeadOrGhost("player") then
 				specWarnRagnarok:Show(shield)
-			--	specWarnRagnarok:Play("findshield")
+				specWarnRagnarok:Play("findshield")
 			end
 		end
 		timerRushCD:Cancel()
@@ -156,7 +156,7 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 193702 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
 		if not self:IsNormal() then
 			specWarnFlames:Show()
-		--	specWarnFlames:Play("runaway")
+			specWarnFlames:Play("runaway")
 		end
 	end
 end

@@ -1,12 +1,12 @@
 local mod	= DBM:NewMod(1492, "DBM-Party-Legion", 3, 716)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17750 $"):sub(12, -3))
 mod:SetCreatureID(96028)
 mod:SetEncounterID(1814)
 mod:SetZone()
 mod:SetUsedIcons(8, 7)
-mod:SetMinSyncRevision(17745)
+mod:SetMinSyncRevision(17750)
 
 mod:RegisterCombat("combat")
 
@@ -62,12 +62,12 @@ function mod:CrushingDepthsTarget(targetname, uId) --Морская пучина
 	if not targetname then return end
 	if targetname == UnitName("player") then
 		specWarnCrushingDepths2:Show()
-	--	specWarnCrushingDepths2:Play("defensive")
+		specWarnCrushingDepths2:Play("defensive")
 		yellCrushingDepths:Yell()
 		yellCrushingDepthsFades:Countdown(6, 3)
 	elseif self:CheckNearby(50, targetname) then
 		specWarnCrushingDepths:Show(targetname)
-	--	specWarnCrushingDepths:Play("gather")
+		specWarnCrushingDepths:Play("gather")
 	else
 		warnCrushingDepths:Show(targetname)
 	end
@@ -116,7 +116,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		timerArcaneBomb:Cancel(args.destName)
 		if args:IsPlayer() then
 			specWarnArcaneBomb3:Show()
-		--	specWarnArcaneBomb3:Play("end")
+			specWarnArcaneBomb3:Play("end")
 			yellArcaneBombFades:Cancel()
 		end
 		if self.Options.RangeFrame then
@@ -136,7 +136,7 @@ function mod:SPELL_CAST_START(args)
 		serpMod:UpdateWinds()--At present it may not actually reset here. Just in case though
 	elseif spellId == 192617 then
 		specWarnMassiveDeluge:Show()
-	--	specWarnMassiveDeluge:Play("shockwave")
+		specWarnMassiveDeluge:Play("shockwave")
 		if self.vb.phase == 2 then
 			timerMassiveDelugeCD:Start(35)
 		else
@@ -157,13 +157,13 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, _, _, _, targetname)
 		timerArcaneBombCD:Start()
 		if targetname == UnitName("player") and not self:IsMagicDispeller2() then
 			specWarnArcaneBomb:Show()
-		--	specWarnArcaneBomb:Play("runout")
+			specWarnArcaneBomb:Play("runout")
 			yellArcaneBomb:Yell()
 			yellArcaneBombFades:Countdown(15, 3)
 		elseif self:IsMagicDispeller2() then
 			if not UnitIsDeadOrGhost("player") then
 				specWarnArcaneBomb2:Schedule(5, targetname)
-			--	specWarnArcaneBomb2:ScheduleVoice(5, "dispelnow")
+				specWarnArcaneBomb2:ScheduleVoice(5, "dispelnow")
 			end
 		else
 			warnArcaneBomb:Show(targetname)
