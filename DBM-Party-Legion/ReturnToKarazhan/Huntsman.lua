@@ -1,15 +1,15 @@
 local mod	= DBM:NewMod(1835, "DBM-Party-Legion", 11, 860)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17750 $"):sub(12, -3))
 mod:SetCreatureID(114262, 114264)--114264 midnight
 mod:SetEncounterID(1960)--Verify
 mod:SetZone()
 mod:SetUsedIcons(8, 7)
 mod:SetReCombatTime(120, 5)
 mod:EnableIEEUWipeDetection()
-mod:SetHotfixNoticeRev(17745)
-mod:SetMinSyncRevision(17745)
+mod:SetHotfixNoticeRev(17750)
+mod:SetMinSyncRevision(17750)
 -- mod.respawnTime = 30
 
 mod.noNormal = true
@@ -99,21 +99,21 @@ function mod:SharedSufferingTarget(targetname, uId) --прошляпанное �
 	if targetname == UnitName("player") then --для танка
 		if self:IsHeroic() then
 			specWarnSharedSuffering2:Show()
-		--	specWarnSharedSuffering2:Play("defensive")
+			specWarnSharedSuffering2:Play("defensive")
 			yellSharedSuffering:Yell()
 		else
 			specWarnSharedSuffering3:Show()
-		--	specWarnSharedSuffering3:Play("runaway")
+			specWarnSharedSuffering3:Play("runaway")
 			yellSharedSuffering:Yell()
 		end
 	else --для очка Мурчаля
 		if self:IsHeroic() then
 			specWarnSharedSuffering:Show(targetName)
-		--	specWarnSharedSuffering:Play("gathershare")
+			specWarnSharedSuffering:Play("gathershare")
 		else
 			if not UnitIsDeadOrGhost("player") then
 				specWarnSharedSuffering4:Show(targetname)
-			--	specWarnSharedSuffering4:Play("stilldanger")
+				specWarnSharedSuffering4:Play("stilldanger")
 			end
 		end
 	end
@@ -139,10 +139,10 @@ local function checkSyncEvent(self)
 		DBM:AddMsg(L.Tip1)
 		if self:IsMagicDispeller2() then
 			specWarnPresence5:Show()
-		--	specWarnPresence5:Play("dispelnow")
+			specWarnPresence5:Play("dispelnow")
 		elseif not self:IsMagicDispeller2() then
 			specWarnPresence6:Show()
-		--	specWarnPresence6:Play("ghostsoon")
+			specWarnPresence6:Play("ghostsoon")
 		end
 	end
 end
@@ -175,7 +175,7 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 227363 then
 		specWarnMightyStomp:Show()
-	--	specWarnMightyStomp:Play("stopcast")
+		specWarnMightyStomp:Play("stopcast")
 		if self.vb.phase == 1 then
 			timerMightyStompCD:Start()
 		elseif self.vb.phase == 3 then
@@ -184,7 +184,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 227365 then --Призрачный рывок
 		self.vb.spectralchargeCast = self.vb.spectralchargeCast + 1
 		specWarnSpectralCharge:Show()
-	--	specWarnSpectralCharge:Play("watchstep")
+		specWarnSpectralCharge:Play("watchstep")
 --[[		if self.vb.spectralchargeCast == 1 then
 			timerSpectralChargeCD:Start(7.5)
 		elseif self.vb.spectralchargeCast == 2 then
@@ -196,7 +196,7 @@ function mod:SPELL_CAST_START(args)
 		self.vb.mezairCast = self.vb.mezairCast + 1
 		if not UnitIsDeadOrGhost("player") then
 			specWarnMezair:Show()
-		--	specWarnMezair:Play("chargemove")
+			specWarnMezair:Play("chargemove")
 		end
 --[[		if self.vb.mezairCast == 1 and warned_preP2 and perephase and firstperephase then -- через 3.5 сек как Ловчий спустился
 			perephase = false
@@ -210,7 +210,7 @@ function mod:SPELL_CAST_START(args)
 		end]]
 	elseif spellId == 227493 then
 		specWarnMortalStrike:Show()
-	--	specWarnMortalStrike:Play("stilldanger")
+		specWarnMortalStrike:Play("stilldanger")
 	elseif spellId == 228852 then --Разделенные муки
 		self:BossTargetScanner(args.sourceGUID, "SharedSufferingTarget", 0.1, 2)
 		timerSharedSufferingCD:Start()
@@ -249,7 +249,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 227493 then --Смертельный удар
 		if args:IsPlayer() then
 			specWarnMortalStrike2:Show()
-		--	specWarnMortalStrike2:Play("defensive")
+			specWarnMortalStrike2:Play("defensive")
 			yellMortalStrike:Yell()
 		end
 		timerMortalStrike:Start()
@@ -262,7 +262,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		if args:IsPlayer() and not UnitIsDeadOrGhost("player") then
 			intangiblePresenceOnMe = true
 			specWarnPresence4:Show()
-		--	specWarnPresence4:Play("end")
+			specWarnPresence4:Play("end")
 		end
 		specWarnPresence3:Cancel()
 		specWarnPresence3:CancelVoice()
@@ -282,7 +282,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 		else
 			timerPresenceCD:Start()
 		end
-	elseif spellId == 227338 then --Слез с коня (Неоседланная)
+--	elseif spellId == 227338 then --Слез с коня (Неоседланная)
 	--	timerPresenceCD:Stop()
 	--	timerMortalStrikeCD:Start()
 	--	timerSharedSufferingCD:Start()
@@ -329,17 +329,17 @@ function mod:NextProshlyap()
 	countdownHorsefighting:Start()
 	countdownSharedSuffering:Start() --Разделенные муки
 	specWarnSpectralCharge:Schedule(29)
---	specWarnSpectralCharge:ScheduleVoice(29, "watchstep")
+	specWarnSpectralCharge:ScheduleVoice(29, "watchstep")
 end
 
 
 function mod:CHAT_MSG_MONSTER_YELL(msg)
-	if msg == L.Perephase1 then --Спустился с коня (Что ж, сразимся лицом к лицу!)
+--	if msg == L.Perephase1 then --Спустился с коня (Что ж, сразимся лицом к лицу!)
 	--	if not phase2 then
 	--		phase2 = true
 	--	end
 --		firsttwophase = true
-	elseif msg == L.Perephase2 then --Сел на коня (Вперед, Полночь, к победе!)
+	if msg == L.Perephase2 then --Сел на коня (Вперед, Полночь, к победе!)
 		timerMortalStrikeCD:Stop()
 		timerSharedSufferingCD:Stop()
 		countdownSharedSuffering:Cancel()
@@ -368,10 +368,10 @@ function mod:VEHICLE_ANGLE_UPDATE()
 		self:SendSync("intangiblePresenceOnMe", playerName)
 		if self:IsMagicDispeller2() then
 			specWarnPresence2:Show()
-		--	specWarnPresence2:Play("dispelnow")
+			specWarnPresence2:Play("dispelnow")
 		elseif not self:IsMagicDispeller2() then
 			specWarnPresence:Show()
-		--	specWarnPresence:Play("targetyou")
+			specWarnPresence:Play("targetyou")
 		end
 	end
 end
@@ -386,14 +386,14 @@ function mod:OnSync(msg, sender)
 		end
 		if self:IsMagicDispeller2() then
 			specWarnPresence3:Show(sender)
-		--	specWarnPresence3:Play("dispelnow")
+			specWarnPresence3:Play("dispelnow")
 			specWarnPresence3:Schedule(5, sender)
-		--	specWarnPresence3:ScheduleVoice(5, "dispelnow")
+			specWarnPresence3:ScheduleVoice(5, "dispelnow")
 		elseif not self:IsMagicDispeller2() then
 			specWarnPresence7:Show(sender)
-		--	specWarnPresence7:Play("dispelnow")
+			specWarnPresence7:Play("dispelnow")
 			specWarnPresence7:Schedule(5, sender)
-		--	specWarnPresence7:ScheduleVoice(5, "dispelnow")
+			specWarnPresence7:ScheduleVoice(5, "dispelnow")
 		end
 	end
 end

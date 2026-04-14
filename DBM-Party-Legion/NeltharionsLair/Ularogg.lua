@@ -1,12 +1,12 @@
 local mod	= DBM:NewMod(1665, "DBM-Party-Legion", 5, 767)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17750 $"):sub(12, -3))
 mod:SetCreatureID(91004)
 mod:SetEncounterID(1791)
 mod:SetZone()
-mod:SetHotfixNoticeRev(17745)
-mod:SetMinSyncRevision(17745)
+mod:SetHotfixNoticeRev(17750)
+mod:SetMinSyncRevision(17750)
 
 mod:RegisterCombat("combat")
 
@@ -58,7 +58,7 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 198496 then --Раскол
 		specWarnSunder:Show()
-	--	specWarnSunder:Play("defensive")
+		specWarnSunder:Play("defensive")
 		timerSunderCD:Start()
 	elseif spellId == 198428 then --Удар горы
 		timerStrikeCD:Start()
@@ -72,7 +72,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	if spellId == 198428 then --Удар горы
 		if not UnitIsDeadOrGhost("player") then
 			specWarnStrikeofMountain:Show()
-		--	specWarnStrikeofMountain:Play("watchstep")
+			specWarnStrikeofMountain:Play("watchstep")
 		end
 	end
 end

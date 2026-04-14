@@ -1,11 +1,11 @@
 local mod	= DBM:NewMod(1836, "DBM-Party-Legion", 11, 860)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17750 $"):sub(12, -3))
 mod:SetCreatureID(114462)
 mod:SetEncounterID(1964)
 mod:SetZone()
-mod:SetMinSyncRevision(17745)
+mod:SetMinSyncRevision(17750)
 --mod:SetUsedIcons(1)
 --mod:SetHotfixNoticeRev(14922)
 --mod.respawnTime = 30
@@ -52,7 +52,7 @@ local function startProshlyapationOfMurchal(self) -- Proshlyapation of Murchal
 	self.vb.powerDischargeCast = self.vb.powerDischargeCast + 1
 	if not UnitIsDeadOrGhost("player") then
 		specWarnPowerDischarge2:Show()
-	--	specWarnPowerDischarge2:Play("watchstep")
+		specWarnPowerDischarge2:Play("watchstep")
 	end
 	local timer = powerDischargesTimers[self.vb.powerDischargeCast+1]
 	if timer then
@@ -66,7 +66,7 @@ function mod:OnCombatStart(delay)
 	if not self:IsNormal() then
 		timerSummonAddCD:Start(6-delay) --Призыв нестабильной энергии
 		specWarnEvo2:Schedule(48-delay)
-	--	specWarnEvo2:ScheduleVoice(48-delay, "specialsoon")
+		specWarnEvo2:ScheduleVoice(48-delay, "specialsoon")
 		timerEvoCD:Start(53-delay) --Прилив сил
 		countdownEvo:Start(53) --Прилив сил
 		timerPowerDischargeCD:Start(13-delay) --Разряд энергии
@@ -89,7 +89,7 @@ function mod:SPELL_SUMMON(args)
 		warnAdds:Show()
 		if not UnitIsDeadOrGhost("player") then
 			specWarnAdds:Show()
-		--	specWarnAdds:Play("switch")
+			specWarnAdds:Play("switch")
 		end
 		timerSummonAddCD:Start()
 	end
@@ -104,7 +104,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if not UnitIsDeadOrGhost("player") then
 			specWarnEvo:Show()
 			specWarnOverload:Schedule(17)
-		--	specWarnOverload:ScheduleVoice(17, "defensive")
+			specWarnOverload:ScheduleVoice(17, "defensive")
 		end
 		timerEvo:Start()
 		countdownEvo:Start(20)
@@ -121,7 +121,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		timerSummonAddCD:Start(6)
 	--	timerPowerDischargeCD:Start(13)
 		specWarnEvo2:Schedule(48.5)
-	--	specWarnEvo2:ScheduleVoice(48.5, "specialsoon")
+		specWarnEvo2:ScheduleVoice(48.5, "specialsoon")
 		timerEvoCD:Start(53.5) --для миф0 норм
 		countdownEvo:Start(53.5) --для миф0 норм
 	end
@@ -131,13 +131,13 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 227465 and destGUID == UnitGUID("player") and self:AntiSpam(2, "powerdischarge") then
 		if self:IsHard() then
 			specWarnPowerDischarge:Show()
-		--	specWarnPowerDischarge:Play("runaway")
+			specWarnPowerDischarge:Play("runaway")
 		end
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
 
-function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
+--[[function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 	local spellId = legacySpellId or bfaSpellId
 	if spellId == 227278 then
 	--	timerPowerDischargeCD:Start() --сломано со стороны сервера
