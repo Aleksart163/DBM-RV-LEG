@@ -1,13 +1,13 @@
 local mod	= DBM:NewMod(1501, "DBM-Party-Legion", 6, 726)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17745 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17750 $"):sub(12, -3))
 mod:SetCreatureID(98208)
 mod:SetEncounterID(1829)
 mod:SetZone()
 mod:SetUsedIcons(8)
 mod.noNormal = true
-mod:SetMinSyncRevision(17745)
+mod:SetMinSyncRevision(17750)
 
 mod:RegisterCombat("combat")
 
@@ -86,13 +86,13 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerUnstableMana:Start(args.destName)
 		if args:IsPlayer() then
 			specWarnUnstableMana:Show()
-		--	specWarnUnstableMana:Play("runout")
-		--	specWarnUnstableMana:ScheduleVoice(1, "keepmove")
+			specWarnUnstableMana:Play("runout")
+			specWarnUnstableMana:ScheduleVoice(1, "keepmove")
 			yellUnstableMana:Yell()
 			yellUnstableMana2:Countdown(8, 3)
 		elseif self:CheckNearby(15, args.destName) then
 			specWarnUnstableMana2:Show(args.destName)
-		--	specWarnUnstableMana2:Play("runout")
+			specWarnUnstableMana2:Play("runout")
 		else
 			warnUnstableMana:Show(args.destName)
 		end
@@ -105,7 +105,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if amount >= 2 then
 			if not UnitIsDeadOrGhost("player") then
 				specWarnBlastStacks:Show(args.destName)
-			--	specWarnBlastStacks:Play("dispelboss")
+				specWarnBlastStacks:Play("dispelboss")
 			end
 		else
 			warnBlast:Show(args.destName, amount)
@@ -119,7 +119,7 @@ function mod:SPELL_CAST_START(args)
 	if spellId == 202974 then
 		if not UnitIsDeadOrGhost("player") then
 			specWarnForceBomb:Show()
-		--	specWarnForceBomb:Play("watchstep")
+			specWarnForceBomb:Play("watchstep")
 		end
 		if self:IsHard() then
 			if self.vb.phase == 1 then
@@ -139,13 +139,13 @@ function mod:SPELL_CAST_START(args)
 		self.vb.interruptCount = self.vb.interruptCount + 1
 		local kickCount = self.vb.interruptCount
 		specWarnBlast:Show(kickCount)
---[[		if kickCount == 1 then
+		if kickCount == 1 then
 			specWarnBlast:Play("kick1r")
 		elseif kickCount == 2 then
 			specWarnBlast:Play("kick2r")
 		elseif kickCount == 3 then
 			specWarnBlast:Play("kick3r")
-		end]]
+		end
 	end
 end
 
@@ -153,7 +153,7 @@ function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 203833 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
 		if not self:IsNormal() then
 			specWarnTimeSplit:Show()
-		--	specWarnTimeSplit:Play("runaway")
+			specWarnTimeSplit:Play("runaway")
 		end
 	end
 end
