@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("Spells", "DBM-Spells")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17700 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17750 $"):sub(12, -3))
 mod:SetZone(DBM_DISABLE_ZONE_DETECTION)
 
 mod:RegisterEvents(
